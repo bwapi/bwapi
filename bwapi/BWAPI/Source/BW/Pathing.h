@@ -38,6 +38,7 @@ namespace BW
     bool     isConnectedTo(region *target);
     bool     isConnectedTo(u16 index);
     u8       getAccessibleNeighbours(region **out_regions, u16 outputCount);
+    u16      getDistance(region *dst);
     u16      getPointPath(region *target, Position *out_points, u16 outSize);
     region   *getNeighbor(u8 index);
     Position getCenter();

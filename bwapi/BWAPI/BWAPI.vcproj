@@ -26,7 +26,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="&quot;$(SolutionDir)\SubWCRev.exe&quot; &quot;$(SolutionDir)\.&quot; &quot;$(SolutionDir)\svnrev_template.h&quot; &quot;$(SolutionDir)\svnrev.h&quot;"
+				Description="Updating revision information"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -47,9 +48,7 @@
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
-				MinimalRebuild="true"
 				RuntimeLibrary="3"
-				BufferSecurityCheck="false"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238; 4100; 4996;"
@@ -62,12 +61,11 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="User32.lib Shell32.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -84,6 +82,7 @@
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCBscMakeTool"
@@ -96,6 +95,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copying BWAPI.dll to ChaosDir"
 				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
@@ -110,7 +110,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="&quot;$(SolutionDir)\SubWCRev.exe&quot; &quot;$(SolutionDir)\.&quot; &quot;$(SolutionDir)\svnrev_template.h&quot; &quot;$(SolutionDir)\svnrev.h&quot;"
+				Description="Updating revision information"
+				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -147,12 +148,11 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="XCOPY &quot;$(SolutionDir)include&quot; &quot;$(SolutionDir)..\Release_Binary\Developer\include&quot; /S /C /I /R /Y"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="User32.lib Shell32.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
@@ -171,6 +171,7 @@
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
+				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCBscMakeTool"
@@ -183,6 +184,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copying BWAPI.dll to ChaosDir"
 				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>

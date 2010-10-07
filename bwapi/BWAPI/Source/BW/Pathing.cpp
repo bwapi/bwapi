@@ -36,48 +36,76 @@ namespace BW
     return count;
   }
 
-  u16 getPath(region *target, region *previous, region *current, u16 iteration, Position *out_points, u16 outSize, bool *eliminated)
+  u16 region::getDistance(region *dst)
+  {
+    return dst->getCenter().getDistance(this->getCenter());
+  }
+
+  bool getPath(region *target, region *current, u16 iteration, u16 *out_regions, u16 *best_regions, u32 *best_length, u32 *this_length, u16 *bestSize, u16 outSize, bool *eliminated)
   {
     if ( current == target )
     {
-      out_points[iteration] = current->getCenter();
-      return iteration;
+      out_regions[iteration] = current->getIndex();
+      if ( *this_length < *best_length )
+      {
+        *best_length = *this_length;
+        *bestSize = iteration + 1;
+        memcpy(best_regions, out_regions, iteration + 1);
+      }
+      return true;
     }
     
-    if ( iteration >= outSize )
-      return 0;
+    if ( iteration >= outSize || iteration > 256 )
+      return false;
 
-    for ( u8 i = 0; i < current->neighborCount; ++i )
+    for ( u32 n = 0; n < current->neighborCount; ++n )
     {
-      u16 nId = current->neighbors[i];
+      u16 nId = current->neighbors[n];
       if ( eliminated[nId] )
         continue;
 
       region *neighbor = getRegion(nId);
-      if ( neighbor == previous || !current->isConnectedTo( neighbor ) )
+      if ( !current->isConnectedTo( neighbor ) )
         continue;
+      
+      out_regions[iteration] = nId;
+      u16 curLen             = current->getDistance(neighbor);
 
-      u16 lIter = getPath(target, current, neighbor, iteration + 1, out_points, outSize, eliminated);
-      if ( lIter == 0 )
-        continue;
-
-      out_points[iteration] = neighbor->getCenter();
-      return lIter;
+      eliminated[nId] = true;
+      *this_length    += curLen;
+      getPath(target, neighbor, iteration + 1, out_regions, best_regions, best_length, this_length, bestSize, outSize, eliminated);
+      *this_length    -= curLen;
+      eliminated[nId] = false;
     }
-    eliminated[current->getIndex()] = true;
-    return 0;
+    if ( iteration == 1 ) // not returning to iter 1
+      MessageBox(NULL, "p", "!", MB_OK);
+    return *bestSize != 0;
   }
 
   u16 region::getPointPath(region *target, Position *out_points, u16 outSize)
   {
     //std::list<Position> result;
     //memset(out_points, 0, sizeof(Position) * outSize);
-    u16 rval = 0;
     bool eliminated[5000];
     memset(eliminated, 0, sizeof(bool) * 5000);
+
+    u16 out_regions[5000];
+    memset(out_regions, 0, sizeof(u16) * 5000);
+    u16 best_Regions[5000];
+    memset(best_Regions, 0, sizeof(u16) * 5000);
+    u32 best_length = 0x7FFFFFFF;
+    u32 this_length = 0;
+    u16 best_size   = 0;
+
+    eliminated[0] = true;
+    eliminated[this->getIndex()] = true;
+
     if ( this != target )
-      rval = getPath(target, NULL, this, 0, out_points, outSize, eliminated);
-    return rval;
+      getPath(target, this, 0, out_regions, best_Regions, &best_length, &this_length, &best_size, outSize > 5000 ? 5000 : outSize, eliminated);
+
+    for ( int i = 0; i < best_size && i < outSize; ++i )
+      out_points[i] = getRegion(best_Regions[i])->getCenter();
+    return best_size;
   }
 
   region *region::getNeighbor(u8 index)
