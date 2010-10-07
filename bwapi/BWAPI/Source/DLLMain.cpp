@@ -265,6 +265,17 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
        (buffer[0] >= 0x37 && buffer[0] <= 0x59) ||
        buffer[0] >= 0x5B )
   {
+    
+    //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
+    if ( (buffer[0] >= 0x0A && buffer[0] <= 0x0C) ||
+         (buffer[0] == 0x13 && !(buffer[1] & 1)) ||
+         buffer[0] == 0x14 ||
+         buffer[0] == 0x15 ||
+         (buffer[0] >= 0x18 && buffer[0] <= 0x36) ||
+         buffer[0] == 0x5A )
+    {
+      BWAPI::BroodwarImpl.loadSelected();
+    }
     QueueGameCommand(buffer, length);
   }
 }
