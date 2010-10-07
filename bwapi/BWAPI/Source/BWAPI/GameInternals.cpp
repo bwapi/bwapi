@@ -352,9 +352,6 @@ namespace BWAPI
       u->die();
     }
 
-    //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
-    this->loadSelected();
-
     //increment frame count if the game is not paused
     if (!this->isPaused())
       this->frameCount++;
