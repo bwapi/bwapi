@@ -50,9 +50,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
-				StructMemberAlignment="1"
 				BufferSecurityCheck="false"
-				FloatingPointModel="2"
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
 				DebugInformationFormat="0"
@@ -70,7 +68,7 @@
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
 				AdditionalDependencies="User32.lib Shell32.lib"
-				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).bwl"
 				LinkIncremental="1"
 				MapFileName=""
 				SubSystem="2"
@@ -100,7 +98,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).bwl&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -135,8 +133,6 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="3"
-				BufferSecurityCheck="false"
-				FloatingPointModel="2"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
@@ -153,7 +149,7 @@
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
 				AdditionalDependencies="User32.lib Shell32.lib"
-				OutputFile="$(ChaosDir)\$(ProjectName)d.bwl"
+				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.bwl"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				MapFileName=""
@@ -182,6 +178,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.bwl&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>

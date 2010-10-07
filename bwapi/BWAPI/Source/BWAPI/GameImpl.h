@@ -276,6 +276,7 @@ namespace BWAPI
       Server server;
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
+      std::string autoMenuMode;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -338,7 +339,6 @@ namespace BWAPI
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
       bool calledOnEnd;
-      std::string autoMenuMode;
       std::string autoMenuMapPath;
       std::string autoMenuMapName;
       std::string autoMenuRace;

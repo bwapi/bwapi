@@ -153,16 +153,6 @@ namespace BWAPI
     if ( myDlg )
       myDlg->update();
 
-    //click the menu dialog that pops up when you win/lose a game
-    if ( this->autoMenuMode != "" && this->autoMenuMode != "OFF" )
-    {
-      BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
-      if ( !endDialog )
-        endDialog = BW::FindDialogGlobal("WMission");
-      if ( endDialog )
-        endDialog->findIndex(-2)->activate();
-    }
-
     // Compute frame rate
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
@@ -672,17 +662,16 @@ namespace BWAPI
       case 2:
         actMainMenu = false;
 
-        tempDlg = BW::FindDialogGlobal("ConnSel");
+        /*tempDlg = BW::FindDialogGlobal("ConnSel");
         if ( tempDlg )
-        {
           tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
-        }
-        /*this->pressKey(VK_DOWN);
+        */
+        this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN);
         this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
-        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );*/
+        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
         actRegistry = false;
         break;
       }
@@ -699,7 +688,8 @@ namespace BWAPI
           if ( !actGameSel )
           {
             actGameSel = true;
-            BW::FindDialogGlobal("GameSel")->findIndex(15)->activate();
+            if ( !BW::FindDialogGlobal("GameSel")->findIndex(15)->activate() )
+              actGameSel = false;
           }
           actCreate = false;
           break;
@@ -761,7 +751,8 @@ namespace BWAPI
         if ( !actMainMenu )
         {
           actMainMenu = true;
-          BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate();
+          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate() )
+            actMainMenu = false;
         }
         tempDlg = BW::FindDialogGlobal("Delete");
         if ( tempDlg )
@@ -771,11 +762,13 @@ namespace BWAPI
 //multiplayer select connection screen
       case 2: 
         actMainMenu = false;
-        if ( !actConnSel )
+        /*if ( !actConnSel )      // Broken
         {
           actConnSel = true;
-          BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate();
-        }
+          if ( !BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate() )
+            actConnSel = false;
+        }*/
+        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
         break;
       }
     }
