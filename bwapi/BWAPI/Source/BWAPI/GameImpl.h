@@ -219,8 +219,7 @@ namespace BWAPI
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
-      
-      void printEx(int pID, const char* text, ...);
+
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void loadAutoMenuData();
       void onMenuFrame();
@@ -364,7 +363,6 @@ namespace BWAPI
       double averageFPS;
 
       int  textSize;
-      char buffer[MAX_BUFFER];
       bool hasLatCom;
   };
   /**

@@ -186,25 +186,26 @@ namespace BW
   static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
 
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
-  static u8             *BWDATA_gameType      = (u8*)  0x00596820;
-  static u8             *BWDATA_Latency       = (u8*)  0x006556e4;
-  static u32            *BWDATA_InGame        = (u32*) 0x006556E0;
-  static u32            *BWDATA_InReplay      = (u32*) 0x006D0F14;
-  static int            *BWDATA_GameModule    = (int*) 0x0059688C;
-  static u8             *BWDATA_IsRunning     = (u8*)  0x0051CE6C;
+  static u8             *BWDATA_gameType       = (u8*)  0x00596820;
+  static u8             *BWDATA_Latency        = (u8*)  0x006556e4;
+  static u32            *BWDATA_InGame         = (u32*) 0x006556E0;
+  static u32            *BWDATA_InReplay       = (u32*) 0x006D0F14;
+  static int            *BWDATA_GameModule     = (int*) 0x0059688C;
+  static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
 
-  static u8             *BWDATA_GameState     = (u8*)  0x006D11EC;
-  static u16            *BWDATA_GamePosition  = (u16*) 0x0051CE90;
-
-  static u32            *BWDATA_Ophelia       = (u32*) 0x0051BFF8;
-  static u16            *BWDATA_gwGameMode    = (u16*) 0x00596904;
+  static u32            *BWDATA_Ophelia        = (u32*) 0x0051BFF8;
+  static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;  // 1 if loading?
+  static u16            *BWDATA_gwNextGameMode = (u16*) 0x0051CE90;
+  static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904;
   /*
     GAME_INTRO          = 0,  // guessed
     GAME_RUNINIT        = 1,  // guessed; seems to be set between menu and game
     GAME_EXIT           = 2,  // guessed; exit starcraft
     GAME_RUN            = 3,  // official -- begins game
     GAME_GLUES          = 4,  // official -- uses glGluesMode
-
+    GAME_RESTART        = 5,  // guessed
+    GAME_WIN?           = 6,  // guessed
+    GAME_LOSE?          = 7,  // guessed
     GAME_CREDITS        = 8,  // guessed
     GAME_EPILOG         = 9,  // guessed
     GAME_CINEMATIC      = 10  // guessed
@@ -244,7 +245,15 @@ namespace BW
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   
-  static u32  BWFXN_PrintText        = 0x0048D1C0;
+  struct pktevt
+  {
+    DWORD dwUnknown;
+    DWORD dwPlayerId;
+    BYTE  *pData;
+    DWORD dwSize;
+  };
+  static void (__stdcall *BWFXN_GlobalPrintText)(pktevt *evt) = (void(__stdcall*)(pktevt*))0x0047F750;
+
   static u16  *BWDATA_SendTextFilter = (u16*)  0x0057F1DA;
 
   static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
@@ -252,10 +261,6 @@ namespace BW
 
   static Unit *BWDATA_CurrentPlayerSelectionGroup = (Unit*) 0x00597208;
   static u32  BWDATA_PlayerSelection              = 0x006284E0;
-
-  static u32  BWFXN_NextFrameHelperFunction       = 0x004D98BD;
-  static u32  BWFXN_NextFrameHelperFunctionBack   = BWFXN_NextFrameHelperFunction + 5;
-  static u32  BWFXN_NextFrameHelperFunctionTarget = 0x004D14D0;
 
   static void(__thiscall *BWFXN_PlayIscript)(Image::CImage *_this, char *header,int unk1,int unk2)    = (void(__thiscall*)(Image::CImage*,char*,int,int))0x004D74C0;
   static u32 BWFXN_IscriptHook = 0x004D84F3;

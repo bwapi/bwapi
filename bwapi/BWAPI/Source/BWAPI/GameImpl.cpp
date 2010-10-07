@@ -880,23 +880,20 @@ namespace BWAPI
   //------------------------------------------------- PRINTF -------------------------------------------------
   void GameImpl::printf(const char* text, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
 
-    if (_isReplay() || _isInGame())
-    {
-      printEx(8, "%s", buffer);
-      return;
-    }
-
-    if (!_isInGame())
-      printEx(8, "%s", buffer);
+    BW::pktevt evt = { 0 };
+    evt.pData      = (BYTE*)buffer;
+    BW::BWFXN_GlobalPrintText(&evt);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, format);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
@@ -905,6 +902,7 @@ namespace BWAPI
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, format);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
@@ -913,7 +911,7 @@ namespace BWAPI
 
     if (_isReplay())
     {
-      printEx(8, "%s", buffer);
+      printf("%s", buffer);
       return;
     }
 
@@ -932,7 +930,7 @@ namespace BWAPI
       }
       else
       {
-        printEx(this->BWAPIPlayer->getIndex(), "%s", buffer);
+        printf("\x07" "%s:" "\x02" " %s", this->BWAPIPlayer->getName().c_str(), buffer);
       }
       return;
     }
@@ -958,6 +956,7 @@ namespace BWAPI
       }
     }
     else
+    {
       __asm
       {
         pushad
@@ -965,6 +964,7 @@ namespace BWAPI
         call [BW::BWFXN_SendLobbyCallTarget]
         popad
       }
+    }
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(BWAPI::Race race)
@@ -1028,8 +1028,8 @@ namespace BWAPI
   {
     /* Leaves the current game. Moves directly to the post-game score screen */
     this->setLastError(Errors::None);
-    *BW::BWDATA_GameState    = 0;
-    *BW::BWDATA_GamePosition = 6;
+    *BW::BWDATA_GameState      = 0;
+    *BW::BWDATA_gwNextGameMode = 6;
   }
   //--------------------------------------------- RESTART GAME -----------------------------------------------
   void GameImpl::restartGame()
@@ -1037,8 +1037,8 @@ namespace BWAPI
     /* Restarts the current match 
        Does not work on Battle.net */
     this->setLastError(Errors::None);
-    *BW::BWDATA_GameState    = 0;
-    *BW::BWDATA_GamePosition = 5;
+    *BW::BWDATA_GameState      = 0;
+    *BW::BWDATA_gwNextGameMode = 5;
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
   void  GameImpl::setLocalSpeed(int speed)
@@ -1106,6 +1106,7 @@ namespace BWAPI
   }
   void  GameImpl::drawText(int ctype, int x, int y, const char* text, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
@@ -1114,6 +1115,7 @@ namespace BWAPI
   }
   void  GameImpl::drawTextMap(int x, int y, const char* text, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
@@ -1122,6 +1124,7 @@ namespace BWAPI
   }
   void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
@@ -1130,6 +1133,7 @@ namespace BWAPI
   }
   void  GameImpl::drawTextScreen(int x, int y, const char* text, ...)
   {
+    char buffer[MAX_BUFFER];
     va_list ap;
     va_start(ap, text);
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
