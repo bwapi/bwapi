@@ -96,6 +96,15 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( *BW::BWDATA_gwGameMode == 4 )
     BWAPI::BroodwarImpl.onMenuFrame();
 
+  //click the menu dialog that pops up when you win/lose a game
+  if ( BWAPI::BroodwarImpl.autoMenuMode != "" && BWAPI::BroodwarImpl.autoMenuMode != "OFF" )
+  {
+    BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
+    if ( !endDialog )
+      endDialog = BW::FindDialogGlobal("WMission");
+    if ( endDialog )
+      endDialog->findIndex(-2)->activate();
+  }
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
