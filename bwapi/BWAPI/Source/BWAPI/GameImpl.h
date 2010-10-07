@@ -276,6 +276,8 @@ namespace BWAPI
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
       std::string autoMenuMode;
+      /** Count of game-frames passed from game start. */
+      int frameCount;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -307,8 +309,6 @@ namespace BWAPI
       std::set<BWAPI::Unit*> staticGeysers;
       std::set<BWAPI::Unit*> staticNeutralUnits;
 
-      /** Count of game-frames passed from game start. */
-      int frameCount;
       UnitImpl* unitArray[UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;

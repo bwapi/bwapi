@@ -639,5 +639,8 @@ namespace BWAPI
 
       /** Checks to verify that the unit is capable of moving to the target location */
       virtual bool hasPath(Position target) = 0;
+
+      /** Retrieves the frame of the last successful order. Frame is comparable to Game::getFrameCount(). */
+      virtual int  getLastOrderFrame() = 0;
   };
 }

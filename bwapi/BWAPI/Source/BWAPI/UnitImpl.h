@@ -207,6 +207,7 @@ namespace BWAPI
       virtual bool useTech(TechType tech, Position target);
       virtual bool useTech(TechType tech, Unit* target);
       virtual bool hasPath(Position target);
+      virtual int  getLastOrderFrame();
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
@@ -250,7 +251,7 @@ namespace BWAPI
       void updateInternalData();
       void updateData();
       UnitData data;
-      UnitData* self;
+      UnitData *self;
 
       bool userSelected;
       bool staticInformation;
@@ -279,6 +280,7 @@ namespace BWAPI
       BWAPI::Position staticPosition;
       int staticResources;
       int staticHitPoints;
+      int lastOrderFrame;
   };
 };
 

@@ -22,6 +22,7 @@ namespace BWAPI
     initialHitPoints=0;
     initialPosition=Positions::None;
     connectedUnits.clear();
+    lastOrderFrame = 0;
   }
   void UnitImpl::saveInitialState()
   {
@@ -187,6 +188,10 @@ namespace BWAPI
   {
     return false;//todo: implement
     //To implement, perhaps we could copy the mapTileRegionId array to shared memory, and check that way.
+  }
+  int UnitImpl::getLastOrderFrame()
+  {
+    return this->lastOrderFrame;
   }
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
@@ -777,6 +782,7 @@ namespace BWAPI
     c.extra=command.extra;
     Command(command).execute(0);
     ((GameImpl*)Broodwar)->addUnitCommand(c);
+    lastOrderFrame = Broodwar->getFrameCount();
     return true;
   }
   bool UnitImpl::attackMove(Position target)

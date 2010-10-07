@@ -29,8 +29,11 @@ void BWAPIError(const char *format, ...)
   va_end(ap);
 
   FILE* f = fopen("bwapi-error.txt", "a+");
-  fprintf(f, "%s\n", buffer);
-  fclose(f);
+  if ( f )
+  {
+    fprintf(f, "%s\n", buffer);
+    fclose(f);
+  }
   MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR );
 }
 

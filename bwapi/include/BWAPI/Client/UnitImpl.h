@@ -15,6 +15,7 @@ namespace BWAPI
       int initialResources;
       int initialHitPoints;
       Position initialPosition;
+      int lastOrderFrame;
     public:
       UnitData* self;
       std::set<Unit*> connectedUnits;
@@ -39,6 +40,7 @@ namespace BWAPI
       virtual double getDistance(Unit* target) const;
       virtual double getDistance(Position target) const;
       virtual bool   hasPath(Position target);
+      virtual int    getLastOrderFrame();
       virtual int    getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual UnitType     getInitialType() const;

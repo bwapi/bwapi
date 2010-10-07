@@ -119,8 +119,11 @@ namespace BWAPI
     catch (GeneralException& exception)
     {
       FILE*f = fopen("bwapi-error.txt", "a+");
-      fprintf(f, "Exception caught inside Game constructor: %s\n", exception.getMessage().c_str());
-      fclose(f);
+      if ( f )
+      {
+        fprintf(f, "Exception caught inside Game constructor: %s\n", exception.getMessage().c_str());
+        fclose(f);
+      }
     }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -150,9 +153,10 @@ namespace BWAPI
     this->shapes.clear();
 
     //menu dialog code
+#ifdef _DEBUG
     if ( myDlg )
       myDlg->update();
-
+#endif
     // Compute frame rate
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
@@ -163,15 +167,6 @@ namespace BWAPI
       lastTickCount     = currentTickCount;
       accumulatedFrames = 0;
     }
-
-    actMainMenu = false;
-    actRegistry = false;
-    actCreate   = false;
-    actConnSel  = false;
-    actGameSel  = false;
-    actRaceSel  = false;
-    actEnd      = false;
-    actBriefing = false;
 
     try
     {
@@ -256,9 +251,8 @@ namespace BWAPI
         if (!prevLeftGame && this->players[i]->leftGame())
           events.push_back(Event::PlayerLeft((Player*)this->players[i]));
       }
-      //update properties of Unit objects
+      //update properties of Unit and Bullet objects
       this->updateUnits();
-      //update properties of Bullet objects
       this->updateBullets();
 
       //iterate through the list of intercepted messages
@@ -270,9 +264,12 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error", "a+");
-      fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
-      fclose(f);
+      FILE *f = fopen("bwapi-error", "a+");
+      if ( f )
+      {
+        fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
+        fclose(f);
+      }
     }
 
     //on the first frame we check to see if the client process has connected.
@@ -294,8 +291,11 @@ namespace BWAPI
         {
           printf("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
           FILE* f = fopen("bwapi-error.txt", "a+");
-          fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
-          fclose(f);
+          if ( f )
+          {
+            fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
+            fclose(f);
+          }
         }
 
         Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
@@ -920,6 +920,14 @@ namespace BWAPI
   void GameImpl::onGameStart()
   {
     /** This function is called at the start of every match */
+    actMainMenu = false;
+    actRegistry = false;
+    actCreate   = false;
+    actConnSel  = false;
+    actGameSel  = false;
+    actRaceSel  = false;
+    actEnd      = false;
+    actBriefing = false;
 
     /* initialize the variables */
     frameCount  = 0;
@@ -1084,6 +1092,7 @@ namespace BWAPI
         *BW::BWDATA_gwNextGameMode  = 4;
       }
     }
+#ifdef _DEBUG
     else if (parsed[0] == "/dlg")
     {
       if ( !myDlg )
@@ -1111,6 +1120,7 @@ namespace BWAPI
         test->addListEntry("Test10");
       }
     }
+#endif
     else
     {
       return false;
@@ -1123,13 +1133,13 @@ namespace BWAPI
     //this is called at the end of every match
     if (this->frameCount == -1)
       return;
-
+#ifdef _DEBUG
     if ( myDlg )
     {
       delete myDlg;
       myDlg = NULL;
     }
-
+#endif
     if ( !this->calledOnEnd )
     {
       bool win = true;
@@ -1236,6 +1246,15 @@ namespace BWAPI
 
     //clear everything in the server
     this->server.clearAll();
+
+    actMainMenu = false;
+    actRegistry = false;
+    actCreate   = false;
+    actConnSel  = false;
+    actGameSel  = false;
+    actRaceSel  = false;
+    actEnd      = false;
+    actBriefing = false;
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)

@@ -424,7 +424,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
 
 DWORD WINAPI PersistentPatch(LPVOID)
 {
-  while (1)
+  for ever
   {
     Sleep(250);
 
