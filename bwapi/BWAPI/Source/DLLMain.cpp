@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <string>
 #include <stdio.h>
+#include <tlhelp32.h>
 
 #include <Util/FileLogger.h>
 #include <Util/Gnu.h>
@@ -17,6 +18,29 @@
 #include "BWAPI/UnitImpl.h"
 
 #include "NewHackUtil.h"
+
+DWORD dwProcNum = 0;
+
+//--------------------------------------------- GET PROC COUNT -----------------------------------------------
+// Found/modified this from some random help board
+DWORD getProcessCount(const char *pszProcName)
+{
+  PROCESSENTRY32 pe32;
+  pe32.dwSize = sizeof(PROCESSENTRY32);
+
+  DWORD dwCount = 0;
+  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if ( Process32First(hSnapshot, &pe32) )
+  {
+    do
+    {
+      if( _strcmpi(pe32.szExeFile, pszProcName) == 0 )
+        ++dwCount;
+    } while( Process32Next(hSnapshot, &pe32) );
+  }
+  CloseHandle(hSnapshot);
+  return dwCount;
+}
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SCodeDelete(HANDLE *handle)
@@ -449,6 +473,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   switch (ul_reason_for_call)
   {
     case DLL_PROCESS_ATTACH:
+      dwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
       BWAPI::BWAPI_init();
       CTRT_Thread(NULL);
       CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
