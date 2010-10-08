@@ -41,6 +41,7 @@ namespace BWAPI
       , startingAttack(false)
       , lastOrderFrame(0)
       , id(-1)
+      , clientInfo(NULL)
   {
     self = &data;
   }
@@ -993,5 +994,14 @@ namespace BWAPI
   int UnitImpl::getLastOrderFrame()
   {
     return this->lastOrderFrame;
+  }
+  //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
+  void UnitImpl::setClientInfo(void* clientinfo)
+  {
+    this->clientInfo = clientinfo;
+  }
+  void* UnitImpl::getClientInfo() const
+  {
+    return clientInfo;
   }
 };
