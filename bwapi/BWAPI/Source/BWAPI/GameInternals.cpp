@@ -285,21 +285,31 @@ namespace BWAPI
       }
       else // if not, load the AI module DLL
       {
-        TCHAR szDllPath[MAX_PATH];
-        GetPrivateProfileString("ai", "ai_dll", "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
-        if (_strcmpi(szDllPath, "NULL") == 0)
+        char szDllPath[MAX_PATH];
+        char szKeyName[MAX_PATH];
+        hMod = NULL;
+
+        if ( dwProcNum == 0 )
+          strcpy(szKeyName, "ai_dll");
+        else
+          sprintf(szKeyName, "ai_dll_%u", dwProcNum);
+
+        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+        if ( _strcmpi(szDllPath, "NULL") == 0)
         {
-          printf("\x06 Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".");
+          printf("\x06 Could not find %s under ai in \"bwapi-data\\bwapi.ini\".", szKeyName);
           FILE* f = fopen("bwapi-error.txt", "a+");
           if ( f )
           {
-            fprintf(f, "Could not find ai_dll under ai in \"bwapi-data\\bwapi.ini\".\n");
+            fprintf(f, "Could not find %s under ai in \"bwapi-data\\bwapi.ini\".\n", szKeyName);
             fclose(f);
           }
         }
-
-        Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-        hMod = LoadLibrary(szDllPath);
+        else
+        {
+          Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
+          hMod = LoadLibrary(szDllPath);
+        }
         if ( !hMod )
         {
           //if hMod is a null pointer, there there was a problem when trying to load the AI Module
@@ -451,7 +461,7 @@ namespace BWAPI
       {
         if ( !u->getType().isFlyer() )
         {
-          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
+/*          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
           BW::TilePosition dstPos = BW::TilePosition(u->getOriginalRawData->moveToPos);
           if ( srcPos == dstPos || srcPos.x > 255 || srcPos.y > 255 || dstPos.x > 255 || dstPos.y > 255 )
             continue;
@@ -476,7 +486,7 @@ namespace BWAPI
           {
             drawLineMap(last.x, last.y, pts[i].x, pts[i].y, BWAPI::Colors::Yellow);
             last = pts[i];
-          }
+          }*/
         }
         else
         {
@@ -484,31 +494,6 @@ namespace BWAPI
           BW::Position stop = u->getOriginalRawData->moveToPos;;
           drawLineMap(start.x, start.y, stop.x, stop.y, BWAPI::Colors::Yellow);
         }
-        /*
-        BW::Path *p = u->getOriginalRawData->path;
-        if ( p )
-        {
-          BW::Position lastPos = u->getOriginalRawData->position;
-          for ( int i = p->cur_segment; i < p->num_segments; ++i )
-          {
-            drawLineMap(lastPos.x, lastPos.y, p->steps[i].x, p->steps[i].y, BWAPI::Colors::Cyan);
-            lastPos = p->steps[i];
-          }
-
-          u16 *areaList = (u16*)&p->steps[p->num_segments];
-          for ( int i = p->cur_area; i < p->num_areas; ++i )
-          {
-            BW::Position center = getRegion(areaList[i])->getCenter();
-            if ( i == p->cur_area )
-              lastPos = center;
-            drawLineMap( lastPos.x, lastPos.y, center.x, center.y, BWAPI::Colors::Yellow);
-            lastPos = center;
-          }
-        }
-        BW::rect *cRct = &u->getOriginalRawData->contourBounds;
-        if ( cRct->Xmax && cRct->Xmin && cRct->Ymax && cRct->Ymin )
-          drawBoxMap(cRct->Xmin, cRct->Ymin, cRct->Xmax, cRct->Ymax, BWAPI::Colors::Orange);
-        */
       }
 
     }
