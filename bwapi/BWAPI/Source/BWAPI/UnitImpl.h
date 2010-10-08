@@ -208,6 +208,8 @@ namespace BWAPI
       virtual bool useTech(TechType tech, Unit* target);
       virtual bool hasPath(Position target);
       virtual int  getLastOrderFrame();
+      virtual void setClientInfo(void* clientinfo);
+      virtual void* getClientInfo() const;
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
@@ -281,6 +283,8 @@ namespace BWAPI
       int staticResources;
       int staticHitPoints;
       int lastOrderFrame;
+
+      void* clientInfo;
   };
 };
 

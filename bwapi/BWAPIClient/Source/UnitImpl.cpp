@@ -10,6 +10,7 @@
 namespace BWAPI
 {
   UnitImpl::UnitImpl(int id)
+    : clientInfo(NULL)
   {
     this->self=&(BWAPI::BWAPIClient.data->units[id]);
     this->id=id;
@@ -23,6 +24,7 @@ namespace BWAPI
     initialPosition=Positions::None;
     connectedUnits.clear();
     lastOrderFrame = 0;
+    clientInfo = NULL;
   }
   void UnitImpl::saveInitialState()
   {
@@ -999,5 +1001,14 @@ namespace BWAPI
   {
     this->issueCommand(UnitCommand::useTech(this,tech,target));
     return true;
+  }
+  //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
+  void UnitImpl::setClientInfo(void* clientinfo)
+  {
+    this->clientInfo = clientinfo;
+  }
+  void* UnitImpl::getClientInfo() const
+  {
+    return clientInfo;
   }
 }

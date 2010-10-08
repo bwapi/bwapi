@@ -16,6 +16,7 @@ namespace BWAPI
       int initialHitPoints;
       Position initialPosition;
       int lastOrderFrame;
+      void* clientInfo;
     public:
       UnitData* self;
       std::set<Unit*> connectedUnits;
@@ -189,5 +190,8 @@ namespace BWAPI
       virtual bool useTech(TechType tech);
       virtual bool useTech(TechType tech, Position target);
       virtual bool useTech(TechType tech, Unit* target);
+
+      virtual void setClientInfo(void* clientinfo);
+      virtual void* getClientInfo() const;
   };
 }

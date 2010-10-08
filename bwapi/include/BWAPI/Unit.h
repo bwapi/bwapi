@@ -642,5 +642,11 @@ namespace BWAPI
 
       /** Retrieves the frame of the last successful order. Frame is comparable to Game::getFrameCount(). */
       virtual int  getLastOrderFrame() = 0;
+
+      /** Sets the unit's custom client info. The client is responsible for deallocation. */
+      virtual void setClientInfo(void* clientinfo) = 0;
+
+      /** Returns the unit's custom client info. The client is responsible for deallocation. */
+      virtual void* getClientInfo() const = 0;
   };
 }
