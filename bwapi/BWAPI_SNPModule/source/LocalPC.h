@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
+#include "../../Storm/storm.h"
 
 struct unka9;
 struct version;
@@ -12,17 +13,17 @@ bool __stdcall fxn0(int a1, int a2, int a3);
 bool __stdcall _spiDestroy();
 bool __stdcall _spiFree(int a1, int a2, int a3);
 bool __stdcall _spiError(int a1, int a2, int a3);
-bool __stdcall fxn4(int a1, int a2, int a3, int a4);
-bool __stdcall fxn5(int a1, int a2, int a3, int a4);
+bool __stdcall _spiGetGameInfo(int a1, int a2, int a3, int a4);
+bool __stdcall _spiGetPerformanceData(int a1, int a2, int a3, int a4);
 bool __stdcall _spiInitialize(version *a1, PSTRUCT a2, bncallbacks *a3, module *a4, DWORD a5);
 bool __stdcall fxn7(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, module *a5);
 bool __stdcall fxn8(DWORD *a1);
 bool __stdcall _spiLockGameList(int a1, int a2, DWORD *a3);
 bool __stdcall fxn10(int *a1, int *a2, int *a3);
 bool __stdcall _spiReceive(DWORD *a1, DWORD *a2, DWORD *a3);
-bool __stdcall fxn12(int a1, int a2, int a3, int a4, int a5, int a6);
+bool __stdcall _spiSelectGame(int a1, int a2, int a3, int a4, int a5, int a6);
 bool __stdcall _spiSend(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
-bool __stdcall fxn14(int a1, int a2, int a3, int a4, int a5);
+bool __stdcall _spiSendServerMessage(int a1, int a2, int a3, int a4, int a5);
 bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStats, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, unka9 *a9, int a10);
 bool __stdcall _spiStopAdvertisingGame();
 bool __stdcall InitializeUser();
