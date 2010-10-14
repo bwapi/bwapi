@@ -68,6 +68,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
+				AdditionalDependencies="Ws2_32.lib"
 				OutputFile="$(IntDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile="source\SNPModule.def"
@@ -112,6 +113,10 @@
 			Name="Source Files"
 			>
 			<File
+				RelativePath=".\source\Connect.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\source\LocalPC.cpp"
 				>
 			</File>
@@ -119,6 +124,10 @@
 		<Filter
 			Name="Header Files"
 			>
+			<File
+				RelativePath=".\source\Connect.h"
+				>
+			</File>
 			<File
 				RelativePath=".\source\LocalPC.h"
 				>

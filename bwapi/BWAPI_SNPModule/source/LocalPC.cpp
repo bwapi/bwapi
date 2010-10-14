@@ -1,38 +1,42 @@
 #include "LocalPC.h"
+#include "Connect.h"
 
 char buffer[1024];
 
 bool __stdcall fxn0(int a1, int a2, int a3)
 {
-  MessageBox(NULL, "Fxn0", "Fxn0", MB_OK);
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiDestroy()
 {
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiFree(int a1, int a2, int a3)
 {
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiError(int a1, int a2, int a3)
 {
   SetLastError(ERROR_INVALID_PARAMETER);
+  i(__FUNCTION__);
   return false;
 }
 
-bool __stdcall fxn4(int a1, int a2, int a3, int a4)
+bool __stdcall _spiGetGameInfo(int a1, int a2, int a3, int a4)
 {
-  MessageBox(NULL, "Fxn4", "Fxn4", MB_OK);
+  i(__FUNCTION__);
   return true;
 }
 
-bool __stdcall fxn5(int a1, int a2, int a3, int a4)
+bool __stdcall _spiGetPerformanceData(int a1, int a2, int a3, int a4)
 {
-  MessageBox(NULL, "Fxn5", "Fxn5", MB_OK);
+  i(__FUNCTION__);
   return true;
 }
 
@@ -96,28 +100,30 @@ struct module
 // spiInitialize(0x%08x)
 bool __stdcall _spiInitialize(version *a1, PSTRUCT a2, bncallbacks *a3, module *a4, DWORD a5)
 {
-  /*
-  sprintf(buffer, "InitializeModule(%p, %p, %p, %p, %X)", a1, a2, a3, a4, a5);
-  MessageBox(NULL, buffer, "InitializeModule", MB_OK);*/
+  
+  sprintf(buffer, "_spiInitialize(%p, %p, %p, %p, %X)", a1, a2, a3, a4, a5);
+  MessageBox(NULL, buffer, "_spiInitialize", MB_OK);
   return true;
 }
 
 bool __stdcall fxn7(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, module *a5)
 {
+  i(__FUNCTION__);
   return false;
 }
 
 bool __stdcall fxn8(DWORD *a1)
 {
   *a1 = 0;
+  i(__FUNCTION__);
   return true;
 }
 
 // spiLockGameList(0x%08x,0x%08x,*gamelist)
 bool __stdcall _spiLockGameList(int a1, int a2, DWORD *a3)
 {
-  //sprintf(buffer, "fxn9(%p, %p, %p)", a1, a2, *a3);
-  //MessageBox(NULL, buffer, "Fxn9", MB_OK);
+  sprintf(buffer, "_spiLockGameList(%p, %p, %p)", a1, a2, *a3);
+  i(buffer);
   return true;
 }
 
@@ -130,6 +136,7 @@ bool __stdcall fxn10(int *a1, int *a2, int *a3)
   if ( a3 )
     *a3 = 0;
   // stuff
+  i(__FUNCTION__);
   return true;
 }
 
@@ -142,24 +149,26 @@ bool __stdcall _spiReceive(DWORD *a1, DWORD *a2, DWORD  *a3)
     *a2 = 0;
   if ( a3 )
     *a3 = 0;
-  SetLastError(0x8510006B);
+  SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
+  i(__FUNCTION__);
   return true;
 }
 
-bool __stdcall fxn12(int a1, int a2, int a3, int a4, int a5, int a6)
+bool __stdcall _spiSelectGame(int a1, int a2, int a3, int a4, int a5, int a6)
 {
-  MessageBox(NULL, "Fxn12", "Fxn12", MB_OK);
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiSend(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen)
 {
+  i(__FUNCTION__);
   return true;
 }
 
-bool __stdcall fxn14(int a1, int a2, int a3, int a4, int a5)
+bool __stdcall _spiSendServerMessage(int a1, int a2, int a3, int a4, int a5)
 {
-  MessageBox(NULL, "Fxn14", "Fxn14", MB_OK);
+  i(__FUNCTION__);
   return false;
 }
 
@@ -193,27 +202,30 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
                 a9->dwMaxStormPlayers, a9->dwHumanPlayers, a9->dwSlots,
                 a10);
   MessageBox(NULL, buffer, "CreateGame", MB_OK);*/
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiStopAdvertisingGame()
 {
+  i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall InitializeUser()
 {
+  i(__FUNCTION__);
   return true;
 }
 
 // spiUnlockGameList(0x%08x,*hintnextcall)
 bool __stdcall _spiUnlockGameList(int a1, DWORD *a2)
 {
-  //sprintf(buffer, "fxn18(%p, %p)", a1, *a2);
-  //MessageBox(NULL, buffer, "Fxn18", MB_OK);
+  sprintf(buffer, "_spiUnlockGameList(%p, %p)", a1, a2);
+  i(buffer);
   if ( a2 )
   {
-    *a2 = 500;
+    *a2 = 15000;
   }
   return true;
 }

@@ -10,13 +10,13 @@ struct caps
 {
   DWORD dwSize;
   DWORD dwUnk1;
-  DWORD dwUnk2;
+  DWORD dwBufferSize;
   DWORD dwUnk3;
   DWORD dwUnk4;
   DWORD dwUnk5;
-  DWORD dwUnk6;
+  DWORD dwPingTimeout;
   DWORD dwPlayerCount;
-  DWORD dwUnk8;
+  DWORD dwLatencyCalls;
 };
 //spiGetGameInfo
 struct netFunctions
@@ -60,14 +60,15 @@ struct netStruct
   netFunctions  NetFxns;
 } networks[] = {
   { "Local PC", 'LOCL', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
-    { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 50, 8, 2},
-    { sizeof(netFunctions), &fxn0, &_spiDestroy, &_spiFree, &_spiError,
-      &fxn4, &fxn5, &_spiInitialize, &fxn7,
-      &fxn8, &_spiLockGameList, &fxn10, &_spiReceive,
-      &fxn12, &_spiSend, &fxn14, &_spiStartAdvertisingLadderGame,
-      &_spiStopAdvertisingGame, &InitializeUser, &_spiUnlockGameList, NULL,
-      NULL, NULL, NULL, NULL,
-      NULL, NULL, NULL}
+    { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 20, 8, 0},
+    { sizeof(netFunctions),
+      &fxn0,                    &_spiDestroy,             &_spiFree,              &_spiError,
+      &_spiGetGameInfo,         &_spiGetPerformanceData,  &_spiInitialize,        &fxn7,
+      &fxn8,                    &_spiLockGameList,        &fxn10,                 &_spiReceive,
+      &_spiSelectGame,          &_spiSend,                &_spiSendServerMessage, &_spiStartAdvertisingLadderGame,
+      &_spiStopAdvertisingGame, &InitializeUser,          &_spiUnlockGameList,    NULL,
+      NULL,                     NULL,                     NULL,                   NULL,
+      NULL,                     NULL,                     NULL }
   }
 };
 

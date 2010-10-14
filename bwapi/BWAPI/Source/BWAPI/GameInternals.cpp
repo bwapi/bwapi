@@ -915,12 +915,12 @@ namespace BWAPI
     actBriefing = false;
 
     /* initialize the variables */
-    frameCount  = 0;
-    textSize    = 1;
+    frameCount    = 0;
+    textSize      = 1;
     onStartCalled = true;
-    BWAPIPlayer = NULL;
-    calledOnEnd = false;
-    bulletCount = 0;
+    BWAPIPlayer   = NULL;
+    calledOnEnd   = false;
+    bulletCount   = 0;
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < FLAG_COUNT; i++)
@@ -1202,8 +1202,9 @@ namespace BWAPI
       if ( this->players[i] )
         this->players[i]->onGameEnd();
 
-    //reset game speeds
+    //reset game speeds and text size
     this->setLocalSpeed(-1);
+    this->setTextSize();
 
     //reset all Unit objects in the unit array
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
@@ -1224,7 +1225,7 @@ namespace BWAPI
     this->cheatFlags  = 0;
     this->bulletCount = 0;
     this->frameCount  = -1;
-    this->endTick = GetTickCount();
+    this->endTick     = GetTickCount();
 
     //reload auto menu data (in case the AI set the location of the next map/replay)
     this->loadAutoMenuData();
@@ -1232,6 +1233,7 @@ namespace BWAPI
     //clear everything in the server
     this->server.clearAll();
 
+    // Reset menu activation variables
     actMainMenu = false;
     actRegistry = false;
     actCreate   = false;
