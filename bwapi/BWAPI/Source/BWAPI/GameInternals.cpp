@@ -959,7 +959,7 @@ namespace BWAPI
     BW::UnitType SLocType   = BW::UnitType(BW::UnitID::Start_Location);
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT ; ++i)
     {
-      if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) && this->players[i]->isParticipating() )
+      if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0)/* && this->players[i]->isParticipating()*/ )
         startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - SLocType.dimensionLeft()) / TILE_SIZE,
                                                    (StartLocs[i].y - SLocType.dimensionUp()  ) / TILE_SIZE) );
     }
