@@ -812,12 +812,10 @@ namespace BWAPI
     BWAPI::TilePosition srcPos = this->getTilePosition();
     BWAPI::TilePosition dstPos = BWAPI::TilePosition(target);
 
-    if ( srcPos == TilePositions::None ||
-         srcPos == TilePositions::Invalid ||
-         srcPos == TilePositions::Unknown ||
-         dstPos == TilePositions::None ||
-         dstPos == TilePositions::Invalid ||
-         dstPos == TilePositions::Unknown )
+    if ( srcPos.x() > 255 ||
+         srcPos.y() > 255 ||
+         dstPos.x() > 255 ||
+         dstPos.y() > 255 )
     {
       BroodwarImpl.setLastError(Errors::Unknown);
       return false;
