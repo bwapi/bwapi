@@ -364,6 +364,7 @@ namespace BWAPI
 
       int  textSize;
       bool hasLatCom;
+      bool pathDebug;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
