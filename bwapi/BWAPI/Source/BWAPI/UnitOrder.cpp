@@ -1219,7 +1219,6 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       return false;
     }
-    this->orderSelect();
     u8 order;
     switch (tech.getID())
     {
@@ -1269,21 +1268,28 @@ namespace BWAPI
         order = BW::OrderID::FireYamatoGun1;
         break;
       case BW::TechID::ArchonWarp:
-        QueueGameCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
-        QueueGameCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
-        this->lastOrderFrame = BroodwarImpl.frameCount;
-        return true;
+        {
+          BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
+          this->lastOrderFrame = BroodwarImpl.frameCount;
+          return true;
+        }
       case BW::TechID::DarkArchonMeld:
-        QueueGameCommand((PBYTE)&BW::Orders::ShiftSelectSingle((UnitImpl*)target), sizeof(BW::Orders::ShiftSelectSingle));
-        QueueGameCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
-        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
-        this->lastOrderFrame = BroodwarImpl.frameCount;
-        return true;
+        {
+          BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
+          this->lastOrderFrame = BroodwarImpl.frameCount;
+          return true;
+        }
       default:
         BroodwarImpl.setLastError(Errors::Incompatible_TechType);
         return false;
     }
+    this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, order), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
     this->lastOrderFrame = BroodwarImpl.frameCount;

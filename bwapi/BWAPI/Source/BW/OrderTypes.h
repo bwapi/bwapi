@@ -64,16 +64,17 @@ namespace BW
         UnitTarget target;
     };
     /** Selection command in bw, single unit version. */
-    class SelectSingle
+    class Select
     {
       public :
-        SelectSingle(BWAPI::UnitImpl* select);
+        Select(u8 count, ...);
         /** 0x09 = Select command-code in bw */
-        u8 always0x09;
+        u8         always0x09;
         /** 0x01 = 1 unit selection */
-        u8 always0x01;
+        u8         sCount;
         /** The unit to select bw index */
-        UnitTarget target;
+        UnitTarget targets[12];
+        u32        size;
     };
     /** Train unit command in bw. */
     class TrainUnit

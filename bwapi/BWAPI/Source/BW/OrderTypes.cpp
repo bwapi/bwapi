@@ -1,4 +1,5 @@
 #include "OrderTypes.h"
+#include <stdarg.h>
 #include <BWAPI/Unit.h>
 #include <BW/Offsets.h>
 #include <Util/Exceptions.h>
@@ -66,11 +67,29 @@ namespace BW
     {
     }
     //-------------------------------------- SELECT SINGLE CONSTRUCTOR ---------------------------------------
-    SelectSingle::SelectSingle(BWAPI::UnitImpl* select)
+    Select::Select(u8 count, ...)
         : always0x09(0x09)
-        , always0x01(0x01)
-        , target(select)
     {
+      sCount = count;
+      if ( sCount > 12 )
+        sCount = 12;
+
+      u8 fCount = 0;
+
+      va_list list;
+      va_start(list, sCount);
+      for ( unsigned int i = 0; i < sCount; ++i )
+      {
+        BWAPI::UnitImpl *inter = va_arg(list, BWAPI::UnitImpl*);
+        if ( inter != NULL )
+        {
+          ++fCount;
+          targets[i] = UnitTarget(inter);
+        }
+      }
+      sCount = fCount;
+      size = 2 + sCount * 2;
+      va_end(list);
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
     TrainUnit::TrainUnit(BW::UnitType type)
