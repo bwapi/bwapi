@@ -1,0 +1,3 @@
+EXPORTS
+  SnpBind             @1
+  SnpQuery            @2
