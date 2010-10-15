@@ -1363,8 +1363,7 @@ namespace BWAPI
     //this function determines if a unit in one of the alive unit lists is actually "alive" according to BWAPI
     //this function is only used in computeUnitExistence and shouldn't be called from any other function
 
-    // observable data changes for dead units
-    if ( !i->getOriginalRawData->sprite )
+    if ( i->getOriginalRawData->orderID == BW::OrderID::Die )
       return false;
 
     u16 uId = i->getOriginalRawData->unitType.id;
@@ -1375,6 +1374,13 @@ namespace BWAPI
     {
       _getType = UnitTypes::Resource_Mineral_Field;
     }
+
+    int hitpoints = i->getOriginalRawData->hitPoints;
+    if ( !i->_getType.isInvincible() && hitpoints <= 0 )
+      return false;
+
+    if ( !i->getOriginalRawData->sprite )
+      return false;
 
     if ( isHidden ) //usually means: is inside another unit?
     {
