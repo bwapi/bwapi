@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\BWAPI.lib $(SolutionDir)\Release\Util.lib"
+				AdditionalDependencies="$(OutDir)\BWAPI.lib $(SolutionDir)\Debug\Util.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\starcraft-folder\bwapi-data\AI\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"

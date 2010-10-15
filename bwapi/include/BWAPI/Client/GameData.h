@@ -16,7 +16,7 @@ namespace BWAPI
     GameData();
     //forces
     int forceCount;
-    ForceData forces[4];
+    ForceData forces[5];
 
     //players
     int playerCount;
