@@ -62,7 +62,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)..\Release_Binary\starcraft-folder\bwapi-data\AI\$(ProjectName).dll"
-				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"

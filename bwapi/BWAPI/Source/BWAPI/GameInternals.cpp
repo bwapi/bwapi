@@ -75,6 +75,7 @@ namespace BWAPI
       , frameCount(-1)
       , endTick(0)
       , hasLatCom(true)
+      , pathDebug(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -379,8 +380,8 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
 
-#ifdef _DEBUG
-    if ( BW::BWDATA_SAIPathing )
+    // pathdebug
+    if ( pathDebug && BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
       BWAPI::Position mouse = getMousePosition() + getScreenPosition();
@@ -576,7 +577,7 @@ namespace BWAPI
       }
 */
     }
-#endif
+
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -1157,7 +1158,7 @@ namespace BWAPI
       }
     }
 #ifdef _DEBUG
-    else if (parsed[0] == "/dlg")
+    else if (parsed[0] == "/dlgdebug")
     {
       if ( !myDlg )
       {
@@ -1183,6 +1184,10 @@ namespace BWAPI
         test->addListEntry("Test9");
         test->addListEntry("Test10");
       }
+    }
+    else if (parsed[0] == "/pathdebug")
+    {
+      pathDebug = !pathDebug;
     }
 #endif
     else
