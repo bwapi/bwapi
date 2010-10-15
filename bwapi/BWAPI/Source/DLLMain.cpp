@@ -416,7 +416,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   }
 
   /* Funny workaround for the lack of type casting */
-  char temptest[12];
+  char temptest[32];
   void *pPlayIscript;
   sprintf_s(temptest, 32, "%p", &BW::Image::CImage::_PlayIscript);
   sscanf(temptest, "%p", &pPlayIscript);

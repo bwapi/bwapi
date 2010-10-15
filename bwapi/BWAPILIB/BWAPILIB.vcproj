@@ -118,12 +118,15 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
+        EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="../include;../Util/Source;../TinyXml/Source;../BWAPI/Source"
-				StringPooling="true"
-				RuntimeLibrary="2"
+				MinimalRebuild="true"
+        BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
+        RuntimeTypeInfo="false"
 				WarningLevel="4"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 				DisableSpecificWarnings="4100;"
 			/>
 			<Tool
