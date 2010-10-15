@@ -585,12 +585,12 @@ namespace BWAPI
           return false; // @TODO: Error code for !isExplored ??
 
         // Check if builder is capable of reaching the building site
-        if ( builder && !builder->hasPath( BWAPI::TilePosition(ix, iy) ) )
-          return false;
+        //if ( builder && !builder->hasPath( BWAPI::TilePosition(ix, iy) ) )
+        //  return false;
       }
     }
     // Note: reset error from hasPath call
-    this->setLastError(Errors::Unbuildable_Location);
+    //this->setLastError(Errors::Unbuildable_Location);
 
     /* Ground unit dimension check */
     int targetX = left * 32 + type.tileWidth()  * 32 / 2;
@@ -612,13 +612,14 @@ namespace BWAPI
     }
 
     /* Creep Check */
-    if (type.getRace() == BWAPI::Races::Zerg && !type.isResourceDepot() )
+    if (type.getRace() == BWAPI::Races::Zerg )
     {
       //Most Zerg buildings can only be built on creep
-      for(int ix = left; ix < right; ++ix)
-        for(int iy = top; iy < bottom; ++iy)
-          if (!BWAPI::Broodwar->hasCreep(ix, iy))
-            return false;
+      if ( !type.isResourceDepot() )
+        for(int ix = left; ix < right; ++ix)
+          for(int iy = top; iy < bottom; ++iy)
+            if (!BWAPI::Broodwar->hasCreep(ix, iy))
+              return false;
     }
     else
     {
