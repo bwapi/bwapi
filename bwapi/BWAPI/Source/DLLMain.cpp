@@ -242,12 +242,12 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
       // do center view here
       BWAPI::BroodwarImpl.moveToSelected();
       lastHotkeyTime = 0;
-      lastHotkey = -1;
+      lastHotkey     = -1;
     }
     else
     {
       lastHotkeyTime = thisHotkeyTime;
-      lastHotkey = buffer[2];
+      lastHotkey     = buffer[2];
     }
   }
 

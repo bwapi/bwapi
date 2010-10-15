@@ -370,6 +370,7 @@ namespace BWAPI
     if ( BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
+      BWAPI::Position mouse = getMousePosition() + getScreenPosition();
       
       // iterate tile region owners
       for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
@@ -385,9 +386,9 @@ namespace BWAPI
               BW::BWDATA_SAIPathing->regions[c].tileCount <= 1 )
             continue;
 
-          c &= 0xFF;
-          if ( c < 22 )
-            c += 22;
+          c &= 0xDF;
+          if ( c < 0x20 )
+            c += 0x20;
 
           int px = x * 32;
           int py = y * 32;
@@ -405,14 +406,22 @@ namespace BWAPI
       for ( unsigned int i = 1; i < BW::BWDATA_SAIPathing->regionCount && i < 5000; ++i )
       {
         BW::region *rgn = getRegion(i);
+
+        BW::Position center = rgn->getCenter();
+        if ( mouse.x() >= rgn->rgnBox.left   &&
+             mouse.x() <= rgn->rgnBox.right  &&
+             mouse.y() >= rgn->rgnBox.top    &&
+             mouse.y() <= rgn->rgnBox.bottom )
+        {
+          drawTextMap(center.x, center.y, "%p\n%p\n%p\n%p", rgn->unk_8, rgn->properties, rgn->unk_24, rgn->unk_28);
+          drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
+        }
+        //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
+
         // skip inaccessable regions
         if ( rgn->accessabilityFlags == 0x1FFD )
           continue;
 
-        BW::Position center = rgn->getCenter();
-        drawTextMap(center.x, center.y, "%u", rgn->groupIndex);
-        //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
-        
         BW::region *neighborRgns[256];
         u8 nCount = rgn->getAccessibleNeighbours(neighborRgns, 256);
         for ( u8 i = 0; i < nCount; ++i )
@@ -422,46 +431,103 @@ namespace BWAPI
         }
       }
 
+      BW::badpath *rgnStuff = BW::BWDATA_SAIPathing->badPaths;
+      for ( unsigned int i = 0; rgnStuff[i].unk_00 != 0 && rgnStuff[i].rgn1 != 0 && rgnStuff[i].rgn2 != 0; ++i )
+      {
+        BW::Position rgn1 = getRegion(rgnStuff[i].rgn1)->getCenter();
+        BW::Position rgn2 = getRegion(rgnStuff[i].rgn2)->getCenter();
+        drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Grey);
+      }
+
       // iterate contours
       BW::contourHub *cont = BW::BWDATA_SAIPathing->contoursMain;
       if ( cont )
       {
         for ( int i = 0; i < cont->contourCount[0]; ++i )
         {
+          bool dtext = false;
           s16 y1 = cont->contours[0][i].v[0];
           s16 x1 = cont->contours[0][i].v[1];
           s16 x2 = cont->contours[0][i].v[2];
-          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow );
+          BWAPI::Color c = BWAPI::Colors::Yellow;
+          if ( mouse.x() >= x1 &&
+               mouse.x() <= x2 &&
+               mouse.y() >= y1 - 8 &&
+               mouse.y() <= y1 + 8 )
+          {
+            dtext = true;
+            c = BWAPI::Colors::Green;
+          }
+          drawLineMap(x1, y1, x2, y1, c );
+          if ( dtext )
+            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[0][i].type, cont->contours[0][i].unk_07);
         }
         for ( int i = 0; i < cont->contourCount[1]; ++i )
         {
+          bool dtext = false;
           s16 x1 = cont->contours[1][i].v[0];
           s16 y1 = cont->contours[1][i].v[1];
           s16 y2 = cont->contours[1][i].v[2];
-          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow );
+          BWAPI::Color c = BWAPI::Colors::Yellow;
+          if ( mouse.x() >= x1 - 8 &&
+               mouse.x() <= x1 + 8 &&
+               mouse.y() >= y1 &&
+               mouse.y() <= y2 )
+          {
+            dtext = true;
+            c = BWAPI::Colors::Green;
+          }
+          drawLineMap(x1, y1, x1, y2, c );
+          if ( dtext )
+            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[1][i].type, cont->contours[1][i].unk_07);
         }
         for ( int i = 0; i < cont->contourCount[2]; ++i )
         {
+          bool dtext = false;
           s16 y1 = cont->contours[2][i].v[0];
           s16 x1 = cont->contours[2][i].v[1];
           s16 x2 = cont->contours[2][i].v[2];
-          drawLineMap(x1, y1, x2, y1, BWAPI::Colors::Yellow );
+          BWAPI::Color c = BWAPI::Colors::Yellow;
+          if ( mouse.x() >= x1 &&
+               mouse.x() <= x2 &&
+               mouse.y() >= y1 - 8 &&
+               mouse.y() <= y1 + 8 )
+          {
+            dtext = true;
+            c = BWAPI::Colors::Green;
+          }
+          drawLineMap(x1, y1, x2, y1, c );
+          if ( dtext )
+            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[2][i].type, cont->contours[2][i].unk_07);
         }
         for ( int i = 0; i < cont->contourCount[3]; ++i )
         {
+          bool dtext = false;
           s16 x1 = cont->contours[3][i].v[0];
           s16 y1 = cont->contours[3][i].v[1];
           s16 y2 = cont->contours[3][i].v[2];
-          drawLineMap(x1, y1, x1, y2, BWAPI::Colors::Yellow );
+          BWAPI::Color c = BWAPI::Colors::Yellow;
+          if ( mouse.x() >= x1 - 8 &&
+               mouse.x() <= x1 + 8 &&
+               mouse.y() >= y1 &&
+               mouse.y() <= y2 )
+          {
+            dtext = true;
+            c = BWAPI::Colors::Green;
+          }
+          drawLineMap(x1, y1, x1, y2, c );
+          if ( dtext )
+            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[3][i].type, cont->contours[3][i].unk_07);
         }
       }
-      
+
+/*
       // draw individual unit pathing
       foreach( UnitImpl *u, aliveUnits )
       {
         if ( !u->getType().isFlyer() )
         {
-/*          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
+          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
           BW::TilePosition dstPos = BW::TilePosition(u->getOriginalRawData->moveToPos);
           if ( srcPos == dstPos || srcPos.x > 255 || srcPos.y > 255 || dstPos.x > 255 || dstPos.y > 255 )
             continue;
@@ -486,7 +552,7 @@ namespace BWAPI
           {
             drawLineMap(last.x, last.y, pts[i].x, pts[i].y, BWAPI::Colors::Yellow);
             last = pts[i];
-          }*/
+          }
         }
         else
         {
@@ -495,7 +561,7 @@ namespace BWAPI
           drawLineMap(start.x, start.y, stop.x, stop.y, BWAPI::Colors::Yellow);
         }
       }
-
+*/
     }
 #endif
     //finally return control to starcraft
@@ -1283,8 +1349,11 @@ namespace BWAPI
   {
     //this function determines if a unit in one of the alive unit lists is actually "alive" according to BWAPI
     //this function is only used in computeUnitExistence and shouldn't be called from any other function
-    if (i->getOriginalRawData->orderID == BW::OrderID::Die)
+
+    // observable data changes for dead units
+    if ( !i->getOriginalRawData->sprite )
       return false;
+
     u16 uId = i->getOriginalRawData->unitType.id;
     UnitType _getType = BWAPI::UnitType(uId);
     if ( uId == BW::UnitID::Resource_MineralPatch1 ||
@@ -1293,13 +1362,6 @@ namespace BWAPI
     {
       _getType = UnitTypes::Resource_Mineral_Field;
     }
-
-    int hitpoints = i->getOriginalRawData->hitPoints;
-    if ( !i->_getType.isInvincible() && hitpoints <= 0)
-      return false;
-
-    if ( !i->getOriginalRawData->sprite )
-      return false;
 
     if ( isHidden ) //usually means: is inside another unit?
     {
