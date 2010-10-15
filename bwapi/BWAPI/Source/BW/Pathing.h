@@ -57,7 +57,12 @@ namespace BW
     u32       rgnCenterX; // must >> 8; in pixels
     u32       rgnCenterY; // must >> 8; in pixels
     pathRect  rgnBox; // in pixels
-    u32       unk_20;
+    u32       properties; // flags
+    /*
+      0x001 = Key Point
+      0x002 = Choke Point/Corridor
+      0x100 = Map Bottom
+    */
     u32       unk_24;
     u32       unk_28;
     u16       localBuffer[10]; // local array of IDs for neighbors
@@ -86,23 +91,23 @@ namespace BW
     s16     unk_30[4];
   };
 
-  struct unkCont
+  struct badpath
   {
     u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
+    u16 rgn1;
+    u16 rgn2;
   };
 
   struct SAI_Paths
   {
     u32        regionCount;
-    u32        unk_92BFC_offset;
-    u32        unk_2000C_offset;
+    u32        globalBuffer_ptr;
+    u32        badPaths_end;
     u16        mapTileRegionId[256][256];
-    unkCont    unk_2000C[25000];  // 0x2000C; need to figure this one out
-    region     regions[5000];     // 0x449FC
-    u16        globalBuffer[10000];  // 0x92BFC; extra buffer used for large neighbor ID arrays
-    contourHub *contoursMain;     // 0x97A1C
+    badpath    badPaths[25000];       // 0x2000C
+    region     regions[5000];         // 0x449FC
+    u16        globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
+    contourHub *contoursMain;         // 0x97A1C
   };
 }
 

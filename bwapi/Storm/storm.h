@@ -66,7 +66,7 @@ BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigne
 
 HANDLE __stdcall SNetRegisterEventHandler(int type, int sevent);
 
-int __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
+int  __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
 
 BOOL __stdcall SNetSendMessage(unsigned int playerID, char *data, unsigned int databytes);
 BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes);
@@ -82,18 +82,18 @@ BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes);
 BOOL __stdcall SNetSetGameMode(DWORD modeFlags, char a2);
 
 BOOL __stdcall SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
-int __stdcall SNetSendServerChatCommand(const char *command);
+int  __stdcall SNetSendServerChatCommand(const char *command);
 
 BOOL __stdcall SNetGetPlayerNames(DWORD flags);
 BOOL __stdcall SNetCreateLadderGame(char *gameName, char *gamePassword, char *gameDataString, DWORD gameType, int a5, int a6, char *GameTemplateData, int GameTemplateSize, int playerCount, char *playerName, char *a11, int *playerID);
 BOOL __stdcall SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
 
-int __stdcall SNetSendLeagueCommand(char *cmd, char *callback);
-int __stdcall SNetSendReplayPath(int a1, int a2, char *replayPath);
-int __stdcall SNetGetLeagueName(int leagueID);
+int  __stdcall SNetSendLeagueCommand(char *cmd, char *callback);
+int  __stdcall SNetSendReplayPath(int a1, int a2, char *replayPath);
+int  __stdcall SNetGetLeagueName(int leagueID);
 BOOL __stdcall SNet144(char *buffer);
-int __stdcall SNetLeagueLogout(char *bnetName);
-int __stdcall SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize);
+int  __stdcall SNetLeagueLogout(char *bnetName);
+int  __stdcall SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize);
 
 HGDIOBJ __stdcall SDlgDefDialogProc(HWND hDlg, signed int DlgType, HDC textLabel, HWND hWnd);
 
@@ -106,7 +106,7 @@ BOOL __stdcall SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *b
 BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop);
 BOOL __stdcall SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2);
 
-int __stdcall Ordinal224(int a1);
+int  __stdcall Ordinal224(int a1);
 
 BOOL __stdcall SFileCloseArchive(HANDLE hArchive);
 BOOL __stdcall SFileCloseFile(HANDLE hFile);
@@ -172,7 +172,7 @@ HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **b
 BOOL __stdcall SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle);
 BOOL __stdcall SCodeDelete(HANDLE handle);
 
-int __stdcall SCodeExecute(HANDLE handle, int a2);
+int  __stdcall SCodeExecute(HANDLE handle, int a2);
 
 BOOL __stdcall SDrawCaptureScreen(char *source);
 
@@ -291,19 +291,19 @@ void __stdcall SErrSuppressErrors(BOOL suppressErrors);
 #endif
 
 void __stdcall SMemCopy(void *dest, const void *source, size_t size);
-int __stdcall SMemFill(void *location, size_t length, char fillWith);
+int  __stdcall SMemFill(void *location, size_t length, char fillWith);
 
-int __stdcall SMemZero(void *location, DWORD length);
-int __stdcall SMemCmp(void *location1, void *location2, DWORD size);
+int  __stdcall SMemZero(void *location, DWORD length);
+int  __stdcall SMemCmp(void *location1, void *location2, DWORD size);
 
-int __stdcall SStrCopy(char *dest, const char *src, DWORD max_length);
+int   __stdcall SStrCopy(char *dest, const char *src, DWORD max_length);
 DWORD __stdcall SStrHash(const char *string, DWORD flags, DWORD Seed);
-int __stdcall SStrNCat(char *dest, const char *src, DWORD max_length);
+int   __stdcall SStrNCat(char *dest, const char *src, DWORD max_length);
 
-int __stdcall SStrLen(const char* string);
+int  __stdcall SStrLen(const char* string);
 
-int __stdcall SStrCmp(const char *string1, const char *string2, size_t size);
-int __stdcall SStrCmpI(const char *string1, const char *string2, size_t size);
+int   __stdcall SStrCmp(const char *string1, const char *string2, size_t size);
+int   __stdcall SStrCmpI(const char *string1, const char *string2, size_t size);
 char* __stdcall SStrUpper(char* string);
 
 void __stdcall SRgn523(int handle, RECT *rect, int a3, int a4);
