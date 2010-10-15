@@ -39,7 +39,4 @@ public:
   bool show_bullets;
   bool show_units;
   bool show_visibility_data;
-
-  BWAPI::Unit *scout;
-  int scoutFrameCount;
 };
