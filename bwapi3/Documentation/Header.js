@@ -1,1 +1,0 @@
-document.write('<div class="header">BWAPIv3.0 documentation, <a href="http://code.google.com/p/bwapi/" target="_blank">web</a></div>');
