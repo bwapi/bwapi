@@ -17,7 +17,7 @@ namespace BWAPI
   GameImpl::GameImpl(GameData* data)
   {
     this->data=data;
-    for(int i=0;i<4;i++)
+    for(int i=0;i<5;i++)
       forceVector.push_back(ForceImpl(i));
     for(int i=0;i<12;i++)
       playerVector.push_back(PlayerImpl(i));
