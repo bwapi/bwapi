@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "../../svnrev.h"
+#include "../../starcraftver.h"
 #include "GameImpl.h"
 
 #include <stdio.h>
@@ -276,12 +277,13 @@ namespace BWAPI
     //if not, then we load the AI dll specified in bwapi.ini
     if ( !this->startedClient )
     {
-      sendText("BWAPI revision %s (%s) is now live.", SVN_REV_STR, isDebug() ? "DEBUG" : "RELEASE");
+      char *pszModuleName = "<Nothing>";
       if (server.isConnected()) //check to see if the server is connected to the client
       {
         Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
         this->client = new AIModule();
         printf("BWAPI: Connected to AI Client process");
+        pszModuleName = "<Client Connection>";
       }
       else // if not, load the AI module DLL
       {
@@ -308,7 +310,14 @@ namespace BWAPI
         else
         {
           Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-          hMod = LoadLibrary(szDllPath);
+          hMod       = LoadLibrary(szDllPath);
+
+          pszModuleName = szDllPath;
+          if ( strchr(pszModuleName, '/') )
+            pszModuleName = &strrchr(pszModuleName, '/')[1];
+
+          if ( strchr(pszModuleName, '\\') )
+            pszModuleName = &strrchr(pszModuleName, '\\')[1];
         }
         if ( !hMod )
         {
@@ -336,6 +345,10 @@ namespace BWAPI
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
       events.push_front(Event::MatchStart());
       this->startedClient = true;
+      sendText("BWAPI r%s %s is now live using \"%s\".", 
+                SVN_REV_STR, 
+                isDebug() ? "DEBUG" : "RELEASE", 
+                pszModuleName );
     }
 
     //each frame we add a MatchFrame event to the queue
