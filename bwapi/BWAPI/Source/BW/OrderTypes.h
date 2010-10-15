@@ -71,7 +71,7 @@ namespace BW
         /** 0x09 = Select command-code in bw */
         u8         always0x09;
         /** 0x01 = 1 unit selection */
-        u8         sCount;
+        u8         targCount;
         /** The unit to select bw index */
         UnitTarget targets[12];
         u32        size;

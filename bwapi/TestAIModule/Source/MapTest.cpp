@@ -9,8 +9,8 @@ void MapTest::onStart()
   BWAssert(Broodwar->mapWidth()==192);
   BWAssert(Broodwar->mapHeight()==128);
   BWAssert(Broodwar->mapFileName()=="MapTest.scx");
-  //Note: The exact path to the map will depend on the computer running the test case
-  BWAssertF(Broodwar->mapPathName()=="C:\\Program Files (x86)\\Chaoslauncher\\Starcraft\\maps\\BroodWar\\Test\\MapTest.scx",{Broodwar->printf("%s",Broodwar->mapPathName().c_str());});
+  //Don't assert this since path is allowed to differ
+  Broodwar->printf("%s",Broodwar->mapPathName().c_str());
   BWAssert(Broodwar->mapName()=="Test Map");
 
   //Update this whenever the map is modified
