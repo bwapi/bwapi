@@ -1,5 +1,0 @@
-// revision number from svn
-#define SVN_REV @SVN_REV@
-
-// revision number as string + "_M" when compiled with local modifications
-#define SVN_REV_STR "@SVN_REV_STR@"
