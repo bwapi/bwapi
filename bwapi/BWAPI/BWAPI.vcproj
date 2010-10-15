@@ -46,12 +46,15 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
 				AdditionalIncludeDirectories="../Util/Source;../TinyXml/Source;Source;../include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
-				StringPooling="true"
-				RuntimeLibrary="3"
-				WarningLevel="4"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4238; 4100; 4996;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+        MinimalRebuild="true"
+        BasicRuntimeChecks="3"
+        RuntimeLibrary="3"
+        BufferSecurityCheck="false"
+        UsePrecompiledHeader="0"
+        WarningLevel="4"
+        DebugInformationFormat="3"
+        DisableSpecificWarnings="4238;4100;4996;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,7 +64,6 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine=""
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -71,6 +73,7 @@
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
+        DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -82,7 +85,6 @@
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
-				UseUnicodeResponseFiles="false"
 			/>
 			<Tool
 				Name="VCBscMakeTool"

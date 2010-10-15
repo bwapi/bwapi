@@ -106,10 +106,11 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 
   WaitForSingleObject(hThread, INFINITE);
 
-  DWORD hLibModule = NULL; // Base address of the loaded module
+  DWORD hLibModule = NULL;
   GetExitCodeThread(hThread, &hLibModule);
+
   if ( !hLibModule )
-    BWAPIError("Could not get hLibModule.\nThis may be caused by mixing DEBUG and RELEASE builds.");
+    BWAPIError("Injection failed.\nThis may be caused by mixing DEBUG and RELEASE builds.");
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);

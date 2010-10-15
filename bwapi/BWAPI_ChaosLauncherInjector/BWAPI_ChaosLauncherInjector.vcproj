@@ -21,6 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+      UseOfMFC="0"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -50,7 +51,9 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
+        StructMemberAlignment="1"
 				BufferSecurityCheck="false"
+        FloatingPointModel="2"
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
 				DebugInformationFormat="0"
@@ -67,12 +70,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
+        AdditionalDependencies="User32.lib Shell32.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).bwl"
 				LinkIncremental="1"
 				MapFileName=""
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+        DataExecutionPrevention="0"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
