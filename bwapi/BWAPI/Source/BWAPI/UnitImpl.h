@@ -272,6 +272,7 @@ namespace BWAPI
 
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
+      void make(UnitType type1);
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

@@ -217,6 +217,51 @@ namespace BWAPI
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
   }
+  //---------------------------------------------- MAKE UNIT -------------------------------------------------
+  void UnitImpl::make(UnitType type1)
+  {
+    UnitType thisType = this->getType();
+    BW::UnitType maketype((u16)type1.getID());
+
+    if ( !type1.isBuilding() )
+    {
+      switch ( self->type )
+      {
+      case BW::UnitID::Zerg_Larva:      // MAKE ZERG UNIT NORMAL
+      case BW::UnitID::Zerg_Mutalisk:
+      case BW::UnitID::Zerg_Hydralisk:
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(maketype), 3);
+        break;
+      case BW::UnitID::Zerg_Hatchery:     // MAKE ZERG UNIT FROM HATCHERY
+      case BW::UnitID::Zerg_Lair:
+      case BW::UnitID::Zerg_Hive:
+        if ( type1.whatBuilds().first == UnitTypes::Zerg_Larva && connectedUnits.size() > 0 )
+        {
+          UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
+          larva->orderSelect();
+          QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(maketype), 3);
+        }
+        break;
+      case BW::UnitID::Protoss_Carrier:         // MAKE INTERCEPTOR/SCARAB
+      case BW::UnitID::Protoss_Hero_Gantrithor:
+      case BW::UnitID::Protoss_Reaver:
+      case BW::UnitID::Protoss_Hero_Warbringer:
+        QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
+        break;
+      } // type switch      
+    } // units
+    else
+    {
+      if ( type1.isAddon() && type1.whatBuilds().first == thisType )            // MAKE ADDON
+      {
+        TilePosition target(getTilePosition().x() + 4, getTilePosition().y() + 1);
+        target.makeValid();
+        this->orderSelect();
+        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), maketype), sizeof(BW::Orders::MakeAddon));
+      }
+    } // buildings
+
+  }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool UnitImpl::buildAddon(UnitType type1)
   {

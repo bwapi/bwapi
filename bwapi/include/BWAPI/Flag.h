@@ -11,7 +11,8 @@ namespace BWAPI
       /** Enable to get information from the user (what units are selected, chat messages the user enters,
        * etc) */
       UserInput              = 1,
+
+      Max
     };
   }
-  static const int FLAG_COUNT  =  2;
 }

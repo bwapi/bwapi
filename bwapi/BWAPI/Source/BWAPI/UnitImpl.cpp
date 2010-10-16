@@ -365,7 +365,7 @@ namespace BWAPI
       return true;
     if (self->isCompleted)
       return false;
-    if (getType().getRace()!=Races::Terran)
+    if (getType().getRace() != Races::Terran)
       return true;
     return self->buildUnit != -1;
   }
@@ -377,7 +377,7 @@ namespace BWAPI
   //--------------------------------------------- IS BEING HEALED --------------------------------------------
   bool UnitImpl::isBeingHealed() const
   {
-    return getType().getRace()==Races::Terran &&
+    return getType().getRace() == Races::Terran &&
            self->isCompleted &&
            self->hitPoints>self->lastHitPoints;
   }
@@ -678,7 +678,8 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
-    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
+    if ( !this->attemptAccess() || !target )
+      return std::numeric_limits<double>::infinity();
     if (!((UnitImpl*)target)->attemptAccess())
       return std::numeric_limits<double>::infinity();
 

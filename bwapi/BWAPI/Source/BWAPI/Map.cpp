@@ -228,24 +228,10 @@ namespace BWAPI
   {
     unsigned char hash[20];
     char hexstring[41];
-    std::string filename = Map::getPathName();
 
-    FILE *test = fopen(filename.c_str(), "r");
-    if ( !test )
-      return string("");
-    fclose(test);
-
-    struct stat results;
-    stat(filename.c_str(), &results);
-    int file_byte_size = results.st_size;
-
-    char* buffer = NULL;
-    buffer = new char[file_byte_size];
-    std::ifstream myFile (filename.c_str(), ios::in | ios::binary);
-    myFile.read(buffer, file_byte_size);
-    sha1::calc(buffer, myFile.gcount(), hash);
+    sha1::calc(BW::BWDATA_MapTileArray, BW::BWDATA_MapSize->x * BW::BWDATA_MapSize->y * sizeof(BW::TileID), hash);
     sha1::toHexString(hash, hexstring);
-    delete [] buffer;
+
     return string(hexstring);
   }
   //----------------------------------------------------------------------------------------------------------

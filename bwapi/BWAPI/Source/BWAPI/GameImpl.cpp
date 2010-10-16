@@ -339,13 +339,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if (this->frameCount > 0)
     {
-      this->sendText("Flags can only be enabled at the start of a game.");
+      this->printf("\x06" "ERROR: Flags can only be enabled at the start of a game.");
       return;
     }
 
-    if (flag >= BWAPI::FLAG_COUNT)
+    if (flag >= BWAPI::Flag::Max)
     {
-      this->sendText("Invalid flag (%d).", flag);
+      this->printf("\x06" "ERROR: Invalid flag (%d).", flag);
       return;
     }
 
@@ -880,12 +880,12 @@ namespace BWAPI
     return startLocations;
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
-  void GameImpl::printf(const char* text, ...)
+  void GameImpl::printf(const char* format, ...)
   {
     char buffer[MAX_BUFFER];
     va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
+    va_start(ap, format);
+    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
     va_end(ap);
 
     s_evt evt = { 0 };
