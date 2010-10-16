@@ -5,7 +5,7 @@ using namespace BWAPI;
 void DevAIModule::onStart()
 {
   Broodwar->enableFlag(Flag::UserInput);
-
+  Broodwar->printf("%s", Broodwar->mapHash().c_str());
   overflow = false;
 }
 

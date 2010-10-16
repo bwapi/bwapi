@@ -76,7 +76,7 @@ BOOL __stdcall SFileDdaSetVolume(HANDLE directsound, signed int bigvolume, signe
 BOOL __stdcall SFileGetFileArchive(HANDLE hFile, HANDLE archive) rBool;
 LONG __stdcall SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh) rInt;
 BOOL __stdcall SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq) rBool;
-BOOL __stdcall SFileOpenFile(char *filename, HANDLE *phFile) rBool;
+BOOL __stdcall SFileOpenFile(const char *filename, HANDLE *phFile) rBool;
 BOOL __stdcall SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile) rBool;
 BOOL __stdcall SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh) rBool;
 

@@ -146,7 +146,7 @@ BOOL __stdcall SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD d
 
 #endif
 
-BOOL __stdcall SFileOpenFile(char *filename, HANDLE *phFile);
+BOOL __stdcall SFileOpenFile(const char *filename, HANDLE *phFile);
 BOOL __stdcall SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
 // values for dwSearchScope
