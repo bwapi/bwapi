@@ -51,7 +51,6 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
-				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238;4100;4996;"
@@ -74,7 +73,6 @@
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
