@@ -165,6 +165,25 @@ namespace BWAPI
       accumulatedFrames = 0;
     }
 
+    //fix for restart game
+    if (onStartCalled)
+    {
+      if (*BW::BWDATA_gwNextGameMode == 5 || *BW::BWDATA_gwNextGameMode == 6)
+      {
+        *BW::BWDATA_gwNextGameMode = 1;
+        events.push_back(Event::MatchFrame());
+        events.push_back(Event::MatchEnd(false));
+        Util::Logger::globalLog->log("creating MatchEnd event");
+        processEvents();
+        server.update();
+        events.clear();
+        this->calledOnEnd = true;
+        this->onGameEnd();
+        this->onStartCalled = false;
+        this->calledOnEnd = false;
+      }
+    }
+
     try
     {
       if ( this->calledOnEnd )
