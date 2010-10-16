@@ -6,6 +6,12 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 
+#ifdef _DEBUG
+#define BUILD "DEBUG"
+#elif NDEBUG
+#define BUILD "RELEASE"
+#endif
+
 struct ExchangeData
 {
   int  iPluginAPI;
@@ -52,7 +58,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
   char newDescription[512];
   sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
   
-  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") ");
+  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD);
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
@@ -79,7 +85,11 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
       BWAPIError("Could not find ChaosDir or current directory.");
 
   std::string dllFileName(envBuffer);
+#ifdef NDEBUG
   dllFileName.append("\\BWAPI.dll");
+#elif _DEBUG
+  dllFileName.append("\\BWAPId.dll");
+#endif
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   if ( !loadLibAddress )

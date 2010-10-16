@@ -86,7 +86,12 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
         if ( !GetCurrentDirectoryA(MAX_PATH, envBuffer) )
           BWAPIError("Could not find ChaosDir or current directory.");
 
+#ifdef NDEBUG
       strcat(envBuffer, "\\BWAPI.dll");
+#elif _DEBUG
+      strcat(envBuffer, "\\BWAPId.dll");
+#endif
+
       if ( !LoadLibrary(envBuffer) )
         BWAPIError("Could not find and/or load BWAPI.dll.\nThis may be caused by mixing DEBUG and RELEASE builds.");
       return TRUE;
