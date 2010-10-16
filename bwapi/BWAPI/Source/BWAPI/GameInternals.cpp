@@ -1965,7 +1965,12 @@ namespace BWAPI
       }
     }
     if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
-      events.push_back(Event::SendText(std::string(text)));
+    {
+      if ( externalModuleConnected )
+        events.push_back(Event::SendText(std::string(text)));
+      else
+        sendText("%s", text);
+    }
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
   void GameImpl::onReceiveText(int playerId, std::string text)
