@@ -11,8 +11,10 @@
 
 #ifdef _DEBUG
 #define BUILD "DEBUG"
+#define MODULE "BWAPId.dll"
 #elif NDEBUG
 #define BUILD "RELEASE"
+#define MODULE "BWAPI.dll"
 #endif
 
 const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD ")";
@@ -86,14 +88,9 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
         if ( !GetCurrentDirectoryA(MAX_PATH, envBuffer) )
           BWAPIError("Could not find ChaosDir or current directory.");
 
-#ifdef NDEBUG
-      strcat(envBuffer, "\\BWAPI.dll");
-#elif _DEBUG
-      strcat(envBuffer, "\\BWAPId.dll");
-#endif
-
+      strcat(envBuffer, "\\" MODULE);
       if ( !LoadLibrary(envBuffer) )
-        BWAPIError("Could not find and/or load BWAPI.dll.\nThis may be caused by mixing DEBUG and RELEASE builds.");
+        BWAPIError("Could not find and/or load " MODULE ".\nThis may be caused by mixing DEBUG and RELEASE builds.");
       return TRUE;
     }
     BOOL WINAPI TerminatePlugin()
