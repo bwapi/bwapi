@@ -1,0 +1,138 @@
+--------------------
+| BWAPI Beta 3.1   |
+--------------------
+
+The BWAPI web site    http://code.google.com/p/bwapi/
+Documentation         http://code.google.com/p/bwapi/wiki/BWAPIManual
+Blog                  http://bwapi.blogspot.com/
+Google Group          http://groups.google.com/group/bwapi
+Forums                http://www.broodwarai.com/forums/index.php?showforum=46
+Bug Reports           http://code.google.com/p/bwapi/issues/list
+IRC Channel           QuakeNet #BWAPI
+
+1. Introduction to BWAPI
+------------------------
+
+   The Brood War Application Programming Interface (BWAPI) is a free and open
+source C++ framework for creating AI modules for Starcraft: Broodwar. Using
+BWAPI, programmers can retrieve information on players and individual units
+in Starcraft as well as issue a wide variety of commands to units, opening
+the doors for custom AIs with new micro and macro algorithms.
+
+   This zip has all the necessary include files, libs, and dlls required to
+compile and run an AI module and also comes with three projects to help get
+you started in AI development with BWAPI:
+
+  - Example AI Module - This project shows how to build an AI module DLL which
+                        is the standard way of making autonomous agents with
+                        BWAPI. The Example AI Module shows how to print
+                        "Hello world!" along with a bit of example code that
+                        shows how to read information about the units in the
+                        game.
+
+  - Example AI Client - This project shows how to build an AI client program,
+                        which is an experimental new way of making AIs for
+                        BWAPI. Like the Example AI Module project, this
+                        project shows how to print "Hello world!" along with a
+                        bit of example code that shows how to read information
+                        about the units in the game.
+
+  - AI Module Loader  - This project is a very simple AI client program which
+                        can load and run Example AI Module DLLs, essentially
+                        a way of making your AI Module run in a seperate
+                        process without actually converting it to a client
+                        program.
+
+Build Instructions:
+
+1. Extract the entire zip to a folder on your computer.
+
+2. Copy the contents of Chaoslauncher/Release/ to your Chaos Launcher folder.
+
+3. Copy the contents of Starcraft/ to your actual Starcraft folder.
+
+4. Copy the contents of WINDOWS/ to your C:\WINDOWS or C:\WINNT folder (which
+   ever your version of Windows has).
+
+5. Open ExampleProjects.sln in VC++ 2008 SP1 or VC++ 2008 Express Edition and
+   compile the project as RELEASE.
+   To do this:
+   5.1. Change the dropdown box in the top center of the window from "Debug" to
+        "Release".
+   5.2. Click Build -> Build Solution. The Example AI Module is now compiled
+        into a dll.
+
+All three projects are now built. To run the Example AI Module:
+
+1. Copy Release/ExampleAIModule.dll to
+   <starcraft folder>/bwapi-data/AI/ExampleAIModule.dll
+
+2. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai_dll to
+   ExampleAIMdoule.dll if it isn't already.
+   
+3. Run Chaoslauncher with BWAPI Injector checked. You can also check W-MODE
+   to have Broodwar run in a window rather than full-screen.
+
+4. Start Starcraft: Broodwar and create a match.
+
+   
+To run the Example AI Client:
+
+1. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai_dll to NULL (or some
+   other file name that doesn't exist).
+
+2. Run Release/ExampleAIClient.exe
+
+3. Run Chaoslauncher with BWAPI Injector checked.
+
+4. Start Starcraft: Broodwar and create a match.
+
+
+Debug Mode
+----------
+To run either the Example AI Module or the Example AI Client in debug mode,
+compile the projects in DEBUG mode and copy the files from
+Chaoslauncher/Debug/ to your Chaoslauncher folder.
+
+2. The BroodWar Terrain Analyzer
+--------------------------------
+
+   This release of BWAPI also comes with BWTA, the Brood War Terrain
+Analyzer, which analyzes the map and locates the choke points and possible
+expansion locations. BWTA is still a work-in-progress and does not work on
+every map, so it may crash the game. To run BWTA and analyze a map, type
+"/analyze" in the game chat while playing a match with either the Example AI
+Module loaded or the Example AI Client running. This will freeze the game for
+a couple minutes while BWTA analyzes the map. Once BWTA is done analyzing the
+map, the game will unfreeze and superimpose the outlines of regions,
+chokepoints, and base locations on the screen using BWAPI's draw commands.
+For more information, visit:  http://code.google.com/p/bwta/
+
+3. Basic AI Module
+------------------
+
+   The Example AI Module mainly just shows how to set everything up to make an
+AI module for BWAPI. Once you understand how the Example AI Module works, you
+may be interested the Basic AI Module from the BWSAL project, which aims to
+develop several robust components which execute basic tasks, such as
+constructing buildings, training units, gathering resources, and build-order
+management. For more information, visit:  http://code.google.com/p/bwsal/
+
+4. Bug Reports
+--------------
+
+   BWAPI is currently in beta, so as you write custom AI modules using BWAPI
+you may run into bugs or other problems. We cannot find all the bugs on our own
+so as a beta tester your feedback is invaluable and can be very helpful for
+improving BWAPI. When you find a bug, please describe what the bug is and, if
+possible, how to reproduce the bug and post the report in either a new issue at
+   http://code.google.com/p/bwapi/issues/list
+
+or in a message to the bwapi google group at
+   http://groups.google.com/group/bwapi
+
+Additionally, the contents of the BWAPI global log may prove useful in tracking
+down the bug, so when appropriate please include relevant contents of the file
+   <starcraft folder>/bwapi-data/logs/global.log
+
+in your bug report. Thank you for beta testing BWAPI.

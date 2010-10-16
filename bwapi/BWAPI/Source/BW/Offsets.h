@@ -77,7 +77,7 @@ namespace BW
   };
   static PlayerResources *BWDATA_PlayerResources = (PlayerResources*) 0x0057F0F0;
 
-  static u8        *BWDATA_PlayerVictory  = (u8*)        0x00650974;
+  static u8        *BWDATA_PlayerVictory  = (u8*)       0x00650974;
   static Position  *BWDATA_startPositions = (Position*) 0x0058D720;
 
   /** Force Names */

@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
@@ -97,7 +97,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPId.dll to ChaosDir"
-				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.dll&quot; &quot;$(ChaosDir)&quot;"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -154,7 +154,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
 				SubSystem="2"
@@ -186,7 +186,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPI.dll to ChaosDir"
-				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
