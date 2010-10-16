@@ -8,8 +8,10 @@
 
 #ifdef _DEBUG
 #define BUILD "DEBUG"
+#define MODULE "BWAPId.dll"
 #elif NDEBUG
 #define BUILD "RELEASE"
+#define MODULE "BWAPI.dll"
 #endif
 
 struct ExchangeData
@@ -56,11 +58,7 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   char newDescription[512];
-#ifdef NDEBUG
-  sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
-#elif _DEBUG
-  sprintf_s(newDescription, 512, "Injects BWAPId.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
-#endif
+  sprintf_s(newDescription, 512, "Injects " MODULE " into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
   strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD);
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
@@ -88,11 +86,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
       BWAPIError("Could not find ChaosDir or current directory.");
 
   std::string dllFileName(envBuffer);
-#ifdef NDEBUG
-  dllFileName.append("\\BWAPI.dll");
-#elif _DEBUG
-  dllFileName.append("\\BWAPId.dll");
-#endif
+  dllFileName.append("\\" MODULE);
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   if ( !loadLibAddress )
