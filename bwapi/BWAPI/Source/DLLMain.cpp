@@ -386,6 +386,13 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
   return SNetSendTurn(data, databytes);
 }
 
+HANDLE __stdcall _SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_evt *evt))
+{
+  if ( type == 4 )
+    BW::BWFXN_GlobalPrintText = sEvent;
+  return SNetRegisterEventHandler(type, sEvent);
+}
+
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
@@ -443,6 +450,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
+  HackUtil::PatchImport("storm.dll", 123, &_SNetRegisterEventHandler);
   return 0;
 }
 

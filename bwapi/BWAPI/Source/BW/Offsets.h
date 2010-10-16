@@ -244,15 +244,7 @@ namespace BW
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
-  
-  struct pktevt
-  {
-    DWORD dwUnknown;
-    DWORD dwPlayerId;
-    BYTE  *pData;
-    DWORD dwSize;
-  };
-  static void (__stdcall *BWFXN_GlobalPrintText)(pktevt *evt) = (void(__stdcall*)(pktevt*))0x0047F750;
+  extern void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt);
 
   static u16  *BWDATA_SendTextFilter = (u16*)  0x0057F1DA;
 

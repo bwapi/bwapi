@@ -64,7 +64,19 @@ BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigne
 
 #endif
 
-HANDLE __stdcall SNetRegisterEventHandler(int type, int sevent);
+#ifndef STORM_EVENT
+#define STORM_EVENT
+
+struct s_evt
+{
+  DWORD dwFlags;
+  DWORD dwPlayerId;
+  BYTE  *pData;
+  DWORD dwSize;
+};
+#endif
+
+HANDLE __stdcall SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_evt *evt));
 
 int  __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
 

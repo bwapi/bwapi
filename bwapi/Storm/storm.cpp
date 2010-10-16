@@ -26,7 +26,7 @@ BOOL __stdcall SNetLeaveGame(int type) rBool;
 BOOL __stdcall SNetPerformUpgrade(DWORD *upgradestatus) rBool;
 BOOL __stdcall SNetReceiveMessage(int *senderplayerid, char **data, int *databytes) rBool;
 BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus) rBool;
-HANDLE __stdcall SNetRegisterEventHandler(int type, int sevent) rPVoid;
+HANDLE __stdcall SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_evt *evt)) rPVoid;
 
 int __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid) rInt;
 
