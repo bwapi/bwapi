@@ -888,9 +888,11 @@ namespace BWAPI
     vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
     va_end(ap);
 
-    BW::pktevt evt = { 0 };
-    evt.pData      = (BYTE*)buffer;
-    BW::BWFXN_GlobalPrintText(&evt);
+    s_evt evt = { 0 };
+    evt.pData = (BYTE*)buffer;
+
+    if ( BW::BWFXN_GlobalPrintText )
+      BW::BWFXN_GlobalPrintText(&evt);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
