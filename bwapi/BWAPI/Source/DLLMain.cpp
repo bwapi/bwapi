@@ -256,6 +256,12 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
     // Copy data to primary turn buffer
     memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
     *BW::BWDATA_sgdwBytesInCmdQueue += length;
+    FILE *f = fopen("bwapi-bufferLog.log", "a+");
+    if ( f )
+    {
+      fprintf(f, "[%u] %u bytes\n", BWAPI::BroodwarImpl.frameCount, *BW::BWDATA_sgdwBytesInCmdQueue);
+      fclose(f);
+    }
     return;
   }
   
