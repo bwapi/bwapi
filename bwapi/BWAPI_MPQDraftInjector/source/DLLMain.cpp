@@ -27,10 +27,12 @@ void BWAPIError(const char *format, ...)
   vsnprintf_s(buffer, MAX_PATH, MAX_PATH, format, ap);
   va_end(ap);
 
+  SYSTEMTIME time;
+  GetSystemTime(&time);
   FILE* f = fopen("bwapi-error.txt", "a+");
   if ( f )
   {
-    fprintf(f, "%s\n", buffer);
+    fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
     fclose(f);
   }
   MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR);
@@ -64,6 +66,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     BOOL WINAPI Configure(HWND parentwindow)
     {
       //Goes here when they hit Configure
+      // @todo: Get starcraft folder
       if ( !ShellExecute(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) )
         return FALSE;
       return TRUE;

@@ -246,7 +246,7 @@ namespace BW
   static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   extern void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt);
 
-  static u16  *BWDATA_SendTextFilter = (u16*)  0x0057F1DA;
+  static u16  *BWDATA_SendTextFilter     = (u16*) 0x0057F1DA;
 
   static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
   static u32  BWFXN_SendLobbyCallTarget  = 0x004707D0;

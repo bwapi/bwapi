@@ -20,5 +20,6 @@ public:
   virtual void onUnitMorph(BWAPI::Unit* unit);
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
-
+  
+  bool overflow;
 };

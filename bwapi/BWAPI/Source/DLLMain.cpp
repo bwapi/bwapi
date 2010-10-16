@@ -393,24 +393,44 @@ HANDLE __stdcall _SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_
   return SNetRegisterEventHandler(type, sEvent);
 }
 
+//------------------------------------------------ BWAPI ERROR -----------------------------------------------
+void BWAPIError(const char *format, ...)
+{
+  char buffer[MAX_BUFFER];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
+  va_end(ap);
+  
+  BWAPI::BroodwarImpl.printf( "\x06" "ERROR: %s", buffer);
+
+  char path[MAX_PATH];
+  strcpy(path, logPath);
+  strcat(path, "\\bwapi-error.txt");
+
+  SYSTEMTIME time;
+  GetSystemTime(&time);
+  FILE* f = fopen(path, "a+");
+  if ( f )
+  {
+    fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
+    fclose(f);
+  }
+}
+
+char logPath[MAX_PATH];
+bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
   delete Util::Logger::globalLog;
-  GetPrivateProfileString("paths", "log_path", "", logPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+  GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, BWAPICONFIG);
   
   logging = false;
   char logging_str[MAX_PATH];
-  GetPrivateProfileString("config", "logging", "", logging_str, MAX_PATH, "bwapi-data\\bwapi.ini");
+  GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, BWAPICONFIG);
   if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
-
-  if ( logPath[0] != '\0' )
-  {
-    FILE* f = fopen("bwapi-error.txt", "a+");
-    fprintf(f, "Could not find log_path under paths in \"bwapi-data\\bwapi.ini\".\n");
-    fclose(f);
-  }
 
   if (logging)
   {

@@ -120,12 +120,7 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      FILE*f = fopen("bwapi-error.txt", "a+");
-      if ( f )
-      {
-        fprintf(f, "Exception caught inside Game constructor: %s\n", exception.getMessage().c_str());
-        fclose(f);
-      }
+      BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -266,18 +261,14 @@ namespace BWAPI
     }
     catch (GeneralException& exception)
     {
-      FILE *f = fopen("bwapi-error", "a+");
-      if ( f )
-      {
-        fprintf(f, "Exception caught inside Game::update: %s", exception.getMessage().c_str());
-        fclose(f);
-      }
+      BWAPIError("Exception caught inside Game::update: %s", exception.getMessage().c_str());
     }
 
     //on the first frame we check to see if the client process has connected.
     //if not, then we load the AI dll specified in bwapi.ini
     if ( !this->startedClient )
     {
+      externalModuleConnected = false;
       char *pszModuleName = "<Nothing>";
       if (server.isConnected()) //check to see if the server is connected to the client
       {
@@ -285,6 +276,7 @@ namespace BWAPI
         this->client = new AIModule();
         printf("BWAPI: Connected to AI Client process");
         pszModuleName = "<Client Connection>";
+        externalModuleConnected = true;
       }
       else // if not, load the AI module DLL
       {
@@ -297,21 +289,15 @@ namespace BWAPI
         else
           sprintf(szKeyName, "ai_dll_%u", dwProcNum);
 
-        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, "bwapi-data\\bwapi.ini");
+        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, BWAPICONFIG);
         if ( _strcmpi(szDllPath, "NULL") == 0)
         {
-          printf("\x06 Could not find %s under ai in \"bwapi-data\\bwapi.ini\".", szKeyName);
-          FILE* f = fopen("bwapi-error.txt", "a+");
-          if ( f )
-          {
-            fprintf(f, "Could not find %s under ai in \"bwapi-data\\bwapi.ini\".\n", szKeyName);
-            fclose(f);
-          }
+          BWAPIError("Could not find %s under ai in \"%s\".", szKeyName, BWAPICONFIG);
         }
         else
         {
           Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-          hMod       = LoadLibrary(szDllPath);
+          hMod = LoadLibrary(szDllPath);
 
           pszModuleName = szDllPath;
           if ( strchr(pszModuleName, '/') )
@@ -327,7 +313,8 @@ namespace BWAPI
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
-          printf("\x06" "Error: Failed to load the AI Module.");
+          printf("\x06" "ERROR:: Failed to load the AI Module.");
+          externalModuleConnected = false;
         }
         else
         {
@@ -341,6 +328,7 @@ namespace BWAPI
           this->client = newAIModule(this);
           Util::Logger::globalLog->logCritical("Created an Object of AIModule");
           printf("\x07" "BWAPI: Loaded the AI Module: %s", szDllPath);
+          externalModuleConnected = true;
         }
       }
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
@@ -586,12 +574,12 @@ namespace BWAPI
     //this function is called when starcraft loads and at the end of each match.
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
-    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, BWAPICONFIG);
     this->autoMenuMode = std::string( strupr(buffer) );
 
     if ( autoMenuMode != "OFF" && autoMenuMode != "" )
     {
-      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, BWAPICONFIG);
 
       //split path into path and filename
       char* mapPathAndNameI         = buffer;
@@ -606,13 +594,13 @@ namespace BWAPI
       mapPathAndNameLastSlash[0] = '\0';
       autoMenuMapPath = std::string(buffer);
     }
-    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, BWAPICONFIG);
     autoMenuRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, BWAPICONFIG);
     autoMenuEnemyRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, BWAPICONFIG);
     autoMenuEnemyCount = std::string(buffer);
-    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, "bwapi-data\\bwapi.ini");
+    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, BWAPICONFIG);
     autoMenuGameType = std::string(buffer);
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -1003,7 +991,7 @@ namespace BWAPI
     bulletCount   = 0;
 
     /* set all the flags to the default of disabled */
-    for (int i = 0; i < FLAG_COUNT; i++)
+    for (int i = 0; i < Flag::Max; i++)
       this->flags[i] = false;
 
     /* load the map data */
@@ -1012,7 +1000,7 @@ namespace BWAPI
 
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
-      for (int i = 0; i < FLAG_COUNT; i++)
+      for (int i = 0; i < Flag::Max; i++)
         this->flags[i] = true;
     }
     else
@@ -1943,7 +1931,7 @@ namespace BWAPI
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)
   {
-    if (_isInGame() && _isSinglePlayer())
+    if ( _isInGame() && _isSinglePlayer() && !externalModuleConnected )
     {
       BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
       if (cheatID != BW::CheatFlags::None)

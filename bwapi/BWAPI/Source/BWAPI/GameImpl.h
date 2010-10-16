@@ -329,7 +329,7 @@ namespace BWAPI
        * to be called.
        */
       std::string savedMapHash;
-      bool flags[BWAPI::FLAG_COUNT];
+      bool flags[BWAPI::Flag::Max];
       BW::Unit* savedSelectionStates[13];
       void refreshSelectionStates();
       AIModule* client;
@@ -365,6 +365,7 @@ namespace BWAPI
       int  textSize;
       bool hasLatCom;
       bool pathDebug;
+      bool externalModuleConnected;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
