@@ -128,7 +128,7 @@ namespace BW
   static u32    *BWDATA_sgdwBytesInCmdQueue = (u32*)      0x00654AA0;
   static u32    *BWDATA_MaxTurnSize         = (u32*)      0x0057F0D8;
   static u8     *BWDATA_TurnBuffer          = (u8*)       0x00654880;
-  static s32    *BWDATA_dword_57F090        = (s32*)      0x0057F090;
+  static s32    *BWDATA_LatencyCalls        = (s32*)      0x0057F090;
   static void  (*BWFXN_sendTurn)()          = (void(*)()) 0x00485A40;
   static u32    BWFXN_QueueCommand          =             0x00485BD0;
 

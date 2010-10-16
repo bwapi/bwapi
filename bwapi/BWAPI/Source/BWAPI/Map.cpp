@@ -172,7 +172,7 @@ namespace BWAPI
   {
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); ++y)
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); ++x)
-        this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0X8);
+        this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0x8);
     int y = BWAPI::Map::getHeight()-1;
     for(unsigned int x = 0; x < BWAPI::Map::getWidth();x++)
     {
@@ -206,10 +206,10 @@ namespace BWAPI
       this->walkability[x][y-1] = false;
       this->walkability[x][y-2] = false;
       this->walkability[x][y-3] = false;
-      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y]   = false;
-      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-1] = false;
-      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-2] = false;
-      this->walkability[BWAPI::Map::getWidth()*4 - x - 1][y-3] = false;
+      this->walkability[getWidth()*4 - x - 1][y]   = false;
+      this->walkability[getWidth()*4 - x - 1][y-1] = false;
+      this->walkability[getWidth()*4 - x - 1][y-2] = false;
+      this->walkability[getWidth()*4 - x - 1][y-3] = false;
     }
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
@@ -227,11 +227,42 @@ namespace BWAPI
   std::string Map::getMapHash()
   {
     unsigned char hash[20];
-    char hexstring[41];
+    char hexstring[42];
+    std::string filename = Map::getPathName();
 
-    sha1::calc(BW::BWDATA_MapTileArray, BW::BWDATA_MapSize->x * BW::BWDATA_MapSize->y * sizeof(BW::TileID), hash);
+    // Open File
+    HANDLE hFile = NULL;
+    if ( !SFileOpenFileEx(NULL, filename.c_str(), SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
+    {
+      char szPath[MAX_PATH];
+      SStrCopy(szPath, filename.c_str(), MAX_PATH);
+      SStrNCat(szPath, "\\staredit\\scenario.chk", MAX_PATH);
+      if ( !SFileOpenFileEx(NULL, szPath, SFILE_FROM_MPQ, &hFile) || !hFile)
+        return std::string("Error_map_cannot_be_opened");
+    }
+
+    // Obtain file size
+    DWORD dwFileSize = SFileGetFileSize(hFile, 0);
+
+    // Allocate memory
+    void *pBuffer = SMemAlloc(dwFileSize, __FILE__, __LINE__, 0);
+    if ( !pBuffer )
+    {
+      SFileCloseFile(hFile);
+      return std::string("Error_could_not_allocate_memory");
+    }
+
+    // Read file
+    DWORD dwBytesRead = 0;
+    SFileReadFile(hFile, pBuffer, dwFileSize, &dwBytesRead, 0);
+
+    // Calculate hash
+    sha1::calc(pBuffer, dwBytesRead, hash);
     sha1::toHexString(hash, hexstring);
 
+    // Free memory and return
+    SMemFree(pBuffer, __FILE__, __LINE__, 0);
+    SFileCloseFile(hFile);
     return string(hexstring);
   }
   //----------------------------------------------------------------------------------------------------------

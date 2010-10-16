@@ -267,7 +267,7 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
   if ( SNetGetTurnsInTransit(&turns) ) // Buffer is full
   {
     // This statement will probably never be hit, but just in case
-    if ( turns >= 16 - *BW::BWDATA_dword_57F090 )
+    if ( turns >= 16 - *BW::BWDATA_LatencyCalls )
       return;
 
     // Send the turn and fill the new buffer
