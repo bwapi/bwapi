@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(OutDir)\BWAPI.lib $(SolutionDir)\Debug\Util.lib"
-				OutputFile="$(SolutionDir)..\Release_Binary\starcraft-folder\bwapi-data\AI\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\AI\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -139,7 +139,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(OutDir)\BWAPI.lib $(OutDir)\Util.lib"
-				OutputFile="$(SolutionDir)..\Release_Binary\starcraft-folder\bwapi-data\AI\$(ProjectName).dll"
+				OutputFile="$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\AI\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

@@ -64,11 +64,13 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				Description="Creating ChaosLauncherInjector readme"
+				CommandLine="COPY &quot;$(SolutionDir)..\\Release_Binary\\README&quot; &quot;$(SolutionDir)..\\Release_Binary\\Chaoslauncher\\BWAPI_ChaosLauncherInjector.txt&quot; /Y"
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).bwl"
+				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).bwl"
 				MapFileName=""
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -98,7 +100,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying ChaosLauncherInjector to ChaosDir"
-				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName).bwl&quot; &quot;$(ChaosDir)&quot;"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).bwl&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -144,11 +146,13 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				Description="Creating ChaosLauncherInjector readme"
+				CommandLine="copy /Y &quot;$(SolutionDir)../Release_Binary/README&quot; &quot;$(SolutionDir)../Release_Binary/Chaoslauncher/BWAPI_ChaosLauncherInjectord.txt&quot; /A"
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.bwl"
+				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.bwl"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				MapFileName=""
@@ -178,7 +182,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying ChaosLauncherInjector to ChaosDir"
-				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\chaos-launcher-folder\$(ProjectName)d.bwl&quot; &quot;$(ChaosDir)&quot;"
+				CommandLine="COPY /Y &quot;$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.bwl&quot; &quot;$(ChaosDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>

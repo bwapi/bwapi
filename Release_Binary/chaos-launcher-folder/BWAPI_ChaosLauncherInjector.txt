@@ -1,5 +1,0 @@
-Project page: http://code.google.com/p/bwapi/
-Downloads:    http://code.google.com/p/bwapi/downloads/list
-Wiki:         http://code.google.com/p/bwapi/wiki/BWAPIManual?tm=6
-Issues:       http://code.google.com/p/bwapi/issues/list
-Forum:        http://www.broodwarai.com/forums/index.php?showforum=46

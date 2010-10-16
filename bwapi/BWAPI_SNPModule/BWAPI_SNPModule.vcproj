@@ -102,7 +102,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Embedding caps.mpq and copying SNP module"
-				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)..\Release_Binary\starcraft-folder\$(ProjectName).snp&quot;"
+				CommandLine="copy /Y /B &quot;$(IntDir)\$(ProjectName).dll&quot; + &quot;source\caps.mpq&quot; &quot;$(SolutionDir)..\Release_Binary\Starcraft\$(ProjectName).snp&quot;"
 			/>
 		</Configuration>
 	</Configurations>

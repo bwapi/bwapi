@@ -1,0 +1,674 @@
+===============================================
+Changes from BWAPI Beta 3.0.3 to BWAPI Beta 3.1
+===============================================
+
+The following features have been altered:
+
+    * Player::isAlly, Player::isEnemy, and Game::enemy no longer include players that don't start with any supply (used or available).
+    * Using a hacked executable, ChaosLauncher? can now run multiple instances of Starcraft. Each instance of BWAPI can load a different AI module specified in the configuration(bwapi.ini) file. There are plans for inter-process communication as a network module. 
+
+The following functions have been added:
+
+    * Game::getLatencyFrames - returns the maximum number of frames for a command to be processed.
+    * Game::getLatencyTime - returns the maximum time for a command to be processed (milliseconds).
+    * Game::getRemainingLatencyFrames - returns the remaining number of frames for a command to be processed, according to the current frame.
+    * Game::getRemainingLatencyTime - returns the remaining time for a command to be processed (milliseconds), according to the current tick count.
+    * Game::getRevision - returns the current BWAPI revision number
+    * Game::isDebug - returns whether the current build is debug mode or not
+    * Game::sendTextEx - allows the AI to send a text message to allies only
+    * Unit::hasPath - checks if the unit and target specified are on the same island
+    * Game::isLatComEnabled - returns true if latency compensation is enabled
+    * Game::setLatCom - use to enable or disable latency compensation; Default: Enabled
+    * Unit::getLastOrderFrame - Returns the frame of the last successful order issued.
+    * Unit::setClientInfo - Sets the unit's custom client info. The client is responsible for deallocation. In other words, this allows the user to associate data with the unit.
+    * Unit::getClientInfo - Returns the unit's custom client info. The client is responsible for deallocation. 
+
+Bug fixes:
+
+    * Fixed a bug where multiple onEnd events would be produced.
+    * Fixed a bug where onFrame was called after onEnd.
+    * Fixed a bug where neutral buildings were not included in getStaticNeutralUnits when called from the client process.
+    * Fixed a bug that caused Starcraft to randomly pause for 100ms every couple of seconds.
+    * Fixed a bug that caused Starcraft to crash while retrieving force names.
+    * Fixed an off-by-one issue when retrieving force names.
+    * Fixed a compatibility issue with auto-menu and a non-english locale.
+    * Fixed a user bug when attempting to recall(hotkey) a group of units.
+    * Fixed a bug involving the inability to retrieve enemy upgrades via Unit::getUpgradeLevel(UpgradeType).
+    * Fixed an issue with canBuildHere failing when units are at a valid position on the same tile.
+    * Fixed an issue with hasPower failing for 4x3 buildings at the top-most position of the power range.
+    * Fixed a bug where canMake will fail for Mutalisks when a Greater Spire is owned.
+    * Fixed an issue with an unhandled canBuildHere requirements that produces the message "You must explore there first.".
+    * Fixed an auto-menu bug that would pause at the end of a Replay in Single Player.
+    * Fixed an issue that would reselect the user's unit every time BWAPI performed an action. Reduces APM by 1/3. 
+    
+=================================================
+Changes from BWAPI Beta 3.0.2 to BWAPI Beta 3.0.3
+=================================================
+
+Fixed a bug with BWAPI's frame 0 accessibility where BWTA would not identify base locations when run on the client.
+
+=================================================
+Changes from BWAPI Beta 3.0.1 to BWAPI Beta 3.0.2
+=================================================
+
+Fixed order of UnitDiscover/UnitEvade events.
+
+===============================================
+Changes from BWAPI Beta 3.0 to BWAPI Beta 3.0.1
+===============================================
+
+Fixed order of events/callbacks. 
+
+=============================================
+Changes from BWAPI Beta 2.8 to BWAPI Beta 3.0
+=============================================
+
+The internal implementation of the Unit class has been refactored to optimize performance for the client-server architecture.
+
+Unit IDs now increment from 0, rather than just casting the unit address as an int.
+
+Menu automation has increased speed and several more dialogs are automated.
+
+The following callbacks have been added:
+
+    * AIModule::onUnitDiscover - called when a unit becomes accessible
+    * AIModule::onUnitEvade - called right before a unit becomes inaccessible 
+
+The following Events have been added:
+
+    * Event::UnitDiscover - corresponds with AIModule::onUnitDiscover
+    * Event::UnitEvade - corresponds with AIModule::onUnitEvade 
+
+The following functions have been added:
+
+    * Game::getGroundHeight(TilePosition position) - works same way as Game::getGroundHeight(int x, int y)
+    * Game::getFPS - returns the frames per second the game is running at.
+    * Game::getAverageFPS - returns the exponential moving average frames per second.
+    * Game::setTextSize - sets the text size for drawText commands.
+    * Game::mapPathName - returns the path and file name of the map.
+    * Game::getForce - returns the Force object with the given force ID, or NULL if no force has the given ID.
+    * Game::getPlayer - returns the Player object with the given player ID, or NULL if no player has the given ID.
+    * Game::getUnit - returns the Unit object with the given unit ID, or NULL if no unit has the given ID. 
+
+    * Unit::getCarrier - returns the carrier that this unit belongs to, or NULL if this unit is not an Interceptor or if its carrier has recently been destroyed.
+    * Unit::getInterceptors - Returns the set of interceptors owned by this carrier. The interceptors inside the carrier can be obtained via getLoadedUnits, while the interceptors outside of the carrier is the difference of these two sets.
+    * Unit::getNydusExit - Returns the Nydus Canal unit that is connected to this Nydus Canal, or NULL if the unit doesn't have a connecting Nydus Canal.
+    * Unit::hasNuke - returns true for nuclear missile silos that have a nuke ready.
+    * Unit::isDetected - returns true if the unit is visible and detected/targetable. If this is false and Unit::isVisible is true, then the unit is only partially visible, and won't be targetable until a science vessel, overlord, or some other detection unit comes in range and detects the unit.
+    * Unit::isHoldingPosition - returns true if the unit is holding position.
+    * Unit::gather - orders the unit to gather the specified mineral patch or refinery/extractor/assimilator
+    * Unit::move - orders the unit to move to the specified position 
+
+    * TechType::researchTime - returns the number of frames needed to research the given tech type. 
+
+    * Position::isValid - returns true if the position is on the map.
+    * Position::makeValid - modifies the position so that it becomes valid (on the map), moving it at little as possible
+    * TilePosition::makeValid - modifies the tile position so that it becomes valid (on the map), moving it at little as possible 
+
+The following functions have been renamed:
+
+    * Game::mapFilename has been renamed to Game::mapFileName.
+    * Game::getMapHash has been renamed to Game::mapHash and it now returns the sda1 hash of the map file as a std::string. 
+
+The following error codes have been added:
+
+    * Error::Currently_Researching - generated when you try to tell a unit to research a TechType that is already being researched (at that unit or another unit).
+    * Error::Currently_Upgrading - generated when you try to tell a unit to upgrade an UpgradeType that is already being upgraded (at that unit or another unit). 
+
+The following UpgradeTypes have been renamed:
+
+    * Protoss_Armor -> Protoss_Ground_Armor
+    * Protoss_Plating -> Protoss_Air_Armor
+    * Charon_Booster -> Charon_Boosters 
+
+Renamed UnitCommandType::Attack_Position to UnitCommandType::Attack_Move.
+
+The following Orders have been renamed/merged:
+
+    * SiegeMode -> Sieging
+    * TankMode -> Unsieging
+    * Burrow -> Burrowing
+    * Unburrow -> Unburrowing
+    * StrafeUnit1 -> InterceptorAttack
+    * StrafeUnit2 -> ScarabAttack
+    * Return -> InterceptorReturn
+    * Rightclickaction -> RightClickAction
+    * ReaverStop -> Stop
+    * CarrierStop -> Stop
+    * Attack1 -> AttackUnit
+    * Attack2 -> AttackUnit
+    * CarrierAttack1 -> AttackUnit
+    * CarrierAttack2 -> AttackUnit
+    * CarrierFight -> AttackUnit
+    * ReaverAttack1 -> AttackUnit
+    * ReaverAttack2 -> AttackUnit
+    * ReaverFight -> AttackUnit
+    * StayinRange -> AttackUnit
+    * SapUnit -> AttackUnit
+    * WatchTarget -> AttackUnit
+    * TowerAttack -> AttackUnit
+    * TurretAttack -> AttackUnit
+    * AttackFixedRange -> AttackUnit
+    * CarrierHoldPosition -> HoldPosition
+    * QueenHoldPosition -> HoldPosition
+    * SuicideHoldPosition -> HoldPosition
+    * MedicHoldPosition -> HoldPosition
+    * ReaverHoldPosition -> HoldPosition
+    * BuildTerran -> PlaceBuilding
+    * BuildProtoss1 -> PlaceBuilding
+    * DroneStartBuild -> PlaceBuilding
+    * DroneLand -> PlaceBuilding
+    * SapLocation -> AttackMove
+    * Repair1 -> Repair
+    * Repair2 -> Repair
+    * FireYamatoGun1 -> FireYamatoGun
+    * FireYamatoGun2 -> FireYamatoGun
+    * InfestMine1 -> InfestedCommandCenter
+    * InfestMine2 -> CastInfestation
+    * InfestMine3 -> CastInfestation
+    * InfestMine4 -> InfestingCommandCenter
+    * TerranBuildSelf -> IncompleteBuilding
+    * ProtossBuildSelf -> IncompleteBuilding
+    * DroneBuild -> IncompleteBuilding
+    * ZergBuildSelf -> IncompleteBuilding
+    * WarpingArchon -> ArchonWarp
+    * WarpingDarkArchon -> DarkArchonMeld
+    * MagnaPulse -> CastLockdown
+    * DarkSwarm -> CastDarkSwarm
+    * SummonBroodlings -> CastSpawnBroodlings
+    * EmpShockwave -> CastEMPShockwave
+    * NukePaint -> CastNuclearStrike
+    * NukeGround -> CastNuclearStrike
+    * PlaceScanner -> CastScannerSweep
+    * DefensiveMatrix -> CastDefensiveMatrix
+    * PsiStorm -> CastPsionicStorm
+    * Irradiate -> CastIrradiate
+    * Plague -> CastPlague
+    * Consume -> CastConsume
+    * Ensnare -> CastEnsnare
+    * StasisField -> CastStasisField
+    * Hallucination1 -> CastHallucination
+    * Restoration -> CastRestoration
+    * ResetCollision1 -> ResetCollision
+    * ResetCollision2 -> ResetCollision
+    * InitPsiProvider -> Nothing
+    * InitArbiter -> PlayerGuard
+    * Teleport -> CastRecall 
+
+The following functions have changed in functionality:
+
+    * Game::getGroundHeight now accepts build tile coordinates rather than walk tile coordinates.
+    * Unit::getLoadedUnits now returns a set rather than a list.
+    * AIModule::onSendText now has a void return type, rather than bool. Instead of returning true you can use Game::printf or Game::sendText to send the message. 
+
+Bug fixes:
+
+    * Fixed a bug where Game::getGroundHeight would always return 0 for tiles until Zerg Creep.
+    * Fixed a bug where Unit::isConstructing would not return true for Terran buildings that are constructing add-ons
+    * Fixed a bug where Unit::isIdle would sometimes return true when the unit is Constructing
+    * Fixed a bug where Unit::getBuildType would not work for Terran buildings that are constructing add-ons
+    * Fixed a bug where Unit::isConstructing would not return true for incomplete Terran add-ons that are being constructed.
+    * Fixed a bug where Unit::getBuildUnit would return NULL for incomplete Terran add-ons that are being constructed.
+    * Fixed a bug where Unit::isTraining would not return true for Reavers or Carriers.
+    * Fixed a bug where Unit::getRemainingTrainTime would incorrectly return 0 on some frames due to latency.
+    * Fixed a bug where Unit::getType would not immediately switch to Egg/Lurker Egg/Cocoon after issuing a morph command to a unit
+    * Fixed a bug where Unit::isBeingConstructed would return false for morphing Zerg units
+    * Fixed a bug where Unit::isConstructing would return false morphing Zerg units
+    * Fixed a bug where Unit::isIdle would return true morphing Zerg units
+    * Fixed a bug where Unit::getBuildType would sometimes return UnitTypes::None for morphing Zerg units
+    * Fixed a bug where Unit::getRemainingBuildTime would sometimes return incorrect values for morphing Zerg units
+    * Fixed a bug where Unit::getRemainingResearchTime would sometimes return 0 due to latency.
+    * Fixed a bug where Unit::getRemainingUpgradeTime would sometimes return 0 due to latency.
+    * Fixed a bug where Game::canResearch would return true while another unit was researching the same TechType.
+    * Fixed a bug where Game::canUpgrade would return true while another unit was upgrading the same UpgradeType.
+    * Fixed a bug with UpgradeType::Apial_Sensors.whatResearches() so that it now correctly returns UnitTypes::Protoss_Fleet_Beacon.
+    * Fixed a bug with Unit::getTransport so that it works for Protoss Interceptors
+    * Fixed a bug with Unit::isLoaded so that it returns true if and only if Unit::getTransport!=NULL.
+    * Fixed a bug with Unit::getLoadedUnits so that it also returns the Interceptors currently loaded inside a Protoss Carrier.
+    * Fixed a bug where Unit::getPosition and Unit::getTilePosition would return incorrect positions for loaded units.
+    * Fixed a bug where Unit::useTech would not cast Maelstroms.
+    * Fixed a bug where Unit::useTech would not work for Nuclear Missiles.
+    * Fixed a bug where Siege Tanks, Goliaths, Reavers, and Carriers would not attack when given an attackUnit command.
+    * Fixed a bug where Starcraft would crash when an AI issued a stop command to a Reaver or Carrier.
+    * Fixed a bug where Game::unitsOnTile would incorrectly include Terran Add-ons for tiles that did not contain a Terran Add-on.
+    * Fixed a bug where Unit::isBeingHealed wouldn't work. Now returns true for Terran units that are being healed or repaired. 
+
+===============================================
+Changes from BWAPI Beta 2.7.2 to BWAPI Beta 2.8
+===============================================
+
+Added menu automation - you can now automatically start replays and games with no manual user interaction.
+
+New classes:
+
+    * Added class GameType.
+    * Added class Bullet. 
+
+The following functions have been added:
+
+    * Added AIModule::onReceiveText - called when messages are received from other players.
+    * Added Game::isBattleNet - returns true during games being played on BattleNet.
+    * Added Game::getBullets - returns the set of accessible bullets.
+    * Added Game::getGameType - returns the game type of the current match.
+    * Added Player::maxEnergy - returns the max energy for the unit type, taking into account the player's upgrades. 
+
+The following functions have changed in functionality:
+
+    * Unit::getHitPoints now rounds up to nearest integer rather than down.
+    * Unit::getShields now rounds up to nearest integer rather than down.
+    * Unit::getEnergy now rounds up to nearest integer rather than down.
+    * Game::enableFlag can now also be called in AIModule::onFrame() during frame 0. 
+
+All neutral units are accessible in AIModule::onFrame() during frame 0.
+
+The AttackType class has been renamed to BulletType.
+
+The following functions are now case-insensitive for the strings they accept:
+
+    * BulletTypes::getBulletType
+    * DamageTypes::getDamageType
+    * Errors::getError
+    * ExplosionTypes::getExplosionType
+    * GameTypes::getGameType
+    * Orders::getOrder
+    * PlayerTypes::getPlayerType
+    * Races::getRace
+    * TechTypes::getTechType
+    * UnitCommandTypes::getUnitCommandType
+    * UnitSizeTypes::getUnitSizeType
+    * UnitTypes::getUnitType
+    * UpgradeTypes::getUpgradeType
+    * WeaponTypes::getWeaponType 
+
+Player::playerType has been renamed to Player::getType.
+
+The following PlayerTypes have been renamed:
+
+    * NotUsed -> None
+    * Human -> Player
+    * Rescuable -> RescuePassive
+    * Unknown0 -> Unknown4
+    * ComputerSlot -> EitherPreferComputer
+    * OpenSlot -> EitherPreferHuman
+    * ClosedSlot -> Closed
+    * Unknown1 -> Observer
+    * HumanDefeated -> PlayerLeft
+    * ComputerDefeated -> ComputerLeft 
+
+Bug Fixes:
+
+    * Fixed a bug where Game::getLatency would return incorrect values for games played on BattleNet.
+    * Fixed a bug where Unit::getGroundWeaponCooldown would always return 0 and Unit::isStartingAttack would always return false and for Protoss Reavers.
+    * Fixed a bug with AIModule::onSendText.
+    * Fixed a bug where AIModule::onUnitDestroy was being called for invisible units with complete map info disabled.
+    * Fixed a bug where both cheat flags would automatically be enabled when running the AI as a client process.
+    * Fixed a bug where Game::enableFlag would not work when called from a client process. 
+
+=================================================
+Changes from BWAPI Beta 2.7.1 to BWAPI Beta 2.7.2
+=================================================
+
+Fixed a bug in GameImpl::spriteToUnit which caused the game to crash every once in a while.
+
+=================================================
+Changes from BWAPI Beta 2.6.1 to BWAPI Beta 2.7.1
+=================================================
+
+AIs can now connect from another process using BWAPIClient.lib.
+
+New enums:
+
+    * Added enum EventType
+
+New classes:
+
+    * Added class Event
+    * Added class UnitCommand
+    * Added class UnitCommandType
+
+The following functions have been added:
+
+    * Added AIModule::onSaveGame - called when the user saves the single player match. Currently is triggered twice.
+    * Added Game::getEvents - returns the set of events for the frame
+    * Added Game::indexToUnit - returns the Unit currently at the given index in Starcraft's internal Unit table. Only available when the Complete Map Information flag is enabled.
+    * Added Game::isInGame - returns true if Broodwar is currently in a match
+    * Added Unit::isAttacking - returns true if the unit is attacking. Does not yet work for siege tanks or goliaths.
+    * Added Unit::isVisible(Player* player) - returns true if the given player can see the given unit. Only available in replays or if the complete map information flag has been enabled.
+    * Added Unit::issueCommand - general purpose function to issue any valid unit command. 
+
+All member functions of Race, TechType, UnitType, UpgradeType, WeaponType now return other objects by value instead of by pointer. For example TechType::whatResearches returns a UnitType object rather than a const pointer to a UnitType object.
+
+The following Orders have been renamed:
+
+    * Nothing1 -> UnusedNothing
+    * Powerup1 -> UnusedPowerup
+    * Nothing2 -> Nothing
+    * RallyPoint1 -> RallyPointUnit
+    * RallyPoint2 -> RallyPointTile
+    * Morph1 -> ZergUnitMorph
+    * Morph2 -> ZergBuildingMorph
+    * BuildSelf1 -> TerranBuildSelf
+    * Build5 -> BuildNydusExit
+    * Enternyduscanal -> EnterNydusCanal
+    * BuildSelf2 -> ProtossBuildSelf
+    * CarrierIgnore1 -> ReaverCarrierMove
+    * HoldPosition1 -> CarrierHoldPosition
+    * ReaverHold -> ReaverHoldPosition
+    * RechargeShields1 -> RechargeShieldsUnit
+    * Rechargeshields2 -> RechargeShieldsBattery
+    * BuildingLiftoff -> BuildingLiftOff
+    * DroneLiftoff -> DroneLiftOff
+    * Liftoff -> LiftingOff
+    * Harvest5 -> Interrupted
+    * Pickup1 -> PickupIdle
+    * Pickup2 -> PickupTransport
+    * Pickup3 -> PickupBunker
+    * Powerup2 -> PowerupIdle
+    * HoldPosition2 -> HoldPosition
+    * HoldPosition3 -> QueenHoldPosition
+    * HoldPosition4 -> SuicideHoldPosition 
+
+Bug Fixes:
+
+    * Fixed a bug where Unit::getGroundWeaponCooldown would always return 0 for Siege Tanks and Goliaths.
+    * Fixed a bug where Unit::getAirWeaponCooldown would always return 0 for Goliaths.
+    * Fixed a bug with Unit::isConstructing - now also returns true when the unit's order is TerranBuildSelf, ProtossBuildSelf, ZergBuildSelf, BuildNydusExit, and BuildAddon.
+    * Fixed a bug with Unit::isIdle - now also returns true when the unit's order is Reaver, Neutral, TowerGuard, and Burrowed.
+    * Fixed a bug with Unit::isMorphing - now also returns true when the unit's order is ZergBirth.
+    * Fixed a bug where Unit::isTraining - would return true for morphing hatcheries, lairs, and hives.
+    * Fixed a bug where Unit::useTech would not work for Archon_Warp or Dark_Archon_Meld.
+    * Fixed a bug where Game::canBuildHere would return true for refineries over geysers that already have refineries on them.
+    * Fixed a bug where Game::setScreenPosition would crash the game if given a position with negative coordinate values.
+    * Fixed a bug where Game::isBuildable would return true for the inaccessible row of tiles at the bottom of the map.
+    * Fixed a bug where Game::isWalkable would return true for the four inaccessible rows of tiles at the bottom of the map.
+    * Fixed a bug where UnitType::maxGroundHits would return 0 for Terran Siege Tank Siege Mode, Terran Siege Tank Tank Mode, and Terran Goliath.
+    * Fixed a bug where UnitType::maxAirHits would return 0 for Terran Goliath. 
+    
+===============================================
+Changes from BWAPI Beta 2.6 to BWAPI Beta 2.6.1
+===============================================
+
+    * Added Unit::getID - returns a unique ID for the unit.
+    * Fixed a crash inadvertently introduced in BWAPI Beta 2.6 related to the new mouse and key state functionality. 
+    
+=============================================
+Changes from BWAPI Beta 2.5 to BWAPI Beta 2.6
+=============================================
+
+    * Added Unit::getLarva - returns a set of 0, 1, 2, or 3 larva units that have spawned from the given Hatchery, Lair, or Hive.
+    * Added Unit::getHatchery - returns the Hatchery, Lair, or Hive that spawned the given larva. Returns NULL if the unit is not a Zerg Larva.
+    * Added Unit::returnCargo - returns the worker's cargo (minerals/gas) to a nearby resource depot. Works the same way as the "Return Cargo" button in the Starcraft GUI.
+    * Added Position::getApproxDistance - an approximate distance function similar to the one starcraft uses.
+    * Added Player::isDefeated - returns true if the player has been defeated
+    * Added Player::isVictorious - returns true if the player has achieved victory.
+    * Added Game::getMousePosition - returns the position of the mouse on the screen.
+    * Added Game::getScreenPosition - returns the position of the screen on the map.
+    * Added Game::setScreenPosition - moves the screen to the given position on the map.
+    * Added Game::pingMinimap - pings the given position on the minimap.
+    * Added Game::getMouseState - returns true if the specified MouseButton is pressed
+    * Added Game::getKeyState - returns true if the specified Key is pressed 
+
+The following functions have changed in functionality:
+
+    * AIModule::onEnd is now called before any user interaction at the end of games and replays.
+    * Game::getFrameCount no longer increases while the game is paused, however AIModule::onFrame is still called.
+    * Unit::getRemainingTrainTime now returns the number of frames until the next larva spawns at the given Hatchery, Lair, or Hive. Works as before on other unit types.
+    * Unit::getDistance(Unit* target) now computes the distance between units more similar to the way starcraft computes distance between units when determining if a unit is in attack range.
+    * Unit::getDefenseMatrixPoints now returns actual defense matrix hit points (not multiplied by 256). 
+
+Bug fixes:
+
+    * Fixed a bug where scourge that suicide into other units would not produce an AIModule::onUnitDestroy message.
+    * Fixed a bug where Game::canUpgrade would sometimes return true even though the player did not have enough resources.
+    * Fixed a bug where Unit::cancelTrain would not cancel Terran Nuclear Missiles when called on a Terran Nuclear Missile Silo.
+    * Fixed a bug where Unit::isTraining would return false when called on a Terran Nuclear Missile Silo training a Terran Nuclear Missile.
+    * Fixed a bug where Unit::getTrainingQueue would return and empty list when called on a Terran Nuclear Missile Silo training a Terran Nuclear Missile. 
+
+=============================================
+Changes from BWAPI Beta 2.4 to BWAPI Beta 2.5
+=============================================
+
+    * Added a logging option to bwapi.ini - by default it is set to off.
+    * Added TechType::getRace (the function was declared before but not actually implemented).
+    * Added Unit::getBuildType - returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an incomplete building, this returns the UnitType the unit is about to become upon completion. 
+
+    * Fixed TechTypes::Restoration.whatResearches() so that it now returns UnitTypes::Terran_Academy.
+    * Fixed a bug where Game::canBuildHere would return true even when a nexus/command center/hatchery was too close to invisible minerals/geysers. The function now uses static mineral and geyser data and assumes mineral fields exist unless it can see the build tile where the mineral is supposed to be, and cannot see the mineral unit.
+    * Fixed a bug where Unit::isIdle would return false after a worker failed to start construction of a building.
+    * Fixed a bug where using Siege Tanks would cause the game to crash.
+    * Fixed a bug where BWAPI would crash on game end if a player left during the game.
+    * Fixed a bug where Unit::isGatheringGas would sometimes return false for drones harvesting gas into a morphing Hatchery.
+    * Fixed a bug where chat messages in multiplayer games would either appear garbled or not show at all. 
+
+=============================================
+Changes from BWAPI Beta 2.3 to BWAPI Beta 2.4
+=============================================
+
+    * Added AttackType class, however this won't be of much use until the Attack class is implemented (which will let AI Modules "see" projectiles, bullets, psi storms, lurker attacks, etc).
+    * Added Game::isExplored - returns true for tiles that are visible or were visible at some point earlier in the match.
+    * Added Unit::isBeingGathered - returns true for mineral patches and the three types of refineries when a unit is gathering from it. 
+
+    * Renamed Game::buildable to Game::isBuildable
+    * Renamed Game::walkable to Game::isWalkable
+    * Renamed Game::visible to Game::isVisible
+    * Renamed Game::groundHeight to Game::getGroundHeight
+    * Added TilePosition versions of Game::isBuildable, Game::isVisible, Game::hasCreep, and Game::hasPower. 
+
+The following functions have changed in functionality:
+
+    * UnitType::seekRange now returns the seek range in pixels.
+    * UnitType::sightRange now returns the sight range in pixels.
+    * UnitType::maxHitPoints now returns actual max hit points (not multiplied by 256).
+    * Unit::getHitPoints now returns actual current hit points (not multiplied by 256).
+    * Unit::getShields now returns actual current shields (not multiplied by 256).
+    * Unit::getEnergy now returns actual current energy (not multiplied by 256).
+    * UnitType::canAttack now returns false for overlords, dropships, and other types of units that cannot attack.
+    * Player::hasResearched now returns true for abilities that the player has researched by default, such as Scanner Sweep.
+    * Game::getFrameCount now counts from 0. So the first frame is frame 0.
+    * Game::sendText now processes most cheat codes in single player games. For example, typing Broodwar->sendText("black sheep wall") will reveal the entire map. 
+
+Bug fixes:
+
+    * Fixed a bug where Game::isVisible would crash the program when called during a replay.
+    * Fixed a bug where Unit::setRallyPosition and Unit::setRallyUnit would not execute properly.
+    * Fixed a bug where Unit::patrol would appear to change the position of the unit to the target position.
+    * Fixed a bug where Unit::isStartingAttack would always be false for certain types of units, even when they were attacking.
+    * Fixed a bug where scanner sweep (and possibly other tech types that don't need to be researched) would not work.
+    * Fixed a bug where AIModule::onFrame would be called twice on the first frame.
+    * Fixed a bug where Unit::train would not allow more than one unit to be added to the training queue.
+    * Fixed a bug where AIModule::onUnitDestroy would not be called for units loaded into dropships/shuttles/overlords when the transport unit was destroyed.
+    * Fixed UnitType::topSpeed, Unit::getVelocityX, and Unit::getVelocityY. Everything should now be in pixels per frame. 
+
+=============================================
+Changes from BWAPI Beta 2.2 to BWAPI Beta 2.3
+=============================================
+
+    * bwapi.ini file no longer accepts curly brace definitions. 
+
+The following functions have been added:
+
+    * AIModule::onUnitRenegade - called when a unit changes ownership.
+    * AIModule::onPlayerLeft - called when a player leaves the game.
+    * AIModule::onNukeDetect - called when a nuclear launch has been detected. If the target position is visible at the time of launch (or complete map information is enabled), the target position is provided.
+    * Game::restartGame - restarts the single player match.
+    * Unit::getUpgradeLevel - returns the upgrade level of the unit.
+    * Unit::getVelocityX - returns the x component of velocity in pixels per frame.
+    * Unit::getVelocityY - returns the y component of velocity in pixels per frame.
+    * Player::leftGame - returns true if the player has left the game.
+    * UnitType::upgrades - returns the set of upgrades that can affect this UnitType.
+    * UpgradeType::whatUses - returns the set of unit types that are affected by this UpgradeType. 
+
+The following functions have been renamed:
+
+    * Unit::getCurrentDirection has been renamed to Unit::getAngle 
+
+    * Player::researching has been renamed to Player::isResearching
+    * Player::researched has been renamed to Player::hasResearched
+    * Player::upgrading has been renamed to Player::isUpgrading
+    * Player::upgradeLevel has been renamed to Player::getUpgradeLevel 
+
+    * Game::drawMapBox has been renamed to Game::drawBoxMap
+    * Game::drawMouseBox has been renamed to Game::drawBoxMouse
+    * Game::drawScreenBox has been renamed to Game::drawBoxScreen 
+
+    * Game::drawMapTriangle has been renamed to Game::drawTriangleMap
+    * Game::drawMouseTriangle has been renamed to Game::drawTriangleMouse
+    * Game::drawScreenTriangle has been renamed to Game::drawTriangleScreen 
+
+    * Game::drawMapCircle has been renamed to Game::drawCircleMap
+    * Game::drawMouseCircle has been renamed to Game::drawCircleMouse
+    * Game::drawScreenCircle has been renamed to Game::drawCircleScreen 
+
+    * Game::drawMapEllipse has been renamed to Game::drawEllipseMap
+    * Game::drawMouseEllipse has been renamed to Game::drawEllipseMouse
+    * Game::drawScreenEllipse has been renamed to Game::drawEllipseScreen 
+
+    * Game::drawMapDot has been renamed to Game::drawDotMap
+    * Game::drawMouseDot has been renamed to Game::drawDotMouse
+    * Game::drawScreenDot has been renamed to Game::drawDotScreen 
+
+    * Game::drawMapLine has been renamed to Game::drawLineMap
+    * Game::drawMouseLine has been renamed to Game::drawLineMouse
+    * Game::drawScreenLine has been renamed to Game::drawLineScreen 
+
+When complete map information is disabled, the following function no longer provide information about enemy units, regardless of visibility:
+
+    * Unit::isHallucination
+    * Unit::isLoaded
+    * Unit::getTrainingQueue
+    * Unit::getTransport
+    * Unit::getLoadedUnits
+    * Unit::getScarabCount
+    * Unit::getSpiderMineCount
+    * Unit::getTech
+    * Unit::getUpgrade
+    * Unit::getRemainingResearchTime
+    * Unit::getRemainingUpgradeTime
+    * Unit::isResearching
+    * Unit::isUpgrading
+    * Unit::getRallyPosition
+    * Unit::getRallyUnit 
+
+To determine if a visible enemy unit is busy researching or upgrading, use Unit::isIdle.
+
+The following functions have changed in functionality:
+
+    * Unit::getAngle (renamed from Unit::getCurrentDirection) now returns the angle of the unit in radians.
+    * UnitType::topSpeed now returns the correct top speed of the UnitType in pixels per frame.
+    * Game::leaveGame now goes to the after-match stats screen, rather than going to the main menu.
+    * AIModule::onEnd is now called with an argument isWinner, which is true if the ai module has won the game. 
+
+Bug fixes:
+
+    * Fixed a bug where Game::drawTextMap would use screen coordinates. It now uses map coordinates as expected.
+    * Fixed a bug where attackUnit, rightClick, and other orders which take a target unit would not target the right unit in the game.
+    * Fixed a bug where Unit::isGatheringGas and Unit::isGatheringMinerals would sometimes return false, even though the unit was gathering gas/minerals.
+    * Fixed a bug where getUnits() functions would return an incomplete list of units when called from onUnitMorph, onUnitShow, or onUnitHide. 
+
+Other changes:
+
+    * Added documentation of how to draw text in different colors.
+    * Increased speed of multiplayer menus. 
+
+=============================================
+Changes from BWAPI Beta 2.1 to BWAPI Beta 2.2
+=============================================
+
+The following functions have been added:
+
+    * AIModule::onUnitShow
+    * AIModule::onUnitHide
+    * AIModule::onUnitMorph 
+
+    * Unit::getInitialType
+    * Unit::getInitialPosition
+    * Unit::getInitialTilePosition
+    * Unit::getInitialResources
+    * Unit::getInitialHitPoints 
+
+    * Game::isMultiplayer
+    * Game::isPaused 
+
+    * Game::getStaticMinerals
+    * Game::getStaticGeysers
+    * Game::getStaticNeutralUnits 
+
+    * Game::drawTextMap
+    * Game::drawTextMouse
+    * Game::drawTextScreen 
+
+    * Game::drawMapBox
+    * Game::drawMouseBox
+    * Game::drawScreenBox 
+
+    * Game::drawMapTriangle
+    * Game::drawMouseTriangle
+    * Game::drawScreenTriangle 
+
+    * Game::drawMapCircle
+    * Game::drawMouseCircle
+    * Game::drawScreenCircle 
+
+    * Game::drawMapEllipse
+    * Game::drawMouseEllipse
+    * Game::drawScreenEllipse 
+
+    * Game::drawMapDot
+    * Game::drawMouseDot
+    * Game::drawScreenDot 
+
+    * Game::drawMapLine
+    * Game::drawMouseLine
+    * Game::drawScreenLine 
+
+The following functions have changed in functionality:
+
+    * Unit::exists - now returns false for inaccessible units, even if they exist.
+    * AIModule::onUnitCreate is no longer called for invisible units when complete map information is disabled. 
+
+The following functions have been renamed:
+
+    * Game::text has been renamed to Game::drawText
+    * Game::inReplay has been renamed to Game::isReplay
+    * AIModule::onAddUnit has been renamed to AIModule::onUnitCreate
+    * AIModule::onRemoveUnit has been renamed to AIModule::onUnitDestroy 
+
+Other changes:
+
+    * BWAPI no longer crashes on replays. 
+
+=============================================
+Changes from BWAPI Beta 2 to BWAPI Beta 2.1
+=============================================
+
+  * Fixed a bug that produced phantom marines. An internal unit set in BWAPI
+    was not being reset between matches, so units that existed in a previous
+    match appeared to exist in the next game as phantom marines. Retrieving
+    information from these non existant marines and/or issuing orders to them
+    may have also caused Broodwar to crash.
+
+=============================================
+Changes from BWAPI Beta to BWAPI Beta 2
+=============================================
+
+The following functions have been added:
+
+  * Unit::isCarryingGas
+  * Unit::isCarryingMinerals
+  * Unit::isDefenseMatrixed
+  * Unit::isEnsnared
+  * Unit::isIrradiated
+  * Unit::isMaelstrommed
+  * Unit::isParasited
+  * Unit::isPlagued
+  * Unit::isStimmed
+
+  * Game::leaveGame - replaces Game::surrender and now works correctly.
+  * Game::setLocalSpeed - lets AIs increase the speed in single player games.
+
+Other changes:
+
+  * Fixed crash due to null sprite pointer in Broodwar memory
+  * Minor update of UnitType information for spells and Terran Nuclear Missile.
+  * Minor update of description text shown in Chaoslauncher text box. 
+  * Example AI Module compiles much faster due to new compile of BWTA.lib.
