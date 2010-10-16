@@ -56,8 +56,11 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   char newDescription[512];
+#ifdef NDEBUG
   sprintf_s(newDescription, 512, "Injects BWAPI.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
-  
+#elif _DEBUG
+  sprintf_s(newDescription, 512, "Injects BWAPId.dll into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
+#endif
   strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD);
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
