@@ -53,13 +53,13 @@ void AttackMoveTest::update()
     BWAssertF(unit->getOrder()==Orders::AttackMove,{fail=true;return;});
     if (thisFrame>startFrame+60)
     {
-      BWAssertF(unit->getTargetPosition().getDistance(targetPosition)<64,{Broodwar->printf("(%d,%d) != (%d,%d)",unit->getTargetPosition().x(),unit->getTargetPosition().y(),targetPosition.x(),targetPosition.y());fail=true;return;});
+      BWAssertF(unit->getTargetPosition().getDistance(targetPosition)<128,{Broodwar->printf("(%d,%d) != (%d,%d)",unit->getTargetPosition().x(),unit->getTargetPosition().y(),targetPosition.x(),targetPosition.y());fail=true;return;});
     }
   }
   else
   {
     BWAssertF(unit->isIdle() || unit->isBraking(),{fail=true;return;});
-    BWAssertF(unit->getPosition().getDistance(targetPosition)<96,Broodwar->printf("(%d,%d) != (%d,%d)",unit->getPosition().x(),unit->getPosition().y(),targetPosition.x(),targetPosition.y());{fail=true;return;});
+    BWAssertF(unit->getPosition().getDistance(targetPosition)<128,Broodwar->printf("(%d,%d) != (%d,%d)",unit->getPosition().x(),unit->getPosition().y(),targetPosition.x(),targetPosition.y());{fail=true;return;});
     if (doneFrame==-1)
       doneFrame=thisFrame;
     if (thisFrame>doneFrame+100)
