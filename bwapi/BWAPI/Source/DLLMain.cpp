@@ -256,12 +256,6 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
     // Copy data to primary turn buffer
     memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
     *BW::BWDATA_sgdwBytesInCmdQueue += length;
-    FILE *f = fopen("bwapi-bufferLog.log", "a+");
-    if ( f )
-    {
-      fprintf(f, "[%u] %u bytes\n", BWAPI::BroodwarImpl.frameCount, *BW::BWDATA_sgdwBytesInCmdQueue);
-      fclose(f);
-    }
     return;
   }
   
@@ -278,8 +272,8 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 
     // Send the turn and fill the new buffer
     BW::BWFXN_sendTurn();
-    memcpy(BW::BWDATA_TurnBuffer, buffer, length); // Originally an array index, but sgdwBytesInCmdQueue should always be 0 here
-    *BW::BWDATA_sgdwBytesInCmdQueue = length;
+    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
+    *BW::BWDATA_sgdwBytesInCmdQueue += length;
   }
   // assume no error, would fatal anyway
 }
