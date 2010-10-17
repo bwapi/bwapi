@@ -147,7 +147,7 @@
 			<Tool
 				Name="VCPreLinkEventTool"
 				Description="Creating ChaosLauncherInjector readme"
-				CommandLine="copy /Y &quot;$(SolutionDir)../Release_Binary/README&quot; &quot;$(SolutionDir)../Release_Binary/Chaoslauncher/BWAPI_ChaosLauncherInjectord.txt&quot; /A"
+				CommandLine="COPY &quot;$(SolutionDir)..\\Release_Binary\\README&quot; &quot;$(SolutionDir)..\\Release_Binary\\Chaoslauncher\\BWAPI_ChaosLauncherInjectord.txt&quot; /Y"
 			/>
 			<Tool
 				Name="VCLinkerTool"
