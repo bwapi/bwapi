@@ -434,7 +434,7 @@ namespace BWAPI
              mouse.y() >= rgn->rgnBox.top    &&
              mouse.y() <= rgn->rgnBox.bottom )
         {
-          drawTextMap(center.x, center.y, "%p\n%p\n%p\n%p", rgn->unk_8, rgn->properties, rgn->unk_24, rgn->unk_28);
+          drawTextMap(center.x, center.y, "%u", i);
           drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
         }
         //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
@@ -452,12 +452,33 @@ namespace BWAPI
         }
       }
 
+      BW::badpath tBuff[128];
+      u32         tBuffSize = 0;
+
       BW::badpath *rgnStuff = BW::BWDATA_SAIPathing->badPaths;
       for ( unsigned int i = 0; rgnStuff[i].unk_00 != 0 && rgnStuff[i].rgn1 != 0 && rgnStuff[i].rgn2 != 0; ++i )
       {
         BW::Position rgn1 = getRegion(rgnStuff[i].rgn1)->getCenter();
         BW::Position rgn2 = getRegion(rgnStuff[i].rgn2)->getCenter();
-        drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Grey);
+        if ( mouse.x() >= (rgn1.x + rgn2.x)/2 - 32 &&
+             mouse.x() <= (rgn1.x + rgn2.x)/2 + 32 &&
+             mouse.y() >= (rgn1.y + rgn2.y)/2 - 32 &&
+             mouse.y() <= (rgn1.y + rgn2.y)/2 + 32 &&
+             tBuffSize < 128 )
+        {
+          drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Blue);
+          tBuff[tBuffSize] = rgnStuff[i];
+          ++tBuffSize;
+        }
+        else
+        {
+          drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Grey);
+        }
+      }
+
+      for ( int t = 0; t < tBuffSize; ++t )
+      {
+        drawTextMouse(24, 0 + t * 16, "%u->%u: 0x%04X", tBuff[t].rgn1, tBuff[t].rgn2, tBuff[t].unk_00);
       }
 
       // iterate contours
