@@ -26,8 +26,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Copying include files to Developer folder"
-				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -65,8 +63,8 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				Description=""
-				CommandLine=""
+				Description="Copying include files to final release"
+				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -102,7 +100,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -138,8 +135,8 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				Description=""
-				CommandLine=""
+				Description="Copying include files to final release"
+				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCLibrarianTool"

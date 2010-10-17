@@ -46,9 +46,8 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -62,6 +61,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\AI\$(ProjectName).dll"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"
@@ -121,7 +121,6 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DEVAIMODULE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
