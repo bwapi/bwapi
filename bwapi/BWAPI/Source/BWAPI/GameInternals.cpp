@@ -150,10 +150,9 @@ namespace BWAPI
     this->shapes.clear();
 
     //menu dialog code
-#ifdef _DEBUG
     if ( myDlg )
       myDlg->update();
-#endif
+
     // Compute frame rate
     accumulatedFrames++;
     DWORD currentTickCount = GetTickCount();
@@ -391,14 +390,50 @@ namespace BWAPI
     if (!this->isPaused())
       this->frameCount++;
 
+#ifdef _DEBUG
+    // unitdebug
+    if ( unitDebug )
+    {
+      // selected units
+      foreach( Unit *_u, selectedUnitSet )
+      {
+        if ( !_u )
+          continue;
+
+        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
+        if ( !u )
+          continue;
+
+        //drawTextMap(u->position.x, u->position.y, "%u", u->unknown_timer_0x08D);
+      }
+
+      // all units
+      foreach( UnitImpl *_u, aliveUnits )
+      {
+        if ( !_u )
+          continue;
+
+        BW::Unit *u = _u->getOriginalRawData;
+        if ( !u )
+          continue;
+
+        //drawTextMap(u->position.x, u->position.y, "%p", u->stateFlags );
+
+        //if ( u->unitType.isWorker() && u->worker.upgradeLevel )
+        //  printf("u->worker.upgradeLevel: %p", u->worker.upgradeLevel );
+
+      }
+    }
+
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
-      BWAPI::Position mouse = getMousePosition() + getScreenPosition();
-      
-      for ( int y = 0; y < this->mapHeight(); y++ )
-        for ( int x = 0; x < this->mapWidth(); x++ )
+      BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
+      BWAPI::Position scrPos = getScreenPosition();
+
+      for ( int y = scrPos.y()/32-1; y < (scrPos.y()+480)/32+1; ++y )
+        for ( int x = scrPos.x()/32-1; x < (scrPos.x()+640)/32+1; ++x )
           for ( int i = 0; i < 32; i += 4 )
           {
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
@@ -439,6 +474,15 @@ namespace BWAPI
       for ( unsigned int i = 1; i < BW::BWDATA_SAIPathing->regionCount && i < 5000; ++i )
       {
         BW::region *rgn = getRegion(i);
+
+        if ( rgn->unk_8 != 0 )
+          printf("[%u] unk_8 = 0x%p", i, rgn->unk_8);
+
+        if ( rgn->unk_24 != 0 )
+          printf("[%u] unk_24 = 0x%p", i, rgn->unk_24);
+
+        if ( rgn->unk_28 != 0 )
+          printf("[%u] unk_28 = 0x%p", i, rgn->unk_28);
 
         BW::Position center = rgn->getCenter();
         if ( mouse.x() >= rgn->rgnBox.left   &&
@@ -488,7 +532,7 @@ namespace BWAPI
         }
       }
 
-      for ( int t = 0; t < tBuffSize; ++t )
+      for ( unsigned int t = 0; t < tBuffSize; ++t )
       {
         for ( int i = 0; i < 4; ++i )
         {
@@ -624,7 +668,7 @@ namespace BWAPI
       }
 */
     }
-
+#endif
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -1235,6 +1279,12 @@ namespace BWAPI
     else if (parsed[0] == "/pathdebug")
     {
       pathDebug = !pathDebug;
+      printf("pathdebug %s", pathDebug ? "ENABLED" : "DISABLED");
+    }
+    else if (parsed[0] == "/unitdebug")
+    {
+      unitDebug = !unitDebug;
+      printf("unitdebug %s", unitDebug ? "ENABLED" : "DISABLED");
     }
 #endif
     else
@@ -1249,13 +1299,13 @@ namespace BWAPI
     //this is called at the end of every match
     if (this->frameCount == -1)
       return;
-#ifdef _DEBUG
+
     if ( myDlg )
     {
       delete myDlg;
       myDlg = NULL;
     }
-#endif
+
     if ( !this->calledOnEnd )
     {
       bool win = true;

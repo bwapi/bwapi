@@ -365,6 +365,7 @@ namespace BWAPI
       int  textSize;
       bool hasLatCom;
       bool pathDebug;
+      bool unitDebug;
       bool externalModuleConnected;
   };
   /**
