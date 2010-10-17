@@ -61,6 +61,14 @@ void DevAIModule::onFrame()
     overflow = false;
   }
 
+  for each ( Unit *u in Broodwar->getNeutralUnits() )
+  {
+    if ( u->getType().isResourceContainer() )
+    {
+      Broodwar->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%u", u->getResourceGroup() );
+    }
+  }
+
   for each ( Unit *u in Broodwar->self()->getUnits() )
   {
     BWAPI::UnitType uType = u->getType();
