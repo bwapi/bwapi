@@ -239,7 +239,7 @@ namespace BW
       Vaspene_Sac2                  = 0xE1,
       Vespene_Tank1                 = 0xE2,
       Vespene_Tank2                 = 0xE3,
-      None                          = 0XE4, // Not actually unit ID from here on out
+      None                          = 0XE4 // Not actually unit ID from here on out
     };
   };
 };

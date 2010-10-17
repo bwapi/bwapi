@@ -124,7 +124,7 @@ namespace BWAPI
           _getType == UnitTypes::Terran_Refinery          ||
           _getType == UnitTypes::Protoss_Assimilator      ||
           _getType == UnitTypes::Zerg_Extractor)
-        _getResources = getOriginalRawData->building.resource.resourceContained;
+        _getResources = getOriginalRawData->building.resource.resourceCount;
 
       getBuildQueueSlot = getOriginalRawData->buildQueueSlot; //getBuildQueueSlot
       getBuildQueue = (BW::UnitType*)getOriginalRawData->buildQueue;  //getBuildQueue
@@ -446,7 +446,7 @@ namespace BWAPI
           self->trainingQueue[0]   = BW::UnitID::Terran_NuclearMissile;
           self->trainingQueueCount = 1;
         }
-        self->hasNuke = (getOriginalRawData->hasNuke != 0);
+        self->hasNuke = (getOriginalRawData->building.silo.hasNuke != 0);
         break;
       case BW::UnitID::Zerg_Hatchery:
       case BW::UnitID::Zerg_Lair:
