@@ -179,8 +179,12 @@ namespace BWAPI
         events.clear();
         this->calledOnEnd = true;
         this->onGameEnd();
+        this->inGame = false;
+        events.push_back(Event::MenuFrame());
+        this->server.update();
         this->onStartCalled = false;
         this->calledOnEnd = false;
+        this->inGame = true;
       }
     }
 
