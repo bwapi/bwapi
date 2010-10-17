@@ -48,7 +48,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -58,11 +58,13 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				Description="Copy project to final release"
+				CommandLine="XCOPY &quot;$(ProjectDir)*.h&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\AI\$(ProjectName).dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"
@@ -134,6 +136,8 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				Description="Copy project to final release"
+				CommandLine="XCOPY &quot;$(ProjectDir)*.h&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCLinkerTool"
