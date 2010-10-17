@@ -393,6 +393,14 @@ namespace BWAPI
       setTextSize(0);
       BWAPI::Position mouse = getMousePosition() + getScreenPosition();
       
+      for ( int y = 0; y < this->mapHeight(); y++ )
+        for ( int x = 0; x < this->mapWidth(); x++ )
+          for ( int i = 0; i < 32; i += 4 )
+          {
+            drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
+            drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
+          }
+
       // iterate tile region owners
       for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
       {
@@ -456,7 +464,7 @@ namespace BWAPI
       u32         tBuffSize = 0;
 
       BW::badpath *rgnStuff = BW::BWDATA_SAIPathing->badPaths;
-      for ( unsigned int i = 0; rgnStuff[i].unk_00 != 0 && rgnStuff[i].rgn1 != 0 && rgnStuff[i].rgn2 != 0; ++i )
+      for ( unsigned int i = 0; rgnStuff[i].minitileMask != 0 && rgnStuff[i].rgn1 != 0 && rgnStuff[i].rgn2 != 0; ++i )
       {
         BW::Position rgn1 = getRegion(rgnStuff[i].rgn1)->getCenter();
         BW::Position rgn2 = getRegion(rgnStuff[i].rgn2)->getCenter();
@@ -478,7 +486,14 @@ namespace BWAPI
 
       for ( int t = 0; t < tBuffSize; ++t )
       {
-        drawTextMouse(24, 0 + t * 16, "%u->%u: 0x%04X", tBuff[t].rgn1, tBuff[t].rgn2, tBuff[t].unk_00);
+        for ( int i = 0; i < 4; ++i )
+        {
+          drawBoxMouse(24 + t*32, i*6, 29 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+0)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
+          drawBoxMouse(30 + t*32, i*6, 35 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+1)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
+          drawBoxMouse(36 + t*32, i*6, 41 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+2)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
+          drawBoxMouse(42 + t*32, i*6, 47 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+3)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
+        }
+        //drawTextMouse(24, 0 + t * 16, "%u->%u: 0x%04X", tBuff[t].rgn1, tBuff[t].rgn2, tBuff[t].unk_00);
       }
 
       // iterate contours
@@ -1971,20 +1986,6 @@ namespace BWAPI
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)
   {
-    if ( _isInGame() && _isSinglePlayer() && !externalModuleConnected )
-    {
-      BW::CheatFlags::Enum cheatID = BW::getCheatFlag(text);
-      if (cheatID != BW::CheatFlags::None)
-      {
-        this->cheatFlags ^= cheatID;
-        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
-        if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
-            cheatID == BW::CheatFlags::BreatheDeep ||
-            cheatID == BW::CheatFlags::WhatsMineIsMine ||
-            cheatID == BW::CheatFlags::SomethingForNothing )
-          this->cheatFlags ^= cheatID;
-      }
-    }
     if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
     {
       if ( externalModuleConnected )
