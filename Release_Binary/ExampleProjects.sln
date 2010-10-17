@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIClient", "ExampleAIClient\ExampleAIClient.vcproj", "{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIModuleLoader", "AIModuleLoader\AIModuleLoader.vcproj", "{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIModule", "ExampleAIModule\ExampleAIModule.vcproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}.Debug|Win32.Build.0 = Debug|Win32
+		{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}.Release|Win32.ActiveCfg = Release|Win32
+		{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}.Release|Win32.Build.0 = Release|Win32
+		{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}.Debug|Win32.Build.0 = Debug|Win32
+		{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}.Release|Win32.ActiveCfg = Release|Win32
+		{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}.Release|Win32.Build.0 = Release|Win32
+		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Debug|Win32.Build.0 = Debug|Win32
+		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.ActiveCfg = Release|Win32
+		{2E63AE74-758A-4607-9DE4-D28E814A6E13}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
