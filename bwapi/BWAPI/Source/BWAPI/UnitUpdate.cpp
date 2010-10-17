@@ -92,6 +92,23 @@ namespace BWAPI
            uId == BW::UnitID::Resource_MineralPatch3)
         _getType = UnitTypes::Resource_Mineral_Field;
 
+      getBuildQueueSlot = getOriginalRawData->buildQueueSlot; //getBuildQueueSlot
+      getBuildQueue = (BW::UnitType*)getOriginalRawData->buildQueue;  //getBuildQueue
+
+      if (_getType.isBuilding())
+      {
+        if (getOriginalRawData->orderID == BW::OrderID::ZergBirth ||
+            getOriginalRawData->orderID == BW::OrderID::ZergBuildingMorph ||
+            getOriginalRawData->orderID == BW::OrderID::ZergUnitMorph ||
+            getOriginalRawData->orderID == BW::OrderID::ZergBuildSelf)
+        {
+          //if we have a morphing building, set unit type to the build type (what it is morphing to)
+          u16 uId2 = getBuildQueue[(getBuildQueueSlot % 5)].id;
+          if (uId2 != BW::UnitID::None)
+            _getType = UnitType(uId2);
+        }
+      }
+
       //------------------------------------------------------------------------------------------------------
       //_getTransport
       _getTransport = NULL;
@@ -126,8 +143,6 @@ namespace BWAPI
           _getType == UnitTypes::Zerg_Extractor)
         _getResources = getOriginalRawData->building.resource.resourceCount;
 
-      getBuildQueueSlot = getOriginalRawData->buildQueueSlot; //getBuildQueueSlot
-      getBuildQueue = (BW::UnitType*)getOriginalRawData->buildQueue;  //getBuildQueue
       hasEmptyBuildQueue = getBuildQueueSlot < 5 ? (getBuildQueue[getBuildQueueSlot] == BW::UnitID::None) : false;  //hasEmptyBuildQueue
       _isCompleted = getOriginalRawData->status.getBit(BW::StatusFlags::Completed); //_isCompleted
     }

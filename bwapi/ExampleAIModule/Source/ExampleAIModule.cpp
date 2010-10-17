@@ -170,6 +170,7 @@ void ExampleAIModule::onSendText(std::string text)
   } */ else
   {
     Broodwar->printf("You typed '%s'!",text.c_str());
+    Broodwar->sendText(text.c_str());
   }
 }
 
