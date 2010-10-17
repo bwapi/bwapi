@@ -209,7 +209,9 @@ namespace BWAPI
       virtual bool hasPath(Position target);
       virtual int  getLastOrderFrame();
       virtual void setClientInfo(void* clientinfo);
-      virtual void* getClientInfo() const;
+      virtual void *getClientInfo() const;
+
+      virtual int getResourceGroup();
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,

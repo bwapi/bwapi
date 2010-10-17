@@ -648,5 +648,8 @@ namespace BWAPI
 
       /** Returns the unit's custom client info. The client is responsible for deallocation. */
       virtual void* getClientInfo() const = 0;
+
+      /** Retrieves the group ID of a resource. Can be used to identify which resources belong to an expansion. */
+      virtual int getResourceGroup() = 0;
   };
 }

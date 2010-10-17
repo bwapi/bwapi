@@ -1003,4 +1003,11 @@ namespace BWAPI
   {
     return clientInfo;
   }
+  //------------------------------------------ GET RESOURCE GROUP --------------------------------------------
+  int UnitImpl::getResourceGroup()
+  {
+    if ( this->getType().isResourceContainer() )
+      return this->getOriginalRawData->building.resource.resourceGroup;
+    return 0;
+  }
 };

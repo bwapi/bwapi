@@ -1011,4 +1011,10 @@ namespace BWAPI
   {
     return clientInfo;
   }
+  //------------------------------------------- GET RESOURCE GROUP -------------------------------------------
+  int UnitImpl::getResourceGroup()
+  {
+    // wut
+    return 0;
+  }
 }
