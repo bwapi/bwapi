@@ -1486,17 +1486,14 @@ namespace BWAPI
 
     if ( isHidden ) //usually means: is inside another unit?
     {
-      bool _isCompleted = i->getOriginalRawData->status.getBit(BW::StatusFlags::Completed);
       if (_getType == UnitTypes::Unknown)
         return false;//skip subunits if they are in this list
-
-      if (!_isCompleted)
-        return false; //return false if the internal unit is incomplete
 
       if (_getType == UnitTypes::Protoss_Scarab ||
           _getType == UnitTypes::Terran_Vulture_Spider_Mine ||
           _getType == UnitTypes::Terran_Nuclear_Missile)
         return false;
+
     }
     return true;
   }
