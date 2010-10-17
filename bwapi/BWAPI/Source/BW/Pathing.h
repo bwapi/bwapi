@@ -93,7 +93,8 @@ namespace BW
 
   struct badpath
   {
-    u16 unk_00;
+    u16 minitileMask; // 16 minitiles per tile corresponds to 16 bits;
+                      // set bits are unwalkable
     u16 rgn1;
     u16 rgn2;
   };
