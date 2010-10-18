@@ -206,6 +206,7 @@ namespace BWAPI
       virtual bool useTech(TechType tech);
       virtual bool useTech(TechType tech, Position target);
       virtual bool useTech(TechType tech, Unit* target);
+
       virtual bool hasPath(Position target);
       virtual int  getLastOrderFrame();
       virtual void setClientInfo(void* clientinfo);
@@ -274,7 +275,7 @@ namespace BWAPI
 
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
-      void make(UnitType type1);
+      bool make(UnitType type1);
     private:
 
       /** Orders to select this unit (previous selection will be lost. */

@@ -682,7 +682,8 @@ namespace BWAPI
         return false;
       }
 
-      if ( type == UnitTypes::Zerg_Nydus_Canal && builder->getType() == UnitTypes::Zerg_Nydus_Canal )
+      BWAPI::UnitType builderType = builder->getType();
+      if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
       {
         if ( !builder->isCompleted() )
         {
@@ -697,16 +698,26 @@ namespace BWAPI
         return true;
       }
 
-
       /* Check if this unit can actually build the unit type */
-      if ( builder->getType() != type.whatBuilds().first )
+      if ( type.whatBuilds().first == UnitTypes::Zerg_Larva &&
+           ( builderType == UnitTypes::Zerg_Hatchery ||
+             builderType == UnitTypes::Zerg_Lair     ||
+             builderType == UnitTypes::Zerg_Hive ) )
+      {
+        if ( builder->getLarva().size() == 0 )
+        {
+          this->setLastError(Errors::Unit_Does_Not_Exist);
+          return false;
+        }
+      }
+      else if ( builderType != type.whatBuilds().first )
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;
       }
 
       /* Carrier space */
-      if ( builder->getType() == UnitTypes::Protoss_Carrier )
+      if ( builderType == UnitTypes::Protoss_Carrier )
       {
         int max_amt = 4;
         if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
@@ -719,7 +730,7 @@ namespace BWAPI
       }
 
       /* Reaver Space */
-      if ( builder->getType() == UnitTypes::Protoss_Reaver )
+      if ( builderType == UnitTypes::Protoss_Reaver )
       {
         int max_amt = 5;
         if (self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
@@ -730,7 +741,7 @@ namespace BWAPI
           return false;
         }
       }
-    }
+    } // builder
 
     /* Check if player has enough minerals */
     if (self()->minerals() < type.mineralPrice())
