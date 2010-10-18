@@ -860,6 +860,10 @@ namespace BWAPI
     }
     return BroodwarImpl.setLastError(Errors::Out_Of_Range);
   }
+  bool UnitImpl::hasPath(Unit *target)
+  {
+    return hasPath(target->getPosition());
+  }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {

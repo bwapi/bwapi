@@ -41,6 +41,7 @@ namespace BWAPI
       virtual double getDistance(Unit* target) const;
       virtual double getDistance(Position target) const;
       virtual bool   hasPath(Position target);
+      virtual bool   hasPath(Unit *target);
       virtual int    getLastOrderFrame();
       virtual int    getUpgradeLevel(UpgradeType upgrade) const;
 
