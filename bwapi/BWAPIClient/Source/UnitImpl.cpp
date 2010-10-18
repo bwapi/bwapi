@@ -193,6 +193,8 @@ namespace BWAPI
   }
   bool UnitImpl::hasPath(Unit *target)
   {
+    if ( !target )
+      return false;
     return hasPath(target->getPosition()); //todo: implement
   }
   int UnitImpl::getLastOrderFrame()
