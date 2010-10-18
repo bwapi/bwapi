@@ -221,20 +221,35 @@ namespace BWAPI
     return true;
   }
   //---------------------------------------------- MAKE UNIT -------------------------------------------------
-  void UnitImpl::make(UnitType type1)
+  bool UnitImpl::make(UnitType type1)
   {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+    checkOwnership();
+    if ( !Broodwar->canMake(this,type1) )
+      return false;
+
+    if ( this->isConstructing() || !this->isCompleted() )
+    {
+      BroodwarImpl.setLastError(Errors::Unit_Busy);
+      return false;
+    }
+
     UnitType thisType = this->getType();
     BW::UnitType maketype((u16)type1.getID());
 
-    if ( !type1.isBuilding() )
+    if ( !type1.isBuilding() ) // UNITS
     {
-      switch ( self->type )
+      switch ( this->_getType.getID() )
       {
       case BW::UnitID::Zerg_Larva:      // MAKE ZERG UNIT NORMAL
       case BW::UnitID::Zerg_Mutalisk:
       case BW::UnitID::Zerg_Hydralisk:
+        this->orderSelect();
         QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(maketype), 3);
-        break;
+        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type1)));
+        this->lastOrderFrame = BroodwarImpl.frameCount;
+        return true;
       case BW::UnitID::Zerg_Hatchery:     // MAKE ZERG UNIT FROM HATCHERY
       case BW::UnitID::Zerg_Lair:
       case BW::UnitID::Zerg_Hive:
@@ -243,17 +258,34 @@ namespace BWAPI
           UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
           larva->orderSelect();
           QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(maketype), 3);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type1)));
+          this->lastOrderFrame = BroodwarImpl.frameCount;
+          return true;
         }
         break;
       case BW::UnitID::Protoss_Carrier:         // MAKE INTERCEPTOR/SCARAB
       case BW::UnitID::Protoss_Hero_Gantrithor:
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Warbringer:
+        this->orderSelect();
         QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
-        break;
+        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(this,type1)));
+        this->lastOrderFrame = BroodwarImpl.frameCount;
+        return true;
+      default:                                  // TRAIN UNITS
+        if ( this->isLifted() )
+        {
+          BroodwarImpl.setLastError(Errors::Unit_Busy);
+          return false;
+        }
+        this->orderSelect();
+        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(maketype), 3);
+        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(this,type1)));
+        this->lastOrderFrame = BroodwarImpl.frameCount;
+        return true;
       } // type switch      
     } // units
-    else
+    else // BUILDINGS
     {
       if ( type1.isAddon() && type1.whatBuilds().first == thisType )            // MAKE ADDON
       {
@@ -261,116 +293,41 @@ namespace BWAPI
         target.makeValid();
         this->orderSelect();
         QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), maketype), sizeof(BW::Orders::MakeAddon));
+        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
+        this->lastOrderFrame = BroodwarImpl.frameCount;
+        return true;
+      }
+      else if ( type1.getRace() == BWAPI::Races::Zerg )    // BUILDING MORPH
+      {
+        this->orderSelect();
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(maketype), 3);
+        BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type1)));
+        this->lastOrderFrame = BroodwarImpl.frameCount;
+        return true;
+      }
+      else
+      {
+        BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+        return false;
       }
     } // buildings
-
+    BroodwarImpl.setLastError(Errors::Unknown);
+    return false;
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool UnitImpl::buildAddon(UnitType type1)
   {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canMake(this,type1))
-      return false;
-
-    if (!type1.isAddon())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (this->isConstructing() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-    TilePosition target(getTilePosition().x()+4,getTilePosition().y()+1);
-    target.makeValid();
-    BW::UnitType type((u16)type1.getID());
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
-    return true;
+    return make(type1);
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type1)
   {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canMake(this,type1))
-      return false;
-
-    if (type1.isBuilding())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (this->isLifted() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-
-    BW::UnitType type((u16)type1.getID());
-    this->orderSelect();
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(this,type1)));
-    switch ( this->_getType.getID() )
-    {
-    case BW::UnitID::Zerg_Larva:
-    case BW::UnitID::Zerg_Mutalisk:
-    case BW::UnitID::Zerg_Hydralisk:
-      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(type), 3);
-      break;
-    case BW::UnitID::Zerg_Hatchery:
-    case BW::UnitID::Zerg_Lair:
-    case BW::UnitID::Zerg_Spire:
-    case BW::UnitID::Zerg_CreepColony:
-      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(type), 3);
-      break;
-    case BW::UnitID::Protoss_Carrier:
-    case BW::UnitID::Protoss_Hero_Gantrithor:
-    case BW::UnitID::Protoss_Reaver:
-    case BW::UnitID::Protoss_Hero_Warbringer:
-      QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
-      break;
-    default:
-      QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(type), 3);
-      break;
-    }
-    this->lastOrderFrame = BroodwarImpl.frameCount;
-    return true;
+    return make(type1);
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if (!Broodwar->canMake(this,type))
-      return false;
-
-    if (type.isBuilding() != this->getType().isBuilding())
-    {
-      BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      return false;
-    }
-    if (!this->isIdle() || !this->isCompleted())
-    {
-      BroodwarImpl.setLastError(Errors::Unit_Busy);
-      return false;
-    }
-
-    this->orderSelect();
-    BW::UnitType rawtype((u16)type.getID());
-    if(type.isBuilding())
-      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(rawtype), sizeof(BW::Orders::BuildingMorph));
-    else
-      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
-    return true;
+    return make(type);
   }
   //--------------------------------------------- RESEARCH ---------------------------------------------------
   bool UnitImpl::research(TechType tech)
