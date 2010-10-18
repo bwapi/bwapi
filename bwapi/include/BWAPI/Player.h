@@ -9,6 +9,7 @@
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Client/PlayerData.h>
+#include <BWAPI/Color.h>
 namespace BWAPI
 {
   class Unit;
@@ -123,5 +124,11 @@ namespace BWAPI
 
       /** Returns the max energy of the given unit type, taking into account upgrades */
       virtual int maxEnergy(UnitType unit) const = 0;
+
+      /** Returns the color of the player for drawing */
+      virtual BWAPI::Color getColor() const = 0;
+
+      /** Returns the color of the player for text messages */
+      virtual int getTextColor() const = 0;
   };
 };

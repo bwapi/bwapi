@@ -887,7 +887,7 @@ namespace BWAPI
       }
       else
       {
-        printf("\x07" "%s:" "\x02" " %s", this->BWAPIPlayer->getName().c_str(), buffer);
+        printf("%c%s: %c%s", this->BWAPIPlayer->getTextColor(), this->BWAPIPlayer->getName().c_str(), 0x07, buffer);
       }
       return;
     }

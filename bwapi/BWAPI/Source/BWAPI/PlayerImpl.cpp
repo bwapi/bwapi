@@ -28,6 +28,58 @@ namespace BWAPI
       self->deadUnitCount[i]      = 0;
       self->killedUnitCount[i]    = 0;
     }
+
+    if ( index < 12 )
+    {
+      self->color = BW::BWDATA_PlayerColors[index];
+      switch ( BW::BWDATA_PlayerColors[index] )
+      {
+      case 111: // red
+        self->colorByte = 0x08;
+        break;
+      case 165: // blue
+        self->colorByte = 0x0E;
+        break;
+      case 159: // teal
+        self->colorByte = 0x0F;
+        break;
+      case 164: // purp
+        self->colorByte = 0x10;
+        break;
+      case 156: // oj
+        self->colorByte = 0x11;
+        break;
+      case 19:  // brown
+        self->colorByte = 0x15;
+        break;
+      case 84:  // white
+        self->colorByte = 0x16;
+        break;
+      case 135: // yellow
+        self->colorByte = 0x17;
+        break;
+      case 185: // green p9
+        self->colorByte = 0x18;
+        break;
+      case 136: // p10
+        self->colorByte = 0x19;
+        break;
+      case 134: // p11
+        self->colorByte = 0x1B;
+        break;
+      case 51:  // p12
+        self->colorByte = 0x1C;
+        break;
+      default:
+        self->colorByte = 2;
+        break;
+      }
+    }
+    else
+    {
+      self->color     = 0;
+      self->colorByte = 0x02;
+    }
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   PlayerImpl::~PlayerImpl()
@@ -323,6 +375,57 @@ namespace BWAPI
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
+    if ( index < 12 )
+    {
+      self->color = BW::BWDATA_PlayerColors[index];
+      switch ( BW::BWDATA_PlayerColors[index] )
+      {
+      case 111: // red
+        self->colorByte = 0x08;
+        break;
+      case 165: // blue
+        self->colorByte = 0x0E;
+        break;
+      case 159: // teal
+        self->colorByte = 0x0F;
+        break;
+      case 164: // purp
+        self->colorByte = 0x10;
+        break;
+      case 156: // oj
+        self->colorByte = 0x11;
+        break;
+      case 19:  // brown
+        self->colorByte = 0x15;
+        break;
+      case 84:  // white
+        self->colorByte = 0x16;
+        break;
+      case 135: // yellow
+        self->colorByte = 0x17;
+        break;
+      case 185: // green p9
+        self->colorByte = 0x18;
+        break;
+      case 136: // p10
+        self->colorByte = 0x19;
+        break;
+      case 134: // p11
+        self->colorByte = 0x1B;
+        break;
+      case 51:  // p12
+        self->colorByte = 0x1C;
+        break;
+      default:
+        self->colorByte = 2;
+        break;
+      }
+    }
+    else
+    {
+      self->color     = 0;
+      self->colorByte = 0x02;
+    }
     if (this->isNeutral() || (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)))
     {
       self->minerals           = 0;
@@ -440,4 +543,13 @@ namespace BWAPI
            BW::BWDATA_Supplies->race[BW::Race::Protoss].used[index]      != 0;
   }
   //----------------------------------------------------------------------------------------------------------
+  BWAPI::Color PlayerImpl::getColor() const
+  {
+    return BWAPI::Color(self->color);
+  }
+  int PlayerImpl::getTextColor() const
+  {
+    return self->colorByte;
+  }
+
 };
