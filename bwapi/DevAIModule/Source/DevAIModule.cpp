@@ -6,7 +6,8 @@ void DevAIModule::onStart()
 {
   Broodwar->enableFlag(Flag::UserInput);
   Broodwar->printf("%s", Broodwar->mapHash().c_str());
-  overflow = false;
+  scout = NULL;
+  Broodwar->setLatCom(false);
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -18,59 +19,17 @@ void DevAIModule::onFrame()
   if (Broodwar->isReplay())
     return;
 
-  if ( overflow )
-  {
-    Broodwar->printf("<-- Begin overflow test");
-
-    Broodwar->canBuildHere(NULL, TilePosition(), NULL);
-    Broodwar->canMake(NULL, NULL);
-    Broodwar->canResearch(NULL, NULL);
-    Broodwar->canUpgrade(NULL, NULL);
-    Broodwar->changeRace(NULL);
-    Broodwar->hasCreep(333, 666);
-    Broodwar->hasPower(333, 666, 333, 666);
-    Broodwar->pingMinimap(22, 44);
-
-    Broodwar->self()->allUnitCount(NULL);
-    Broodwar->self()->allUnitCount(9999999);
-    Broodwar->self()->completedUnitCount(NULL);
-    Broodwar->self()->completedUnitCount(9999999);
-    Broodwar->self()->deadUnitCount(NULL);
-    Broodwar->self()->deadUnitCount(9999999);
-    Broodwar->self()->getUpgradeLevel(NULL);
-    Broodwar->self()->getUpgradeLevel(9999999);
-    Broodwar->self()->hasResearched(NULL);
-    Broodwar->self()->hasResearched(9999999);
-    Broodwar->self()->incompleteUnitCount(NULL);
-    Broodwar->self()->incompleteUnitCount(9999999);
-    Broodwar->self()->isAlly(NULL);
-    Broodwar->self()->isEnemy(NULL);
-    Broodwar->self()->isResearching(NULL);
-    Broodwar->self()->isResearching(9999999);
-    Broodwar->self()->isUpgrading(NULL);
-    Broodwar->self()->isUpgrading(9999999);
-    Broodwar->self()->killedUnitCount(NULL);
-    Broodwar->self()->killedUnitCount(9999999);
-    Broodwar->self()->maxEnergy(NULL);
-    Broodwar->self()->maxEnergy(9999999);
-    Broodwar->self()->supplyTotal(NULL);
-    Broodwar->self()->supplyTotal(9999999);
-    Broodwar->self()->supplyUsed(NULL);
-    Broodwar->self()->supplyUsed(9999999);
-    Broodwar->printf("End overflow test -->");
-    overflow = false;
-  }
-
-  for each ( Unit *u in Broodwar->getNeutralUnits() )
-  {
-    if ( u->getType().isResourceContainer() )
-    {
-      Broodwar->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%u", u->getResourceGroup() );
-    }
-  }
+  int thisOrderFrame = Broodwar->getFrameCount();
 
   for each ( Unit *u in Broodwar->self()->getUnits() )
   {
+    if ( u == scout )
+      continue;
+
+    if ( u->getLastOrderFrame() + 10 >= thisOrderFrame )
+      continue;
+
+    // make workers
     BWAPI::UnitType uType = u->getType();
     if ( uType.isResourceDepot() && u->isIdle() )
     {
@@ -78,19 +37,11 @@ void DevAIModule::onFrame()
       if ( Broodwar->canMake(NULL, workerType) )
       {
         u->train(workerType);
+        continue;
       }
     }
 
-    if ( uType == BWAPI::UnitTypes::Zerg_Nydus_Canal )
-    {
-      BWAPI::TilePosition offsetPos(u->getTilePosition().x() + 2, u->getTilePosition().y());
-      //Broodwar->printf("%s", u->isCompleted() ? "YES" : "NO");
-      u->build( offsetPos, BWAPI::UnitTypes::Zerg_Nydus_Canal);
-      //if ( Broodwar->getLastError() != BWAPI::Errors::None )
-      //  Broodwar->printf("%s", Broodwar->getLastError().toString().c_str());
-      continue;
-    }
-
+    // make supplies
     if ( Broodwar->self()->supplyTotal(uType.getRace()) <= Broodwar->self()->supplyUsed(uType.getRace()) )
     {
       UnitType supplyType = uType.getRace().getSupplyProvider();
@@ -99,6 +50,7 @@ void DevAIModule::onFrame()
         if ( uType == UnitTypes::Zerg_Larva )
         {
           u->morph(supplyType);
+          continue;
         }
         else
         {
@@ -107,22 +59,47 @@ void DevAIModule::onFrame()
       }
     }
 
-    if ( uType.isWorker() && u->isIdle() )
+    // harvest resources
+    if ( uType.isWorker() )
     {
-      Unit *best = NULL;
-      for each ( Unit *r in Broodwar->getNeutralUnits() )
+      if ( (!scout || !scout->exists()) && !u->isCarryingGas() && !u->isCarryingMinerals() )
       {
-        if ( r->getType() == UnitTypes::Resource_Mineral_Field )
+        scout = u;
+        continue;
+      }
+      else if ( u->isIdle() )
+      {
+        Unit *best = NULL;
+        for each ( Unit *r in Broodwar->getNeutralUnits() )
         {
-          if ( u->getDistance(r) < u->getDistance(best) && !r->isBeingGathered() )
-            best = r;
+          if ( r->getType() == UnitTypes::Resource_Mineral_Field &&
+               u->getDistance(r) < u->getDistance(best) &&
+               !r->isBeingGathered() )
+              best = r;
+        }
+        if ( best )
+        {
+          u->gather(best);
+          continue;
         }
       }
-      if ( best )
-        u->gather(best);
     }
-  }
 
+  } // for each
+
+
+  // scout
+  if ( scout && scout->exists() && thisOrderFrame > scout->getLastOrderFrame() + 80 )
+  {
+    bool done = false;
+    for ( int y = 0; y < Broodwar->mapWidth() && !done; ++y )
+      for ( int x = 0; x < Broodwar->mapHeight() && !done; ++x )
+        if ( !Broodwar->isExplored(x, y) && scout->hasPath(BWAPI::TilePosition(x,y)) )
+        {
+          scout->move(BWAPI::TilePosition(x,y));
+          done = true;
+        }
+  }
 }
 
 void DevAIModule::onSendText(std::string text)
@@ -130,10 +107,6 @@ void DevAIModule::onSendText(std::string text)
   if ( text == "/ver" )
   {
     Broodwar->printf("Heinermann DevTest");
-  }
-  else if ( text == "/overflow" )
-  {
-    overflow = true;
   }
   else
   {
