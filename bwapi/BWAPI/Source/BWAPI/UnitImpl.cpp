@@ -862,6 +862,8 @@ namespace BWAPI
   }
   bool UnitImpl::hasPath(Unit *target)
   {
+    if ( !target )
+      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
     return hasPath(target->getPosition());
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
