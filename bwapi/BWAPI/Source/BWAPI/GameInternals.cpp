@@ -76,6 +76,8 @@ namespace BWAPI
       , endTick(0)
       , hasLatCom(true)
       , pathDebug(false)
+      , unitDebug(false)
+      , grid(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -404,6 +406,7 @@ namespace BWAPI
         if ( !u )
           continue;
 
+        drawCircleMap(u->position.x, u->position.y, 2, BWAPI::Colors::Cyan, true);
         //drawTextMap(u->position.x, u->position.y, "%u", u->unknown_timer_0x08D);
       }
 
@@ -423,7 +426,7 @@ namespace BWAPI
         //  printf("u->worker.upgradeLevel: %p", u->worker.upgradeLevel );
 
       }
-    }
+    } // unitdebug
 
     // grid
     if ( grid )
@@ -438,17 +441,39 @@ namespace BWAPI
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
             drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
           }
-    }
+    } // grid
 
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
       setTextSize(0);
       BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
-      BWAPI::Position scrPos = getScreenPosition();
       
-      // keep in case I need to test stuff again
-    }
+      int tileY = mouse.y()/32;
+      int tileX = mouse.x()/32;
+      u16 idx = BW::BWDATA_SAIPathing->mapTileRegionId[tileY][tileX];
+      if ( idx & 0x2000 )
+      {
+        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[idx & 0x1FFF];
+        drawLineMap(tileX*32 + 16, tileY*32 + 16, BW::BWDATA_SAIPathing->regions[t->rgn1].rgnCenterX >> 8, BW::BWDATA_SAIPathing->regions[t->rgn2].rgnCenterY >> 8, BWAPI::Colors::Green);
+        drawLineMap(tileX*32 + 16, tileY*32 + 16, BW::BWDATA_SAIPathing->regions[t->rgn2].rgnCenterX >> 8, BW::BWDATA_SAIPathing->regions[t->rgn1].rgnCenterY >> 8, BWAPI::Colors::Red);
+        for ( int mTileY = 0; mTileY < 4; ++mTileY )
+          for ( int mTileX = 0; mTileX < 4; ++mTileX )
+          {
+            BWAPI::Color c = BWAPI::Colors::Green;
+            u16 rgn = t->rgn2;
+            if ( (t->minitileMask >> ( mTileX + mTileY * 4 )) & 1 )
+            {
+              c = BWAPI::Colors::Red;
+              rgn = t->rgn1;
+            }
+            drawLineMap(tileX * 32 + mTileX * 8,     tileY * 32 + mTileY * 8, tileX * 32 + mTileX * 8 + 8, tileY * 32 + mTileY * 8 + 8, c);
+            drawLineMap(tileX * 32 + mTileX * 8 + 8, tileY * 32 + mTileY * 8, tileX * 32 + mTileX * 8,     tileY * 32 + mTileY * 8 + 8, c);
+          }
+        drawTextMouse(32, 32, "%u", idx & 0x1FFF);
+      }
+
+    } // pathdebug
 #endif
     //finally return control to starcraft
   }

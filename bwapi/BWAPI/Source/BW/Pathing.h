@@ -94,8 +94,8 @@ namespace BW
   struct split
   {
     u16 minitileMask; // 16 minitiles per tile corresponds to 16 bits;
-    u16 rgn1;         // region with set   bits
-    u16 rgn2;         // region with unset bits
+    u16 rgn1;         // region with unset bits
+    u16 rgn2;         // region with set   bits
   };
 
   struct SAI_Paths

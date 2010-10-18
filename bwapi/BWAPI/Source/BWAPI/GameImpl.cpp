@@ -584,12 +584,10 @@ namespace BWAPI
           return false; // @TODO: Error code for !isExplored ??
 
         // Check if builder is capable of reaching the building site
-        //if ( builder && !builder->hasPath( BWAPI::TilePosition(ix, iy) ) )
-        //  return false;
+        if ( builder && !builder->hasPath( BWAPI::TilePosition(ix, iy) ) )
+          return false;
       }
     }
-    // Note: reset error from hasPath call
-    //this->setLastError(Errors::Unbuildable_Location);
 
     /* Ground unit dimension check */
     int targetX = left * 32 + type.tileWidth()  * 32 / 2;

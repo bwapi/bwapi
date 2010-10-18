@@ -808,33 +808,31 @@ namespace BWAPI
     if ( this->getType().isFlyer() || this->isLifted() )
       return true;
 
-    BWAPI::TilePosition srcPos = this->getTilePosition();
-    BWAPI::TilePosition dstPos = BWAPI::TilePosition(target);
+    BWAPI::Position srcPos = this->getPosition();
 
-    if ( srcPos.x() >= 256 ||
-         srcPos.y() >= 256 ||
-         dstPos.x() >= 256 ||
-         dstPos.y() >= 256 )
+    if ( srcPos.x() >= 256*32 ||
+         srcPos.y() >= 256*32 ||
+         target.x() >= 256*32 ||
+         target.y() >= 256*32 )
       return BroodwarImpl.setLastError(Errors::Unknown);
 
     if ( BW::BWDATA_SAIPathing )
     {
-      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()][srcPos.x()];
-      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[dstPos.y()][dstPos.x()];
+      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()/32][srcPos.x()/32];
+      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[target.y()/32][target.x()/32];
 
       u16 srcGroup = 0;
       u16 dstGroup = 0;
       if ( srcIdx & 0x2000 )
       {
-        int minitilePosX = (this->getPosition().x()&0x1F)/8;
-        int minitilePosY = (this->getPosition().y()&0x1F)/8;
+        int minitilePosX = (srcPos.x()&0x1F)/8;
+        int minitilePosY = (srcPos.y()&0x1F)/8;
         int minitileShift = minitilePosX + minitilePosY * 4;
         BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
-        Broodwar->printf("(%u, %u) >> %u & 0x%p", minitilePosX, minitilePosY, minitileShift, t->minitileMask);
         if ( (t->minitileMask >> minitileShift) & 1 )
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-        else
           srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
+        else
+          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
       }
       else
       {
@@ -848,9 +846,9 @@ namespace BWAPI
         int minitileShift = minitilePosX + minitilePosY * 4;
         BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
         if ( (t->minitileMask >> minitileShift) & 1 )
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-        else
           dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
+        else
+          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
       }
       else
       {
