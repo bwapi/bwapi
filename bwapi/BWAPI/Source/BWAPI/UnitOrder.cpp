@@ -204,12 +204,15 @@ namespace BWAPI
       BroodwarImpl.setLastError(Errors::Unit_Busy);
       return false;
     }
+
     if (!type1.isAddon() && !Broodwar->canBuildHere(this,target,type1))
       return false;
 
     BW::UnitType type((u16)type1.getID());
     this->orderSelect();
-    if (!type.isAddon())
+    if ( this->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal && type == BW::UnitID::Zerg_NydusCanal )
+      QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
+    else if (!type.isAddon())
       QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
     else
       QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));

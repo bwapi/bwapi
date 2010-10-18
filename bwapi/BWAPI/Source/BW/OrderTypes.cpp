@@ -132,6 +132,14 @@ namespace BW
         , type(type)
     {
     }
+    //---------------------------------------------- MAKE NYDUS ----------------------------------------------
+    MakeNydusExit::MakeNydusExit(BW::TilePosition position)
+        : always0x0c(0x0c)
+        , always0x2E(0x2E)
+        , position(position)
+        , type(BW::UnitID::Zerg_NydusCanal)
+    {
+    }
     //------------------------------------------- MOVE CONSTRUCTOR -------------------------------------------
     ChangeSlot::ChangeSlot(Slot slot, u8 slotID)
         : slot(slot)
