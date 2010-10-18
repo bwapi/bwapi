@@ -811,10 +811,10 @@ namespace BWAPI
     BWAPI::TilePosition srcPos = this->getTilePosition();
     BWAPI::TilePosition dstPos = BWAPI::TilePosition(target);
 
-    if ( srcPos.x() > 255 ||
-         srcPos.y() > 255 ||
-         dstPos.x() > 255 ||
-         dstPos.y() > 255 )
+    if ( srcPos.x() >= 256 ||
+         srcPos.y() >= 256 ||
+         dstPos.x() >= 256 ||
+         dstPos.y() >= 256 )
       return BroodwarImpl.setLastError(Errors::Unknown);
 
     if ( BW::BWDATA_SAIPathing )
@@ -822,12 +822,43 @@ namespace BWAPI
       u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()][srcPos.x()];
       u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[dstPos.y()][dstPos.x()];
 
-      if ( srcIdx < BW::BWDATA_SAIPathing->regionCount && dstIdx < BW::BWDATA_SAIPathing->regionCount )
+      u16 srcGroup = 0;
+      u16 dstGroup = 0;
+      if ( srcIdx & 0x2000 )
       {
-        BW::region *srcRgn = getRegion(srcIdx);
-        if ( srcRgn->isConnectedTo(dstIdx) )
-          return true;
+        int minitilePosX = (this->getPosition().x()&0x1F)/8;
+        int minitilePosY = (this->getPosition().y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
+        Broodwar->printf("(%u, %u) >> %u & 0x%p", minitilePosX, minitilePosY, minitileShift, t->minitileMask);
+        if ( (t->minitileMask >> minitileShift) & 1 )
+          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
+        else
+          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
       }
+      else
+      {
+        srcGroup = BW::BWDATA_SAIPathing->regions[srcIdx].groupIndex;
+      }
+
+      if ( dstIdx & 0x2000 )
+      {
+        int minitilePosX = (target.x()&0x1F)/8;
+        int minitilePosY = (target.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
+        if ( (t->minitileMask >> minitileShift) & 1 )
+          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
+        else
+          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
+      }
+      else
+      {
+        dstGroup = BW::BWDATA_SAIPathing->regions[dstIdx].groupIndex;
+      }
+
+      if ( srcGroup == dstGroup )
+        return true;
     }
     return BroodwarImpl.setLastError(Errors::Out_Of_Range);
   }

@@ -425,13 +425,12 @@ namespace BWAPI
       }
     }
 
-    // pathdebug
-    if ( pathDebug && BW::BWDATA_SAIPathing )
+    // grid
+    if ( grid )
     {
-      setTextSize(0);
-      BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
       BWAPI::Position scrPos = getScreenPosition();
 
+      // draw mtx grid
       for ( int y = scrPos.y()/32-1; y < (scrPos.y()+480)/32+1; ++y )
         for ( int x = scrPos.x()/32-1; x < (scrPos.x()+640)/32+1; ++x )
           for ( int i = 0; i < 32; i += 4 )
@@ -439,234 +438,16 @@ namespace BWAPI
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
             drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
           }
+    }
 
-      // iterate tile region owners
-      for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
-      {
-        for ( int x = 0; x < BW::BWDATA_MapSize->x; ++x )
-        {
-          u16 c = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
-          // skip region 0 (bottom of the map), skip regions with no neighbors, skip inaccessable regions
-          if ( c == 0 || 
-               c >= 5000 ||
-              BW::BWDATA_SAIPathing->regions[c].neighborCount == 0 || 
-              BW::BWDATA_SAIPathing->regions[c].accessabilityFlags == 0x1FFD ||
-              BW::BWDATA_SAIPathing->regions[c].tileCount <= 1 )
-            continue;
-
-          c &= 0xDF;
-          if ( c < 0x20 )
-            c += 0x20;
-
-          int px = x * 32;
-          int py = y * 32;
-          for ( int i = 0; i < 32; i += 8 )
-          {
-            drawLineMap(px, py + 32 - i, px + i, py + 32, BWAPI::Color((u8)c) );
-            drawLineMap(px + i, py, px + 32, py + 32 - i, BWAPI::Color((u8)c) );
-            drawLineMap(px + 32, py + 32 - i, px + 32 - i, py + 32, BWAPI::Color((u8)c) );
-            drawLineMap(px + 32 - i, py, px, py + 32 - i, BWAPI::Color((u8)c) );
-          }
-        }
-      }
-
-      // iterate regions
-      for ( unsigned int i = 1; i < BW::BWDATA_SAIPathing->regionCount && i < 5000; ++i )
-      {
-        BW::region *rgn = getRegion(i);
-
-        if ( rgn->unk_8 != 0 )
-          printf("[%u] unk_8 = 0x%p", i, rgn->unk_8);
-
-        if ( rgn->unk_24 != 0 )
-          printf("[%u] unk_24 = 0x%p", i, rgn->unk_24);
-
-        if ( rgn->unk_28 != 0 )
-          printf("[%u] unk_28 = 0x%p", i, rgn->unk_28);
-
-        BW::Position center = rgn->getCenter();
-        if ( mouse.x() >= rgn->rgnBox.left   &&
-             mouse.x() <= rgn->rgnBox.right  &&
-             mouse.y() >= rgn->rgnBox.top    &&
-             mouse.y() <= rgn->rgnBox.bottom )
-        {
-          drawTextMap(center.x, center.y, "%u", i);
-          drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
-        }
-        //drawBoxMap(rgn->rgnBox.left, rgn->rgnBox.top, rgn->rgnBox.right, rgn->rgnBox.bottom, BWAPI::Colors::Orange);
-
-        // skip inaccessable regions
-        if ( rgn->accessabilityFlags == 0x1FFD )
-          continue;
-
-        BW::region *neighborRgns[256];
-        u8 nCount = rgn->getAccessibleNeighbours(neighborRgns, 256);
-        for ( u8 i = 0; i < nCount; ++i )
-        {
-          BW::Position targetCenter = neighborRgns[i]->getCenter();
-          drawLineMap( center.x, center.y, targetCenter.x, targetCenter.y, BWAPI::Colors::White);
-        }
-      }
-
-      BW::badpath tBuff[128];
-      u32         tBuffSize = 0;
-
-      BW::badpath *rgnStuff = BW::BWDATA_SAIPathing->badPaths;
-      for ( unsigned int i = 0; rgnStuff[i].minitileMask != 0 && rgnStuff[i].rgn1 != 0 && rgnStuff[i].rgn2 != 0; ++i )
-      {
-        BW::Position rgn1 = getRegion(rgnStuff[i].rgn1)->getCenter();
-        BW::Position rgn2 = getRegion(rgnStuff[i].rgn2)->getCenter();
-        if ( mouse.x() >= (rgn1.x + rgn2.x)/2 - 32 &&
-             mouse.x() <= (rgn1.x + rgn2.x)/2 + 32 &&
-             mouse.y() >= (rgn1.y + rgn2.y)/2 - 32 &&
-             mouse.y() <= (rgn1.y + rgn2.y)/2 + 32 &&
-             tBuffSize < 128 )
-        {
-          drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Blue);
-          tBuff[tBuffSize] = rgnStuff[i];
-          ++tBuffSize;
-        }
-        else
-        {
-          drawLineMap(rgn1.x, rgn1.y, rgn2.x, rgn2.y, BWAPI::Colors::Grey);
-        }
-      }
-
-      for ( unsigned int t = 0; t < tBuffSize; ++t )
-      {
-        for ( int i = 0; i < 4; ++i )
-        {
-          drawBoxMouse(24 + t*32, i*6, 29 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+0)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
-          drawBoxMouse(30 + t*32, i*6, 35 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+1)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
-          drawBoxMouse(36 + t*32, i*6, 41 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+2)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
-          drawBoxMouse(42 + t*32, i*6, 47 + t*32, i*6 + 5, (tBuff[t].minitileMask >> (i*4+3)) & 1 ? BWAPI::Colors::Red : BWAPI::Colors::Green);
-        }
-        //drawTextMouse(24, 0 + t * 16, "%u->%u: 0x%04X", tBuff[t].rgn1, tBuff[t].rgn2, tBuff[t].unk_00);
-      }
-
-      // iterate contours
-      BW::contourHub *cont = BW::BWDATA_SAIPathing->contoursMain;
-      if ( cont )
-      {
-        for ( int i = 0; i < cont->contourCount[0]; ++i )
-        {
-          bool dtext = false;
-          s16 y1 = cont->contours[0][i].v[0];
-          s16 x1 = cont->contours[0][i].v[1];
-          s16 x2 = cont->contours[0][i].v[2];
-          BWAPI::Color c = BWAPI::Colors::Yellow;
-          if ( mouse.x() >= x1 &&
-               mouse.x() <= x2 &&
-               mouse.y() >= y1 - 8 &&
-               mouse.y() <= y1 + 8 )
-          {
-            dtext = true;
-            c = BWAPI::Colors::Green;
-          }
-          drawLineMap(x1, y1, x2, y1, c );
-          if ( dtext )
-            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[0][i].type, cont->contours[0][i].unk_07);
-        }
-        for ( int i = 0; i < cont->contourCount[1]; ++i )
-        {
-          bool dtext = false;
-          s16 x1 = cont->contours[1][i].v[0];
-          s16 y1 = cont->contours[1][i].v[1];
-          s16 y2 = cont->contours[1][i].v[2];
-          BWAPI::Color c = BWAPI::Colors::Yellow;
-          if ( mouse.x() >= x1 - 8 &&
-               mouse.x() <= x1 + 8 &&
-               mouse.y() >= y1 &&
-               mouse.y() <= y2 )
-          {
-            dtext = true;
-            c = BWAPI::Colors::Green;
-          }
-          drawLineMap(x1, y1, x1, y2, c );
-          if ( dtext )
-            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[1][i].type, cont->contours[1][i].unk_07);
-        }
-        for ( int i = 0; i < cont->contourCount[2]; ++i )
-        {
-          bool dtext = false;
-          s16 y1 = cont->contours[2][i].v[0];
-          s16 x1 = cont->contours[2][i].v[1];
-          s16 x2 = cont->contours[2][i].v[2];
-          BWAPI::Color c = BWAPI::Colors::Yellow;
-          if ( mouse.x() >= x1 &&
-               mouse.x() <= x2 &&
-               mouse.y() >= y1 - 8 &&
-               mouse.y() <= y1 + 8 )
-          {
-            dtext = true;
-            c = BWAPI::Colors::Green;
-          }
-          drawLineMap(x1, y1, x2, y1, c );
-          if ( dtext )
-            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[2][i].type, cont->contours[2][i].unk_07);
-        }
-        for ( int i = 0; i < cont->contourCount[3]; ++i )
-        {
-          bool dtext = false;
-          s16 x1 = cont->contours[3][i].v[0];
-          s16 y1 = cont->contours[3][i].v[1];
-          s16 y2 = cont->contours[3][i].v[2];
-          BWAPI::Color c = BWAPI::Colors::Yellow;
-          if ( mouse.x() >= x1 - 8 &&
-               mouse.x() <= x1 + 8 &&
-               mouse.y() >= y1 &&
-               mouse.y() <= y2 )
-          {
-            dtext = true;
-            c = BWAPI::Colors::Green;
-          }
-          drawLineMap(x1, y1, x1, y2, c );
-          if ( dtext )
-            drawTextMap(x1, y1, "%02X\n%02X", cont->contours[3][i].type, cont->contours[3][i].unk_07);
-        }
-      }
-
-/*
-      // draw individual unit pathing
-      foreach( UnitImpl *u, aliveUnits )
-      {
-        if ( !u->getType().isFlyer() )
-        {
-          BW::TilePosition srcPos = BW::TilePosition(u->getOriginalRawData->position);
-          BW::TilePosition dstPos = BW::TilePosition(u->getOriginalRawData->moveToPos);
-          if ( srcPos == dstPos || srcPos.x > 255 || srcPos.y > 255 || dstPos.x > 255 || dstPos.y > 255 )
-            continue;
-
-          u16 srcId = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y][srcPos.x];
-          u16 dstId = BW::BWDATA_SAIPathing->mapTileRegionId[dstPos.y][dstPos.x];
-
-          if ( srcId >= 5000 || dstId >= 5000 )
-            continue;
-
-          if ( srcId == dstId )
-            continue;
-
-          BW::region *srcRgn = getRegion( srcId );
-          BW::region *dstRgn = getRegion( dstId );
-
-          BW::Position pts[256];
-          u16 pCount = srcRgn->getPointPath(dstRgn, pts, 256);
-
-          BW::Position last = u->getOriginalRawData->position;
-          for ( u16 i = 0; i < pCount; ++i )
-          {
-            drawLineMap(last.x, last.y, pts[i].x, pts[i].y, BWAPI::Colors::Yellow);
-            last = pts[i];
-          }
-        }
-        else
-        {
-          BW::Position start = u->getOriginalRawData->position;
-          BW::Position stop = u->getOriginalRawData->moveToPos;;
-          drawLineMap(start.x, start.y, stop.x, stop.y, BWAPI::Colors::Yellow);
-        }
-      }
-*/
+    // pathdebug
+    if ( pathDebug && BW::BWDATA_SAIPathing )
+    {
+      setTextSize(0);
+      BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
+      BWAPI::Position scrPos = getScreenPosition();
+      
+      // keep in case I need to test stuff again
     }
 #endif
     //finally return control to starcraft
@@ -1285,6 +1066,11 @@ namespace BWAPI
     {
       unitDebug = !unitDebug;
       printf("unitdebug %s", unitDebug ? "ENABLED" : "DISABLED");
+    }
+    else if (parsed[0] == "/grid")
+    {
+      grid = !grid;
+      printf("mtx grid %s", grid ? "ENABLED" : "DISABLED");
     }
 #endif
     else

@@ -5,7 +5,7 @@
 #include <set>
 #include <list>
 
-#define getRegion(x) (&(BW::BWDATA_SAIPathing->regions[(x)]))
+#define getRegion(x) (&(BW::BWDATA_SAIPathing->regions[(x)&0x1FFF]))
 
 namespace BW
 {
@@ -91,21 +91,20 @@ namespace BW
     s16     unk_30[4];
   };
 
-  struct badpath
+  struct split
   {
     u16 minitileMask; // 16 minitiles per tile corresponds to 16 bits;
-                      // set bits are unwalkable
-    u16 rgn1;
-    u16 rgn2;
+    u16 rgn1;         // region with set   bits
+    u16 rgn2;         // region with unset bits
   };
 
   struct SAI_Paths
   {
     u32        regionCount;
-    u32        globalBuffer_ptr;
-    u32        badPaths_end;
-    u16        mapTileRegionId[256][256];
-    badpath    badPaths[25000];       // 0x2000C
+    void       *globalBuffer_ptr;
+    void       *splitTiles_end;
+    u16        mapTileRegionId[256][256];   // rgnId is &0x1FFF; split = &0x2000, 
+    split      splitTiles[25000];     // 0x2000C
     region     regions[5000];         // 0x449FC
     u16        globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
     contourHub *contoursMain;         // 0x97A1C
