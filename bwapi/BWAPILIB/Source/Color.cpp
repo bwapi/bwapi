@@ -39,14 +39,16 @@ namespace BWAPI
   namespace Colors
   {
     const Color Red(111);
-    const Color Green(117);
     const Color Blue(246);
-    const Color Yellow(61);
-    const Color Cyan(128);
+    const Color Teal(39);
     const Color Purple(163);
     const Color Orange(179);
-    const Color Black(0);
+    const Color Brown(21);
     const Color White(255);
+    const Color Yellow(61);
+    const Color Green(117);
+    const Color Cyan(128);
+    const Color Black(0);
     const Color Grey(74);
 
     std::list<int> cell[8][8][8];

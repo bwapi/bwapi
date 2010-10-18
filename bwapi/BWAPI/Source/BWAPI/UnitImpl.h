@@ -205,6 +205,7 @@ namespace BWAPI
       virtual bool useTech(TechType tech, Unit* target);
 
       virtual bool hasPath(Position target);
+      virtual bool hasPath(Unit *target);
       virtual int  getLastOrderFrame();
       virtual void setClientInfo(void* clientinfo);
       virtual void *getClientInfo() const;

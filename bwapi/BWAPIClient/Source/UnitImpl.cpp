@@ -188,8 +188,12 @@ namespace BWAPI
   }
   bool UnitImpl::hasPath(Position target)
   {
-    return false;//todo: implement
+    return false; //todo: implement
     //To implement, perhaps we could copy the mapTileRegionId array to shared memory, and check that way.
+  }
+  bool UnitImpl::hasPath(Unit *target)
+  {
+    return hasPath(target->getPosition()); //todo: implement
   }
   int UnitImpl::getLastOrderFrame()
   {
