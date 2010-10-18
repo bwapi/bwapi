@@ -19,10 +19,7 @@
 #define checkOwnership()\
 {\
   if (_getPlayer != Broodwar->self())\
-  {\
-    BroodwarImpl.setLastError(Errors::Unit_Not_Owned);\
-    return false;\
-  }\
+    return BroodwarImpl.setLastError(Errors::Unit_Not_Owned);\
 }
 
 namespace Util  { class Logger; }

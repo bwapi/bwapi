@@ -560,8 +560,7 @@ namespace BWAPI
         {
           if (g->isVisible() && g->getType() != UnitTypes::Resource_Vespene_Geyser)
             return false;
-          this->setLastError(Errors::None);
-          return true;
+          return this->setLastError(Errors::None);
         }
       }
       return false;
@@ -659,8 +658,7 @@ namespace BWAPI
       }
     }
     //if the build site passes all these tests, return true.
-    this->setLastError(Errors::None);
-    return true;
+    return this->setLastError(Errors::None);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool  GameImpl::canMake(Unit* builder, UnitType type)
@@ -668,33 +666,23 @@ namespace BWAPI
     /* Error checking */
     this->setLastError(Errors::None);
     if ( !self() )
-    {
-      this->setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+      return this->setLastError(Errors::Unit_Not_Owned);
 
     if ( builder )
     {
       /* Check if the owner of the unit is you */
       if (builder->getPlayer() != self())
-      {
-        this->setLastError(Errors::Unit_Not_Owned);
-        return false;
-      }
+        return this->setLastError(Errors::Unit_Not_Owned);
 
       BWAPI::UnitType builderType = builder->getType();
       if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
       {
         if ( !builder->isCompleted() )
-        {
-          this->setLastError(Errors::Unit_Busy);
-          return false;
-        }
+          return this->setLastError(Errors::Unit_Busy);
+
         if ( builder->getNydusExit() )
-        {
-          this->setLastError(Errors::Unknown);
-          return false;
-        }
+          return this->setLastError(Errors::Unknown);
+
         return true;
       }
 
@@ -705,15 +693,11 @@ namespace BWAPI
              builderType == UnitTypes::Zerg_Hive ) )
       {
         if ( builder->getLarva().size() == 0 )
-        {
-          this->setLastError(Errors::Unit_Does_Not_Exist);
-          return false;
-        }
+          return this->setLastError(Errors::Unit_Does_Not_Exist);
       }
       else if ( builderType != type.whatBuilds().first )
       {
-        this->setLastError(Errors::Incompatible_UnitType);
-        return false;
+        return this->setLastError(Errors::Incompatible_UnitType);
       }
 
       /* Carrier space */
@@ -723,10 +707,7 @@ namespace BWAPI
         if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
           max_amt += 4;
         if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
-        {
-          this->setLastError(Errors::Insufficient_Space);
-          return false;
-        }
+          return this->setLastError(Errors::Insufficient_Space);
       }
 
       /* Reaver Space */
@@ -736,33 +717,21 @@ namespace BWAPI
         if (self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
           max_amt += 5;
         if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
-        {
-          this->setLastError(Errors::Insufficient_Space);
-          return false;
-        }
+          return this->setLastError(Errors::Insufficient_Space);
       }
     } // builder
 
     /* Check if player has enough minerals */
     if (self()->minerals() < type.mineralPrice())
-    {
-      this->setLastError(Errors::Insufficient_Minerals);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Minerals);
 
     /* Check if player has enough gas */
     if (self()->gas() < type.gasPrice())
-    {
-      this->setLastError(Errors::Insufficient_Gas);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Gas);
     
     /* Check if player has enough supplies */
     if (type.supplyRequired() > 0 && self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
-    {
-      this->setLastError(Errors::Insufficient_Supply);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Supply);
 
     UnitType addon = UnitTypes::None;
     std::map<UnitType, int>::const_iterator requiredEnd = type.requiredUnits().end();
@@ -788,26 +757,17 @@ namespace BWAPI
            self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
         pass = true;
       if ( !pass )
-      {
-        this->setLastError(Errors::Insufficient_Tech);
-        return false;
-      }
+        return this->setLastError(Errors::Insufficient_Tech);
     }
 
     if (type.requiredTech() != TechTypes::None && !self()->hasResearched(type.requiredTech()))
-    {
-      this->setLastError(Errors::Insufficient_Tech);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Tech);
 
     if ( builder && 
          addon != UnitTypes::None &&
          addon.whatBuilds().first == type.whatBuilds().first &&
          (!builder->getAddon() || builder->getAddon()->getType() != addon) )
-    {
-      this->setLastError(Errors::Insufficient_Tech);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Tech);
     return true;
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
@@ -816,44 +776,28 @@ namespace BWAPI
     /* Error checking */
     this->setLastError(Errors::None);
     if ( !self() )
-    {
-      this->setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+      return this->setLastError(Errors::Unit_Not_Owned);
 
     if ( unit )
     {
       if (unit->getPlayer() != self())
-      {
-        this->setLastError(Errors::Unit_Not_Owned);
-        return false;
-      }
+        return this->setLastError(Errors::Unit_Not_Owned);
+
       if (unit->getType() != type.whatResearches())
-      {
-        this->setLastError(Errors::Incompatible_UnitType);
-        return false;
-      }
+        return this->setLastError(Errors::Incompatible_UnitType);
     }
     if (self()->isResearching(type))
-    {
-      this->setLastError(Errors::Currently_Researching);
-      return false;
-    }
+      return this->setLastError(Errors::Currently_Researching);
+
     if (self()->hasResearched(type))
-    {
-      this->setLastError(Errors::Already_Researched);
-      return false;
-    }
+      return this->setLastError(Errors::Already_Researched);
+
     if (self()->minerals() < type.mineralPrice())
-    {
-      this->setLastError(Errors::Insufficient_Minerals);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Minerals);
+
     if (self()->gas() < type.gasPrice())
-    {
-      this->setLastError(Errors::Insufficient_Gas);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Gas);
+
     return true;
   }
   //----------------------------------------------- CAN UPGRADE ----------------------------------------------
@@ -861,44 +805,28 @@ namespace BWAPI
   {
     this->setLastError(Errors::None);
     if ( !self() )
-    {
-      this->setLastError(Errors::Unit_Not_Owned);
-      return false;
-    }
+      return this->setLastError(Errors::Unit_Not_Owned);
 
     if ( unit )
     {
       if (unit->getPlayer() != self())
-      {
-        this->setLastError(Errors::Unit_Not_Owned);
-        return false;
-      }
+        return this->setLastError(Errors::Unit_Not_Owned);
+
       if (unit->getType() != type.whatUpgrades())
-      {
-        this->setLastError(Errors::Incompatible_UnitType);
-        return false;
-      }
+        return this->setLastError(Errors::Incompatible_UnitType);
     }
     if (self()->isUpgrading(type))
-    {
-      this->setLastError(Errors::Currently_Upgrading);
-      return false;
-    }
+      return this->setLastError(Errors::Currently_Upgrading);
+
     if (self()->getUpgradeLevel(type)>=type.maxRepeats())
-    {
-      this->setLastError(Errors::Fully_Upgraded);
-      return false;
-    }
+      return this->setLastError(Errors::Fully_Upgraded);
+
     if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)))
-    {
-      this->setLastError(Errors::Insufficient_Minerals);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Minerals);
+
     if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->getUpgradeLevel(type)))
-    {
-      this->setLastError(Errors::Insufficient_Gas);
-      return false;
-    }
+      return this->setLastError(Errors::Insufficient_Gas);
+
     return true;
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
