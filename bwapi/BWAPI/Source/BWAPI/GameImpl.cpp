@@ -682,8 +682,24 @@ namespace BWAPI
         return false;
       }
 
+      if ( type == UnitTypes::Zerg_Nydus_Canal && builder->getType() == UnitTypes::Zerg_Nydus_Canal )
+      {
+        if ( !builder->isCompleted() )
+        {
+          this->setLastError(Errors::Unit_Busy);
+          return false;
+        }
+        if ( builder->getNydusExit() )
+        {
+          this->setLastError(Errors::Unknown);
+          return false;
+        }
+        return true;
+      }
+
+
       /* Check if this unit can actually build the unit type */
-      if (builder->getType() != type.whatBuilds().first)
+      if ( builder->getType() != type.whatBuilds().first )
       {
         this->setLastError(Errors::Incompatible_UnitType);
         return false;

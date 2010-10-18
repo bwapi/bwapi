@@ -81,6 +81,16 @@ void DevAIModule::onFrame()
       }
     }
 
+    if ( uType == BWAPI::UnitTypes::Zerg_Nydus_Canal )
+    {
+      BWAPI::TilePosition offsetPos(u->getTilePosition().x() + 2, u->getTilePosition().y());
+      //Broodwar->printf("%s", u->isCompleted() ? "YES" : "NO");
+      u->build( offsetPos, BWAPI::UnitTypes::Zerg_Nydus_Canal);
+      //if ( Broodwar->getLastError() != BWAPI::Errors::None )
+      //  Broodwar->printf("%s", Broodwar->getLastError().toString().c_str());
+      continue;
+    }
+
     if ( Broodwar->self()->supplyTotal(uType.getRace()) <= Broodwar->self()->supplyUsed(uType.getRace()) )
     {
       UnitType supplyType = uType.getRace().getSupplyProvider();

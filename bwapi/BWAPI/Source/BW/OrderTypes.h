@@ -139,6 +139,18 @@ namespace BW
         /** Type of building to make */
         BW::UnitType type;
     };
+    class MakeNydusExit
+    {
+      public :
+        MakeNydusExit(BW::TilePosition position);
+        /** 0x0c = make building Command-code in bw */
+        u8 always0x0c;
+        /** 1e for terran 1f for protoss*/
+        u8 always0x2E;
+        BW::TilePosition position;
+        /** Type of building to make */
+        BW::UnitType type;
+    };
     /** Change slot command in bw. */
     class ChangeSlot
     {
