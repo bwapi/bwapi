@@ -77,6 +77,9 @@ namespace BWAPI
 
       virtual int maxEnergy(UnitType unit) const;
 
+      virtual BWAPI::Color getColor() const;
+      virtual int getTextColor() const;
+
       double topSpeed(UnitType unit) const;
       int groundWeaponMaxRange(UnitType unit) const;
       int airWeaponMaxRange(UnitType unit) const;

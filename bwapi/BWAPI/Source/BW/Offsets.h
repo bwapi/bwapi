@@ -147,6 +147,8 @@ namespace BW
   static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
   static u8               *BWDATA_RefreshRegions                                = (u8*)       0x006CEFF8;
 
+  static u8               *BWDATA_PlayerColors                                  = (u8*)       0x00581DD6;
+
   struct bounds
   {
     WORD  left;

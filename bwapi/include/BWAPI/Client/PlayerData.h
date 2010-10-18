@@ -34,5 +34,7 @@ namespace BWAPI
     bool isResearching[47];
     bool isUpgrading[63];
 
+    int colorByte;
+    int color;
   };
 }
