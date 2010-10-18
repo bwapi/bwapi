@@ -678,9 +678,7 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
-    if ( !this->attemptAccess() || !target )
-      return std::numeric_limits<double>::infinity();
-    if (!((UnitImpl*)target)->attemptAccess())
+    if ( !this->attemptAccess() || !target || !((UnitImpl*)target)->attemptAccess() )
       return std::numeric_limits<double>::infinity();
 
     if (this == target)
@@ -817,10 +815,7 @@ namespace BWAPI
          srcPos.y() > 255 ||
          dstPos.x() > 255 ||
          dstPos.y() > 255 )
-    {
-      BroodwarImpl.setLastError(Errors::Unknown);
-      return false;
-    }
+      return BroodwarImpl.setLastError(Errors::Unknown);
 
     if ( BW::BWDATA_SAIPathing )
     {
@@ -834,8 +829,7 @@ namespace BWAPI
           return true;
       }
     }
-    BroodwarImpl.setLastError(Errors::Out_Of_Range);
-    return false;
+    return BroodwarImpl.setLastError(Errors::Out_Of_Range);
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
@@ -935,8 +929,7 @@ namespace BWAPI
     BroodwarImpl.setLastError(Errors::None);
     if (this->canAccess())
       return true;
-    BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-    return false;
+    return BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
   }
 
   //---------------------------------------------- UPDATE NEXT -----------------------------------------------

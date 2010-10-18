@@ -252,7 +252,7 @@ namespace BWAPI
       bool _isBattleNet();
       bool _isReplay() const;
       void _changeRace(int slot, BWAPI::Race race);
-      void setLastError(BWAPI::Error e);
+      bool setLastError(BWAPI::Error e);
 
       void loadSelected();
       void copyMapToSharedMemory();

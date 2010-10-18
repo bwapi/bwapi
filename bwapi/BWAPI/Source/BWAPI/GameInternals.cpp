@@ -1916,10 +1916,11 @@ namespace BWAPI
       this->bulletArray[i]->saveExists();
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-  void GameImpl::setLastError(BWAPI::Error e)
+  bool GameImpl::setLastError(BWAPI::Error e)
   {
     /* implies that an error has occured */
     this->lastError = e;
+    return e == Errors::None;
   }
   //----------------------------------------------------- DRAW -----------------------------------------------
   bool GameImpl::inScreen(int ctype, int x, int y)
@@ -2020,7 +2021,7 @@ namespace BWAPI
   BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)
   {
     /* Retrieves a sprite's parent unit */
-    BWAPI::UnitImpl* unit=NULL;
+    BWAPI::UnitImpl* unit = NULL;
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
       if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
         unit = unitArray[i];
@@ -2037,6 +2038,9 @@ namespace BWAPI
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)
   {
+    if ( !text )
+      return;
+
     if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
     {
       if ( externalModuleConnected )
