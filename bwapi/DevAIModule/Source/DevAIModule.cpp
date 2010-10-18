@@ -4,10 +4,11 @@ using namespace BWAPI;
 
 void DevAIModule::onStart()
 {
-  Broodwar->enableFlag(Flag::UserInput);
-  Broodwar->printf("%s", Broodwar->mapHash().c_str());
+  bw->enableFlag(Flag::UserInput);
   scout = NULL;
-  Broodwar->setLatCom(false);
+  bw->setLatCom(false);
+
+  self = bw->self();
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -16,25 +17,27 @@ void DevAIModule::onEnd(bool isWinner)
 
 void DevAIModule::onFrame()
 {
-  if (Broodwar->isReplay())
+  if ( bw->isReplay() )
     return;
 
-  int thisOrderFrame = Broodwar->getFrameCount();
+  int thisOrderFrame = bw->getFrameCount();
 
-  for each ( Unit *u in Broodwar->self()->getUnits() )
+  for each ( Unit *u in self->getUnits() )
   {
     if ( u == scout )
       continue;
 
-    if ( u->getLastOrderFrame() + 10 >= thisOrderFrame )
+    if ( u->getLastOrderFrame() + 20 >= thisOrderFrame )
       continue;
 
-    // make workers
     BWAPI::UnitType uType = u->getType();
+    BWAPI::Race     uRace = uType.getRace();
+
+    // make workers
     if ( uType.isResourceDepot() && u->isIdle() )
     {
-      BWAPI::UnitType workerType = uType.getRace().getWorker();
-      if ( Broodwar->canMake(NULL, workerType) )
+      BWAPI::UnitType workerType = uRace.getWorker();
+      if ( bw->canMake(u, workerType) )
       {
         u->train(workerType);
         continue;
@@ -42,17 +45,16 @@ void DevAIModule::onFrame()
     }
 
     // make supplies
-    if ( Broodwar->self()->supplyTotal(uType.getRace()) <= Broodwar->self()->supplyUsed(uType.getRace()) )
+    if ( self->supplyTotal(uRace) + self->incompleteUnitCount(uRace.getSupplyProvider()) <= self->supplyUsed(uRace) )
     {
-      UnitType supplyType = uType.getRace().getSupplyProvider();
-      if ( Broodwar->canMake(NULL, supplyType) && uType == supplyType.whatBuilds().first )
+      if ( bw->canMake(NULL, uRace.getSupplyProvider()) )
       {
-        if ( uType == UnitTypes::Zerg_Larva )
+        if ( uType.isResourceDepot() && uRace == Races::Zerg )
         {
-          u->morph(supplyType);
+          u->morph(uRace.getSupplyProvider());
           continue;
         }
-        else
+        else if ( uType == uRace.getSupplyProvider().whatBuilds().first && !u->isCarryingGas() && !u->isCarryingMinerals() )
         {
           //u->build(NULL, supplyType);
         }
@@ -65,7 +67,6 @@ void DevAIModule::onFrame()
       if ( (!scout || !scout->exists()) && !u->isCarryingGas() && !u->isCarryingMinerals() )
       {
         scout = u;
-        continue;
       }
       else if ( u->isIdle() )
       {
@@ -74,32 +75,92 @@ void DevAIModule::onFrame()
         {
           if ( r->getType() == UnitTypes::Resource_Mineral_Field &&
                u->getDistance(r) < u->getDistance(best) &&
+               u->hasPath(r->getPosition()) &&
                !r->isBeingGathered() )
               best = r;
         }
+
         if ( best )
-        {
           u->gather(best);
-          continue;
-        }
       }
+
+      continue;
+    }
+
+    if ( uType == BWAPI::UnitTypes::Zerg_Overlord && thisOrderFrame > u->getLastOrderFrame() + 120 )
+    {
+      BWAPI::TilePosition targ = spiralSearch(SEARCH_NOTVISIBLE, u->getPosition(), 255);
+      if ( targ != BWAPI::Positions::None )
+        u->move(targ);
+
+      continue;
     }
 
   } // for each
 
 
   // scout
-  if ( scout && scout->exists() && thisOrderFrame > scout->getLastOrderFrame() + 80 )
+  if ( scout && scout->exists() && thisOrderFrame > scout->getLastOrderFrame() + 40 )
   {
-    bool done = false;
-    for ( int y = 0; y < Broodwar->mapWidth() && !done; ++y )
-      for ( int x = 0; x < Broodwar->mapHeight() && !done; ++x )
-        if ( !Broodwar->isExplored(x, y) && scout->hasPath(BWAPI::TilePosition(x,y)) )
-        {
-          scout->move(BWAPI::TilePosition(x,y));
-          done = true;
-        }
+    BWAPI::TilePosition targ = spiralSearch(SEARCH_UNEXPLORED, scout->getPosition(), 255, scout);
+    if ( targ != BWAPI::Positions::None )
+      scout->move(targ);
   }
+
+}
+
+bool DevAIModule::pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *unit, int width, int height)
+{
+  switch ( dwType )
+  {
+  case SEARCH_UNEXPLORED:
+    if ( unit )
+      return !Broodwar->isExplored(pt) && unit->hasPath(pt);
+    else
+      return !Broodwar->isExplored(pt);
+  case SEARCH_EXPLORED:
+    if ( unit )
+      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt) && unit->hasPath(pt);
+    else
+      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt);
+  case SEARCH_NOTVISIBLE:
+    if ( unit )
+      return (!Broodwar->isExplored(pt) || !Broodwar->isVisible(pt)) && unit->hasPath(pt);
+    else
+      return !Broodwar->isExplored(pt) || !Broodwar->isVisible(pt);
+  }
+  return false;
+}
+
+BWAPI::TilePosition DevAIModule::spiralSearch(int dwType, BWAPI::TilePosition start, int radius, BWAPI::Unit *unit, int width, int height)
+{
+  int x = 0, y = 0, iter = 1, d = 1;
+  int mapH = bw->mapHeight();
+  int mapW = bw->mapWidth();
+
+  for ( int i = 0; iter <= radius*2; ++i )
+  {
+    for ( int iy = 0; iy < iter; ++iy )
+    {
+      if ( pointSearch(dwType, BWAPI::TilePosition(start.x()+x, start.y()+y), unit, width, height) )
+        return BWAPI::TilePosition(start.x()+x, start.y()+y);
+      if ( y + d + start.y() < 0 || y + d + start.y() >= mapH )
+        break;
+      y += d;
+    }
+
+    for ( int ix = 0; ix < iter; ++ix )
+    {
+      if ( pointSearch(dwType, BWAPI::TilePosition(start.x()+x, start.y()+y), unit, width, height) )
+        return BWAPI::TilePosition(start.x()+x, start.y()+y);
+      if ( x + d + start.x() < 0 || x + d + start.x() >= mapW )
+        break;
+      x += d;
+    }
+    d = -d;
+    ++iter;
+  }
+  return BWAPI::Positions::None;
 }
 
 void DevAIModule::onSendText(std::string text)
