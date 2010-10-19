@@ -308,10 +308,11 @@ namespace BWAPI
         char szKeyName[MAX_PATH];
         hMod = NULL;
 
-        if ( dwProcNum == 0 )
-          strcpy(szKeyName, "ai_dll");
-        else
-          sprintf(szKeyName, "ai_dll_%u", dwProcNum);
+        strcpy(szKeyName, "ai_dll");
+        if ( dwProcNum > 0 )
+          sprintf(szKeyName, "_%u", dwProcNum);
+        if ( isDebug() )
+          strcpy(szKeyName, "_dbg");
 
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, BWAPICONFIG);
         if ( _strcmpi(szDllPath, "NULL") == 0)
@@ -393,6 +394,7 @@ namespace BWAPI
       this->frameCount++;
 
 #ifdef _DEBUG
+    setTextSize(0);
     // unitdebug
     if ( unitDebug )
     {
@@ -420,11 +422,11 @@ namespace BWAPI
         if ( !u )
           continue;
 
-        //drawTextMap(u->position.x, u->position.y, "%p", u->stateFlags );
+        if ( u->sprite && u->sprite->mainGraphic )
+          drawTextMap(u->position.x, u->position.y, "gfx: %u", u->sprite->mainGraphic->imageID );
 
         //if ( u->unitType.isWorker() && u->worker.upgradeLevel )
         //  printf("u->worker.upgradeLevel: %p", u->worker.upgradeLevel );
-
       }
     } // unitdebug
 
@@ -1833,24 +1835,6 @@ namespace BWAPI
   {
     /* called when the game is being saved */
     events.push_back(Event::SaveGame(std::string(name)));
-  }
-//--------------------------------------------------- ISCRIPT ------------------------------------------------
-  BWAPI::UnitImpl *GameImpl::spriteToUnit(BW::CSprite *sprite)
-  {
-    /* Retrieves a sprite's parent unit */
-    BWAPI::UnitImpl* unit = NULL;
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++) // iterate through every unit
-      if (BW::BWDATA_UnitNodeTable->unit[i].sprite == sprite) // compare unit with sprite we're looking for
-        unit = unitArray[i];
-
-    return unit;
-  }
-
-  void GameImpl::iscriptParser(BW::CSprite *sprite, u8 anim)
-  {
-    BWAPI::UnitImpl *unit = spriteToUnit(sprite); // get sprite's parent unit
-    if ( unit )   // make sure the unit exists
-      unit->animState = anim; // associate the animation directly with the unit
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)

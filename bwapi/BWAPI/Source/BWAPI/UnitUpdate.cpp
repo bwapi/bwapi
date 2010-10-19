@@ -192,6 +192,9 @@ namespace BWAPI
 
       self->airWeaponCooldown = getOriginalRawData->subUnit ? getOriginalRawData->subUnit->airWeaponCooldown : getOriginalRawData->airWeaponCooldown; //getAirWeaponCooldown
       self->spellCooldown = getOriginalRawData->spellCooldown;  //getSpellCooldown
+      u8 animState = 0;
+      if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
+        animState = getOriginalRawData->sprite->mainGraphic->anim;
       self->isAttacking = (animState == BW::Image::Anims::GndAttkRpt  ||  //isAttacking
                            animState == BW::Image::Anims::AirAttkRpt  || 
                            animState == BW::Image::Anims::GndAttkInit ||

@@ -256,9 +256,6 @@ namespace BW
   static Unit *BWDATA_CurrentPlayerSelectionGroup = (Unit*) 0x00597208;
   static u32  BWDATA_PlayerSelection              = 0x006284E0;
 
-  static void(__thiscall *BWFXN_PlayIscript)(Image::CImage *_this, char *header,int unk1,int unk2)    = (void(__thiscall*)(Image::CImage*,char*,int,int))0x004D74C0;
-  static u32 BWFXN_IscriptHook = 0x004D84F3;
-
   static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;
 
