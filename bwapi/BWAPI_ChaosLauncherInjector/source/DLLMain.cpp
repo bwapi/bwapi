@@ -70,9 +70,18 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
 //
 extern "C" __declspec(dllexport) bool OpenConfig()
 {
-  // @todo: Get starcraft folder
-  if ( !ShellExecute(NULL, "open", "..\\bwapi-data\\bwapi.ini", NULL, NULL, SW_SHOWNORMAL) )
-    return false;
+  char szBwPath[MAX_PATH];
+  DWORD dwPathSize = MAX_PATH;
+
+  LSTATUS dwErrCode = RegGetValue(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath", RRF_RT_ANY, NULL, szBwPath, &dwPathSize);
+  if ( dwErrCode != ERROR_SUCCESS )
+    BWAPIError("Failed to load registry value properly: 0x%p", dwErrCode);
+
+  char szExecPath[MAX_PATH*2];
+  strcpy(szExecPath, szBwPath);
+  strcat(szExecPath, "\\bwapi-data\\bwapi.ini");
+  if ( !ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) )
+    BWAPIError("Unable to open BWAPI config file.");
   return true;
 }
 
