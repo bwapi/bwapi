@@ -666,6 +666,8 @@ namespace BWAPI
     if ( !self() )
       return this->setLastError(Errors::Unit_Not_Owned);
 
+    BWAPI::UnitType requiredType = type.whatBuilds().first;
+
     if ( builder )
     {
       /* Check if the owner of the unit is you */
@@ -685,7 +687,7 @@ namespace BWAPI
       }
 
       /* Check if this unit can actually build the unit type */
-      if ( type.whatBuilds().first == UnitTypes::Zerg_Larva &&
+      if ( requiredType == UnitTypes::Zerg_Larva &&
            ( builderType == UnitTypes::Zerg_Hatchery ||
              builderType == UnitTypes::Zerg_Lair     ||
              builderType == UnitTypes::Zerg_Hive ) )
@@ -693,7 +695,7 @@ namespace BWAPI
         if ( builder->getLarva().size() == 0 )
           return this->setLastError(Errors::Unit_Does_Not_Exist);
       }
-      else if ( builderType != type.whatBuilds().first )
+      else if ( builderType != requiredType )
       {
         return this->setLastError(Errors::Incompatible_UnitType);
       }
@@ -720,15 +722,16 @@ namespace BWAPI
     } // builder
 
     /* Check if player has enough minerals */
-    if (self()->minerals() < type.mineralPrice())
+    if ( self()->minerals() < type.mineralPrice() )
       return this->setLastError(Errors::Insufficient_Minerals);
 
     /* Check if player has enough gas */
-    if (self()->gas() < type.gasPrice())
+    if ( self()->gas() < type.gasPrice() )
       return this->setLastError(Errors::Insufficient_Gas);
     
     /* Check if player has enough supplies */
-    if (type.supplyRequired() > 0 && self()->supplyTotal() < self()->supplyUsed() + type.supplyRequired() - type.whatBuilds().first.supplyRequired())
+    BWAPI::Race typeRace = type.getRace();
+    if ( type.supplyRequired() > 0 && self()->supplyTotal(typeRace) < self()->supplyUsed(typeRace) + type.supplyRequired() - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0) )
       return this->setLastError(Errors::Insufficient_Supply);
 
     UnitType addon = UnitTypes::None;

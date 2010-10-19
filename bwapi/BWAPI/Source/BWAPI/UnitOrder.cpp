@@ -478,7 +478,7 @@ namespace BWAPI
     if ( !target || !((UnitImpl*)target)->attemptAccess())
       return false;
 
-    if (!this->getType().isWorker() || (!target->getType().isRefinery() && target->getType() != UnitTypes::Resource_Mineral_Field))
+    if ( !this->getType().isWorker() || !target->getType().isResourceContainer() || this->getOriginalRawData->worker.powerup )
       return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
     this->orderSelect();

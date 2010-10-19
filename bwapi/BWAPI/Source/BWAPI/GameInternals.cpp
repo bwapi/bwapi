@@ -310,9 +310,14 @@ namespace BWAPI
 
         strcpy(szKeyName, "ai_dll");
         if ( dwProcNum > 0 )
-          sprintf(szKeyName, "_%u", dwProcNum);
+        {
+          char tst[16];
+          sprintf_s(tst, 16, "_%u", dwProcNum);
+          strcat(szKeyName, tst);
+        }
+
         if ( isDebug() )
-          strcpy(szKeyName, "_dbg");
+          strcat(szKeyName, "_dbg");
 
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, BWAPICONFIG);
         if ( _strcmpi(szDllPath, "NULL") == 0)
@@ -1296,10 +1301,6 @@ namespace BWAPI
       _getType = UnitTypes::Resource_Mineral_Field;
     }
 
-    int hitpoints = i->getOriginalRawData->hitPoints;
-    if ( !i->_getType.isInvincible() && hitpoints <= 0 )
-      return false;
-
     if ( !i->getOriginalRawData->sprite )
       return false;
 
@@ -1312,8 +1313,14 @@ namespace BWAPI
           _getType == UnitTypes::Terran_Vulture_Spider_Mine ||
           _getType == UnitTypes::Terran_Nuclear_Missile)
         return false;
-
     }
+
+    if ( !_getType.isInvincible() && i->getOriginalRawData->hitPoints <= 0 )
+    {
+      Broodwar->printf("Unit %s is dead, 0 HP", _getType.getName().c_str());
+      return false;
+    }
+
     return true;
   }
   //------------------------------------------ Compute Unit Existence ----------------------------------------

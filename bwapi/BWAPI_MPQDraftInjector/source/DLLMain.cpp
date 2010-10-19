@@ -68,7 +68,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
       char szBwPath[MAX_PATH];
       DWORD dwPathSize = MAX_PATH;
 
-      LSTATUS dwErrCode = RegGetValue(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath", RRF_RT_ANY, NULL, szBwPath, &dwPathSize);
+      LSTATUS dwErrCode = RegQueryValueEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft\\InstallPath", NULL, NULL, (LPBYTE)szBwPath, &dwPathSize);
       if ( dwErrCode != ERROR_SUCCESS )
         BWAPIError("Failed to load registry value properly: 0x%p", dwErrCode);
 
