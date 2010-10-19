@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../lib/Debug/BWAPI.lib ../lib/Debug/BWTA.lib ../lib/Debug/tinyxmld.lib ../lib/Debug/CGAL-vc90-mt-gd.lib ../lib/Debug/libboost_thread-vc90-mt-gd-1_40.lib ../lib/Debug/gmp-vc90-mt-gd.lib ../lib/Debug/mpfr-vc90-mt-gd.lib"
+				AdditionalDependencies="../lib/BWAPId.lib ../lib/BWTAd.lib ../lib/tinyxmld.lib ../lib/CGAL-vc90-mt-gd.lib ../lib/libboost_thread-vc90-mt-gd-1_40.lib ../lib/gmp-vc90-mt-gd.lib ../lib/mpfr-vc90-mt-gd.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../lib/Release/BWAPI.lib ../lib/Release/BWTA.lib ../lib/Release/tinyxml.lib ../lib/Release/CGAL-vc90-mt.lib ../lib/Release/libboost_thread-vc90-mt-1_40.lib ../lib/Release/gmp-vc90-mt.lib ../lib/Release/mpfr-vc90-mt.lib"
+				AdditionalDependencies="../lib/BWAPI.lib ../lib/BWTA.lib ../lib/tinyxml.lib ../lib/CGAL-vc90-mt.lib ../lib/libboost_thread-vc90-mt-1_40.lib ../lib/gmp-vc90-mt.lib ../lib/mpfr-vc90-mt.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="false"
 				SubSystem="2"

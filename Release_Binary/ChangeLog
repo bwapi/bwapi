@@ -1,4 +1,36 @@
 ===============================================
+Changes from BWAPI Beta 3.1 to BWAPI Beta 3.1.1
+===============================================
+
+Changes:
+
+    * bwapi-errors are now written to the logs folder with a time and date stamp.
+    * Using train or morph(unit) on a hatchery, lair, or hive will automatically issue the order to a larva.
+    * Ordering a Nydus Canal to build a Nydus Canal will allow you to place the Nydus exit.
+    * Changed the palette index for some Colors and updated the colors for sendText in Single Player.
+    * The Config button in ChaosLauncherInjector? and MPQDraftInjector will now load the BWAPI config file from the Starcraft path obtained by the registry. 
+
+New features:
+
+    * Added Unit::getResourceGroup - Returns a group index for a resource to identify which base it belongs to.
+    * Implemented the Nydus Canal. You can now tell a Nydus Canal to build an exit.
+    * Added Unit::hasPath(Unit *target), a macro function that calls hasPath for the target unit.
+    * Added the following Color constants: Colors::Brown and Colors::Teal.
+    * Added Player::getColor and Player::getTextColor to retrieve a player's color for drawing and control character for text messages. 
+
+Bug fixes:
+
+    * Fixed a desynch caused by a large number of commands being processed.
+    * Fixed restartGame which was broken in a previous release.
+    * Fixed a crash when passing a NULL target to Unit::getDistance().
+    * Fixed an issue where Map::getMapHash() failed on campaign maps.
+    * Fixed a bug that prevented sending text when no module is loaded.
+    * Fixed a bug involving duplicate cheat codes.
+    * Fixed a bug where onMorph would sometimes be called when a building finished morphing, rather than when it began morphing.
+    * Fixed a canBuildHere issue involving the message "Couldn't reach building site".
+    * Fix an issue where hasPath failed at cliff edges. 
+    
+===============================================
 Changes from BWAPI Beta 3.0.3 to BWAPI Beta 3.1
 ===============================================
 

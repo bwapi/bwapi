@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../lib/Debug/BWAPI.lib ../lib/Debug/BWAPIClient.lib"
+				AdditionalDependencies="../lib/BWAPId.lib ../lib/BWAPIClientd.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../lib/Release/BWAPI.lib ../lib/Release/BWAPIClient.lib"
+				AdditionalDependencies="../lib/BWAPI.lib ../lib/BWAPIClient.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="1"
