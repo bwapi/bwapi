@@ -150,6 +150,7 @@ int main(int argc, const char* argv[])
             } else
             {
               Broodwar->printf("You typed '%s'!",e->text.c_str());
+              Broodwar->sendText("%s",e->text.c_str());
             }
             break;
           case EventType::ReceiveText:
