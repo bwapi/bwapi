@@ -123,8 +123,9 @@
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="false"
+				ProgramDataBaseFileName="$(OutDir)\BWAPId.pdb"
 				WarningLevel="4"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 				DisableSpecificWarnings="4100;"
 			/>
 			<Tool
@@ -158,7 +159,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPI library to Developer folder"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPId.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.lib&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPId.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPId.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb&quot;"
 			/>
 		</Configuration>
 	</Configurations>
