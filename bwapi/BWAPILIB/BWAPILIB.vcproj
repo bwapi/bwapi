@@ -86,7 +86,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPI library to Developer folder"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPI.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\Release\&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPI.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPI.lib&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -141,7 +141,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				UseUnicodeResponseFiles="false"
-				OutputFile="$(OutDir)\BWAPI.lib"
+				OutputFile="$(OutDir)\BWAPId.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -158,7 +158,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPI library to Developer folder"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPI.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\Debug\&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPId.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.lib&quot;"
 			/>
 		</Configuration>
 	</Configurations>
