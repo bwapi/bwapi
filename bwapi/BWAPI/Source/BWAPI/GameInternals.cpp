@@ -486,6 +486,9 @@ namespace BWAPI
     GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, BWAPICONFIG);
     this->autoMenuMode = std::string( strupr(buffer) );
 
+    GetPrivateProfileString("config", "auto_restart", "OFF", buffer, MAX_PATH, BWAPICONFIG);
+    this->autoMenuRestartGame = std::string( strupr(buffer) );
+
     if ( autoMenuMode != "OFF" && autoMenuMode != "" )
     {
       GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, BWAPICONFIG);
@@ -763,11 +766,14 @@ namespace BWAPI
       case 18:
       case 19:
         actCreate = false;
-        if ( !actEnd )
+        if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
         {
-          actEnd = true;
-          if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
-            actEnd = false;
+          if ( !actEnd )
+          {
+            actEnd = true;
+            if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
+              actEnd = false;
+          }
         }
         break;
 // Mission Briefings
