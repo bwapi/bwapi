@@ -47,8 +47,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)\$(ProjectName)d.pdb"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -77,7 +78,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPIClientd.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.lib&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPIClientd.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPIClientd.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.pdb&quot;"
 			/>
 		</Configuration>
 		<Configuration
