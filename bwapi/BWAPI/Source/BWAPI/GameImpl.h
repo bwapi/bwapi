@@ -267,8 +267,6 @@ namespace BWAPI
       std::set<int> invalidIndices;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);
-      BWAPI::UnitImpl *spriteToUnit(BW::CSprite *sprite);
-      void iscriptParser(BW::CSprite *sprite, u8 anim);
       std::list<Event> events;
       int bulletCount;
       BW::dialog *myDlg;

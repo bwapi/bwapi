@@ -25,17 +25,19 @@ namespace BW
       u8      wait;
       u16     frameSet;
       u16     frameIndex;
-      u32     unknown_1C;
-      u32     unknown_20;
-      u32     unknown_24;
-      u32     unknown_28;
+      u16     unknown_1C;
+      u16     unknown_1E;
+      u16     unknown_20;
+      u16     unknown_22;
+      u16     unknown_24;
+      u16     unknown_26;
+      u16     unknown_28;
+      u16     unknown_2A;
       void    *GRPFile;
       void    *coloringData;
       void    *renderFunction1;
       void    *renderFunction2;
       CSprite *spriteOwner;
-
-      void __thiscall _PlayIscript(char *header, int unk1, int unk2);
     };
 
     namespace Anims

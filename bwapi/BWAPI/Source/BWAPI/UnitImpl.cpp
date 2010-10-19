@@ -35,7 +35,6 @@ namespace BWAPI
       , lastType(UnitTypes::Unknown)
       , lastPlayer(NULL)
       , nukeDetected(false)
-      , animState(0)
       , lastGroundWeaponCooldown(0)
       , lastAirWeaponCooldown(0)
       , startingAttack(false)
@@ -668,7 +667,10 @@ namespace BWAPI
   bool UnitImpl::isStartingAttackSequence() const
   {
     checkAccessBool();
-    return this->animState == BW::Image::Anims::GndAttkInit || this->animState == BW::Image::Anims::AirAttkInit;
+    u8 animState = 0;
+    if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
+      animState = getOriginalRawData->sprite->mainGraphic->anim;
+    return animState == BW::Image::Anims::GndAttkInit || animState == BW::Image::Anims::AirAttkInit;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)

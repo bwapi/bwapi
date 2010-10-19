@@ -304,15 +304,6 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
   }
 }
 
-//------------------------------------------------ ON ISCRIPT ------------------------------------------------
-void __thiscall BW::Image::CImage::_PlayIscript(char *header, int unk1, int unk2)
-{
-  if (this == this->spriteOwner->mainGraphic)   // ignore unwanted graphics
-    BWAPI::BroodwarImpl.iscriptParser(this->spriteOwner, this->anim);
-
-  BW::BWFXN_PlayIscript(this, header, unk1, unk2);
-}
-
 //------------------------------------------------ STORM HOOKS -----------------------------------------------
 BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
 {
@@ -442,15 +433,8 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
   }
 
-  /* Funny workaround for the lack of type casting */
-  char temptest[32];
-  void *pPlayIscript;
-  sprintf_s(temptest, 32, "%p", &BW::Image::CImage::_PlayIscript);
-  sscanf(temptest, "%p", &pPlayIscript);
-
   /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
-  HackUtil::CallPatch(BW::BWFXN_IscriptHook,    pPlayIscript);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
 

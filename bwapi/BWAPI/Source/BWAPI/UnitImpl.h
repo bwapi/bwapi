@@ -259,7 +259,6 @@ namespace BWAPI
       bool userSelected;
       bool staticInformation;
       bool nukeDetected;
-      int animState;
       int lastGroundWeaponCooldown;
       int lastAirWeaponCooldown;
       bool startingAttack;
