@@ -58,8 +58,8 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				Description="Copy project to final release"
-				CommandLine="XCOPY &quot;$(ProjectDir)*.h&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y"
+				Description=""
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -134,8 +134,8 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				Description="Copy project to final release"
-				CommandLine="XCOPY &quot;$(ProjectDir)*.h&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(ProjectDir)*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\$(ProjectName)\&quot; /S /C /I /R /Y"
+				Description=""
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCLinkerTool"
