@@ -1290,6 +1290,7 @@ namespace BWAPI
     return false;
 #endif
   }
+  //----------------------------------------------- LAT COMPENSATION -----------------------------------------
   bool GameImpl::isLatComEnabled()
   {
     return hasLatCom;
@@ -1297,5 +1298,10 @@ namespace BWAPI
   void GameImpl::setLatCom(bool isEnabled)
   {
     hasLatCom = isEnabled;
+  }
+  //--------------------------------------------------- REPLAY -----------------------------------------------
+  int GameImpl::getReplayFrameCount()
+  {
+    return (int)*BW::BWDATA_ReplayFrames;
   }
 };

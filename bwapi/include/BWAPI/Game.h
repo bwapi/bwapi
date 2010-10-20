@@ -387,6 +387,9 @@ namespace BWAPI
 
       /** Use to enable or disable latency compensation. Default: Enabled */
       virtual void setLatCom(bool isEnabled) = 0;
+
+      /** Retrieves the number of frames in the replay */
+      virtual int getReplayFrameCount() = 0;
   };
   extern Game* Broodwar;
 }

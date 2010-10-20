@@ -215,6 +215,7 @@ namespace BWAPI
       virtual bool isDebug();
       virtual bool isLatComEnabled();
       virtual void setLatCom(bool isEnabled);
+      virtual int  getReplayFrameCount();
 
       //Internal BWAPI commands:
       GameImpl();

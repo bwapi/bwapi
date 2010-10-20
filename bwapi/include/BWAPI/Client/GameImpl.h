@@ -195,13 +195,14 @@ namespace BWAPI
       virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
 
       virtual void *getScreenBuffer();
-      virtual int getLatencyFrames();
-      virtual int getLatencyTime();
-      virtual int getRemainingLatencyFrames();
-      virtual int getRemainingLatencyTime();
-      virtual int getRevision();
+      virtual int  getLatencyFrames();
+      virtual int  getLatencyTime();
+      virtual int  getRemainingLatencyFrames();
+      virtual int  getRemainingLatencyTime();
+      virtual int  getRevision();
       virtual bool isDebug();
       virtual bool isLatComEnabled();
       virtual void setLatCom(bool isEnabled);
+      virtual int  getReplayFrameCount();
   };
 }

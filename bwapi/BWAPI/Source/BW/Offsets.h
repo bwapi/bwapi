@@ -195,6 +195,9 @@ namespace BW
   static int            *BWDATA_GameModule     = (int*) 0x0059688C;
   static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
 
+  // note: unaligned because it's part of a structure that we're not using
+  static u32            *BWDATA_ReplayFrames   = (u32*) 0x006D0F31;
+
   static u32            *BWDATA_Ophelia        = (u32*) 0x0051BFF8;
   static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;  // 1 if loading?
   static u16            *BWDATA_gwNextGameMode = (u16*) 0x0051CE90;
