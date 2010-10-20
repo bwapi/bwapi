@@ -78,6 +78,7 @@ namespace BWAPI
       , pathDebug(false)
       , unitDebug(false)
       , grid(false)
+      , wantSelectionUpdate(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -261,8 +262,12 @@ namespace BWAPI
           }
         }
       }
-      //save the list of selected units and update the selected field of existing units
-      refreshSelectionStates();
+      // Update unit selection
+      if ( wantSelectionUpdate )
+      {
+        wantSelectionUpdate = false;
+        refreshSelectionStates();
+      }
 
       //update players and check to see if they have just left the game.
       for (int i = 0; i < PLAYER_COUNT; i++)
@@ -308,21 +313,21 @@ namespace BWAPI
         char szKeyName[MAX_PATH];
         hMod = NULL;
 
-        strcpy(szKeyName, "ai_dll");
+        SStrCopy(szKeyName, "ai_dll", MAX_PATH);
         if ( dwProcNum > 0 )
         {
           char tst[16];
           sprintf_s(tst, 16, "_%u", dwProcNum);
-          strcat(szKeyName, tst);
+          SStrNCat(szKeyName, tst, MAX_PATH);
         }
 
         if ( isDebug() )
-          strcat(szKeyName, "_dbg");
+          SStrNCat(szKeyName, "_dbg", MAX_PATH);
 
-        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, BWAPICONFIG);
-        if ( _strcmpi(szDllPath, "NULL") == 0)
+        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
+        if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
         {
-          BWAPIError("Could not find %s under ai in \"%s\".", szKeyName, BWAPICONFIG);
+          BWAPIError("Could not find %s under ai in \"%s\".", szKeyName, szConfigPath);
         }
         else
         {
@@ -490,15 +495,15 @@ namespace BWAPI
     //this function is called when starcraft loads and at the end of each match.
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
-    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuMode = std::string( strupr(buffer) );
 
-    GetPrivateProfileString("config", "auto_restart", "OFF", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuRestartGame = std::string( strupr(buffer) );
 
     if ( autoMenuMode != "OFF" && autoMenuMode != "" )
     {
-      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, BWAPICONFIG);
+      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, szConfigPath);
 
       //split path into path and filename
       char* mapPathAndNameI         = buffer;
@@ -513,13 +518,13 @@ namespace BWAPI
       mapPathAndNameLastSlash[0] = '\0';
       autoMenuMapPath = std::string(buffer);
     }
-    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
     autoMenuRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, szConfigPath);
     autoMenuEnemyRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, szConfigPath);
     autoMenuEnemyCount = std::string(buffer);
-    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, BWAPICONFIG);
+    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, szConfigPath);
     autoMenuGameType = std::string(buffer);
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -557,8 +562,8 @@ namespace BWAPI
 //single player play custom / load replay selection screen
       case 22:
         actRegistry = false;
-        strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
-        strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
+        SStrCopy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str(), MAX_PATH);
+        SStrCopy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str(), MAX_PATH);
         if ( !actRaceSel )
         {
           actRaceSel = true;
@@ -652,8 +657,8 @@ namespace BWAPI
 //lan games lobby
         case 10: 
           actRegistry = false;
-          strcpy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str());
-          strcpy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str());
+          SStrCopy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str(), MAX_PATH);
+          SStrCopy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str(), MAX_PATH);
           if ( !actGameSel )
           {
             actGameSel = true;
@@ -805,8 +810,11 @@ namespace BWAPI
       this->unitArray[i]->setSelected(false);
 
     this->saveSelected();
-    for (int i = 0; savedSelectionStates[i]; ++i)
-      BWAPI::UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i])->setSelected(true);
+    for (int i = 0; i < *BW::BWDATA_ClientSelectionCount && i < 12; ++i)
+    {
+      if ( BW::BWDATA_ClientSelectionGroup[i] )
+        BWAPI::UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i])->setSelected(true);
+    }
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::_isBattleNet()
@@ -1177,6 +1185,8 @@ namespace BWAPI
     staticMinerals.clear();
     staticGeysers.clear();
     staticNeutralUnits.clear();
+    
+    wantSelectionUpdate = false;
 
     //clear latency buffer
     this->commandBuffer.clear();
@@ -1185,12 +1195,7 @@ namespace BWAPI
     FreeLibrary(hMod);
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
 
-    //clear all selection states
-    for (int i = 0; i < 13; i++)
-      this->savedSelectionStates[i] = NULL;
-
     this->invalidIndices.clear();
-    this->selectedUnitSet.clear();
     this->startedClient = false;
 
     //delete all dead units
@@ -1263,21 +1268,12 @@ namespace BWAPI
   //--------------------------------------------- SAVE SELECTED ----------------------------------------------
   void GameImpl::saveSelected()
   {
-    memcpy(&savedSelectionStates, BW::BWDATA_CurrentPlayerSelectionGroup, 4 * 12);
-    savedSelectionStates[12] = NULL;
     selectedUnitSet.clear();
-    for (int i = 0; savedSelectionStates[i]; ++i)
-      selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(savedSelectionStates[i]));
-  }
-  //--------------------------------------------- LOAD SELECTED ----------------------------------------------
-  void GameImpl::loadSelected()
-  {
-    int unitCount = 0;
-    while (savedSelectionStates[unitCount])
-      unitCount++;
-
-    if (unitCount > 0)
-      BW::selectUnits(unitCount, savedSelectionStates);
+    for (int i = 0; i < *BW::BWDATA_ClientSelectionCount && i < 12; ++i)
+    {
+      if ( BW::BWDATA_ClientSelectionGroup[i] )
+        selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i]));
+    }
   }
   //------------------------------------------ copy Map To Shared Memory -------------------------------------
   void GameImpl::copyMapToSharedMemory()

@@ -21,6 +21,14 @@ namespace BW
     else
       this->targetID = 0;
   }
+  UnitTarget::UnitTarget(BW::Unit* target)
+  {
+    u16 unitID = (u16)( ((u32)target - (u32)BWDATA_UnitNodeTable) / 336 + 1);
+    if (unitID <= UNIT_ARRAY_MAX_LENGTH)
+      this->targetID = unitID | (target->targetOrderSpecial << 11);
+    else
+      this->targetID = 0;
+  }
   //-------------------------------------------------- GETTARGET ---------------------------------------------
   u16 UnitTarget::getTarget() const
   {

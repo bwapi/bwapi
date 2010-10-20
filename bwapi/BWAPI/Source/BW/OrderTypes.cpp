@@ -66,12 +66,11 @@ namespace BW
         , target(select)
     {
     }
-    //-------------------------------------- SELECT SINGLE CONSTRUCTOR ---------------------------------------
+    //----------------------------------------- SELECT CONSTRUCTOR -------------------------------------------
     Select::Select(u8 count, ...)
         : always0x09(0x09)
     {
       u8 finalCount = 0;
-
       va_list list;
       va_start(list, count);
       for ( unsigned int i = 0; i < count && i < 12; ++i )
@@ -79,13 +78,43 @@ namespace BW
         BWAPI::UnitImpl *inter = va_arg(list, BWAPI::UnitImpl*);
         if ( inter != NULL )
         {
+          targets[finalCount] = UnitTarget(inter);
           ++finalCount;
-          targets[i] = UnitTarget(inter);
+        }
+      }
+      va_end(list);
+      targCount = finalCount;
+      size = 2 + targCount * 2;
+    }
+    Select::Select(u8 count, BWAPI::UnitImpl **units)
+        : always0x09(0x09)
+    {
+      u8 finalCount = 0;
+      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      {
+        if ( units[i] != NULL )
+        {
+          targets[finalCount] = UnitTarget(units[i]);
+          ++finalCount;
         }
       }
       targCount = finalCount;
       size = 2 + targCount * 2;
-      va_end(list);
+    }
+    Select::Select(u8 count, BW::Unit **units)
+        : always0x09(0x09)
+    {
+      u8 finalCount = 0;
+      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      {
+        if ( units[i] != NULL )
+        {
+          targets[finalCount] = UnitTarget(units[i]);
+          ++finalCount;
+        }
+      }
+      targCount = finalCount;
+      size = 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
     TrainUnit::TrainUnit(BW::UnitType type)

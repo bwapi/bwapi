@@ -245,16 +245,15 @@ namespace BW
   static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
-  static void (_stdcall *selectUnits)(int count, BW::Unit** unitsToSelect) = (void (_stdcall*)(int,BW::Unit**))0x004C0860;
   extern void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt);
-
   static u16  *BWDATA_SendTextFilter     = (u16*) 0x0057F1DA;
 
   static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
   static u32  BWFXN_SendLobbyCallTarget  = 0x004707D0;
 
-  static Unit *BWDATA_CurrentPlayerSelectionGroup = (Unit*) 0x00597208;
-  static u32  BWDATA_PlayerSelection              = 0x006284E0;
+  static Unit **BWDATA_ClientSelectionGroup = (Unit**) 0x00597208;
+  static u8   *BWDATA_ClientSelectionCount  = (u8*)    0x0059723D;
+  static u32  BWDATA_PlayerSelection        =          0x006284E0;
 
   static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;

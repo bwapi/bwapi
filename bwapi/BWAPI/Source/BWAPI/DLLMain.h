@@ -11,11 +11,10 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
 
 void BWAPIError(const char *format, ...);
 
-#define BWAPICONFIG "bwapi-data\\bwapi.ini"
-
 extern char logPath[MAX_PATH];
 extern bool logging;
 
 extern DWORD dwProcNum;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
+extern char szConfigPath[MAX_PATH];

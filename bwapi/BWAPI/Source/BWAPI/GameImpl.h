@@ -276,6 +276,8 @@ namespace BWAPI
       std::string autoMenuMode;
       /** Count of game-frames passed from game start. */
       int frameCount;
+      void refreshSelectionStates();
+      bool wantSelectionUpdate;
     private :
       HMODULE hMod;
       void saveSelected();
@@ -328,8 +330,6 @@ namespace BWAPI
        */
       std::string savedMapHash;
       bool flags[BWAPI::Flag::Max];
-      BW::Unit* savedSelectionStates[13];
-      void refreshSelectionStates();
       AIModule* client;
       bool startedClient;
       BWAPI::Error lastError;

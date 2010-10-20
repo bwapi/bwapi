@@ -6,6 +6,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Attack_Move;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -23,6 +24,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Build;
+    target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
     c.extra = type.getID();
@@ -73,6 +75,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Set_Rally_Position;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -90,6 +93,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Move;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -99,6 +103,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Patrol;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -202,6 +207,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Land;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -234,6 +240,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Unload_All_Position;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -243,6 +250,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Right_Click_Position;
+    target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
     return c;
@@ -312,7 +320,7 @@ namespace BWAPI
     c.type = UnitCommandTypes::Cancel_Upgrade;
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit* unit,TechType tech)
+  UnitCommand UnitCommand::useTech(Unit* unit, TechType tech)
   {
     UnitCommand c;
     c.unit  = unit;
@@ -320,12 +328,13 @@ namespace BWAPI
     c.extra = tech.getID();
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit* unit,TechType tech, Position target)
+  UnitCommand UnitCommand::useTech(Unit* unit, TechType tech, Position target)
   {
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Use_Tech_Position;
     c.extra = tech.getID();
+    target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
     return c;

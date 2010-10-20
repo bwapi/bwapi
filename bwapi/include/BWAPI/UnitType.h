@@ -255,6 +255,10 @@ namespace BWAPI
 
       /** Returns true if the unit is neutral, such as a critter or mineral field. */
       bool isNeutral() const;
+
+      /** Returns true if the unit produces larva. */
+      bool producesLarva() const;
+
     private:
       int id;
   };
