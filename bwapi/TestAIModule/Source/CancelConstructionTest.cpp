@@ -4,6 +4,20 @@
 using namespace std;
 using namespace BWAPI;
 extern BuildingPlacer* placer;
+#define FAILTEST(C)\
+{\
+  if (!(C))\
+  {\
+  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, builder ? builder->getType().getName().c_str() : "NULL", unitType.getName().c_str(), builder ? builder->getOrder().getName().c_str() : "null", building ? building->getType().getName().c_str() : "NULL", building ? building->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+    assert_fail_count++;\
+    fail = true;\
+    return;\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 CancelConstructionTest::CancelConstructionTest(BWAPI::UnitType unitType, bool terranHalt) : unitType(unitType),
                                                builder(NULL),
                                                building(NULL),
@@ -15,8 +29,8 @@ CancelConstructionTest::CancelConstructionTest(BWAPI::UnitType unitType, bool te
   fail = false;
   running = false;
   builderType = unitType.whatBuilds().first;
-  BWAssertF(builderType!=UnitTypes::None,{fail=true;return;});
-  BWAssertF(builderType!=UnitTypes::Unknown,{fail=true;return;});
+  FAILTEST(builderType!=UnitTypes::None);
+  FAILTEST(builderType!=UnitTypes::Unknown);
   if (placer==NULL) placer = new BuildingPlacer();
 }
 void CancelConstructionTest::start()
@@ -25,7 +39,7 @@ void CancelConstructionTest::start()
   running = true;
 
   int builderCount = Broodwar->self()->completedUnitCount(builderType);
-  BWAssertF(builderCount>=1,{fail=true;return;});
+  FAILTEST(builderCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
   {
     if (u->getType()==builderType && u->getAddon()==NULL)
@@ -34,8 +48,8 @@ void CancelConstructionTest::start()
       break;
     }
   }
-  BWAssertF(builder!=NULL,{fail=true;return;});
-  BWAssertF(builder->isIdle()==true,{fail=true;return;});
+  FAILTEST(builder!=NULL);
+  FAILTEST(builder->isIdle()==true);
 
   correctMineralCount = Broodwar->self()->minerals()-unitType.mineralPrice();
   correctGasCount = Broodwar->self()->gas()-unitType.gasPrice();
@@ -47,22 +61,26 @@ void CancelConstructionTest::start()
 
   if (unitType.isAddon())
   {
-    BWAssertF(builder->buildAddon(unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    FAILTEST(builder->buildAddon(unitType));
   }
   else
   {
     buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,1);
     if (unitType==UnitTypes::Protoss_Pylon)
+    {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
+    }
     if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
+    {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
+    }
     BWAssertF(builder->build(buildLocation,unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
   }
-  BWAssertF(builder->isIdle()==false,{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  BWAssertF(builder->isConstructing()==true,{fail=true;return;});
+  FAILTEST(builder->isIdle()==false);
+  FAILTEST(builder->isConstructing()==true);
   BWAssertF(builder->getBuildType()==unitType,
   {
-    Broodwar->printf("Error: %s != %s",builder->getBuildType().getName().c_str(),unitType.getName().c_str());
+    log("Error: %s != %s",builder->getBuildType().getName().c_str(),unitType.getName().c_str());
     fail=true;
     return;
   });
@@ -81,7 +99,7 @@ void CancelConstructionTest::update()
   }
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
-  BWAssertF(builder!=NULL,{fail=true;return;});
+  FAILTEST(builder!=NULL);
   nextFrame++;
   if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
   {
@@ -97,17 +115,23 @@ void CancelConstructionTest::update()
     if (buildingsOnTile.empty()==false)
     {
       if (unitType==UnitTypes::Zerg_Extractor)
+      {
         builder=*buildingsOnTile.begin();
+      }
     }
-    BWAssertF(builder!=NULL,{fail=true;return;});
+    FAILTEST(builder!=NULL);
   }
-  BWAssertF(builder->exists(),{fail=true;return;});
+  FAILTEST(builder->exists());
   Broodwar->setScreenPosition(builder->getPosition().x()-320,builder->getPosition().y()-240);
 
   if (building==NULL && builder->getBuildUnit()!=NULL)
+  {
     building = builder->getBuildUnit();
+  }
   if (building==NULL && builder->getAddon()!=NULL)
+  {
     building = builder->getAddon();
+  }
 
   std::set<Unit*> buildingsOnTile;
   std::set<Unit*> unitsOnTile = Broodwar->unitsOnTile(buildLocation.x(),buildLocation.y());
@@ -122,7 +146,9 @@ void CancelConstructionTest::update()
   {
     building = *buildingsOnTile.begin();
     if (unitType==UnitTypes::Zerg_Extractor)
+    {
       builder=building;
+    }
   }
 
   if (startFrame == -1 && building!=NULL)
@@ -141,15 +167,15 @@ void CancelConstructionTest::update()
       if (thisFrame==startFrame+Broodwar->getLatency()+200)
       {
         builder->haltConstruction();
-        BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
-        BWAssertF(builder->isConstructing()==false,{fail=true;return;});
-        BWAssertF(building->isBeingConstructed()==false,{fail=true;return;});
+        FAILTEST(builder->getBuildType()==UnitTypes::None);
+        FAILTEST(builder->isConstructing()==false);
+        FAILTEST(building->isBeingConstructed()==false);
       }
       if (thisFrame>=startFrame+Broodwar->getLatency()+200 && thisFrame<startFrame+Broodwar->getLatency()+300)
       {
-        BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
-        BWAssertF(builder->isConstructing()==false,{fail=true;return;});
-        BWAssertF(building->isBeingConstructed()==false,{fail=true;return;});
+        FAILTEST(builder->getBuildType()==UnitTypes::None);
+        FAILTEST(builder->isConstructing()==false);
+        FAILTEST(building->isBeingConstructed()==false);
       }
     }
     if (thisFrame==startFrame+Broodwar->getLatency()+500)
@@ -161,21 +187,21 @@ void CancelConstructionTest::update()
     }
     if (thisFrame>=startFrame+Broodwar->getLatency()+500)
     {
-      BWAssertF(builder->getBuildType()==UnitTypes::None,{fail=true;return;});
-      BWAssertF(builder->isConstructing()==false,{Broodwar->printf("%d",thisFrame-startFrame);});
-      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{Broodwar->printf("%d != %d",Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->gas()==correctGasCount,{Broodwar->printf("%d: %d != %d, diff = %d",thisFrame-(startFrame+Broodwar->getLatency()+500), Broodwar->self()->gas(),correctGasCount,Broodwar->self()->gas()-correctGasCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{Broodwar->printf("%d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
+      FAILTEST(builder->getBuildType()==UnitTypes::None);
+      BWAssertF(builder->isConstructing()==false,{log("%d",thisFrame-startFrame);});
+      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{log("%d != %d",Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
+      BWAssertF(Broodwar->self()->gas()==correctGasCount,{log("%d: %d != %d, diff = %d",thisFrame-(startFrame+Broodwar->getLatency()+500), Broodwar->self()->gas(),correctGasCount,Broodwar->self()->gas()-correctGasCount);fail=true;return;});
+      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{log("%d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
     }
     if (thisFrame>startFrame+Broodwar->getLatency()+550)
     {
       if (unitType.getRace()!=Races::Zerg)
       {
-        BWAssertF(building->exists()==false,{fail=true;return;});
+        FAILTEST(building->exists()==false);
       }
       else
       {
-        BWAssertF(building->getType()==UnitTypes::Zerg_Drone,{fail=true;return;});
+        FAILTEST(building->getType()==UnitTypes::Zerg_Drone);
       }
     } 
     if (thisFrame>startFrame+Broodwar->getLatency()+700)

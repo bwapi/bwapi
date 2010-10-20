@@ -264,6 +264,7 @@ namespace BWAPI
 
       std::vector<Shape*> shapes;
       Util::Logger* newUnitLog;
+      Util::Logger* commandLog;
       std::set<int> invalidIndices;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);
@@ -312,8 +313,6 @@ namespace BWAPI
       UnitImpl* unitArray[UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
-      /** All commands ordered from BWAPI */
-      Util::Logger* commandLog;
       /** Will update the unitsOnTile content, should be called every frame. */
       void updateUnits();
       void updateBullets();

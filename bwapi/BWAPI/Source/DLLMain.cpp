@@ -444,6 +444,19 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
 
+  /* create log handles */
+  if (logging)
+  {
+    BWAPI::BroodwarImpl.commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
+    BWAPI::BroodwarImpl.newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
+  }
+  else
+  {
+    BWAPI::BroodwarImpl.commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
+    BWAPI::BroodwarImpl.newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
+  }
+  BWAPI::BroodwarImpl.loadAutoMenuData();
+
   if (logging)
   {
     Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
@@ -507,8 +520,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   {
     case DLL_PROCESS_ATTACH:
       dwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
-      BWAPI::BWAPI_init();
       CTRT_Thread(NULL);
+      BWAPI::BWAPI_init();
       CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
       return TRUE;
   }

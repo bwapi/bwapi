@@ -693,9 +693,7 @@ namespace BWAPI
           return this->setLastError(Errors::Unit_Does_Not_Exist);
       }
       else if ( builderType != requiredType )
-      {
         return this->setLastError(Errors::Incompatible_UnitType);
-      }
 
       /* Carrier space */
       if ( builderType == UnitTypes::Protoss_Carrier )
@@ -754,6 +752,7 @@ namespace BWAPI
            self()->completedUnitCount(UnitTypes::Zerg_Spire) +
            self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
         pass = true;
+      
       if ( !pass )
         return this->setLastError(Errors::Insufficient_Tech);
     }
