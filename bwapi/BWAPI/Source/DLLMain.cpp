@@ -19,6 +19,8 @@
 
 #include "NewHackUtil.h"
 
+char szConfigPath[MAX_PATH];
+
 DWORD dwProcNum = 0;
 
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
@@ -34,7 +36,7 @@ DWORD getProcessCount(const char *pszProcName)
   {
     do
     {
-      if( _strcmpi(pe32.szExeFile, pszProcName) == 0 )
+      if( SStrCmpI(pe32.szExeFile, pszProcName, MAX_PATH) == 0 )
         ++dwCount;
     } while( Process32Next(hSnapshot, &pe32) );
   }
@@ -233,24 +235,6 @@ DWORD lastHotkeyTime;
 //--------------------------------------------- ON ISSUE COMMAND ---------------------------------------------
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 {
-  // Do our own center view on hotkeys, since BWAPI introduces a bug that destroys this
-  if ( length >= 3 && buffer[0] == 0x13 && buffer[1] == 1 ) // Recall Hotkey
-  {
-    DWORD thisHotkeyTime = GetTickCount();
-    if ( lastHotkey == buffer[2] && (thisHotkeyTime - lastHotkeyTime) < 800 )
-    {
-      // do center view here
-      BWAPI::BroodwarImpl.moveToSelected();
-      lastHotkeyTime = 0;
-      lastHotkey     = -1;
-    }
-    else
-    {
-      lastHotkeyTime = thisHotkeyTime;
-      lastHotkey     = buffer[2];
-    }
-  }
-
   if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= *BW::BWDATA_MaxTurnSize )
   {
     // Copy data to primary turn buffer
@@ -285,21 +269,48 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
        !BWAPI::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||
        (buffer[0] >= 0x0F && buffer[0] <= 0x12) ||
-       (buffer[0] == 0x13 && buffer[1] == 1)    || // Hotkey (select only)
+       (length >= 3 && buffer[0] == 0x13 && buffer[1] == 1)    || // Hotkey (select only)
        (buffer[0] >= 0x37 && buffer[0] <= 0x59) ||
        buffer[0] >= 0x5B )
   {
-    
-    //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
-    if ( (buffer[0] >= 0x0A && buffer[0] <= 0x0C) ||
+    // Custom select code
+    if ( buffer[0] == 0x09 ||
+         buffer[0] == 0x0A ||
+         buffer[0] == 0x0B ||
+         (length >= 3 && buffer[0] == 0x13 && buffer[1] == 1) ) // Select Units
+    {
+      // Do our own center view on hotkeys, since BWAPI introduces a bug that destroys this
+      if ( length >= 3 && buffer[0] == 0x13 && buffer[1] == 1 ) // Recall Hotkey
+      {
+        DWORD thisHotkeyTime = GetTickCount();
+        if ( lastHotkey == buffer[2] && (thisHotkeyTime - lastHotkeyTime) < 800 )
+        {
+          // do center view here
+          BWAPI::BroodwarImpl.moveToSelected();
+          lastHotkeyTime = 0;
+          lastHotkey     = -1;
+        }
+        else
+        {
+          lastHotkeyTime = thisHotkeyTime;
+          lastHotkey     = buffer[2];
+        }
+      }
+      BWAPI::BroodwarImpl.wantSelectionUpdate = true;
+      return;
+    } // selections
+
+    if ( buffer[0] == 0x0C ||
          (buffer[0] == 0x13 && !(buffer[1] & 1)) ||
          buffer[0] == 0x14 ||
          buffer[0] == 0x15 ||
          (buffer[0] >= 0x18 && buffer[0] <= 0x36) ||
          buffer[0] == 0x5A )
     {
-      BWAPI::BroodwarImpl.loadSelected();
-    }
+      //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
+      BW::Orders::Select sel = BW::Orders::Select(*BW::BWDATA_ClientSelectionCount, BW::BWDATA_ClientSelectionGroup);
+      QueueGameCommand((PBYTE)&sel, sel.size);
+    } // user select
     QueueGameCommand(buffer, length);
   }
 }
@@ -396,8 +407,8 @@ void BWAPIError(const char *format, ...)
   BWAPI::BroodwarImpl.printf( "\x06" "ERROR: %s", buffer);
 
   char path[MAX_PATH];
-  strcpy(path, logPath);
-  strcat(path, "\\bwapi-error.txt");
+  SStrCopy(path, logPath, MAX_PATH);
+  SStrNCat(path, "\\bwapi-error.txt", MAX_PATH);
 
   SYSTEMTIME time;
   GetSystemTime(&time);
@@ -414,12 +425,22 @@ bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
+  HKEY hKey;
+  RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
+  if ( hKey )
+  {
+    DWORD dwMaxSize = MAX_PATH;
+    RegQueryValueEx(hKey, "InstallPath", NULL, NULL, (LPBYTE)szConfigPath, &dwMaxSize);
+    RegCloseKey(hKey);
+  }
+  SStrNCat(szConfigPath, "\\bwapi-data\\bwapi.ini", MAX_PATH);
+
   delete Util::Logger::globalLog;
-  GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, BWAPICONFIG);
+  GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
   
   logging = false;
   char logging_str[MAX_PATH];
-  GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, BWAPICONFIG);
+  GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, szConfigPath);
   if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
 

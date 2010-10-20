@@ -72,16 +72,38 @@ extern "C" __declspec(dllexport) bool OpenConfig()
 {
   char szBwPath[MAX_PATH];
   DWORD dwPathSize = MAX_PATH;
+  HKEY hKey;
 
-  LSTATUS dwErrCode = RegQueryValueEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft\\InstallPath", NULL, NULL, (LPBYTE)szBwPath, &dwPathSize);
+  char szErrString[256];
+  DWORD dwErrCode = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
   if ( dwErrCode != ERROR_SUCCESS )
-    BWAPIError("Failed to load registry value properly: 0x%p", dwErrCode);
+  {
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
+    BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
+    return false;
+  }
 
+  if ( !hKey )
+    return false;
+
+  dwErrCode = RegQueryValueEx(hKey, "InstallPath", NULL, NULL, (LPBYTE)szBwPath, &dwPathSize);
+  if ( dwErrCode != ERROR_SUCCESS )
+  {
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
+    BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
+    return false;
+  }
+  RegCloseKey(hKey);
+
+  // Load the config file
   char szExecPath[MAX_PATH*2];
   strcpy(szExecPath, szBwPath);
   strcat(szExecPath, "\\bwapi-data\\bwapi.ini");
   if ( !ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) )
+  {
     BWAPIError("Unable to open BWAPI config file.");
+    return false;
+  }
   return true;
 }
 

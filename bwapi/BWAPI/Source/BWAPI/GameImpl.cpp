@@ -687,10 +687,7 @@ namespace BWAPI
       }
 
       /* Check if this unit can actually build the unit type */
-      if ( requiredType == UnitTypes::Zerg_Larva &&
-           ( builderType == UnitTypes::Zerg_Hatchery ||
-             builderType == UnitTypes::Zerg_Lair     ||
-             builderType == UnitTypes::Zerg_Hive ) )
+      if ( requiredType == UnitTypes::Zerg_Larva && builderType.producesLarva() )
       {
         if ( builder->getLarva().size() == 0 )
           return this->setLastError(Errors::Unit_Does_Not_Exist);

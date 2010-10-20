@@ -68,6 +68,8 @@ namespace BW
     {
       public :
         Select(u8 count, ...);
+        Select(u8 count, BWAPI::UnitImpl **units);
+        Select(u8 count, BW::Unit **units);
         /** 0x09 = Select command-code in bw */
         u8         always0x09;
         /** 0x01 = 1 unit selection */

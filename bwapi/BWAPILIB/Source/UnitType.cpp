@@ -896,6 +896,12 @@ namespace BWAPI
   {
     return unitTypeData[this->id].isNeutral;
   }
+  bool UnitType::producesLarva() const
+  {
+    return this->id == UnitTypes::Zerg_Hatchery.id || 
+           this->id == UnitTypes::Zerg_Lair.id     || 
+           this->id == UnitTypes::Zerg_Hive.id;
+  }
   UnitType UnitTypes::getUnitType(std::string name)
   {
     fixName(&name);
