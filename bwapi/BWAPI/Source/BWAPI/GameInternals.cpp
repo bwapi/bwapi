@@ -966,7 +966,7 @@ namespace BWAPI
 
     // Get Player Objects
     this->server.clearAll();
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
     {
       if ( this->players[i] && 
            BW::BWDATA_Players[i].nType != BW::PlayerType::None &&
@@ -977,17 +977,25 @@ namespace BWAPI
       }
     }
 
+    if ( this->players[11] )
+      this->playerSet.insert(this->players[11]);
+
     // Get Force Objects, assign Force<->Player relations
     for ( int f = 0; f < 5; ++f )
     {
       ForceImpl *newForce;
       if ( f == 0 )
+      {
         newForce = new ForceImpl(std::string(""));
+        newForce->players.insert(this->players[11]);
+      }
       else
+      {
         newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f-1].name) );
+      }
       
       this->forces.insert( (Force*)newForce );
-      for ( int p = 0; p < PLAYER_COUNT; ++p )
+      for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
       {
         if ( this->players[p] && BW::BWDATA_Players[p].nTeam == f )
         {
@@ -1119,6 +1127,13 @@ namespace BWAPI
     {
       grid = !grid;
       printf("mtx grid %s", grid ? "ENABLED" : "DISABLED");
+    }
+    else if (parsed[0] == "/test")
+    {
+      foreach ( Player *p, this->getPlayers() )
+      {
+        printf("%s", p->getName().c_str());
+      }
     }
 #endif
     else
