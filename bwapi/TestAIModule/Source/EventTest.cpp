@@ -95,15 +95,13 @@ void EventTest::onFrame()
 
       Unit* scv = NULL;
       for each(Unit* u in Broodwar->self()->getUnits())
-        if (u->getType()==UnitTypes::Terran_SCV)
+        if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv = u;
       BWAssert(scv!=NULL);
 
-      TilePosition tilePosition;
+      TilePosition tilePosition=TilePositions::None;
       for each(Unit* u in Broodwar->getGeysers())
-      {
         tilePosition=u->getTilePosition();
-      }
       scv->build(tilePosition,UnitTypes::Terran_Refinery);
       expectedEvents.push_back(Event::UnitMorph(NULL));
       expectedEvents.push_back(Event::UnitRenegade(NULL));
@@ -117,7 +115,7 @@ void EventTest::onFrame()
 
       Unit* scv = NULL;
       for each(Unit* u in Broodwar->self()->getUnits())
-        if (u->getType()==UnitTypes::Terran_SCV)
+        if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv=u;
       BWAssert(scv!=NULL);
 
