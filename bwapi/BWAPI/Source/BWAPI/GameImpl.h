@@ -343,6 +343,7 @@ namespace BWAPI
       std::string autoMenuEnemyCount;
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
+      std::string autoMenuSaveReplay;
       DWORD endTick;
 
       bool inGame;

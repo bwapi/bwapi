@@ -520,6 +520,8 @@ namespace BWAPI
       mapPathAndNameLastSlash[0] = '\0';
       autoMenuMapPath = std::string(buffer);
     }
+    GetPrivateProfileString("config", "save_replay", "", buffer, MAX_PATH, szConfigPath);
+    autoMenuSaveReplay = std::string(buffer);
     GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
     autoMenuRace = std::string(buffer);
     GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, szConfigPath);
@@ -780,11 +782,16 @@ namespace BWAPI
       case 18:
       case 19:
         actCreate = false;
-        if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
+        if ( !actEnd )
         {
-          if ( !actEnd )
+          actEnd = true;
+          if (menu!=15)//Only save replay if this is NOT the end of replay screen
           {
-            actEnd = true;
+            if (autoMenuSaveReplay!="")
+              CopyFile("maps/replays/LastReplay.rep",autoMenuSaveReplay.c_str(),false);
+          }
+          if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
+          {
             if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
               actEnd = false;
           }
