@@ -269,6 +269,7 @@ namespace BWAPI
     data->remainingLatencyTime   = Broodwar->getRemainingLatencyTime();
     data->revision               = Broodwar->getRevision();
     data->isDebug                = Broodwar->isDebug();
+    data->replayFrameCount       = Broodwar->getReplayFrameCount();
     data->averageFPS             = Broodwar->getAverageFPS();
     data->mouseX                 = Broodwar->getMouseX();
     data->mouseY                 = Broodwar->getMouseY();

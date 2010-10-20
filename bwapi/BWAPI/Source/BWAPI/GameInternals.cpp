@@ -453,6 +453,8 @@ namespace BWAPI
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
             drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
           }
+      if ( getReplayFrameCount() )
+        drawTextScreen(30, 30, "%d/%d = %u%%", getFrameCount(), getReplayFrameCount(), (u32)(getFrameCount()*100/getReplayFrameCount()));
     } // grid
 
     // pathdebug

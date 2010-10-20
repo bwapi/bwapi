@@ -41,6 +41,7 @@ namespace BWAPI
     int revision;
     bool isDebug;
     bool hasLatCom;
+    int replayFrameCount;
     int frameCount;
     int fps;
     double averageFPS;
