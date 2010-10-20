@@ -2,6 +2,20 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
+#define FAILTEST(C)\
+{\
+  if (!(C))\
+  {\
+  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().getName().c_str() : "NULL", unitType.getName().c_str(), unit ? unit->getOrder().getName().c_str() : "null", target ? target->getType().getName().c_str() : "NULL", targetType.getName().c_str(), Broodwar->getLastError().toString().c_str());\
+    assert_fail_count++;\
+    fail = true;\
+    return;\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 AttackUnitTest::AttackUnitTest(UnitType unitType, UnitType targetType) : unitType(unitType),
                                                                          unit(NULL),
                                                                          startFrame(-1),
@@ -19,25 +33,25 @@ void AttackUnitTest::start()
   running = true;
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
-  BWAssertF(userCount>=1,{fail=true;return;});
+  FAILTEST(userCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
-  BWAssertF(unit!=NULL,{fail=true;return;});
-  BWAssertF(unit->exists(),{fail=true;return;});
+  FAILTEST(unit!=NULL);
+  FAILTEST(unit->exists());
 
   int targetCount = Broodwar->self()->completedUnitCount(targetType);
-  BWAssertF(targetCount>=1,{fail=true;return;});
+  FAILTEST(targetCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType()==targetType)
       target = u;
-  BWAssertF(target!=NULL,{fail=true;return;});
-  BWAssertF(target->exists(),{fail=true;return;});
+  FAILTEST(target!=NULL);
+  FAILTEST(target->exists());
   startingHPS = target->getHitPoints() + target->getShields();
-  BWAssertF(unit->isIdle()==true,{fail=true;return;});
-  BWAssertF(unit->attackUnit(target),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  BWAssertF(unit->getOrder()==Orders::AttackUnit,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
-  BWAssertF(unit->getTarget()==target,{fail=true;return;});
+  FAILTEST(unit->isIdle()==true);
+  FAILTEST(unit->attackUnit(target));
+  FAILTEST(unit->getOrder()==Orders::AttackUnit);
+  FAILTEST(unit->getTarget()==target);
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
   startingAttackFrame = -1;
@@ -57,9 +71,13 @@ void AttackUnitTest::update()
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
   if (unit->exists())
+  {
     Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  }
   else
+  {
     Broodwar->setScreenPosition(target->getPosition().x()-320,target->getPosition().y()-240);
+  }
 
   if (reachedDamagePointFrame==-1 &&
       thisFrame>startFrame+100 &&
@@ -71,21 +89,21 @@ void AttackUnitTest::update()
     reachedDamagePointFrame = thisFrame;
   if (reachedDamagePointFrame==-1 && unit->exists()==false)
   {
-    BWAssertF(unitType==UnitTypes::Zerg_Scourge || unitType==UnitTypes::Zerg_Infested_Terran,{fail=true;return;});
+    FAILTEST(unitType==UnitTypes::Zerg_Scourge || unitType==UnitTypes::Zerg_Infested_Terran);
     running = false;
     return;
   }
   if (reachedDamagePointFrame==-1)
   {
-    BWAssertF(unit->getOrder()==Orders::AttackUnit,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
-    BWAssertF(unit->getTarget()==target || unit->getOrderTarget()==target,{fail=true;return;});
+    FAILTEST(unit->getOrder()==Orders::AttackUnit);
+    FAILTEST(unit->getTarget()==target || unit->getOrderTarget()==target);
     if ((unit->exists()==false || unit->isStartingAttack() || unit->getScarabCount()<initialScarabCount || (int)unit->getLoadedUnits().size()<unit->getInterceptorCount()) && startingAttackFrame==-1)
     {
       startingAttackFrame=thisFrame;
     }
     if (thisFrame>startFrame+2000)
     {
-      BWAssertF(false,{Broodwar->printf("Unit failed to attack target");fail=true;return;});
+      BWAssertF(false,{log("Unit failed to attack target");fail=true;return;});
     }
   }
   else
@@ -95,24 +113,26 @@ void AttackUnitTest::update()
         unit->getType()==UnitTypes::Protoss_Carrier ||
         unit->getType()==UnitTypes::Protoss_Reaver)
     {
-      BWAssertF(target->getHitPoints()+target->getShields()<startingHPS,{fail=true;return;});
+      FAILTEST(target->getHitPoints()+target->getShields()<startingHPS);
     }
+
     if (stopped==false)
     {
       stopped=true;
-      BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+      FAILTEST(unit->stop());
     }
     if (thisFrame==reachedDamagePointFrame+50)
     {
       if (unitType==UnitTypes::Protoss_Carrier)
       {
-        BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+        FAILTEST(unit->stop());
       }
     }
     if (thisFrame>reachedDamagePointFrame+50)
     {
-      BWAssertF(unit->isIdle()==true,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+      FAILTEST(unit->isIdle()==true);
     }
+
     if (thisFrame>reachedDamagePointFrame+100)
     {
       running = false;

@@ -2,6 +2,20 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
+#define FAILTEST(C)\
+{\
+  if (!(C))\
+  {\
+    log("Assert failed @%s:%u %s[%s:%s] (%s)",__FILE__,__LINE__, producer ? producer->getType().getName().c_str() : "NULL", unitType.getName().c_str(), producer ? producer->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+    assert_fail_count++;\
+    fail = true;\
+    return;\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 CancelMorphTest::CancelMorphTest(BWAPI::UnitType unitType) : unitType(unitType),
                                                              producer(NULL),
                                                              startFrame(-1),
@@ -10,8 +24,8 @@ CancelMorphTest::CancelMorphTest(BWAPI::UnitType unitType) : unitType(unitType),
   fail = false;
   running = false;
   producerType = unitType.whatBuilds().first;
-  BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});
-  BWAssertF(producerType!=UnitTypes::Unknown,{fail=true;return;});
+  FAILTEST(producerType!=UnitTypes::None);
+  FAILTEST(producerType!=UnitTypes::Unknown);
 }
 void CancelMorphTest::start()
 {
@@ -19,7 +33,7 @@ void CancelMorphTest::start()
   running = true;
 
   int producerCount = Broodwar->self()->completedUnitCount(producerType);
-  BWAssertF(producerCount>=1,{fail=true;return;});
+  FAILTEST(producerCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
   {
     if (u->getType()==producerType)
@@ -37,7 +51,7 @@ void CancelMorphTest::start()
   producer->morph(unitType);
   BWAssertF(producer->getBuildType()==unitType,
   {
-    Broodwar->printf("%s != %s",producer->getBuildType().getName().c_str(),unitType.getName().c_str());
+    log("%s != %s",producer->getBuildType().getName().c_str(),unitType.getName().c_str());
     fail=true;
     return;
   });
@@ -62,57 +76,57 @@ void CancelMorphTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssertF(thisFrame==nextFrame,{fail=true;return;});
+  FAILTEST(thisFrame==nextFrame);
   nextFrame++;
-  BWAssertF(producer!=NULL,{fail=true;return;});
+  FAILTEST(producer!=NULL);
   if (producer->exists())
-  {
     Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
-  }
+
   if (thisFrame<=startFrame+200)
   {
     BWAssertF(producer->getBuildType()==unitType,
     {
-      Broodwar->printf("%s != %s, this frame = %d, start frame = %d",producer->getBuildType().getName().c_str(),unitType.getName().c_str(),thisFrame,startFrame);
+      log("%s != %s, this frame = %d, start frame = %d",producer->getBuildType().getName().c_str(),unitType.getName().c_str(),thisFrame,startFrame);
       fail=true;
       return;
     });
-    BWAssertF(producer->isMorphing()==true,{fail=true;return;});
-    BWAssertF(producer->isConstructing()==true,{fail=true;return;});
-    BWAssertF(producer->isTraining()==false,{fail=true;return;});
-    BWAssertF(producer->isIdle()==false,{fail=true;return;});
-    BWAssertF(producer->isResearching()==false,{fail=true;return;});
-    BWAssertF(producer->isUpgrading()==false,{fail=true;return;});
-    BWAssertF(producer->getTech()==TechTypes::None,{Broodwar->printf("%s",producer->getTech().getName().c_str());fail=true;return;});
-    BWAssertF(producer->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
+    FAILTEST(producer->isMorphing()==true);
+    FAILTEST(producer->isConstructing()==true);
+    FAILTEST(producer->isTraining()==false);
+    FAILTEST(producer->isIdle()==false);
+    FAILTEST(producer->isResearching()==false);
+    FAILTEST(producer->isUpgrading()==false);
+    BWAssertF(producer->getTech()==TechTypes::None,{log("%s",producer->getTech().getName().c_str());fail=true;return;});
+    FAILTEST(producer->getUpgrade()==UpgradeTypes::None);
   }
   if (thisFrame==startFrame+200)
   {
-    BWAssertF(producer->cancelMorph(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    FAILTEST(producer->cancelMorph());
   }
+
   if (thisFrame>=startFrame+200)
   {
     if (producer->exists() || producerType!=UnitTypes::Zerg_Larva)
     {
-      BWAssertF(producer->getBuildType()==UnitTypes::None,{Broodwar->printf("%d: %s",thisFrame-startFrame,producer->getBuildType().getName().c_str());fail=true;return;});
-      BWAssertF(producer->isMorphing()==false,{Broodwar->printf("%d",thisFrame-startFrame);});
-      BWAssertF(producer->isConstructing()==false,{Broodwar->printf("%d",thisFrame-startFrame);});
-      BWAssertF(producer->isTraining()==false,{fail=true;return;});
-      BWAssertF(producer->isIdle()==true,{fail=true;return;});
-      BWAssertF(producer->isResearching()==false,{fail=true;return;});
-      BWAssertF(producer->isUpgrading()==false,{fail=true;return;});
-      BWAssertF(producer->getTech()==TechTypes::None,{fail=true;return;});
-      BWAssertF(producer->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
-      BWAssertF(producer->getRemainingBuildTime()==0,{fail=true;return;});
-      BWAssertF(producer->getRemainingTrainTime()==0,{fail=true;return;});
-      BWAssertF(producer->getRemainingResearchTime()==0,{fail=true;return;});
-      BWAssertF(producer->getRemainingUpgradeTime()==0,{fail=true;return;});
-      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{Broodwar->printf("%d: %d!=%d",thisFrame-startFrame,Broodwar->self()->minerals(),correctMineralCount);});
-      BWAssertF(Broodwar->self()->gas()==correctGasCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{Broodwar->printf("%d!=%d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->completedUnitCount(unitType)==correctCompletedUnitCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->incompleteUnitCount(unitType)==correctIncompleteUnitCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType)==correctAllUnitCount,{fail=true;return;});
+      BWAssertF(producer->getBuildType()==UnitTypes::None,{log("%d: %s",thisFrame-startFrame,producer->getBuildType().getName().c_str());fail=true;return;});
+      BWAssertF(producer->isMorphing()==false,{log("%d",thisFrame-startFrame);});
+      BWAssertF(producer->isConstructing()==false,{log("%d",thisFrame-startFrame);});
+      FAILTEST(producer->isTraining()==false);
+      FAILTEST(producer->isIdle()==true);
+      FAILTEST(producer->isResearching()==false);
+      FAILTEST(producer->isUpgrading()==false);
+      FAILTEST(producer->getTech()==TechTypes::None);
+      FAILTEST(producer->getUpgrade()==UpgradeTypes::None);
+      FAILTEST(producer->getRemainingBuildTime()==0);
+      FAILTEST(producer->getRemainingTrainTime()==0);
+      FAILTEST(producer->getRemainingResearchTime()==0);
+      FAILTEST(producer->getRemainingUpgradeTime()==0);
+      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{log("%d: %d!=%d",thisFrame-startFrame,Broodwar->self()->minerals(),correctMineralCount);});
+      FAILTEST(Broodwar->self()->gas()==correctGasCount);
+      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{log("%d!=%d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
+      FAILTEST(Broodwar->self()->completedUnitCount(unitType)==correctCompletedUnitCount);
+      FAILTEST(Broodwar->self()->incompleteUnitCount(unitType)==correctIncompleteUnitCount);
+      FAILTEST(Broodwar->self()->allUnitCount(unitType)==correctAllUnitCount);
     }
   }
   if (thisFrame>=startFrame+400)

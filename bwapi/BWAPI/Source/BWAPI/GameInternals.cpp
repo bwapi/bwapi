@@ -88,20 +88,6 @@ namespace BWAPI
 
     try
     {
-      /* create log handles */
-      if (logging)
-      {
-        this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
-        this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-      }
-      else
-      {
-        this->commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
-        this->newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
-      }
-      loadAutoMenuData();
-
-
       /* iterate through players and create PlayerImpl for each */
       for (int i = 0; i < PLAYER_COUNT; i++)
         players[i] = new PlayerImpl((u8)i);

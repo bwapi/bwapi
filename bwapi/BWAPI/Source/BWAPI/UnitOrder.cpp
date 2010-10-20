@@ -261,11 +261,10 @@ namespace BWAPI
     }
 
     this->orderSelect();
-    BW::UnitType rawtype((u16)type.getID());
     if(type.isBuilding())
-      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(rawtype), sizeof(BW::Orders::BuildingMorph));
+      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type.getID()), sizeof(BW::Orders::BuildingMorph));
     else
-      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(rawtype), sizeof(BW::Orders::UnitMorph));
+      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type.getID()), sizeof(BW::Orders::UnitMorph));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;

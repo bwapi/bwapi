@@ -2,6 +2,20 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
+#define FAILTEST(C)\
+{\
+  if (!(C))\
+  {\
+    log("Assert failed @%s:%u %s[%s:%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().getName().c_str() : "NULL", unitType.getName().c_str(), unit ? unit->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+    assert_fail_count++;\
+    fail = true;\
+    return;\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 BurrowTest::BurrowTest(UnitType unitType) : unitType(unitType),
                                             unit(NULL),
                                             startFrame(-1),
@@ -17,16 +31,16 @@ void BurrowTest::start()
   running = true;
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
-  BWAssertF(userCount>=1,{fail=true;return;});
+  FAILTEST(userCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
-  BWAssertF(unit!=NULL,{fail=true;return;});
-  BWAssertF(unit->exists(),{fail=true;return;});
-  BWAssertF(unit->isBurrowed()==false,{fail=true;return;});
+  FAILTEST(unit!=NULL);
+  FAILTEST(unit->exists());
+  FAILTEST(unit->isBurrowed()==false);
   unit->burrow();
-  BWAssertF(unit->getOrder()==Orders::Burrowing,{fail=true;return;});
+  FAILTEST(unit->getOrder()==Orders::Burrowing);
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
 
@@ -48,10 +62,10 @@ void BurrowTest::update()
   {
     if (unit->getOrder()!=Orders::Burrowing && thisFrame>startFrame+60)
     {
-      BWAssertF(unit->isBurrowed()==true,{fail=true;return;});
+      FAILTEST(unit->isBurrowed()==true);
       completedBurrow=true;
       unit->unburrow();
-      BWAssertF(unit->getOrder()==Orders::Unburrowing,{fail=true;return;});
+      FAILTEST(unit->getOrder()==Orders::Unburrowing);
       startFrame=thisFrame;
     }
     else
@@ -64,7 +78,7 @@ void BurrowTest::update()
   {
     if (unit->getOrder()!=Orders::Unburrowing && thisFrame>startFrame+60)
     {
-      BWAssertF(unit->isBurrowed()==false,{fail=true;return;});
+      FAILTEST(unit->isBurrowed()==false);
       running = false;
     }
     else

@@ -605,7 +605,8 @@ namespace BWAPI
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
-    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode.getID();
+    return self->type == BW::UnitID::Terran_SiegeTankSiegeMode ||
+           self->type == BW::UnitID::Terran_Hero_EdmundDukeS;
   }
   //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
@@ -1140,29 +1141,29 @@ namespace BWAPI
     {
       if ( this->isLifted() || !this->isIdle() || !this->isCompleted() )
         return BroodwarImpl.setLastError(Errors::Unit_Busy);
+
       if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(this,TechType(c.extra)) )
         return false;
+
       if ( UnitCommandTypes::Upgrade == ct && !Broodwar->canUpgrade(this,UpgradeType(c.extra)) )
         return false;
     } // research/upgrade
 
     // Set Rally 
-    if ( UnitCommandTypes::Set_Rally_Position == ct || UnitCommandTypes::Set_Rally_Unit == ct )
-    {
-      if ( !this->_getType.canProduce() )
-        return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-    } // rally
+    if ( (UnitCommandTypes::Set_Rally_Position == ct || UnitCommandTypes::Set_Rally_Unit == ct) && !this->_getType.canProduce() )
+      return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-    // Move
-    if ( UnitCommandTypes::Move          == ct || 
-         UnitCommandTypes::Patrol        == ct ||
-         UnitCommandTypes::Hold_Position == ct ||
-         UnitCommandTypes::Stop          == ct ||
-         UnitCommandTypes::Follow        == ct )
-    {
-      if ( this->_getType.isBuilding() && !isLifted() && (!_getType.canAttack() || ct == UnitCommandTypes::Patrol || ct == UnitCommandTypes::Follow) )
+    // Move/stop/standard
+    if ( (UnitCommandTypes::Move          == ct || 
+          UnitCommandTypes::Patrol        == ct ||
+          UnitCommandTypes::Hold_Position == ct ||
+          UnitCommandTypes::Stop          == ct ||
+          UnitCommandTypes::Follow        == ct) &&
+          this->_getType.isBuilding() &&
+          !this->isLifted() &&
+          ct != UnitCommandTypes::Hold_Position &&
+          ct != UnitCommandTypes::Stop )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-    } // move
 
     // Gather
     if ( UnitCommandTypes::Gather == ct )
@@ -1227,7 +1228,9 @@ namespace BWAPI
           return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
       }
       else if ( tech.whatUses().find(this->_getType) == tech.whatUses().end() )
+      {
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+      }
 
       if ( tech == TechTypes::Spider_Mines && this->getSpiderMineCount() <= 0 )
         return BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
@@ -1245,7 +1248,7 @@ namespace BWAPI
         return false;
 
       if ( tech == TechTypes::None || tech == TechTypes::Unknown )
-        return false;
+        return BroodwarImpl.setLastError(Errors::Incompatible_TechType);
     } // ability
 
     // Unburrow
@@ -1262,20 +1265,14 @@ namespace BWAPI
     {
       if ( getCloakingTech() == TechTypes::None )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+
       if ( !this->isCloaked() )
         return false;
     } // decloak
 
     // Unsiege
-    if ( UnitCommandTypes::Unsiege == ct )
-    {
-      int tId = _getType.getID();
-      if ( tId != BW::UnitID::Terran_SiegeTankSiegeMode &&
-           tId != BW::UnitID::Terran_Hero_EdmundDukeS )
-        return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      if ( !this->isSieged() )
-        return false;
-    } // unsiege
+    if ( UnitCommandTypes::Unsiege == ct && !this->isSieged())
+      return false;
 
     // lift/land
     if ( UnitCommandTypes::Lift == ct || UnitCommandTypes::Land == ct )
@@ -1283,10 +1280,7 @@ namespace BWAPI
       if ( !this->_getType.isFlyingBuilding() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      if ( UnitCommandTypes::Lift == ct && this->isLifted() )
-        return false;
-
-      if ( UnitCommandTypes::Land == ct && !this->isLifted() )
+      if ( UnitCommandTypes::Lift == ct ? this->isLifted() : !this->isLifted() )
         return false;
     } // lift/land
 
@@ -1301,8 +1295,8 @@ namespace BWAPI
       if ( this->_getType.spaceProvided() <= 0 )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      if ( this->_getType == UnitTypes::Zerg_Overlord && this->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
-        return BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+      //if ( this->_getType == UnitTypes::Zerg_Overlord && this->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+      //  return BroodwarImpl.setLastError(Errors::Insufficient_Tech);
 
       if ( UnitCommandTypes::Unload == ct )
       {
@@ -1325,21 +1319,17 @@ namespace BWAPI
       return false;
 
     // Cancel construction
-    if ( UnitCommandTypes::Cancel_Construction == ct )
-    {
-      if ( this->isCompleted() )
-        return false;
-      if ( !this->_getType.isBuilding() )
-        return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-    } // cancel construct
+    if ( UnitCommandTypes::Cancel_Construction == ct && (this->isCompleted() || !this->_getType.isBuilding()) )
+      return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
     // cancel addon
     if ( UnitCommandTypes::Cancel_Addon == ct && (!this->getAddon() || this->getAddon()->isCompleted()) )
-      return false;
+      return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
     // cancel train
     if ( UnitCommandTypes::Cancel_Train == ct && !isTraining() )
       return false;
+
     if ( UnitCommandTypes::Cancel_Train_Slot == ct && (!isTraining() || this->getTrainingQueue().size() <= (unsigned int)c.extra) )
       return false;
 
@@ -1354,7 +1344,6 @@ namespace BWAPI
     // cancel upgrade
     if ( UnitCommandTypes::Cancel_Upgrade == ct && this->getOrder() != Orders::Upgrade )
       return false;
-
 
     return true;
   }

@@ -2,6 +2,20 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
+#define FAILTEST(C)\
+{\
+  if (!(C))\
+  {\
+    log("Assert failed @%s:%u %s[%s:%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().getName().c_str() : "NULL", unitType.getName().c_str(), unit ? unit->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+    assert_fail_count++;\
+    fail = true;\
+    return;\
+  }\
+  else\
+  {\
+    assert_success_count++;\
+  }\
+}
 AttackMoveTest::AttackMoveTest(UnitType unitType) : unitType(unitType),
                                                     unit(NULL),
                                                     startFrame(-1),
@@ -17,20 +31,20 @@ void AttackMoveTest::start()
   running = true;
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
-  BWAssertF(userCount>=1,{fail=true;return;});
+  FAILTEST(userCount>=1);
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
-  BWAssertF(unit!=NULL,{fail=true;return;});
-  BWAssertF(unit->exists(),{fail=true;return;});
-  BWAssertF(unit->isIdle()==true,{fail=true;return;});
+  FAILTEST(unit!=NULL);
+  FAILTEST(unit->exists());
+  FAILTEST(unit->isIdle()==true);
   targetPosition = unit->getPosition();
   targetPosition.x()+=32*30;
   targetPosition.makeValid();
-  BWAssertF(unit->attackMove(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  BWAssertF(unit->getOrder()==Orders::AttackMove,{fail=true;return;});
-  BWAssertF(unit->getTargetPosition()==targetPosition,{fail=true;return;});
+  FAILTEST(unit->attackMove(targetPosition));
+  FAILTEST(unit->getOrder()==Orders::AttackMove);
+  FAILTEST(unit->getTargetPosition()==targetPosition);
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
   doneFrame = -1;
@@ -50,7 +64,7 @@ void AttackMoveTest::update()
 
   if (thisFrame<startFrame+100 || unit->isIdle()==false)
   {
-    BWAssertF(unit->getOrder()==Orders::AttackMove,{fail=true;return;});
+    FAILTEST(unit->getOrder()==Orders::AttackMove);
     if (thisFrame>startFrame+60)
     {
       BWAssertF(unit->getTargetPosition().getDistance(targetPosition)<128,{Broodwar->printf("(%d,%d) != (%d,%d)",unit->getTargetPosition().x(),unit->getTargetPosition().y(),targetPosition.x(),targetPosition.y());fail=true;return;});
@@ -58,10 +72,12 @@ void AttackMoveTest::update()
   }
   else
   {
-    BWAssertF(unit->isIdle() || unit->isBraking(),{fail=true;return;});
+    FAILTEST(unit->isIdle() || unit->isBraking());
     BWAssertF(unit->getPosition().getDistance(targetPosition)<128,Broodwar->printf("(%d,%d) != (%d,%d)",unit->getPosition().x(),unit->getPosition().y(),targetPosition.x(),targetPosition.y());{fail=true;return;});
     if (doneFrame==-1)
+    {
       doneFrame=thisFrame;
+    }
     if (thisFrame>doneFrame+100)
     {
       running = false;
