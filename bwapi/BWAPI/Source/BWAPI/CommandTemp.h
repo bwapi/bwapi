@@ -469,6 +469,7 @@ namespace BWAPI
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
         player->self->allUnitCount[unitType.getID()]++;
+        unit->self->type        = unitType.getID();
       }
       else
       {
