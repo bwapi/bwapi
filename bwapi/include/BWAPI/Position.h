@@ -9,7 +9,7 @@ namespace BWAPI
   {
     public :
       Position();
-      Position(const TilePosition& position);
+      explicit Position(const TilePosition& position);
       Position(int x, int y);
       bool operator == (const Position& position) const;
       bool operator != (const Position& position) const;

@@ -584,7 +584,7 @@ namespace BWAPI
           return false; // @TODO: Error code for !isExplored ??
 
         // Check if builder is capable of reaching the building site
-        if ( builder && !builder->hasPath( BWAPI::TilePosition(ix, iy) ) )
+        if ( builder && !builder->hasPath( (Position)TilePosition(ix, iy) ) )
           return false;
       }
     }
