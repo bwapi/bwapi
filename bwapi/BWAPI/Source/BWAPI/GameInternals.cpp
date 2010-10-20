@@ -988,6 +988,7 @@ namespace BWAPI
       {
         newForce = new ForceImpl(std::string(""));
         newForce->players.insert(this->players[11]);
+        this->players[11]->force = newForce;
       }
       else
       {
