@@ -399,6 +399,20 @@ namespace BWAPI
       u->die();
     }
 
+    /* In case we ever want to add a Flag::UnitPermanence cheat flag...
+    bool UnitPermanence = false;
+    if (!UnitPermanence)
+    {
+      foreach(UnitImpl* u, evadeUnits)
+      {
+        deadUnits.push_back(u);
+        int index = u->getIndex();
+        unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],(u16)index);
+        u->die();
+      }
+    }
+    */
+
     //increment frame count if the game is not paused
     if (!this->isPaused())
       this->frameCount++;
