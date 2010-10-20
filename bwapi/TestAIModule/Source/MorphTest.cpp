@@ -204,14 +204,7 @@ void MorphTest::update()
   }
   else
   {
-    if (unitType.getRace()==Races::Zerg && producerType.isBuilding())
-    {
-      FAILTEST(producer->getType()==producerType);
-    }
-    else
-    {
-      FAILTEST(producer->getType()==unitType);
-    }
+    FAILTEST(producer->getType()==unitType);
   }
   FAILTEST(producer->isBeingConstructed()==true);
   FAILTEST(producer->isBurrowed()==false);
