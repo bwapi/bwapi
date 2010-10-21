@@ -782,6 +782,9 @@ namespace BWAPI
 
       if (unit->getType() != type.whatResearches())
         return this->setLastError(Errors::Incompatible_UnitType);
+
+      if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
+        return this->setLastError(Errors::Unit_Busy);
     }
     if (self()->isResearching(type))
       return this->setLastError(Errors::Currently_Researching);
@@ -811,11 +814,14 @@ namespace BWAPI
 
       if (unit->getType() != type.whatUpgrades())
         return this->setLastError(Errors::Incompatible_UnitType);
+
+      if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
+        return this->setLastError(Errors::Unit_Busy);
     }
     if (self()->isUpgrading(type))
       return this->setLastError(Errors::Currently_Upgrading);
 
-    if (self()->getUpgradeLevel(type)>=type.maxRepeats())
+    if (self()->getUpgradeLevel(type) >= type.maxRepeats())
       return this->setLastError(Errors::Fully_Upgraded);
 
     if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)))

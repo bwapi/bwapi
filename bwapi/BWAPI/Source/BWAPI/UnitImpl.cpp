@@ -1137,17 +1137,10 @@ namespace BWAPI
     } // build/train
 
     // Research/Upgrade requirements
-    if ( UnitCommandTypes::Research == ct || UnitCommandTypes::Upgrade == ct )
-    {
-      if ( this->isLifted() || !this->isIdle() || !this->isCompleted() )
-        return BroodwarImpl.setLastError(Errors::Unit_Busy);
-
-      if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(this,TechType(c.extra)) )
-        return false;
-
-      if ( UnitCommandTypes::Upgrade == ct && !Broodwar->canUpgrade(this,UpgradeType(c.extra)) )
-        return false;
-    } // research/upgrade
+    if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(this,TechType(c.extra)) )
+      return false;
+    if ( UnitCommandTypes::Upgrade  == ct && !Broodwar->canUpgrade(this,UpgradeType(c.extra)) )
+      return false;
 
     // Set Rally 
     if ( (UnitCommandTypes::Set_Rally_Position == ct || UnitCommandTypes::Set_Rally_Unit == ct) && !this->_getType.canProduce() )

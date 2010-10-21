@@ -344,8 +344,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::holdPosition(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+    BroodwarImpl.cmdToHold.push_back(this);
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::holdPosition(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -355,19 +356,22 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::stop(this)) )
       return false;
-    this->orderSelect();
+
     switch ( _getType.getID() )
     {
     case BW::UnitID::Protoss_Reaver:
     case BW::UnitID::Protoss_Hero_Warbringer:
+      this->orderSelect();
       QueueGameCommand((PBYTE)&BW::Orders::ReaverStop(), sizeof(BW::Orders::ReaverStop));
       break;
     case BW::UnitID::Protoss_Carrier:
     case BW::UnitID::Protoss_Hero_Gantrithor:
+      this->orderSelect();
       QueueGameCommand((PBYTE)&BW::Orders::CarrierStop(), sizeof(BW::Orders::CarrierStop));
       break;
     default:
-      QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+      //QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+      BroodwarImpl.cmdToStop.push_back(this);
       break;
     }
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::stop(this)));
@@ -423,8 +427,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::burrow(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+    BroodwarImpl.cmdToBurrow.push_back(this);
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::burrow(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -434,8 +439,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::unburrow(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+    BroodwarImpl.cmdToUnburrow.push_back(this);
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unburrow(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -445,8 +451,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::cloak(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+    BroodwarImpl.cmdToCloak.push_back(this);
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cloak(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -456,8 +463,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::decloak(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+    BroodwarImpl.cmdToUncloak.push_back(this);
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::decloak(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -467,8 +475,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::siege(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+    BroodwarImpl.cmdToSiege.push_back(this);
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::siege(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -478,8 +487,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::unsiege(this)) )
       return false;
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+    BroodwarImpl.cmdToUnsiege.push_back(this);
+    //this->orderSelect();
+    //QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unsiege(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;

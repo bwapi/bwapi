@@ -280,6 +280,15 @@ namespace BWAPI
       int frameCount;
       void refreshSelectionStates();
       bool wantSelectionUpdate;
+      std::vector<UnitImpl *> cmdToSiege;
+      std::vector<UnitImpl *> cmdToUnsiege;
+      std::vector<UnitImpl *> cmdToStop;
+      std::vector<UnitImpl *> cmdToHold;
+      std::vector<UnitImpl *> cmdToBurrow;
+      std::vector<UnitImpl *> cmdToUnburrow;
+      std::vector<UnitImpl *> cmdToCloak;
+      std::vector<UnitImpl *> cmdToUncloak;
+
     private :
       HMODULE hMod;
       void saveSelected();
