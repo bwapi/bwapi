@@ -315,8 +315,10 @@ BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 #define SREG_
 // Flags for SReg functions; Default is CURRENT_USER and "Blizzard Entertainment" key
 
-#define SREG_LOCAL_MACHINE 0x00000001
+#define SREG_CURRENT_USER  0x00000001
 #define SREG_BATTLE_NET    0x00000002
+#define SREG_LOCAL_MACHINE 0x00000004
+#define SREG_RAW_KEY       0x00000010
 
 #endif
 

@@ -17,4 +17,5 @@ extern bool logging;
 extern DWORD dwProcNum;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
+extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];

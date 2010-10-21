@@ -319,13 +319,6 @@ namespace BWAPI
         {
           Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
           hMod = LoadLibrary(szDllPath);
-
-          pszModuleName = szDllPath;
-          if ( strchr(pszModuleName, '/') )
-            pszModuleName = &strrchr(pszModuleName, '/')[1];
-
-          if ( strchr(pszModuleName, '\\') )
-            pszModuleName = &strrchr(pszModuleName, '\\')[1];
         }
         if ( !hMod )
         {
@@ -350,6 +343,13 @@ namespace BWAPI
           Util::Logger::globalLog->logCritical("Created an Object of AIModule");
           printf("\x07" "BWAPI: Loaded the AI Module: %s", szDllPath);
           externalModuleConnected = true;
+
+          pszModuleName = szDllPath;
+          if ( strchr(pszModuleName, '/') )
+            pszModuleName = &strrchr(pszModuleName, '/')[1];
+
+          if ( strchr(pszModuleName, '\\') )
+            pszModuleName = &strrchr(pszModuleName, '\\')[1];
         }
       }
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
@@ -785,10 +785,15 @@ namespace BWAPI
         if ( !actEnd )
         {
           actEnd = true;
-          if (menu!=15)//Only save replay if this is NOT the end of replay screen
+          if ( menu != 15 )//Only save replay if this is NOT the end of replay screen
           {
-            if (autoMenuSaveReplay!="")
-              CopyFile("maps/replays/LastReplay.rep",autoMenuSaveReplay.c_str(),false);
+            if ( autoMenuSaveReplay != "" )
+            {
+              char szReplayPath[MAX_PATH];
+              SStrCopy(szReplayPath, szInstallPath, MAX_PATH);
+              SStrNCat(szReplayPath, "maps\\replays\\LastReplay.rep", MAX_PATH);
+              CopyFile(szReplayPath, autoMenuSaveReplay.c_str(), false);
+            }
           }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
           {
