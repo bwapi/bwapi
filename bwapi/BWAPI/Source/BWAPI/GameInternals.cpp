@@ -1037,48 +1037,16 @@ namespace BWAPI
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
   {
-    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
-      return;
-
-    //simulates a key press using the winapi
-    INPUT *keyp          = new INPUT;
-    keyp->type           = INPUT_KEYBOARD;
-    keyp->ki.wVk         = (WORD)key;
-    keyp->ki.dwFlags     = 0;
-    keyp->ki.time        = 0;
-    keyp->ki.wScan       = 0;
-    keyp->ki.dwExtraInfo = 0;
-    SendInput(1,keyp,sizeof(INPUT));
-    keyp->ki.dwFlags = KEYEVENTF_KEYUP;
-    SendInput(1,keyp,sizeof(INPUT));
+    PostMessage(SDrawGetFrameWindow(NULL), WM_KEYDOWN, (WPARAM)key, NULL);
+    PostMessage(SDrawGetFrameWindow(NULL), WM_KEYUP, (WPARAM)key, NULL);
   }
   void GameImpl::mouseDown(int x, int y)
   {
-    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
-      return;
-
-    //simulates a mouse press using the winapi
-    INPUT *i          = new INPUT;
-    i->type           = INPUT_MOUSE;
-    i->mi.dx          = x;
-    i->mi.dy          = y;
-    i->mi.dwFlags     = MOUSEEVENTF_LEFTDOWN;
-    i->mi.dwExtraInfo = 0;
-    SendInput(1,i,sizeof(INPUT));
+    PostMessage(SDrawGetFrameWindow(NULL), WM_LBUTTONDOWN, NULL, (LPARAM)MAKELONG(x,y));
   }
   void GameImpl::mouseUp(int x, int y)
   {
-    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
-      return;
-
-    //simulates a mouse release using the winapi
-    INPUT *i          = new INPUT;
-    i->type           = INPUT_MOUSE;
-    i->mi.dx          = x;
-    i->mi.dy          = y;
-    i->mi.dwFlags     = MOUSEEVENTF_LEFTUP;
-    i->mi.dwExtraInfo = 0;
-    SendInput(1,i,sizeof(INPUT));
+    PostMessage(SDrawGetFrameWindow(NULL), WM_LBUTTONUP, NULL, (LPARAM)MAKELONG(x,y));
   }
 
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
