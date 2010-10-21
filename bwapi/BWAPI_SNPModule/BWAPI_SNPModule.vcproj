@@ -71,6 +71,7 @@
 				AdditionalDependencies="Ws2_32.lib"
 				OutputFile="$(IntDir)\$(ProjectName).dll"
 				LinkIncremental="1"
+				GenerateManifest="false"
 				ModuleDefinitionFile="source\SNPModule.def"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -130,6 +131,10 @@
 			</File>
 			<File
 				RelativePath=".\source\LocalPC.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Template.h"
 				>
 			</File>
 		</Filter>

@@ -2,11 +2,28 @@
 
 DWORD dwThisClientId;
 
+SOCKET   recvSocket;
+SOCKADDR recvAddr;
+
+SOCKET sendSocket;
+
+SOCKET   broadcastSocket;
+SOCKADDR broadcastAddr;
+
 void InitializeConnection()
 {
   // do initialization stuff
   WSADATA wsaData;
-  WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if ( WSAStartup(MAKEWORD(1, 1), &wsaData) == 0 )
+    e("Error in WSAStartup.");
+
+  recvSocket      = MakeUDPSocket();
+  InitAddr(&recvAddr, "127.0.0.1");
+
+  sendSocket      = MakeUDPSocket();
+
+  broadcastSocket = MakeUDPSocket();
+  InitAddr(&broadcastAddr, "127.255.255.255");
 }
 
 void DestroyConnection()
@@ -15,33 +32,39 @@ void DestroyConnection()
   WSACleanup();
 }
 
-DWORD WINAPI ListenToBroadcasts(LPVOID)
+SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip)
 {
-  // Create the socket
+  sockaddr_in *_addr = (sockaddr_in*)addr;
+  memset(addr, 0, sizeof(SOCKADDR));
+  _addr->sin_family           = AF_INET;
+  _addr->sin_port             = htons(BASE_PORT);
+  _addr->sin_addr.S_un.S_addr = inet_addr(ip);
+  return addr;
+}
+
+SOCKET MakeUDPSocket()
+{
   SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-  // make address re-usable
   DWORD dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD));
+  setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD));
+  return s;
+}
 
-  // Create sockaddr
-  sockaddr_in saIn;
-  saIn.sin_family           = AF_INET;
-  saIn.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
-  saIn.sin_port             = htons(BASE_PORT);
-  
+DWORD WINAPI ListenToBroadcasts(LPVOID)
+{
   // bind the socket
-  bind(s, (const sockaddr*)&saIn, sizeof(sockaddr));
-
+  bind(recvSocket, &recvAddr, sizeof(SOCKADDR));
   while (1)
   {
     // create receiving sockaddr
-    sockaddr_in saFrom;
-    int dwSaFromLen = sizeof(sockaddr);
+    SOCKADDR saFrom;
+    int dwSaFromLen = sizeof(SOCKADDR);
 
     // recvfrom
     char szBuffer[512];
-    int rVal = recvfrom(s, szBuffer, 512, 0, (sockaddr*)&saFrom, &dwSaFromLen);
+    int rVal = recvfrom(recvSocket, szBuffer, 512, 0, &saFrom, &dwSaFromLen);
     if ( rVal <= 0 )
       break;
 

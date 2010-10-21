@@ -31,7 +31,16 @@ struct WSIZE
 };
 #endif
 
-BOOL __stdcall SNetCreateGame(char *Source, char *a2, char *a3, int a4, int a5, int a6, char *a7, char *a8, int *playerid);
+#ifndef SGAME_STATE
+#define SGAME_STATE
+
+#define GAMESTATE_PRIVATE 0x01
+#define GAMESTATE_FULL    0x02
+#define GAMESTATE_ACTIVE  0x04
+#define GAMESTATE_STARTED 0x08
+#define GAMESTATE_REPLAY  0x80
+#endif
+BOOL __stdcall SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 BOOL __stdcall SNetDestroy();
 BOOL __stdcall SNetEnumProviders(int (__stdcall *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps);
 
@@ -41,12 +50,93 @@ BOOL __stdcall SNetGetGameInfo(int type, char *src, unsigned int length, int *by
 
 BOOL __stdcall SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers);
 
-BOOL __stdcall SNetGetPlayerCaps(char playerid, int *caps);
+#ifndef CAPS_STRUCT
+#define CAPS_STRUCT
+struct caps
+{
+  DWORD dwSize;
+  DWORD dwUnk1;
+  DWORD dwBufferSize;
+  DWORD dwUnk3;
+  DWORD dwUnk4;
+  DWORD dwUnk5;
+  DWORD dwPingTimeout;
+  DWORD dwPlayerCount;
+  DWORD dwLatencyCalls;
+};
+#endif
+BOOL __stdcall SNetGetPlayerCaps(char playerid, caps *playerCaps);
 BOOL __stdcall SNetGetPlayerName(int playerid, char *buffer, size_t buffersize);
-BOOL __stdcall SNetGetProviderCaps(DWORD *caps);
+BOOL __stdcall SNetGetProviderCaps(caps *providerCaps);
 BOOL __stdcall SNetGetTurnsInTransit(int *turns);
 BOOL __stdcall SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
-BOOL __stdcall SNetInitializeProvider(DWORD providerName, int *providerData, int *userData, int *a4, int *a5);
+
+#ifndef PROVIDER_STRUCTS
+#define PROVIDER_STRUCTS
+struct clientInfo
+{
+  DWORD dwSize; // 60
+  char  *pszName;
+  char  *pszVersion;
+  DWORD dwProduct;
+  DWORD dwVerbyte;
+  DWORD dwUnk5;
+  DWORD dwMaxPlayers;
+  DWORD dwUnk7;
+  DWORD dwUnk8;
+  DWORD dwUnk9;
+  DWORD dwUnk10; // 0xFF
+  char  *pszCdKey;
+  char  *pszCdOwner;
+  DWORD dwIsShareware;
+  DWORD dwLangId;
+};
+
+struct userInfo
+{
+  DWORD dwSize; // 16
+  char  *pszPlayerName;
+  char  *pszUnknown;
+  DWORD dwUnknown;
+};
+
+struct battleInfo
+{
+  DWORD dwSize;   // 92
+  DWORD dwUnkType;
+  HWND  hFrameWnd;
+  void  *pfnBattleGetResource;
+  void  *pfnBattleGetErrorString;
+  void  *pfnBattleMakeCreateGameDialog;
+  void  *pfnBattleUpdateIcons;
+  DWORD dwUnk_07;
+  void  *pfnBattleErrorDialog;
+  void  *pfnBattlePlaySound;
+  DWORD dwUnk_10;
+  void  *pfnBattleGetCursorLink;
+  DWORD dwUnk_12;
+  void  *pfnUnk_13;
+  DWORD dwUnk_14;
+  void  *pfnBattleMakeProfileDialog;
+  char  *pszProfileStrings;
+  void  *pfnBattleDrawProfileInfo;
+  DWORD dwUnk_18;
+  DWORD dwUnk_19;
+  void  *pfnUnk_20;
+  void  *pfnUnk_21;
+  void  *pfnBattleSetLeagueName;
+};
+
+struct moduleInfo
+{
+  DWORD dwSize; // 20
+  char  *pszVersionString;
+  char  *pszModuleName;
+  char  *pszMainArchive;
+  char  *pszPatchArchive;
+};
+#endif
+BOOL __stdcall SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);
 BOOL __stdcall SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);
 BOOL __stdcall SNetLeaveGame(int type);
 BOOL __stdcall SNetPerformUpgrade(DWORD *upgradestatus);
@@ -97,7 +187,7 @@ BOOL __stdcall SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD,
 int  __stdcall SNetSendServerChatCommand(const char *command);
 
 BOOL __stdcall SNetGetPlayerNames(DWORD flags);
-BOOL __stdcall SNetCreateLadderGame(char *gameName, char *gamePassword, char *gameDataString, DWORD gameType, int a5, int a6, char *GameTemplateData, int GameTemplateSize, int playerCount, char *playerName, char *a11, int *playerID);
+BOOL __stdcall SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 BOOL __stdcall SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
 
 int  __stdcall SNetSendLeagueCommand(char *cmd, char *callback);

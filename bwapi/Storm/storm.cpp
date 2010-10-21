@@ -5,7 +5,7 @@
 #define rVoid { return; }
 #define rInt { return 0; }
 
-BOOL __stdcall SNetCreateGame(char *Source, char *a2, char *a3, int a4, int a5, int a6, char *a7, char *a8, int *playerid) rBool;
+BOOL __stdcall SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID) rBool;
 BOOL __stdcall SNetDestroy() rBool;
 BOOL __stdcall SNetEnumProviders(int (__stdcall *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps) rBool;
 
@@ -20,7 +20,7 @@ BOOL __stdcall SNetGetPlayerName(int playerid, char *buffer, size_t buffersize) 
 BOOL __stdcall SNetGetProviderCaps(DWORD *caps) rBool;
 BOOL __stdcall SNetGetTurnsInTransit(int *turns) rBool;
 BOOL __stdcall SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5) rBool;
-BOOL __stdcall SNetInitializeProvider(DWORD providerName, int *providerData, int *userData, int *a4, int *a5) rBool;
+BOOL __stdcall SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData) rBool;
 BOOL __stdcall SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid) rBool;
 BOOL __stdcall SNetLeaveGame(int type) rBool;
 BOOL __stdcall SNetPerformUpgrade(DWORD *upgradestatus) rBool;
@@ -39,7 +39,7 @@ BOOL __stdcall SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD,
 int __stdcall SNetSendServerChatCommand(const char *command) rInt;
 
 BOOL __stdcall SNetGetPlayerNames(DWORD flags) rBool;
-BOOL __stdcall SNetCreateLadderGame(char *gameName, char *gamePassword, char *gameDataString, DWORD gameType, int a5, int a6, char *GameTemplateData, int GameTemplateSize, int playerCount, char *playerName, char *a11, int *playerID) rBool;
+BOOL __stdcall SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID) rBool;
 BOOL __stdcall SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5) rBool;
 
 int __stdcall SNetSendLeagueCommand(char *cmd, char *callback) rInt;
