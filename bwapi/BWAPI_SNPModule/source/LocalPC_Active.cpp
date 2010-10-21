@@ -1,5 +1,6 @@
 #include "LocalPC.h"
 #include "Connect.h"
+#include "Threads.h"
 
 /* @TODO LIST:
 [Initialization]
@@ -22,6 +23,7 @@ bool __stdcall _spiDestroy()
 {
   /* Called when unloading the module
      do any cleanup here */
+  gbWantExit = true;
   DestroySockets();
   return true;
 }
@@ -77,6 +79,8 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   // Retrieve log path
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", gszLogPath, MAX_PATH, gszConfigPath);
   SStrNCat(gszLogPath, "\\SNPModule.log", MAX_PATH);
+
+  gbWantExit = false;
 
   // Save event and Initialize Sockets
   ghRecvEvent = hEvent;

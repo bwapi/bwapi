@@ -2,8 +2,11 @@
 #include <windows.h>
 #include <Winsock.h>
 
-extern SOCKET gsGame;
-extern SOCKET gsBroadcast;
+extern SOCKET   gsGame;
+extern SOCKADDR gaddrRecvGame;
+
+extern SOCKET   gsBroadcast;
+extern SOCKADDR gaddrRecvBroadcast;
 
 extern DWORD gdwSendCalls;
 extern DWORD gdwSendBytes;
@@ -15,3 +18,4 @@ SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip = "127.0.0.1", WORD wPort = 61
 
 bool InitializeSockets();
 void DestroySockets();
+

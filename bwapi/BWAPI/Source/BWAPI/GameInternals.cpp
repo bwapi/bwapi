@@ -88,6 +88,8 @@ namespace BWAPI
 
     try
     {
+      memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
+
       /* iterate through players and create PlayerImpl for each */
       for (int i = 0; i < PLAYER_COUNT; i++)
         players[i] = new PlayerImpl((u8)i);
@@ -249,9 +251,10 @@ namespace BWAPI
         }
       }
       // Update unit selection
-      if ( wantSelectionUpdate )
+      if ( wantSelectionUpdate && memcmp(savedUnitSelection, BW::BWDATA_ClientSelectionGroup, sizeof(savedUnitSelection)) != 0 )
       {
         wantSelectionUpdate = false;
+        memcpy(savedUnitSelection, BW::BWDATA_ClientSelectionGroup, sizeof(savedUnitSelection));
         refreshSelectionStates();
       }
 
@@ -1006,11 +1009,15 @@ namespace BWAPI
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       this->unitArray[i]->setSelected(false);
 
-    this->saveSelected();
+    selectedUnitSet.clear();
     for (int i = 0; i < *BW::BWDATA_ClientSelectionCount && i < 12; ++i)
     {
       if ( BW::BWDATA_ClientSelectionGroup[i] )
-        BWAPI::UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i])->setSelected(true);
+      {
+        BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i]);
+        u->setSelected(true);
+        selectedUnitSet.insert(u);
+      }
     }
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
@@ -1375,7 +1382,8 @@ namespace BWAPI
     staticMinerals.clear();
     staticGeysers.clear();
     staticNeutralUnits.clear();
-    
+
+    memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
     wantSelectionUpdate = false;
 
     //clear latency buffer
@@ -1454,16 +1462,6 @@ namespace BWAPI
   {
     int i = (index & 0x7F);
     return this->bulletArray[i];
-  }
-  //--------------------------------------------- SAVE SELECTED ----------------------------------------------
-  void GameImpl::saveSelected()
-  {
-    selectedUnitSet.clear();
-    for (int i = 0; i < *BW::BWDATA_ClientSelectionCount && i < 12; ++i)
-    {
-      if ( BW::BWDATA_ClientSelectionGroup[i] )
-        selectedUnitSet.insert(UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i]));
-    }
   }
   //------------------------------------------ copy Map To Shared Memory -------------------------------------
   void GameImpl::copyMapToSharedMemory()

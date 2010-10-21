@@ -128,6 +128,10 @@
 				RelativePath=".\source\LocalPC_Active.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\source\Threads.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -146,6 +150,10 @@
 			</File>
 			<File
 				RelativePath=".\source\Template.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Threads.h"
 				>
 			</File>
 		</Filter>

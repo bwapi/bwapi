@@ -279,6 +279,7 @@ namespace BWAPI
       /** Count of game-frames passed from game start. */
       int frameCount;
       void refreshSelectionStates();
+      BW::Unit *savedUnitSelection[12];
       bool wantSelectionUpdate;
       std::vector<UnitImpl *> cmdToSiege;
       std::vector<UnitImpl *> cmdToUnsiege;
@@ -288,10 +289,8 @@ namespace BWAPI
       std::vector<UnitImpl *> cmdToUnburrow;
       std::vector<UnitImpl *> cmdToCloak;
       std::vector<UnitImpl *> cmdToUncloak;
-
     private :
       HMODULE hMod;
-      void saveSelected();
       Map map;
 
       std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
