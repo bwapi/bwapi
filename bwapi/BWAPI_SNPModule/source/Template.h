@@ -18,10 +18,10 @@ struct netFunctions
   void  *spiInitializeDevice;   // InitializeDevice
   void  *fxn_8;                 // EnumProviders
   void  *spiLockGameList;       // official spiLockGameList(0x%08x,0x%08x,*gamelist) (0x%08x,0x%08x,*gamehead); spiLockGameList(*gamelist)
-  bool (__stdcall *spiReceiveFrom)(SOCKADDR **addr, BYTE **data, DWORD *databytes);        // unknown/guess
-  bool (__stdcall *spiReceive)(SOCKADDR **addr, BYTE **data, DWORD *databytes);            // official spiReceive(*addr,*data,*databytes) (int *, int *, char **) 
+  bool (__stdcall *spiReceiveFrom)(SOCKADDR **addr, char **data, DWORD *databytes);        // unknown/guess
+  bool (__stdcall *spiReceive)(SOCKADDR **addr, char **data, DWORD *databytes);            // official spiReceive(*addr,*data,*databytes) (int *, int *, char **) 
   void  *spiSelectGame;         // official spiSelectGame(0x%08x,0x%08x,0x%08x,0x%08x,0x%08x,*playerid)
-  bool (__stdcall *spiSendTo)(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen);
+  bool (__stdcall *spiSendTo)(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen);
   void  *spiSend;                // unofficial; last param is the message
   void  *spiStartAdvertisingLadderGame;       // unofficial
   bool (__stdcall *spiStopAdvertisingGame)(); // official

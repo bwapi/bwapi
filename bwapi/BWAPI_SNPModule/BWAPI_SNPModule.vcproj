@@ -121,6 +121,10 @@
 				RelativePath=".\source\LocalPC.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\source\LocalPC_Active.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

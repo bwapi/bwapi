@@ -2,15 +2,19 @@
 #include <windows.h>
 #include <Winsock.h>
 
-// use SO_REUSEADDR
+extern SOCKET gsGame;
+extern SOCKET gsBroadcast;
 
-#define BASE_PORT 6112
+extern DWORD gdwSendCalls;
+extern DWORD gdwSendBytes;
+extern DWORD gdwRecvCalls;
+extern DWORD gdwRecvBytes;
 
 SOCKET   MakeUDPSocket();
-SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip);
+SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip = "127.0.0.1", WORD wPort = 6112);
 
-void InitializeConnection();
-void DestroyConnection();
+void InitializeSockets();
+void DestroySockets();
 
 #define i(x) MessageBox(NULL, x, "*", MB_OK | MB_ICONASTERISK)
 #define w(x) MessageBox(NULL, x, "!", MB_OK | MB_ICONWARNING)

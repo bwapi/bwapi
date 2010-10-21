@@ -1,45 +1,34 @@
 #include "Connect.h"
 
-DWORD dwThisClientId;
+DWORD gdwSendCalls = 0;
+DWORD gdwSendBytes = 0;
+DWORD gdwRecvCalls = 0;
+DWORD gdwRecvBytes = 0;
 
-SOCKET   recvSocket;
-SOCKADDR recvAddr;
+SOCKET gsGame      = NULL;
+SOCKET gsBroadcast = NULL;
 
-SOCKET sendSocket;
-
-SOCKET   broadcastSocket;
-SOCKADDR broadcastAddr;
-
-void InitializeConnection()
+void InitializeSockets()
 {
   // do initialization stuff
   WSADATA wsaData;
-  if ( WSAStartup(MAKEWORD(1, 1), &wsaData) == 0 )
+  if ( WSAStartup(MAKEWORD(2, 2), &wsaData) == 0 )
     e("Error in WSAStartup.");
 
-  recvSocket      = MakeUDPSocket();
-  InitAddr(&recvAddr, "127.0.0.1");
+  gsGame      = MakeUDPSocket();
+  gsBroadcast = MakeUDPSocket();
 
-  sendSocket      = MakeUDPSocket();
-
-  broadcastSocket = MakeUDPSocket();
-  InitAddr(&broadcastAddr, "127.255.255.255");
+  // begin recv thread here
 }
 
-void DestroyConnection()
+void DestroySockets()
 {
   // do cleanup stuff
+  if ( gsGame )
+    closesocket(gsGame);
+  if ( gsBroadcast )
+    closesocket(gsBroadcast);
   WSACleanup();
-}
-
-SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip)
-{
-  sockaddr_in *_addr = (sockaddr_in*)addr;
-  memset(addr, 0, sizeof(SOCKADDR));
-  _addr->sin_family           = AF_INET;
-  _addr->sin_port             = htons(BASE_PORT);
-  _addr->sin_addr.S_un.S_addr = inet_addr(ip);
-  return addr;
 }
 
 SOCKET MakeUDPSocket()
@@ -52,10 +41,22 @@ SOCKET MakeUDPSocket()
   return s;
 }
 
+SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip, WORD wPort)
+{
+  sockaddr_in *_addr = (sockaddr_in*)addr;
+  memset(addr, 0, sizeof(SOCKADDR));
+  _addr->sin_family           = AF_INET;
+  _addr->sin_port             = htons(wPort);
+  _addr->sin_addr.S_un.S_addr = inet_addr(ip);
+  return addr;
+}
+
 DWORD WINAPI ListenToBroadcasts(LPVOID)
 {
   // bind the socket
-  bind(recvSocket, &recvAddr, sizeof(SOCKADDR));
+  SOCKADDR bindAddr;
+  InitAddr(&bindAddr, "127.0.0.1", 6111);
+  bind(gsBroadcast, &bindAddr, sizeof(SOCKADDR));
   while (1)
   {
     // create receiving sockaddr
@@ -64,9 +65,13 @@ DWORD WINAPI ListenToBroadcasts(LPVOID)
 
     // recvfrom
     char szBuffer[512];
-    int rVal = recvfrom(recvSocket, szBuffer, 512, 0, &saFrom, &dwSaFromLen);
+    int rVal = recvfrom(gsBroadcast, szBuffer, 512, 0, &saFrom, &dwSaFromLen);
+
     if ( rVal <= 0 )
       break;
+
+    ++gdwRecvCalls;
+    gdwRecvBytes += rVal;
 
     i("Got it!");
   } // loop
