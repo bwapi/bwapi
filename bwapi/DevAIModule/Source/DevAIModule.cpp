@@ -89,22 +89,21 @@ void DevAIModule::onFrame()
 
     if ( uType == BWAPI::UnitTypes::Zerg_Overlord && thisOrderFrame > u->getLastOrderFrame() + 120 )
     {
-      BWAPI::TilePosition targ = spiralSearch(SEARCH_NOTVISIBLE, u->getPosition(), 255);
-      if ( targ != BWAPI::Positions::None )
-        u->move(targ);
+      BWAPI::TilePosition targ = spiralSearch(SEARCH_NOTVISIBLE, (TilePosition)u->getPosition(), 255);
+      if ( targ != BWAPI::TilePositions::None )
+        u->move((Position)targ);
 
       continue;
     }
 
   } // for each
 
-
   // scout
   if ( scout && scout->exists() && thisOrderFrame > scout->getLastOrderFrame() + 40 )
   {
-    BWAPI::TilePosition targ = spiralSearch(SEARCH_UNEXPLORED, scout->getPosition(), 255, scout);
-    if ( targ != BWAPI::Positions::None )
-      scout->move(targ);
+    BWAPI::TilePosition targ = spiralSearch(SEARCH_UNEXPLORED, (TilePosition)scout->getPosition(), 255, scout);
+    if ( targ != BWAPI::TilePositions::None )
+      scout->move((Position)targ);
   }
 
 }
@@ -115,17 +114,17 @@ bool DevAIModule::pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *u
   {
   case SEARCH_UNEXPLORED:
     if ( unit )
-      return !Broodwar->isExplored(pt) && unit->hasPath(pt);
+      return !Broodwar->isExplored(pt) && unit->hasPath((Position)pt);
     else
       return !Broodwar->isExplored(pt);
   case SEARCH_EXPLORED:
     if ( unit )
-      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt) && unit->hasPath(pt);
+      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt) && unit->hasPath((Position)pt);
     else
       return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt);
   case SEARCH_NOTVISIBLE:
     if ( unit )
-      return (!Broodwar->isExplored(pt) || !Broodwar->isVisible(pt)) && unit->hasPath(pt);
+      return (!Broodwar->isExplored(pt) || !Broodwar->isVisible(pt)) && unit->hasPath((Position)pt);
     else
       return !Broodwar->isExplored(pt) || !Broodwar->isVisible(pt);
   }
@@ -160,7 +159,7 @@ BWAPI::TilePosition DevAIModule::spiralSearch(int dwType, BWAPI::TilePosition st
     d = -d;
     ++iter;
   }
-  return BWAPI::Positions::None;
+  return BWAPI::TilePositions::None;
 }
 
 void DevAIModule::onSendText(std::string text)

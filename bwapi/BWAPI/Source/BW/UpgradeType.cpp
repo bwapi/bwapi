@@ -31,7 +31,7 @@ namespace BW
     if (uId == BW::UpgradeID::None)
       return "None";
     else if (uId < 61)
-      return BW::GetStatString(BW::BWDATA_UpgradeLabelIndex[uId]);
+      return BW::GetStatString(BW::BWDATA_UpgradeLabelIndex[uId]-1);
     else
       return "Invalid";
   }

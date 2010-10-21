@@ -399,7 +399,7 @@ namespace BW
   static u16            *BWDATA_UpgradeTimeCostFactor    = (u16*)  upgradesDat[5].address;
   static u8             *BWDATA_UpgradeRace              = (u8*)   upgradesDat[9].address;
 
-  struct _scUpgrs {    u8 level[PLAYER_COUNT][48];  };
+  struct _scUpgrs {    u8 level[PLAYER_COUNT][46];  };
   struct _bwUpgrs {    u8 level[PLAYER_COUNT][15];  };
   static _scUpgrs *BWDATA_UpgradeLevelSC = (_scUpgrs*)0x0058D2B0;
   static _bwUpgrs *BWDATA_UpgradeLevelBW = (_bwUpgrs*)0x0058F32C;

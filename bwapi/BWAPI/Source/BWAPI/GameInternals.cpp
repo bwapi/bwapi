@@ -400,8 +400,191 @@ namespace BWAPI
     */
 
     //increment frame count if the game is not paused
-    if (!this->isPaused())
+    if ( *BW::BWDATA_IsRunning != 0 )
+    {
+      u8 uCount = 0;
+      BWAPI::UnitImpl *units[13];
+
+      // iterate siege commands
+      foreach (UnitImpl *u, cmdToSiege)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+        uCount = 0;
+      }
+
+      // iterate unsiege commands
+      foreach (UnitImpl *u, cmdToUnsiege)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+        uCount = 0;
+      }
+
+      // iterate stop commands
+      foreach (UnitImpl *u, cmdToStop)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
+        uCount = 0;
+      }
+
+      // iterate hold commands
+      foreach (UnitImpl *u, cmdToHold)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
+        uCount = 0;
+      }
+
+      // iterate burrow commands
+      foreach (UnitImpl *u, cmdToBurrow)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+        uCount = 0;
+      }
+
+      // iterate unburrow commands
+      foreach (UnitImpl *u, cmdToUnburrow)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+        uCount = 0;
+      }
+
+      // iterate cloak commands
+      foreach (UnitImpl *u, cmdToCloak)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+        uCount = 0;
+      }
+
+      // iterate decloak commands
+      foreach (UnitImpl *u, cmdToUncloak)
+      {
+        units[uCount] = u;
+        ++uCount;
+        if ( uCount == 12 )
+        {
+          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+          QueueGameCommand((PBYTE)&sel, sel.size);
+          QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+          uCount = 0;
+        }
+      }
+      if ( uCount )
+      {
+        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
+        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+        uCount = 0;
+      }
+
+      cmdToSiege.clear();
+      cmdToUnsiege.clear();
+      cmdToStop.clear();
+      cmdToHold.clear();
+      cmdToBurrow.clear();
+      cmdToUnburrow.clear();
+      cmdToCloak.clear();
+      cmdToUncloak.clear();
+
+
       this->frameCount++;
+    }
 
 #ifdef _DEBUG
     setTextSize(0);
