@@ -1,279 +1,213 @@
 #include "LocalPC.h"
 #include "Connect.h"
 
+/* @TODO LIST:
+[Initialization]
+  _spiInitializeProvider
+  _spiDestroy
+
+[Game List]     // Note: Havn't been able to record usage of other functions with no partner game
+  _spiLockGameList
+  _spiUnlockGameList
+
+[Packets]
+  _spiReceiveFrom
+  _spiSendTo
+
+*/
+
 char buffer[1024];
 
 bool __stdcall fxn0(int a1, int a2, int a3)
 {
+  // not important right now
   i(__FUNCTION__);
   return true;
 }
 
 bool __stdcall _spiDestroy()
 {
-  i(__FUNCTION__);
+  /* Called when unloading the module
+     do any cleanup here */
   return true;
 }
 
-bool __stdcall _spiFree(int a1, int a2, int a3)
+bool __stdcall _spiFree(void *a1, int a2, int a3)
 {
-  i(__FUNCTION__);
-  return true;
+  // This function is complete
+  if ( a1 && a2 )
+  {
+    SMemFree(a1, __FILE__, __LINE__, 0);
+    return true;
+  }
+  else
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
 }
 
 bool __stdcall _spiError(int a1, int a2, int a3)
 {
+  // This function is complete
   SetLastError(ERROR_INVALID_PARAMETER);
-  i(__FUNCTION__);
   return false;
 }
 
 bool __stdcall _spiGetGameInfo(int a1, int a2, int a3, int a4)
 {
+  // Unknown, to do with unknown struct
   i(__FUNCTION__);
   return true;
 }
 
-bool __stdcall _spiGetPerformanceData(int a1, int a2, int a3, int a4)
+bool __stdcall _spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
 {
-  i(__FUNCTION__);
+  // Returns performance data in dwResult
+  switch ( dwType )
+  {
+  case 12:    // Total number of calls made to sendto
+    *dwResult = 0;
+    return true;
+  case 13:    // Total number of calls made to recvfrom
+    *dwResult = 0;
+    return true;
+  case 14:    // Total number of bytes sent using sendto
+    *dwResult = 0;
+    return true;
+  case 15:    // Total number of bytes received using recvfrom
+    *dwResult = 0;
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
+{
+  /* Called when the module is loaded
+     Perform all initialization functions here */
+
   return true;
 }
 
-struct version
+bool __stdcall _spiInitializeDevice(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, void *a5)
 {
-  DWORD dwSize;   // 0x3C
-  char  *pszGame;
-  char  *pszVersion;
-  DWORD dwGameId;
-  DWORD dwVerByte;
-  DWORD dwUnk14;
-  DWORD dwMaxPlayers;
-  DWORD dwUnk1C;
-  DWORD dwUnk20;
-  DWORD dwUnk24;
-  DWORD dwUnk28;
-  WORD  wUnk2C;
-  WORD  wUnk2E;
-  WORD  wUnk30;
-  WORD  wUnk32;
-  DWORD dwUnk34;
-  LCID  lLangId;
-};
-
-struct bncallbacks
-{
-  DWORD dwSize;     // 0x5C
-  DWORD dwUnk4;
-  DWORD dwUnk8;
-  void  *pUnkCallbackC;
-  void  *pUnkCallback10;
-  void  *pUnkCallback14;
-  void  *pUnkCallback18;
-  DWORD  dwUnk1C;
-  void  *pUnkCallback20;
-  void  *pUnkCallback24;
-  DWORD  dwUnk28;
-  void  *pUnkCallback2C;
-  DWORD  dwUnk30;
-  void  *pUnkCallback34;
-  DWORD  dwUnk38;
-  void  *pUnkCallback3C;
-  char  *pszUnkStr40;
-  void  *pUnkCallback44;
-  DWORD dwUnk48;
-  DWORD dwUnk4C;
-  void  *pUnkCallback50;
-  void  *pUnkCallback54;
-  void  *pUnkCallback58;
-};
-
-struct module
-{
-  DWORD dwSize;   // 0x14
-  char  *pszVersion;
-  char  *pszModulePath;
-  char  *pszMPQList;
-  char  *pszPatchMpq;
-};
-
-// spiInitialize(0x%08x)
-bool __stdcall _spiInitialize(version *a1, PSTRUCT a2, bncallbacks *a3, module *a4, DWORD a5)
-{
-  
-  sprintf(buffer, "_spiInitialize(%p, %p, %p, %p, %X)", a1, a2, a3, a4, a5);
-  MessageBox(NULL, buffer, "_spiInitialize", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn7(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, module *a5)
-{
-  i(__FUNCTION__);
+  // This function is complete
   return false;
 }
 
 bool __stdcall fxn8(DWORD *a1)
 {
+  // This function is complete
   *a1 = 0;
-  i(__FUNCTION__);
   return true;
 }
 
 // spiLockGameList(0x%08x,0x%08x,*gamelist)
-bool __stdcall _spiLockGameList(int a1, int a2, DWORD *a3)
+bool __stdcall _spiLockGameList(int a1, int a2, void **a3)
 {
-  sprintf(buffer, "_spiLockGameList(%p, %p, %p)", a1, a2, *a3);
-  i(buffer);
+  /*sprintf(buffer, "_spiLockGameList(%p, %p, %p)", a1, a2, *a3);
+  i(buffer);*/
+  if ( a3 )
+  {
+    /* Lock the game list (thread) 
+       UDPN locks this thread for 10000 ms 
+       unknown struct involved
+       @todo: Research the struct */
+    return true;
+  }
+  else
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
+}
+
+bool __stdcall _spiReceiveFrom(SOCKADDR **addr, BYTE **data, DWORD *databytes)
+{
+  if ( addr )
+    *addr = NULL;
+  if ( data )
+    *data = NULL;
+  if ( databytes )
+    *databytes = 0;
+
+  
+  /* Return data obtained from recvfrom thread */
+
   return true;
 }
 
-bool __stdcall fxn10(int *a1, int *a2, int *a3)
+bool __stdcall _spiReceive(SOCKADDR **addr, BYTE **data, DWORD *databytes)
 {
-  if ( a1 )
-    *a1 = 0;
-  if ( a2 )
-    *a2 = 0;
-  if ( a3 )
-    *a3 = 0;
-  // stuff
-  i(__FUNCTION__);
-  return true;
-}
-
-// spiReceive(*addr,*data,*databytes) (int *, int *, char **)
-bool __stdcall _spiReceive(DWORD *a1, DWORD *a2, DWORD  *a3)
-{
-  if ( a1 )
-    *a1 = 0;
-  if ( a2 )
-    *a2 = 0;
-  if ( a3 )
-    *a3 = 0;
+  // This function is complete
+  if ( addr )
+    *addr = NULL;
+  if ( data )
+    *data = NULL;
+  if ( databytes )
+    *databytes = 0;
   SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
-  i(__FUNCTION__);
-  return true;
+  return false;
 }
 
-bool __stdcall _spiSelectGame(int a1, int a2, int a3, int a4, int a5, int a6)
+bool __stdcall _spiSelectGame(int a1, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, int a6)
 {
-  i(__FUNCTION__);
-  return true;
-}
-
-bool __stdcall _spiSend(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen)
-{
-  i(__FUNCTION__);
-  return true;
-}
-
-bool __stdcall _spiSendServerMessage(int a1, int a2, int a3, int a4, int a5)
-{
+  /* Looks like an old function and doesn't seem like it's used anymore
+     UDPN's function Creates an IPX game select dialog window  */
   i(__FUNCTION__);
   return false;
 }
 
-/*
-  dwGameState
-  {
-    full    = 0x02
-    public  = 0x04
-    started = 0x08
-  }
-
-*/
-
-struct unka9
+bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, void *buf, DWORD bufLen)
 {
-  DWORD dwMaxStormPlayers;
-  DWORD dwHumanPlayers;
-  DWORD dwSlots;
-};
-
-bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStats, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, unka9 *a9, int a10)
-{
-  /*sprintf(buffer, "CreateGame(\"%s\", \"%s\", "
-                "\n\"%s\",\n 0x%X, %d, [type: %d; subtype: %d], "
-                "0x%p, 0x%p, \n"
-                "[%d, %d, %d],\n"
-                "0x%p)", 
-                pszGameName, pszGamePassword, 
-                pszGameStats, dwGameState, dwElapsedTime, (WORD)dwGameType, dwGameType >> 16, 
-                a7, a8, 
-                a9->dwMaxStormPlayers, a9->dwHumanPlayers, a9->dwSlots,
-                a10);
-  MessageBox(NULL, buffer, "CreateGame", MB_OK);*/
+  // @todo: samples & research
   i(__FUNCTION__);
+  return true;
+}
+
+bool __stdcall _spiSend(int a1, int a2, int a3, int a4, int a5)
+{
+  // This function is complete
+  return false;
+}
+
+bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, int a9, DWORD dwMaxStormPlayers)
+{
+  /* Begin game advertisement
+     Needs a little more research
+     Called when you create a game */
   return true;
 }
 
 bool __stdcall _spiStopAdvertisingGame()
 {
-  i(__FUNCTION__);
+  /* Stops game advertisement
+     Called when you leave a game */
   return true;
 }
 
-bool __stdcall InitializeUser()
+bool __stdcall _spiInitialize()
 {
-  i(__FUNCTION__);
+  // This function is complete
   return true;
 }
 
 // spiUnlockGameList(0x%08x,*hintnextcall)
 bool __stdcall _spiUnlockGameList(int a1, DWORD *a2)
 {
+  /*
   sprintf(buffer, "_spiUnlockGameList(%p, %p)", a1, a2);
   i(buffer);
+  */
+
+  /* Unlocks the game list and does something?
+     @Todo: Research needed */
+
   if ( a2 )
   {
-    *a2 = 15000;
+    *a2 = 500;
   }
   return true;
 }
-/*
-bool __stdcall _spiStartAdvertisingGame(char *pszName, DWORD dwNameSize, char *pszStats, DWORD dwStatSize)
-{
-  MessageBox(NULL, "fxn19", "fxn19", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn20(int a1, int a2, int a3, int a4, int a5, int a6)
-{
-  MessageBox(NULL, "fxn20", "fxn20", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn21(int a1, int a2, int a3, int a4)
-{
-  MessageBox(NULL, "fxn21", "fxn21", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn22(char *pszMessage, DWORD dwSize)
-{
-  MessageBox(NULL, "fxn22", "fxn22", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn23(int a1, int a2, int a3)
-{
-  MessageBox(NULL, "fxn23", "fxn23", MB_OK);
-  return true;
-}
-
-bool __stdcall fxn24(int a1)
-{
-  MessageBox(NULL, "fxn24", "fxn24", MB_OK);
-  return true;
-}
-
-bool __stdcall LeagueLogout(char *pszName)
-{
-  return true;
-}
-
-bool __stdcall GetLeagueName(char *pszDest, DWORD dwSize)
-{
-  return true;
-}
-
-*/
