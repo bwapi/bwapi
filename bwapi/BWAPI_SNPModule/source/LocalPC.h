@@ -3,8 +3,9 @@
 #include "../../Storm/storm.h"
 
 #include "Template.h"
-typedef void* PSTRUCT;
+#include "Common.h"
 
+typedef void* PSTRUCT;
 
 #define LOCL 0
 

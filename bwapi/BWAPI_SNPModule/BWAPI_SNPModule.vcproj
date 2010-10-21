@@ -113,6 +113,10 @@
 			Name="Source Files"
 			>
 			<File
+				RelativePath=".\source\Common.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\source\Connect.cpp"
 				>
 			</File>
@@ -128,6 +132,10 @@
 		<Filter
 			Name="Header Files"
 			>
+			<File
+				RelativePath=".\source\Common.h"
+				>
+			</File>
 			<File
 				RelativePath=".\source\Connect.h"
 				>
