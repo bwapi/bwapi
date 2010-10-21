@@ -1,13 +1,17 @@
 #include "Connect.h"
 #include "Common.h"
+#include "Threads.h"
 
 DWORD gdwSendCalls = 0;
 DWORD gdwSendBytes = 0;
 DWORD gdwRecvCalls = 0;
 DWORD gdwRecvBytes = 0;
 
-SOCKET gsGame      = NULL;
-SOCKET gsBroadcast = NULL;
+SOCKET   gsGame    = NULL;
+SOCKADDR gaddrRecvGame;
+
+SOCKET   gsBroadcast = NULL;
+SOCKADDR gaddrRecvBroadcast;
 
 bool InitializeSockets()
 {
@@ -23,7 +27,15 @@ bool InitializeSockets()
   gsGame      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
-  // begin recv thread here
+  InitAddr(&gaddrRecvBroadcast, "127.0.0.1", 6111);
+  InitAddr(&gaddrRecvGame);
+
+  // begin recv threads here
+  HANDLE hThread = CreateThread(NULL, 0, ListenToBroadcasts, NULL, 0, NULL);
+  if ( hThread )
+  {
+    SetThreadPriority(hThread, 1);
+  }
   return true;
 }
 
@@ -61,31 +73,4 @@ SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip, WORD wPort)
   _addr->sin_port             = htons(wPort);
   _addr->sin_addr.S_un.S_addr = inet_addr(ip);
   return addr;
-}
-
-DWORD WINAPI ListenToBroadcasts(LPVOID)
-{
-  // bind the socket
-  SOCKADDR bindAddr;
-  InitAddr(&bindAddr, "127.0.0.1", 6111);
-  bind(gsBroadcast, &bindAddr, sizeof(SOCKADDR));
-  while (1)
-  {
-    // create receiving sockaddr
-    SOCKADDR saFrom;
-    int dwSaFromLen = sizeof(SOCKADDR);
-
-    // recvfrom
-    char szBuffer[512];
-    int rVal = recvfrom(gsBroadcast, szBuffer, 512, 0, &saFrom, &dwSaFromLen);
-
-    if ( rVal <= 0 )
-      break;
-
-    ++gdwRecvCalls;
-    gdwRecvBytes += rVal;
-
-    i("Got it!");
-  } // loop
-  w("recvfrom failed?");
 }
