@@ -13,6 +13,8 @@ SOCKADDR gaddrRecvGame;
 SOCKET   gsBroadcast = NULL;
 SOCKADDR gaddrRecvBroadcast;
 
+SOCKET gsSendSock = NULL;
+
 bool InitializeSockets()
 {
   // do initialization stuff
@@ -26,6 +28,7 @@ bool InitializeSockets()
 
   gsGame      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
+  gsSendSock  = MakeUDPSocket();
 
   InitAddr(&gaddrRecvBroadcast, "127.0.0.1", 6111);
   InitAddr(&gaddrRecvGame);
@@ -61,6 +64,7 @@ SOCKET MakeUDPSocket()
 
   DWORD dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD));
+  dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD));
   return s;
 }
