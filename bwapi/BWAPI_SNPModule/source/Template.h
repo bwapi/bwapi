@@ -1,9 +1,9 @@
+#pragma once
 #include <windows.h>
 #include "../../Storm/storm.h"
 
 #ifndef TEMPLATE_STRUCTS
 #define TEMPLATE_STRUCTS
-
 
 struct netFunctions
 {

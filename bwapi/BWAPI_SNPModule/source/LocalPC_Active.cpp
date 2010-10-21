@@ -59,13 +59,30 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
 {
   /* Called when the module is loaded
      Perform all initialization functions here */
+
+  // Reset performance data
   gdwSendCalls = 0;
   gdwSendBytes = 0;
   gdwRecvCalls = 0;
   gdwRecvBytes = 0;
 
+  // Retrieve Starcraft path
+  if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, gszInstallPath, MAX_PATH) )
+    SStrNCat(gszInstallPath, "\\", MAX_PATH);
+
+  // Retrieve config path
+  SStrCopy(gszConfigPath, gszInstallPath, MAX_PATH);
+  SStrNCat(gszConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
+
+  // Retrieve log path
+  GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", gszLogPath, MAX_PATH, gszConfigPath);
+  SStrNCat(gszLogPath, "\\SNPModule.log", MAX_PATH);
+
+  // Save event and Initialize Sockets
   ghRecvEvent = hEvent;
-  InitializeSockets();
+  if ( !InitializeSockets() )
+    return false;
+
   return true;
 }
 

@@ -1,4 +1,5 @@
 #include "Connect.h"
+#include "Common.h"
 
 DWORD gdwSendCalls = 0;
 DWORD gdwSendBytes = 0;
@@ -8,17 +9,22 @@ DWORD gdwRecvBytes = 0;
 SOCKET gsGame      = NULL;
 SOCKET gsBroadcast = NULL;
 
-void InitializeSockets()
+bool InitializeSockets()
 {
   // do initialization stuff
   WSADATA wsaData;
-  if ( WSAStartup(MAKEWORD(2, 2), &wsaData) == 0 )
-    e("Error in WSAStartup.");
+  DWORD dwErr = WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if ( dwErr != ERROR_SUCCESS )
+  {
+    Error(dwErr, "WSAStartup failed.");
+    return false;
+  }
 
   gsGame      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
   // begin recv thread here
+  return true;
 }
 
 void DestroySockets()
@@ -34,6 +40,12 @@ void DestroySockets()
 SOCKET MakeUDPSocket()
 {
   SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+  if ( s == INVALID_SOCKET )
+  {
+    Error(WSAGetLastError(), "A socket could not be created.");
+    return NULL;
+  }
 
   DWORD dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD));
