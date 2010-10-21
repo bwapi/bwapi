@@ -1037,6 +1037,9 @@ namespace BWAPI
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
   {
+    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
+      return;
+
     //simulates a key press using the winapi
     INPUT *keyp          = new INPUT;
     keyp->type           = INPUT_KEYBOARD;
@@ -1051,6 +1054,9 @@ namespace BWAPI
   }
   void GameImpl::mouseDown(int x, int y)
   {
+    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
+      return;
+
     //simulates a mouse press using the winapi
     INPUT *i          = new INPUT;
     i->type           = INPUT_MOUSE;
@@ -1062,6 +1068,9 @@ namespace BWAPI
   }
   void GameImpl::mouseUp(int x, int y)
   {
+    if ( SDrawGetFrameWindow(NULL) != GetForegroundWindow() )
+      return;
+
     //simulates a mouse release using the winapi
     INPUT *i          = new INPUT;
     i->type           = INPUT_MOUSE;
