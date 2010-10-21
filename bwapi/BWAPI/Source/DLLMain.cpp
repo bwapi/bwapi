@@ -20,6 +20,7 @@
 #include "NewHackUtil.h"
 
 char szConfigPath[MAX_PATH];
+char szInstallPath[MAX_PATH];
 
 DWORD dwProcNum = 0;
 
@@ -425,15 +426,11 @@ bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
-  HKEY hKey;
-  RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
-  if ( hKey )
-  {
-    DWORD dwMaxSize = MAX_PATH;
-    RegQueryValueEx(hKey, "InstallPath", NULL, NULL, (LPBYTE)szConfigPath, &dwMaxSize);
-    RegCloseKey(hKey);
-  }
-  SStrNCat(szConfigPath, "\\bwapi-data\\bwapi.ini", MAX_PATH);
+  if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
+    SStrNCat(szInstallPath, "\\", MAX_PATH);
+
+  SStrCopy(szConfigPath, szInstallPath, MAX_PATH);
+  SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
 
   delete Util::Logger::globalLog;
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
