@@ -87,6 +87,12 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   if ( !InitializeSockets() )
     return false;
 
+  SOCKADDR addr;
+  InitAddr(&addr, "127.255.255.255", 6111);
+  int rval = sendto(gsSendSock, "test", 5, 0, &addr, sizeof(SOCKADDR));
+  if ( rval == SOCKET_ERROR || rval == 0 )
+    Error(WSAGetLastError(), "sendto fail");
+
   return true;
 }
 

@@ -8,6 +8,8 @@ extern SOCKADDR gaddrRecvGame;
 extern SOCKET   gsBroadcast;
 extern SOCKADDR gaddrRecvBroadcast;
 
+extern SOCKET gsSendSock;
+
 extern DWORD gdwSendCalls;
 extern DWORD gdwSendBytes;
 extern DWORD gdwRecvCalls;
