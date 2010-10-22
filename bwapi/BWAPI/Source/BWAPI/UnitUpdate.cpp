@@ -231,6 +231,7 @@ namespace BWAPI
       self->shields             = _getType.maxShields() > 0 ? (int)ceil(getOriginalRawData->shieldPoints/256.0) : 0;  //getShields
       self->energy              = _getType.isSpellcaster()  ? (int)ceil(getOriginalRawData->energy/256.0)       : 0;  //getEnergy
       self->resources           = _getResources;                        //getResources
+      self->resourceGroup       = _getType.isResourceContainer() ? getOriginalRawData->building.resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = getOriginalRawData->killCount;        //getKillCount
       self->defenseMatrixPoints = getOriginalRawData->defenseMatrixDamage/256;  //getDefenseMatrixPoints
       self->defenseMatrixTimer  = getOriginalRawData->defenseMatrixTimer; //getDefenseMatrixTimer
@@ -365,6 +366,7 @@ namespace BWAPI
       self->shields             = 0;      //getShields
       self->energy              = 0;      //getEnergy
       self->resources           = 0;      //getResources
+      self->resourceGroup       = 0;      //getResourceGroup
       self->killCount           = 0;      //getKillCount
       self->defenseMatrixPoints = 0;      //getDefenseMatrixPoints
       self->defenseMatrixTimer  = 0;      //getDefenseMatrixTimer

@@ -18,6 +18,7 @@ namespace BWAPI
     int shields;
     int energy;
     int resources;
+    int resourceGroup;
 
     int killCount;
     int scarabCount;
