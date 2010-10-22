@@ -94,6 +94,11 @@ namespace BWAPI
   {
     return self->resources;
   }
+  //--------------------------------------------- GET RESOURCE GROUP -----------------------------------------
+  int UnitImpl::getResourceGroup() const
+  {
+    return self->resourceGroup;
+  }
   double UnitImpl::getDistance(Unit* target) const
   {
     if (this == target)
@@ -186,7 +191,15 @@ namespace BWAPI
       return result;
     return 0;
   }
-  bool UnitImpl::hasPath(Position target)
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Unit *target) const
+  {
+    if ( !target )
+      return ((GameImpl*)Broodwar)->setLastError(Errors::Unit_Does_Not_Exist);
+    return hasPath(target->getPosition());
+  }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Position target) const
   {
     ((GameImpl*)Broodwar)->setLastError(Errors::None);
     if (!exists()) return false;
@@ -254,16 +267,12 @@ namespace BWAPI
     }
     return ((GameImpl*)Broodwar)->setLastError(Errors::Out_Of_Range);
   }
-  bool UnitImpl::hasPath(Unit *target)
-  {
-    if ( !target )
-      return ((GameImpl*)Broodwar)->setLastError(Errors::Unit_Does_Not_Exist);
-    return hasPath(target->getPosition());
-  }
-  int UnitImpl::getLastOrderFrame()
+  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
+  int UnitImpl::getLastOrderFrame() const
   {
     return this->lastOrderFrame;
   }
+  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
     if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
@@ -1079,11 +1088,5 @@ namespace BWAPI
   void* UnitImpl::getClientInfo() const
   {
     return clientInfo;
-  }
-  //------------------------------------------- GET RESOURCE GROUP -------------------------------------------
-  int UnitImpl::getResourceGroup()
-  {
-    // wut
-    return 0;
   }
 }

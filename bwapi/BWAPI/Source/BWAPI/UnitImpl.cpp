@@ -114,6 +114,11 @@ namespace BWAPI
   {
     return self->resources;
   }
+  //--------------------------------------------- GET RESOURCE GROUP -----------------------------------------
+  int UnitImpl::getResourceGroup() const
+  {
+    return self->resourceGroup;
+  }
   //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
@@ -781,29 +786,15 @@ namespace BWAPI
       return result;
     return 0;
   }
-  //------------------------------------------- GET UPGRADE LEVEL --------------------------------------------
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Unit* target) const
   {
-    if (!this->attemptAccess()) return 0;
-
-    int pId = _getPlayer->getID();
-    int uId = upgrade.getID();
-    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
-         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
-          uId >= UPGRADE_TYPE_COUNT )
-      return 0;
-    
-    if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
-    {
-      if ( uId < 46 )
-        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
-      else
-        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
-    }
-    return 0;
+    if ( !target )
+      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+    return hasPath(target->getPosition());
   }
-  //---------------------------------------------- REGION CHECK ----------------------------------------------
-  bool UnitImpl::hasPath(Position target)
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Position target) const
   {
     BroodwarImpl.setLastError(Errors::None);
     checkAccessBool();
@@ -863,11 +854,31 @@ namespace BWAPI
     }
     return BroodwarImpl.setLastError(Errors::Out_Of_Range);
   }
-  bool UnitImpl::hasPath(Unit *target)
+  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
+  int UnitImpl::getLastOrderFrame() const
   {
-    if ( !target )
-      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-    return hasPath(target->getPosition());
+    return this->lastOrderFrame;
+  }
+  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
+  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
+  {
+    if (!this->attemptAccess()) return 0;
+
+    int pId = _getPlayer->getID();
+    int uId = upgrade.getID();
+    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
+         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
+          uId >= UPGRADE_TYPE_COUNT )
+      return 0;
+    
+    if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
+    {
+      if ( uId < 46 )
+        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
+      else
+        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
+    }
+    return 0;
   }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
@@ -1018,11 +1029,6 @@ namespace BWAPI
       return this->staticHitPoints;
     return 0;
   }
-  //----------------------------------------- GET LAST ORDER FRAME -------------------------------------------
-  int UnitImpl::getLastOrderFrame()
-  {
-    return this->lastOrderFrame;
-  }
   //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
   void UnitImpl::setClientInfo(void* clientinfo)
   {
@@ -1031,13 +1037,6 @@ namespace BWAPI
   void* UnitImpl::getClientInfo() const
   {
     return clientInfo;
-  }
-  //------------------------------------------ GET RESOURCE GROUP --------------------------------------------
-  int UnitImpl::getResourceGroup()
-  {
-    if ( this->getType().isResourceContainer() )
-      return this->getOriginalRawData->building.resource.resourceGroup;
-    return 0;
   }
   TechType UnitImpl::getCloakingTech()
   {

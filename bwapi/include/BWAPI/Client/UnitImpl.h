@@ -37,12 +37,13 @@ namespace BWAPI
       virtual int          getShields() const;
       virtual int          getEnergy() const;
       virtual int          getResources() const;
+      virtual int          getResourceGroup() const;
 
       virtual double getDistance(Unit* target) const;
       virtual double getDistance(Position target) const;
-      virtual bool   hasPath(Position target);
-      virtual bool   hasPath(Unit *target);
-      virtual int    getLastOrderFrame();
+      virtual bool   hasPath(Unit* target) const;
+      virtual bool   hasPath(Position target) const;
+      virtual int    getLastOrderFrame() const;
       virtual int    getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual UnitType     getInitialType() const;
@@ -194,6 +195,5 @@ namespace BWAPI
 
       virtual void setClientInfo(void* clientinfo);
       virtual void* getClientInfo() const;
-      virtual int getResourceGroup();
   };
 }

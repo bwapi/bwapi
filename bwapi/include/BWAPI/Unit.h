@@ -81,11 +81,23 @@ namespace BWAPI
        * (can also be called on a refinery/assimilator/extractor). */
       virtual int getResources() const = 0;
 
+      /** Retrieves the group ID of a resource. Can be used to identify which resources belong to an expansion. */
+      virtual int getResourceGroup() const = 0;
+
       /** Returns the edge-to-edge distance between the current unit and the target unit. */
       virtual double getDistance(Unit* target) const = 0;
 
       /** Returns the distance from the edge of the current unit to the target position. */
       virtual double getDistance(Position target) const = 0;
+
+      /** Returns true if the unit is able to move to the target unit */
+      virtual bool hasPath(Unit* target) const = 0;
+
+      /** Returns true if the unit is able to move to the target position */
+      virtual bool hasPath(Position target) const = 0;
+
+      /** Retrieves the frame of the last successful order. Frame is comparable to Game::getFrameCount(). */
+      virtual int getLastOrderFrame() const = 0;
 
       /** Returns the player's current upgrade level for the given upgrade, if the unit is affected by this
        * upgrade.*/
@@ -637,20 +649,10 @@ namespace BWAPI
        * tech.*/
       virtual bool useTech(TechType tech, Unit* target) = 0;
 
-      /** Checks to verify that the unit is capable of moving to the target location */
-      virtual bool hasPath(Position target) = 0;
-      virtual bool hasPath(Unit *target) = 0;
-
-      /** Retrieves the frame of the last successful order. Frame is comparable to Game::getFrameCount(). */
-      virtual int  getLastOrderFrame() = 0;
-
       /** Sets the unit's custom client info. The client is responsible for deallocation. */
       virtual void setClientInfo(void* clientinfo) = 0;
 
       /** Returns the unit's custom client info. The client is responsible for deallocation. */
       virtual void* getClientInfo() const = 0;
-
-      /** Retrieves the group ID of a resource. Can be used to identify which resources belong to an expansion. */
-      virtual int getResourceGroup() = 0;
   };
 }
