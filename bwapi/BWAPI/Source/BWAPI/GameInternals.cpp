@@ -79,6 +79,7 @@ namespace BWAPI
       , unitDebug(false)
       , grid(false)
       , wantSelectionUpdate(false)
+      , noGUI(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -1265,6 +1266,10 @@ namespace BWAPI
         *BW::BWDATA_gwNextGameMode  = 4;
       }
     }
+    else if (parsed[0] == "/nogui")
+    {
+      setGUI(noGUI);
+    }
 #ifdef _DEBUG
     else if (parsed[0] == "/dlgdebug")
     {
@@ -1450,6 +1455,8 @@ namespace BWAPI
     actRaceSel  = false;
     actEnd      = false;
     actBriefing = false;
+
+    setGUI();
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)

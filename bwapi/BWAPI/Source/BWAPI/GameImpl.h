@@ -216,7 +216,7 @@ namespace BWAPI
       virtual bool isLatComEnabled();
       virtual void setLatCom(bool isEnabled);
       virtual int  getReplayFrameCount();
-
+      virtual void setGUI(bool enabled = true);
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
@@ -289,6 +289,8 @@ namespace BWAPI
       std::vector<UnitImpl *> cmdToUnburrow;
       std::vector<UnitImpl *> cmdToCloak;
       std::vector<UnitImpl *> cmdToUncloak;
+
+      bool noGUI;
     private :
       HMODULE hMod;
       Map map;

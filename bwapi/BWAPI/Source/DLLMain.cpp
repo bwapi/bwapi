@@ -124,10 +124,12 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( *BW::BWDATA_gwGameMode == 4 )
     BWAPI::BroodwarImpl.onMenuFrame();
 
-  if ( *BW::BWDATA_glGluesMode == 0 && !nosound )
+  if ( !nosound && *BW::BWDATA_glGluesMode == 0  )
   {
     nosound = true;
-    if ( GetPrivateProfileInt("starcraft", "nosound", 0, szConfigPath) )
+    char szNosound[8];
+    GetPrivateProfileString("starcraft", "sound", "ON", szNosound, 8, szConfigPath);
+    if ( strcmpi(szNosound, "OFF") == 0 )
       BW::BWDATA_DSoundDestroy();
   }
 

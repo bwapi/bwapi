@@ -390,6 +390,9 @@ namespace BWAPI
 
       /** Retrieves the number of frames in the replay */
       virtual int getReplayFrameCount() = 0;
+
+      /** Sets the rendering state of the Starcraft GUI */
+      virtual void setGUI(bool enabled = true) = 0;
   };
   extern Game* Broodwar;
 }
