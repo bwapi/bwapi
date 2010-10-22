@@ -171,7 +171,15 @@ namespace BWAPI
       {
         data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
         data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
+        data->mapTileRegionId[x][y] = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
       }
+    for(int i=0;i<5000;i++)
+    {
+      data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
+      data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
+      data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
+      data->regionGroupIndex[i]          = BW::BWDATA_SAIPathing->regions[i].groupIndex;
+    }
 
     data->mapWidth  = Broodwar->mapWidth();
     data->mapHeight = Broodwar->mapHeight();

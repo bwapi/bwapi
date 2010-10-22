@@ -72,6 +72,13 @@ namespace BWAPI
     bool isExplored[256][256];
     bool hasCreep[256][256];
 
+    unsigned short mapTileRegionId[256][256];
+    unsigned short mapSplitTilesMiniTileMask[5000];
+    unsigned short mapSplitTilesRegion1[5000];
+    unsigned short mapSplitTilesRegion2[5000];
+    unsigned short regionGroupIndex[5000];
+
+
     // start locations
     int startLocationCount;
     int startLocationsX[8];

@@ -117,6 +117,15 @@ namespace BWAPI
       playerVector[i].units.clear();
 
   }
+  bool GameImpl::setLastError(BWAPI::Error e)
+  {
+    lastError = e;
+    return e == Errors::None;
+  }
+  const GameData* GameImpl::getGameData() const
+  {
+    return data;
+  }
   //------------------------------------------------- ON MATCH START -----------------------------------------
   void GameImpl::onMatchStart()
   {

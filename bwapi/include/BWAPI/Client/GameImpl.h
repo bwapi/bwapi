@@ -64,6 +64,8 @@ namespace BWAPI
       void onMatchStart();
       void onMatchEnd();
       void onMatchFrame();
+      bool setLastError(BWAPI::Error e);
+      const GameData* getGameData() const;
       std::set<Unit*>& getPlayerUnits(const Player* player);
 
       virtual std::set< Force* >& getForces();
