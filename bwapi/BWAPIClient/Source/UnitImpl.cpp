@@ -188,14 +188,77 @@ namespace BWAPI
   }
   bool UnitImpl::hasPath(Position target)
   {
-    return false; //todo: implement
-    //To implement, perhaps we could copy the mapTileRegionId array to shared memory, and check that way.
+    ((GameImpl*)Broodwar)->setLastError(Errors::None);
+    if (!exists()) return false;
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    const GameData* gameData = ((GameImpl*)Broodwar)->getGameData();
+
+    BWAPI::Position srcPos = this->getPosition();
+
+    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
+         srcPos.y() >= Broodwar->mapHeight()*32 ||
+         target.x() >= Broodwar->mapWidth()*32 ||
+         target.y() >= Broodwar->mapHeight()*32 )
+      return ((GameImpl*)Broodwar)->setLastError(Errors::Unknown);
+
+    if ( gameData )
+    {
+      unsigned short srcIdx = gameData->mapTileRegionId[srcPos.x()/32][srcPos.y()/32];
+      unsigned short dstIdx = gameData->mapTileRegionId[target.x()/32][target.y()/32];
+
+      unsigned short srcGroup = 0;
+      unsigned short dstGroup = 0;
+      if ( srcIdx & 0x2000 )
+      {
+        int minitilePosX = (srcPos.x()&0x1F)/8;
+        int minitilePosY = (srcPos.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        unsigned short miniTileMask = gameData->mapSplitTilesMiniTileMask[srcIdx&0x1FFF];
+        unsigned short rgn1         = gameData->mapSplitTilesRegion1[srcIdx&0x1FFF];
+        unsigned short rgn2         = gameData->mapSplitTilesRegion2[srcIdx&0x1FFF];
+        if ( (miniTileMask >> minitileShift) & 1 )
+          srcGroup = gameData->regionGroupIndex[rgn2];
+        else
+          srcGroup = gameData->regionGroupIndex[rgn1];
+      }
+      else
+      {
+        srcGroup = gameData->regionGroupIndex[srcIdx];
+      }
+
+      if ( dstIdx & 0x2000 )
+      {
+        int minitilePosX = (target.x()&0x1F)/8;
+        int minitilePosY = (target.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+
+        unsigned short miniTileMask = gameData->mapSplitTilesMiniTileMask[dstIdx&0x1FFF];
+        unsigned short rgn1         = gameData->mapSplitTilesRegion1[dstIdx&0x1FFF];
+        unsigned short rgn2         = gameData->mapSplitTilesRegion2[dstIdx&0x1FFF];
+
+        if ( (miniTileMask >> minitileShift) & 1 )
+          dstGroup = gameData->regionGroupIndex[rgn2];
+        else
+          dstGroup = gameData->regionGroupIndex[rgn1];
+      }
+      else
+      {
+        dstGroup = gameData->regionGroupIndex[dstIdx];
+      }
+
+      if ( srcGroup == dstGroup )
+        return true;
+    }
+    return ((GameImpl*)Broodwar)->setLastError(Errors::Out_Of_Range);
   }
   bool UnitImpl::hasPath(Unit *target)
   {
     if ( !target )
-      return false;
-    return hasPath(target->getPosition()); //todo: implement
+      return ((GameImpl*)Broodwar)->setLastError(Errors::Unit_Does_Not_Exist);
+    return hasPath(target->getPosition());
   }
   int UnitImpl::getLastOrderFrame()
   {

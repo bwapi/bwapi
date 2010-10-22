@@ -813,10 +813,10 @@ namespace BWAPI
 
     BWAPI::Position srcPos = this->getPosition();
 
-    if ( srcPos.x() >= 256*32 ||
-         srcPos.y() >= 256*32 ||
-         target.x() >= 256*32 ||
-         target.y() >= 256*32 )
+    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
+         srcPos.y() >= Broodwar->mapHeight()*32 ||
+         target.x() >= Broodwar->mapWidth()*32 ||
+         target.y() >= Broodwar->mapHeight()*32 )
       return BroodwarImpl.setLastError(Errors::Unknown);
 
     if ( BW::BWDATA_SAIPathing )
