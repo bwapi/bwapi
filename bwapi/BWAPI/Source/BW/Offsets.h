@@ -261,6 +261,8 @@ namespace BW
   static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;
 
+  static void (*BWDATA_DSoundDestroy)()  = (void (*)()) 0x004BC180;
+
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl *BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
   static u32            *BWDATA_MoveToX                  = (u32*)             0x0062848C;

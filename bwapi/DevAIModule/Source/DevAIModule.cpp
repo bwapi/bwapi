@@ -7,7 +7,9 @@ void DevAIModule::onStart()
   bw->enableFlag(Flag::UserInput);
   scout = NULL;
   bw->setLatCom(false);
-Broodwar->setLocalSpeed(0);
+
+  Broodwar->setLocalSpeed(0);
+
   self = bw->self();
 }
 
@@ -17,6 +19,8 @@ void DevAIModule::onEnd(bool isWinner)
 
 void DevAIModule::onFrame()
 {
+  Broodwar->drawTextScreen(20, 20, "%.2f | %u", Broodwar->getAverageFPS(), Broodwar->getFPS());
+  /*
   if ( bw->isReplay() )
     return;
 
@@ -115,7 +119,7 @@ void DevAIModule::onFrame()
     if ( targ != BWAPI::TilePositions::None )
       scout->move((Position)targ);
   }
-
+*/
 }
 
 bool DevAIModule::pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *unit, int width, int height)
@@ -174,17 +178,6 @@ BWAPI::TilePosition DevAIModule::spiralSearch(int dwType, BWAPI::TilePosition st
 
 void DevAIModule::onSendText(std::string text)
 {
-  if (text=="tpos")
-  {
-    for each ( Unit *u in Broodwar->getAllUnits() )
-    {
-      if ( u->isSelected() )
-      {
-        Broodwar->printf("Tile position is %d/%d!", u->getTilePosition().x(), u->getTilePosition().y());
-      }
-    }
-  }
-
   if ( text == "/ver" )
   {
     Broodwar->printf("Heinermann DevTest");
