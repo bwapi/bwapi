@@ -493,6 +493,9 @@ namespace BWAPI
       case BWAPIC::CommandType::SetLatCom:
         Broodwar->setLatCom(v1 == 1);
         break;
+      case BWAPIC::CommandType::SetGui:
+        Broodwar->setGUI(v1 == 1);
+        break;
       default:
         break;
       }

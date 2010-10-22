@@ -1192,4 +1192,11 @@ namespace BWAPI
   {
     return data->replayFrameCount;
   }
+  void GameImpl::setGUI(bool enabled)
+  {
+    int e=0;
+    if (enabled) e=1;
+    //queue up command for server so it also applies the change
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetGui, e));
+  }
 };

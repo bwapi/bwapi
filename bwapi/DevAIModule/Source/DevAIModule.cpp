@@ -19,6 +19,7 @@ void DevAIModule::onEnd(bool isWinner)
 
 void DevAIModule::onFrame()
 {
+  Broodwar->drawBoxScreen(20, 20, 100, 32, BWAPI::Colors::Black, true);
   Broodwar->drawTextScreen(20, 20, "%.2f | %u", Broodwar->getAverageFPS(), Broodwar->getFPS());
   /*
   if ( bw->isReplay() )

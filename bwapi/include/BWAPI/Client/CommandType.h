@@ -23,7 +23,8 @@ namespace BWAPIC
       RestartGame,
       SetLocalSpeed,
       SetTextSize,
-      SetLatCom
+      SetLatCom,
+      SetGui
     };
   }
 }
