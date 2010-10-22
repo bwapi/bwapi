@@ -141,9 +141,11 @@ namespace BWAPI
       delete this->shapes[i];
     this->shapes.clear();
 
-    //menu dialog code
+#ifdef _DEBUG
+    // menu dialog test update code
     if ( myDlg )
       myDlg->update();
+#endif
 
     // Compute frame rate
     accumulatedFrames++;
@@ -1315,10 +1317,22 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test")
     {
-      foreach ( Player *p, this->getPlayers() )
-      {
-        printf("%s", p->getName().c_str());
-      }
+      printf("Done");
+      HWND hWnd = SDrawGetFrameWindow(NULL);
+      MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
+
+      void *newBuf = SMemAlloc(1024 * 768, __FILE__, __LINE__, 0);
+      void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
+      
+      SMemCopy(newBuf, oldBuf, BW::BWDATA_GameScreenBuffer->wid * BW::BWDATA_GameScreenBuffer->ht);
+
+      BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
+      BW::BWDATA_GameScreenBuffer->wid = 1024;
+      BW::BWDATA_GameScreenBuffer->ht = 768;
+      SMemFree(oldBuf, __FILE__, __LINE__, 0);
+
+      BW::BWDATA_ScreenLayers[5].width = 1024;
+      BW::BWDATA_ScreenLayers[5].height = 768 - 80;
     }
 #endif
     else
@@ -1333,13 +1347,13 @@ namespace BWAPI
     //this is called at the end of every match
     if (this->frameCount == -1)
       return;
-
+#ifdef _DEBUG
     if ( myDlg )
     {
       delete myDlg;
       myDlg = NULL;
     }
-
+#endif
     if ( !this->calledOnEnd )
     {
       bool win = true;

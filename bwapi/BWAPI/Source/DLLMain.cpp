@@ -124,7 +124,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( *BW::BWDATA_gwGameMode == 4 )
     BWAPI::BroodwarImpl.onMenuFrame();
 
-  if ( !nosound && *BW::BWDATA_glGluesMode == 0  )
+  if ( !nosound )
   {
     nosound = true;
     char szNosound[8];
