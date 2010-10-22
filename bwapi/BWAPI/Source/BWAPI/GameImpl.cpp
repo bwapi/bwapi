@@ -581,7 +581,7 @@ namespace BWAPI
       for(int iy = top; iy < bottom; ++iy)
       {
         // Check if tile is buildable and explored
-        if ( !this->isBuildable(ix, iy) || !this->map.isExplored(ix, iy) )
+        if ( !this->isBuildable(ix, iy) || ( builder && !this->map.isExplored(ix, iy)) )
           return false; // @TODO: Error code for !isExplored ??
 
         // Check if builder is capable of reaching the building site

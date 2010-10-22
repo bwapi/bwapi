@@ -8,7 +8,7 @@ void DevAIModule::onStart()
   scout = NULL;
   bw->setLatCom(false);
 
-  Broodwar->setLocalSpeed(0);
+  //Broodwar->setLocalSpeed(0);
 
   self = bw->self();
 }
@@ -19,8 +19,7 @@ void DevAIModule::onEnd(bool isWinner)
 
 void DevAIModule::onFrame()
 {
-  Broodwar->drawBoxScreen(20, 20, 100, 32, BWAPI::Colors::Black, true);
-  Broodwar->drawTextScreen(20, 20, "%.2f | %u", Broodwar->getAverageFPS(), Broodwar->getFPS());
+  Broodwar->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
   /*
   if ( bw->isReplay() )
     return;
