@@ -11,4 +11,4 @@ extern char gszLogPath[MAX_PATH];
 #define e(x) MessageBox(NULL, x, "Error!", MB_OK | MB_ICONERROR)
 
 void Error(DWORD dwErrCode, const char *format = "", ...);
-
+void Log(const char *format = "", ...);
