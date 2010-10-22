@@ -113,6 +113,10 @@
 			Name="Source Files"
 			>
 			<File
+				RelativePath=".\source\Commands.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\source\Common.cpp"
 				>
 			</File>
@@ -136,6 +140,14 @@
 		<Filter
 			Name="Header Files"
 			>
+			<File
+				RelativePath=".\source\Commands.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\CommandTypes.h"
+				>
+			</File>
 			<File
 				RelativePath=".\source\Common.h"
 				>

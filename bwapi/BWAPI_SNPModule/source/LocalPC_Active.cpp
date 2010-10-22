@@ -1,6 +1,14 @@
+#include <stdio.h>
+#include <queue>
+
 #include "LocalPC.h"
 #include "Connect.h"
 #include "Threads.h"
+#include "Commands.h"
+#include "CommandTypes.h"
+#include "Common.h"
+
+std::queue<pktq*> recvQueue;
 
 /* @TODO LIST:
 [Initialization]
@@ -80,19 +88,18 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", gszLogPath, MAX_PATH, gszConfigPath);
   SStrNCat(gszLogPath, "\\SNPModule.log", MAX_PATH);
 
-  gbWantExit = false;
+  // set exit flag to false
+  gbWantExit  = false;
 
   // Save event and Initialize Sockets
   ghRecvEvent = hEvent;
   if ( !InitializeSockets() )
     return false;
 
-  SOCKADDR addr;
-  InitAddr(&addr, "127.255.255.255", 6111);
-  int rval = sendto(gsSendSock, "test", 5, 0, &addr, sizeof(SOCKADDR));
-  if ( rval == SOCKET_ERROR || rval == 0 )
-    Error(WSAGetLastError(), "sendto fail");
+  BroadcastCommand(CMD_BROADCAST_PING);
 
+  //Sleep(20);
+  //Log("Broadcast count %u", gdwBroadcastCount);
   return true;
 }
 
@@ -134,15 +141,18 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
 bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
 {
   // pretty sure this is now complete
-  if ( !addrCount || !addrList || !buf || !bufLen || !gsGame )
+  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE || !gsSend)
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
   }
 
+  pkt p;
+  memset(&p, 0, sizeof(pkt));
+  memcpy(p.bData, buf, bufLen);
   for ( int i = addrCount; i > 0; --i )
   {
-    sendto(gsGame, buf, bufLen, 0, addrList[i-1], sizeof(SOCKADDR));
+    sendto(gsSend, (const char*)&p, bufLen + 4, 0, addrList[i-1], sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }

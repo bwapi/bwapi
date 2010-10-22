@@ -8,6 +8,7 @@
 typedef void* PSTRUCT;
 
 #define LOCL 0
+#define PKT_SIZE 512
 
 bool __stdcall fxn0(int a1, int a2, int a3);
 bool __stdcall _spiDestroy();

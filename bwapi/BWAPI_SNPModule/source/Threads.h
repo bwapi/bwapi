@@ -5,5 +5,5 @@
 extern bool gbWantExit;
 
 
-DWORD WINAPI ListenToBroadcasts(LPVOID);
+DWORD WINAPI RecvThread(LPVOID);
 

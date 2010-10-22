@@ -2,13 +2,13 @@
 #include <windows.h>
 #include <Winsock.h>
 
-extern SOCKET   gsGame;
-extern SOCKADDR gaddrRecvGame;
+extern SOCKET   gsRecv;
+extern SOCKADDR gaddrRecv;
+
+extern SOCKET   gsSend;
 
 extern SOCKET   gsBroadcast;
-extern SOCKADDR gaddrRecvBroadcast;
-
-extern SOCKET gsSendSock;
+extern SOCKADDR gaddrBroadcast;
 
 extern DWORD gdwSendCalls;
 extern DWORD gdwSendBytes;

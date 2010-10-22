@@ -2,18 +2,18 @@
 #include "Common.h"
 #include "Threads.h"
 
-DWORD gdwSendCalls = 0;
-DWORD gdwSendBytes = 0;
-DWORD gdwRecvCalls = 0;
-DWORD gdwRecvBytes = 0;
+DWORD gdwSendCalls;
+DWORD gdwSendBytes;
+DWORD gdwRecvCalls;
+DWORD gdwRecvBytes;
 
-SOCKET   gsGame    = NULL;
-SOCKADDR gaddrRecvGame;
+SOCKET   gsRecv;
+SOCKADDR gaddrRecv;
 
-SOCKET   gsBroadcast = NULL;
-SOCKADDR gaddrRecvBroadcast;
+SOCKET   gsSend;
 
-SOCKET gsSendSock = NULL;
+SOCKET   gsBroadcast;
+SOCKADDR gaddrBroadcast;
 
 bool InitializeSockets()
 {
@@ -26,15 +26,15 @@ bool InitializeSockets()
     return false;
   }
 
-  gsGame      = MakeUDPSocket();
+  gsSend      = MakeUDPSocket();
+  gsRecv      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
-  gsSendSock  = MakeUDPSocket();
 
-  InitAddr(&gaddrRecvBroadcast, "127.0.0.1", 6111);
-  InitAddr(&gaddrRecvGame);
+  InitAddr(&gaddrRecv);
+  InitAddr(&gaddrBroadcast, "127.255.255.255");
 
   // begin recv threads here
-  HANDLE hThread = CreateThread(NULL, 0, ListenToBroadcasts, NULL, 0, NULL);
+  HANDLE hThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
   if ( hThread )
   {
     SetThreadPriority(hThread, 1);
@@ -45,8 +45,10 @@ bool InitializeSockets()
 void DestroySockets()
 {
   // do cleanup stuff
-  if ( gsGame )
-    closesocket(gsGame);
+  if ( gsRecv )
+    closesocket(gsRecv);
+  if ( gsSend )
+    closesocket(gsSend);
   if ( gsBroadcast )
     closesocket(gsBroadcast);
   WSACleanup();
@@ -64,7 +66,6 @@ SOCKET MakeUDPSocket()
 
   DWORD dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD));
-  dwTrue = 1;
   setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD));
   return s;
 }

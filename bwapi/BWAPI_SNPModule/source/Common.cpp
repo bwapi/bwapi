@@ -26,3 +26,20 @@ void Error(DWORD dwErrCode, const char *format, ...)
   }
   e(szFinalStr);
 }
+
+void Log(const char *format, ...)
+{
+  char szBuffer[256];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(szBuffer, 256, 256, format, ap);
+  va_end(ap);
+
+  FILE *hLog = fopen(gszLogPath, "a+");
+  if ( hLog )
+  {
+    fprintf(hLog, "%s\n------------\n", szBuffer);
+    fclose(hLog);
+  }
+  i(szBuffer);
+}
