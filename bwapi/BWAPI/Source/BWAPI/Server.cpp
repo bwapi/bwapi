@@ -211,11 +211,15 @@ namespace BWAPI
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
+      PlayerData* p2 = ((PlayerImpl*)i)->self;
 
       strncpy(p->name, i->getName().c_str(), 32);
       p->race  = i->getRace().getID();
       p->type  = i->getType().getID();
       p->force = getForceID(i->getForce());
+      p->color = p2->color;
+      p->colorByte = p2->colorByte;
+
       for(int j = 0; j < 12; ++j)
       {
         p->isAlly[j]  = false;
