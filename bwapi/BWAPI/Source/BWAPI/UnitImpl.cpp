@@ -1068,7 +1068,11 @@ namespace BWAPI
     BWAPI::UnitCommandType ct = c.type;
 
     // Global can be ordered check
-    if ( this->isLockedDown() || this->isMaelstrommed() || this->isStasised() || this->isUnpowered() )
+    if ( this->isLockedDown() || 
+         this->isMaelstrommed() || 
+         this->isStasised()  || 
+         this->isUnpowered() ||
+         self->order == BW::OrderID::ZergBirth )
       return BroodwarImpl.setLastError(Errors::Unit_Busy);
 
     // Hallucination check
@@ -1085,8 +1089,34 @@ namespace BWAPI
          UnitCommandTypes::Right_Click_Unit     != ct )
        return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
+    // Can be ordered check
+    if ( !this->_getType.isBuilding() &&
+         this->getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders) &&
+         (UnitCommandTypes::Attack_Unit           == ct ||
+          UnitCommandTypes::Attack_Move           == ct ||
+          UnitCommandTypes::Build                 == ct ||
+          UnitCommandTypes::Follow                == ct ||
+          UnitCommandTypes::Gather                == ct ||
+          UnitCommandTypes::Load                  == ct ||
+          UnitCommandTypes::Move                  == ct ||
+          UnitCommandTypes::Patrol                == ct ||
+          UnitCommandTypes::Repair                == ct ||
+          UnitCommandTypes::Return_Cargo          == ct ||
+          UnitCommandTypes::Right_Click_Position  == ct ||
+          UnitCommandTypes::Right_Click_Unit      == ct ||
+          UnitCommandTypes::Unload                == ct ||
+          UnitCommandTypes::Unload_All            == ct ||
+          UnitCommandTypes::Unload_All_Position   == ct ||
+          UnitCommandTypes::Use_Tech              == ct ||
+          UnitCommandTypes::Use_Tech_Unit         == ct ||
+          UnitCommandTypes::Use_Tech_Position     == ct ) )
+      return BroodwarImpl.setLastError(Errors::Unit_Busy);
+
+
     // valid target check
-    if ( UnitCommandTypes::Attack_Unit      == ct ||
+    if ((!c.target ||
+        !((UnitImpl*)c.target)->attemptAccess()) &&
+        (UnitCommandTypes::Attack_Unit      == ct ||
          UnitCommandTypes::Set_Rally_Unit   == ct ||
          UnitCommandTypes::Follow           == ct ||
          UnitCommandTypes::Gather           == ct ||
@@ -1094,11 +1124,8 @@ namespace BWAPI
          UnitCommandTypes::Load             == ct ||
          UnitCommandTypes::Unload           == ct ||
          UnitCommandTypes::Right_Click_Unit == ct ||
-         UnitCommandTypes::Use_Tech_Unit    == ct )
-    {
-      if ( !c.target || !((UnitImpl*)c.target)->attemptAccess() )
-        return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-    }
+         UnitCommandTypes::Use_Tech_Unit    == ct) )
+      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
 
     // Build/Train requirements
     if ( UnitCommandTypes::Build       == ct ||
@@ -1215,15 +1242,8 @@ namespace BWAPI
       if ( this->getEnergy() < tech.energyUsed() )
         return BroodwarImpl.setLastError(Errors::Insufficient_Energy);
 
-      if ( tech == TechTypes::Burrowing )
-      {
-        if ( !this->_getType.isBurrowable() )
-          return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      }
-      else if ( tech.whatUses().find(this->_getType) == tech.whatUses().end() )
-      {
+      if ( tech != TechTypes::Burrowing && tech.whatUses().find(this->_getType) == tech.whatUses().end() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      }
 
       if ( tech == TechTypes::Spider_Mines && this->getSpiderMineCount() <= 0 )
         return BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
@@ -1231,19 +1251,27 @@ namespace BWAPI
       //if ( tech == TechTypes::Nuclear_Strike && this->_getPlayer->completedUnitCount(UnitTypes::Terran_Nuclear_Missile) > 0 )
       //  return BroodwarImpl.setLastError(Errors::Insufficient_Ammo);
 
-      if ( UnitCommandTypes::Burrow == ct && this->isBurrowed() )
-        return false;
-
-      if ( UnitCommandTypes::Cloak == ct && this->isCloaked() )
-        return false;
-
-      if ( UnitCommandTypes::Siege == ct )
+      switch ( tech.getID() )
       {
+      case BW::TechID::Burrowing:
+        if ( !this->_getType.isBurrowable() )
+          return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+
+        if ( this->isBurrowed() || self->order == BW::OrderID::Burrow || self->order == BW::OrderID::Unburrow )
+          return false;
+        break;
+      case BW::TechID::TankSiegeMode:
         if ( this->isSieged() )
           return false;
 
         if ( self->order == BW::OrderID::SiegeMode || self->order == BW::OrderID::TankMode )
           return BroodwarImpl.setLastError(Errors::Unit_Busy);
+        break;
+      case BW::TechID::PersonnelCloaking:
+      case BW::TechID::CloakingField:
+        if ( self->secondaryOrder == BW::OrderID::Cloak )
+          return false;
+        break;
       }
 
       if ( tech == TechTypes::None || tech == TechTypes::Unknown )
@@ -1255,7 +1283,7 @@ namespace BWAPI
     {
       if ( !this->getType().isBurrowable() )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
-      if ( !this->isBurrowed() )
+      if ( !this->isBurrowed() || self->order == BW::OrderID::Unburrow )
         return false;
     } // unburrow
 
@@ -1265,7 +1293,7 @@ namespace BWAPI
       if ( getCloakingTech() == TechTypes::None )
         return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-      if ( !this->isCloaked() )
+      if ( self->secondaryOrder != BW::OrderID::Cloak )
         return false;
     } // decloak
 
