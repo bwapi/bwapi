@@ -340,7 +340,7 @@ namespace BWAPI
       }
 
       self->isAccelerating  = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating);  //isAccelerating
-      self->isBeingGathered = _getType.isResourceContainer() && getOriginalRawData->building.resource.isBeingGathered != 0;  //isBeingGathered
+      self->isBeingGathered = _getType.isResourceContainer() && (getOriginalRawData->building.resource.gatherQueueCount || getOriginalRawData->building.resource.nextGatherer);  //isBeingGathered
       self->isBlind         = getOriginalRawData->isBlind != 0;   //isBlind
       self->isBraking       = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------

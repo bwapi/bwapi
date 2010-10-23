@@ -383,7 +383,7 @@ namespace BWAPI
   {
     return getType().getRace() == Races::Terran &&
            self->isCompleted &&
-           self->hitPoints>self->lastHitPoints;
+           self->hitPoints > self->lastHitPoints;
   }
   //--------------------------------------------- IS BLIND ---------------------------------------------------
   bool UnitImpl::isBlind() const
@@ -610,8 +610,10 @@ namespace BWAPI
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
-    return self->type == BW::UnitID::Terran_SiegeTankSiegeMode ||
-           self->type == BW::UnitID::Terran_Hero_EdmundDukeS;
+    return (self->type  == BW::UnitID::Terran_SiegeTankSiegeMode ||
+            self->type  == BW::UnitID::Terran_Hero_EdmundDukeS ||
+            self->order == BW::OrderID::SiegeMode) &&
+           self->order != BW::OrderID::TankMode;
   }
   //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
@@ -1120,7 +1122,7 @@ namespace BWAPI
         if ( !uType.isBuilding() )
           return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
 
-        if ( !uType.isAddon() && !Broodwar->canBuildHere(this, BWAPI::TilePosition(c.x, c.y), uType) )
+        if ( !uType.isAddon() && !Broodwar->canBuildHere(this, BWAPI::TilePosition(c.x, c.y), uType, true) )
           return false;
       }
       else if ( UnitCommandTypes::Build_Addon == ct )

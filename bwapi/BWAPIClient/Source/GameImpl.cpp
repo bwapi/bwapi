@@ -623,7 +623,7 @@ namespace BWAPI
     return hasPower(position.x(),position.y(),tileWidth,tileHeight);
   }
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
-  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type)
+  bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type, bool checkExplored)
   {
     /* Error checking */
     lastError = Errors::Unbuildable_Location;
