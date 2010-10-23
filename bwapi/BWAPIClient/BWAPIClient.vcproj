@@ -78,7 +78,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPIClientd.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPIClientd.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.pdb&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPIClientd.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPIClientd.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.pdb&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -243,6 +243,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\Client\ShapeType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\TemplatesImpl.h"
 				>
 			</File>
 			<File

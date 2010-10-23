@@ -608,6 +608,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\Templates.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\TemplatesImpl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\UnitImpl.h"
 					>
 				</File>
