@@ -2,12 +2,15 @@
 
 using namespace BWAPI;
 
+bool enabled;
+
 void DevAIModule::onStart()
 {
   bw->enableFlag(Flag::UserInput);
   scout = NULL;
   bw->setLatCom(false);
 
+  enabled = true;
   //Broodwar->setLocalSpeed(0);
   Broodwar->sendText("modify the phase variance");
   self = bw->self();
@@ -24,11 +27,14 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() )
     return;
 
-  int thisOrderFrame = bw->getFrameCount();
-  for each ( Unit *u in self->getUnits() )
+  if ( enabled )
   {
-    if ( u->decloak() )
-      Broodwar->printf("OK");
+    int thisOrderFrame = bw->getFrameCount();
+    for each ( Unit *u in self->getUnits() )
+    {
+      if ( u->cancelTrain() )
+        Broodwar->printf("OK");
+    }
   }
     /*
     if ( u == scout )
@@ -174,6 +180,11 @@ void DevAIModule::onSendText(std::string text)
   if ( text == "/ver" )
   {
     Broodwar->printf("Heinermann DevTest");
+  }
+  if ( text == "/t" )
+  {
+    enabled = !enabled;
+    Broodwar->printf("DevAITest %s", enabled ? "ENABLED" : "DISABLED");
   }
   else
   {
