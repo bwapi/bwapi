@@ -3,6 +3,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "TemplatesImpl.h"
 #include "BulletImpl.h"
 
 #include <Util\Foreach.h>
@@ -628,102 +629,7 @@ namespace BWAPI
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
   bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type, bool checkExplored)
   {
-    /* Error checking */
-    lastError = Errors::Unbuildable_Location;
-    if (position.x()<0) return false;
-    if (position.y()<0) return false;
-    int width=type.tileWidth();
-    int height=type.tileHeight();
-    if (position.x()+width>mapWidth()) return false;
-    if (position.y()+height>=mapHeight()) return false;
-    if (position.y()+height==mapHeight()-1)
-    {
-      if (position.x()<5) return false;
-      if (position.x()+width>mapWidth()-5) return false;
-    }
-    if (type.isRefinery())
-    {
-      foreach (Unit* g, geysers)
-      {
-       if (g->getTilePosition() == position)
-        {
-          lastError = Errors::None;
-          return true;
-        }
-      }
-      return false;
-    }
-    for(int x = position.x(); x < position.x() + width; x++)
-    {
-      for(int y = position.y(); y < position.y() + height; y++)
-      {
-        std::set<Unit*> groundUnits;
-        foreach (Unit* i, unitsOnTile(x,y))
-          if (!i->getType().isFlyer() && !i->isLifted())
-            groundUnits.insert(i);
-        if (!isBuildable(x,y) || groundUnits.size() > 1)
-          return false;
-        if (!groundUnits.empty())
-        {
-          Unit* blocking = *(groundUnits.begin());
-          if (blocking != builder)
-            return false;
-        }
-      }
-    }
-    if (type.getRace() == BWAPI::Races::Zerg)
-    {
-      if (!type.isResourceDepot())
-        for(int x = position.x(); x < position.x() + width; x++)
-          for(int y = position.y(); y < position.y() + height; y++)
-            if (!hasCreep(x,y))
-              return false;
-    }
-    else
-    {
-      for(int x = position.x(); x < position.x() + width; x++)
-        for(int y = position.y(); y < position.y() + height; y++)
-          if (hasCreep(x,y))
-            return false;
-    }
-    if (type.requiresPsi())
-    {
-      if (hasPower(position.x(), position.y(), width, height))
-      {
-        lastError = Errors::None;
-        return true;
-      }
-      return false;
-    }
-    if (type.isResourceDepot())
-    {
-      foreach (Unit* m, staticMinerals)
-      {
-        if (isVisible(m->getInitialTilePosition()) ||
-            isVisible(m->getInitialTilePosition().x()+1,m->getInitialTilePosition().y()))
-          if (!m->isVisible())
-            continue; // tile position is visible, but mineral is not => mineral does not exist
-        if (m->getInitialTilePosition().x()>position.x()-5 &&
-            m->getInitialTilePosition().y()>position.y()-4 &&
-            m->getInitialTilePosition().x()<position.x()+7 &&
-            m->getInitialTilePosition().y()<position.y()+6)
-        {
-          return false;
-        }
-      }
-      foreach (Unit* g, staticGeysers)
-      {
-        if (g->getInitialTilePosition().x()>position.x()-7 &&
-            g->getInitialTilePosition().y()>position.y()-5 &&
-            g->getInitialTilePosition().x()<position.x()+7 &&
-            g->getInitialTilePosition().y()<position.y()+6)
-        {
-          return false;
-        }
-      }
-    }
-    lastError = Errors::None;
-    return true;
+    return Templates::canBuildHere(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool GameImpl::canMake(Unit* builder, UnitType type)
