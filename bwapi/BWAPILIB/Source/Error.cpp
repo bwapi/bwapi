@@ -9,7 +9,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[23];
+  std::string errorName[25];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -20,23 +20,25 @@ namespace BWAPI
     const Error Unit_Busy(3);
     const Error Incompatible_UnitType(4);
     const Error Incompatible_TechType(5);
-    const Error Already_Researched(6);
-    const Error Fully_Upgraded(7);
-    const Error Currently_Researching(8);
-    const Error Currently_Upgrading(9);
-    const Error Insufficient_Minerals(10);
-    const Error Insufficient_Gas(11);
-    const Error Insufficient_Supply(12);
-    const Error Insufficient_Energy(13);
-    const Error Insufficient_Tech(14);
-    const Error Insufficient_Ammo(15);
-    const Error Insufficient_Space(16);
-    const Error Unbuildable_Location(17);
-    const Error Out_Of_Range(18);
-    const Error Unable_To_Hit(19);
-    const Error Access_Denied(20);
-    const Error None(21);
-    const Error Unknown(22);
+    const Error Incompatible_State(6);
+    const Error Already_Researched(7);
+    const Error Fully_Upgraded(8);
+    const Error Currently_Researching(9);
+    const Error Currently_Upgrading(10);
+    const Error Insufficient_Minerals(11);
+    const Error Insufficient_Gas(12);
+    const Error Insufficient_Supply(13);
+    const Error Insufficient_Energy(14);
+    const Error Insufficient_Tech(15);
+    const Error Insufficient_Ammo(16);
+    const Error Insufficient_Space(17);
+    const Error Unbuildable_Location(18);
+    const Error Unreachable_Location(19);
+    const Error Out_Of_Range(20);
+    const Error Unable_To_Hit(21);
+    const Error Access_Denied(22);
+    const Error None(23);
+    const Error Unknown(24);
 
     void init()
     {
@@ -46,6 +48,7 @@ namespace BWAPI
       errorName[Unit_Busy.getID()]             = "Unit Busy";
       errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
       errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
+      errorName[Incompatible_State.getID()]    = "Incompatible State";
       errorName[Already_Researched.getID()]    = "Already Researched";
       errorName[Fully_Upgraded.getID()]        = "Fully Upgraded";
       errorName[Currently_Researching.getID()] = "Currently Researching";
@@ -58,6 +61,7 @@ namespace BWAPI
       errorName[Insufficient_Ammo.getID()]     = "Insufficient Ammo";
       errorName[Insufficient_Space.getID()]    = "Insufficient Space";
       errorName[Unbuildable_Location.getID()]  = "Unbuildable Location";
+      errorName[Unreachable_Location.getID()]  = "Unreachable Location";
       errorName[Out_Of_Range.getID()]          = "Out Of Range";
       errorName[Unable_To_Hit.getID()]         = "Unable To Hit";
       errorName[Access_Denied.getID()]         = "Access Denied";
@@ -70,6 +74,7 @@ namespace BWAPI
       errorSet.insert(Unit_Busy);
       errorSet.insert(Incompatible_UnitType);
       errorSet.insert(Incompatible_TechType);
+      errorSet.insert(Incompatible_State);
       errorSet.insert(Already_Researched);
       errorSet.insert(Fully_Upgraded);
       errorSet.insert(Currently_Researching);
@@ -82,6 +87,7 @@ namespace BWAPI
       errorSet.insert(Insufficient_Ammo);
       errorSet.insert(Insufficient_Space);
       errorSet.insert(Unbuildable_Location);
+      errorSet.insert(Unreachable_Location);
       errorSet.insert(Out_Of_Range);
       errorSet.insert(Unable_To_Hit);
       errorSet.insert(Access_Denied);
@@ -105,7 +111,7 @@ namespace BWAPI
   Error::Error(int id)
   {
     this->id = id;
-    if (!initializingError && (id < 0 || id >= 23))
+    if (!initializingError && (id < 0 || id >= 25))
       this->id = Errors::Unknown.id;
   }
   Error::Error(const Error& other)
