@@ -171,7 +171,7 @@ namespace BW
                     struct
                     { u16       resourceCount;  // amount of resources
                       u8        resourceIscript;
-                      u8        isBeingGathered;
+                      u8        gatherQueueCount;
                       BW::Unit  *nextGatherer;    // 14  // pointer to the next workerunit waiting in line to gather
                       u8        resourceGroup;    // 18
                       u8        resourceBelongsToAI;
