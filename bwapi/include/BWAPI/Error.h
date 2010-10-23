@@ -57,8 +57,11 @@ namespace BWAPI
      * Barracks, or order a Hydralisk to lay a spider mine. */
     extern const Error Incompatible_UnitType;
 
-    /** Returned if when trying to use a tech type with the wrong Unit::useTech method. */
+    /** Returned when trying to use a tech type with the wrong Unit::useTech method. */
     extern const Error Incompatible_TechType;
+
+    /** Returned if you to do something like try to cancel an upgrade when the unit isn't upgrading. */
+    extern const Error Incompatible_State;
 
     /** Returned if you try to research something that is already researched. */
     extern const Error Already_Researched;
@@ -101,6 +104,9 @@ namespace BWAPI
     /** Returned if you order an immovable unit, like a Protoss Photon Cannon, to attack a unit that is out
      * of range. */
     extern const Error Unbuildable_Location;
+
+    /** Returned if you try to construct a building where the worker cannot reach based on static map data. */
+    extern const Error Unreachable_Location;
 
     /** Returned if you order an immovable unit, like a Protoss Photon Cannon, to attack a unit that is out of
      * range.*/
