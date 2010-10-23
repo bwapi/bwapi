@@ -9,7 +9,7 @@ void DevAIModule::onStart()
   bw->setLatCom(false);
 
   //Broodwar->setLocalSpeed(0);
-
+  Broodwar->sendText("modify the phase variance");
   self = bw->self();
 }
 
@@ -20,24 +20,17 @@ void DevAIModule::onEnd(bool isWinner)
 void DevAIModule::onFrame()
 {
   Broodwar->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
-  /*
+
   if ( bw->isReplay() )
     return;
 
-  for each ( Unit *u in Broodwar->getAllUnits() )
-  {
-    if ( u->isSelected() )
-    {
-      TilePosition tp = u->getTilePosition();
-      Position p = (Position)tp;
-      Broodwar->drawTextMap(p.x(), p.y(), "(%u,%u)", tp.x(), tp.y());
-    }
-  }
-
   int thisOrderFrame = bw->getFrameCount();
-
   for each ( Unit *u in self->getUnits() )
   {
+    if ( u->unsiege() )
+      Broodwar->printf("OK");
+  }
+    /*
     if ( u == scout )
       continue;
 

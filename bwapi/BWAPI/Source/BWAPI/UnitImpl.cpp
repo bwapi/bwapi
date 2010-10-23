@@ -17,6 +17,7 @@
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
+#include <BW/Order.h>
 #include <BW/Offsets.h>
 
 namespace BWAPI
@@ -610,10 +611,8 @@ namespace BWAPI
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
-    return (self->type  == BW::UnitID::Terran_SiegeTankSiegeMode ||
-            self->type  == BW::UnitID::Terran_Hero_EdmundDukeS ||
-            self->order == BW::OrderID::SiegeMode) &&
-           self->order != BW::OrderID::TankMode;
+    return self->type  == BW::UnitID::Terran_SiegeTankSiegeMode ||
+           self->type  == BW::UnitID::Terran_Hero_EdmundDukeS;
   }
   //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
@@ -1109,7 +1108,7 @@ namespace BWAPI
     {
       UnitType uType = UnitType(c.extra);
       if ( !Broodwar->canMake(this, uType) )
-        return BroodwarImpl.setLastError(Errors::Insufficient_Tech);
+        return false;
 
       if ( this->isConstructing() || 
            !this->isCompleted()   || 
@@ -1238,8 +1237,14 @@ namespace BWAPI
       if ( UnitCommandTypes::Cloak == ct && this->isCloaked() )
         return false;
 
-      if ( UnitCommandTypes::Siege == ct && this->isSieged() )
-        return false;
+      if ( UnitCommandTypes::Siege == ct )
+      {
+        if ( this->isSieged() )
+          return false;
+
+        if ( self->order == BW::OrderID::SiegeMode || self->order == BW::OrderID::TankMode )
+          return BroodwarImpl.setLastError(Errors::Unit_Busy);
+      }
 
       if ( tech == TechTypes::None || tech == TechTypes::Unknown )
         return BroodwarImpl.setLastError(Errors::Incompatible_TechType);
@@ -1265,8 +1270,14 @@ namespace BWAPI
     } // decloak
 
     // Unsiege
-    if ( UnitCommandTypes::Unsiege == ct && !this->isSieged())
-      return false;
+    if ( UnitCommandTypes::Unsiege == ct )
+    {
+      if ( !this->isSieged() )
+        return false;
+
+      if ( self->order == BW::OrderID::SiegeMode || self->order == BW::OrderID::TankMode )
+        return BroodwarImpl.setLastError(Errors::Unit_Busy);
+    }
 
     // lift/land
     if ( UnitCommandTypes::Lift == ct || UnitCommandTypes::Land == ct )

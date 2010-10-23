@@ -15,7 +15,7 @@ namespace BW
       StartingAttack      = 1 << 3, /** Always 1 for a moment when the unit is starting new attack cycle*/
       Moving              = 1 << 4, /**< Still moving, but not accelerating */
       Lifted              = 1 << 5, /**< Lifted cc has this on (just before it moves) */
-      unknown1            = 1 << 6, /**< The value is unknown, but it has something to do with chaning direction& accelerating */
+      unknown1            = 1 << 6, /**< The value is unknown, but it has something to do with changing direction& accelerating */
       _alwaysZero1        = 1 << 7
 
     };
