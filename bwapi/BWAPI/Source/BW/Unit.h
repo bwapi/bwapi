@@ -120,7 +120,7 @@ namespace BW
     /*0x093*/ u8                                  userActionFlags;     // some flags that change when the user interacts with the unit
     /*0x094*/ u16                                 currentButtonSet;    // The u16 is a guess, used to be u8
     /*0x096*/ u8                                  cloaked;             // 1 for cloaked
-    /*0x097*/ u8                                  movementState;       // A value based on conditions related to pathing
+    /*0x097*/ u8                                  movementState;       // A value based on conditions related to pathing, see Path.h for info
     /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
