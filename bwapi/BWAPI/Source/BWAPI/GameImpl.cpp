@@ -543,74 +543,19 @@ namespace BWAPI
     return Templates::canBuildHere(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
-  bool  GameImpl::canMake(Unit* builder, UnitType type)
+  bool GameImpl::canMake(Unit* builder, UnitType type)
   {
     return Templates::canMake(builder,type);
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
-  bool  GameImpl::canResearch(Unit* unit, TechType type)
+  bool GameImpl::canResearch(Unit* unit, TechType type)
   {
-    /* Error checking */
-    this->setLastError(Errors::None);
-    if ( !self() )
-      return this->setLastError(Errors::Unit_Not_Owned);
-
-    if ( unit )
-    {
-      if (unit->getPlayer() != self())
-        return this->setLastError(Errors::Unit_Not_Owned);
-
-      if (unit->getType() != type.whatResearches())
-        return this->setLastError(Errors::Incompatible_UnitType);
-
-      if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
-        return this->setLastError(Errors::Unit_Busy);
-    }
-    if (self()->isResearching(type))
-      return this->setLastError(Errors::Currently_Researching);
-
-    if (self()->hasResearched(type))
-      return this->setLastError(Errors::Already_Researched);
-
-    if (self()->minerals() < type.mineralPrice())
-      return this->setLastError(Errors::Insufficient_Minerals);
-
-    if (self()->gas() < type.gasPrice())
-      return this->setLastError(Errors::Insufficient_Gas);
-
-    return true;
+    return Templates::canResearch(unit,type);
   }
-  //----------------------------------------------- CAN UPGRADE ----------------------------------------------
-  bool  GameImpl::canUpgrade(Unit* unit, UpgradeType type)
+  //--------------------------------------------- CAN UPGRADE ------------------------------------------------
+  bool GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
-    this->setLastError(Errors::None);
-    if ( !self() )
-      return this->setLastError(Errors::Unit_Not_Owned);
-
-    if ( unit )
-    {
-      if (unit->getPlayer() != self())
-        return this->setLastError(Errors::Unit_Not_Owned);
-
-      if (unit->getType() != type.whatUpgrades())
-        return this->setLastError(Errors::Incompatible_UnitType);
-
-      if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
-        return this->setLastError(Errors::Unit_Busy);
-    }
-    if (self()->isUpgrading(type))
-      return this->setLastError(Errors::Currently_Upgrading);
-
-    if (self()->getUpgradeLevel(type) >= type.maxRepeats())
-      return this->setLastError(Errors::Fully_Upgraded);
-
-    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)))
-      return this->setLastError(Errors::Insufficient_Minerals);
-
-    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->getUpgradeLevel(type)))
-      return this->setLastError(Errors::Insufficient_Gas);
-
-    return true;
+    return Templates::canUpgrade(unit,type);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()

@@ -16,5 +16,13 @@ namespace BWAPI
     {
       return _canMake<class GameImpl, class PlayerImpl, class UnitImpl>(builder,type);
     }
+    bool canResearch(Unit* unit, TechType type)
+    {
+      return _canResearch<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
+    }
+    bool canUpgrade(Unit* unit, UpgradeType type)
+    {
+      return _canUpgrade<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
+    }
   }
 }
