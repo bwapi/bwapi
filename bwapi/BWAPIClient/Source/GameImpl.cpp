@@ -585,36 +585,47 @@ namespace BWAPI
     if (tileWidth == 4)
       x++;
     /* Loop through all pylons for the current player */
-    foreach (Unit* i, pylons)
+    foreach (UnitImpl* i, pylons)
     {
-      if (i->isCompleted()==false) continue;
+      if ( !i->isCompleted() )
+        continue;
       int px = i->getTilePosition().x();
       int py = i->getTilePosition().y();
       int bx = x - px + 7;
-      int by = y - py + 4;
+      int by = y - py + 5;
       /* Deal with special cases, pylon offset cutoff */
-      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 8)
+      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 9)
       {
         switch(by)
         {
-          case 0:
-            if (bx >= 1 && bx <= 12) return true;
-          break;
-          case 1:
-            if (bx <= 13) return true;
-          break;
-          case 2:
-          case 3:
-          case 4:
-          case 5:
+        case 0:
+          if ( tileHeight == 3 && bx >= 4 && bx <= 9 )
             return true;
           break;
-          case 6:
-            if (bx <= 13) return true;
-          case 7:
-            if (bx >= 1 && bx <= 12) return true;
-          case 8:
-            if (bx >= 4 && bx <= 9) return true;
+        case 1:
+          if (bx >= 1 && bx <= 12) 
+            return true;
+          break;
+        case 2:
+          if (bx <= 13) 
+            return true;
+          break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+          return true;
+        case 7:
+          if (bx <= 13) 
+            return true;
+          break;
+        case 8:
+          if (bx >= 1 && bx <= 12) 
+            return true;
+          break;
+        case 9:
+          if (bx >= 4 && bx <= 9) 
+            return true;
           break;
         }
       }
@@ -639,82 +650,12 @@ namespace BWAPI
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
   bool GameImpl::canResearch(Unit* unit, TechType type)
   {
-    /* Error checking */
-    lastError = Errors::None;
-    if (self() == NULL)
-    {
-      lastError = Errors::Unit_Not_Owned;
-      return false;
-    }
-    if (unit != NULL)
-    {
-      if (unit->getPlayer()!=self())
-      {
-        lastError = Errors::Unit_Not_Owned;
-        return false;
-      }
-      if (unit->getType() != type.whatResearches())
-      {
-        lastError = Errors::Incompatible_UnitType;
-        return false;
-      }
-    }
-    if (self()->hasResearched(type))
-    {
-      lastError = Errors::Already_Researched;
-      return false;
-    }
-    if (self()->minerals() < type.mineralPrice())
-    {
-      lastError = Errors::Insufficient_Minerals;
-      return false;
-    }
-    if (self()->gas() < type.gasPrice())
-    {
-      lastError = Errors::Insufficient_Gas;
-      return false;
-    }
-    return true;
+    return Templates::canResearch(unit,type);
   }
   //--------------------------------------------- CAN UPGRADE ------------------------------------------------
   bool GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
-    /* Error checking */
-    lastError = Errors::None;
-    if (self() == NULL)
-    {
-      lastError = Errors::Unit_Not_Owned;
-      return false;
-    }
-    if (unit != NULL)
-    {
-      if (unit->getPlayer()!=self())
-      {
-        lastError = Errors::Unit_Not_Owned;
-        return false;
-      }
-      if (unit->getType() != type.whatUpgrades())
-      {
-        lastError = Errors::Incompatible_UnitType;
-        return false;
-      }
-    }
-    if (self()->getUpgradeLevel(type)>=type.maxRepeats())
-    {
-      lastError = Errors::Fully_Upgraded;
-      return false;
-    }
-    if (self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(self()->getUpgradeLevel(type)))
-    {
-      lastError = Errors::Insufficient_Minerals;
-      return false;
-    }
-    if (self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(self()->getUpgradeLevel(type)))
-    {
-      lastError = Errors::Insufficient_Gas;
-      return false;
-    }
-    return true;
+    return Templates::canUpgrade(unit,type);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()

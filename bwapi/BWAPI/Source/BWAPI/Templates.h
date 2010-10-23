@@ -1,7 +1,5 @@
 #pragma once
-#include <BWAPI/Game.h>
-#include <BWAPI/Player.h>
-#include <BWAPI/Unit.h>
+#include <BWAPI.h>
 #include <Util/Foreach.h>
 namespace BWAPI
 {
@@ -238,6 +236,73 @@ namespace BWAPI
            addon.whatBuilds().first == type.whatBuilds().first &&
            (!builder->getAddon() || builder->getAddon()->getType() != addon) )
         return Broodwar->setLastError(Errors::Insufficient_Tech);
+      return true;
+    }
+    //------------------------------------------- CAN RESEARCH -----------------------------------------------
+    template <class GameImpl, class PlayerImpl, class UnitImpl>
+    bool _canResearch(Unit* unit, TechType type)
+    {
+      /* Error checking */
+      Broodwar->setLastError(Errors::None);
+      if ( !Broodwar->self() )
+        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+      if ( unit )
+      {
+        if (unit->getPlayer() != Broodwar->self())
+          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+        if (unit->getType() != type.whatResearches())
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+
+        if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+      }
+      if (Broodwar->self()->isResearching(type))
+        return Broodwar->setLastError(Errors::Currently_Researching);
+
+      if (Broodwar->self()->hasResearched(type))
+        return Broodwar->setLastError(Errors::Already_Researched);
+
+      if (Broodwar->self()->minerals() < type.mineralPrice())
+        return Broodwar->setLastError(Errors::Insufficient_Minerals);
+
+      if (Broodwar->self()->gas() < type.gasPrice())
+        return Broodwar->setLastError(Errors::Insufficient_Gas);
+
+      return true;
+    }
+    //------------------------------------------- CAN UPGRADE ------------------------------------------------
+    template <class GameImpl, class PlayerImpl, class UnitImpl>
+    bool _canUpgrade(Unit* unit, UpgradeType type)
+    {
+      Broodwar->setLastError(Errors::None);
+      if ( !Broodwar->self() )
+        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+      if ( unit )
+      {
+        if (unit->getPlayer() != Broodwar->self())
+          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+        if (unit->getType() != type.whatUpgrades())
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+
+        if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+      }
+      if (Broodwar->self()->isUpgrading(type))
+        return Broodwar->setLastError(Errors::Currently_Upgrading);
+
+      if (Broodwar->self()->getUpgradeLevel(type) >= type.maxRepeats())
+        return Broodwar->setLastError(Errors::Fully_Upgraded);
+
+      if (Broodwar->self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(Broodwar->self()->getUpgradeLevel(type)))
+        return Broodwar->setLastError(Errors::Insufficient_Minerals);
+
+      if (Broodwar->self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(Broodwar->self()->getUpgradeLevel(type)))
+        return Broodwar->setLastError(Errors::Insufficient_Gas);
+
       return true;
     }
   }
