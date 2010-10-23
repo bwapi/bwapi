@@ -12,5 +12,9 @@ namespace BWAPI
     {
       return _canBuildHere<class GameImpl, class PlayerImpl, class UnitImpl>(builder,position,type,checkExplored);
     }
+    bool canMake(Unit* builder, UnitType type)
+    {
+      return _canMake<class GameImpl, class PlayerImpl, class UnitImpl>(builder,type);
+    }
   }
 }
