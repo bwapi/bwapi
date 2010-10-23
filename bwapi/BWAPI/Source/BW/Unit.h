@@ -176,7 +176,7 @@ namespace BW
                       u8        resourceGroup;    // 18
                       u8        resourceBelongsToAI;
                     } resource;  /** When the unit is resource container */
-                    struct { BW::Unit *exit;       } nydus; /** Probably the connected nydius canal @todo investigate*/
+                    struct { BW::Unit *exit; } nydus; /** connected nydius canal */
                     struct { BW::CSprite *nukeDot; } ghost;
                     struct
                     { BW::Unit *nuke;  // attached nuke

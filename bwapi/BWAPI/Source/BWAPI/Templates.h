@@ -30,7 +30,7 @@ namespace BWAPI
 
       //if the unit is a refinery, we just need to check the set of geysers to see if the position
       //matches one of them (and the type is still vespene geyser)
-      if (type.isRefinery())
+      if ( type.isRefinery() )
       {
         foreach (Unit* g, Broodwar->getGeysers())
         {
@@ -73,7 +73,12 @@ namespace BWAPI
                  u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()    &&
                  u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight() &&
                  u->getPosition().y() - u->getType().dimensionUp()    <= targetY + type.dimensionDown() )
-              return false;
+            {
+              if ( !type.isAddon() )
+                return false;
+              else if ( !u->getType().canMove() )
+                return false;
+            }
           }
         }
       }

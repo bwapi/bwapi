@@ -1155,6 +1155,12 @@ namespace BWAPI
       {
         if ( !uType.isAddon() )
           return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+
+        if ( this->getAddon() )
+          return false;
+
+        if ( !Broodwar->canBuildHere(this, BWAPI::TilePosition(getTilePosition().x() + 4, getTilePosition().y() + 1), uType) )
+          return false;
       }
       else
       {
@@ -1352,8 +1358,14 @@ namespace BWAPI
       return false;
 
     // Cancel construction
-    if ( UnitCommandTypes::Cancel_Construction == ct && (this->isCompleted() || !this->_getType.isBuilding()) )
-      return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+    if ( UnitCommandTypes::Cancel_Construction == ct )
+    {
+      if ( !this->_getType.isBuilding() )
+        return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+
+      if ( this->isCompleted() || (!this->isCompleted() && this->_getType == UnitTypes::Zerg_Nydus_Canal && this->getOriginalRawData->building.nydus.exit) )
+        return false;
+    }
 
     // cancel addon
     if ( UnitCommandTypes::Cancel_Addon == ct && (!this->getAddon() || this->getAddon()->isCompleted()) )
@@ -1367,7 +1379,7 @@ namespace BWAPI
       return false;
 
     // cancel morph
-    if ( UnitCommandTypes::Cancel_Morph == ct && !isMorphing() )
+    if ( UnitCommandTypes::Cancel_Morph == ct && (!isMorphing() || (!this->isCompleted() && this->_getType == UnitTypes::Zerg_Nydus_Canal && this->getOriginalRawData->building.nydus.exit)) )
       return false;
 
     // cancel research
