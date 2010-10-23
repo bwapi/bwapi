@@ -546,9 +546,9 @@ namespace BWAPI
   bool  GameImpl::canMake(Unit* builder, UnitType type)
   {
     /* Error checking */
-    this->setLastError(Errors::None);
+    Broodwar->setLastError(Errors::None);
     if ( !self() )
-      return this->setLastError(Errors::Unit_Not_Owned);
+      return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
     BWAPI::UnitType requiredType = type.whatBuilds().first;
 
@@ -556,16 +556,16 @@ namespace BWAPI
     {
       /* Check if the owner of the unit is you */
       if (builder->getPlayer() != self())
-        return this->setLastError(Errors::Unit_Not_Owned);
+        return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
       BWAPI::UnitType builderType = builder->getType();
       if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
       {
         if ( !builder->isCompleted() )
-          return this->setLastError(Errors::Unit_Busy);
+          return Broodwar->setLastError(Errors::Unit_Busy);
 
         if ( builder->getNydusExit() )
-          return this->setLastError(Errors::Unknown);
+          return Broodwar->setLastError(Errors::Unknown);
 
         return true;
       }
@@ -574,44 +574,44 @@ namespace BWAPI
       if ( requiredType == UnitTypes::Zerg_Larva && builderType.producesLarva() )
       {
         if ( builder->getLarva().size() == 0 )
-          return this->setLastError(Errors::Unit_Does_Not_Exist);
+          return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
       }
       else if ( builderType != requiredType )
-        return this->setLastError(Errors::Incompatible_UnitType);
+        return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
       /* Carrier space */
       if ( builderType == UnitTypes::Protoss_Carrier )
       {
         int max_amt = 4;
-        if (self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
+        if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0)
           max_amt += 4;
         if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
-          return this->setLastError(Errors::Insufficient_Space);
+          return Broodwar->setLastError(Errors::Insufficient_Space);
       }
 
       /* Reaver Space */
       if ( builderType == UnitTypes::Protoss_Reaver )
       {
         int max_amt = 5;
-        if (self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
+        if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
           max_amt += 5;
         if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
-          return this->setLastError(Errors::Insufficient_Space);
+          return Broodwar->setLastError(Errors::Insufficient_Space);
       }
     } // builder
 
     /* Check if player has enough minerals */
-    if ( self()->minerals() < type.mineralPrice() )
-      return this->setLastError(Errors::Insufficient_Minerals);
+    if ( Broodwar->self()->minerals() < type.mineralPrice() )
+      return Broodwar->setLastError(Errors::Insufficient_Minerals);
 
     /* Check if player has enough gas */
-    if ( self()->gas() < type.gasPrice() )
-      return this->setLastError(Errors::Insufficient_Gas);
+    if ( Broodwar->self()->gas() < type.gasPrice() )
+      return Broodwar->setLastError(Errors::Insufficient_Gas);
     
     /* Check if player has enough supplies */
     BWAPI::Race typeRace = type.getRace();
-    if ( type.supplyRequired() > 0 && self()->supplyTotal(typeRace) < self()->supplyUsed(typeRace) + type.supplyRequired() - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0) )
-      return this->setLastError(Errors::Insufficient_Supply);
+    if ( type.supplyRequired() > 0 && self()->supplyTotal(typeRace) < Broodwar->self()->supplyUsed(typeRace) + type.supplyRequired() - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0) )
+      return Broodwar->setLastError(Errors::Insufficient_Supply);
 
     UnitType addon = UnitTypes::None;
     std::map<UnitType, int>::const_iterator requiredEnd = type.requiredUnits().end();
@@ -621,34 +621,34 @@ namespace BWAPI
         addon = i->first;
 
       bool pass = false;
-      if (self()->completedUnitCount(i->first) >= i->second)
+      if (Broodwar->self()->completedUnitCount(i->first) >= i->second)
         pass = true;
       if ( i->first == UnitTypes::Zerg_Hatchery &&
-           self()->completedUnitCount(UnitTypes::Zerg_Hatchery) +
-           self()->completedUnitCount(UnitTypes::Zerg_Lair)     +
-           self()->completedUnitCount(UnitTypes::Zerg_Hive)     >= i->second )
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Hatchery) +
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Lair)     +
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Hive)     >= i->second )
         pass = true;
       if ( i->first == UnitTypes::Zerg_Lair && 
-           self()->completedUnitCount(UnitTypes::Zerg_Lair) + 
-           self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Lair) + 
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Hive) >= i->second)
         pass = true;
       if ( i->first == UnitTypes::Zerg_Spire && 
-           self()->completedUnitCount(UnitTypes::Zerg_Spire) +
-           self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Spire) +
+           Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Greater_Spire) >= i->second )
         pass = true;
       
       if ( !pass )
-        return this->setLastError(Errors::Insufficient_Tech);
+        return Broodwar->setLastError(Errors::Insufficient_Tech);
     }
 
-    if (type.requiredTech() != TechTypes::None && !self()->hasResearched(type.requiredTech()))
-      return this->setLastError(Errors::Insufficient_Tech);
+    if (type.requiredTech() != TechTypes::None && !Broodwar->self()->hasResearched(type.requiredTech()))
+      return Broodwar->setLastError(Errors::Insufficient_Tech);
 
     if ( builder && 
          addon != UnitTypes::None &&
          addon.whatBuilds().first == type.whatBuilds().first &&
          (!builder->getAddon() || builder->getAddon()->getType() != addon) )
-      return this->setLastError(Errors::Insufficient_Tech);
+      return Broodwar->setLastError(Errors::Insufficient_Tech);
     return true;
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
