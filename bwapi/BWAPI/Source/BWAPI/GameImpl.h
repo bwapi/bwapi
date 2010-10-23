@@ -106,6 +106,7 @@ namespace BWAPI
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
 
       virtual Error       getLastError() const;
+      virtual bool        setLastError(BWAPI::Error e);
 
       virtual int         mapWidth();
       virtual int         mapHeight();
@@ -253,7 +254,6 @@ namespace BWAPI
       bool _isBattleNet();
       bool _isReplay() const;
       void _changeRace(int slot, BWAPI::Race race);
-      bool setLastError(BWAPI::Error e);
 
       void loadSelected();
       void copyMapToSharedMemory();

@@ -377,7 +377,14 @@ namespace BWAPI
   Error GameImpl::getLastError() const
   {
     /* returns the last error encountered in BWAPI */
-    return this->lastError;
+    return lastError;
+  }
+  //--------------------------------------------- SET LAST ERROR ---------------------------------------------
+  bool GameImpl::setLastError(BWAPI::Error e)
+  {
+    /* implies that an error has occured */
+    lastError = e;
+    return e == Errors::None;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int GameImpl::mapWidth()
@@ -565,14 +572,6 @@ namespace BWAPI
         }
       }
       return false;
-    }
-
-    // Retrieve the region of the builder
-    BW::region *startRgn = NULL;
-    if ( builder && BW::BWDATA_SAIPathing )
-    {
-      TilePosition builderPos = builder->getTilePosition();
-      startRgn = getRegion( BW::BWDATA_SAIPathing->mapTileRegionId[ builderPos.y() ][ builderPos.x() ] );
     }
 
     /* Tile buildability check */

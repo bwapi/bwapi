@@ -117,11 +117,6 @@ namespace BWAPI
       playerVector[i].units.clear();
 
   }
-  bool GameImpl::setLastError(BWAPI::Error e)
-  {
-    lastError = e;
-    return e == Errors::None;
-  }
   const GameData* GameImpl::getGameData() const
   {
     return data;
@@ -471,7 +466,15 @@ namespace BWAPI
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const
   {
+    /* returns the last error encountered in BWAPI */
     return lastError;
+  }
+  //--------------------------------------------- SET LAST ERROR ---------------------------------------------
+  bool GameImpl::setLastError(BWAPI::Error e)
+  {
+    /* implies that an error has occured */
+    lastError = e;
+    return e == Errors::None;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int GameImpl::mapWidth()
