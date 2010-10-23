@@ -1946,13 +1946,6 @@ namespace BWAPI
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->saveExists();
   }
-  //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-  bool GameImpl::setLastError(BWAPI::Error e)
-  {
-    /* implies that an error has occured */
-    this->lastError = e;
-    return e == Errors::None;
-  }
   //----------------------------------------------------- DRAW -----------------------------------------------
   bool GameImpl::inScreen(int ctype, int x, int y)
   {

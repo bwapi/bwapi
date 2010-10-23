@@ -167,6 +167,9 @@ namespace BWAPI
        * lurkers, BWAPI will set error codes, which can be retrieved using this function. */
       virtual Error getLastError() const = 0;
 
+      /** Sets the last error code. */
+      virtual bool setLastError(BWAPI::Error e) = 0;
+
       /** Returns the width of the current map, in build tile units. To get the width of the current map in
        * walk tile units, multiply by 4. To get the width of the current map in Position units, multiply by
        * TILE_SIZE (which is 32). */

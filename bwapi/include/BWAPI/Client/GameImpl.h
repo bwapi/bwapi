@@ -64,7 +64,6 @@ namespace BWAPI
       void onMatchStart();
       void onMatchEnd();
       void onMatchFrame();
-      bool setLastError(BWAPI::Error e);
       const GameData* getGameData() const;
       std::set<Unit*>& getPlayerUnits(const Player* player);
 
@@ -110,7 +109,8 @@ namespace BWAPI
       virtual bool  isFlagEnabled(int flag);
       virtual void  enableFlag(int flag);
       virtual std::set<Unit*>& unitsOnTile(int x, int y);
-      virtual Error  getLastError() const;
+      virtual Error getLastError() const;
+      virtual bool  setLastError(BWAPI::Error e);
 
       virtual int         mapWidth();
       virtual int         mapHeight();
