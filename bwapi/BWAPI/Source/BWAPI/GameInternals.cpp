@@ -611,7 +611,7 @@ namespace BWAPI
         drawCircleMap(u->position.x, u->position.y, 2, BWAPI::Colors::Cyan, true);
         //drawTextMap(u->position.x, u->position.y, "%u", u->unknown_timer_0x08D);
         if ( u->sprite)
-          drawTextMap(u->position.x + 32, u->position.y - 24, "%02X, %02X, %u", u->sprite->selectionFlags, u->sprite->selectionIndex, u->offsetIndex3by3);
+          drawTextMap(u->position.x + 32, u->position.y - 24, "%u%u%u%u%u%u%u%u", u->status.getBit(BW::StatusFlags::UNKNOWN1), u->status.getBit(BW::StatusFlags::UNKNOWN2), u->status.getBit(BW::StatusFlags::UNKNOWN4), u->status.getBit(BW::StatusFlags::UNKNOWN5), u->status.getBit(BW::StatusFlags::UNKNOWN6), u->status.getBit(BW::StatusFlags::UNKNOWN7), u->status.getBit(BW::StatusFlags::UNKNOWN8), u->status.getBit(BW::StatusFlags::UNKNOWN9));
         drawTextMap(u->position.x + 32, u->position.y - 12, "%s | %s", BWAPI::Order(BWtoBWAPI_Order[u->orderID]).getName().c_str(), BWAPI::Order(BWtoBWAPI_Order[u->secondaryOrderID]).getName().c_str());
         BW::Order *o = u->orderQueueHead;
         for ( int i = 0; o; ++i )

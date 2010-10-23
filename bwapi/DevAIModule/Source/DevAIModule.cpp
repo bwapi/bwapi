@@ -27,7 +27,7 @@ void DevAIModule::onFrame()
   int thisOrderFrame = bw->getFrameCount();
   for each ( Unit *u in self->getUnits() )
   {
-    if ( u->unsiege() )
+    if ( u->decloak() )
       Broodwar->printf("OK");
   }
     /*
