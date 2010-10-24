@@ -55,6 +55,10 @@ namespace BWAPI
        * are the Zerg_Lurker and Zerg_Lurker_Egg. The tech type needed is TechTypes::Lurker_Aspect. */
       TechType requiredTech() const;
 
+      /** Returns the tech used to cloak the unit, or TechTypes::None if the unit cannot cloak or is
+          permanently cloaked */
+      TechType cloakingTech() const;
+
       /** Returns the set of tech types this unit can use, provided the tech types have been researched and
        * the unit has enough energy. */
       const std::set< TechType >& abilities() const;

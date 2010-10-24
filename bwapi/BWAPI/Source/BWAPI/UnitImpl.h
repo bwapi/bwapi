@@ -275,7 +275,6 @@ namespace BWAPI
       bool canIssueCommand(UnitCommand c);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
-      TechType getCloakingTech();
 
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
       UnitType staticType;

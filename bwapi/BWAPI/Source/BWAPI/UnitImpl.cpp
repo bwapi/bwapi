@@ -1039,24 +1039,6 @@ namespace BWAPI
   {
     return clientInfo;
   }
-  TechType UnitImpl::getCloakingTech()
-  {
-    switch ( this->getType().getID() )
-    {
-    case BW::UnitID::Terran_Wraith:
-    case BW::UnitID::Terran_Hero_TomKazansky:
-      return TechTypes::Cloaking_Field;
-    case BW::UnitID::Terran_Ghost:
-    case BW::UnitID::Terran_Hero_AlexeiStukov:
-    case BW::UnitID::Terran_Hero_SamirDuran:
-    case BW::UnitID::Terran_Hero_SarahKerrigan:
-    case BW::UnitID::Zerg_Hero_InfestedDuran:
-    case BW::UnitID::Zerg_Hero_InfestedKerrigan:
-      return TechTypes::Personnel_Cloaking;
-    default:
-      return TechTypes::None;
-    }
-  }
   //------------------------------------------ CAN ISSUE COMMAND ---------------------------------------------
   bool UnitImpl::canIssueCommand(UnitCommand c)
   {
@@ -1139,7 +1121,7 @@ namespace BWAPI
          UnitCommandTypes::Train       == ct )
     {
       UnitType uType = UnitType(c.extra);
-      if ( !Broodwar->canMake(this, uType) )
+      if ( !Broodwar->canMake(thisUnit, uType) )
         return false;
 
       if ( thisUnit->isConstructing() || 
@@ -1153,7 +1135,7 @@ namespace BWAPI
         if ( !uType.isBuilding() )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
-        if ( !uType.isAddon() && !Broodwar->canBuildHere(this, BWAPI::TilePosition(c.x, c.y), uType, true) )
+        if ( !uType.isAddon() && !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(c.x, c.y), uType, true) )
           return false;
       }
       else if ( UnitCommandTypes::Build_Addon == ct )
@@ -1164,20 +1146,20 @@ namespace BWAPI
         if ( thisUnit->getAddon() )
           return false;
 
-        if ( !Broodwar->canBuildHere(this, BWAPI::TilePosition(getTilePosition().x() + 4, getTilePosition().y() + 1), uType) )
+        if ( !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(thisUnit->getTilePosition().x() + 4, thisUnit->getTilePosition().y() + 1), uType) )
           return false;
       }
       else
       {
-        if ( thisUnit->getType().producesLarva() && uType.whatBuilds().first == UnitTypes::Zerg_Larva && connectedUnits.size() == 0 )
+        if ( thisUnit->getType().producesLarva() && uType.whatBuilds().first == UnitTypes::Zerg_Larva && thisUnit->getLarva().size() == 0 )
           return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
       }
     } // build/train
 
     // Research/Upgrade requirements
-    if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(this,TechType(c.extra)) )
+    if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(thisUnit,TechType(c.extra)) )
       return false;
-    if ( UnitCommandTypes::Upgrade  == ct && !Broodwar->canUpgrade(this,UpgradeType(c.extra)) )
+    if ( UnitCommandTypes::Upgrade  == ct && !Broodwar->canUpgrade(thisUnit,UpgradeType(c.extra)) )
       return false;
 
     // Set Rally 
@@ -1242,7 +1224,7 @@ namespace BWAPI
       if ( UnitCommandTypes::Burrow == ct )
         tech = BWAPI::TechTypes::Burrowing;
       else if ( UnitCommandTypes::Cloak == ct )
-        tech = thisUnit->getCloakingTech();
+        tech = thisUnit->getType().cloakingTech();
       else if ( UnitCommandTypes::Siege == ct )
         tech = BWAPI::TechTypes::Tank_Siege_Mode;
 
@@ -1300,7 +1282,7 @@ namespace BWAPI
     // Decloak
     if ( UnitCommandTypes::Decloak == ct )
     {
-      if ( getCloakingTech() == TechTypes::None )
+      if ( thisUnit->getType().cloakingTech() == TechTypes::None )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
       if ( thisUnit->getSecondaryOrder() != Orders::Cloak )
@@ -1332,7 +1314,7 @@ namespace BWAPI
          UnitCommandTypes::Unload_All          == ct ||
          UnitCommandTypes::Unload_All_Position == ct )
     {
-      if ( thisUnit->loadedUnits.size() == 0 )
+      if ( thisUnit->getLoadedUnits().size() == 0 )
         return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
       if ( thisUnit->getType().spaceProvided() <= 0 )
@@ -1344,14 +1326,9 @@ namespace BWAPI
       if ( UnitCommandTypes::Unload == ct )
       {
         bool canUnload = false;
-        foreach ( BWAPI::Unit *u, thisUnit->loadedUnits )
-        {
-          if ( c.target == u )
-          {
-            canUnload = true;
-            break;
-          }
-        }
+        std::set<Unit*> loadedUnits;
+        if (loadedUnits.find(c.target)!=loadedUnits.end())
+          canUnload = true;
         if ( !canUnload )
           return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
       }
@@ -1367,7 +1344,7 @@ namespace BWAPI
       if ( !thisUnit->getType().isBuilding() )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
-      if ( thisUnit->isCompleted() || (!thisUnit->isCompleted() && thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getOriginalRawData->building.nydus.exit) )
+      if ( thisUnit->isCompleted() || (!thisUnit->isCompleted() && thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getNydusExit()) )
         return false;
     }
 
@@ -1376,14 +1353,14 @@ namespace BWAPI
       return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
     // cancel train
-    if ( UnitCommandTypes::Cancel_Train == ct && !isTraining() )
+    if ( UnitCommandTypes::Cancel_Train == ct && !thisUnit->isTraining() )
       return false;
 
-    if ( UnitCommandTypes::Cancel_Train_Slot == ct && (!isTraining() || thisUnit->getTrainingQueue().size() <= (unsigned int)c.extra) )
+    if ( UnitCommandTypes::Cancel_Train_Slot == ct && (!thisUnit->isTraining() || thisUnit->getTrainingQueue().size() <= (unsigned int)c.extra) )
       return false;
 
     // cancel morph
-    if ( UnitCommandTypes::Cancel_Morph == ct && (!isMorphing() || (!thisUnit->isCompleted() && thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getOriginalRawData->building.nydus.exit)) )
+    if ( UnitCommandTypes::Cancel_Morph == ct && (!thisUnit->isMorphing() || (!thisUnit->isCompleted() && thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getNydusExit())) )
       return false;
 
     // cancel research
