@@ -357,13 +357,14 @@ namespace BWAPI
       else
         self->carryResourceType = 0;
 
-      self->isGathering   = _getType.isWorker() && getOriginalRawData->status.getBit(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
-      self->isLifted      = getOriginalRawData->status.getBit(BW::StatusFlags::InAir) &&
-                            getOriginalRawData->unitType.isBuilding(); //isLifted
-      self->isParasited   = getOriginalRawData->parasiteFlags.value != 0; //isParasited
-      self->isSelected    = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
-      self->isUnderStorm  = getOriginalRawData->isUnderStorm != 0; //isUnderStorm
-      self->isUnpowered   = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getOriginalRawData->status.getBit(BW::StatusFlags::DoodadStatesThing); //isUnpowered
+      self->isGathering     = _getType.isWorker() && getOriginalRawData->status.getBit(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
+      self->isLifted        = getOriginalRawData->status.getBit(BW::StatusFlags::InAir) &&
+                              getOriginalRawData->unitType.isBuilding(); //isLifted
+      self->isParasited     = getOriginalRawData->parasiteFlags.value != 0; //isParasited
+      self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
+      self->isUnderStorm    = getOriginalRawData->isUnderStorm != 0; //isUnderStorm
+      self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getOriginalRawData->status.getBit(BW::StatusFlags::DoodadStatesThing); //isUnpowered
+      self->isInterruptible = !getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
     }
     else
     {
@@ -409,6 +410,7 @@ namespace BWAPI
       self->isSelected          = false;  //isSelected
       self->isUnderStorm        = false;  //isUnderStorm
       self->isUnpowered         = false;  //isUnpowered
+      self->isInterruptible     = false;  //isInterruptible
 
     }
     if (canAccess())

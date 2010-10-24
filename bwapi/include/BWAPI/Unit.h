@@ -383,6 +383,9 @@ namespace BWAPI
        * \see Unit::stop. */
       virtual bool isIdle() const = 0;
 
+      /** Returns true if the unit can be interrupted. */
+      virtual bool isInterruptible() const = 0;
+
       /** Returns true if the unit is being irradiated by a Terran Science Vessel.
        * \see Unit::getIrradiateTimer. */
       virtual bool isIrradiated() const = 0;
