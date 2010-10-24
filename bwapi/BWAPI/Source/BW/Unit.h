@@ -55,7 +55,7 @@ namespace BW
                                                                        *   the direction they are facing faster than then can change the direction they are moving.
                                                                        */
     /*0x024*/ u16                                 flingyID;
-    /*0x026*/ u8                                  unused_0x026;
+    /*0x026*/ u8                                  _unknown_0x026;
     /*0x027*/ u8                                  flingyMovementType;
     /*0x028*/ BW::Position                        position;             /**< Current position of the unit */
     /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
@@ -86,7 +86,7 @@ namespace BW
                                                       0x10  Lift/Land state
                                                   */
     /*0x050*/ BW::UnitType                        orderUnitType;
-    /*0x052*/ u16                                 unused_0x052;
+    /*0x052*/ u16                                 _unused_0x052;
     /*0x054*/ u8                                  mainOrderTimer;         // A timer for orders, example: time left before minerals are harvested
     /*0x055*/ u8                                  groundWeaponCooldown;
     /*0x056*/ u8                                  airWeaponCooldown;
@@ -95,7 +95,7 @@ namespace BW
     /*0x05C*/ BW::Unit                            *orderTargetUnit;
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
     /*0x064*/ BW::UnitType                        unitType;             /**< Specifies the type of unit. */
-    /*0x066*/ u16                                 unused_0x066;
+    /*0x066*/ u16                                 _unused_0x066;
     /*0x068*/ BW::Unit                            *previousPlayerUnit;
     /*0x06C*/ BW::Unit                            *nextPlayerUnit;
     /*0x070*/ BW::Unit                            *subUnit;
@@ -105,14 +105,14 @@ namespace BW
     /*0x080*/ BW::Unit                            *connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
     /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
     /*0x085*/ u8                                  orderQueueTimer; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
-    /*0x086*/ u16                                 unknownTimer_0x086;  // pathing related?
+    /*0x086*/ u8                                  _unknown_0x086;  // pathing related?
+    /*0x087*/ u8                                  _unknownTimer_0x087;  // pathing related?
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u8                                  lastEventTimer; // countdown that stops being recent when it hits 0 // might be for internal AI use
     /*0x08B*/ u8                                  lastEvent; /* 17 = was completed (train, morph)   // might be for internal AI use
                                                                 174 = was attacked 
                                                              */
-    /*0x08C*/ u8                                  unused_0x08C;
-    /*0x08D*/ u8                                  unused_0x08D;
+    /*0x08C*/ u16                                 _unused_0x08C;
     /*0x08E*/ u8                                  rankIncrease;       /**< Adds this value to the unit's base rank */
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u8                                  lastAttackingPlayer; // the player that last attacked this unit
@@ -210,9 +210,10 @@ namespace BW
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
     /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
     /*0x0E2*/ u8                                secondaryOrderState;/**< @todo Unknown */
-    /*0x0E3*/ u8                                unknownCounterDown_0x0E3; /**< @todo Unknown */
+    /*0x0E3*/ u8                                _unknownCounterDown_0x0E3; /**< @todo Unknown */
     /*0x0E4*/ s32                               visibilityStatus;
-    /*0x0E8*/ u32                               unknown_0x0E8;
+    /*0x0E8*/ u16                               _unknown_0x0E8;
+    /*0x0EA*/ u16                               _unknown_0x0EA;
     /*0x0EC*/ BW::Unit                          *currentBuildUnit;   /**< @todo Unknown */
     /*0x0F0*/ BW::Unit                          *previousBurrowedUnit;
     /*0x0F4*/ BW::Unit                          *nextBurrowedUnit;
@@ -230,7 +231,8 @@ namespace BW
     /*0x100*/ BW::Path                            *path;
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown
     /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
-    /*0x106*/ u16                                 unknown_0x106;
+    /*0x106*/ u8                                  _unused_0x106;
+    /*0x107*/ u8                                  isBeingHealed;          // 1 if a medic is currently healing this unit
     /*0x108*/ BW::rect                            contourBounds;          /**< @todo Unknown */
     /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
@@ -248,11 +250,11 @@ namespace BW
     /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
-    /*0x125*/ u8                                  unused_0x125;
+    /*0x125*/ u8                                  _unused_0x125;
     /*0x126*/ u8                                  acidSporeCount;     /**< @todo Verify */
     /*0x127*/ u8                                  acidSporeTime[9];
-    /*0x130*/ u16                                 offsetIndex3by3;    /**< @todo Unknown */
-    /*0x132*/ u16                                 unused_0x132;
+    /*0x130*/ u16                                 _unknown_offsetIndex3by3;    /**< @todo Unknown */  // for an unused weapon
+    /*0x132*/ u16                                 _unused_0x132;
     /*0x134*/ void                                *CAIControl;        // pointer to AI class, we're not using this though
     /*0x138*/ u16                                 airStrength;        /**< verified */
     /*0x13A*/ u16                                 groundStrength;     /**< verified */
@@ -260,7 +262,7 @@ namespace BW
     /*0x140*/ u32                                 leftMostUnitOrder2; // Left-to-right variant
     /*0x144*/ u32                                 topMostUnitOrder;   // Top-to-bottom order
     /*0x148*/ u32                                 topMostUnitOrder2;  // Top-to-bottom variant
-    /*0x14C*/ u8                                  repulseUnknown;     /**< @todo Unknown */
+    /*0x14C*/ u8                                  _repulseUnknown;     /**< @todo Unknown */
     /*0x14D*/ u8                                  repulseAngle;       // updated only when air unit is being pushed
     /*0x14E*/ u8                                  driftPosX;          /**< (mapsizex/1.5 max) */
     /*0x14F*/ u8                                  driftPosY;          /**< (mapsizex/1.5 max) */

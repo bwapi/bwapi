@@ -598,6 +598,13 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
+      foreach ( Unit *u, aliveUnits )
+      {
+        if ( !u )
+          continue;
+        if ( u->isStuck() )
+          printf("A faggot %s is stuck", u->getType().getName().c_str());
+      }
       // selected units
       foreach( Unit *_u, selectedUnitSet )
       {
@@ -609,9 +616,7 @@ namespace BWAPI
           continue;
 
         drawCircleMap(u->position.x, u->position.y, 2, BWAPI::Colors::Cyan, true);
-        //drawTextMap(u->position.x, u->position.y, "%u", u->unknown_timer_0x08D);
-        if ( u->sprite)
-          drawTextMap(u->position.x + 32, u->position.y - 24, "%p %p", u->building.nydus.exit, u->connectedUnit);
+        drawTextMap(u->position.x + 32, u->position.y - 24, "%s", BW::getMoveStateName(u->movementState));
         drawTextMap(u->position.x + 32, u->position.y - 12, "%s | %s", BWAPI::Order(BWtoBWAPI_Order[u->orderID]).getName().c_str(), BWAPI::Order(BWtoBWAPI_Order[u->secondaryOrderID]).getName().c_str());
         BW::Order *o = u->orderQueueHead;
         for ( int i = 0; o; ++i )

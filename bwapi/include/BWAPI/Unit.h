@@ -465,6 +465,9 @@ namespace BWAPI
       /** Returns true if the unit is a Protoss building that is unpowered because no pylons are in range. */
       virtual bool isUnpowered() const = 0;
 
+      /** Returns true if the unit is being pushed off of another unit */
+      virtual bool isStuck() const = 0;
+
       /** Returns true if the unit is a building that is upgrading. See UpgradeTypes for the complete list
        * of available upgrades in Broodwar.
        * \see Unit::upgrade, Unit::cancelUpgrade, Unit::getUpgrade, Unit::getRemainingUpgradeTime. */

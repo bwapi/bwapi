@@ -655,6 +655,11 @@ namespace BWAPI
   {
     return self->isUnpowered;
   }
+  //----------------------------------------------- IS STUCK -------------------------------------------------
+  bool UnitImpl::isStuck() const
+  {
+    return self->isStuck;
+  }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
