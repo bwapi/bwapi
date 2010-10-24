@@ -729,6 +729,11 @@ namespace BWAPI
   {
     return self->isIdle;
   }
+  //--------------------------------------------- IS INTERRUPTIBLE -------------------------------------------
+  bool UnitImpl::isInterruptible() const
+  {
+    return self->isInterruptible;
+  }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {

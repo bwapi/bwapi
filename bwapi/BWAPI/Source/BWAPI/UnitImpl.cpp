@@ -548,6 +548,11 @@ namespace BWAPI
   {
     return self->isIdle;
   }
+  //--------------------------------------------- IS INTERRUPTIBLE -------------------------------------------
+  bool UnitImpl::isInterruptible() const
+  {
+    return self->isInterruptible;
+  }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {
@@ -1047,7 +1052,7 @@ namespace BWAPI
   //------------------------------------------ CAN ISSUE COMMAND ---------------------------------------------
   bool UnitImpl::canIssueCommand(UnitCommand c)
   {
-    UnitImpl* thisUnit = this;
+    Unit* thisUnit = this;
 
     // Basic header
     Broodwar->setLastError(Errors::None);
@@ -1083,7 +1088,7 @@ namespace BWAPI
 
     // Can be ordered check
     if ( !thisUnit->getType().isBuilding() &&
-         thisUnit->getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders) &&
+         !thisUnit->isInterruptible() &&
          (UnitCommandTypes::Attack_Unit           == ct ||
           UnitCommandTypes::Attack_Move           == ct ||
           UnitCommandTypes::Build                 == ct ||

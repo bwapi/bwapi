@@ -138,6 +138,7 @@ namespace BWAPI
       virtual bool isHallucination() const;
       virtual bool isHoldingPosition() const;
       virtual bool isIdle() const;
+      virtual bool isInterruptible() const;
       virtual bool isIrradiated() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;

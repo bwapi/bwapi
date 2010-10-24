@@ -83,6 +83,7 @@ namespace BWAPI
     bool isGathering;
     bool isHallucination;
     bool isIdle;
+    bool isInterruptible;
     bool isLifted;
     bool isMorphing;
     bool isMoving;
