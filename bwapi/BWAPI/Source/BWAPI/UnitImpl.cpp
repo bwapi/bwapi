@@ -305,6 +305,11 @@ namespace BWAPI
   {
     return Broodwar->getUnit(self->nydusExit);
   }
+  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
+  Unit* UnitImpl::getPowerUp() const
+  {
+    return Broodwar->getUnit(self->powerUp);
+  }
   //--------------------------------------------- GET TRANSPORT ----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {
@@ -1187,7 +1192,7 @@ namespace BWAPI
            uType == UnitTypes::Resource_Vespene_Geyser )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
-      if ( thisUnit->getOriginalRawData->worker.powerup || !c.target->isCompleted() )
+      if ( thisUnit->getPowerUp() || !c.target->isCompleted() )
         return Broodwar->setLastError(Errors::Unit_Busy);
     } // gather
 

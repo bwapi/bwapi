@@ -257,6 +257,9 @@ namespace BWAPI
        * connected nydus canal. */
       virtual Unit* getNydusExit() const = 0;
 
+      /** Returns the power up the unit is holding, or NULL if the unit is not holding a power up */
+      virtual Unit* getPowerUp() const = 0;
+
       /** Returns the dropship, shuttle, overlord, or bunker that is this unit is loaded in to. */
       virtual Unit* getTransport() const = 0;
 

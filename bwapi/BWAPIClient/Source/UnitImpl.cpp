@@ -486,6 +486,11 @@ namespace BWAPI
   {
     return Broodwar->getUnit(self->nydusExit);
   }
+  //--------------------------------------------- GET POWER UP -----------------------------------------------
+  Unit* UnitImpl::getPowerUp() const
+  {
+    return Broodwar->getUnit(self->powerUp);
+  }
   //--------------------------------------------- GET TRANSPORT ----------------------------------------------
   Unit* UnitImpl::getTransport() const
   {

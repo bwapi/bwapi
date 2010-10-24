@@ -338,6 +338,12 @@ namespace BWAPI
         if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitType == BW::UnitID::Zerg_NydusCanal )
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
       }
+      //------------------------------------------------------------------------------------------------------
+      //getPowerUp
+      self->powerUp = -1;
+      UnitImpl* powerUp = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->worker.powerup);
+      if (powerUp && powerUp->isAlive)
+        self->powerUp = BroodwarImpl.server.getUnitID(powerUp);
 
       self->isAccelerating  = getOriginalRawData->movementFlags.getBit(BW::MovementFlags::Accelerating);  //isAccelerating
       self->isBeingGathered = _getType.isResourceContainer() && (getOriginalRawData->building.resource.gatherQueueCount || getOriginalRawData->building.resource.nextGatherer);  //isBeingGathered
@@ -392,6 +398,7 @@ namespace BWAPI
       self->orderTarget         = -1;     //getOrderTarget
       self->addon               = -1;     //getAddon
       self->nydusExit           = -1;     //getNydusExit
+      self->powerUp             = -1;     //getPowerUp
       self->isAccelerating      = false;  //isAccelerating
       self->isBeingGathered     = false;  //isBeingGathered
       self->isBlind             = false;  //isBlind
