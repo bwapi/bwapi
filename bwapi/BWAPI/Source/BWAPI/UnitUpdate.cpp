@@ -17,6 +17,7 @@
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
+#include <BW/Path.h>
 #include "Server.h"
 #include "BWtoBWAPI.h"
 namespace BWAPI
@@ -364,6 +365,7 @@ namespace BWAPI
       self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = getOriginalRawData->isUnderStorm != 0; //isUnderStorm
       self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getOriginalRawData->status.getBit(BW::StatusFlags::DoodadStatesThing); //isUnpowered
+      self->isStuck         = getOriginalRawData->movementState == UM_MoveToLegal;
       self->isInterruptible = !getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
     }
     else
@@ -410,8 +412,8 @@ namespace BWAPI
       self->isSelected          = false;  //isSelected
       self->isUnderStorm        = false;  //isUnderStorm
       self->isUnpowered         = false;  //isUnpowered
+      self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
-
     }
     if (canAccess())
     {

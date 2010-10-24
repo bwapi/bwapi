@@ -93,6 +93,7 @@ namespace BWAPI
     bool isTraining;
     bool isUnderStorm;
     bool isUnpowered;
+    bool isStuck;
     bool isVisible[9];
   };
 }

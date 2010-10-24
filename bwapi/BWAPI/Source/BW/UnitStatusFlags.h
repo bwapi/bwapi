@@ -8,7 +8,7 @@ namespace BW
     enum Enum
     {
       Completed             = 0x00000001,
-      OnGround              = 0x00000002,
+      GoundedBuilding       = 0x00000002, // a building that is on the ground
       InAir                 = 0x00000004,
       Disabled              = 0x00000008,  /**< Protoss Unpowered */
       Burrowed              = 0x00000010,
