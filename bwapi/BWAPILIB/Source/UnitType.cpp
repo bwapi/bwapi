@@ -51,6 +51,13 @@ namespace BWAPI
           if (ability4 != TechTypes::None)
             this->abilities.insert(ability4);
 
+          this->cloakingTech = TechTypes::None;
+
+          if (this->abilities.find(TechTypes::Cloaking_Field)!=this->abilities.end())
+            cloakingTech = TechTypes::Cloaking_Field;
+          if (this->abilities.find(TechTypes::Personnel_Cloaking)!=this->abilities.end())
+            cloakingTech = TechTypes::Personnel_Cloaking;
+
           this->armorUpgrade = armorUpgrade;
           this->maxHitPoints = maxHitPoints;
           this->maxShields   = maxShields;
@@ -125,6 +132,7 @@ namespace BWAPI
       std::pair<UnitType, int> whatBuilds;
       std::map<UnitType, int>  requiredUnits;
       TechType                 requiredTech;
+      TechType                 cloakingTech;
       std::set<TechType>       abilities;
       std::set<UpgradeType>    upgrades;
       UpgradeType              armorUpgrade;
@@ -663,6 +671,10 @@ namespace BWAPI
   TechType UnitType::requiredTech() const
   {
     return unitTypeData[this->id].requiredTech;
+  }
+  TechType UnitType::cloakingTech() const
+  {
+    return unitTypeData[this->id].cloakingTech;
   }
   const std::set< TechType >& UnitType::abilities() const
   {
