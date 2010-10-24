@@ -142,10 +142,10 @@ namespace BWAPI
       virtual bool isStartingAttack() const;
       virtual bool isStasised() const;
       virtual bool isStimmed() const;
+      virtual bool isStuck() const;
       virtual bool isTraining() const;
       virtual bool isUnderStorm() const;
       virtual bool isUnpowered() const;
-      virtual bool isStuck() const;
       virtual bool isUpgrading() const;
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;

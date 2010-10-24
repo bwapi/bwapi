@@ -455,6 +455,9 @@ namespace BWAPI
        * \see Unit::getStimTimer. */
       virtual bool isStimmed() const = 0;
 
+      /** Returns true if the unit is being pushed off of another unit */
+      virtual bool isStuck() const = 0;
+
       /** Returns true if the unit is training units (i.e. a Barracks training Marines).
        * \see Unit::train, Unit::getTrainingQueue, Unit::cancelTrain, Unit::getRemainingTrainTime. */
       virtual bool isTraining() const = 0;
@@ -464,9 +467,6 @@ namespace BWAPI
 
       /** Returns true if the unit is a Protoss building that is unpowered because no pylons are in range. */
       virtual bool isUnpowered() const = 0;
-
-      /** Returns true if the unit is being pushed off of another unit */
-      virtual bool isStuck() const = 0;
 
       /** Returns true if the unit is a building that is upgrading. See UpgradeTypes for the complete list
        * of available upgrades in Broodwar.

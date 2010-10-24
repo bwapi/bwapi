@@ -820,6 +820,11 @@ namespace BWAPI
   {
     return self->stimTimer > 0;
   }
+  //--------------------------------------------- IS STUCK ---------------------------------------------------
+  bool UnitImpl::isStuck() const
+  {
+    return self->isStuck;
+  }
   //--------------------------------------------- IS TRAINING ------------------------------------------------
   bool UnitImpl::isTraining() const
   {
@@ -834,11 +839,6 @@ namespace BWAPI
   bool UnitImpl::isUnpowered() const
   {
     return self->isUnpowered;
-  }
-  //----------------------------------------------- IS STUCK -------------------------------------------------
-  bool UnitImpl::isStuck() const
-  {
-    return self->isStuck;
   }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
