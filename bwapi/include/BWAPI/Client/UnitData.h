@@ -90,10 +90,10 @@ namespace BWAPI
     bool isParasited;
     bool isSelected;
     bool isStartingAttack;
+    bool isStuck;
     bool isTraining;
     bool isUnderStorm;
     bool isUnpowered;
-    bool isStuck;
     bool isVisible[9];
   };
 }
