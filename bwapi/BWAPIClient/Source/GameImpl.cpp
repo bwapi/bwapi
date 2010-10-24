@@ -640,22 +640,22 @@ namespace BWAPI
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
   bool GameImpl::canBuildHere(Unit* builder, TilePosition position, UnitType type, bool checkExplored)
   {
-    return Templates::canBuildHere(builder,position,type,checkExplored);
+    return Templates::canBuildHere<class GameImpl, class PlayerImpl, class UnitImpl>(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool GameImpl::canMake(Unit* builder, UnitType type)
   {
-    return Templates::canMake(builder,type);
+    return Templates::canMake<class GameImpl, class PlayerImpl, class UnitImpl>(builder,type);
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
   bool GameImpl::canResearch(Unit* unit, TechType type)
   {
-    return Templates::canResearch(unit,type);
+    return Templates::canResearch<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
   }
   //--------------------------------------------- CAN UPGRADE ------------------------------------------------
   bool GameImpl::canUpgrade(Unit* unit, UpgradeType type)
   {
-    return Templates::canUpgrade(unit,type);
+    return Templates::canUpgrade<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()

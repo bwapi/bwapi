@@ -3,6 +3,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "TemplatesImpl.h"
 #include "Command.h"
 #include <Util\Foreach.h>
 
@@ -860,6 +861,8 @@ namespace BWAPI
   }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
+    if (!Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command))
+      return false;
     BWAPIC::UnitCommand c;
     c.type=command.type;
     c.unitIndex=command.unit->getID();
@@ -877,218 +880,175 @@ namespace BWAPI
   }
   bool UnitImpl::attackMove(Position target)
   {
-    this->issueCommand(UnitCommand::attackMove(this,target));
-    return true;
+    return issueCommand(UnitCommand::attackMove(this,target));
   }
   bool UnitImpl::attackUnit(Unit* target)
   {
-    this->issueCommand(UnitCommand::attackUnit(this,target));
-    return true;
+    return issueCommand(UnitCommand::attackUnit(this,target));
   }
   bool UnitImpl::build(TilePosition target, UnitType type)
   {
-    this->issueCommand(UnitCommand::build(this,target,type));
-    return true;
+    return issueCommand(UnitCommand::build(this,target,type));
   }
   bool UnitImpl::buildAddon(UnitType type)
   {
-    this->issueCommand(UnitCommand::buildAddon(this,type));
-    return true;
+    return issueCommand(UnitCommand::buildAddon(this,type));
   }
   bool UnitImpl::train(UnitType type)
   {
-    this->issueCommand(UnitCommand::train(this,type));
-    return true;
+    return issueCommand(UnitCommand::train(this,type));
   }
   bool UnitImpl::morph(UnitType type)
   {
-    this->issueCommand(UnitCommand::morph(this,type));
-    return true;
+    return issueCommand(UnitCommand::morph(this,type));
   }
   bool UnitImpl::research(TechType tech)
   {
-    this->issueCommand(UnitCommand::research(this,tech));
-    return true;
+    return issueCommand(UnitCommand::research(this,tech));
   }
   bool UnitImpl::upgrade(UpgradeType upgrade)
   {
-    this->issueCommand(UnitCommand::upgrade(this,upgrade));
-    return true;
+    return issueCommand(UnitCommand::upgrade(this,upgrade));
   }
   bool UnitImpl::setRallyPosition(Position target)
   {
-    this->issueCommand(UnitCommand::setRallyPosition(this,target));
-    return true;
+    return issueCommand(UnitCommand::setRallyPosition(this,target));
   }
   bool UnitImpl::setRallyUnit(Unit* target)
   {
-    this->issueCommand(UnitCommand::setRallyUnit(this,target));
-    return true;
+    return issueCommand(UnitCommand::setRallyUnit(this,target));
   }
   bool UnitImpl::move(Position target)
   {
-    this->issueCommand(UnitCommand::move(this,target));
-    return true;
+    return issueCommand(UnitCommand::move(this,target));
   }
   bool UnitImpl::patrol(Position target)
   {
-    this->issueCommand(UnitCommand::patrol(this,target));
-    return true;
+    return issueCommand(UnitCommand::patrol(this,target));
   }
   bool UnitImpl::holdPosition()
   {
-    this->issueCommand(UnitCommand::holdPosition(this));
-    return true;
+    return issueCommand(UnitCommand::holdPosition(this));
   }
   bool UnitImpl::stop()
   {
-    this->issueCommand(UnitCommand::stop(this));
-    return true;
+    return issueCommand(UnitCommand::stop(this));
   }
   bool UnitImpl::follow(Unit* target)
   {
-    this->issueCommand(UnitCommand::follow(this,target));
-    return true;
+    return issueCommand(UnitCommand::follow(this,target));
   }
   bool UnitImpl::gather(Unit* target)
   {
-    this->issueCommand(UnitCommand::gather(this,target));
-    return true;
+    return issueCommand(UnitCommand::gather(this,target));
   }
   bool UnitImpl::returnCargo()
   {
-    this->issueCommand(UnitCommand::returnCargo(this));
-    return true;
+    return issueCommand(UnitCommand::returnCargo(this));
   }
   bool UnitImpl::repair(Unit* target)
   {
-    this->issueCommand(UnitCommand::repair(this,target));
-    return true;
+    return issueCommand(UnitCommand::repair(this,target));
   }
   bool UnitImpl::burrow()
   {
-    this->issueCommand(UnitCommand::burrow(this));
-    return true;
+    return issueCommand(UnitCommand::burrow(this));
   }
   bool UnitImpl::unburrow()
   {
-    this->issueCommand(UnitCommand::unburrow(this));
-    return true;
+    return issueCommand(UnitCommand::unburrow(this));
   }
   bool UnitImpl::cloak()
   {
-    this->issueCommand(UnitCommand::cloak(this));
-    return true;
+    return issueCommand(UnitCommand::cloak(this));
   }
   bool UnitImpl::decloak()
   {
-    this->issueCommand(UnitCommand::decloak(this));
-    return true;
+    return issueCommand(UnitCommand::decloak(this));
   }
   bool UnitImpl::siege()
   {
-    this->issueCommand(UnitCommand::siege(this));
-    return true;
+    return issueCommand(UnitCommand::siege(this));
   }
   bool UnitImpl::unsiege()
   {
-    this->issueCommand(UnitCommand::unsiege(this));
-    return true;
+    return issueCommand(UnitCommand::unsiege(this));
   }
   bool UnitImpl::lift()
   {
-    this->issueCommand(UnitCommand::lift(this));
-    return true;
+    return issueCommand(UnitCommand::lift(this));
   }
   bool UnitImpl::land(TilePosition target)
   {
-    this->issueCommand(UnitCommand::land(this,target));
-    return true;
+    return issueCommand(UnitCommand::land(this,target));
   }
   bool UnitImpl::load(Unit* target)
   {
-    this->issueCommand(UnitCommand::load(this,target));
-    return true;
+    return issueCommand(UnitCommand::load(this,target));
   }
   bool UnitImpl::unload(Unit* target)
   {
-    this->issueCommand(UnitCommand::unload(this,target));
-    return true;
+    return issueCommand(UnitCommand::unload(this,target));
   }
   bool UnitImpl::unloadAll()
   {
-    this->issueCommand(UnitCommand::unloadAll(this));
-    return true;
+    return issueCommand(UnitCommand::unloadAll(this));
   }
   bool UnitImpl::unloadAll(Position target)
   {
-    this->issueCommand(UnitCommand::unloadAll(this,target));
-    return true;
+    return issueCommand(UnitCommand::unloadAll(this,target));
   }
   bool UnitImpl::rightClick(Position target)
   {
-    this->issueCommand(UnitCommand::rightClick(this,target));
-    return true;
+    return issueCommand(UnitCommand::rightClick(this,target));
   }
   bool UnitImpl::rightClick(Unit* target)
   {
-    this->issueCommand(UnitCommand::rightClick(this,target));
-    return true;
+    return issueCommand(UnitCommand::rightClick(this,target));
   }
   bool UnitImpl::haltConstruction()
   {
-    this->issueCommand(UnitCommand::haltConstruction(this));
-    return true;
+    return issueCommand(UnitCommand::haltConstruction(this));
   }
   bool UnitImpl::cancelConstruction()
   {
-    this->issueCommand(UnitCommand::cancelConstruction(this));
-    return true;
+    return issueCommand(UnitCommand::cancelConstruction(this));
   }
   bool UnitImpl::cancelAddon()
   {
-    this->issueCommand(UnitCommand::cancelAddon(this));
-    return true;
+    return issueCommand(UnitCommand::cancelAddon(this));
   }
   bool UnitImpl::cancelTrain()
   {
-    this->issueCommand(UnitCommand::cancelTrain(this));
-    return true;
+    return issueCommand(UnitCommand::cancelTrain(this));
   }
   bool UnitImpl::cancelTrain(int slot)
   {
-    this->issueCommand(UnitCommand::cancelTrain(this,slot));
-    return true;
+    return issueCommand(UnitCommand::cancelTrain(this,slot));
   }
   bool UnitImpl::cancelMorph()
   {
-    this->issueCommand(UnitCommand::cancelMorph(this));
-    return true;
+    return issueCommand(UnitCommand::cancelMorph(this));
   }
   bool UnitImpl::cancelResearch()
   {
-    this->issueCommand(UnitCommand::cancelResearch(this));
-    return true;
+    return issueCommand(UnitCommand::cancelResearch(this));
   }
   bool UnitImpl::cancelUpgrade()
   {
-    this->issueCommand(UnitCommand::cancelUpgrade(this));
-    return true;
+    return issueCommand(UnitCommand::cancelUpgrade(this));
   }
   bool UnitImpl::useTech(TechType tech)
   {
-    this->issueCommand(UnitCommand::useTech(this,tech));
-    return true;
+    return issueCommand(UnitCommand::useTech(this,tech));
   }
   bool UnitImpl::useTech(TechType tech, Position target)
   {
-    this->issueCommand(UnitCommand::useTech(this,tech,target));
-    return true;
+    return issueCommand(UnitCommand::useTech(this,tech,target));
   }
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
-    this->issueCommand(UnitCommand::useTech(this,tech,target));
-    return true;
+    return issueCommand(UnitCommand::useTech(this,tech,target));
   }
   //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
   void UnitImpl::setClientInfo(void* clientinfo)
