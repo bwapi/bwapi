@@ -91,6 +91,7 @@ namespace BWAPI
       virtual Unit*    getRallyUnit() const;
       virtual Unit*    getAddon() const;
       virtual Unit*    getNydusExit() const;
+      virtual Unit*    getPowerUp() const;
 
       virtual Unit*           getTransport() const;
       virtual std::set<Unit*> getLoadedUnits() const;

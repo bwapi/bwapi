@@ -61,6 +61,7 @@ namespace BWAPI
     int rallyUnit;
     int addon;
     int nydusExit;
+    int powerUp;
 
     int transport;
     int carrier;
