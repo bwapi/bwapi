@@ -36,7 +36,7 @@ bool __stdcall _spiInitializeDevice(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, v
   return false;
 }
 
-bool __stdcall fxn8(DWORD *a1)
+bool __stdcall _spiEnumDevices(DWORD *a1)
 {
   // This function is complete
   *a1 = 0;

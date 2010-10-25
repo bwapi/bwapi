@@ -161,7 +161,7 @@ namespace BWAPI
 
       /** Returns the set of units that are on the given build tile. Only returns accessible units on
        * accessible tiles. */
-      virtual std::set<Unit*>& unitsOnTile(int x, int y) = 0;
+      virtual std::set<Unit*>& unitsOnTile(int tileX, int tileY) = 0;
 
       /** Returns the last error that was set. If you try to order enemy units around, or morph bunkers into
        * lurkers, BWAPI will set error codes, which can be retrieved using this function. */
@@ -196,40 +196,40 @@ namespace BWAPI
        * coordinates (different from build tile coordinates). Note that this just uses the static map data.
        * You will also need to make sure no ground units are on the coresponding build tile to see if its
        * currently walkable. To do this, see unitsOnTile. */
-      virtual bool isWalkable(int x, int y) = 0;
+      virtual bool isWalkable(int walkX, int walkY) = 0;
 
       /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground.  2 = very high ground. */
-      virtual int  getGroundHeight(int x, int y) = 0;
+      virtual int  getGroundHeight(int tileX, int tileY) = 0;
       /** Returns the ground height of the given build tile. 0 = normal, 1 = high ground. 2 = very high ground. */
       virtual int  getGroundHeight(TilePosition position) = 0;
 
       /** Returns true if the specified build tile is buildable. Note that this just uses the static map data.
        * You will also need to make sure no ground units on the tile to see if its currently buildable. To do
        * this, see unitsOnTile. */
-      virtual bool isBuildable(int x, int y) = 0;
+      virtual bool isBuildable(int tileX, int tileY) = 0;
       /** \copydoc isBuildable(int, int) */
       virtual bool isBuildable(TilePosition position) = 0;
 
       /** Returns true if the specified build tile is visible. If the tile is concealed by fog of war, the
        * function will return false. */
-      virtual bool isVisible(int x, int y) = 0;
+      virtual bool isVisible(int tileX, int tileY) = 0;
       /** \copydoc isVisible(int, int) */
       virtual bool isVisible(TilePosition position) = 0;
 
       /** Returns true if the specified build tile has been explored (i.e. was visible at some point in the
        * match). */
-      virtual bool isExplored(int x, int y) = 0;
+      virtual bool isExplored(int tileX, int tileY) = 0;
       /** \copydoc isExplored(int, int) */
       virtual bool isExplored(TilePosition position) = 0;
 
       /** Returns true if the specified build tile has zerg creep on it. If the tile is concealed by fog of
        * war, the function will return false. */
-      virtual bool hasCreep(int x, int y) = 0;
+      virtual bool hasCreep(int tileX, int tileY) = 0;
       /** \copydoc hasCreep(int, int) */
       virtual bool hasCreep(TilePosition position) = 0;
 
       /** Returns true if the given build location is powered by a nearby friendly pylon. */
-      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight) = 0;
+      virtual bool hasPower(int tileX, int tileY, int tileWidth, int tileHeight) = 0;
       /** \copydoc hasPower(int, int, int, int) */
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
 

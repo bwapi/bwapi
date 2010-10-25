@@ -4,6 +4,5 @@
 
 extern bool gbWantExit;
 
-
 DWORD WINAPI RecvThread(LPVOID);
 

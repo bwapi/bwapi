@@ -2,6 +2,7 @@
 #include "CommandTypes.h"
 #include "Common.h"
 
+std::queue<pktq*> recvQueue;
 DWORD gdwBroadcastCount;
 
 int BroadcastCommand(DWORD dwCmdID, char *data, DWORD dwDataSize)
@@ -36,7 +37,14 @@ void ParseCommand(SOCKADDR *from, char *data, DWORD dwDataSize)
   switch ( p->dwCommand )
   {
   case CMD_STORM:
-    break;
+    {
+      pktq *pktsave = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
+      memcpy(&pktsave->addr, from, sizeof(SOCKADDR));
+      memcpy(&pktsave->packet, data, dwDataSize);
+      pktsave->dwLength = dwDataSize;
+      recvQueue.push(pktsave);
+      break;
+    }
   case CMD_PING:
     SendCommand(from, CMD_PONG);
     break;
