@@ -48,6 +48,18 @@ BOOL __stdcall SNetEnumGames(int (__stdcall *callback)(DWORD, DWORD, DWORD), int
 BOOL __stdcall SNetDropPlayer(int playerid, DWORD flags);
 BOOL __stdcall SNetGetGameInfo(int type, char *src, unsigned int length, int *byteswritten);
 
+#ifndef GAME_INFO
+#define GAME_INFO
+
+#define GAMEINFO_NAME     1
+#define GAMEINFO_PASSWORD 2
+#define GAMEINFO_STATS    3
+#define GAMEINFO_MODEFLAG 4
+#define GAMEINFO_UNK_5    5
+#define GAMEINFO_UNK_6    6
+
+#endif
+
 BOOL __stdcall SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers);
 
 #ifndef CAPS_STRUCT

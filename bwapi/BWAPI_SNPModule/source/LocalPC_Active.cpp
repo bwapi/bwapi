@@ -8,20 +8,22 @@
 #include "CommandTypes.h"
 #include "Common.h"
 
-std::queue<pktq*> recvQueue;
-
 /* @TODO LIST:
 [Initialization]
-  _spiInitializeProvider
-  _spiDestroy
+  //_spiInitializeProvider
+  //_spiDestroy
 
 [Game List]     // Note: Havn't been able to record usage of other functions with no partner game
   _spiLockGameList
   _spiUnlockGameList
 
+[Game Create]
+  _spiStartAdvertisingLadderGame
+  _spiStopAdvertisingGame
+
 [Packets]
-  _spiReceiveFrom
-  _spiSendTo
+  //_spiReceiveFrom
+  //_spiSendTo
 
 */
 
@@ -132,16 +134,30 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   if ( databytes )
     *databytes = 0;
 
-  
-  /* Return data obtained from recvfrom thread */
+  if ( !addr || !data || !databytes || !gsSend )
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
 
+  if ( recvQueue.size() == 0 )
+  {
+    SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
+    return false;
+  }
+
+  pktq *pkt = recvQueue.front();
+  *addr      = (SOCKADDR*)&pkt->addr;
+  *data      = pkt->packet.bData;
+  *databytes = pkt->dwLength - 4;
+  recvQueue.pop();
   return true;
 }
 
 bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
 {
   // pretty sure this is now complete
-  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE || !gsSend)
+  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsSend)
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
@@ -175,7 +191,7 @@ bool __stdcall _spiStopAdvertisingGame()
 }
 
 // spiUnlockGameList(0x%08x,*hintnextcall)
-bool __stdcall _spiUnlockGameList(int a1, DWORD *a2)
+bool __stdcall _spiUnlockGameList(void **a1, DWORD *a2)
 {
   /*
   sprintf(buffer, "_spiUnlockGameList(%p, %p)", a1, a2);
