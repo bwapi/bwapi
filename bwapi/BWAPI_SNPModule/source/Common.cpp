@@ -41,5 +41,5 @@ void Log(const char *format, ...)
     fprintf(hLog, "%s\n------------\n", szBuffer);
     fclose(hLog);
   }
-  i(szBuffer);
+  //i(szBuffer);
 }

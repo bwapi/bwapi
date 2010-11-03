@@ -5,6 +5,9 @@
 extern SOCKET   gsRecv;
 extern SOCKADDR gaddrRecv;
 
+extern SOCKET   gsBCRecv;
+extern SOCKADDR gaddrBCRecv;
+
 extern SOCKET   gsSend;
 
 extern SOCKET   gsBroadcast;
