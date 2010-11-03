@@ -10,6 +10,9 @@ DWORD gdwRecvBytes;
 SOCKET   gsRecv;
 SOCKADDR gaddrRecv;
 
+SOCKET   gsBCRecv;
+SOCKADDR gaddrBCRecv;
+
 SOCKET   gsSend;
 
 SOCKET   gsBroadcast;
@@ -28,17 +31,22 @@ bool InitializeSockets()
 
   gsSend      = MakeUDPSocket();
   gsRecv      = MakeUDPSocket();
+  gsBCRecv    = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
-  InitAddr(&gaddrRecv);
-  InitAddr(&gaddrBroadcast, "127.255.255.255");
+  InitAddr(&gaddrRecv,      "127.0.0.1",       6112);
+  InitAddr(&gaddrBCRecv,    "127.0.0.1",       6111);
+  InitAddr(&gaddrBroadcast, "127.255.255.255", 6111);
 
   // begin recv threads here
-  HANDLE hThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
-  if ( hThread )
-  {
-    SetThreadPriority(hThread, 1);
-  }
+  HANDLE hBroadcastThread = CreateThread(NULL, 0, &BroadcastThread, NULL, 0, NULL);
+  if ( hBroadcastThread )
+    SetThreadPriority(hBroadcastThread, 1);
+
+  HANDLE hRecvThread      = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
+  if ( hRecvThread )
+    SetThreadPriority(hRecvThread, 2);
+
   return true;
 }
 
@@ -47,6 +55,8 @@ void DestroySockets()
   // do cleanup stuff
   if ( gsRecv )
     closesocket(gsRecv);
+  if ( gsBCRecv )
+    closesocket(gsBCRecv);
   if ( gsSend )
     closesocket(gsSend);
   if ( gsBroadcast )

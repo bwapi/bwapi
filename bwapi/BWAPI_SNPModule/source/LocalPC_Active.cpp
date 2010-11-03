@@ -1,12 +1,16 @@
 #include <stdio.h>
-#include <queue>
+#include <deque>
 
 #include "LocalPC.h"
 #include "Connect.h"
 #include "Threads.h"
-#include "Commands.h"
-#include "CommandTypes.h"
 #include "Common.h"
+#include "Commands.h"
+
+DWORD gdwProduct;
+DWORD gdwVerbyte;
+DWORD gdwMaxPlayers;
+DWORD hdwLangId;
 
 /* @TODO LIST:
 [Initialization]
@@ -72,6 +76,12 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   /* Called when the module is loaded
      Perform all initialization functions here */
 
+  // Save client information
+  gdwProduct    = gameClientInfo->dwProduct;
+  gdwVerbyte    = gameClientInfo->dwVerbyte;
+  gdwMaxPlayers = gameClientInfo->dwMaxPlayers;
+  hdwLangId     = gameClientInfo->dwLangId;
+
   // Reset performance data
   gdwSendCalls = 0;
   gdwSendBytes = 0;
@@ -98,19 +108,17 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   if ( !InitializeSockets() )
     return false;
 
-  BroadcastCommand(CMD_BROADCAST_PING);
-
   //Sleep(20);
   //Log("Broadcast count %u", gdwBroadcastCount);
   return true;
 }
 
 // spiLockGameList(0x%08x,0x%08x,*gamelist)
-bool __stdcall _spiLockGameList(int a1, int a2, void **a3)
+bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
 {
   /*sprintf(buffer, "_spiLockGameList(%p, %p, %p)", a1, a2, *a3);
   i(buffer);*/
-  if ( a3 )
+  if ( ppGameList )
   {
     /* Lock the game list (thread) 
        UDPN locks this thread for 10000 ms 
@@ -148,9 +156,9 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
 
   pktq *pkt = recvQueue.front();
   *addr      = (SOCKADDR*)&pkt->addr;
-  *data      = pkt->packet.bData;
-  *databytes = pkt->dwLength - 4;
-  recvQueue.pop();
+  *data      = pkt->bData;
+  *databytes = pkt->dwLength;
+  recvQueue.pop_front();
   return true;
 }
 
@@ -163,23 +171,52 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
     return false;
   }
 
-  pkt p;
-  memset(&p, 0, sizeof(pkt));
-  memcpy(p.bData, buf, bufLen);
   for ( int i = addrCount; i > 0; --i )
   {
-    sendto(gsSend, (const char*)&p, bufLen + 4, 0, addrList[i-1], sizeof(SOCKADDR));
+    sendto(gsSend, buf, bufLen, 0, addrList[i-1], sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }
   return true;
 }
 
-bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, int a9, DWORD dwMaxStormPlayers)
+bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, void *pPlayerInfo, DWORD dwPlayerCount)
 {
   /* Begin game advertisement
      Needs a little more research
      Called when you create a game */
+  if ( !pszGameName || !pszGameStatString )
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
+
+  if ( !gpGameAdvert )
+  {
+    gpGameAdvert = SMemAlloc(LOCL_PKT_SIZE + sizeof(broadcastPkt), __FILE__, __LINE__, 0);
+    if ( !gpGameAdvert )
+    {
+      SetLastError(ERROR_NOT_ENOUGH_MEMORY);
+      return false;
+    }
+  }
+  memset(gpGameAdvert, 0, LOCL_PKT_SIZE + sizeof(broadcastPkt));
+  broadcastPkt *pktHd   = (broadcastPkt*) gpGameAdvert;
+  char         *pktData = (char*)         gpGameAdvert + 20;
+
+  pktHd->wSize        = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(broadcastPkt) + 2);
+  pktHd->wType        = 0;
+  pktHd->wReserved    = 0;
+  pktHd->dwProduct    = gdwProduct;
+  pktHd->dwVersion    = gdwVerbyte;
+  pktHd->dwGameState  = dwGameState;
+  
+  SStrCopy(pktData, pszGameName, 128);
+  SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
+
+  // @TODO: create checksum
+
+  BroadcastAdvertisement();
   return true;
 }
 
@@ -187,11 +224,23 @@ bool __stdcall _spiStopAdvertisingGame()
 {
   /* Stops game advertisement
      Called when you leave a game */
+  if ( gpGameAdvert )
+  {
+    ((broadcastPkt*)gpGameAdvert)->wType = 1;
+    WORD wPktSize = ((broadcastPkt*)gpGameAdvert)->wSize;
+    // @TODO: recalc checksum
+    sendto(gsBroadcast, (char*)gpGameAdvert, wPktSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
+    ++gdwSendCalls;
+    gdwSendBytes += wPktSize;
+    SMemFree(gpGameAdvert, __FILE__, __LINE__, 0);
+    gpGameAdvert = NULL;
+  }
   return true;
 }
 
+DWORD gdwLastTickCount;
 // spiUnlockGameList(0x%08x,*hintnextcall)
-bool __stdcall _spiUnlockGameList(void **a1, DWORD *a2)
+bool __stdcall _spiUnlockGameList(gameStruc *pGameList, DWORD *a2)
 {
   /*
   sprintf(buffer, "_spiUnlockGameList(%p, %p)", a1, a2);
@@ -202,8 +251,13 @@ bool __stdcall _spiUnlockGameList(void **a1, DWORD *a2)
      @Todo: Research needed */
 
   if ( a2 )
-  {
     *a2 = 500;
+
+  DWORD dwThisTickCount = GetTickCount();
+  if ( dwThisTickCount - gdwLastTickCount > 400 )
+  {
+    gdwLastTickCount = dwThisTickCount;
+    BroadcastGameListRequest();
   }
   return true;
 }

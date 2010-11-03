@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <WinUser.h>
+#include <Winsock.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ddraw.h>
@@ -40,6 +41,7 @@ struct WSIZE
 #define GAMESTATE_STARTED 0x08
 #define GAMESTATE_REPLAY  0x80
 #endif
+
 BOOL __stdcall SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 BOOL __stdcall SNetDestroy();
 BOOL __stdcall SNetEnumProviders(int (__stdcall *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps);
@@ -146,6 +148,24 @@ struct moduleInfo
   char  *pszModuleName;
   char  *pszMainArchive;
   char  *pszPatchArchive;
+};
+
+struct gameStruc
+{
+  gameStruc *pNext;
+  DWORD     dwUnk_04;
+  DWORD     dwUnk_08;
+  SOCKADDR  saHost;
+  DWORD     dwUnk_1C;
+  DWORD     dwTimer;
+  DWORD     dwUnk_24;
+  char      szGameName[128];
+  char      szGameStatString[128];
+  gameStruc *pPrev;
+  void      *pExtra;
+  DWORD     dwExtraBytes;
+  DWORD     dwProduct;
+  DWORD     dwVersion;
 };
 #endif
 BOOL __stdcall SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);

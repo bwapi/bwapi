@@ -144,10 +144,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\CommandTypes.h"
-				>
-			</File>
-			<File
 				RelativePath=".\source\Common.h"
 				>
 			</File>
