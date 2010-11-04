@@ -55,10 +55,16 @@ void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...)
   FILE *hLog = fopen(gszLogPath, "a+");
   if ( hLog )
   {
-    fprintf(hLog, "%s\n", szBuffer);
+    SYSTEMTIME _time;
+    GetLocalTime(&_time);
+    fprintf(hLog, "[%02u:%02u:%03u] %s", _time.wMinute, _time.wSecond, _time.wMilliseconds, szBuffer);
     for ( unsigned int i = 0; i < dwSize; ++i )
+    {
+      if ( i % 16 == 0 )
+        fprintf(hLog, "\n    ");
       fprintf(hLog, "%02X ", ((unsigned char)pBuffer[i]));
-    fprintf(hLog, "\n------------\n");
+    }
+    fprintf(hLog, "\n------------ ------------\n");
     fclose(hLog);
   }
   //i(szBuffer);

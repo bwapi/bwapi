@@ -131,5 +131,9 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   int gamelen           = SStrCopy(newGame->szGameName, pktData, sizeof(newGame->szGameName));
   int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
 
+  newGame->dwExtraBytes = pktHd->wSize - (sizeof(broadcastPkt) + gamelen + statlen + 2);
+  newGame->pExtra       = SMemAlloc(newGame->dwExtraBytes, __FILE__, __LINE__, 0);
+  memcpy(newGame->pExtra, &pktData[gamelen + statlen + 2], newGame->dwExtraBytes);
+
   gpMGameList           = newGame;
 }

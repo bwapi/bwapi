@@ -60,7 +60,6 @@ bool __stdcall _spiSelectGame(int a1, clientInfo *gameClientInfo, userInfo *user
 {
   /* Looks like an old function and doesn't seem like it's used anymore
      UDPN's function Creates an IPX game select dialog window  */
-  i(__FUNCTION__);
   return false;
 }
 
