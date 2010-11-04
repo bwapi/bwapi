@@ -57,7 +57,6 @@ DWORD WINAPI BroadcastThread(LPVOID)
           recvPkt->dwLength = rVal - sizeof(broadcastPkt);
           memcpy(recvPkt->bData, &szBuffer[sizeof(broadcastPkt)], recvPkt->dwLength);
           recvQueue.push_back(recvPkt);
-          LogBytes(recvPkt->bData, recvPkt->dwLength, "Received data from %s", inet_ntoa(from->sin_addr));
           break;
         }
       default:

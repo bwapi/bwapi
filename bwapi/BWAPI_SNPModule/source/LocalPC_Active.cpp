@@ -182,6 +182,7 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   *data      = pkt->bData;
   *databytes = pkt->dwLength;
   recvQueue.pop_front();
+  LogBytes(*data, *databytes, "Received data from %s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]) );
   return true;
 }
 
