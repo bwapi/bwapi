@@ -7,16 +7,14 @@ DWORD gdwSendBytes;
 DWORD gdwRecvCalls;
 DWORD gdwRecvBytes;
 
-SOCKET   gsRecv;
-SOCKADDR gaddrRecv;
-
+SOCKET   gsBCSend;
 SOCKET   gsBCRecv;
+SOCKADDR gaddrBCSend;
 SOCKADDR gaddrBCRecv;
-
-SOCKET   gsSend;
 
 SOCKET   gsBroadcast;
 SOCKADDR gaddrBroadcast;
+SOCKADDR gaddrBCFrom;
 
 bool InitializeSockets()
 {
@@ -29,23 +27,25 @@ bool InitializeSockets()
     return false;
   }
 
-  gsSend      = MakeUDPSocket();
-  gsRecv      = MakeUDPSocket();
+  // create sockets
+  gsBCSend    = MakeUDPSocket();
   gsBCRecv    = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
-  InitAddr(&gaddrRecv,      "127.0.0.1",       6112);
-  InitAddr(&gaddrBCRecv,    "127.0.0.1",       6111);
+  InitAddr(&gaddrBCRecv,    gdwProcId,         6111);
+  InitAddr(&gaddrBCSend,    gdwProcId,         6111);
+  InitAddr(&gaddrBCFrom,    gdwProcId,         6111);
   InitAddr(&gaddrBroadcast, "127.255.255.255", 6111);
+
+  // bind the sockets
+  bind(gsBCRecv,    &gaddrBCRecv, sizeof(SOCKADDR));
+  bind(gsBCSend,    &gaddrBCSend, sizeof(SOCKADDR));
+  bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR));
 
   // begin recv threads here
   HANDLE hBroadcastThread = CreateThread(NULL, 0, &BroadcastThread, NULL, 0, NULL);
   if ( hBroadcastThread )
     SetThreadPriority(hBroadcastThread, 1);
-
-  HANDLE hRecvThread      = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
-  if ( hRecvThread )
-    SetThreadPriority(hRecvThread, 2);
 
   return true;
 }
@@ -53,12 +53,10 @@ bool InitializeSockets()
 void DestroySockets()
 {
   // do cleanup stuff
-  if ( gsRecv )
-    closesocket(gsRecv);
+  if ( gsBCSend )
+    closesocket(gsBCSend);
   if ( gsBCRecv )
     closesocket(gsBCRecv);
-  if ( gsSend )
-    closesocket(gsSend);
   if ( gsBroadcast )
     closesocket(gsBroadcast);
   WSACleanup();
@@ -87,5 +85,28 @@ SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip, WORD wPort)
   _addr->sin_family           = AF_INET;
   _addr->sin_port             = htons(wPort);
   _addr->sin_addr.S_un.S_addr = inet_addr(ip);
+  return addr;
+}
+
+SOCKADDR *InitAddr(SOCKADDR *addr, DWORD dwSeed, WORD wPort)
+{
+  sockaddr_in *_addr = (sockaddr_in*)addr;
+  memset(addr, 0, sizeof(SOCKADDR));
+  _addr->sin_family                 = AF_INET;
+  _addr->sin_port                   = htons(wPort);
+  _addr->sin_addr.S_un.S_un_b.s_b1  = 127;
+  _addr->sin_addr.S_un.S_un_b.s_b2  = (dwSeed >> 16) & 0xFF;
+  _addr->sin_addr.S_un.S_un_b.s_b3  = (dwSeed >> 8)  & 0xFF;
+  _addr->sin_addr.S_un.S_un_b.s_b4  = dwSeed & 0xFF;
+  if ( _addr->sin_addr.S_un.S_un_b.s_b4 == 0 )
+  {
+    _addr->sin_addr.S_un.S_un_b.s_b4++;
+    _addr->sin_addr.S_un.S_un_b.s_b2 |= 0x40;
+  }
+  else if ( _addr->sin_addr.S_un.S_un_b.s_b4 == 255 )
+  {
+    _addr->sin_addr.S_un.S_un_b.s_b4++;
+    _addr->sin_addr.S_un.S_un_b.s_b2 |= 0x80;
+  }
   return addr;
 }

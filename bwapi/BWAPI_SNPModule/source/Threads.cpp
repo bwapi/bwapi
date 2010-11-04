@@ -8,48 +8,8 @@ bool gbWantExit = false;
 std::deque<pktq*> recvQueue;
 void *gpGameAdvert;
 
-DWORD WINAPI RecvThread(LPVOID)
-{
-  // bind the socket
-  bind(gsRecv, &gaddrRecv, sizeof(SOCKADDR));
-  while (1)
-  {
-    // recvfrom
-    int dwSaFromLen   = sizeof(SOCKADDR);
-    pktq *recvPkt     = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
-    recvPkt->dwLength = recvfrom(gsRecv, recvPkt->bData, sizeof(recvPkt->bData), 0, &recvPkt->addr, &dwSaFromLen);
-    if ( gbWantExit )
-    {
-      recvQueue.clear();
-      return 0;
-    }
-
-    switch ( recvPkt->dwLength )
-    {
-    case SOCKET_ERROR:
-      Error(WSAGetLastError(), "recvfrom (game) failed");
-    case 0: // closed connection
-      recvQueue.clear();
-      return 0;
-    }
-    ++gdwRecvCalls;
-    gdwRecvBytes += recvPkt->dwLength;
-
-    recvQueue.push_back(recvPkt);
-
-    SOCKADDR_IN *from = (SOCKADDR_IN*)&recvPkt->addr;
-    Log("Received data from %s:%u", inet_ntoa(from->sin_addr), from->sin_port);
-  } // loop
-  return 0;
-}
-
 DWORD WINAPI BroadcastThread(LPVOID)
 {
-  // First broadcast
-  //BroadcastGameListRequest();
-
-  // bind the socket
-  bind(gsBCRecv, &gaddrBCRecv, sizeof(SOCKADDR));
   while (1)
   {
     // create receiving sockaddr
@@ -68,6 +28,7 @@ DWORD WINAPI BroadcastThread(LPVOID)
     case SOCKET_ERROR:
       Error(WSAGetLastError(), "recvfrom (broadcast) failed");
     case 0: // closed connection
+      recvQueue.clear();
       return 0;
     }
     ++gdwRecvCalls;
@@ -89,6 +50,16 @@ DWORD WINAPI BroadcastThread(LPVOID)
         // request list
         BroadcastAdvertisement(&saFrom);
         break;
+      case 3:
+        {
+          pktq *recvPkt = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
+          memcpy(&recvPkt->addr, &saFrom, sizeof(SOCKADDR));
+          recvPkt->dwLength = rVal - sizeof(broadcastPkt);
+          memcpy(recvPkt->bData, &szBuffer[sizeof(broadcastPkt)], recvPkt->dwLength);
+          recvQueue.push_back(recvPkt);
+          LogBytes(recvPkt->bData, recvPkt->dwLength, "Received data from %s", inet_ntoa(from->sin_addr));
+          break;
+        }
       default:
         Error(ERROR_INVALID_PARAMETER, "Unidentified broadcast type %04X", bc->wType);
         break;

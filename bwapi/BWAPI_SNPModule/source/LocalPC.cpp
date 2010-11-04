@@ -30,7 +30,7 @@ bool __stdcall _spiError(int a1, int a2, int a3)
   return false;
 }
 
-bool __stdcall _spiInitializeDevice(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, void *a5)
+bool __stdcall _spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)
 {
   // This function is complete
   return false;

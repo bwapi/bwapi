@@ -5,7 +5,7 @@
 #include "Template.h"
 #include "Common.h"
 
-typedef void* PSTRUCT;
+extern DWORD gdwProcId;
 
 extern DWORD gdwProduct;
 extern DWORD gdwVerbyte;
@@ -24,7 +24,7 @@ bool __stdcall _spiError(int a1, int a2, int a3);
 bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult);
 bool __stdcall _spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4);
 bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent);
-bool __stdcall _spiInitializeDevice(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, void *a5);
+bool __stdcall _spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5);
 bool __stdcall _spiEnumDevices(DWORD *a1);
 bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList);
 bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes);
