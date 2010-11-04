@@ -43,9 +43,9 @@ bool InitializeSockets()
   bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR));
 
   // begin recv threads here
-  HANDLE hBroadcastThread = CreateThread(NULL, 0, &BroadcastThread, NULL, 0, NULL);
-  if ( hBroadcastThread )
-    SetThreadPriority(hBroadcastThread, 1);
+  HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
+  if ( hRecvThread )
+    SetThreadPriority(hRecvThread, 1);
 
   return true;
 }

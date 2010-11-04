@@ -1,13 +1,11 @@
 #pragma once
 #include <windows.h>
-#include <deque>
 #include "Common.h"
 #include "LocalPC.h"
 
 extern bool gbWantExit;
 
-DWORD WINAPI BroadcastThread(LPVOID);
-
+DWORD WINAPI RecvThread(LPVOID);
 
 #ifndef _PKT
 #define _PKT
@@ -25,12 +23,13 @@ struct broadcastPkt
 
 struct pktq
 {
-  SOCKADDR      addr;
+  SOCKADDR      saFrom;
   char          bData[LOCL_PKT_SIZE];
   DWORD         dwLength;
+  pktq          *pNext;
 };
 
 #endif
 
-extern std::deque<pktq*> recvQueue;
+extern pktq *gpRecvQueue;
 extern void *gpGameAdvert;

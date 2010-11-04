@@ -16,24 +16,6 @@ DWORD gdwLangId;
 
 gameStruc *gpMGameList;
 
-/* @TODO LIST:
-[Initialization]
-  //_spiInitializeProvider
-  //_spiDestroy
-
-[Game List]     // Note: Havn't been able to record usage of other functions with no partner game
-  _spiLockGameList
-  _spiUnlockGameList
-
-[Game Create]
-  _spiStartAdvertisingLadderGame
-  _spiStopAdvertisingGame
-
-[Packets]
-  //_spiReceiveFrom
-  //_spiSendTo
-
-*/
 
 HANDLE ghRecvEvent;
 
@@ -48,7 +30,7 @@ bool __stdcall _spiDestroy()
 
 bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult)
 {
-  // Finds the game struct that matches with pszGameName or pGame and returns it in pGameResult
+  // Finds the game struct that matches a name or index and returns it in pGameResult
   if ( pGameResult )
     memset(pGameResult, 0, sizeof(gameStruc));
   if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
@@ -171,17 +153,16 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
     return false;
   }
 
-  if ( recvQueue.empty() )
+  if ( !gpRecvQueue )
   {
     SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
     return false;
   }
 
-  pktq *pkt = recvQueue.front();
-  *addr      = &pkt->addr;
-  *data      = pkt->bData;
-  *databytes = pkt->dwLength;
-  recvQueue.pop_front();
+  *addr       = &gpRecvQueue->saFrom;
+  *data       = gpRecvQueue->bData;
+  *databytes  = gpRecvQueue->dwLength;
+  gpRecvQueue = gpRecvQueue->pNext;
   LogBytes(*data, *databytes, "Received data from %s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]) );
   return true;
 }

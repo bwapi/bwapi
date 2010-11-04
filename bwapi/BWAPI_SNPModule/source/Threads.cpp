@@ -5,10 +5,10 @@
 #include "Commands.h"
 
 bool gbWantExit = false;
-std::deque<pktq*> recvQueue;
+pktq *gpRecvQueue;
 void *gpGameAdvert;
 
-DWORD WINAPI BroadcastThread(LPVOID)
+DWORD WINAPI RecvThread(LPVOID)
 {
   while (1)
   {
@@ -28,7 +28,6 @@ DWORD WINAPI BroadcastThread(LPVOID)
     case SOCKET_ERROR:
       Error(WSAGetLastError(), "recvfrom (broadcast) failed");
     case 0: // closed connection
-      recvQueue.clear();
       return 0;
     }
     ++gdwRecvCalls;
@@ -53,10 +52,22 @@ DWORD WINAPI BroadcastThread(LPVOID)
       case 3:
         {
           pktq *recvPkt = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
-          memcpy(&recvPkt->addr, &saFrom, sizeof(SOCKADDR));
+          memcpy(&recvPkt->saFrom, &saFrom, sizeof(SOCKADDR));
           recvPkt->dwLength = rVal - sizeof(broadcastPkt);
           memcpy(recvPkt->bData, &szBuffer[sizeof(broadcastPkt)], recvPkt->dwLength);
-          recvQueue.push_back(recvPkt);
+          recvPkt->pNext = 0;
+
+          pktq **p = &gpRecvQueue;
+          pktq *t;
+          if ( gpRecvQueue )
+          {
+            do
+            {
+              t = *p;
+              p = &t->pNext;
+            } while ( t->pNext );
+          }
+          *p = recvPkt;
           break;
         }
       default:
