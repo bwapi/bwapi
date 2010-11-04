@@ -436,12 +436,15 @@ bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
+  /* Retrieve the Starcraft path */
   if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
     SStrNCat(szInstallPath, "\\", MAX_PATH);
 
+  /* Create the config path */
   SStrCopy(szConfigPath, szInstallPath, MAX_PATH);
   SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
 
+  /* Initialize logging options */
   delete Util::Logger::globalLog;
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
   
@@ -450,6 +453,43 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, szConfigPath);
   if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
+
+  /* Shift the position of w-mode */
+  if ( dwProcNum > 0 )
+  {
+    char szWModeConfig[MAX_PATH];
+    sprintf(szWModeConfig, "%s\\wmode.ini", szInstallPath);
+
+    FILE *test = fopen(szWModeConfig, "r");
+    if ( test )
+    {
+      // Get window location and screen dimensions
+      int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, szWModeConfig);
+      int wy = GetPrivateProfileInt("W-MODE", "WindowClientY", 0, szWModeConfig);
+      int cx = GetSystemMetrics(SM_CXSCREEN);
+      int cy = GetSystemMetrics(SM_CYSCREEN);
+
+      // Shift window location
+      wx += 40;
+      wy += 40;
+      if ( wx + 640 >= cx )
+        wx -= cx - 640;
+      if ( wy + 480 >= cy )
+        wy -= cy - 480;
+
+      if ( wx < 0 )
+        wx = 0;
+      if ( wy < 0 )
+        wy = 0;
+
+      // Write new window location
+      char szScrOutput[16];
+      sprintf(szScrOutput, "%u", wx);
+      WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, szWModeConfig);
+      sprintf(szScrOutput, "%u", wy);
+      WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, szWModeConfig);
+    } // file exists
+  } // is multi-instance
 
   /* create log handles */
   if (logging)
