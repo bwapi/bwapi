@@ -6,7 +6,6 @@
 
 extern bool gbWantExit;
 
-DWORD WINAPI RecvThread(LPVOID);
 DWORD WINAPI BroadcastThread(LPVOID);
 
 
@@ -26,9 +25,9 @@ struct broadcastPkt
 
 struct pktq
 {
-  SOCKADDR addr;
-  char     bData[LOCL_PKT_SIZE];
-  DWORD    dwLength;
+  SOCKADDR      addr;
+  char          bData[LOCL_PKT_SIZE];
+  DWORD         dwLength;
 };
 
 #endif

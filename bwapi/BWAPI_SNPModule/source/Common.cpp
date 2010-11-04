@@ -43,3 +43,23 @@ void Log(const char *format, ...)
   }
   //i(szBuffer);
 }
+
+void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...)
+{
+  char szBuffer[256];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(szBuffer, 256, 256, format, ap);
+  va_end(ap);
+
+  FILE *hLog = fopen(gszLogPath, "a+");
+  if ( hLog )
+  {
+    fprintf(hLog, "%s\n", szBuffer);
+    for ( unsigned int i = 0; i < dwSize; ++i )
+      fprintf(hLog, "%02X ", ((unsigned char)pBuffer[i]));
+    fprintf(hLog, "\n------------\n");
+    fclose(hLog);
+  }
+  //i(szBuffer);
+}

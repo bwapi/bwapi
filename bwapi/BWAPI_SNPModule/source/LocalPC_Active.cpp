@@ -7,6 +7,8 @@
 #include "Common.h"
 #include "Commands.h"
 
+DWORD gdwProcId;
+
 DWORD gdwProduct;
 DWORD gdwVerbyte;
 DWORD gdwMaxPlayers;
@@ -111,6 +113,8 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   gdwRecvCalls = 0;
   gdwRecvBytes = 0;
 
+  gdwProcId = GetCurrentProcessId();
+
   // Retrieve Starcraft path
   if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, gszInstallPath, MAX_PATH) )
     SStrNCat(gszInstallPath, "\\", MAX_PATH);
@@ -121,7 +125,11 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
 
   // Retrieve log path
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", gszLogPath, MAX_PATH, gszConfigPath);
-  SStrNCat(gszLogPath, "\\SNPModule.log", MAX_PATH);
+  SStrNCat(gszLogPath, "\\SNPModule_", MAX_PATH);
+  
+  char tBuf[16];
+  SStrNCat(gszLogPath, itoa(gdwProcId, tBuf, 10), MAX_PATH);
+  SStrNCat(gszLogPath, ".log", MAX_PATH);
 
   // set exit flag to false
   gbWantExit  = false;
@@ -157,7 +165,7 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   if ( databytes )
     *databytes = 0;
 
-  if ( !addr || !data || !databytes || !gsSend )
+  if ( !addr || !data || !databytes || !gsBCSend )
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
@@ -180,16 +188,31 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
 bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
 {
   // pretty sure this is now complete
-  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsSend)
+  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsBCSend)
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
   }
 
+  char buffer[LOCL_PKT_SIZE + sizeof(broadcastPkt)];
+  SMemZero(buffer, LOCL_PKT_SIZE + sizeof(broadcastPkt));
+
+  broadcastPkt *pktHead = (broadcastPkt*)buffer;
+  char         *pktData = buffer + sizeof(broadcastPkt);
+
+  pktHead->wType      = 3;
+  pktHead->dwProduct  = gdwProduct;
+  pktHead->dwVersion  = gdwVerbyte;
+  pktHead->wSize      = (WORD)(bufLen + sizeof(broadcastPkt));
+
+  /* TODO: Checksum */
+  pktHead->wChecksum  = 0;
+  memcpy(pktData, buf, bufLen);
+
   for ( int i = addrCount; i > 0; --i )
   {
-    sendto(gsSend, buf, bufLen, 0, addrList[i-1], sizeof(SOCKADDR));
-    Log("Sent data to %s:%u", inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]), *(WORD*)addrList[i-1]->sa_data);
+    sendto(gsBCSend, buffer, pktHead->wSize, 0, addrList[i-1], sizeof(SOCKADDR));
+    LogBytes(buf, bufLen, "Sent data to %s", inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]));
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }
@@ -231,6 +254,7 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
   SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
 
   // @TODO: create checksum
+  pktHd->wChecksum = 0;
 
   BroadcastAdvertisement();
   return true;
@@ -245,6 +269,7 @@ bool __stdcall _spiStopAdvertisingGame()
     ((broadcastPkt*)gpGameAdvert)->wType = 1;
     WORD wPktSize = ((broadcastPkt*)gpGameAdvert)->wSize;
     // @TODO: recalc checksum
+    ((broadcastPkt*)gpGameAdvert)->wChecksum = 0;
     sendto(gsBroadcast, (char*)gpGameAdvert, wPktSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += wPktSize;

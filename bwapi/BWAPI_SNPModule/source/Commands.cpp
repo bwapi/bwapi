@@ -6,10 +6,10 @@ void BroadcastAdvertisement(SOCKADDR *to)
   if ( gpGameAdvert )
   {
     WORD wBCSize = ((broadcastPkt*)gpGameAdvert)->wSize;
-    SOCKADDR *out = to;
-    //if ( !out )
-      out = &gaddrBroadcast;
-    sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, 0, out, sizeof(SOCKADDR));
+    if ( to )
+      sendto(gsBCSend, (char*)gpGameAdvert, wBCSize, 0, to, sizeof(SOCKADDR));
+    else
+      sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += wBCSize;
   }
@@ -61,7 +61,6 @@ void CleanGameList(DWORD dwTimeout)
 DWORD gdwListIndex;
 void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
 {
-  from->sin_port = htons(6112);
   DWORD _dwIndex = 0;
   // Clear all games owned by the incoming address
   if ( gpMGameList )
@@ -133,5 +132,4 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
 
   gpMGameList           = newGame;
-  Log("Added game %s to the list", newGame->szGameName);
 }

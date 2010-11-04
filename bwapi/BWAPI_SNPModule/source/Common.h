@@ -12,3 +12,4 @@ extern char gszLogPath[MAX_PATH];
 
 void Error(DWORD dwErrCode, const char *format = "", ...);
 void Log(const char *format = "", ...);
+void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...);
