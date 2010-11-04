@@ -152,8 +152,8 @@ struct moduleInfo
 
 struct gameStruc
 {
-  gameStruc *pNext;
-  DWORD     dwUnk_04;
+  DWORD     dwIndex;
+  DWORD     dwGameState;
   DWORD     dwUnk_08;
   SOCKADDR  saHost;
   DWORD     dwUnk_1C;
@@ -161,7 +161,7 @@ struct gameStruc
   DWORD     dwUnk_24;
   char      szGameName[128];
   char      szGameStatString[128];
-  gameStruc *pPrev;
+  gameStruc *pNext;
   void      *pExtra;
   DWORD     dwExtraBytes;
   DWORD     dwProduct;

@@ -7,7 +7,7 @@
 
 netModule networks[] = {
   { "Local PC", 'LOCL', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
-    { sizeof(caps), 0x20000000, 0x200, 0x10, 0x100, 100000, 20, 8, 0},
+    { sizeof(caps), 0x20000000, LOCL_PKT_SIZE, 0x10, 0x100, 100000, 100, 8, 0},
     { sizeof(netFunctions),
       &fxn0,                    &_spiDestroy,             &_spiFree,                &_spiError,
       &_spiGetGameInfo,         &_spiGetPerformanceData,  &_spiInitializeProvider,  &_spiInitializeDevice,

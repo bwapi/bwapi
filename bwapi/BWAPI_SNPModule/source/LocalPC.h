@@ -10,7 +10,9 @@ typedef void* PSTRUCT;
 extern DWORD gdwProduct;
 extern DWORD gdwVerbyte;
 extern DWORD gdwMaxPlayers;
-extern DWORD hdwLangId;
+extern DWORD gdwLangId;
+
+extern gameStruc *gpMGameList;
 
 #define LOCL 0
 #define LOCL_PKT_SIZE 512
@@ -19,7 +21,7 @@ bool __stdcall fxn0(int a1, int a2, int a3);
 bool __stdcall _spiDestroy();
 bool __stdcall _spiFree(void *a1, int a2, int a3);
 bool __stdcall _spiError(int a1, int a2, int a3);
-bool __stdcall _spiGetGameInfo(int a1, int a2, int a3, int a4);
+bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult);
 bool __stdcall _spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4);
 bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent);
 bool __stdcall _spiInitializeDevice(int a1, PSTRUCT a2, PSTRUCT a3, DWORD *a4, void *a5);
