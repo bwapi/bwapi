@@ -10,7 +10,9 @@
 DWORD gdwProduct;
 DWORD gdwVerbyte;
 DWORD gdwMaxPlayers;
-DWORD hdwLangId;
+DWORD gdwLangId;
+
+gameStruc *gpMGameList;
 
 /* @TODO LIST:
 [Initialization]
@@ -42,11 +44,32 @@ bool __stdcall _spiDestroy()
   return true;
 }
 
-bool __stdcall _spiGetGameInfo(int a1, int a2, int a3, int a4)
+bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult)
 {
-  // Unknown, to do with unknown struct
-  i(__FUNCTION__);
-  return true;
+  // Finds the game struct that matches with pszGameName or pGame and returns it in pGameResult
+  if ( pGameResult )
+    memset(pGameResult, 0, sizeof(gameStruc));
+  if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
+  {
+    gameStruc *g = gpMGameList;
+    while ( g && 
+            (dwFindIndex && dwFindIndex != g->dwIndex || 
+             *pszFindGameName && _strcmpi(pszFindGameName, g->szGameName)) )
+      g = g->pNext;
+    
+    if ( g )
+      memcpy(pGameResult, g, sizeof(gameStruc));
+
+    if ( pGameResult->dwIndex )
+      return true;
+  }
+  else
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
+  SetLastError(STORM_ERROR_GAME_NOT_FOUND);
+  return false;
 }
 
 bool __stdcall _spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
@@ -80,7 +103,7 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   gdwProduct    = gameClientInfo->dwProduct;
   gdwVerbyte    = gameClientInfo->dwVerbyte;
   gdwMaxPlayers = gameClientInfo->dwMaxPlayers;
-  hdwLangId     = gameClientInfo->dwLangId;
+  gdwLangId     = gameClientInfo->dwLangId;
 
   // Reset performance data
   gdwSendCalls = 0;
@@ -108,29 +131,21 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   if ( !InitializeSockets() )
     return false;
 
-  //Sleep(20);
-  //Log("Broadcast count %u", gdwBroadcastCount);
   return true;
 }
 
-// spiLockGameList(0x%08x,0x%08x,*gamelist)
 bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
 {
-  /*sprintf(buffer, "_spiLockGameList(%p, %p, %p)", a1, a2, *a3);
-  i(buffer);*/
-  if ( ppGameList )
-  {
-    /* Lock the game list (thread) 
-       UDPN locks this thread for 10000 ms 
-       unknown struct involved
-       @todo: Research the struct */
-    return true;
-  }
-  else
+  /* Lock the game list for management and passing the updates to storm
+     Clears games after a certain time */
+  if ( !ppGameList )
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
   }
+  CleanGameList(10000);
+  *ppGameList = gpMGameList;
+  return true;
 }
 
 bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
@@ -148,14 +163,14 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
     return false;
   }
 
-  if ( recvQueue.size() == 0 )
+  if ( recvQueue.empty() )
   {
     SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
     return false;
   }
 
   pktq *pkt = recvQueue.front();
-  *addr      = (SOCKADDR*)&pkt->addr;
+  *addr      = &pkt->addr;
   *data      = pkt->bData;
   *databytes = pkt->dwLength;
   recvQueue.pop_front();
@@ -174,6 +189,7 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
   for ( int i = addrCount; i > 0; --i )
   {
     sendto(gsSend, buf, bufLen, 0, addrList[i-1], sizeof(SOCKADDR));
+    Log("Sent data to %s:%u", inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]), *(WORD*)addrList[i-1]->sa_data);
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }
@@ -183,7 +199,6 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
 bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, void *pPlayerInfo, DWORD dwPlayerCount)
 {
   /* Begin game advertisement
-     Needs a little more research
      Called when you create a game */
   if ( !pszGameName || !pszGameStatString )
   {
@@ -204,6 +219,7 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
   broadcastPkt *pktHd   = (broadcastPkt*) gpGameAdvert;
   char         *pktData = (char*)         gpGameAdvert + 20;
 
+  // +2 is for the two null terminators
   pktHd->wSize        = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(broadcastPkt) + 2);
   pktHd->wType        = 0;
   pktHd->wReserved    = 0;
@@ -239,16 +255,14 @@ bool __stdcall _spiStopAdvertisingGame()
 }
 
 DWORD gdwLastTickCount;
-// spiUnlockGameList(0x%08x,*hintnextcall)
 bool __stdcall _spiUnlockGameList(gameStruc *pGameList, DWORD *a2)
 {
-  /*
-  sprintf(buffer, "_spiUnlockGameList(%p, %p)", a1, a2);
-  i(buffer);
-  */
-
-  /* Unlocks the game list and does something?
-     @Todo: Research needed */
+  /* Unlocks the game list and makes requests to update the list internally */
+  if ( pGameList != gpMGameList )
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return false;
+  }
 
   if ( a2 )
     *a2 = 500;

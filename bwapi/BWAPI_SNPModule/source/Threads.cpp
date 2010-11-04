@@ -74,6 +74,7 @@ DWORD WINAPI BroadcastThread(LPVOID)
     gdwRecvBytes += rVal;
 
     SOCKADDR_IN *from = (SOCKADDR_IN*)&saFrom;
+    SMemZero(from->sin_zero, sizeof(from->sin_zero));
     broadcastPkt *bc  = (broadcastPkt*)&szBuffer;
     if ( bc->wSize >= sizeof(broadcastPkt) && bc->wSize == rVal ) // @TODO: also match checksum
     {
@@ -82,11 +83,11 @@ DWORD WINAPI BroadcastThread(LPVOID)
       case 0: // add/update game
       case 1: // remove game
         // advertise game/response
-        Log("Received game advertisement update from %s:%u", inet_ntoa(from->sin_addr), from->sin_port);
+        UpdateGameList(from, szBuffer, bc->wType != 0);
         break;
       case 2:
         // request list
-        BroadcastAdvertisement();
+        BroadcastAdvertisement(&saFrom);
         break;
       default:
         Error(ERROR_INVALID_PARAMETER, "Unidentified broadcast type %04X", bc->wType);
