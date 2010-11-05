@@ -376,16 +376,6 @@ namespace BWAPI
   {
     return data->averageFPS;
   }
-  //---------------------------------------------- GET MOUSE X -----------------------------------------------
-  int GameImpl::getMouseX()
-  {
-    return data->mouseX;
-  }
-  //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-  int GameImpl::getMouseY()
-  {
-    return data->mouseY;
-  }
   //-------------------------------------------- GET MOUSE POSITION ------------------------------------------
   Position GameImpl::getMousePosition()
   {
@@ -410,16 +400,6 @@ namespace BWAPI
   bool GameImpl::getKeyState(int key)
   {
     return data->keyState[key];
-  }
-  //---------------------------------------------- GET SCREEN X ----------------------------------------------
-  int GameImpl::getScreenX()
-  {
-    return data->screenX;
-  }
-  //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-  int GameImpl::getScreenY()
-  {
-    return data->screenY;
   }
   //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
   Position GameImpl::getScreenPosition()

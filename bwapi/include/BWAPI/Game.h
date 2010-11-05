@@ -99,14 +99,6 @@ namespace BWAPI
       virtual int getFPS() = 0;
       virtual double getAverageFPS() = 0;
 
-      /** Returns the horizontal coordinate of the mouse on the screen. Returns 0 if Flag::UserInput? is
-       * disabled. */
-      virtual int getMouseX() = 0;
-
-      /** Returns the vertical coordinate of the mouse on the screen. Returns 0 if Flag::UserInput? is
-       * disabled. */
-      virtual int getMouseY() = 0;
-
       /** Returns the position of the mouse on the screen. Returns Positions::Unknown if Flag::UserInput is
        * disabled. */
       virtual BWAPI::Position getMousePosition() = 0;
@@ -127,12 +119,6 @@ namespace BWAPI
 
       /** \copydoc getKeyState(Key) */
       virtual bool getKeyState(int key) = 0;
-
-      /** Returns the horizontal coordinate of the screen on the map. Returns 0 if Flag::UserInput is disabled. */
-      virtual int getScreenX() = 0;
-
-      /** Returns the vertical coordinate of the screen on the map. Returns 0 if Flag::UserInput is disabled. */
-      virtual int getScreenY() = 0;
 
       /** Returns the position of the top left corner of the screen on the map. Returns Positions::Unknown if
        * Flag::UserInput is disabled. */

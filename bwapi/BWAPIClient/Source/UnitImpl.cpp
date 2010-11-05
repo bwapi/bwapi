@@ -915,11 +915,11 @@ namespace BWAPI
   {
     return issueCommand(UnitCommand::upgrade(this,upgrade));
   }
-  bool UnitImpl::setRallyPosition(Position target)
+  bool UnitImpl::setRallyPoint(Position target)
   {
     return issueCommand(UnitCommand::setRallyPosition(this,target));
   }
-  bool UnitImpl::setRallyUnit(Unit* target)
+  bool UnitImpl::setRallyPoint(Unit* target)
   {
     return issueCommand(UnitCommand::setRallyUnit(this,target));
   }
@@ -1022,10 +1022,6 @@ namespace BWAPI
   bool UnitImpl::cancelAddon()
   {
     return issueCommand(UnitCommand::cancelAddon(this));
-  }
-  bool UnitImpl::cancelTrain()
-  {
-    return issueCommand(UnitCommand::cancelTrain(this));
   }
   bool UnitImpl::cancelTrain(int slot)
   {

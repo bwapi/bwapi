@@ -51,19 +51,20 @@ namespace BW
         u8 always0xe4;
         u16 alwaysZero;
     };
-    /** Selection addition in bw, single unit version. */
-    class ShiftSelectSingle
+    /** Selection addition in bw */
+    class SelectAdd
     {
       public :
-        ShiftSelectSingle(BWAPI::UnitImpl* select);
+        SelectAdd(u8 count, ...);
+        SelectAdd(u8 count, BWAPI::UnitImpl **units);
+        SelectAdd(u8 count, BW::Unit **units);
         /** 0x0A = Shift-Select command-code in bw */
-        u8 always0x0A;
-        /** 0x01 = 1 unit selection */
-        u8 always0x01;
-        /** The unit to select bw index */
-        UnitTarget target;
+        u8         always0x0A;
+        u8         targCount;
+        UnitTarget targets[12];
+        u32        size;
     };
-    /** Selection command in bw, single unit version. */
+    /** Selection command in bw */
     class Select
     {
       public :
@@ -72,9 +73,7 @@ namespace BW
         Select(u8 count, BW::Unit **units);
         /** 0x09 = Select command-code in bw */
         u8         always0x09;
-        /** 0x01 = 1 unit selection */
         u8         targCount;
-        /** The unit to select bw index */
         UnitTarget targets[12];
         u32        size;
     };
@@ -462,15 +461,16 @@ namespace BW
         u8 always0x18;
     };
 
-    class SendText
+    class CancelTrain
     {
       public :
-        SendText(u8 playerID, const char* msg);
+        CancelTrain(s8 slot = -2);
       private :
-        u8 always0x5C;
-        u8 playerID;
-        const char* msg;
+        u8 always0x20;
+        s8 slot;
+        u8 unknown;
     };
+
     class UseCheat
     {
       public :
@@ -479,26 +479,6 @@ namespace BW
         u8 always0x12;
         u32 flags;
     };
-
-    class CancelTrain
-    {
-      public :
-        CancelTrain(u8 slot);
-      private :
-        u8 always0x20;
-        u8 slot;
-        u8 unknown;
-    };
-
-    class CancelTrainLast
-    {
-      public :
-        CancelTrainLast();
-      private :
-        u8 always0x20;
-        u8 always0xFE;
-        u8 unknown;
-    };
-  }
-};
+  } // namespace orders
+}; // namespace BW
 #pragma pack()

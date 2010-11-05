@@ -43,9 +43,9 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Upgrade)
       success = upgrade(UpgradeType(command.extra));
     else if (command.type == UnitCommandTypes::Set_Rally_Position)
-      success = setRallyPosition(Position(command.x,command.y));
+      success = setRallyPoint(Position(command.x,command.y));
     else if (command.type == UnitCommandTypes::Set_Rally_Unit)
-      success = setRallyUnit(command.target);
+      success = setRallyPoint(command.target);
     else if (command.type == UnitCommandTypes::Move)
       success = move(Position(command.x,command.y));
     else if (command.type == UnitCommandTypes::Patrol)
@@ -293,7 +293,7 @@ namespace BWAPI
     return true;
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
-  bool UnitImpl::setRallyPosition(Position target)
+  bool UnitImpl::setRallyPoint(Position target)
   {
     if ( !canIssueCommand( UnitCommand::setRallyPosition(this,target)) )
       return false;
@@ -305,7 +305,7 @@ namespace BWAPI
     return true;
   }
   //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
-  bool UnitImpl::setRallyUnit(Unit* target)
+  bool UnitImpl::setRallyPoint(Unit* target)
   {
     if ( !canIssueCommand( UnitCommand::setRallyUnit(this,target)) )
       return false;
@@ -667,25 +667,13 @@ namespace BWAPI
     return true;
   }
   //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
-  bool UnitImpl::cancelTrain()
-  {
-    if ( !canIssueCommand( UnitCommand::cancelTrain(this)) )
-      return false;
-
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::CancelTrainLast(), sizeof(BW::Orders::CancelTrainLast));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
-    return true;
-  }
-  //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
   bool UnitImpl::cancelTrain(int slot)
   {
-    if ( !canIssueCommand( UnitCommand::cancelTrain(this,slot)) )
+    if ( !canIssueCommand( UnitCommand::cancelTrain(this,slot) ) )
       return false;
 
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::CancelTrain((u8)slot), sizeof(BW::Orders::CancelTrain));
+    QueueGameCommand((PBYTE)&BW::Orders::CancelTrain((s8)slot), sizeof(BW::Orders::CancelTrain));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelTrain(this,slot)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;

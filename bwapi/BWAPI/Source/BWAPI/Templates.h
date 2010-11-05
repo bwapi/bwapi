@@ -627,7 +627,7 @@ namespace BWAPI
       if ( UnitCommandTypes::Cancel_Train == ct && !thisUnit->isTraining() )
         return false;
 
-      if ( UnitCommandTypes::Cancel_Train_Slot == ct && (!thisUnit->isTraining() || thisUnit->getTrainingQueue().size() <= (unsigned int)c.extra) )
+      if ( UnitCommandTypes::Cancel_Train_Slot == ct && (!thisUnit->isTraining() || (thisUnit->getTrainingQueue().size() <= (unsigned int)c.extra && c.extra >= 0)) )
         return false;
 
       // cancel morph

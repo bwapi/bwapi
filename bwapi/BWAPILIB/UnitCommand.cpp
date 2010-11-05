@@ -284,18 +284,11 @@ namespace BWAPI
     c.type = UnitCommandTypes::Cancel_Addon;
     return c;
   }
-  UnitCommand UnitCommand::cancelTrain(Unit* unit)
-  {
-    UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Cancel_Train;
-    return c;
-  }
   UnitCommand UnitCommand::cancelTrain(Unit* unit, int slot)
   {
     UnitCommand c;
     c.unit = unit;
-    c.type = UnitCommandTypes::Cancel_Train_Slot;
+    c.type = slot >= 0 ? UnitCommandTypes::Cancel_Train_Slot : UnitCommandTypes::Cancel_Train;
     c.extra = slot;
     return c;
   }

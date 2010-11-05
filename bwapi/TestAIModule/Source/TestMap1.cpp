@@ -52,11 +52,7 @@ void TestMap1::onStart()
   }
   BWAssert(Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false);
   BWAssert(Broodwar->isFlagEnabled(Flag::UserInput)==false);
-  BWAssert(Broodwar->getScreenX()==0);
-  BWAssert(Broodwar->getScreenY()==0);
   BWAssert(Broodwar->getScreenPosition()==Positions::Unknown);
-  BWAssert(Broodwar->getMouseX()==0);
-  BWAssert(Broodwar->getMouseY()==0);
   BWAssert(Broodwar->getMousePosition()==Positions::Unknown);
   BWAssert(Broodwar->isInGame()==true);
   BWAssert(Broodwar->isMultiplayer()==false);

@@ -83,16 +83,12 @@ namespace BWAPI
       virtual int      getFPS();
       virtual double   getAverageFPS();
 
-      virtual int      getMouseX();
-      virtual int      getMouseY();
       virtual Position getMousePosition();
       virtual bool     getMouseState(MouseButton button);
       virtual bool     getMouseState(int button);
       virtual bool     getKeyState(Key key);
       bool             getKeyState(int key);
 
-      virtual int      getScreenX();
-      virtual int      getScreenY();
       virtual Position getScreenPosition();
       virtual void     setScreenPosition(int x, int y);
       virtual void     setScreenPosition(BWAPI::Position p);

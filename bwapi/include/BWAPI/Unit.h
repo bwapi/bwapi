@@ -242,12 +242,12 @@ namespace BWAPI
 
       /** Returns the position the building is rallied to. If the building does not produce units,
        * Positions::None is returned.
-       * \see Unit::setRallyPosition, Unit::setRallyUnit, Unit::getRallyUnit. */
+       * \see Unit::setRallyPoint, Unit::getRallyUnit. */
       virtual Position getRallyPosition() const = 0;
 
       /** Returns the unit the building is rallied to. If the building is not rallied to any unit, NULL is
        * returned.
-       * \see Unit::setRallyPosition, Unit::setRallyUnit, Unit::getRallyPosition. */
+       * \see Unit::setRallyPoint, Unit::getRallyPosition. */
       virtual Unit* getRallyUnit() const = 0;
 
       /** Returns the add-on of this unit, or NULL if the unit doesn't have an add-on. */
@@ -516,12 +516,12 @@ namespace BWAPI
       virtual bool upgrade(UpgradeType upgrade) = 0;
 
       /** Orders the unit to set its rally position to the specified position.
-       * \see Unit::setRallyUnit, Unit::getRallyPosition, Unit::getRallyUnit. */
-      virtual bool setRallyPosition(Position target) = 0;
+       * \see Unit::getRallyPosition, Unit::getRallyUnit. */
+      virtual bool setRallyPoint(Position target) = 0;
 
       /** Orders the unit to set its rally unit to the specified unit.
        * \see Unit::setRallyPosition, Unit::getRallyPosition, Unit::getRallyUnit. */
-      virtual bool setRallyUnit(Unit* target) = 0;
+      virtual bool setRallyPoint(Unit* target) = 0;
 
       /** Orders the unit to move from its current position to the specified position.
        * \see Unit::isMoving.  */
@@ -626,13 +626,9 @@ namespace BWAPI
       /** Orders the unit to stop making the addon. */
       virtual bool cancelAddon() = 0;
 
-      /** Orders the unit to remove the last unit from its training queue.
-       * \see Unit::train, Unit::cancelTrain, Unit::isTraining, Unit::getTrainingQueue. */
-      virtual bool cancelTrain() = 0;
-
       /** Orders the unit to remove the specified unit from its training queue.
        * \see Unit::train, Unit::cancelTrain, Unit::isTraining, Unit::getTrainingQueue. */
-      virtual bool cancelTrain(int slot) = 0;
+      virtual bool cancelTrain(int slot = -2) = 0;
 
       /** Orders the unit to stop morphing.
        * \see Unit::morph, Unit::isMorphing. */
