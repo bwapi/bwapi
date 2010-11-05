@@ -59,12 +59,55 @@ namespace BW
         , alwaysZero(0x0)
     {
     }
-    //----------------------------------- SHIFT SELECT SINGLE CONSTRUCTOR ------------------------------------
-    ShiftSelectSingle::ShiftSelectSingle(BWAPI::UnitImpl* select)
+    //--------------------------------------- SHIFT SELECT CONSTRUCTOR ---------------------------------------
+    SelectAdd::SelectAdd(u8 count, ...)
         : always0x0A(0x0A)
-        , always0x01(0x01)
-        , target(select)
     {
+      u8 finalCount = 0;
+      va_list list;
+      va_start(list, count);
+      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      {
+        BWAPI::UnitImpl *inter = va_arg(list, BWAPI::UnitImpl*);
+        if ( inter != NULL )
+        {
+          targets[finalCount] = UnitTarget(inter);
+          ++finalCount;
+        }
+      }
+      va_end(list);
+      targCount = finalCount;
+      size = 2 + targCount * 2;
+    }
+    SelectAdd::SelectAdd(u8 count, BWAPI::UnitImpl **units)
+        : always0x0A(0x0A)
+    {
+      u8 finalCount = 0;
+      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      {
+        if ( units[i] != NULL )
+        {
+          targets[finalCount] = UnitTarget(units[i]);
+          ++finalCount;
+        }
+      }
+      targCount = finalCount;
+      size = 2 + targCount * 2;
+    }
+    SelectAdd::SelectAdd(u8 count, BW::Unit **units)
+        : always0x0A(0x0A)
+    {
+      u8 finalCount = 0;
+      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      {
+        if ( units[i] != NULL )
+        {
+          targets[finalCount] = UnitTarget(units[i]);
+          ++finalCount;
+        }
+      }
+      targCount = finalCount;
+      size = 2 + targCount * 2;
     }
     //----------------------------------------- SELECT CONSTRUCTOR -------------------------------------------
     Select::Select(u8 count, ...)
@@ -358,24 +401,10 @@ namespace BW
     {
     }
     //--------------------------------------------- CANCEL TRAIN ---------------------------------------------
-    CancelTrain::CancelTrain(u8 slot)
+    CancelTrain::CancelTrain(s8 slot)
         : always0x20(0x20)
         , slot(slot)
         , unknown(0)
-    {
-    }
-    //------------------------------------------- CANCEL TRAIN LAST ------------------------------------------
-    CancelTrainLast::CancelTrainLast()
-        : always0x20(0x20)
-        , always0xFE(0xFE)
-        , unknown(0)
-    {
-    }
-    //----------------------------------------------- SEND TEXT ----------------------------------------------
-    SendText::SendText(u8 playerID, const char* msg)
-      : always0x5C(0x5C)
-      , playerID(playerID)
-      , msg(msg)
     {
     }
     //------------------------------------------------ USE CHEAT ---------------------------------------------

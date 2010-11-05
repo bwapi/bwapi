@@ -196,20 +196,6 @@ namespace BWAPI
   {
     return averageFPS;
   }
-  //---------------------------------------------- GET MOUSE X -----------------------------------------------
-  int GameImpl::getMouseX()
-  {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return 0;
-    return BW::BWDATA_Mouse->x;
-  }
-  //---------------------------------------------- GET MOUSE Y -----------------------------------------------
-  int GameImpl::getMouseY()
-  {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return 0;
-    return BW::BWDATA_Mouse->y;
-  }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition()
   {
@@ -264,20 +250,6 @@ namespace BWAPI
       return false;
 
     return (GetKeyState(key) & 128) > 0;
-  }
-  //---------------------------------------------- GET SCREEN X ----------------------------------------------
-  int GameImpl::getScreenX()
-  {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return 0;
-    return *(BW::BWDATA_ScreenX);
-  }
-  //---------------------------------------------- GET SCREEN Y ----------------------------------------------
-  int GameImpl::getScreenY()
-  {
-    if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      return 0;
-    return *(BW::BWDATA_ScreenY);
   }
   //------------------------------------------- GET SCREEN POSITION ------------------------------------------
   BWAPI::Position GameImpl::getScreenPosition()
@@ -563,7 +535,7 @@ namespace BWAPI
     return startLocations;
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
-  void GameImpl::printf(const char* format, ...)
+  void GameImpl::printf(const char *format, ...)
   {
     if ( noGUI ) return;
     char buffer[MAX_BUFFER];

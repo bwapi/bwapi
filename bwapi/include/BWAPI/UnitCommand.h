@@ -51,8 +51,7 @@ namespace BWAPI
       static UnitCommand haltConstruction(Unit* unit);
       static UnitCommand cancelConstruction(Unit* unit);
       static UnitCommand cancelAddon(Unit* unit);
-      static UnitCommand cancelTrain(Unit* unit);
-      static UnitCommand cancelTrain(Unit* unit, int slot);
+      static UnitCommand cancelTrain(Unit* unit, int slot = -2);
       static UnitCommand cancelMorph(Unit* unit);
       static UnitCommand cancelResearch(Unit* unit);
       static UnitCommand cancelUpgrade(Unit* unit);

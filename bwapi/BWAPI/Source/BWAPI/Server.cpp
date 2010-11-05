@@ -283,8 +283,8 @@ namespace BWAPI
     data->isDebug                = Broodwar->isDebug();
     data->replayFrameCount       = Broodwar->getReplayFrameCount();
     data->averageFPS             = Broodwar->getAverageFPS();
-    data->mouseX                 = Broodwar->getMouseX();
-    data->mouseY                 = Broodwar->getMouseY();
+    data->mouseX                 = Broodwar->getMousePosition().x();
+    data->mouseY                 = Broodwar->getMousePosition().y();
     data->isInGame               = Broodwar->isInGame();
     data->hasLatCom              = Broodwar->isLatComEnabled();
     if (Broodwar->isInGame())
@@ -295,8 +295,8 @@ namespace BWAPI
         data->mouseState[i]   = Broodwar->getMouseState(i);
       for(int i = 0; i < 256; ++i)
         data->keyState[i]     = Broodwar->getKeyState(i);
-      data->screenX           = Broodwar->getScreenX();
-      data->screenY           = Broodwar->getScreenY();
+      data->screenX           = Broodwar->getScreenPosition().x();
+      data->screenY           = Broodwar->getScreenPosition().y();
       data->flags[0]          = Broodwar->isFlagEnabled(0);
       data->flags[1]          = Broodwar->isFlagEnabled(1);
       data->isPaused          = Broodwar->isPaused();

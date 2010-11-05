@@ -160,8 +160,8 @@ namespace BWAPI
       virtual bool morph(UnitType type);
       virtual bool research(TechType tech);
       virtual bool upgrade(UpgradeType upgrade);
-      virtual bool setRallyPosition(Position target);
-      virtual bool setRallyUnit(Unit* target);
+      virtual bool setRallyPoint(Position target);
+      virtual bool setRallyPoint(Unit* target);
       virtual bool move(Position target);
       virtual bool patrol(Position target);
       virtual bool holdPosition();
@@ -187,8 +187,7 @@ namespace BWAPI
       virtual bool haltConstruction();
       virtual bool cancelConstruction();
       virtual bool cancelAddon();
-      virtual bool cancelTrain();
-      virtual bool cancelTrain(int slot);
+      virtual bool cancelTrain(int slot = -2);
       virtual bool cancelMorph();
       virtual bool cancelResearch();
       virtual bool cancelUpgrade();

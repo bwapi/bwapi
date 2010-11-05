@@ -334,7 +334,7 @@ namespace BWAPI
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
-          printf("\x06" "ERROR:: Failed to load the AI Module.");
+          printf("%cERROR: Failed to load the AI Module.", 6);
           externalModuleConnected = false;
         }
         else
@@ -348,7 +348,7 @@ namespace BWAPI
           PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
           this->client = newAIModule(this);
           Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-          printf("\x07" "BWAPI: Loaded the AI Module: %s", szDllPath);
+          printf("%cLoaded the AI Module: %s", 7, szDllPath);
           externalModuleConnected = true;
 
           pszModuleName = szDllPath;

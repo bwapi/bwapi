@@ -52,7 +52,7 @@ void RallyTest::start()
   FAILTEST(unit!=NULL);
   FAILTEST(unit->exists());
   FAILTEST(unit->getType().isBuilding());
-  unit->setRallyUnit(rallyUnit);
+  unit->setRallyPoint(rallyUnit);
   FAILTEST(unit->getRallyUnit()==rallyUnit);
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
@@ -78,7 +78,7 @@ void RallyTest::update()
   else if (thisFrame==startFrame+100)
   {
     FAILTEST(unit->getRallyUnit()==rallyUnit);
-    unit->setRallyPosition(rallyPosition);
+    unit->setRallyPoint(rallyPosition);
     FAILTEST(unit->getRallyPosition()==rallyPosition);
     FAILTEST(unit->getRallyUnit()==NULL);
   }
@@ -89,7 +89,7 @@ void RallyTest::update()
   }
   else
   {
-    unit->setRallyUnit(unit);
+    unit->setRallyPoint(unit);
     running=false;
   }
 }
