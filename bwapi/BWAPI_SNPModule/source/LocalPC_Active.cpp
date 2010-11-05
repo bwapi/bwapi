@@ -140,6 +140,7 @@ bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
 
 bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
 {
+  /* Passes pointers from queued receive data to storm */
   if ( addr )
     *addr = NULL;
   if ( data )
@@ -163,38 +164,33 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   *data       = gpRecvQueue->bData;
   *databytes  = gpRecvQueue->dwLength;
   gpRecvQueue = gpRecvQueue->pNext;
-  LogBytes(*data, *databytes, "Received data from %s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]) );
+  LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]), inet_ntoa(*(in_addr*)&gaddrBCSend.sa_data[2]) );
   return true;
 }
 
 bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
 {
-  // pretty sure this is now complete
+  /* Sends data to all listed addresses specified by storm */
   if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsBCSend)
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
   }
 
-  char buffer[LOCL_PKT_SIZE + sizeof(broadcastPkt)];
-  SMemZero(buffer, LOCL_PKT_SIZE + sizeof(broadcastPkt));
+  char buffer[LOCL_PKT_SIZE + sizeof(packet)];
+  SMemZero(buffer, LOCL_PKT_SIZE + sizeof(packet));
 
-  broadcastPkt *pktHead = (broadcastPkt*)buffer;
-  char         *pktData = buffer + sizeof(broadcastPkt);
+  packet *pktHead = (packet*)buffer;
+  char   *pktData = buffer + sizeof(packet);
 
-  pktHead->wType      = 3;
-  pktHead->dwProduct  = gdwProduct;
-  pktHead->dwVersion  = gdwVerbyte;
-  pktHead->wSize      = (WORD)(bufLen + sizeof(broadcastPkt));
-
-  /* TODO: Checksum */
-  pktHead->wChecksum  = 0;
+  pktHead->wType = CMD_STORM;
+  pktHead->wSize = (WORD)(bufLen + sizeof(packet));
   memcpy(pktData, buf, bufLen);
 
   for ( int i = addrCount; i > 0; --i )
   {
     sendto(gsBCSend, buffer, pktHead->wSize, 0, addrList[i-1], sizeof(SOCKADDR));
-    LogBytes(buf, bufLen, "Sent data to %s", inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]));
+    LogBytes(buf, bufLen, "SEND %s->%s", inet_ntoa(*(in_addr*)&gaddrBCSend.sa_data[2]), inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]) );
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }
@@ -213,30 +209,24 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
 
   if ( !gpGameAdvert )
   {
-    gpGameAdvert = SMemAlloc(LOCL_PKT_SIZE + sizeof(broadcastPkt), __FILE__, __LINE__, 0);
+    gpGameAdvert = SMemAlloc(LOCL_PKT_SIZE + sizeof(packet), __FILE__, __LINE__, 0);
     if ( !gpGameAdvert )
     {
       SetLastError(ERROR_NOT_ENOUGH_MEMORY);
       return false;
     }
   }
-  memset(gpGameAdvert, 0, LOCL_PKT_SIZE + sizeof(broadcastPkt));
-  broadcastPkt *pktHd   = (broadcastPkt*) gpGameAdvert;
-  char         *pktData = (char*)         gpGameAdvert + 20;
+  memset(gpGameAdvert, 0, LOCL_PKT_SIZE + sizeof(packet));
+  packet *pktHd   = (packet*) gpGameAdvert;
+  char   *pktData = (char*)   gpGameAdvert + sizeof(packet);
 
   // +2 is for the two null terminators
-  pktHd->wSize        = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(broadcastPkt) + 2);
-  pktHd->wType        = 0;
-  pktHd->wReserved    = 0;
-  pktHd->dwProduct    = gdwProduct;
-  pktHd->dwVersion    = gdwVerbyte;
-  pktHd->dwGameState  = dwGameState;
+  pktHd->wSize       = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(packet) + 2);
+  pktHd->wType       = CMD_ADDGAME;
+  pktHd->dwGameState = dwGameState;
   
   SStrCopy(pktData, pszGameName, 128);
   SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
-
-  // @TODO: create checksum
-  pktHd->wChecksum = 0;
 
   BroadcastAdvertisement();
   return true;
@@ -248,10 +238,8 @@ bool __stdcall _spiStopAdvertisingGame()
      Called when you leave a game */
   if ( gpGameAdvert )
   {
-    ((broadcastPkt*)gpGameAdvert)->wType = 1;
-    WORD wPktSize = ((broadcastPkt*)gpGameAdvert)->wSize;
-    // @TODO: recalc checksum
-    ((broadcastPkt*)gpGameAdvert)->wChecksum = 0;
+    ((packet*)gpGameAdvert)->wType = CMD_REMOVEGAME;
+    WORD wPktSize = ((packet*)gpGameAdvert)->wSize;
     sendto(gsBroadcast, (char*)gpGameAdvert, wPktSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += wPktSize;

@@ -5,7 +5,7 @@ void BroadcastAdvertisement(SOCKADDR *to)
 {
   if ( gpGameAdvert )
   {
-    WORD wBCSize = ((broadcastPkt*)gpGameAdvert)->wSize;
+    WORD wBCSize = ((packet*)gpGameAdvert)->wSize;
     if ( to )
       sendto(gsBCSend, (char*)gpGameAdvert, wBCSize, 0, to, sizeof(SOCKADDR));
     else
@@ -17,20 +17,14 @@ void BroadcastAdvertisement(SOCKADDR *to)
 
 void BroadcastGameListRequest()
 {
-  broadcastPkt pkt;
-  pkt.wSize       = sizeof(broadcastPkt);
-  pkt.wType       = 2;
-  pkt.wReserved   = 0;
-  pkt.dwVersion   = gdwVerbyte;
-  pkt.dwProduct   = gdwProduct;
+  packet pkt;
+  pkt.wSize       = sizeof(packet);
+  pkt.wType       = CMD_GETLIST;
   pkt.dwGameState = 0;
 
-  // @TODO: Checksum
-  pkt.wChecksum   = 0;
-
-  sendto(gsBroadcast, (char*)&pkt, sizeof(broadcastPkt), 0, &gaddrBroadcast, sizeof(SOCKADDR));
+  sendto(gsBroadcast, (char*)&pkt, sizeof(packet), 0, &gaddrBroadcast, sizeof(SOCKADDR));
   ++gdwSendCalls;
-  gdwSendBytes += sizeof(broadcastPkt);
+  gdwSendBytes += sizeof(packet);
 }
 
 void CleanGameList(DWORD dwTimeout)
@@ -112,9 +106,9 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   if ( remove )
     return;
 
-  broadcastPkt *pktHd   = (broadcastPkt*)data;
-  char         *pktData = data + sizeof(broadcastPkt);
-  gameStruc    *newGame = (gameStruc*)SMemAlloc(sizeof(gameStruc), __FILE__, __LINE__, 0);
+  packet    *pktHd   = (packet*)data;
+  char      *pktData = data + sizeof(packet);
+  gameStruc *newGame = (gameStruc*)SMemAlloc(sizeof(gameStruc), __FILE__, __LINE__, 0);
   if ( !newGame )
     return;
 
@@ -124,14 +118,14 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   newGame->dwGameState  = pktHd->dwGameState;
   newGame->dwUnk_1C     = 50;
   newGame->dwTimer      = GetTickCount();
-  newGame->dwVersion    = pktHd->dwVersion;
-  newGame->dwProduct    = pktHd->dwProduct;
+  newGame->dwVersion    = gdwVerbyte;
+  newGame->dwProduct    = gdwProduct;
   newGame->pNext        = gpMGameList;
 
   int gamelen           = SStrCopy(newGame->szGameName, pktData, sizeof(newGame->szGameName));
   int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
 
-  newGame->dwExtraBytes = pktHd->wSize - (sizeof(broadcastPkt) + gamelen + statlen + 2);
+  newGame->dwExtraBytes = pktHd->wSize - (sizeof(packet) + gamelen + statlen + 2);
   newGame->pExtra       = SMemAlloc(newGame->dwExtraBytes, __FILE__, __LINE__, 0);
   memcpy(newGame->pExtra, &pktData[gamelen + statlen + 2], newGame->dwExtraBytes);
 
