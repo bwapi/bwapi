@@ -17,9 +17,9 @@ DWORD WINAPI RecvThread(LPVOID)
     int dwSaFromLen = sizeof(SOCKADDR);
 
     // recvfrom
-    char szBuffer[LOCL_PKT_SIZE + sizeof(broadcastPkt)];
-    memset(szBuffer, 0, LOCL_PKT_SIZE + sizeof(broadcastPkt));
-    int rVal = recvfrom(gsBCRecv, szBuffer, LOCL_PKT_SIZE + sizeof(broadcastPkt), 0, &saFrom, &dwSaFromLen);
+    char szBuffer[LOCL_PKT_SIZE + sizeof(packet)];
+    memset(szBuffer, 0, LOCL_PKT_SIZE + sizeof(packet));
+    int rVal = recvfrom(gsBCRecv, szBuffer, LOCL_PKT_SIZE + sizeof(packet), 0, &saFrom, &dwSaFromLen);
     if ( gbWantExit )
       return 0;
 
@@ -35,26 +35,26 @@ DWORD WINAPI RecvThread(LPVOID)
 
     SOCKADDR_IN *from = (SOCKADDR_IN*)&saFrom;
     SMemZero(from->sin_zero, sizeof(from->sin_zero));
-    broadcastPkt *bc  = (broadcastPkt*)&szBuffer;
-    if ( bc->wSize >= sizeof(broadcastPkt) && bc->wSize == rVal ) // @TODO: also match checksum
+    packet *bc  = (packet*)&szBuffer;
+    if ( bc->wSize >= sizeof(packet) && bc->wSize == rVal )
     {
       switch ( bc->wType )
       {
-      case 0: // add/update game
-      case 1: // remove game
+      case CMD_ADDGAME: // add/update game
+      case CMD_REMOVEGAME: // remove game
         // advertise game/response
-        UpdateGameList(from, szBuffer, bc->wType != 0);
+        UpdateGameList(from, szBuffer, bc->wType == CMD_REMOVEGAME);
         break;
-      case 2:
+      case CMD_GETLIST:
         // request list
         BroadcastAdvertisement(&saFrom);
         break;
-      case 3:
+      case CMD_STORM:
         {
           pktq *recvPkt = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
           memcpy(&recvPkt->saFrom, &saFrom, sizeof(SOCKADDR));
-          recvPkt->dwLength = rVal - sizeof(broadcastPkt);
-          memcpy(recvPkt->bData, &szBuffer[sizeof(broadcastPkt)], recvPkt->dwLength);
+          recvPkt->dwLength = rVal - sizeof(packet);
+          memcpy(recvPkt->bData, &szBuffer[sizeof(packet)], recvPkt->dwLength);
           recvPkt->pNext = 0;
 
           pktq **p = &gpRecvQueue;

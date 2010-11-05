@@ -10,23 +10,19 @@ DWORD WINAPI RecvThread(LPVOID);
 #ifndef _PKT
 #define _PKT
 
-struct broadcastPkt
+struct packet
 {
-  WORD  wChecksum;
-  WORD  wSize;
-  WORD  wType;
-  WORD  wReserved;
-  DWORD dwProduct;
-  DWORD dwVersion;
+  WORD wType;
+  WORD wSize;
   DWORD dwGameState;
 };
 
 struct pktq
 {
-  SOCKADDR      saFrom;
-  char          bData[LOCL_PKT_SIZE];
-  DWORD         dwLength;
-  pktq          *pNext;
+  SOCKADDR saFrom;
+  char     bData[LOCL_PKT_SIZE];
+  DWORD    dwLength;
+  pktq     *pNext;
 };
 
 #endif
