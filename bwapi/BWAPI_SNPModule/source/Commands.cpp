@@ -3,7 +3,7 @@
 
 namespace LUDP
 {
-  void BroadcastAdvertisement(SOCKADDR *to)
+  void BroadcastAdvertisement(SOCKADDR_IN *to)
   {
     EnterCriticalSection(&gCrit);
     if ( gpGameAdvert )

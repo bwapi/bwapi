@@ -89,7 +89,7 @@ namespace LUDP
     return true;
   }
 
-  bool __stdcall spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
+  bool __stdcall spiReceiveFrom(SOCKADDR_IN **addr, char **data, DWORD *databytes)
   {
     /* Passes pointers from queued receive data to storm */
     if ( !addr || !data || !databytes || !gsSend )
@@ -110,16 +110,16 @@ namespace LUDP
       return false;
     }
 
-    *addr       = (SOCKADDR*)&gpRecvQueue->saFrom;
+    *addr       = (SOCKADDR_IN*)&gpRecvQueue->saFrom;
     *data       = (char*)gpRecvQueue->bData;
     *databytes  = gpRecvQueue->dwLength;
     gpRecvQueue = gpRecvQueue->pNext;
     LeaveCriticalSection(&gCrit);
-    LogBytes(*data, *databytes, "RECEIVE %s->%s", ip((*addr)->sa_data), gszThisIP );
+    LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa((*addr)->sin_addr), gszThisIP );
     return true;
   }
 
-  bool __stdcall spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
+  bool __stdcall spiSendTo(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen)
   {
     /* Sends data to all listed addresses specified by storm */
     if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LUDP_PKT_SIZE || !gsSend)

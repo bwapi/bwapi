@@ -15,13 +15,13 @@ namespace LUDP
     while (1)
     {
       // create receiving sockaddr
-      SOCKADDR saFrom;
+      SOCKADDR_IN saFrom;
       int dwSaFromLen = sizeof(SOCKADDR);
 
       // recvfrom
       char szBuffer[LUDP_PKT_SIZE + sizeof(packet)];
       memset(szBuffer, 0, LUDP_PKT_SIZE + sizeof(packet));
-      int rVal = recvfrom(gsRecv, szBuffer, LUDP_PKT_SIZE + sizeof(packet), 0, &saFrom, &dwSaFromLen);
+      int rVal = recvfrom(gsRecv, szBuffer, LUDP_PKT_SIZE + sizeof(packet), 0, (SOCKADDR*)&saFrom, &dwSaFromLen);
       if ( gbWantExit )
         return 0;
 
@@ -35,8 +35,7 @@ namespace LUDP
       ++gdwRecvCalls;
       gdwRecvBytes += rVal;
 
-      SOCKADDR_IN *from = (SOCKADDR_IN*)&saFrom;
-      SMemZero(from->sin_zero, sizeof(from->sin_zero));
+      SMemZero(saFrom.sin_zero, sizeof(saFrom.sin_zero));
       packet *bc  = (packet*)&szBuffer;
       if ( bc->wSize >= sizeof(packet) && bc->wSize == rVal )
       {
@@ -45,7 +44,7 @@ namespace LUDP
         case CMD_ADDGAME: // add/update game
         case CMD_REMOVEGAME: // remove game
           // advertise game/response
-          UpdateGameList(from, szBuffer, bc->wType == CMD_REMOVEGAME);
+          UpdateGameList(&saFrom, szBuffer, bc->wType == CMD_REMOVEGAME);
           break;
         case CMD_GETLIST:
           // request list
@@ -53,7 +52,7 @@ namespace LUDP
           break;
         case CMD_STORM:
           {
-            pktq *recvPkt        = (pktq*)SMAlloc(sizeof(pktq));
+            pktq *recvPkt = (pktq*)SMAlloc(sizeof(pktq));
             if ( !recvPkt )
               Error(ERROR_NOT_ENOUGH_MEMORY, "Recv Allocation error");
 

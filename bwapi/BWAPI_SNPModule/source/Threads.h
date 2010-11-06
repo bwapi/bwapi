@@ -21,10 +21,10 @@ namespace LUDP
 
   struct pktq
   {
-    SOCKADDR saFrom;
-    char     bData[LUDP_PKT_SIZE];
-    DWORD    dwLength;
-    pktq     *pNext;
+    SOCKADDR_IN saFrom;
+    char        bData[LUDP_PKT_SIZE];
+    DWORD       dwLength;
+    pktq        *pNext;
   };
 
   #endif
