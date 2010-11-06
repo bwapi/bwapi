@@ -6,7 +6,6 @@
 
 bool gbWantExit = false;
 pktq *gpRecvQueue;
-bool gbRecvShit;
 void *gpGameAdvert;
 
 DWORD WINAPI RecvThread(LPVOID)
@@ -60,10 +59,8 @@ DWORD WINAPI RecvThread(LPVOID)
           recvPkt->dwLength    = rVal - sizeof(packet);
           memcpy(recvPkt->bData, &szBuffer[sizeof(packet)], recvPkt->dwLength);
           recvPkt->pNext       = NULL;
-          
-          while ( gbRecvShit ) { Sleep(1); };
+
           EnterCriticalSection(&gCrit);
-          gbRecvShit = true;
           if ( gpRecvQueue )
           {
             pktq *i = gpRecvQueue;
@@ -77,14 +74,8 @@ DWORD WINAPI RecvThread(LPVOID)
           {
             gpRecvQueue = recvPkt;
           }
-          for ( pktq *i = gpRecvQueue; i != NULL; i = i->pNext )
-          {
-            if ( i == NULL )
-              break;
-            LogBytes(i->bData, i->dwLength, "--LISTED IN RECVTHREAD--");
-          }
-          gbRecvShit = false;
           LeaveCriticalSection(&gCrit);
+          SetEvent(ghRecvEvent);
           Log("Should receive something");
           break;
         }

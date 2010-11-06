@@ -157,29 +157,18 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   *data      = NULL;
   *databytes = 0;
 
-  while ( gbRecvShit ) { Sleep(1); };
   EnterCriticalSection(&gCrit);
-  gbRecvShit = true;
   if ( !gpRecvQueue )
   {
-    gbRecvShit = false;
     LeaveCriticalSection(&gCrit);
     SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
     return false;
-  }
-
-  for ( pktq *i = gpRecvQueue; i != NULL; i = i->pNext )
-  {
-    if ( i == NULL )
-      break;
-    LogBytes(i->bData, i->dwLength, "--LISTED IN SPIRECVFRO--");
   }
 
   *addr       = &gpRecvQueue->saFrom;
   *data       = gpRecvQueue->bData;
   *databytes  = gpRecvQueue->dwLength;
   gpRecvQueue = gpRecvQueue->pNext;
-  gbRecvShit = false;
   LeaveCriticalSection(&gCrit);
   LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]), gszThisIP );
   return true;
