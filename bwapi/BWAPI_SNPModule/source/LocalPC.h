@@ -14,6 +14,8 @@ extern DWORD gdwLangId;
 
 extern gameStruc *gpMGameList;
 
+extern CRITICAL_SECTION gCrit;
+
 #define LOCL 0
 #define LOCL_PKT_SIZE 512
 

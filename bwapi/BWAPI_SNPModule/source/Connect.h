@@ -2,11 +2,13 @@
 #include <windows.h>
 #include <Winsock.h>
 
-extern SOCKET   gsBCSend;
-extern SOCKET   gsBCRecv;
-extern SOCKADDR gaddrBCSend;
-extern SOCKADDR gaddrBCRecv;
+extern SOCKET   gsSend;
+extern SOCKET   gsRecv;
+extern SOCKADDR gaddrSend;
+extern SOCKADDR gaddrRecv;
 extern SOCKADDR gaddrBCFrom;
+
+extern char gszThisIP[16];
 
 extern SOCKET   gsBroadcast;
 extern SOCKADDR gaddrBroadcast;

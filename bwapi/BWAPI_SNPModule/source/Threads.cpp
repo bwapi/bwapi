@@ -6,6 +6,7 @@
 
 bool gbWantExit = false;
 pktq *gpRecvQueue;
+bool gbRecvShit;
 void *gpGameAdvert;
 
 DWORD WINAPI RecvThread(LPVOID)
@@ -19,7 +20,7 @@ DWORD WINAPI RecvThread(LPVOID)
     // recvfrom
     char szBuffer[LOCL_PKT_SIZE + sizeof(packet)];
     memset(szBuffer, 0, LOCL_PKT_SIZE + sizeof(packet));
-    int rVal = recvfrom(gsBCRecv, szBuffer, LOCL_PKT_SIZE + sizeof(packet), 0, &saFrom, &dwSaFromLen);
+    int rVal = recvfrom(gsRecv, szBuffer, LOCL_PKT_SIZE + sizeof(packet), 0, &saFrom, &dwSaFromLen);
     if ( gbWantExit )
       return 0;
 
@@ -51,23 +52,40 @@ DWORD WINAPI RecvThread(LPVOID)
         break;
       case CMD_STORM:
         {
-          pktq *recvPkt = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
-          memcpy(&recvPkt->saFrom, &saFrom, sizeof(SOCKADDR));
-          recvPkt->dwLength = rVal - sizeof(packet);
-          memcpy(recvPkt->bData, &szBuffer[sizeof(packet)], recvPkt->dwLength);
-          recvPkt->pNext = 0;
+          pktq *recvPkt        = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
+          if ( !recvPkt )
+            Error(ERROR_NOT_ENOUGH_MEMORY, "Recv Allocation error");
 
-          pktq **p = &gpRecvQueue;
-          pktq *t;
+          memcpy(&recvPkt->saFrom, &saFrom, sizeof(SOCKADDR));
+          recvPkt->dwLength    = rVal - sizeof(packet);
+          memcpy(recvPkt->bData, &szBuffer[sizeof(packet)], recvPkt->dwLength);
+          recvPkt->pNext       = NULL;
+          
+          while ( gbRecvShit ) { Sleep(1); };
+          EnterCriticalSection(&gCrit);
+          gbRecvShit = true;
           if ( gpRecvQueue )
           {
-            do
+            pktq *i = gpRecvQueue;
+            while ( i->pNext )
             {
-              t = *p;
-              p = &t->pNext;
-            } while ( t->pNext );
+              i = i->pNext;
+            }
+            i->pNext = recvPkt;
           }
-          *p = recvPkt;
+          else
+          {
+            gpRecvQueue = recvPkt;
+          }
+          for ( pktq *i = gpRecvQueue; i != NULL; i = i->pNext )
+          {
+            if ( i == NULL )
+              break;
+            LogBytes(i->bData, i->dwLength, "--LISTED IN RECVTHREAD--");
+          }
+          gbRecvShit = false;
+          LeaveCriticalSection(&gCrit);
+          Log("Should receive something");
           break;
         }
       default:

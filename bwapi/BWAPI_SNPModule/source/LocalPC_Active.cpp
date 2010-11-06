@@ -16,14 +16,17 @@ DWORD gdwLangId;
 
 gameStruc *gpMGameList;
 
-
+CRITICAL_SECTION gCrit;
 HANDLE ghRecvEvent;
 
 bool __stdcall _spiDestroy()
 {
   /* Called when unloading the module
      do any cleanup here */
+  _spiStopAdvertisingGame();
   gbWantExit = true;
+
+  /* @TODO: Free memory for game list and receive queue */
   DestroySockets();
   return true;
 }
@@ -35,6 +38,7 @@ bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3,
     memset(pGameResult, 0, sizeof(gameStruc));
   if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
   {
+    EnterCriticalSection(&gCrit);
     gameStruc *g = gpMGameList;
     while ( g && 
             (dwFindIndex && dwFindIndex != g->dwIndex || 
@@ -44,6 +48,7 @@ bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3,
     if ( g )
       memcpy(pGameResult, g, sizeof(gameStruc));
 
+    LeaveCriticalSection(&gCrit);
     if ( pGameResult->dwIndex )
       return true;
   }
@@ -134,6 +139,7 @@ bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
     return false;
   }
   CleanGameList(10000);
+  EnterCriticalSection(&gCrit);
   *ppGameList = gpMGameList;
   return true;
 }
@@ -141,37 +147,48 @@ bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
 bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
 {
   /* Passes pointers from queued receive data to storm */
-  if ( addr )
-    *addr = NULL;
-  if ( data )
-    *data = NULL;
-  if ( databytes )
-    *databytes = 0;
-
-  if ( !addr || !data || !databytes || !gsBCSend )
+  if ( !addr || !data || !databytes || !gsSend )
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
   }
+  
+  *addr      = NULL;
+  *data      = NULL;
+  *databytes = 0;
 
+  while ( gbRecvShit ) { Sleep(1); };
+  EnterCriticalSection(&gCrit);
+  gbRecvShit = true;
   if ( !gpRecvQueue )
   {
+    gbRecvShit = false;
+    LeaveCriticalSection(&gCrit);
     SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
     return false;
+  }
+
+  for ( pktq *i = gpRecvQueue; i != NULL; i = i->pNext )
+  {
+    if ( i == NULL )
+      break;
+    LogBytes(i->bData, i->dwLength, "--LISTED IN SPIRECVFRO--");
   }
 
   *addr       = &gpRecvQueue->saFrom;
   *data       = gpRecvQueue->bData;
   *databytes  = gpRecvQueue->dwLength;
   gpRecvQueue = gpRecvQueue->pNext;
-  LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]), inet_ntoa(*(in_addr*)&gaddrBCSend.sa_data[2]) );
+  gbRecvShit = false;
+  LeaveCriticalSection(&gCrit);
+  LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]), gszThisIP );
   return true;
 }
 
 bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen)
 {
   /* Sends data to all listed addresses specified by storm */
-  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsBCSend)
+  if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LOCL_PKT_SIZE || !gsSend)
   {
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
@@ -189,8 +206,8 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
 
   for ( int i = addrCount; i > 0; --i )
   {
-    sendto(gsBCSend, buffer, pktHead->wSize, 0, addrList[i-1], sizeof(SOCKADDR));
-    LogBytes(buf, bufLen, "SEND %s->%s", inet_ntoa(*(in_addr*)&gaddrBCSend.sa_data[2]), inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]) );
+    sendto(gsSend, buffer, pktHead->wSize, 0, addrList[i-1], sizeof(SOCKADDR));
+    LogBytes(buf, bufLen, "SEND %s->%s", gszThisIP, inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]) );
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }
@@ -207,11 +224,13 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
     return false;
   }
 
+  EnterCriticalSection(&gCrit);
   if ( !gpGameAdvert )
   {
     gpGameAdvert = SMemAlloc(LOCL_PKT_SIZE + sizeof(packet), __FILE__, __LINE__, 0);
     if ( !gpGameAdvert )
     {
+      LeaveCriticalSection(&gCrit);
       SetLastError(ERROR_NOT_ENOUGH_MEMORY);
       return false;
     }
@@ -228,6 +247,7 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
   SStrCopy(pktData, pszGameName, 128);
   SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
 
+  LeaveCriticalSection(&gCrit);
   BroadcastAdvertisement();
   return true;
 }
@@ -236,6 +256,7 @@ bool __stdcall _spiStopAdvertisingGame()
 {
   /* Stops game advertisement
      Called when you leave a game */
+  EnterCriticalSection(&gCrit);
   if ( gpGameAdvert )
   {
     ((packet*)gpGameAdvert)->wType = CMD_REMOVEGAME;
@@ -246,6 +267,7 @@ bool __stdcall _spiStopAdvertisingGame()
     SMemFree(gpGameAdvert, __FILE__, __LINE__, 0);
     gpGameAdvert = NULL;
   }
+  LeaveCriticalSection(&gCrit);
   return true;
 }
 
@@ -259,6 +281,7 @@ bool __stdcall _spiUnlockGameList(gameStruc *pGameList, DWORD *a2)
     return false;
   }
 
+  LeaveCriticalSection(&gCrit);
   if ( a2 )
     *a2 = 500;
 

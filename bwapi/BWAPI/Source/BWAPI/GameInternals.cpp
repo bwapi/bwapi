@@ -1224,11 +1224,6 @@ namespace BWAPI
     {
       this->leaveGame();
     }
-    else if (parsed[0] == "/latency")
-    {
-      printf("latency: %d", getLatency());
-      printf("New latency?: %u frames; %ums", getLatencyFrames(), getLatencyTime());
-    }
     else if (parsed[0] == "/speed")
     {
       if (parsed[1] != "")
@@ -1258,6 +1253,11 @@ namespace BWAPI
     {
       restartGame();
     }
+    else if (parsed[0] == "/nogui")
+    {
+      setGUI(noGUI);
+    }
+#ifdef _DEBUG
     else if (parsed[0] == "/jump")
     {
       if ( !this->isMultiplayer() )
@@ -1268,11 +1268,11 @@ namespace BWAPI
         *BW::BWDATA_gwNextGameMode  = 4;
       }
     }
-    else if (parsed[0] == "/nogui")
+    else if (parsed[0] == "/latency")
     {
-      setGUI(noGUI);
+      printf("latency: %d", getLatency());
+      printf("New latency?: %u frames; %ums", getLatencyFrames(), getLatencyTime());
     }
-#ifdef _DEBUG
     else if (parsed[0] == "/dlgdebug")
     {
       if ( !myDlg )
