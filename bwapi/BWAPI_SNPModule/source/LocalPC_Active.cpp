@@ -120,6 +120,9 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
 
   gdwProcId = GetCurrentProcessId();
 
+  if ( gdwProcId == 0 )
+    Error(ERROR_INVALID_PARAMETER, "Proc ID is 0");
+
   // Retrieve Starcraft path
   if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, gszInstallPath, MAX_PATH) )
     SStrNCat(gszInstallPath, "\\", MAX_PATH);
@@ -142,7 +145,10 @@ bool __stdcall _spiInitializeProvider(clientInfo *gameClientInfo, userInfo *user
   // Save event and Initialize Sockets
   ghRecvEvent = hEvent;
   if ( !InitializeSockets() )
+  {
+    Error(SErrGetLastError(), "Unable to initialize socket data.");
     return false;
+  }
 
   return true;
 }
@@ -239,6 +245,7 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
     {
       LeaveCriticalSection(&gCrit);
       SetLastError(ERROR_NOT_ENOUGH_MEMORY);
+      Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate game advertisement packet");
       return false;
     }
   }

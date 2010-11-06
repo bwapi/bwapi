@@ -3,18 +3,24 @@
 
 void BroadcastAdvertisement(SOCKADDR *to)
 {
-  //EnterCriticalSection(&gCrit);
+  EnterCriticalSection(&gCrit);
   if ( gpGameAdvert )
   {
     WORD wBCSize = ((packet*)gpGameAdvert)->wSize;
     if ( to )
-      sendto(gsSend, (char*)gpGameAdvert, wBCSize, 0, to, sizeof(SOCKADDR));
+    {
+      if ( sendto(gsSend, (char*)gpGameAdvert, wBCSize, 0, to, sizeof(SOCKADDR)) == SOCKET_ERROR )
+        Error(WSAGetLastError(), "Unable to send game advertisement in response to request");
+    }
     else
-      sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
+    {
+      if ( sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, 0, &gaddrBroadcast, sizeof(SOCKADDR)) == SOCKET_ERROR )
+        Error(WSAGetLastError(), "Unable to broadcast game advertisement");
+    }
     ++gdwSendCalls;
     gdwSendBytes += wBCSize;
   }
-  //LeaveCriticalSection(&gCrit);
+  LeaveCriticalSection(&gCrit);
 }
 
 void BroadcastGameListRequest()
