@@ -14,7 +14,7 @@ DWORD gdwVerbyte;
 DWORD gdwMaxPlayers;
 DWORD gdwLangId;
 
-gameStruc *gpMGameList;
+volatile gameStruc *gpMGameList;
 
 CRITICAL_SECTION gCrit;
 HANDLE ghRecvEvent;
@@ -26,7 +26,25 @@ bool __stdcall _spiDestroy()
   _spiStopAdvertisingGame();
   gbWantExit = true;
 
-  /* @TODO: Free memory for game list and receive queue */
+  EnterCriticalSection(&gCrit);
+  // Free the game list
+  volatile gameStruc *g = gpMGameList;
+  while ( g )
+  {
+    volatile gameStruc *toFree = g;
+    g = g->pNext;
+    SMemFree((void*)toFree, __FILE__, __LINE__, 0);
+  }
+
+  // Free the receive queue
+  volatile pktq *r = gpRecvQueue;
+  while ( r )
+  {
+    volatile pktq *toFree = r;
+    r = r->pNext;
+    SMemFree((void*)toFree, __FILE__, __LINE__, 0);
+  }
+  LeaveCriticalSection(&gCrit);
   DestroySockets();
   return true;
 }
@@ -39,14 +57,14 @@ bool __stdcall _spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3,
   if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
   {
     EnterCriticalSection(&gCrit);
-    gameStruc *g = gpMGameList;
+    volatile gameStruc *g = gpMGameList;
     while ( g && 
             (dwFindIndex && dwFindIndex != g->dwIndex || 
-             *pszFindGameName && _strcmpi(pszFindGameName, g->szGameName)) )
+             *pszFindGameName && _strcmpi(pszFindGameName, (char*)g->szGameName)) )
       g = g->pNext;
     
     if ( g )
-      memcpy(pGameResult, g, sizeof(gameStruc));
+      memcpy(pGameResult, (void*)g, sizeof(gameStruc));
 
     LeaveCriticalSection(&gCrit);
     if ( pGameResult->dwIndex )
@@ -140,7 +158,7 @@ bool __stdcall _spiLockGameList(int a1, int a2, gameStruc **ppGameList)
   }
   CleanGameList(10000);
   EnterCriticalSection(&gCrit);
-  *ppGameList = gpMGameList;
+  *ppGameList = (gameStruc*)gpMGameList;
   return true;
 }
 
@@ -165,8 +183,8 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
     return false;
   }
 
-  *addr       = &gpRecvQueue->saFrom;
-  *data       = gpRecvQueue->bData;
+  *addr       = (SOCKADDR*)&gpRecvQueue->saFrom;
+  *data       = (char*)gpRecvQueue->bData;
   *databytes  = gpRecvQueue->dwLength;
   gpRecvQueue = gpRecvQueue->pNext;
   LeaveCriticalSection(&gCrit);
@@ -224,7 +242,7 @@ bool __stdcall _spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePa
       return false;
     }
   }
-  memset(gpGameAdvert, 0, LOCL_PKT_SIZE + sizeof(packet));
+  memset((void*)gpGameAdvert, 0, LOCL_PKT_SIZE + sizeof(packet));
   packet *pktHd   = (packet*) gpGameAdvert;
   char   *pktData = (char*)   gpGameAdvert + sizeof(packet);
 
@@ -253,7 +271,7 @@ bool __stdcall _spiStopAdvertisingGame()
     sendto(gsBroadcast, (char*)gpGameAdvert, wPktSize, 0, &gaddrBroadcast, sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += wPktSize;
-    SMemFree(gpGameAdvert, __FILE__, __LINE__, 0);
+    SMemFree((void*)gpGameAdvert, __FILE__, __LINE__, 0);
     gpGameAdvert = NULL;
   }
   LeaveCriticalSection(&gCrit);

@@ -2,10 +2,10 @@
 #include "Common.h"
 #include "Threads.h"
 
-DWORD gdwSendCalls;
-DWORD gdwSendBytes;
-DWORD gdwRecvCalls;
-DWORD gdwRecvBytes;
+volatile DWORD gdwSendCalls;
+volatile DWORD gdwSendBytes;
+volatile DWORD gdwRecvCalls;
+volatile DWORD gdwRecvBytes;
 
 char gszThisIP[16];
 

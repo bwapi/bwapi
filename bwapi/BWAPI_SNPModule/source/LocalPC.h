@@ -12,7 +12,7 @@ extern DWORD gdwVerbyte;
 extern DWORD gdwMaxPlayers;
 extern DWORD gdwLangId;
 
-extern gameStruc *gpMGameList;
+extern volatile gameStruc *gpMGameList;
 
 extern HANDLE ghRecvEvent;
 extern CRITICAL_SECTION gCrit;
