@@ -9,7 +9,10 @@
 #define CMD_GETLIST     2
 #define CMD_STORM       3
 
-void BroadcastAdvertisement(SOCKADDR *to = NULL);
-void BroadcastGameListRequest();
-void CleanGameList(DWORD dwTimeout);
-void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove);
+namespace LUDP
+{
+  void BroadcastAdvertisement(SOCKADDR *to = NULL);
+  void BroadcastGameListRequest();
+  void CleanGameList(DWORD dwTimeout);
+  void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove);
+};
