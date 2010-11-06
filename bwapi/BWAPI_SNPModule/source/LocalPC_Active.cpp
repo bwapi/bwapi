@@ -194,7 +194,7 @@ bool __stdcall _spiReceiveFrom(SOCKADDR **addr, char **data, DWORD *databytes)
   *databytes  = gpRecvQueue->dwLength;
   gpRecvQueue = gpRecvQueue->pNext;
   LeaveCriticalSection(&gCrit);
-  LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa( *(in_addr*)&(*addr)->sa_data[2]), gszThisIP );
+  LogBytes(*data, *databytes, "RECEIVE %s->%s", ip((*addr)->sa_data), gszThisIP );
   return true;
 }
 
@@ -220,7 +220,7 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
   for ( int i = addrCount; i > 0; --i )
   {
     sendto(gsSend, buffer, pktHead->wSize, 0, addrList[i-1], sizeof(SOCKADDR));
-    LogBytes(buf, bufLen, "SEND %s->%s", gszThisIP, inet_ntoa(*(in_addr*)&addrList[i-1]->sa_data[2]) );
+    LogBytes(buf, bufLen, "SEND %s->%s", gszThisIP, ip(addrList[i-1]->sa_data) );
     ++gdwSendCalls;
     gdwSendBytes += bufLen;
   }

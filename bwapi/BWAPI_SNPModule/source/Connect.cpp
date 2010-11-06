@@ -34,12 +34,12 @@ bool InitializeSockets()
   gsRecv      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
-  InitAddr(&gaddrRecv,      gdwProcId,         6111);
-  InitAddr(&gaddrSend,      gdwProcId,         6111);
-  InitAddr(&gaddrBCFrom,    gdwProcId,         6111);
-  InitAddr(&gaddrBroadcast, "127.255.255.255", 6111);
+  InitAddr(&gaddrRecv,      gdwProcId,         6112);
+  InitAddr(&gaddrSend,      gdwProcId,         6112);
+  InitAddr(&gaddrBCFrom,    gdwProcId,         6112);
+  InitAddr(&gaddrBroadcast, "127.255.255.255", 6112);
 
-  SStrCopy(gszThisIP, inet_ntoa(*(in_addr*)&gaddrSend.sa_data[2]), 16);
+  SStrCopy(gszThisIP, ip(gaddrSend.sa_data), 16);
 
   // bind the sockets
   if ( bind(gsRecv,      &gaddrRecv,   sizeof(SOCKADDR)) == SOCKET_ERROR )
