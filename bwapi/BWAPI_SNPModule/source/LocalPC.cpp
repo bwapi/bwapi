@@ -3,11 +3,29 @@
 
 namespace COMN
 {
-  bool __stdcall fxn0(int a1, int a2, int a3)
+  bool __stdcall fxn0(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult)
   {
-    // not important right now; possibly a constructor 
-    // since there is a strong possibility of the fxn list being a class
-    i(__FUNCTION__);
+    // This function is complete
+    if ( dwResult )
+      *dwResult = 0;
+    if ( !addr1 || !addr2 || !dwResult )
+    {
+      SErrSetLastError(ERROR_INVALID_PARAMETER);
+      return false;
+    }
+
+    if ( addr1->sin_addr.S_un.S_un_b.s_b1 != addr2->sin_addr.S_un.S_un_b.s_b1 )
+      *dwResult = 5;
+    else if ( addr1->sin_addr.S_un.S_un_b.s_b2 != addr2->sin_addr.S_un.S_un_b.s_b2 )
+      *dwResult = 4;
+    else if ( addr1->sin_addr.S_un.S_un_b.s_b3 != addr2->sin_addr.S_un.S_un_b.s_b3 )
+      *dwResult = 3;
+    else if ( addr1->sin_addr.S_un.S_un_b.s_b4 != addr2->sin_addr.S_un.S_un_b.s_b4 )
+      *dwResult = 2;
+    else if ( addr1->sin_port != addr2->sin_port )
+      *dwResult = 1;
+    else
+      *dwResult = 0;
     return true;
   }
 
@@ -98,7 +116,7 @@ namespace COMN
     return true;
   }
 
-  bool __stdcall spiReceive(SOCKADDR **addr, char **data, DWORD *databytes)
+  bool __stdcall spiReceive(SOCKADDR_IN **addr, char **data, DWORD *databytes)
   {
     // This function is complete
     if ( addr )

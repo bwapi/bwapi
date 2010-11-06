@@ -11,7 +11,7 @@
 
 namespace LUDP
 {
-  void BroadcastAdvertisement(SOCKADDR *to = NULL);
+  void BroadcastAdvertisement(SOCKADDR_IN *to = NULL);
   void BroadcastGameListRequest();
   void CleanGameList(DWORD dwTimeout);
   void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove);

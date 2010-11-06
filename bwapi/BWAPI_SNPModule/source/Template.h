@@ -8,7 +8,7 @@
 struct netFunctions
 {
   DWORD dwSize;
-  void  *fxn_0;
+  bool  (__stdcall *fxn_0)(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult);
   bool  (__stdcall *spiDestroy)();
   void  *spiFree;
   void  *spiError;
@@ -18,10 +18,10 @@ struct netFunctions
   void  *spiInitializeDevice;
   void  *spiEnumDevices;
   void  *spiLockGameList;
-  bool (__stdcall *spiReceiveFrom)(SOCKADDR **addr, char **data, DWORD *databytes);
-  bool (__stdcall *spiReceive)(SOCKADDR **addr, char **data, DWORD *databytes);
+  bool (__stdcall *spiReceiveFrom)(SOCKADDR_IN **addr, char **data, DWORD *databytes);
+  bool (__stdcall *spiReceive)(SOCKADDR_IN **addr, char **data, DWORD *databytes);
   void  *spiSelectGame;
-  bool (__stdcall *spiSendTo)(DWORD addrCount, sockaddr **addrList, char *buf, DWORD bufLen);
+  bool (__stdcall *spiSendTo)(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen);
   void  *spiSend;
   void  *spiStartAdvertisingLadderGame;
   bool (__stdcall *spiStopAdvertisingGame)();

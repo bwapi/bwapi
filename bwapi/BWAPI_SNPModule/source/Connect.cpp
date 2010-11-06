@@ -6,18 +6,18 @@ namespace LUDP
 {
   char gszThisIP[16];
 
-  SOCKET   gsSend;
-  SOCKET   gsRecv;
-  SOCKADDR gaddrSend;
-  SOCKADDR gaddrRecv;
+  SOCKET      gsSend;
+  SOCKET      gsRecv;
+  SOCKADDR_IN gaddrSend;
+  SOCKADDR_IN gaddrRecv;
 
-  SOCKET   gsBroadcast;
-  SOCKADDR gaddrBroadcast;
-  SOCKADDR gaddrBCFrom;
+  SOCKET      gsBroadcast;
+  SOCKADDR_IN gaddrBroadcast;
+  SOCKADDR_IN gaddrBCFrom;
 
-  int SendData(SOCKET s, const char *buf, int len, const SOCKADDR *to)
+  int SendData(SOCKET s, const char *buf, int len, const SOCKADDR_IN *to)
   {
-    int rval = sendto(s, buf, len, 0, to, sizeof(SOCKADDR));
+    int rval = sendto(s, buf, len, 0, (SOCKADDR*)to, sizeof(SOCKADDR));
     ++gdwSendCalls;
     gdwSendBytes += len;
 
@@ -26,12 +26,12 @@ namespace LUDP
       DWORD dwErr = WSAGetLastError();
       char source[16];
 
-      SOCKADDR name;
+      SOCKADDR_IN name;
       int namelen = sizeof(SOCKADDR);
-      getsockname(gsSend, &name, &namelen);
+      getsockname(gsSend, (SOCKADDR*)&name, &namelen);
 
-      SStrCopy(source, ip(name.sa_data), 16);
-      Error(dwErr, "Unable to send data: %s->%s", source, ip(to->sa_data));
+      SStrCopy(source, inet_ntoa(name.sin_addr), 16);
+      Error(dwErr, "Unable to send data: %s->%s", source, inet_ntoa(to->sin_addr));
     }
     return rval;
   }
@@ -57,14 +57,14 @@ namespace LUDP
     InitAddr(&gaddrBCFrom,    gdwProcId,         6112);
     InitAddr(&gaddrBroadcast, "127.255.255.255", 6112);
 
-    SStrCopy(gszThisIP, ip(gaddrSend.sa_data), 16);
+    SStrCopy(gszThisIP, inet_ntoa(gaddrSend.sin_addr), 16);
 
     // bind the sockets
-    if ( bind(gsRecv,      &gaddrRecv,   sizeof(SOCKADDR)) == SOCKET_ERROR )
+    if ( bind(gsRecv,      (SOCKADDR*)&gaddrRecv,   sizeof(SOCKADDR)) == SOCKET_ERROR )
       Error(WSAGetLastError(), "Unable to bind recv socket.");
-    if ( bind(gsSend,      &gaddrSend,   sizeof(SOCKADDR)) == SOCKET_ERROR )
+    if ( bind(gsSend,      (SOCKADDR*)&gaddrSend,   sizeof(SOCKADDR)) == SOCKET_ERROR )
       Error(WSAGetLastError(), "Unable to bind send socket.");
-    if ( bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR)) == SOCKET_ERROR )
+    if ( bind(gsBroadcast, (SOCKADDR*)&gaddrBCFrom, sizeof(SOCKADDR)) == SOCKET_ERROR )
       Error(WSAGetLastError(), "Unable to bind broadcast socket.");
 
     // begin recv threads here
@@ -105,35 +105,33 @@ namespace LUDP
     return s;
   }
 
-  SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip, WORD wPort)
+  SOCKADDR_IN *InitAddr(SOCKADDR_IN *addr, const char *ip, WORD wPort)
   {
-    sockaddr_in *_addr = (sockaddr_in*)addr;
     memset(addr, 0, sizeof(SOCKADDR));
-    _addr->sin_family           = AF_INET;
-    _addr->sin_port             = htons(wPort);
-    _addr->sin_addr.S_un.S_addr = inet_addr(ip);
+    addr->sin_family           = AF_INET;
+    addr->sin_port             = htons(wPort);
+    addr->sin_addr.S_un.S_addr = inet_addr(ip);
     return addr;
   }
 
-  SOCKADDR *InitAddr(SOCKADDR *addr, DWORD dwSeed, WORD wPort)
+  SOCKADDR_IN *InitAddr(SOCKADDR_IN *addr, DWORD dwSeed, WORD wPort)
   {
-    sockaddr_in *_addr = (sockaddr_in*)addr;
     memset(addr, 0, sizeof(SOCKADDR));
-    _addr->sin_family                 = AF_INET;
-    _addr->sin_port                   = htons(wPort);
-    _addr->sin_addr.S_un.S_un_b.s_b1  = 127;
-    _addr->sin_addr.S_un.S_un_b.s_b2  = (dwSeed >> 16) & 0xFF;
-    _addr->sin_addr.S_un.S_un_b.s_b3  = (dwSeed >> 8)  & 0xFF;
-    _addr->sin_addr.S_un.S_un_b.s_b4  = dwSeed & 0xFF;
-    if ( _addr->sin_addr.S_un.S_un_b.s_b4 == 0 )
+    addr->sin_family                 = AF_INET;
+    addr->sin_port                   = htons(wPort);
+    addr->sin_addr.S_un.S_un_b.s_b1  = 127;
+    addr->sin_addr.S_un.S_un_b.s_b2  = (dwSeed >> 16) & 0xFF;
+    addr->sin_addr.S_un.S_un_b.s_b3  = (dwSeed >> 8)  & 0xFF;
+    addr->sin_addr.S_un.S_un_b.s_b4  = dwSeed & 0xFF;
+    if ( addr->sin_addr.S_un.S_un_b.s_b4 == 0 )
     {
-      _addr->sin_addr.S_un.S_un_b.s_b4++;
-      _addr->sin_addr.S_un.S_un_b.s_b2 |= 0x40;
+      addr->sin_addr.S_un.S_un_b.s_b4++;
+      addr->sin_addr.S_un.S_un_b.s_b2 |= 0x40;
     }
-    else if ( _addr->sin_addr.S_un.S_un_b.s_b4 == 255 )
+    else if ( addr->sin_addr.S_un.S_un_b.s_b4 == 255 )
     {
-      _addr->sin_addr.S_un.S_un_b.s_b4++;
-      _addr->sin_addr.S_un.S_un_b.s_b2 |= 0x80;
+      addr->sin_addr.S_un.S_un_b.s_b4++;
+      addr->sin_addr.S_un.S_un_b.s_b2 |= 0x80;
     }
     return addr;
   }
