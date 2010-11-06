@@ -15,7 +15,7 @@ netModule networks[] = {
       &_spiSelectGame,          &_spiSendTo,              &_spiSend,                &_spiStartAdvertisingLadderGame,
       &_spiStopAdvertisingGame, &_spiInitialize,          &_spiUnlockGameList,      NULL,
       NULL,                     NULL,                     NULL,                     NULL,
-      NULL,                     NULL,                     NULL }
+      NULL,                     NULL,                     &_spiLeagueGetName }
   }
 };
 

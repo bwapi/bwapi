@@ -9,7 +9,7 @@ void BroadcastAdvertisement(SOCKADDR *to)
     WORD wBCSize = ((packet*)gpGameAdvert)->wSize;
     if ( to )
     {
-      if ( sendto(gsSend, (char*)gpGameAdvert, wBCSize, 0, to, sizeof(SOCKADDR)) == SOCKET_ERROR )
+      if ( sendto(gsSend, (char*)gpGameAdvert, wBCSize, MSG_DONTROUTE, to, sizeof(SOCKADDR)) == SOCKET_ERROR )
       {
         DWORD dwErr = WSAGetLastError();
         SOCKADDR name;
@@ -22,7 +22,7 @@ void BroadcastAdvertisement(SOCKADDR *to)
     }
     else
     {
-      if ( sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, 0, &gaddrBroadcast, sizeof(SOCKADDR)) == SOCKET_ERROR )
+      if ( sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, MSG_DONTROUTE, &gaddrBroadcast, sizeof(SOCKADDR)) == SOCKET_ERROR )
       {
         DWORD dwErr = WSAGetLastError();
         SOCKADDR bcName;
@@ -45,7 +45,7 @@ void BroadcastGameListRequest()
   pkt.wType       = CMD_GETLIST;
   pkt.dwGameState = 0;
 
-  sendto(gsBroadcast, (char*)&pkt, sizeof(packet), 0, &gaddrBroadcast, sizeof(SOCKADDR));
+  sendto(gsBroadcast, (char*)&pkt, sizeof(packet), MSG_DONTROUTE, &gaddrBroadcast, sizeof(SOCKADDR));
   ++gdwSendCalls;
   gdwSendBytes += sizeof(packet);
   LeaveCriticalSection(&gCrit);
@@ -134,7 +134,7 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   {
     packet    *pktHd   = (packet*)data;
     char      *pktData = data + sizeof(packet);
-    gameStruc *newGame = (gameStruc*)SMemAlloc(sizeof(gameStruc), __FILE__, __LINE__, 0);
+    gameStruc *newGame = (gameStruc*)SMAlloc(sizeof(gameStruc));
     if ( !newGame )
       Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate memory for game list.");
 
@@ -152,7 +152,7 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
     int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
 
     newGame->dwExtraBytes = pktHd->wSize - (sizeof(packet) + gamelen + statlen + 2);
-    newGame->pExtra       = SMemAlloc(newGame->dwExtraBytes, __FILE__, __LINE__, 0);
+    newGame->pExtra       = SMAlloc(newGame->dwExtraBytes);
     memcpy(newGame->pExtra, &pktData[gamelen + statlen + 2], newGame->dwExtraBytes);
 
     gpMGameList           = newGame;

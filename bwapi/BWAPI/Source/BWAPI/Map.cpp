@@ -245,7 +245,7 @@ namespace BWAPI
     DWORD dwFileSize = SFileGetFileSize(hFile, 0);
 
     // Allocate memory
-    void *pBuffer = SMemAlloc(dwFileSize, __FILE__, __LINE__, 0);
+    void *pBuffer = SMAlloc(dwFileSize);
     if ( !pBuffer )
     {
       SFileCloseFile(hFile);

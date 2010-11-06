@@ -1321,7 +1321,7 @@ namespace BWAPI
       HWND hWnd = SDrawGetFrameWindow(NULL);
       MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
 
-      void *newBuf = SMemAlloc(1024 * 768, __FILE__, __LINE__, 0);
+      void *newBuf = SMAlloc(1024 * 768);
       void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
       
       SMemCopy(newBuf, oldBuf, BW::BWDATA_GameScreenBuffer->wid * BW::BWDATA_GameScreenBuffer->ht);

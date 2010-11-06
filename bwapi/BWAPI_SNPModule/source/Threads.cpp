@@ -51,7 +51,7 @@ DWORD WINAPI RecvThread(LPVOID)
         break;
       case CMD_STORM:
         {
-          pktq *recvPkt        = (pktq*)SMemAlloc(sizeof(pktq), __FILE__, __LINE__, 0);
+          pktq *recvPkt        = (pktq*)SMAlloc(sizeof(pktq));
           if ( !recvPkt )
             Error(ERROR_NOT_ENOUGH_MEMORY, "Recv Allocation error");
 

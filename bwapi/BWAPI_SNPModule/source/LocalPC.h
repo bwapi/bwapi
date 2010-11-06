@@ -40,4 +40,5 @@ bool __stdcall _spiStopAdvertisingGame();
 bool __stdcall _spiInitialize();
 bool __stdcall _spiUnlockGameList(gameStruc *pGameList, DWORD *a2);
 
+bool __stdcall _spiLeagueGetName(char *pszDest, DWORD dwSize);
 
