@@ -15,11 +15,6 @@ namespace LUDP
   extern SOCKET   gsBroadcast;
   extern SOCKADDR gaddrBroadcast;
 
-  extern volatile DWORD gdwSendCalls;
-  extern volatile DWORD gdwSendBytes;
-  extern volatile DWORD gdwRecvCalls;
-  extern volatile DWORD gdwRecvBytes;
-
   int SendData(SOCKET s, const char *buf, int len, const SOCKADDR *to);
 
   SOCKET   MakeUDPSocket();

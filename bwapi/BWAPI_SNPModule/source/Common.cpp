@@ -5,7 +5,15 @@ char gszConfigPath[MAX_PATH];
 char gszLogPath[MAX_PATH];
 
 CRITICAL_SECTION gCrit;
-DWORD gdwProcId;
+DWORD  gdwProcId;
+HANDLE ghRecvEvent;
+
+volatile gameStruc *gpMGameList;
+
+volatile DWORD gdwSendCalls;
+volatile DWORD gdwSendBytes;
+volatile DWORD gdwRecvCalls;
+volatile DWORD gdwRecvBytes;
 
 void Error(DWORD dwErrCode, const char *format, ...)
 {

@@ -1,11 +1,12 @@
 #include "LocalPC.h"
 #include "Connect.h"
 
-namespace LUDP
+namespace COMN
 {
   bool __stdcall fxn0(int a1, int a2, int a3)
   {
-    // not important right now
+    // not important right now; possibly a constructor 
+    // since there is a strong possibility of the fxn list being a class
     i(__FUNCTION__);
     return true;
   }
@@ -15,7 +16,7 @@ namespace LUDP
     // This function is complete
     if ( a1 && a2 )
     {
-      SMemFree(a1, __FILE__, __LINE__, 0);
+      SMFree(a1);
       return true;
     }
     else
@@ -30,6 +31,58 @@ namespace LUDP
     // This function is complete
     SetLastError(ERROR_INVALID_PARAMETER);
     return false;
+  }
+
+  bool __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult)
+  {
+    // Finds the game struct that matches a name or index and returns it in pGameResult
+    if ( pGameResult )
+      memset(pGameResult, 0, sizeof(gameStruc));
+    if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
+    {
+      EnterCriticalSection(&gCrit);
+      volatile gameStruc *g = gpMGameList;
+      while ( g && 
+              (dwFindIndex && dwFindIndex != g->dwIndex || 
+               *pszFindGameName && _strcmpi(pszFindGameName, (char*)g->szGameName)) )
+        g = g->pNext;
+      
+      if ( g )
+        memcpy(pGameResult, (void*)g, sizeof(gameStruc));
+
+      LeaveCriticalSection(&gCrit);
+      if ( pGameResult->dwIndex )
+        return true;
+    }
+    else
+    {
+      SetLastError(ERROR_INVALID_PARAMETER);
+      return false;
+    }
+    SetLastError(STORM_ERROR_GAME_NOT_FOUND);
+    return false;
+  }
+
+  bool __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
+  {
+    // Returns performance data in dwResult
+    switch ( dwType )
+    {
+    case 12:    // Total number of calls made to sendto
+      *dwResult = gdwSendCalls;
+      return true;
+    case 13:    // Total number of calls made to recvfrom
+      *dwResult = gdwRecvCalls;
+      return true;
+    case 14:    // Total number of bytes sent using sendto
+      *dwResult = gdwSendBytes;
+      return true;
+    case 15:    // Total number of bytes received using recvfrom
+      *dwResult = gdwRecvBytes;
+      return true;
+    default:
+      return false;
+    }
   }
 
   bool __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)

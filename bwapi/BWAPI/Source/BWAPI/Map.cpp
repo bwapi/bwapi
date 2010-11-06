@@ -261,7 +261,7 @@ namespace BWAPI
     sha1::toHexString(hash, hexstring);
 
     // Free memory and return
-    SMemFree(pBuffer, __FILE__, __LINE__, 0);
+    SMFree(pBuffer);
     SFileCloseFile(hFile);
     return string(hexstring);
   }
