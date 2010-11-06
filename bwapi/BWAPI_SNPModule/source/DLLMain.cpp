@@ -6,16 +6,36 @@
 #include "Template.h"
 
 netModule networks[] = {
-  { "Local PC", 'LOCL', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC.",
-    { sizeof(caps), 0x20000003, LOCL_PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
+  { "Local PC", 'LUDP', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC via winsock UDP.",
+    { sizeof(caps), 0x20000003, LUDP_PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
     { sizeof(netFunctions),
-      &fxn0,                    &_spiDestroy,             &_spiFree,                &_spiError,
-      &_spiGetGameInfo,         &_spiGetPerformanceData,  &_spiInitializeProvider,  &_spiInitializeDevice,
-      &_spiEnumDevices,         &_spiLockGameList,        &_spiReceiveFrom,         &_spiReceive,
-      &_spiSelectGame,          &_spiSendTo,              &_spiSend,                &_spiStartAdvertisingLadderGame,
-      &_spiStopAdvertisingGame, &_spiInitialize,          &_spiUnlockGameList,      NULL,
-      NULL,                     NULL,                     NULL,                     NULL,
-      NULL,                     NULL,                     &_spiLeagueGetName }
+      &LUDP::fxn0,
+      &LUDP::spiDestroy,
+      &LUDP::spiFree,
+      &LUDP::spiError,
+      &LUDP::spiGetGameInfo,
+      &LUDP::spiGetPerformanceData,
+      &LUDP::spiInitializeProvider,
+      &LUDP::spiInitializeDevice,
+      &LUDP::spiEnumDevices,
+      &LUDP::spiLockGameList,
+      &LUDP::spiReceiveFrom,
+      &LUDP::spiReceive,
+      &LUDP::spiSelectGame,
+      &LUDP::spiSendTo,
+      &LUDP::spiSend,
+      &LUDP::spiStartAdvertisingLadderGame,
+      &LUDP::spiStopAdvertisingGame,
+      &LUDP::spiInitialize,
+      &LUDP::spiUnlockGameList,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      &LUDP::spiLeagueGetName }
   }
 };
 
@@ -25,11 +45,11 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName
   {
     switch (dwIndex)
     {
-    case LOCL:
-      *dwNetworkCode          = networks[LOCL].dwIdentifier;
-      *ppszNetworkName        = networks[LOCL].pszName;
-      *ppszNetworkDescription = networks[LOCL].pszDescription;
-      *ppCaps                 = &networks[LOCL].Caps;
+    case LUDP_ID:
+      *dwNetworkCode          =  networks[LUDP_ID].dwIdentifier;
+      *ppszNetworkName        =  networks[LUDP_ID].pszName;
+      *ppszNetworkDescription =  networks[LUDP_ID].pszDescription;
+      *ppCaps                 = &networks[LUDP_ID].Caps;
       return TRUE;
     default:
       return FALSE;
@@ -44,8 +64,8 @@ BOOL WINAPI SnpBind(DWORD dwIndex, netFunctions **ppFxns)
   {
     switch (dwIndex)
     {
-    case LOCL:
-      *ppFxns = &networks[LOCL].NetFxns;
+    case LUDP_ID:
+      *ppFxns = &networks[LUDP_ID].NetFxns;
       return TRUE;
     default:
       return FALSE;
@@ -60,6 +80,26 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
   {
   case DLL_PROCESS_ATTACH:
     InitializeCriticalSection(&gCrit);
+
+    gdwProcId = GetCurrentProcessId();
+    if ( gdwProcId == 0 )
+      Error(ERROR_INVALID_PARAMETER, "Proc ID is 0");
+
+    // Retrieve Starcraft path
+    if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, gszInstallPath, MAX_PATH) )
+      SStrNCat(gszInstallPath, "\\", MAX_PATH);
+
+    // Retrieve config path
+    SStrCopy(gszConfigPath, gszInstallPath, MAX_PATH);
+    SStrNCat(gszConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
+
+    // Retrieve log path
+    GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", gszLogPath, MAX_PATH, gszConfigPath);
+    SStrNCat(gszLogPath, "\\SNPModule_", MAX_PATH);
+
+    char tBuf[16];
+    SStrNCat(gszLogPath, itoa(gdwProcId, tBuf, 10), MAX_PATH);
+    SStrNCat(gszLogPath, ".log", MAX_PATH);
     break;
   case DLL_PROCESS_DETACH:
     DeleteCriticalSection(&gCrit);

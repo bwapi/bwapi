@@ -4,6 +4,9 @@ char gszInstallPath[MAX_PATH];
 char gszConfigPath[MAX_PATH];
 char gszLogPath[MAX_PATH];
 
+CRITICAL_SECTION gCrit;
+DWORD gdwProcId;
+
 void Error(DWORD dwErrCode, const char *format, ...)
 {
   char szBuffer[256];
