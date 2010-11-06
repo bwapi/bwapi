@@ -42,15 +42,18 @@ bool InitializeSockets()
   SStrCopy(gszThisIP, inet_ntoa(*(in_addr*)&gaddrSend.sa_data[2]), 16);
 
   // bind the sockets
-  bind(gsRecv,    &gaddrRecv, sizeof(SOCKADDR));
-  bind(gsSend,    &gaddrSend, sizeof(SOCKADDR));
-  bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR));
+  if ( bind(gsRecv,      &gaddrRecv,   sizeof(SOCKADDR)) == SOCKET_ERROR )
+    Error(WSAGetLastError(), "Unable to bind recv socket.");
+  if ( bind(gsSend,      &gaddrSend,   sizeof(SOCKADDR)) == SOCKET_ERROR )
+    Error(WSAGetLastError(), "Unable to bind send socket.");
+  if ( bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR)) == SOCKET_ERROR )
+    Error(WSAGetLastError(), "Unable to bind broadcast socket.");
 
   // begin recv threads here
   HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
-  if ( hRecvThread )
-    SetThreadPriority(hRecvThread, 1);
-
+  if ( !hRecvThread )
+    Error(ERROR_INVALID_HANDLE, "Unable to create the recv thread.");
+  SetThreadPriority(hRecvThread, 1);
   return true;
 }
 
@@ -77,8 +80,10 @@ SOCKET MakeUDPSocket()
   }
 
   DWORD dwTrue = 1;
-  setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD));
-  setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD));
+  if ( setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD)) == SOCKET_ERROR )
+    Error(WSAGetLastError(), "The socket option SO_REUSEADDR could not be set.");
+  if ( setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD)) == SOCKET_ERROR )
+    Error(WSAGetLastError(), "The socket option SO_BROADCAST could not be set.");
   return s;
 }
 
