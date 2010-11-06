@@ -8,6 +8,8 @@
 #include <Util/Gnu.h>
 #include <Util/Foreach.h>
 
+#include "../../svnrev.h"
+
 #include "BW/Offsets.h"
 #include "BW/Sprite.h"
 #include "BW/Image.h"
@@ -414,7 +416,7 @@ void BWAPIError(const char *format, ...)
   va_start(ap, format);
   vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
   va_end(ap);
-  
+
   BWAPI::BroodwarImpl.printf( "\x06" "ERROR: %s", buffer);
 
   char path[MAX_PATH];
@@ -436,14 +438,6 @@ bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
-  /* Retrieve the Starcraft path */
-  if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
-    SStrNCat(szInstallPath, "\\", MAX_PATH);
-
-  /* Create the config path */
-  SStrCopy(szConfigPath, szInstallPath, MAX_PATH);
-  SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
-
   /* Initialize logging options */
   delete Util::Logger::globalLog;
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
@@ -566,11 +560,59 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   switch (ul_reason_for_call)
   {
     case DLL_PROCESS_ATTACH:
-      dwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
-      CTRT_Thread(NULL);
-      BWAPI::BWAPI_init();
-      CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
-      return TRUE;
+      {
+        /* Retrieve the Starcraft path */
+        if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
+          SStrNCat(szInstallPath, "\\", MAX_PATH);
+
+        /* Create the config path */
+        SStrCopy(szConfigPath, szInstallPath, MAX_PATH);
+        SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
+
+        /* Get process count */
+        dwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
+
+        /* Get revision */
+        char szKeyName[128];
+        SStrCopy(szKeyName, "ai_dll_rev", 128);
+        if ( dwProcNum )
+          sprintf(szKeyName, "ai_dll_%d_rev", dwProcNum);
+        DWORD dwRevision = GetPrivateProfileInt("ai", szKeyName, SVN_REV, szConfigPath);
+        if ( dwRevision != SVN_REV )
+        {
+          // revision that ai_dll_# for multiple instances was introduced
+          if ( dwProcNum && dwRevision < 2753 )
+          {
+            char err[256];
+            sprintf(err, "Revision %u is not compatible with multiple instances.\nExpecting revision 2753 (BWAPI Beta 3.1) or greater.", dwRevision);
+            BWAPIError("%s", err);
+            MessageBox(NULL, err, "Error", MB_OK | MB_ICONERROR);
+            return TRUE;
+          }
+#ifdef _DEBUG
+          bool debug = true;
+#else
+          bool debug = false;
+#endif
+          char szRevModule[MAX_PATH];
+          sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", szInstallPath, dwRevision, debug ? "d" : "");
+          HMODULE hLib = LoadLibrary(szRevModule);
+          if ( !hLib )
+          {
+            char err[256];
+            sprintf(err, "Couldn't find revision module \"%s\".", szRevModule);
+            BWAPIError("%s", err);
+            MessageBox(NULL, err, "Error", MB_OK | MB_ICONERROR);
+          }
+        }
+        else
+        {
+          CTRT_Thread(NULL);
+          BWAPI::BWAPI_init();
+          CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
+        }
+        return TRUE;
+      }
   }
   return TRUE;
 }
