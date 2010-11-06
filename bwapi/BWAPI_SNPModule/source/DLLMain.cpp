@@ -59,6 +59,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
   switch(fdwReason)
   {
   case DLL_PROCESS_ATTACH:
+    InitializeCriticalSection(&gCrit);
+    break;
+  case DLL_PROCESS_DETACH:
+    DeleteCriticalSection(&gCrit);
     break;
   default:
     break;

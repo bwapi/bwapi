@@ -28,4 +28,5 @@ struct pktq
 #endif
 
 extern pktq *gpRecvQueue;
+extern bool gbRecvShit;
 extern void *gpGameAdvert;

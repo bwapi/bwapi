@@ -7,10 +7,12 @@ DWORD gdwSendBytes;
 DWORD gdwRecvCalls;
 DWORD gdwRecvBytes;
 
-SOCKET   gsBCSend;
-SOCKET   gsBCRecv;
-SOCKADDR gaddrBCSend;
-SOCKADDR gaddrBCRecv;
+char gszThisIP[16];
+
+SOCKET   gsSend;
+SOCKET   gsRecv;
+SOCKADDR gaddrSend;
+SOCKADDR gaddrRecv;
 
 SOCKET   gsBroadcast;
 SOCKADDR gaddrBroadcast;
@@ -28,18 +30,20 @@ bool InitializeSockets()
   }
 
   // create sockets
-  gsBCSend    = MakeUDPSocket();
-  gsBCRecv    = MakeUDPSocket();
+  gsSend      = MakeUDPSocket();
+  gsRecv      = MakeUDPSocket();
   gsBroadcast = MakeUDPSocket();
 
-  InitAddr(&gaddrBCRecv,    gdwProcId,         6111);
-  InitAddr(&gaddrBCSend,    gdwProcId,         6111);
+  InitAddr(&gaddrRecv,      gdwProcId,         6111);
+  InitAddr(&gaddrSend,      gdwProcId,         6111);
   InitAddr(&gaddrBCFrom,    gdwProcId,         6111);
   InitAddr(&gaddrBroadcast, "127.255.255.255", 6111);
 
+  SStrCopy(gszThisIP, inet_ntoa(*(in_addr*)&gaddrSend.sa_data[2]), 16);
+
   // bind the sockets
-  bind(gsBCRecv,    &gaddrBCRecv, sizeof(SOCKADDR));
-  bind(gsBCSend,    &gaddrBCSend, sizeof(SOCKADDR));
+  bind(gsRecv,    &gaddrRecv, sizeof(SOCKADDR));
+  bind(gsSend,    &gaddrSend, sizeof(SOCKADDR));
   bind(gsBroadcast, &gaddrBCFrom, sizeof(SOCKADDR));
 
   // begin recv threads here
@@ -53,10 +57,10 @@ bool InitializeSockets()
 void DestroySockets()
 {
   // do cleanup stuff
-  if ( gsBCSend )
-    closesocket(gsBCSend);
-  if ( gsBCRecv )
-    closesocket(gsBCRecv);
+  if ( gsSend )
+    closesocket(gsSend);
+  if ( gsRecv )
+    closesocket(gsRecv);
   if ( gsBroadcast )
     closesocket(gsBroadcast);
   WSACleanup();
