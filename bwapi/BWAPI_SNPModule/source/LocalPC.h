@@ -14,6 +14,7 @@ extern DWORD gdwLangId;
 
 extern gameStruc *gpMGameList;
 
+extern HANDLE ghRecvEvent;
 extern CRITICAL_SECTION gCrit;
 
 #define LOCL 0
