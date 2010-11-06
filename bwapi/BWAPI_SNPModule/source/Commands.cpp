@@ -48,8 +48,8 @@ namespace LUDP
         {
           *g = t->pNext;
           if ( t->pExtra )
-            SMemFree(t->pExtra, __FILE__, __LINE__, 0);
-          SMemFree((void*)t, __FILE__, __LINE__, 0);
+            SMFree(t->pExtra);
+          SMFree((void*)t);
         }
       }
     }
@@ -72,7 +72,7 @@ namespace LUDP
           gameStruc *_next = g->pNext;
           _dwIndex         = g->dwIndex;
           if ( g->pExtra )
-            SMemFree(g->pExtra, __FILE__, __LINE__, 0);
+            SMFree(g->pExtra);
           // NOTE: The following lines are actually some kind of single-line destructor/finder
           volatile gameStruc **t = &gpMGameList;
           volatile gameStruc *i;
@@ -86,7 +86,7 @@ namespace LUDP
           if ( *t )
             *t = (*t)->pNext;
 
-          SMemFree((void*)g, __FILE__, __LINE__, 0);
+          SMFree((void*)g);
           // end destructor
           g = _next;
         } // memcmp true

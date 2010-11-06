@@ -339,7 +339,7 @@ void* __stdcall SMemAlloc(int amount, char *logfilename, int logline, int defaul
 
 
 #ifndef SMFree
-#define SMFree(log) SMemFree((loc), __FILE__, __LINE__, 0)
+#define SMFree(loc) SMemFree((loc), __FILE__, __LINE__, 0)
 #endif
 
 BOOL __stdcall SMemFree(void *location, char *logfilename, int logline, char defaultValue);

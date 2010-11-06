@@ -1329,7 +1329,7 @@ namespace BWAPI
       BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
       BW::BWDATA_GameScreenBuffer->wid = 1024;
       BW::BWDATA_GameScreenBuffer->ht = 768;
-      SMemFree(oldBuf, __FILE__, __LINE__, 0);
+      SMFree(oldBuf);
 
       BW::BWDATA_ScreenLayers[5].width = 1024;
       BW::BWDATA_ScreenLayers[5].height = 768 - 80;

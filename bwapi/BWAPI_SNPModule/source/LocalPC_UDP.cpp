@@ -14,9 +14,6 @@ namespace LUDP
   DWORD gdwMaxPlayers;
   DWORD gdwLangId;
 
-  volatile gameStruc *gpMGameList;
-  HANDLE ghRecvEvent;
-
   bool __stdcall spiDestroy()
   {
     /* Called when unloading the module
@@ -31,7 +28,7 @@ namespace LUDP
     {
       volatile gameStruc *toFree = g;
       g = g->pNext;
-      SMemFree((void*)toFree, __FILE__, __LINE__, 0);
+      SMFree((void*)toFree);
     }
 
     // Free the receive queue
@@ -40,63 +37,11 @@ namespace LUDP
     {
       volatile pktq *toFree = r;
       r = r->pNext;
-      SMemFree((void*)toFree, __FILE__, __LINE__, 0);
+      SMFree((void*)toFree);
     }
     LeaveCriticalSection(&gCrit);
     DestroySockets();
     return true;
-  }
-
-  bool __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult)
-  {
-    // Finds the game struct that matches a name or index and returns it in pGameResult
-    if ( pGameResult )
-      memset(pGameResult, 0, sizeof(gameStruc));
-    if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
-    {
-      EnterCriticalSection(&gCrit);
-      volatile gameStruc *g = gpMGameList;
-      while ( g && 
-              (dwFindIndex && dwFindIndex != g->dwIndex || 
-               *pszFindGameName && _strcmpi(pszFindGameName, (char*)g->szGameName)) )
-        g = g->pNext;
-      
-      if ( g )
-        memcpy(pGameResult, (void*)g, sizeof(gameStruc));
-
-      LeaveCriticalSection(&gCrit);
-      if ( pGameResult->dwIndex )
-        return true;
-    }
-    else
-    {
-      SetLastError(ERROR_INVALID_PARAMETER);
-      return false;
-    }
-    SetLastError(STORM_ERROR_GAME_NOT_FOUND);
-    return false;
-  }
-
-  bool __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
-  {
-    // Returns performance data in dwResult
-    switch ( dwType )
-    {
-    case 12:    // Total number of calls made to sendto
-      *dwResult = gdwSendCalls;
-      return true;
-    case 13:    // Total number of calls made to recvfrom
-      *dwResult = gdwRecvCalls;
-      return true;
-    case 14:    // Total number of bytes sent using sendto
-      *dwResult = gdwSendBytes;
-      return true;
-    case 15:    // Total number of bytes received using recvfrom
-      *dwResult = gdwRecvBytes;
-      return true;
-    default:
-      return false;
-    }
   }
 
   bool __stdcall spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
@@ -126,7 +71,6 @@ namespace LUDP
       Error(SErrGetLastError(), "Unable to initialize socket data.");
       return false;
     }
-
     return true;
   }
 
@@ -250,7 +194,7 @@ namespace LUDP
 
       SendData(gsBroadcast, (char*)gpGameAdvert, wPktSize, &gaddrBroadcast);
 
-      SMemFree((void*)gpGameAdvert, __FILE__, __LINE__, 0);
+      SMFree((void*)gpGameAdvert);
       gpGameAdvert = NULL;
     }
     LeaveCriticalSection(&gCrit);

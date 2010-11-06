@@ -128,7 +128,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\source\LocalPC_Active.cpp"
+				RelativePath=".\source\LocalPC_UDP.cpp"
 				>
 			</File>
 			<File

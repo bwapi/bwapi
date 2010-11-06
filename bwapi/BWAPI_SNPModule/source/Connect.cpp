@@ -4,11 +4,6 @@
 
 namespace LUDP
 {
-  volatile DWORD gdwSendCalls;
-  volatile DWORD gdwSendBytes;
-  volatile DWORD gdwRecvCalls;
-  volatile DWORD gdwRecvBytes;
-
   char gszThisIP[16];
 
   SOCKET   gsSend;
