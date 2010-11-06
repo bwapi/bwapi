@@ -218,12 +218,7 @@ bool __stdcall _spiSendTo(DWORD addrCount, sockaddr **addrList, char *buf, DWORD
   memcpy(pktData, buf, bufLen);
 
   for ( int i = addrCount; i > 0; --i )
-  {
-    sendto(gsSend, buffer, pktHead->wSize, MSG_DONTROUTE, addrList[i-1], sizeof(SOCKADDR));
-    LogBytes(buf, bufLen, "SEND %s->%s", gszThisIP, ip(addrList[i-1]->sa_data) );
-    ++gdwSendCalls;
-    gdwSendBytes += bufLen;
-  }
+    SendData(gsSend, buffer, pktHead->wSize, addrList[i-1]);
   return true;
 }
 
@@ -275,9 +270,9 @@ bool __stdcall _spiStopAdvertisingGame()
   {
     ((packet*)gpGameAdvert)->wType = CMD_REMOVEGAME;
     WORD wPktSize = ((packet*)gpGameAdvert)->wSize;
-    sendto(gsBroadcast, (char*)gpGameAdvert, wPktSize, MSG_DONTROUTE, &gaddrBroadcast, sizeof(SOCKADDR));
-    ++gdwSendCalls;
-    gdwSendBytes += wPktSize;
+
+    SendData(gsBroadcast, (char*)gpGameAdvert, wPktSize, &gaddrBroadcast);
+
     SMemFree((void*)gpGameAdvert, __FILE__, __LINE__, 0);
     gpGameAdvert = NULL;
   }

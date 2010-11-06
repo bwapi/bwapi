@@ -18,6 +18,27 @@ SOCKET   gsBroadcast;
 SOCKADDR gaddrBroadcast;
 SOCKADDR gaddrBCFrom;
 
+int SendData(SOCKET s, const char *buf, int len, const SOCKADDR *to)
+{
+  int rval = sendto(s, buf, len, 0, to, sizeof(SOCKADDR));
+  ++gdwSendCalls;
+  gdwSendBytes += len;
+
+  if ( rval == SOCKET_ERROR )
+  {
+    DWORD dwErr = WSAGetLastError();
+    char source[16];
+
+    SOCKADDR name;
+    int namelen = sizeof(SOCKADDR);
+    getsockname(gsSend, &name, &namelen);
+
+    SStrCopy(source, ip(name.sa_data), 16);
+    Error(dwErr, "Unable to send data: %s->%s", source, ip(to->sa_data));
+  }
+  return rval;
+}
+
 bool InitializeSockets()
 {
   // do initialization stuff
@@ -79,7 +100,7 @@ SOCKET MakeUDPSocket()
     return NULL;
   }
 
-  DWORD dwTrue = 1;
+  DWORD dwTrue  = 1;
   if ( setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (const char*)&dwTrue, sizeof(DWORD)) == SOCKET_ERROR )
     Error(WSAGetLastError(), "The socket option SO_REUSEADDR could not be set.");
   if ( setsockopt(s, SOL_SOCKET, SO_BROADCAST, (const char*)&dwTrue, sizeof(DWORD)) == SOCKET_ERROR )

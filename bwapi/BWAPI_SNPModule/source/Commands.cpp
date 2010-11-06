@@ -8,31 +8,9 @@ void BroadcastAdvertisement(SOCKADDR *to)
   {
     WORD wBCSize = ((packet*)gpGameAdvert)->wSize;
     if ( to )
-    {
-      if ( sendto(gsSend, (char*)gpGameAdvert, wBCSize, MSG_DONTROUTE, to, sizeof(SOCKADDR)) == SOCKET_ERROR )
-      {
-        DWORD dwErr = WSAGetLastError();
-        SOCKADDR name;
-        int      namelen = sizeof(SOCKADDR);
-        getsockname(gsSend, &name, &namelen);
-        char from[16];
-        strcpy(from, ip(name.sa_data) );
-        Error(dwErr, "Unable to send game advertisement in response to request %s->%s", from, ip(to->sa_data) );
-      }
-    }
+      SendData(gsSend, (char*)gpGameAdvert, wBCSize, to);
     else
-    {
-      if ( sendto(gsBroadcast, (char*)gpGameAdvert, wBCSize, MSG_DONTROUTE, &gaddrBroadcast, sizeof(SOCKADDR)) == SOCKET_ERROR )
-      {
-        DWORD dwErr = WSAGetLastError();
-        SOCKADDR bcName;
-        int      bcNamelen = sizeof(SOCKADDR);
-        getsockname(gsBroadcast, &bcName, &bcNamelen);
-        Error(dwErr, "Unable to broadcast game advertisement %s->127.255.255.255", ip(gaddrBCFrom.sa_data) );
-      }
-    }
-    ++gdwSendCalls;
-    gdwSendBytes += wBCSize;
+      SendData(gsBroadcast, (char*)gpGameAdvert, wBCSize, &gaddrBroadcast);
   }
   LeaveCriticalSection(&gCrit);
 }
@@ -45,9 +23,7 @@ void BroadcastGameListRequest()
   pkt.wType       = CMD_GETLIST;
   pkt.dwGameState = 0;
 
-  sendto(gsBroadcast, (char*)&pkt, sizeof(packet), MSG_DONTROUTE, &gaddrBroadcast, sizeof(SOCKADDR));
-  ++gdwSendCalls;
-  gdwSendBytes += sizeof(packet);
+  SendData(gsBroadcast, (char*)&pkt, sizeof(packet), &gaddrBroadcast);
   LeaveCriticalSection(&gCrit);
 }
 

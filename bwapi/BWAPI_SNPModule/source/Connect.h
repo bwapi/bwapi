@@ -18,6 +18,8 @@ extern volatile DWORD gdwSendBytes;
 extern volatile DWORD gdwRecvCalls;
 extern volatile DWORD gdwRecvBytes;
 
+int SendData(SOCKET s, const char *buf, int len, const SOCKADDR *to);
+
 SOCKET   MakeUDPSocket();
 SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip = "127.0.0.1", WORD wPort = 6112);
 SOCKADDR *InitAddr(SOCKADDR *addr, DWORD dwSeed, WORD wPort = 6112);
