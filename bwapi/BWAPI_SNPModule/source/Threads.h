@@ -27,5 +27,5 @@ struct pktq
 
 #endif
 
-extern pktq *gpRecvQueue;
-extern void *gpGameAdvert;
+extern volatile pktq *gpRecvQueue;
+extern volatile void *gpGameAdvert;

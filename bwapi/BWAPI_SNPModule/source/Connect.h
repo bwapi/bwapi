@@ -13,10 +13,10 @@ extern char gszThisIP[16];
 extern SOCKET   gsBroadcast;
 extern SOCKADDR gaddrBroadcast;
 
-extern DWORD gdwSendCalls;
-extern DWORD gdwSendBytes;
-extern DWORD gdwRecvCalls;
-extern DWORD gdwRecvBytes;
+extern volatile DWORD gdwSendCalls;
+extern volatile DWORD gdwSendBytes;
+extern volatile DWORD gdwRecvCalls;
+extern volatile DWORD gdwRecvBytes;
 
 SOCKET   MakeUDPSocket();
 SOCKADDR *InitAddr(SOCKADDR *addr, const char *ip = "127.0.0.1", WORD wPort = 6112);

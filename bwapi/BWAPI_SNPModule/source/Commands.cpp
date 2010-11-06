@@ -38,20 +38,20 @@ void CleanGameList(DWORD dwTimeout)
   {
     DWORD dwThisTickCount = GetTickCount();
 
-    gameStruc **g = &gpMGameList;
+    volatile gameStruc **g = &gpMGameList;
     while ( *g )
     {
-      gameStruc *t = *g;
+      volatile gameStruc *t = *g;
       if ( dwThisTickCount - (*g)->dwTimer <= dwTimeout )
       {
-        g = &t->pNext;
+        g = (volatile gameStruc**)&t->pNext;
       }
       else
       {
         *g = t->pNext;
         if ( t->pExtra )
           SMemFree(t->pExtra, __FILE__, __LINE__, 0);
-        SMemFree(t, __FILE__, __LINE__, 0);
+        SMemFree((void*)t, __FILE__, __LINE__, 0);
       }
     }
   }
@@ -66,29 +66,29 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
   // Clear all games owned by the incoming address
   if ( gpMGameList )
   {
-    gameStruc *g = gpMGameList;
+    volatile gameStruc *g = gpMGameList;
     do
     {
-      if ( !memcmp(&g->saHost, from, sizeof(SOCKADDR)) )
+      if ( !memcmp((void*)&g->saHost, from, sizeof(SOCKADDR)) )
       {
         gameStruc *_next = g->pNext;
         _dwIndex         = g->dwIndex;
         if ( g->pExtra )
           SMemFree(g->pExtra, __FILE__, __LINE__, 0);
         // NOTE: The following lines are actually some kind of single-line destructor/finder
-        gameStruc **t = &gpMGameList;
-        gameStruc *i;
+        volatile gameStruc **t = &gpMGameList;
+        volatile gameStruc *i;
         do
         {
           i = *t;
           if ( *t == g )
             break;
-          t = &i->pNext;
+          t = (volatile gameStruc**)&i->pNext;
         } while ( i->pNext );
         if ( *t )
           *t = (*t)->pNext;
 
-        SMemFree(g, __FILE__, __LINE__, 0);
+        SMemFree((void*)g, __FILE__, __LINE__, 0);
         // end destructor
         g = _next;
       } // memcmp true
@@ -122,11 +122,11 @@ void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
 
     newGame->dwIndex      = _dwIndex;
     newGame->dwGameState  = pktHd->dwGameState;
-    newGame->dwUnk_1C     = 50;
+    newGame->dwUnk_1C     = 50; // latency timeout?
     newGame->dwTimer      = GetTickCount();
     newGame->dwVersion    = gdwVerbyte;
     newGame->dwProduct    = gdwProduct;
-    newGame->pNext        = gpMGameList;
+    newGame->pNext        = (gameStruc*)gpMGameList;
 
     int gamelen           = SStrCopy(newGame->szGameName, pktData, sizeof(newGame->szGameName));
     int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));

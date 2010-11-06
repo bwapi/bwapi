@@ -134,7 +134,7 @@ struct battleInfo
   void  *pfnBattleMakeProfileDialog;
   char  *pszProfileStrings;
   void  *pfnBattleDrawProfileInfo;
-  DWORD dwUnk_18;
+  void  *pfnUnk_18;
   DWORD dwUnk_19;
   void  *pfnUnk_20;
   void  *pfnUnk_21;

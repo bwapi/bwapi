@@ -5,8 +5,8 @@
 #include "Commands.h"
 
 bool gbWantExit = false;
-pktq *gpRecvQueue;
-void *gpGameAdvert;
+volatile pktq *gpRecvQueue;
+volatile void *gpGameAdvert;
 
 DWORD WINAPI RecvThread(LPVOID)
 {
@@ -63,7 +63,7 @@ DWORD WINAPI RecvThread(LPVOID)
           EnterCriticalSection(&gCrit);
           if ( gpRecvQueue )
           {
-            pktq *i = gpRecvQueue;
+            volatile pktq *i = gpRecvQueue;
             while ( i->pNext )
             {
               i = i->pNext;
