@@ -74,3 +74,9 @@ bool __stdcall _spiInitialize()
   // This function is complete
   return true;
 }
+
+bool __stdcall _spiLeagueGetName(char *pszDest, DWORD dwSize)
+{
+  // This function is complete
+  return true;
+}

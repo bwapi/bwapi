@@ -330,9 +330,30 @@ BOOL __stdcall SGdiSetPitch(int pitch);
 
 BOOL __stdcall Ordinal393(char *string, int, int);
 
+
+#ifndef SMAlloc
+#define SMAlloc(amount) SMemAlloc((amount), __FILE__, __LINE__, 0)
+#endif
+
 void* __stdcall SMemAlloc(int amount, char *logfilename, int logline, int defaultValue);
 
+
+#ifndef SMFree
+#define SMFree(log) SMemFree((loc), __FILE__, __LINE__, 0)
+#endif
+
 BOOL __stdcall SMemFree(void *location, char *logfilename, int logline, char defaultValue);
+
+#ifndef SLOG_
+#define SLOG_
+
+#define SLOG_EXPRESSION   0
+#define SLOG_FUNCTION     -1
+#define SLOG_OBJECT       -2
+#define SLOG_HANDLE       -3
+#define SLOG_FILE         -4
+
+#endif
 
 BOOL __stdcall SRegLoadData(char *keyname, char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
 BOOL __stdcall SRegLoadString(char *keyname, char *valuename, BYTE flags, char *buffer, size_t buffersize);
