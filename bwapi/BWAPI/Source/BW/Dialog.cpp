@@ -362,7 +362,7 @@ namespace BW
 
     // Retrieve size
     int dwSize = 0;
-    for ( int i = 0; pszString[i] != 0; i++ )
+    for ( int i = 0; pszString[i] != 0; ++i )
     {
       switch ( pszString[i] )
       {
@@ -402,7 +402,7 @@ namespace BW
 
     // Retrieve size
     int dwSize = font->Ymax;
-    for ( int i = 0; pszString[i] != 0; i++ )
+    for ( int i = 0; pszString[i] != 0; ++i )
     {
       switch ( pszString[i] )
       {
@@ -484,7 +484,7 @@ namespace BW
 
       // begin drawing process
       int pos = 0;
-      for ( int i = 0; pos < chr->h * chr->w; i++ )
+      for ( int i = 0; pos < chr->h * chr->w; ++i )
       {
         pos += chr->data[i] >> 3;
         int dstY = chr->y + pos/chr->w;
@@ -978,7 +978,7 @@ namespace BW
         data[width*3 - 2] = 0x2A;
 
         // body
-        for (int i = 3; i < height - 3; i++)
+        for ( int i = 3; i < height - 3; ++i )
         {
           data[width*i] = 0x2A;
           memset(&data[width*i + 1], 0x29, width - 2);
@@ -1016,7 +1016,7 @@ namespace BW
         // Create title bar
         memset(&data[width + 3], 0x2C, width - 6);
         memset(&data[width*2 + 2], 0x2C, width - 4);
-        for (int i = 3; i < 12; i++)
+        for ( int i = 3; i < 12; ++i )
           memset(&data[width*i + 1], 0x2C, width - 2);
         return true;
       }
@@ -1147,7 +1147,8 @@ namespace BW
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
       this->doEvent(14, 11, bIndex);
-      this->u.list.pScrlBar->doEvent(14, 11, bIndex);
+      if ( this->u.list.pScrlBar )
+        this->u.list.pScrlBar->doEvent(14, 11, bIndex);
       return true;
     }
     return false;
@@ -1155,14 +1156,15 @@ namespace BW
 // -------------- SET SELECTED BY VALUE --------------
   bool dialog::setSelectedByValue(DWORD dwValue)
   {
-    if ( this && this->isList() && this->u.list.pdwData)
+    if ( this && this->isList() && this->u.list.pdwData )
     {
-      for (int i = 0; i < this->u.list.bStrs; i++)
+      for ( int i = 0; i < this->u.list.bStrs; ++i )
       {
-        if ( this->u.list.pdwData[i] == dwValue)
+        if ( this->u.list.pdwData[i] == dwValue )
         {
           this->doEvent(14, 11, (WORD)i);
-          this->u.list.pScrlBar->doEvent(14, 11, (WORD)i);
+          if ( this->u.list.pScrlBar )
+            this->u.list.pScrlBar->doEvent(14, 11, (WORD)i);
           return true;
         }
       }
@@ -1170,26 +1172,23 @@ namespace BW
     return false;
   }
 // -------------- SET SELECTED BY STRING -------------
-  bool dialog::setSelectedByString(char *pszString)
+  bool dialog::setSelectedByString(const char *pszString)
   {
     // verify that this is the correct control
-    if ( this && this->isList() )
+    if ( this && this->isList() && this->u.list.ppStrs )
     {
       // Iterate through each entry
-      for (int i = 0; i < this->u.list.bStrs; i++)
+      for ( int i = 0; i < this->u.list.bStrs; ++i )
       {
-        // Verify pointer validity
-        if ( this->u.list.ppStrs && this->u.list.ppStrs[i] )
+        // compare the string to the one we're looking for
+        if ( this->u.list.ppStrs[i] && strcmpi(this->u.list.ppStrs[i], pszString) == 0 )
         {
-          // compare the string to the one we're looking for
-          if ( strcmpi(this->u.list.ppStrs[i], pszString) == 0 )
-          {
-            // set the selected entry
-            this->doEvent(14, 11, (WORD)i);
+          // set the selected entry
+          this->doEvent(14, 11, (WORD)i);
+          if ( this->u.list.pScrlBar )
             this->u.list.pScrlBar->doEvent(14, 11, (WORD)i);
-            return true;
-          }
-        } // pointer validate
+          return true;
+        }
       } // iterator
     }
     return false;
@@ -1223,7 +1222,7 @@ namespace BW
   {
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
-      for ( int i = bIndex; i < this->u.list.bStrs; i++ )
+      for ( int i = bIndex; i < this->u.list.bStrs; ++i )
       {
         dialog *scroll = this->u.list.pScrlBar;
         if ( scroll && scroll->u.scroll.nMax > scroll->u.scroll.nMin )

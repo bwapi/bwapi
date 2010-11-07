@@ -314,9 +314,9 @@ namespace BW
     DWORD getSelectedValue();     // Returns the value of the selected element
     char  *getSelectedString();   // Returns the name of the selected element
 
-    bool  setSelectedIndex(BYTE bIndex);        // Sets the selected index
-    bool  setSelectedByValue(DWORD dwValue);    // Sets the selected index based on the given value
-    bool  setSelectedByString(char *pszString); // Sets the selected index based on its name
+    bool  setSelectedIndex(BYTE bIndex);              // Sets the selected index
+    bool  setSelectedByValue(DWORD dwValue);          // Sets the selected index based on the given value
+    bool  setSelectedByString(const char *pszString); // Sets the selected index based on its name
 
     bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);  // Adds an entry to a listbox or combobox
     bool  removeListEntry(BYTE bIndex = 0);   // Removes an entry from a listbox or combobox
