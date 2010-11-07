@@ -45,7 +45,6 @@ namespace BW
 
       u16         getID() const;
       std::string getName() const;
-      std::string getSubLabel() const;
 
       int maxHitPoints() const;
       int maxShields() const;
@@ -110,7 +109,6 @@ namespace BW
       const std::map< BW::UnitType, int >& _requiredUnits() const;
 
       const char* _getName() const;
-      const char* _getSubLabel() const;
 
       u8   _getRace() const;
       u8   _requiredTech() const;

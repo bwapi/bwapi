@@ -302,7 +302,6 @@ namespace BW
   static u16 *BWDATA_MaxShieldPoints      = (u16*) unitsDat[7].address;
   static s32 *BWDATA_MaxHitPoints         = (s32*) unitsDat[8].address;
   static u8  *BWDATA_Elevation            = (u8*)  unitsDat[9].address;
-  static u8  *BWDATA_UnitSubLabel         = (u8*)  unitsDat[11].address;
   static u8  *BWDATA_UnitGroundWeapon     = (u8*)  unitsDat[17].address;
   static u8  *BWDATA_MaxGroundHits        = (u8*)  unitsDat[18].address;
   static u8  *BWDATA_UnitAirWeapon        = (u8*)  unitsDat[19].address;
