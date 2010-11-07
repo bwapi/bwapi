@@ -248,8 +248,6 @@ namespace BW
   static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
-  extern void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt);
-
   static Unit **BWDATA_ClientSelectionGroup = (Unit**) 0x00597208;
   static u8   *BWDATA_ClientSelectionCount  = (u8*)    0x0059723D;
   static u32  BWDATA_PlayerSelection        =          0x006284E0;

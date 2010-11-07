@@ -116,6 +116,8 @@ BOOL __stdcall SDrawRealizePalette() rBool;
 BOOL __stdcall SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect) rBool;
 BOOL __stdcall SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4) rBool;
 
+BOOL __stdcall SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent) rBool;
+
 BOOL __stdcall SGdiDeleteObject(HANDLE handle) rBool;
 
 BOOL __stdcall SGdiExtTextOut(int a1, int a2, int a3, int a4, unsigned int a8, signed int a6, signed int a7, const char *string, unsigned int arg20) rBool;
