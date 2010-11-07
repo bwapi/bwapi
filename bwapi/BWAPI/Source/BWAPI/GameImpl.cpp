@@ -553,21 +553,20 @@ namespace BWAPI
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
-    char buffer[MAX_BUFFER];
+    char buffer[256];
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
+    vsnprintf_s(buffer, 256, 256, format, ap);
     va_end(ap);
     sendTextEx(false, "%s", buffer);
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
-    char buffer[MAX_BUFFER];
+    char buffer[256];
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
+    vsnprintf_s(buffer, 256, 256, format, ap);
     va_end(ap);
-    char* txtout = buffer;
 
     if (_isReplay())
     {
@@ -595,36 +594,31 @@ namespace BWAPI
       return;
     }
 
+    char szMessage[258];
+    szMessage[0] = 0;
+    szMessage[1] = 1;
+    int msgLen = SStrCopy(&szMessage[2], buffer, 256);
+
     if (_isInGame())
     {
-      *BW::BWDATA_SendTextFilter = 0xFFFF;
       if ( toAllies )
       {
-        *BW::BWDATA_SendTextFilter = 0;
-        for ( u8 p = 0; p < PLAYER_COUNT; ++p )
+        for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
         {
-          if ( BW::BWDATA_Alliance[BWAPIPlayer->getID()].player[p] != 0 )
-            *BW::BWDATA_SendTextFilter |= 1 << p;
+          if ( this->BWAPIPlayer->isAlly(players[i]) && BW::BWDATA_Players[i].dwStormId != -1 )
+            SNetSendMessage(BW::BWDATA_Players[i].dwStormId, szMessage, msgLen + 3);
         }
       }
-      __asm
+      else
       {
-        pushad
-        mov esi, txtout
-        call [BW::BWFXN_SendPublicCallTarget]
-        popad
-      }
+        SNetSendMessage(-1, szMessage, msgLen + 3);
+      } // toAllies
     }
     else
     {
-      __asm
-      {
-        pushad
-        mov edi, txtout
-        call [BW::BWFXN_SendLobbyCallTarget]
-        popad
-      }
-    }
+      szMessage[1] = 0x4C;
+      SNetSendMessage(-1, &szMessage[1], msgLen + 2);
+    } // isInGame
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(BWAPI::Race race)

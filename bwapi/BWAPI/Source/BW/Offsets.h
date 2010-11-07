@@ -90,8 +90,8 @@ namespace BW
   /** Player Information */
   struct PlayerInfo
   {
-    u32  dwPlayerID;
-    u32  dwStormId;
+    int  dwPlayerID;
+    int  dwStormId;
     u8   nType;
     u8   nRace;
     u8   nTeam;
@@ -249,10 +249,6 @@ namespace BW
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   extern void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt);
-  static u16  *BWDATA_SendTextFilter     = (u16*) 0x0057F1DA;
-
-  static u32  BWFXN_SendPublicCallTarget = 0x004C2420;
-  static u32  BWFXN_SendLobbyCallTarget  = 0x004707D0;
 
   static Unit **BWDATA_ClientSelectionGroup = (Unit**) 0x00597208;
   static u8   *BWDATA_ClientSelectionCount  = (u8*)    0x0059723D;

@@ -30,7 +30,7 @@ HANDLE __stdcall SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_e
 
 int __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid) rInt;
 
-BOOL __stdcall SNetSendMessage(unsigned int playerID, char *data, unsigned int databytes) rBool;
+BOOL __stdcall SNetSendMessage(int playerID, char *data, unsigned int databytes) rBool;
 BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes) rBool;
 
 BOOL __stdcall SNetSetGameMode(DWORD modeFlags, char a2) rBool;

@@ -236,7 +236,6 @@ namespace BWAPI
       void onGameStart();
       void onGameEnd();
       int  stormIdToPlayerId(int dwStormId);
-      int  playerIdToStormId(int dwPlayerId);
       void onSendText(const char* text);
       void onReceiveText(int playerId, std::string text);
       bool parseText(const char* text);
