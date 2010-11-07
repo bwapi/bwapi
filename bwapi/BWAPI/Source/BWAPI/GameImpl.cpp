@@ -538,10 +538,10 @@ namespace BWAPI
   void GameImpl::printf(const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[MAX_BUFFER];
+    char buffer[256];
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
+    vsnprintf_s(buffer, 256, 256, format, ap);
     va_end(ap);
 
     s_evt evt = { 0 };
@@ -553,19 +553,19 @@ namespace BWAPI
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
-    char buffer[256];
+    char buffer[80];
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, 256, 256, format, ap);
+    vsnprintf_s(buffer, 80, 80, format, ap);
     va_end(ap);
     sendTextEx(false, "%s", buffer);
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
-    char buffer[256];
+    char buffer[80];
     va_list ap;
     va_start(ap, format);
-    vsnprintf_s(buffer, 256, 256, format, ap);
+    vsnprintf_s(buffer, 80, 80, format, ap);
     va_end(ap);
 
     if (_isReplay())
@@ -594,10 +594,10 @@ namespace BWAPI
       return;
     }
 
-    char szMessage[258];
+    char szMessage[82];
     szMessage[0] = 0;
     szMessage[1] = 1;
-    int msgLen = SStrCopy(&szMessage[2], buffer, 256);
+    int msgLen = SStrCopy(&szMessage[2], buffer, 80);
 
     if (_isInGame())
     {
