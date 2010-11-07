@@ -544,11 +544,13 @@ namespace BWAPI
     vsnprintf_s(buffer, 256, 256, format, ap);
     va_end(ap);
 
-    s_evt evt = { 0 };
-    evt.pData = (BYTE*)buffer;
+    s_evt evt;
+    evt.dwFlags    = 4;
+    evt.dwPlayerId = -1;
+    evt.pData      = (BYTE*)buffer;
+    evt.dwSize     = strlen(buffer) + 1;
 
-    if ( BW::BWFXN_GlobalPrintText )
-      BW::BWFXN_GlobalPrintText(&evt);
+    SEvtDispatch('SNET', 1, 4, &evt);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)

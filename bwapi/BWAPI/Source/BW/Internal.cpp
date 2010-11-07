@@ -15,8 +15,6 @@ namespace BW
   void (__stdcall *pOldDrawGameProc)(BW::bitmap *pSurface, BW::bounds *pBounds) = NULL;
   void (__stdcall *pOldDrawDialogProc)(BW::bitmap *pSurface, BW::bounds *pBounds) = NULL;
 
-  void (__stdcall *BWFXN_GlobalPrintText)(s_evt *evt) = NULL;
-
   const char *GetStatString(int index)
   {
     if ( BWDATA_StringTableOff )

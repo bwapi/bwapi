@@ -169,7 +169,7 @@ EXPORTS
   ;SDrawUpdateScreen             @358 NONAME
   ;SDrawWaitForVerticalBlank     @359 NONAME
 
-  ;SEvtDispatch                  @372 NONAME
+  SEvtDispatch                  @372 NONAME
   ;SEvtRegisterHandler           @373 NONAME
   ;SEvtUnregisterHandler         @374 NONAME
   ;SEvtUnregisterType            @375 NONAME

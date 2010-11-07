@@ -210,7 +210,7 @@ BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigne
 struct s_evt
 {
   DWORD dwFlags;
-  DWORD dwPlayerId;
+  int   dwPlayerId;
   BYTE  *pData;
   DWORD dwSize;
 };
@@ -337,6 +337,8 @@ BOOL __stdcall SDrawRealizePalette();
 
 BOOL __stdcall SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
 BOOL __stdcall SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
+
+BOOL __stdcall SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent);
 
 BOOL __stdcall SGdiDeleteObject(HANDLE handle);
 
