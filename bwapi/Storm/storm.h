@@ -167,6 +167,24 @@ struct gameStruc
   DWORD     dwProduct;
   DWORD     dwVersion;
 };
+
+struct stormHead
+{
+  WORD wChecksum;
+  WORD wLength;
+  WORD wSent;
+  WORD wReceived;
+  BYTE bCommandClass;
+  BYTE bCommandType;
+  BYTE bPlayerId;
+  BYTE bFlags;
+};
+
+#define STRAFFIC_NORMAL 0
+#define STRAFFIC_VERIFY 1
+#define STRAFFIC_RESEND 2
+#define STRAFFIC_REPLY  4
+
 #endif
 BOOL __stdcall SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);
 BOOL __stdcall SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);

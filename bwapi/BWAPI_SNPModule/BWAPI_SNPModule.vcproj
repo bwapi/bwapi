@@ -169,6 +169,10 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\source\caps.mpq"
+			>
+		</File>
+		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
 		</File>

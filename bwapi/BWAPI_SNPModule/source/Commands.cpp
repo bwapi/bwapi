@@ -23,7 +23,6 @@ namespace LUDP
     packet pkt;
     pkt.wSize       = sizeof(packet);
     pkt.wType       = CMD_GETLIST;
-    pkt.dwGameState = 0;
 
     SendData(gsBroadcast, (char*)&pkt, sizeof(packet), &gaddrBroadcast);
     LeaveCriticalSection(&gCrit);
@@ -84,7 +83,7 @@ namespace LUDP
     if ( !remove )
     {
       packet    *pktHd   = (packet*)data;
-      char      *pktData = data + sizeof(packet);
+      gameInfo  *pktData = (gameInfo*)(data + sizeof(packet));
       gameStruc *newGame = (gameStruc*)SMAlloc(sizeof(gameStruc));
       if ( !newGame )
         Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate memory for game list.");
@@ -92,15 +91,15 @@ namespace LUDP
       memcpy(&newGame->saHost, from, sizeof(SOCKADDR));
 
       newGame->dwIndex      = _dwIndex;
-      newGame->dwGameState  = pktHd->dwGameState;
-      newGame->dwUnk_1C     = 50; // latency timeout?
+      newGame->dwGameState  = pktData->dwGameState;
+      newGame->dwUnk_1C     = 50; // latency? timeout?
       newGame->dwTimer      = GetTickCount();
       newGame->dwVersion    = gdwVerbyte;
       newGame->dwProduct    = gdwProduct;
       newGame->pNext        = (gameStruc*)gpMGameList;
 
-      int gamelen           = SStrCopy(newGame->szGameName, pktData, sizeof(newGame->szGameName));
-      int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
+      int gamelen           = SStrCopy(newGame->szGameName, pktData->info, sizeof(newGame->szGameName));
+      int statlen           = SStrCopy(newGame->szGameStatString, &pktData->info[gamelen+1], sizeof(newGame->szGameStatString));
 
       newGame->dwExtraBytes = pktHd->wSize - (sizeof(packet) + gamelen + statlen + 2);
       newGame->pExtra       = SMAlloc(newGame->dwExtraBytes);

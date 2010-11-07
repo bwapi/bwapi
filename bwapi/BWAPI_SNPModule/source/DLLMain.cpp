@@ -5,9 +5,9 @@
 
 netModule networks[] = {
   { "Local PC (UDP)", 'LUDP', "",
-    { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
+    { sizeof(caps), 0, PKT_SIZE, 0x10, 0x100, 1000, 10, 8, 0},
     { sizeof(netFunctions),
-      &COMN::fxn0,
+      &COMN::spiCompareNames,
       &LUDP::spiDestroy,
       &COMN::spiFree,
       &COMN::spiError,
@@ -38,7 +38,7 @@ netModule networks[] = {
   { "Local PC (TEST)", 'LTST', "",
     { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
     { sizeof(netFunctions),
-      &COMN::fxn0,
+      &COMN::spiCompareNames,
       &LTST::spiDestroy,
       &COMN::spiFree,
       &COMN::spiError,

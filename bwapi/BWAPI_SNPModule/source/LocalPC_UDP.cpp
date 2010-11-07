@@ -78,7 +78,7 @@ namespace LUDP
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
-    CleanGameList(10000);
+    CleanGameList(2000);
     EnterCriticalSection(&gCrit);
     *ppGameList = (gameStruc*)gpMGameList;
     return true;
@@ -161,16 +161,16 @@ namespace LUDP
       }
     }
     memset((void*)gpGameAdvert, 0, PKT_SIZE + sizeof(packet));
-    packet *pktHd   = (packet*) gpGameAdvert;
-    char   *pktData = (char*)   gpGameAdvert + sizeof(packet);
+    packet    *pktHd   = (packet*)   gpGameAdvert;
+    gameInfo  *pktData = (gameInfo*)((DWORD)gpGameAdvert + sizeof(packet));
 
     // +2 is for the two null terminators
     pktHd->wSize       = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(packet) + 2);
     pktHd->wType       = CMD_ADDGAME;
-    pktHd->dwGameState = dwGameState;
     
-    SStrCopy(pktData, pszGameName, 128);
-    SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
+    pktData->dwGameState = dwGameState;
+    SStrCopy(pktData->info, pszGameName, 128);
+    SStrCopy(&pktData->info[strlen(pktData->info)+1], pszGameStatString, 128);
 
     LeaveCriticalSection(&gCrit);
     BroadcastAdvertisement();
@@ -208,10 +208,10 @@ namespace LUDP
 
     LeaveCriticalSection(&gCrit);
     if ( a2 )
-      *a2 = 500;
+      *a2 = 300;
 
     DWORD dwThisTickCount = GetTickCount();
-    if ( dwThisTickCount - gdwLastTickCount > 400 )
+    if ( dwThisTickCount - gdwLastTickCount > 200 )
     {
       gdwLastTickCount = dwThisTickCount;
       BroadcastGameListRequest();

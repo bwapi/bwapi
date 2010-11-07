@@ -16,7 +16,12 @@ namespace LUDP
   {
     WORD wType;
     WORD wSize;
+  };
+
+  struct gameInfo
+  {
     DWORD dwGameState;
+    char  info[1];
   };
 
   struct pktq

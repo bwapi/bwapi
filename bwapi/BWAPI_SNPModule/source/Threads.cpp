@@ -25,15 +25,16 @@ namespace LUDP
       if ( gbWantExit )
         return 0;
 
+      ++gdwRecvCalls;
+      gdwRecvBytes += rVal;
+
       switch ( rVal )
       {
       case SOCKET_ERROR:
-        Error(WSAGetLastError(), "recvfrom (broadcast) failed");
+        Error(WSAGetLastError(), "recvfrom (thread) failed");
       case 0: // closed connection
         return 0;
       }
-      ++gdwRecvCalls;
-      gdwRecvBytes += rVal;
 
       SMemZero(saFrom.sin_zero, sizeof(saFrom.sin_zero));
       packet *bc  = (packet*)&szBuffer;
@@ -75,9 +76,8 @@ namespace LUDP
             {
               gpRecvQueue = recvPkt;
             }
-            LeaveCriticalSection(&gCrit);
             SetEvent(ghRecvEvent);
-            Log("Should receive something");
+            LeaveCriticalSection(&gCrit);
             break;
           }
         default:
