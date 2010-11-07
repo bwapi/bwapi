@@ -9,11 +9,6 @@
 
 namespace LUDP
 {
-  DWORD gdwProduct;
-  DWORD gdwVerbyte;
-  DWORD gdwMaxPlayers;
-  DWORD gdwLangId;
-
   bool __stdcall spiDestroy()
   {
     /* Called when unloading the module
@@ -122,14 +117,14 @@ namespace LUDP
   bool __stdcall spiSendTo(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen)
   {
     /* Sends data to all listed addresses specified by storm */
-    if ( !addrCount || !addrList || !buf || !bufLen || bufLen > LUDP_PKT_SIZE || !gsSend)
+    if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE || !gsSend)
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
 
-    char buffer[LUDP_PKT_SIZE + sizeof(packet)];
-    SMemZero(buffer, LUDP_PKT_SIZE + sizeof(packet));
+    char buffer[PKT_SIZE + sizeof(packet)];
+    SMemZero(buffer, PKT_SIZE + sizeof(packet));
 
     packet *pktHead = (packet*)buffer;
     char   *pktData = buffer + sizeof(packet);
@@ -156,7 +151,7 @@ namespace LUDP
     EnterCriticalSection(&gCrit);
     if ( !gpGameAdvert )
     {
-      gpGameAdvert = SMAlloc(LUDP_PKT_SIZE + sizeof(packet));
+      gpGameAdvert = SMAlloc(PKT_SIZE + sizeof(packet));
       if ( !gpGameAdvert )
       {
         LeaveCriticalSection(&gCrit);
@@ -165,7 +160,7 @@ namespace LUDP
         return false;
       }
     }
-    memset((void*)gpGameAdvert, 0, LUDP_PKT_SIZE + sizeof(packet));
+    memset((void*)gpGameAdvert, 0, PKT_SIZE + sizeof(packet));
     packet *pktHd   = (packet*) gpGameAdvert;
     char   *pktData = (char*)   gpGameAdvert + sizeof(packet);
 

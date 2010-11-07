@@ -9,8 +9,8 @@ namespace LUDP
 
   DWORD WINAPI RecvThread(LPVOID);
 
-  #ifndef _PKT
-  #define _PKT
+  #ifndef _PKTUDP
+  #define _PKTUDP
 
   struct packet
   {
@@ -22,7 +22,37 @@ namespace LUDP
   struct pktq
   {
     SOCKADDR_IN saFrom;
-    char        bData[LUDP_PKT_SIZE];
+    char        bData[PKT_SIZE];
+    DWORD       dwLength;
+    pktq        *pNext;
+  };
+
+  #endif
+
+  extern volatile pktq *gpRecvQueue;
+  extern volatile void *gpGameAdvert;
+};
+
+namespace LTST
+{
+  extern bool gbWantExit;
+
+  DWORD WINAPI RecvThread(LPVOID);
+
+  #ifndef _PKTTST
+  #define _PKTTST
+
+  struct packet
+  {
+    WORD wType;
+    WORD wSize;
+    DWORD dwGameState;
+  };
+
+  struct pktq
+  {
+    SOCKADDR_IN saFrom;
+    char        bData[PKT_SIZE];
     DWORD       dwLength;
     pktq        *pNext;
   };
