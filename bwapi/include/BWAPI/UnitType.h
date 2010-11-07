@@ -30,9 +30,6 @@ namespace BWAPI
       /** Returns the name of the unit. */
       std::string getName() const;
 
-      /** Returns the rank/sublabel of the unit, i.e. Private, Captain, Major, etc. */
-      std::string getSubLabel() const;
-
       /** Returns the race that the unit belongs to. For example UnitTypes::Terran_SCV.getRace() will return
        * Races::Terran. */
       Race getRace() const;

@@ -81,27 +81,6 @@ namespace BW
   {
     return std::string(this->_getName());
   }
-  //---------------------------------------------- GET SUB LABEL ---------------------------------------------
-  const char* UnitType::_getSubLabel() const
-  {
-    if (this->getID() == BW::UnitID::None)
-      return "None";
-    else if (this->getID() < UNIT_TYPE_COUNT)
-    {
-      u16 label = BW::BWDATA_UnitSubLabel[this->getID()];
-      if (label == 0)
-      {
-        return "";
-      }
-      return BW::GetStatString(label + 1302);
-    }
-    else
-      return "Invalid";
-  }
-  std::string UnitType::getSubLabel() const
-  {
-    return std::string(this->_getSubLabel());
-  }
   //------------------------------------------------ GET RACE ------------------------------------------------
   u8 UnitType::_getRace() const
   {
