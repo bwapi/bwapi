@@ -341,11 +341,12 @@ namespace BWAPI
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
       bool calledOnEnd;
+      std::string autoMenuLanMode;
       std::string autoMenuMapPath;
       std::string autoMenuMapName;
       std::string autoMenuRace;
-      std::string autoMenuEnemyRace;
-      std::string autoMenuEnemyCount;
+      std::string autoMenuEnemyRace[8];
+      unsigned int autoMenuEnemyCount;
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;

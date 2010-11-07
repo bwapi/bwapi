@@ -686,15 +686,15 @@ namespace BWAPI
     //this function is called when starcraft loads and at the end of each match.
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
-    GetPrivateProfileString("config", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
+    GetPrivateProfileString("auto_menu", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuMode = std::string( strupr(buffer) );
 
-    GetPrivateProfileString("config", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
+    GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuRestartGame = std::string( strupr(buffer) );
 
     if ( autoMenuMode != "OFF" && autoMenuMode != "" )
     {
-      GetPrivateProfileString("config", "map", "", buffer, MAX_PATH, szConfigPath);
+      GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
 
       //split path into path and filename
       char* mapPathAndNameI         = buffer;
@@ -709,16 +709,28 @@ namespace BWAPI
       mapPathAndNameLastSlash[0] = '\0';
       autoMenuMapPath = std::string(buffer);
     }
-    GetPrivateProfileString("config", "save_replay", "", buffer, MAX_PATH, szConfigPath);
-    autoMenuSaveReplay = std::string(buffer);
-    GetPrivateProfileString("config", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
-    autoMenuRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_race", "RANDOM", buffer, MAX_PATH, szConfigPath);
-    autoMenuEnemyRace = std::string(buffer);
-    GetPrivateProfileString("config", "enemy_count", "1", buffer, MAX_PATH, szConfigPath);
-    autoMenuEnemyCount = std::string(buffer);
-    GetPrivateProfileString("config", "game_type", "MELEE", buffer, MAX_PATH, szConfigPath);
+    GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
+    autoMenuLanMode = std::string(buffer);
+    GetPrivateProfileString("auto_menu", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
+    autoMenuRace = std::string(strupr(buffer));
+    GetPrivateProfileString("auto_menu", "enemy_race", "RANDOM", buffer, MAX_PATH, szConfigPath);
+    autoMenuEnemyRace[0] = std::string(strupr(buffer));
+    for ( int i = 1; i < 8; ++i )
+    {
+      char key[16];
+      sprintf(key, "enemy_race_%u", i);
+      GetPrivateProfileString("auto_menu", key, "DEFAULT", buffer, MAX_PATH, szConfigPath);
+      autoMenuEnemyRace[i] = std::string(strupr(buffer));
+      if ( autoMenuEnemyRace[i] == "DEFAULT" )
+        autoMenuEnemyRace[i] = autoMenuEnemyRace[0];
+    }
+
+    autoMenuEnemyCount = GetPrivateProfileInt("auto_menu", "enemy_count", 1, szConfigPath);
+    if      ( autoMenuEnemyCount > 7 ) autoMenuEnemyCount = 7;
+    GetPrivateProfileString("auto_menu", "game_type", "MELEE", buffer, MAX_PATH, szConfigPath);
     autoMenuGameType = std::string(buffer);
+    GetPrivateProfileString("auto_menu", "save_replay", "", buffer, MAX_PATH, szConfigPath);
+    autoMenuSaveReplay = std::string(buffer);
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
@@ -776,25 +788,38 @@ namespace BWAPI
           //tempDlg->findIndex(13)->doEvent(14, 2);    // This is too efficient and will cause whatever trick being used to fail (infinite loop)
         else
         {
-          int enemyCount = atoi(this->autoMenuEnemyCount.c_str());
-          if (enemyCount < 1) enemyCount = 1;
-          if (enemyCount > 7) enemyCount = 7;
-          Race r = Races::getRace(this->autoMenuRace);
-          if (r != Races::Unknown && r != Races::None)
-            this->_changeRace(0, r);
-          Race er = Races::getRace(this->autoMenuEnemyRace);
-          if (er != Races::Unknown && er != Races::None)
-          {
-            for(int i = 0; i < enemyCount; i++)
-              this->_changeRace(i + 1, er);
-          }
-          //close remaining slots
-          for(int i = enemyCount; i < 7; i++)
-            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
-
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-          if (gt != GameTypes::None && gt != GameTypes::Unknown)
+          if ( gt != GameTypes::None && gt != GameTypes::Unknown )
             tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
+
+          Race playerRace = Races::getRace(this->autoMenuRace);
+          if ( this->autoMenuRace == "RANDOMTP" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+          else if ( this->autoMenuRace == "RANDOMTZ" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+          else if ( this->autoMenuRace == "RANDOMPZ" )
+            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+          if ( playerRace != Races::Unknown && playerRace != Races::None )
+            this->_changeRace(0, playerRace);
+
+          for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
+          {
+            Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
+            if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
+              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+            else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
+              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+            else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
+              enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+            if ( enemyRace != Races::Unknown && enemyRace != Races::None )
+              this->_changeRace(i, enemyRace);
+          }
+
+          //close remaining slots
+          for( int i = this->autoMenuEnemyCount; i < 7; ++i )
+            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
 
           this->pressKey( tempDlg->findIndex(12)->getHotkey() );
           /*if ( !actCreate )
@@ -807,7 +832,7 @@ namespace BWAPI
         break;
       }
     }
-    else if (autoMenuMode == "LAN_UDP")
+    else if (autoMenuMode == "LAN")
     {
       switch ( menu )
       {
@@ -828,17 +853,12 @@ namespace BWAPI
 // Select connection
       case 2:
         actMainMenu = false;
+        BW::dialog *connDlg = BW::FindDialogGlobal("ConnSel");
 
-        /*tempDlg = BW::FindDialogGlobal("ConnSel");
-        if ( tempDlg )
-          tempDlg->findIndex(5)->setSelectedByString("Local Area Network (UDP)"); // This doesn't work yet
-        */
-        this->pressKey(VK_DOWN);
-        this->pressKey(VK_DOWN);
-        this->pressKey(VK_DOWN);
-        this->pressKey(VK_DOWN);
-        this->pressKey(VK_DOWN); // move 5 because of the custom SNP, doesn't affect people without it
-        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
+        if ( connDlg->findIndex(5)->isVisible() && 
+             connDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )
+          pressKey( connDlg->findIndex(9)->getHotkey() );
+
         actRegistry = false;
         break;
       }
@@ -885,9 +905,16 @@ namespace BWAPI
 // in lobby
         case 3:
           actCreate = false;
-          Race r = Races::getRace(this->autoMenuRace);
-          if (r != Races::Unknown)
-            this->_changeRace(0, r);
+          Race playerRace = Races::getRace(this->autoMenuRace);
+          if ( this->autoMenuRace == "RANDOMTP" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+          else if ( this->autoMenuRace == "RANDOMTZ" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+          else if ( this->autoMenuRace == "RANDOMPZ" )
+            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+          if ( playerRace != Races::Unknown && playerRace != Races::None )
+            this->_changeRace(0, playerRace);
           break;
         }
       }
@@ -903,9 +930,16 @@ namespace BWAPI
           break;
 //multiplayer game ready screen
         case 3: 
-          Race r = Races::getRace(this->autoMenuRace);
-          if (r != Races::Unknown)
-            this->_changeRace(1, r);
+          Race playerRace = Races::getRace(this->autoMenuRace);
+          if ( this->autoMenuRace == "RANDOMTP" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+          else if ( this->autoMenuRace == "RANDOMTZ" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+          else if ( this->autoMenuRace == "RANDOMPZ" )
+            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+          if ( playerRace != Races::Unknown && playerRace != Races::None )
+            this->_changeRace(1, playerRace);
         }
       }
     }
@@ -1103,6 +1137,8 @@ namespace BWAPI
     BWAPIPlayer   = NULL;
     calledOnEnd   = false;
     bulletCount   = 0;
+
+    srand(GetTickCount());
 
     /* set all the flags to the default of disabled */
     for (int i = 0; i < Flag::Max; i++)
