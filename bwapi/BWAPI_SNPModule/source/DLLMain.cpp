@@ -6,8 +6,8 @@
 #include "Template.h"
 
 netModule networks[] = {
-  { "Local PC", 'LUDP', "BWAPI " STARCRAFT_VER " r" SVN_REV_STR "\n\nConnect multiple instances of Starcraft together on the same PC via winsock UDP.",
-    { sizeof(caps), 0x20000003, LUDP_PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
+  { "Local PC (UDP)", 'LUDP', "",
+    { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
     { sizeof(netFunctions),
       &COMN::fxn0,
       &LUDP::spiDestroy,
@@ -36,6 +36,37 @@ netModule networks[] = {
       NULL,
       NULL,
       &COMN::spiLeagueGetName }
+  },
+  { "Local PC (TEST)", 'LTST', "",
+    { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
+    { sizeof(netFunctions),
+      &COMN::fxn0,
+      &LTST::spiDestroy,
+      &COMN::spiFree,
+      &COMN::spiError,
+      &COMN::spiGetGameInfo,
+      &COMN::spiGetPerformanceData,
+      &LTST::spiInitializeProvider,
+      &COMN::spiInitializeDevice,
+      &COMN::spiEnumDevices,
+      &LTST::spiLockGameList,
+      &LTST::spiReceiveFrom,
+      &COMN::spiReceive,
+      &COMN::spiSelectGame,
+      &LTST::spiSendTo,
+      &COMN::spiSend,
+      &LTST::spiStartAdvertisingLadderGame,
+      &LTST::spiStopAdvertisingGame,
+      &COMN::spiInitialize,
+      &LTST::spiUnlockGameList,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      &COMN::spiLeagueGetName }
   }
 };
 
@@ -50,6 +81,12 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName
       *ppszNetworkName        =  networks[LUDP_ID].pszName;
       *ppszNetworkDescription =  networks[LUDP_ID].pszDescription;
       *ppCaps                 = &networks[LUDP_ID].Caps;
+      return TRUE;
+    case LTST_ID:
+      *dwNetworkCode          =  networks[LTST_ID].dwIdentifier;
+      *ppszNetworkName        =  networks[LTST_ID].pszName;
+      *ppszNetworkDescription =  networks[LTST_ID].pszDescription;
+      *ppCaps                 = &networks[LTST_ID].Caps;
       return TRUE;
     default:
       return FALSE;
@@ -66,6 +103,9 @@ BOOL WINAPI SnpBind(DWORD dwIndex, netFunctions **ppFxns)
     {
     case LUDP_ID:
       *ppFxns = &networks[LUDP_ID].NetFxns;
+      return TRUE;
+    case LTST_ID:
+      *ppFxns = &networks[LTST_ID].NetFxns;
       return TRUE;
     default:
       return FALSE;

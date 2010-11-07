@@ -15,6 +15,11 @@ volatile DWORD gdwSendBytes;
 volatile DWORD gdwRecvCalls;
 volatile DWORD gdwRecvBytes;
 
+DWORD gdwProduct;
+DWORD gdwVerbyte;
+DWORD gdwMaxPlayers;
+DWORD gdwLangId;
+
 void Error(DWORD dwErrCode, const char *format, ...)
 {
   char szBuffer[256];
@@ -79,4 +84,31 @@ void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...)
     fclose(hLog);
   }
   //i(szBuffer);
+}
+
+void CleanGameList(DWORD dwTimeout)
+{
+  EnterCriticalSection(&gCrit);
+  if ( gpMGameList )
+  {
+    DWORD dwThisTickCount = GetTickCount();
+
+    volatile gameStruc **g = &gpMGameList;
+    while ( *g )
+    {
+      volatile gameStruc *t = *g;
+      if ( dwThisTickCount - (*g)->dwTimer <= dwTimeout )
+      {
+        g = (volatile gameStruc**)&t->pNext;
+      }
+      else
+      {
+        *g = t->pNext;
+        if ( t->pExtra )
+          SMFree(t->pExtra);
+        SMFree((void*)t);
+      }
+    }
+  }
+  LeaveCriticalSection(&gCrit);
 }
