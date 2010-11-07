@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "DevAIModule.h"
 
 using namespace BWAPI;
@@ -12,7 +13,7 @@ void DevAIModule::onStart()
 
   enabled = true;
   //Broodwar->setLocalSpeed(0);
-  Broodwar->sendText("modify the phase variance");
+  //Broodwar->sendText("modify the phase variance");
   self = bw->self();
 }
 
@@ -20,9 +21,10 @@ void DevAIModule::onEnd(bool isWinner)
 {
 }
 
+DWORD dwLastTickCount;
 void DevAIModule::onFrame()
 {
-  Broodwar->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
+  bw->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
 
   if ( bw->isReplay() )
     return;
@@ -33,7 +35,7 @@ void DevAIModule::onFrame()
     for each ( Unit *u in self->getUnits() )
     {
       if ( u->cancelTrain() )
-        Broodwar->printf("OK");
+        bw->printf("OK");
     }
   }
     /*

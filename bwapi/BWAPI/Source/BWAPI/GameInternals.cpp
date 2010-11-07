@@ -1198,15 +1198,10 @@ namespace BWAPI
     /* Translates a storm ID to a player Index */
     for (int i = 0; i < PLAYER_COUNT; i++)
     {
-      if ( BW::BWDATA_Players[i].dwStormId == (u32)dwStormId )
+      if ( BW::BWDATA_Players[i].dwStormId == dwStormId )
         return i;
     }
     return -1;
-  }
-  int GameImpl::playerIdToStormId(int dwPlayerId)
-  {
-    /* Get storm ID */
-    return BW::BWDATA_Players[dwPlayerId].dwStormId;
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
