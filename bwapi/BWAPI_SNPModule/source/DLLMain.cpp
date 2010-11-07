@@ -1,6 +1,4 @@
 #include <windows.h>
-#include "../../svnrev.h"
-#include "../../starcraftver.h"
 
 #include "LocalPC.h"
 #include "Template.h"
