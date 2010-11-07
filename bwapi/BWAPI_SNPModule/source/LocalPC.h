@@ -33,7 +33,7 @@ namespace LTST
 
 namespace COMN
 {
-  bool __stdcall fxn0(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult);
+  bool __stdcall spiCompareNames(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult);
   bool __stdcall spiFree(void *a1, int a2, int a3);
   bool __stdcall spiError(int a1, int a2, int a3);
   bool __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult);

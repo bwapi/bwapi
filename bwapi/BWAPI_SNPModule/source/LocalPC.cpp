@@ -3,7 +3,7 @@
 
 namespace COMN
 {
-  bool __stdcall fxn0(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult)
+  bool __stdcall spiCompareNames(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult)
   {
     // This function is complete
     if ( dwResult )
