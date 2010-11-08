@@ -368,7 +368,9 @@ namespace BWAPI
   {
     int armor = unit.armor();
     armor += getUpgradeLevel(unit.armorUpgrade());
-    if (unit == UnitTypes::Zerg_Ultralisk && getUpgradeLevel(UpgradeTypes::Chitinous_Plating)>0)
+    if ( unit == UnitTypes::Zerg_Ultralisk && getUpgradeLevel(UpgradeTypes::Chitinous_Plating) > 0 )
+      armor += 2;
+    else if ( unit == UnitTypes::Hero_Torrasque )
       armor += 2;
     return armor;
   }

@@ -324,7 +324,7 @@ namespace BWAPI
     extern const UnitType Zerg_Guardian;
     extern const UnitType Hero_Kukulza_Guardian;
     extern const UnitType Zerg_Queen;
-    extern const UnitType Hero_Matriarch_Queen;
+    extern const UnitType Hero_Matriarch;
     extern const UnitType Zerg_Defiler;
     extern const UnitType Hero_Unclean_One;
     extern const UnitType Zerg_Scourge;

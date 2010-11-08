@@ -144,8 +144,8 @@ namespace BWAPI
       weapon = this->getType().airWeapon();
 
     bool canAttack = (weapon != WeaponTypes::None);
-    if ( (getType() == UnitTypes::Protoss_Reaver && getScarabCount() > 0 && !targetInAir) || 
-         (getType() == UnitTypes::Protoss_Carrier && getInterceptorCount() > 0) )
+    if ( ( (getType() == UnitTypes::Protoss_Reaver || getType() == UnitTypes::Hero_Warbringer) && getScarabCount() > 0 && !targetInAir) || 
+      ((getType() == UnitTypes::Protoss_Carrier || getType() == UnitTypes::Hero_Gantrithor) && getInterceptorCount() > 0) )
       canAttack = true;
 
     if (!canAttack)
@@ -161,9 +161,11 @@ namespace BWAPI
     switch ( getType().getID() )
     {
     case BW::UnitID::Protoss_Carrier:
+    case BW::UnitID::Protoss_Hero_Gantrithor:
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CarrierAttack1), sizeof(BW::Orders::Attack));
       break;
     case BW::UnitID::Protoss_Reaver:
+    case BW::UnitID::Protoss_Hero_Warbringer:
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::ReaverAttack1), sizeof(BW::Orders::Attack));
       break;
     default:
@@ -526,17 +528,25 @@ namespace BWAPI
 
     this->orderSelect();
     bool loaded = false;
-    if (this->getType() == UnitTypes::Terran_Bunker)
+    BWAPI::UnitType thisType = this->getType();
+    if ( thisType == UnitTypes::Terran_Bunker )
     {
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupBunker), sizeof(BW::Orders::Attack));
       loaded = true;
     }
-    else if (this->getType() == UnitTypes::Terran_Dropship || this->getType() == UnitTypes::Protoss_Shuttle || this->getType() == UnitTypes::Zerg_Overlord)
+    else if ( thisType == UnitTypes::Terran_Dropship || 
+              thisType == UnitTypes::Protoss_Shuttle || 
+              thisType == UnitTypes::Zerg_Overlord   ||
+              thisType == UnitTypes::Hero_Yggdrasill )
     {
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupTransport), sizeof(BW::Orders::Attack));
       loaded = true;
     }
-    else if (target->getType() == UnitTypes::Terran_Bunker || target->getType() == UnitTypes::Terran_Dropship || target->getType() == UnitTypes::Protoss_Shuttle || target->getType() == UnitTypes::Zerg_Overlord)
+    else if ( target->getType() == UnitTypes::Terran_Bunker   ||
+              target->getType() == UnitTypes::Terran_Dropship ||
+              target->getType() == UnitTypes::Protoss_Shuttle ||
+              target->getType() == UnitTypes::Zerg_Overlord   ||
+              target->getType() == UnitTypes::Hero_Yggdrasill )
     {
       this->rightClick(target);
       loaded = true;

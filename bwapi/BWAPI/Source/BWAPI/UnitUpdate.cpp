@@ -184,7 +184,7 @@ namespace BWAPI
       self->velocityY = (double)getOriginalRawData->current_speedY / 256.0; //getVelocityY
       //------------------------------------------------------------------------------------------------------
       //getGroundWeaponCooldown
-      if (_getType == UnitTypes::Protoss_Reaver)
+      if ( _getType == UnitTypes::Protoss_Reaver || _getType == UnitTypes::Hero_Warbringer )
         self->groundWeaponCooldown = getOriginalRawData->mainOrderTimer;
       else if ( getOriginalRawData->subUnit )
         self->groundWeaponCooldown = getOriginalRawData->subUnit->groundWeaponCooldown;
@@ -466,9 +466,11 @@ namespace BWAPI
       switch ( _getType.getID() )
       {
       case BW::UnitID::Protoss_Reaver:
+      case BW::UnitID::Protoss_Hero_Gantrithor:
         self->scarabCount = getOriginalRawData->carrier.inHangerCount;
         break;
       case BW::UnitID::Terran_Vulture:
+      case BW::UnitID::Terran_Hero_JimRaynorV:
         self->spiderMineCount = getOriginalRawData->vulture.spiderMineCount;
         break;
       case BW::UnitID::Terran_NuclearSilo:
