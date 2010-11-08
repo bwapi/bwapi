@@ -1027,4 +1027,8 @@ namespace BWAPI
       BW::BWDATA_ScreenLayers[5].buffers = 0;
     }
   }
+  int GameImpl::getInstanceNumber()
+  {
+    return (int)gdwProcNum;
+  }
 };

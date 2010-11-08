@@ -24,7 +24,7 @@
 char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
 
-DWORD dwProcNum = 0;
+DWORD gdwProcNum = 0;
 
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
 // Found/modified this from some random help board
@@ -442,7 +442,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     logging = true;
 
   /* Shift the position of w-mode */
-  if ( dwProcNum > 0 )
+  if ( gdwProcNum > 0 )
   {
     char szWModeConfig[MAX_PATH];
     sprintf(szWModeConfig, "%s\\wmode.ini", szInstallPath);
@@ -562,18 +562,18 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
 
         /* Get process count */
-        dwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
+        gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
 
         /* Get revision */
         char szKeyName[128];
         SStrCopy(szKeyName, "ai_dll_rev", 128);
-        if ( dwProcNum )
-          sprintf(szKeyName, "ai_dll_%d_rev", dwProcNum);
+        if ( gdwProcNum )
+          sprintf(szKeyName, "ai_dll_%d_rev", gdwProcNum);
         DWORD dwRevision = GetPrivateProfileInt("ai", szKeyName, SVN_REV, szConfigPath);
         if ( dwRevision != SVN_REV )
         {
           // revision that ai_dll_# for multiple instances was introduced
-          if ( dwProcNum && dwRevision < 2753 )
+          if ( gdwProcNum && dwRevision < 2753 )
           {
             char err[256];
             sprintf(err, "Revision %u is not compatible with multiple instances.\nExpecting revision 2753 (BWAPI Beta 3.1) or greater.", dwRevision);

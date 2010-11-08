@@ -935,4 +935,8 @@ namespace BWAPI
     //queue up command for server so it also applies the change
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetGui, e));
   }
+  int GameImpl::getInstanceNumber()
+  {
+    return data->instanceID;
+  }
 };
