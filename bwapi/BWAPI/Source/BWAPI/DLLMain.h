@@ -14,7 +14,7 @@ void BWAPIError(const char *format, ...);
 extern char logPath[MAX_PATH];
 extern bool logging;
 
-extern DWORD dwProcNum;
+extern DWORD gdwProcNum;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];

@@ -382,6 +382,9 @@ namespace BWAPI
 
       /** Sets the rendering state of the Starcraft GUI */
       virtual void setGUI(bool enabled = true) = 0;
+
+      /** Retrieves the instance number recorded by BWAPI to identify which instance an AI module belongs to */
+      virtual int  getInstanceNumber() = 0;
   };
   extern Game* Broodwar;
 }

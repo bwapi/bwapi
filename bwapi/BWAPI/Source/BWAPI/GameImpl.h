@@ -214,6 +214,9 @@ namespace BWAPI
       virtual void setLatCom(bool isEnabled);
       virtual int  getReplayFrameCount();
       virtual void setGUI(bool enabled = true);
+
+      virtual int  getInstanceNumber();
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();

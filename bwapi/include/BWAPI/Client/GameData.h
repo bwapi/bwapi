@@ -14,6 +14,8 @@ namespace BWAPI
   struct GameData
   {
     GameData();
+    int instanceID;
+
     //forces
     int forceCount;
     ForceData forces[5];

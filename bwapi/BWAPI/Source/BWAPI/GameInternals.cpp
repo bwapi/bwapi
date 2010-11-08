@@ -307,10 +307,10 @@ namespace BWAPI
         hMod = NULL;
 
         SStrCopy(szKeyName, "ai_dll", MAX_PATH);
-        if ( dwProcNum > 0 )
+        if ( gdwProcNum > 0 )
         {
           char tst[16];
-          sprintf_s(tst, 16, "_%u", dwProcNum);
+          sprintf_s(tst, 16, "_%u", gdwProcNum);
           SStrNCat(szKeyName, tst, MAX_PATH);
         }
 

@@ -1066,7 +1066,9 @@ namespace BWAPI
   }
   bool UnitType::isHero() const
   {
-    return unitTypeData[this->id].isHero;
+    return unitTypeData[this->id].isHero ||
+           this->id == UnitTypes::Hero_Dark_Templar.id ||
+           this->id == UnitTypes::Terran_Civilian.id;
   }
   bool UnitType::isPowerup() const
   {

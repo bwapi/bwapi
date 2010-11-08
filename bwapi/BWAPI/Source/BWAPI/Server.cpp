@@ -9,6 +9,8 @@
 #include "BulletImpl.h"
 #include <BWAPI/Client/GameData.h>
 
+#include "DLLMain.h"
+
 namespace BWAPI
 {
   #define PIPE_TIMEOUT 2000
@@ -141,6 +143,7 @@ namespace BWAPI
   void Server::initializeSharedMemory()
   {
     //called once when Starcraft starts. Not at the start of every match.
+    data->instanceID       = gdwProcNum;
     data->eventCount       = 0;
     data->commandCount     = 0;
     data->unitCommandCount = 0;
