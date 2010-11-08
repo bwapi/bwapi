@@ -257,6 +257,24 @@ namespace BWAPI
       /** Returns true if the unit is neutral, such as a critter or mineral field. */
       bool isNeutral() const;
 
+      /** Returns true if the unit is a Hero unit. */
+      bool isHero() const;
+
+      /** Returns true if the unit is a Powerup unit. */
+      bool isPowerup() const;
+
+      /** Returns true if the unit is a regular Beacon. */
+      bool isBeacon() const;
+
+      /** Returns true if the unit is a flag Beacon. */
+      bool isFlagBeacon() const;
+
+      /** Returns true if the unit is a special building. */
+      bool isSpecialBuilding() const;
+
+      /** Returns true if the unit is a spell unit. */
+      bool isSpell() const;
+
       /** Returns true if the unit produces larva. */
       bool producesLarva() const;
 
