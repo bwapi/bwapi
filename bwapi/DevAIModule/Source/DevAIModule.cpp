@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <algorithm>
 #include "DevAIModule.h"
 
 #define makelink(x) wiki(x.getName()).c_str(), x.getName().c_str()
@@ -317,6 +318,11 @@ void printUnitData(FILE *outWiki, UnitType u)
   fprintf(outWiki, "\n\n");
 }
 
+bool nameSort(const UnitType &u1, const UnitType &u2)
+{
+  return strcmp(maketitle(u1), maketitle(u2)) < 0;
+}
+
 void DevAIModule::onSendText(std::string text)
 {
   if ( text == "/t" )
@@ -339,112 +345,119 @@ void DevAIModule::onSendText(std::string text)
 
     fprintf(outWiki, "\n= Terran =\n");
     fprintf(outWiki, "\n== Terran Ground Units ==\n");
+
+    std::vector<UnitType> unitTypes;
     for each ( UnitType u in UnitTypes::allUnitTypes() )
+      unitTypes.push_back(u);
+
+    std::sort(unitTypes.begin(), unitTypes.end(), nameSort);
+
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && !u.isHero() && !u.isBuilding() && !u.isSpell() && !u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Terran Air Units ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && !u.isHero() && !u.isBuilding() && !u.isSpell() && u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Terran Heroes ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && u.isHero() && !u.isBuilding() && !u.isSpell() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Terran Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && u.isBuilding() && !u.isSpecialBuilding() && !u.isAddon() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Terran Addons ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && u.isBuilding() && !u.isSpecialBuilding() && u.isAddon() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Terran Special Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Terran && u.isSpecialBuilding() && !u.isBeacon() && !u.isFlagBeacon() )
         printUnitData(outWiki, u);
 
 
     fprintf(outWiki, "\n= Protoss =\n");
     fprintf(outWiki, "\n== Protoss Ground Units ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Protoss && !u.isHero() && !u.isBuilding() && !u.isSpell() && !u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Protoss Air Units ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Protoss && !u.isHero() && !u.isBuilding() && !u.isSpell() && u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Protoss Heroes ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Protoss && u.isHero() && !u.isBuilding() && !u.isSpell() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Protoss Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Protoss && u.isBuilding() && !u.isSpecialBuilding() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Protoss Special Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Protoss && u.isSpecialBuilding() && !u.isBeacon() && !u.isFlagBeacon() )
         printUnitData(outWiki, u);
 
 
     fprintf(outWiki, "\n= Zerg =\n");
     fprintf(outWiki, "\n== Zerg Ground Units ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Zerg && !u.isHero() && !u.isBuilding() && !u.isSpell() && !u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Zerg Air Units ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Zerg && !u.isHero() && !u.isBuilding() && !u.isSpell() && u.isFlyer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Zerg Heroes ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Zerg && u.isHero() && !u.isBuilding() && !u.isSpell() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Zerg Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Zerg && u.isBuilding() && !u.isSpecialBuilding() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Zerg Special Buildings ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Zerg && u.isSpecialBuilding() && !u.isBeacon() && !u.isFlagBeacon() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n= Other =\n");
     fprintf(outWiki, "\n== Critters ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.getRace() == Races::Other && !u.isBuilding() && !u.isPowerup() && !u.isResourceContainer() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Resources ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.isResourceContainer() && !u.isRefinery() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Spells ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.isSpell() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Beacons ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.isBeacon() || u.isFlagBeacon() )
         printUnitData(outWiki, u);
 
     fprintf(outWiki, "\n== Powerups ==\n");
-    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    for each ( UnitType u in unitTypes )
       if ( u.isPowerup() )
         printUnitData(outWiki, u);
 
