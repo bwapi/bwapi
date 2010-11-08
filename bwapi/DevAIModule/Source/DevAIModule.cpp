@@ -179,14 +179,129 @@ BWAPI::TilePosition DevAIModule::spiralSearch(int dwType, BWAPI::TilePosition st
 
 void DevAIModule::onSendText(std::string text)
 {
-  if ( text == "/ver" )
-  {
-    Broodwar->printf("Heinermann DevTest");
-  }
   if ( text == "/t" )
   {
     enabled = !enabled;
     Broodwar->printf("DevAITest %s", enabled ? "ENABLED" : "DISABLED");
+  }
+  else if ( text == "/wikiTypes" )
+  {
+    FILE *outWiki = fopen("wiki.txt", "w");
+    if ( !outWiki )
+      return;
+
+    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    {
+      fprintf(outWiki, "=== %s ===\n", u.getName().c_str());
+      if ( !u.isInvincible() )
+      {
+        fprintf(outWiki, "  * *Max HP*: %d\n", u.maxHitPoints());
+        if ( u.maxShields() )
+          fprintf(outWiki, "  * *Max Shields*: %d\n", u.maxShields());
+        if ( u.maxEnergy() )
+          fprintf(outWiki, "  * *Max Energy*: %u\n", u.maxEnergy());
+        fprintf(outWiki, "  * *Armor*: %u\n", u.armor());
+        fprintf(outWiki, "  * *Unit Size*: %s\n", u.size().getName().c_str());
+      }
+      if ( u.whatBuilds().second > 0 )
+      {
+        if ( u.whatBuilds().second == 1 )
+        {
+          fprintf(outWiki, "  * *Mineral Cost*: %u\n", u.mineralPrice());
+          fprintf(outWiki, "  * *Gas Cost*: %u\n", u.gasPrice());
+        }
+        fprintf(outWiki, "  * *Build Time*: %u\n", u.buildTime());
+      }
+      if ( u.supplyProvided() )
+        fprintf(outWiki, "  * *Supply Provided*: %u\n", u.supplyProvided());
+      if ( u.supplyRequired() )
+        fprintf(outWiki, "  * *Supply Required*: %u\n", u.supplyRequired());
+      if ( u.spaceProvided() )
+        fprintf(outWiki, "  * *Space Provided*: %u\n", u.spaceProvided());
+      if ( u.spaceRequired() != 255 )
+        fprintf(outWiki, "  * *Space Required*: %u\n", u.spaceRequired());
+      if ( u.isBuilding() )
+        fprintf(outWiki, "  * *Tile Size*: %u x %u\n", u.tileWidth(), u.tileHeight());
+      fprintf(outWiki, "  * *Unit Dimensions*: %u x %u\n", u.dimensionLeft() + u.dimensionRight() + 1, u.dimensionUp() + u.dimensionDown() + 1);
+      fprintf(outWiki, "  * *Sight Range*: %u (%u)\n", u.sightRange(), u.sightRange()/32);
+      if ( u.buildScore() && u.whatBuilds().second > 0 )
+        fprintf(outWiki, "  * *Build Score*: %u\n", u.buildScore());
+      if ( u.destroyScore() && !u.isInvincible() )
+        fprintf(outWiki, "  * *Destroy Score*: %u\n", u.destroyScore());
+      if ( u.topSpeed() > 0 )
+        fprintf(outWiki, "  * *Top Speed*: %Lf\n", u.topSpeed());
+      if ( u.groundWeapon() == u.airWeapon() )
+      {
+        if ( u.groundWeapon() != WeaponTypes::None )
+          fprintf(outWiki, "  * *Weapon*: %s\n", u.groundWeapon().getName().c_str());
+      }
+      else
+      {
+        if ( u.groundWeapon() != WeaponTypes::None )
+          fprintf(outWiki, "  * *Ground Weapon*: %s\n", u.groundWeapon().getName().c_str());
+        if ( u.airWeapon() != WeaponTypes::None )
+          fprintf(outWiki, "  * *Air Weapon*: %s\n", u.airWeapon().getName().c_str());
+      }
+      if ( u.whatBuilds().first != UnitTypes::None )
+      {
+        if ( u.whatBuilds().second == 1 )
+          fprintf(outWiki, "  * *Comes from*: %s\n", u.whatBuilds().first.getName().c_str());
+        else if ( u.whatBuilds().second > 1 )
+          fprintf(outWiki, "  * *Comes from*: %u %s\n", u.whatBuilds().second, u.whatBuilds().first.getName().c_str());
+      }
+      if ( !u.abilities().empty() ||
+            u.hasPermanentCloak() ||
+            u.isDetector()        ||
+            u.isFlyingBuilding()  ||
+            u.isInvincible()      ||
+            u.regeneratesHP())
+      {
+        fprintf(outWiki, "\n  ==== Abilities ====\n");
+        for each ( TechType t in u.abilities() )
+          fprintf(outWiki, "    * %s\n", t.getName().c_str());
+        if ( u.hasPermanentCloak() )
+          fprintf(outWiki, "    * Permanently Cloaked\n");
+        if ( u.isDetector() )
+          fprintf(outWiki, "    * Detector\n");
+        if ( u.isFlyingBuilding() )
+          fprintf(outWiki, "    * Liftoff\n");
+        if ( u.isInvincible() )
+          fprintf(outWiki, "    * Invincible\n");
+        if ( u.regeneratesHP() )
+          fprintf(outWiki, "    * Regenerates Hit Points\n");
+      }
+      if ( (!u.requiredUnits().empty()  ||
+            u.requiresCreep()           ||
+            u.requiresPsi()             ||
+            u.requiredTech() != TechTypes::None) &&
+           !u.isSpecialBuilding() )
+      {
+        fprintf(outWiki, "\n  ==== Requirements ====\n");
+        for each ( std::pair<UnitType,int> p in u.requiredUnits() )
+        {
+          if ( p.second == 1 )
+            fprintf(outWiki, "    * %s\n", p.first.getName().c_str());
+          else if ( p.second > 1 )
+            fprintf(outWiki, "    * %u %s\n", p.second, p.first.getName().c_str());
+        }
+        if ( u.requiresCreep() )
+          fprintf(outWiki, "    * Requires Creep\n");
+        if ( u.requiresPsi() )
+          fprintf(outWiki, "    * Requires Psi Field\n");
+        if ( u.requiredTech() != TechTypes::None )
+          fprintf(outWiki, "    * %s\n", u.requiredTech().getName().c_str());
+      }
+      if ( !u.upgrades().empty() )
+      {
+        fprintf(outWiki, "\n  ==== Upgrades ====\n");
+        for each ( UpgradeType upg in u.upgrades() )
+          fprintf(outWiki, "    * %s\n", upg.getName().c_str() );
+      }
+
+      fprintf(outWiki, "\n\n");
+    }
+    fclose(outWiki);
+    Broodwar->printf("Printed wiki unit type information");
   }
   else
   {
