@@ -129,7 +129,7 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
-    if (this->getType() != UnitTypes::Protoss_Carrier)
+    if ( this->getType() != UnitTypes::Protoss_Carrier && this->getType() != UnitTypes::Hero_Gantrithor )
       return 0;
     return this->connectedUnits.size();
   }
@@ -330,7 +330,7 @@ namespace BWAPI
   std::set<Unit*> UnitImpl::getInterceptors() const
   {
     std::set<Unit*> nothing;
-    if (getType() != UnitTypes::Protoss_Carrier)
+    if ( getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor )
       return nothing;
     return connectedUnits;
   }

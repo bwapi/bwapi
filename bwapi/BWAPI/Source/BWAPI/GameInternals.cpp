@@ -1690,7 +1690,7 @@ namespace BWAPI
       int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
       if ( i->getOriginalRawData->subUnit )
         groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if ( i->getOriginalRawData->unitType == BW::UnitID::Protoss_Reaver )
+      if ( i->getOriginalRawData->unitType == BW::UnitID::Protoss_Reaver || i->getOriginalRawData->unitType == BW::UnitID::Protoss_Hero_Warbringer )
         groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
 
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;

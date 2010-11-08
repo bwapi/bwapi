@@ -344,7 +344,12 @@ namespace BWAPI
       unit->self->order = Orders::Cloak.getID();
       if (frame < Broodwar->getLatency())
       {
-        if (unit->self->type == UnitTypes::Terran_Ghost.getID())
+        if ( unit->self->type == UnitTypes::Terran_Ghost.getID()        ||
+             unit->self->type == UnitTypes::Hero_Samir_Duran.getID()    ||
+             unit->self->type == UnitTypes::Hero_Alexei_Stukov.getID()  ||
+             unit->self->type == UnitTypes::Hero_Sarah_Kerrigan.getID() ||
+             unit->self->type == UnitTypes::Hero_Infested_Duran.getID() ||
+             unit->self->type == UnitTypes::Hero_Infested_Kerrigan.getID() )
           unit->self->energy -= BWAPI::TechTypes::Personnel_Cloaking.energyUsed();
         else
           unit->self->energy -= BWAPI::TechTypes::Cloaking_Field.energyUsed();
@@ -432,7 +437,8 @@ namespace BWAPI
       }
       else if (unit->getType() == UnitTypes::Terran_Dropship
             || unit->getType() == UnitTypes::Protoss_Shuttle
-            || unit->getType() == UnitTypes::Zerg_Overlord)
+            || unit->getType() == UnitTypes::Zerg_Overlord
+            || unit->getType() == UnitTypes::Hero_Yggdrasill)
       {
         unit->self->order  = Orders::PickupTransport.getID();
         unit->self->target = getUnitID(target);
@@ -440,7 +446,8 @@ namespace BWAPI
       else if (target->getType() == UnitTypes::Terran_Bunker
             || target->getType() == UnitTypes::Terran_Dropship
             || target->getType() == UnitTypes::Protoss_Shuttle
-            || target->getType() == UnitTypes::Zerg_Overlord)
+            || target->getType() == UnitTypes::Zerg_Overlord
+            || target->getType() == UnitTypes::Hero_Yggdrasill)
       {
         unit->self->order  = Orders::EnterTransport.getID();
         unit->self->target = getUnitID(target);

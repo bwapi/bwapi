@@ -255,7 +255,7 @@ namespace BWAPI
     const UnitType Zerg_Guardian(44);
     const UnitType Hero_Kukulza_Guardian(56);
     const UnitType Zerg_Queen(45);
-    const UnitType Hero_Matriarch_Queen(49);
+    const UnitType Hero_Matriarch(49);
     const UnitType Zerg_Defiler(46);
     const UnitType Hero_Unclean_One(52);
     const UnitType Zerg_Scourge(47);
@@ -439,7 +439,7 @@ namespace BWAPI
       unitTypeData[Zerg_Guardian.getID()].set("Zerg Guardian", Races::Zerg, Zerg_Mutalisk, 1, Zerg_Mutalisk, 1, Zerg_Greater_Spire, 1, None, 0, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::Zerg_Flyer_Carapace, 150, 0, 0, 2, 50, 100, 600, 4, 0, 255, 0, 550, 1100, UnitSizeTypes::Large, 2, 2, 22, 22, 21, 21, 256, 352, WeaponTypes::Acid_Spore, 1, WeaponTypes::None, 0, 2.5, 27, 7585, 20, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Hero_Kukulza_Guardian.getID()].set("Kukulza (Guardian)", Races::Zerg, None, 0, None, 0, None, 0, None, 0, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::Zerg_Flyer_Carapace, 400, 0, 0, 4, 100, 200, 1200, 0, 0, 255, 0, 0, 2200, UnitSizeTypes::Large, 2, 2, 22, 22, 21, 21, 256, 352, WeaponTypes::Acid_Spore_Kukulza, 1, WeaponTypes::None, 0, 2.5, 27, 7585, 20, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Zerg_Queen.getID()].set("Zerg Queen", Races::Zerg, Zerg_Larva, 1, Zerg_Larva, 1, Zerg_Queens_Nest, 1, None, 0, TechTypes::None, TechTypes::Infestation, TechTypes::Spawn_Broodlings, TechTypes::Ensnare, TechTypes::Parasite, UpgradeTypes::Zerg_Flyer_Carapace, 120, 0, 200, 0, 100, 100, 750, 4, 0, 255, 0, 400, 800, UnitSizeTypes::Medium, 2, 2, 24, 24, 23, 23, 256, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 6.67, 67, 21745, 40, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      unitTypeData[Hero_Matriarch_Queen.getID()].set("Matriarch", Races::Zerg, None, 0, None, 0, None, 0, None, 0, TechTypes::None, TechTypes::Infestation, TechTypes::Spawn_Broodlings, TechTypes::Ensnare, TechTypes::Parasite, UpgradeTypes::Zerg_Flyer_Carapace, 300, 0, 250, 3, 200, 300, 1500, 0, 0, 255, 0, 0, 1600, UnitSizeTypes::Medium, 2, 2, 24, 24, 23, 23, 256, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 6.67, 67, 21745, 40, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[Hero_Matriarch.getID()].set("Matriarch", Races::Zerg, None, 0, None, 0, None, 0, None, 0, TechTypes::None, TechTypes::Infestation, TechTypes::Spawn_Broodlings, TechTypes::Ensnare, TechTypes::Parasite, UpgradeTypes::Zerg_Flyer_Carapace, 300, 0, 250, 3, 200, 300, 1500, 0, 0, 255, 0, 0, 1600, UnitSizeTypes::Medium, 2, 2, 24, 24, 23, 23, 256, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 6.67, 67, 21745, 40, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Zerg_Defiler.getID()].set("Zerg Defiler", Races::Zerg, Zerg_Larva, 1, Zerg_Larva, 1, Zerg_Defiler_Mound, 1, None, 0, TechTypes::None, TechTypes::Burrowing, TechTypes::Dark_Swarm, TechTypes::Plague, TechTypes::Consume, UpgradeTypes::Zerg_Carapace, 80, 0, 200, 1, 50, 150, 750, 4, 0, 2, 0, 225, 450, UnitSizeTypes::Medium, 1, 1, 13, 12, 13, 12, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
       unitTypeData[Hero_Unclean_One.getID()].set("Unclean One", Races::Zerg, None, 0, None, 0, None, 0, None, 0, TechTypes::None, TechTypes::Burrowing, TechTypes::Dark_Swarm, TechTypes::Plague, TechTypes::Consume, UpgradeTypes::Zerg_Carapace, 250, 0, 250, 3, 50, 200, 1500, 0, 0, 2, 0, 0, 900, UnitSizeTypes::Medium, 1, 1, 13, 12, 13, 12, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
       unitTypeData[Zerg_Scourge.getID()].set("Zerg Scourge", Races::Zerg, Zerg_Larva, 1, Zerg_Larva, 1, Zerg_Spire, 1, None, 0, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::Zerg_Flyer_Carapace, 25, 0, 0, 0, 25, 75, 450, 1, 0, 255, 0, 100, 200, UnitSizeTypes::Small, 1, 1, 12, 12, 11, 11, 96, 160, WeaponTypes::None, 0, WeaponTypes::Suicide_Scourge, 1, 6.67, 107, 13616, 40, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
@@ -627,7 +627,7 @@ namespace BWAPI
       unitTypeSet.insert(Zerg_Guardian);
       unitTypeSet.insert(Hero_Kukulza_Guardian);
       unitTypeSet.insert(Zerg_Queen);
-      unitTypeSet.insert(Hero_Matriarch_Queen);
+      unitTypeSet.insert(Hero_Matriarch);
       unitTypeSet.insert(Zerg_Defiler);
       unitTypeSet.insert(Hero_Unclean_One);
       unitTypeSet.insert(Zerg_Scourge);

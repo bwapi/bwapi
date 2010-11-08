@@ -180,6 +180,11 @@ namespace BWAPI
           if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
             return Broodwar->setLastError(Errors::Insufficient_Space);
         }
+        else if ( builderType == UnitTypes::Hero_Gantrithor )
+        {
+          if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= 8)
+            return Broodwar->setLastError(Errors::Insufficient_Space);
+        }
 
         /* Reaver Space */
         if ( builderType == UnitTypes::Protoss_Reaver )
@@ -188,6 +193,11 @@ namespace BWAPI
           if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0)
             max_amt += 5;
           if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
+            return Broodwar->setLastError(Errors::Insufficient_Space);
+        }
+        else if ( builderType == UnitTypes::Hero_Warbringer )
+        {
+          if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= 10)
             return Broodwar->setLastError(Errors::Insufficient_Space);
         }
       } // builder
