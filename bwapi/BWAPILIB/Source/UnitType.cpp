@@ -1088,7 +1088,7 @@ namespace BWAPI
   }
   bool UnitType::isSpecialBuilding() const
   {
-    return unitTypeData[this->id].isSpecialBuilding;
+    return unitTypeData[this->id].isSpecialBuilding && this->id != UnitTypes::Zerg_Infested_Command_Center.id;
   }
   bool UnitType::isSpell() const
   {
