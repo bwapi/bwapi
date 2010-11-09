@@ -1312,8 +1312,9 @@ namespace BWAPI
         myDlg = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
 
         // Add additional controls to the window
-        BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 8, 30, 200, 100);
+        BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 12, 16, myDlg->width() - 24, myDlg->height() - 56);
         myDlg->addControl(test);
+        test->setFlags(CTRL_PLAIN | CTRL_FONT_SMALLEST | CTRL_BTN_NO_SOUND);
 
         // Initialize the dialog
         myDlg->initialize();
@@ -1329,6 +1330,11 @@ namespace BWAPI
         test->addListEntry("Test8");
         test->addListEntry("Test9");
         test->addListEntry("Test10");
+        test->addListEntry("Test11");
+        test->addListEntry("Test12");
+        test->addListEntry("Test13");
+        test->addListEntry("Test14");
+        test->setSelectedIndex(test->getListCount()-1);
       }
     }
     else if (parsed[0] == "/pathdebug")

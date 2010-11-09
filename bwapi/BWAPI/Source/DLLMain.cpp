@@ -15,7 +15,7 @@
 #include "BW/Image.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI.h"
-#include "BWAPI/DLLMain.h"
+#include "DLLMain.h"
 #include "BWAPI/Shape.h"
 #include "BWAPI/UnitImpl.h"
 
