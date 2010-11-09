@@ -1,6 +1,8 @@
 #include "Dialog.h"
 #include "../BWAPI/GameImpl.h"
 
+#include "../DLLMain.h"
+
 BYTE gbTinyBtnGfx[3][12*12] = {
   {
     0x00, 0x00, 0x00, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x00, 0x00, 0x00,
@@ -198,6 +200,7 @@ namespace BW
             dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
             dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
           }
+          wantRefresh = true;
           break;
         }
         break;
@@ -248,6 +251,7 @@ namespace BW
           dlg->rct.Ymin -= dlg->rct.Ymax - (scrLimit.Ymax - 40);
           dlg->rct.Ymax -= dlg->rct.Ymax - (scrLimit.Ymax - 40);
         }
+        wantRefresh = true;
       }
       i = dlg->child();
       while( i )
@@ -287,10 +291,13 @@ namespace BW
       switch ( evt->dwUser )
       {
       case 2:
-        dlg->defaultInteract(evt);
-        delete dlg;
-        if ( strcmpi(dlg->getText(), "Test Dialog") == 0)
-          BWAPI::BroodwarImpl.myDlg = NULL;
+        {
+        bool rval = dlg->defaultInteract(evt);
+        //delete dlg;
+        //if ( strcmpi(dlg->getText(), "Test Dialog") == 0)
+        BWAPI::BroodwarImpl.myDlg = NULL;
+        return rval;
+        }
       }
       break;
     }
@@ -500,13 +507,22 @@ namespace BW
     return true;
   }
 // -------------------------------------------------- GLOBAL -------------------------------------------------
+  void *dialog::operator new(size_t size)
+  {
+    void *pAlloc = SMAlloc(size);
+    if ( !pAlloc )
+      BWAPIError("Failed to allocate %u bytes in Dialog allocator.", size);
+    return pAlloc;
+  }
+  void dialog::operator delete(void *p)
+  {
+    SMFree(p);
+  }
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
   {
     if ( ctrlType > ctrls::max)
       ctrlType = ctrls::cLSTATIC;
-
-    memset(this, 0, sizeof(dialog));
 
     // Set default height
     if ( height == 0 )
@@ -558,7 +574,7 @@ namespace BW
       // Allocate destination buffer
       u.dlg.dstBits.wid   = width;
       u.dlg.dstBits.ht    = height;
-      u.dlg.dstBits.data  = (BYTE*)malloc(width*height);
+      u.dlg.dstBits.data  = (BYTE*)SMAlloc(width*height);
       break;
     case ctrls::cBUTTON:
     case ctrls::cDFLTBTN:
@@ -593,22 +609,22 @@ namespace BW
           this->activate();
 
         if ( this->u.dlg.dstBits.data )
-          free(this->u.dlg.dstBits.data);
+          SMFree(this->u.dlg.dstBits.data);
       }
       else
       {
         if ( this->isList() )
         {
           if ( this->u.list.pbStrFlags )
-            free(this->u.list.pbStrFlags);
+            SMFree(this->u.list.pbStrFlags);
           if ( this->u.list.pdwData )
-            free(this->u.list.pdwData);
+            SMFree(this->u.list.pdwData);
           if ( this->u.list.ppStrs )
-            free(this->u.list.ppStrs);
+            SMFree(this->u.list.ppStrs);
         }
 
         if ( this->wCtrlType == ctrls::cEDIT && this->pszText )
-          free(this->pszText);
+          SMFree(this->pszText);
 
         if ( this->parent() )
         {
@@ -843,6 +859,19 @@ namespace BW
       return true;
     return false;
   }
+// ------------------- GET SIZE ----------------------
+  u16 dialog::width()
+  {
+    if ( this )
+      return this->srcBits.wid;
+    return 0;
+  }
+  u16 dialog::height()
+  {
+    if ( this )
+      return this->srcBits.ht;
+    return 0;
+  }
 // -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
   bool dialog::doEvent(WORD wEvtNum, DWORD dwUser, WORD wSelect, WORD wVirtKey)
@@ -1034,7 +1063,7 @@ namespace BW
       
       // create the buffer if not already
       if ( !this->srcBits.data )
-        srcBits.data    = (BYTE*)malloc(width*height);
+        srcBits.data    = (BYTE*)SMAlloc(width*height);
 
       // localize the buffer pointer
       BYTE *data  = srcBits.data;

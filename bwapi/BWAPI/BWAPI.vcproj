@@ -670,7 +670,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Source\BWAPI\DLLMain.h"
+			RelativePath=".\Source\DLLMain.h"
 			>
 		</File>
 		<File
