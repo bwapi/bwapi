@@ -112,6 +112,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
+//  drawBox(500, 30, 500, 500, 55, 0);    // draw past boundry test
   unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
   for( unsigned int i = 0; i < numShapes; ++i )
     BWAPI::BroodwarImpl.shapes[i]->draw();
@@ -380,7 +381,6 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, int defau
   if ( lastFile.find(".cv5") != std::string::npos )
   {
     BW::BWDATA_TileSet    = (BW::TileType*)rval;
-    BW::BWDATA_DoodatSet  = (BW::DoodatType*)rval;
     lastFile = "";
   }
 

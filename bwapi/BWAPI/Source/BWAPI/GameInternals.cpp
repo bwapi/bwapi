@@ -1315,6 +1315,7 @@ namespace BWAPI
         BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 12, 16, myDlg->width() - 24, myDlg->height() - 56);
         myDlg->addControl(test);
         test->setFlags(CTRL_PLAIN | CTRL_FONT_SMALLEST | CTRL_BTN_NO_SOUND);
+        myDlg->setFlags(CTRL_UPDATE | CTRL_DLG_ACTIVE);
 
         // Initialize the dialog
         myDlg->initialize();
@@ -1361,6 +1362,7 @@ namespace BWAPI
       void *newBuf = SMAlloc(1024 * 768);
       void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
       
+      SMemFill(newBuf, 1024 * 768, 33);
       SMemCopy(newBuf, oldBuf, BW::BWDATA_GameScreenBuffer->wid * BW::BWDATA_GameScreenBuffer->ht);
 
       BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
@@ -1370,6 +1372,10 @@ namespace BWAPI
 
       BW::BWDATA_ScreenLayers[5].width = 1024;
       BW::BWDATA_ScreenLayers[5].height = 768 - 80;
+      BW::BWDATA_ScrLimit->right  = 1023;
+      BW::BWDATA_ScrLimit->bottom = 767;
+      BW::BWDATA_ScrSize->right   = 1024;
+      BW::BWDATA_ScrSize->bottom  = 768;
     }
 #endif
     else

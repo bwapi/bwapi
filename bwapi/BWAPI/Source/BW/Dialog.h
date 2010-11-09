@@ -3,6 +3,7 @@
 
 #include "offsets.h"
 
+#define CTRL_UPDATE           0x00000001
 #define CTRL_DISABLED         0x00000002
 #define CTRL_ACTIVE           0x00000004
 #define CTRL_VISIBLE          0x00000008
