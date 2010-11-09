@@ -6,7 +6,6 @@ namespace BW
   TileID      *BWDATA_ZergCreepArray  = NULL;
   TileID      *BWDATA_MapTileArray    = NULL;
   TileType    *BWDATA_TileSet         = NULL;
-  DoodatType  *BWDATA_DoodatSet       = NULL;
   SAI_Paths   *BWDATA_SAIPathing      = NULL;
   char        *BWDATA_StringTableOff  = NULL;
   u32         *BWDATA_MapFogOfWar     = NULL;

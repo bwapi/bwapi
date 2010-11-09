@@ -174,14 +174,25 @@ namespace BWAPI
       {
         data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
         data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
-        data->mapTileRegionId[x][y] = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
+        if ( BW::BWDATA_SAIPathing )
+          data->mapTileRegionId[x][y] = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
+        else
+          data->mapTileRegionId[x][y] = 0;
       }
-    for(int i=0;i<5000;i++)
+    
+    memset(data->mapSplitTilesMiniTileMask, 0, sizeof(data->mapSplitTilesMiniTileMask));
+    memset(data->mapSplitTilesRegion1,      0, sizeof(data->mapSplitTilesRegion1));
+    memset(data->mapSplitTilesRegion2,      0, sizeof(data->mapSplitTilesRegion2));
+    memset(data->regionGroupIndex,          0, sizeof(data->regionGroupIndex));
+    if ( BW::BWDATA_SAIPathing )
     {
-      data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
-      data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
-      data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
-      data->regionGroupIndex[i]          = BW::BWDATA_SAIPathing->regions[i].groupIndex;
+      for(int i = 0; i < 5000; ++i)
+      {
+        data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
+        data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
+        data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
+        data->regionGroupIndex[i]          = BW::BWDATA_SAIPathing->regions[i].groupIndex;
+      }
     }
 
     data->mapWidth  = Broodwar->mapWidth();

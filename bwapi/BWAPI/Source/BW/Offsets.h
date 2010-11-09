@@ -45,7 +45,6 @@ namespace BW
   struct Bullet;
   struct BulletArray;
   class  TileType;
-  class  DoodatType;
   class  dialog;
   struct bitmap;
   struct rect;
@@ -175,6 +174,8 @@ namespace BW
   extern void (__stdcall *pOldDrawGameProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::bitmap *pSurface, BW::bounds *pBounds);
 
+  static RECT *BWDATA_ScrLimit = (RECT*)0x0051A15C;
+  static RECT *BWDATA_ScrSize  = (RECT*)0x0051A16C;
   //------------------------------------------- CLIST DATA ---------------------------------------------------
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
   static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
@@ -421,7 +422,6 @@ namespace BW
   extern TileID     *BWDATA_ZergCreepArray;
   extern TileID     *BWDATA_MapTileArray;
   extern TileType   *BWDATA_TileSet;
-  extern DoodatType *BWDATA_DoodatSet;
 
   /** Direct mapping of minitile flags array */
   struct MiniTileMaps_type

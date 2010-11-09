@@ -212,10 +212,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\DoodatType.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\GroupFlags.h"
 					>
 				</File>

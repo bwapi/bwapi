@@ -2,7 +2,6 @@
 
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
-#include <BW/DoodatType.h>
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <fstream>
@@ -160,7 +159,9 @@ namespace BWAPI
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    return *(BW::BWDATA_MapTileArray + x + y * Map::getWidth());
+    if ( BW::BWDATA_MapTileArray )
+      return *(BW::BWDATA_MapTileArray + x + y * Map::getWidth());
+    return 0;
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
@@ -171,8 +172,16 @@ namespace BWAPI
   void Map::setBuildability()
   {
     for (unsigned int y = 0; y < BWAPI::Map::getHeight(); ++y)
+    {
       for (unsigned int x = 0; x < BWAPI::Map::getWidth(); ++x)
-        this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0x8);
+      {
+        BW::TileType *tile = BW::TileSet::getTileType(BWAPI::Map::getTile(x, y));
+        if ( tile )
+          this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0x8);
+        else
+          this->buildability[x][y] = false;
+      }
+    }
     int y = BWAPI::Map::getHeight()-1;
     for(unsigned int x = 0; x < BWAPI::Map::getWidth();x++)
     {
@@ -221,7 +230,11 @@ namespace BWAPI
     int my = y % 4;
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
-    return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+    if ( tile && BW::BWDATA_MiniTileFlags )
+      return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+    Util::BitMask<u16> empty;
+    empty.value = 0;
+    return empty;
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
   std::string Map::getMapHash()
