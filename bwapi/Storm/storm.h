@@ -395,21 +395,21 @@ BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 
 #endif
 
-BOOL __stdcall STransBlt(int handle, int a2, int a3, int a4, int a5);
+BOOL __stdcall STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5);
 BOOL __stdcall STransBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle);
 
-BOOL __stdcall STransDelete(int handle);
+BOOL __stdcall STransDelete(HANDLE hTrans);
 
-BOOL __stdcall STransDuplicate(int handle, int source);
-BOOL __stdcall STransIntersectDirtyArray(int handle, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
-BOOL __stdcall STransInvertMask(int handle, int sourcemask);
+BOOL __stdcall STransDuplicate(HANDLE hTrans, int source);
+BOOL __stdcall STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
+BOOL __stdcall STransInvertMask(HANDLE hTrans, int sourcemask);
 
 BOOL __stdcall STransSetDirtyArrayInfo(int width, int height, int depth, int bits);
 
 BOOL __stdcall STrans442(int a1, int a2, int a3, char *a4, size_t a5);
-BOOL __stdcall STransCombineMasks(int handle, int a2, int a3, int a4, int depth, int a6);
+BOOL __stdcall STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6);
 
-BOOL __stdcall STransCreateE(int a1, int a2, int a3, int bpp, int a5, int bufferSize, int a7);
+BOOL __stdcall STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut);
 
 BOOL __stdcall SVidDestroy();
 BOOL __stdcall SVidGetSize(HANDLE video, int width, int height, int zero);

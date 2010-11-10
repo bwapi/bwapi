@@ -143,9 +143,26 @@ namespace BW
   static void (__fastcall **BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
   static dialog           **BWDATA_DialogList                                   = (dialog**)  0x006D5E34;
   static fntHead          **BWDATA_FontBase                                     = (fntHead**) 0x006CE0F4;
+  
   static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
-  static u8               *BWDATA_RefreshRegions                                = (u8*)       0x006CEFF8;
+  static bitmap           *BWDATA_GameScreenConsole                             = (bitmap*)   0x00597240;
+  
+  struct bltMask
+  {
+    bltMask *prev;
+    bltMask *next;
+    HANDLE  hTrans;
+    RECT    info;
+    DWORD   dwReserved;
+  };
+  static bltMask *BWDATA_MainBltMask = (bltMask*)0x00597238;
 
+  static void (__cdecl *BWFXN_DDrawDestroy)()       = (void(__cdecl*)())0x0041D8B0;
+  static void (__cdecl *BWFXN_DDrawInitialize)()    = (void(__cdecl*)())0x0041D930;
+  static IDirectDrawSurface *BWDATA_PrimarySurface  = (IDirectDrawSurface*)0x006D5E00;
+  static PALETTEENTRY *BWDATA_StormPalette = (PALETTEENTRY*)0x006CE320;
+
+  static u8               *BWDATA_RefreshRegions                                = (u8*)       0x006CEFF8;
   static u8               *BWDATA_PlayerColors                                  = (u8*)       0x00581DD6;
 
   struct bounds
@@ -176,6 +193,8 @@ namespace BW
 
   static RECT *BWDATA_ScrLimit = (RECT*)0x0051A15C;
   static RECT *BWDATA_ScrSize  = (RECT*)0x0051A16C;
+
+  
   //------------------------------------------- CLIST DATA ---------------------------------------------------
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
   static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;

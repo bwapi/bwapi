@@ -112,7 +112,6 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
-//  drawBox(500, 30, 500, 500, 55, 0);    // draw past boundry test
   unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
   for( unsigned int i = 0; i < numShapes; ++i )
     BWAPI::BroodwarImpl.shapes[i]->draw();
