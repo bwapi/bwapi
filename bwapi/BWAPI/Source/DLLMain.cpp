@@ -75,9 +75,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       lpDDPrimarySurface->SetClipper(NULL);
     }
     break;
-  case WM_CLOSE:
-  case WM_QUIT:
-    ExitProcess(0);
+  case WM_MOUSEMOVE:
+    ClipCursor(NULL);
+    break;
   }
   if ( wOriginalProc )
     return wOriginalProc(hwnd, uMsg, wParam, lParam);
