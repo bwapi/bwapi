@@ -102,14 +102,15 @@ HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **b
 BOOL __stdcall SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle) rBool;
 BOOL __stdcall SCodeDelete(HANDLE handle) rBool;
 
-int __stdcall SCodeExecute(HANDLE handle, int a2) rInt;
+int  __stdcall SCodeExecute(HANDLE handle, int a2) rInt;
 
+BOOL __stdcall SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits) rBool;
 BOOL __stdcall SDrawCaptureScreen(char *source) rBool;
 
 HWND __stdcall SDrawGetFrameWindow(HWND sdraw_framewindow) rPVoid;
 
 BOOL __stdcall SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused) rBool;
-BOOL __stdcall SDrawManualInitialize(HWND hWnd, IDirectDraw *ddInterface, IDirectDrawSurface *primarySurface, int a4, int a5, IDirectDrawSurface *backSurface, IDirectDrawPalette *palette, int a8) rBool;
+BOOL __stdcall SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette) rBool;
 
 BOOL __stdcall SDrawRealizePalette() rBool;
 
@@ -142,11 +143,11 @@ BOOL __stdcall SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD r
 BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags) rBool;
 
 BOOL __stdcall STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5) rBool;
-BOOL __stdcall STransBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle) rBool;
+BOOL __stdcall STransBltUsingMask(void *lpSurface, void *pMask, int pitch, int width, HANDLE hTrans) rBool;
 
 BOOL __stdcall STransDelete(HANDLE hTrans) rBool;
 
-BOOL __stdcall STransDuplicate(HANDLE hTrans, int source) rBool;
+BOOL __stdcall STransDuplicate(HANDLE hTransSource, HANDLE hTransDest) rBool;
 BOOL __stdcall STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask) rBool;
 BOOL __stdcall STransInvertMask(HANDLE hTrans, int sourcemask) rBool;
 

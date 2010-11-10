@@ -149,7 +149,7 @@ EXPORTS
   SCodeExecute                  @334 NONAME
   ;SCodeGetPseudocode            @335 NONAME
 
-  ;SDrawAutoInitialize           @341 NONAME
+  SDrawAutoInitialize           @341 NONAME
   SDrawCaptureScreen            @342 NONAME
   ;SDrawClearSurface             @343 NONAME
   ;SDrawDestroy                  @344 NONAME

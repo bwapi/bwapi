@@ -26,6 +26,64 @@ char szInstallPath[MAX_PATH];
 
 DWORD gdwProcNum = 0;
 
+WNDPROC wOriginalProc;
+LPDIRECTDRAW        lpDDInterface;
+LPDIRECTDRAWSURFACE lpDDPrimarySurface;
+LPDIRECTDRAWSURFACE lpDDOverlaySurface;
+LPDIRECTDRAWCLIPPER lpDDClipper;
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  switch ( uMsg )
+  {
+  case WM_SIZE:
+  case WM_MOVE:
+    {
+      RECT rctThis;
+      RECT rctOverlay;
+
+      GetWindowRect(hwnd, &rctThis);
+      SetRect(&rctOverlay, 0, 0, 640, 480);
+
+      DDOVERLAYFX ddOlEffects;
+      ddOlEffects.dwSize                                = sizeof(DDOVERLAYFX);
+      ddOlEffects.dckDestColorkey.dwColorSpaceLowValue  = 0;
+      ddOlEffects.dckDestColorkey.dwColorSpaceHighValue = 0;
+
+      lpDDOverlaySurface->UpdateOverlay(&rctOverlay, lpDDPrimarySurface, &rctThis, DDOVER_KEYDESTOVERRIDE | DDOVER_SHOW, &ddOlEffects);
+      break;
+    }
+  case WM_PAINT:
+    {
+      lpDDPrimarySurface->SetClipper(lpDDClipper);
+
+      PAINTSTRUCT paint;
+      BeginPaint(hwnd, &paint);
+      
+      POINT ptFirst  = { paint.rcPaint.left,  paint.rcPaint.top    };
+      POINT ptSecond = { paint.rcPaint.right, paint.rcPaint.bottom };
+      ClientToScreen(hwnd, &ptFirst);
+      ClientToScreen(hwnd, &ptSecond);
+      RECT rctBlit = { ptFirst.x, ptFirst.y, ptSecond.x, ptSecond.y };
+      
+      DDBLTFX effects;
+      effects.dwSize      = sizeof(DDBLTFX);
+      effects.dwFillColor = 0;
+      lpDDPrimarySurface->Blt(&rctBlit, NULL, &rctBlit, DDBLT_COLORFILL | DDBLT_WAIT, &effects);
+
+      EndPaint(hwnd, &paint);
+      lpDDPrimarySurface->SetClipper(NULL);
+    }
+    break;
+  case WM_CLOSE:
+  case WM_QUIT:
+    ExitProcess(0);
+  }
+  if ( wOriginalProc )
+    return wOriginalProc(hwnd, uMsg, wParam, lParam);
+  return false;
+}
+
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
 // Found/modified this from some random help board
 DWORD getProcessCount(const char *pszProcName)
@@ -423,6 +481,19 @@ void BWAPIError(const char *format, ...)
     fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
     fclose(f);
   }
+}
+
+void BWAPIError(DWORD dwErrCode, const char *format, ...)
+{
+  char buffer[MAX_BUFFER];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
+  va_end(ap);
+
+  char szErrString[256];
+  SErrGetErrorStr(dwErrCode, szErrString, 256);
+  BWAPIError("%s    %s", szErrString, buffer);
 }
 
 char logPath[MAX_PATH];

@@ -1,6 +1,7 @@
 #pragma once
 #include <BWAPI/CoordinateType.h>
 #include <windows.h>
+#include <ddraw.h>
 #include "BW/Offsets.h"
 
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length);
@@ -10,6 +11,7 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size);
 void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
 
 void BWAPIError(const char *format, ...);
+void BWAPIError(DWORD dwErrCode, const char *format, ...);
 
 extern char logPath[MAX_PATH];
 extern bool logging;
@@ -20,3 +22,10 @@ extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern WNDPROC wOriginalProc;
+extern LPDIRECTDRAW        lpDDInterface;
+extern LPDIRECTDRAWSURFACE lpDDPrimarySurface;
+extern LPDIRECTDRAWSURFACE lpDDOverlaySurface;
+extern LPDIRECTDRAWCLIPPER lpDDClipper;
