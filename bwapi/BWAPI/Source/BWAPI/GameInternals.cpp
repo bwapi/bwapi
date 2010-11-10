@@ -1419,19 +1419,10 @@ namespace BWAPI
     else if (parsed[0] == "/wmode")
     {
       HWND hWnd = SDrawGetFrameWindow(NULL);
-      //HINSTANCE hInst = (HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE);
 
       ChangeDisplaySettings(0, 0);
       SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-      
-/*
-      char szClassName[256];
-      GetClassName(hWnd, szClassName, 256);
 
-      char szWindowName[256];
-      GetWindowText(hWnd, szWindowName, 256);
-*/
-      wOriginalProc = (WNDPROC)GetWindowLong(hWnd, GWL_WNDPROC);
       BW::BWFXN_DDrawDestroy();
 
       ///////////////////////////////////
@@ -1475,10 +1466,13 @@ namespace BWAPI
       if ( dwErr != DD_OK )
         BWAPIError(dwErr, "Create Clipper failed");
 
-      SetWindowLong(hWnd, GWL_WNDPROC, (LONG)&WindowProc);
       lpDDClipper->SetHWnd(0, hWnd);
+      SDrawManualInitialize(hWnd, lpDDInterface, lpDDPrimarySurface, NULL, NULL, NULL, NULL, NULL);
 
-      SDrawManualInitialize(hWnd, lpDDInterface, lpDDPrimarySurface, NULL, NULL, lpDDOverlaySurface, NULL, NULL);
+      wOriginalProc = (WNDPROC)GetWindowLong(hWnd, GWL_WNDPROC);
+      SetWindowLong(hWnd, GWL_WNDPROC, (LONG)&WindowProc);
+
+      ShowWindow(hWnd, SW_RESTORE);
       MoveWindow(hWnd, 0, 0, 640, 480, TRUE);
       InvalidateRect(hWnd, 0, true);
     }

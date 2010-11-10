@@ -52,7 +52,7 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
   //BWL Gets version from Resource - VersionInfo
   Data.iPluginAPI      = 4;
-  Data.iStarCraftBuild = 13;
+  Data.iStarCraftBuild = -1;
   Data.bConfigDialog   = TRUE;
   Data.bNotSCBWmodule  = FALSE;
 }
@@ -107,11 +107,6 @@ extern "C" __declspec(dllexport) bool OpenConfig()
   return true;
 }
 
-extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE, DWORD)
-{
-  return true;
-}
-
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
   char envBuffer[MAX_PATH];
@@ -150,4 +145,10 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
   return true; //everything OK
+}
+
+extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD lParam)
+{
+  ApplyPatch(hProcess, lParam);
+  return true;
 }
