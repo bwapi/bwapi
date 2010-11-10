@@ -47,6 +47,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "NewHackUtil.h"
 
 #include "ShapeBox.h"
 #include "ShapeCircle.h"
@@ -1353,22 +1354,35 @@ namespace BWAPI
       grid = !grid;
       printf("mtx grid %s", grid ? "ENABLED" : "DISABLED");
     }
-    else if (parsed[0] == "/test")
+    else if (parsed[0] == "/resize")
     {
       printf("Done");
       HWND hWnd = SDrawGetFrameWindow(NULL);
       MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
 
+      BW::BWFXN_DDrawDestroy();
+      DWORD dwScrWid = 1024;
+      DWORD dwScrHgt = 768;
+      HackUtil::WriteMem(0x0041DA43, &dwScrWid, 4);
+      HackUtil::WriteMem(0x0041DB9F, &dwScrWid, 4);
+      HackUtil::WriteMem(0x0041DA3E, &dwScrHgt, 4);
+      HackUtil::WriteMem(0x0041DBA6, &dwScrHgt, 4);
+      BW::BWFXN_DDrawInitialize();
+
+    }
+    else if (parsed[0] == "/test")
+    {
+      printf("Done");
       void *newBuf = SMAlloc(1024 * 768);
       void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
       
       SMemFill(newBuf, 1024 * 768, 33);
-      SMemCopy(newBuf, oldBuf, BW::BWDATA_GameScreenBuffer->wid * BW::BWDATA_GameScreenBuffer->ht);
 
       BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
       BW::BWDATA_GameScreenBuffer->wid = 1024;
       BW::BWDATA_GameScreenBuffer->ht = 768;
-      SMFree(oldBuf);
+      if ( oldBuf )
+        SMFree(oldBuf);
 
       BW::BWDATA_ScreenLayers[5].width = 1024;
       BW::BWDATA_ScreenLayers[5].height = 768 - 80;
@@ -1376,6 +1390,22 @@ namespace BWAPI
       BW::BWDATA_ScrLimit->bottom = 767;
       BW::BWDATA_ScrSize->right   = 1024;
       BW::BWDATA_ScrSize->bottom  = 768;
+
+      newBuf = SMAlloc(1024 * 768);
+      oldBuf = BW::BWDATA_GameScreenConsole->data;
+
+      BW::BWDATA_GameScreenConsole->data = (u8*)newBuf;
+      BW::BWDATA_GameScreenConsole->wid = 1024;
+      BW::BWDATA_GameScreenConsole->ht = 768;
+      if ( oldBuf )
+        SMFree(oldBuf);
+
+      if ( BW::BWDATA_MainBltMask->hTrans )
+        STransDelete(BW::BWDATA_MainBltMask->hTrans);
+      HANDLE hNewTrans;
+
+      STransCreateE(newBuf, 1024, 768, 8, 0, 0, &hNewTrans);
+      BW::BWDATA_MainBltMask->hTrans = hNewTrans;
     }
 #endif
     else
