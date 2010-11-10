@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <math.h>
 #include <fstream>
+#include <ddraw.h>
 
 #include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
@@ -1373,6 +1374,9 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       printf("Done");
+      HWND hWnd = SDrawGetFrameWindow(NULL);
+      MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
+
       void *newBuf = SMAlloc(1024 * 768);
       void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
       
@@ -1400,12 +1404,83 @@ namespace BWAPI
       if ( oldBuf )
         SMFree(oldBuf);
 
-      if ( BW::BWDATA_MainBltMask->hTrans )
-        STransDelete(BW::BWDATA_MainBltMask->hTrans);
-      HANDLE hNewTrans;
+      if ( (*BW::BWDATA_MainBltMask)->hTrans )
+        STransDelete((*BW::BWDATA_MainBltMask)->hTrans);
 
-      STransCreateE(newBuf, 1024, 768, 8, 0, 0, &hNewTrans);
-      BW::BWDATA_MainBltMask->hTrans = hNewTrans;
+      //BW::BWDATA_MainBltMask->prev        = *BW::BWDATA_BltMaskVector;
+      //BW::BWDATA_MainBltMask->next        = 
+      //BW::BWDATA_MainBltMask->hTrans      = NULL
+      (*BW::BWDATA_MainBltMask)->info.right  = 1024;
+      (*BW::BWDATA_MainBltMask)->info.bottom = 768;
+      STransCreateE(newBuf, 1024, 768, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
+
+      BW::BWFXN_UpdateBltMasks();
+    }
+    else if (parsed[0] == "/wmode")
+    {
+      HWND hWnd = SDrawGetFrameWindow(NULL);
+      //HINSTANCE hInst = (HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE);
+
+      ChangeDisplaySettings(0, 0);
+      SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+      
+/*
+      char szClassName[256];
+      GetClassName(hWnd, szClassName, 256);
+
+      char szWindowName[256];
+      GetWindowText(hWnd, szWindowName, 256);
+*/
+      wOriginalProc = (WNDPROC)GetWindowLong(hWnd, GWL_WNDPROC);
+      BW::BWFXN_DDrawDestroy();
+
+      ///////////////////////////////////
+      // BEGIN DIRECTDRAW STUFF
+      ///////////////////////////////////
+      HMODULE ddLib = LoadLibrary("ddraw.dll");
+      
+      HRESULT (WINAPI *_DirectDrawCreate)(GUID*,LPDIRECTDRAW*,IUnknown*) = (HRESULT (WINAPI*)(GUID*,LPDIRECTDRAW*,IUnknown*))GetProcAddress(ddLib, "DirectDrawCreate");
+      DWORD dwErr = _DirectDrawCreate(NULL, &lpDDInterface, NULL);
+      if ( dwErr != DD_OK )
+        BWAPIError(dwErr, "DirectDrawCreate failure");
+
+      dwErr = lpDDInterface->SetCooperativeLevel(hWnd, DDSCL_NORMAL);
+      if ( dwErr != DD_OK )
+        BWAPIError(dwErr, "SetCooperativeLevel failure");
+
+      DDSURFACEDESC ddSurfaceDesc;
+      ddSurfaceDesc.dwSize          = sizeof(DDSURFACEDESC);
+      ddSurfaceDesc.dwFlags         = DDSD_CAPS;
+      ddSurfaceDesc.ddsCaps.dwCaps  = DDSCAPS_PRIMARYSURFACE;
+
+      dwErr = lpDDInterface->CreateSurface(&ddSurfaceDesc, &lpDDPrimarySurface, NULL);
+      if ( dwErr != DD_OK )
+        BWAPIError(dwErr, "Create Primary Surface failed");
+
+      ddSurfaceDesc.dwSize                        = sizeof(DDSURFACEDESC);
+      ddSurfaceDesc.dwFlags                       = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT;
+      ddSurfaceDesc.ddsCaps.dwCaps                = DDSCAPS_OVERLAY;
+      ddSurfaceDesc.dwWidth                       = 640;
+      ddSurfaceDesc.dwHeight                      = 480;
+      ddSurfaceDesc.ddpfPixelFormat.dwSize        = sizeof(DDPIXELFORMAT);
+      ddSurfaceDesc.ddpfPixelFormat.dwFlags       = DDPF_FOURCC;
+      ddSurfaceDesc.ddpfPixelFormat.dwFourCC      = 'YVYU';
+      ddSurfaceDesc.ddpfPixelFormat.dwYUVBitCount = 16;
+
+      dwErr = lpDDInterface->CreateSurface(&ddSurfaceDesc, &lpDDOverlaySurface, NULL);
+      if ( dwErr != DD_OK )
+        BWAPIError(dwErr, "Create Overlay Surface failed");
+
+      dwErr = lpDDInterface->CreateClipper(0, &lpDDClipper, NULL);
+      if ( dwErr != DD_OK )
+        BWAPIError(dwErr, "Create Clipper failed");
+
+      SetWindowLong(hWnd, GWL_WNDPROC, (LONG)&WindowProc);
+      lpDDClipper->SetHWnd(0, hWnd);
+
+      SDrawManualInitialize(hWnd, lpDDInterface, lpDDPrimarySurface, NULL, NULL, lpDDOverlaySurface, NULL, NULL);
+      MoveWindow(hWnd, 0, 0, 640, 480, TRUE);
+      InvalidateRect(hWnd, 0, true);
     }
 #endif
     else

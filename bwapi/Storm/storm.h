@@ -326,12 +326,13 @@ BOOL __stdcall SCodeDelete(HANDLE handle);
 
 int  __stdcall SCodeExecute(HANDLE handle, int a2);
 
+BOOL __stdcall SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits);
 BOOL __stdcall SDrawCaptureScreen(char *source);
 
 HWND __stdcall SDrawGetFrameWindow(HWND sdraw_framewindow);
 
 BOOL __stdcall SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
-BOOL __stdcall SDrawManualInitialize(HWND hWnd, IDirectDraw *ddInterface, IDirectDrawSurface *primarySurface, int a4, int a5, IDirectDrawSurface *backSurface, IDirectDrawPalette *palette, int a8);
+BOOL __stdcall SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette);
 
 BOOL __stdcall SDrawRealizePalette();
 
@@ -396,11 +397,11 @@ BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 #endif
 
 BOOL __stdcall STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5);
-BOOL __stdcall STransBltUsingMask(int lpSurface, int a2, int pitch, int width, int handle);
+BOOL __stdcall STransBltUsingMask(void *lpSurface, void *pMask, int pitch, int width, HANDLE hTrans);
 
 BOOL __stdcall STransDelete(HANDLE hTrans);
 
-BOOL __stdcall STransDuplicate(HANDLE hTrans, int source);
+BOOL __stdcall STransDuplicate(HANDLE hTransSource, HANDLE hTransDest);
 BOOL __stdcall STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
 BOOL __stdcall STransInvertMask(HANDLE hTrans, int sourcemask);
 

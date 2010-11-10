@@ -155,15 +155,14 @@ namespace BW
     RECT    info;
     DWORD   dwReserved;
   };
-  static bltMask *BWDATA_MainBltMask = (bltMask*)0x00597238;
+  static bltMask **BWDATA_MainBltMask = (bltMask**)0x00597238;
 
   static void (__cdecl *BWFXN_DDrawDestroy)()       = (void(__cdecl*)())0x0041D8B0;
   static void (__cdecl *BWFXN_DDrawInitialize)()    = (void(__cdecl*)())0x0041D930;
-  static IDirectDrawSurface *BWDATA_PrimarySurface  = (IDirectDrawSurface*)0x006D5E00;
-  static PALETTEENTRY *BWDATA_StormPalette = (PALETTEENTRY*)0x006CE320;
+  static void (__cdecl *BWFXN_UpdateBltMasks)()     = (void(__cdecl*)())0x0041D470;
 
-  static u8               *BWDATA_RefreshRegions                                = (u8*)       0x006CEFF8;
-  static u8               *BWDATA_PlayerColors                                  = (u8*)       0x00581DD6;
+  static u8 *BWDATA_RefreshRegions = (u8*)0x006CEFF8;
+  static u8 *BWDATA_PlayerColors   = (u8*)0x00581DD6;
 
   struct bounds
   {
