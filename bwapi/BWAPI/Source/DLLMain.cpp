@@ -79,6 +79,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   case WM_MBUTTONUP:
   case WM_MBUTTONDBLCLK:
     {
+
       RECT rct;
       GetClientRect(hWnd, &rct);
 
@@ -94,6 +95,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       lParam = MAKELPARAM(pt.x, pt.y);
       break;
     }
+  case WM_ACTIVATEAPP:
+    if ( wOriginalProc )
+      return wOriginalProc(hWnd, WM_ACTIVATEAPP, (WPARAM)1, NULL);
+  case WM_SETCURSOR:
+  case WM_ERASEBKGND:
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
   }
   if ( wOriginalProc )
     return wOriginalProc(hWnd, uMsg, wParam, lParam);
