@@ -133,6 +133,25 @@ BOOL WINAPI _ClipCursor(const RECT *lpRect)
   return TRUE;
 }
 
+BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused)
+{
+  if ( !ghMainWnd )
+    return SDrawLockSurface(surfacenumber, lpDestRect, lplpSurface, lpPitch, arg_unused);
+
+  if ( lplpSurface )
+    *lplpSurface = BW::BWDATA_GameScreenBuffer->data;
+  if ( lpPitch )
+    *lpPitch = 640;
+  return TRUE;
+}
+
+BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
+{
+  if ( !ghMainWnd )
+    return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
+
+  return TRUE;
+}
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
 // Found/modified this from some random help board
 DWORD getProcessCount(const char *pszProcName)
@@ -253,7 +272,17 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   }
 
   if ( ghMainWnd )
+  {
+/*    
+    for ( BW::dialog *i = *BW::BWDATA_DialogList; i != NULL; i = i->next() )
+    {
+      if ( i->srcBits.data )
+        i->setFlags(CTRL_DLG_NOREDRAW);
+      if ( !i->next() )
+        break;
+    }*/
     InvalidateRect(ghMainWnd, NULL, TRUE);
+  }
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
@@ -647,6 +676,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
   HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
   HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
+  HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
   return 0;
 }
 
