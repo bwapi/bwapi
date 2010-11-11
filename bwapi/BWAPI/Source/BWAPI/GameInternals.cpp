@@ -1361,14 +1361,17 @@ namespace BWAPI
       HWND hWnd = SDrawGetFrameWindow(NULL);
       MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
 
-      BW::BWFXN_DDrawDestroy();
-      DWORD dwScrWid = 1024;
-      DWORD dwScrHgt = 768;
-      HackUtil::WriteMem(0x0041DA43, &dwScrWid, 4);
-      HackUtil::WriteMem(0x0041DB9F, &dwScrWid, 4);
-      HackUtil::WriteMem(0x0041DA3E, &dwScrHgt, 4);
-      HackUtil::WriteMem(0x0041DBA6, &dwScrHgt, 4);
-      BW::BWFXN_DDrawInitialize();
+      if ( !ghMainWnd )
+      {
+        BW::BWFXN_DDrawDestroy();
+        DWORD dwScrWid = 1024;
+        DWORD dwScrHgt = 768;
+        HackUtil::WriteMem(0x0041DA43, &dwScrWid, 4);
+        HackUtil::WriteMem(0x0041DB9F, &dwScrWid, 4);
+        HackUtil::WriteMem(0x0041DA3E, &dwScrHgt, 4);
+        HackUtil::WriteMem(0x0041DBA6, &dwScrHgt, 4);
+        BW::BWFXN_DDrawInitialize();
+      }
 
     }
     else if (parsed[0] == "/test")
@@ -1407,9 +1410,6 @@ namespace BWAPI
       if ( (*BW::BWDATA_MainBltMask)->hTrans )
         STransDelete((*BW::BWDATA_MainBltMask)->hTrans);
 
-      //BW::BWDATA_MainBltMask->prev        = *BW::BWDATA_BltMaskVector;
-      //BW::BWDATA_MainBltMask->next        = 
-      //BW::BWDATA_MainBltMask->hTrans      = NULL
       (*BW::BWDATA_MainBltMask)->info.right  = 1024;
       (*BW::BWDATA_MainBltMask)->info.bottom = 768;
       STransCreateE(newBuf, 1024, 768, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
@@ -1423,7 +1423,7 @@ namespace BWAPI
 
       // Call the DirectDraw destructor
       BW::BWFXN_DDrawDestroy();
-
+      SDrawManualInitialize(ghMainWnd, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       // Create Bitmap HDC
       BITMAPINFO256 bmp = { 0 };
       HBITMAP    hBmp  = NULL;
