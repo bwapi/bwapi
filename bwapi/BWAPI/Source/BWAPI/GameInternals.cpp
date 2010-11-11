@@ -1434,7 +1434,13 @@ namespace BWAPI
       bmp.bmiHeader.biPlanes      = 1;
       bmp.bmiHeader.biBitCount    = 8;
       bmp.bmiHeader.biCompression = BI_RGB;
-      memcpy(bmp.bmiColors, BWAPI::palette, 256 * 4);
+      for ( int i = 0; i < 256; ++i )
+      {
+        bmp.bmiColors[i].rgbRed       = BW::BWDATA_GamePalette[i].peRed;
+        bmp.bmiColors[i].rgbGreen     = BW::BWDATA_GamePalette[i].peGreen;
+        bmp.bmiColors[i].rgbBlue      = BW::BWDATA_GamePalette[i].peBlue;
+        bmp.bmiColors[i].rgbReserved  = 0;
+      }
 
       hBmp = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
       hdcMem = CreateCompatibleDC(NULL);

@@ -45,6 +45,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           PAINTSTRUCT paint;
           BeginPaint(hWnd, &paint);
 
+          RGBQUAD newPalette[256];
+          for ( int i = 0; i < 256; ++i )
+          {
+            newPalette[i].rgbRed       = BW::BWDATA_GamePalette[i].peRed;
+            newPalette[i].rgbGreen     = BW::BWDATA_GamePalette[i].peGreen;
+            newPalette[i].rgbBlue      = BW::BWDATA_GamePalette[i].peBlue;
+            newPalette[i].rgbReserved  = 0;
+          }
+          SetDIBColorTable(hdcMem, 0, 256, newPalette);
+
           // Copy the broodwar drawing buffer over
           memcpy(pBits, BW::BWDATA_GameScreenBuffer->data, 640*480);
 
