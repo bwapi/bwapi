@@ -1,0 +1,20 @@
+REVISION    RELEASE
+
+2917        BWAPI Beta 3.2
+2864        BWAPI Beta 3.1.1
+2796        BWAPI Beta 3.1
+2639        BWAPI Beta 3.0.3
+2635        BWAPI Beta 3.0.2
+2630        BWAPI Beta 3.0.1
+2627        BWAPI Beta 3.0
+2422        BWAPI Beta 2.8
+2239        BWAPI Beta 2.7.2
+2224        BWAPI Beta 2.7.1
+1914        BWAPI Beta 2.6.1
+1910        BWAPI Beta 2.6
+1830        BWAPI Beta 2.5
+1689        BWAPI Beta 2.4
+1610        BWAPI Beta 2.3
+1491        BWAPI Beta 2.2
+1416        BWAPI Beta 2.1
+1400        BWAPI Beta 2
