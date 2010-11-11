@@ -4,6 +4,11 @@
 #include <ddraw.h>
 #include "BW/Offsets.h"
 
+struct BITMAPINFO256 {
+    BITMAPINFOHEADER    bmiHeader;
+    RGBQUAD             bmiColors[256];
+};
+
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length);
 void drawDot(int _x, int _y, int color, int ctype);
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype);
@@ -25,7 +30,6 @@ extern char szConfigPath[MAX_PATH];
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 extern WNDPROC wOriginalProc;
-extern LPDIRECTDRAW        lpDDInterface;
-extern LPDIRECTDRAWSURFACE lpDDPrimarySurface;
-extern LPDIRECTDRAWSURFACE lpDDOverlaySurface;
-extern LPDIRECTDRAWCLIPPER lpDDClipper;
+extern HWND ghMainWnd;
+extern HDC  hdcMem;
+extern void* pBits;

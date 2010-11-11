@@ -3,6 +3,7 @@
 #include <set>
 namespace BWAPI
 {
+  extern int palette[256];
   // TODO: Add color palette image and info about text color
   /** StarCraft uses a 256 color palette to render everything, so the colors we can use to draw shapes using
    * BWAPI is limited to the colors available in the Palette. */
