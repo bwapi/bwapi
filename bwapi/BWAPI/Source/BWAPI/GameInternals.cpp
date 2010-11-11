@@ -1418,63 +1418,38 @@ namespace BWAPI
     }
     else if (parsed[0] == "/wmode")
     {
-      HWND hWnd = SDrawGetFrameWindow(NULL);
+      // Easily obtain the hWnd of the Broodwar window
+      ghMainWnd = SDrawGetFrameWindow(NULL);
 
-      ChangeDisplaySettings(0, 0);
-      SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-
+      // Call the DirectDraw destructor
       BW::BWFXN_DDrawDestroy();
 
-      ///////////////////////////////////
-      // BEGIN DIRECTDRAW STUFF
-      ///////////////////////////////////
-      HMODULE ddLib = LoadLibrary("ddraw.dll");
-      
-      HRESULT (WINAPI *_DirectDrawCreate)(GUID*,LPDIRECTDRAW*,IUnknown*) = (HRESULT (WINAPI*)(GUID*,LPDIRECTDRAW*,IUnknown*))GetProcAddress(ddLib, "DirectDrawCreate");
-      DWORD dwErr = _DirectDrawCreate(NULL, &lpDDInterface, NULL);
-      if ( dwErr != DD_OK )
-        BWAPIError(dwErr, "DirectDrawCreate failure");
+      // Create Bitmap HDC
+      BITMAPINFO256 bmp = { 0 };
+      HBITMAP    hBmp  = NULL;
 
-      dwErr = lpDDInterface->SetCooperativeLevel(hWnd, DDSCL_NORMAL);
-      if ( dwErr != DD_OK )
-        BWAPIError(dwErr, "SetCooperativeLevel failure");
+      bmp.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
+      bmp.bmiHeader.biWidth       = 640;
+      bmp.bmiHeader.biHeight      = -480;
+      bmp.bmiHeader.biPlanes      = 1;
+      bmp.bmiHeader.biBitCount    = 8;
+      bmp.bmiHeader.biCompression = BI_RGB;
+      memcpy(bmp.bmiColors, BWAPI::palette, 256 * 4);
 
-      DDSURFACEDESC ddSurfaceDesc;
-      ddSurfaceDesc.dwSize          = sizeof(DDSURFACEDESC);
-      ddSurfaceDesc.dwFlags         = DDSD_CAPS;
-      ddSurfaceDesc.ddsCaps.dwCaps  = DDSCAPS_PRIMARYSURFACE;
+      hBmp = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
+      hdcMem = CreateCompatibleDC(NULL);
+      SelectObject(hdcMem, hBmp);
 
-      dwErr = lpDDInterface->CreateSurface(&ddSurfaceDesc, &lpDDPrimarySurface, NULL);
-      if ( dwErr != DD_OK )
-        BWAPIError(dwErr, "Create Primary Surface failed");
+      // Enables drawing in Broodwar, this will cause a crash on DDrawDestroy
+      *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
 
-      ddSurfaceDesc.dwSize                        = sizeof(DDSURFACEDESC);
-      ddSurfaceDesc.dwFlags                       = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT;
-      ddSurfaceDesc.ddsCaps.dwCaps                = DDSCAPS_OVERLAY;
-      ddSurfaceDesc.dwWidth                       = 640;
-      ddSurfaceDesc.dwHeight                      = 480;
-      ddSurfaceDesc.ddpfPixelFormat.dwSize        = sizeof(DDPIXELFORMAT);
-      ddSurfaceDesc.ddpfPixelFormat.dwFlags       = DDPF_FOURCC;
-      ddSurfaceDesc.ddpfPixelFormat.dwFourCC      = 'YVYU';
-      ddSurfaceDesc.ddpfPixelFormat.dwYUVBitCount = 16;
+      // Replace the existing WndProc with our own, but save the original.
+      wOriginalProc = (WNDPROC)GetWindowLong(ghMainWnd, GWL_WNDPROC);
+      SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
 
-      dwErr = lpDDInterface->CreateSurface(&ddSurfaceDesc, &lpDDOverlaySurface, NULL);
-      if ( dwErr != DD_OK )
-        BWAPIError(dwErr, "Create Overlay Surface failed");
-
-      dwErr = lpDDInterface->CreateClipper(0, &lpDDClipper, NULL);
-      if ( dwErr != DD_OK )
-        BWAPIError(dwErr, "Create Clipper failed");
-
-      lpDDClipper->SetHWnd(0, hWnd);
-      SDrawManualInitialize(hWnd, lpDDInterface, lpDDPrimarySurface, NULL, NULL, NULL, NULL, NULL);
-
-      wOriginalProc = (WNDPROC)GetWindowLong(hWnd, GWL_WNDPROC);
-      SetWindowLong(hWnd, GWL_WNDPROC, (LONG)&WindowProc);
-
-      ShowWindow(hWnd, SW_RESTORE);
-      MoveWindow(hWnd, 0, 0, 640, 480, TRUE);
-      InvalidateRect(hWnd, 0, true);
+      // Change the window settings
+      SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+      ShowWindow(ghMainWnd, SW_RESTORE);
     }
 #endif
     else

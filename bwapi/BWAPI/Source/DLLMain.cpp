@@ -27,52 +27,34 @@ char szInstallPath[MAX_PATH];
 DWORD gdwProcNum = 0;
 
 WNDPROC wOriginalProc;
-LPDIRECTDRAW        lpDDInterface;
-LPDIRECTDRAWSURFACE lpDDPrimarySurface;
-LPDIRECTDRAWSURFACE lpDDOverlaySurface;
-LPDIRECTDRAWCLIPPER lpDDClipper;
+HWND ghMainWnd;
+HDC  hdcMem;
+void* pBits;
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   switch ( uMsg )
   {
-  case WM_SIZE:
-  case WM_MOVE:
-    {
-      RECT rctThis;
-      RECT rctOverlay;
-
-      GetWindowRect(hwnd, &rctThis);
-      SetRect(&rctOverlay, 0, 0, 640, 480);
-
-      DDOVERLAYFX ddOlEffects;
-      ddOlEffects.dwSize                                = sizeof(DDOVERLAYFX);
-      ddOlEffects.dckDestColorkey.dwColorSpaceLowValue  = 0;
-      ddOlEffects.dckDestColorkey.dwColorSpaceHighValue = 0;
-
-      lpDDOverlaySurface->UpdateOverlay(&rctOverlay, lpDDPrimarySurface, &rctThis, DDOVER_KEYDESTOVERRIDE | DDOVER_SHOW, &ddOlEffects);
-      break;
-    }
   case WM_PAINT:
     {
-      lpDDPrimarySurface->SetClipper(lpDDClipper);
+      if ( BW::BWDATA_GameScreenBuffer->data )
+      {
+        if ( pBits )
+        {
+          // begin paint
+          PAINTSTRUCT paint;
+          BeginPaint(hWnd, &paint);
 
-      PAINTSTRUCT paint;
-      BeginPaint(hwnd, &paint);
-      
-      POINT ptFirst  = { paint.rcPaint.left,  paint.rcPaint.top    };
-      POINT ptSecond = { paint.rcPaint.right, paint.rcPaint.bottom };
-      ClientToScreen(hwnd, &ptFirst);
-      ClientToScreen(hwnd, &ptSecond);
-      RECT rctBlit = { ptFirst.x, ptFirst.y, ptSecond.x, ptSecond.y };
-      
-      DDBLTFX effects;
-      effects.dwSize      = sizeof(DDBLTFX);
-      effects.dwFillColor = 0;
-      lpDDPrimarySurface->Blt(&rctBlit, NULL, &rctBlit, DDBLT_COLORFILL | DDBLT_WAIT, &effects);
+          // Copy the broodwar drawing buffer over
+          memcpy(pBits, BW::BWDATA_GameScreenBuffer->data, 640*480);
 
-      EndPaint(hwnd, &paint);
-      lpDDPrimarySurface->SetClipper(NULL);
+          // Blit to the screen
+          BitBlt(paint.hdc, 0, 0, 640, 480, hdcMem, 0, 0, SRCCOPY);
+
+          // end paint
+          EndPaint(hWnd, &paint);
+        }
+      }
     }
     break;
   case WM_MOUSEMOVE:
@@ -80,7 +62,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     break;
   }
   if ( wOriginalProc )
-    return wOriginalProc(hwnd, uMsg, wParam, lParam);
+    return wOriginalProc(hWnd, uMsg, wParam, lParam);
   return false;
 }
 
@@ -202,6 +184,9 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     if ( endDialog )
       endDialog->findIndex(-2)->activate();
   }
+
+  if ( ghMainWnd )
+    InvalidateRect(ghMainWnd, NULL, TRUE);
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
