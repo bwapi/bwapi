@@ -68,12 +68,62 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     break;
   case WM_MOUSEMOVE:
-    ClipCursor(NULL);
-    break;
+  case WM_MOUSEWHEEL:
+  case WM_RBUTTONDOWN:
+  case WM_RBUTTONUP:
+  case WM_RBUTTONDBLCLK:
+  case WM_LBUTTONDOWN:
+  case WM_LBUTTONUP:
+  case WM_LBUTTONDBLCLK:
+  case WM_MBUTTONDOWN:
+  case WM_MBUTTONUP:
+  case WM_MBUTTONDBLCLK:
+    {
+      RECT rct;
+      GetClientRect(hWnd, &rct);
+
+      POINTS pt = MAKEPOINTS(lParam);
+      if ( pt.x <= rct.left )
+        pt.x = (SHORT)rct.left+1;
+      if ( pt.x >= rct.right )
+        pt.x = (SHORT)rct.right-1;
+      if ( pt.y <= rct.top )
+        pt.y = (SHORT)rct.top+1;
+      if ( pt.y >= rct.bottom )
+        pt.y = (SHORT)rct.bottom-1;
+      lParam = MAKELPARAM(pt.x, pt.y);
+      break;
+    }
   }
   if ( wOriginalProc )
     return wOriginalProc(hWnd, uMsg, wParam, lParam);
   return false;
+}
+
+BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
+{
+  BOOL rval = false;
+  if ( lpPoint )
+  {
+    rval = GetCursorPos(lpPoint);
+    if ( ghMainWnd )
+      ScreenToClient(ghMainWnd, lpPoint);
+  }
+  return rval;
+}
+
+BOOL WINAPI _SetCursorPos(int X, int Y)
+{
+  POINT pt = { X, Y };
+  if ( ghMainWnd )
+    ClientToScreen(ghMainWnd, &pt);
+  return SetCursorPos(pt.x, pt.y);
+}
+
+BOOL WINAPI _ClipCursor(const RECT *lpRect)
+{
+  // BAHAHAH too bad sucker
+  return TRUE;
 }
 
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
@@ -587,6 +637,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
+  HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
+  HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
+  HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
   return 0;
 }
 
