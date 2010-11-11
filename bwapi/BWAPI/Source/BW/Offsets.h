@@ -147,6 +147,7 @@ namespace BW
   static bitmap           *BWDATA_GameScreenBuffer                              = (bitmap*)   0x006CEFF0;
   static bitmap           *BWDATA_GameScreenConsole                             = (bitmap*)   0x00597240;
   
+  static PALETTEENTRY *BWDATA_GamePalette = (PALETTEENTRY*)0x006CE320;
   static LPDIRECTDRAWSURFACE *BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE*)0x006D5E00;
 
   struct bltMask
