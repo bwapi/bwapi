@@ -678,7 +678,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Source\Resolution.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\Resolution.h"
+			>
+		</File>
+		<File
 			RelativePath=".\source\StaticAssert.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\WMode.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\WMode.h"
 			>
 		</File>
 	</Files>

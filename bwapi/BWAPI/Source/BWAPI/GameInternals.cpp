@@ -48,6 +48,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "WMode.h"
 #include "NewHackUtil.h"
 
 #include "ShapeBox.h"
@@ -1083,16 +1084,16 @@ namespace BWAPI
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
   {
-    PostMessage(SDrawGetFrameWindow(NULL), WM_KEYDOWN, (WPARAM)key, NULL);
-    PostMessage(SDrawGetFrameWindow(NULL), WM_KEYUP, (WPARAM)key, NULL);
+    PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
+    PostMessage(SDrawGetFrameWindow(), WM_KEYUP, (WPARAM)key, NULL);
   }
   void GameImpl::mouseDown(int x, int y)
   {
-    PostMessage(SDrawGetFrameWindow(NULL), WM_LBUTTONDOWN, NULL, (LPARAM)MAKELONG(x,y));
+    PostMessage(SDrawGetFrameWindow(), WM_LBUTTONDOWN, NULL, (LPARAM)MAKELONG(x,y));
   }
   void GameImpl::mouseUp(int x, int y)
   {
-    PostMessage(SDrawGetFrameWindow(NULL), WM_LBUTTONUP, NULL, (LPARAM)MAKELONG(x,y));
+    PostMessage(SDrawGetFrameWindow(), WM_LBUTTONUP, NULL, (LPARAM)MAKELONG(x,y));
   }
 
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
@@ -1358,7 +1359,7 @@ namespace BWAPI
     else if (parsed[0] == "/resize")
     {
       printf("Done");
-      HWND hWnd = SDrawGetFrameWindow(NULL);
+      HWND hWnd = SDrawGetFrameWindow();
       MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
 
       if ( !ghMainWnd )
@@ -1377,7 +1378,7 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       printf("Done");
-      HWND hWnd = SDrawGetFrameWindow(NULL);
+      HWND hWnd = SDrawGetFrameWindow();
       MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
 
       void *newBuf = SMAlloc(1024 * 768);
@@ -1416,10 +1417,14 @@ namespace BWAPI
 
       BW::BWFXN_UpdateBltMasks();
     }
+    else if (parsed[0] == "/wproc")
+    {
+      printf("0x%p", GetWindowLong(SDrawGetFrameWindow(), GWL_WNDPROC));
+    }
     else if (parsed[0] == "/wmode")
     {
       // Easily obtain the hWnd of the Broodwar window
-      ghMainWnd = SDrawGetFrameWindow(NULL);
+      ghMainWnd = SDrawGetFrameWindow();
 
       // Call the DirectDraw destructor
       BW::BWFXN_DDrawDestroy();

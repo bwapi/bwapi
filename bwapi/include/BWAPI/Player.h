@@ -122,13 +122,31 @@ namespace BWAPI
        * upgrade type, see Unit::upgrade. */
       virtual bool isUpgrading(UpgradeType upgrade) const = 0;
 
-      /** Returns the max energy of the given unit type, taking into account upgrades */
-      virtual int maxEnergy(UnitType unit) const = 0;
-
       /** Returns the color of the player for drawing */
       virtual BWAPI::Color getColor() const = 0;
 
       /** Returns the color of the player for text messages */
       virtual int getTextColor() const = 0;
+
+      /** Returns the max energy of the given unit type, taking into account upgrades */
+      virtual int maxEnergy(UnitType unit) const = 0;
+
+      /** Returns the top speed of the given unit type, includes upgrades */
+      virtual double topSpeed(UnitType unit) const = 0;
+
+      /** Returns the max ground weapon range of the given unit type, includes upgrades */
+      virtual int groundWeaponMaxRange(UnitType unit) const = 0;
+
+      /** Returns the max air weapon range of the given unit type, includes upgrades */
+      virtual int airWeaponMaxRange(UnitType unit) const = 0;
+
+      /** Returns the sight range of the given unit type, includes upgrades */
+      virtual int sightRange(UnitType unit) const = 0 ;
+
+      /** Returns the ground weapon cooldown of the given unit type, includes upgrades */
+      virtual int groundWeaponDamageCooldown(UnitType unit) const = 0;
+
+      /** Returns the armor of the given unit type, includes upgrades */
+      virtual int armor(UnitType unit) const = 0;
   };
 };

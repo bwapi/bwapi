@@ -1,13 +1,7 @@
 #pragma once
 #include <BWAPI/CoordinateType.h>
 #include <windows.h>
-#include <ddraw.h>
 #include "BW/Offsets.h"
-
-struct BITMAPINFO256 {
-    BITMAPINFOHEADER    bmiHeader;
-    RGBQUAD             bmiColors[256];
-};
 
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length);
 void drawDot(int _x, int _y, int color, int ctype);
@@ -28,9 +22,3 @@ extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
 
-void GetBorderSize(HWND hWnd, LPSIZE lpSize);
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern WNDPROC wOriginalProc;
-extern HWND ghMainWnd;
-extern HDC  hdcMem;
-extern void* pBits;

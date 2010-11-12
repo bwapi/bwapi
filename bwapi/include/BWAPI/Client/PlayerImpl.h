@@ -52,9 +52,15 @@ namespace BWAPI
       virtual bool isResearching(TechType tech) const;
       virtual bool isUpgrading(UpgradeType upgrade) const;
 
-      virtual int maxEnergy(UnitType unit) const;
-
       virtual BWAPI::Color getColor() const;
       virtual int getTextColor() const;
+
+      virtual int maxEnergy(UnitType unit) const;
+      virtual double topSpeed(UnitType unit) const;
+      virtual int groundWeaponMaxRange(UnitType unit) const;
+      virtual int airWeaponMaxRange(UnitType unit) const;
+      virtual int sightRange(UnitType unit) const;
+      virtual int groundWeaponDamageCooldown(UnitType unit) const;
+      virtual int armor(UnitType unit) const;
   };
 };
