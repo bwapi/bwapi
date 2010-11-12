@@ -99,9 +99,26 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       }
     }
     break;
+  case WM_MOUSEMOVE:
+    if ((wParam & MK_LBUTTON) > 0)
+    {
+      RECT windowRct;
+      GetWindowRect(ghMainWnd, &windowRct);
+      SIZE border;
+      GetBorderSize(hWnd, &border);
+      windowRct.left+=4;
+      windowRct.top+=border.cy-4;
+      windowRct.right+=-4;
+      windowRct.bottom+=-4;
+      ClipCursor(&windowRct);
+    }
+    else
+    {
+      ClipCursor(NULL); 
+    }
+    break;
   case WM_LBUTTONDOWN:
   case WM_LBUTTONUP:
-  case WM_MOUSEMOVE:
   case WM_MOUSEWHEEL:
   case WM_RBUTTONDOWN:
   case WM_RBUTTONUP:
@@ -148,13 +165,13 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
     {
       ScreenToClient(ghMainWnd, lpPoint);
       if ( lpPoint->x < 0 )
-        lpPoint->x = 2;
+        lpPoint->x = 0;
       if ( lpPoint->x > 640 )
-        lpPoint->x = 637;
+        lpPoint->x = 640;
       if ( lpPoint->y < 0 )
-        lpPoint->y = 2;
+        lpPoint->y = 0;
       if ( lpPoint->y > 480 )
-        lpPoint->y = 477;
+        lpPoint->y = 480;
     }
   }
   return rval;
