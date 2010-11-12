@@ -1457,7 +1457,11 @@ namespace BWAPI
       SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
       SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, 640, 480, SWP_SHOWWINDOW);
       ShowWindow(ghMainWnd, SW_RESTORE);
-      
+
+      SIZE border;
+      GetBorderSize(ghMainWnd, &border);
+
+      MoveWindow(ghMainWnd, 0, 0, 640 + border.cx, 480 + border.cy, TRUE);
       HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
       SetCursor(cur);
       ShowCursor(TRUE);

@@ -28,6 +28,7 @@ extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
 
+void GetBorderSize(HWND hWnd, LPSIZE lpSize);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 extern WNDPROC wOriginalProc;
 extern HWND ghMainWnd;
