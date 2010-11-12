@@ -134,8 +134,15 @@ namespace BW
   /** Speed & Latency */
   static u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
   static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
-  static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
   static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
+  static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
+  static u32     *BWDATA_MouseScrollSpeed   = (u32*) 0x006CDFD8;
+  static u32     *BWDATA_KeyScrollSpeed     = (u32*) 0x006CDFDC;
+  struct ScrollSpeeds
+  {
+    u8 scroll[7];
+  };
+  static ScrollSpeeds     *BWDATA_scrollSpeeds = (ScrollSpeeds*) 0x00513B68;
 
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   /** Dialog and drawing offsets */

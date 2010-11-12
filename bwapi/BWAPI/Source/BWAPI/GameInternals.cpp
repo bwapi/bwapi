@@ -1465,6 +1465,16 @@ namespace BWAPI
       HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
       SetCursor(cur);
       ShowCursor(TRUE);
+      //set mouse scroll speed index to 0
+      (*BW::BWDATA_MouseScrollSpeed)=0;
+
+      //make sure key scroll speed is not index 0 (we don't want to disable key scrolling)
+      if ((*BW::BWDATA_KeyScrollSpeed)==0)
+        (*BW::BWDATA_KeyScrollSpeed)=1;
+
+      //set scroll speed with index 0 to 0
+      for(int j=0;j<7;j++) //it has 7 parts
+        BW::BWDATA_scrollSpeeds[0].scroll[j]=0;
     }
 #endif
     else
