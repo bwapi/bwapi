@@ -31,10 +31,42 @@ HWND ghMainWnd;
 HDC  hdcMem;
 void* pBits;
 
+void GetBorderSize(HWND hWnd, LPSIZE lpSize)
+{
+  RECT clientRct;
+  RECT windowRct;
+  GetClientRect(ghMainWnd, &clientRct);
+  GetWindowRect(ghMainWnd, &windowRct);
+  RECT diff = { clientRct.left - windowRct.left, 
+                clientRct.top - windowRct.top, 
+                windowRct.right - clientRct.right, 
+                windowRct.bottom - clientRct.bottom };
+  if ( lpSize )
+  {
+    lpSize->cx = diff.left + diff.right;
+    lpSize->cy = diff.top + diff.bottom;
+  }
+}
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   switch ( uMsg )
   {
+  case WM_SIZING:
+    {
+      SIZE border;
+      GetBorderSize(hWnd, &border);
+
+      int xLimit = 640 + border.cx;
+      int yLimit = 480 + border.cy;
+
+      RECT *rct = (RECT*)lParam;
+      if ( rct->right - rct->left < xLimit )
+        rct->right = rct->left + xLimit;
+      if ( rct->bottom - rct->top < yLimit )
+        rct->bottom = rct->top + yLimit;
+      break;
+    }
   case WM_PAINT:
     {
       if ( BW::BWDATA_GameScreenBuffer->data )
@@ -67,19 +99,18 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       }
     }
     break;
+  case WM_LBUTTONDOWN:
+  case WM_LBUTTONUP:
   case WM_MOUSEMOVE:
   case WM_MOUSEWHEEL:
   case WM_RBUTTONDOWN:
   case WM_RBUTTONUP:
   case WM_RBUTTONDBLCLK:
-  case WM_LBUTTONDOWN:
-  case WM_LBUTTONUP:
   case WM_LBUTTONDBLCLK:
   case WM_MBUTTONDOWN:
   case WM_MBUTTONUP:
   case WM_MBUTTONDBLCLK:
     {
-
       RECT rct;
       GetClientRect(hWnd, &rct);
 
@@ -114,7 +145,17 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
   {
     rval = GetCursorPos(lpPoint);
     if ( ghMainWnd )
+    {
       ScreenToClient(ghMainWnd, lpPoint);
+      if ( lpPoint->x < 0 )
+        lpPoint->x = 2;
+      if ( lpPoint->x > 640 )
+        lpPoint->x = 637;
+      if ( lpPoint->y < 0 )
+        lpPoint->y = 2;
+      if ( lpPoint->y > 480 )
+        lpPoint->y = 477;
+    }
   }
   return rval;
 }
@@ -123,7 +164,14 @@ BOOL WINAPI _SetCursorPos(int X, int Y)
 {
   POINT pt = { X, Y };
   if ( ghMainWnd )
+  {
+    POINT curPos;
+    GetCursorPos(&curPos);
+    ScreenToClient(ghMainWnd, &curPos);
+    if ( curPos.x < 0 || curPos.x > 640 || curPos.y < 0 || curPos.y > 480 )
+      return TRUE;
     ClientToScreen(ghMainWnd, &pt);
+  }
   return SetCursorPos(pt.x, pt.y);
 }
 
@@ -272,17 +320,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   }
 
   if ( ghMainWnd )
-  {
-/*    
-    for ( BW::dialog *i = *BW::BWDATA_DialogList; i != NULL; i = i->next() )
-    {
-      if ( i->srcBits.data )
-        i->setFlags(CTRL_DLG_NOREDRAW);
-      if ( !i->next() )
-        break;
-    }*/
     InvalidateRect(ghMainWnd, NULL, TRUE);
-  }
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
