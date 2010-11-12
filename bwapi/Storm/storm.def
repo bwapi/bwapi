@@ -155,13 +155,13 @@ EXPORTS
   ;SDrawDestroy                  @344 NONAME
   ;SDrawFlipPage                 @345 NONAME
   SDrawGetFrameWindow           @346 NONAME
-  ;SDrawGetObjects               @347 NONAME
-  ;SDrawGetScreenSize            @348 NONAME
+  SDrawGetObjects               @347 NONAME
+  SDrawGetScreenSize            @348 NONAME
   ;SDrawGetServiceLevel          @349 NONAME
   SDrawLockSurface              @350 NONAME
   SDrawManualInitialize         @351 NONAME
   ;SDrawMessageBox               @352 NONAME
-  ;SDrawPostClose                @353 NONAME
+  SDrawPostClose                @353 NONAME
   SDrawRealizePalette           @354 NONAME
   ;SDrawSelectGdiSurface         @355 NONAME
   SDrawUnlockSurface            @356 NONAME

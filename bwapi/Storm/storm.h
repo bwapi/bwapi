@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <ddraw.h>
 
+#ifndef STORMAPI
+#define STORMAPI __stdcall
+#endif
+
 #define arrsize(x) (sizeof(x)/sizeof(x[0]))   // Official name
 #define countof(x) arrsize(x)                 // Personal name
 
@@ -42,13 +46,13 @@ struct WSIZE
 #define GAMESTATE_REPLAY  0x80
 #endif
 
-BOOL __stdcall SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
-BOOL __stdcall SNetDestroy();
-BOOL __stdcall SNetEnumProviders(int (__stdcall *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps);
+BOOL STORMAPI SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
+BOOL STORMAPI SNetDestroy();
+BOOL STORMAPI SNetEnumProviders(int (STORMAPI *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps);
 
-BOOL __stdcall SNetEnumGames(int (__stdcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
-BOOL __stdcall SNetDropPlayer(int playerid, DWORD flags);
-BOOL __stdcall SNetGetGameInfo(int type, char *src, unsigned int length, int *byteswritten);
+BOOL STORMAPI SNetEnumGames(int (STORMAPI *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
+BOOL STORMAPI SNetDropPlayer(int playerid, DWORD flags);
+BOOL STORMAPI SNetGetGameInfo(int type, char *src, unsigned int length, int *byteswritten);
 
 #ifndef GAME_INFO
 #define GAME_INFO
@@ -62,7 +66,7 @@ BOOL __stdcall SNetGetGameInfo(int type, char *src, unsigned int length, int *by
 
 #endif
 
-BOOL __stdcall SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers);
+BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers);
 
 #ifndef CAPS_STRUCT
 #define CAPS_STRUCT
@@ -79,11 +83,11 @@ struct caps
   DWORD dwLatencyCalls;
 };
 #endif
-BOOL __stdcall SNetGetPlayerCaps(char playerid, caps *playerCaps);
-BOOL __stdcall SNetGetPlayerName(int playerid, char *buffer, size_t buffersize);
-BOOL __stdcall SNetGetProviderCaps(caps *providerCaps);
-BOOL __stdcall SNetGetTurnsInTransit(int *turns);
-BOOL __stdcall SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
+BOOL STORMAPI SNetGetPlayerCaps(char playerid, caps *playerCaps);
+BOOL STORMAPI SNetGetPlayerName(int playerid, char *buffer, size_t buffersize);
+BOOL STORMAPI SNetGetProviderCaps(caps *providerCaps);
+BOOL STORMAPI SNetGetTurnsInTransit(int *turns);
+BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
 
 #ifndef PROVIDER_STRUCTS
 #define PROVIDER_STRUCTS
@@ -186,12 +190,12 @@ struct stormHead
 #define STRAFFIC_REPLY  4
 
 #endif
-BOOL __stdcall SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);
-BOOL __stdcall SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);
-BOOL __stdcall SNetLeaveGame(int type);
-BOOL __stdcall SNetPerformUpgrade(DWORD *upgradestatus);
-BOOL __stdcall SNetReceiveMessage(int *senderplayerid, char **data, int *databytes);
-BOOL __stdcall SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus);
+BOOL STORMAPI SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);
+BOOL STORMAPI SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);
+BOOL STORMAPI SNetLeaveGame(int type);
+BOOL STORMAPI SNetPerformUpgrade(DWORD *upgradestatus);
+BOOL STORMAPI SNetReceiveMessage(int *senderplayerid, char **data, int *databytes);
+BOOL STORMAPI SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus);
 
 // Values for arrayplayerstatus
 #ifndef SNET_PS_
@@ -216,12 +220,12 @@ struct s_evt
 };
 #endif
 
-HANDLE __stdcall SNetRegisterEventHandler(int type, void (__stdcall *sEvent)(s_evt *evt));
+HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(s_evt *evt));
 
-int  __stdcall SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
+int  STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
 
-BOOL __stdcall SNetSendMessage(int playerID, char *data, unsigned int databytes);
-BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes);
+BOOL STORMAPI SNetSendMessage(int playerID, char *data, unsigned int databytes);
+BOOL STORMAPI SNetSendTurn(char *data, unsigned int databytes);
 
 #ifndef SNPLAYER_
 #define SNPLAYER_
@@ -231,49 +235,49 @@ BOOL __stdcall SNetSendTurn(char *data, unsigned int databytes);
 
 #endif
 
-BOOL __stdcall SNetSetGameMode(DWORD modeFlags, char a2);
+BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2);
 
-BOOL __stdcall SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
-int  __stdcall SNetSendServerChatCommand(const char *command);
+BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
+int  STORMAPI SNetSendServerChatCommand(const char *command);
 
-BOOL __stdcall SNetGetPlayerNames(DWORD flags);
-BOOL __stdcall SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
-BOOL __stdcall SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
+BOOL STORMAPI SNetGetPlayerNames(DWORD flags);
+BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
+BOOL STORMAPI SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
 
-int  __stdcall SNetSendLeagueCommand(char *cmd, char *callback);
-int  __stdcall SNetSendReplayPath(int a1, int a2, char *replayPath);
-int  __stdcall SNetGetLeagueName(int leagueID);
-BOOL __stdcall SNet144(char *buffer);
-int  __stdcall SNetLeagueLogout(char *bnetName);
-int  __stdcall SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize);
+int  STORMAPI SNetSendLeagueCommand(char *cmd, char *callback);
+int  STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath);
+int  STORMAPI SNetGetLeagueName(int leagueID);
+BOOL STORMAPI SNet144(char *buffer);
+int  STORMAPI SNetLeagueLogout(char *bnetName);
+int  STORMAPI SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize);
 
-HGDIOBJ __stdcall SDlgDefDialogProc(HWND hDlg, signed int DlgType, HDC textLabel, HWND hWnd);
+HGDIOBJ STORMAPI SDlgDefDialogProc(HWND hDlg, signed int DlgType, HDC textLabel, HWND hWnd);
 
-HANDLE __stdcall SDlgDialogBoxIndirectParam(HMODULE hModule, LPCSTR lpName, HWND hWndParent, LPVOID lpParam, LPARAM lParam);
+HANDLE STORMAPI SDlgDialogBoxIndirectParam(HMODULE hModule, LPCSTR lpName, HWND hWndParent, LPVOID lpParam, LPARAM lParam);
 
-BOOL __stdcall SDlgEndDialog(HWND hDlg, HANDLE nResult);
+BOOL STORMAPI SDlgEndDialog(HWND hDlg, HANDLE nResult);
 
-BOOL __stdcall SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *buffer2, char *buffer, int flags, int mask);
+BOOL STORMAPI SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *buffer2, char *buffer, int flags, int mask);
 
-BOOL __stdcall SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop);
-BOOL __stdcall SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2);
+BOOL STORMAPI SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop);
+BOOL STORMAPI SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2);
 
-int  __stdcall Ordinal224(int a1);
+int  STORMAPI Ordinal224(int a1);
 
-BOOL __stdcall SFileCloseArchive(HANDLE hArchive);
-BOOL __stdcall SFileCloseFile(HANDLE hFile);
+BOOL STORMAPI SFileCloseArchive(HANDLE hArchive);
+BOOL STORMAPI SFileCloseFile(HANDLE hFile);
 
-BOOL __stdcall SFileDdaBeginEx(HANDLE directsound, DWORD flags, DWORD mask, unsigned __int32 lDistanceToMove, signed __int32 volume, signed int a6, int a7);
-BOOL __stdcall SFileDdaDestroy();
-BOOL __stdcall SFileDdaEnd(HANDLE directsound);
-BOOL __stdcall SFileDdaGetPos(HANDLE directsound, int a2, int a3);
+BOOL STORMAPI SFileDdaBeginEx(HANDLE directsound, DWORD flags, DWORD mask, unsigned __int32 lDistanceToMove, signed __int32 volume, signed int a6, int a7);
+BOOL STORMAPI SFileDdaDestroy();
+BOOL STORMAPI SFileDdaEnd(HANDLE directsound);
+BOOL STORMAPI SFileDdaGetPos(HANDLE directsound, int a2, int a3);
 
-BOOL __stdcall SFileDdaInitialize(HANDLE directsound);
-BOOL __stdcall SFileDdaSetVolume(HANDLE directsound, signed int bigvolume, signed int volume);
+BOOL STORMAPI SFileDdaInitialize(HANDLE directsound);
+BOOL STORMAPI SFileDdaSetVolume(HANDLE directsound, signed int bigvolume, signed int volume);
 
-BOOL __stdcall SFileGetFileArchive(HANDLE hFile, HANDLE archive);
-LONG __stdcall SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh);
-BOOL __stdcall SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
+BOOL STORMAPI SFileGetFileArchive(HANDLE hFile, HANDLE archive);
+LONG STORMAPI SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh);
+BOOL STORMAPI SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
 
 // values for dwFlags
 #ifndef MPQ_
@@ -286,8 +290,8 @@ BOOL __stdcall SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD d
 
 #endif
 
-BOOL __stdcall SFileOpenFile(const char *filename, HANDLE *phFile);
-BOOL __stdcall SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
+BOOL STORMAPI SFileOpenFile(const char *filename, HANDLE *phFile);
+BOOL STORMAPI SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
 // values for dwSearchScope
 #ifndef SFILE_
@@ -300,75 +304,151 @@ BOOL __stdcall SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSear
 
 #endif
 
-BOOL __stdcall SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh);
+BOOL STORMAPI SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh);
 
-void __stdcall SFileSetLocale(LCID lcLocale);
+void STORMAPI SFileSetLocale(LCID lcLocale);
 
-BOOL __stdcall SFileSetIoErrorMode(int mode, BOOL (__stdcall *callback)(char*,int,int) );
-BOOL __stdcall SFileGetArchiveName(HANDLE hArchive, char *name, int length);
-BOOL __stdcall SFileGetFileName(HANDLE hFile, char *buffer, int length);
+BOOL STORMAPI SFileSetIoErrorMode(int mode, BOOL (STORMAPI *callback)(char*,int,int) );
+BOOL STORMAPI SFileGetArchiveName(HANDLE hArchive, char *name, int length);
+BOOL STORMAPI SFileGetFileName(HANDLE hFile, char *buffer, int length);
 
-BOOL __stdcall SFileLoadFile(char *filename, void *buffer, int buffersize, int a4, int a5);
-BOOL __stdcall SFileUnloadFile(HANDLE hFile);
-BOOL __stdcall SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, int a5, DWORD searchScope, struct _OVERLAPPED *lpOverlapped);
+BOOL STORMAPI SFileLoadFile(char *filename, void *buffer, int buffersize, int a4, int a5);
+BOOL STORMAPI SFileUnloadFile(HANDLE hFile);
+BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, int a5, DWORD searchScope, struct _OVERLAPPED *lpOverlapped);
 
-BOOL __stdcall SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
-BOOL __stdcall SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
+BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
+BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
 
-BOOL __stdcall SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9);
+BOOL STORMAPI SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9);
 
-BOOL __stdcall SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth);
+BOOL STORMAPI SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth);
 
-HANDLE __stdcall SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(__stdcall *allocFunction)(DWORD));
+HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD));
 
-BOOL __stdcall SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle);
-BOOL __stdcall SCodeDelete(HANDLE handle);
+BOOL STORMAPI SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle);
+BOOL STORMAPI SCodeDelete(HANDLE handle);
 
-int  __stdcall SCodeExecute(HANDLE handle, int a2);
+int  STORMAPI SCodeExecute(HANDLE handle, int a2);
 
-BOOL __stdcall SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits);
-BOOL __stdcall SDrawCaptureScreen(char *source);
-
-HWND __stdcall SDrawGetFrameWindow(HWND sdraw_framewindow);
-
-BOOL __stdcall SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
-BOOL __stdcall SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette);
-
-BOOL __stdcall SDrawRealizePalette();
-
-BOOL __stdcall SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
-BOOL __stdcall SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
-
-BOOL __stdcall SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent);
-
-BOOL __stdcall SGdiDeleteObject(HANDLE handle);
-
-BOOL __stdcall SGdiExtTextOut(int a1, int a2, int a3, int a4, unsigned int a8, signed int a6, signed int a7, const char *string, unsigned int arg20);
-BOOL __stdcall SGdiImportFont(HGDIOBJ handle, int windowsfont);
-
-BOOL __stdcall SGdiSelectObject(int handle);
-BOOL __stdcall SGdiSetPitch(int pitch);
-
-BOOL __stdcall Ordinal393(char *string, int, int);
+BOOL STORMAPI SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits);
 
 
+/*  Saves a screenshot from the primary surface being handled by Storm.
+ *  
+ *  pszOutput: The name of the output file. The save format is automatically set by the extension.
+ *             The extensions supported are .gif, .pcx, .tga, and .bmp. It will write a bitmap by default.
+ *
+ *  Returns TRUE if successful and FALSE otherwise.
+ */
+BOOL 
+STORMAPI 
+SDrawCaptureScreen(
+    __in char *pszOutput);
+
+
+/*  Retrieves the window handle that was specified in
+ *  SDrawManualInitialize or created in SDrawAutoInitialize.
+ *  
+ *  sdraw_framewindow: Optional variable that receives the returned handle.
+ *
+ *  Returns the handle of the window.
+ */
+HWND
+STORMAPI
+SDrawGetFrameWindow(
+    __out_opt HWND *sdraw_framewindow = NULL);
+
+
+/*  Retrieves the object information that was initialized using
+ *  SDrawManualInitialize or SDrawAutoInitialize.
+ *  
+ *  ddInterface:    The DirectDraw interface.
+ *  primarySurface: The primary DirectDraw surface.
+ *  surface2:       A second unknown surface.
+ *  surface3:       A third unknown surface.
+ *  backSurface:    The back DirectDraw surface.
+ *  ddPalette:      The DirectDraw palette.
+ *  hPalette:       The palette handle.
+ *
+ *  Returns FALSE if the direct draw interface has not been initialized.
+ */
+BOOL STORMAPI SDrawGetObjects(
+    __out_opt LPDIRECTDRAW        *ddInterface    = NULL,
+    __out_opt LPDIRECTDRAWSURFACE *primarySurface = NULL,
+    __out_opt LPDIRECTDRAWSURFACE *surface2       = NULL,
+    __out_opt LPDIRECTDRAWSURFACE *surface3       = NULL,
+    __out_opt LPDIRECTDRAWSURFACE *backSurface    = NULL,
+    __out_opt LPDIRECTDRAWPALETTE *ddPalette      = NULL,
+    __out_opt HPALETTE            *hPalette       = NULL);
+
+
+/*  Obtains information of the current screen resolution.
+ *  SDrawManualInitialize or created in SDrawAutoInitialize.
+ *
+ *  pdwWidth:   Optional variable that receives the screen width.
+ *  pdwHeight:  Optional variable that receives the screen height.
+ *  pdwBpp:     Optional variable that receives the bits per pixel.
+ *
+ *  Returns FALSE if no variables were specified.
+ */
+BOOL
+STORMAPI
+SDrawGetScreenSize(
+    __out_opt DWORD *pdwWidth,
+    __out_opt DWORD *pdwHeight,
+    __out_opt DWORD *pdwBpp);
+
+
+// undefined
+BOOL STORMAPI SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
+BOOL STORMAPI SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette);
+
+
+/*  Posts a WM_QUIT message to the active drawing window specified 
+ *  in SDrawManualInitialize or created in SDrawAutoInitialize.
+ *
+ *  Returns TRUE if successful and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SDrawPostClose();
+
+
+// undefined
+BOOL STORMAPI SDrawRealizePalette();
+
+BOOL STORMAPI SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
+BOOL STORMAPI SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
+
+BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent);
+
+BOOL STORMAPI SGdiDeleteObject(HANDLE handle);
+
+BOOL STORMAPI SGdiExtTextOut(int a1, int a2, int a3, int a4, unsigned int a8, signed int a6, signed int a7, const char *string, unsigned int arg20);
+BOOL STORMAPI SGdiImportFont(HGDIOBJ handle, int windowsfont);
+
+BOOL STORMAPI SGdiSelectObject(int handle);
+BOOL STORMAPI SGdiSetPitch(int pitch);
+
+BOOL STORMAPI Ordinal393(char *string, int, int);
+
+
+void* STORMAPI SMemAlloc(int amount, char *logfilename, int logline, char defaultValue = 0);
 #ifndef SMAlloc
-#define SMAlloc(amount) SMemAlloc((amount), __FILE__, __LINE__, 0)
+#define SMAlloc(amount) SMemAlloc((amount), __FILE__, __LINE__)
 #endif
 
-void* __stdcall SMemAlloc(int amount, char *logfilename, int logline, int defaultValue);
 
-
+BOOL STORMAPI SMemFree(void *location, char *logfilename, int logline, char defaultValue = 0);
 #ifndef SMFree
-#define SMFree(loc) SMemFree((loc), __FILE__, __LINE__, 0)
+#define SMFree(loc) SMemFree((loc), __FILE__, __LINE__)
 #endif
 
-BOOL __stdcall SMemFree(void *location, char *logfilename, int logline, char defaultValue);
 
 #ifndef SLOG_
 #define SLOG_
 
-#define SLOG_EXPRESSION   0
+#define SLOG_EXPRESSION    0
 #define SLOG_FUNCTION     -1
 #define SLOG_OBJECT       -2
 #define SLOG_HANDLE       -3
@@ -376,14 +456,14 @@ BOOL __stdcall SMemFree(void *location, char *logfilename, int logline, char def
 
 #endif
 
-BOOL __stdcall SRegLoadData(char *keyname, char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
-BOOL __stdcall SRegLoadString(char *keyname, char *valuename, BYTE flags, char *buffer, size_t buffersize);
-BOOL __stdcall SRegLoadValue(char *keyname, char *valuename, BYTE flags, int *value);
-BOOL __stdcall SRegSaveData(char *keyname, char *valuename, int size, BYTE *lpData, DWORD cbData);
-BOOL __stdcall SRegSaveString(char *keyname, char *valuename, BYTE flags, char *string);
-BOOL __stdcall SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD result);
+BOOL STORMAPI SRegLoadData(char *keyname, char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
+BOOL STORMAPI SRegLoadString(char *keyname, char *valuename, BYTE flags, char *buffer, size_t buffersize);
+BOOL STORMAPI SRegLoadValue(char *keyname, char *valuename, BYTE flags, int *value);
+BOOL STORMAPI SRegSaveData(char *keyname, char *valuename, int size, BYTE *lpData, DWORD cbData);
+BOOL STORMAPI SRegSaveString(char *keyname, char *valuename, BYTE flags, char *string);
+BOOL STORMAPI SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD result);
 
-BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
+BOOL STORMAPI SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 
 #ifndef SREG_
 #define SREG_
@@ -396,36 +476,36 @@ BOOL __stdcall SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 
 #endif
 
-BOOL __stdcall STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5);
-BOOL __stdcall STransBltUsingMask(void *lpSurface, void *pMask, int pitch, int width, HANDLE hTrans);
+BOOL STORMAPI STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5);
+BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *pMask, int pitch, int width, HANDLE hTrans);
 
-BOOL __stdcall STransDelete(HANDLE hTrans);
+BOOL STORMAPI STransDelete(HANDLE hTrans);
 
-BOOL __stdcall STransDuplicate(HANDLE hTransSource, HANDLE hTransDest);
-BOOL __stdcall STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
-BOOL __stdcall STransInvertMask(HANDLE hTrans, int sourcemask);
+BOOL STORMAPI STransDuplicate(HANDLE hTransSource, HANDLE hTransDest);
+BOOL STORMAPI STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
+BOOL STORMAPI STransInvertMask(HANDLE hTrans, int sourcemask);
 
-BOOL __stdcall STransSetDirtyArrayInfo(int width, int height, int depth, int bits);
+BOOL STORMAPI STransSetDirtyArrayInfo(int width, int height, int depth, int bits);
 
-BOOL __stdcall STrans442(int a1, int a2, int a3, char *a4, size_t a5);
-BOOL __stdcall STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6);
+BOOL STORMAPI STrans442(int a1, int a2, int a3, char *a4, size_t a5);
+BOOL STORMAPI STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6);
 
-BOOL __stdcall STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut);
+BOOL STORMAPI STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut);
 
-BOOL __stdcall SVidDestroy();
-BOOL __stdcall SVidGetSize(HANDLE video, int width, int height, int zero);
-BOOL __stdcall SVidInitialize(HANDLE video);
-BOOL __stdcall SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, int a6, HANDLE video);
+BOOL STORMAPI SVidDestroy();
+BOOL STORMAPI SVidGetSize(HANDLE video, int width, int height, int zero);
+BOOL STORMAPI SVidInitialize(HANDLE video);
+BOOL STORMAPI SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, int a6, HANDLE video);
 
-BOOL __stdcall SVidPlayContinueSingle(HANDLE video, int a2, int a3);
-BOOL __stdcall SVidPlayEnd(HANDLE video);
+BOOL STORMAPI SVidPlayContinueSingle(HANDLE video, int a2, int a3);
+BOOL STORMAPI SVidPlayEnd(HANDLE video);
 
-BOOL __stdcall SErrGetErrorStr(DWORD dwErrCode, char *buffer, size_t bufferchars);
-DWORD __stdcall SErrGetLastError();
+BOOL STORMAPI SErrGetErrorStr(DWORD dwErrCode, char *buffer, size_t bufferchars);
+DWORD STORMAPI SErrGetLastError();
 
-void __stdcall SErrSetLastError(DWORD dwErrCode);
+void STORMAPI SErrSetLastError(DWORD dwErrCode);
 
-void __stdcall SErrSuppressErrors(BOOL suppressErrors);
+void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 
 // Values for dwErrCode
 #ifndef STORM_ERROR_
@@ -468,39 +548,39 @@ void __stdcall SErrSuppressErrors(BOOL suppressErrors);
 
 #endif
 
-void __stdcall SMemCopy(void *dest, const void *source, size_t size);
-int  __stdcall SMemFill(void *location, size_t length, char fillWith);
+void STORMAPI SMemCopy(void *dest, const void *source, size_t size);
+int  STORMAPI SMemFill(void *location, size_t length, char fillWith);
 
-int  __stdcall SMemZero(void *location, DWORD length);
-int  __stdcall SMemCmp(void *location1, void *location2, DWORD size);
+int  STORMAPI SMemZero(void *location, DWORD length);
+int  STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
 
-int   __stdcall SStrCopy(char *dest, const char *src, DWORD max_length);
-DWORD __stdcall SStrHash(const char *string, DWORD flags, DWORD Seed);
-int   __stdcall SStrNCat(char *dest, const char *src, DWORD max_length);
+int   STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length);
+DWORD STORMAPI SStrHash(const char *string, DWORD flags, DWORD Seed);
+int   STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length);
 
-int  __stdcall SStrLen(const char* string);
+int  STORMAPI SStrLen(const char* string);
 
-int   __stdcall SStrCmp(const char *string1, const char *string2, size_t size);
-int   __stdcall SStrCmpI(const char *string1, const char *string2, size_t size);
-char* __stdcall SStrUpper(char* string);
+int   STORMAPI SStrCmp(const char *string1, const char *string2, size_t size);
+int   STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size);
+char* STORMAPI SStrUpper(char* string);
 
-void __stdcall SRgn523(int handle, RECT *rect, int a3, int a4);
-void __stdcall SRgn524(int handle, int a2);
-void __stdcall SRgn525(int handle);
+void STORMAPI SRgn523(int handle, RECT *rect, int a3, int a4);
+void STORMAPI SRgn524(int handle, int a2);
+void STORMAPI SRgn525(int handle);
 
-void __stdcall SRgn529i(int handle, int a2, int a3);
+void STORMAPI SRgn529i(int handle, int a2, int a3);
 
-char* __stdcall SStrChr(const char *string, char c);
-char* __stdcall SStrChrR(const char *string, char c);
+char* STORMAPI SStrChr(const char *string, char c);
+char* STORMAPI SStrChrR(const char *string, char c);
 
 size_t __cdecl SStrVPrintf(char *dest, size_t size, const char *format, ...);
 
-int __stdcall SBigDel(void *buffer);
+int STORMAPI SBigDel(void *buffer);
 
-int __stdcall SBigFromBinary(void *buffer, const void *str, size_t size);
+int STORMAPI SBigFromBinary(void *buffer, const void *str, size_t size);
 
-int __stdcall SBigNew(void **buffer);
+int STORMAPI SBigNew(void **buffer);
 
-int __stdcall SBigPowMod(void *buffer1, void *buffer2, int a3, int a4);
+int STORMAPI SBigPowMod(void *buffer1, void *buffer2, int a3, int a4);
 
-int __stdcall SBigToBinaryBuffer(void *buffer, int length, int a3, int a4);
+int STORMAPI SBigToBinaryBuffer(void *buffer, int length, int a3, int a4);
