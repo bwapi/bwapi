@@ -1357,11 +1357,6 @@ namespace BWAPI
       grid = !grid;
       printf("Matrix grid %s.", grid ? "enabled" : "disabled");
     }
-    else if (parsed[0] == "/resize")
-    {
-      printf("Done");
-      SetResolution(1024, 768);
-    }
     else if (parsed[0] == "/hud")
     {
       hideHUD = !hideHUD;
@@ -1369,10 +1364,8 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test")
     {
-    }
-    else if (parsed[0] == "/wproc")
-    {
-      printf("0x%p", GetWindowLong(SDrawGetFrameWindow(), GWL_WNDPROC));
+      printf("Done");
+      SetResolution(1024, 768);
     }
 #endif
     else if (parsed[0] == "/wmode")
