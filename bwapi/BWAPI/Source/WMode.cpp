@@ -1,8 +1,10 @@
 #include "WMode.h"
+#include "Resolution.h"
 #include "BW/Offsets.h"
 
 WNDPROC wOriginalProc;
 HWND ghMainWnd;
+bool wmode;
 HDC  hdcMem;
 void* pBits;
 
@@ -69,8 +71,9 @@ void GetBorderSize(HWND hWnd, LPSIZE lpSize)
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  if ( ghMainWnd )
+  if ( wmode )
   {
+    // Perform W-Mode only functionality
     switch ( uMsg )
     {
     case WM_SIZING:
@@ -155,6 +158,26 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return DefWindowProc(hWnd, uMsg, wParam, lParam);
     }
   }
+
+  // Perform BWAPI-added functionality
+  switch ( uMsg )
+  {
+  case WM_SYSKEYDOWN:
+    if ( wParam == VK_RETURN && (lParam & 0x20000000) && !(lParam & 0x40000000) )
+    {
+      ToggleWMode(640, 480);
+      return TRUE;
+    }
+    break;
+  case WM_SYSCOMMAND:
+    if ( wParam == SC_MAXIMIZE )
+    {
+      ToggleWMode(640, 480);
+      return TRUE;
+    }
+  }
+
+  // Call the original WndProc
   if ( wOriginalProc )
     return wOriginalProc(hWnd, uMsg, wParam, lParam);
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -164,7 +187,7 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
 {
   if ( lpPoint )
   {
-    if ( !ghMainWnd )
+    if ( !wmode )
       return GetCursorPos(lpPoint);
 
     lpPoint->x = 320;
@@ -177,7 +200,7 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
 BOOL WINAPI _SetCursorPos(int X, int Y)
 {
   POINT pt = { X, Y };
-  if ( ghMainWnd )
+  if ( wmode && ghMainWnd )
   {
     POINT curPos;
     GetCursorPos(&curPos);
@@ -191,7 +214,7 @@ BOOL WINAPI _SetCursorPos(int X, int Y)
 
 BOOL WINAPI _ClipCursor(const RECT *lpRect)
 {
-  if ( !ghMainWnd )
+  if ( !wmode )
     return ClipCursor(lpRect);
 
   return TRUE;
@@ -199,7 +222,7 @@ BOOL WINAPI _ClipCursor(const RECT *lpRect)
 
 BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused)
 {
-  if ( !ghMainWnd )
+  if ( !wmode )
     return SDrawLockSurface(surfacenumber, lpDestRect, lplpSurface, lpPitch, arg_unused);
 
   if ( lplpSurface )
@@ -211,7 +234,7 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
 
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
-  if ( !ghMainWnd )
+  if ( !wmode )
     return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
 
   return TRUE;
@@ -219,7 +242,7 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
 
 BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4)
 {
-  if ( !ghMainWnd )
+  if ( !wmode || !ghMainWnd )
     return SDrawUpdatePalette(firstentry, numentries, pPalEntries, a4);
 
   for ( unsigned int i = firstentry; i < firstentry + numentries; ++i )
@@ -236,7 +259,7 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
 
 BOOL __stdcall _SDrawRealizePalette()
 {
-  if ( !ghMainWnd )
+  if ( !wmode || !ghMainWnd )
     return SDrawRealizePalette();
 
   if ( IsIconic(ghMainWnd) )
@@ -246,3 +269,48 @@ BOOL __stdcall _SDrawRealizePalette()
   return TRUE;
 }
 
+void ToggleWMode(int width, int height)
+{
+  if ( !wmode )
+  {
+    wmode = true;
+    if ( !ghMainWnd )
+      return;
+
+    // Call the DirectDraw destructor
+    DDrawDestroy();
+    InitializeWModeBitmap(width, height);
+
+    // Hack to enable drawing in Broodwar
+    *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
+
+    // Change the window settings
+    SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+    SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, width, height, SWP_SHOWWINDOW);
+    ShowWindow(ghMainWnd, SW_RESTORE);
+
+    SIZE border;
+    GetBorderSize(ghMainWnd, &border);
+    int w = width + border.cx;
+    int h = height + border.cy;
+    MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
+    HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
+    SetCursor(cur);
+    ShowCursor(TRUE);
+  }
+  else
+  {
+    wmode = false;
+    *BW::BWDATA_PrimarySurface = NULL;
+    DeleteDC(hdcMem);
+    hdcMem = NULL;
+
+    SetWindowLong(ghMainWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
+    SetWindowPos(ghMainWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+    SetCursor(NULL);
+    ShowCursor(FALSE);
+    SetFocus(ghMainWnd);
+
+    DDrawInitialize(width, height);
+  }
+}

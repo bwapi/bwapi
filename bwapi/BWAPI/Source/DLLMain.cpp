@@ -21,6 +21,7 @@
 
 #include "NewHackUtil.h"
 #include "WMode.h"
+#include "Resolution.h"
 
 char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
@@ -147,7 +148,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
       endDialog->findIndex(-2)->activate();
   }
 
-  if ( ghMainWnd )
+  if ( wmode && ghMainWnd )
     InvalidateRect(ghMainWnd, NULL, FALSE);
 }
 
@@ -443,34 +444,6 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
   BWAPIError("%s    %s", szErrString, buffer);
 }
 
-void DDrawDestroy()
-{
-  HWND hWnd = SDrawGetFrameWindow();
-  SDrawManualInitialize();
-  if ( *BW::BWDATA_PrimaryPalette )
-  {
-    (*BW::BWDATA_PrimaryPalette)->Release();
-    *BW::BWDATA_PrimaryPalette = NULL;
-  }
-  if ( *BW::BWDATA_PrimarySurface > (LPDIRECTDRAWSURFACE)1 )
-  {
-    (*BW::BWDATA_PrimarySurface)->Release();
-    *BW::BWDATA_PrimarySurface = NULL;
-  }
-  if ( *BW::BWDATA_BackSurface )
-  {
-    (*BW::BWDATA_BackSurface)->Release();
-    *BW::BWDATA_BackSurface = NULL;
-  }
-  if ( *BW::BWDATA_DDInterface )
-  {
-    (*BW::BWDATA_DDInterface)->Release();
-    *BW::BWDATA_DDInterface = NULL;
-  }
-  if ( hWnd )
-    ShowWindow(hWnd, SW_MINIMIZE);
-}
-
 char logPath[MAX_PATH];
 bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
@@ -597,7 +570,7 @@ DWORD WINAPI PersistentPatch(LPVOID)
       BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
       BW::BWDATA_ScreenLayers[5].pUpdate = DrawHook;
     }
-/*
+
     if ( !ghMainWnd )
       ghMainWnd = SDrawGetFrameWindow();
 
@@ -610,7 +583,7 @@ DWORD WINAPI PersistentPatch(LPVOID)
         SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
       }
     }
-*/
+
   } //loop
 }
 
