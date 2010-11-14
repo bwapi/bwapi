@@ -101,6 +101,9 @@ namespace BWAPI
      * map data and assume that no units are blocking it (to prevent cheating). */
     extern const Error Insufficient_Space;
 
+    /** Returned if you try to build a barracks at TilePositions::None or something similar */
+    extern const Error Invalid_Tile_Position;
+
     /** Returned if you order an immovable unit, like a Protoss Photon Cannon, to attack a unit that is out
      * of range. */
     extern const Error Unbuildable_Location;

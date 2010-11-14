@@ -9,7 +9,7 @@
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[25];
+  std::string errorName[26];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -32,13 +32,14 @@ namespace BWAPI
     const Error Insufficient_Tech(15);
     const Error Insufficient_Ammo(16);
     const Error Insufficient_Space(17);
-    const Error Unbuildable_Location(18);
-    const Error Unreachable_Location(19);
-    const Error Out_Of_Range(20);
-    const Error Unable_To_Hit(21);
-    const Error Access_Denied(22);
-    const Error None(23);
-    const Error Unknown(24);
+    const Error Invalid_Tile_Position(18);
+    const Error Unbuildable_Location(19);
+    const Error Unreachable_Location(20);
+    const Error Out_Of_Range(21);
+    const Error Unable_To_Hit(22);
+    const Error Access_Denied(23);
+    const Error None(24);
+    const Error Unknown(25);
 
     void init()
     {
@@ -60,6 +61,7 @@ namespace BWAPI
       errorName[Insufficient_Tech.getID()]     = "Insufficient Tech";
       errorName[Insufficient_Ammo.getID()]     = "Insufficient Ammo";
       errorName[Insufficient_Space.getID()]    = "Insufficient Space";
+      errorName[Invalid_Tile_Position.getID()] = "Invalid Tile Position";
       errorName[Unbuildable_Location.getID()]  = "Unbuildable Location";
       errorName[Unreachable_Location.getID()]  = "Unreachable Location";
       errorName[Out_Of_Range.getID()]          = "Out Of Range";
@@ -86,6 +88,7 @@ namespace BWAPI
       errorSet.insert(Insufficient_Tech);
       errorSet.insert(Insufficient_Ammo);
       errorSet.insert(Insufficient_Space);
+      errorSet.insert(Invalid_Tile_Position);
       errorSet.insert(Unbuildable_Location);
       errorSet.insert(Unreachable_Location);
       errorSet.insert(Out_Of_Range);
@@ -111,7 +114,7 @@ namespace BWAPI
   Error::Error(int id)
   {
     this->id = id;
-    if (!initializingError && (id < 0 || id >= 25))
+    if (!initializingError && (id < 0 || id >= 26))
       this->id = Errors::Unknown.id;
   }
   Error::Error(const Error& other)

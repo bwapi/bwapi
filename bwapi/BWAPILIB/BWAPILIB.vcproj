@@ -159,7 +159,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying BWAPI library to Developer folder"
-				CommandLine="COPY /y &quot;$(OutDir)\BWAPId.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPId.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb&quot;"
+				CommandLine="COPY /y &quot;$(OutDir)\BWAPId.lib&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.lib&quot;&#x0D;&#x0A;COPY /y &quot;$(OutDir)\BWAPId.pdb&quot; &quot;$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
