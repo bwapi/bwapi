@@ -13,7 +13,7 @@ namespace BWAPI
 {
   struct GameData
   {
-    GameData();
+    GameData() {}
     int instanceID;
 
     //forces
