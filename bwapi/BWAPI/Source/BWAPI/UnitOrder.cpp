@@ -132,31 +132,8 @@ namespace BWAPI
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
   bool UnitImpl::attackUnit(Unit* target)
   {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-    checkOwnership();
-    if ( !target || !((UnitImpl*)target)->attemptAccess() )
+    if ( !canIssueCommand( UnitCommand::attackUnit(this, target) ) )
       return false;
-
-    WeaponType weapon = this->getType().groundWeapon();
-    bool targetInAir = (target->isLifted() || target->getType().isFlyer());
-    if (targetInAir)
-      weapon = this->getType().airWeapon();
-
-    bool canAttack = (weapon != WeaponTypes::None);
-    if ( ( (getType() == UnitTypes::Protoss_Reaver || getType() == UnitTypes::Hero_Warbringer) && getScarabCount() > 0 && !targetInAir) || 
-      ((getType() == UnitTypes::Protoss_Carrier || getType() == UnitTypes::Hero_Gantrithor) && getInterceptorCount() > 0) )
-      canAttack = true;
-
-    if (!canAttack)
-      return BroodwarImpl.setLastError(Errors::Unable_To_Hit);
-
-    if (!this->getType().canMove())
-    {
-      if (this->getDistance(target) > weapon.maxRange() ||
-          this->getDistance(target) < weapon.minRange())
-        return BroodwarImpl.setLastError(Errors::Out_Of_Range);
-    }
     this->orderSelect();
     switch ( getType().getID() )
     {

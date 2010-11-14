@@ -395,6 +395,32 @@ namespace BWAPI
            UnitCommandTypes::Use_Tech_Unit    == ct) )
         return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
+
+      // Attack Unit requirements
+      if ( UnitCommandTypes::Attack_Unit == ct)
+      {
+        WeaponType weapon = thisUnit->getType().groundWeapon();
+        bool targetInAir = (c.target->isLifted() || c.target->getType().isFlyer());
+        if (targetInAir)
+          weapon = thisUnit->getType().airWeapon();
+
+        bool canAttack = (weapon != WeaponTypes::None);
+
+        if ( ( (thisUnit->getType() == UnitTypes::Protoss_Reaver || thisUnit->getType() == UnitTypes::Hero_Warbringer) && thisUnit->getScarabCount() > 0 && !targetInAir) || 
+          ((thisUnit->getType() == UnitTypes::Protoss_Carrier    || thisUnit->getType() == UnitTypes::Hero_Gantrithor) && thisUnit->getInterceptorCount() > 0) )
+          canAttack = true;
+
+        if (!canAttack)
+          return Broodwar->setLastError(Errors::Unable_To_Hit);
+
+        if (!thisUnit->getType().canMove())
+        {
+          if (thisUnit->getDistance(c.target) > weapon.maxRange() ||
+              thisUnit->getDistance(c.target) < weapon.minRange())
+            return Broodwar->setLastError(Errors::Out_Of_Range);
+        }
+      }
+
       // Build/Train requirements
       if ( UnitCommandTypes::Build       == ct ||
            UnitCommandTypes::Build_Addon == ct ||
