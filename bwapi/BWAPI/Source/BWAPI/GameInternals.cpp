@@ -49,6 +49,7 @@
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
 #include "WMode.h"
+#include "Resolution.h"
 #include "NewHackUtil.h"
 
 #include "ShapeBox.h"
@@ -1354,68 +1355,20 @@ namespace BWAPI
     else if (parsed[0] == "/grid")
     {
       grid = !grid;
-      printf("mtx grid %s", grid ? "ENABLED" : "DISABLED");
+      printf("Matrix grid %s.", grid ? "enabled" : "disabled");
     }
     else if (parsed[0] == "/resize")
     {
       printf("Done");
-      HWND hWnd = SDrawGetFrameWindow();
-      MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
-
-      if ( !ghMainWnd )
-      {
-        BW::BWFXN_DDrawDestroy();
-        DWORD dwScrWid = 1024;
-        DWORD dwScrHgt = 768;
-        HackUtil::WriteMem(0x0041DA43, &dwScrWid, 4);
-        HackUtil::WriteMem(0x0041DB9F, &dwScrWid, 4);
-        HackUtil::WriteMem(0x0041DA3E, &dwScrHgt, 4);
-        HackUtil::WriteMem(0x0041DBA6, &dwScrHgt, 4);
-        BW::BWFXN_DDrawInitialize();
-      }
-
+      SetResolution(1024, 768);
+    }
+    else if (parsed[0] == "/hud")
+    {
+      hideHUD = !hideHUD;
+      printf("Now %s the HUD.", hideHUD ? "hiding" : "showing");
     }
     else if (parsed[0] == "/test")
     {
-      printf("Done");
-      HWND hWnd = SDrawGetFrameWindow();
-      MoveWindow(hWnd, 0, 0, 1024, 768, TRUE);
-
-      void *newBuf = SMAlloc(1024 * 768);
-      void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
-      
-      SMemFill(newBuf, 1024 * 768, 33);
-
-      BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
-      BW::BWDATA_GameScreenBuffer->wid = 1024;
-      BW::BWDATA_GameScreenBuffer->ht = 768;
-      if ( oldBuf )
-        SMFree(oldBuf);
-
-      BW::BWDATA_ScreenLayers[5].width = 1024;
-      BW::BWDATA_ScreenLayers[5].height = 768 - 80;
-      BW::BWDATA_ScrLimit->right  = 1023;
-      BW::BWDATA_ScrLimit->bottom = 767;
-      BW::BWDATA_ScrSize->right   = 1024;
-      BW::BWDATA_ScrSize->bottom  = 768;
-
-      newBuf = SMAlloc(1024 * 768);
-      oldBuf = BW::BWDATA_GameScreenConsole->data;
-
-      BW::BWDATA_GameScreenConsole->data = (u8*)newBuf;
-      BW::BWDATA_GameScreenConsole->wid = 1024;
-      BW::BWDATA_GameScreenConsole->ht = 768;
-      if ( oldBuf )
-        SMFree(oldBuf);
-
-      if ( (*BW::BWDATA_MainBltMask)->hTrans )
-        STransDelete((*BW::BWDATA_MainBltMask)->hTrans);
-
-      (*BW::BWDATA_MainBltMask)->info.right  = 1024;
-      (*BW::BWDATA_MainBltMask)->info.bottom = 768;
-      STransCreateE(newBuf, 1024, 768, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
-
-      BW::BWFXN_UpdateBltMasks();
     }
     else if (parsed[0] == "/wproc")
     {
@@ -1423,63 +1376,59 @@ namespace BWAPI
     }
     else if (parsed[0] == "/wmode")
     {
-      // Easily obtain the hWnd of the Broodwar window
-      ghMainWnd = SDrawGetFrameWindow();
-
-      // Call the DirectDraw destructor
-      BW::BWFXN_DDrawDestroy();
-      SDrawManualInitialize(ghMainWnd, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-      // Create Bitmap HDC
-      BITMAPINFO256 bmp = { 0 };
-      HBITMAP    hBmp  = NULL;
-
-      bmp.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-      bmp.bmiHeader.biWidth       = 640;
-      bmp.bmiHeader.biHeight      = -480;
-      bmp.bmiHeader.biPlanes      = 1;
-      bmp.bmiHeader.biBitCount    = 8;
-      bmp.bmiHeader.biCompression = BI_RGB;
-      for ( int i = 0; i < 256; ++i )
+      if ( !ghMainWnd )
       {
-        bmp.bmiColors[i].rgbRed       = BW::BWDATA_GamePalette[i].peRed;
-        bmp.bmiColors[i].rgbGreen     = BW::BWDATA_GamePalette[i].peGreen;
-        bmp.bmiColors[i].rgbBlue      = BW::BWDATA_GamePalette[i].peBlue;
-        bmp.bmiColors[i].rgbReserved  = 0;
+        // Easily obtain the hWnd of the Broodwar window
+        ghMainWnd = SDrawGetFrameWindow();
+
+        // Call the DirectDraw destructor
+        BW::BWFXN_DDrawDestroy();
+        SDrawManualInitialize(ghMainWnd, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        
+        InitializeWModeBitmap(640, 480);
+
+        // Enables drawing in Broodwar, this will cause a crash on DDrawDestroy
+        *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
+
+        // Replace the existing WndProc with our own, but save the original.
+        WNDPROC proc = (WNDPROC)GetWindowLong(ghMainWnd, GWL_WNDPROC);
+        if ( proc != &WindowProc )
+        {
+          wOriginalProc = proc;
+          SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
+        }
+
+        // Change the window settings
+        SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+        SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, 640, 480, SWP_SHOWWINDOW);
+        ShowWindow(ghMainWnd, SW_RESTORE);
+
+        SIZE border;
+        GetBorderSize(ghMainWnd, &border);
+        int w = 640 + border.cx;
+        int h = 480 + border.cy;
+        MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
+        HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
+        SetCursor(cur);
+        ShowCursor(TRUE);
       }
+      else
+      {
+        // back to fullscreen, not working?
+        HWND hWnd = ghMainWnd;
+        ghMainWnd = NULL;
+        *BW::BWDATA_PrimarySurface = NULL;
+        DeleteDC(hdcMem);
+        hdcMem = NULL;
 
-      hBmp = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
-      hdcMem = CreateCompatibleDC(NULL);
-      SelectObject(hdcMem, hBmp);
+        SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
+        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+        SetCursor(NULL);
+        ShowCursor(FALSE);
+        SetFocus(hWnd);
 
-      // Enables drawing in Broodwar, this will cause a crash on DDrawDestroy
-      *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
-
-      // Replace the existing WndProc with our own, but save the original.
-      wOriginalProc = (WNDPROC)GetWindowLong(ghMainWnd, GWL_WNDPROC);
-      SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
-
-      // Change the window settings
-      SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-      SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, 640, 480, SWP_SHOWWINDOW);
-      ShowWindow(ghMainWnd, SW_RESTORE);
-
-      SIZE border;
-      GetBorderSize(ghMainWnd, &border);
-
-      MoveWindow(ghMainWnd, 0, 0, 640 + border.cx, 480 + border.cy, TRUE);
-      HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
-      SetCursor(cur);
-      ShowCursor(TRUE);
-      //set mouse scroll speed index to 0
-      (*BW::BWDATA_MouseScrollSpeed)=0;
-
-      //make sure key scroll speed is not index 0 (we don't want to disable key scrolling)
-      if ((*BW::BWDATA_KeyScrollSpeed)==0)
-        (*BW::BWDATA_KeyScrollSpeed)=1;
-
-      //set scroll speed with index 0 to 0
-      for(int j=0;j<7;j++) //it has 7 parts
-        BW::BWDATA_scrollSpeeds[0].scroll[j]=0;
+        BW::BWFXN_DDrawInitialize();
+      }
     }
 #endif
     else

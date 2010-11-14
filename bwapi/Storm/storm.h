@@ -333,7 +333,9 @@ int  STORMAPI SCodeExecute(HANDLE handle, int a2);
 BOOL STORMAPI SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits);
 
 
-/*  Saves a screenshot from the primary surface being handled by Storm.
+/*  SDrawCaptureScreen @ 342
+ * 
+ *  Saves a screenshot from the primary surface being handled by Storm.
  *  
  *  pszOutput: The name of the output file. The save format is automatically set by the extension.
  *             The extensions supported are .gif, .pcx, .tga, and .bmp. It will write a bitmap by default.
@@ -346,7 +348,9 @@ SDrawCaptureScreen(
     __in char *pszOutput);
 
 
-/*  Retrieves the window handle that was specified in
+/*  SDrawGetFrameWindow @ 346
+ *
+ *  Retrieves the window handle that was specified in
  *  SDrawManualInitialize or created in SDrawAutoInitialize.
  *  
  *  sdraw_framewindow: Optional variable that receives the returned handle.
@@ -359,7 +363,9 @@ SDrawGetFrameWindow(
     __out_opt HWND *sdraw_framewindow = NULL);
 
 
-/*  Retrieves the object information that was initialized using
+/*  SDrawGetObjects @ 347
+ *  
+ *  Retrieves the object information that was initialized using
  *  SDrawManualInitialize or SDrawAutoInitialize.
  *  
  *  ddInterface:    The DirectDraw interface.
@@ -372,7 +378,9 @@ SDrawGetFrameWindow(
  *
  *  Returns FALSE if the direct draw interface has not been initialized.
  */
-BOOL STORMAPI SDrawGetObjects(
+BOOL
+STORMAPI
+SDrawGetObjects(
     __out_opt LPDIRECTDRAW        *ddInterface    = NULL,
     __out_opt LPDIRECTDRAWSURFACE *primarySurface = NULL,
     __out_opt LPDIRECTDRAWSURFACE *surface2       = NULL,
@@ -382,7 +390,9 @@ BOOL STORMAPI SDrawGetObjects(
     __out_opt HPALETTE            *hPalette       = NULL);
 
 
-/*  Obtains information of the current screen resolution.
+/*  SDrawGetScreenSize @ 348
+ *  
+ *  Obtains information for the current screen resolution.
  *  SDrawManualInitialize or created in SDrawAutoInitialize.
  *
  *  pdwWidth:   Optional variable that receives the screen width.
@@ -401,10 +411,12 @@ SDrawGetScreenSize(
 
 // undefined
 BOOL STORMAPI SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
-BOOL STORMAPI SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette);
+BOOL STORMAPI SDrawManualInitialize(HWND hWnd = NULL, LPDIRECTDRAW ddInterface = NULL, LPDIRECTDRAWSURFACE primarySurface = NULL, LPDIRECTDRAWSURFACE surface2 = NULL, LPDIRECTDRAWSURFACE surface3 = NULL, LPDIRECTDRAWSURFACE backSurface = NULL, LPDIRECTDRAWPALETTE ddPalette = NULL, HPALETTE hPalette = NULL);
 
 
-/*  Posts a WM_QUIT message to the active drawing window specified 
+/*  SDrawPostClose @ 353
+ *
+ *  Posts a WM_QUIT message to the active drawing window specified 
  *  in SDrawManualInitialize or created in SDrawAutoInitialize.
  *
  *  Returns TRUE if successful and FALSE otherwise.

@@ -29,12 +29,12 @@ namespace COMN
     return true;
   }
 
-  bool __stdcall spiFree(void *a1, int a2, int a3)
+  bool __stdcall spiFree(void *pPacket, int a2, int a3)
   {
     // This function is complete
-    if ( a1 && a2 )
+    if ( pPacket && a2 )
     {
-      SMFree(a1);
+      SMFree(pPacket);
       return true;
     }
     else

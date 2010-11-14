@@ -12,23 +12,6 @@ void DevAIModule::onStart()
 {
   bw->enableFlag(Flag::UserInput);
   scout = NULL;
-  bw->setLatCom(false);
-
-  DWORD dwCounter = 0;
-  FILE *hIn = fopen("devtest", "r");
-  if ( hIn )
-  {
-    fread(&dwCounter, 4, 1, hIn);
-    fclose(hIn);
-  }
-
-  ++dwCounter;
-  FILE *hOut = fopen("devtest", "w");
-  if ( hOut )
-  {
-    fwrite(&dwCounter, 4, 1, hOut);
-    fclose(hOut);
-  }
 
   enabled = true;
   //Broodwar->setLocalSpeed(0);
@@ -47,7 +30,7 @@ void DevAIModule::onFrame()
 
   if ( bw->isReplay() )
     return;
-
+  /*
   if ( enabled )
   {
     int thisOrderFrame = bw->getFrameCount();
@@ -57,7 +40,7 @@ void DevAIModule::onFrame()
         bw->printf("OK");
     }
   }
-    /*
+  
     if ( u == scout )
       continue;
 

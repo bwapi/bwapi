@@ -136,14 +136,6 @@ namespace BW
   static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
   static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
   static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
-  static u32     *BWDATA_MouseScrollSpeed   = (u32*) 0x006CDFD8;
-  static u32     *BWDATA_KeyScrollSpeed     = (u32*) 0x006CDFDC;
-  struct ScrollSpeeds
-  {
-    u8 scroll[7];
-  };
-  static ScrollSpeeds     *BWDATA_scrollSpeeds = (ScrollSpeeds*) 0x00513B68;
-
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   /** Dialog and drawing offsets */
   static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
@@ -155,7 +147,11 @@ namespace BW
   static bitmap           *BWDATA_GameScreenConsole                             = (bitmap*)   0x00597240;
   
   static PALETTEENTRY *BWDATA_GamePalette = (PALETTEENTRY*)0x006CE320;
+
   static LPDIRECTDRAWSURFACE *BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE*)0x006D5E00;
+  static LPDIRECTDRAW        *BWDATA_DDInterface    = (LPDIRECTDRAW*)       0x006D5E08;
+  static LPDIRECTDRAWPALETTE *BWDATA_PrimaryPalette = (LPDIRECTDRAWPALETTE*)0x006D5E0C;
+  static LPDIRECTDRAWSURFACE *BWDATA_BackSurface    = (LPDIRECTDRAWSURFACE*)0x006D5E10;
 
   struct bltMask
   {
@@ -208,8 +204,6 @@ namespace BW
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
   static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
   static Unit      **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)     0x006283F4;
-  //static Unit      **BWDATA_UnitNodeList_UnusedUnit_First   = (Unit**)     0x00628438;
-  //static Unit      **BWDATA_UnitNodeTable_PlayerFirstUnit   = (Unit**)     0x0062843C;  // Haven't found the right offset yet. Should point to the first unit of the first player (player 1).
   static UnitArray *BWDATA_UnitNodeTable                    = (UnitArray*) 0x0059CCA8;
 
   static Bullet      **BWDATA_BulletNodeTable_FirstElement = (Bullet**)     0x0064DEAC;

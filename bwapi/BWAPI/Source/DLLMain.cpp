@@ -26,6 +26,7 @@ char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
 
 DWORD gdwProcNum = 0;
+bool hideHUD;
 
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
 // Found/modified this from some random help board
@@ -121,7 +122,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 bool nosound = false;
 void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
-  if ( BW::pOldDrawDialogProc )
+  if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
   if ( *BW::BWDATA_gwGameMode == 4 )
@@ -147,7 +148,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   }
 
   if ( ghMainWnd )
-    InvalidateRect(ghMainWnd, NULL, TRUE);
+    InvalidateRect(ghMainWnd, NULL, FALSE);
 }
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
@@ -442,6 +443,34 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
   BWAPIError("%s    %s", szErrString, buffer);
 }
 
+void DDrawDestroy()
+{
+  HWND hWnd = SDrawGetFrameWindow();
+  SDrawManualInitialize();
+  if ( *BW::BWDATA_PrimaryPalette )
+  {
+    (*BW::BWDATA_PrimaryPalette)->Release();
+    *BW::BWDATA_PrimaryPalette = NULL;
+  }
+  if ( *BW::BWDATA_PrimarySurface > (LPDIRECTDRAWSURFACE)1 )
+  {
+    (*BW::BWDATA_PrimarySurface)->Release();
+    *BW::BWDATA_PrimarySurface = NULL;
+  }
+  if ( *BW::BWDATA_BackSurface )
+  {
+    (*BW::BWDATA_BackSurface)->Release();
+    *BW::BWDATA_BackSurface = NULL;
+  }
+  if ( *BW::BWDATA_DDInterface )
+  {
+    (*BW::BWDATA_DDInterface)->Release();
+    *BW::BWDATA_DDInterface = NULL;
+  }
+  if ( hWnd )
+    ShowWindow(hWnd, SW_MINIMIZE);
+}
+
 char logPath[MAX_PATH];
 bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
@@ -521,6 +550,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &nextFrameHook);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
+  HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy,    &DDrawDestroy);
 
   /* Perform code patches */
   char zero = 0;
@@ -538,10 +568,15 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
+
+  // wmode/drawing
   HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
   HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
   HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
   HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
+  HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
+  HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
+  HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
   return 0;
 }
 
