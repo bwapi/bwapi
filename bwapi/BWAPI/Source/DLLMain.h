@@ -12,6 +12,8 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
 void BWAPIError(const char *format, ...);
 void BWAPIError(DWORD dwErrCode, const char *format, ...);
 
+void DDrawDestroy();
+
 extern char logPath[MAX_PATH];
 extern bool logging;
 
@@ -22,3 +24,4 @@ extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
 
+extern bool hideHUD;
