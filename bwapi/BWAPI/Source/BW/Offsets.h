@@ -164,7 +164,6 @@ namespace BW
   static bltMask **BWDATA_MainBltMask = (bltMask**)0x00597238;
 
   static void (__cdecl *BWFXN_DDrawDestroy)()       = (void(__cdecl*)())0x0041D8B0;
-  static void (__cdecl *BWFXN_DDrawInitialize)()    = (void(__cdecl*)())0x0041D930;
   static void (__cdecl *BWFXN_UpdateBltMasks)()     = (void(__cdecl*)())0x0041D470;
 
   static u8 *BWDATA_RefreshRegions = (u8*)0x006CEFF8;

@@ -1374,63 +1374,11 @@ namespace BWAPI
     {
       printf("0x%p", GetWindowLong(SDrawGetFrameWindow(), GWL_WNDPROC));
     }
+#endif
     else if (parsed[0] == "/wmode")
     {
-      if ( !ghMainWnd )
-      {
-        // Easily obtain the hWnd of the Broodwar window
-        ghMainWnd = SDrawGetFrameWindow();
-
-        // Call the DirectDraw destructor
-        BW::BWFXN_DDrawDestroy();
-        SDrawManualInitialize(ghMainWnd, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-        
-        InitializeWModeBitmap(640, 480);
-
-        // Enables drawing in Broodwar, this will cause a crash on DDrawDestroy
-        *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
-
-        // Replace the existing WndProc with our own, but save the original.
-        WNDPROC proc = (WNDPROC)GetWindowLong(ghMainWnd, GWL_WNDPROC);
-        if ( proc != &WindowProc )
-        {
-          wOriginalProc = proc;
-          SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
-        }
-
-        // Change the window settings
-        SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-        SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, 640, 480, SWP_SHOWWINDOW);
-        ShowWindow(ghMainWnd, SW_RESTORE);
-
-        SIZE border;
-        GetBorderSize(ghMainWnd, &border);
-        int w = 640 + border.cx;
-        int h = 480 + border.cy;
-        MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
-        HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
-        SetCursor(cur);
-        ShowCursor(TRUE);
-      }
-      else
-      {
-        // back to fullscreen, not working?
-        HWND hWnd = ghMainWnd;
-        ghMainWnd = NULL;
-        *BW::BWDATA_PrimarySurface = NULL;
-        DeleteDC(hdcMem);
-        hdcMem = NULL;
-
-        SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
-        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
-        SetCursor(NULL);
-        ShowCursor(FALSE);
-        SetFocus(hWnd);
-
-        BW::BWFXN_DDrawInitialize();
-      }
+      ToggleWMode(640, 480);
     }
-#endif
     else
     {
       return false;
