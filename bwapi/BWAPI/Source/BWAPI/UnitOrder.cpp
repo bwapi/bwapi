@@ -123,6 +123,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::attackMove(this, target) ) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,target)));
@@ -134,6 +135,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::attackUnit(this, target) ) )
       return false;
+
     this->orderSelect();
     switch ( getType().getID() )
     {
@@ -189,19 +191,20 @@ namespace BWAPI
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type1)
   {
-    if ( !canIssueCommand( UnitCommand::train(this,type1) ) )
+    UnitImpl* thisUnit = this;
+    if ( !canIssueCommand( UnitCommand::train(thisUnit,type1) ) )
       return false;
 
-    if ( this->_getType.producesLarva() && type1.whatBuilds().first == UnitTypes::Zerg_Larva )
+    if ( thisUnit->getType().producesLarva() && type1.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
-      return larva->train(type1);
+      thisUnit = larva;
     }
 
     BW::UnitType type((u16)type1.getID());
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(this,type1)));
-    this->orderSelect();
-    switch ( this->_getType.getID() )
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(thisUnit,type1)));
+    thisUnit->orderSelect();
+    switch ( thisUnit->_getType.getID() )
     {
     case BW::UnitID::Zerg_Larva:
     case BW::UnitID::Zerg_Mutalisk:
@@ -224,27 +227,28 @@ namespace BWAPI
       QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(type), 3);
       break;
     }
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    thisUnit->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    if ( !canIssueCommand( UnitCommand::morph(this,type)) )
+    UnitImpl* thisUnit = this;
+    if ( !canIssueCommand( UnitCommand::morph(thisUnit,type)) )
       return false;
 
-    if ( this->_getType.producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
+    if ( thisUnit->getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
-      return larva->morph(type);
+      thisUnit = larva;
     }
 
-    this->orderSelect();
+    thisUnit->orderSelect();
     if(type.isBuilding())
       QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type.getID()), sizeof(BW::Orders::BuildingMorph));
     else
       QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type.getID()), sizeof(BW::Orders::UnitMorph));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type)));
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(thisUnit,type)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
   }
@@ -265,6 +269,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::upgrade(this,upgrade)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType((u8)upgrade.getID())), sizeof(BW::Orders::Upgrade));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::upgrade(this,upgrade)));
@@ -312,6 +317,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::patrol(this,target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::Patrol), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::patrol(this,target)));
@@ -323,6 +329,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::holdPosition(this)) )
       return false;
+
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
     BroodwarImpl.cmdToHold.push_back(this);
@@ -362,6 +369,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::follow(this,target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Follow), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::follow(this,target)));
@@ -373,6 +381,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::gather(this,target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Harvest1), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::gather(this,target)));
@@ -384,6 +393,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::returnCargo(this)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::ReturnCargo(0), sizeof(BW::Orders::ReturnCargo));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::returnCargo(this)));
@@ -395,6 +405,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::repair(this, target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Repair1), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::repair(this,target)));
@@ -406,6 +417,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::burrow(this)) )
       return false;
+
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
     BroodwarImpl.cmdToBurrow.push_back(this);
@@ -418,6 +430,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::unburrow(this)) )
       return false;
+
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
     BroodwarImpl.cmdToUnburrow.push_back(this);
@@ -430,6 +443,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::cloak(this)) )
       return false;
+
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
     BroodwarImpl.cmdToCloak.push_back(this);
@@ -442,6 +456,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::decloak(this)) )
       return false;
+
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
     BroodwarImpl.cmdToUncloak.push_back(this);
@@ -454,6 +469,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::siege(this)) )
       return false;
+
     BroodwarImpl.cmdToSiege.push_back(this);
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
@@ -466,6 +482,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::unsiege(this)) )
       return false;
+
     BroodwarImpl.cmdToUnsiege.push_back(this);
     //this->orderSelect();
     //QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
@@ -478,6 +495,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::lift(this)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::lift(this)));
@@ -489,6 +507,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::land(this,target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)target.x(), (u16)target.y()), BW::UnitType((u16)this->self->type)), sizeof(BW::Orders::Land));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::land(this,target)));
@@ -501,15 +520,11 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::load(this,target)) )
       return false;
 
-    // @Todo: Check if the unit is full
-
     this->orderSelect();
-    bool loaded = false;
     BWAPI::UnitType thisType = this->getType();
     if ( thisType == UnitTypes::Terran_Bunker )
     {
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupBunker), sizeof(BW::Orders::Attack));
-      loaded = true;
     }
     else if ( thisType == UnitTypes::Terran_Dropship || 
               thisType == UnitTypes::Protoss_Shuttle || 
@@ -517,7 +532,6 @@ namespace BWAPI
               thisType == UnitTypes::Hero_Yggdrasill )
     {
       QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::PickupTransport), sizeof(BW::Orders::Attack));
-      loaded = true;
     }
     else if ( target->getType() == UnitTypes::Terran_Bunker   ||
               target->getType() == UnitTypes::Terran_Dropship ||
@@ -525,17 +539,11 @@ namespace BWAPI
               target->getType() == UnitTypes::Zerg_Overlord   ||
               target->getType() == UnitTypes::Hero_Yggdrasill )
     {
-      this->rightClick(target);
-      loaded = true;
+      QueueGameCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
     }
-    if (loaded)
-    {
-      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::load(this,target)));
-      this->lastOrderFrame = BroodwarImpl.frameCount;
-      return true;
-    }
-    //if neither this unit nor the target unit is a bunker, dropship, shuttle, or overlord, return false.
-    return BroodwarImpl.setLastError(Errors::Incompatible_UnitType);
+    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::load(this,target)));
+    this->lastOrderFrame = BroodwarImpl.frameCount;
+    return true;
   }
   //--------------------------------------------- UNLOAD -----------------------------------------------------
   bool UnitImpl::unload(Unit* target)
@@ -555,11 +563,11 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::unloadAll(this)) )
       return false;
 
-    if ( this->_getType.isFlyer() ) // non-bunker
-      return this->unloadAll(this->getPosition());
-
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+    if ( this->getType()==UnitTypes::Terran_Bunker)
+      QueueGameCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+    else
+      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)this->getPosition().x(), (u16)this->getPosition().y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unloadAll(this)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -570,11 +578,11 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::unloadAll(this,target)) )
       return false;
 
-    if ( !this->_getType.isFlyer() ) // bunker
-      return this->unloadAll();
-
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
+    if ( this->getType()==UnitTypes::Terran_Bunker)
+      QueueGameCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+    else
+      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unloadAll(this,target)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
@@ -584,6 +592,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::rightClick(this,target)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::RightClick(BW::Position((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::RightClick));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,target)));

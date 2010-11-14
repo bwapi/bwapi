@@ -24,7 +24,6 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Build;
-    target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
     c.extra = type.getID();

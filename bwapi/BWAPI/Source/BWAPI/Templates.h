@@ -422,6 +422,24 @@ namespace BWAPI
       }
 
       // Build/Train requirements
+      if ( UnitCommandTypes::Build       == ct)
+      {
+        if (TilePosition(c.x,c.y).isValid()==false)
+          return Broodwar->setLastError(Errors::Invalid_Tile_Position);
+      }
+
+      if ( UnitCommandTypes::Morph       == ct ||
+           UnitCommandTypes::Train       == ct)
+      {
+        UnitType uType = UnitType(c.extra);
+        if ( thisUnit->getType().producesLarva() && uType.whatBuilds().first == UnitTypes::Zerg_Larva )
+        {
+          if (thisUnit->getLarva().empty())
+            return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+          UnitImpl *larva = (UnitImpl*)(*thisUnit->getLarva().begin());
+          return canIssueCommand<GameImpl,PlayerImpl,UnitImpl>( larva, UnitCommand::train(larva,uType) );
+        }
+      }
       if ( UnitCommandTypes::Build       == ct ||
            UnitCommandTypes::Build_Addon == ct ||
            UnitCommandTypes::Morph       == ct ||
@@ -451,7 +469,7 @@ namespace BWAPI
             return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
           if ( thisUnit->getAddon() )
-            return false;
+            return Broodwar->setLastError(Errors::Incompatible_State);
 
           if ( !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(thisUnit->getTilePosition().x() + 4, thisUnit->getTilePosition().y() + 1), uType) )
             return false;
@@ -557,12 +575,12 @@ namespace BWAPI
             return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
           if ( thisUnit->isBurrowed() || thisUnit->getOrder() == Orders::Burrowing || thisUnit->getOrder() == Orders::Unburrowing )
-            return false;
+            return Broodwar->setLastError(Errors::Incompatible_State);
         }
         else if (tech == TechTypes::Tank_Siege_Mode)
         {
           if ( thisUnit->isSieged() )
-            return false;
+            return Broodwar->setLastError(Errors::Incompatible_State);
 
           if ( thisUnit->getOrder() == Orders::Sieging || thisUnit->getOrder() == Orders::Unsieging )
             return Broodwar->setLastError(Errors::Unit_Busy);
@@ -570,7 +588,7 @@ namespace BWAPI
         else if (tech == TechTypes::Personnel_Cloaking || tech == TechTypes::Cloaking_Field)
         {
           if ( thisUnit->getSecondaryOrder() == Orders::Cloak )
-            return false;
+            return Broodwar->setLastError(Errors::Incompatible_State);
         }
 
         if ( tech == TechTypes::None || tech == TechTypes::Unknown )
@@ -583,7 +601,7 @@ namespace BWAPI
         if ( !thisUnit->getType().isBurrowable() )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
         if ( !thisUnit->isBurrowed() || thisUnit->getOrder() == Orders::Unburrowing )
-          return false;
+          return Broodwar->setLastError(Errors::Incompatible_State);
       } // unburrow
 
       // Decloak
@@ -593,14 +611,14 @@ namespace BWAPI
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
         if ( thisUnit->getSecondaryOrder() != Orders::Cloak )
-          return false;
+          return Broodwar->setLastError(Errors::Incompatible_State);
       } // decloak
 
       // Unsiege
       if ( UnitCommandTypes::Unsiege == ct )
       {
         if ( !thisUnit->isSieged() )
-          return false;
+          return Broodwar->setLastError(Errors::Incompatible_State);
 
         if ( thisUnit->getOrder() == Orders::Sieging || thisUnit->getOrder() == Orders::Unsieging )
           return Broodwar->setLastError(Errors::Unit_Busy);
@@ -613,8 +631,21 @@ namespace BWAPI
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
         if ( UnitCommandTypes::Lift == ct ? thisUnit->isLifted() : !thisUnit->isLifted() )
-          return false;
+          return Broodwar->setLastError(Errors::Incompatible_State);
       } // lift/land
+
+      // load
+      if ( UnitCommandTypes::Load                == ct)
+      {
+        //target must also be owned by self
+        if (c.target->getPlayer()!=Broodwar->self())
+          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+        if (!((thisUnit->getType().spaceProvided()>0 && c.target->getType().canMove() && c.target->getType().isFlyer()==false) ||
+            (thisUnit->getType().canMove() && thisUnit->getType().isFlyer()==false && c.target->getType().spaceProvided()>0)))
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        // @Todo: Check if the unit is full
+      }
 
       // unload
       if ( UnitCommandTypes::Unload              == ct ||
@@ -627,8 +658,8 @@ namespace BWAPI
         if ( thisUnit->getType().spaceProvided() <= 0 )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
-        //if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && thisUnit->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
-        //  return Broodwar->setLastError(Errors::Insufficient_Tech);
+        if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && thisUnit->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
 
         if ( UnitCommandTypes::Unload == ct )
         {
