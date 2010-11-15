@@ -48,9 +48,16 @@ namespace BWAPI
        * WeaponTypes::Dark_Swarm. */
       WeaponType getWeapon() const;
 
+      /** Returns true if this tech type must be used on another unit (i.e. Irradiate) */
+      bool targetsUnit() const;
+
+      /** Returns true if this tech type must be specified a position (i.e. Dark Swarm) */
+      bool targetsPosition() const;
+
       /** Returns the set of units that can use this tech type. Usually this will just be a set of one unit
        * type, however in some cases, such as TechTypes::Burrowing, several unit types will be returned. */
       const std::set<UnitType>& whatUses() const;
+
     private:
       int id;
   };

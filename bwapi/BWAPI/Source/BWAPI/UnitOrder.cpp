@@ -191,19 +191,19 @@ namespace BWAPI
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type1)
   {
-    UnitImpl* thisUnit = this;
-    if ( !canIssueCommand( UnitCommand::train(thisUnit,type1) ) )
+    if ( !canIssueCommand( UnitCommand::train(this,type1) ) )
       return false;
 
+    UnitImpl* thisUnit = this;
     if ( thisUnit->getType().producesLarva() && type1.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
       thisUnit = larva;
     }
 
+    thisUnit->orderSelect();
     BW::UnitType type((u16)type1.getID());
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(thisUnit,type1)));
-    thisUnit->orderSelect();
     switch ( thisUnit->_getType.getID() )
     {
     case BW::UnitID::Zerg_Larva:
@@ -233,10 +233,10 @@ namespace BWAPI
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    UnitImpl* thisUnit = this;
-    if ( !canIssueCommand( UnitCommand::morph(thisUnit,type)) )
+    if ( !canIssueCommand( UnitCommand::morph(this,type)) )
       return false;
 
+    UnitImpl* thisUnit = this;
     if ( thisUnit->getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
@@ -710,30 +710,47 @@ namespace BWAPI
       case BW::TechID::Stimpacks:
         QueueGameCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
         BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech)));
-        this->lastOrderFrame = BroodwarImpl.frameCount;
         break;
       case BW::TechID::TankSiegeMode:
         if (this->isSieged())
-          this->unsiege();
+        {
+          BroodwarImpl.cmdToUnsiege.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unsiege(this)));
+        }
         else
-          this->siege();
+        {
+          BroodwarImpl.cmdToSiege.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::siege(this)));
+        }
         break;
       case BW::TechID::PersonnelCloaking:
       case BW::TechID::CloakingField:
         if(this->isCloaked())
-          this->decloak();
+        {
+          BroodwarImpl.cmdToUncloak.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::decloak(this)));
+        }
         else
-          this->cloak();
+        {
+          BroodwarImpl.cmdToCloak.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cloak(this)));
+        }
         break;
       case BW::TechID::Burrowing:
         if(this->isBurrowed())
-          this->unburrow();
+        {
+          BroodwarImpl.cmdToUnburrow.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::unburrow(this)));
+        }
         else
-          this->burrow();
+        {
+
+          BroodwarImpl.cmdToBurrow.push_back(this);
+          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::burrow(this)));
+        }
         break;
-      default:
-        return BroodwarImpl.setLastError(Errors::Incompatible_TechType);
     }
+    this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
@@ -741,7 +758,9 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::useTech(this,tech,position)) )
       return false;
-    u8 order;
+
+    this->orderSelect();
+    u8 order = BW::OrderID::None;
     switch (tech.getID())
     {
       case BW::TechID::DarkSwarm:
@@ -777,10 +796,7 @@ namespace BWAPI
       case BW::TechID::StasisField:
         order = BW::OrderID::StasisField;
         break;
-      default:
-        return BroodwarImpl.setLastError(Errors::Incompatible_TechType);
     }
-    this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), order), sizeof(BW::Orders::Attack));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,position)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
@@ -791,77 +807,74 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::useTech(this,tech,target)) )
       return false;
-    u8 order;
-    switch (tech.getID())
+
+    if (tech==TechTypes::Archon_Warp || tech==TechTypes::Dark_Archon_Meld)
     {
-      case BW::TechID::Consume:
-        order = BW::OrderID::Consume;
-        break;
-      case BW::TechID::DefensiveMatrix:
-        order = BW::OrderID::DefensiveMatrix;
-        break;
-      case BW::TechID::Feedback:
-        order = BW::OrderID::CastFeedback;
-        break;
-      case BW::TechID::Hallucination:
-        order = BW::OrderID::Hallucination1;
-        break;
-      case BW::TechID::Healing:
-        order = BW::OrderID::MedicHeal1;
-        break;
-      case BW::TechID::Infestation:
-        order = BW::OrderID::InfestMine2;
-        break;
-      case BW::TechID::Irradiate:
-        order = BW::OrderID::Irradiate;
-        break;
-      case BW::TechID::Lockdown:
-        order = BW::OrderID::MagnaPulse;
-        break;
-      case BW::TechID::Maelstorm:
-        order = BW::OrderID::CastMaelstrom;
-        break;
-      case BW::TechID::MindControl:
-        order = BW::OrderID::CastMindControl;
-        break;
-      case BW::TechID::OpticalFlare:
-        order = BW::OrderID::CastOpticalFlare;
-        break;
-      case BW::TechID::Parasite:
-        order = BW::OrderID::CastParasite;
-        break;
-      case BW::TechID::Restoration:
-        order = BW::OrderID::Restoration;
-        break;
-      case BW::TechID::SpawnBroodlings:
-        order = BW::OrderID::SummonBroodlings;
-        break;
-      case BW::TechID::YamatoGun:
-        order = BW::OrderID::FireYamatoGun1;
-        break;
-      case BW::TechID::ArchonWarp:
-        {
-          BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
-          this->lastOrderFrame = BroodwarImpl.frameCount;
-          return true;
-        }
-      case BW::TechID::DarkArchonMeld:
-        {
-          BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
-          BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
-          this->lastOrderFrame = BroodwarImpl.frameCount;
-          return true;
-        }
-      default:
-        return BroodwarImpl.setLastError(Errors::Incompatible_TechType);
+      BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
+      QueueGameCommand((PBYTE)&sel, sel.size);
     }
-    this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, order), sizeof(BW::Orders::Attack));
+    else
+      this->orderSelect();
+
+    if (tech==TechTypes::Archon_Warp)
+      QueueGameCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
+    else if (tech==TechTypes::Dark_Archon_Meld)
+      QueueGameCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
+    else
+    {
+      u8 order;
+      switch (tech.getID())
+      {
+        case BW::TechID::Consume:
+          order = BW::OrderID::Consume;
+          break;
+        case BW::TechID::DefensiveMatrix:
+          order = BW::OrderID::DefensiveMatrix;
+          break;
+        case BW::TechID::Feedback:
+          order = BW::OrderID::CastFeedback;
+          break;
+        case BW::TechID::Hallucination:
+          order = BW::OrderID::Hallucination1;
+          break;
+        case BW::TechID::Healing:
+          order = BW::OrderID::MedicHeal1;
+          break;
+        case BW::TechID::Infestation:
+          order = BW::OrderID::InfestMine2;
+          break;
+        case BW::TechID::Irradiate:
+          order = BW::OrderID::Irradiate;
+          break;
+        case BW::TechID::Lockdown:
+          order = BW::OrderID::MagnaPulse;
+          break;
+        case BW::TechID::Maelstorm:
+          order = BW::OrderID::CastMaelstrom;
+          break;
+        case BW::TechID::MindControl:
+          order = BW::OrderID::CastMindControl;
+          break;
+        case BW::TechID::OpticalFlare:
+          order = BW::OrderID::CastOpticalFlare;
+          break;
+        case BW::TechID::Parasite:
+          order = BW::OrderID::CastParasite;
+          break;
+        case BW::TechID::Restoration:
+          order = BW::OrderID::Restoration;
+          break;
+        case BW::TechID::SpawnBroodlings:
+          order = BW::OrderID::SummonBroodlings;
+          break;
+        case BW::TechID::YamatoGun:
+          order = BW::OrderID::FireYamatoGun1;
+          break;
+        default:
+          order = BW::OrderID::None;
+      }
+      QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, order), sizeof(BW::Orders::Attack));
+    }
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::useTech(this,tech,target)));
     this->lastOrderFrame = BroodwarImpl.frameCount;
     return true;
