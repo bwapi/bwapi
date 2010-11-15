@@ -397,7 +397,8 @@ namespace BWAPI
 
 
       // Attack Unit requirements
-      if ( UnitCommandTypes::Attack_Unit == ct)
+      if ( UnitCommandTypes::Attack_Unit == ct || 
+          (UnitCommandTypes::Right_Click_Unit == ct && !c.target->getPlayer()->isNeutral() && thisUnit->getPlayer()->isEnemy(c.target->getPlayer())))
       {
         WeaponType weapon = thisUnit->getType().groundWeapon();
         bool targetInAir = (c.target->isLifted() || c.target->getType().isFlyer());
