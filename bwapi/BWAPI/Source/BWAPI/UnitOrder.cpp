@@ -605,22 +605,6 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::rightClick(this,target)) )
       return false;
 
-    if (!target->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(target->getPlayer()))
-    {
-      WeaponType weapon = this->getType().groundWeapon();
-      if (target->isLifted() || target->getType().isFlyer())
-        weapon = this->getType().airWeapon();
-
-      if (weapon == WeaponTypes::None)
-        return BroodwarImpl.setLastError(Errors::Unable_To_Hit);
-
-      if (!this->getType().canMove())
-      {
-        if (this->getDistance(target) > weapon.maxRange() ||
-            this->getDistance(target) < weapon.minRange())
-          return BroodwarImpl.setLastError(Errors::Out_Of_Range);
-      }
-    }
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::RightClick((UnitImpl*)target), sizeof(BW::Orders::RightClick));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::rightClick(this,target)));
@@ -644,6 +628,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::cancelConstruction(this)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelConstruction(this)));
@@ -706,6 +691,7 @@ namespace BWAPI
   {
     if ( !canIssueCommand( UnitCommand::cancelUpgrade(this)) )
       return false;
+
     this->orderSelect();
     QueueGameCommand((PBYTE)&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
     BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::cancelUpgrade(this)));
