@@ -547,6 +547,21 @@ namespace BWAPI
       {
         // Retrieve the tech type
         BWAPI::TechType tech = TechType(c.extra);
+        if ( UnitCommandTypes::Use_Tech               == ct)
+        {
+          if (tech.targetsUnit() || tech.targetsPosition() || tech == TechTypes::None || tech == TechTypes::Unknown || tech == TechTypes::Lurker_Aspect)
+            return Broodwar->setLastError(Errors::Incompatible_TechType);
+        }
+        else if ( UnitCommandTypes::Use_Tech_Position == ct)
+        {
+          if (!tech.targetsPosition())
+            return Broodwar->setLastError(Errors::Incompatible_TechType);
+        }
+        else if ( UnitCommandTypes::Use_Tech_Unit     == ct)
+        {
+          if (!tech.targetsUnit())
+            return Broodwar->setLastError(Errors::Incompatible_TechType);
+        }
         if ( UnitCommandTypes::Burrow == ct )
           tech = BWAPI::TechTypes::Burrowing;
         else if ( UnitCommandTypes::Cloak == ct )
@@ -567,8 +582,8 @@ namespace BWAPI
         if ( tech == TechTypes::Spider_Mines && thisUnit->getSpiderMineCount() <= 0 )
           return Broodwar->setLastError(Errors::Insufficient_Ammo);
 
-        //if ( tech == TechTypes::Nuclear_Strike && thisUnit->getPlayer()->completedUnitCount(UnitTypes::Terran_Nuclear_Missile) > 0 )
-        //  return Broodwar->setLastError(Errors::Insufficient_Ammo);
+        if ( tech == TechTypes::Nuclear_Strike && thisUnit->getPlayer()->completedUnitCount(UnitTypes::Terran_Nuclear_Missile) == 0 )
+          return Broodwar->setLastError(Errors::Insufficient_Ammo);
 
         if (tech == TechTypes::Burrowing)
         {
@@ -642,10 +657,35 @@ namespace BWAPI
         if (c.target->getPlayer()!=Broodwar->self())
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
-        if (!((thisUnit->getType().spaceProvided()>0 && c.target->getType().canMove() && c.target->getType().isFlyer()==false) ||
-            (thisUnit->getType().canMove() && thisUnit->getType().isFlyer()==false && c.target->getType().spaceProvided()>0)))
+        int thisUnitFreeSpace = thisUnit->getType().spaceProvided();
+        if (thisUnitFreeSpace == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
+        {
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
+            thisUnitFreeSpace+=8;
+        }
+        std::set<Unit*> lu = thisUnit->getLoadedUnits();
+        for each(Unit* u in lu)
+        {
+          int r = u->getType().spaceRequired();
+          if (r>0 && r<8)
+            thisUnitFreeSpace -= r;
+        }
+        int targetFreeSpace = c.target->getType().spaceProvided();
+        if (targetFreeSpace == 0 && (c.target->getType() == UnitTypes::Zerg_Overlord || c.target->getType() == UnitTypes::Hero_Yggdrasill))
+        {
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
+            targetFreeSpace+=8;
+        }
+        lu = c.target->getLoadedUnits();
+        for each(Unit* u in lu)
+        {
+          int r = u->getType().spaceRequired();
+          if (r>0 && r<8)
+            targetFreeSpace -= r;
+        }
+        if (!((thisUnitFreeSpace>c.target->getType().spaceRequired() && c.target->getType().canMove() && c.target->getType().isFlyer()==false) ||
+            (thisUnit->getType().canMove() && thisUnit->getType().isFlyer()==false && targetFreeSpace>thisUnit->getType().spaceRequired())))
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
-        // @Todo: Check if the unit is full
       }
 
       // unload
