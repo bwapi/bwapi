@@ -96,16 +96,14 @@ namespace BWAPI
      * Same thing with Reavers and Scarabs. */
     extern const Error Insufficient_Ammo;
 
-    /** Returned if you try to build something on unbuildable terrain (either from the buildability map data
-     * or if a unit is in the way). For build tiles that are not visible, we could just use the buildability
-     * map data and assume that no units are blocking it (to prevent cheating). */
+    /** Returned if you try to train more Interceptors than the Carrier can hold, try to train more Scarabs
+      * than a Reaver can hold, or try to load more units into a transport than there is space. */
     extern const Error Insufficient_Space;
 
     /** Returned if you try to build a barracks at TilePositions::None or something similar */
     extern const Error Invalid_Tile_Position;
 
-    /** Returned if you order an immovable unit, like a Protoss Photon Cannon, to attack a unit that is out
-     * of range. */
+    /** Returned if you try to construct a building on an unbuildable location */
     extern const Error Unbuildable_Location;
 
     /** Returned if you try to construct a building where the worker cannot reach based on static map data. */
