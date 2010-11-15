@@ -657,24 +657,26 @@ namespace BWAPI
         if (c.target->getPlayer()!=Broodwar->self())
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
-        int thisUnitFreeSpace = thisUnit->getType().spaceProvided();
-        if (thisUnitFreeSpace == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
+        int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
+        if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
         {
           if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
-            thisUnitFreeSpace+=8;
+            thisUnitSpaceProvided+=8;
         }
+        int targetSpaceProvided = c.target->getType().spaceProvided();
+        if (targetSpaceProvided == 0 && (c.target->getType() == UnitTypes::Zerg_Overlord || c.target->getType() == UnitTypes::Hero_Yggdrasill))
+        {
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
+            targetSpaceProvided+=8;
+        }
+        int thisUnitFreeSpace = thisUnitSpaceProvided;
+        int targetFreeSpace = targetSpaceProvided;
         std::set<Unit*> lu = thisUnit->getLoadedUnits();
         for each(Unit* u in lu)
         {
           int r = u->getType().spaceRequired();
           if (r>0 && r<8)
             thisUnitFreeSpace -= r;
-        }
-        int targetFreeSpace = c.target->getType().spaceProvided();
-        if (targetFreeSpace == 0 && (c.target->getType() == UnitTypes::Zerg_Overlord || c.target->getType() == UnitTypes::Hero_Yggdrasill))
-        {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
-            targetFreeSpace+=8;
         }
         lu = c.target->getLoadedUnits();
         for each(Unit* u in lu)
@@ -683,9 +685,24 @@ namespace BWAPI
           if (r>0 && r<8)
             targetFreeSpace -= r;
         }
-        if (!((thisUnitFreeSpace>c.target->getType().spaceRequired() && c.target->getType().canMove() && c.target->getType().isFlyer()==false) ||
-            (thisUnit->getType().canMove() && thisUnit->getType().isFlyer()==false && targetFreeSpace>thisUnit->getType().spaceRequired())))
+        if (thisUnitSpaceProvided>0)
+        {
+          if (c.target->getType().canMove()==false || c.target->getType().isFlyer() || c.target->getType().spaceRequired()>8)
+            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          if (c.target->getType().spaceRequired()>thisUnitFreeSpace)
+            return Broodwar->setLastError(Errors::Insufficient_Space);
+        }
+        else if (targetSpaceProvided>0)
+        {
+          if (thisUnit->getType().canMove()==false || thisUnit->getType().isFlyer() || thisUnit->getType().spaceRequired()>8)
+            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          if (thisUnit->getType().spaceRequired()>targetFreeSpace)
+            return Broodwar->setLastError(Errors::Insufficient_Space);
+        }
+        else
+        {
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        }
       }
 
       // unload
@@ -696,7 +713,14 @@ namespace BWAPI
         if ( thisUnit->getLoadedUnits().size() == 0 )
           return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
-        if ( thisUnit->getType().spaceProvided() <= 0 )
+
+        int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
+        if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
+        {
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
+            thisUnitSpaceProvided+=8;
+        }
+        if ( thisUnitSpaceProvided <= 0 )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
         if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && thisUnit->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
@@ -705,7 +729,7 @@ namespace BWAPI
         if ( UnitCommandTypes::Unload == ct )
         {
           bool canUnload = false;
-          std::set<Unit*> loadedUnits;
+          std::set<Unit*> loadedUnits = thisUnit->getLoadedUnits();
           if (loadedUnits.find(c.target)!=loadedUnits.end())
             canUnload = true;
           if ( !canUnload )
