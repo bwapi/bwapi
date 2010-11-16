@@ -1467,7 +1467,7 @@ namespace BWAPI
         this->players[i]->onGameEnd();
 
     //reset game speeds and text size
-    this->setLocalSpeed(-1);
+    this->setLocalSpeed();
     this->setTextSize();
 
     //reset all Unit objects in the unit array

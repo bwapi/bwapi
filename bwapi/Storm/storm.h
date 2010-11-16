@@ -192,7 +192,20 @@ struct stormHead
 #endif
 BOOL STORMAPI SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData);
 BOOL STORMAPI SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);
-BOOL STORMAPI SNetLeaveGame(int type);
+
+/*  SNetLeaveGame @ 119
+ * 
+ *  Notifies Storm that you have left the game. Storm will notify all connected peers through the network provider.
+ *  
+ *  type: The leave type. It's not particularly important.
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SNetLeaveGame(
+    __in int type);
+
 BOOL STORMAPI SNetPerformUpgrade(DWORD *upgradestatus);
 BOOL STORMAPI SNetReceiveMessage(int *senderplayerid, char **data, int *databytes);
 BOOL STORMAPI SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus);
