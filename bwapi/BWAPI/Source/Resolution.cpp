@@ -16,7 +16,7 @@ void SetResolution(int width, int height)
     DDrawInitialize(width, height);
   }
   // Resize buffers and stuff
-/*
+
   void *newBuf = SMAlloc(width * height);
   void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
   
@@ -55,7 +55,7 @@ void SetResolution(int width, int height)
 
   if ( hdcMem )
     InitializeWModeBitmap(width, height);
-*/
+
 }
 
 void DDrawDestroy()
@@ -135,4 +135,36 @@ void DDrawInitialize(int width, int height)
     (*BW::BWDATA_PrimarySurface)->Unlock(&surfaceDesc);
   }
   SDrawManualInitialize(ghMainWnd, *BW::BWDATA_DDInterface, *BW::BWDATA_PrimarySurface, NULL, NULL, *BW::BWDATA_BackSurface, *BW::BWDATA_PrimaryPalette, NULL);
+}
+/*
+void BlitToBitmap(DWORD dwOffset, int height, BYTE *pbBuffer, BYTE *pbData)
+{
+  for ( int i = height; i; --i )
+  {
+    DWORD _dwDrawW = gdwDrawWdth;
+    if ( gdwDrawWdth + dwOffset >= (480-32)*(640+32) )
+    {
+      if ( dwOffset < (480-32)*(640+32) )
+      {
+        _dwDrawW = gdwDrawWdth + dwOffset - (480-32)*(640+32);
+        DWORD dwFixDrawCopySize = (gdwDrawWdth - _dwDrawW) & 0xFFFFFFFC;
+        memcpy(pbBuffer, pbData, dwFixDrawCopySize);
+        pbData   += dwFixDrawCopySize;
+        pbBuffer += dwFixDrawCopySize;
+      }
+      pbData   -= (480-32)*(640+32);
+      dwOffset -= (480-32)*(640+32);
+    }
+    DWORD dwDrawCopySize = _dwDrawW & 0xFFFFFFFC;
+    memcpy(pbBuffer, pbData, dwDrawCopySize);
+    dwOffset += 640 + 32;
+    pbData   = &pbData  [dwDrawCopySize + 640 + 32] - gdwDrawWdth;
+    pbBuffer = &pbBuffer[dwDrawCopySize + 640] - gdwDrawWdth;
+  }
+}*/
+
+void __stdcall GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
+{
+  
+  return;
 }

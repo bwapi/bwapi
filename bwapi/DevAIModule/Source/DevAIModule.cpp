@@ -21,6 +21,11 @@ void DevAIModule::onStart()
 
 void DevAIModule::onEnd(bool isWinner)
 {
+  bw->restartGame();
+  bw->restartGame();
+  bw->restartGame();
+  bw->restartGame();
+  bw->restartGame();
 }
 
 DWORD dwLastTickCount;
@@ -30,6 +35,7 @@ void DevAIModule::onFrame()
 
   if ( bw->isReplay() )
     return;
+
   /*
   if ( enabled )
   {

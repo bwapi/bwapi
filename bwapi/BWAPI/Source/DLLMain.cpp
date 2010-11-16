@@ -51,10 +51,10 @@ DWORD getProcessCount(const char *pszProcName)
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
-BOOL __stdcall _SCodeDelete(HANDLE *handle)
+BOOL __stdcall _SNetLeaveGame(int type)
 {
   BWAPI::BroodwarImpl.onGameEnd();
-  return SCodeDelete(handle);
+  return SNetLeaveGame(type);
 }
 
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
@@ -112,6 +112,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     memset(BW::BWDATA_RefreshRegions, 1, 1200);
   }
 
+  //GameUpdate(pSurface, pBounds);
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
@@ -535,9 +536,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
 
   /* Create import detours */
-  HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
+  HackUtil::PatchImport("storm.dll", 119, &_SNetLeaveGame);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
-  HackUtil::PatchImport("storm.dll", 332, &_SCodeDelete);
+  HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
@@ -547,9 +548,9 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
   HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
   HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
+  HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
   HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
   HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
-  HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
   return 0;
 }
 
