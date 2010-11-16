@@ -45,6 +45,7 @@ namespace BWAPI
       std::set<Unit*> staticGeysers;
       std::set<Unit*> staticNeutralUnits;
       std::set<Bullet*> bullets;
+      std::set<Position> nukeDots;
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set<Unit*> unitsOnTileData[256][256];
@@ -78,6 +79,7 @@ namespace BWAPI
       virtual std::set< Unit* >& getStaticNeutralUnits();
 
       virtual std::set< Bullet* >& getBullets();
+      virtual std::set< Position >& getNukeDots();
       virtual std::list< Event>& getEvents();
 
       virtual Force* getForce(int forceID);

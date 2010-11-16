@@ -108,6 +108,11 @@ namespace BWAPI
   {
     return bullets;
   }
+  //---------------------------------------------- GET NUKE DOTS ---------------------------------------------
+  std::set< Position >& GameImpl::getNukeDots()
+  {
+    return nukeDots;
+  }
   //---------------------------------------------- GET EVENTS ------------------------------------------------
   std::list< Event >& GameImpl::getEvents()
   {

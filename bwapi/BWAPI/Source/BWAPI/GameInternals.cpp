@@ -1686,6 +1686,7 @@ namespace BWAPI
   {
     //this function extracts all current unit information from Broodwar memory for all the accessible units
     //and also generates the NukeDetect event when needed
+    nukeDots.clear();
     foreach (UnitImpl *i, aliveUnits)
     {
       i->connectedUnits.clear();
@@ -1708,16 +1709,25 @@ namespace BWAPI
           i->setID(server.getUnitID(i));
         i->updateData();
       }
-      if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_NuclearMissile )
+      if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_Ghost)
       {
-        if ( !i->nukeDetected )
+        if (i->getOriginalRawData->orderID == BW::OrderID::NukePaint)
+          i->nukePosition = Position(i->getOriginalRawData->orderTargetPos.x, i->getOriginalRawData->orderTargetPos.y);
+        if (i->getOriginalRawData->orderID != BW::OrderID::NukeTrack)
+          i->nukeDetected = false;
+        else
         {
-          i->nukeDetected = true;
-          Position target(i->getOriginalRawData->orderTargetPos.x, i->getOriginalRawData->orderTargetPos.y);
+          Position target=i->nukePosition;
           if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
-            events.push_back(Event::NukeDetect(target));
-          else
-            events.push_back(Event::NukeDetect(Positions::Unknown));
+            nukeDots.insert(target);
+          if ( !i->nukeDetected )
+          {
+            i->nukeDetected = true;
+            if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+              events.push_back(Event::NukeDetect(target));
+            else
+              events.push_back(Event::NukeDetect(Positions::Unknown));
+          }
         }
       }
     }

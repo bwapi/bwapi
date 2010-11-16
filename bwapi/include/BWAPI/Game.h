@@ -65,8 +65,11 @@ namespace BWAPI
 
       /** Returns all visible bullets. If Flag::CompleteMapInformation is enabled, the set of all bullets is
        * returned, not just visible ones. */
-
       virtual std::set< Bullet* >& getBullets() = 0;
+
+     /** Returns all visible nuke dots. If Flag::CompleteMapInformation is enabled, the set of all nuke dots
+       * is returned, not just visible ones. */
+      virtual std::set< Position >& getNukeDots() = 0;
 
       /** Returns the list of events */
       virtual std::list< Event >& getEvents() = 0;

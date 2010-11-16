@@ -210,8 +210,8 @@ namespace BWAPI
     int i = 0;
     foreach(TilePosition t, Broodwar->getStartLocations())
     {
-      data->startLocationsX[i] = t.x();
-      data->startLocationsY[i] = t.y();
+      data->startLocations[i].x = t.x();
+      data->startLocations[i].y = t.y();
       i++;
     }
     //static force data
@@ -380,6 +380,17 @@ namespace BWAPI
       //dynamic bullet data
       for(int id = 0; id < 100; ++id)
         data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;
+      
+      //dynamic nuke dot data
+      int j=0;
+      data->nukeDotCount = Broodwar->getNukeDots().size();
+      foreach(Position nd, Broodwar->getNukeDots())
+      {
+        data->nukeDots[j].x=nd.x();
+        data->nukeDots[j].y=nd.y();
+        j++;
+      }
+
     }
     if (matchStarting)
       Server::onMatchStart();
