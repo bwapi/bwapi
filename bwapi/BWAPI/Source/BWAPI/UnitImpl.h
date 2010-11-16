@@ -260,6 +260,7 @@ namespace BWAPI
       bool userSelected;
       bool staticInformation;
       bool nukeDetected;
+      Position nukePosition;
       int lastGroundWeaponCooldown;
       int lastAirWeaponCooldown;
       bool startingAttack;

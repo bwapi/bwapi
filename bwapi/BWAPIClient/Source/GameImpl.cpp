@@ -142,7 +142,7 @@ namespace BWAPI
 
     //load start locations from shared memory
     for(int i=0;i<data->startLocationCount;i++)
-      startLocations.insert(BWAPI::TilePosition(data->startLocationsX[i],data->startLocationsY[i]));
+      startLocations.insert(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
 
     thePlayer = getPlayer(data->self);
     if (thePlayer!=NULL)
@@ -174,6 +174,11 @@ namespace BWAPI
       {
         bullets.insert(&bulletVector[i]);
       }
+    }
+    nukeDots.clear();
+    for(int i=0;i<data->nukeDotCount;i++)
+    {
+      nukeDots.insert(Position(data->nukeDots[i].x,data->nukeDots[i].y));
     }
     for (int y = 0; y < data->mapHeight; y++)
       for (int x = 0; x < data->mapWidth; x++)
@@ -320,6 +325,11 @@ namespace BWAPI
   std::set< Bullet* >& GameImpl::getBullets()
   {
     return bullets;
+  }
+  //------------------------------------------------ GET NUKE DOTS -------------------------------------------
+  std::set< Position >& GameImpl::getNukeDots()
+  {
+    return nukeDots;
   }
   //------------------------------------------------ GET EVENTS ----------------------------------------------
   std::list< Event >& GameImpl::getEvents()
