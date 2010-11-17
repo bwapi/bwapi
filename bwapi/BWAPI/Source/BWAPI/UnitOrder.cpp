@@ -118,6 +118,162 @@ namespace BWAPI
       this->lastOrderFrame = BroodwarImpl.frameCount;
     return success;
   }
+  //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
+  void UnitImpl::executeCommand(UnitCommand command)
+  {
+    this->lastOrderFrame = BroodwarImpl.frameCount;
+    if      (command.type == UnitCommandTypes::Attack_Move)
+    {
+      Position target(command.x,command.y);
+      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,target)));
+    }
+    else if (command.type == UnitCommandTypes::Attack_Unit)
+    {
+      Unit* target = command.target;
+      switch ( getType().getID() )
+      {
+      case BW::UnitID::Protoss_Carrier:
+      case BW::UnitID::Protoss_Hero_Gantrithor:
+        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CarrierAttack1), sizeof(BW::Orders::Attack));
+        break;
+      case BW::UnitID::Protoss_Reaver:
+      case BW::UnitID::Protoss_Hero_Warbringer:
+        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::ReaverAttack1), sizeof(BW::Orders::Attack));
+        break;
+      default:
+        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Attack1), sizeof(BW::Orders::Attack));
+        break;
+      }
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackUnit(this,target)));
+    }
+    else if (command.type == UnitCommandTypes::Build)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Build_Addon)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Train)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Morph)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Research)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Upgrade)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Set_Rally_Position)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Set_Rally_Unit)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Move)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Patrol)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Hold_Position)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Stop)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Follow)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Gather)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Return_Cargo)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Repair)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Burrow)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Unburrow)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cloak)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Decloak)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Siege)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Unsiege)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Lift)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Land)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Load)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Unload)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Unload_All)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Unload_All_Position)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Right_Click_Position)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Right_Click_Unit)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Halt_Construction)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Construction)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Addon)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Train)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Morph)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Research)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Cancel_Upgrade)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Use_Tech)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Use_Tech_Position)
+    {
+    }
+    else if (command.type == UnitCommandTypes::Use_Tech_Unit)
+    {
+    }
+    else
+    {
+    }
+  }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
   bool UnitImpl::attackMove(Position target)
   {
@@ -125,9 +281,7 @@ namespace BWAPI
       return false;
 
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackMove(this,target)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::attackMove(this, target) );
     return true;
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
@@ -137,22 +291,7 @@ namespace BWAPI
       return false;
 
     this->orderSelect();
-    switch ( getType().getID() )
-    {
-    case BW::UnitID::Protoss_Carrier:
-    case BW::UnitID::Protoss_Hero_Gantrithor:
-      QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CarrierAttack1), sizeof(BW::Orders::Attack));
-      break;
-    case BW::UnitID::Protoss_Reaver:
-    case BW::UnitID::Protoss_Hero_Warbringer:
-      QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::ReaverAttack1), sizeof(BW::Orders::Attack));
-      break;
-    default:
-      QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Attack1), sizeof(BW::Orders::Attack));
-      break;
-    }
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::attackUnit(this,target)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::attackUnit(this, target) );
     return true;
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
