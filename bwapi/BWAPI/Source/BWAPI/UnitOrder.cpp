@@ -12,6 +12,7 @@
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
+#include "BWAPI/TemplatesImpl.h"
 #include "Command.h"
 #include "DLLMain.h"
 
@@ -21,36 +22,33 @@
 
 namespace BWAPI
 {
-  //-------------------------------------------- ORDER Issue Command -----------------------------------------
+  //--------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
+  bool UnitImpl::canIssueCommand(UnitCommand command) const
+  {
+    return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command);
+  }
+  //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
   {
+    if (!canIssueCommand(command))
+      return false;
+
     command.unit = this;
+
     if (command.type == UnitCommandTypes::Train ||
         command.type == UnitCommandTypes::Morph)
-    {
       if (getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
-      {
-        if (getLarva().empty())
-        {
-          Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-          return false;
-        }
         command.unit = (UnitImpl*)(*getLarva().begin());
-      }
-    }
-
-    if ( !canIssueCommand( command ) )
-      return false;
 
     if (command.type == UnitCommandTypes::Use_Tech_Unit &&
        (command.extra==TechTypes::Archon_Warp.getID() || command.extra==TechTypes::Dark_Archon_Meld.getID()))
     {
       //select both units for archon warp or dark archon meld
-      BW::Orders::Select sel = BW::Orders::Select(2, command.unit, (UnitImpl*)command.target);
+      BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);
       QueueGameCommand((PBYTE)&sel, sel.size);
     }
     else
-      command.unit->orderSelect();
+      ((UnitImpl*)command.unit)->orderSelect();
 
     executeCommand( command );
     return true;
@@ -498,211 +496,211 @@ namespace BWAPI
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
   bool UnitImpl::attackMove(Position target)
   {
-    return issueCommand( UnitCommand::attackMove(this, target) );
+    return issueCommand(UnitCommand::attackMove(this, target));
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
   bool UnitImpl::attackUnit(Unit* target)
   {
-    return issueCommand( UnitCommand::attackUnit(this, target) );
+    return issueCommand(UnitCommand::attackUnit(this, target));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool UnitImpl::build(TilePosition target, UnitType type)
   {
-    return issueCommand( UnitCommand::build(this, target, type) );
+    return issueCommand(UnitCommand::build(this, target, type));
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool UnitImpl::buildAddon(UnitType type)
   {
-    return issueCommand( UnitCommand::buildAddon(this,type) );
+    return issueCommand(UnitCommand::buildAddon(this,type));
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type)
   {
-    return issueCommand( UnitCommand::train(this,type) );
+    return issueCommand(UnitCommand::train(this,type));
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    return issueCommand( UnitCommand::morph(this,type) );
+    return issueCommand(UnitCommand::morph(this,type));
   }
   //--------------------------------------------- RESEARCH ---------------------------------------------------
   bool UnitImpl::research(TechType tech)
   {
-    return issueCommand( UnitCommand::research(this,tech) );
+    return issueCommand(UnitCommand::research(this,tech));
   }
   //--------------------------------------------- UPGRADE ----------------------------------------------------
   bool UnitImpl::upgrade(UpgradeType upgrade)
   {
-    return issueCommand( UnitCommand::upgrade(this,upgrade) );
+    return issueCommand(UnitCommand::upgrade(this,upgrade));
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
   bool UnitImpl::setRallyPoint(Position target)
   {
-    return issueCommand( UnitCommand::setRallyPosition(this,target) );
+    return issueCommand(UnitCommand::setRallyPosition(this,target));
   }
   //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
   bool UnitImpl::setRallyPoint(Unit* target)
   {
-    return issueCommand( UnitCommand::setRallyUnit(this,target) );
+    return issueCommand(UnitCommand::setRallyUnit(this,target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool UnitImpl::move(Position target)
   {
-    return issueCommand( UnitCommand::move(this,target) );
+    return issueCommand(UnitCommand::move(this,target));
   }
   //--------------------------------------------- PATROL -----------------------------------------------------
   bool UnitImpl::patrol(Position target)
   {
-    return issueCommand( UnitCommand::patrol(this,target) );
+    return issueCommand(UnitCommand::patrol(this,target));
   }
   //--------------------------------------------- HOLD POSITION ----------------------------------------------
   bool UnitImpl::holdPosition()
   {
-    return issueCommand( UnitCommand::holdPosition(this) );
+    return issueCommand(UnitCommand::holdPosition(this));
   }
   //--------------------------------------------- STOP -------------------------------------------------------
   bool UnitImpl::stop()
   {
-    return issueCommand( UnitCommand::stop(this) );
+    return issueCommand(UnitCommand::stop(this));
   }
   //--------------------------------------------- FOLLOW -----------------------------------------------------
   bool UnitImpl::follow(Unit* target)
   {
-    return issueCommand( UnitCommand::follow(this,target) );
+    return issueCommand(UnitCommand::follow(this,target));
   }
   //--------------------------------------------- GATHER -----------------------------------------------------
   bool UnitImpl::gather(Unit* target)
   {
-    return issueCommand( UnitCommand::gather(this,target) );
+    return issueCommand(UnitCommand::gather(this,target));
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
   bool UnitImpl::returnCargo()
   {
-    return issueCommand( UnitCommand::returnCargo(this) );
+    return issueCommand(UnitCommand::returnCargo(this));
   }
   //--------------------------------------------- REPAIR -----------------------------------------------------
   bool UnitImpl::repair(Unit* target)
   {
-    return issueCommand( UnitCommand::repair(this,target) );
+    return issueCommand(UnitCommand::repair(this,target));
   }
   //--------------------------------------------- BURROW -----------------------------------------------------
   bool UnitImpl::burrow()
   {
-    return issueCommand( UnitCommand::burrow(this) );
+    return issueCommand(UnitCommand::burrow(this));
   }
   //--------------------------------------------- UNBURROW ---------------------------------------------------
   bool UnitImpl::unburrow()
   {
-    return issueCommand( UnitCommand::unburrow(this) );
+    return issueCommand(UnitCommand::unburrow(this));
   }
   //--------------------------------------------- CLOAK ------------------------------------------------------
   bool UnitImpl::cloak()
   {
-    return issueCommand( UnitCommand::cloak(this) );
+    return issueCommand(UnitCommand::cloak(this));
   }
   //--------------------------------------------- DECLOAK ----------------------------------------------------
   bool UnitImpl::decloak()
   {
-    return issueCommand( UnitCommand::decloak(this) );
+    return issueCommand(UnitCommand::decloak(this));
   }
   //--------------------------------------------- SIEGE ------------------------------------------------------
   bool UnitImpl::siege()
   {
-    return issueCommand( UnitCommand::siege(this) );
+    return issueCommand(UnitCommand::siege(this));
   }
   //--------------------------------------------- UNSIEGE ----------------------------------------------------
   bool UnitImpl::unsiege()
   {
-    return issueCommand( UnitCommand::unsiege(this) );
+    return issueCommand(UnitCommand::unsiege(this));
   }
   //--------------------------------------------- LIFT -------------------------------------------------------
   bool UnitImpl::lift()
   {
-    return issueCommand( UnitCommand::lift(this) );
+    return issueCommand(UnitCommand::lift(this));
   }
   //--------------------------------------------- LAND -------------------------------------------------------
   bool UnitImpl::land(TilePosition target)
   {
-    return issueCommand( UnitCommand::land(this,target) );
+    return issueCommand(UnitCommand::land(this,target));
   }
   //--------------------------------------------- LOAD -------------------------------------------------------
   bool UnitImpl::load(Unit* target)
   {
-    return issueCommand( UnitCommand::load(this,target) );
+    return issueCommand(UnitCommand::load(this,target));
   }
   //--------------------------------------------- UNLOAD -----------------------------------------------------
   bool UnitImpl::unload(Unit* target)
   {
-    return issueCommand( UnitCommand::unload(this,target) );
+    return issueCommand(UnitCommand::unload(this,target));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool UnitImpl::unloadAll()
   {
-    return issueCommand( UnitCommand::unloadAll(this) );
+    return issueCommand(UnitCommand::unloadAll(this));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool UnitImpl::unloadAll(Position target)
   {
-    return issueCommand( UnitCommand::unloadAll(this,target) );
+    return issueCommand(UnitCommand::unloadAll(this,target));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
   bool UnitImpl::rightClick(Position target)
   {
-    return issueCommand( UnitCommand::rightClick(this,target) );
+    return issueCommand(UnitCommand::rightClick(this,target));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
   bool UnitImpl::rightClick(Unit* target)
   {
-    return issueCommand( UnitCommand::rightClick(this,target) );
+    return issueCommand(UnitCommand::rightClick(this,target));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool UnitImpl::haltConstruction()
   {
-    return issueCommand( UnitCommand::haltConstruction(this) );
+    return issueCommand(UnitCommand::haltConstruction(this));
   }
   //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
   bool UnitImpl::cancelConstruction()
   {
-    return issueCommand( UnitCommand::cancelConstruction(this) );
+    return issueCommand(UnitCommand::cancelConstruction(this));
   }
   //--------------------------------------------- CANCEL ADDON -----------------------------------------------
   bool UnitImpl::cancelAddon()
   {
-    return issueCommand( UnitCommand::cancelAddon(this) );
+    return issueCommand(UnitCommand::cancelAddon(this));
   }
   //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
   bool UnitImpl::cancelTrain(int slot)
   {
-    return issueCommand( UnitCommand::cancelTrain(this, slot) );
+    return issueCommand(UnitCommand::cancelTrain(this, slot));
   }
   //--------------------------------------------- CANCEL MORPH -----------------------------------------------
   bool UnitImpl::cancelMorph()
   {
-    return issueCommand( UnitCommand::cancelMorph(this) );
+    return issueCommand(UnitCommand::cancelMorph(this));
   }
   //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
   bool UnitImpl::cancelResearch()
   {
-    return issueCommand( UnitCommand::cancelResearch(this) );
+    return issueCommand(UnitCommand::cancelResearch(this));
   }
   //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
   bool UnitImpl::cancelUpgrade()
   {
-    return issueCommand( UnitCommand::cancelUpgrade(this) );
+    return issueCommand(UnitCommand::cancelUpgrade(this));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech)
   {
-    return issueCommand( UnitCommand::useTech(this,tech) );
+    return issueCommand(UnitCommand::useTech(this,tech));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitImpl::useTech(TechType tech, Position position)
+  bool UnitImpl::useTech(TechType tech, Position target)
   {
-    return issueCommand( UnitCommand::useTech(this,tech,position) );
+    return issueCommand(UnitCommand::useTech(this,tech,target));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
-    return issueCommand( UnitCommand::useTech(this,tech,target) );
+    return issueCommand(UnitCommand::useTech(this,tech,target));
   }
 };

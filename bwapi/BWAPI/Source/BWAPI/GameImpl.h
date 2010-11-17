@@ -126,10 +126,10 @@ namespace BWAPI
       virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
       virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight);
 
-      virtual bool canBuildHere(Unit* builder, TilePosition position, UnitType type, bool checkExplored = false);
-      virtual bool canMake(Unit* builder, UnitType type);
-      virtual bool canResearch(Unit* unit, TechType type);
-      virtual bool canUpgrade(Unit* unit, UpgradeType type);
+      virtual bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored = false);
+      virtual bool canMake(const Unit* builder, UnitType type);
+      virtual bool canResearch(const Unit* unit, TechType type);
+      virtual bool canUpgrade(const Unit* unit, UpgradeType type);
 
       virtual std::set< TilePosition >& getStartLocations();
 

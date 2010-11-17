@@ -11,7 +11,6 @@
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
-#include "BWAPI/TemplatesImpl.h"
 #include <BWAPI/WeaponType.h>
 #include "Command.h"
 #include "DLLMain.h"
@@ -1054,10 +1053,5 @@ namespace BWAPI
   void* UnitImpl::getClientInfo() const
   {
     return clientInfo;
-  }
-  //------------------------------------------ CAN ISSUE COMMAND ---------------------------------------------
-  bool UnitImpl::canIssueCommand(UnitCommand c)
-  {
-    return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,c);
   }
 };

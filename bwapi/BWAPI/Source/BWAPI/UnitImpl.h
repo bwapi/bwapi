@@ -165,6 +165,7 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
+      virtual bool canIssueCommand(UnitCommand c) const;
       virtual bool issueCommand(UnitCommand command);
 
       virtual bool attackMove(Position target);
@@ -277,7 +278,6 @@ namespace BWAPI
 
       void executeCommand(UnitCommand c);
     private:
-      bool canIssueCommand(UnitCommand c);
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
 

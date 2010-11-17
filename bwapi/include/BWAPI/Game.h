@@ -225,21 +225,21 @@ namespace BWAPI
       /** Returns true if the given unit type can be built at the given build tile position. Note the tile
        * position specifies the top left tile of the building. If builder is not null, the unit will be
        * discarded when determining whether or not any ground units are blocking the build location. */
-      virtual bool canBuildHere(Unit *builder, TilePosition position, UnitType type, bool checkExplored = false) = 0;
+      virtual bool canBuildHere(const Unit *builder, TilePosition position, UnitType type, bool checkExplored = false) = 0;
 
       /** Returns true if the AI player has enough resources, supply, tech, and required units in order to
        * make the given unit type. If builder is not null, canMake will return true only if the builder unit
        * can build the given unit type. */
-      virtual bool canMake(Unit *builder, UnitType type) = 0;
+      virtual bool canMake(const Unit *builder, UnitType type) = 0;
 
       /** Returns true if the AI player has enough resources required to research the given tech type. If unit
        * is not null, canResearch will return true only if the given unit can research the given tech type. */
-      virtual bool canResearch(Unit *unit, TechType type) = 0;
+      virtual bool canResearch(const Unit *unit, TechType type) = 0;
 
       /** Returns true if the AI player has enough resources required to upgrade the given upgrade type. If
        * unit is not null, canUpgrade will return true only if the given unit can upgrade the given upgrade
        * type. */
-      virtual bool canUpgrade(Unit *unit, UpgradeType type) = 0;
+      virtual bool canUpgrade(const Unit *unit, UpgradeType type) = 0;
 
       /** Returns the set of starting locations for the given map. To determine the starting location for the
        * players in the current match, see Player::getStartLocation. */
