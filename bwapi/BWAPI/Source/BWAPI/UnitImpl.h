@@ -274,6 +274,8 @@ namespace BWAPI
 
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
+
+      void executeCommand(UnitCommand c);
     private:
       bool canIssueCommand(UnitCommand c);
       /** Orders to select this unit (previous selection will be lost. */
