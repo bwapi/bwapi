@@ -171,7 +171,6 @@ void EventTest::onFrame()
       expectedEvents.push_back(Event::UnitCreate(NULL));
       expectedEvents.push_back(Event::UnitDiscover(NULL));
       expectedEvents.push_back(Event::UnitShow(NULL));
-      expectedEvents.push_back(Event::NukeDetect(p));
       expectedEvents.push_back(Event::UnitHide(NULL));
       expectedEvents.push_back(Event::UnitEvade(NULL));
       expectedEvents.push_back(Event::UnitDestroy(NULL));
