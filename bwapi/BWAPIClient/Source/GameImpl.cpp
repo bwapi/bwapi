@@ -741,12 +741,13 @@ namespace BWAPI
   //------------------------------------------- ISSUE COMMAND ------------------------------------------------
   bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
   {
+    bool success = false;
     //FIX FIX FIX naive implementation
     for each(Unit* u in units)
     {
-      u->issueCommand(command);
+      success |= u->issueCommand(command);
     }
-    return false;
+    return true;
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<Unit*>& GameImpl::getSelectedUnits()
