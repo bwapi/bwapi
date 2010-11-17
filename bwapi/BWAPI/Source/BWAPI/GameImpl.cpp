@@ -750,6 +750,8 @@ namespace BWAPI
       groupsOf12.push_back(nextGroup);
       nextGroup.clear();
     }
+    if (groupsOf12.empty())
+      return false;
     UnitImpl* selected[13];
     for(std::list< std::set<UnitImpl*> >::iterator i=groupsOf12.begin();i!=groupsOf12.end();i++)
     {
@@ -772,7 +774,7 @@ namespace BWAPI
         BroodwarImpl.addToCommandBuffer(new Command(command));
       }
     }
-    return false;
+    return true;
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
