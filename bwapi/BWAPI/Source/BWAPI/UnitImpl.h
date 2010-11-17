@@ -276,7 +276,7 @@ namespace BWAPI
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
 
-      void executeCommand(UnitCommand c);
+      int lastOrderFrame;
     private:
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
@@ -286,7 +286,6 @@ namespace BWAPI
       BWAPI::Position staticPosition;
       int staticResources;
       int staticHitPoints;
-      int lastOrderFrame;
 
       void* clientInfo;
   };

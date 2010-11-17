@@ -724,6 +724,56 @@ namespace BWAPI
       }
     }
   }
+  //------------------------------------------ ISSUE COMMAND -------------------------------------------------
+  bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
+  {
+    std::list< std::set<UnitImpl*> > groupsOf12;
+    std::set<UnitImpl* > nextGroup;
+    for each(Unit* u in units)
+    {
+      if (u->canIssueCommand(command))
+      {
+        if (command.type == UnitCommandTypes::Train ||
+            command.type == UnitCommandTypes::Morph)
+          if (u->getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+            u = *u->getLarva().begin();
+        nextGroup.insert((UnitImpl*)u);
+        if (nextGroup.size()>=12)
+        {
+          groupsOf12.push_back(nextGroup);
+          nextGroup.clear();
+        }
+      }
+    }
+    if (nextGroup.size()>=0)
+    {
+      groupsOf12.push_back(nextGroup);
+      nextGroup.clear();
+    }
+    UnitImpl* selected[13];
+    for(std::list< std::set<UnitImpl*> >::iterator i=groupsOf12.begin();i!=groupsOf12.end();i++)
+    {
+      int k=0;
+      for each(UnitImpl* j in *i)
+      {
+        selected[k]=j;
+        k++;
+      }
+      command.unit = selected[9];
+      selected[k]=NULL;
+      BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
+      QueueGameCommand((PBYTE)&sel, sel.size);
+
+      BroodwarImpl.executeCommand( command, false );
+      for each(UnitImpl* j in *i)
+      {
+        j->lastOrderFrame = BroodwarImpl.frameCount;
+        command.unit = (Unit*)j;
+        BroodwarImpl.addToCommandBuffer(new Command(command));
+      }
+    }
+    return false;
+  }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<BWAPI::Unit*>& GameImpl::getSelectedUnits()
   {

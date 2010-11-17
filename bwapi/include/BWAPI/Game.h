@@ -299,6 +299,9 @@ namespace BWAPI
        * negative value will reset the speed to the StarCraft default. */
       virtual void setLocalSpeed(int speed = -1) = 0;
 
+      /** Issues a command to a group of units */
+      virtual bool issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command) = 0;
+
       /** Returns the set of units currently selected by the user in the GUI. If Flag?::UserInput? was not
        * enabled during the AIModule::onStart callback, this function will always return an empty set. */
       virtual std::set<Unit*>& getSelectedUnits() = 0;

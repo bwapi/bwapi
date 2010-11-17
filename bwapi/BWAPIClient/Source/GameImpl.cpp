@@ -738,6 +738,16 @@ namespace BWAPI
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetLocalSpeed,speed));
   }
+  //------------------------------------------- ISSUE COMMAND ------------------------------------------------
+  bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
+  {
+    //FIX FIX FIX naive implementation
+    for each(Unit* u in units)
+    {
+      u->issueCommand(command);
+    }
+    return false;
+  }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<Unit*>& GameImpl::getSelectedUnits()
   {

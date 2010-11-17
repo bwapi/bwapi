@@ -325,6 +325,7 @@ namespace BWAPI
     template <class GameImpl, class PlayerImpl, class UnitImpl>
     bool canIssueCommand(const Unit* thisUnit, UnitCommand c)
     {
+      c.unit = (Unit*)thisUnit;
       if (c.type == UnitCommandTypes::Train ||
           c.type == UnitCommandTypes::Morph)
       {

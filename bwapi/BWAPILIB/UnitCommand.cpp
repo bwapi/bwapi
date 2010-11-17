@@ -1,4 +1,5 @@
 #include <BWAPI/UnitCommand.h>
+#include <BWAPI/Unit.h>
 namespace BWAPI
 {
   UnitCommand UnitCommand::attackMove(Unit* unit, Position target)
@@ -318,6 +319,27 @@ namespace BWAPI
     c.unit  = unit;
     c.type  = UnitCommandTypes::Use_Tech;
     c.extra = tech.getID();
+    if (tech==TechTypes::Burrowing)
+    {
+      if (unit->isBurrowed())
+        c.type = UnitCommandTypes::Unburrow;
+      else
+        c.type = UnitCommandTypes::Burrow;
+    }
+    else if (tech==TechTypes::Cloaking_Field || tech==TechTypes::Personnel_Cloaking)
+    {
+      if (unit->isCloaked())
+        c.type = UnitCommandTypes::Decloak;
+      else
+        c.type = UnitCommandTypes::Cloak;
+    }
+    else if (tech==TechTypes::Tank_Siege_Mode)
+    {
+      if (unit->isSieged())
+        c.type = UnitCommandTypes::Unsiege;
+      else
+        c.type = UnitCommandTypes::Siege;
+    }
     return c;
   }
   UnitCommand UnitCommand::useTech(Unit* unit, TechType tech, Position target)
