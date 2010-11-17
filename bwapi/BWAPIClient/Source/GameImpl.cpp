@@ -747,7 +747,7 @@ namespace BWAPI
     {
       success |= u->issueCommand(command);
     }
-    return true;
+    return success;
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<Unit*>& GameImpl::getSelectedUnits()
