@@ -745,7 +745,7 @@ namespace BWAPI
         }
       }
     }
-    if (nextGroup.size()>=0)
+    if (nextGroup.empty()==false)
     {
       groupsOf12.push_back(nextGroup);
       nextGroup.clear();
