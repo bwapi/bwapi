@@ -899,14 +899,10 @@ namespace BWAPI
               tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
 
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
-            /*if ( !actCreate )
-            {
-              actCreate = true;
-              tempDlg->findIndex(12)->activate();
-            }*/
           }
           break;
 // in lobby
+          /*
         case 3:
           actCreate = false;
           Race playerRace = Races::getRace(this->autoMenuRace);
@@ -919,7 +915,7 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(0, playerRace);
-          break;
+          break;*/
         }
       }
       else // wait for other computer to make game
@@ -933,6 +929,7 @@ namespace BWAPI
           //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();  // might bug
           break;
 //multiplayer game ready screen
+          /*
         case 3: 
           Race playerRace = Races::getRace(this->autoMenuRace);
           if ( this->autoMenuRace == "RANDOMTP" )
@@ -944,6 +941,8 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(1, playerRace);
+          break;
+          */
         }
       }
     }
