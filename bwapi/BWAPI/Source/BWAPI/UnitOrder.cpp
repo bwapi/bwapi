@@ -149,21 +149,74 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Build)
     {
+      TilePosition target(command.x,command.y);
+      UnitType type1(command.extra);
+      BW::UnitType type((u16)command.extra);
+      if ( this->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal && type == BW::UnitID::Zerg_NydusCanal )
+        QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
+      else if (!type.isAddon())
+        QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
+      else
+        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::build(this,target,type1)));
     }
     else if (command.type == UnitCommandTypes::Build_Addon)
     {
+      TilePosition target(getTilePosition().x() + 4, getTilePosition().y() + 1);
+      UnitType type1(command.extra);
+      target.makeValid();
+      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)type1.getID()), sizeof(BW::Orders::MakeAddon));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
     }
     else if (command.type == UnitCommandTypes::Train)
     {
+      UnitType type1(command.extra);
+      BW::UnitType type((u16)type1.getID());
+      switch ( this->_getType.getID() )
+      {
+      case BW::UnitID::Zerg_Larva:
+      case BW::UnitID::Zerg_Mutalisk:
+      case BW::UnitID::Zerg_Hydralisk:
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(type), 3);
+        break;
+      case BW::UnitID::Zerg_Hatchery:
+      case BW::UnitID::Zerg_Lair:
+      case BW::UnitID::Zerg_Spire:
+      case BW::UnitID::Zerg_CreepColony:
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(type), 3);
+        break;
+      case BW::UnitID::Protoss_Carrier:
+      case BW::UnitID::Protoss_Hero_Gantrithor:
+      case BW::UnitID::Protoss_Reaver:
+      case BW::UnitID::Protoss_Hero_Warbringer:
+        QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
+        break;
+      default:
+        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(type), 3);
+        break;
+      }
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(this,type1)));
     }
     else if (command.type == UnitCommandTypes::Morph)
     {
+      UnitType type(command.extra);
+      if(type.isBuilding())
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type.getID()), sizeof(BW::Orders::BuildingMorph));
+      else
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type.getID()), sizeof(BW::Orders::UnitMorph));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(this,type)));
     }
     else if (command.type == UnitCommandTypes::Research)
     {
+      TechType tech(command.extra);
+      QueueGameCommand((PBYTE)&BW::Orders::Invent(BW::TechType((u8)tech.getID())), sizeof(BW::Orders::Invent));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::research(this,tech)));
     }
     else if (command.type == UnitCommandTypes::Upgrade)
     {
+      UpgradeType upgrade(command.extra);
+      QueueGameCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType((u8)upgrade.getID())), sizeof(BW::Orders::Upgrade));
+      BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::upgrade(this,upgrade)));
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Position)
     {
@@ -300,16 +353,8 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::build(this, target, type1)) )
       return false;
 
-    BW::UnitType type((u16)type1.getID());
     this->orderSelect();
-    if ( this->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal && type == BW::UnitID::Zerg_NydusCanal )
-      QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
-    else if (!type.isAddon())
-      QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
-    else
-      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::build(this,target,type1)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::build(this, target, type1) );
     return true;
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
@@ -318,77 +363,52 @@ namespace BWAPI
     if ( !canIssueCommand( UnitCommand::buildAddon(this,type1) ) )
       return false;
 
-    TilePosition target(getTilePosition().x() + 4, getTilePosition().y() + 1);
-    target.makeValid();
-
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)type1.getID()), sizeof(BW::Orders::MakeAddon));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::buildAddon(this,type1)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::buildAddon(this,type1) );
     return true;
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
-  bool UnitImpl::train(UnitType type1)
+  bool UnitImpl::train(UnitType type)
   {
-    if ( !canIssueCommand( UnitCommand::train(this,type1) ) )
-      return false;
-
     UnitImpl* thisUnit = this;
-    if ( thisUnit->getType().producesLarva() && type1.whatBuilds().first == UnitTypes::Zerg_Larva )
+    if (getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
+      if (getLarva().empty())
+      {
+        Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return false;
+      }
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
       thisUnit = larva;
     }
 
+    if ( !canIssueCommand( UnitCommand::train(thisUnit,type) ) )
+      return false;
+
     thisUnit->orderSelect();
-    BW::UnitType type((u16)type1.getID());
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::train(thisUnit,type1)));
-    switch ( thisUnit->_getType.getID() )
-    {
-    case BW::UnitID::Zerg_Larva:
-    case BW::UnitID::Zerg_Mutalisk:
-    case BW::UnitID::Zerg_Hydralisk:
-      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(type), 3);
-      break;
-    case BW::UnitID::Zerg_Hatchery:
-    case BW::UnitID::Zerg_Lair:
-    case BW::UnitID::Zerg_Spire:
-    case BW::UnitID::Zerg_CreepColony:
-      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(type), 3);
-      break;
-    case BW::UnitID::Protoss_Carrier:
-    case BW::UnitID::Protoss_Hero_Gantrithor:
-    case BW::UnitID::Protoss_Reaver:
-    case BW::UnitID::Protoss_Hero_Warbringer:
-      QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
-      break;
-    default:
-      QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(type), 3);
-      break;
-    }
-    thisUnit->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::train(thisUnit,type) );
     return true;
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    if ( !canIssueCommand( UnitCommand::morph(this,type)) )
-      return false;
-
     UnitImpl* thisUnit = this;
-    if ( thisUnit->getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
+    if (getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
     {
+      if (getLarva().empty())
+      {
+        Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return false;
+      }
       UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
       thisUnit = larva;
     }
 
+    if ( !canIssueCommand( UnitCommand::morph(thisUnit,type)) )
+      return false;
+
     thisUnit->orderSelect();
-    if(type.isBuilding())
-      QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type.getID()), sizeof(BW::Orders::BuildingMorph));
-    else
-      QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type.getID()), sizeof(BW::Orders::UnitMorph));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::morph(thisUnit,type)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::morph(thisUnit,type) );
     return true;
   }
   //--------------------------------------------- RESEARCH ---------------------------------------------------
@@ -398,9 +418,7 @@ namespace BWAPI
       return false;
 
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Invent(BW::TechType((u8)tech.getID())), sizeof(BW::Orders::Invent));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::research(this,tech)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::research(this,tech));
     return true;
   }
   //--------------------------------------------- UPGRADE ----------------------------------------------------
@@ -410,9 +428,7 @@ namespace BWAPI
       return false;
 
     this->orderSelect();
-    QueueGameCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType((u8)upgrade.getID())), sizeof(BW::Orders::Upgrade));
-    BroodwarImpl.addToCommandBuffer(new Command(UnitCommand::upgrade(this,upgrade)));
-    this->lastOrderFrame = BroodwarImpl.frameCount;
+    executeCommand( UnitCommand::upgrade(this,upgrade));
     return true;
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
