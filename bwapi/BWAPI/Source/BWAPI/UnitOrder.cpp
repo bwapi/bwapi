@@ -24,99 +24,36 @@ namespace BWAPI
   //-------------------------------------------- ORDER Issue Command -----------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
   {
-    bool success = false;
-    //call the appropriate command function based on the command type
-    if      (command.type == UnitCommandTypes::Attack_Move)
-      success = attackMove(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Attack_Unit)
-      success = attackUnit(command.target);
-    else if (command.type == UnitCommandTypes::Build)
-      success = build(TilePosition(command.x,command.y),UnitType(command.extra));
-    else if (command.type == UnitCommandTypes::Build_Addon)
-      success = buildAddon(UnitType(command.extra));
-    else if (command.type == UnitCommandTypes::Train)
-      success = train(UnitType(command.extra));
-    else if (command.type == UnitCommandTypes::Morph)
-      success = morph(UnitType(command.extra));
-    else if (command.type == UnitCommandTypes::Research)
-      success = research(TechType(command.extra));
-    else if (command.type == UnitCommandTypes::Upgrade)
-      success = upgrade(UpgradeType(command.extra));
-    else if (command.type == UnitCommandTypes::Set_Rally_Position)
-      success = setRallyPoint(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Set_Rally_Unit)
-      success = setRallyPoint(command.target);
-    else if (command.type == UnitCommandTypes::Move)
-      success = move(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Patrol)
-      success = patrol(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Hold_Position)
-      success = holdPosition();
-    else if (command.type == UnitCommandTypes::Stop)
-      success = stop();
-    else if (command.type == UnitCommandTypes::Follow)
-      success = follow(command.target);
-    else if (command.type == UnitCommandTypes::Gather)
-      success = gather(command.target);
-    else if (command.type == UnitCommandTypes::Return_Cargo)
-      success = returnCargo();
-    else if (command.type == UnitCommandTypes::Repair)
-      success = repair(command.target);
-    else if (command.type == UnitCommandTypes::Burrow)
-      success = burrow();
-    else if (command.type == UnitCommandTypes::Unburrow)
-      success = unburrow();
-    else if (command.type == UnitCommandTypes::Cloak)
-      success = cloak();
-    else if (command.type == UnitCommandTypes::Decloak)
-      success = decloak();
-    else if (command.type == UnitCommandTypes::Siege)
-      success = siege();
-    else if (command.type == UnitCommandTypes::Unsiege)
-      success = unsiege();
-    else if (command.type == UnitCommandTypes::Lift)
-      success = lift();
-    else if (command.type == UnitCommandTypes::Land)
-      success = land(TilePosition(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Load)
-      success = load(command.target);
-    else if (command.type == UnitCommandTypes::Unload)
-      success = unload(command.target);
-    else if (command.type == UnitCommandTypes::Unload_All)
-      success = unloadAll();
-    else if (command.type == UnitCommandTypes::Unload_All_Position)
-      success = unloadAll(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Right_Click_Position)
-      success = rightClick(Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Right_Click_Unit)
-      success = rightClick(command.target);
-    else if (command.type == UnitCommandTypes::Halt_Construction)
-      success = haltConstruction();
-    else if (command.type == UnitCommandTypes::Cancel_Construction)
-      success = cancelConstruction();
-    else if (command.type == UnitCommandTypes::Cancel_Addon)
-      success = cancelAddon();
-    else if (command.type == UnitCommandTypes::Cancel_Train)
-      success = cancelTrain();
-    else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
-      success = cancelTrain(command.extra);
-    else if (command.type == UnitCommandTypes::Cancel_Morph)
-      success = cancelMorph();
-    else if (command.type == UnitCommandTypes::Cancel_Research)
-      success = cancelResearch();
-    else if (command.type == UnitCommandTypes::Cancel_Upgrade)
-      success = cancelUpgrade();
-    else if (command.type == UnitCommandTypes::Use_Tech)
-      success = useTech(TechType(command.extra));
-    else if (command.type == UnitCommandTypes::Use_Tech_Position)
-      success = useTech(TechType(command.extra),Position(command.x,command.y));
-    else if (command.type == UnitCommandTypes::Use_Tech_Unit)
-      success = useTech(TechType(command.extra),command.target);
+    command.unit = this;
+    if (command.type == UnitCommandTypes::Train ||
+        command.type == UnitCommandTypes::Morph)
+    {
+      if (getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+      {
+        if (getLarva().empty())
+        {
+          Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+          return false;
+        }
+        command.unit = (UnitImpl*)(*getLarva().begin());
+      }
+    }
+
+    if ( !canIssueCommand( command ) )
+      return false;
+
+    if (command.type == UnitCommandTypes::Use_Tech_Unit &&
+       (command.extra==TechTypes::Archon_Warp.getID() || command.extra==TechTypes::Dark_Archon_Meld.getID()))
+    {
+      //select both units for archon warp or dark archon meld
+      BW::Orders::Select sel = BW::Orders::Select(2, command.unit, (UnitImpl*)command.target);
+      QueueGameCommand((PBYTE)&sel, sel.size);
+    }
     else
-      BroodwarImpl.setLastError(Errors::Unknown);
-    if ( success )
-      this->lastOrderFrame = BroodwarImpl.frameCount;
-    return success;
+      command.unit->orderSelect();
+
+    executeCommand( command );
+    return true;
   }
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
   void UnitImpl::executeCommand(UnitCommand command)
@@ -561,452 +498,211 @@ namespace BWAPI
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
   bool UnitImpl::attackMove(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::attackMove(this, target) ) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::attackMove(this, target) );
-    return true;
+    return issueCommand( UnitCommand::attackMove(this, target) );
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
   bool UnitImpl::attackUnit(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::attackUnit(this, target) ) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::attackUnit(this, target) );
-    return true;
+    return issueCommand( UnitCommand::attackUnit(this, target) );
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
-  bool UnitImpl::build(TilePosition target, UnitType type1)
+  bool UnitImpl::build(TilePosition target, UnitType type)
   {
-    if ( !canIssueCommand( UnitCommand::build(this, target, type1)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::build(this, target, type1) );
-    return true;
+    return issueCommand( UnitCommand::build(this, target, type) );
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
-  bool UnitImpl::buildAddon(UnitType type1)
+  bool UnitImpl::buildAddon(UnitType type)
   {
-    if ( !canIssueCommand( UnitCommand::buildAddon(this,type1) ) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::buildAddon(this,type1) );
-    return true;
+    return issueCommand( UnitCommand::buildAddon(this,type) );
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool UnitImpl::train(UnitType type)
   {
-    UnitImpl* thisUnit = this;
-    if (getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
-    {
-      if (getLarva().empty())
-      {
-        Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-        return false;
-      }
-      UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
-      thisUnit = larva;
-    }
-
-    if ( !canIssueCommand( UnitCommand::train(thisUnit,type) ) )
-      return false;
-
-    thisUnit->orderSelect();
-    executeCommand( UnitCommand::train(thisUnit,type) );
-    return true;
+    return issueCommand( UnitCommand::train(this,type) );
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool UnitImpl::morph(UnitType type)
   {
-    UnitImpl* thisUnit = this;
-    if (getType().producesLarva() && type.whatBuilds().first == UnitTypes::Zerg_Larva )
-    {
-      if (getLarva().empty())
-      {
-        Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-        return false;
-      }
-      UnitImpl *larva = (UnitImpl*)(*connectedUnits.begin());
-      thisUnit = larva;
-    }
-
-    if ( !canIssueCommand( UnitCommand::morph(thisUnit,type)) )
-      return false;
-
-    thisUnit->orderSelect();
-    executeCommand( UnitCommand::morph(thisUnit,type) );
-    return true;
+    return issueCommand( UnitCommand::morph(this,type) );
   }
   //--------------------------------------------- RESEARCH ---------------------------------------------------
   bool UnitImpl::research(TechType tech)
   {
-    if ( !canIssueCommand( UnitCommand::research(this,tech)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::research(this,tech) );
-    return true;
+    return issueCommand( UnitCommand::research(this,tech) );
   }
   //--------------------------------------------- UPGRADE ----------------------------------------------------
   bool UnitImpl::upgrade(UpgradeType upgrade)
   {
-    if ( !canIssueCommand( UnitCommand::upgrade(this,upgrade)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::upgrade(this,upgrade) );
-    return true;
+    return issueCommand( UnitCommand::upgrade(this,upgrade) );
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
   bool UnitImpl::setRallyPoint(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::setRallyPosition(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::setRallyPosition(this,target) );
-    return true;
+    return issueCommand( UnitCommand::setRallyPosition(this,target) );
   }
   //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
   bool UnitImpl::setRallyPoint(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::setRallyUnit(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::setRallyUnit(this,target) );
-    return true;
+    return issueCommand( UnitCommand::setRallyUnit(this,target) );
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool UnitImpl::move(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::move(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::move(this,target) );
-    return true;
+    return issueCommand( UnitCommand::move(this,target) );
   }
   //--------------------------------------------- PATROL -----------------------------------------------------
   bool UnitImpl::patrol(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::patrol(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::patrol(this,target) );
-    return true;
+    return issueCommand( UnitCommand::patrol(this,target) );
   }
   //--------------------------------------------- HOLD POSITION ----------------------------------------------
   bool UnitImpl::holdPosition()
   {
-    if ( !canIssueCommand( UnitCommand::holdPosition(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::holdPosition(this) );
-    return true;
+    return issueCommand( UnitCommand::holdPosition(this) );
   }
   //--------------------------------------------- STOP -------------------------------------------------------
   bool UnitImpl::stop()
   {
-    if ( !canIssueCommand( UnitCommand::stop(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::stop(this) );
-    return true;
+    return issueCommand( UnitCommand::stop(this) );
   }
   //--------------------------------------------- FOLLOW -----------------------------------------------------
   bool UnitImpl::follow(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::follow(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::follow(this,target) );
-    return true;
+    return issueCommand( UnitCommand::follow(this,target) );
   }
   //--------------------------------------------- GATHER -----------------------------------------------------
   bool UnitImpl::gather(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::gather(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::gather(this,target) );
-    return true;
+    return issueCommand( UnitCommand::gather(this,target) );
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
   bool UnitImpl::returnCargo()
   {
-    if ( !canIssueCommand( UnitCommand::returnCargo(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::returnCargo(this) );
-    return true;
+    return issueCommand( UnitCommand::returnCargo(this) );
   }
   //--------------------------------------------- REPAIR -----------------------------------------------------
   bool UnitImpl::repair(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::repair(this, target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::repair(this,target) );
-    return true;
+    return issueCommand( UnitCommand::repair(this,target) );
   }
   //--------------------------------------------- BURROW -----------------------------------------------------
   bool UnitImpl::burrow()
   {
-    if ( !canIssueCommand( UnitCommand::burrow(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::burrow(this) );
-    return true;
+    return issueCommand( UnitCommand::burrow(this) );
   }
   //--------------------------------------------- UNBURROW ---------------------------------------------------
   bool UnitImpl::unburrow()
   {
-    if ( !canIssueCommand( UnitCommand::unburrow(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::unburrow(this) );
-    return true;
+    return issueCommand( UnitCommand::unburrow(this) );
   }
   //--------------------------------------------- CLOAK ------------------------------------------------------
   bool UnitImpl::cloak()
   {
-    if ( !canIssueCommand( UnitCommand::cloak(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cloak(this) );
-    return true;
+    return issueCommand( UnitCommand::cloak(this) );
   }
   //--------------------------------------------- DECLOAK ----------------------------------------------------
   bool UnitImpl::decloak()
   {
-    if ( !canIssueCommand( UnitCommand::decloak(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::decloak(this) );
-    return true;
+    return issueCommand( UnitCommand::decloak(this) );
   }
   //--------------------------------------------- SIEGE ------------------------------------------------------
   bool UnitImpl::siege()
   {
-    if ( !canIssueCommand( UnitCommand::siege(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::siege(this) );
-    return true;
+    return issueCommand( UnitCommand::siege(this) );
   }
   //--------------------------------------------- UNSIEGE ----------------------------------------------------
   bool UnitImpl::unsiege()
   {
-    if ( !canIssueCommand( UnitCommand::unsiege(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::unsiege(this) );
-    return true;
+    return issueCommand( UnitCommand::unsiege(this) );
   }
   //--------------------------------------------- LIFT -------------------------------------------------------
   bool UnitImpl::lift()
   {
-    if ( !canIssueCommand( UnitCommand::lift(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::lift(this) );
-    return true;
+    return issueCommand( UnitCommand::lift(this) );
   }
   //--------------------------------------------- LAND -------------------------------------------------------
   bool UnitImpl::land(TilePosition target)
   {
-    if ( !canIssueCommand( UnitCommand::land(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::land(this,target) );
-    return true;
+    return issueCommand( UnitCommand::land(this,target) );
   }
   //--------------------------------------------- LOAD -------------------------------------------------------
   bool UnitImpl::load(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::load(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::load(this,target) );
-    return true;
+    return issueCommand( UnitCommand::load(this,target) );
   }
   //--------------------------------------------- UNLOAD -----------------------------------------------------
   bool UnitImpl::unload(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::unload(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::unload(this,target) );
-    return true;
+    return issueCommand( UnitCommand::unload(this,target) );
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool UnitImpl::unloadAll()
   {
-    if ( !canIssueCommand( UnitCommand::unloadAll(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::unloadAll(this) );
-    return true;
+    return issueCommand( UnitCommand::unloadAll(this) );
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool UnitImpl::unloadAll(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::unloadAll(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::unloadAll(this,target) );
-    return true;
+    return issueCommand( UnitCommand::unloadAll(this,target) );
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
   bool UnitImpl::rightClick(Position target)
   {
-    if ( !canIssueCommand( UnitCommand::rightClick(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::rightClick(this,target) );
-    return true;
+    return issueCommand( UnitCommand::rightClick(this,target) );
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
   bool UnitImpl::rightClick(Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::rightClick(this,target)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::rightClick(this,target) );
-    return true;
+    return issueCommand( UnitCommand::rightClick(this,target) );
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool UnitImpl::haltConstruction()
   {
-    if ( !canIssueCommand( UnitCommand::haltConstruction(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::haltConstruction(this) );
-    return true;
+    return issueCommand( UnitCommand::haltConstruction(this) );
   }
   //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
   bool UnitImpl::cancelConstruction()
   {
-    if ( !canIssueCommand( UnitCommand::cancelConstruction(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelConstruction(this) );
-    return true;
+    return issueCommand( UnitCommand::cancelConstruction(this) );
   }
   //--------------------------------------------- CANCEL ADDON -----------------------------------------------
   bool UnitImpl::cancelAddon()
   {
-    if ( !canIssueCommand( UnitCommand::cancelAddon(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelAddon(this) );
-    return true;
+    return issueCommand( UnitCommand::cancelAddon(this) );
   }
   //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
   bool UnitImpl::cancelTrain(int slot)
   {
-    if ( !canIssueCommand( UnitCommand::cancelTrain(this,slot) ) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelTrain(this, slot) );
-    return true;
+    return issueCommand( UnitCommand::cancelTrain(this, slot) );
   }
   //--------------------------------------------- CANCEL MORPH -----------------------------------------------
   bool UnitImpl::cancelMorph()
   {
-    if ( !canIssueCommand( UnitCommand::cancelMorph(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelMorph(this) );
-    return true;
+    return issueCommand( UnitCommand::cancelMorph(this) );
   }
   //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
   bool UnitImpl::cancelResearch()
   {
-    if ( !canIssueCommand( UnitCommand::cancelResearch(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelResearch(this) );
-    return true;
+    return issueCommand( UnitCommand::cancelResearch(this) );
   }
   //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
   bool UnitImpl::cancelUpgrade()
   {
-    if ( !canIssueCommand( UnitCommand::cancelUpgrade(this)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::cancelUpgrade(this) );
-    return true;
+    return issueCommand( UnitCommand::cancelUpgrade(this) );
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech)
   {
-    if ( !canIssueCommand( UnitCommand::useTech(this,tech)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::useTech(this,tech) );
-    return true;
+    return issueCommand( UnitCommand::useTech(this,tech) );
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech, Position position)
   {
-    if ( !canIssueCommand( UnitCommand::useTech(this,tech,position)) )
-      return false;
-
-    this->orderSelect();
-    executeCommand( UnitCommand::useTech(this,tech,position) );
-    return true;
+    return issueCommand( UnitCommand::useTech(this,tech,position) );
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool UnitImpl::useTech(TechType tech, Unit* target)
   {
-    if ( !canIssueCommand( UnitCommand::useTech(this,tech,target)) )
-      return false;
-
-    if (tech==TechTypes::Archon_Warp || tech==TechTypes::Dark_Archon_Meld)
-    {
-      BW::Orders::Select sel = BW::Orders::Select(2, this, (UnitImpl*)target);
-      QueueGameCommand((PBYTE)&sel, sel.size);
-    }
-    else
-      this->orderSelect();
-
-    executeCommand( UnitCommand::useTech(this,tech,target) );
-    return true;
+    return issueCommand( UnitCommand::useTech(this,tech,target) );
   }
 };
