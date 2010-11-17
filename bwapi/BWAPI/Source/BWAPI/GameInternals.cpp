@@ -826,12 +826,6 @@ namespace BWAPI
             tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
 
           this->pressKey( tempDlg->findIndex(12)->getHotkey() );
-          /*if ( !actCreate )
-          {
-            actCreate = true;
-            if ( !tempDlg->findIndex(12)->activate() )
-              actCreate = false;
-          }*/
         }
         break;
       }
@@ -902,7 +896,7 @@ namespace BWAPI
           }
           break;
 // in lobby
-          /*
+          
         case 3:
           actCreate = false;
           Race playerRace = Races::getRace(this->autoMenuRace);
@@ -915,7 +909,8 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(0, playerRace);
-          break;*/
+
+          break;
         }
       }
       else // wait for other computer to make game
@@ -929,7 +924,6 @@ namespace BWAPI
           //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();  // might bug
           break;
 //multiplayer game ready screen
-          /*
         case 3: 
           Race playerRace = Races::getRace(this->autoMenuRace);
           if ( this->autoMenuRace == "RANDOMTP" )
@@ -941,8 +935,8 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(1, playerRace);
-          break;
-          */
+
+          break;          
         }
       }
     }
@@ -1108,10 +1102,30 @@ namespace BWAPI
     if ( custom )
     {
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
-      if ( slotCtrl )
+      if ( slotCtrl && !slotCtrl->isDisabled() && slotCtrl->isVisible() )
         slotCtrl->setSelectedByValue(race.getID());
     }
-    QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+    else
+    {
+      custom = BW::FindDialogGlobal("Chat");
+      if ( custom )
+      {
+        BW::dialog *countdown = custom->findIndex(24);
+        if ( countdown )
+        {
+          char *txt = countdown->getText();
+          if ( txt && strlen(txt) > 0 )
+          {
+            if ( txt[0] >= '2' )
+              QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+          }
+          else
+          {
+            QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+          }
+        } // countdown
+      }
+    }
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
