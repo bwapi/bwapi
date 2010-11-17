@@ -162,6 +162,7 @@ namespace BWAPI
       virtual void leaveGame();
       virtual void restartGame();
       virtual void setLocalSpeed(int speed = -1);
+      virtual bool issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command);
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player *self();
       virtual Player *enemy();
@@ -257,6 +258,7 @@ namespace BWAPI
       void loadSelected();
       void copyMapToSharedMemory();
       void moveToSelected();
+      void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true);
 
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
