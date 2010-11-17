@@ -479,7 +479,10 @@ namespace BWAPI
       virtual bool isVisible() const = 0;
       virtual bool isVisible(Player* player) const = 0;
 
-      /** Takes any unit command and calls the corresponding order that will execute it */
+      /** Returns true if the unit is able to execute the given command, or false if there is an error */
+      virtual bool canIssueCommand(UnitCommand command) const = 0;
+
+      /** Issues the give unit command, or returns false if there is an error */
       virtual bool issueCommand(UnitCommand command) = 0;
 
       /** Orders the unit to attack move to the specified location. */

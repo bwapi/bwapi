@@ -7,7 +7,7 @@ namespace BWAPI
   {
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canBuildHere(Unit* builder, TilePosition position, UnitType type, bool checkExplored)
+    bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
     {
       Broodwar->setLastError(Errors::Unbuildable_Location);
       int width  = type.tileWidth();
@@ -135,7 +135,7 @@ namespace BWAPI
     }
     //------------------------------------------- CAN MAKE ---------------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canMake(Unit* builder, UnitType type)
+    bool canMake(const Unit* builder, UnitType type)
     {
       /* Error checking */
       Broodwar->setLastError(Errors::None);
@@ -255,7 +255,7 @@ namespace BWAPI
     }
     //------------------------------------------- CAN RESEARCH -----------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canResearch(Unit* unit, TechType type)
+    bool canResearch(const Unit* unit, TechType type)
     {
       /* Error checking */
       Broodwar->setLastError(Errors::None);
@@ -289,7 +289,7 @@ namespace BWAPI
     }
     //------------------------------------------- CAN UPGRADE ------------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canUpgrade(Unit* unit, UpgradeType type)
+    bool canUpgrade(const Unit* unit, UpgradeType type)
     {
       Broodwar->setLastError(Errors::None);
       if ( !Broodwar->self() )
@@ -323,8 +323,23 @@ namespace BWAPI
 
     //------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canIssueCommand(Unit* thisUnit, UnitCommand c)
+    bool canIssueCommand(const Unit* thisUnit, UnitCommand c)
     {
+      if (c.type == UnitCommandTypes::Train ||
+          c.type == UnitCommandTypes::Morph)
+      {
+        if (thisUnit->getType().producesLarva() && UnitType(c.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+        {
+          if (thisUnit->getLarva().empty())
+          {
+            Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+            return false;
+          }
+          c.unit = (UnitImpl*)(*thisUnit->getLarva().begin());
+          thisUnit = c.unit;
+        }
+      }
+
       // Basic header
       Broodwar->setLastError(Errors::None);
       if (!thisUnit->exists())

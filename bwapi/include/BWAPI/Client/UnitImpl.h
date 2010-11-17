@@ -150,6 +150,7 @@ namespace BWAPI
       virtual bool isVisible() const;
       virtual bool isVisible(Player* player) const;
 
+      virtual bool canIssueCommand(UnitCommand command) const;
       virtual bool issueCommand(UnitCommand command);
 
       virtual bool attackMove(Position target);
