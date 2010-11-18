@@ -21,10 +21,8 @@ void DevAIModule::onStart()
 
 void DevAIModule::onEnd(bool isWinner)
 {
-  bw->restartGame();
-  bw->restartGame();
-  bw->restartGame();
-  bw->restartGame();
+  MessageBox(NULL, isWinner ? "I won" : "I lost", "!", MB_OK);
+
   bw->restartGame();
 }
 
