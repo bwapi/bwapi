@@ -347,7 +347,6 @@ namespace BWAPI
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
-      bool calledOnEnd;
       std::string autoMenuLanMode;
       std::string autoMenuMapPath;
       std::string autoMenuMapName;

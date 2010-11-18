@@ -76,7 +76,6 @@ namespace BWAPI
       , client(NULL)
       , startedClient(false)
       , inGame(false)
-      , calledOnEnd(false)
       , frameCount(-1)
       , endTick(0)
       , hasLatCom(true)
@@ -163,42 +162,10 @@ namespace BWAPI
       accumulatedFrames = 0;
     }
 
-    //fix for restart game
-    if (onStartCalled)
-    {
-      if (*BW::BWDATA_gwNextGameMode == 5 || *BW::BWDATA_gwNextGameMode == 6)
-      {
-        *BW::BWDATA_gwNextGameMode = 1;
-        events.push_back(Event::MatchFrame());
-        events.push_back(Event::MatchEnd(false));
-        Util::Logger::globalLog->log("creating MatchEnd event");
-        processEvents();
-        server.update();
-        events.clear();
-        this->calledOnEnd = true;
-        this->onGameEnd();
-        this->inGame = false;
-        events.push_back(Event::MenuFrame());
-        this->server.update();
-        this->onStartCalled = false;
-        this->calledOnEnd = false;
-        this->inGame = true;
-      }
-    }
-
     try
     {
-      if ( this->calledOnEnd )
-      {
-        events.clear();
-        events.push_back(Event::MenuFrame());
-        processEvents();
-        server.update();
-        return;
-      }
-
       //the first time update() is called, we also call onGameStart to initialize some things
-      if (!onStartCalled)
+      if ( !onStartCalled )
       {
         this->onGameStart();
         Util::Logger::globalLog->log("calling onGameStart");
@@ -207,57 +174,6 @@ namespace BWAPI
       if ( !this->enabled )
         return;
 
-      //check to see if the game has ended
-      if ( !this->calledOnEnd )
-      {
-        if ( this->BWAPIPlayer )
-        {
-          if ( this->BWAPIPlayer->isVictorious() )
-          {
-            events.push_back(Event::MatchFrame());
-            events.push_back(Event::MatchEnd(true));
-            Util::Logger::globalLog->log("creating MatchEnd event");
-            processEvents();
-            server.update();
-            events.clear();
-            this->calledOnEnd = true;
-            return;
-          }
-          if ( this->BWAPIPlayer->isDefeated() )
-          {
-            events.push_back(Event::MatchFrame());
-            events.push_back(Event::MatchEnd(false));
-            Util::Logger::globalLog->log("creating MatchEnd event");
-            processEvents();
-            server.update();
-            events.clear();
-            this->calledOnEnd = true;
-            return;
-          }
-        }
-        else
-        {
-          bool allDone = true;
-          foreach(Player* p, this->playerSet)
-          {
-            if (((PlayerImpl*)p)->getIndex() >= 8) 
-              continue;
-            if (!p->isDefeated() && !p->isVictorious() && !p->leftGame())
-              allDone = false;
-          }
-          if (allDone)
-          {
-            events.push_back(Event::MatchFrame());
-            events.push_back(Event::MatchEnd(false));
-            Util::Logger::globalLog->log("creating MatchEnd event");
-            processEvents();
-            server.update();
-            events.clear();
-            this->calledOnEnd = true;
-            return;
-          }
-        }
-      }
       // Update unit selection
       if ( wantSelectionUpdate && memcmp(savedUnitSelection, BW::BWDATA_ClientSelectionGroup, sizeof(savedUnitSelection)) != 0 )
       {
@@ -739,11 +655,6 @@ namespace BWAPI
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
-    if (GetTickCount() > endTick + 200)
-    {
-      onStartCalled = false;
-      calledOnEnd   = false;
-    }
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame = false;
     events.push_back(Event::MenuFrame());
@@ -1152,7 +1063,6 @@ namespace BWAPI
     textSize      = 1;
     onStartCalled = true;
     BWAPIPlayer   = NULL;
-    calledOnEnd   = false;
     bulletCount   = 0;
 
     srand(GetTickCount());
@@ -1395,8 +1305,6 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     //this is called at the end of every match
-    if (this->frameCount == -1)
-      return;
 #ifdef _DEBUG
     if ( myDlg )
     {
@@ -1404,27 +1312,18 @@ namespace BWAPI
       myDlg = NULL;
     }
 #endif
-    if ( !this->calledOnEnd )
-    {
-      bool win = true;
-      if (this->_isReplay())
-        win = false;
-      else
-      { 
-        for(UnitImpl* i = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); i; i = i->getNext())
-        {
-          if (self()->isEnemy(i->_getPlayer) && i->_getType.isBuilding())
-            win = false;
-        }
-      }
-      events.push_back(Event::MatchFrame());
-      events.push_back(Event::MatchEnd(win));
-      Util::Logger::globalLog->log("creating MatchEnd event");
-      processEvents();
-      server.update();
-      events.clear();
-      this->calledOnEnd = true;
-    }
+
+    bool win = false;
+    if ( !this->_isReplay() && this->BWAPIPlayer && this->BWAPIPlayer->isVictorious() )
+      win = true;
+
+    events.push_back(Event::MatchFrame());
+    events.push_back(Event::MatchEnd(win));
+    Util::Logger::globalLog->log("creating MatchEnd event");
+    processEvents();
+    server.update();
+    events.clear();
+
     if ( this->client )
     {
       delete this->client;
@@ -1459,7 +1358,11 @@ namespace BWAPI
     this->commandBuffer.clear();
 
     //remove AI Module from memory (object was already deleted)
-    FreeLibrary(hMod);
+    if ( hMod )
+    {
+      FreeLibrary(hMod);
+      hMod = NULL;
+    }
     Util::Logger::globalLog->logCritical("Unloaded AI Module");
 
     this->invalidIndices.clear();
@@ -1521,6 +1424,7 @@ namespace BWAPI
     actBriefing = false;
 
     setGUI();
+    onStartCalled = false;
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
