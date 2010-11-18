@@ -1103,7 +1103,10 @@ namespace BWAPI
     {
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
       if ( slotCtrl && !slotCtrl->isDisabled() && slotCtrl->isVisible() )
+      {
         slotCtrl->setSelectedByValue(race.getID());
+        QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+      }
     }
     else
     {
