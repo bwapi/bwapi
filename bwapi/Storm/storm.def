@@ -137,7 +137,7 @@ EXPORTS
   ;SBltROP3Tiled                 @315 NONAME
 
   SBmpDecodeImage               @321 NONAME
-  
+
   SBmpLoadImage                 @323 NONAME
   ;SBmpSaveImage                 @324 NONAME
   SBmpAllocLoadImage            @325 NONAME

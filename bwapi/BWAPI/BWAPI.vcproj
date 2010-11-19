@@ -661,6 +661,42 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Hacks"
+			>
+			<File
+				RelativePath=".\Source\Holiday\Holiday.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Holiday\Holiday.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\NewHackUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\NewHackUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Resolution.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\Resolution.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\WMode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\WMode.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
@@ -670,31 +706,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Source\NewHackUtil.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\NewHackUtil.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\Resolution.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\Resolution.h"
-			>
-		</File>
-		<File
 			RelativePath=".\source\StaticAssert.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\WMode.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\Source\WMode.h"
 			>
 		</File>
 	</Files>

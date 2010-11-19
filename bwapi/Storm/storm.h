@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <ddraw.h>
 
+/* Note to self: If you get a linker error then you were retarded
+ *               and forgot to return a value in the cpp.
+ */
+
 #ifndef STORMAPI
 #define STORMAPI __stdcall
 #endif
@@ -332,11 +336,75 @@ BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, in
 BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
 BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
 
-BOOL STORMAPI SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9);
+#ifndef _SBMP
+#define _SBMP
 
-BOOL STORMAPI SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth);
+#define SBMP_DEFAULT  0
+#define SBMP_BMP      1
+#define SBMP_PCX      2
+#define SBMP_TGA      3
 
-HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD));
+#endif
+
+
+/*  SBmpDecodeImage @ 321
+ * 
+ *  Decodes an image that has already been loaded into a buffer.
+ *  
+ *  dwImgType:        Optional, the image type. See SBMP_ macros.
+ *  pSrcBuffer:       A pointer to the source buffer.
+ *  dwSrcBuffersize:  The size of the data in the source buffer.
+ *  pPalette:         An optional buffer that receives the image palette.
+ *  pDstBuffer:       A buffer that receives the image data.
+ *  dwDstBuffersize:  The size of the specified image buffer. If the size of the 
+ *                    destination buffer is 0, then the destination buffer is not used.
+ *  pdwWidth:         An optional variable that receives the image width.
+ *  pdwHeight:        An optional variable that receives the image height.
+ *  pdwBpp:           An optional variable that receives the image bits per pixel.
+ *
+ *  Returns TRUE if the image was supported and decoded correctly, FALSE otherwise.
+ */
+BOOL 
+STORMAPI 
+SBmpDecodeImage(
+    __in_opt  DWORD        dwImgType,
+    __in      void         *pSrcBuffer,
+    __in      DWORD        dwSrcBuffersize,
+    __out_opt PALETTEENTRY *pPalette        = NULL,
+    __out     void         *pDstBuffer      = NULL,
+    __out     DWORD        dwDstBuffersize  = 0,
+    __out_opt DWORD        *pdwWidth        = NULL,
+    __out_opt DWORD        *pdwHeight       = NULL,
+    __out_opt DWORD        *pdwBpp          = NULL);
+
+
+/*  SBmpLoadImage @ 323
+ * 
+ *  Load an image from an available archive into a buffer.
+ *  
+ *  pszFileName:  The name of the graphic in an active archive.
+ *  pPalette:     An optional buffer that receives the image palette.
+ *  pBuffer:      A buffer that receives the image data.
+ *  dwBuffersize: The size of the specified image buffer.
+ *  pdwWidth:     An optional variable that receives the image width.
+ *  pdwHeight:    An optional variable that receives the image height.
+ *  pdwBpp:       An optional variable that receives the image bits per pixel.
+ *
+ *  Returns TRUE if the image was supported and loaded correctly, FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SBmpLoadImage(
+    __in      const char   *pszFileName,
+    __out_opt PALETTEENTRY *pPalette    = NULL,
+    __out     void         *pBuffer     = NULL,
+    __out     DWORD        dwBuffersize = 0,
+    __out_opt DWORD        *pdwWidth    = NULL,
+    __out_opt DWORD        *pdwHeight   = NULL,
+    __out_opt DWORD        *pdwBpp      = NULL);
+
+
+HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, PALETTEENTRY *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD));
 
 BOOL STORMAPI SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle);
 BOOL STORMAPI SCodeDelete(HANDLE handle);
