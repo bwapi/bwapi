@@ -93,11 +93,11 @@ BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, in
 BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop) rBool;
 BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop) rBool;
 
-BOOL STORMAPI SBmpDecodeImage(int type, signed int *srcbuffer, unsigned int a3, int a4, void *dstbuffer, int size, int a7, int a8, int a9) rBool;
+BOOL STORMAPI SBmpDecodeImage(DWORD dwImgType, void *pSrcBuffer, DWORD dwSrcBuffersize, PALETTEENTRY *pPalette, void *pDstBuffer, DWORD dwDstBuffersize, DWORD *pdwWidth, DWORD *pdwHeight, DWORD *pdwBpp) rBool;
 
-BOOL STORMAPI SBmpLoadImage(const char *fileName, int size, void *buffer, int buffersize, int *width, int *height, int depth) rBool;
+BOOL STORMAPI SBmpLoadImage(const char *pszFileName, PALETTEENTRY *pPalette, void *pBuffer, DWORD dwBuffersize, DWORD *pdwWidth, DWORD *dwHeight, DWORD *pdwBpp) rBool;
 
-HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, int *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD)) rPVoid;
+HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, PALETTEENTRY *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD)) rPVoid;
 
 BOOL STORMAPI SCodeCompile(char *directives1, char *directives2, char *loopstring, unsigned int maxiterations, unsigned int flags, HANDLE handle) rBool;
 BOOL STORMAPI SCodeDelete(HANDLE handle) rBool;

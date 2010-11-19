@@ -22,6 +22,7 @@
 #include "NewHackUtil.h"
 #include "WMode.h"
 #include "Resolution.h"
+#include "Holiday/Holiday.h"
 
 char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
@@ -116,9 +117,18 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
-  unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
-  for( unsigned int i = 0; i < numShapes; ++i )
-    BWAPI::BroodwarImpl.shapes[i]->draw();
+  if ( BW::BWDATA_GameScreenBuffer->data )
+  {
+    if ( gdwHoliday )
+      DrawHoliday();
+
+    unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
+    for( unsigned int i = 0; i < numShapes; ++i )
+      BWAPI::BroodwarImpl.shapes[i]->draw();
+    
+    if ( numShapes )
+      wantRefresh = true;
+  }
 }
 
 bool nosound = false;
@@ -188,13 +198,9 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   }
 
   u8 *data = BW::BWDATA_GameScreenBuffer->data;
-  if ( data )
-  {
-    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
-      for ( int ix = box.left; ix < box.left + box.right; ix++ )
-        data[iy * BW::BWDATA_GameScreenBuffer->wid + ix] = (u8)color;
-  }
-  wantRefresh = true;
+  for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+    for ( int ix = box.left; ix < box.left + box.right; ix++ )
+      data[iy * BW::BWDATA_GameScreenBuffer->wid + ix] = (u8)color;
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
@@ -218,9 +224,7 @@ void drawDot(int _x, int _y, int color, int ctype)
     return;
 
   u8 *data = BW::BWDATA_GameScreenBuffer->data;
-  if ( data )
-    data[pt.y * BW::BWDATA_GameScreenBuffer->wid + pt.x] = (u8)color;
-  wantRefresh = true;
+  data[pt.y * BW::BWDATA_GameScreenBuffer->wid + pt.x] = (u8)color;
 }
 
 void drawText(int _x, int _y, const char* ptext, int ctype, char size)
@@ -244,7 +248,6 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
     return;
 
   BW::BlitText(ptext, BW::BWDATA_GameScreenBuffer, pt.x, pt.y, size);
-  wantRefresh = true;
 }
 
 int   lastHotkey;
@@ -602,6 +605,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 
         /* Get process count */
         gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
+        gdwHoliday = 0;
 
         /* Get revision */
         char szKeyName[128];
@@ -638,6 +642,11 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         }
         else
         {
+          SYSTEMTIME sysTime;
+          GetSystemTime(&sysTime);
+          if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 27 )
+            gdwHoliday = 1;
+
           CTRT_Thread(NULL);
           BWAPI::BWAPI_init();
           CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
