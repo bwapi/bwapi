@@ -140,14 +140,11 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   }
 
   //click the menu dialog that pops up when you win/lose a game
-  if ( BWAPI::BroodwarImpl.autoMenuMode != "" && BWAPI::BroodwarImpl.autoMenuMode != "OFF" )
-  {
-    BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
-    if ( !endDialog )
-      endDialog = BW::FindDialogGlobal("WMission");
-    if ( endDialog )
-      endDialog->findIndex(-2)->activate();
-  }
+  BW::dialog *endDialog = BW::FindDialogGlobal("LMission");
+  if ( !endDialog )
+    endDialog = BW::FindDialogGlobal("WMission");
+  if ( endDialog )
+    endDialog->findIndex(-2)->activate();
 
   if ( wmode && ghMainWnd )
     InvalidateRect(ghMainWnd, NULL, FALSE);
