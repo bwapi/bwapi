@@ -175,7 +175,7 @@ namespace BWAPI
       if ( !this->enabled )
         return;
 
-      if ( !this->calledMatchEnd )
+      if ( !this->calledMatchEnd && frameCount > 1)
       {
         bool win     = false;
         bool allDone = false;
