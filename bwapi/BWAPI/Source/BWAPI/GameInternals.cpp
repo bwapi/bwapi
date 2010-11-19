@@ -1352,6 +1352,9 @@ namespace BWAPI
   void GameImpl::onGameEnd()
   {
     //this is called at the end of every match
+    if ( !this->onStartCalled )
+      return;
+
 #ifdef _DEBUG
     if ( myDlg )
     {
