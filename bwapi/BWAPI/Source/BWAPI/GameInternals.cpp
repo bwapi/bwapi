@@ -213,6 +213,11 @@ namespace BWAPI
           processEvents();
           server.update();
           events.clear();
+          this->inGame = false;
+          events.push_back(Event::MenuFrame());
+          processEvents();
+          server.update();
+          events.clear();
         }
       }
 
@@ -1368,6 +1373,11 @@ namespace BWAPI
       events.push_back(Event::MatchFrame());
       events.push_back(Event::MatchEnd(false));
       Util::Logger::globalLog->log("creating MatchEnd(leave) event");
+      processEvents();
+      server.update();
+      events.clear();
+      this->inGame = false;
+      events.push_back(Event::MenuFrame());
       processEvents();
       server.update();
       events.clear();
