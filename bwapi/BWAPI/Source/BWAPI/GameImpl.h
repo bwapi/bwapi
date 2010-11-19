@@ -382,6 +382,7 @@ namespace BWAPI
       bool grid;
 
       bool externalModuleConnected;
+      bool calledMatchEnd;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

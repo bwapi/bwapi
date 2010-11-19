@@ -84,6 +84,7 @@ namespace BWAPI
       , grid(false)
       , wantSelectionUpdate(false)
       , noGUI(false)
+      , calledMatchEnd(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -173,6 +174,40 @@ namespace BWAPI
       
       if ( !this->enabled )
         return;
+
+      if ( !this->calledMatchEnd )
+      {
+        bool win     = false;
+        bool allDone = false;
+        if ( this->BWAPIPlayer )
+        {
+          if ( this->BWAPIPlayer->isVictorious() )
+            win     = true;
+          else if ( this->BWAPIPlayer->isDefeated() )
+            allDone = true;
+        }
+        else
+        {
+          foreach(Player* p, this->playerSet)
+          {
+            if ( ((PlayerImpl*)p)->getIndex() >= 8 )
+              continue;
+            if ( p->isDefeated() || p->isVictorious() || p->leftGame() )
+              allDone = true;
+          }
+        }
+        if ( allDone || win )
+        {
+          this->calledMatchEnd = true;
+          events.push_back(Event::MatchFrame());
+          events.push_back(Event::MatchEnd(win));
+          Util::Logger::globalLog->log("creating MatchEnd(%s) event", win ? "true" : "false");
+          processEvents();
+          server.update();
+          events.clear();
+          return;
+        }
+      }
 
       // Update unit selection
       if ( wantSelectionUpdate && memcmp(savedUnitSelection, BW::BWDATA_ClientSelectionGroup, sizeof(savedUnitSelection)) != 0 )
@@ -1059,11 +1094,12 @@ namespace BWAPI
     actBriefing = false;
 
     /* initialize the variables */
-    frameCount    = 0;
-    textSize      = 1;
-    onStartCalled = true;
-    BWAPIPlayer   = NULL;
-    bulletCount   = 0;
+    frameCount      = 0;
+    textSize        = 1;
+    onStartCalled   = true;
+    BWAPIPlayer     = NULL;
+    bulletCount     = 0;
+    calledMatchEnd  = false;
 
     srand(GetTickCount());
 
@@ -1313,16 +1349,15 @@ namespace BWAPI
     }
 #endif
 
-    bool win = false;
-    if ( !this->_isReplay() && this->BWAPIPlayer && this->BWAPIPlayer->isVictorious() )
-      win = true;
-
-    events.push_back(Event::MatchFrame());
-    events.push_back(Event::MatchEnd(win));
-    Util::Logger::globalLog->log("creating MatchEnd event");
-    processEvents();
-    server.update();
-    events.clear();
+    if ( !this->calledMatchEnd )
+    {
+      events.push_back(Event::MatchFrame());
+      events.push_back(Event::MatchEnd(false));
+      Util::Logger::globalLog->log("creating MatchEnd(leave) event");
+      processEvents();
+      server.update();
+      events.clear();
+    }
 
     if ( this->client )
     {
