@@ -1,3 +1,62 @@
+=============================================
+Changes from BWAPI Beta 3.2 to BWAPI Beta 3.3
+=============================================
+
+Changes:
+
+    * Game::canBuildHere now has an additional boolean value that allows the user to specify if the function should consider checking if they have first explored the area.
+    * Tile position variables in Game functions have been clarified.
+    * Game::getMouseX and Game::getMouseY have been removed due to deprecation. Use Game::getMousePosition instead.
+    * Game::getScreenX and Game::getScreenY have been removed due to deprecation. Use Game::getScreenPosition instead.
+    * Renamed Unit::setRallyPosition and Unit::setRallyUnit to Unit::setRallyPoint so that it conforms with the other commands.
+    * [Config] Auto-menu options in the configuration file have been moved to the [auto_menu] group.
+    * [Config] Renamed the auto_menu option LAN_UDP to LAN.
+    * Removed UnitType::getSublabel, as it didn't appear to be significant. 
+
+New Functions:
+
+    * Added UnitType::cloakingTech - returns the tech used to cloak the unit, or TechTypes::None if the unit cannot cloak or is permanently cloaked
+    * Added Unit::getPowerUp - returns the power up the unit is holding, or NULL if the unit is not holding a power up
+    * Added Unit::isInterruptible - returns true if the unit can be interrupted without issuing a stop or one of the cancel commands.
+    * Added Unit::isStuck - Returns true if the unit is "stuck" on other units.
+    * Made Game::setLastError available.
+    * Added several UnitType functions: UnitType::isHero, UnitType::isPowerup, UnitType::isBeacon, UnitType::isFlagBeacon, UnitType::isSpecialBuilding, and UnitType::isSpell.
+    * Added Game::getInstanceNumber to identify which instance an AI module belongs to.
+    * Added several Player functions for obtaining upgraded unit type stats, including Player::topSpeed, Player::groundWeaponMaxRange, Player::airWeaponMaxRange, Player::sightRange, Player::groundWeaponDamageCooldown, and Player::armor.
+    * Added TechType::targetsUnit - returns true if the tech type requires a unit to target.
+    * Added TechType::targetsPosition - returns true if the tech type requires a position to target.
+    * Added Game::getNukeDots - returns the set of accessible nuke dots on the map.
+    * Added Unit::canIssueCommand - use to see if you can issue a command to the given unit, without actually executing it.
+    * Added Game::issueCommand - issues a command to a set of units. 
+
+New Config Features:
+
+    * [Config] Added the ability to load different revisions of BWAPI for different modules using the config options ai_dll_rev and ai_dll_#_rev.
+    * [Config] Added auto-menu race options RandomTP, RandomTZ, and RandomPZ which allows you to randomly choose one of two races.
+    * [Config] Added the auto-menu option lan_mode which allows you to choose between the different multiplayer network modes.
+    * [Config] For auto-menu, added the ability to choose a race for specific enemy players using enemy_race_#. 
+
+Other New Features:
+
+    * [W-Mode] The position of the window in the config now changes when a new multiple-instance compatible client is launched.
+    * BWAPI can now play networked games between multiple instances using the BWAPI network module (BWAPI_SNPModule.snp) which currently supports winsock UDP on localhost. Bad news: Windows XP users may experience failure. Good news: It can be used with older BWAPI revisions.
+    * Added Heroes, Beacons, and Standard Powerups to UnitTypes. This gives you more flexibility for Capture The Flag and Use Map Settings (including Campaigns).
+    * Added hero weapons to WeaponTypes.
+    * BWAPI now supports a native Windowed mode. Pressing ALT+Enter or typing /wmode will toggle between fullscreen and windowed mode. (Note that this windowed mode is not compatible with Battle.net)
+    * Added Errors::Invalid_Tile_Position - returned when you try to build something at an invalid tile position. 
+
+Bug Fixes:
+
+    * Fixed a bug where Unit::hasPath would not work correctly in BWAPI Client programs.
+    * Fixed a bug where Unit::getResourceGroup would not work correctly in BWAPI Client programs.
+    * Fix several issues for commands that were being sent repetitively and for actions that couldn't actually be performed.
+    * Several functions in the BWAPI Client have been updated to match behaviours and fix issues that were once in the BWAPI server.
+    * Fixed some unlikely crashes, possibly related to the compatibility with other hacks.
+    * Fixed a bug where unit command error codes wouldn't be generated correctly in BWAPI Client.
+    * Fixed a bug where networked games involving auto_menu would desynchronize.
+    * Fixed a bug where calling Game::restartGame would not work correctly during AIModule::onEnd.
+    * Fixed a bug where restarting the game wouldn't work correctly for BWAPI client programs. 
+
 ===============================================
 Changes from BWAPI Beta 3.1.1 to BWAPI Beta 3.2
 ===============================================
