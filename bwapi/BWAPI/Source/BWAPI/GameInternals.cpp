@@ -182,21 +182,29 @@ namespace BWAPI
         if ( this->BWAPIPlayer )
         {
           if ( this->BWAPIPlayer->isVictorious() )
+          {
             win     = true;
-          else if ( this->BWAPIPlayer->isDefeated() )
             allDone = true;
+          }
+          if ( this->BWAPIPlayer->isDefeated() )
+          {
+            win     = false;
+            allDone = true;
+          }
+            
         }
         else
         {
+          allDone = true;
           foreach(Player* p, this->playerSet)
           {
             if ( ((PlayerImpl*)p)->getIndex() >= 8 )
               continue;
-            if ( p->isDefeated() || p->isVictorious() || p->leftGame() )
-              allDone = true;
+            if ( !p->isDefeated() && !p->isVictorious() && !p->leftGame() )
+              allDone = false;
           }
         }
-        if ( allDone || win )
+        if ( allDone)
         {
           this->calledMatchEnd = true;
           events.push_back(Event::MatchFrame());
@@ -205,9 +213,12 @@ namespace BWAPI
           processEvents();
           server.update();
           events.clear();
-          return;
         }
       }
+
+
+      //don't have any more MatchFrame events after MatchEnd until MatchStart is called.
+      if ( this->calledMatchEnd ) return;
 
       // Update unit selection
       if ( wantSelectionUpdate && memcmp(savedUnitSelection, BW::BWDATA_ClientSelectionGroup, sizeof(savedUnitSelection)) != 0 )
