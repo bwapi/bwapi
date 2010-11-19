@@ -576,6 +576,12 @@ namespace BWAPI
       unitTypeData[None.getID()].set("None", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Unknown.getID()].set("Unknown", Races::Unknown, 0, Unknown, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+      unitTypeData[Protoss_Reaver.getID()].canAttack         = true;
+      unitTypeData[Protoss_Carrier.getID()].canAttack        = true;
+      unitTypeData[Hero_Gantrithor.getID()].canAttack        = true;
+      unitTypeData[Hero_Warbringer.getID()].canAttack        = true;
+      unitTypeData[Terran_Nuclear_Missile.getID()].canAttack = true;
+
       foreach(UpgradeType i, UpgradeTypes::allUpgradeTypes())
       {
         foreach (UnitType ut, i.whatUses())
