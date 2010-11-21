@@ -68,7 +68,7 @@ namespace BWAPI
         {
           foreach(Unit *u, Broodwar->unitsOnTile(ix,iy))
           {
-            if ( u != builder &&
+            if ( u != builder && !u->getType().isFlyer() && !u->isLifted() &&
                  u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()  &&
                  u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()    &&
                  u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight() &&
