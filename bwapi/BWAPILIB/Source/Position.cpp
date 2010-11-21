@@ -109,7 +109,7 @@ namespace BWAPI
     }
     if (min < max*0.25)
       return max;
-    return min*0.4 + max*0.9;
+    return min * 0.38671875 + max * 0.921875;
   }
   //----------------------------------------------------------------------------------------------------------
   double Position::getLength() const
