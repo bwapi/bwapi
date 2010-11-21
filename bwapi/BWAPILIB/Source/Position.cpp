@@ -107,7 +107,7 @@ namespace BWAPI
       min = max;
       max = temp;
     }
-    if (min < (max >> 4))
+    if (min < (max >> 2))
       return max;
     return ((3 * min) >> 8) + ((3 * min) >> 3) + max - (max >> 4) - (max >> 6);
   }
