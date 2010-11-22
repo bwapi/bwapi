@@ -1063,7 +1063,7 @@ namespace BWAPI
     UnitType thisType = this->getType();
     UnitType targType = target->getType();
 
-    WeaponType wpn = targType.isFlyer() ? thisType.airWeapon() : thisType.groundWeapon();
+    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
     if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
       return false;
 
