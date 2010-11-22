@@ -360,7 +360,7 @@ namespace BWAPI
         return Broodwar->setLastError(Errors::Unit_Busy);
 
       // Hallucination check
-      if ( thisUnit->isHallucination()                      &&
+      if ( thisUnit->isHallucination()                  &&
            UnitCommandTypes::Attack_Move          != ct &&
            UnitCommandTypes::Attack_Unit          != ct &&
            UnitCommandTypes::Move                 != ct &&
@@ -503,6 +503,12 @@ namespace BWAPI
       // Set Rally 
       if ( (UnitCommandTypes::Set_Rally_Position == ct || UnitCommandTypes::Set_Rally_Unit == ct) && !thisUnit->getType().canProduce() )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
+
+      if ( UnitCommandTypes::Set_Rally_Position == ct && thisUnit->getRallyPosition().x() == c.x && thisUnit->getRallyPosition().y() == c.y )
+        return false;
+
+      if ( UnitCommandTypes::Set_Rally_Unit == ct && thisUnit == c.target )
+        return false;
 
       // Move/stop/standard
       if ( (UnitCommandTypes::Move          == ct || 
