@@ -113,11 +113,6 @@ namespace BWAPI
   {
     return self->allUnitCount[unit.getID()];
   }
-  //--------------------------------------------- ACCESSIBLE UNIT COUNT --------------------------------------
-  int PlayerImpl::accessibleUnitCount(UnitType unit) const
-  {
-    return self->accessibleUnitCount[unit.getID()];
-  }
   //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
   int PlayerImpl::visibleUnitCount(UnitType unit) const
   {

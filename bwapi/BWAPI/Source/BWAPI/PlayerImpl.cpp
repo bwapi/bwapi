@@ -24,7 +24,6 @@ namespace BWAPI
     for (int i = 228; i < 230; i++)
     {
       self->allUnitCount[i]        = 0;
-      self->accessibleUnitCount[i] = 0;
       self->visibleUnitCount[i]    = 0;
       self->completedUnitCount[i]  = 0;
       self->deadUnitCount[i]       = 0;
@@ -232,11 +231,6 @@ namespace BWAPI
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()];
-  }
-  //--------------------------------------------- ACCESSIBLE UNIT COUNT --------------------------------------
-  int PlayerImpl::accessibleUnitCount(UnitType unit) const
-  {
-    return self->accessibleUnitCount[unit.getID()];
   }
   //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
   int PlayerImpl::visibleUnitCount(UnitType unit) const
@@ -495,8 +489,6 @@ namespace BWAPI
       }
       for(int i = 0; i < UNIT_TYPE_COUNT; ++i)
       {
-        self->allUnitCount[i]       = 0;
-        self->completedUnitCount[i] = 0;
         self->deadUnitCount[i]      = 0;
         self->killedUnitCount[i]    = 0;
       }
@@ -512,8 +504,6 @@ namespace BWAPI
       }
       for(int i = 0; i < UNIT_TYPE_COUNT; ++i)
       {
-        self->allUnitCount[i]       = BW::BWDATA_Counts->all[i][index];
-        self->completedUnitCount[i] = BW::BWDATA_Counts->completed[i][index];
         self->deadUnitCount[i]      = BW::BWDATA_Counts->dead[i][index];
         self->killedUnitCount[i]    = BW::BWDATA_Counts->killed[i][index];
       }
