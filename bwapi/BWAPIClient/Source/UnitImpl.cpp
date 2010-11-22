@@ -241,23 +241,28 @@ namespace BWAPI
       return this->getPlayer()->getUpgradeLevel(upgrade);
     return 0;
   }
+  //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const
   {
     return this->initialType;
   }
+  //--------------------------------------------- GET INITIAL POSITION ---------------------------------------
   Position UnitImpl::getInitialPosition() const
   {
     return this->initialPosition;
   }
+  //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
   TilePosition UnitImpl::getInitialTilePosition() const
   {
     return TilePosition(Position(this->initialPosition.x() - this->initialType.tileWidth() * TILE_SIZE / 2,
                                  this->initialPosition.y() - this->initialType.tileHeight() * TILE_SIZE / 2));
   }
+  //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
   int UnitImpl::getInitialHitPoints() const
   {
     return this->initialHitPoints;
   }
+  //--------------------------------------------- GET INITIAL RESOURCES --------------------------------------
   int UnitImpl::getInitialResources() const
   {
     return this->initialResources;
@@ -695,6 +700,22 @@ namespace BWAPI
   {
     return self->isInterruptible;
   }
+  //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
+  bool UnitImpl::isInWeaponRange(Unit *target) const
+  {
+    if ( !exists() || !target || !target->exists() || this == target )
+      return false;
+
+    UnitType thisType = this->getType();
+    UnitType targType = target->getType();
+
+    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
+    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
+      return false;
+
+    int distance = computeDistance<UnitImpl>(this,target);
+    return wpn.minRange() < distance && wpn.maxRange() >= distance;
+  }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {
@@ -1075,21 +1096,5 @@ namespace BWAPI
   void* UnitImpl::getClientInfo() const
   {
     return clientInfo;
-  }
-  //--------------------------------------------- IN WPN RANGE -----------------------------------------------
-  bool UnitImpl::isInWeaponRange(Unit *target) const
-  {
-    if ( !exists() || !target || !target->exists() || this == target )
-      return false;
-
-    UnitType thisType = this->getType();
-    UnitType targType = target->getType();
-
-    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
-    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
-      return false;
-
-    int distance = computeDistance<UnitImpl>(this,target);
-    return wpn.minRange() < distance && wpn.maxRange() >= distance;
   }
 }

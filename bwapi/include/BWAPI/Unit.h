@@ -386,6 +386,9 @@ namespace BWAPI
       /** Returns true if the unit can be interrupted. */
       virtual bool isInterruptible() const = 0;
 
+      /** Returns true if the unit can attack a specified target from its current position. */
+      virtual bool isInWeaponRange(Unit *target) const = 0;
+
       /** Returns true if the unit is being irradiated by a Terran Science Vessel.
        * \see Unit::getIrradiateTimer. */
       virtual bool isIrradiated() const = 0;
@@ -662,8 +665,5 @@ namespace BWAPI
 
       /** Returns the unit's custom client info. The client is responsible for deallocation. */
       virtual void* getClientInfo() const = 0;
-
-      /** Returns true if the unit can attack a specified target from its current position. */
-      virtual bool isInWeaponRange(Unit *target) const = 0;
   };
 }

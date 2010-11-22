@@ -121,6 +121,192 @@ namespace BWAPI
   {
     return self->resourceGroup;
   }
+  //--------------------------------------------- GET DISTANCE -----------------------------------------------
+  double UnitImpl::getDistance(Unit* target) const
+  {
+    if ( !this->exists() || !target || !target->exists() )
+      return std::numeric_limits<double>::infinity();
+
+    if (this == target)
+      return 0;
+
+    return (double)computeDistance<UnitImpl>(this,target);
+  }
+  //--------------------------------------------- GET DISTANCE -----------------------------------------------
+  double UnitImpl::getDistance(Position target) const
+  {
+    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
+    double result = 0;
+    if (getPosition().y() - getType().dimensionUp() <= target.y() &&
+        getPosition().y() + getType().dimensionDown() >= target.y())
+    {
+      if (getPosition().x() > target.x())
+        result = getPosition().x() - getType().dimensionLeft()  - target.x();
+      else
+        result = target.x() - getPosition().x() - getType().dimensionLeft();
+    }
+
+    if (getPosition().x() - getType().dimensionLeft() <= target.x() &&
+        getPosition().x() + getType().dimensionRight() >= target.x())
+    {
+      if (getPosition().y() > target.y())
+        result = getPosition().y() - getType().dimensionUp()   - target.y();
+      else
+        result = target.y() - getPosition().y() - getType().dimensionUp();
+    }
+
+    if (this->getPosition().x() > target.x())
+    {
+      if (this->getPosition().y() > target.y())
+        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
+                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
+                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    else
+    {
+      if (this->getPosition().y() > target.y())
+        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
+                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
+      else
+        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
+                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
+    }
+    if (result > 0)
+      return result;
+    return 0;
+  }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Unit* target) const
+  {
+    if ( !target )
+      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
+    return hasPath(target->getPosition());
+  }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Position target) const
+  {
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    BWAPI::Position srcPos = this->getPosition();
+
+    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
+         srcPos.y() >= Broodwar->mapHeight()*32 ||
+         target.x() >= Broodwar->mapWidth()*32 ||
+         target.y() >= Broodwar->mapHeight()*32 )
+      return BroodwarImpl.setLastError(Errors::Unknown);
+
+    if ( BW::BWDATA_SAIPathing )
+    {
+      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()/32][srcPos.x()/32];
+      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[target.y()/32][target.x()/32];
+
+      u16 srcGroup = 0;
+      u16 dstGroup = 0;
+      if ( srcIdx & 0x2000 )
+      {
+        int minitilePosX = (srcPos.x()&0x1F)/8;
+        int minitilePosY = (srcPos.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
+        if ( (t->minitileMask >> minitileShift) & 1 )
+          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
+        else
+          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
+      }
+      else
+      {
+        srcGroup = BW::BWDATA_SAIPathing->regions[srcIdx].groupIndex;
+      }
+
+      if ( dstIdx & 0x2000 )
+      {
+        int minitilePosX = (target.x()&0x1F)/8;
+        int minitilePosY = (target.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
+        if ( (t->minitileMask >> minitileShift) & 1 )
+          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
+        else
+          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
+      }
+      else
+      {
+        dstGroup = BW::BWDATA_SAIPathing->regions[dstIdx].groupIndex;
+      }
+
+      if ( srcGroup == dstGroup )
+        return true;
+    }
+    return BroodwarImpl.setLastError(Errors::Out_Of_Range);
+  }
+  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
+  int UnitImpl::getLastOrderFrame() const
+  {
+    return this->lastOrderFrame;
+  }
+  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
+  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
+  {
+    if (!this->attemptAccess()) return 0;
+
+    int pId = _getPlayer->getID();
+    int uId = upgrade.getID();
+    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
+         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
+          uId >= UPGRADE_TYPE_COUNT )
+      return 0;
+    
+    if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
+    {
+      if ( uId < 46 )
+        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
+      else
+        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
+    }
+    return 0;
+  }
+  //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
+  UnitType UnitImpl::getInitialType() const
+  {
+    if (this->staticInformation)
+      return this->staticType;
+    return UnitTypes::Unknown;
+  }
+  //--------------------------------------------- GET INITIAL POSITION ---------------------------------------
+  Position UnitImpl::getInitialPosition() const
+  {
+    if (this->staticInformation)
+      return this->staticPosition;
+    return Positions::Unknown;
+  }
+  //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
+  TilePosition UnitImpl::getInitialTilePosition() const
+  {
+    if (this->staticInformation)
+      return TilePosition(Position(staticPosition.x() - staticType.tileWidth() * TILE_SIZE / 2,
+                                   staticPosition.y() - staticType.tileHeight() * TILE_SIZE / 2));
+    return TilePositions::Unknown;
+  }
+  //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
+  int UnitImpl::getInitialHitPoints() const
+  {
+    if (this->staticInformation)
+      return this->staticHitPoints;
+    return 0;
+  }
+  //--------------------------------------------- GET INITIAL RESOURCES --------------------------------------
+  int UnitImpl::getInitialResources() const
+  {
+    if (this->staticInformation)
+      return this->staticResources;
+    return 0;
+  }
   //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
@@ -554,6 +740,22 @@ namespace BWAPI
   {
     return self->isInterruptible;
   }
+  //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
+  bool UnitImpl::isInWeaponRange(Unit *target) const
+  {
+    if ( !exists() || !target || !target->exists() || this == target )
+      return false;
+
+    UnitType thisType = this->getType();
+    UnitType targType = target->getType();
+
+    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
+    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
+      return false;
+
+    int distance = computeDistance<UnitImpl>(this,target);
+    return wpn.minRange() < distance && wpn.maxRange() >= distance;
+  }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
   {
@@ -700,156 +902,6 @@ namespace BWAPI
   {
     userSelected = selectedState;
   }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  double UnitImpl::getDistance(Unit* target) const
-  {
-    if ( !this->exists() || !target || !target->exists() )
-      return std::numeric_limits<double>::infinity();
-
-    if (this == target)
-      return 0;
-
-    return (double)computeDistance<UnitImpl>(this,target);
-  }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
-  double UnitImpl::getDistance(Position target) const
-  {
-    if (!this->attemptAccess()) return std::numeric_limits<double>::infinity();
-    double result = 0;
-    if (getPosition().y() - getType().dimensionUp() <= target.y() &&
-        getPosition().y() + getType().dimensionDown() >= target.y())
-    {
-      if (getPosition().x() > target.x())
-        result = getPosition().x() - getType().dimensionLeft()  - target.x();
-      else
-        result = target.x() - getPosition().x() - getType().dimensionLeft();
-    }
-
-    if (getPosition().x() - getType().dimensionLeft() <= target.x() &&
-        getPosition().x() + getType().dimensionRight() >= target.x())
-    {
-      if (getPosition().y() > target.y())
-        result = getPosition().y() - getType().dimensionUp()   - target.y();
-      else
-        result = target.y() - getPosition().y() - getType().dimensionUp();
-    }
-
-    if (this->getPosition().x() > target.x())
-    {
-      if (this->getPosition().y() > target.y())
-        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
-                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
-      else
-        result = BWAPI::Position(getPosition().x() - getType().dimensionLeft(),
-                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
-    }
-    else
-    {
-      if (this->getPosition().y() > target.y())
-        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
-                                 getPosition().y() - getType().dimensionUp()).getDistance(target);
-      else
-        result = BWAPI::Position(getPosition().x() + getType().dimensionRight(),
-                                 getPosition().y() + getType().dimensionDown()).getDistance(target);
-    }
-    if (result > 0)
-      return result;
-    return 0;
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Unit* target) const
-  {
-    if ( !target )
-      return BroodwarImpl.setLastError(Errors::Unit_Does_Not_Exist);
-    return hasPath(target->getPosition());
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Position target) const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    BWAPI::Position srcPos = this->getPosition();
-
-    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
-         srcPos.y() >= Broodwar->mapHeight()*32 ||
-         target.x() >= Broodwar->mapWidth()*32 ||
-         target.y() >= Broodwar->mapHeight()*32 )
-      return BroodwarImpl.setLastError(Errors::Unknown);
-
-    if ( BW::BWDATA_SAIPathing )
-    {
-      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()/32][srcPos.x()/32];
-      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[target.y()/32][target.x()/32];
-
-      u16 srcGroup = 0;
-      u16 dstGroup = 0;
-      if ( srcIdx & 0x2000 )
-      {
-        int minitilePosX = (srcPos.x()&0x1F)/8;
-        int minitilePosY = (srcPos.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        srcGroup = BW::BWDATA_SAIPathing->regions[srcIdx].groupIndex;
-      }
-
-      if ( dstIdx & 0x2000 )
-      {
-        int minitilePosX = (target.x()&0x1F)/8;
-        int minitilePosY = (target.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        dstGroup = BW::BWDATA_SAIPathing->regions[dstIdx].groupIndex;
-      }
-
-      if ( srcGroup == dstGroup )
-        return true;
-    }
-    return BroodwarImpl.setLastError(Errors::Out_Of_Range);
-  }
-  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
-  int UnitImpl::getLastOrderFrame() const
-  {
-    return this->lastOrderFrame;
-  }
-  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
-  {
-    if (!this->attemptAccess()) return 0;
-
-    int pId = _getPlayer->getID();
-    int uId = upgrade.getID();
-    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
-         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
-          uId >= UPGRADE_TYPE_COUNT )
-      return 0;
-    
-    if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
-    {
-      if ( uId < 46 )
-        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
-      else
-        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
-    }
-    return 0;
-  }
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
@@ -968,37 +1020,6 @@ namespace BWAPI
     this->staticResources    = this->_getResources;
     this->staticHitPoints    = this->_getHitPoints;
   }
-  UnitType UnitImpl::getInitialType() const
-  {
-    if (this->staticInformation)
-      return this->staticType;
-    return UnitTypes::Unknown;
-  }
-  Position UnitImpl::getInitialPosition() const
-  {
-    if (this->staticInformation)
-      return this->staticPosition;
-    return Positions::Unknown;
-  }
-  TilePosition UnitImpl::getInitialTilePosition() const
-  {
-    if (this->staticInformation)
-      return TilePosition(Position(staticPosition.x() - staticType.tileWidth() * TILE_SIZE / 2,
-                                   staticPosition.y() - staticType.tileHeight() * TILE_SIZE / 2));
-    return TilePositions::Unknown;
-  }
-  int UnitImpl::getInitialResources() const
-  {
-    if (this->staticInformation)
-      return this->staticResources;
-    return 0;
-  }
-  int UnitImpl::getInitialHitPoints() const
-  {
-    if (this->staticInformation)
-      return this->staticHitPoints;
-    return 0;
-  }
   //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
   void UnitImpl::setClientInfo(void* clientinfo)
   {
@@ -1007,21 +1028,5 @@ namespace BWAPI
   void* UnitImpl::getClientInfo() const
   {
     return clientInfo;
-  }
-  //--------------------------------------------- IN WPN RANGE -----------------------------------------------
-  bool UnitImpl::isInWeaponRange(Unit *target) const
-  {
-    if ( !exists() || !target || !target->exists() || this == target )
-      return false;
-
-    UnitType thisType = this->getType();
-    UnitType targType = target->getType();
-
-    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
-    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
-      return false;
-
-    int distance = computeDistance<UnitImpl>(this,target);
-    return wpn.minRange() < distance && wpn.maxRange() >= distance;
   }
 };
