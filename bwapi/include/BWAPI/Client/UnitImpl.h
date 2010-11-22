@@ -125,6 +125,7 @@ namespace BWAPI
       virtual bool isHoldingPosition() const;
       virtual bool isIdle() const;
       virtual bool isInterruptible() const;
+      virtual bool isInWeaponRange(Unit *target) const;
       virtual bool isIrradiated() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
@@ -198,7 +199,5 @@ namespace BWAPI
 
       virtual void setClientInfo(void* clientinfo);
       virtual void* getClientInfo() const;
-
-      virtual bool isInWeaponRange(Unit *target) const;
   };
 }
