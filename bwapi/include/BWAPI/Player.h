@@ -91,11 +91,8 @@ namespace BWAPI
       virtual int supplyUsed() const = 0;
       virtual int supplyUsed(Race race) const = 0;
 
-      /** Returns the number of all units of the given type. */
+      /** Returns the number of all accessible units of the given type. */
       virtual int allUnitCount(UnitType unit) const = 0;
-
-      /** Returns the number of accessible units of the given type. */
-      virtual int accessibleUnitCount(UnitType unit) const = 0;
 
       /** Returns the number of visible units of the given type. */
       virtual int visibleUnitCount(UnitType unit) const = 0;

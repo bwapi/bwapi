@@ -1785,8 +1785,9 @@ namespace BWAPI
     {
       for(int i=0;i<230;i++)
       {
-        ((PlayerImpl*)p)->self->accessibleUnitCount[i] = 0;
-        ((PlayerImpl*)p)->self->visibleUnitCount[i] = 0;
+        ((PlayerImpl*)p)->self->allUnitCount[i]       = 0;
+        ((PlayerImpl*)p)->self->visibleUnitCount[i]   = 0;
+        ((PlayerImpl*)p)->self->completedUnitCount[i] = 0;
       }
     }
 
@@ -1863,9 +1864,11 @@ namespace BWAPI
         ((PlayerImpl*)i->lastPlayer)->units.erase(i);
         ((PlayerImpl*)i->_getPlayer)->units.insert(i);
       }
-      ((PlayerImpl*)i->_getPlayer)->self->accessibleUnitCount[i->_getType.getID()]++;
+      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[i->_getType.getID()]++;
       if (i->isVisible())
         ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[i->_getType.getID()]++;
+      if (i->isCompleted())
+        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[i->_getType.getID()]++;
       i->lastPlayer = i->_getPlayer;
       i->lastType   = i->_getType;
     }
