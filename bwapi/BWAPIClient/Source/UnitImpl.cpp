@@ -203,10 +203,11 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    if (this->getPlayer()->getUpgradeLevel(upgrade)==0) return 0;
-    if (upgrade.whatUses().find(this->getType()) != upgrade.whatUses().end())
-      return this->getPlayer()->getUpgradeLevel(upgrade);
-    return 0;
+    if (getPlayer()==NULL ||
+        getPlayer()->getUpgradeLevel(upgrade) == 0 ||
+        upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
+      return 0;
+    return getPlayer()->getUpgradeLevel(upgrade);
   }
   //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const

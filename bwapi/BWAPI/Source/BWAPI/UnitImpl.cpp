@@ -215,23 +215,11 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    if (!this->attemptAccess()) return 0;
-
-    int pId = _getPlayer->getID();
-    int uId = upgrade.getID();
-    if ( (uId  < 46 && BW::BWDATA_UpgradeLevelSC->level[pId][uId] == 0) ||
-         (uId >= 46 && uId < UPGRADE_TYPE_COUNT && BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46] == 0) ||
-          uId >= UPGRADE_TYPE_COUNT )
+    if (getPlayer()==NULL ||
+        getPlayer()->getUpgradeLevel(upgrade) == 0 ||
+        upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
       return 0;
-    
-    if (upgrade.whatUses().find(_getType) != upgrade.whatUses().end())
-    {
-      if ( uId < 46 )
-        return BW::BWDATA_UpgradeLevelSC->level[pId][uId];
-      else
-        return BW::BWDATA_UpgradeLevelBW->level[pId][uId - 46];
-    }
-    return 0;
+    return getPlayer()->getUpgradeLevel(upgrade);
   }
   //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const
