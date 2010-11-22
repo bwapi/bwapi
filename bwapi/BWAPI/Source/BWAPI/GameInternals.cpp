@@ -1627,6 +1627,12 @@ namespace BWAPI
             events.push_back(Event::UnitShow(u));
           u->wasVisible = true;
         }
+        if (!u->isVisible())
+        {
+          if ( u->wasVisible )
+            events.push_back(Event::UnitHide(u));
+          u->wasVisible = false;
+        }
         accessibleUnits.insert(u);
       }
       else
@@ -1775,6 +1781,15 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); x++)
         this->unitsOnTileData[x][y].clear();
 
+    foreach(Player* p, playerSet)
+    {
+      for(int i=0;i<230;i++)
+      {
+        ((PlayerImpl*)p)->self->accessibleUnitCount[i] = 0;
+        ((PlayerImpl*)p)->self->visibleUnitCount[i] = 0;
+      }
+    }
+
     foreach(UnitImpl* u, discoverUnits)
     {
       ((PlayerImpl*)u->getPlayer())->units.insert(u);
@@ -1848,6 +1863,9 @@ namespace BWAPI
         ((PlayerImpl*)i->lastPlayer)->units.erase(i);
         ((PlayerImpl*)i->_getPlayer)->units.insert(i);
       }
+      ((PlayerImpl*)i->_getPlayer)->self->accessibleUnitCount[i->_getType.getID()]++;
+      if (i->isVisible())
+        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[i->_getType.getID()]++;
       i->lastPlayer = i->_getPlayer;
       i->lastType   = i->_getType;
     }

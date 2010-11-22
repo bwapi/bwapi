@@ -14,7 +14,7 @@
 #include <BWAPI/WeaponType.h>
 #include "Command.h"
 #include "DLLMain.h"
-#include "Templates.h"
+#include "TemplatesImpl.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>

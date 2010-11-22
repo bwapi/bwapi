@@ -94,6 +94,12 @@ namespace BWAPI
       /** Returns the number of all units of the given type. */
       virtual int allUnitCount(UnitType unit) const = 0;
 
+      /** Returns the number of accessible units of the given type. */
+      virtual int accessibleUnitCount(UnitType unit) const = 0;
+
+      /** Returns the number of visible units of the given type. */
+      virtual int visibleUnitCount(UnitType unit) const = 0;
+
       /** Returns the number of completed units of the given type. */
       virtual int completedUnitCount(UnitType unit) const = 0;
 
