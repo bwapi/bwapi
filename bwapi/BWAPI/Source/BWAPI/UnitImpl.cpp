@@ -699,12 +699,20 @@ namespace BWAPI
     UnitType thisType = this->getType();
     UnitType targType = target->getType();
 
-    WeaponType wpn = ( targType.isFlyer() || target->isLifted() ) ? thisType.airWeapon() : thisType.groundWeapon();
+    WeaponType wpn = thisType.groundWeapon();
+    int minRange = wpn.minRange();
+    int maxRange = getPlayer()->groundWeaponMaxRange(thisType);
+    if ( targType.isFlyer() || target->isLifted() )
+    {
+      wpn = thisType.airWeapon();
+      minRange = wpn.minRange();
+      maxRange = getPlayer()->airWeaponMaxRange(thisType);
+    }
     if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
       return false;
 
     int distance = computeDistance<UnitImpl>(this,target);
-    return wpn.minRange() < distance && wpn.maxRange() >= distance;
+    return minRange < distance && maxRange >= distance;
   }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
