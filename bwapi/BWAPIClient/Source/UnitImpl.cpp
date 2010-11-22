@@ -101,7 +101,7 @@ namespace BWAPI
   {
     return self->resourceGroup;
   }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
+  //--------------------------------------------- GET DISTANCE -----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
     if ( !this->exists() || !target || !target->exists() )
@@ -112,7 +112,7 @@ namespace BWAPI
     
     return (double)computeDistance<UnitImpl>(this,target);
   }
-  //---------------------------------------------- GET DISTANCE ----------------------------------------------
+  //--------------------------------------------- GET DISTANCE -----------------------------------------------
   double UnitImpl::getDistance(Position target) const
   {
     if (!this->exists())
