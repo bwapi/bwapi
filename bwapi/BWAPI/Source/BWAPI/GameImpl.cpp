@@ -790,25 +790,16 @@ namespace BWAPI
   //----------------------------------------------------- SELF -----------------------------------------------
   Player*  GameImpl::self()
   {
-    /* Retrieves the class for the current player */
+    /* Retrieves the object for the current player */
     this->setLastError(Errors::None);
     return (Player*)this->BWAPIPlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
   Player *GameImpl::enemy()
   {
-    /* Retrieves the class for the first opponent player */
+    /* Retrieves the object for the first opponent player */
     this->setLastError(Errors::None);
-    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
-    {
-      if ( (this->players[i]->getType() == BW::PlayerType::Computer ||
-            this->players[i]->getType() == BW::PlayerType::EitherPreferComputer ||
-            this->players[i]->getType() == BW::PlayerType::Player) &&
-           this->players[i]->isParticipating() &&
-           this->BWAPIPlayer->isEnemy(this->players[i]) )
-      return this->players[i];
-    }
-    return NULL;
+    return (Player*)this->enemyPlayer;
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void  GameImpl::setTextSize(int size)

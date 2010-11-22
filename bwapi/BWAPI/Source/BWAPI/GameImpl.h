@@ -263,6 +263,7 @@ namespace BWAPI
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
       PlayerImpl *BWAPIPlayer;
+      PlayerImpl *enemyPlayer;
 
       std::vector<Shape*> shapes;
       Util::Logger* newUnitLog;

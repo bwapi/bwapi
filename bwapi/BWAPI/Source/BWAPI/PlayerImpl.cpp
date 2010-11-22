@@ -440,11 +440,35 @@ namespace BWAPI
       self->gas                = 0;
       self->cumulativeMinerals = 0;
       self->cumulativeGas      = 0;
-      for(int i = 0; i < 63; ++i)
+      if (this->isNeutral())
       {
-        self->upgradeLevel[i] = 0;
-        self->isUpgrading[i]  = 0;
+        for(int i = 0; i < 63; ++i)
+          self->upgradeLevel[i]  = 0;
       }
+      else
+      {
+        for(int i = 0; i < 46; ++i)
+        {
+          self->upgradeLevel[i] = 0;
+          for each(UnitType t in UpgradeType(i).whatUses())
+          {
+            if (self->completedUnitCount[t.getID()]>0)
+              self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
+          }
+        }
+        for(int i = 46; i < 63; ++i)
+        {
+          self->upgradeLevel[i] = 0;
+          for each(UnitType t in UpgradeType(i).whatUses())
+          {
+            if (self->completedUnitCount[t.getID()]>0)
+              self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
+          }
+        }
+      }
+      for(int i = 0; i < 63; ++i)
+        self->isUpgrading[i] = 0;
+
       for(int i = 0; i < 47; ++i)
       {
         self->hasResearched[i] = 0;

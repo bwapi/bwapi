@@ -1127,6 +1127,9 @@ namespace BWAPI
     map.load();
     this->savedMapHash = Map::getMapHash();
 
+    BWAPIPlayer = NULL;
+    enemyPlayer = NULL;
+
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
       for (int i = 0; i < Flag::Max; i++)
@@ -1144,6 +1147,14 @@ namespace BWAPI
         this->commandLog->log("Error: Could not locate BWAPI player.");
         return;
       }
+
+      /* find the opponent player */
+      for (int i = 0; i < 8; i++)
+        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
+             this->players[i]->getType() == BW::PlayerType::Player ||
+             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
+            this->BWAPIPlayer->isEnemy(this->players[i]))
+          this->enemyPlayer = this->players[i];
     }
 
     /* Clear our sets */
