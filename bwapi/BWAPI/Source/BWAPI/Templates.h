@@ -430,12 +430,8 @@ namespace BWAPI
         if (!canAttack)
           return Broodwar->setLastError(Errors::Unable_To_Hit);
 
-        if (!thisUnit->getType().canMove())
-        {
-          if (thisUnit->getDistance(c.target) > weapon.maxRange() ||
-              thisUnit->getDistance(c.target) < weapon.minRange())
-            return Broodwar->setLastError(Errors::Out_Of_Range);
-        }
+        if ( !thisUnit->getType().canMove() && !thisUnit->isInWeaponRange(c.target) )
+          return Broodwar->setLastError(Errors::Out_Of_Range);
       }
 
       // Build/Train requirements

@@ -21,9 +21,6 @@ void DevAIModule::onStart()
 
 void DevAIModule::onEnd(bool isWinner)
 {
-  MessageBox(NULL, isWinner ? "I won" : "I lost", "!", MB_OK);
-
-  bw->restartGame();
 }
 
 DWORD dwLastTickCount;
@@ -34,6 +31,23 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() )
     return;
 
+  Unit *tank = NULL;
+  for each ( Unit *u in self->getUnits() )
+  {
+    if ( u->getType() == UnitTypes::Terran_Siege_Tank_Siege_Mode )
+    {
+      tank = u;
+      break;
+    }
+  }
+  if ( tank && !bw->getSelectedUnits().empty() )
+  {
+    Unit *targ = (*bw->getSelectedUnits().begin());
+    bw->drawLineMap(tank->getPosition().x(), tank->getPosition().y(), targ->getPosition().x(), targ->getPosition().y(), tank->isInWeaponRange(targ) ? BWAPI::Colors::Green : BWAPI::Colors::Red);
+
+    if ( tank->attackUnit(targ) )
+      bw->printf("Attack success");
+  }
   /*
   if ( enabled )
   {

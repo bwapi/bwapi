@@ -1054,4 +1054,50 @@ namespace BWAPI
   {
     return clientInfo;
   }
+  //--------------------------------------------- IN WPN RANGE -----------------------------------------------
+  bool UnitImpl::isInWeaponRange(Unit *target) const
+  {
+    if ( !this->attemptAccess() || !target || !((UnitImpl*)target)->attemptAccess() || this == target )
+      return false;
+
+    UnitType thisType = this->getType();
+    UnitType targType = target->getType();
+
+    WeaponType wpn = targType.isFlyer() ? thisType.airWeapon() : thisType.groundWeapon();
+    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
+      return false;
+
+    int ux = this->getPosition().x();
+    int uy = this->getPosition().y();
+    int tx = target->getPosition().x();
+    int ty = target->getPosition().y();
+    
+    int uLeft       = ux - thisType.dimensionLeft();
+    int uTop        = uy - thisType.dimensionUp();
+    int uRight      = ux + thisType.dimensionRight()  + 1;
+    int uBottom     = uy + thisType.dimensionDown() + 1;
+
+    int targLeft    = tx - targType.dimensionLeft();
+    int targTop     = ty - targType.dimensionUp();
+    int targRight   = tx + targType.dimensionRight()  + 1;
+    int targBottom  = ty + targType.dimensionDown() + 1;
+    
+    int xDist = uLeft - targRight;
+    if ( xDist < 0 )
+    {
+      xDist = targLeft - uRight;
+      if ( xDist < 0 )
+        xDist = 0;
+    }
+    int yDist = uTop - targBottom;
+    if ( yDist < 0 )
+    {
+      yDist = targTop - uBottom;
+      if ( yDist < 0 )
+        yDist = 0;
+    }
+
+    int distance = Position(0, 0).getApproxDistance(Position(xDist, yDist));
+    return wpn.minRange() < distance && wpn.maxRange() >= distance;
+  }
 };

@@ -198,5 +198,7 @@ namespace BWAPI
 
       virtual void setClientInfo(void* clientinfo);
       virtual void* getClientInfo() const;
+
+      virtual bool isInWeaponRange(Unit *target) const;
   };
 }
