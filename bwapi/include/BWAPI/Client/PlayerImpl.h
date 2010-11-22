@@ -42,6 +42,8 @@ namespace BWAPI
       virtual int supplyUsed(Race race) const;
 
       virtual int allUnitCount(UnitType unit) const;
+      virtual int accessibleUnitCount(UnitType unit) const;
+      virtual int visibleUnitCount(UnitType unit) const;
       virtual int completedUnitCount(UnitType unit) const;
       virtual int incompleteUnitCount(UnitType unit) const;
       virtual int deadUnitCount(UnitType unit) const;

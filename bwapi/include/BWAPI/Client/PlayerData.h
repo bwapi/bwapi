@@ -25,6 +25,8 @@ namespace BWAPI
     int supplyUsed[3];
 
     int allUnitCount[230];
+    int accessibleUnitCount[230];
+    int visibleUnitCount[230];
     int completedUnitCount[230];
     int deadUnitCount[230];
     int killedUnitCount[230];

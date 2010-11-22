@@ -347,10 +347,12 @@ namespace BWAPI
         }
         for(int j = 0; j < 228; ++j)
         {
-          p->allUnitCount[j]       = p2->allUnitCount[j];
-          p->completedUnitCount[j] = p2->completedUnitCount[j];
-          p->deadUnitCount[j]      = p2->deadUnitCount[j];
-          p->killedUnitCount[j]    = p2->killedUnitCount[j];
+          p->allUnitCount[j]        = p2->allUnitCount[j];
+          p->accessibleUnitCount[j] = p2->accessibleUnitCount[j];
+          p->visibleUnitCount[j]    = p2->visibleUnitCount[j];
+          p->completedUnitCount[j]  = p2->completedUnitCount[j];
+          p->deadUnitCount[j]       = p2->deadUnitCount[j];
+          p->killedUnitCount[j]     = p2->killedUnitCount[j];
         }
         for(int j = 0; j < 63; ++j)
         {

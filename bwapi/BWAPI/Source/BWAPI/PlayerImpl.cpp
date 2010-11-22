@@ -23,10 +23,12 @@ namespace BWAPI
     }
     for (int i = 228; i < 230; i++)
     {
-      self->allUnitCount[i]       = 0;
-      self->completedUnitCount[i] = 0;
-      self->deadUnitCount[i]      = 0;
-      self->killedUnitCount[i]    = 0;
+      self->allUnitCount[i]        = 0;
+      self->accessibleUnitCount[i] = 0;
+      self->visibleUnitCount[i]    = 0;
+      self->completedUnitCount[i]  = 0;
+      self->deadUnitCount[i]       = 0;
+      self->killedUnitCount[i]     = 0;
     }
 
     if ( index < 12 )
@@ -230,6 +232,16 @@ namespace BWAPI
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
     return self->allUnitCount[unit.getID()];
+  }
+  //--------------------------------------------- ACCESSIBLE UNIT COUNT --------------------------------------
+  int PlayerImpl::accessibleUnitCount(UnitType unit) const
+  {
+    return self->accessibleUnitCount[unit.getID()];
+  }
+  //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
+  int PlayerImpl::visibleUnitCount(UnitType unit) const
+  {
+    return self->visibleUnitCount[unit.getID()];
   }
   //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
