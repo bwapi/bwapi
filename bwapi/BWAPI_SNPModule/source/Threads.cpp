@@ -12,7 +12,7 @@ namespace LUDP
 
   DWORD WINAPI RecvThread(LPVOID)
   {
-    while (1)
+    for (;;)
     {
       // create receiving sockaddr
       SOCKADDR_IN saFrom;
@@ -90,7 +90,6 @@ namespace LUDP
         Error(ERROR_INVALID_PARAMETER, "Bad broadcast packet");
       }
     } // loop
-    return 0;
   }
 };
 
@@ -102,7 +101,7 @@ namespace LTST
 
   DWORD WINAPI RecvThread(LPVOID)
   {
-    while (1)
+    for (;;)
     {
       // create receiving sockaddr
       SOCKADDR_IN saFrom;
@@ -180,6 +179,5 @@ namespace LTST
         Error(ERROR_INVALID_PARAMETER, "Bad broadcast packet");
       }
     } // loop
-    return 0;
   }
 };
