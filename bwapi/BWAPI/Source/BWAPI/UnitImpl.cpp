@@ -14,6 +14,7 @@
 #include <BWAPI/WeaponType.h>
 #include "Command.h"
 #include "DLLMain.h"
+#include "Templates.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -702,60 +703,13 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Unit* target) const
   {
-    if ( !this->attemptAccess() || !target || !((UnitImpl*)target)->attemptAccess() )
+    if ( !this->exists() || !target || !target->exists() )
       return std::numeric_limits<double>::infinity();
 
     if (this == target)
       return 0;
 
-    const Unit* i = this;
-    const Unit* j = target;
-    double result = 0;
-    if (i->getPosition().y() - i->getType().dimensionUp()   <= j->getPosition().y() + j->getType().dimensionDown() &&
-        i->getPosition().y() + i->getType().dimensionDown() >= j->getPosition().y() - j->getType().dimensionUp())
-    {
-        if (i->getPosition().x() > j->getPosition().x())
-          result = i->getPosition().x() - i->getType().dimensionLeft()  - j->getPosition().x() - j->getType().dimensionRight();
-        else
-          result = j->getPosition().x() - j->getType().dimensionRight() - i->getPosition().x() - i->getType().dimensionLeft();
-    }
-    else if (i->getPosition().x() - i->getType().dimensionLeft() <= j->getPosition().x() + j->getType().dimensionRight() && 
-             i->getPosition().x() + i->getType().dimensionRight() >= j->getPosition().x() - j->getType().dimensionLeft())
-    {
-        if (i->getPosition().y() > j->getPosition().y())
-          result = i->getPosition().y() - i->getType().dimensionUp()   - j->getPosition().y() - j->getType().dimensionDown();
-        else
-          result = j->getPosition().y() - j->getType().dimensionDown() - i->getPosition().y() - i->getType().dimensionUp();
-    }
-    else if (i->getPosition().x() > j->getPosition().x())
-    {
-      if (i->getPosition().y() > j->getPosition().y())
-        result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
-                                 i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
-                 BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
-                                 j->getPosition().y() + j->getType().dimensionDown()));
-      else
-        result = BWAPI::Position(i->getPosition().x() - i->getType().dimensionLeft(),
-                                 i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
-                 BWAPI::Position(j->getPosition().x() + j->getType().dimensionRight(),
-                                 j->getPosition().y() - j->getType().dimensionUp()));
-    }
-    else
-    {
-      if (i->getPosition().y() > j->getPosition().y())
-        result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
-                                 i->getPosition().y() - i->getType().dimensionUp()).getApproxDistance(
-                 BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
-                                 j->getPosition().y() + j->getType().dimensionDown()));
-      else
-        result = BWAPI::Position(i->getPosition().x() + i->getType().dimensionRight(),
-                                 i->getPosition().y() + i->getType().dimensionDown()).getApproxDistance(
-                 BWAPI::Position(j->getPosition().x() - j->getType().dimensionLeft(),
-                                 j->getPosition().y() - j->getType().dimensionUp()));
-    }
-    if (result > 0)
-      return result;
-    return 0;
+    return (double)computeDistance<UnitImpl>(this,target);
   }
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Position target) const
@@ -1057,7 +1011,7 @@ namespace BWAPI
   //--------------------------------------------- IN WPN RANGE -----------------------------------------------
   bool UnitImpl::isInWeaponRange(Unit *target) const
   {
-    if ( !this->attemptAccess() || !target || !((UnitImpl*)target)->attemptAccess() || this == target )
+    if ( !exists() || !target || !target->exists() || this == target )
       return false;
 
     UnitType thisType = this->getType();
@@ -1067,37 +1021,7 @@ namespace BWAPI
     if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
       return false;
 
-    int ux = this->getPosition().x();
-    int uy = this->getPosition().y();
-    int tx = target->getPosition().x();
-    int ty = target->getPosition().y();
-    
-    int uLeft       = ux - thisType.dimensionLeft();
-    int uTop        = uy - thisType.dimensionUp();
-    int uRight      = ux + thisType.dimensionRight()  + 1;
-    int uBottom     = uy + thisType.dimensionDown() + 1;
-
-    int targLeft    = tx - targType.dimensionLeft();
-    int targTop     = ty - targType.dimensionUp();
-    int targRight   = tx + targType.dimensionRight()  + 1;
-    int targBottom  = ty + targType.dimensionDown() + 1;
-    
-    int xDist = uLeft - targRight;
-    if ( xDist < 0 )
-    {
-      xDist = targLeft - uRight;
-      if ( xDist < 0 )
-        xDist = 0;
-    }
-    int yDist = uTop - targBottom;
-    if ( yDist < 0 )
-    {
-      yDist = targTop - uBottom;
-      if ( yDist < 0 )
-        yDist = 0;
-    }
-
-    int distance = Position(0, 0).getApproxDistance(Position(xDist, yDist));
+    int distance = computeDistance<UnitImpl>(this,target);
     return wpn.minRange() < distance && wpn.maxRange() >= distance;
   }
 };
