@@ -795,7 +795,7 @@ namespace BWAPI
       return true;
     }
   }
-  //------------------------------------------- GET DISTANCE -------------------------------------------------
+  //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
   template <class UnitImpl>
   int computeDistance(const Unit* a, const Unit* b)
   {
@@ -809,13 +809,50 @@ namespace BWAPI
     
     int uLeft       = ux - thisType.dimensionLeft();
     int uTop        = uy - thisType.dimensionUp();
-    int uRight      = ux + thisType.dimensionRight()  + 1;
+    int uRight      = ux + thisType.dimensionRight() + 1;
     int uBottom     = uy + thisType.dimensionDown() + 1;
 
     int targLeft    = tx - targType.dimensionLeft();
     int targTop     = ty - targType.dimensionUp();
-    int targRight   = tx + targType.dimensionRight()  + 1;
+    int targRight   = tx + targType.dimensionRight() + 1;
     int targBottom  = ty + targType.dimensionDown() + 1;
+    
+    int xDist = uLeft - targRight;
+    if ( xDist < 0 )
+    {
+      xDist = targLeft - uRight;
+      if ( xDist < 0 )
+        xDist = 0;
+    }
+    int yDist = uTop - targBottom;
+    if ( yDist < 0 )
+    {
+      yDist = targTop - uBottom;
+      if ( yDist < 0 )
+        yDist = 0;
+    }
+    return Position(0, 0).getApproxDistance(Position(xDist, yDist));
+  }
+  //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
+  template <class UnitImpl>
+  int computeDistance(const Unit* a, Position b)
+  {
+    if (a==NULL) return 0;
+    UnitType thisType = a->getType();
+    int ux = a->getPosition().x();
+    int uy = a->getPosition().y();
+    int tx = b.x();
+    int ty = b.y();
+    
+    int uLeft       = ux - thisType.dimensionLeft();
+    int uTop        = uy - thisType.dimensionUp();
+    int uRight      = ux + thisType.dimensionRight() + 1;
+    int uBottom     = uy + thisType.dimensionDown() + 1;
+
+    int targLeft    = tx;
+    int targTop     = ty;
+    int targRight   = tx + 1;
+    int targBottom  = ty + 1;
     
     int xDist = uLeft - targRight;
     if ( xDist < 0 )

@@ -115,48 +115,15 @@ namespace BWAPI
   //---------------------------------------------- GET DISTANCE ----------------------------------------------
   double UnitImpl::getDistance(Position target) const
   {
-    double result = 0;
-    if (getPosition().y() - getType().dimensionUp() <= target.y())
-      if (getPosition().y() + getType().dimensionDown() >= target.y())
-        if (getPosition().x() > target.x())
-          result = getPosition().x() - getType().dimensionLeft()  - target.x();
-        else
-          result = target.x() - getPosition().x() - getType().dimensionLeft();
-
-    if (getPosition().x() - getType().dimensionLeft() <= target.x())
-      if (getPosition().x() + getType().dimensionRight() >= target.x())
-        if (getPosition().y() > target.y())
-          result = getPosition().y() - getType().dimensionUp()   - target.y();
-        else
-          result = target.y() - getPosition().y() - getType().dimensionUp();
-
-    if (this->getPosition().x() > target.x())
-    {
-      if (this->getPosition().y() > target.y())
-        result = Position(getPosition().x() - getType().dimensionLeft(),
-                          getPosition().y() - getType().dimensionUp()).getDistance(target);
-      else
-        result = Position(getPosition().x() - getType().dimensionLeft(),
-                          getPosition().y() + getType().dimensionDown()).getDistance(target);
-    }
-    else
-    {
-      if (this->getPosition().y() > target.y())
-        result = Position(getPosition().x() + getType().dimensionRight(),
-                          getPosition().y() - getType().dimensionUp()).getDistance(target);
-      else
-        result = Position(getPosition().x() + getType().dimensionRight(),
-                          getPosition().y() + getType().dimensionDown()).getDistance(target);
-    }
-    if (result > 0)
-      return result;
-    return 0;
+    if (!this->exists())
+      return std::numeric_limits<double>::infinity();
+    return (double)computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit *target) const
   {
     if ( !target )
-      return ((GameImpl*)Broodwar)->setLastError(Errors::Unit_Does_Not_Exist);
+      return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
     return hasPath(target->getPosition());
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
