@@ -1,5 +1,20 @@
+INSTRUCTIONS
+  - Download or compile the version of BWAPI that the AI dll uses.
+  - Copy that revision's "BWAPI.dll" to the "bwapi-data\revisions\" folder.
+  - Rename that revision's "BWAPI.dll" to the revision number ("####.dll" or "####d.dll").
+  - Specify the revision in ai_dll_rev or ai_dll_#_rev in bwapi.ini.
+  
+  Example: I have BWAPI Beta 3.3 and want to run a RELEASE AI module for BWAPI Beta 3.1 (revision 2796).
+           I download BWAPI Beta 3.1, copy "BWAPI.dll" to the "bwapi-data\revisions\" folder and rename it to "2796.dll".
+           I uncomment "ai_dll_rev" in the configuration and set it to 2796.
+           I run BWAPI and it loads the older revision automatically.
+  
+  Also works with multiple instances, though not all revisions are compatible.
+  Match a revision with a released version below.
+
 REVISION    RELEASE
 
+3163        BWAPI Beta 3.3
 2917        BWAPI Beta 3.2
 2864        BWAPI Beta 3.1.1
 2796        BWAPI Beta 3.1
