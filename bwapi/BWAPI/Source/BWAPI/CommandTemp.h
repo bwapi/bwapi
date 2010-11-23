@@ -248,6 +248,8 @@ namespace BWAPI
         return;
       if (savedExtra == -1)
         savedExtra = unit->self->trainingQueue[unit->self->trainingQueueCount - 1];
+      if (savedExtra2 == -1)
+        savedExtra2 = unit->self->buildUnit;
       if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
           (frame < Broodwar->getLatency() - 2 && Broodwar->getLatency() > 2))
       {
@@ -259,7 +261,7 @@ namespace BWAPI
       }
       if (unit->self->trainingQueueCount == 0)
       {
-        player->self->allUnitCount[savedExtra]--;
+        unit->self->buildUnit          = -1;
         unit->self->isTraining         = false;
         unit->self->remainingTrainTime = 0;
         unit->self->isIdle             = true;
@@ -287,15 +289,11 @@ namespace BWAPI
       }
       if (command.extra == 0)
       {
+        unit->self->buildUnit = -1;
         if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
             (frame < Broodwar->getLatency()-1 && Broodwar->getLatency() > 2))
         {
           player->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
-        }
-        if ((frame<=Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-            (frame < Broodwar->getLatency()-1 && Broodwar->getLatency() > 2))
-        {
-          player->self->allUnitCount[savedExtra]--;
         }
 
         if (unit->self->trainingQueueCount == 0)
@@ -307,7 +305,6 @@ namespace BWAPI
         {
           unit->self->remainingTrainTime = UnitType(unit->self->trainingQueue[0]).buildTime();
           player->self->supplyUsed[unit->getType().getRace().getID()] += UnitType(unit->self->trainingQueue[0]).supplyRequired();
-          player->self->allUnitCount[unit->self->trainingQueue[0]]++;
           if ((frame == Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
               (frame == Broodwar->getLatency()+1 && Broodwar->getLatency() > 2) )
           {
@@ -474,7 +471,6 @@ namespace BWAPI
         unit->self->order       = Orders::ZergBuildingMorph.getID();
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
-        player->self->allUnitCount[unitType.getID()]++;
         unit->self->type        = unitType.getID();
       }
       else
@@ -484,7 +480,6 @@ namespace BWAPI
         {
           player->self->minerals -= unitType.mineralPrice();
           player->self->gas      -= unitType.gasPrice();
-          player->self->allUnitCount[unitType.getID()]++;
         }
         if (unitType.isTwoUnitsInOneEgg())
           player->self->supplyUsed[Races::Zerg.getID()] += unitType.supplyRequired()*2-unitType.whatBuilds().first.supplyRequired();
@@ -663,7 +658,6 @@ namespace BWAPI
       {
         if (savedExtra == 0)
         {
-          player->self->allUnitCount[unitType.getID()]++;
           unit->self->remainingTrainTime = unitType.buildTime();
           player->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
         }

@@ -79,9 +79,6 @@ void CancelTrainTest::start()
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{Broodwar->printf("%d != %d",Broodwar->self()->minerals(), correctMineralCount);fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count+1,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
 
   producer->train(unitType2);
   correctMineralCount = correctMineralCount - unitType2.mineralPrice();
@@ -98,9 +95,6 @@ void CancelTrainTest::start()
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count+1,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
 
   producer->train(unitType3);
   correctMineralCount = correctMineralCount - unitType3.mineralPrice();
@@ -117,9 +111,6 @@ void CancelTrainTest::start()
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count+1,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
-  BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
 
   startFrame = Broodwar->getFrameCount();
   nextFrame = startFrame;
@@ -149,7 +140,6 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count+1,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
     if (thisFrame>=startFrame+150)
@@ -163,9 +153,6 @@ void CancelTrainTest::update()
       BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{Broodwar->printf("%d != %d",Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
       BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
       BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
       state = CancelledFirstSlot;
     }
   }
@@ -179,9 +166,6 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->allUnitCount(unitType1),originalAllUnit1Count);fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->allUnitCount(unitType2),originalAllUnit2Count+1);fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
     if (thisFrame>=startFrame+300)
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
@@ -192,9 +176,6 @@ void CancelTrainTest::update()
       BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
       BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
       BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
       state = CancelledLast1;
     }
   }
@@ -208,9 +189,6 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count+1,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
     if (thisFrame>=startFrame+450)
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
@@ -230,9 +208,6 @@ void CancelTrainTest::update()
       BWAssertF(Broodwar->self()->minerals() == originalMineralCount,{fail=true;return;});
       BWAssertF(Broodwar->self()->gas() == originalGasCount,{fail=true;return;});
       BWAssertF(Broodwar->self()->supplyUsed() == originalSupplyUsedCount,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{Broodwar->printf("%d != %d",Broodwar->self()->allUnitCount(unitType2),originalAllUnit2Count);fail=true;return;});
-      BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
       state = CancelledLast2;
     }
   }
@@ -247,9 +222,6 @@ void CancelTrainTest::update()
     BWAssertF(Broodwar->self()->minerals() == originalMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == originalGasCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->supplyUsed() == originalSupplyUsedCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType1) == originalAllUnit1Count,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
-    BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
     if (thisFrame>startFrame+400+rand()%4)
     {
       running=false;

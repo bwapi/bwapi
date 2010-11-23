@@ -7,6 +7,7 @@ class TestModule : public BWAPI::AIModule
     TestModule();
     ~TestModule();
     virtual void onFrame();
+    virtual void onUnitCreate(BWAPI::Unit* unit);
     virtual void onUnitDestroy(BWAPI::Unit* unit);
     void runTestCases();
     void addTestCase(TestCase* testCase);

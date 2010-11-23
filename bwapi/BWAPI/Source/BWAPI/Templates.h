@@ -504,12 +504,13 @@ namespace BWAPI
       if ( (UnitCommandTypes::Set_Rally_Position == ct || UnitCommandTypes::Set_Rally_Unit == ct) && !thisUnit->getType().canProduce() )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
+      /* Commented out because it breaks RallyTest.
       if ( UnitCommandTypes::Set_Rally_Position == ct && thisUnit->getRallyPosition().x() == c.x && thisUnit->getRallyPosition().y() == c.y )
         return false;
 
       if ( UnitCommandTypes::Set_Rally_Unit == ct && thisUnit == c.target )
         return false;
-
+      */
       // Move/stop/standard
       if ( (UnitCommandTypes::Move          == ct || 
             UnitCommandTypes::Patrol        == ct ||

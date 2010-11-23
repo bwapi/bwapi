@@ -1539,8 +1539,7 @@ namespace BWAPI
         return false;//skip subunits if they are in this list
 
       if (_getType == UnitTypes::Protoss_Scarab ||
-          _getType == UnitTypes::Terran_Vulture_Spider_Mine ||
-          _getType == UnitTypes::Terran_Nuclear_Missile)
+          _getType == UnitTypes::Terran_Vulture_Spider_Mine)
         return false;
     }
 

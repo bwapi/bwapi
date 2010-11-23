@@ -124,9 +124,12 @@ void CancelMorphTest::update()
       BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{log("%d: %d!=%d",thisFrame-startFrame,Broodwar->self()->minerals(),correctMineralCount);});
       FAILTEST(Broodwar->self()->gas()==correctGasCount);
       BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{log("%d!=%d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
-      FAILTEST(Broodwar->self()->completedUnitCount(unitType)==correctCompletedUnitCount);
-      FAILTEST(Broodwar->self()->incompleteUnitCount(unitType)==correctIncompleteUnitCount);
-      FAILTEST(Broodwar->self()->allUnitCount(unitType)==correctAllUnitCount);
+      if (thisFrame>=startFrame+250)
+      {
+        FAILTEST(Broodwar->self()->completedUnitCount(unitType)==correctCompletedUnitCount);
+        FAILTEST(Broodwar->self()->incompleteUnitCount(unitType)==correctIncompleteUnitCount);
+        FAILTEST(Broodwar->self()->allUnitCount(unitType)==correctAllUnitCount);
+      }
     }
   }
   if (thisFrame>=startFrame+400)
