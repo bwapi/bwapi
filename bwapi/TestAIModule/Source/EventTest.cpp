@@ -140,6 +140,9 @@ void EventTest::onFrame()
       BWAssert(nukeSilo!=NULL);
 
       nukeSilo->train(UnitTypes::Terran_Nuclear_Missile);
+      expectedEvents.push_back(Event::UnitCreate(NULL));
+      expectedEvents.push_back(Event::UnitDiscover(NULL));
+      expectedEvents.push_back(Event::UnitShow(NULL));
     }
   }
   else if (state == TrainingNuke)
@@ -161,16 +164,7 @@ void EventTest::onFrame()
       BWAssert(ghost!=NULL);
       Position p(ghost->getPosition());
       ghost->useTech(TechTypes::Nuclear_Strike,p);
-      expectedEvents.push_back(Event::UnitCreate(NULL));
-      expectedEvents.push_back(Event::UnitDiscover(NULL));
-      expectedEvents.push_back(Event::UnitShow(NULL));
       expectedEvents.push_back(Event::NukeDetect(p));
-      expectedEvents.push_back(Event::UnitHide(NULL));
-      expectedEvents.push_back(Event::UnitEvade(NULL));
-      expectedEvents.push_back(Event::UnitDestroy(NULL));
-      expectedEvents.push_back(Event::UnitCreate(NULL));
-      expectedEvents.push_back(Event::UnitDiscover(NULL));
-      expectedEvents.push_back(Event::UnitShow(NULL));
       expectedEvents.push_back(Event::UnitHide(NULL));
       expectedEvents.push_back(Event::UnitEvade(NULL));
       expectedEvents.push_back(Event::UnitDestroy(NULL));

@@ -113,5 +113,6 @@ void TrainTest::stop()
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
-  BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
+  if (unitType != UnitTypes::Protoss_Scarab)
+    BWAssertF(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1,{fail=true;return;});
 }

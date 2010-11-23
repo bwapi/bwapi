@@ -125,7 +125,7 @@ void UseTechTest::start()
     for each(Unit* u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Nuclear_Silo && u->hasNuke())
         hasNuke = true;
-    BWAssertF(hasNuke == true,{Broodwar->printf("Error: No nuke!");fail=true;return;});
+    BWAssertF(hasNuke == true,{log("Error: No nuke!");fail=true;return;});
     for each(Unit* u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Nexus)
       {
@@ -330,7 +330,9 @@ void UseTechTest::useTech()
   else
     used=user->useTech(techType);
   if (used==false)
-    Broodwar->printf("Error: %s",Broodwar->getLastError().toString().c_str());
+  {
+    log("Error: %s",Broodwar->getLastError().toString().c_str());
+  }
 
   usedTech = true;
   startFrame = Broodwar->getFrameCount();
@@ -554,7 +556,9 @@ void UseTechTest::update()
     if (testSucceeded)
       Broodwar->printf("Used tech %s",techType.getName().c_str());
     else
-      Broodwar->printf("Error: Unable to use tech %s",techType.getName().c_str());
+    {
+      log("Error: Unable to use tech %s",techType.getName().c_str());
+    }
   }
   int lastFrame = startFrame+1000;
   if (thisFrame>lastFrame) //terminate condition
