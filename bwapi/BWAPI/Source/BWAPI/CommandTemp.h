@@ -61,6 +61,11 @@ namespace BWAPI
         command.type != UnitCommandTypes::Cancel_Construction &&
         command.type != UnitCommandTypes::Cancel_Train_Slot &&
         command.type != UnitCommandTypes::Cancel_Morph &&
+        command.type != UnitCommandTypes::Train &&
+        command.type != UnitCommandTypes::Gather &&
+        command.type != UnitCommandTypes::Stop &&
+        command.type != UnitCommandTypes::Return_Cargo &&
+        command.type != UnitCommandTypes::Right_Click_Position &&
         command.type != UnitCommandTypes::Morph)
       return;
 
@@ -135,7 +140,8 @@ namespace BWAPI
       if (savedExtra2 == -1)
         savedExtra2 = unit->self->buildUnit;
       unitType = UnitType(savedExtra);
-      if (frame > Broodwar->getLatency() + 1)
+      if ((frame > Broodwar->getLatency() + 1 && Broodwar->getLatency() == 2) || 
+          (frame > Broodwar->getLatency() + 2 && Broodwar->getLatency() > 2))
         return;
       if (unitType.getRace() == Races::Terran)
       {
@@ -153,7 +159,8 @@ namespace BWAPI
       if (!unit->self->exists)
         return;
       unit->self->buildUnit = -1;
-      if (frame < Broodwar->getLatency())
+      if ((frame < Broodwar->getLatency() && Broodwar->getLatency()==2) ||
+          (frame <=Broodwar->getLatency() && Broodwar->getLatency()>2))
       {
         player->self->minerals += (int)(unitType.mineralPrice() * 0.75);
         player->self->gas      += (int)(unitType.gasPrice()     * 0.75);
@@ -251,7 +258,7 @@ namespace BWAPI
       if (savedExtra2 == -1)
         savedExtra2 = unit->self->buildUnit;
       if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame < Broodwar->getLatency() - 2 && Broodwar->getLatency() > 2))
+          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
       {
         unit->self->trainingQueueCount--;
         if (unit->self->trainingQueueCount < 0)
@@ -277,7 +284,7 @@ namespace BWAPI
       if (savedExtra == -1)
         savedExtra = unit->self->trainingQueue[command.extra];
       if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame < Broodwar->getLatency()-2 && Broodwar->getLatency() > 2))
+          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
       {
         for(int i = command.extra; i < 4; ++i)
           unit->self->trainingQueue[i] = unit->self->trainingQueue[i+1];
@@ -291,7 +298,7 @@ namespace BWAPI
       {
         unit->self->buildUnit = -1;
         if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-            (frame < Broodwar->getLatency()-1 && Broodwar->getLatency() > 2))
+            (frame <= Broodwar->getLatency()-1 && Broodwar->getLatency() > 2))
         {
           player->self->supplyUsed[unit->getType().getRace().getID()] -= UnitType(savedExtra).supplyRequired();
         }
@@ -373,14 +380,18 @@ namespace BWAPI
     {
       if (!unit->self->exists)
         return;
-      unit->self->target      = getUnitID(target);
-      unit->self->isIdle      = false;
-      unit->self->isMoving    = true;
-      unit->self->isGathering = true;
-      if (target->getType() == UnitTypes::Resource_Mineral_Field)
-        unit->self->order = Orders::MoveToMinerals.getID();
-      else if (target->getType().isRefinery())
-        unit->self->order = Orders::MoveToGas.getID();
+      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
+          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      {
+        unit->self->target      = getUnitID(target);
+        unit->self->isIdle      = false;
+        unit->self->isMoving    = true;
+        unit->self->isGathering = true;
+        if (target->getType() == UnitTypes::Resource_Mineral_Field)
+          unit->self->order = Orders::MoveToMinerals.getID();
+        else if (target->getType().isRefinery())
+          unit->self->order = Orders::MoveToGas.getID();
+      }
     }
     else if (command.type == UnitCommandTypes::Halt_Construction)
     {
@@ -550,12 +561,16 @@ namespace BWAPI
         return;
       if (unit->self->carryResourceType == 0)
         return;
-      if (unit->isCarryingGas())
-        unit->self->order = Orders::ReturnGas.getID();
-      else
-        unit->self->order = Orders::ReturnMinerals.getID();
-      unit->self->isGathering = true;
-      unit->self->isIdle      = false;
+      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
+          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      {
+        if (unit->isCarryingGas())
+          unit->self->order = Orders::ReturnGas.getID();
+        else
+          unit->self->order = Orders::ReturnMinerals.getID();
+        unit->self->isGathering = true;
+        unit->self->isIdle      = false;
+      }
     }
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
@@ -563,11 +578,15 @@ namespace BWAPI
         return;
       if (!unit->getType().canMove())
         return;
-      unit->self->order           = Orders::Move.getID();
-      unit->self->targetPositionX = position.x();
-      unit->self->targetPositionY = position.y();
-      unit->self->isMoving        = true;
-      unit->self->isIdle          = false;
+      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
+          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      {
+        unit->self->order           = Orders::Move.getID();
+        unit->self->targetPositionX = position.x();
+        unit->self->targetPositionY = position.y();
+        unit->self->isMoving        = true;
+        unit->self->isIdle          = false;
+      }
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {
@@ -636,8 +655,12 @@ namespace BWAPI
     {
       if (!unit->self->exists)
         return;
-      unit->self->order  = Orders::Stop.getID();
-      unit->self->isIdle = true;
+      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
+          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      {
+        unit->self->order  = Orders::Stop.getID();
+        unit->self->isIdle = true;
+      }
     }
     else if (command.type == UnitCommandTypes::Train)
     {
@@ -646,7 +669,7 @@ namespace BWAPI
       if (savedExtra == -1)
         savedExtra = unit->self->trainingQueueCount;
       if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame < Broodwar->getLatency() - 2 && Broodwar->getLatency() > 2))
+          (frame <= Broodwar->getLatency() && Broodwar->getLatency() > 2))
       {
         unit->self->trainingQueue[unit->self->trainingQueueCount] = unitType.getID();
         unit->self->trainingQueueCount++;
@@ -654,7 +677,7 @@ namespace BWAPI
         player->self->gas      -= unitType.gasPrice();
       }
       if ((frame <= Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame < Broodwar->getLatency() - 1 && Broodwar->getLatency() > 2))
+          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
       {
         if (savedExtra == 0)
         {
@@ -662,10 +685,13 @@ namespace BWAPI
           player->self->supplyUsed[unitType.getRace().getID()] += unitType.supplyRequired();
         }
       }
-      unit->self->isTraining = true;
-      unit->self->isIdle     = false;
-      if (unitType == UnitTypes::Terran_Nuclear_Missile.getID())
-        unit->self->secondaryOrder = Orders::Train.getID();
+      if (frame <= Broodwar->getLatency())
+      {
+        unit->self->isTraining = true;
+        unit->self->isIdle     = false;
+        if (unitType == UnitTypes::Terran_Nuclear_Missile.getID())
+          unit->self->secondaryOrder = Orders::Train.getID();
+      }
     }
     else if (command.type == UnitCommandTypes::Unburrow)
     {

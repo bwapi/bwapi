@@ -53,6 +53,7 @@ void TerranTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Terran_Engineering_Bay));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Missile_Turret));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Academy));
+//  Lan-low latency makes it to here without error
   this->addTestCase(new CancelTrainTest(UnitTypes::Terran_Marine,UnitTypes::Terran_Medic,UnitTypes::Terran_Firebat));
   this->addTestCase(new BuildTest(UnitTypes::Terran_Bunker));
   this->addTestCase(new CancelConstructionTest(UnitTypes::Terran_Factory,true));

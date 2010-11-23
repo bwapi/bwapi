@@ -15,4 +15,5 @@ class TestModule : public BWAPI::AIModule
   private:
     std::list<TestCase*> testCases;
     TestCase* currentTestCase;
+    int lastEndFrame;
 };

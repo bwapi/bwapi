@@ -84,7 +84,7 @@ void GatherTest::update()
 
   if (state==1)
   {
-    BWAssertF(worker->isGatheringMinerals(),{fail=true;return;});
+    BWAssertF(worker->isGatheringMinerals(),{log("%d",thisFrame-startFrame);fail=true;return;});
     BWAssertF(worker->isGatheringGas()==false,{fail=true;return;});
   }
   else if (state==2)
@@ -94,13 +94,13 @@ void GatherTest::update()
   }
   else if (state==3)
   {
-    BWAssertF(worker->isGatheringGas()==false,{fail=true;return;});
+    BWAssertF(worker->isGatheringGas()==false,{log("%d",thisFrame-startFrame);fail=true;return;});
     BWAssertF(worker->isGatheringMinerals()==false,{fail=true;return;});
     BWAssertF(worker->isCarryingGas()==true,{fail=true;return;});
   }
   else if (state==4)
   {
-    BWAssertF(worker->isGatheringGas()==true,{fail=true;return;});
+    BWAssertF(worker->isGatheringGas()==true,{log("%d",thisFrame-startFrame);fail=true;return;});
     BWAssertF(worker->isGatheringMinerals()==false,{fail=true;return;});
     BWAssertF(worker->isCarryingGas()==true,{fail=true;return;});
   }

@@ -22,7 +22,7 @@ bool CancelTrainTest::verifyTrainingQueue()
 {
   BWAssertF(producer!=NULL,{fail=true;return false;});
   std::list<UnitType> actualList = producer->getTrainingQueue();
-  BWAssertF(correctTrainingQueue.size() == actualList.size(),{Broodwar->printf("%d != %d",correctTrainingQueue.size(),actualList.size());fail=true;return false;});
+  BWAssertF(correctTrainingQueue.size() == actualList.size(),{log("Error training queue size %d != %d",correctTrainingQueue.size(),actualList.size());fail=true;return false;});
   BWAssertF(correctTrainingQueue == actualList,{fail=true;return false;});
   return true;
 }
@@ -136,17 +136,17 @@ void CancelTrainTest::update()
     BWAssertF(producer->isConstructing()==false,{fail=true;return;});
     BWAssertF(producer->isIdle()==false,{fail=true;return;});
     BWAssertF(producer->isLifted()==false,{fail=true;return;});
-    BWAssertF(verifyTrainingQueue(),{fail=true;return;});
+    BWAssertF(verifyTrainingQueue(),{log("Error training queue failed at %u frame %d",__LINE__,thisFrame-startFrame);fail=true;return;});
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
+    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{log("Error supply used %d != %d",Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType2) == originalAllUnit2Count,{fail=true;return;});
     BWAssertF(Broodwar->self()->allUnitCount(unitType3) == originalAllUnit3Count,{fail=true;return;});
     if (thisFrame>=startFrame+150)
     {
       BWAssertF(producer->cancelTrain(0),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_front();
-      BWAssertF(verifyTrainingQueue(),{fail=true;return;});
+      BWAssertF(verifyTrainingQueue(),{log("Error training queue failed at %u frame %d",__LINE__,thisFrame-startFrame-150);fail=true;return;});
       correctMineralCount = correctMineralCount + unitType1.mineralPrice();
       correctGasCount = correctGasCount + unitType1.gasPrice();
       correctSupplyUsedCount = correctSupplyUsedCount - unitType1.supplyRequired() + unitType2.supplyRequired();
@@ -162,15 +162,15 @@ void CancelTrainTest::update()
     BWAssertF(producer->isConstructing()==false,{fail=true;return;});
     BWAssertF(producer->isIdle()==false,{fail=true;return;});
     BWAssertF(producer->isLifted()==false,{fail=true;return;});
-    BWAssertF(verifyTrainingQueue(),{Broodwar->printf("line 178: %d",thisFrame-startFrame-150);fail=true;return;});
+    BWAssertF(verifyTrainingQueue(),{log("Error training queue failed at %u frame %d",__LINE__,thisFrame-startFrame-150);fail=true;return;});
     BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
-    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);});
+    BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{log("Error supply used %d: %d != %d",thisFrame-startFrame-150,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);});
     if (thisFrame>=startFrame+300)
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_back();
-      BWAssertF(verifyTrainingQueue(),{fail=true;return;});
+      BWAssertF(verifyTrainingQueue(),{log("Error training queue failed at %u frame %d",__LINE__,thisFrame-startFrame-300);fail=true;return;});
       correctMineralCount = correctMineralCount + unitType3.mineralPrice();
       correctGasCount = correctGasCount + unitType3.gasPrice();
       BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
@@ -193,7 +193,7 @@ void CancelTrainTest::update()
     {
       BWAssertF(producer->cancelTrain(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
       correctTrainingQueue.pop_back();
-      BWAssertF(verifyTrainingQueue(),{fail=true;return;});
+      BWAssertF(verifyTrainingQueue(),{log("Error training queue failed at %u frame %d",__LINE__,thisFrame-startFrame-450);fail=true;return;});
       BWAssertF(producer->getTrainingQueue().size()==0,{fail=true;return;});
       BWAssertF(producer->isTraining()==false,{fail=true;return;});
       BWAssertF(producer->isConstructing()==false,{fail=true;return;});

@@ -1,7 +1,7 @@
 #include "TestModule.h"
 using namespace std;
 using namespace BWAPI;
-TestModule::TestModule() : currentTestCase(NULL)
+TestModule::TestModule() : currentTestCase(NULL), lastEndFrame(-10)
 {
 }
 
@@ -47,7 +47,7 @@ void TestModule::onUnitDestroy(Unit* unit)
 }
 void TestModule::runTestCases()
 {
-  if (currentTestCase==NULL && testCases.empty()==false)
+  if (currentTestCase==NULL && testCases.empty()==false && Broodwar->getFrameCount()>lastEndFrame+15)
   {
     currentTestCase = *testCases.begin();
     currentTestCase->start();
@@ -62,6 +62,7 @@ void TestModule::runTestCases()
       delete currentTestCase;
       currentTestCase = NULL;
       testCases.erase(testCases.begin());
+      lastEndFrame = Broodwar->getFrameCount();
     }
   }
 }
