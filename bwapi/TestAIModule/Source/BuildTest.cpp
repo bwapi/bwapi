@@ -56,7 +56,7 @@ void BuildTest::start()
 
   if (unitType.isAddon())
   {
-    builder->buildAddon(unitType);
+    BWAssert(builder->buildAddon(unitType),{log("%s",Broodwar->getLastError().c_str());fail=true;return;});
   }
   else
   {
@@ -69,7 +69,7 @@ void BuildTest::start()
     {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
     }
-    builder->build(buildLocation,unitType);
+    BWAssert(builder->build(buildLocation,unitType),{log("%s",Broodwar->getLastError().c_str());fail=true;return;});
   }
   FAILTEST(builder->isIdle()==false);
   FAILTEST(builder->isConstructing()==true);
