@@ -653,22 +653,22 @@ namespace BWAPI
     return startLocations;
   }
   //------------------------------------------------ PRINTF --------------------------------------------------
-  void GameImpl::printf(const char* text, ...)
+  void GameImpl::printf(const char *format, ...)
   {
     va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_start(ap, format);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
     va_end(ap);
 
     addCommand(BWAPIC::Command(BWAPIC::CommandType::Printf,addString(buffer)));
     return;
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
-  void GameImpl::sendText(const char* text, ...)
+  void GameImpl::sendText(const char *format, ...)
   {
     va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+    va_start(ap, format);
+    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
     va_end(ap);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText,addString(buffer)));
     return;

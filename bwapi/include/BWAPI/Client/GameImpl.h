@@ -136,8 +136,8 @@ namespace BWAPI
       virtual bool canUpgrade(const Unit* unit, UpgradeType type);
       virtual std::set< TilePosition >& getStartLocations();
 
-      virtual void printf(const char* text, ...);
-      virtual void sendText(const char* text, ...);
+      virtual void printf(const char* format, ...);
+      virtual void sendText(const char* format, ...);
       virtual void sendTextEx(bool toAllies, const char *format, ...);
 
       virtual void changeRace(BWAPI::Race race);
