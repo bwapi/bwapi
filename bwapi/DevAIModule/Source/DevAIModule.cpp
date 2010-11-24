@@ -30,7 +30,7 @@ void DevAIModule::onFrame()
 
   if ( bw->isReplay() )
     return;
-
+/*
   Unit *tank = NULL;
   for each ( Unit *u in self->getUnits() )
   {
@@ -47,7 +47,7 @@ void DevAIModule::onFrame()
 
     if ( tank->attackUnit(targ) )
       bw->printf("Attack success");
-  }
+  }*/
   /*
   if ( enabled )
   {
@@ -346,6 +346,10 @@ void DevAIModule::onSendText(std::string text)
   {
     enabled = !enabled;
     Broodwar->printf("DevAITest %s", enabled ? "ENABLED" : "DISABLED");
+  }
+  else if ( text == "/wtf" )
+  {
+    bw->sendText("%s", "%s");
   }
   else if ( text == "/wikiTypes" )
   {

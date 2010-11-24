@@ -492,11 +492,11 @@ namespace BWAPI
         break;
       case BWAPIC::CommandType::Printf:
         if (Broodwar->isInGame())
-          Broodwar->printf(data->strings[v1]);
+          Broodwar->printf("%s", data->strings[v1]);
         break;
       case BWAPIC::CommandType::SendText:
         if (Broodwar->isInGame())
-          Broodwar->sendText(data->strings[v1]);
+          Broodwar->sendText("%s", data->strings[v1]);
         break;
       case BWAPIC::CommandType::ChangeRace:
         Broodwar->changeRace(Race(v1));
