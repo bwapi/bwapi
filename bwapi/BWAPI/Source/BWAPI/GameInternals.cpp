@@ -63,6 +63,32 @@
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
+
+#define commandIterator(lst,cmd) {\
+  u8 uCount = 0;\
+  BWAPI::UnitImpl *units[13];\
+  foreach(UnitImpl *u, lst)\
+  {\
+    units[uCount] = u;\
+    ++uCount;\
+    if ( uCount == 12 )\
+    {\
+      BW::Orders::Select sel = BW::Orders::Select(uCount, units);\
+      QueueGameCommand((PBYTE)&sel, sel.size);\
+      QueueGameCommand((PBYTE)&BW::Orders::cmd(), sizeof(BW::Orders::cmd));\
+      uCount = 0;\
+    }\
+  }\
+  if ( uCount )\
+  {\
+    BW::Orders::Select sel = BW::Orders::Select(uCount, units);\
+    QueueGameCommand((PBYTE)&sel, sel.size);\
+    QueueGameCommand((PBYTE)&BW::Orders::cmd(), sizeof(BW::Orders::cmd));\
+    uCount = 0;\
+  }\
+  lst.clear();\
+}
+
 namespace BWAPI
 {
   Game* Broodwar;
@@ -317,17 +343,29 @@ namespace BWAPI
           Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
 
           PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
-          this->client = newAIModule(this);
-          Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-          printf("%cLoaded the AI Module: %s", 7, szDllPath);
-          externalModuleConnected = true;
+          if ( newAIModule )
+          {
+            this->client = newAIModule(this);
+            Util::Logger::globalLog->logCritical("Created an Object of AIModule");
+            printf("%cLoaded the AI Module: %s", 7, szDllPath);
+            externalModuleConnected = true;
 
-          pszModuleName = szDllPath;
-          if ( strchr(pszModuleName, '/') )
-            pszModuleName = &strrchr(pszModuleName, '/')[1];
+            pszModuleName = szDllPath;
+            if ( strchr(pszModuleName, '/') )
+              pszModuleName = &strrchr(pszModuleName, '/')[1];
 
-          if ( strchr(pszModuleName, '\\') )
-            pszModuleName = &strrchr(pszModuleName, '\\')[1];
+            if ( strchr(pszModuleName, '\\') )
+              pszModuleName = &strrchr(pszModuleName, '\\')[1];
+          }
+          else
+          {
+            Util::Logger::globalLog->logCritical("ERROR: Failed to find the newAIModule function in %s", szDllPath);
+            this->client = new AIModule();
+            Broodwar->enableFlag(Flag::CompleteMapInformation);
+            Broodwar->enableFlag(Flag::UserInput);
+            printf("%cERROR: Failed to find the newAIModule function in %s", 6, szDllPath);
+            externalModuleConnected = false;
+          }
         }
       }
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
@@ -380,186 +418,14 @@ namespace BWAPI
     //increment frame count if the game is not paused
     if ( *BW::BWDATA_IsRunning != 0 )
     {
-      u8 uCount = 0;
-      BWAPI::UnitImpl *units[13];
-
-      // iterate siege commands
-      foreach (UnitImpl *u, cmdToSiege)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-        uCount = 0;
-      }
-
-      // iterate unsiege commands
-      foreach (UnitImpl *u, cmdToUnsiege)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-        uCount = 0;
-      }
-
-      // iterate stop commands
-      foreach (UnitImpl *u, cmdToStop)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Stop(0), sizeof(BW::Orders::Stop));
-        uCount = 0;
-      }
-
-      // iterate hold commands
-      foreach (UnitImpl *u, cmdToHold)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::HoldPosition(0), sizeof(BW::Orders::HoldPosition));
-        uCount = 0;
-      }
-
-      // iterate burrow commands
-      foreach (UnitImpl *u, cmdToBurrow)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
-        uCount = 0;
-      }
-
-      // iterate unburrow commands
-      foreach (UnitImpl *u, cmdToUnburrow)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
-        uCount = 0;
-      }
-
-      // iterate cloak commands
-      foreach (UnitImpl *u, cmdToCloak)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
-        uCount = 0;
-      }
-
-      // iterate decloak commands
-      foreach (UnitImpl *u, cmdToUncloak)
-      {
-        units[uCount] = u;
-        ++uCount;
-        if ( uCount == 12 )
-        {
-          BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-          QueueGameCommand((PBYTE)&sel, sel.size);
-          QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
-          uCount = 0;
-        }
-      }
-      if ( uCount )
-      {
-        BW::Orders::Select sel = BW::Orders::Select(uCount, units);
-        QueueGameCommand((PBYTE)&sel, sel.size);
-        QueueGameCommand((PBYTE)&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
-        uCount = 0;
-      }
-
-      cmdToSiege.clear();
-      cmdToUnsiege.clear();
-      cmdToStop.clear();
-      cmdToHold.clear();
-      cmdToBurrow.clear();
-      cmdToUnburrow.clear();
-      cmdToCloak.clear();
-      cmdToUncloak.clear();
-
+      commandIterator(cmdToSiege,Siege);
+      commandIterator(cmdToUnsiege,Unsiege);
+      commandIterator(cmdToStop,Stop);
+      commandIterator(cmdToHold,HoldPosition);
+      commandIterator(cmdToBurrow,Burrow);
+      commandIterator(cmdToUnburrow,Unburrow);
+      commandIterator(cmdToCloak,Cloak);
+      commandIterator(cmdToUncloak,Decloak);
 
       this->frameCount++;
     }
@@ -574,7 +440,7 @@ namespace BWAPI
         if ( !u )
           continue;
         if ( u->isStuck() )
-          printf("A faggot %s is stuck", u->getType().getName().c_str());
+          printf("A %s is stuck", u->getType().getName().c_str());
       }
       // selected units
       foreach( Unit *_u, selectedUnitSet )
@@ -1400,6 +1266,15 @@ namespace BWAPI
       this->client = NULL;
     }
     //clear all sets
+    cmdToSiege.clear();
+    cmdToUnsiege.clear();
+    cmdToStop.clear();
+    cmdToHold.clear();
+    cmdToBurrow.clear();
+    cmdToUnburrow.clear();
+    cmdToCloak.clear();
+    cmdToUncloak.clear();
+
     aliveUnits.clear();
     dyingUnits.clear();
     discoverUnits.clear();

@@ -340,7 +340,7 @@ namespace BW
     class HoldPosition
     {
       public :
-        HoldPosition(u8 type);
+        HoldPosition(u8 type = 0);
       private :
         u8 always0x2B;
         u8 type;
@@ -414,7 +414,7 @@ namespace BW
     class ReturnCargo
     {
       public :
-        ReturnCargo(u8 type);
+        ReturnCargo(u8 type = 0);
       private :
         u8 always0x1E;
         u8 type;
@@ -423,7 +423,7 @@ namespace BW
     class Stop
     {
       public :
-        Stop(u8 type);
+        Stop(u8 type = 0);
       private :
         u8 always0x1A;
         u8 type;
