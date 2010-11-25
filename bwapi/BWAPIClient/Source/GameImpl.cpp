@@ -7,13 +7,11 @@
 #include "BulletImpl.h"
 
 #include <Util\Foreach.h>
+#include <Util\Types.h>
 #include <string>
 
 namespace BWAPI
 {
-  const int BUFFER_SIZE=1024;
-  char buffer[BUFFER_SIZE];
-
   Game* Broodwar = NULL;
   GameImpl::GameImpl(GameData* data)
   {
@@ -655,22 +653,19 @@ namespace BWAPI
   //------------------------------------------------ PRINTF --------------------------------------------------
   void GameImpl::printf(const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
-    va_end(ap);
-
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::Printf,addString(buffer)));
+    delete buffer;
     return;
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText,addString(buffer)));
+    delete buffer;
     return;
   }
   //--------------------------------------------- SEND TEXT EX -----------------------------------------------
@@ -770,37 +765,33 @@ namespace BWAPI
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetTextSize, size));
   }
   //-------------------------------------------------- DRAW --------------------------------------------------
-  void GameImpl::drawText(int ctype, int x, int y, const char* text, ...)
+  void GameImpl::drawText(int ctype, int x, int y, const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,0,0,false),buffer);
+    delete buffer;
   }
-  void GameImpl::drawTextMap(int x, int y, const char* text, ...)
+  void GameImpl::drawTextMap(int x, int y, const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,0,false),buffer);
+    delete buffer;
   }
-  void GameImpl::drawTextMouse(int x, int y, const char* text, ...)
+  void GameImpl::drawTextMouse(int x, int y, const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,0,false),buffer);
+    delete buffer;
   }
-  void GameImpl::drawTextScreen(int x, int y, const char* text, ...)
+  void GameImpl::drawTextScreen(int x, int y, const char *format, ...)
   {
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,0,false),buffer);
+    delete buffer;
   }
 
   void GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)

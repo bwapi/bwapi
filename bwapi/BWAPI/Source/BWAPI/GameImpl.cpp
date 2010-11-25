@@ -543,11 +543,8 @@ namespace BWAPI
   void GameImpl::printf(const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[256];
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, 256, 256, format, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
 
     s_evt evt;
     evt.dwFlags    = 4;
@@ -556,28 +553,25 @@ namespace BWAPI
     evt.dwSize     = strlen(buffer) + 1;
 
     SEvtDispatch('SNET', 1, 4, &evt);
+    delete buffer;
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
-    char buffer[80];
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, 80, 80, format, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     sendTextEx(false, "%s", buffer);
+    delete buffer;
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
-    char buffer[80];
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf_s(buffer, 80, 80, format, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
 
     if (_isReplay())
     {
       printf("%s", buffer);
+      delete buffer;
       return;
     }
 
@@ -598,6 +592,7 @@ namespace BWAPI
       {
         printf("%c%s: %c%s", this->BWAPIPlayer->getTextColor(), this->BWAPIPlayer->getName().c_str(), 0x07, buffer);
       }
+      delete buffer;
       return;
     }
 
@@ -626,6 +621,7 @@ namespace BWAPI
       szMessage[1] = 0x4C;
       SNetSendMessage(-1, &szMessage[1], msgLen + 2);
     } // isInGame
+    delete buffer;
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(BWAPI::Race race)
@@ -808,45 +804,37 @@ namespace BWAPI
       size = 1;
     textSize = size;
   }
-  void  GameImpl::drawText(int ctype, int x, int y, const char* text, ...)
+  void  GameImpl::drawText(int ctype, int x, int y, const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[MAX_BUFFER];
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
+    delete buffer;
   }
-  void  GameImpl::drawTextMap(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextMap(int x, int y, const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[MAX_BUFFER];
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
+    delete buffer;
   }
-  void  GameImpl::drawTextMouse(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextMouse(int x, int y, const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[MAX_BUFFER];
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
+    delete buffer;
   }
-  void  GameImpl::drawTextScreen(int x, int y, const char* text, ...)
+  void  GameImpl::drawTextScreen(int x, int y, const char *format, ...)
   {
     if ( noGUI ) return;
-    char buffer[MAX_BUFFER];
-    va_list ap;
-    va_start(ap, text);
-    vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, text, ap);
-    va_end(ap);
+    char *buffer;
+    vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
+    delete buffer;
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)

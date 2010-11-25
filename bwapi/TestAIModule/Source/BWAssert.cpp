@@ -3,15 +3,16 @@
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <BWAPI.h>
-char buffer[1024];
-void log(const char* text, ...)
+
+#define BUFFER_SIZE 1024
+
+void log(const char* format, ...)
 {
-  const int BUFFER_SIZE = 1024;
   char buffer[BUFFER_SIZE];
 
   va_list ap;
-  va_start(ap, text);
-  vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, text, ap);
+  va_start(ap, format);
+  vsnprintf_s(buffer, BUFFER_SIZE, BUFFER_SIZE, format, ap);
   va_end(ap);
 
   FILE *outfile;

@@ -27,3 +27,12 @@ typedef void*           HANDLE;
 #define NULL 0
 
 #define ever (;;)
+
+#define vstretchyprintf(buff,fmt) {\
+  va_list ap;\
+  va_start(ap, fmt);\
+  int buffsize = _vscprintf(fmt, ap);\
+  buff = new char[buffsize+1];\
+  vsprintf_s(buff, buffsize+1, fmt, ap);\
+  va_end(ap);\
+}

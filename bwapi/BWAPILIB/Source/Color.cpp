@@ -41,7 +41,7 @@ namespace BWAPI
     const Color Red(111);
     const Color Blue(165);
     const Color Teal(159);
-    const Color Purple(156);
+    const Color Purple(164);
     const Color Orange(179);
     const Color Brown(19);
     const Color White(255);

@@ -317,10 +317,10 @@ namespace BWAPI
       virtual void setTextSize(int size = 1) = 0;
       /** Draws text on the screen at the given position. Text can be drawn in different colors by using the
        * following control characters: TODO: add image from wiki.*/
-      virtual void drawText(int ctype, int x, int y, const char* text, ...) = 0;
-      virtual void drawTextMap(int x, int y, const char* text, ...) = 0;
-      virtual void drawTextMouse(int x, int y, const char* text, ...) = 0;
-      virtual void drawTextScreen(int x, int y, const char* text, ...) = 0;
+      virtual void drawText(int ctype, int x, int y, const char *format, ...) = 0;
+      virtual void drawTextMap(int x, int y, const char *format, ...) = 0;
+      virtual void drawTextMouse(int x, int y, const char *format, ...) = 0;
+      virtual void drawTextScreen(int x, int y, const char *format, ...) = 0;
 
       /** Draws a box on the screen, with the given color. If isSolid is true, the entire box will be
        * rendered, otherwise just the outline will be drawn. */
