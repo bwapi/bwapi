@@ -64,31 +64,6 @@
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
 
-#define commandIterator(lst,cmd) {\
-  u8 uCount = 0;\
-  BWAPI::UnitImpl *units[13];\
-  foreach(UnitImpl *u, lst)\
-  {\
-    units[uCount] = u;\
-    ++uCount;\
-    if ( uCount == 12 )\
-    {\
-      BW::Orders::Select sel = BW::Orders::Select(uCount, units);\
-      QueueGameCommand((PBYTE)&sel, sel.size);\
-      QueueGameCommand((PBYTE)&BW::Orders::cmd(), sizeof(BW::Orders::cmd));\
-      uCount = 0;\
-    }\
-  }\
-  if ( uCount )\
-  {\
-    BW::Orders::Select sel = BW::Orders::Select(uCount, units);\
-    QueueGameCommand((PBYTE)&sel, sel.size);\
-    QueueGameCommand((PBYTE)&BW::Orders::cmd(), sizeof(BW::Orders::cmd));\
-    uCount = 0;\
-  }\
-  lst.clear();\
-}
-
 namespace BWAPI
 {
   Game* Broodwar;
@@ -417,18 +392,7 @@ namespace BWAPI
 
     //increment frame count if the game is not paused
     if ( *BW::BWDATA_IsRunning != 0 )
-    {
-      commandIterator(cmdToSiege,Siege);
-      commandIterator(cmdToUnsiege,Unsiege);
-      commandIterator(cmdToStop,Stop);
-      commandIterator(cmdToHold,HoldPosition);
-      commandIterator(cmdToBurrow,Burrow);
-      commandIterator(cmdToUnburrow,Unburrow);
-      commandIterator(cmdToCloak,Cloak);
-      commandIterator(cmdToUncloak,Decloak);
-
       this->frameCount++;
-    }
 
 #ifdef _DEBUG
     setTextSize(0);
@@ -1266,15 +1230,6 @@ namespace BWAPI
       this->client = NULL;
     }
     //clear all sets
-    cmdToSiege.clear();
-    cmdToUnsiege.clear();
-    cmdToStop.clear();
-    cmdToHold.clear();
-    cmdToBurrow.clear();
-    cmdToUnburrow.clear();
-    cmdToCloak.clear();
-    cmdToUncloak.clear();
-
     aliveUnits.clear();
     dyingUnits.clear();
     discoverUnits.clear();
