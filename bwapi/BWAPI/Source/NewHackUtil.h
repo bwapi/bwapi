@@ -32,8 +32,6 @@ typedef signed   __int32 s32;
 typedef signed   __int64 s64;
 
 // Variables
-#define HU_BUFFER_SIZE 1024
-
 #define __TOSTRING(l) #l
 #define _TOSTRING(l) __TOSTRING(l)
 #define FILELINE __FILE__ ":" _TOSTRING(__LINE__)

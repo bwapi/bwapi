@@ -1,7 +1,7 @@
 #pragma once
 extern int assert_success_count;
 extern int assert_fail_count;
-void log(const char* text, ...);
+void log(const char* format, ...);
 #define BWAssert(C)\
 {\
   if (!(C))\

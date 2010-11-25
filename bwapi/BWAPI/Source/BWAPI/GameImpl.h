@@ -14,8 +14,6 @@ namespace BWAPI { class  BulletImpl; }
 namespace BWAPI { class  Command; }
 namespace BWAPI { class  AIModule; }
 
-#define MAX_BUFFER 1024
-
 #include "BWAPI/Game.h"
 
 #include <vector>
@@ -168,10 +166,10 @@ namespace BWAPI
       virtual Player *enemy();
 
       virtual void setTextSize(int size = 1);
-      virtual void drawText(int ctype, int x, int y, const char* text, ...);
-      virtual void drawTextMap(int x, int y, const char* text, ...);
-      virtual void drawTextMouse(int x, int y, const char* text, ...);
-      virtual void drawTextScreen(int x, int y, const char* text, ...);
+      virtual void drawText(int ctype, int x, int y, const char *format, ...);
+      virtual void drawTextMap(int x, int y, const char *format, ...);
+      virtual void drawTextMouse(int x, int y, const char *format, ...);
+      virtual void drawTextScreen(int x, int y, const char *format, ...);
 
       virtual void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
       virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);

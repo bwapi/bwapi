@@ -410,11 +410,8 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
 //------------------------------------------------ BWAPI ERROR -----------------------------------------------
 void BWAPIError(const char *format, ...)
 {
-  char buffer[MAX_BUFFER];
-  va_list ap;
-  va_start(ap, format);
-  vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
-  va_end(ap);
+  char *buffer;
+  vstretchyprintf(buffer, format);
 
   BWAPI::BroodwarImpl.printf( "\x06" "ERROR: %s", buffer);
 
@@ -430,19 +427,18 @@ void BWAPIError(const char *format, ...)
     fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
     fclose(f);
   }
+  delete buffer;
 }
 
 void BWAPIError(DWORD dwErrCode, const char *format, ...)
 {
-  char buffer[MAX_BUFFER];
-  va_list ap;
-  va_start(ap, format);
-  vsnprintf_s(buffer, MAX_BUFFER, MAX_BUFFER, format, ap);
-  va_end(ap);
+  char *buffer;
+  vstretchyprintf(buffer, format);
 
   char szErrString[256];
   SErrGetErrorStr(dwErrCode, szErrString, 256);
   BWAPIError("%s    %s", szErrString, buffer);
+  delete buffer;
 }
 
 char logPath[MAX_PATH];
