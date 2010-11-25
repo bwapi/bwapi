@@ -177,14 +177,14 @@ void STORMAPI SErrSetLastError(DWORD dwErrCode) rVoid;
 void STORMAPI SErrSuppressErrors(BOOL suppressErrors) rVoid;
 
 void STORMAPI SMemCopy(void *dest, const void *source, size_t size) rVoid;
-int STORMAPI SMemFill(void *location, size_t length, char fillWith) rInt;
+void STORMAPI SMemFill(void *location, size_t length, char fillWith) rVoid;
 
-int STORMAPI SMemZero(void *location, DWORD length) rInt;
-int STORMAPI SMemCmp(void *location1, void *location2, DWORD size) rInt;
+void STORMAPI SMemZero(void *location, DWORD length) rVoid;
+int  STORMAPI SMemCmp(void *location1, void *location2, DWORD size) rInt;
 
-int STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length) rInt;
+int   STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length) rInt;
 DWORD STORMAPI SStrHash(const char *string, DWORD flags, DWORD Seed) rInt;
-int STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length) rInt;
+int   STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length) rInt;
 
 int STORMAPI SStrLen(const char* string) rInt;
 

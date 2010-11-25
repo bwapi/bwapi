@@ -124,7 +124,7 @@ namespace LUDP
     }
 
     char buffer[PKT_SIZE + sizeof(packet)];
-    SMemZero(buffer, PKT_SIZE + sizeof(packet));
+    memset(buffer, 0, PKT_SIZE + sizeof(packet));
 
     packet *pktHead = (packet*)buffer;
     char   *pktData = buffer + sizeof(packet);

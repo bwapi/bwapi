@@ -492,7 +492,37 @@ SDrawGetScreenSize(
 
 // undefined
 BOOL STORMAPI SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
-BOOL STORMAPI SDrawManualInitialize(HWND hWnd = NULL, LPDIRECTDRAW ddInterface = NULL, LPDIRECTDRAWSURFACE primarySurface = NULL, LPDIRECTDRAWSURFACE surface2 = NULL, LPDIRECTDRAWSURFACE surface3 = NULL, LPDIRECTDRAWSURFACE backSurface = NULL, LPDIRECTDRAWPALETTE ddPalette = NULL, HPALETTE hPalette = NULL);
+
+
+/*  SDrawManualInitialize @ 351
+ *  
+ *  Sets the DirectDraw variables to be referenced in Storm.
+ *
+ *  hWnd:           The handle of the DirectDraw window.
+ *  ddInterface:    The DirectDraw interface.
+ *  primarySurface: The first and primary surface.
+ *  surface2:       A second surface. Behaviour not completely known.
+ *  surface3:       A third surface. Behaviour not completely known.
+ *  backSurface:    The fourth and final surface. The back surface.
+ *  ddPalette:      The DirectDraw palette if the application requires it.
+ *  hPalette:       The palette handle that belongs to the window.
+ *                  If this is NULL and ddPalette is specified, then it
+ *                  will be created automatically. A palette can be created
+ *                  using the CreatePalette WinAPI function.
+ *
+ *  Returns FALSE if no variables were specified.
+ */
+BOOL
+STORMAPI
+SDrawManualInitialize(
+    __in_opt  HWND hWnd                           = NULL,
+    __in_opt  LPDIRECTDRAW ddInterface            = NULL,
+    __in_opt  LPDIRECTDRAWSURFACE primarySurface  = NULL,
+    __in_opt  LPDIRECTDRAWSURFACE surface2        = NULL,
+    __in_opt  LPDIRECTDRAWSURFACE surface3        = NULL,
+    __in_opt  LPDIRECTDRAWSURFACE backSurface     = NULL,
+    __in_opt  LPDIRECTDRAWPALETTE ddPalette       = NULL,
+    __in_opt  HPALETTE hPalette                   = NULL);
 
 
 /*  SDrawPostClose @ 353
@@ -593,10 +623,49 @@ BOOL STORMAPI SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, in
 BOOL STORMAPI SVidPlayContinueSingle(HANDLE video, int a2, int a3);
 BOOL STORMAPI SVidPlayEnd(HANDLE video);
 
-BOOL STORMAPI SErrGetErrorStr(DWORD dwErrCode, char *buffer, size_t bufferchars);
-DWORD STORMAPI SErrGetLastError();
 
-void STORMAPI SErrSetLastError(DWORD dwErrCode);
+/*  SErrGetErrorStr @ 462
+ *  
+ *  Retrieves a string that describes the specified error code for
+ *  the system, Storm, DirectDraw, or DirectSound.
+ *
+ *  dwErrCode:    The error code to look up.
+ *  buffer:       The destination buffer to receive the string.
+ *  bufferchars:  The size of the destination buffer.
+ *
+ *  Returns TRUE if the call was successful and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SErrGetErrorStr(
+    __in  DWORD dwErrCode,
+    __out char *buffer,
+    __in  size_t bufferchars);
+
+
+/*  SErrGetLastError @ 463
+ *  
+ *  Retrieves the last error that was specifically
+ *  set for the Storm library.
+ *
+ *  Returns the last error set within the Storm library.
+ */
+DWORD
+STORMAPI
+SErrGetLastError();
+
+
+/*  SErrSetLastError @ 465
+ *  
+ *  Sets the last error for the Storm library and the Kernel32 library.
+ *
+ *  dwErrCode:  The error code that will be set.
+ */
+void
+STORMAPI
+SErrSetLastError(
+    __in DWORD dwErrCode = NO_ERROR);
+
 
 void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 
@@ -641,32 +710,98 @@ void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 
 #endif
 
-void STORMAPI SMemCopy(void *dest, const void *source, size_t size);
-int  STORMAPI SMemFill(void *location, size_t length, char fillWith);
 
-int  STORMAPI SMemZero(void *location, DWORD length);
-int  STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
+/*  SMemCopy @ 491
+ *  
+ *  Copies a block of memory from source to destination.
+ *  This function immediately calls memcpy. See online documentation
+ *  of memcpy for more details.
+ *
+ *  dest:   The destination buffer.
+ *  source: The size of the destination buffer.
+ *  size:   The format to use.
+ */
+void
+STORMAPI
+SMemCopy(
+    __out void *dest, 
+    __in  const void *source, 
+    __in  size_t size);
+
+
+/*  SMemFill @ 492
+ *  
+ *  Fills a block of memory with the specified character.
+ *  This function immediately calls memset. See online documentation
+ *  of memset for more details.
+ *
+ *  dest:   The destination buffer.
+ *  source: The size of the destination buffer.
+ *  size:   The format to use.
+ */
+void
+STORMAPI
+SMemFill(
+    __in  void *location,
+    __in  size_t length,
+    __in  char fillWith = 0);
+
+
+/*  SMemZero @ 494
+ *  
+ *  Fills a block of memory with the integer 0x00 (Zero).
+ *
+ *  location: The location to write at.
+ *  length:   The amount of bytes to write.
+ */
+void 
+STORMAPI 
+SMemZero(
+    __in  void *location,
+    __in  size_t length);
+
+
+int   STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
 
 int   STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length);
 DWORD STORMAPI SStrHash(const char *string, DWORD flags, DWORD Seed);
 int   STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length);
 
-int  STORMAPI SStrLen(const char* string);
+int   STORMAPI SStrLen(const char* string);
 
 int   STORMAPI SStrCmp(const char *string1, const char *string2, size_t size);
 int   STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size);
 char* STORMAPI SStrUpper(char* string);
 
-void STORMAPI SRgn523(int handle, RECT *rect, int a3, int a4);
-void STORMAPI SRgn524(int handle, int a2);
-void STORMAPI SRgn525(int handle);
+void  STORMAPI SRgn523(int handle, RECT *rect, int a3, int a4);
+void  STORMAPI SRgn524(int handle, int a2);
+void  STORMAPI SRgn525(int handle);
 
-void STORMAPI SRgn529i(int handle, int a2, int a3);
+void  STORMAPI SRgn529i(int handle, int a2, int a3);
 
 char* STORMAPI SStrChr(const char *string, char c);
 char* STORMAPI SStrChrR(const char *string, char c);
 
-size_t __cdecl SStrVPrintf(char *dest, size_t size, const char *format, ...);
+
+/*  SStrVPrintf @ 578
+ *  
+ *  Prints a formatted string to a destination buffer.
+ *  This function calls vsnprintf with some extra error handling.
+ *  See online documentation of vsnprintf for more details.
+ *
+ *  dest:   The destination buffer.
+ *  size:   The size of the destination buffer.
+ *  format: The format to use.
+ *
+ *  Returns the number of characters written.
+ */
+size_t
+__cdecl
+SStrVPrintf(
+    __out char *dest, 
+    __in  size_t size, 
+    __in  const char *format, ...);
+
 
 int STORMAPI SBigDel(void *buffer);
 
