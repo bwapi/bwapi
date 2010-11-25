@@ -36,7 +36,7 @@ namespace LUDP
         return 0;
       }
 
-      SMemZero(saFrom.sin_zero, sizeof(saFrom.sin_zero));
+      memset(saFrom.sin_zero, 0, sizeof(saFrom.sin_zero));
       packet *bc  = (packet*)&szBuffer;
       if ( bc->wSize >= sizeof(packet) && bc->wSize == rVal )
       {
@@ -124,7 +124,7 @@ namespace LTST
       ++gdwRecvCalls;
       gdwRecvBytes += rVal;
 
-      SMemZero(saFrom.sin_zero, sizeof(saFrom.sin_zero));
+      memset(saFrom.sin_zero, 0, sizeof(saFrom.sin_zero));
       packet *bc  = (packet*)&szBuffer;
       if ( bc->wSize >= sizeof(packet) && bc->wSize == rVal )
       {

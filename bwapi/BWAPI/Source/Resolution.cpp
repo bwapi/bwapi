@@ -20,7 +20,7 @@ void SetResolution(int width, int height)
   void *newBuf = SMAlloc(width * height);
   void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
   
-  SMemFill(newBuf, width * height, 0);
+  memset(newBuf, 0, width * height);
 
   BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
   BW::BWDATA_GameScreenBuffer->wid = (u16)width;
