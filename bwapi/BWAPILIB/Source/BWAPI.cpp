@@ -22,3 +22,11 @@ void BWAPI::BWAPI_init()
   BWAPI::Colors::init();
   BWAPI::GameTypes::init();
 }
+int BWAPI::BWAPI_getRevision()
+{
+  return SVN_REV;
+}
+bool BWAPI::BWAPI_isDebug()
+{
+  return BUILD_DEBUG == 1;
+}
