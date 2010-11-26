@@ -24,6 +24,7 @@ namespace BWAPI
     HANDLE pipeObjectHandle;
     HANDLE mapFileHandle;
     bool connected;
+    bool showedErrorBox;
   };
   extern Client BWAPIClient;
 }
