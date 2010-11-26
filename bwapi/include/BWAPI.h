@@ -50,4 +50,6 @@ namespace BWAPI
    * }
    * \endcode */
   void BWAPI_init();
+  int BWAPI_getRevision();
+  bool BWAPI_isDebug();
 }

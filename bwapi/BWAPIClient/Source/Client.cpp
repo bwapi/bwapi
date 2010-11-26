@@ -1,4 +1,5 @@
 #include "Client.h"
+#include <windows.h>
 
 namespace BWAPI
 {
@@ -41,6 +42,15 @@ namespace BWAPI
     if (BWAPI::Broodwar!=NULL)
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = new GameImpl(data);
+    if (BWAPI::BWAPI_getRevision()!= BWAPI::Broodwar->getRevision())
+    {
+      //error
+      printf("Error: Client and Server are not compatible\n");
+      MessageBox(NULL, "Client and Server are not compatible", "Error", MB_OK | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL);
+      delete (GameImpl*)BWAPI::Broodwar;
+      BWAPI::Broodwar = NULL;
+      return false;
+    }
     //wait for permission from server before we resume execution
     int code=1;
     while (code!=2)
