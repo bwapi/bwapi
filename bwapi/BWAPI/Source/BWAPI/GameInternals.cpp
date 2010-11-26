@@ -1725,9 +1725,7 @@ namespace BWAPI
           if (i->_getType == UnitTypes::Resource_Mineral_Field)
             this->staticMinerals.insert(i);
           else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-          {
             this->staticGeysers.insert(i);
-          }
         }
       }
     }
