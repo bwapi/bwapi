@@ -285,10 +285,9 @@ namespace BWAPI
           sprintf_s(tst, 16, "_%u", gdwProcNum);
           SStrNCat(szKeyName, tst, MAX_PATH);
         }
-
-        if ( isDebug() )
-          SStrNCat(szKeyName, "_dbg", MAX_PATH);
-
+#ifdef _DEBUG
+        SStrNCat(szKeyName, "_dbg", MAX_PATH);
+#endif
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
         if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
         {
@@ -346,10 +345,7 @@ namespace BWAPI
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
       events.push_front(Event::MatchStart());
       this->startedClient = true;
-      sendText("BWAPI r%s %s is now live using \"%s\".", 
-                SVN_REV_STR, 
-                isDebug() ? "DEBUG" : "RELEASE", 
-                pszModuleName );
+      sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " is now live using \"%s\".", pszModuleName );
     }
 
     //each frame we add a MatchFrame event to the queue

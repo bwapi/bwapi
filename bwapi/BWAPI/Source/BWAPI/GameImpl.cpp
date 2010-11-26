@@ -1024,11 +1024,7 @@ namespace BWAPI
   }
   bool GameImpl::isDebug()
   {
-#ifdef _DEBUG
-    return true;
-#else
-    return false;
-#endif
+    return BUILD_DEBUG == 1;
   }
   //----------------------------------------------- LAT COMPENSATION -----------------------------------------
   bool GameImpl::isLatComEnabled()
