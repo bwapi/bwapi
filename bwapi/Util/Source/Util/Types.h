@@ -36,3 +36,5 @@ typedef void*           HANDLE;
   vsprintf_s(buff, buffsize+1, fmt, ap);\
   va_end(ap);\
 }
+
+#define MB_ICONINFO MB_ICONASTERISK

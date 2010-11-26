@@ -603,50 +603,160 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
         gdwHoliday = 0;
 
-        /* Get revision */
-        char szKeyName[128];
-        SStrCopy(szKeyName, "ai_dll_rev", 128);
+        /* Get revision/build automatically */
+        char szDllPath[MAX_PATH];
+        char szKeyName[MAX_PATH];
+
+        SStrCopy(szKeyName, "ai_dll", MAX_PATH);
         if ( gdwProcNum )
-          sprintf(szKeyName, "ai_dll_%d_rev", gdwProcNum);
-        DWORD dwRevision = GetPrivateProfileInt("ai", szKeyName, SVN_REV, szConfigPath);
-        if ( dwRevision != SVN_REV )
         {
-          // revision that ai_dll_# for multiple instances was introduced
-          if ( gdwProcNum && dwRevision < 2753 )
-          {
-            char err[256];
-            sprintf(err, "Revision %u is not compatible with multiple instances.\nExpecting revision 2753 (BWAPI Beta 3.1) or greater.", dwRevision);
-            BWAPIError("%s", err);
-            MessageBox(NULL, err, "Error", MB_OK | MB_ICONERROR);
-            return TRUE;
-          }
+          char tst[16];
+          sprintf_s(tst, 16, "_%u", gdwProcNum);
+          SStrNCat(szKeyName, tst, MAX_PATH);
+        }
 #ifdef _DEBUG
-          bool debug = true;
-#else
-          bool debug = false;
+          SStrNCat(szKeyName, "_dbg", MAX_PATH);
 #endif
-          char szRevModule[MAX_PATH];
-          sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", szInstallPath, dwRevision, debug ? "d" : "");
-          HMODULE hLib = LoadLibrary(szRevModule);
-          if ( !hLib )
-          {
-            char err[256];
-            sprintf(err, "Couldn't find revision module \"%s\".", szRevModule);
-            BWAPIError("%s", err);
-            MessageBox(NULL, err, "Error", MB_OK | MB_ICONERROR);
-          }
+        DWORD dwDesiredRevision = 0;
+        DWORD dwDesiredBuild    = 0; // 0 = undefined, 1 = release, 2 = debug
+        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
+        if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
+        {
+          BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", szKeyName, szConfigPath);
         }
         else
         {
-          SYSTEMTIME sysTime;
-          GetSystemTime(&sysTime);
-          if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 27 )
-            gdwHoliday = 1;
+          // Open File
+          HANDLE hFile = NULL;
+          if ( !SFileOpenFileEx(NULL, szDllPath, SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
+          {
+            BWAPIError("Could not load module \"%s\" for revision identification.", szDllPath);
+          }
+          else
+          {
+            // Obtain file size
+            DWORD dwFileSize = SFileGetFileSize(hFile, 0);
 
-          CTRT_Thread(NULL);
-          BWAPI::BWAPI_init();
-          CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
+            // Allocate memory
+            char *pbBuffer = (char*)SMAlloc(dwFileSize);
+            if ( !pbBuffer )
+            {
+              BWAPIError("Unable to allocate enough memory for module \"%s\" for revision identification.", szDllPath);
+            }
+            else
+            {
+              // Read file
+              DWORD dwBytesRead = 0;
+              SFileReadFile(hFile, pbBuffer, dwFileSize, &dwBytesRead, 0);
+              for ( u32 i = 0; i < dwBytesRead && (dwDesiredRevision == 0 || dwDesiredBuild == 0); ++i )
+              {
+                if ( memcmp(&pbBuffer[i], "XBWAPIXREVISIONXSTAMPX", 22) == 0 )
+                {
+                  i += 22;
+                  sscanf(&pbBuffer[i], "%u", &dwDesiredRevision);
+                  i += 5;
+                }  // if REVISION
+                if ( memcmp(&pbBuffer[i], "XBWAPIXBUILDXSTAMPX", 19) == 0 )
+                {
+                  i += 19;
+                  if ( strcmp(&pbBuffer[i], "DEBUG") == 0 )
+                  {
+                    dwDesiredBuild = 2;
+                    i += 6;
+                  }
+                  else if ( strcmp(&pbBuffer[i], "RELEASE") == 0 )
+                  {
+                    dwDesiredBuild = 1;
+                    i += 8;
+                  }
+                } // if BUILD
+              } // for (iterate file)
+              // Free memory and close file
+              SMFree(pbBuffer);
+              SFileCloseFile(hFile);
+            } // buffer was allocated
+          } // file was opened
+        } // module str was found
+
+        /* Get revision from config */
+        if ( dwDesiredRevision == 0 )
+        {
+          char szKeyName[128];
+          SStrCopy(szKeyName, "ai_dll_rev", 128);
+          if ( gdwProcNum )
+            sprintf(szKeyName, "ai_dll_%d_rev", gdwProcNum);
+          dwDesiredRevision = GetPrivateProfileInt("ai", szKeyName, SVN_REV, szConfigPath);
         }
+        if ( dwDesiredRevision != SVN_REV )
+        {
+          // revision that ai_dll_# for multiple instances was introduced
+          if ( gdwProcNum && dwDesiredRevision < 2753 )
+          {
+            char err[512];
+            sprintf(err, "Revision %u is not compatible with multiple instances.\nExpecting revision 2753 (BWAPI Beta 3.1) or greater. If you proceed, the older revision of BWAPI will attempt to load its module from ai_dll instead of the multi-instance specification. Do you want to continue anyway?", dwDesiredRevision);
+            BWAPIError("%s", err);
+            if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
+              return TRUE;
+          } // revision is old
+
+          if ( dwDesiredBuild == 0 )
+            dwDesiredBuild = BUILD_DEBUG + 1;
+          char szRevModule[MAX_PATH];
+          sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", szInstallPath, dwDesiredRevision, dwDesiredBuild == 2 ? "d" : "");
+          HMODULE hLib = LoadLibrary(szRevModule);
+          if ( hLib )
+          {
+            char msg[MAX_PATH+32];
+            char szLoadedName[MAX_PATH];
+            GetModuleFileName(hLib, szLoadedName, MAX_PATH);
+            sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", szLoadedName);
+            MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+            return TRUE;
+          }
+
+          char err[512];
+          sprintf(err, "Couldn't find revision module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current revision instead?", szRevModule);
+          BWAPIError("%s", err);
+          if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
+            return TRUE;
+        } // specified rev is not this one
+        else if ( dwDesiredBuild && BUILD_DEBUG + 1 != dwDesiredBuild )
+        {
+          char envBuffer[MAX_PATH];
+          if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
+            if ( !GetCurrentDirectory(MAX_PATH, envBuffer) )
+              BWAPIError("Could not find ChaosDir or current directory for build identification.");
+
+          SStrNCat(envBuffer, "\\BWAPI", MAX_PATH);
+          if ( dwDesiredBuild == 2 )
+            SStrNCat(envBuffer, "d", MAX_PATH);
+          SStrNCat(envBuffer, ".dll", MAX_PATH);
+
+          HMODULE hLib = LoadLibrary(envBuffer);
+          if ( hLib )
+          {
+            char msg[MAX_PATH+32];
+            sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", envBuffer);
+            MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+            return TRUE;
+          }
+
+          char err[512];
+          sprintf(err, "Couldn't find build module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current build instead?", envBuffer);
+          BWAPIError("%s", err);
+          if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
+            return TRUE;
+          return TRUE;
+        }
+
+        SYSTEMTIME sysTime;
+        GetSystemTime(&sysTime);
+        if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 27 )
+          gdwHoliday = 1;
+
+        CTRT_Thread(NULL);
+        BWAPI::BWAPI_init();
+        CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
         return TRUE;
       }
   }

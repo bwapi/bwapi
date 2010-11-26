@@ -10,14 +10,12 @@
 #define THEPLUGINID 0x10001000
 
 #ifdef _DEBUG
-#define BUILD "DEBUG"
 #define MODULE "BWAPId.dll"
-#elif NDEBUG
-#define BUILD "RELEASE"
+#else
 #define MODULE "BWAPI.dll"
 #endif
 
-const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD ")";
+const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD_STR ")";
 
 void BWAPIError(const char *format, ...)
 {

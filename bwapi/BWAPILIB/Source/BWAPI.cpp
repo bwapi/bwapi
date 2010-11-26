@@ -1,12 +1,6 @@
 #include <BWAPI.h>
 #include "../../svnrev.h"
 
-#ifdef _DEBUG
-#define BUILD_STR "DEBUG"
-#else
-#define BUILD_STR "RELEASE"
-#endif
-
 const char *__revisionInfo = "XBWAPIXREVISIONXSTAMPX" SVN_REV_STR;
 const char *__buildInfo = "XBWAPIXBUILDXSTAMPX" BUILD_STR;
 

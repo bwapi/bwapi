@@ -7,10 +7,8 @@
 #include "../../starcraftver.h"
 
 #ifdef _DEBUG
-#define BUILD "DEBUG"
 #define MODULE "BWAPId.dll"
-#elif NDEBUG
-#define BUILD "RELEASE"
+#else
 #define MODULE "BWAPI.dll"
 #endif
 
@@ -61,7 +59,7 @@ extern "C" __declspec(dllexport) void GetData(char* name, char* description, cha
 {
   char newDescription[512];
   sprintf_s(newDescription, 512, "Injects " MODULE " into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
-  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD);
+  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD_STR);
   strcpy(description, newDescription);
   strcpy(updateurl, "http://bwapi.googlecode.com/files/");
 }
