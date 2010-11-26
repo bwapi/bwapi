@@ -6,7 +6,10 @@ namespace BWAPI
   Client BWAPIClient;
   Client::Client()
   {
-    connected=false;
+    pipeObjectHandle       = INVALID_HANDLE_VALUE;
+    mapFileHandle          = INVALID_HANDLE_VALUE;
+    connected              = false;
+    showedErrorBox         = false;
   }
   Client::~Client()
   {
@@ -23,17 +26,18 @@ namespace BWAPI
   bool Client::connect()
   {
     if (connected) return true;
-    pipeObjectHandle=CreateFileA("\\\\.\\pipe\\bwapi_pipe",GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
+    pipeObjectHandle = CreateFileA("\\\\.\\pipe\\bwapi_pipe",GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
+    if (pipeObjectHandle == INVALID_HANDLE_VALUE)
+      return false;
+
     COMMTIMEOUTS c;
     c.ReadIntervalTimeout = 100;
     c.ReadTotalTimeoutMultiplier = 100;
     c.ReadTotalTimeoutConstant = 2000;
     c.WriteTotalTimeoutMultiplier = 100;
     c.WriteTotalTimeoutConstant = 2000;
-    if (pipeObjectHandle == INVALID_HANDLE_VALUE)
-      return false;
-    connected=true;
     SetCommTimeouts(pipeObjectHandle,&c);
+    connected=true;
     printf("Connected\n");
     mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_shared_memory");
     if (mapFileHandle == INVALID_HANDLE_VALUE)
@@ -45,10 +49,16 @@ namespace BWAPI
     if (BWAPI::BWAPI_getRevision()!= BWAPI::Broodwar->getRevision())
     {
       //error
-      printf("Error: Client and Server are not compatible\n");
-      MessageBox(NULL, "Client and Server are not compatible", "Error", MB_OK | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL);
-      delete (GameImpl*)BWAPI::Broodwar;
-      BWAPI::Broodwar = NULL;
+      printf("Error: Client and Server are not compatible!\n");
+      printf("Client Revision: %d\n",BWAPI::BWAPI_getRevision());
+      printf("Server Revision: %d\n",BWAPI::Broodwar->getRevision());
+      disconnect();
+      if (!showedErrorBox)
+      {
+        MessageBox(NULL, "Client and Server are not compatible", "Error", MB_OK | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL);
+        showedErrorBox=true;
+      }
+      Sleep(2000);
       return false;
     }
     //wait for permission from server before we resume execution
