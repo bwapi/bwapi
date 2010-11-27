@@ -164,6 +164,9 @@ namespace BWAPI
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player *self();
       virtual Player *enemy();
+      virtual Player *neutral();
+      virtual std::set<BWAPI::Player*>& allies();
+      virtual std::set<BWAPI::Player*>& enemies();
 
       virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char *format, ...);
@@ -348,6 +351,8 @@ namespace BWAPI
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;
       DWORD endTick;
+      std::set<Player*> _allies;
+      std::set<Player*> _enemies;
 
       bool inGame;
 

@@ -99,8 +99,11 @@ namespace BWAPI
     selectedUnits.clear();
     pylons.clear();
     events.clear();
-    thePlayer = NULL;
-    theEnemy = NULL;
+    thePlayer  = NULL;
+    theEnemy   = NULL;
+    theNeutral = NULL;
+    _allies.clear();
+    _enemies.clear();
 
     //clear unitsOnTileData
     for(int x=0;x<256;x++)
@@ -142,13 +145,20 @@ namespace BWAPI
     for(int i=0;i<data->startLocationCount;i++)
       startLocations.insert(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
 
-    thePlayer = getPlayer(data->self);
+    thePlayer  = getPlayer(data->self);
+    theEnemy   = getPlayer(data->enemy);
+    theNeutral = getPlayer(data->neutral);
+    _allies.clear();
+    _enemies.clear();
     if (thePlayer!=NULL)
     {
       foreach(Player* p, players)
       {
+        if (p->leftGame() || p->isDefeated() || p == thePlayer) continue;
+        if (thePlayer->isAlly(p))
+          _allies.insert(p);
         if (thePlayer->isEnemy(p))
-          theEnemy=p;
+          _enemies.insert(p);
       }
     }
     onMatchFrame();
@@ -272,6 +282,19 @@ namespace BWAPI
       Unit* u=getUnit(data->selectedUnits[i]);
       if (u!=NULL)
         selectedUnits.insert(u);
+    }
+    if (thePlayer!=NULL)
+    {
+      _allies.clear();
+      _enemies.clear();
+      foreach(Player* p, players)
+      {
+        if (p->leftGame() || p->isDefeated() || p == thePlayer) continue;
+        if (thePlayer->isAlly(p))
+          _allies.insert(p);
+        if (thePlayer->isEnemy(p))
+          _enemies.insert(p);
+      }
     }
   }
   //------------------------------------------------- GET FORCES ---------------------------------------------
@@ -747,18 +770,42 @@ namespace BWAPI
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
   std::set<Unit*>& GameImpl::getSelectedUnits()
   {
+    lastError = Errors::None;
     return selectedUnits;
   }
-  //------------------------------------------------- SELF ---------------------------------------------------
+  //--------------------------------------------- SELF -------------------------------------------------------
   Player* GameImpl::self()
   {
+    lastError = Errors::None;
     return thePlayer;
   }
-  //------------------------------------------------- ENEMY --------------------------------------------------
+  //--------------------------------------------- ENEMY ------------------------------------------------------
   Player* GameImpl::enemy()
   {
+    lastError = Errors::None;
     return theEnemy;
   }
+  //--------------------------------------------- ENEMY ------------------------------------------------------
+  Player* GameImpl::neutral()
+  {
+    lastError = Errors::None;
+    return theNeutral;
+  }
+  //--------------------------------------------- ALLIES -----------------------------------------------------
+  std::set<Player*>& GameImpl::allies()
+  {
+    /* Returns a set of all the ally players that have not left or been defeated. Does not include self. */
+    lastError = Errors::None;
+    return _allies;
+  }
+  //--------------------------------------------- ENEMIES ----------------------------------------------------
+  std::set<Player*>& GameImpl::enemies()
+  {
+    /* Returns a set of all the enemy players that have not left or been defeated. */
+    lastError = Errors::None;
+    return _enemies;
+  }
+
   //---------------------------------------------- SET TEXT SIZE ---------------------------------------------
   void GameImpl::setTextSize(int size)
   {
