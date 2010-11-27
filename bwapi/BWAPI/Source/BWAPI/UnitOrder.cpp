@@ -264,4 +264,9 @@ namespace BWAPI
   {
     return issueCommand(UnitCommand::useTech(this,tech,target));
   }
+  //--------------------------------------------- PLACE COP --------------------------------------------------
+  bool UnitImpl::placeCOP(TilePosition target)
+  {
+    return issueCommand(UnitCommand::placeCOP(this, target));
+  }
 };

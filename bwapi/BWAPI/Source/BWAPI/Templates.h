@@ -54,7 +54,7 @@ namespace BWAPI
             return false; // @TODO: Error code for !isExplored ??
 
           // Check if builder is capable of reaching the building site
-          if ( builder && !builder->hasPath( (Position)TilePosition(ix, iy) ) )
+          if ( builder && !builder->getType().isFlagBeacon() && !builder->hasPath( (Position)TilePosition(ix, iy) ) )
             return false;
         }
       }
@@ -326,8 +326,10 @@ namespace BWAPI
     bool canIssueCommand(const Unit* thisUnit, UnitCommand c)
     {
       c.unit = (Unit*)thisUnit;
-      if (c.type == UnitCommandTypes::Train ||
-          c.type == UnitCommandTypes::Morph)
+      BWAPI::UnitCommandType ct = c.type;
+      // train/morph helper, get first larva
+      if (UnitCommandTypes::Train == ct ||
+          UnitCommandTypes::Morph == ct)
       {
         if (thisUnit->getType().producesLarva() && UnitType(c.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
         {
@@ -348,8 +350,6 @@ namespace BWAPI
 
       if (thisUnit->getPlayer() != Broodwar->self())
         return Broodwar->setLastError(Errors::Unit_Not_Owned);
-
-      BWAPI::UnitCommandType ct = c.type;
 
       // Global can be ordered check
       if ( thisUnit->isLockedDown() || 
@@ -673,49 +673,49 @@ namespace BWAPI
       if ( UnitCommandTypes::Load                == ct)
       {
         //target must also be owned by self
-        if (c.target->getPlayer()!=Broodwar->self())
+        if (c.target->getPlayer() != Broodwar->self())
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
         int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
         if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
         {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
-            thisUnitSpaceProvided+=8;
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
+            thisUnitSpaceProvided += 8;
         }
         int targetSpaceProvided = c.target->getType().spaceProvided();
         if (targetSpaceProvided == 0 && (c.target->getType() == UnitTypes::Zerg_Overlord || c.target->getType() == UnitTypes::Hero_Yggdrasill))
         {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
-            targetSpaceProvided+=8;
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
+            targetSpaceProvided += 8;
         }
         int thisUnitFreeSpace = thisUnitSpaceProvided;
-        int targetFreeSpace = targetSpaceProvided;
-        std::set<Unit*> lu = thisUnit->getLoadedUnits();
+        int targetFreeSpace   = targetSpaceProvided;
+        std::set<Unit*> lu    = thisUnit->getLoadedUnits();
         for each(Unit* u in lu)
         {
           int r = u->getType().spaceRequired();
-          if (r>0 && r<8)
+          if (r > 0 && r < 8)
             thisUnitFreeSpace -= r;
         }
         lu = c.target->getLoadedUnits();
         for each(Unit* u in lu)
         {
           int r = u->getType().spaceRequired();
-          if (r>0 && r<8)
+          if (r > 0 && r < 8)
             targetFreeSpace -= r;
         }
         if (thisUnitSpaceProvided>0)
         {
-          if (c.target->getType().canMove()==false || c.target->getType().isFlyer() || c.target->getType().spaceRequired()>8)
+          if (c.target->getType().canMove() == false || c.target->getType().isFlyer() || c.target->getType().spaceRequired() > 8)
             return Broodwar->setLastError(Errors::Incompatible_UnitType);
-          if (c.target->getType().spaceRequired()>thisUnitFreeSpace)
+          if (c.target->getType().spaceRequired() > thisUnitFreeSpace)
             return Broodwar->setLastError(Errors::Insufficient_Space);
         }
-        else if (targetSpaceProvided>0)
+        else if (targetSpaceProvided > 0)
         {
-          if (thisUnit->getType().canMove()==false || thisUnit->getType().isFlyer() || thisUnit->getType().spaceRequired()>8)
+          if (thisUnit->getType().canMove() == false || thisUnit->getType().isFlyer() || thisUnit->getType().spaceRequired() > 8)
             return Broodwar->setLastError(Errors::Incompatible_UnitType);
-          if (thisUnit->getType().spaceRequired()>targetFreeSpace)
+          if (thisUnit->getType().spaceRequired() > targetFreeSpace)
             return Broodwar->setLastError(Errors::Insufficient_Space);
         }
         else
@@ -737,7 +737,7 @@ namespace BWAPI
         if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
         {
           if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
-            thisUnitSpaceProvided+=8;
+            thisUnitSpaceProvided += 8;
         }
         if ( thisUnitSpaceProvided <= 0 )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
@@ -749,7 +749,7 @@ namespace BWAPI
         {
           bool canUnload = false;
           std::set<Unit*> loadedUnits = thisUnit->getLoadedUnits();
-          if (loadedUnits.find(c.target)!=loadedUnits.end())
+          if (loadedUnits.find(c.target) != loadedUnits.end())
             canUnload = true;
           if ( !canUnload )
             return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
@@ -792,6 +792,13 @@ namespace BWAPI
       // cancel upgrade
       if ( UnitCommandTypes::Cancel_Upgrade == ct && thisUnit->getOrder() != Orders::Upgrade )
         return false;
+
+      // place COP
+      if ( UnitCommandTypes::Place_COP == ct && 
+           thisUnit->getType().isFlagBeacon() && 
+           (thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit ||
+           !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(c.x, c.y), thisUnit->getType(), true)) )
+        return Broodwar->setLastError(Errors::Unbuildable_Location);
 
       return true;
     }

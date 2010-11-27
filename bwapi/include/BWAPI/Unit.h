@@ -665,5 +665,7 @@ namespace BWAPI
 
       /** Returns the unit's custom client info. The client is responsible for deallocation. */
       virtual void* getClientInfo() const = 0;
+
+      virtual bool placeCOP(TilePosition target) = 0;
   };
 }

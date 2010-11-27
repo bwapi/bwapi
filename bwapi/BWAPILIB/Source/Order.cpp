@@ -135,7 +135,7 @@ namespace BWAPI
     const Order ResetCollision(150);
     const Order Patrol(152);
     const Order CTFCOPInit(153);
-    const Order CTFCOP1(154);
+    const Order CTFCOPStarted(154);
     const Order CTFCOP2(155);
     const Order ComputerAI(156);
     const Order AtkMoveEP(157);
@@ -294,7 +294,7 @@ namespace BWAPI
       orderName[ResetCollision.getID()]         = "ResetCollision";
       orderName[Patrol.getID()]                 = "Patrol";
       orderName[CTFCOPInit.getID()]             = "CTFCOPInit";
-      orderName[CTFCOP1.getID()]                = "CTFCOP1";
+      orderName[CTFCOPStarted.getID()]          = "CTFCOPStarted";
       orderName[CTFCOP2.getID()]                = "CTFCOP2";
       orderName[ComputerAI.getID()]             = "ComputerAI";
       orderName[AtkMoveEP.getID()]              = "AtkMoveEP";
@@ -451,7 +451,7 @@ namespace BWAPI
       orderSet.insert(ResetCollision);
       orderSet.insert(Patrol);
       orderSet.insert(CTFCOPInit);
-      orderSet.insert(CTFCOP1);
+      orderSet.insert(CTFCOPStarted);
       orderSet.insert(CTFCOP2);
       orderSet.insert(ComputerAI);
       orderSet.insert(AtkMoveEP);

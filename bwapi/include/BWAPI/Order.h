@@ -157,7 +157,7 @@ namespace BWAPI
     extern const Order ResetCollision;
     extern const Order Patrol;
     extern const Order CTFCOPInit;
-    extern const Order CTFCOP1;
+    extern const Order CTFCOPStarted;
     extern const Order CTFCOP2;
     extern const Order ComputerAI;
     extern const Order AtkMoveEP;

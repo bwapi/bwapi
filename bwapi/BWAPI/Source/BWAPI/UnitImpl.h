@@ -215,6 +215,8 @@ namespace BWAPI
       virtual void setClientInfo(void* clientinfo);
       virtual void *getClientInfo() const;
 
+      virtual bool placeCOP(TilePosition target);
+
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
                u16 index);

@@ -1073,4 +1073,9 @@ namespace BWAPI
   {
     return clientInfo;
   }
+  //--------------------------------------------- PLACE COP --------------------------------------------------
+  bool UnitImpl::placeCOP(TilePosition target)
+  {
+    return issueCommand(UnitCommand::placeCOP(this, target));
+  }
 }

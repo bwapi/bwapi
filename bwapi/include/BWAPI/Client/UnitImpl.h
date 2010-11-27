@@ -199,5 +199,7 @@ namespace BWAPI
 
       virtual void setClientInfo(void* clientinfo);
       virtual void* getClientInfo() const;
+
+      virtual bool placeCOP(TilePosition target);
   };
 }

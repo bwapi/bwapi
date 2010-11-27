@@ -9,7 +9,7 @@
 #include "Race.h"
 #include <BW/TilePosition.h>
 
-namespace BWAPI { class UnitImpl; }
+namespace BWAPI { class UnitImpl; class UnitType; }
 #pragma pack(1)
 namespace BW
 {
@@ -104,6 +104,20 @@ namespace BW
         u8 always0x0c;
         /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
         u8 raceDependant;
+        BW::TilePosition position;
+        /** Type of building to make */
+        BW::UnitType type;
+    };
+
+    /** Place COP */
+    class PlaceCOP
+    {
+      public :
+        PlaceCOP(BW::TilePosition position, BW::UnitType type);
+        PlaceCOP(BW::TilePosition position, BWAPI::UnitType type);
+        /** 0x0c = make building Command-code in bw */
+        u8 always0x0c;
+        u8 always0x9B;
         BW::TilePosition position;
         /** Type of building to make */
         BW::UnitType type;

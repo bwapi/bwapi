@@ -156,6 +156,13 @@ namespace BW
                 
                 struct
                 {
+                  u32 _unknown_00;
+                  u32 _unknown_04;
+                  u32 flagSpawnFrame; // flag beacons, the frame that the flag will spawn
+                } beacon;
+
+                struct
+                {
                   BW::Unit *addon;               // 0
                   u16      addonBuildType;       // 4
                   u16      upgradeResearchTime;  // 6

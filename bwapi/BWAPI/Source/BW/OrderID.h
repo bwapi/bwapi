@@ -321,7 +321,7 @@ namespace BW
                                       * Default Requirements: Unit is able to move. Allow on Hallucinated units. */
       CTFCOPInit             = 0x99, /**< CTF Initialization
                                       * Default Requirements: Unused. */
-      CTFCOP1                = 0x9A, /**< CTF Idle
+      CTFCOPStarted          = 0x9A, /**< CTF Idle
                                       * Default Requirements: Unused. */
       CTFCOP2                = 0x9B, /**< Unknown? Reset COP?
                                       * Default Requirements: Unit must be Zerg Flag Beacon, Terran Flag Beacon, or Protoss Flag Beacon. */

@@ -58,6 +58,7 @@ namespace BWAPI
       static UnitCommand useTech(Unit* unit,TechType tech);
       static UnitCommand useTech(Unit* unit,TechType tech, Position target);
       static UnitCommand useTech(Unit* unit,TechType tech, Unit* target);
+      static UnitCommand placeCOP(Unit* unit, TilePosition target);
       Unit* unit;
       UnitCommandType type;
       Unit* target;
