@@ -64,7 +64,7 @@
 			<Tool
 				Name="VCPreLinkEventTool"
 				Description="Copying include files to final release"
-				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\BWTA\include&quot; /S /C /I /R /Y"
+				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -137,7 +137,7 @@
 			<Tool
 				Name="VCPreLinkEventTool"
 				Description="Copying include files to final release"
-				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\BWTA\include&quot; /S /C /I /R /Y"
+				CommandLine="XCOPY &quot;$(SolutionDir)include\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\include&quot; /S /C /I /R /Y&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
