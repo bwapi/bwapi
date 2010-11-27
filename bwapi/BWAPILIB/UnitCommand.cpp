@@ -25,6 +25,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Build;
+    target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
     c.extra = type.getID();
@@ -360,6 +361,16 @@ namespace BWAPI
     c.type   = UnitCommandTypes::Use_Tech_Unit;
     c.extra  = tech.getID();
     c.target = target;
+    return c;
+  }
+  UnitCommand UnitCommand::placeCOP(Unit* unit, TilePosition target)
+  {
+    UnitCommand c;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Place_COP;
+    target.makeValid();
+    c.x     = target.x();
+    c.y     = target.y();
     return c;
   }
 }

@@ -9,7 +9,7 @@
 namespace BWAPI
 {
   bool initializingUnitCommandType = true;
-  std::string unitCommandTypeName[45];
+  std::string unitCommandTypeName[BWAPI_UNIT_COMMAND_TYPE_COUNT];
   std::map<std::string, UnitCommandType> unitCommandTypeMap;
   std::set< UnitCommandType > unitCommandTypeSet;
   namespace UnitCommandTypes
@@ -57,8 +57,9 @@ namespace BWAPI
     const UnitCommandType Use_Tech(40);
     const UnitCommandType Use_Tech_Position(41);
     const UnitCommandType Use_Tech_Unit(42);
-    const UnitCommandType None(43);
-    const UnitCommandType Unknown(44);
+    const UnitCommandType Place_COP(43);
+    const UnitCommandType None(44);
+    const UnitCommandType Unknown(45);
 
     void init()
     {
@@ -105,6 +106,7 @@ namespace BWAPI
       unitCommandTypeName[Use_Tech.getID()]             = "Use Tech";
       unitCommandTypeName[Use_Tech_Position.getID()]    = "Use Tech Position";
       unitCommandTypeName[Use_Tech_Unit.getID()]        = "Use Tech Unit";
+      unitCommandTypeName[Place_COP.getID()]            = "Place COP";
       unitCommandTypeName[None.getID()]                 = "None";
       unitCommandTypeName[Unknown.getID()]              = "Unknown";
 
@@ -151,6 +153,7 @@ namespace BWAPI
       unitCommandTypeSet.insert(Use_Tech);
       unitCommandTypeSet.insert(Use_Tech_Position);
       unitCommandTypeSet.insert(Use_Tech_Unit);
+      unitCommandTypeSet.insert(Place_COP);
       unitCommandTypeSet.insert(None);
       unitCommandTypeSet.insert(Unknown);
 
@@ -170,7 +173,7 @@ namespace BWAPI
   UnitCommandType::UnitCommandType(int id)
   {
     this->id = id;
-    if (!initializingUnitCommandType && (id < 0 || id >= 45))
+    if (!initializingUnitCommandType && (id < 0 || id >= BWAPI_UNIT_COMMAND_TYPE_COUNT))
       this->id = UnitCommandTypes::Unknown.id;
   }
   UnitCommandType::UnitCommandType(const UnitCommandType& other)

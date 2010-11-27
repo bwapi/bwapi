@@ -28,10 +28,14 @@ void DevAIModule::onFrame()
 {
   bw->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
 
-  bw->drawTextScreen(80, 20, "SCV: %d\nAll: %d\nScore: %d", self->allUnitCount(UnitTypes::Terran_SCV), self->allUnitCount(UnitTypes::Men), self->getUnitScore());
-
   if ( bw->isReplay() )
     return;
+
+  for each (Unit *u in self->getUnits())
+  {
+    if ( u->getType().isFlagBeacon() && u->placeCOP(TilePosition(bw->getMousePosition()+bw->getScreenPosition()) ) )
+      bw->printf("success");
+  }
 
   if ( !enabled )
     return;
@@ -97,11 +101,6 @@ void DevAIModule::onSendText(std::string text)
   {
     enabled = !enabled;
     Broodwar->printf("DevAITest %s", enabled ? "ENABLED" : "DISABLED");
-  }
-  else if ( text == "/wtf" )
-  {
-    bw->sendText("%s", "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
-    bw->printf("%s", "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
   }
   else if ( text == "/wikiTypes" )
   {

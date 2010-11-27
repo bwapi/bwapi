@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <set>
+
+#define BWAPI_UNIT_COMMAND_TYPE_COUNT 46
+
 namespace BWAPI
 {
   class UnitCommandType
@@ -75,6 +78,7 @@ namespace BWAPI
     extern const UnitCommandType Use_Tech;
     extern const UnitCommandType Use_Tech_Position;
     extern const UnitCommandType Use_Tech_Unit;
+    extern const UnitCommandType Place_COP;
     extern const UnitCommandType None;
     extern const UnitCommandType Unknown;
   }

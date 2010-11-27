@@ -184,6 +184,21 @@ namespace BW
         default : throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
       }
     }
+    //---------------------------------------------- PLACE COP -----------------------------------------------
+    PlaceCOP::PlaceCOP(BW::TilePosition position, BW::UnitType type)
+        : always0x0c(0x0C)
+        , always0x9B(0x9B)
+        , position(position)
+        , type(type)
+    {
+    }
+    PlaceCOP::PlaceCOP(BW::TilePosition position, BWAPI::UnitType type)
+        : always0x0c(0x0C)
+        , always0x9B(0x9B)
+        , position(position)
+        , type(type.getID())
+    {
+    }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
     Invent::Invent(BW::TechType tech)
         : always0x30(0x30)
