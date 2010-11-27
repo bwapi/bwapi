@@ -24,11 +24,11 @@ namespace BWAPI
     int supplyTotal[3];
     int supplyUsed[3];
 
-    int allUnitCount[230];
-    int visibleUnitCount[230];
-    int completedUnitCount[230];
-    int deadUnitCount[230];
-    int killedUnitCount[230];
+    int allUnitCount[BWAPI_UNIT_TYPE_MAX_COUNT];
+    int visibleUnitCount[BWAPI_UNIT_TYPE_MAX_COUNT];
+    int completedUnitCount[BWAPI_UNIT_TYPE_MAX_COUNT];
+    int deadUnitCount[BWAPI_UNIT_TYPE_MAX_COUNT];
+    int killedUnitCount[BWAPI_UNIT_TYPE_MAX_COUNT];
 
     int  upgradeLevel[63];
     bool hasResearched[47];
@@ -37,5 +37,11 @@ namespace BWAPI
 
     int colorByte;
     int color;
+
+    int totalUnitScore;
+    int totalKillScore;
+    int totalBuildingScore;
+    int totalRazingScore;
+    int customScore;
   };
 }

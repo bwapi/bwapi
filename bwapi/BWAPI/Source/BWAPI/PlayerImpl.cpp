@@ -16,12 +16,12 @@ namespace BWAPI
   {
     id   = -1;
     self = &data;
-    for(int i = 55; i < 63; i++)
+    for(int i = 55; i < 63; ++i)
     {
       self->upgradeLevel[i] = 0;
       self->isUpgrading[i]  = 0;
     }
-    for (int i = 228; i < 230; i++)
+    for (int i = 228; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
     {
       self->allUnitCount[i]        = 0;
       self->visibleUnitCount[i]    = 0;
@@ -29,6 +29,11 @@ namespace BWAPI
       self->deadUnitCount[i]       = 0;
       self->killedUnitCount[i]     = 0;
     }
+    self->totalUnitScore      = 0;
+    self->totalKillScore      = 0;
+    self->totalBuildingScore  = 0;
+    self->totalRazingScore    = 0;
+    self->customScore         = 0;
 
     if ( index < 12 )
     {
@@ -47,7 +52,7 @@ namespace BWAPI
       case 164: // purp
         self->colorByte = 0x10;
         break;
-      case 156: // oj
+      case 179: // oj
         self->colorByte = 0x11;
         break;
       case 19:  // brown
@@ -256,6 +261,27 @@ namespace BWAPI
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
     return self->killedUnitCount[unit.getID()];
+  }
+  //--------------------------------------------------- SCORE ------------------------------------------------
+  int PlayerImpl::getUnitScore() const
+  {
+    return self->totalUnitScore;
+  }
+  int PlayerImpl::getKillScore() const
+  {
+    return self->totalUnitScore;
+  }
+  int PlayerImpl::getBuildingScore() const
+  {
+    return self->totalBuildingScore;
+  }
+  int PlayerImpl::getRazingScore() const
+  {
+    return self->totalRazingScore;
+  }
+  int PlayerImpl::getCustomScore() const
+  {
+    return self->customScore;
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -516,21 +542,40 @@ namespace BWAPI
         self->deadUnitCount[i]      = 0;
         self->killedUnitCount[i]    = 0;
       }
+      self->totalUnitScore      = 0;
+      self->totalKillScore      = 0;
+      self->totalBuildingScore  = 0;
+      self->totalRazingScore    = 0;
+      self->customScore         = 0;
     }
     else
     {
       for (u8 i = 0; i < RACE_COUNT; ++i)
       {
-        self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].available[index];
-        if (self->supplyTotal[i] > BW::BWDATA_Supplies->race[i].max[index])
-          self->supplyTotal[i] = BW::BWDATA_Supplies->race[i].max[index];
-        self->supplyUsed[i] = BW::BWDATA_Supplies->race[i].used[index];
+        self->supplyTotal[i] = BW::BWDATA_AllScores->supplies[i].available[index];
+        if (self->supplyTotal[i] > BW::BWDATA_AllScores->supplies[i].max[index])
+          self->supplyTotal[i] = BW::BWDATA_AllScores->supplies[i].max[index];
+        self->supplyUsed[i] = BW::BWDATA_AllScores->supplies[i].used[index];
       }
       for(int i = 0; i < UNIT_TYPE_COUNT; ++i)
       {
-        self->deadUnitCount[i]      = BW::BWDATA_Counts->dead[i][index];
-        self->killedUnitCount[i]    = BW::BWDATA_Counts->killed[i][index];
+        self->deadUnitCount[i]      = BW::BWDATA_AllScores->unitCounts.dead[i][index];
+        self->killedUnitCount[i]    = BW::BWDATA_AllScores->unitCounts.killed[i][index];
       }
+      int allUnits  = UnitTypes::AllUnits.getID();
+      int men       = UnitTypes::Men.getID();
+      int buildings = UnitTypes::Structures.getID();
+      int factories = UnitTypes::Factories.getID();
+      self->deadUnitCount[allUnits]   = BW::BWDATA_AllScores->allUnitsLost[index] + BW::BWDATA_AllScores->allStructuresLost[index];
+      self->deadUnitCount[men]        = BW::BWDATA_AllScores->allUnitsLost[index];
+      self->deadUnitCount[buildings]  = BW::BWDATA_AllScores->allStructuresLost[index];
+      self->deadUnitCount[factories]  = BW::BWDATA_AllScores->allFactoriesLost[index];
+      
+      self->totalUnitScore      = BW::BWDATA_AllScores->allUnitScore[index];
+      self->totalKillScore      = BW::BWDATA_AllScores->allKillScore[index];
+      self->totalBuildingScore  = BW::BWDATA_AllScores->allBuildingScore[index];
+      self->totalRazingScore    = BW::BWDATA_AllScores->allRazingScore[index];
+      self->customScore         = BW::BWDATA_AllScores->customScore[index];
     }
 
     if (BW::BWDATA_Players[index].nType == BW::PlayerType::PlayerLeft ||
@@ -563,12 +608,12 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   bool PlayerImpl::isParticipating()
   {
-    return BW::BWDATA_Supplies->race[BW::Race::Zerg].available[index]    != 0 ||
-           BW::BWDATA_Supplies->race[BW::Race::Zerg].used[index]         != 0 ||
-           BW::BWDATA_Supplies->race[BW::Race::Terran].available[index]  != 0 ||
-           BW::BWDATA_Supplies->race[BW::Race::Terran].used[index]       != 0 ||
-           BW::BWDATA_Supplies->race[BW::Race::Protoss].available[index] != 0 ||
-           BW::BWDATA_Supplies->race[BW::Race::Protoss].used[index]      != 0;
+    return BW::BWDATA_AllScores->supplies[BW::Race::Zerg].available[index]    != 0 ||
+           BW::BWDATA_AllScores->supplies[BW::Race::Zerg].used[index]         != 0 ||
+           BW::BWDATA_AllScores->supplies[BW::Race::Terran].available[index]  != 0 ||
+           BW::BWDATA_AllScores->supplies[BW::Race::Terran].used[index]       != 0 ||
+           BW::BWDATA_AllScores->supplies[BW::Race::Protoss].available[index] != 0 ||
+           BW::BWDATA_AllScores->supplies[BW::Race::Protoss].used[index]      != 0;
   }
   //----------------------------------------------------------------------------------------------------------
   BWAPI::Color PlayerImpl::getColor() const

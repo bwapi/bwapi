@@ -138,6 +138,27 @@ namespace BWAPI
   {
     return self->killedUnitCount[unit.getID()];
   }
+  //--------------------------------------------------- SCORE ------------------------------------------------
+  int PlayerImpl::getUnitScore() const
+  {
+    return self->totalUnitScore;
+  }
+  int PlayerImpl::getKillScore() const
+  {
+    return self->totalUnitScore;
+  }
+  int PlayerImpl::getBuildingScore() const
+  {
+    return self->totalBuildingScore;
+  }
+  int PlayerImpl::getRazingScore() const
+  {
+    return self->totalRazingScore;
+  }
+  int PlayerImpl::getCustomScore() const
+  {
+    return self->customScore;
+  }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {

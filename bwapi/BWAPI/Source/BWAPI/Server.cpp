@@ -348,7 +348,7 @@ namespace BWAPI
           p->supplyTotal[j]   = p2->supplyTotal[j];
           p->supplyUsed[j]    = p2->supplyUsed[j];
         }
-        for(int j = 0; j < 228; ++j)
+        for(int j = 0; j < BWAPI_UNIT_TYPE_MAX_COUNT; ++j)
         {
           p->allUnitCount[j]        = p2->allUnitCount[j];
           p->visibleUnitCount[j]    = p2->visibleUnitCount[j];
@@ -356,6 +356,11 @@ namespace BWAPI
           p->deadUnitCount[j]       = p2->deadUnitCount[j];
           p->killedUnitCount[j]     = p2->killedUnitCount[j];
         }
+        p->totalUnitScore      = p2->totalUnitScore;
+        p->totalKillScore      = p2->totalKillScore;
+        p->totalBuildingScore  = p2->totalBuildingScore;
+        p->totalRazingScore    = p2->totalRazingScore;
+        p->customScore         = p2->customScore;
         for(int j = 0; j < 63; ++j)
         {
           p->upgradeLevel[j] = p2->upgradeLevel[j];
@@ -386,13 +391,13 @@ namespace BWAPI
         data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;
       
       //dynamic nuke dot data
-      int j=0;
+      int j = 0;
       data->nukeDotCount = Broodwar->getNukeDots().size();
       foreach(Position nd, Broodwar->getNukeDots())
       {
-        data->nukeDots[j].x=nd.x();
-        data->nukeDots[j].y=nd.y();
-        j++;
+        data->nukeDots[j].x = nd.x();
+        data->nukeDots[j].y = nd.y();
+        ++j;
       }
 
     }

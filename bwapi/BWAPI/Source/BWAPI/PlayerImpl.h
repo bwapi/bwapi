@@ -87,8 +87,13 @@ namespace BWAPI
       virtual int groundWeaponDamageCooldown(UnitType unit) const;
       virtual int armor(UnitType unit) const;
 
-      //Internal BWAPI commands:
+      virtual int getUnitScore() const;
+      virtual int getKillScore() const;
+      virtual int getBuildingScore() const;
+      virtual int getRazingScore() const;
+      virtual int getCustomScore() const;
 
+      //Internal BWAPI commands:
       /**
        * Constructs new player
        * @param id 0-based Index of the player (11 for resources as it is player 12)

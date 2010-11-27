@@ -8,7 +8,7 @@
 #define CTRL_ACTIVE           0x00000004
 #define CTRL_VISIBLE          0x00000008
 #define CTRL_EVENTS           0x00000010
-
+// 0x00000020
 #define CTRL_BTN_CANCEL       0x00000040
 #define CTRL_BTN_NO_SOUND     0x00000080
 #define CTRL_BTN_VIRT_HOTKEY  0x00000100
@@ -18,7 +18,7 @@
 //                              0x00001000 // button & option button uses this
 #define CTRL_TRANSPARENT      0x00002000
 #define CTRL_FONT_LARGEST     0x00004000
-
+// 0x00008000
 #define CTRL_FONT_SMALL       0x00010000
 #define CTRL_PLAIN            0x00020000
 #define CTRL_TRANSLUCENT      0x00040000
@@ -30,7 +30,7 @@
 #define CTRL_VALIGN_TOP       0x01000000
 #define CTRL_VALIGN_MIDDLE    0x02000000
 #define CTRL_VALIGN_BOTTOM    0x04000000
-
+// 0x08000000
 #define CTRL_DLG_NOREDRAW     0x10000000
 #define CTRL_REVERSE          0x10000000
 #define CTRL_USELOCALGRAPHIC  0x20000000

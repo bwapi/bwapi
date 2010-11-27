@@ -54,6 +54,7 @@ DWORD getProcessCount(const char *pszProcName)
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
+  //MessageBox(0, "OnGameEnd", "", 0);
   BWAPI::BroodwarImpl.onGameEnd();
   return SNetLeaveGame(type);
 }
@@ -362,37 +363,52 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
   {
     BW::BWDATA_StringTableOff = (char*)rval;
     lastFile = "";
+    //MessageBox(0, "BWDATA_StringTableOff", "", 0);
   }
 
   /* Save the allocated fog of war pointer */
   if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
+  {
     BW::BWDATA_MapFogOfWar = (u32*)rval;
+    //MessageBox(0, "BWDATA_MapFogOfWar", "", 0);
+  }
 
   /* Save the allocated mini-tile flags pointer */
   if ( lastFile.find(".vf4") != std::string::npos )
   {
     BW::BWDATA_MiniTileFlags = (BW::MiniTileMaps_type*)rval;
     lastFile = "";
+    //MessageBox(0, "BWDATA_MiniTileFlags", "", 0);
   }
 
   /* Save the allocated creep pointer */
   if ( strcmpi(logfilename, "Starcraft\\SWAR\\MapComn\\creep.cpp") == 0 && logline == 420 )
+  {
     BW::BWDATA_ZergCreepArray = (u16*)rval;
+    //MessageBox(0, "BWDATA_ZergCreepArray", "", 0);
+  }
 
   /* Save the allocated SAI_Paths pointer */
   if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\sai_PathCreate.cpp") == 0 && logline == 210 )
+  {
     BW::BWDATA_SAIPathing = (BW::SAI_Paths*)rval;
+    //MessageBox(0, "BWDATA_SAIPathing", "", 0);
+  }
 
   /* Save the allocated tileset pointer */
   if ( lastFile.find(".cv5") != std::string::npos )
   {
     BW::BWDATA_TileSet    = (BW::TileType*)rval;
     lastFile = "";
+    //MessageBox(0, "BWDATA_TileSet", "", 0);
   }
 
   /* Save the allocated map tile array pointer */
   if ( amount == 0x20000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 603 )
+  {
     BW::BWDATA_MapTileArray = (u16*)rval;
+    //MessageBox(0, "BWDATA_MapTileArray", "", 0);
+  }
 
   return rval;
 }

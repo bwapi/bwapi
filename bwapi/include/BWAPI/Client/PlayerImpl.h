@@ -63,5 +63,11 @@ namespace BWAPI
       virtual int sightRange(UnitType unit) const;
       virtual int groundWeaponDamageCooldown(UnitType unit) const;
       virtual int armor(UnitType unit) const;
+
+      virtual int getUnitScore() const;
+      virtual int getKillScore() const;
+      virtual int getBuildingScore() const;
+      virtual int getRazingScore() const;
+      virtual int getCustomScore() const;
   };
 };
