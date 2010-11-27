@@ -475,7 +475,7 @@ namespace BWAPI
     extern const UnitType None;
     extern const UnitType AllUnits;
     extern const UnitType Men;
-    extern const UnitType Structures;
+    extern const UnitType Buildings;
     extern const UnitType Factories;
     extern const UnitType Unknown;
 

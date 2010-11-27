@@ -302,11 +302,11 @@ namespace BW
     s32 allUnitsKilled[PLAYER_COUNT];
     s32 allUnitScore[PLAYER_COUNT];
     s32 allKillScore[PLAYER_COUNT];
-    s32 allStructuresTotal[PLAYER_COUNT];
-    s32 allStructuresConstructed[PLAYER_COUNT];
-    s32 allStructuresOwned[PLAYER_COUNT];
-    s32 allStructuresLost[PLAYER_COUNT];
-    s32 allStructuresRazed[PLAYER_COUNT];
+    s32 allBuildingsTotal[PLAYER_COUNT];
+    s32 allBuildingsConstructed[PLAYER_COUNT];
+    s32 allBuildingsOwned[PLAYER_COUNT];
+    s32 allBuildingsLost[PLAYER_COUNT];
+    s32 allBuildingsRazed[PLAYER_COUNT];
     s32 allBuildingScore[PLAYER_COUNT];
     s32 allRazingScore[PLAYER_COUNT];
     s32 allFactoriesConstructed[PLAYER_COUNT];
