@@ -797,6 +797,27 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return (Player*)this->enemyPlayer;
   }
+  //----------------------------------------------------- NEUTRAL --------------------------------------------
+  Player *GameImpl::neutral()
+  {
+    /* Retrieves the object for the neutral player */
+    this->setLastError(Errors::None);
+    return (Player*)players[11];
+  }
+  //----------------------------------------------------- ALLIES ---------------------------------------------
+  std::set<Player*>& GameImpl::allies()
+  {
+    /* Returns a set of all the ally players that have not left or been defeated. Does not include self. */
+    this->setLastError(Errors::None);
+    return _allies;
+  }
+  //----------------------------------------------------- ENEMIES --------------------------------------------
+  std::set<Player*>& GameImpl::enemies()
+  {
+    /* Returns a set of all the enemy players that have not left or been defeated. */
+    this->setLastError(Errors::None);
+    return _enemies;
+  }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void  GameImpl::setTextSize(int size)
   {

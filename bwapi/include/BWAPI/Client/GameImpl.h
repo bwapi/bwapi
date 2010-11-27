@@ -55,6 +55,9 @@ namespace BWAPI
       bool flagEnabled[2];
       Player* thePlayer;
       Player* theEnemy;
+      Player* theNeutral;
+      std::set<Player*> _allies;
+      std::set<Player*> _enemies;
       Error lastError;
 
     public :
@@ -155,8 +158,11 @@ namespace BWAPI
       virtual void  setLocalSpeed(int speed = -1);
       virtual bool issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command);
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
-      virtual Player*  self();
-      virtual Player*  enemy();
+      virtual Player* self();
+      virtual Player* enemy();
+      virtual Player* neutral();
+      virtual std::set<BWAPI::Player*>& allies();
+      virtual std::set<BWAPI::Player*>& enemies();
 
       virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char *format, ...);

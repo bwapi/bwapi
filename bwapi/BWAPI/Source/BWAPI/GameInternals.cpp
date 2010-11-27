@@ -235,6 +235,16 @@ namespace BWAPI
       }
 
       //update players and check to see if they have just left the game.
+      _allies.clear();
+      _enemies.clear();
+      foreach(Player* p, playerSet)
+      {
+        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
+        if (BWAPIPlayer->isAlly(p))
+          _allies.insert(p);
+        if (BWAPIPlayer->isEnemy(p))
+          _enemies.insert(p);
+      }
       for (int i = 0; i < PLAYER_COUNT; i++)
       {
         bool prevLeftGame = this->players[i]->leftGame();
@@ -967,20 +977,19 @@ namespace BWAPI
       if ( this->players[*BW::BWDATA_g_LocalHumanID] )
       {
         this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
+        /* find the opponent player */
+        for (int i = 0; i < 8; i++)
+          if ((this->players[i]->getType() == BW::PlayerType::Computer ||
+               this->players[i]->getType() == BW::PlayerType::Player ||
+               this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
+              this->BWAPIPlayer->isEnemy(this->players[i]))
+            this->enemyPlayer = this->players[i];
       }
       else
       {
         this->commandLog->log("Error: Could not locate BWAPI player.");
         return;
       }
-
-      /* find the opponent player */
-      for (int i = 0; i < 8; i++)
-        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
-             this->players[i]->getType() == BW::PlayerType::Player ||
-             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
-            this->BWAPIPlayer->isEnemy(this->players[i]))
-          this->enemyPlayer = this->players[i];
     }
 
     /* Clear our sets */
@@ -1008,6 +1017,19 @@ namespace BWAPI
       {
         players[i]->setID(server.getPlayerID(players[i]));
         this->playerSet.insert(this->players[i]);
+      }
+    }
+    _allies.clear();
+    _enemies.clear();
+    if (BWAPIPlayer)
+    {
+      foreach(Player* p, playerSet)
+      {
+        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
+        if (BWAPIPlayer->isAlly(p))
+          _allies.insert(p);
+        if (BWAPIPlayer->isEnemy(p))
+          _enemies.insert(p);
       }
     }
 
@@ -1246,6 +1268,8 @@ namespace BWAPI
     staticMinerals.clear();
     staticGeysers.clear();
     staticNeutralUnits.clear();
+    _allies.clear();
+    _enemies.clear();
 
     memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
     wantSelectionUpdate = false;
