@@ -288,6 +288,6 @@ void writeUnitWiki()
   fprintf(outWiki, "=== Factories ===\n");
   fprintf(outWiki, "A macro type used to specify that we want to obtain data for only the buildings that can produce units.\n\n");
   fprintf(outWiki, "=== Unknown ===\n");
-  fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is.\n\n");
+  fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is, and that it has been made unknown to us.\n\n");
   fclose(outWiki);
 }
