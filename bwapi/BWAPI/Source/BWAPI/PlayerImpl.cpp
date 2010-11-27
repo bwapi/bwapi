@@ -564,11 +564,11 @@ namespace BWAPI
       }
       int allUnits  = UnitTypes::AllUnits.getID();
       int men       = UnitTypes::Men.getID();
-      int buildings = UnitTypes::Structures.getID();
+      int buildings = UnitTypes::Buildings.getID();
       int factories = UnitTypes::Factories.getID();
-      self->deadUnitCount[allUnits]   = BW::BWDATA_AllScores->allUnitsLost[index] + BW::BWDATA_AllScores->allStructuresLost[index];
+      self->deadUnitCount[allUnits]   = BW::BWDATA_AllScores->allUnitsLost[index] + BW::BWDATA_AllScores->allBuildingsLost[index];
       self->deadUnitCount[men]        = BW::BWDATA_AllScores->allUnitsLost[index];
-      self->deadUnitCount[buildings]  = BW::BWDATA_AllScores->allStructuresLost[index];
+      self->deadUnitCount[buildings]  = BW::BWDATA_AllScores->allBuildingsLost[index];
       self->deadUnitCount[factories]  = BW::BWDATA_AllScores->allFactoriesLost[index];
       
       self->totalUnitScore      = BW::BWDATA_AllScores->allUnitScore[index];

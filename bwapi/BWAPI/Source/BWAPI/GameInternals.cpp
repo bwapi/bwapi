@@ -1727,7 +1727,7 @@ namespace BWAPI
       }
       int allUnits  = UnitTypes::AllUnits.getID();
       int men       = UnitTypes::Men.getID();
-      int buildings = UnitTypes::Structures.getID();
+      int buildings = UnitTypes::Buildings.getID();
       int factories = UnitTypes::Factories.getID();
       int thisUnit  = i->_getType.getID();
       // Increment specific unit count

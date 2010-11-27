@@ -278,6 +278,10 @@ void writeUnitWiki()
 
   fprintf(outWiki, "\n== Misc ==\n");
   printUnitData(outWiki, UnitTypes::None);
+  printUnitData(outWiki, UnitTypes::AllUnits);
+  printUnitData(outWiki, UnitTypes::Men);
+  printUnitData(outWiki, UnitTypes::Buildings);
+  printUnitData(outWiki, UnitTypes::Factories);
   printUnitData(outWiki, UnitTypes::Unknown);
 
   fclose(outWiki);
