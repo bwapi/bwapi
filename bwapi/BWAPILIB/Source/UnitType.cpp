@@ -390,7 +390,11 @@ namespace BWAPI
     const UnitType Powerup_Data_Disk(218);
     const UnitType Powerup_Khaydarin_Crystal(219);
     const UnitType None(228);
-    const UnitType Unknown(229);
+    const UnitType AllUnits(229);
+    const UnitType Men(230);
+    const UnitType Structures(231);
+    const UnitType Factories(232);
+    const UnitType Unknown(233);
 
     void init()
     {
@@ -574,6 +578,10 @@ namespace BWAPI
       unitTypeData[Powerup_Data_Disk.getID()].set("Powerup Data Disk", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 1, 1, 16, 16, 15, 15, 0, 160, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Powerup_Khaydarin_Crystal.getID()].set("Powerup Khaydarin Crystal", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 1, 1, 16, 16, 15, 15, 0, 160, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[None.getID()].set("None", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[AllUnits.getID()].set("All Units", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[Men.getID()].set("Men", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[Structures.getID()].set("Structures", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[Factories.getID()].set("Factories", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Unknown.getID()].set("Unknown", Races::Unknown, 0, Unknown, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
       unitTypeData[Protoss_Reaver.getID()].canAttack         = true;
@@ -768,6 +776,10 @@ namespace BWAPI
       unitTypeSet.insert(Powerup_Data_Disk);
       unitTypeSet.insert(Powerup_Khaydarin_Crystal);
       unitTypeSet.insert(None);
+      unitTypeSet.insert(AllUnits);
+      unitTypeSet.insert(Men);
+      unitTypeSet.insert(Structures);
+      unitTypeSet.insert(Factories);
       unitTypeSet.insert(Unknown);
 
       foreach(UnitType i, unitTypeSet)
@@ -786,7 +798,7 @@ namespace BWAPI
   UnitType::UnitType(int id)
   {
     this->id = id;
-    if (!initializingUnitType && (id < 0 || id >= 230 || !unitTypeData[id].valid))
+    if (!initializingUnitType && (id < 0 || id >= BWAPI_UNIT_TYPE_MAX_COUNT || !unitTypeData[id].valid))
       this->id = UnitTypes::Unknown.id;
   }
   UnitType::UnitType(const UnitType& other)

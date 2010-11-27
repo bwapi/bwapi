@@ -151,5 +151,20 @@ namespace BWAPI
 
       /** Returns the armor of the given unit type, includes upgrades */
       virtual int armor(UnitType unit) const = 0;
+
+      /** Returns the Player's Total Unit Score */
+      virtual int getUnitScore() const = 0;
+
+      /** Returns the Player's Total Kill Score */
+      virtual int getKillScore() const = 0;
+
+      /** Returns the Player's Total Buildings Score */
+      virtual int getBuildingScore() const = 0;
+
+      /** Returns the Player's Total Razings Score */
+      virtual int getRazingScore() const = 0;
+
+      /** Returns the Player's Custom Score */
+      virtual int getCustomScore() const = 0;
   };
 };

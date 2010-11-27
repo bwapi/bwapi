@@ -1644,7 +1644,7 @@ namespace BWAPI
 
     foreach(Player* p, playerSet)
     {
-      for(int i=0;i<230;i++)
+      for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
       {
         ((PlayerImpl*)p)->self->allUnitCount[i]       = 0;
         ((PlayerImpl*)p)->self->visibleUnitCount[i]   = 0;
@@ -1725,11 +1725,47 @@ namespace BWAPI
         ((PlayerImpl*)i->lastPlayer)->units.erase(i);
         ((PlayerImpl*)i->_getPlayer)->units.insert(i);
       }
-      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[i->_getType.getID()]++;
+      int allUnits  = UnitTypes::AllUnits.getID();
+      int men       = UnitTypes::Men.getID();
+      int buildings = UnitTypes::Structures.getID();
+      int factories = UnitTypes::Factories.getID();
+      int thisUnit  = i->_getType.getID();
+      // Increment specific unit count
+      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[thisUnit]++;
       if (i->isVisible())
-        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[i->_getType.getID()]++;
+        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[thisUnit]++;
       if (i->isCompleted())
-        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[i->_getType.getID()]++;
+        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[thisUnit]++;
+      // increment all unit count
+      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[allUnits]++;
+      if (i->isVisible())
+        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[allUnits]++;
+      if (i->isCompleted())
+        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[allUnits]++;
+      if ( i->_getType.isBuilding() )
+      { // increment buildings unit count
+        ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[buildings]++;
+        if (i->isVisible())
+          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[buildings]++;
+        if (i->isCompleted())
+          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[buildings]++;
+        if ( (i->_getType.canProduce() || i->_getType.producesLarva()) ) // increment factories unit count
+        {
+          ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[factories]++;
+        if (i->isVisible())
+          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[factories]++;
+        if (i->isCompleted())
+          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[factories]++;
+        }
+      }
+      else
+      { // increment men unit count
+        ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[men]++;
+        if (i->isVisible())
+          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[men]++;
+        if (i->isCompleted())
+          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[men]++;
+      }
       i->lastPlayer = i->_getPlayer;
       i->lastType   = i->_getType;
     }

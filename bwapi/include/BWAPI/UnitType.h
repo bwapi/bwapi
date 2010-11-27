@@ -5,6 +5,8 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitSizeType.h>
 
+#define BWAPI_UNIT_TYPE_MAX_COUNT 234
+
 namespace BWAPI
 {
   class TechType;
@@ -471,6 +473,10 @@ namespace BWAPI
     extern const UnitType Powerup_Data_Disk;
     extern const UnitType Powerup_Khaydarin_Crystal;
     extern const UnitType None;
+    extern const UnitType AllUnits;
+    extern const UnitType Men;
+    extern const UnitType Structures;
+    extern const UnitType Factories;
     extern const UnitType Unknown;
 
   }

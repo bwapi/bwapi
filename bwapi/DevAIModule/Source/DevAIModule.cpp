@@ -28,6 +28,8 @@ void DevAIModule::onFrame()
 {
   bw->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
 
+  bw->drawTextScreen(80, 20, "SCV: %d\nAll: %d\nScore: %d", self->allUnitCount(UnitTypes::Terran_SCV), self->allUnitCount(UnitTypes::Men), self->getUnitScore());
+
   if ( bw->isReplay() )
     return;
 

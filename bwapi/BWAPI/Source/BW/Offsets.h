@@ -105,16 +105,6 @@ namespace BW
   };
   static PlayerAlliance *BWDATA_Alliance = (PlayerAlliance*) 0x0058D634;
 
-  /** Unit counts: all, completed, killed, dead */
-  struct Counts
-  {
-    s32 all[UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 completed[UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 killed[UNIT_TYPE_COUNT][PLAYER_COUNT];
-    s32 dead[UNIT_TYPE_COUNT][PLAYER_COUNT];
-  };
-  static Counts *BWDATA_Counts             = (Counts*) 0x00582324;
-
   /** Code Patches */
   static u32 BWDATA_MenuLoadHack      = 0x004DE392;
   static u32 BWDATA_MenuInHack        = 0x004DD76E;
@@ -221,7 +211,7 @@ namespace BW
   static u32            *BWDATA_ReplayFrames   = (u32*) 0x006D0F31;
 
   static u32            *BWDATA_Ophelia        = (u32*) 0x0051BFF8;
-  static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;  // 1 if loading?
+  static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;
   static u16            *BWDATA_gwNextGameMode = (u16*) 0x0051CE90;
   static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904;
   /*
@@ -303,8 +293,27 @@ namespace BW
   extern char           *BWDATA_StringTableOff;
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
-  struct Supplies
+  struct AllScores
   {
+    s32 allUnitsTotal[PLAYER_COUNT];
+    s32 allUnitsProduced[PLAYER_COUNT];
+    s32 allUnitsOwned[PLAYER_COUNT];
+    s32 allUnitsLost[PLAYER_COUNT];
+    s32 allUnitsKilled[PLAYER_COUNT];
+    s32 allUnitScore[PLAYER_COUNT];
+    s32 allKillScore[PLAYER_COUNT];
+    s32 allStructuresTotal[PLAYER_COUNT];
+    s32 allStructuresConstructed[PLAYER_COUNT];
+    s32 allStructuresOwned[PLAYER_COUNT];
+    s32 allStructuresLost[PLAYER_COUNT];
+    s32 allStructuresRazed[PLAYER_COUNT];
+    s32 allBuildingScore[PLAYER_COUNT];
+    s32 allRazingScore[PLAYER_COUNT];
+    s32 allFactoriesConstructed[PLAYER_COUNT];
+    s32 allFactoriesOwned[PLAYER_COUNT];
+    s32 allFactoriesLost[PLAYER_COUNT];
+    s32 allFactoriesRazed[PLAYER_COUNT];
+
     /** Supply available, used, and maximum for all players and every race */
     struct SuppliesPerRace
     {
@@ -312,9 +321,20 @@ namespace BW
       s32 used[PLAYER_COUNT];
       s32 max[PLAYER_COUNT];
     };
-    SuppliesPerRace race[RACE_COUNT];
+    SuppliesPerRace supplies[RACE_COUNT];
+    s32 customScore[PLAYER_COUNT];
+
+    /** Unit counts: all, completed, killed, dead */
+    struct Counts
+    {
+      s32 all[UNIT_TYPE_COUNT][PLAYER_COUNT];
+      s32 completed[UNIT_TYPE_COUNT][PLAYER_COUNT];
+      s32 killed[UNIT_TYPE_COUNT][PLAYER_COUNT];
+      s32 dead[UNIT_TYPE_COUNT][PLAYER_COUNT];
+    };
+    Counts unitCounts;
   };
-  static Supplies *BWDATA_Supplies = (Supplies*) 0x00582144;
+  static AllScores *BWDATA_AllScores = (AllScores*) 0x00581DE4;
 
   //---------------------------------------------- UNIT DATA -------------------------------------------------
   static u8  *BWDATA_UnitGraphics         = (u8*)  unitsDat[0].address;
