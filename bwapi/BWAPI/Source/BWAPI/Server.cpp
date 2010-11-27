@@ -58,7 +58,8 @@ namespace BWAPI
     {
       data->eventCount = 0;
       ((GameImpl*)Broodwar)->events.clear();
-      checkForConnections();
+      if (!((GameImpl*)Broodwar)->startedClient)
+        checkForConnections();
     }
     data->commandCount     = 0;
     data->unitCommandCount = 0;
@@ -158,6 +159,8 @@ namespace BWAPI
   void Server::onMatchStart()
   {
     data->self          = getPlayerID(Broodwar->self());
+    data->enemy         = getPlayerID(Broodwar->enemy());
+    data->neutral       = getPlayerID(Broodwar->neutral());
     data->isMultiplayer = Broodwar->isMultiplayer();
     data->isBattleNet   = Broodwar->isBattleNet();
     data->isReplay      = Broodwar->isReplay();

@@ -111,6 +111,8 @@ namespace BWAPI
 
     // players
     int self;
+    int enemy;
+    int neutral;
 
     //events from server to client
     int eventCount;
