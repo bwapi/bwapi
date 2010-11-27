@@ -666,6 +666,7 @@ namespace BWAPI
       /** Returns the unit's custom client info. The client is responsible for deallocation. */
       virtual void* getClientInfo() const = 0;
 
+      /** Moves a Flag Beacon to the target location. */
       virtual bool placeCOP(TilePosition target) = 0;
   };
 }

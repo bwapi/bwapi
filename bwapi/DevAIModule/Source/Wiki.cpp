@@ -277,12 +277,17 @@ void writeUnitWiki()
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Misc ==\n");
-  printUnitData(outWiki, UnitTypes::None);
-  printUnitData(outWiki, UnitTypes::AllUnits);
-  printUnitData(outWiki, UnitTypes::Men);
-  printUnitData(outWiki, UnitTypes::Buildings);
-  printUnitData(outWiki, UnitTypes::Factories);
-  printUnitData(outWiki, UnitTypes::Unknown);
-
+  fprintf(outWiki, "=== None ===\n");
+  fprintf(outWiki, "A type used to specify that no unit type exists.\n\n");
+  fprintf(outWiki, "=== AllUnits ===\n");
+  fprintf(outWiki, "A macro type used to specify that we want to obtain data for all the units and buildings.\n\n");
+  fprintf(outWiki, "=== Men ===\n");
+  fprintf(outWiki, "A macro type used to specify that we want to obtain data for all the units that aren't buildings.\n\n");
+  fprintf(outWiki, "=== Buildings ===\n");
+  fprintf(outWiki, "A macro type used to specify that we want to obtain data for all the buildings.\n\n");
+  fprintf(outWiki, "=== Factories ===\n");
+  fprintf(outWiki, "A macro type used to specify that we want to obtain data for only the buildings that can produce units.\n\n");
+  fprintf(outWiki, "=== Unknown ===\n");
+  fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is.\n\n");
   fclose(outWiki);
 }
