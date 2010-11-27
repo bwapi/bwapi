@@ -286,6 +286,7 @@ namespace BWAPI
       bool wantSelectionUpdate;
 
       bool noGUI;
+      bool startedClient;
     private :
       HMODULE hMod;
       Map map;
@@ -337,7 +338,6 @@ namespace BWAPI
       std::string savedMapHash;
       bool flags[BWAPI::Flag::Max];
       AIModule* client;
-      bool startedClient;
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
