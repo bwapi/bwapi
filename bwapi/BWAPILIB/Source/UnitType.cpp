@@ -208,6 +208,7 @@ namespace BWAPI
   UnitTypeInternal unitTypeData[245];
   std::map<std::string, UnitType> unitTypeMap;
   std::set< UnitType > unitTypeSet;
+  std::set< UnitType > macroTypeSet;
   namespace UnitTypes
   {
     const UnitType Terran_Marine(0);
@@ -776,11 +777,12 @@ namespace BWAPI
       unitTypeSet.insert(Powerup_Data_Disk);
       unitTypeSet.insert(Powerup_Khaydarin_Crystal);
       unitTypeSet.insert(None);
-      unitTypeSet.insert(AllUnits);
-      unitTypeSet.insert(Men);
-      unitTypeSet.insert(Buildings);
-      unitTypeSet.insert(Factories);
       unitTypeSet.insert(Unknown);
+
+      macroTypeSet.insert(AllUnits);
+      macroTypeSet.insert(Men);
+      macroTypeSet.insert(Buildings);
+      macroTypeSet.insert(Factories);
 
       foreach(UnitType i, unitTypeSet)
       {
@@ -1133,5 +1135,9 @@ namespace BWAPI
   std::set<UnitType>& UnitTypes::allUnitTypes()
   {
     return unitTypeSet;
+  }
+  std::set<UnitType>& UnitTypes::allMacroTypes()
+  {
+    return macroTypeSet;
   }
 }

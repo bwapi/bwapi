@@ -292,6 +292,9 @@ namespace BWAPI
 
     /** Returns the set of all the UnitTypes. */
     std::set<UnitType>& allUnitTypes();
+
+    /** Returns the set of all the MacroTypes. */
+    std::set<UnitType>& allMacroTypes();
     void init();
     extern const UnitType Terran_Marine;
     extern const UnitType Hero_Jim_Raynor_Marine;
