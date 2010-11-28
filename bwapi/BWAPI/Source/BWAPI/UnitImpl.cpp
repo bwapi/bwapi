@@ -505,6 +505,11 @@ namespace BWAPI
   {
     return self->isAttacking;
   }
+  //--------------------------------------------- IS ATTACK FRAME --------------------------------------------
+  bool UnitImpl::isAttackFrame() const
+  {
+    return self->isAttackFrame;
+  }
   //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
   bool UnitImpl::isBeingConstructed() const
   {

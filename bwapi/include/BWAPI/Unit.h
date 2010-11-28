@@ -304,6 +304,8 @@ namespace BWAPI
       // TODO: add doc
       virtual bool isAttacking() const = 0;
 
+      virtual bool isAttackFrame() const = 0;
+
       /** Returns true if the unit is being constructed. Always true for incomplete Protoss and Zerg
        * buildings, and true for incomplete Terran buildings that have an SCV constructing them. If the SCV
        * halts construction, isBeingConstructed will return false.

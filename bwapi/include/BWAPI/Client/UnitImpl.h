@@ -104,6 +104,7 @@ namespace BWAPI
       virtual bool hasNuke() const;
       virtual bool isAccelerating() const;
       virtual bool isAttacking() const;
+      virtual bool isAttackFrame() const;
       virtual bool isBeingConstructed() const;
       virtual bool isBeingGathered() const;
       virtual bool isBeingHealed() const;

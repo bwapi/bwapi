@@ -1,8 +1,10 @@
 #pragma once
 #include <BW/OrderID.h>
+#include <BW/UnitID.h>
 namespace BWAPI
 {
   int BWtoBWAPI_Order[191];
+  int AttackAnimationRestFrame[234];
   void BWtoBWAPI_init()
   {
     for(int i=0;i<191;i++)
@@ -49,5 +51,15 @@ namespace BWAPI
     BWtoBWAPI_Order[BW::OrderID::InfestMine3]     = BW::OrderID::InfestMine2;
     BWtoBWAPI_Order[BW::OrderID::ResetCollision2] = BW::OrderID::ResetCollision1;
     BWtoBWAPI_Order[BW::OrderID::NukePaint]       = BW::OrderID::NukeGround;
+
+
+    for(int i=0;i<234;i++)
+    {
+      AttackAnimationRestFrame[i]=1000;
+    }
+    AttackAnimationRestFrame[BW::UnitID::Terran_Marine] = 34;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Ghost] = 34;
+    AttackAnimationRestFrame[BW::UnitID::Terran_SCV] = 17;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Dragoon] = 357;
   }
 }

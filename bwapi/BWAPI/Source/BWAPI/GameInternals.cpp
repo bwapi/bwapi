@@ -256,6 +256,30 @@ namespace BWAPI
       this->updateUnits();
       this->updateBullets();
 
+
+      Unit* target = NULL;
+      for each(Unit* u in self()->getUnits())
+      {
+        if (u->getType().isResourceDepot())
+          target = u;
+      }
+      for each(Unit* u in self()->getUnits())
+      {
+        if (u->isCompleted())
+        {
+          if (u->isAttacking() && !u->isAttackFrame())
+            u->rightClick(u->getPosition()+Position(50,50));
+          if (u->isIdle() && !u->isMoving())
+            u->attackUnit(target);
+          Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"isStartingAttack = %d",u->isStartingAttack());
+          Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"isAttacking = %d",u->isAttacking());
+          Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()+16,"isAttackFrame = %d",u->isAttackFrame());
+          Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()+32,"frameSet = %d",((UnitImpl*)u)->getOriginalRawData->sprite->mainGraphic->frameSet);
+          Util::Logger::globalLog->log("%s[%d]: fs: %d",u->getType().getName().c_str(),u->isAttacking(),((UnitImpl*)u)->getOriginalRawData->sprite->mainGraphic->frameSet);
+          Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()+48,"GndWCooldown = %d",u->getGroundWeaponCooldown());
+        }
+      }
+
       //iterate through the list of intercepted messages
       foreach(std::string i, sentMessages)
         BroodwarImpl.onSendText(i.c_str());

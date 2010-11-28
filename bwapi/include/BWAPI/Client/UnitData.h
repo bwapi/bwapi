@@ -71,6 +71,7 @@ namespace BWAPI
     bool hasNuke;
     bool isAccelerating;
     bool isAttacking;
+    bool isAttackFrame;
     bool isBeingGathered;
     bool isBlind;
     bool isBraking;
