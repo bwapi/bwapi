@@ -204,7 +204,7 @@ namespace BWAPI
       self->isAttackFrame = false;
       if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
       { 
-        self->isAttackFrame = startingAttack || (self->isAttacking && (getOriginalRawData->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType.getID()] || lastFrameSet!=AttackAnimationRestFrame[_getType.getID()]));
+        self->isAttackFrame = startingAttack || (self->isAttacking && AttackAnimationRestFrame[_getType.getID()]!=10000 && (getOriginalRawData->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType.getID()] || lastFrameSet!=AttackAnimationRestFrame[_getType.getID()]));
         lastFrameSet = getOriginalRawData->sprite->mainGraphic->frameSet;
       }
 
