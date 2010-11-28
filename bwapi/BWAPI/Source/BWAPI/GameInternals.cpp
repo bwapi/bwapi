@@ -1799,8 +1799,17 @@ namespace BWAPI
     selectedUnitSet.clear();
     for each(Unit* u in selectedU)
     {
-      if (u->exists())
+      if (u && u->exists())
         selectedUnitSet.insert(u);
+      else
+      {
+        if (u)
+        {
+          ((UnitImpl*)u)->setSelected(false);
+          if (((UnitImpl*)u)->self)
+            ((UnitImpl*)u)->self->isSelected = false;
+        }
+      }        
     }
   }
   void GameImpl::processEvents()
