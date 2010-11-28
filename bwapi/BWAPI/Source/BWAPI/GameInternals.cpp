@@ -267,10 +267,12 @@ namespace BWAPI
       {
         if (u->isCompleted())
         {
+          /*
           if (u->isAttacking() && !u->isAttackFrame())
             u->rightClick(u->getPosition()+Position(50,50));
           if (u->isIdle() && !u->isMoving())
             u->attackUnit(target);
+          */
           Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"isStartingAttack = %d",u->isStartingAttack());
           Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"isAttacking = %d",u->isAttacking());
           Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()+16,"isAttackFrame = %d",u->isAttackFrame());
