@@ -727,7 +727,7 @@ namespace BWAPI
     std::set<UnitImpl* > nextGroup;
     for each(Unit* u in units)
     {
-      if (u->canIssueCommand(command))
+      if (u!=NULL && u->exists() && u->canIssueCommand(command))
       {
         if (command.type == UnitCommandTypes::Train ||
             command.type == UnitCommandTypes::Morph)
@@ -757,7 +757,7 @@ namespace BWAPI
         selected[k]=j;
         k++;
       }
-      command.unit = selected[9];
+      command.unit = selected[0];
       selected[k]=NULL;
       BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
       QueueGameCommand((PBYTE)&sel, sel.size);

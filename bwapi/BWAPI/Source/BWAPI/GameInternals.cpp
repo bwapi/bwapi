@@ -1795,6 +1795,13 @@ namespace BWAPI
     augmentUnitData();
     applyLatencyCompensation();
     computeSecondaryUnitSets();
+    std::set<Unit*> selectedU = selectedUnitSet;
+    selectedUnitSet.clear();
+    for each(Unit* u in selectedU)
+    {
+      if (u->exists())
+        selectedUnitSet.insert(u);
+    }
   }
   void GameImpl::processEvents()
   {
