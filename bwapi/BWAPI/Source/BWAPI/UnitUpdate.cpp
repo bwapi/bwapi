@@ -200,6 +200,14 @@ namespace BWAPI
                            animState == BW::Image::Anims::AirAttkRpt  || 
                            animState == BW::Image::Anims::GndAttkInit ||
                            animState == BW::Image::Anims::AirAttkInit);
+      //isAttackFrame
+      self->isAttackFrame = false;
+      if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
+      { 
+        self->isAttackFrame = startingAttack || (self->isAttacking && (getOriginalRawData->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType.getID()] || lastFrameSet!=AttackAnimationRestFrame[_getType.getID()]));
+        lastFrameSet = getOriginalRawData->sprite->mainGraphic->frameSet;
+      }
+
       self->isBurrowed = getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed);  //isBurrowed
       self->isCloaked = getOriginalRawData->status.getBit(BW::StatusFlags::Cloaked) && !getOriginalRawData->status.getBit(BW::StatusFlags::Burrowed); //isCloaked
       self->isCompleted = _isCompleted; //isCompleted
