@@ -14,6 +14,7 @@
 #include "ExistenceTest.h"
 #include "MapTest.h"
 #include "EventTest.h"
+#include "MicroTest.h"
 #include "DefaultTestModule.h"
 namespace BWAPI { Game* Broodwar; }
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -54,5 +55,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return new MapTest();
   if (game->mapFileName()=="EventTest.scm")
     return new EventTest();
+  if (game->mapFileName()=="MicroTest.scm")
+    return new MicroTest();
   return new DefaultTestModule();
 }
