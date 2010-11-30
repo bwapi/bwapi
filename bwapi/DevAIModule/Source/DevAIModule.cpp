@@ -17,10 +17,13 @@ void DevAIModule::onStart()
   // save map info
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();
+
+  //bw->setLocalSpeed(0);
 }
 
 void DevAIModule::onEnd(bool isWinner)
 {
+  //bw->restartGame();
 }
 
 DWORD dwLastTickCount;
@@ -31,15 +34,16 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() )
     return;
 
-  for each (Unit *u in self->getUnits())
-  {
-    if ( u->getType().isFlagBeacon() && u->placeCOP(TilePosition(bw->getMousePosition()+bw->getScreenPosition()) ) )
-      bw->printf("success");
-  }
-
   if ( !enabled )
     return;
 
+  for each (Unit *u in bw->getSelectedUnits())
+  {      
+    if ( u->placeCOP(TilePosition(bw->getScreenPosition() + bw->getMousePosition())) )
+      bw->printf("Yo!");
+
+    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%s", bw->getLastError().toString().c_str() );
+  }
 }
 
 bool pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *unit, BWAPI::UnitType type, int width, int height)
