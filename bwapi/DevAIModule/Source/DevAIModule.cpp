@@ -38,11 +38,21 @@ void DevAIModule::onFrame()
     return;
 
   for each (Unit *u in bw->getSelectedUnits())
-  {      
-    if ( u->placeCOP(TilePosition(bw->getScreenPosition() + bw->getMousePosition())) )
-      bw->printf("Yo!");
+  {
+    if ( u->siege() )
+    {
+      bw->printf("SIEGE!");
+    }
+    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%s", bw->getLastError().toString().c_str());
+      /*
+    for each (Unit *t in self->getUnits())
+    {
+      if ( u->repair(t) )
+      {
+        bw->printf("Repairing! %s -> %s", u->getType().getName().c_str(), t->getType().getName().c_str());
+      }
+    }*/
 
-    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%s", bw->getLastError().toString().c_str() );
   }
 }
 

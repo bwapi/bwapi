@@ -354,7 +354,8 @@ namespace BWAPI
            thisUnit->isMaelstrommed() || 
            thisUnit->isStasised()  || 
            thisUnit->isUnpowered() ||
-           thisUnit->getOrder() == Orders::ZergBirth )
+           thisUnit->getOrder() == Orders::ZergBirth ||
+           thisUnit->isLoaded() )
         return Broodwar->setLastError(Errors::Unit_Busy);
 
       // Hallucination check
@@ -394,7 +395,6 @@ namespace BWAPI
             UnitCommandTypes::Use_Tech_Position     == ct ) )
         return Broodwar->setLastError(Errors::Unit_Busy);
 
-
       // valid target check
       if ((!c.target ||
           !c.target->exists()) &&
@@ -408,7 +408,6 @@ namespace BWAPI
            UnitCommandTypes::Right_Click_Unit == ct ||
            UnitCommandTypes::Use_Tech_Unit    == ct) )
         return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-
 
       // Attack Unit requirements
       if ( UnitCommandTypes::Attack_Unit == ct || 
@@ -526,7 +525,7 @@ namespace BWAPI
       {
         UnitType uType = c.target->getType();
         if ( !thisUnit->getType().isWorker() ||
-             !uType.isResourceContainer() ||
+             !uType.isResourceContainer()    ||
              uType == UnitTypes::Resource_Vespene_Geyser )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
@@ -549,7 +548,7 @@ namespace BWAPI
       {
         UnitType targType = c.target->getType();
         if ( thisUnit->getType() != BWAPI::UnitTypes::Terran_SCV ||
-             targType.getRace() != BWAPI::Races::Terran ||
+             targType.getRace()  != BWAPI::Races::Terran         ||
              !targType.isMechanical() )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
       } // repair
@@ -668,24 +667,26 @@ namespace BWAPI
       } // lift/land
 
       // load
-      if ( UnitCommandTypes::Load                == ct)
+      if ( UnitCommandTypes::Load == ct)
       {
         //target must also be owned by self
         if (c.target->getPlayer() != Broodwar->self())
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
+        if ( c.target->isLoaded() ||
+             !c.target->isCompleted() ||
+             !thisUnit->isCompleted() )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+
+        // verify upgrade for Zerg Overlord
         int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
-        if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
-        {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
-            thisUnitSpaceProvided += 8;
-        }
+        if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+
         int targetSpaceProvided = c.target->getType().spaceProvided();
-        if (targetSpaceProvided == 0 && (c.target->getType() == UnitTypes::Zerg_Overlord || c.target->getType() == UnitTypes::Hero_Yggdrasill))
-        {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
-            targetSpaceProvided += 8;
-        }
+        if ( c.target->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+
         int thisUnitFreeSpace = thisUnitSpaceProvided;
         int targetFreeSpace   = targetSpaceProvided;
         std::set<Unit*> lu    = thisUnit->getLoadedUnits();
@@ -702,7 +703,7 @@ namespace BWAPI
           if (r > 0 && r < 8)
             targetFreeSpace -= r;
         }
-        if (thisUnitSpaceProvided>0)
+        if (thisUnitSpaceProvided > 0)
         {
           if (c.target->getType().canMove() == false || c.target->getType().isFlyer() || c.target->getType().spaceRequired() > 8)
             return Broodwar->setLastError(Errors::Incompatible_UnitType);
@@ -730,18 +731,12 @@ namespace BWAPI
         if ( thisUnit->getLoadedUnits().size() == 0 )
           return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
-
         int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
-        if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
-        {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
-            thisUnitSpaceProvided += 8;
-        }
+        if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0)
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+
         if ( thisUnitSpaceProvided <= 0 )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
-
-        if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && thisUnit->getPlayer()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
-          return Broodwar->setLastError(Errors::Insufficient_Tech);
 
         if ( UnitCommandTypes::Unload == ct )
         {
