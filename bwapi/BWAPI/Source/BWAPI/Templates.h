@@ -84,18 +84,16 @@ namespace BWAPI
       }
 
       /* Creep Check */
-      if (type.getRace() == BWAPI::Races::Zerg )
-      {
-        //Most Zerg buildings can only be built on creep
-        if ( !type.isResourceDepot() )
+      if ( type.getRace() == Races::Zerg )
+      { // Creep requirement, or ignore creep if there isn't one
+        if ( type.requiresCreep() )
           for(int ix = left; ix < right; ++ix)
             for(int iy = top; iy < bottom; ++iy)
               if (!Broodwar->hasCreep(ix, iy))
                 return false;
       }
       else
-      {
-        //Non-zerg buildings cannot be built on creep
+      { // Can't build on the creep
         for(int ix = left; ix < right; ++ix)
           for(int iy = top; iy < bottom; ++iy)
             if (Broodwar->hasCreep(ix, iy))
@@ -736,7 +734,7 @@ namespace BWAPI
         int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
         if (thisUnitSpaceProvided == 0 && (thisUnit->getType() == UnitTypes::Zerg_Overlord || thisUnit->getType() == UnitTypes::Hero_Yggdrasill))
         {
-          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)>0)
+          if (Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) > 0)
             thisUnitSpaceProvided += 8;
         }
         if ( thisUnitSpaceProvided <= 0 )
@@ -794,12 +792,17 @@ namespace BWAPI
         return false;
 
       // place COP
-      if ( UnitCommandTypes::Place_COP == ct && 
-           thisUnit->getType().isFlagBeacon() && 
-           (thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit ||
-           !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(c.x, c.y), thisUnit->getType(), true)) )
-        return Broodwar->setLastError(Errors::Unbuildable_Location);
+      if ( UnitCommandTypes::Place_COP == ct )
+      {
+        if ( !thisUnit->getType().isFlagBeacon() )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
+        if ( ((UnitImpl*)thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit )
+          return Broodwar->setLastError(Errors::Incompatible_State);
+
+        if ( !Broodwar->canBuildHere(thisUnit, BWAPI::TilePosition(c.x, c.y), thisUnit->getType(), true) )
+          return false;
+      }
       return true;
     }
   }

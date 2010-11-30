@@ -76,7 +76,7 @@ namespace BWAPI
     bool isBlind;
     bool isBraking;
     bool isBurrowed;
-    int carryResourceType;
+    int  carryResourceType;
     bool isCloaked;
     bool isCompleted;
     bool isConstructing;
@@ -96,5 +96,6 @@ namespace BWAPI
     bool isUnderStorm;
     bool isUnpowered;
     bool isVisible[9];
+    int  buttonset;
   };
 }

@@ -196,7 +196,7 @@ namespace BW
         : always0x0c(0x0C)
         , always0x9B(0x9B)
         , position(position)
-        , type(type.getID())
+        , type((u16)type.getID())
     {
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------

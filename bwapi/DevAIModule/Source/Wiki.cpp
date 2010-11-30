@@ -279,7 +279,7 @@ void writeUnitWiki()
   fprintf(outWiki, "\n== Misc ==\n");
   fprintf(outWiki, "=== None ===\n");
   fprintf(outWiki, "A type used to specify that no unit type exists.\n\n");
-  fprintf(outWiki, "=== AllUnits ===\n");
+  fprintf(outWiki, "=== All Units ===\n");
   fprintf(outWiki, "A macro type used to specify that we want to obtain data for all the units and buildings.\n\n");
   fprintf(outWiki, "=== Men ===\n");
   fprintf(outWiki, "A macro type used to specify that we want to obtain data for all the units that aren't buildings.\n\n");

@@ -375,6 +375,7 @@ namespace BWAPI
       self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getOriginalRawData->status.getBit(BW::StatusFlags::DoodadStatesThing); //isUnpowered
       self->isStuck         = getOriginalRawData->movementState == UM_MoveToLegal;
       self->isInterruptible = !getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
+      self->buttonset       = getOriginalRawData->currentButtonSet;
     }
     else
     {
@@ -422,6 +423,7 @@ namespace BWAPI
       self->isUnpowered         = false;  //isUnpowered
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
+      self->buttonset           = 228;
     }
     if (canAccess())
     {
