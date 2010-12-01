@@ -10,6 +10,7 @@
 #include <BWAPI/Client/GameData.h>
 
 #include "DLLMain.h"
+#include "../../svnrev.h"
 
 namespace BWAPI
 {
@@ -17,6 +18,14 @@ namespace BWAPI
   #define PIPE_SYSTEM_BUFFER_SIZE 4096
   Server::Server()
   {
+    connected = false;
+    int size = sizeof(GameData);
+    mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
+    if (mapFileHandle == INVALID_HANDLE_VALUE)
+      Util::Logger::globalLog->log("Error: unable to make shared memory");
+    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+    initializeSharedMemory();
+
     pipeObjectHandle = CreateNamedPipe("\\\\.\\pipe\\bwapi_pipe",
                                            PIPE_ACCESS_DUPLEX,
                                            PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
@@ -34,13 +43,7 @@ namespace BWAPI
     c.WriteTotalTimeoutMultiplier = 100;
     c.WriteTotalTimeoutConstant   = 2000;
     SetCommTimeouts(pipeObjectHandle,&c);
-    int size = sizeof(GameData);
-    mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
-    if (mapFileHandle == INVALID_HANDLE_VALUE)
-      Util::Logger::globalLog->log("Error: unable to make shared memory");
-    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
-    initializeSharedMemory();
-    connected = false;
+
   }
   Server::~Server()
   {
@@ -145,6 +148,8 @@ namespace BWAPI
   {
     //called once when Starcraft starts. Not at the start of every match.
     data->instanceID       = gdwProcNum;
+    data->revision         = SVN_REV;
+    data->isDebug          = (BUILD_DEBUG == 1);
     data->eventCount       = 0;
     data->commandCount     = 0;
     data->unitCommandCount = 0;
@@ -296,8 +301,6 @@ namespace BWAPI
     data->latencyTime            = Broodwar->getLatencyTime();
     data->remainingLatencyFrames = Broodwar->getRemainingLatencyFrames();
     data->remainingLatencyTime   = Broodwar->getRemainingLatencyTime();
-    data->revision               = Broodwar->getRevision();
-    data->isDebug                = Broodwar->isDebug();
     data->replayFrameCount       = Broodwar->getReplayFrameCount();
     data->averageFPS             = Broodwar->getAverageFPS();
     data->mouseX                 = Broodwar->getMousePosition().x();
