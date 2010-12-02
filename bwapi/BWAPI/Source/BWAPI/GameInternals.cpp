@@ -237,13 +237,16 @@ namespace BWAPI
       //update players and check to see if they have just left the game.
       _allies.clear();
       _enemies.clear();
-      foreach(Player* p, playerSet)
+      if (BWAPIPlayer)
       {
-        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
-        if (BWAPIPlayer->isAlly(p))
-          _allies.insert(p);
-        if (BWAPIPlayer->isEnemy(p))
-          _enemies.insert(p);
+        foreach(Player* p, playerSet)
+        {
+          if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
+          if (BWAPIPlayer->isAlly(p))
+            _allies.insert(p);
+          if (BWAPIPlayer->isEnemy(p))
+            _enemies.insert(p);
+        }
       }
       for (int i = 0; i < PLAYER_COUNT; i++)
       {

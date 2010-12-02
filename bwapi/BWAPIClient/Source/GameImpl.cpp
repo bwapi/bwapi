@@ -283,10 +283,10 @@ namespace BWAPI
       if (u!=NULL)
         selectedUnits.insert(u);
     }
+    _allies.clear();
+    _enemies.clear();
     if (thePlayer!=NULL)
     {
-      _allies.clear();
-      _enemies.clear();
       foreach(Player* p, players)
       {
         if (p->leftGame() || p->isDefeated() || p == thePlayer) continue;
