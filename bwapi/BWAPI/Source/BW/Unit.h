@@ -17,11 +17,9 @@ namespace BW { struct CSprite; };
 namespace BW { struct Order; };
 namespace BW { struct Path; };
 
+#define UNIT_SIZE_IN_BYTES 336
 namespace BW
 {
-  const u32 UNIT_SIZE_IN_BYTES = 336;
-
-
   /**
    * Direct data mapping of the broodwar unit structure. Most of the information here is derived
    * from http://farty1billion.dyndns.org/EUDDB/?pg=ref&a=unitnode

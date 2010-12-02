@@ -586,7 +586,7 @@ namespace BWAPI
           tech = BWAPI::TechTypes::Tank_Siege_Mode;
 
         // do checks
-        if ( !Broodwar->self()->hasResearched(tech) && thisUnit->getType() != UnitTypes::Zerg_Lurker )
+        if ( !thisUnit->getType().isHero() && !Broodwar->self()->hasResearched(tech) && thisUnit->getType() != UnitTypes::Zerg_Lurker )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
 
         if ( thisUnit->getEnergy() < tech.energyUsed() )
