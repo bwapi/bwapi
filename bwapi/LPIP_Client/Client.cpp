@@ -24,9 +24,13 @@ int main(int argc, char* argv[])
     {
       game = g;
     }
-    if (!s.isConnectedToLadderGame())
+    if (!s.isConnectedToLadderGame() && game!=NULL)
     {
+      printf("Connecting to game %s\n",game->chGameName);
       s.connectToLadderGame(game);
+      string message("Hello Server!");
+      printf("Sending %s to %d\n",message.c_str(),game->playerProcessIDs[0]);
+      s.sendData(message.c_str(),message.length(),game->playerProcessIDs[0]);
     }
   }
   system("pause");
