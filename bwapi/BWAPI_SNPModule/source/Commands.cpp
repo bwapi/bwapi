@@ -113,34 +113,8 @@ namespace LUDP
 
 namespace LTST
 {
-  void BroadcastAdvertisement(SOCKADDR_IN *to)
-  {
-    EnterCriticalSection(&gCrit);
-    if ( gpGameAdvert )
-    {
-      WORD wBCSize = ((packet*)gpGameAdvert)->wSize;
-      if ( to )
-        SendData(gsSend, (char*)gpGameAdvert, wBCSize, to);
-      else
-        SendData(gsBroadcast, (char*)gpGameAdvert, wBCSize, &gaddrBroadcast);
-    }
-    LeaveCriticalSection(&gCrit);
-  }
-
-  void BroadcastGameListRequest()
-  {
-    EnterCriticalSection(&gCrit);
-    packet pkt;
-    pkt.wSize       = sizeof(packet);
-    pkt.wType       = CMD_GETLIST;
-    pkt.dwGameState = 0;
-
-    SendData(gsBroadcast, (char*)&pkt, sizeof(packet), &gaddrBroadcast);
-    LeaveCriticalSection(&gCrit);
-  }
-
   DWORD gdwListIndex;
-  void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove)
+  void UpdateGameList(SOCKADDR_IN *from, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove)
   {
     EnterCriticalSection(&gCrit);
     DWORD _dwIndex = 0;
@@ -193,8 +167,6 @@ namespace LTST
 
     if ( !remove )
     {
-      packet    *pktHd   = (packet*)data;
-      char      *pktData = data + sizeof(packet);
       gameStruc *newGame = (gameStruc*)SMAlloc(sizeof(gameStruc));
       if ( !newGame )
         Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate memory for game list.");
@@ -202,19 +174,18 @@ namespace LTST
       memcpy(&newGame->saHost, from, sizeof(SOCKADDR));
 
       newGame->dwIndex      = _dwIndex;
-      newGame->dwGameState  = pktHd->dwGameState;
+      newGame->dwGameState  = dwGameState;
       newGame->dwUnk_1C     = 50; // latency timeout?
       newGame->dwTimer      = GetTickCount();
       newGame->dwVersion    = gdwVerbyte;
       newGame->dwProduct    = gdwProduct;
       newGame->pNext        = (gameStruc*)gpMGameList;
 
-      int gamelen           = SStrCopy(newGame->szGameName, pktData, sizeof(newGame->szGameName));
-      int statlen           = SStrCopy(newGame->szGameStatString, &pktData[gamelen+1], sizeof(newGame->szGameStatString));
+      SStrCopy(newGame->szGameName, pszGameName, sizeof(newGame->szGameName));
+      SStrCopy(newGame->szGameStatString, pszStatString, sizeof(newGame->szGameStatString));
 
-      newGame->dwExtraBytes = pktHd->wSize - (sizeof(packet) + gamelen + statlen + 2);
-      newGame->pExtra       = SMAlloc(newGame->dwExtraBytes);
-      memcpy(newGame->pExtra, &pktData[gamelen + statlen + 2], newGame->dwExtraBytes);
+      newGame->dwExtraBytes = 0;
+      newGame->pExtra       = NULL;
 
       gpMGameList           = newGame;
     }

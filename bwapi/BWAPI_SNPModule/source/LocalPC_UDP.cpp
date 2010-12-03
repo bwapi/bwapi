@@ -110,7 +110,6 @@ namespace LUDP
     *databytes  = gpRecvQueue->dwLength;
     gpRecvQueue = gpRecvQueue->pNext;
     LeaveCriticalSection(&gCrit);
-    LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa((*addr)->sin_addr), gszThisIP );
     return true;
   }
 
