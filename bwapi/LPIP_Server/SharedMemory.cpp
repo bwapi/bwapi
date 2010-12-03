@@ -6,9 +6,24 @@ using namespace std;
 #define PIPE_SYSTEM_BUFFER_SIZE 4096
 SharedMemory::SharedMemory()
 {
-  myIndex = -1;
+  myIndex        = -1;
   ownsLadderGame = false;
-
+  myPipeName[0]  ='\0';
+  data           = NULL;
+  mapFileHandle  = INVALID_HANDLE_VALUE;
+  myPipeHandle   = INVALID_HANDLE_VALUE;
+}
+SharedMemory::~SharedMemory()
+{
+  disconnect();
+}
+bool SharedMemory::connectPipe()
+{
+  if (myPipeHandle != INVALID_HANDLE_VALUE)
+  {
+    CloseHandle(myPipeHandle);
+    myPipeHandle = INVALID_HANDLE_VALUE;
+  }
   sprintf(myPipeName, "\\\\.\\pipe\\bwapi_player_%d", GetCurrentProcessId());
   myPipeHandle = CreateNamedPipe(myPipeName,
                                            PIPE_ACCESS_DUPLEX,
@@ -18,28 +33,28 @@ SharedMemory::SharedMemory()
                                            PIPE_SYSTEM_BUFFER_SIZE,
                                            PIPE_TIMEOUT,
                                            NULL);
-  if (myPipeHandle == INVALID_HANDLE_VALUE || myPipeHandle == NULL)
-    printf("Error: Failed to create my pipe %d\n",GetCurrentProcessId());
-  else
+  if (myPipeHandle == INVALID_HANDLE_VALUE)
   {
-    COMMTIMEOUTS c;
-    c.ReadIntervalTimeout = 100;
-    c.ReadTotalTimeoutMultiplier = 100;
-    c.ReadTotalTimeoutConstant = 2000;
-    c.WriteTotalTimeoutMultiplier = 100;
-    c.WriteTotalTimeoutConstant = 2000;
-    SetCommTimeouts(myPipeHandle,&c);
+    printf("Error: Failed to create my pipe %d\n",GetCurrentProcessId());
+    return false;
   }
-
+  COMMTIMEOUTS c;
+  c.ReadIntervalTimeout = 100;
+  c.ReadTotalTimeoutMultiplier = 100;
+  c.ReadTotalTimeoutConstant = 2000;
+  c.WriteTotalTimeoutMultiplier = 100;
+  c.WriteTotalTimeoutConstant = 2000;
+  SetCommTimeouts(myPipeHandle,&c);
+  return true;
 }
-SharedMemory::~SharedMemory()
+bool SharedMemory::connectSharedMemory()
 {
-  if (data!=NULL)
-    disconnect();
-}
-bool SharedMemory::connect()
-{
-  
+  if (mapFileHandle != INVALID_HANDLE_VALUE)
+  {
+    UnmapViewOfFile(data);
+    CloseHandle(mapFileHandle);
+    mapFileHandle = INVALID_HANDLE_VALUE;
+  }
   mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_local_lpip_game");
   data = NULL;
   if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
@@ -47,7 +62,7 @@ bool SharedMemory::connect()
     //cannot connect to shared memory, so try to create it
     int size = sizeof(GameInfoTable);
     mapFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_local_lpip_game");
-    if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
+    if (mapFileHandle == INVALID_HANDLE_VALUE)
     {
       printf("Error: unable to make shared memory\n");
       return false;
@@ -60,18 +75,40 @@ bool SharedMemory::connect()
     data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
   return true;
 }
+bool SharedMemory::connect()
+{
+  bool success = connectPipe() && connectSharedMemory();
+  printf("connect() = %d, %x\n",success,data);
+  return success;
+}
 void SharedMemory::disconnect()
 {
+  printf("disconnect()\n");
   disconnectFromLadderGame();
-  UnmapViewOfFile(mapFileHandle);
-  CloseHandle(myPipeHandle);
-  mapFileHandle = NULL;
-  myPipeHandle = NULL;
-  data = NULL;
+  if (data !=NULL)
+  {
+    UnmapViewOfFile(data);
+    data = NULL;
+  }
+  if (mapFileHandle != INVALID_HANDLE_VALUE)
+  {
+    UnmapViewOfFile(data);
+    CloseHandle(mapFileHandle);
+    mapFileHandle = INVALID_HANDLE_VALUE;
+  }
+  if (myPipeHandle != INVALID_HANDLE_VALUE)
+  {
+    CloseHandle(myPipeHandle);
+    myPipeHandle = INVALID_HANDLE_VALUE;
+  }
 }
 bool SharedMemory::advertiseLadderGame(GameInfo* gm)
 {
-  if (!data) return false;
+  if (data == NULL)
+  {
+    printf("Error: Not connected to shared memory\n");
+    return false;
+  }
   time_t now = time(NULL);
   if (myIndex==-1)
   {
@@ -117,12 +154,15 @@ void SharedMemory::removeLadderGameAd()
 }
 void SharedMemory::updateGameList()
 {
-  games.clear();
-  time_t now = time(NULL);
-  for(int i=0;i<256;i++)
+  if (isConnectedToSharedMemory())
   {
-    if ((now-data->gameInfo[i].lastUpdate)<(time_t)(3*60))
-      games.push_back(&data->gameInfo[i]);
+    games.clear();
+    time_t now = time(NULL);
+    for(int i=0;i<256;i++)
+    {
+      if ((now-data->gameInfo[i].lastUpdate)<(time_t)(3*60))
+        games.push_back(&data->gameInfo[i]);
+    }
   }
 }
 bool SharedMemory::connectToLadderGame(GameInfo* gm)
@@ -177,9 +217,13 @@ void SharedMemory::update()
       keepAliveLadderGame();
   }
 }
+bool SharedMemory::isConnectedToPipe()
+{
+  return myPipeHandle != INVALID_HANDLE_VALUE;
+}
 bool SharedMemory::isConnectedToSharedMemory()
 {
-  return data!=NULL;
+  return data != NULL;
 }
 bool SharedMemory::isConnectedToLadderGame()
 {
@@ -192,21 +236,38 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
   //look for player with the same process id
   char pipeName[256];
   sprintf(pipeName, "\\\\.\\pipe\\bwapi_player_%d", processID);
-  HANDLE pipeHandle = CreateFileA(pipeName,GENERIC_READ | GENERIC_WRITE,FILE_SHARE_WRITE | FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
-  if (pipeHandle == INVALID_HANDLE_VALUE)
+  HANDLE pipeHandle = INVALID_HANDLE_VALUE;
+  while (pipeHandle == INVALID_HANDLE_VALUE) 
+  { 
+    pipeHandle = CreateFile(pipeName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+ 
+    // Break if the pipe handle is valid. 
+ 
+    if (pipeHandle != INVALID_HANDLE_VALUE) 
+      break; 
+ 
+      // Exit if an error other than ERROR_PIPE_BUSY occurs. 
+ 
+    if (GetLastError() != ERROR_PIPE_BUSY) 
+    {
+      printf( "Could not open pipe. LastError = %d\n", GetLastError() ); 
+      return false;
+    }
+ 
+    // All pipe instances are busy, so wait for 20 seconds. 
+ 
+    if ( ! WaitNamedPipe(pipeName, 5000)) 
+    { 
+      printf("Could not open pipe: 5 second wait timed out.\n"); 
+      return false;
+    } 
+  }
+  DWORD mode = PIPE_READMODE_MESSAGE; 
+  if ( ! SetNamedPipeHandleState( pipeHandle,&mode,NULL,NULL)) 
   {
-    printf("Error: Unable to send data to process %d\n",processID);
-    printf("Write File Last Error = 0x%x\n",GetLastError());
+    printf( "SetNamedPipeHandleState failed. LastError = %d\n", GetLastError() ); 
     return false;
   }
-  
-  COMMTIMEOUTS c;
-  c.ReadIntervalTimeout = 100;
-  c.ReadTotalTimeoutMultiplier = 100;
-  c.ReadTotalTimeoutConstant = 2000;
-  c.WriteTotalTimeoutMultiplier = 100;
-  c.WriteTotalTimeoutConstant = 2000;
-  SetCommTimeouts(pipeHandle,&c);
   int myProcID = GetCurrentProcessId();
   WriteFile(pipeHandle,&myProcID,sizeof(DWORD),&writtenByteCount,NULL); //write data to that player's pipe
   WriteFile(pipeHandle,buf,len,&writtenByteCount,NULL); //write data to that player's pipe
@@ -224,8 +285,17 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD& processI
       update();
 
     BOOL success = ReadFile(myPipeHandle,(LPVOID)(&processID),sizeof(DWORD),&receivedByteCount,NULL);
-    if (receivedByteCount>0)
+    if (!success && GetLastError() == ERROR_BROKEN_PIPE)
+    {
+      if (!connectPipe())
+      {
+        printf("Error: could not reconnect broken pipe\n");
+      }
+    }
+    if (success)
+    {
       ReadFile(myPipeHandle,(LPVOID)buf,len,&receivedByteCount,NULL);
+    }
     if (!success) return -1;
     if (!isBlocking) break;
     Sleep(50);

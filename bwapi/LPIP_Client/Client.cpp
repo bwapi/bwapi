@@ -11,9 +11,9 @@ int main(int argc, char* argv[])
 {
   printf("Starting Client [pid=%d]...\n",GetCurrentProcessId());
   SharedMemory s;
-  while (!s.connect())
-  {
-  }
+  if (!s.connect())
+    printf("Error could not connect\n");
+
 
   printf("Checking shared memory for games...\n");
   while(true)
@@ -30,8 +30,6 @@ int main(int argc, char* argv[])
       s.connectToLadderGame(game);
       string message("Hello Server!");
       printf("Sending %s to %d\n",message.c_str(),game->playerProcessIDs[0]);
-      if (s.sendData(message.c_str(),message.length(),game->playerProcessIDs[0]))
-        printf("Sent\n");
       if (s.sendData(message.c_str(),message.length(),game->playerProcessIDs[0]))
         printf("Sent\n");
     }
