@@ -47,13 +47,6 @@ namespace LTST
   #ifndef _PKTTST
   #define _PKTTST
 
-  struct packet
-  {
-    WORD wType;
-    WORD wSize;
-    DWORD dwGameState;
-  };
-
   struct pktq
   {
     SOCKADDR_IN saFrom;
@@ -65,5 +58,4 @@ namespace LTST
   #endif
 
   extern volatile pktq *gpRecvQueue;
-  extern volatile void *gpGameAdvert;
 };

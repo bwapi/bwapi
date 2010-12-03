@@ -35,7 +35,9 @@ namespace LTST
       SMFree((void*)toFree);
     }
     LeaveCriticalSection(&gCrit);
-    DestroySockets();
+
+    // @TODO: Destroy any allocations/stuff here
+
     return true;
   }
 
@@ -59,13 +61,11 @@ namespace LTST
     // set exit flag to false
     gbWantExit  = false;
 
-    // Save event and Initialize Sockets
+    // Save event
     ghRecvEvent = hEvent;
-    if ( !InitializeSockets() )
-    {
-      Error(SErrGetLastError(), "Unable to initialize socket data.");
-      return false;
-    }
+    
+    // @TODO: Initialize any data/allocations/stuff here
+
     return true;
   }
 
@@ -87,7 +87,7 @@ namespace LTST
   bool __stdcall spiReceiveFrom(SOCKADDR_IN **addr, char **data, DWORD *databytes)
   {
     /* Passes pointers from queued receive data to storm */
-    if ( !addr || !data || !databytes || !gsSend )
+    if ( !addr || !data || !databytes )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
@@ -110,31 +110,20 @@ namespace LTST
     *databytes  = gpRecvQueue->dwLength;
     gpRecvQueue = gpRecvQueue->pNext;
     LeaveCriticalSection(&gCrit);
-    LogBytes(*data, *databytes, "RECEIVE %s->%s", inet_ntoa((*addr)->sin_addr), gszThisIP );
     return true;
   }
 
   bool __stdcall spiSendTo(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen)
   {
     /* Sends data to all listed addresses specified by storm */
-    if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE || !gsSend)
+    if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
 
-    char buffer[PKT_SIZE + sizeof(packet)];
-    memset(buffer, 0, PKT_SIZE + sizeof(packet));
-
-    packet *pktHead = (packet*)buffer;
-    char   *pktData = buffer + sizeof(packet);
-
-    pktHead->wType = CMD_STORM;
-    pktHead->wSize = (WORD)(bufLen + sizeof(packet));
-    memcpy(pktData, buf, bufLen);
-
     for ( int i = addrCount; i > 0; --i )
-      SendData(gsSend, buffer, pktHead->wSize, addrList[i-1]);
+      SendData( buf, bufLen, addrList[i-1]);
     return true;
   }
 
@@ -147,33 +136,11 @@ namespace LTST
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
-
     EnterCriticalSection(&gCrit);
-    if ( !gpGameAdvert )
-    {
-      gpGameAdvert = SMAlloc(PKT_SIZE + sizeof(packet));
-      if ( !gpGameAdvert )
-      {
-        LeaveCriticalSection(&gCrit);
-        SetLastError(ERROR_NOT_ENOUGH_MEMORY);
-        Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate game advertisement packet");
-        return false;
-      }
-    }
-    memset((void*)gpGameAdvert, 0, PKT_SIZE + sizeof(packet));
-    packet *pktHd   = (packet*) gpGameAdvert;
-    char   *pktData = (char*)   gpGameAdvert + sizeof(packet);
 
-    // +2 is for the two null terminators
-    pktHd->wSize       = (WORD)(strlen(pszGameName) + strlen(pszGameStatString) + dwPlayerCount + sizeof(packet) + 2);
-    pktHd->wType       = CMD_ADDGAME;
-    pktHd->dwGameState = dwGameState;
-    
-    SStrCopy(pktData, pszGameName, 128);
-    SStrCopy(&pktData[strlen(pktData)+1], pszGameStatString, 128);
+    // @TODO: Begin or update the game advertisement
 
     LeaveCriticalSection(&gCrit);
-    BroadcastAdvertisement();
     return true;
   }
 
@@ -182,16 +149,9 @@ namespace LTST
     /* Stops game advertisement
        Called when you leave a game */
     EnterCriticalSection(&gCrit);
-    if ( gpGameAdvert )
-    {
-      ((packet*)gpGameAdvert)->wType = CMD_REMOVEGAME;
-      WORD wPktSize = ((packet*)gpGameAdvert)->wSize;
 
-      SendData(gsBroadcast, (char*)gpGameAdvert, wPktSize, &gaddrBroadcast);
+    // @TODO: Remove the game advertisement
 
-      SMFree((void*)gpGameAdvert);
-      gpGameAdvert = NULL;
-    }
     LeaveCriticalSection(&gCrit);
     return true;
   }
@@ -214,7 +174,8 @@ namespace LTST
     if ( dwThisTickCount - gdwLastTickCount > 400 )
     {
       gdwLastTickCount = dwThisTickCount;
-      BroadcastGameListRequest();
+      // @TODO: Update the game list here
+      //UpdateGameList(address from, game state, game name, stat string, true = remove it from the list);
     }
     return true;
   }

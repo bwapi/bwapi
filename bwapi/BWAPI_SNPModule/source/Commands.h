@@ -18,8 +18,6 @@ namespace LUDP
 
 namespace LTST
 {
-  void BroadcastAdvertisement(SOCKADDR_IN *to = NULL);
-  void BroadcastGameListRequest();
-  void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove);
+  void UpdateGameList(SOCKADDR_IN *from, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove);
 };
 
