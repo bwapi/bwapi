@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <deque>
 
 #include "LocalPC.h"
 #include "Connect.h"

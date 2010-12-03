@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include <deque>
 
 #include "LocalPC.h"
-#include "Connect.h"
 #include "Threads.h"
 #include "Common.h"
 #include "Commands.h"
+
+#include "../../LPIP_Server/SharedMemory.h"
 
 namespace LTST
 {
@@ -37,6 +37,12 @@ namespace LTST
     LeaveCriticalSection(&gCrit);
 
     // @TODO: Destroy any allocations/stuff here
+    if ( s )
+    {
+      s->disconnect();
+      delete s;
+      s = NULL;
+    }
 
     return true;
   }
@@ -65,6 +71,15 @@ namespace LTST
     ghRecvEvent = hEvent;
     
     // @TODO: Initialize any data/allocations/stuff here
+    s = new SharedMemory();
+    
+    HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
+    if ( !hRecvThread )
+      Error(ERROR_INVALID_HANDLE, "Unable to create the recv thread.");
+    SetThreadPriority(hRecvThread, 1);
+
+    while ( !s->connect() )
+      Sleep(1);
 
     return true;
   }
@@ -154,6 +169,14 @@ namespace LTST
     //    pszGameStatString
     //    dwGameState
 
+    GameInfo myGameInfo;
+    memset(&myGameInfo, 0, sizeof(GameInfo));
+    strncpy(myGameInfo.chGameName, pszGameName, 128);
+    strncpy(myGameInfo.chGameStats, pszGameStatString, 128);
+    myGameInfo.dwGameState = dwGameState;
+
+    s->advertiseLadderGame(&myGameInfo);
+
     LeaveCriticalSection(&gCrit);
     return true;
   }
@@ -165,6 +188,7 @@ namespace LTST
     EnterCriticalSection(&gCrit);
 
     // @TODO: Remove the game advertisement
+    s->removeLadderGameAd();
 
     LeaveCriticalSection(&gCrit);
     return true;
@@ -190,6 +214,11 @@ namespace LTST
       gdwLastTickCount = dwThisTickCount;
       // @TODO: Update the game list here (local SNP/Storm module listing, just call below function with correct params)
       //UpdateGameList(procID from, game state, game name, stat string, true = remove it from the list);
+      s->updateGameList();
+      for each( GameInfo *g in s->games )
+      {
+        UpdateGameList(g->playerProcessIDs[0], g->dwGameState, g->chGameName, g->chGameStats, false);
+      }
     }
     return true;
   }

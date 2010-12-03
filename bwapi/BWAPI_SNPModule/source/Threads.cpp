@@ -4,6 +4,8 @@
 #include "Connect.h"
 #include "Commands.h"
 
+#include "../../LPIP_Server/SharedMemory.h"
+
 namespace LUDP
 {
   bool gbWantExit = false;
@@ -98,6 +100,8 @@ namespace LTST
   bool gbWantExit = false;
   volatile pktq *gpRecvQueue;
 
+  SharedMemory *s;
+
   DWORD WINAPI RecvThread(LPVOID)
   {
     for (;;)
@@ -105,7 +109,11 @@ namespace LTST
       // @TODO: Receive any data here
       // when something is received, go through the below code for each piece of data that was received
       // in other words, one at a time
-
+      for (;;)
+      {
+        s->update();
+        Sleep(1);
+      }
       if ( gbWantExit )
         return 0;
 

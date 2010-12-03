@@ -205,12 +205,12 @@ bool SharedMemory::isConnectedToLadderGame()
 {
   return myIndex>=0;
 }
-bool SharedMemory::sendData(const char *buf, int len, int processID)
+bool SharedMemory::sendData(const char *buf, unsigned int len, int processID)
 {
   if (myIndex>=0)
   {
     GameInfo* gm = &data->gameInfo[myIndex];
-    DWORD writtenByteCount = -1;
+    DWORD writtenByteCount = 0xFFFFFFFF;
     //look for player with the same process id
     for(int i=0;i<10;i++)
       if (gm->playerProcessIDs[i] == processID) //found player

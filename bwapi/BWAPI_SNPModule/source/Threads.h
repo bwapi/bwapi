@@ -3,6 +3,8 @@
 #include "Common.h"
 #include "LocalPC.h"
 
+#include "../../LPIP_Server/SharedMemory.h"
+
 namespace LUDP
 {
   extern bool gbWantExit;
@@ -41,6 +43,7 @@ namespace LUDP
 namespace LTST
 {
   extern bool gbWantExit;
+  extern SharedMemory *s;
 
   DWORD WINAPI RecvThread(LPVOID);
 
