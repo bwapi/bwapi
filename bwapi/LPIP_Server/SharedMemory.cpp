@@ -13,6 +13,11 @@ SharedMemory::SharedMemory()
     pipeHandle[i] = NULL;
   }
 }
+SharedMemory::~SharedMemory()
+{
+  if (data!=NULL)
+    disconnect();
+}
 bool SharedMemory::connect()
 {
   
@@ -199,4 +204,18 @@ bool SharedMemory::isConnectedToSharedMemory()
 bool SharedMemory::isConnectedToLadderGame()
 {
   return myIndex>=0;
+}
+bool SharedMemory::sendData(const char *buf, int len, int processID)
+{
+  if (myIndex>=0)
+  {
+    GameInfo* gm = &data->gameInfo[myIndex];
+    DWORD writtenByteCount = -1;
+    //look for player with the same process id
+    for(int i=0;i<10;i++)
+      if (gm->playerProcessIDs[i] == processID) //found player
+        WriteFile(pipeHandle[i],buf,len,&writtenByteCount,NULL); //write data to that player's pipe
+    if (writtenByteCount==len) return true;
+  }
+  return false;
 }
