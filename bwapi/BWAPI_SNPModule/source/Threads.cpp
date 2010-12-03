@@ -118,9 +118,9 @@ namespace LTST
 
       // @TODO: Copy received data to this structure
       // Note: This structure can be modified, but would have to update everything that references it
-      //memcpy(recvPkt->bData, received data buffer, 512);
-      //recvPkt->dwLength = size of received data
-      //recvPkt->saFrom = the identifier/procId that sent the data
+      // memcpy(recvPkt->bData, received data buffer, 512);
+      // recvPkt->dwLength = size of received data
+      // recvPkt->dwProcID = the procId that sent the data
 
       recvPkt->pNext = NULL;
       // the rest of this adds it to the queue and sets an event that I don't know too much about

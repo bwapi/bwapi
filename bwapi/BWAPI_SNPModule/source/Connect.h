@@ -28,5 +28,4 @@ namespace LUDP
 
 namespace LTST
 {
-  int SendData(const char *buf, int len, const SOCKADDR_IN *to);
 };
