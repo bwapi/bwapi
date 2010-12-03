@@ -33,6 +33,11 @@ int main(int argc, char* argv[])
   }
   printf("Added game 'Hello Game' to shared memory\n");
   system("pause");
+  //remove game from table before we disconnect and close
+  if (freeIndex>=0)
+  {
+    s.data->gameInfoLastUpdate[freeIndex] = 0;
+  }
   s.disconnect();
 	return 0;
 }
