@@ -1,5 +1,6 @@
 #pragma once
 #include <windows.h>
+#include <list>
 struct GameInfo
 {
 	int szSize;
@@ -16,8 +17,15 @@ struct GameInfoTable
 class SharedMemory
 {
   public:
+  SharedMemory();
   bool connect();
   void disconnect();
+  bool advertiseLadderGame(GameInfo* gm);
+  void removeLadderGameAd();
+  //parses thge game info table and constructs the games list
+  void updateGameList();
+  std::list<GameInfo*> games;
   GameInfoTable* data;
   HANDLE mapFileHandle;
+  int myIndex;
 };
