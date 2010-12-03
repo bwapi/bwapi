@@ -23,9 +23,14 @@ int main(int argc, char* argv[])
   s.advertiseLadderGame(&myGameInfo);
   printf("Added game 'Hello Game' to shared memory\n");
 
+  char buffer[1024];
+  DWORD processID;
   while(true)
   {
     s.update();
+    int rVal = s.receiveData(buffer,1024,processID,false);
+    if (rVal>0)
+      printf("Received the following data from process %d: %s",processID,buffer);
   }
   s.disconnect();
 	return 0;

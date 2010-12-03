@@ -101,7 +101,6 @@ namespace LTST
   volatile pktq *gpRecvQueue;
 
   SharedMemory *s;
-  char buffer[1024];
 
   DWORD WINAPI RecvThread(LPVOID)
   {
@@ -110,12 +109,13 @@ namespace LTST
       // @TODO: Receive any data here
       // when something is received, go through the below code for each piece of data that was received
       // in other words, one at a time
-      for (;;)
-      {
-        s->update();
-        Sleep(1);
-      }
+
+      DWORD fromProcessID;
+      char buffer[512];
+      int length = s->receiveData(buffer,512,fromProcessID);
       if ( gbWantExit )
+        return 0;
+      if (length == 0)
         return 0;
 
       ++gdwRecvCalls;
@@ -130,9 +130,7 @@ namespace LTST
       // memcpy(recvPkt->bData, received data buffer, 512);
       // recvPkt->dwLength = size of received data
       // recvPkt->dwProcID = the procId that sent the data
-      int fromProcessID;
-      int length = s->receiveData(buffer,1024,fromProcessID);
-
+      memcpy(recvPkt->bData, buffer, 512);
       recvPkt->dwLength = length;
       recvPkt->dwProcID = fromProcessID;
 

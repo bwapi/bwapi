@@ -8,10 +8,29 @@ SharedMemory::SharedMemory()
 {
   myIndex = -1;
   ownsLadderGame = false;
-  for(int i=0;i<10;i++)
+
+  sprintf(myPipeName, "\\\\.\\pipe\\bwapi_player_%d", GetCurrentProcessId());
+  myPipeHandle = CreateNamedPipe(myPipeName,
+                                           PIPE_ACCESS_DUPLEX,
+                                           PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
+                                           PIPE_UNLIMITED_INSTANCES,
+                                           PIPE_SYSTEM_BUFFER_SIZE,
+                                           PIPE_SYSTEM_BUFFER_SIZE,
+                                           PIPE_TIMEOUT,
+                                           NULL);
+  if (myPipeHandle == INVALID_HANDLE_VALUE || myPipeHandle == NULL)
+    printf("Error: Failed to create my pipe %d\n",GetCurrentProcessId());
+  else
   {
-    pipeHandle[i] = NULL;
+    COMMTIMEOUTS c;
+    c.ReadIntervalTimeout = 100;
+    c.ReadTotalTimeoutMultiplier = 100;
+    c.ReadTotalTimeoutConstant = 2000;
+    c.WriteTotalTimeoutMultiplier = 100;
+    c.WriteTotalTimeoutConstant = 2000;
+    SetCommTimeouts(myPipeHandle,&c);
   }
+
 }
 SharedMemory::~SharedMemory()
 {
@@ -25,7 +44,6 @@ bool SharedMemory::connect()
   data = NULL;
   if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
   {
-    printf("Shared memory does not exist, creating...\n");
     //cannot connect to shared memory, so try to create it
     int size = sizeof(GameInfoTable);
     mapFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_local_lpip_game");
@@ -46,7 +64,9 @@ void SharedMemory::disconnect()
 {
   disconnectFromLadderGame();
   UnmapViewOfFile(mapFileHandle);
+  CloseHandle(myPipeHandle);
   mapFileHandle = NULL;
+  myPipeHandle = NULL;
   data = NULL;
 }
 bool SharedMemory::advertiseLadderGame(GameInfo* gm)
@@ -151,50 +171,10 @@ void SharedMemory::disconnectFromLadderGame()
 void SharedMemory::update()
 {
   updateGameList();
-  int id = GetCurrentProcessId();
   if (myIndex>=0)
   {
-    GameInfo* gm = &data->gameInfo[myIndex];
     if (ownsLadderGame)
-      gm->lastUpdate = time(NULL);
-    for(int i=0;i<10;i++)
-    {
-      if (gm->playerProcessIDs[i]!=id && gm->playerProcessIDs[i]!=-1 && (pipeHandle[i] == INVALID_HANDLE_VALUE || pipeHandle[i] == NULL))
-      {
-        int a=id;
-        int b=gm->playerProcessIDs[i];
-        if (a>b)
-        {
-          int temp=a;
-          a=b;
-          b=temp;
-        }
-        sprintf(pipeName[i], "\\\\.\\pipe\\bwapi_playerplayer_%d_%d", a,b);
-        pipeHandle[i] = CreateFileA(pipeName[i],GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
-        if (pipeHandle[i] == INVALID_HANDLE_VALUE || pipeHandle[i] == NULL)
-        {
-          //cannot connect to shared memory, so try to create it
-          pipeHandle[i] = CreateNamedPipe(pipeName[i],
-                                           PIPE_ACCESS_DUPLEX,
-                                           PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
-                                           PIPE_UNLIMITED_INSTANCES,
-                                           PIPE_SYSTEM_BUFFER_SIZE,
-                                           PIPE_SYSTEM_BUFFER_SIZE,
-                                           PIPE_TIMEOUT,
-                                           NULL);
-          if (pipeHandle[i] == INVALID_HANDLE_VALUE || pipeHandle[i] == NULL)
-            printf("Error: Failed to create pipe between process %d and process %d\n",a,b);
-        }
-        if (pipeHandle[i] != INVALID_HANDLE_VALUE &&  pipeHandle[i] != NULL)
-          printf("Created pipe to process %d\n",gm->playerProcessIDs[i]);
-      }
-      if (gm->playerProcessIDs[i]==-1 && pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL)
-      {
-        CloseHandle(pipeHandle[i]);
-        pipeHandle[i] = NULL;
-        printf("Closed pipe to process %d\n",gm->playerProcessIDs[i]);
-      }
-    }
+      keepAliveLadderGame();
   }
 }
 bool SharedMemory::isConnectedToSharedMemory()
@@ -205,45 +185,49 @@ bool SharedMemory::isConnectedToLadderGame()
 {
   return myIndex>=0;
 }
-bool SharedMemory::sendData(const char *buf, unsigned int len, int processID)
+bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
 {
-  if (myIndex>=0)
+  if (processID == GetCurrentProcessId()) return false;
+  DWORD writtenByteCount = 0;
+  //look for player with the same process id
+  char pipeName[256];
+  sprintf(pipeName, "\\\\.\\pipe\\bwapi_player_%d", processID);
+  HANDLE pipeHandle = CreateFileA(pipeName,GENERIC_READ | GENERIC_WRITE,FILE_SHARE_WRITE | FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
+  if (pipeHandle == INVALID_HANDLE_VALUE)
   {
-    GameInfo* gm = &data->gameInfo[myIndex];
-    DWORD writtenByteCount = 0;
-    //look for player with the same process id
-    for(int i=0;i<10;i++)
-      if (gm->playerProcessIDs[i] == processID) //found player
-        WriteFile(pipeHandle[i],buf,len,&writtenByteCount,NULL); //write data to that player's pipe
-    if (writtenByteCount==len) return true;
+    printf("Error: Unable to send data to process %d\n",processID);
+    printf("Write File Last Error = 0x%x\n",GetLastError());
+    return false;
   }
-  return false;
+  
+  COMMTIMEOUTS c;
+  c.ReadIntervalTimeout = 100;
+  c.ReadTotalTimeoutMultiplier = 100;
+  c.ReadTotalTimeoutConstant = 2000;
+  c.WriteTotalTimeoutMultiplier = 100;
+  c.WriteTotalTimeoutConstant = 2000;
+  SetCommTimeouts(pipeHandle,&c);
+  WriteFile(pipeHandle,&processID,sizeof(DWORD),&writtenByteCount,NULL); //write data to that player's pipe
+  WriteFile(pipeHandle,buf,len,&writtenByteCount,NULL); //write data to that player's pipe
+  CloseHandle(pipeHandle);
+  return true;
 }
-int SharedMemory::receiveData(const char *buf, unsigned int len, int& processID)
+int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD& processID, bool isBlocking)
 {
-  processID = -1;
-  if (myIndex>=0)
+  processID = 0;
+  memset((void*)buf,0,len);
+  DWORD receivedByteCount = 0;
+  while(receivedByteCount == 0)
   {
-    GameInfo* gm = &data->gameInfo[myIndex];
-    DWORD receivedByteCount = 0;
-    BOOL success = FALSE;
-    while(receivedByteCount == 0)
-    {
-      //check all players with valid pipe handles
-      for(int i=0;i<10;i++)
-        if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL)
-        {
-          //try reading from this pipe
-          success = ReadFile(pipeHandle[i],(LPVOID)buf,len,&receivedByteCount,NULL);
-          if (success)
-          {
-            //if successful, update the processID
-            processID = gm->playerProcessIDs[i];
-            break;
-          }
-        }
-    }
-    return receivedByteCount;
+    if (isBlocking)
+      update();
+
+    BOOL success = ReadFile(myPipeHandle,(LPVOID)(&processID),sizeof(DWORD),&receivedByteCount,NULL);
+    if (receivedByteCount>0)
+      ReadFile(myPipeHandle,(LPVOID)buf,len,&receivedByteCount,NULL);
+    if (!success) return -1;
+    if (!isBlocking) break;
+    Sleep(50);
   }
-  return 0;
+  return receivedByteCount;
 }
