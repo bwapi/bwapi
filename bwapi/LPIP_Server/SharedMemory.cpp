@@ -210,7 +210,7 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, int processID)
   if (myIndex>=0)
   {
     GameInfo* gm = &data->gameInfo[myIndex];
-    DWORD writtenByteCount = 0xFFFFFFFF;
+    DWORD writtenByteCount = 0;
     //look for player with the same process id
     for(int i=0;i<10;i++)
       if (gm->playerProcessIDs[i] == processID) //found player
@@ -218,4 +218,30 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, int processID)
     if (writtenByteCount==len) return true;
   }
   return false;
+}
+int SharedMemory::receiveData(const char *buf, unsigned int len, int& processID)
+{
+  processID = -1;
+  if (myIndex>=0)
+  {
+    GameInfo* gm = &data->gameInfo[myIndex];
+    DWORD receivedByteCount = 0;
+    BOOL success = FALSE;
+    while(receivedByteCount == 0)
+    {
+      //look for player with the same process id
+      for(int i=0;i<10;i++)
+        if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL) //found player
+        {
+          success = ReadFile(pipeHandle[i],(LPVOID)buf,len,&receivedByteCount,NULL);
+          if (success)
+          {
+            processID = gm->playerProcessIDs[i];
+            break;
+          }
+        }
+    }
+    return receivedByteCount;
+  }
+  return 0;
 }

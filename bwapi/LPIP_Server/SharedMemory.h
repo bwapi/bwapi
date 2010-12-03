@@ -34,6 +34,7 @@ class SharedMemory
   bool isConnectedToLadderGame();
   void update();
   bool sendData(const char *buf, unsigned int len, int processID);
+  int receiveData(const char *buf, unsigned int len, int& processID);
   std::list<GameInfo*> games;
   HANDLE pipeHandle[10];
   char pipeName[10][256];
