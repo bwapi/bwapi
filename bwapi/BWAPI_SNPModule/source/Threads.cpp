@@ -101,6 +101,7 @@ namespace LTST
   volatile pktq *gpRecvQueue;
 
   SharedMemory *s;
+  char buffer[1024];
 
   DWORD WINAPI RecvThread(LPVOID)
   {
@@ -129,6 +130,11 @@ namespace LTST
       // memcpy(recvPkt->bData, received data buffer, 512);
       // recvPkt->dwLength = size of received data
       // recvPkt->dwProcID = the procId that sent the data
+      int fromProcessID;
+      int length = s->receiveData(buffer,1024,fromProcessID);
+
+      recvPkt->dwLength = length;
+      recvPkt->dwProcID = fromProcessID;
 
       recvPkt->pNext = NULL;
       // the rest of this adds it to the queue and sets an event that I don't know too much about
