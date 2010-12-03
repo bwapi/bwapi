@@ -1,6 +1,11 @@
 #include <iostream>
 using namespace std;
 #include "SharedMemory.h"
+#include <time.h>
+SharedMemory::SharedMemory()
+{
+  myIndex = -1;
+}
 bool SharedMemory::connect()
 {
   
@@ -27,7 +32,49 @@ bool SharedMemory::connect()
 }
 void SharedMemory::disconnect()
 {
+  removeLadderGameAd();
   UnmapViewOfFile(mapFileHandle);
   mapFileHandle = NULL;
   data = NULL;
+}
+bool SharedMemory::advertiseLadderGame(GameInfo* gm)
+{
+  if (!data) return false;
+  time_t now = time(NULL);
+  if (myIndex==-1)
+  {
+    for(int i=0;i<256;i++)
+    {
+      if (now-data->gameInfoLastUpdate[i]>3*60)
+      {
+        myIndex = i;
+        break;
+      }
+    }
+  }
+  if (myIndex>=0)
+  {
+    //update last update time to current time (now)
+    data->gameInfoLastUpdate[myIndex] = now;
+
+    //add game data to shared memory
+    data->gameInfo[myIndex] = *gm;
+  }
+  return myIndex>=0;
+}
+
+void SharedMemory::removeLadderGameAd()
+{
+  if (data && myIndex>=0)
+    data->gameInfoLastUpdate[myIndex] = 0;
+}
+void SharedMemory::updateGameList()
+{
+  games.clear();
+  time_t now = time(NULL);
+  for(int i=0;i<256;i++)
+  {
+    if ((now-data->gameInfoLastUpdate[i])<(time_t)(3*60))
+      games.push_back(&data->gameInfo[i]);
+  }
 }

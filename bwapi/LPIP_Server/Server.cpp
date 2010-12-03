@@ -15,29 +15,14 @@ int main(int argc, char* argv[])
   {
   }
 
-  int freeIndex = -1;
-
-  time_t now = time(NULL);
-  for(int i=0;i<256;i++)
-  {
-    if (now-s.data->gameInfoLastUpdate[i]>3*60)
-    {
-      freeIndex = i;
-      break;
-    }
-  }
-  if (freeIndex>=0)
-  {
-    s.data->gameInfoLastUpdate[freeIndex] = now;
-    strncpy(s.data->gameInfo[freeIndex].chGameName,"Hello Game",128);
-  }
+  GameInfo myGameInfo;
+  //fill out name
+  strncpy(myGameInfo.chGameName,"Hello Game",128);
+  //fill out stats
+  strncpy(myGameInfo.chGameStats,"Some Game Stats",128);
+  s.advertiseLadderGame(&myGameInfo);
   printf("Added game 'Hello Game' to shared memory\n");
   system("pause");
-  //remove game from table before we disconnect and close
-  if (freeIndex>=0)
-  {
-    s.data->gameInfoLastUpdate[freeIndex] = 0;
-  }
   s.disconnect();
 	return 0;
 }

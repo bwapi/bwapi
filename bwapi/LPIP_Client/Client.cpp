@@ -17,13 +17,12 @@ int main(int argc, char* argv[])
 
   printf("Checking shared memory for games...\n");
   time_t now = time(NULL);
-  for(int i=0;i<256;i++)
+  s.updateGameList();
+  for each(GameInfo* g in s.games)
   {
-    if (s.data->gameInfoLastUpdate[i]<=now && (now-s.data->gameInfoLastUpdate[i])<(time_t)(3*60))
-    {
-      s.data->gameInfo[i].chGameName[127]='\0';
-      printf("Game[%i] Name=%s\n",i,s.data->gameInfo[i].chGameName);
-    }
+    printf("Game\n");
+    printf("chGameName=%s\n",g->chGameName);
+    printf("chGameStats=%s\n",g->chGameStats);
   }
   system("pause");
   s.disconnect();
