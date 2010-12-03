@@ -170,6 +170,14 @@
 			RelativePath=".\Client.cpp"
 			>
 		</File>
+		<File
+			RelativePath="..\LPIP_Server\SharedMemory.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\LPIP_Server\SharedMemory.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

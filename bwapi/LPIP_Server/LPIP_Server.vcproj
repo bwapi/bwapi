@@ -170,6 +170,14 @@
 			RelativePath=".\Server.cpp"
 			>
 		</File>
+		<File
+			RelativePath=".\SharedMemory.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\SharedMemory.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
