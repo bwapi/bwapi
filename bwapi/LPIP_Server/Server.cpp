@@ -1,120 +1,67 @@
-#include "Server.h"
+// ClientTest.cpp : Defines the entry point for the console application.
+//
 
-NamedPipes::Server::Server(std::wstring pipeName, int szBufferSize)
+#include <iostream>
+#include <windows.h>
+#include <stdio.h>
+#include <time.h>
+using namespace std;
+struct GameInfo
 {
-	this->m_hPipe = INVALID_HANDLE_VALUE;
-	this->m_strPipe = pipeName;
-	this->m_szBuffers = szBufferSize;
-	this->m_nextID = 1;
-
-	this->m_lClients = new Collections::LinkedList<ClientInfo*>();
-
-	this->StartListenThread();
-}
-
-NamedPipes::Server::~Server()
+	int szSize;
+	int flType;
+	DWORD dwGameState;
+	char chGameName[128];
+	char chGameStats[128];
+};
+struct GameInfoTable
 {
-	TerminateThread(this->m_hListenThread,1);
-	CloseHandle(this->m_hListenThread);
-
-	for( int i=this->m_lClients->GetCount()-1; i>=0; i-- )
-	{
-		ClientInfo *ci = this->m_lClients->Get(i);
-		Utils::Logger::Log("Disconnecting Client.",ci->getID());
-		this->m_lClients->Remove(ci);
-		delete ci;
-	}
-
-	this->m_hPipe = INVALID_HANDLE_VALUE;
-	this->m_strPipe = L"";
-}
-
-void NamedPipes::Server::RemoveClient(ClientInfo *ci)
+  GameInfo gameInfo[256];
+  time_t gameInfoLastUpdate[256];
+};
+int main(int argc, char* argv[])
 {
-	Utils::Logger::Log("Client Disconnected.",ci->getID());
-	this->m_lClients->Remove(ci);
-	delete ci;
-}
+  cout << "Starting Server...\n";
 
-NamedPipes::Packet* NamedPipes::Server::GetRequest()
-{
-	Collections::IEnumerator<ClientInfo*> *i = this->m_lClients->GetEnumerator();
+  HANDLE mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_local_lpip_games1234");
+  GameInfoTable* data = NULL;
+  if (mapFileHandle == INVALID_HANDLE_VALUE)
+  {
+    printf("Shared memory does not exist, creating...\n");
+    //cannot connect to shared memory, so try to create it
+    int size = sizeof(GameInfoTable);
+    mapFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_local_lpip_games1234");
+    if (mapFileHandle == INVALID_HANDLE_VALUE)
+    {
+      printf("Error: unable to make shared memory\n");
+      return false;
+    }
+    data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
+    for(int i=0;i<256;i++)
+      data->gameInfoLastUpdate[i] = 0;
+  }
+  else
+    data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
 
-	while(i->MoveNext())
-	{
-		InfoPacket *ret = i->GetCurrent()->DequeueRequest();
-		if( ret == NULL )
-			continue;
+  int freeIndex = -1;
 
-		Packet pkt;
-		pkt.ClientID = i->GetCurrent()->getID();
-		pkt.DataLength = ret->len;
-		pkt.Data = ret->data;
-
-		return &pkt;
-	}
-
-	return NULL;
-}
-
-void NamedPipes::Server::Send(Packet *pkt)
-{
-	Collections::IEnumerator<ClientInfo*> *i = this->m_lClients->GetEnumerator();
-
-	while(i->MoveNext())
-	{
-		ClientInfo *ci = i->GetCurrent();
-		if( ci->getID() != pkt->ClientID )
-			continue;
-
-		ci->EnqueueResponse(pkt->Data,pkt->DataLength);
-		return;
-	}
-}
-
-DWORD WINAPI NamedPipes::ListenThreadHelper(LPVOID p)
-{
-	((Server*)p)->ListenThread();
-
-	return 1;
-}
-
-void NamedPipes::Server::StartListenThread()
-{
-	this->m_hListenThread = CreateThread(NULL, 0, NamedPipes::ListenThreadHelper, this, 0, NULL);
-}
-
-void NamedPipes::Server::ListenThread()
-{
-	while(true)
-	{
-		HANDLE hPipe;
-
-		hPipe = CreateNamedPipe( 
-			this->m_strPipe.c_str(),	// pipe name 
-			PIPE_ACCESS_DUPLEX,			// read/write access 
-			PIPE_TYPE_MESSAGE |			// message type pipe 
-			PIPE_READMODE_MESSAGE |		// message-read mode 
-			PIPE_WAIT,					// blocking mode 
-			PIPE_UNLIMITED_INSTANCES,	// max. instances  
-			this->m_szBuffers,			// output buffer size 
-			this->m_szBuffers,			// input buffer size 
-			0,							// client time-out 
-			NULL);						// default security attribute 
-
-		if (hPipe == INVALID_HANDLE_VALUE)
-		{
-			Utils::Logger::LogError("CreateNamedPipe failed.",0);
-			return;
-		}
-
-		bool flConnected = ( (ConnectNamedPipe(hPipe, NULL)) ? TRUE : (GetLastError() == ERROR_PIPE_CONNECTED));
-		
-		if( flConnected )
-		{
-			ClientInfo *ci = new ClientInfo(this,hPipe,this->m_nextID++);
-			ci->StartClientThreads();
-			this->m_lClients->Add(ci);
-		}
-	}
+  time_t now = time(NULL);
+  printf("i: %lu\n", now);
+  for(int i=0;i<256;i++)
+  {
+    printf("i: %lu\n", now-data->gameInfoLastUpdate[i]);
+    if (now-data->gameInfoLastUpdate[i]>3*60)
+    {
+      freeIndex = i;
+      break;
+    }
+  }
+  if (freeIndex>=0)
+  {
+    data->gameInfoLastUpdate[freeIndex] = now;
+    strncpy(data->gameInfo[freeIndex].chGameName,"Hello Game",128);
+  }
+  printf("Added game 'Hello Game' to shared memory\n");
+  system("pause");
+	return 0;
 }

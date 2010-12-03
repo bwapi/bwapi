@@ -1,90 +1,58 @@
-#include "Client.h"
+// ClientTest.cpp : Defines the entry point for the console application.
+//
 
-NamedPipes::Client::Client(std::wstring pipeName, int szBufferSize)
+#include <iostream>
+#include <windows.h>
+#include <stdio.h>
+#include <time.h>
+using namespace std;
+struct GameInfo
 {
-	this->m_szBuffer = szBufferSize;
-	BOOL   fSuccess = FALSE;
-	DWORD  dwMode;
-
-	// Try to open a named pipe; wait for it, if necessary.
-	while (1)
-	{
-		this->m_hPipe = CreateFile(
-			pipeName.c_str(),   // pipe name
-			GENERIC_READ |  // read and write access
-			GENERIC_WRITE,
-			0,              // no sharing
-			NULL,           // default security attributes
-			OPEN_EXISTING,  // opens existing pipe
-			0,              // default attributes
-			NULL);          // no template file
-
-		// Break if the pipe handle is valid.
-		if (this->m_hPipe != INVALID_HANDLE_VALUE)
-			break;
-
-		// Exit if an error other than ERROR_PIPE_BUSY occurs.
-		if (GetLastError() != ERROR_PIPE_BUSY)
-		{
-			printf( "Could not open pipe. GLE=%d\n", GetLastError() );
-			return;
-		}
-
-		// All pipe instances are busy, so wait for 20 seconds.
-		if ( !WaitNamedPipe(pipeName.c_str(), 20000))
-		{
-			printf("Could not open pipe: 20 second wait timed out.");
-			return;
-		}
-	}
-
-	// The pipe connected; change to message-read mode.
-	dwMode = PIPE_READMODE_MESSAGE;
-	fSuccess = SetNamedPipeHandleState(
-		this->m_hPipe,    // pipe handle
-		&dwMode,  // new pipe mode
-		NULL,     // don't set maximum bytes
-		NULL);    // don't set maximum time
-
-	if ( ! fSuccess)
-	{
-		printf( "SetNamedPipeHandleState failed. GLE=%d\n", GetLastError() );
-		return;
-	}
-}
-
-NamedPipes::Client::~Client()
+	int szSize;
+	int flType;
+	DWORD dwGameState;
+	char chGameName[128];
+	char chGameStats[128];
+};
+struct GameInfoTable
 {
-	CloseHandle(this->m_hPipe);
-}
-
-void NamedPipes::Client::Send(BYTE *Data, int DataLen)
+  GameInfo gameInfo[256];
+  time_t gameInfoLastUpdate[256];
+};
+int main(int argc, char* argv[])
 {
-	int *written=new int;
-	WriteFile( this->m_hPipe, Data, DataLen+1, (LPDWORD)&written, NULL);
-}
+  cout << "Starting Client...\n";
 
-BYTE* NamedPipes::Client::Recieve(int *bytesRecieved)
-{
-	BOOL fSuccess = FALSE;
-	BYTE *buf = new BYTE[this->m_szBuffer];
+  HANDLE mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_local_lpip_games1234");
+  GameInfoTable* data = NULL;
+  if (mapFileHandle == INVALID_HANDLE_VALUE)
+  {
+    printf("Shared memory does not exist, creating...\n");
+    //cannot connect to shared memory, so try to create it
+    int size = sizeof(GameInfoTable);
+    mapFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_local_lpip_games1234");
+    if (mapFileHandle == INVALID_HANDLE_VALUE)
+    {
+      printf("Error: unable to make shared memory\n");
+      return false;
+    }
+    data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
+    for(int i=0;i<256;i++)
+      data->gameInfoLastUpdate[i] = 0;
+  }
+  else
+    data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
 
-	do 
-	{
-		
-		// Read from the pipe.
-		fSuccess = ReadFile(
-			this->m_hPipe,    // pipe handle
-			buf,    // buffer to receive reply
-			this->m_szBuffer,  // size of buffer
-			(LPDWORD)&bytesRecieved,  // number of bytes read
-			NULL);    // not overlapped
-
-		if (! fSuccess && GetLastError() != ERROR_MORE_DATA )
-			break; 
-
-		printf( "\"%s\"\nLength: %i\n", buf, bytesRecieved );
-	} while ( !fSuccess);  // repeat loop if ERROR_MORE_DATA
-
-	return buf;
+  printf("Checking shared memory for games...\n");
+  time_t now = time(NULL);
+  for(int i=0;i<256;i++)
+  {
+    if (data->gameInfoLastUpdate[i]<=now && (now-data->gameInfoLastUpdate[i])<(time_t)(3*60))
+    {
+      data->gameInfo[i].chGameName[127]='\0';
+      printf("Game[%i] Name=%s",i,data->gameInfo[i].chGameName);
+    }
+  }
+  system("pause");
+	return 0;
 }

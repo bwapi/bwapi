@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -165,48 +166,8 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="NamedPipes"
-			>
-			<File
-				RelativePath=".\Client.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Client.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Collections"
-			>
-			<File
-				RelativePath="..\PipeServer\IEnumerator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\PipeServer\LinkedList.h"
-				>
-			</File>
-			<File
-				RelativePath="..\PipeServer\Queue.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Utils"
-			>
-			<File
-				RelativePath="..\PipeServer\Logger.h"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath=".\ClientTest.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\stdafx.h"
+			RelativePath=".\Client.cpp"
 			>
 		</File>
 	</Files>

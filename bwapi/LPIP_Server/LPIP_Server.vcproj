@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -165,68 +166,8 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Collections"
-			>
-			<File
-				RelativePath=".\IEnumerator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LinkedList.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Queue.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="NamedPipes"
-			>
-			<File
-				RelativePath=".\ClientInfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ClientInfo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Pipe.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Server.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Server.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Utils"
-			>
-			<File
-				RelativePath=".\Logger.h"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath=".\GameInfo.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Mutex.h"
-			>
-		</File>
-		<File
-			RelativePath=".\PipeServer.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\stdafx.h"
+			RelativePath=".\Server.cpp"
 			>
 		</File>
 	</Files>
