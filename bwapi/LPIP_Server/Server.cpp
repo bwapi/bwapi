@@ -11,9 +11,8 @@ int main(int argc, char* argv[])
 {
   printf("Starting Server [pid=%d]...\n",GetCurrentProcessId());
   SharedMemory s;
-  while (!s.connect())
-  {
-  }
+  if (!s.connect())
+    printf("Error could not connect\n");
 
   GameInfo myGameInfo;
   //fill out name
@@ -30,7 +29,7 @@ int main(int argc, char* argv[])
     s.update();
     int rVal = s.receiveData(buffer,1024,processID,false);
     if (rVal>0)
-      printf("Received the following data from process %d: %s",processID,buffer);
+      printf("Received the following data from process %d: %s\n",processID,buffer);
   }
   s.disconnect();
 	return 0;

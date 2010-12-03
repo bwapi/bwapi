@@ -22,6 +22,8 @@ class SharedMemory
   SharedMemory();
   ~SharedMemory();
   bool connect();
+  bool connectPipe();
+  bool connectSharedMemory();
   void disconnect();
   bool advertiseLadderGame(GameInfo* gm);
   void keepAliveLadderGame();
@@ -30,6 +32,7 @@ class SharedMemory
   void updateGameList();
   bool connectToLadderGame(GameInfo* gm);
   void disconnectFromLadderGame();
+  bool isConnectedToPipe();
   bool isConnectedToSharedMemory();
   bool isConnectedToLadderGame();
   void update();
