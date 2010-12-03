@@ -136,6 +136,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\LPIP_Server\SharedMemory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\source\Threads.cpp"
 				>
 			</File>
@@ -157,6 +161,10 @@
 			</File>
 			<File
 				RelativePath=".\source\LocalPC.h"
+				>
+			</File>
+			<File
+				RelativePath="..\LPIP_Server\SharedMemory.h"
 				>
 			</File>
 			<File
