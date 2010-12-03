@@ -229,13 +229,15 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, int& processID)
     BOOL success = FALSE;
     while(receivedByteCount == 0)
     {
-      //look for player with the same process id
+      //check all players with valid pipe handles
       for(int i=0;i<10;i++)
-        if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL) //found player
+        if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL)
         {
+          //try reading from this pipe
           success = ReadFile(pipeHandle[i],(LPVOID)buf,len,&receivedByteCount,NULL);
           if (success)
           {
+            //if successful, update the processID
             processID = gm->playerProcessIDs[i];
             break;
           }
