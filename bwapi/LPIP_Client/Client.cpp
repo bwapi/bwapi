@@ -9,20 +9,25 @@ using namespace std;
 #include "../LPIP_Server/SharedMemory.h"
 int main(int argc, char* argv[])
 {
-  cout << "Starting Client...\n";
+  printf("Starting Client [pid=%d]...\n",GetCurrentProcessId());
   SharedMemory s;
   while (!s.connect())
   {
   }
 
   printf("Checking shared memory for games...\n");
-  time_t now = time(NULL);
-  s.updateGameList();
-  for each(GameInfo* g in s.games)
+  while(true)
   {
-    printf("Game\n");
-    printf("chGameName=%s\n",g->chGameName);
-    printf("chGameStats=%s\n",g->chGameStats);
+    s.update();
+    GameInfo* game = NULL;
+    for each(GameInfo* g in s.games)
+    {
+      game = g;
+    }
+    if (!s.isConnectedToLadderGame())
+    {
+      s.connectToLadderGame(game);
+    }
   }
   system("pause");
   s.disconnect();

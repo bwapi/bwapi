@@ -9,7 +9,7 @@ using namespace std;
 #include "SharedMemory.h"
 int main(int argc, char* argv[])
 {
-  cout << "Starting Server...\n";
+  printf("Starting Server [pid=%d]...\n",GetCurrentProcessId());
   SharedMemory s;
   while (!s.connect())
   {
@@ -22,7 +22,11 @@ int main(int argc, char* argv[])
   strncpy(myGameInfo.chGameStats,"Some Game Stats",128);
   s.advertiseLadderGame(&myGameInfo);
   printf("Added game 'Hello Game' to shared memory\n");
-  system("pause");
+
+  while(true)
+  {
+    s.update();
+  }
   s.disconnect();
 	return 0;
 }
