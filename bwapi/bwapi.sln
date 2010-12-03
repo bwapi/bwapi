@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
@@ -54,6 +54,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIModule", "DevAIModule\
 	ProjectSection(ProjectDependencies) = postProject
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LPIP_Client", "LPIP_Client\LPIP_Client.vcproj", "{D068F949-3023-4D9F-90B7-745824D69BB3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LPIP_Server", "LPIP_Server\LPIP_Server.vcproj", "{808E2CED-A4A5-4B90-87B7-147E172EE1D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +117,14 @@ Global
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Debug|Win32.Build.0 = Debug|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.ActiveCfg = Release|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.Build.0 = Release|Win32
+		{D068F949-3023-4D9F-90B7-745824D69BB3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D068F949-3023-4D9F-90B7-745824D69BB3}.Debug|Win32.Build.0 = Debug|Win32
+		{D068F949-3023-4D9F-90B7-745824D69BB3}.Release|Win32.ActiveCfg = Release|Win32
+		{D068F949-3023-4D9F-90B7-745824D69BB3}.Release|Win32.Build.0 = Release|Win32
+		{808E2CED-A4A5-4B90-87B7-147E172EE1D7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{808E2CED-A4A5-4B90-87B7-147E172EE1D7}.Debug|Win32.Build.0 = Debug|Win32
+		{808E2CED-A4A5-4B90-87B7-147E172EE1D7}.Release|Win32.ActiveCfg = Release|Win32
+		{808E2CED-A4A5-4B90-87B7-147E172EE1D7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
