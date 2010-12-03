@@ -207,7 +207,8 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
   c.WriteTotalTimeoutMultiplier = 100;
   c.WriteTotalTimeoutConstant = 2000;
   SetCommTimeouts(pipeHandle,&c);
-  WriteFile(pipeHandle,&processID,sizeof(DWORD),&writtenByteCount,NULL); //write data to that player's pipe
+  int myProcID = GetCurrentProcessId();
+  WriteFile(pipeHandle,&myProcID,sizeof(DWORD),&writtenByteCount,NULL); //write data to that player's pipe
   WriteFile(pipeHandle,buf,len,&writtenByteCount,NULL); //write data to that player's pipe
   CloseHandle(pipeHandle);
   return true;
