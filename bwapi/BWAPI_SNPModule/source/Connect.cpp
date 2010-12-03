@@ -140,14 +140,4 @@ namespace LUDP
 
 namespace LTST
 {
-  int SendData(const char *buf, int len, const SOCKADDR_IN *to)
-  {
-    // @TODO: send stuff here
-
-    ++gdwSendCalls;
-    gdwSendBytes += len;
-
-    return 0;
-  }
-
 };

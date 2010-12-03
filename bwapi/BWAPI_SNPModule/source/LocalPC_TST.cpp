@@ -105,6 +105,9 @@ namespace LTST
       return false;
     }
 
+    memset((void*)&gpRecvQueue->saFrom, 0, sizeof(SOCKADDR));
+    *(DWORD*)&gpRecvQueue->saFrom.sa_data[0] = gpRecvQueue->dwProcID;
+
     *addr       = (SOCKADDR_IN*)&gpRecvQueue->saFrom;
     *data       = (char*)gpRecvQueue->bData;
     *databytes  = gpRecvQueue->dwLength;
@@ -123,7 +126,14 @@ namespace LTST
     }
 
     for ( int i = addrCount; i > 0; --i )
-      SendData( buf, bufLen, addrList[i-1]);
+    {
+      DWORD dwProcSendTo = *(DWORD*)&((SOCKADDR*)addrList[i-1])->sa_data[0];
+      
+      // @TODO: send stuff here using dwProcSendTo, buf, and bufLen
+
+      ++gdwSendCalls;
+      gdwSendBytes += bufLen;
+    }
     return true;
   }
 
@@ -139,6 +149,10 @@ namespace LTST
     EnterCriticalSection(&gCrit);
 
     // @TODO: Begin or update the game advertisement
+    // using the following:
+    //    pszGameName
+    //    pszGameStatString
+    //    dwGameState
 
     LeaveCriticalSection(&gCrit);
     return true;
@@ -174,8 +188,8 @@ namespace LTST
     if ( dwThisTickCount - gdwLastTickCount > 400 )
     {
       gdwLastTickCount = dwThisTickCount;
-      // @TODO: Update the game list here
-      //UpdateGameList(address from, game state, game name, stat string, true = remove it from the list);
+      // @TODO: Update the game list here (local SNP/Storm module listing, just call below function with correct params)
+      //UpdateGameList(procID from, game state, game name, stat string, true = remove it from the list);
     }
     return true;
   }

@@ -49,10 +49,11 @@ namespace LTST
 
   struct pktq
   {
-    SOCKADDR_IN saFrom;
+    SOCKADDR    saFrom;
     char        bData[PKT_SIZE];
     DWORD       dwLength;
     pktq        *pNext;
+    DWORD       dwProcID;
   };
 
   #endif

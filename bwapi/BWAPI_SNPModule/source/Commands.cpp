@@ -114,7 +114,7 @@ namespace LUDP
 namespace LTST
 {
   DWORD gdwListIndex;
-  void UpdateGameList(SOCKADDR_IN *from, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove)
+  void UpdateGameList(DWORD dwFromProcID, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove)
   {
     EnterCriticalSection(&gCrit);
     DWORD _dwIndex = 0;
@@ -124,7 +124,7 @@ namespace LTST
       volatile gameStruc *g = gpMGameList;
       do
       {
-        if ( !memcmp((void*)&g->saHost, from, sizeof(SOCKADDR)) )
+        if ( *(DWORD*)&g->saHost.sa_data[0] == dwFromProcID )
         {
           gameStruc *_next = g->pNext;
           _dwIndex         = g->dwIndex;
@@ -171,7 +171,8 @@ namespace LTST
       if ( !newGame )
         Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate memory for game list.");
 
-      memcpy(&newGame->saHost, from, sizeof(SOCKADDR));
+      memset(&newGame->saHost, 0, sizeof(SOCKADDR));
+      *(DWORD*)&newGame->saHost.sa_data[0] = dwFromProcID;
 
       newGame->dwIndex      = _dwIndex;
       newGame->dwGameState  = dwGameState;
