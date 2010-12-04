@@ -37,8 +37,8 @@ namespace LPIP
     LeaveCriticalSection(&gCrit);
 
     // @TODO: Destroy any allocations/stuff here
-    while(isThreadAlive())
-      Sleep(1);
+//    while(isThreadAlive())
+//      Sleep(1);
     if ( s )
     {
       s->disconnect();
