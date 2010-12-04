@@ -25,12 +25,12 @@ SharedMemory::~SharedMemory()
 bool SharedMemory::playerExists(int i)
 {
   if (!data) return false;
-  return (time(NULL)-data->playerInfo[i].lastUpdate)<(time_t)(3*60);
+  return (time(NULL)-data->playerInfo[i].lastUpdate)<(time_t)(5);
 }
 bool SharedMemory::gameExists(int i)
 {
   if (!data) return false;
-  return (time(NULL)-data->gameInfo[i].lastUpdate)<(time_t)(3*60);
+  return (time(NULL)-data->gameInfo[i].lastUpdate)<(time_t)(5);
 }
 
 void SharedMemory::initGameInfoTable()
