@@ -18,8 +18,8 @@ namespace LUDP
   bool __stdcall spiUnlockGameList(gameStruc *pGameList, DWORD *a2);
 };
 
-#define LTST_ID 1
-namespace LTST
+#define LPIP_ID 1
+namespace LPIP
 {
   bool __stdcall spiDestroy();
   bool __stdcall spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent);

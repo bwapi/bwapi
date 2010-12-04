@@ -7,7 +7,7 @@
 
 #include "../../LPIP_Server/SharedMemory.h"
 
-namespace LTST
+namespace LPIP
 {
   bool __stdcall spiDestroy()
   {

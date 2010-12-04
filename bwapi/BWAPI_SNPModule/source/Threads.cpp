@@ -95,7 +95,7 @@ namespace LUDP
   }
 };
 
-namespace LTST
+namespace LPIP
 {
   bool gbWantExit = false;
   volatile pktq *gpRecvQueue;

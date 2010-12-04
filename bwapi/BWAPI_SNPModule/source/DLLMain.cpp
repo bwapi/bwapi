@@ -35,28 +35,28 @@ netModule networks[] = {
       NULL,
       &COMN::spiLeagueGetName }
   },
-  { "Local PC (TEST)", 'LTST', "",
+  { "Local PC (Pipes)", 'LPIP', "",
     { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 100000, 50, 8, 0},
     { sizeof(netFunctions),
       &COMN::spiCompareNames,
-      &LTST::spiDestroy,
+      &LPIP::spiDestroy,
       &COMN::spiFree,
       &COMN::spiError,
       &COMN::spiGetGameInfo,
       &COMN::spiGetPerformanceData,
-      &LTST::spiInitializeProvider,
+      &LPIP::spiInitializeProvider,
       &COMN::spiInitializeDevice,
       &COMN::spiEnumDevices,
-      &LTST::spiLockGameList,
-      &LTST::spiReceiveFrom,
+      &LPIP::spiLockGameList,
+      &LPIP::spiReceiveFrom,
       &COMN::spiReceive,
       &COMN::spiSelectGame,
-      &LTST::spiSendTo,
+      &LPIP::spiSendTo,
       &COMN::spiSend,
-      &LTST::spiStartAdvertisingLadderGame,
-      &LTST::spiStopAdvertisingGame,
+      &LPIP::spiStartAdvertisingLadderGame,
+      &LPIP::spiStopAdvertisingGame,
       &COMN::spiInitialize,
-      &LTST::spiUnlockGameList,
+      &LPIP::spiUnlockGameList,
       NULL,
       NULL,
       NULL,
@@ -80,11 +80,11 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName
       *ppszNetworkDescription =  networks[LUDP_ID].pszDescription;
       *ppCaps                 = &networks[LUDP_ID].Caps;
       return TRUE;
-    case LTST_ID:
-      *dwNetworkCode          =  networks[LTST_ID].dwIdentifier;
-      *ppszNetworkName        =  networks[LTST_ID].pszName;
-      *ppszNetworkDescription =  networks[LTST_ID].pszDescription;
-      *ppCaps                 = &networks[LTST_ID].Caps;
+    case LPIP_ID:
+      *dwNetworkCode          =  networks[LPIP_ID].dwIdentifier;
+      *ppszNetworkName        =  networks[LPIP_ID].pszName;
+      *ppszNetworkDescription =  networks[LPIP_ID].pszDescription;
+      *ppCaps                 = &networks[LPIP_ID].Caps;
       return TRUE;
     default:
       return FALSE;
@@ -102,8 +102,8 @@ BOOL WINAPI SnpBind(DWORD dwIndex, netFunctions **ppFxns)
     case LUDP_ID:
       *ppFxns = &networks[LUDP_ID].NetFxns;
       return TRUE;
-    case LTST_ID:
-      *ppFxns = &networks[LTST_ID].NetFxns;
+    case LPIP_ID:
+      *ppFxns = &networks[LPIP_ID].NetFxns;
       return TRUE;
     default:
       return FALSE;

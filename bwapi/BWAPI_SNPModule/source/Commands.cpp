@@ -111,7 +111,7 @@ namespace LUDP
   }
 };
 
-namespace LTST
+namespace LPIP
 {
   DWORD gdwListIndex;
   void UpdateGameList(DWORD dwFromProcID, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove)
