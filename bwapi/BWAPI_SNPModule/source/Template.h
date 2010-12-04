@@ -14,7 +14,7 @@ struct netFunctions
   // Called when the module is released
   bool  (__stdcall *spiDestroy)();
   // Called in order to free blocks of packet memory returned in the spiReceive functions
-  void  *spiFree;
+  bool  (__stdcall *spiFree)(SOCKADDR_IN *addr, char *data, DWORD databytes);
   void  *spiError;
   // Returns info on a specified game
   void  *spiGetGameInfo;

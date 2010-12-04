@@ -274,9 +274,15 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
   CloseHandle(pipeHandle);
   return true;
 }
-int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD& processID, bool isBlocking)
+int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processID, bool isBlocking)
 {
-  processID = 0;
+  if ( !processID || !buf || len <= 0 )
+  {
+    SetLastError(ERROR_INVALID_PARAMETER);
+    return -1;
+  }
+
+  *processID = 0;
   memset((void*)buf,0,len);
   DWORD receivedByteCount = 0;
   while(receivedByteCount == 0)
@@ -284,19 +290,20 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD& processI
     if (isBlocking)
       update();
 
-    BOOL success = ReadFile(myPipeHandle,(LPVOID)(&processID),sizeof(DWORD),&receivedByteCount,NULL);
+    BOOL success = ReadFile(myPipeHandle,(LPVOID)processID,sizeof(DWORD),&receivedByteCount,NULL);
     if (!success && GetLastError() == ERROR_BROKEN_PIPE)
     {
       if (!connectPipe())
       {
         printf("Error: could not reconnect broken pipe\n");
       }
+      return -1;
     }
     if (success)
     {
       ReadFile(myPipeHandle,(LPVOID)buf,len,&receivedByteCount,NULL);
     }
-    if (!success) return -1;
+    //if (!success) return -1;
     if (!isBlocking) break;
     Sleep(50);
   }
