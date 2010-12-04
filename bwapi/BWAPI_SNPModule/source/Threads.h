@@ -40,7 +40,7 @@ namespace LUDP
   extern volatile void *gpGameAdvert;
 };
 
-namespace LTST
+namespace LPIP
 {
   extern bool gbWantExit;
   extern SharedMemory *s;

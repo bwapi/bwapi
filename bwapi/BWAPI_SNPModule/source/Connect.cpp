@@ -137,7 +137,3 @@ namespace LUDP
   }
 
 };
-
-namespace LTST
-{
-};

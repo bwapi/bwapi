@@ -16,7 +16,7 @@ namespace LUDP
   void UpdateGameList(SOCKADDR_IN *from, char *data, bool remove);
 };
 
-namespace LTST
+namespace LPIP
 {
   void UpdateGameList(DWORD dwFromProcID, DWORD dwGameState, char *pszGameName, char *pszStatString, bool remove);
 };
