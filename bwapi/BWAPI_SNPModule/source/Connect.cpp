@@ -68,7 +68,7 @@ namespace LUDP
       Error(WSAGetLastError(), "Unable to bind broadcast socket.");
 
     // begin recv threads here
-    HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
+    hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
     if ( !hRecvThread )
       Error(ERROR_INVALID_HANDLE, "Unable to create the recv thread.");
     SetThreadPriority(hRecvThread, 1);

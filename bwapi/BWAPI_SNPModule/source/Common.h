@@ -11,6 +11,7 @@ extern char gszLogPath[MAX_PATH];
 extern CRITICAL_SECTION gCrit;
 extern DWORD  gdwProcId;
 extern HANDLE ghRecvEvent;
+extern HANDLE hRecvThread;
 
 extern volatile gameStruc *gpMGameList;
 
@@ -33,3 +34,4 @@ void Log(const char *format = "", ...);
 void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...);
 
 void CleanGameList(DWORD dwTimeout);
+bool isThreadAlive();

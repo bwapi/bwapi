@@ -41,7 +41,7 @@ class SharedMemory
   bool isConnectedToSharedMemory();
   void update();
   bool sendData(const char *buf, unsigned int len, DWORD processID);
-  int receiveData(const char *buf, unsigned int len, DWORD *processID, bool isBlocking = true);
+  int receiveData(const char *buf, unsigned int len, DWORD *processID, bool isBlocking, bool* wantExit);
   void initGameInfoTable();
   bool playerExists(int i);
   bool gameExists(int i);

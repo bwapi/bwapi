@@ -243,7 +243,7 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
   return false;
 
 }
-int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processID, bool isBlocking)
+int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processID, bool isBlocking, bool* wantExit)
 {
   if ( !processID || !buf || len <= 0 )
   {
@@ -271,6 +271,7 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processI
       }
     //if (!success) return -1;
     if (!isBlocking) break;
+    if (*wantExit) break;
     Sleep(50);
   }
   return receivedByteCount;

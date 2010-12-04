@@ -26,8 +26,9 @@ int main(int argc, char* argv[])
   DWORD processID;
   while(true)
   {
+    bool wantExit = false;
     s.update();
-    int rVal = s.receiveData(buffer,1024,&processID,false);
+    int rVal = s.receiveData(buffer,1024,&processID,false,&wantExit);
     if (rVal>0)
       printf("Received the following data from process %d: %s\n",processID,buffer);
   }
