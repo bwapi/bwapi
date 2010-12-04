@@ -16,6 +16,7 @@ int main(int argc, char* argv[])
 
 
   printf("Checking shared memory for games...\n");
+  int sentmsgs=0;
   while(true)
   {
     s.update();
@@ -24,13 +25,12 @@ int main(int argc, char* argv[])
     {
       game = g;
     }
-    if (!s.isConnectedToLadderGame() && game!=NULL)
+    if (game!=NULL && sentmsgs==0)
     {
-      printf("Connecting to game %s\n",game->chGameName);
-      s.connectToLadderGame(game);
+      sentmsgs++;
       string message("Hello Server!");
-      printf("Sending %s to %d\n",message.c_str(),game->playerProcessIDs[0]);
-      if (s.sendData(message.c_str(),message.length(),game->playerProcessIDs[0]))
+      printf("Sending %s to %d\n",message.c_str(),game->serverProcessID);
+      if (s.sendData(message.c_str(),message.length(),game->serverProcessID))
         printf("Sent\n");
     }
   }
