@@ -109,7 +109,7 @@ namespace LPIP
       // @TODO: Receive any data here
       DWORD fromProcessID;
       char buffer[PKT_SIZE];
-      int length = s->receiveData(buffer, PKT_SIZE, &fromProcessID);
+      int length = s->receiveData(buffer, PKT_SIZE, &fromProcessID,true,&gbWantExit);
       if ( gbWantExit || length == 0 )
         return 0;
       if ( length == -1 )

@@ -19,7 +19,14 @@ DWORD gdwProduct;
 DWORD gdwVerbyte;
 DWORD gdwMaxPlayers;
 DWORD gdwLangId;
+HANDLE hRecvThread;
 
+bool isThreadAlive()
+{
+  DWORD dwExitCode = 0;
+  GetExitCodeThread(hRecvThread, &dwExitCode);
+  return dwExitCode == STILL_ACTIVE;
+}
 void Error(DWORD dwErrCode, const char *format, ...)
 {
   char szBuffer[256];

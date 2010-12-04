@@ -37,6 +37,8 @@ namespace LPIP
     LeaveCriticalSection(&gCrit);
 
     // @TODO: Destroy any allocations/stuff here
+    while(isThreadAlive())
+      Sleep(1);
     if ( s )
     {
       s->disconnect();
@@ -78,7 +80,7 @@ namespace LPIP
       return false;
     }
 
-    HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
+    hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
     if ( !hRecvThread )
     {
       Error(ERROR_INVALID_HANDLE, "Unable to create the recv thread.");
