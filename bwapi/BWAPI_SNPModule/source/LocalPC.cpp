@@ -29,12 +29,12 @@ namespace COMN
     return true;
   }
 
-  bool __stdcall spiFree(void *pPacket, int a2, int a3)
+  bool __stdcall spiFree(SOCKADDR_IN *addr, char *data, DWORD databytes)
   {
     // This function is complete
-    if ( pPacket && a2 )
+    if ( addr && data )
     {
-      SMFree(pPacket);
+      SMFree(addr);
       return true;
     }
     else

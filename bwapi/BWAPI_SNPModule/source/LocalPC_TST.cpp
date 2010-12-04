@@ -72,14 +72,19 @@ namespace LTST
     
     // @TODO: Initialize any data/allocations/stuff here
     s = new SharedMemory();
-    
+    if ( !s->connect() )
+    {
+      Error(GetLastError(), "Unable to connect to pipe or shared memory!");
+      return false;
+    }
+
     HANDLE hRecvThread = CreateThread(NULL, 0, &RecvThread, NULL, 0, NULL);
     if ( !hRecvThread )
+    {
       Error(ERROR_INVALID_HANDLE, "Unable to create the recv thread.");
+      return false;
+    }
     SetThreadPriority(hRecvThread, 1);
-
-    while ( !s->connect() )
-      Sleep(1);
 
     return true;
   }
@@ -121,7 +126,9 @@ namespace LTST
     }
 
     memset((void*)&gpRecvQueue->saFrom, 0, sizeof(SOCKADDR));
-    *(DWORD*)&gpRecvQueue->saFrom.sa_data[0] = gpRecvQueue->dwProcID;
+    *(WORD*)&gpRecvQueue->saFrom.sa_data[0]  = 1337;
+    *(DWORD*)&gpRecvQueue->saFrom.sa_data[2] = gpRecvQueue->dwProcID;
+    gpRecvQueue->saFrom.sa_family = AF_INET;
 
     *addr       = (SOCKADDR_IN*)&gpRecvQueue->saFrom;
     *data       = (char*)gpRecvQueue->bData;
@@ -142,9 +149,10 @@ namespace LTST
 
     for ( int i = addrCount; i > 0; --i )
     {
-      DWORD dwProcSendTo = *(DWORD*)&((SOCKADDR*)addrList[i-1])->sa_data[0];
+      DWORD dwProcSendTo = *(DWORD*)&((SOCKADDR*)addrList[i-1])->sa_data[2];
       
       // @TODO: send stuff here using dwProcSendTo, buf, and bufLen
+      s->sendData(buf, bufLen, dwProcSendTo);
 
       ++gdwSendCalls;
       gdwSendBytes += bufLen;
@@ -209,7 +217,7 @@ namespace LTST
       *a2 = 500;
 
     DWORD dwThisTickCount = GetTickCount();
-    if ( dwThisTickCount - gdwLastTickCount > 400 )
+    if ( dwThisTickCount - gdwLastTickCount > 100 )
     {
       gdwLastTickCount = dwThisTickCount;
       // @TODO: Update the game list here (local SNP/Storm module listing, just call below function with correct params)
@@ -217,7 +225,7 @@ namespace LTST
       s->updateGameList();
       for each( GameInfo *g in s->games )
       {
-        UpdateGameList(g->playerProcessIDs[0], g->dwGameState, g->chGameName, g->chGameStats, false);
+        UpdateGameList(g->playerProcessIDs[0], g->dwGameState, g->chGameName, g->chGameStats, g->lastUpdate == 0 );
       }
     }
     return true;

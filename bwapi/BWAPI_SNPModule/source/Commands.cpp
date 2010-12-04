@@ -124,7 +124,7 @@ namespace LTST
       volatile gameStruc *g = gpMGameList;
       do
       {
-        if ( *(DWORD*)&g->saHost.sa_data[0] == dwFromProcID )
+        if ( *(DWORD*)&g->saHost.sa_data[2] == dwFromProcID )
         {
           gameStruc *_next = g->pNext;
           _dwIndex         = g->dwIndex;
@@ -172,7 +172,9 @@ namespace LTST
         Error(ERROR_NOT_ENOUGH_MEMORY, "Could not allocate memory for game list.");
 
       memset(&newGame->saHost, 0, sizeof(SOCKADDR));
-      *(DWORD*)&newGame->saHost.sa_data[0] = dwFromProcID;
+      newGame->saHost.sa_family = AF_INET;
+      *(WORD*)&newGame->saHost.sa_data[0]  = 1337;
+      *(DWORD*)&newGame->saHost.sa_data[2] = dwFromProcID;
 
       newGame->dwIndex      = _dwIndex;
       newGame->dwGameState  = dwGameState;

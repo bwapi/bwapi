@@ -107,30 +107,29 @@ namespace LTST
     for (;;)
     {
       // @TODO: Receive any data here
-      // when something is received, go through the below code for each piece of data that was received
-      // in other words, one at a time
-
       DWORD fromProcessID;
-      char buffer[512];
-      int length = s->receiveData(buffer,512,fromProcessID);
-      if ( gbWantExit )
+      char buffer[PKT_SIZE];
+      int length = s->receiveData(buffer, PKT_SIZE, &fromProcessID);
+      if ( gbWantExit || length == 0 )
         return 0;
-      if (length == 0)
+      if ( length == -1 )
+      {
+        Error(GetLastError(), "Pipe failed to receive!");
         return 0;
+      }
 
       ++gdwRecvCalls;
-      //gdwRecvBytes += size of received data
+      gdwRecvBytes += length;
 
       pktq *recvPkt = (pktq*)SMAlloc(sizeof(pktq));
       if ( !recvPkt )
+      {
         Error(ERROR_NOT_ENOUGH_MEMORY, "Recv Allocation error");
+        return 0;
+      }
 
       // @TODO: Copy received data to this structure
-      // Note: This structure can be modified, but would have to update everything that references it
-      // memcpy(recvPkt->bData, received data buffer, 512);
-      // recvPkt->dwLength = size of received data
-      // recvPkt->dwProcID = the procId that sent the data
-      memcpy(recvPkt->bData, buffer, 512);
+      memcpy(recvPkt->bData, buffer, PKT_SIZE);
       recvPkt->dwLength = length;
       recvPkt->dwProcID = fromProcessID;
 
@@ -150,8 +149,6 @@ namespace LTST
       }
       LeaveCriticalSection(&gCrit);
       SetEvent(ghRecvEvent);
-      break;
-
     } // loop
   }
 };

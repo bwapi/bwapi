@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
   while(true)
   {
     s.update();
-    int rVal = s.receiveData(buffer,1024,processID,false);
+    int rVal = s.receiveData(buffer,1024,&processID,false);
     if (rVal>0)
       printf("Received the following data from process %d: %s\n",processID,buffer);
   }
