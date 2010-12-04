@@ -225,7 +225,7 @@ namespace LPIP
       s->updateGameList();
       for each( GameInfo *g in s->games )
       {
-        UpdateGameList(g->playerProcessIDs[0], g->dwGameState, g->chGameName, g->chGameStats, g->lastUpdate == 0 );
+        UpdateGameList(g->serverProcessID, g->dwGameState, g->chGameName, g->chGameStats, g->lastUpdate == 0 );
       }
     }
     return true;
