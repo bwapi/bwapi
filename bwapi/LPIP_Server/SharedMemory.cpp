@@ -12,7 +12,7 @@ SharedMemory::SharedMemory()
   ownsLadderGame = false;
   data           = NULL;
   mapFileHandle  = INVALID_HANDLE_VALUE;
-  for(int i=0;i<100;i++)
+  for(int i=0;i<PLAYER_MAX;i++)
   {
     pipeHandle[i] = INVALID_HANDLE_VALUE;
     pipeName[i][0]='\0';
@@ -36,12 +36,12 @@ bool SharedMemory::gameExists(int i)
 void SharedMemory::initGameInfoTable()
 {
   if (!data) return;
-  for(int i=0;i<256;i++)
+  for(int i=0;i<GAME_MAX;i++)
   {
     data->gameInfo[i].lastUpdate = 0;
     data->gameInfo[i].tableIndex = i;
   }
-  for(int i=1;i<100;i++)
+  for(int i=1;i<PLAYER_MAX;i++)
   {
     data->playerInfo[i].lastUpdate = 0;
     data->playerInfo[i].tableIndex = i;
@@ -74,7 +74,7 @@ bool SharedMemory::connectSharedMemory()
     data = (GameInfoTable*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameInfoTable));
 
   playerIndex = -1;
-  for(int i=0;i<100;i++)
+  for(int i=0;i<PLAYER_MAX;i++)
   {
     if (!playerExists(i) || data->playerInfo[i].procID==id)
     {
@@ -104,12 +104,8 @@ void SharedMemory::disconnect()
   printf("disconnect()\n");
   if (data !=NULL)
   {
-    for(int i=0;i<100;i++)
-      if (data->playerInfo[i].procID==id)
-      {
-        data->playerInfo[i].procID = -1;
-        data->playerInfo[i].lastUpdate = 0;
-      }
+    removeLadderGameAd();
+    data->playerInfo[playerIndex].lastUpdate = 0;
     UnmapViewOfFile(data);
     data = NULL;
   }
@@ -135,7 +131,7 @@ bool SharedMemory::advertiseLadderGame(GameInfo* gm)
   time_t now = time(NULL);
   if (gameIndex==-1)
   {
-    for(int i=0;i<256;i++)
+    for(int i=0;i<GAME_MAX;i++)
     {
       if (gameExists(i)==false)
       {
@@ -159,7 +155,7 @@ bool SharedMemory::advertiseLadderGame(GameInfo* gm)
 }
 void SharedMemory::removeLadderGameAd()
 {
-  if (data && gameIndex>=0)
+  if (data && gameIndex>=0 && ownsLadderGame)
   {
     data->gameInfo[gameIndex].lastUpdate = 0;
     gameIndex = -1;
@@ -172,7 +168,7 @@ void SharedMemory::updateGameList()
   {
     games.clear();
     time_t now = time(NULL);
-    for(int i=0;i<256;i++)
+    for(int i=0;i<GAME_MAX;i++)
     {
       if ((now-data->gameInfo[i].lastUpdate)<(time_t)(3*60))
         games.push_back(&data->gameInfo[i]);
@@ -188,7 +184,7 @@ void SharedMemory::update()
   if (gameIndex>=0 && ownsLadderGame)
     data->gameInfo[gameIndex].lastUpdate = time(NULL);
 
-  for(int i=0;i<100;i++)
+  for(int i=0;i<PLAYER_MAX;i++)
   {
     if (playerExists(i) && data->playerInfo[i].procID!=id && (pipeHandle[i] == INVALID_HANDLE_VALUE || pipeHandle[i] == NULL))
     {
@@ -240,7 +236,7 @@ bool SharedMemory::sendData(const char *buf, unsigned int len, DWORD processID)
   if (processID == id) return false;
   DWORD writtenByteCount = 0;
   //look for player with the same process id
-  for(int i=0;i<100;i++)
+  for(int i=0;i<PLAYER_MAX;i++)
     if (data->playerInfo[i].procID == processID) //found player
       WriteFile(pipeHandle[i],buf,len,&writtenByteCount,NULL); //write data to that player's pipe
   if (writtenByteCount==len) return true;
@@ -262,10 +258,8 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processI
   {
     if (isBlocking)
       update();
-
-
     //look for player with the same process id
-    for(int i=0;i<10;i++)
+    for(int i=0;i<PLAYER_MAX;i++)
       if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL) //found player
       {
         BOOL success = ReadFile(pipeHandle[i],(LPVOID)buf,len,&receivedByteCount,NULL);

@@ -18,10 +18,12 @@ struct PlayerInfo
   int tableIndex;
   time_t lastUpdate;
 };
+#define GAME_MAX 256
+#define PLAYER_MAX 10
 struct GameInfoTable
 {
   GameInfo gameInfo[256];
-  PlayerInfo playerInfo[100];
+  PlayerInfo playerInfo[10];
 };
 class SharedMemory
 {
@@ -45,8 +47,8 @@ class SharedMemory
   bool gameExists(int i);
   std::list<GameInfo*> games;
   HANDLE myPipeHandle;
-  HANDLE pipeHandle[100];
-  char pipeName[100][256];
+  HANDLE pipeHandle[10];
+  char pipeName[10][256];
   GameInfoTable* data;
   HANDLE mapFileHandle;
   int gameIndex;
