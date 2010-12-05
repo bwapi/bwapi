@@ -42,10 +42,14 @@ namespace BWAPI
   }
   bool PlayerImpl::isAlly(Player* player) const
   {
+    if ( !player )
+      return false;
     return self->isAlly[player->getID()];
   }
   bool PlayerImpl::isEnemy(Player* player) const
   {
+    if ( !player )
+      return false;
     return self->isEnemy[player->getID()];
   }
   bool PlayerImpl::isNeutral() const
