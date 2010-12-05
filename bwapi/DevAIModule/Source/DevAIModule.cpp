@@ -14,6 +14,8 @@ void DevAIModule::onStart()
   // save player info
   self = bw->self();
 
+  self->isEnemy(NULL);
+
   // save map info
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();

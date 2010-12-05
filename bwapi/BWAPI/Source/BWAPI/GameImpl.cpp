@@ -639,13 +639,13 @@ namespace BWAPI
   bool GameImpl::isMultiplayer()
   {
     this->setLastError(Errors::None);
-    return *BW::BWDATA_GameModule != 0 && *BW::BWDATA_GameModule != -1;
+    return *BW::BWDATA_NetMode != 0 && *BW::BWDATA_NetMode != -1;
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::isBattleNet()
   {
     this->setLastError(Errors::None);
-    return *BW::BWDATA_GameModule == 'TENB';
+    return *BW::BWDATA_NetMode == 'BNET';
   }
   //----------------------------------------------- IS PAUSED ------------------------------------------------
   bool GameImpl::isPaused()
