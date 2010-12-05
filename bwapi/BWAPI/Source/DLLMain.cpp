@@ -457,6 +457,34 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
   delete buffer;
 }
 
+void SelectReturnMenu()
+{
+  switch ( *BW::BWDATA_NetMode )
+  {
+  case 'BNET':
+    *BW::BWDATA_glGluesMode = 4;  // battle.net
+    break;
+  case 'IPXN':
+  case 'ATLK':
+  case 'IPXX':
+  case 'UDPN':
+  case 'LUDP':
+  case 'LPIP':
+    *BW::BWDATA_glGluesMode = 10; // game select
+    break;
+  case 'MDMX':
+  case 'MODM':
+    *BW::BWDATA_glGluesMode = 20; // modem
+    break;
+  case 'SCBL':
+    *BW::BWDATA_glGluesMode = 21; // direct connect
+    break;
+  default:
+    *BW::BWDATA_glGluesMode = 0;  // main menu
+    break;
+  }
+}
+
 char logPath[MAX_PATH];
 bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
@@ -537,6 +565,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
   HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy,    &DDrawDestroy);
+  HackUtil::JmpPatch(BW::BWFXN_NetSelectReturnMenu, &SelectReturnMenu);
 
   /* Perform code patches */
   char zero = 0;

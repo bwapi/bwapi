@@ -204,7 +204,7 @@ namespace BW
   static u8             *BWDATA_Latency        = (u8*)  0x006556e4;
   static u32            *BWDATA_InGame         = (u32*) 0x006556E0;
   static u32            *BWDATA_InReplay       = (u32*) 0x006D0F14;
-  static int            *BWDATA_GameModule     = (int*) 0x0059688C;
+  static int            *BWDATA_NetMode        = (int*) 0x0059688C;
   static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
 
   // note: unaligned because it's part of a structure that we're not using
@@ -268,6 +268,8 @@ namespace BW
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;
 
   static void (*BWDATA_DSoundDestroy)()  = (void (*)()) 0x004BC180;
+
+  static u32 BWFXN_NetSelectReturnMenu   = 0x004DC5B0;
 
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl *BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;

@@ -858,12 +858,12 @@ namespace BWAPI
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::_isBattleNet()
   {
-    return *BW::BWDATA_GameModule == 'TENB';
+    return *BW::BWDATA_NetMode == 'BNET';
   }
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::_isSinglePlayer() const
   {
-    return *BW::BWDATA_GameModule == 0 || *BW::BWDATA_GameModule == -1;
+    return *BW::BWDATA_NetMode == 0 || *BW::BWDATA_NetMode == -1;
   }
   //------------------------------------------------ IS IN GAME ----------------------------------------------
   bool GameImpl::_isInGame() const

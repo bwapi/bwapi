@@ -24,7 +24,7 @@ HANDLE hRecvThread;
 bool isThreadAlive()
 {
   DWORD dwExitCode = 0;
-  bool s = GetExitCodeThread(hRecvThread, &dwExitCode);
+  BOOL s = GetExitCodeThread(hRecvThread, &dwExitCode);
   if (!s) return false;
   return dwExitCode == STILL_ACTIVE;
 }
