@@ -998,6 +998,8 @@ namespace BWAPI
     /* Clear our sets */
     this->startLocations.clear();
     this->playerSet.clear();
+    for each(Force* f in forces)
+      delete f;
     this->forces.clear();
 
     /* get the set of start locations */
@@ -1261,6 +1263,8 @@ namespace BWAPI
     emptySet.clear();
     startLocations.clear();
     unitTypes.clear();
+    for each(Force* f in forces)
+      delete f;
     forces.clear();
     playerSet.clear();
     minerals.clear();
