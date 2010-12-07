@@ -42,7 +42,7 @@ namespace LPIP
       delete s;
       s = NULL;
     }
-    Sleep(50);  // 10 is more than enough here
+    Sleep(100);  // 10 is more than enough here
     return true;
   }
 

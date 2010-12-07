@@ -274,7 +274,7 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processI
     }
     //if (!success) return -1;
     if (!isBlocking) break;
-    Sleep(1);
+    Sleep(50);
   }
   return receivedByteCount;
 }
