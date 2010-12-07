@@ -47,7 +47,7 @@ int STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath) rInt;
 int STORMAPI SNetGetLeagueName(int leagueID) rInt;
 BOOL STORMAPI SNet144(char *buffer) rBool;
 int STORMAPI SNetLeagueLogout(char *bnetName) rInt;
-int STORMAPI SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize) rInt;
+int STORMAPI SNetGetLeaguePlayerName(char *curPlayerLeageName, size_t nameSize) rInt;
 
 HGDIOBJ STORMAPI SDlgDefDialogProc(HWND hDlg, signed int DlgType, HDC textLabel, HWND hWnd) rPVoid;
 

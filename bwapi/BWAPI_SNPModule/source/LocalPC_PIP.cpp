@@ -37,15 +37,12 @@ namespace LPIP
     LeaveCriticalSection(&gCrit);
 
     // @TODO: Destroy any allocations/stuff here
-//    while(isThreadAlive())
-//      Sleep(1);
     if ( s )
     {
-      s->disconnect();
       delete s;
       s = NULL;
     }
-
+    Sleep(50);  // 10 is more than enough here
     return true;
   }
 
