@@ -1282,6 +1282,9 @@ namespace BWAPI
     wantSelectionUpdate = false;
 
     //clear latency buffer
+    for(unsigned int j = 0; j < this->commandBuffer.size(); j++)
+      for (unsigned int i = 0; i < this->commandBuffer[j].size(); i++)
+        delete this->commandBuffer[j][i];
     this->commandBuffer.clear();
 
     //remove AI Module from memory (object was already deleted)
