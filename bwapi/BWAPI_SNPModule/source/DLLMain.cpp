@@ -5,7 +5,7 @@
 
 netModule networks[] = {
   { "Local PC (UDP)", 'LUDP', "",
-    { sizeof(caps), 0, PKT_SIZE, 0x10, 0x100, 1000, 10, 8, 0},
+    { sizeof(caps), 0, PKT_SIZE, 0, 0, 1000, 50, 8, 0},
     { sizeof(netFunctions),
       &COMN::spiCompareNames,
       &LUDP::spiDestroy,
@@ -36,7 +36,7 @@ netModule networks[] = {
       &COMN::spiLeagueGetName }
   },
   { "Local PC (Pipes)", 'LPIP', "",
-    { sizeof(caps), 0x20000003, PKT_SIZE, 0x10, 0x100, 1000, 200, 8, 1},
+    { sizeof(caps), 0, PKT_SIZE, 0, 0, 100000, 200, 8, 0},
     { sizeof(netFunctions),
       &COMN::spiCompareNames,
       &LPIP::spiDestroy,
