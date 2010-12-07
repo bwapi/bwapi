@@ -256,10 +256,12 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processI
   DWORD receivedByteCount = 0;
   while(receivedByteCount == 0)
   {
+    if (*wantExit) return 0;
     if (isBlocking)
       update();
     //look for player with the same process id
-    for(int i=0;i<PLAYER_MAX;i++)
+    for(int i = 0; i < PLAYER_MAX; ++i)
+    {
       if (pipeHandle[i] != INVALID_HANDLE_VALUE && pipeHandle[i] != NULL) //found player
       {
         BOOL success = ReadFile(pipeHandle[i],(LPVOID)buf,len,&receivedByteCount,NULL);
@@ -269,10 +271,10 @@ int SharedMemory::receiveData(const char *buf, unsigned int len, DWORD *processI
           break;
         }
       }
+    }
     //if (!success) return -1;
     if (!isBlocking) break;
-    if (*wantExit) break;
-    Sleep(50);
+    Sleep(1);
   }
   return receivedByteCount;
 }

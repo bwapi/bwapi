@@ -61,12 +61,12 @@ BOOL STORMAPI SNetGetGameInfo(int type, char *src, unsigned int length, int *byt
 #ifndef GAME_INFO
 #define GAME_INFO
 
-#define GAMEINFO_NAME     1
-#define GAMEINFO_PASSWORD 2
-#define GAMEINFO_STATS    3
-#define GAMEINFO_MODEFLAG 4
-#define GAMEINFO_UNK_5    5
-#define GAMEINFO_UNK_6    6
+#define GAMEINFO_NAME           1
+#define GAMEINFO_PASSWORD       2
+#define GAMEINFO_STATS          3
+#define GAMEINFO_MODEFLAG       4
+#define GAMEINFO_GAMETEMPLATE   5
+#define GAMEINFO_PLAYERS        6
 
 #endif
 
@@ -266,7 +266,7 @@ int  STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath);
 int  STORMAPI SNetGetLeagueName(int leagueID);
 BOOL STORMAPI SNet144(char *buffer);
 int  STORMAPI SNetLeagueLogout(char *bnetName);
-int  STORMAPI SNetGetLeaguePlayerName(int *curPlayerID, size_t nameSize);
+int  STORMAPI SNetGetLeaguePlayerName(char *curPlayerLeageName, size_t nameSize);
 
 HGDIOBJ STORMAPI SDlgDefDialogProc(HWND hDlg, signed int DlgType, HDC textLabel, HWND hWnd);
 

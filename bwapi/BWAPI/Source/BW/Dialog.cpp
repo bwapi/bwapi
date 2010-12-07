@@ -143,9 +143,15 @@ namespace BW
         break;
       case 11: // Set Selected Index
         break;
+      case 12:  //      unknown
+        break;
       case 13: // Show
         break;
       case 14: // Hide
+        break;
+      case 15: // Scroll up???
+        break;
+      case 16: // Scroll down???
         break;
       default:
         sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
@@ -154,6 +160,8 @@ namespace BW
       }
       break;
     case 15: // User Key press
+      break;
+    case 16: //         unknown
       break;
     case 17: // Mouse wheel Scroll up
       break;
