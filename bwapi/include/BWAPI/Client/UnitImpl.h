@@ -53,6 +53,7 @@ namespace BWAPI
       virtual int          getInitialResources() const;
 
       virtual int getKillCount() const;
+      virtual int getAcidSporeCount() const;
       virtual int getInterceptorCount() const;
       virtual int getScarabCount() const;
       virtual int getSpiderMineCount() const;
@@ -126,6 +127,7 @@ namespace BWAPI
       virtual bool isHoldingPosition() const;
       virtual bool isIdle() const;
       virtual bool isInterruptible() const;
+      virtual bool isInvincible() const;
       virtual bool isInWeaponRange(Unit *target) const;
       virtual bool isIrradiated() const;
       virtual bool isLifted() const;

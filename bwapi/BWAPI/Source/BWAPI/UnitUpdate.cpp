@@ -242,6 +242,7 @@ namespace BWAPI
       self->resources           = _getResources;                        //getResources
       self->resourceGroup       = _getType.isResourceContainer() ? getOriginalRawData->building.resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = getOriginalRawData->killCount;        //getKillCount
+      self->acidSporeCount      = getOriginalRawData->acidSporeCount;   //getAcidSporeCount
       self->defenseMatrixPoints = getOriginalRawData->defenseMatrixDamage/256;  //getDefenseMatrixPoints
       self->defenseMatrixTimer  = getOriginalRawData->defenseMatrixTimer; //getDefenseMatrixTimer
       self->ensnareTimer        = getOriginalRawData->ensnareTimer;     //getEnsnareTimer
@@ -375,6 +376,7 @@ namespace BWAPI
       self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && getOriginalRawData->status.getBit(BW::StatusFlags::DoodadStatesThing); //isUnpowered
       self->isStuck         = getOriginalRawData->movementState == UM_MoveToLegal;
       self->isInterruptible = !getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
+      self->isInvincible    = getOriginalRawData->status.getBit(BW::StatusFlags::Invincible); //isInvincible
       self->buttonset       = getOriginalRawData->currentButtonSet;
     }
     else

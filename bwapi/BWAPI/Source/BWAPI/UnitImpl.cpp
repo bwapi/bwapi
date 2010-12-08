@@ -262,6 +262,11 @@ namespace BWAPI
   {
     return self->killCount;
   }
+  //--------------------------------------------- GET ACID SPORE COUNT ---------------------------------------
+  int UnitImpl::getAcidSporeCount() const
+  {
+    return self->acidSporeCount;
+  }
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
@@ -694,6 +699,11 @@ namespace BWAPI
   bool UnitImpl::isInterruptible() const
   {
     return self->isInterruptible;
+  }
+  //--------------------------------------------- IS INVINCIBLE ----------------------------------------------
+  bool UnitImpl::isInvincible() const
+  {
+    return self->isInvincible;
   }
   //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
   bool UnitImpl::isInWeaponRange(Unit *target) const
