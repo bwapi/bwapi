@@ -127,6 +127,9 @@ namespace BWAPI
       /** Returns the unit's current kill count. */
       virtual int getKillCount() const = 0;
 
+      /** Returns the unit's acid spore count. */
+      virtual int getAcidSporeCount() const = 0;
+
       /** Returns the number of interceptors the Protoss Carrier has. */
       virtual int getInterceptorCount() const = 0;
 
@@ -387,6 +390,9 @@ namespace BWAPI
 
       /** Returns true if the unit can be interrupted. */
       virtual bool isInterruptible() const = 0;
+
+      /** Returns true if the unit is invincible. */
+      virtual bool isInvincible() const = 0;
 
       /** Returns true if the unit can attack a specified target from its current position. */
       virtual bool isInWeaponRange(Unit *target) const = 0;

@@ -21,6 +21,7 @@ namespace BWAPI
     int resourceGroup;
 
     int killCount;
+    int acidSporeCount;
     int scarabCount;
     int spiderMineCount;
     int groundWeaponCooldown;
@@ -85,6 +86,7 @@ namespace BWAPI
     bool isHallucination;
     bool isIdle;
     bool isInterruptible;
+    bool isInvincible;
     bool isLifted;
     bool isMorphing;
     bool isMoving;
