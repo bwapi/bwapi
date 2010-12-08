@@ -56,7 +56,7 @@ whatBuilds()</panel_attributes><additional_attributes/></element><element><type>
 Broodwar-&gt;self()
 Broodwar-&gt;neutral()
 Broodwar-&gt;enemy()</panel_attributes><additional_attributes>100;30;100;180;100;290</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>940</x><y>110</y><w>130</w><h>30</h></coordinates><panel_attributes>set&lt;Unit*&gt; units</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>590</x><y>110</y><w>370</w><h>410</h></coordinates><panel_attributes>lt=-&gt;
-p-&gt;getUnits()</panel_attributes><additional_attributes>30;390;210;390;210;140;350;140;350;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>690</x><y>60</y><w>270</w><h>146</h></coordinates><panel_attributes>lt=-&gt;
+p-&gt;getUnits()</panel_attributes><additional_attributes>30;390;210;390;210;170;350;170;350;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>690</x><y>60</y><w>270</w><h>146</h></coordinates><panel_attributes>lt=-&gt;
 Broodwar-&gt;getAllUnits()
 Broodwar-&gt;getPlayers()
 Broodwar-&gt;getMinerals()
@@ -154,9 +154,9 @@ m2=  n
 p-&gt;getForce()</panel_attributes><additional_attributes>80;30;80;210;370;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>50</x><y>30</y><w>140</w><h>50</h></coordinates><panel_attributes>GameType gt
 --
 getID(), getName()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>160</x><y>0</y><w>250</w><h>70</h></coordinates><panel_attributes>lt=&lt;-
-Broodwar-&gt;getGameType()</panel_attributes><additional_attributes>30;50;230;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>290</y><w>192</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
+Broodwar-&gt;getGameType()</panel_attributes><additional_attributes>30;50;230;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>280</y><w>192</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
 b-&gt;getSource()
-b-&gt;getTarget()</panel_attributes><additional_attributes>120;90;120;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>690</x><y>570</y><w>160</w><h>460</h></coordinates><panel_attributes>lt=&lt;-
+b-&gt;getTarget()</panel_attributes><additional_attributes>120;100;120;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>690</x><y>570</y><w>160</w><h>460</h></coordinates><panel_attributes>lt=&lt;-
 u-&gt;getUpgrade()</panel_attributes><additional_attributes>80;440;80;50;140;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1060</x><y>570</y><w>148</w><h>460</h></coordinates><panel_attributes>lt=&lt;-
 u-&gt;getTech()</panel_attributes><additional_attributes>80;440;80;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>940</x><y>30</y><w>130</w><h>30</h></coordinates><panel_attributes>list&lt;Event&gt; events</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>690</x><y>0</y><w>270</w><h>70</h></coordinates><panel_attributes>lt=&lt;-
 Broodwar-&gt;getEvents()</panel_attributes><additional_attributes>250;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1160</x><y>30</y><w>120</w><h>320</h></coordinates><panel_attributes>Event e
@@ -180,7 +180,7 @@ SaveGame
 MenuFrame</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>340</x><y>340</y><w>50</w><h>120</h></coordinates><panel_attributes>lt=-&gt;
 m1=  1
 m2=  n
-</panel_attributes><additional_attributes>30;30;30;100</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1330</x><y>40</y><w>130</w><h>300</h></coordinates><panel_attributes>AIModule* ai
+</panel_attributes><additional_attributes>30;30;30;100</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1330</x><y>30</y><w>130</w><h>300</h></coordinates><panel_attributes>AIModule* ai
 --
 onStart()
 onEnd()
@@ -202,7 +202,7 @@ r.getWorker()
 r.getCenter()
 r.getRefinery()
 r.getTransport()
-r.getSupplyProvider()</panel_attributes><additional_attributes>380;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>220</y><w>160</w><h>30</h></coordinates><panel_attributes>set&lt;Bullet*&gt; bullets</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>650</x><y>220</y><w>50</w><h>110</h></coordinates><panel_attributes>lt=-&gt;
+r.getSupplyProvider()</panel_attributes><additional_attributes>380;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>610</x><y>220</y><w>140</w><h>30</h></coordinates><panel_attributes>set&lt;Bullet*&gt; bullets</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>650</x><y>220</y><w>50</w><h>110</h></coordinates><panel_attributes>lt=-&gt;
 m1=  1
 m2=  n
 </panel_attributes><additional_attributes>30;30;30;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>50</x><y>90</y><w>140</w><h>50</h></coordinates><panel_attributes>Error e
