@@ -765,8 +765,9 @@ namespace BWAPI
       BroodwarImpl.executeCommand( command, false );
       for each(UnitImpl* j in *i)
       {
-        j->lastOrderFrame = BroodwarImpl.frameCount;
+        j->lastCommandFrame = BroodwarImpl.frameCount;
         command.unit = (Unit*)j;
+        j->lastCommand = command;
         BroodwarImpl.addToCommandBuffer(new Command(command));
       }
     }

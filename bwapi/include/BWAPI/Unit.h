@@ -96,8 +96,11 @@ namespace BWAPI
       /** Returns true if the unit is able to move to the target position */
       virtual bool hasPath(Position target) const = 0;
 
-      /** Retrieves the frame of the last successful order. Frame is comparable to Game::getFrameCount(). */
-      virtual int getLastOrderFrame() const = 0;
+      /** Returns the frame of the last successful command. Frame is comparable to Game::getFrameCount(). */
+      virtual int getLastCommandFrame() const = 0;
+
+      /** Returns the last successful command. */
+      virtual UnitCommand getLastCommand() const = 0;
 
       /** Returns the player's current upgrade level for the given upgrade, if the unit is affected by this
        * upgrade.*/

@@ -25,7 +25,8 @@ namespace BWAPI
     initialHitPoints=0;
     initialPosition=Positions::None;
     connectedUnits.clear();
-    lastOrderFrame = 0;
+    lastCommandFrame = 0;
+    lastCommand = UnitCommand();
     clientInfo = NULL;
   }
   void UnitImpl::saveInitialState()
@@ -195,10 +196,15 @@ namespace BWAPI
     }
     return ((GameImpl*)Broodwar)->setLastError(Errors::Out_Of_Range);
   }
-  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
-  int UnitImpl::getLastOrderFrame() const
+  //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
+  int UnitImpl::getLastCommandFrame() const
   {
-    return this->lastOrderFrame;
+    return this->lastCommandFrame;
+  }
+  //--------------------------------------------- GET LAST COMMAND -------------------------------------------
+  UnitCommand UnitImpl::getLastCommand() const
+  {
+    return this->lastCommand;
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
@@ -866,7 +872,8 @@ namespace BWAPI
     c.extra=command.extra;
     Command(command).execute(0);
     ((GameImpl*)Broodwar)->addUnitCommand(c);
-    lastOrderFrame = Broodwar->getFrameCount();
+    lastCommandFrame = Broodwar->getFrameCount();
+    lastCommand = command;
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------

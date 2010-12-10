@@ -63,7 +63,7 @@ void MicroTest::onFrame()
         Unit* e = p.first;
         for each(Unit* s in p.second)
         {
-          if (Broodwar->getFrameCount()-s->getLastOrderFrame()>4)
+          if (Broodwar->getFrameCount()-s->getLastCommandFrame()>4)
           {
             if (e)
             {

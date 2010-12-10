@@ -40,7 +40,8 @@ namespace BWAPI
       , lastGroundWeaponCooldown(0)
       , lastAirWeaponCooldown(0)
       , startingAttack(false)
-      , lastOrderFrame(0)
+      , lastCommandFrame(0)
+      , lastCommand()
       , id(-1)
       , clientInfo(NULL)
   {
@@ -207,10 +208,15 @@ namespace BWAPI
     }
     return BroodwarImpl.setLastError(Errors::Out_Of_Range);
   }
-  //--------------------------------------------- GET LAST ORDER FRAME ---------------------------------------
-  int UnitImpl::getLastOrderFrame() const
+  //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
+  int UnitImpl::getLastCommandFrame() const
   {
-    return this->lastOrderFrame;
+    return this->lastCommandFrame;
+  }
+  //--------------------------------------------- GET LAST COMMAND -------------------------------------------
+  UnitCommand UnitImpl::getLastCommand() const
+  {
+    return this->lastCommand;
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
