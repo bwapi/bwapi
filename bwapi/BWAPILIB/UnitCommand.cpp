@@ -2,6 +2,14 @@
 #include <BWAPI/Unit.h>
 namespace BWAPI
 {
+  UnitCommand::UnitCommand() : target(NULL), extra(0)
+  {
+    x = Positions::None.x();
+    y = Positions::None.y();
+    type = UnitCommandTypes::None;
+  }
+  UnitCommand::UnitCommand(Unit* _unit, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : unit(_unit), type(_type), target(_target), x(_x), y(_y), extra(_extra)
+  {}
   UnitCommand UnitCommand::attackMove(Unit* unit, Position target)
   {
     UnitCommand c;
@@ -372,5 +380,56 @@ namespace BWAPI
     c.x     = target.x();
     c.y     = target.y();
     return c;
+  }
+  Unit* UnitCommand::getUnit()
+  {
+    return unit;
+  }
+  Unit* UnitCommand::getTarget()
+  {
+    return target;
+  }
+  Position UnitCommand::getTargetPosition()
+  {
+    if (type == UnitCommandTypes::Build ||
+        type == UnitCommandTypes::Land ||
+        type == UnitCommandTypes::Place_COP)
+      return Position(TilePosition(x,y));
+    return Position(x,y);
+  }
+  TilePosition UnitCommand::getTargetTilePosition()
+  {
+    if (type == UnitCommandTypes::Build ||
+        type == UnitCommandTypes::Land ||
+        type == UnitCommandTypes::Place_COP)
+      return TilePosition(x,y);
+    return TilePosition(Position(x,y));
+  }
+  UnitType UnitCommand::getUnitType()
+  {
+    if (type == UnitCommandTypes::Build ||
+        type == UnitCommandTypes::Build_Addon ||
+        type == UnitCommandTypes::Train ||
+        type == UnitCommandTypes::Morph)
+      return UnitType(extra);
+    return UnitTypes::None;
+  }
+  TechType UnitCommand::getTechType()
+  {
+    if (type == UnitCommandTypes::Research)
+      return TechType(extra);
+    return TechTypes::None;
+  }
+  UpgradeType UnitCommand::getUpgradeType()
+  {
+    if (type == UnitCommandTypes::Upgrade)
+      return UpgradeType(extra);
+    return UpgradeTypes::None;
+  }
+  int UnitCommand::getSlot()
+  {
+    if (type == UnitCommandTypes::Cancel_Train_Slot)
+      return extra;
+    return 0;
   }
 }

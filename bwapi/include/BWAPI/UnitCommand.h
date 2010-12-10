@@ -13,8 +13,8 @@ namespace BWAPI
   class UnitCommand
   {
     public:
-      UnitCommand() : target(NULL), x(0), y(0), extra(0) { type = UnitCommandTypes::None; }
-      UnitCommand(Unit* source, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : unit(source), type(_type), target(_target), x(_x), y(_y), extra(_extra) {}
+      UnitCommand();
+      UnitCommand(Unit* _unit, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra);
 
       static UnitCommand attackMove(Unit* unit, Position target);
       static UnitCommand attackUnit(Unit* unit, Unit* target);
@@ -59,6 +59,16 @@ namespace BWAPI
       static UnitCommand useTech(Unit* unit,TechType tech, Position target);
       static UnitCommand useTech(Unit* unit,TechType tech, Unit* target);
       static UnitCommand placeCOP(Unit* unit, TilePosition target);
+
+      Unit* getUnit();
+      Unit* getTarget();
+      Position getTargetPosition();
+      TilePosition getTargetTilePosition();
+      UnitType getUnitType();
+      TechType getTechType();
+      UpgradeType getUpgradeType();
+      int getSlot();
+
       Unit* unit;
       UnitCommandType type;
       Unit* target;
