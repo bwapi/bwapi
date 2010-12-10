@@ -98,12 +98,12 @@ namespace BWAPI
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
   bool UnitImpl::setRallyPoint(Position target)
   {
-    return issueCommand(UnitCommand::setRallyPosition(this,target));
+    return issueCommand(UnitCommand::setRallyPoint(this,target));
   }
   //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
   bool UnitImpl::setRallyPoint(Unit* target)
   {
-    return issueCommand(UnitCommand::setRallyUnit(this,target));
+    return issueCommand(UnitCommand::setRallyPoint(this,target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool UnitImpl::move(Position target)

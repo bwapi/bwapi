@@ -24,8 +24,8 @@ namespace BWAPI
       static UnitCommand morph(Unit* unit, UnitType type);
       static UnitCommand research(Unit* unit, TechType tech);
       static UnitCommand upgrade(Unit* unit, UpgradeType upgrade);
-      static UnitCommand setRallyPosition(Unit* unit, Position target);
-      static UnitCommand setRallyUnit(Unit* unit, Unit* target);
+      static UnitCommand setRallyPoint(Unit* unit, Position target);
+      static UnitCommand setRallyPoint(Unit* unit, Unit* target);
       static UnitCommand move(Unit* unit, Position target);
       static UnitCommand patrol(Unit* unit, Position target);
       static UnitCommand holdPosition(Unit* unit);
