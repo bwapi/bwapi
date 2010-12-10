@@ -420,7 +420,10 @@ namespace BWAPI
   }
   TechType UnitCommand::getTechType() const
   {
-    if (type == UnitCommandTypes::Research)
+    if (type == UnitCommandTypes::Research ||
+        type == UnitCommandTypes::Use_Tech ||
+        type == UnitCommandTypes::Use_Tech_Position ||
+        type == UnitCommandTypes::Use_Tech_Unit)
       return TechType(extra);
     return TechTypes::None;
   }
