@@ -60,14 +60,15 @@ namespace BWAPI
       static UnitCommand useTech(Unit* unit,TechType tech, Unit* target);
       static UnitCommand placeCOP(Unit* unit, TilePosition target);
 
-      Unit* getUnit();
-      Unit* getTarget();
-      Position getTargetPosition();
-      TilePosition getTargetTilePosition();
-      UnitType getUnitType();
-      TechType getTechType();
-      UpgradeType getUpgradeType();
-      int getSlot();
+      UnitCommandType getType() const;
+      Unit* getUnit() const;
+      Unit* getTarget() const;
+      Position getTargetPosition() const;
+      TilePosition getTargetTilePosition() const;
+      UnitType getUnitType() const;
+      TechType getTechType() const;
+      UpgradeType getUpgradeType() const;
+      int getSlot() const;
 
       Unit* unit;
       UnitCommandType type;

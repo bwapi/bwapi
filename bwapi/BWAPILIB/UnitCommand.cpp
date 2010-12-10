@@ -381,15 +381,19 @@ namespace BWAPI
     c.y     = target.y();
     return c;
   }
-  Unit* UnitCommand::getUnit()
+  UnitCommandType UnitCommand::getType() const
+  {
+    return type;
+  }
+  Unit* UnitCommand::getUnit() const
   {
     return unit;
   }
-  Unit* UnitCommand::getTarget()
+  Unit* UnitCommand::getTarget() const
   {
     return target;
   }
-  Position UnitCommand::getTargetPosition()
+  Position UnitCommand::getTargetPosition() const
   {
     if (type == UnitCommandTypes::Build ||
         type == UnitCommandTypes::Land ||
@@ -397,7 +401,7 @@ namespace BWAPI
       return Position(TilePosition(x,y));
     return Position(x,y);
   }
-  TilePosition UnitCommand::getTargetTilePosition()
+  TilePosition UnitCommand::getTargetTilePosition() const
   {
     if (type == UnitCommandTypes::Build ||
         type == UnitCommandTypes::Land ||
@@ -405,7 +409,7 @@ namespace BWAPI
       return TilePosition(x,y);
     return TilePosition(Position(x,y));
   }
-  UnitType UnitCommand::getUnitType()
+  UnitType UnitCommand::getUnitType() const
   {
     if (type == UnitCommandTypes::Build ||
         type == UnitCommandTypes::Build_Addon ||
@@ -414,19 +418,19 @@ namespace BWAPI
       return UnitType(extra);
     return UnitTypes::None;
   }
-  TechType UnitCommand::getTechType()
+  TechType UnitCommand::getTechType() const
   {
     if (type == UnitCommandTypes::Research)
       return TechType(extra);
     return TechTypes::None;
   }
-  UpgradeType UnitCommand::getUpgradeType()
+  UpgradeType UnitCommand::getUpgradeType() const
   {
     if (type == UnitCommandTypes::Upgrade)
       return UpgradeType(extra);
     return UpgradeTypes::None;
   }
-  int UnitCommand::getSlot()
+  int UnitCommand::getSlot() const
   {
     if (type == UnitCommandTypes::Cancel_Train_Slot)
       return extra;
