@@ -16,6 +16,7 @@ namespace BWAPI
       bool operator==(const UnitCommandType& other) const;
       bool operator!=(const UnitCommandType& other) const;
       bool operator<(const UnitCommandType& other) const;
+      bool operator>(const UnitCommandType& other) const;
 
       /** Returns a unique ID for this UnitCommandType. */
       int getID() const;
