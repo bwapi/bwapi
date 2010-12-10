@@ -79,7 +79,7 @@ namespace BWAPI
     c.extra = upgrade.getID();
     return c;
   }
-  UnitCommand UnitCommand::setRallyPosition(Unit* unit, Position target)
+  UnitCommand UnitCommand::setRallyPoint(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
@@ -89,7 +89,7 @@ namespace BWAPI
     c.y    = target.y();
     return c;
   }
-  UnitCommand UnitCommand::setRallyUnit(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::setRallyPoint(Unit* unit, Unit* target)
   {
     UnitCommand c;
     c.unit   = unit;
