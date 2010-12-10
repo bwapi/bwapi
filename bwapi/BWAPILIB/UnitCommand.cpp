@@ -430,6 +430,6 @@ namespace BWAPI
   {
     if (type == UnitCommandTypes::Cancel_Train_Slot)
       return extra;
-    return 0;
+    return -1;
   }
 }
