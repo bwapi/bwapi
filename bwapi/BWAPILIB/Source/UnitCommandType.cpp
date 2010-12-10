@@ -197,6 +197,10 @@ namespace BWAPI
   {
     return this->id < other.id;
   }
+  bool UnitCommandType::operator>(const UnitCommandType& other) const
+  {
+    return this->id > other.id;
+  }
   int UnitCommandType::getID() const
   {
     return this->id;

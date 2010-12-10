@@ -69,6 +69,10 @@ namespace BWAPI
       TechType getTechType() const;
       UpgradeType getUpgradeType() const;
       int getSlot() const;
+      bool operator==(const UnitCommand& other) const;
+      bool operator!=(const UnitCommand& other) const;
+      bool operator<(const UnitCommand& other) const;
+      bool operator>(const UnitCommand& other) const;
 
       Unit* unit;
       UnitCommandType type;
