@@ -53,12 +53,13 @@ namespace BWAPI
       virtual int          getResources() const;
       virtual int          getResourceGroup() const;
 
-      virtual double getDistance(Unit* target) const;
-      virtual double getDistance(Position target) const;
-      virtual bool   hasPath(Unit* target) const;
-      virtual bool   hasPath(Position target) const;
-      virtual int    getLastOrderFrame() const;
-      virtual int    getUpgradeLevel(UpgradeType upgrade) const;
+      virtual double       getDistance(Unit* target) const;
+      virtual double       getDistance(Position target) const;
+      virtual bool         hasPath(Unit* target) const;
+      virtual bool         hasPath(Position target) const;
+      virtual int          getLastCommandFrame() const;
+      virtual UnitCommand  getLastCommand() const;
+      virtual int          getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual UnitType     getInitialType() const;
       virtual Position     getInitialPosition() const;
@@ -283,7 +284,8 @@ namespace BWAPI
       std::set<Unit*> connectedUnits;
       std::set<Unit*> loadedUnits;
 
-      int lastOrderFrame;
+      int lastCommandFrame;
+      UnitCommand lastCommand;
     private:
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();

@@ -1330,7 +1330,9 @@ namespace BWAPI
       unitArray[i]->nukeDetected      = false;
       unitArray[i]->lastType          = UnitTypes::Unknown;
       unitArray[i]->lastPlayer        = NULL;
-      unitArray[i]->lastOrderFrame    = 0;
+      unitArray[i]->lastCommandFrame  = 0;
+      unitArray[i]->lastCommand       = UnitCommand();
+
       unitArray[i]->setID(-1);
     }
     this->cheatFlags  = 0;

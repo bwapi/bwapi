@@ -51,7 +51,8 @@ namespace BWAPI
       ((UnitImpl*)command.unit)->orderSelect();
 
     BroodwarImpl.executeCommand( command );
-    ((UnitImpl*)command.unit)->lastOrderFrame = BroodwarImpl.frameCount;
+    ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
+    ((UnitImpl*)command.unit)->lastCommand      = command;
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
