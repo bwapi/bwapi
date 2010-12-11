@@ -289,7 +289,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Source files"
+				Name="Source Files"
 				>
 				<File
 					RelativePath=".\Source\BW\CheatType.cpp"
@@ -468,6 +468,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\GameDrawing.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\GameImpl.cpp"
 					>
 				</File>
@@ -533,7 +537,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Header files"
+				Name="Header Files"
 				>
 				<File
 					RelativePath=".\Source\BWAPI\BulletImpl.h"
@@ -664,38 +668,62 @@
 		<Filter
 			Name="Hacks"
 			>
-			<File
-				RelativePath=".\Source\Holiday\Holiday.cpp"
+			<Filter
+				Name="Header Files"
 				>
-			</File>
-			<File
-				RelativePath=".\Source\Holiday\Holiday.h"
+				<File
+					RelativePath=".\Source\CodePatch.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Detours.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Holiday\Holiday.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\NewHackUtil.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Resolution.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\WMode.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
 				>
-			</File>
-			<File
-				RelativePath=".\Source\NewHackUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\NewHackUtil.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Resolution.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Resolution.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\WMode.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\WMode.h"
-				>
-			</File>
+				<File
+					RelativePath=".\Source\CodePatch.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Detours.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Holiday\Holiday.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\NewHackUtil.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Resolution.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\WMode.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
