@@ -138,7 +138,13 @@ BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSea
 {
   /* Store the name of the last-opened file to retrieve the pointer once it's allocated */
   lastFile = szFileName;
-  return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+
+  if ( !phFile )
+    return FALSE;
+
+  if ( !SFileOpenFileEx(NULL, szFileName, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+    return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+  return TRUE;
 }
 
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
