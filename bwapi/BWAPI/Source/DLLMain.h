@@ -1,5 +1,4 @@
 #pragma once
-#include <BWAPI/CoordinateType.h>
 #include <windows.h>
 #include "BW/Offsets.h"
 
@@ -17,9 +16,5 @@ extern bool logging;
 
 extern bool wantRefresh;
 extern DWORD gdwProcNum;
-extern DWORD lastTurnTime;
-extern DWORD lastTurnFrame;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
-
-extern bool hideHUD;
