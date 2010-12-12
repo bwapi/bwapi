@@ -53,11 +53,6 @@ namespace BWAPI
       printf("Client Revision: %d\n",BWAPI::BWAPI_getRevision());
       printf("Server Revision: %d\n",BWAPI::Broodwar->getRevision());
       disconnect();
-      if (!showedErrorBox)
-      {
-        MessageBox(NULL, "Client and Server are not compatible", "Error", MB_OK | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL);
-        showedErrorBox=true;
-      }
       Sleep(2000);
       return false;
     }
