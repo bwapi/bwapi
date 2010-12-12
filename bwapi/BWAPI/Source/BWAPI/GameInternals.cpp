@@ -60,6 +60,7 @@
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
 #include "BWtoBWAPI.h"
+#include "../Detours.h"
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
