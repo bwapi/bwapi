@@ -214,7 +214,7 @@ void BuildTest::update()
     }
   }
   BWAssert(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount);
-  int correctRemainingBuildTime = -1;
+  int correctRemainingBuildTime = 0;
   if (building!=NULL)
   {
     correctRemainingBuildTime = startFrame+unitType.buildTime()-thisFrame+1;

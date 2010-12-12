@@ -14,7 +14,11 @@ UseTechTest::UseTechTest(BWAPI::TechType techType) : techType(techType),
 {
   fail = false;
   running = false;
-  userType = *techType.whatUses().begin();
+  for each(UnitType u in techType.whatUses())
+  {
+    if (u.isHero()==false)
+      userType = u;
+  }
   BWAssertF(userType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(userType!=UnitTypes::Unknown,{fail=true;return;});
 }
@@ -24,7 +28,7 @@ void UseTechTest::start()
   running = true;
 
   int userCount = Broodwar->self()->completedUnitCount(userType);
-  BWAssertF(userCount>=1,{fail=true;return;});
+  BWAssertF(userCount>=1,{Broodwar->printf("Error: Cannot find any owned units of type %s for tech type %s!",userType.getName().c_str(),techType.getName().c_str());fail=true;return;});
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType()==userType)
       user = u;
