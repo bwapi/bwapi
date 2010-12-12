@@ -1,4 +1,64 @@
 =============================================
+Changes from BWAPI Beta 3.3 to BWAPI Beta 3.4
+=============================================
+
+Changes:
+
+    * Position::getApproxDistance now returns an integer and more accurately resembles the internal Starcraft function.
+    * Player::allUnitCount now returns the number of accessible units of the given type for the given player. If complete map information is disabled, this will be equivalent to Player::visibleUnitCount.
+    * Player::getUpgradeLevel now also returns information for enemy players when the Complete Map Information flag is disabled if at least one completed unit owned by that player that uses that upgrade type is accessible.
+    * There has been a regression involving the optimization of issuing commands to multiple units at the same time (Stop, Hold, Cloak/Decloak, Burrow/Unburrow, Siege/Unsiege). This will not impact the behaviour of the game or the AI. It will however increase the APM of the AI.
+    * Renamed Unit::getLastOrderFrame to Unit::getLastCommandFrame to make it consistent with Unit::getLastCommand, Unit::issueCommand, and Unit::canIssueCommand. 
+
+Additions:
+
+    * Added Unit::isInWeaponRange which returns true if the specified target unit is in the immediate weapon range of the callee.
+    * Added Player::visibleUnitCount which returns the number of visible units of the given type owned by the player.
+    * Added Game::neutral - returns a pointer to the neutral player.
+    * Added Game::allies - returns a reference to the set of ally players that have not left or been defeated.
+    * Added Game::enemies - returns a reference to the set of enemy players that have not left or been defeated.
+    * BWAPI will attempt to compare its revision/build with the AI revision/build and load the correct BWAPI module for the AI. Note: For the moment this only applies when attaching BWAPI to Starcraft and not when the module is loaded.
+    * Added the following Player functions to retrieve player score: Player::getUnitScore, Player::getKillScore, Player::getBuildingScore, Player::getRazingScore, Player::getCustomScore.
+    * Added the following UnitTypes which can be used as a macro: UnitTypes::AllUnits, UnitTypes::Men, UnitTypes::Buildings, UnitTypes::Factories.
+    * Added UnitTypes::allMacroTypes for the introduced macros.
+    * Added Unit::placeCOP which allows you to relocate Flag Beacons in Use Map Settings or Capture the Flag game types.
+    * Added Unit::isAttackFrame - returns true if the unit is performing an attack animation or starting an attack.
+    * Added the LPIP network mode known as "Local PC (Pipes)". This mode is compatible with Windows XP and previous revisions of BWAPI. However it has the same issue as the other custom network mode. Instructions are the same, copy the SNP file to the Starcraft directory.
+    * Added Unit::getAcidSporeCount.
+    * Added Unit::isInvincible.
+    * Added Unit::getLastCommand - returns the last successful command that BWAPI issued to the unit.
+    * Added UnitCommand::getUnit - returns the unit the command is for.
+    * Added UnitCommand::getTarget - returns the target unit of the command, or null if there is no target unit.
+    * Added UnitCommand::getTargetPosition - returns the target position of the command, or Positions::None if there is no target position.
+    * Added UnitCommand::getTargetTilePosition - returns the target tile position of the command, or Positions::None if there is no target tile position.
+    * Added UnitCommand::getUnitType - returns the unit type of the command, or UnitTypes::None if the command is not of type Build, Build_Addon?, Train, or Morph.
+    * Added UnitCommand::getTechType - returns the tech type of the command, or TechTypes::None if the command is not of type Research, Use_Tech?, Use_Tech_Position?, or Use_Tech_Unit?.
+    * Added UnitCommand::getUpgradeType - returns the upgrade type of the command, or UpgradeTypes::None if the command is not of type Upgrade.
+    * Added UnitCommand::getSlot - returns the slot of the command, or -1 if the command is not of type Cancel_Train_Slot?.
+    * Applied a hack that now looks for files relative to the Starcraft directory first before checking the MPQ. Modifications to Starcraft can now be done without the need for MPQ management. 
+
+Bug Fixes:
+
+    * Fixed a bug where Game::canBuildHere would do collision checks with flying and lifted units.
+    * Fixed a bug where Game::enemy would return NULL if the enemy player left the game.
+    * Fixed a bug where Unit::getUpgradeLevel would always return 0 in client programs when complete map information was disabled.
+    * Fixed a bug where Game::printf and Game::sendText could cause a crash when called from the BWAPI Client using a formatting character "%" as part of the desired message.
+    * Fixed a regression that prevented the use of Nuclear Missiles.
+    * Corrected a mistake where Colors::Purple would appear Orange.
+    * Fixed a crash involving a buffer overflow with text formatting for Game::printf, Game::sendText, and Game::drawText.
+    * Fixed a bug where Unit::getLastOrderFrame would not reset to 0 at the start of a new match.
+    * Fixed a bug where Starcraft would hang when attempting to connect a BWAPI Client to the BWAPI Server during a match.
+    * Fixed a bug where some units were mistakenly considered selected.
+    * Fixed a bug that prevented the placement of Infested Command Centers and Zerg Flag Beacons off the creep.
+    * Fixed an issue where loaded units could be given orders.
+    * Fixed an issue where Overlords would accept orders to load units when the Ventral Sacs upgrade was not researched.
+    * Fixed an issue where completed transports would accept orders to load incomplete units and vice-versa.
+    * Fixed an issue where heroes could not use abilities until the technology was researched.
+    * Fixed an issue where Infested Kerrigan could not use all of her abilities.
+    * Fixed an issue where our custom network modes would bring users back to the main menu instead of the game select menu.
+    * Fixed a BWAPI Client crash that involved passing a NULL parameter to Player::isAlly and Player::isEnemy. 
+
+=============================================
 Changes from BWAPI Beta 3.2 to BWAPI Beta 3.3
 =============================================
 
