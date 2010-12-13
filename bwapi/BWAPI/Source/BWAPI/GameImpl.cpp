@@ -815,48 +815,34 @@ namespace BWAPI
   //--------------------------------------------------- LATENCY ----------------------------------------------
   int GameImpl::getLatencyFrames()
   {
-    /*
-    DWORD caps[9];
-    caps[0] = 36;
-    SNetGetProviderCaps(caps);
+    caps _caps;
+    _caps.dwSize = sizeof(caps);
+    SNetGetProviderCaps(&_caps);
 
-    int turns;
-    SNetGetTurnsInTransit(&turns);
-    */
-    return BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed];// * (caps[8] + turns);
+    DWORD dwCallDelay = _caps.dwCallDelay;
+    if ( *BW::BWDATA_NetMode )
+    {
+      if ( dwCallDelay >= 8 )
+        dwCallDelay = 8;
+      else if ( dwCallDelay <= 2 )
+        dwCallDelay = 2;
+    }
+    else
+      dwCallDelay = 1;
+
+    return (BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed]) * (*BW::BWDATA_Latency + dwCallDelay + 1);
   }
   int GameImpl::getLatencyTime()
   {
-    return (BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed] * BW::BWDATA_GameSpeedModifiers[*BW::BWDATA_GameSpeed]) >> 1;
+    return getLatencyFrames() * BW::BWDATA_GameSpeedModifiers[*BW::BWDATA_GameSpeed];
   }
   int GameImpl::getRemainingLatencyFrames()
   {
-    /*DWORD caps[9];
-    caps[0] = 36;
-    SNetGetProviderCaps(caps);
-
-    int turns;
-    SNetGetTurnsInTransit(&turns);
-    */
-    DWORD latFrames = BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed];
-    //int rval = latFrames * (caps[8] + turns - 1);
-    return /*rval + */latFrames - (this->getFrameCount() - lastTurnFrame);
+    return getLatencyFrames() - (this->getFrameCount() - lastTurnFrame);
   }
   int GameImpl::getRemainingLatencyTime()
   {
-    /*DWORD caps[9];
-    caps[0] = 36;
-    SNetGetProviderCaps(caps);
-
-    int turns;
-    SNetGetTurnsInTransit(&turns);
-    */
-    DWORD speed     = *BW::BWDATA_GameSpeed;
-    DWORD latFrames = BW::BWDATA_LatencyFrames[speed];
-    DWORD speedMod  = BW::BWDATA_GameSpeedModifiers[speed];
-
-    int rval = latFrames /* * (caps[8] + turns - 1)*/ * speedMod;
-    return rval + (speedMod * latFrames) - (GetTickCount() - lastTurnTime);
+    return (getLatencyFrames() * BW::BWDATA_GameSpeedModifiers[*BW::BWDATA_GameSpeed]) - (GetTickCount() - lastTurnTime);
   }
   //--------------------------------------------------- VERSION ----------------------------------------------
   int GameImpl::getRevision()

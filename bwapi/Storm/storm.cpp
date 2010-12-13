@@ -17,7 +17,7 @@ BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *acti
 
 BOOL STORMAPI SNetGetPlayerCaps(char playerid, int *caps) rBool;
 BOOL STORMAPI SNetGetPlayerName(int playerid, char *buffer, size_t buffersize) rBool;
-BOOL STORMAPI SNetGetProviderCaps(DWORD *caps) rBool;
+BOOL STORMAPI SNetGetProviderCaps(caps *providerCaps) rBool;
 BOOL STORMAPI SNetGetTurnsInTransit(int *turns) rBool;
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5) rBool;
 BOOL STORMAPI SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData) rBool;

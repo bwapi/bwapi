@@ -4,6 +4,7 @@ using namespace BWAPI;
 
 bool enabled;
 int mapH, mapW;
+DWORD startTicks;
 
 void DevAIModule::onStart()
 {
@@ -21,6 +22,7 @@ void DevAIModule::onStart()
   mapW = bw->mapWidth();
 
   //bw->setLocalSpeed(0);
+  startTicks = GetTickCount();
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -31,7 +33,15 @@ void DevAIModule::onEnd(bool isWinner)
 DWORD dwLastTickCount;
 void DevAIModule::onFrame()
 {
-  bw->drawTextScreen(20, 20, "%.2f | %u\n%u / %u", Broodwar->getAverageFPS(), Broodwar->getFPS(), Broodwar->getFrameCount(), Broodwar->getReplayFrameCount());
+  bw->drawTextScreen(20, 20, "%.2f | %d\n%d / %d\n%d | %dms\n%d | %dms\n%ums", Broodwar->getAverageFPS(), 
+                                                   Broodwar->getFPS(), 
+                                                   Broodwar->getFrameCount(), 
+                                                   Broodwar->getReplayFrameCount(),
+                                                   Broodwar->getLatencyFrames(),
+                                                   Broodwar->getLatencyTime(),
+                                                   Broodwar->getRemainingLatencyFrames(),
+                                                   Broodwar->getRemainingLatencyTime(),
+                                                   GetTickCount() - startTicks);
 
   if ( bw->isReplay() )
     return;
@@ -41,11 +51,9 @@ void DevAIModule::onFrame()
 
   for each (Unit *u in bw->getSelectedUnits())
   {
-    if ( u->siege() )
-    {
-      bw->printf("SIEGE!");
-    }
-    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%s", bw->getLastError().toString().c_str());
+    //if ( u->siege() )
+      //bw->printf("SIEGE!");
+    bw->drawTextMap(u->getPosition().x()+u->getType().dimensionRight(), u->getPosition().y(), "%s", u->getOrder().getName().c_str());
       /*
     for each (Unit *t in self->getUnits())
     {
