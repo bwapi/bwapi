@@ -33,7 +33,7 @@ void DevAIModule::onEnd(bool isWinner)
 DWORD dwLastTickCount;
 void DevAIModule::onFrame()
 {
-  bw->drawTextScreen(20, 20, "%.2f | %d\n%d / %d\n%d | %dms\n%d | %dms\n%ums", Broodwar->getAverageFPS(), 
+  bw->drawTextScreen(20, 20, "%.2f | %d\n%d / %d\n%d | %dms\n%d | %dms\n%ums\n%.0f | %.0f", Broodwar->getAverageFPS(), 
                                                    Broodwar->getFPS(), 
                                                    Broodwar->getFrameCount(), 
                                                    Broodwar->getReplayFrameCount(),
@@ -41,7 +41,9 @@ void DevAIModule::onFrame()
                                                    Broodwar->getLatencyTime(),
                                                    Broodwar->getRemainingLatencyFrames(),
                                                    Broodwar->getRemainingLatencyTime(),
-                                                   GetTickCount() - startTicks);
+                                                   GetTickCount() - startTicks,
+                                                   Broodwar->getAPM(),
+                                                   Broodwar->getAPM(true));
 
   if ( bw->isReplay() )
     return;
@@ -63,6 +65,26 @@ void DevAIModule::onFrame()
       }
     }*/
 
+  }
+  for each (Unit *u in self->getUnits())
+  {
+    UnitType t = u->getType();
+    if ( u->isIdle() && u->isCompleted() && u->getLastCommandFrame() + 4 < bw->getFrameCount() )
+    {
+      if ( t.isWorker() && !u->isSelected() )
+      {
+        Unit *closest = NULL;
+        for each (Unit *r in bw->getMinerals())
+          if ( !closest || u->getDistance(r) < u->getDistance(closest) )
+            closest = r;
+        if ( closest )
+          u->rightClick(closest);
+      }
+      else if ( t.isResourceDepot() )
+      {
+        u->train(t.getRace().getWorker());
+      }
+    }
   }
 }
 

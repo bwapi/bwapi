@@ -400,6 +400,9 @@ namespace BWAPI
 
       /** Retrieves the instance number recorded by BWAPI to identify which instance an AI module belongs to */
       virtual int  getInstanceNumber() = 0;
+
+      /** Retrieves the bot's APM. Can include or exclude select commands. */
+      virtual double getAPM(bool includeSelects = false) = 0;
   };
   extern Game* Broodwar;
 }

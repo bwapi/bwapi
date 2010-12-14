@@ -138,7 +138,15 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 {
-  if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= *BW::BWDATA_MaxTurnSize )
+  caps _caps;
+  _caps.dwSize = sizeof(caps);
+  SNetGetProviderCaps(&_caps);
+
+  u32 maxBuffer = _caps.dwBufferSize;
+  if ( maxBuffer > 512 )
+    maxBuffer = 512;
+
+  if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= maxBuffer )
   {
     // Copy data to primary turn buffer
     memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
@@ -153,8 +161,17 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
   int turns;
   if ( SNetGetTurnsInTransit(&turns) ) // Buffer is full
   {
+    int callDelay = 1;
+    if ( *BW::BWDATA_NetMode )
+    {
+      callDelay = _caps.dwCallDelay;
+      if ( callDelay > 8 )
+        callDelay = 8;
+      else if ( callDelay < 2 )
+        callDelay = 2;
+    }
     // This statement will probably never be hit, but just in case
-    if ( turns >= 16 - *BW::BWDATA_LatencyCalls )
+    if ( turns >= 16 - callDelay )
       return;
 
     // Send the turn and fill the new buffer

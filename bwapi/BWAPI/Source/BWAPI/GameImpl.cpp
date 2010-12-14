@@ -753,6 +753,7 @@ namespace BWAPI
       command.unit = selected[0];
       selected[k]=NULL;
       BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
+      botAPM_select++;
       QueueGameCommand((PBYTE)&sel, sel.size);
 
       BroodwarImpl.executeCommand( command, false );
@@ -819,17 +820,15 @@ namespace BWAPI
     _caps.dwSize = sizeof(caps);
     SNetGetProviderCaps(&_caps);
 
-    DWORD dwCallDelay = _caps.dwCallDelay;
+    DWORD dwCallDelay = 1;
     if ( *BW::BWDATA_NetMode )
     {
-      if ( dwCallDelay >= 8 )
+      dwCallDelay = _caps.dwCallDelay;
+      if ( dwCallDelay > 8 )
         dwCallDelay = 8;
-      else if ( dwCallDelay <= 2 )
+      else if ( dwCallDelay < 2 )
         dwCallDelay = 2;
     }
-    else
-      dwCallDelay = 1;
-
     return (BW::BWDATA_LatencyFrames[*BW::BWDATA_GameSpeed]) * (*BW::BWDATA_Latency + dwCallDelay + 1);
   }
   int GameImpl::getLatencyTime()
@@ -867,8 +866,21 @@ namespace BWAPI
   {
     return (int)*BW::BWDATA_ReplayFrames;
   }
+  //----------------------------------------------- GET INSTANCE ID ------------------------------------------
   int GameImpl::getInstanceNumber()
   {
     return (int)gdwProcNum;
+  }
+  //---------------------------------------------------- GET APM ---------------------------------------------
+  double GameImpl::getAPM(bool includeSelects)
+  {
+    double GameDurationFactor = 1 - exp( -((double)this->getFrameCount()*42)/57000); // 0.95 * 60000
+    if ( GameDurationFactor < 0.01 ) 
+      GameDurationFactor = 0.01;
+    
+    double apm = botAPM_noSelect/(0.95*GameDurationFactor);
+    if ( includeSelects )
+      apm += botAPM_select/(0.95*GameDurationFactor);
+    return apm;
   }
 };

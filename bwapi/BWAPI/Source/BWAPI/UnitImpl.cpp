@@ -14,6 +14,7 @@
 #include <BWAPI/WeaponType.h>
 #include "Command.h"
 #include "DLLMain.h"
+#include "Detours.h"
 #include "TemplatesImpl.h"
 
 #include <BW/UnitType.h>
@@ -885,6 +886,7 @@ namespace BWAPI
   void UnitImpl::orderSelect()
   {
     BW::Orders::Select sel = BW::Orders::Select(1, this);
+    botAPM_select++;
     QueueGameCommand((PBYTE)&sel, sel.size);
   }
   //----------------------------------------------------------------------------------------------------------

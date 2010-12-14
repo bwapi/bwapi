@@ -260,6 +260,9 @@ namespace BWAPI
     data->forceCount       = forceVector.size();
     data->playerCount      = playerVector.size();
     data->initialUnitCount = unitVector.size();
+
+    data->botAPM_noselects = 0;
+    data->botAPM_selects   = 0;
   }
   void Server::clearAll()
   {
@@ -297,6 +300,8 @@ namespace BWAPI
 
     data->frameCount             = Broodwar->getFrameCount();
     data->fps                    = Broodwar->getFPS();
+    data->botAPM_noselects       = Broodwar->getAPM();
+    data->botAPM_selects         = Broodwar->getAPM(true);
     data->latencyFrames          = Broodwar->getLatencyFrames();
     data->latencyTime            = Broodwar->getLatencyTime();
     data->remainingLatencyFrames = Broodwar->getRemainingLatencyFrames();
