@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string>
+#include <math.h>
 #include "../Storm/storm.h"
 
 #include "WMode.h"
@@ -48,7 +49,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
         return 0;
       }
     }
-    else if ( size == 120 )
+    else if ( size == 120 && *BW::BWDATA_gwGameMode != 3 )
     {
       /* onSend Lobby */
     }
@@ -68,6 +69,9 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 
 //----------------------------------------------- DRAW HOOK --------------------------------------------------
 bool wantRefresh = false;
+DWORD dwLastAPMCount;
+double botAPM_noSelect;
+double botAPM_select;
 void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
   if ( wantRefresh )
@@ -84,6 +88,18 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   {
     if ( gdwHoliday )
       DrawHoliday();
+
+    if ( !BWAPI::BroodwarImpl.isPaused() )
+    {
+      DWORD dwThisTickCount = BWAPI::BroodwarImpl.getFrameCount()*42;
+      if ( dwThisTickCount > dwLastAPMCount )
+      {
+        double timeDiff = dwThisTickCount - dwLastAPMCount;
+        dwLastAPMCount = dwThisTickCount;
+        botAPM_noSelect *= exp((double)(-timeDiff/57000)); // 0.95 * 60000
+        botAPM_select *= exp((double)(-timeDiff/57000)); // 0.95 * 60000
+      }
+    }
 
     unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
     for( unsigned int i = 0; i < numShapes; ++i )

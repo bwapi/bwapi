@@ -2059,6 +2059,7 @@ namespace BWAPI
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
   void GameImpl::executeCommand(UnitCommand command, bool addCommandToLatComBuffer)
   {
+    botAPM_noSelect++;
     UnitCommandType ct = command.type;
     if      (ct == UnitCommandTypes::Attack_Move)
     {

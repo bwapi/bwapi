@@ -115,9 +115,7 @@ namespace BW
 
   /** QueueGameCommand data */
   static u32    *BWDATA_sgdwBytesInCmdQueue = (u32*)      0x00654AA0;
-  static u32    *BWDATA_MaxTurnSize         = (u32*)      0x0057F0D8;
   static u8     *BWDATA_TurnBuffer          = (u8*)       0x00654880;
-  static s32    *BWDATA_LatencyCalls        = (s32*)      0x0057F090;
   static void  (*BWFXN_sendTurn)()          = (void(*)()) 0x00485A40;
   static u32    BWFXN_QueueCommand          =             0x00485BD0;
 
@@ -187,7 +185,6 @@ namespace BW
 
   static RECT *BWDATA_ScrLimit = (RECT*)0x0051A15C;
   static RECT *BWDATA_ScrSize  = (RECT*)0x0051A16C;
-
   
   //------------------------------------------- CLIST DATA ---------------------------------------------------
   static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;

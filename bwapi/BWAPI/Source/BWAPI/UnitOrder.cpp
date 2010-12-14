@@ -15,6 +15,7 @@
 #include "BWAPI/TemplatesImpl.h"
 #include "Command.h"
 #include "DLLMain.h"
+#include "Detours.h"
 
 #include <BW/UnitType.h>
 #include <BW/Unit.h>
@@ -45,6 +46,7 @@ namespace BWAPI
     {
       //select both units for archon warp or dark archon meld
       BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);
+      botAPM_select++;
       QueueGameCommand((PBYTE)&sel, sel.size);
     }
     else

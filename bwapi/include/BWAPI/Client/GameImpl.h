@@ -212,5 +212,6 @@ namespace BWAPI
       virtual int  getReplayFrameCount();
       virtual void setGUI(bool enabled = true);
       virtual int  getInstanceNumber();
+      virtual double getAPM(bool includeSelects = false);
   };
 }

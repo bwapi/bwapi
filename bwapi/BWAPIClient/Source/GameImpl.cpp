@@ -998,4 +998,11 @@ namespace BWAPI
   {
     return data->instanceID;
   }
+  //---------------------------------------------------- GET APM ---------------------------------------------
+  double GameImpl::getAPM(bool includeSelects)
+  {
+    if ( includeSelects )
+      return data->botAPM_selects;
+    return data->botAPM_noselects;
+  }
 };

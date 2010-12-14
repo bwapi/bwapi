@@ -19,3 +19,6 @@ void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 extern bool hideHUD;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
+extern double botAPM_noSelect;
+extern double botAPM_select;
+
