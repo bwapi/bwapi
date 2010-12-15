@@ -106,16 +106,15 @@ namespace BW
     /*0x086*/ u8                                  _unknown_0x086;  // pathing related?
     /*0x087*/ u8                                  _unknownTimer_0x087;  // pathing related?
     /*0x088*/ u16                                 displayedUnitID;
-    /*0x08A*/ u8                                  lastEventTimer; // countdown that stops being recent when it hits 0 // might be for internal AI use
-    /*0x08B*/ u8                                  lastEvent; /* 17 = was completed (train, morph)   // might be for internal AI use
-                                                                174 = was attacked 
-                                                             */
-    /*0x08C*/ u16                                 _unused_0x08C;
+    /*0x08A*/ u8                                  lastEventTimer; // countdown that stops being recent when it hits 0 
+    /*0x08B*/ u8                                  lastEventColor; // 17 = was completed (train, morph), 174 = was attacked
+    /*0x08C*/ u16                                 _unused_0x08C;  // might have originally been RGB from lastEventColor
     /*0x08E*/ u8                                  rankIncrease;       /**< Adds this value to the unit's base rank */
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u8                                  lastAttackingPlayer; // the player that last attacked this unit
-    /*0x091*/ u16                                 _unknown_counter_0x091; // some counter
+    /*0x091*/ u16                                 secondaryOrderTimer; // A guess
     /*0x093*/ u8                                  userActionFlags;     // some flags that change when the user interacts with the unit
+                                                                       // 2 = issued an order, 3 = interrupted an order
     /*0x094*/ u16                                 currentButtonSet;    // The u16 is a guess, used to be u8
     /*0x096*/ u8                                  cloaked;             // 1 for cloaked
     /*0x097*/ u8                                  movementState;       // A value based on conditions related to pathing, see Path.h for info
@@ -213,13 +212,14 @@ namespace BW
               };
     /*0x0DC*/ Util::BitMask<u32>                status;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
-    /*0x0E1*/ u8                                wireframeRandomizer;/**< @todo Unknown */
-    /*0x0E2*/ u8                                secondaryOrderState;/**< @todo Unknown */
-    /*0x0E3*/ u8                                _unknownCounterDown_0x0E3; /**< @todo Unknown */
-    /*0x0E4*/ s32                               visibilityStatus;
+    /*0x0E1*/ u8                                wireframeRandomizer;
+    /*0x0E2*/ u8                                secondaryOrderState;
+    /*0x0E3*/ u8                                recentOrderTimer;   // Counts down from 15 to 0 when most orders are given,
+                                                                    // or when the unit moves after reaching a patrol location
+    /*0x0E4*/ s32                               visibilityStatus;   // Flags specifying which players can detect this unit (cloaked/burrowed)
     /*0x0E8*/ u16                               _unknown_0x0E8;
     /*0x0EA*/ u16                               _unknown_0x0EA;
-    /*0x0EC*/ BW::Unit                          *currentBuildUnit;   /**< @todo Unknown */
+    /*0x0EC*/ BW::Unit                          *currentBuildUnit;
     /*0x0F0*/ BW::Unit                          *previousBurrowedUnit;
     /*0x0F4*/ BW::Unit                          *nextBurrowedUnit;
     /*0x0F8*/ union
@@ -238,7 +238,7 @@ namespace BW
     /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
     /*0x106*/ u8                                  _unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;          // 1 if a medic is currently healing this unit
-    /*0x108*/ BW::rect                            contourBounds;          /**< @todo Unknown */
+    /*0x108*/ BW::rect                            contourBounds;          // a rect that specifies the closest contour (collision) points
     /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;
@@ -258,7 +258,8 @@ namespace BW
     /*0x125*/ u8                                  _unused_0x125;
     /*0x126*/ u8                                  acidSporeCount;     /**< @todo Verify */
     /*0x127*/ u8                                  acidSporeTime[9];
-    /*0x130*/ u16                                 _unknown_offsetIndex3by3;    /**< @todo Unknown */  // for an unused weapon
+    /*0x130*/ u16                                 bulletBehaviour3by3AttackSequence; // Counts up for the number of bullets shot by a unit using
+                                                                                     // this weapon behaviour and resets after it reaches 12
     /*0x132*/ u16                                 _unused_0x132;
     /*0x134*/ void                                *CAIControl;        // pointer to AI class, we're not using this though
     /*0x138*/ u16                                 airStrength;        /**< verified */
