@@ -536,6 +536,7 @@ namespace BWAPI
   void GameImpl::printf(const char *format, ...)
   {
     if ( noGUI ) return;
+    if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
 
@@ -551,6 +552,7 @@ namespace BWAPI
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
   {
+    if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
     sendTextEx(false, "%s", buffer);
@@ -558,6 +560,7 @@ namespace BWAPI
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
+    if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
 
@@ -720,7 +723,7 @@ namespace BWAPI
     std::set<UnitImpl* > nextGroup;
     for each(Unit* u in units)
     {
-      if (u!=NULL && u->exists() && u->canIssueCommand(command))
+      if (u != NULL && u->exists() && u->canIssueCommand(command))
       {
         if (command.type == UnitCommandTypes::Train ||
             command.type == UnitCommandTypes::Morph)
@@ -882,5 +885,18 @@ namespace BWAPI
     if ( includeSelects )
       apm += botAPM_select/(0.95*GameDurationFactor);
     return apm;
+
+  }
+  //---------------------------------------------------- SET MAP ---------------------------------------------
+  bool GameImpl::setMap(const char *mapFileName)
+  {
+    if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
+      return setLastError(Errors::Invalid_Parameter);
+
+    if ( GetFileAttributes(mapFileName) == INVALID_FILE_ATTRIBUTES )
+      return setLastError(Errors::File_Not_Found);
+
+    strcpy(BW::BWDATA_CurrentMapFileName, mapFileName);
+    return setLastError(Errors::None);
   }
 };

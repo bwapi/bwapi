@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
+
 namespace BWAPI
 {
   class UnitType;
@@ -121,6 +122,12 @@ namespace BWAPI
      * return this error. Similarly, trying to read the coordinates of the screen or mouse while the UserInput
      *  flag is not enabled will also return this error. */
     extern const Error Access_Denied;
+
+    /** Used when a file can't be found. */
+    extern const Error File_Not_Found;
+
+    /** Used for bad parameters, like passing NULL or an empty string. */
+    extern const Error Invalid_Parameter;
 
     /** Used when no error has been encountered. */
     extern const Error None;

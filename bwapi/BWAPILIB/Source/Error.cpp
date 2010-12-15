@@ -6,10 +6,12 @@
 
 #include "Common.h"
 
+#define BWAPI_ERROR_MAX_COUNT 28
+
 namespace BWAPI
 {
   bool initializingError = true;
-  std::string errorName[26];
+  std::string errorName[BWAPI_ERROR_MAX_COUNT];
   std::map<std::string, Error> errorMap;
   std::set< Error > errorSet;
   namespace Errors
@@ -38,8 +40,10 @@ namespace BWAPI
     const Error Out_Of_Range(21);
     const Error Unable_To_Hit(22);
     const Error Access_Denied(23);
-    const Error None(24);
-    const Error Unknown(25);
+    const Error File_Not_Found(24);
+    const Error Invalid_Parameter(25);
+    const Error None(26);
+    const Error Unknown(27);
 
     void init()
     {
@@ -67,6 +71,8 @@ namespace BWAPI
       errorName[Out_Of_Range.getID()]          = "Out Of Range";
       errorName[Unable_To_Hit.getID()]         = "Unable To Hit";
       errorName[Access_Denied.getID()]         = "Access Denied";
+      errorName[File_Not_Found.getID()]        = "File Not Found";
+      errorName[Invalid_Parameter.getID()]     = "Invalid Parameter";
       errorName[None.getID()]                  = "None";
       errorName[Unknown.getID()]               = "Unknown";
 
@@ -94,6 +100,8 @@ namespace BWAPI
       errorSet.insert(Out_Of_Range);
       errorSet.insert(Unable_To_Hit);
       errorSet.insert(Access_Denied);
+      errorSet.insert(File_Not_Found);
+      errorSet.insert(Invalid_Parameter);
       errorSet.insert(None);
       errorSet.insert(Unknown);
 
@@ -114,7 +122,7 @@ namespace BWAPI
   Error::Error(int id)
   {
     this->id = id;
-    if (!initializingError && (id < 0 || id >= 26))
+    if (!initializingError && (id < 0 || id >= BWAPI_ERROR_MAX_COUNT))
       this->id = Errors::Unknown.id;
   }
   Error::Error(const Error& other)
