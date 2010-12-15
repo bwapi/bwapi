@@ -409,35 +409,38 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      foreach ( Unit *u, aliveUnits )
+      for each ( Unit *_u in aliveUnits )
       {
-        if ( !u )
-          continue;
-        if ( u->isStuck() )
-          printf("A %s is stuck", u->getType().getName().c_str());
-      }
-      // selected units
-      foreach( Unit *_u, selectedUnitSet )
-      {
-        if ( !_u )
-          continue;
-
         BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
         if ( !u )
           continue;
-
-        drawCircleMap(u->position.x, u->position.y, 2, BWAPI::Colors::Cyan, true);
-        drawTextMap(u->position.x + 32, u->position.y - 24, "%s", BW::getMoveStateName(u->movementState));
-        drawTextMap(u->position.x + 32, u->position.y - 12, "%s | %s", BWAPI::Order(BWtoBWAPI_Order[u->orderID]).getName().c_str(), BWAPI::Order(BWtoBWAPI_Order[u->secondaryOrderID]).getName().c_str());
-        BW::Order *o = u->orderQueueHead;
-        for ( int i = 0; o; ++i )
+        if ( u->AIOrderTargetUnit )
+          drawLineMap(u->position.x + 2, u->position.y - 2, u->AIOrderTargetUnit->position.x - 2, u->AIOrderTargetUnit->position.y + 2, _u->getPlayer()->getColor());
+      }
+      // selected units
+      if ( !selectedUnitSet.empty() )
+      {
+        BW::Unit *u = ((UnitImpl*)(*selectedUnitSet.begin()))->getOriginalRawData;
+        if ( u )
         {
-          drawTextMap(u->position.x + 32, u->position.y + 12*i, "%s", BWAPI::Order(BWtoBWAPI_Order[o->orderID]).getName().c_str());
-          o = o->nextOrder;
+          drawTextScreen(8, 1, "_unknown_0x026: %02X", u->_unknown_0x026);
+          drawTextScreen(8, 11, "orderFlags: %02X", u->orderFlags);
+          drawTextScreen(8, 21, "_unused_0x052: %04X", u->_unused_0x052);
+          drawTextScreen(8, 31, "_unused_0x066: %04X", u->_unused_0x066);
+          drawTextScreen(8, 41, "_unknown_0x086: %02X", u->_unknown_0x086);
+          drawTextScreen(8, 51, "_unknownTimer_0x087: %02X", u->_unknownTimer_0x087);
+          drawTextScreen(8, 61, "_unused_0x08C: %04X", u->_unused_0x08C);
+          drawTextScreen(8, 71, "userActionFlags: %02X", u->userActionFlags);
+          drawTextScreen(8, 81, "targetOrderSpecial: %02X", u->targetOrderSpecial);
+          drawTextScreen(8, 91, "buildingOverlayState: %02X", u->buildingOverlayState);
+          drawTextScreen(8, 101, "status: %p", u->status);
+          drawTextScreen(8, 111, "_unknown_0x0E8: %04X", u->_unknown_0x0E8);
+          drawTextScreen(8, 121, "_unknown_0x0EA: %04X", u->_unknown_0x0EA);
+          drawTextScreen(8, 131, "_unused_0x106: %02X", u->_unused_0x106);
+          drawTextScreen(8, 141, "_unused_0x125: %02X", u->_unused_0x125);
+          drawTextScreen(8, 151, "_unused_0x132: %04X", u->_unused_0x132);
         }
       }
-
-
     } // unitdebug
 
     // grid

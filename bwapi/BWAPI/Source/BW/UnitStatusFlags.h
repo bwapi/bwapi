@@ -23,7 +23,7 @@ namespace BW
       NoBrkCodeStart        = 0x00002000,  /**< Unbreakable code section in iscript */
       UNKNOWN2              = 0x00004000,  /**< @todo Unknown */
       CanNotAttack          = 0x00008000,  /**< @todo Unknown */
-      IsAUnit               = 0x00010000,  /**< @todo Unknown */
+      IsAUnit               = 0x00010000,  // canAttack? /**< @todo Unknown */
       IsABuilding           = 0x00020000,
       IsgnoreTileCollision  = 0x00040000,
       UNKNOWN4              = 0x00080000,
@@ -34,7 +34,7 @@ namespace BW
       UNKNOWN6              = 0x01000000,
       UNKNOWN7              = 0x02000000,
       Invincible            = 0x04000000,
-      UNKNOWN8              = 0x08000000,
+      HoldPosition          = 0x08000000, // Set if the unit is currently holding position
       SpeedUpgrade          = 0x10000000,
       CooldownUpgrade       = 0x20000000,
       IsHallucination       = 0x40000000,  /**< 1 for hallucinated units, 0 for "normal" units */
