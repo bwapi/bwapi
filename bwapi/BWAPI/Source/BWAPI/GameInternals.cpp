@@ -1182,6 +1182,7 @@ namespace BWAPI
         test->setSelectedIndex(test->getListCount()-1);
       }
     }
+// The following commands are knockoffs of Starcraft Beta's developer mode
     else if (parsed[0] == "/pathdebug")
     {
       pathDebug = !pathDebug;
@@ -1197,15 +1198,23 @@ namespace BWAPI
       grid = !grid;
       printf("Matrix grid %s.", grid ? "enabled" : "disabled");
     }
+// end knockoffs
     else if (parsed[0] == "/hud")
     {
       hideHUD = !hideHUD;
       printf("Now %s the HUD.", hideHUD ? "hiding" : "showing");
     }
-    else if (parsed[0] == "/test")
+    else if (parsed[0] == "/resize")
     {
       printf("Done");
       SetResolution(1024, 768);
+    }
+    else if (parsed[0] == "/test")
+    {
+      if ( setMap(parsed[1].c_str()) )
+        printf("Set map to \"%s\".", parsed[1].c_str());
+      else
+        printf("%s", getLastError().toString().c_str());
     }
 #endif
     else if (parsed[0] == "/wmode")

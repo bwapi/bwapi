@@ -403,6 +403,9 @@ namespace BWAPI
 
       /** Retrieves the bot's APM. Can include or exclude select commands. */
       virtual double getAPM(bool includeSelects = false) = 0;
+
+      /** Changes the map to the one specified. Changes do not take effect unless the game is restarted. */
+      virtual bool setMap(const char *mapFileName) = 0;
   };
   extern Game* Broodwar;
 }

@@ -998,11 +998,22 @@ namespace BWAPI
   {
     return data->instanceID;
   }
-  //---------------------------------------------------- GET APM ---------------------------------------------
   double GameImpl::getAPM(bool includeSelects)
   {
     if ( includeSelects )
       return data->botAPM_selects;
     return data->botAPM_noselects;
+  }
+  bool GameImpl::setMap(const char *mapFileName)
+  {
+    if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
+      return setLastError(Errors::Invalid_Parameter);
+
+    if ( GetFileAttributes(mapFileName) == INVALID_FILE_ATTRIBUTES )
+      return setLastError(Errors::File_Not_Found);
+
+    // @TODO: Implement
+    //strcpy(BW::BWDATA_CurrentMapFileName, mapFileName);
+    return setLastError(Errors::None);
   }
 };

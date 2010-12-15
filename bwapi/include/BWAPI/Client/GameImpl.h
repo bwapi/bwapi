@@ -213,5 +213,6 @@ namespace BWAPI
       virtual void setGUI(bool enabled = true);
       virtual int  getInstanceNumber();
       virtual double getAPM(bool includeSelects = false);
+      virtual bool setMap(const char *mapFileName);
   };
 }
