@@ -679,5 +679,11 @@ namespace BWAPI
 
       /** Moves a Flag Beacon to the target location. */
       virtual bool placeCOP(TilePosition target) = 0;
+
+      /** Returns true if the unit was recently attacked. */
+      virtual bool          isUnderAttack() = 0;
+
+      /** Returns the player that last attacked this unit. */
+      virtual BWAPI::Player *getLastAttackingPlayer() = 0;
   };
 }

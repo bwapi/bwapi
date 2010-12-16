@@ -206,5 +206,8 @@ namespace BWAPI
       virtual void* getClientInfo() const;
 
       virtual bool placeCOP(TilePosition target);
+
+      virtual bool          isUnderAttack();
+      virtual BWAPI::Player *getLastAttackingPlayer();
   };
 }

@@ -220,6 +220,9 @@ namespace BWAPI
 
       virtual bool placeCOP(TilePosition target);
 
+      virtual bool          isUnderAttack();
+      virtual BWAPI::Player *getLastAttackingPlayer();
+
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
                u16 index);
