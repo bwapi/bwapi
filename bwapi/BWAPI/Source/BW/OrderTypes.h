@@ -2,14 +2,12 @@
 
 #include <Util/Types.h>
 
-#include "UnitType.h"
-#include "TechType.h"
-#include "UpgradeType.h"
+#include <BWAPI/UnitType.h>
 #include "PositionUnitTarget.h"
 #include "Race.h"
 #include <BW/TilePosition.h>
 
-namespace BWAPI { class UnitImpl; class UnitType; }
+namespace BWAPI { class UnitImpl; }
 #pragma pack(1)
 namespace BW
 {
@@ -81,11 +79,11 @@ namespace BW
     class TrainUnit
     {
       public :
-        TrainUnit(BW::UnitType type);
+        TrainUnit(u16 type);
         /** 0x1f = Train Command-code in bw */
         u8 always0x1f;
         /** Type of unit to train */
-        BW::UnitType type;
+        u16 type;
     };
     /** Train unit command in bw. */
     class TrainFighter
@@ -99,60 +97,60 @@ namespace BW
     class MakeBuilding
     {
       public :
-        MakeBuilding(BW::TilePosition position, BW::UnitType type);
+        MakeBuilding(BW::TilePosition position, u16 type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
         u8 raceDependant;
         BW::TilePosition position;
         /** Type of building to make */
-        BW::UnitType type;
+        u16 type;
     };
 
     /** Place COP */
     class PlaceCOP
     {
       public :
-        PlaceCOP(BW::TilePosition position, BW::UnitType type);
+        PlaceCOP(BW::TilePosition position, u16 type);
         PlaceCOP(BW::TilePosition position, BWAPI::UnitType type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         u8 always0x9B;
         BW::TilePosition position;
         /** Type of building to make */
-        BW::UnitType type;
+        u16 type;
     };
 
     /** Invent tech. */
     class Invent
     {
       public :
-        Invent(BW::TechType type);
+        Invent(u8 type);
         /** 0x30 = invent tech Command-code in bw */
         u8 always0x30;
         /** Type of tech to invent */
-        BW::TechType tech;
+        u8 tech;
     };
     class Upgrade
     {
       public :
-        Upgrade(BW::UpgradeType upgrade);
+        Upgrade(u8 upgrade);
         /** 0x32 = upgrade Command-code in bw */
         u8 always0x32;
         /** Type of upgrade */
-        BW::UpgradeType upgrade;
+        u8 upgrade;
     };
     class MakeAddon
     {
       public :
-        MakeAddon(BW::TilePosition position, BW::UnitType type);
+        MakeAddon(BW::TilePosition position, u16 type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         /** 1e for terran 1f for protoss*/
         u8 always0x24;
         BW::TilePosition position;
         /** Type of building to make */
-        BW::UnitType type;
+        u16 type;
     };
     class MakeNydusExit
     {
@@ -164,7 +162,7 @@ namespace BW
         u8 always0x2E;
         BW::TilePosition position;
         /** Type of building to make */
-        BW::UnitType type;
+        u16 type;
     };
     /** Change slot command in bw. */
     class ChangeSlot
@@ -274,11 +272,11 @@ namespace BW
     class BuildingMorph
     {
       public :
-        BuildingMorph(BW::UnitType type);
+        BuildingMorph(u16 type);
         /** 0x35 = Building Morph for zerg */
         u8 always0x35;
         /** Type of unit to train */
-        BW::UnitType type;
+        u16 type;
     };
 
     class CancelAddon
@@ -325,12 +323,12 @@ namespace BW
     class Land
     {
       public :
-        Land(BW::TilePosition position, BW::UnitType type);
+        Land(BW::TilePosition position, u16 type);
       private :
         u8 always0x0C;
         u8 always0x47;
         BW::TilePosition position;
-        BW::UnitType type;
+        u16 type;
     };
 
     class Burrow
@@ -400,11 +398,11 @@ namespace BW
     class UnitMorph
     {
       public :
-        UnitMorph(BW::UnitType type);
+        UnitMorph(u16 type);
         /** 0x23 = Unit Morph (Zerg) Command-code in bw */
         u8 always0x23;
         /** Type of unit to train */
-        BW::UnitType type;
+        u16 type;
     };
 
     class Cloak

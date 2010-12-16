@@ -6,7 +6,6 @@
 
 #include <Util/Types.h>
 #include <BWAPI/Order.h>
-#include <BW/UnitType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
@@ -255,7 +254,7 @@ namespace BWAPI
       /** Gets #bwUnitLocal */
       u8 getBuildQueueSlot;
       /** Gets #bwUnit->BW#Unit#buildQueue */
-      BW::UnitType* getBuildQueue;
+      BWAPI::UnitType getBuildQueue[5];
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 

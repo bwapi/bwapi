@@ -1,7 +1,7 @@
 #include "OrderTypes.h"
-#include <stdarg.h>
 #include <BWAPI/Unit.h>
 #include <BW/Offsets.h>
+#include <BW/UnitID.h>
 #include <Util/Exceptions.h>
 namespace BW
 {
@@ -160,7 +160,7 @@ namespace BW
       size = 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
-    TrainUnit::TrainUnit(BW::UnitType type)
+    TrainUnit::TrainUnit(u16 type)
         : always0x1f(0x1f)
         , type(type)
     {
@@ -171,21 +171,29 @@ namespace BW
     {
     }
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
-    MakeBuilding::MakeBuilding(BW::TilePosition position, BW::UnitType type)
+    MakeBuilding::MakeBuilding(BW::TilePosition position, u16 type)
         : always0x0c(0x0c)
         , position(position)
         , type(type)
     {
-      switch (type._getRace())
+      switch( BWAPI::UnitType(type).getRace().getID() )
       {
-        case BW::Race::Zerg : raceDependant = 0x19; break;
-        case BW::Race::Terran : raceDependant = 0x1e; break;
-        case BW::Race::Protoss : raceDependant = 0x1f; break;
-        default : throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
+      case BW::Race::Zerg:
+        raceDependant = 0x19;
+        break;
+      case BW::Race::Terran:
+        raceDependant = 0x1e;
+        break;
+      case BW::Race::Protoss:
+        raceDependant = 0x1f;
+        break;
+      default:
+        throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
+        break;
       }
     }
     //---------------------------------------------- PLACE COP -----------------------------------------------
-    PlaceCOP::PlaceCOP(BW::TilePosition position, BW::UnitType type)
+    PlaceCOP::PlaceCOP(BW::TilePosition position, u16 type)
         : always0x0c(0x0C)
         , always0x9B(0x9B)
         , position(position)
@@ -200,19 +208,19 @@ namespace BW
     {
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
-    Invent::Invent(BW::TechType tech)
+    Invent::Invent(u8 tech)
         : always0x30(0x30)
         , tech(tech)
     {
     }
     //----------------------------------------------- UPGRADE ------------------------------------------------
-    Upgrade::Upgrade(BW::UpgradeType upgrade)
+    Upgrade::Upgrade(u8 upgrade)
         : always0x32(0x32)
         , upgrade(upgrade)
     {
     }
     //---------------------------------------------- MAKE ADDON ----------------------------------------------
-    MakeAddon::MakeAddon(BW::TilePosition position, BW::UnitType type)
+    MakeAddon::MakeAddon(BW::TilePosition position, u16 type)
         : always0x0c(0x0c)
         , always0x24(0x24)
         , position(position)
@@ -284,7 +292,7 @@ namespace BW
     {
     }
     //---------------------------------------- BUILDING MORPH CONSTRUCTOR ------------------------------------
-    BuildingMorph::BuildingMorph(BW::UnitType type)
+    BuildingMorph::BuildingMorph(u16 type)
         : always0x35(0x35)
         , type(type)
     {
@@ -316,7 +324,7 @@ namespace BW
     {
     }
     //------------------------------------------------- LAND -------------------------------------------------
-    Land::Land(BW::TilePosition position, BW::UnitType type)
+    Land::Land(BW::TilePosition position, u16 type)
         : always0x0C(0x0C)
         , always0x47(0x47)
         , position(position)
@@ -366,7 +374,7 @@ namespace BW
     {
     }
     //----------------------------------------- UNIT MORPH CONSTRUCTOR ---------------------------------------
-    UnitMorph::UnitMorph(BW::UnitType type)
+    UnitMorph::UnitMorph(u16 type)
         : always0x23(0x23)
         , type(type)
     {

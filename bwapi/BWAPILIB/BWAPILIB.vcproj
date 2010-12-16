@@ -176,10 +176,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Bitmap.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\BulletType.cpp"
 				>
 			</File>
@@ -271,10 +267,6 @@
 			>
 			<File
 				RelativePath="..\include\BWAPI\AIModule.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\BWAPI\Bitmap.h"
 				>
 			</File>
 			<File

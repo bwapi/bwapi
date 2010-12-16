@@ -39,12 +39,13 @@
 #include <BW/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
-#include <BW/UnitType.h>
 #include <BW/GameType.h>
-#include <BW/WeaponType.h>
 #include <BW/CheatType.h>
 #include <BW/Dialog.h>
 #include <BW/Path.h>
+#include <BW/UnitID.h>
+#include <BW/TechID.h>
+#include <BW/UpgradeID.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -90,10 +91,7 @@ namespace BWAPI
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
-    /* initialize the unit types */
-    BW::UnitType::initialize();
     BWtoBWAPI_init();
-
     try
     {
       memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
@@ -111,11 +109,6 @@ namespace BWAPI
       for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; i++)
         bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable->bullet[i],
                                         (u16)i);
-
-
-      /* iterate through unit types and create UnitType for each */
-      for (int i = 0; i < UNIT_TYPE_COUNT; i++)
-        unitTypes.insert(BW::UnitType((u16)i));
     }
     catch (GeneralException& exception)
     {
@@ -1008,12 +1001,11 @@ namespace BWAPI
 
     /* get the set of start locations */
     BW::Position *StartLocs = BW::BWDATA_startPositions;
-    BW::UnitType SLocType   = BW::UnitType(BW::UnitID::Start_Location);
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT ; ++i)
     {
-      if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0)/* && this->players[i]->isParticipating()*/ )
-        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - SLocType.dimensionLeft()) / TILE_SIZE,
-                                                   (StartLocs[i].y - SLocType.dimensionUp()  ) / TILE_SIZE) );
+      if ( StartLocs[i].x != 0 || StartLocs[i].y != 0 )
+        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - 64) / TILE_SIZE,
+                                                   (StartLocs[i].y - 48) / TILE_SIZE) );
     }
 
     // Get Player Objects
@@ -1275,7 +1267,6 @@ namespace BWAPI
     selectedUnitSet.clear();
     emptySet.clear();
     startLocations.clear();
-    unitTypes.clear();
     for each(Force* f in forces)
       delete f;
     forces.clear();
@@ -1397,7 +1388,7 @@ namespace BWAPI
     if ( i->getOriginalRawData->orderID == BW::OrderID::Die )
       return false;
 
-    u16 uId = i->getOriginalRawData->unitType.id;
+    u16 uId = i->getOriginalRawData->unitType;
     UnitType _getType = BWAPI::UnitType(uId);
     if ( uId == BW::UnitID::Resource_MineralPatch1 ||
          uId == BW::UnitID::Resource_MineralPatch2 ||
@@ -2100,13 +2091,14 @@ namespace BWAPI
     {
       TilePosition target(command.x,command.y);
       UnitType type1(command.extra);
-      BW::UnitType type((u16)command.extra);
-      if ( command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal && type == BW::UnitID::Zerg_NydusCanal )
+      BWAPI::UnitType extraType(command.extra);
+      if ( command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
+           extraType == UnitTypes::Zerg_Nydus_Canal )
         QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
-      else if (!type.isAddon())
-        QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeBuilding));
+      else if ( !extraType.isAddon() )
+        QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType.getID()), sizeof(BW::Orders::MakeBuilding));
       else
-        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), type), sizeof(BW::Orders::MakeAddon));
+        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType.getID()), sizeof(BW::Orders::MakeAddon));
     }
     else if (ct == UnitCommandTypes::Build_Addon)
     {
@@ -2118,19 +2110,18 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Train)
     {
       UnitType type1(command.extra);
-      BW::UnitType type((u16)type1.getID());
       switch ( command.unit->getType().getID() )
       {
       case BW::UnitID::Zerg_Larva:
       case BW::UnitID::Zerg_Mutalisk:
       case BW::UnitID::Zerg_Hydralisk:
-        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph(type), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type1.getID()), 3);
         break;
       case BW::UnitID::Zerg_Hatchery:
       case BW::UnitID::Zerg_Lair:
       case BW::UnitID::Zerg_Spire:
       case BW::UnitID::Zerg_CreepColony:
-        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph(type), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type1.getID()), 3);
         break;
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
@@ -2139,7 +2130,7 @@ namespace BWAPI
         QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
         break;
       default:
-        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit(type), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit((u16)type1.getID()), 3);
         break;
       }
     }
@@ -2154,12 +2145,12 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Research)
     {
       TechType tech(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Invent(BW::TechType((u8)tech.getID())), sizeof(BW::Orders::Invent));
+      QueueGameCommand((PBYTE)&BW::Orders::Invent((u8)tech.getID()), sizeof(BW::Orders::Invent));
     }
     else if (ct == UnitCommandTypes::Upgrade)
     {
       UpgradeType upgrade(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Upgrade(BW::UpgradeType((u8)upgrade.getID())), sizeof(BW::Orders::Upgrade));
+      QueueGameCommand((PBYTE)&BW::Orders::Upgrade((u8)upgrade.getID()), sizeof(BW::Orders::Upgrade));
     }
     else if (ct == UnitCommandTypes::Set_Rally_Position)
     {
@@ -2248,7 +2239,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Land)
     {
-      QueueGameCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), BW::UnitType((u16)command.unit->getType().getID())), sizeof(BW::Orders::Land));
+      QueueGameCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), (u16)command.unit->getType().getID()), sizeof(BW::Orders::Land));
     }
     else if (ct == UnitCommandTypes::Load)
     {

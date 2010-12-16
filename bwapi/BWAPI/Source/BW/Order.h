@@ -1,7 +1,6 @@
 #pragma once
 
 namespace BW { struct Unit; };
-#include "UnitType.h"
 namespace BW /** @todo Investigate*/
 {
 #pragma pack(1)
@@ -10,7 +9,7 @@ namespace BW /** @todo Investigate*/
     BW::Order*   previousOrder;
     BW::Order*   nextOrder;
     u16          orderID;
-    UnitType     unitType;
+    u16          unitType;
     BW::Position targetPosition;
     BW::Unit*    targetUnit;
   };

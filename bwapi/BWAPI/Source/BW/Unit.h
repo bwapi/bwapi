@@ -5,7 +5,6 @@
 #include "../StaticAssert.h"
 
 #include <BW/OrderID.h>
-#include <BW/UnitType.h>
 #include <BW/MovementFlags.h>
 #include <BW/Position.h>
 #include <BW/UnitStatusFlags.h>
@@ -83,7 +82,7 @@ namespace BW
                                                       0x04  Reset collision? Always enabled for hallucination...
                                                       0x10  Lift/Land state
                                                   */
-    /*0x050*/ BW::UnitType                        orderUnitType;
+    /*0x050*/ u16                                 orderUnitType;
     /*0x052*/ u16                                 _unused_0x052;
     /*0x054*/ u8                                  mainOrderTimer;         // A timer for orders, example: time left before minerals are harvested
     /*0x055*/ u8                                  groundWeaponCooldown;
@@ -92,7 +91,7 @@ namespace BW
     /*0x058*/ BW::Position                        orderTargetPos;
     /*0x05C*/ BW::Unit                            *orderTargetUnit;
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
-    /*0x064*/ BW::UnitType                        unitType;             /**< Specifies the type of unit. */
+    /*0x064*/ u16                                 unitType;             /**< Specifies the type of unit. */
     /*0x066*/ u16                                 _unused_0x066;
     /*0x068*/ BW::Unit                            *previousPlayerUnit;
     /*0x06C*/ BW::Unit                            *nextPlayerUnit;
@@ -118,7 +117,7 @@ namespace BW
     /*0x094*/ u16                                 currentButtonSet;    // The u16 is a guess, used to be u8
     /*0x096*/ u8                                  cloaked;             // 1 for cloaked
     /*0x097*/ u8                                  movementState;       // A value based on conditions related to pathing, see Path.h for info
-    /*0x098*/ BW::UnitType                        buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
+    /*0x098*/ u16                                 buildQueue[5];      /**< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. */
     /*0x0A2*/ u16                                 energy;             /**< Energy Points */
     /*0x0A4*/ u8                                  buildQueueSlot;     /**< Index of active unit in #buildQueue. */
     /*0x0A5*/ u8                                  targetOrderSpecial; /**< A byte used to determine the target ID for the unit */
