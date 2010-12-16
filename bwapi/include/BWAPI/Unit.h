@@ -681,9 +681,9 @@ namespace BWAPI
       virtual bool placeCOP(TilePosition target) = 0;
 
       /** Returns true if the unit was recently attacked. */
-      virtual bool          isUnderAttack() = 0;
+      virtual bool          isUnderAttack() const = 0;
 
       /** Returns the player that last attacked this unit. */
-      virtual BWAPI::Player *getLastAttackingPlayer() = 0;
+      virtual BWAPI::Player *getLastAttackingPlayer() const = 0;
   };
 }

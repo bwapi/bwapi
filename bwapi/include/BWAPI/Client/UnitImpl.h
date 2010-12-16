@@ -207,7 +207,7 @@ namespace BWAPI
 
       virtual bool placeCOP(TilePosition target);
 
-      virtual bool          isUnderAttack();
-      virtual BWAPI::Player *getLastAttackingPlayer();
+      virtual bool          isUnderAttack() const;
+      virtual BWAPI::Player *getLastAttackingPlayer() const;
   };
 }
