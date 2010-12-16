@@ -30,8 +30,6 @@ namespace BWAPI { class  AIModule; }
 #include <BW/Offsets.h>
 #include <BWAPI/Latency.h>
 #include <BW/Latency.h>
-#include <BW/TechType.h>
-#include <BW/UpgradeType.h>
 #include <BW/Position.h>
 
 #include <BWAPI/Map.h>
@@ -304,7 +302,6 @@ namespace BWAPI
       std::set<BWAPI::Unit*>  selectedUnitSet;
       std::set<BWAPI::Unit*>  emptySet;
       std::set<TilePosition>  startLocations;
-      std::set< BW::UnitType> unitTypes;
 
       std::set<BWAPI::Force*>  forces;
       std::set<BWAPI::Player*> playerSet;

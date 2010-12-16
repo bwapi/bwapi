@@ -17,7 +17,6 @@
 #include "DLLMain.h"
 #include "Detours.h"
 
-#include <BW/UnitType.h>
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
 

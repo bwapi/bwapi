@@ -16,9 +16,6 @@ namespace BW { struct Unit; };
 #include <string>
 #include <Util/Types.h>
 
-#include <BW/TechType.h>
-#include <BW/UpgradeType.h>
-#include <BW/UnitType.h>
 #include <BW/Offsets.h>
 #include <BW/Race.h>
 #include <BW/TilePosition.h>

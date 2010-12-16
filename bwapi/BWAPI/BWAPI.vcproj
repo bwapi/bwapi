@@ -252,10 +252,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\TechType.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\TilePosition.h"
 					>
 				</File>
@@ -273,18 +269,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\UnitTarget.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BW\UnitType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BW\UpgradeType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BW\WeaponType.h"
 					>
 				</File>
 			</Filter>
@@ -328,10 +312,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\BW\TechType.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\BW\TilePosition.cpp"
 					>
 				</File>
@@ -341,18 +321,6 @@
 				</File>
 				<File
 					RelativePath=".\source\BW\UnitTarget.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\BW\UnitType.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BW\UpgradeType.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\BW\WeaponType.cpp"
 					>
 				</File>
 			</Filter>

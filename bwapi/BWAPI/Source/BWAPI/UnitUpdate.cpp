@@ -10,12 +10,12 @@
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
-#include "BWAPI/GameImpl.h"
-#include "BWAPI/PlayerImpl.h"
+#include <BWAPI/GameImpl.h>
+#include <BWAPI/PlayerImpl.h>
 #include <BWAPI/WeaponType.h>
 
-#include <BW/UnitType.h>
 #include <BW/Unit.h>
+#include <BW/UnitID.h>
 #include <BW/Offsets.h>
 #include <BW/Path.h>
 #include "Server.h"
@@ -86,7 +86,7 @@ namespace BWAPI
       }
       //------------------------------------------------------------------------------------------------------
       //_getType
-      u16 uId = getOriginalRawData->unitType.id;
+      u16 uId = getOriginalRawData->unitType;
       _getType = UnitType(uId);
       if ( uId == BW::UnitID::Resource_MineralPatch1 ||
            uId == BW::UnitID::Resource_MineralPatch2 ||
@@ -94,7 +94,8 @@ namespace BWAPI
         _getType = UnitTypes::Resource_Mineral_Field;
 
       getBuildQueueSlot = getOriginalRawData->buildQueueSlot; //getBuildQueueSlot
-      getBuildQueue = (BW::UnitType*)getOriginalRawData->buildQueue;  //getBuildQueue
+      for ( int i = 0; i < 5; ++i )
+        getBuildQueue[i] = BWAPI::UnitType(getOriginalRawData->buildQueue[i]);  //getBuildQueue
 
       if (_getType.isBuilding())
       {
@@ -104,9 +105,8 @@ namespace BWAPI
             getOriginalRawData->orderID == BW::OrderID::ZergBuildSelf)
         {
           //if we have a morphing building, set unit type to the build type (what it is morphing to)
-          u16 uId2 = getBuildQueue[(getBuildQueueSlot % 5)].id;
-          if (uId2 != BW::UnitID::None)
-            _getType = UnitType(uId2);
+          if ( getBuildQueue[(getBuildQueueSlot % 5)] != UnitTypes::None )
+            _getType = getBuildQueue[(getBuildQueueSlot % 5)];
         }
       }
 
@@ -144,7 +144,7 @@ namespace BWAPI
           _getType == UnitTypes::Zerg_Extractor)
         _getResources = getOriginalRawData->building.resource.resourceCount;
 
-      hasEmptyBuildQueue = getBuildQueueSlot < 5 ? (getBuildQueue[getBuildQueueSlot] == BW::UnitID::None) : false;  //hasEmptyBuildQueue
+      hasEmptyBuildQueue = getBuildQueueSlot < 5 ? (getBuildQueue[getBuildQueueSlot] == UnitTypes::None) : false;  //hasEmptyBuildQueue
       _isCompleted = getOriginalRawData->status.getBit(BW::StatusFlags::Completed); //_isCompleted
     }
     else
@@ -161,7 +161,8 @@ namespace BWAPI
       _getHitPoints       = 0;                  //_getHitPoints
       _getResources       = 0;                  //_getResources
       getBuildQueueSlot   = 0;                  //getBuildQueueSlot
-      getBuildQueue       = NULL;               //getBuildQueue
+      for ( int i = 0; i < 5; ++i )
+        getBuildQueue[i]  = UnitTypes::None;               //getBuildQueue
       hasEmptyBuildQueue  = true;               //hasEmptyBuildQueue
       _isCompleted        = false;              //_isCompleted
     }
@@ -330,12 +331,12 @@ namespace BWAPI
       if (_getType.isBuilding())
       {
         UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->currentBuildUnit);
-        if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType.id).isAddon() )
+        if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType).isAddon() )
           self->addon = BroodwarImpl.server.getUnitID(addon);
         else
         {
           addon = UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->building.addon);
-          if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType.id).isAddon() )
+          if ( addon && addon->isAlive && UnitType(addon->getOriginalRawData->unitType).isAddon() )
             self->addon = BroodwarImpl.server.getUnitID(addon);
         }
       }
@@ -369,7 +370,7 @@ namespace BWAPI
 
       self->isGathering     = _getType.isWorker() && getOriginalRawData->status.getBit(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
       self->isLifted        = getOriginalRawData->status.getBit(BW::StatusFlags::InAir) &&
-                              getOriginalRawData->unitType.isBuilding(); //isLifted
+                              UnitType(getOriginalRawData->unitType).isBuilding(); //isLifted
       self->isParasited     = getOriginalRawData->parasiteFlags.value != 0; //isParasited
       self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = getOriginalRawData->isUnderStorm != 0; //isUnderStorm
@@ -399,8 +400,8 @@ namespace BWAPI
       self->removeTimer         = 0;      //getRemoveTimer
       self->stasisTimer         = 0;      //getStasisTimer
       self->stimTimer           = 0;      //getStimTimer
-      self->order               = BW::OrderID::None;  //getOrder
-      self->secondaryOrder      = BW::OrderID::None;  //getSecondaryOrder
+      self->order               = Orders::None.getID();  //getOrder
+      self->secondaryOrder      = Orders::None.getID();  //getSecondaryOrder
       self->buildUnit           = -1;     //getBuildUnit
       self->isTraining          = false;  //isTraining
       self->isMorphing          = false;  //isMorphing
@@ -450,10 +451,10 @@ namespace BWAPI
       self->carrier               = -1;
       self->hatchery              = -1;
       self->hasNuke               = false;
-      self->buildType             = BW::UnitID::None;
-      self->tech                  = BW::TechID::None;
+      self->buildType             = UnitTypes::None.getID();
+      self->tech                  = TechTypes::None.getID();
       self->remainingResearchTime = 0;
-      self->upgrade               = BW::UpgradeID::None;
+      self->upgrade               = UpgradeTypes::None.getID();
       self->remainingUpgradeTime  = 0;
       self->remainingBuildTime    = 0;
       self->rallyUnit             = -1;
@@ -462,9 +463,9 @@ namespace BWAPI
       // getTrainingQueue
       if ( !hasEmptyBuildQueue )
       {
-        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != BW::UnitID::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
+        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != UnitTypes::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
         {
-          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].id;
+          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].getID();
           self->trainingQueueCount++;
         }
       }
@@ -521,12 +522,12 @@ namespace BWAPI
           break;
         case BW::OrderID::ConstructingBuilding:
           if ( self->buildUnit != -1 )
-            self->buildType = ((UnitImpl*)getBuildUnit())->getOriginalRawData->unitType.id;
+            self->buildType = ((UnitImpl*)getBuildUnit())->getOriginalRawData->unitType;
           break;
         case BW::OrderID::ZergBuildSelf:
           {
-            int type = getBuildQueue[getBuildQueueSlot % 5].id;
-            self->buildType = type == BW::UnitID::None ? self->type : type;
+            UnitType type = getBuildQueue[getBuildQueueSlot % 5].getID();
+            self->buildType = type == UnitTypes::None ? self->type : type.getID();
           }
           break;
         case BW::OrderID::BuildTerran:
@@ -534,7 +535,7 @@ namespace BWAPI
         case BW::OrderID::ZergUnitMorph:
         case BW::OrderID::ZergBuildingMorph:
         case BW::OrderID::DroneLand:
-          self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].id;
+          self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].getID();
           break;
         case BW::OrderID::ResearchTech:
           self->tech = getOriginalRawData->building.techType;
@@ -551,11 +552,11 @@ namespace BWAPI
       if ( !hasEmptyBuildQueue &&
            !self->isIdle       &&
            self->secondaryOrder == BW::OrderID::BuildAddon )
-        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].id;
+        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].getID();
 
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
-      if ( !self->isMorphing || self->buildType != BW::UnitID::None)
+      if ( !self->isMorphing || self->buildType != UnitTypes::None.getID() )
         self->remainingBuildTime = getOriginalRawData->remainingBuildTime;
       //------------------------------------------------------------------------------------------------------
       //getRallyPosition
@@ -581,10 +582,10 @@ namespace BWAPI
     {
       self->scarabCount           = 0;                    //getScarabCount
       self->spiderMineCount       = 0;                    //getSpiderMineCount
-      self->buildType             = BW::UnitID::None;     //getBuildType
+      self->buildType             = UnitTypes::None.getID();     //getBuildType
       self->trainingQueueCount    = 0;                    //getTrainingQueue
-      self->tech                  = BW::TechID::None;     //getTech
-      self->upgrade               = BW::UpgradeID::None;  //getUpgrade
+      self->tech                  = TechTypes::None.getID();     //getTech
+      self->upgrade               = UpgradeTypes::None.getID();  //getUpgrade
       self->remainingBuildTime    = 0;                    //getRemainingBuildTime
       self->remainingTrainTime    = 0;                    //getRemainingTrainTime
       self->remainingResearchTime = 0;                    //getRemainingResearchTime

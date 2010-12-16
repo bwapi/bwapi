@@ -17,10 +17,10 @@
 #include "Detours.h"
 #include "TemplatesImpl.h"
 
-#include <BW/UnitType.h>
 #include <BW/Unit.h>
 #include <BW/Order.h>
 #include <BW/Offsets.h>
+#include <BW/UnitID.h>
 
 namespace BWAPI
 {
