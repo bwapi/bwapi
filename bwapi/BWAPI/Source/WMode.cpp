@@ -199,24 +199,15 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
 
 BOOL WINAPI _SetCursorPos(int X, int Y)
 {
-  POINT pt = { X, Y };
-  if ( wmode && ghMainWnd )
-  {
-    POINT curPos;
-    GetCursorPos(&curPos);
-    ScreenToClient(ghMainWnd, &curPos);
-    if ( curPos.x < 0 || curPos.x > BW::BWDATA_GameScreenBuffer->wid || curPos.y < 0 || curPos.y > BW::BWDATA_GameScreenBuffer->ht )
-      return TRUE;
-    ClientToScreen(ghMainWnd, &pt);
-  }
-  return SetCursorPos(pt.x, pt.y);
+  if ( !wmode )
+    return SetCursorPos(X, Y);
+  return TRUE;
 }
 
 BOOL WINAPI _ClipCursor(const RECT *lpRect)
 {
   if ( !wmode )
     return ClipCursor(lpRect);
-
   return TRUE;
 }
 

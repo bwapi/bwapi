@@ -1128,20 +1128,10 @@ namespace BWAPI
       setGUI(noGUI);
     }
 #ifdef _DEBUG
-    else if (parsed[0] == "/jump")
-    {
-      if ( !this->isMultiplayer() )
-      {
-        *BW::BWDATA_gwGameMode    = 3;
-        *BW::BWDATA_Ophelia       = 1;
-        *BW::BWDATA_GameState     = 0;
-        *BW::BWDATA_gwNextGameMode  = 4;
-      }
-    }
     else if (parsed[0] == "/latency")
     {
       printf("latency: %d", getLatency());
-      printf("New latency?: %u frames; %ums", getLatencyFrames(), getLatencyTime());
+      printf("New latency: %u frames; %ums", getLatencyFrames(), getLatencyTime());
     }
     else if (parsed[0] == "/dlgdebug")
     {

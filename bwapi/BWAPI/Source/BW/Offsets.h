@@ -124,6 +124,8 @@ namespace BW
   static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
   static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
   static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
+  static u32     *BWDATA_FrameSkip          = (u32*) 0x005124D4;
+  static u8      *BWDATA_Latency            = (u8*)  0x006556e4;
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   /** Dialog and drawing offsets */
   static bool (__fastcall **BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
@@ -196,8 +198,8 @@ namespace BW
   static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
 
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
+  /* Mode Stuff */
   static u8             *BWDATA_gameType       = (u8*)  0x00596820;
-  static u8             *BWDATA_Latency        = (u8*)  0x006556e4;
   static u32            *BWDATA_InGame         = (u32*) 0x006556E0;
   static u32            *BWDATA_InReplay       = (u32*) 0x006D0F14;
   static int            *BWDATA_NetMode        = (int*) 0x0059688C;
@@ -206,7 +208,6 @@ namespace BW
   // note: unaligned because it's part of a structure that we're not using
   static u32            *BWDATA_ReplayFrames   = (u32*) 0x006D0F31;
 
-  static u32            *BWDATA_Ophelia        = (u32*) 0x0051BFF8;
   static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;
   static u16            *BWDATA_gwNextGameMode = (u16*) 0x0051CE90;
   static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904;
