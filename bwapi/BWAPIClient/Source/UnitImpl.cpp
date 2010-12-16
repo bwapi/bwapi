@@ -1100,4 +1100,13 @@ namespace BWAPI
   {
     return issueCommand(UnitCommand::placeCOP(this, target));
   }
+  //--------------------------------------------- LAST ATTACKER ----------------------------------------------
+  BWAPI::Player *UnitImpl::getLastAttackingPlayer()
+  {
+    return Broodwar->getPlayer(self->lastAttackerPlayer);
+  }
+  bool UnitImpl::isUnderAttack()
+  {
+    return self->recentlyAttacked;
+  }
 }

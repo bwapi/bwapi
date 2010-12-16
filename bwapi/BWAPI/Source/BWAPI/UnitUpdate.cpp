@@ -379,6 +379,8 @@ namespace BWAPI
       self->isInterruptible = !getOriginalRawData->status.getBit(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
       self->isInvincible    = getOriginalRawData->status.getBit(BW::StatusFlags::Invincible); //isInvincible
       self->buttonset       = getOriginalRawData->currentButtonSet;
+      self->lastAttackerPlayer = getOriginalRawData->lastAttackingPlayer;
+      self->recentlyAttacked = getOriginalRawData->lastEventColor == 174 ? getOriginalRawData->lastEventTimer != 0 : false;
     }
     else
     {
@@ -427,6 +429,8 @@ namespace BWAPI
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
       self->buttonset           = 228;
+      self->lastAttackerPlayer  = -1;
+      self->recentlyAttacked    = false;
     }
     if (canAccess())
     {
@@ -442,7 +446,6 @@ namespace BWAPI
     }
     if (canAccessInside())
     {
-
       // Default assignments
       self->scarabCount           = 0;
       self->spiderMineCount       = 0;

@@ -51,39 +51,11 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  for each (Unit *u in bw->getSelectedUnits())
-  {
-    //if ( u->siege() )
-      //bw->printf("SIEGE!");
-    bw->drawTextMap(u->getPosition().x()+u->getType().dimensionRight(), u->getPosition().y(), "%s", u->getOrder().getName().c_str());
-      /*
-    for each (Unit *t in self->getUnits())
-    {
-      if ( u->repair(t) )
-      {
-        bw->printf("Repairing! %s -> %s", u->getType().getName().c_str(), t->getType().getName().c_str());
-      }
-    }*/
-
-  }
   for each (Unit *u in self->getUnits())
   {
-    UnitType t = u->getType();
-    if ( u->isIdle() && u->isCompleted() && u->getLastCommandFrame() + 4 < bw->getFrameCount() )
+    if ( u->isUnderAttack() && u->getLastAttackingPlayer() )
     {
-      if ( t.isWorker() && !u->isSelected() )
-      {
-        Unit *closest = NULL;
-        for each (Unit *r in bw->getMinerals())
-          if ( !closest || u->getDistance(r) < u->getDistance(closest) )
-            closest = r;
-        if ( closest )
-          u->rightClick(closest);
-      }
-      else if ( t.isResourceDepot() )
-      {
-        u->train(t.getRace().getWorker());
-      }
+      bw->drawCircleMap(u->getPosition().x(), u->getPosition().y(), u->getType().dimensionLeft(), u->getLastAttackingPlayer()->getColor(), true);
     }
   }
 }

@@ -99,5 +99,8 @@ namespace BWAPI
     bool isUnpowered;
     bool isVisible[9];
     int  buttonset;
+
+    int  lastAttackerPlayer;
+    bool recentlyAttacked;
   };
 }
