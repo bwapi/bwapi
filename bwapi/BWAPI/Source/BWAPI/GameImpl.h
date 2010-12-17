@@ -25,6 +25,7 @@ namespace BWAPI { class  AIModule; }
 
 #include <Util/RectangleArray.h>
 #include <Util/Types.h>
+#include <Util/RTree.h>
 
 #include <BW/OrderTypes.h>
 #include <BW/Offsets.h>
@@ -96,7 +97,9 @@ namespace BWAPI
       virtual bool     isFlagEnabled(int flag);
       virtual void     enableFlag(int flag);
 
-      virtual std::set<Unit*>& unitsOnTile(int x, int y);
+      virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
+      virtual std::set<Unit*>  getUnitsInRectangle(int left, int top, int right, int bottom);
+      virtual std::set<Unit*>  getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight);
 
       virtual Error       getLastError() const;
       virtual bool        setLastError(BWAPI::Error e);
@@ -288,6 +291,7 @@ namespace BWAPI
 
       bool noGUI;
       bool startedClient;
+      std::set<Unit*> searchResults;
     private :
       HMODULE hMod;
       Map map;
@@ -330,6 +334,7 @@ namespace BWAPI
       void augmentUnitData();
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
+      void computeRTree();
       void processEvents();
       /**
        * Specifies if some order was given, so the loadSelect function will have
@@ -379,6 +384,7 @@ namespace BWAPI
 
       bool externalModuleConnected;
       bool calledMatchEnd;
+      Util::RTree<BWAPI::Unit*, int, 2, float> rtree;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
@@ -388,4 +394,5 @@ namespace BWAPI
    * variable is instantialised.
    */
   extern GameImpl BroodwarImpl;
+  bool RTreeSearchCallback(BWAPI::Unit* id, void* arg);
 };

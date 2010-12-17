@@ -1792,6 +1792,22 @@ namespace BWAPI
       }
     }
   }
+  //---------------------------------------------- COMPUTE R-TREE --------------------------------------------
+  void GameImpl::computeRTree()
+  {
+    //for now just build it from scratch (optimize after the initial implementation is working correctly)
+    rtree.RemoveAll();
+    int min[2];
+    int max[2];
+    foreach(UnitImpl* i, accessibleUnits)
+    {
+      min[0]=i->getPosition().x()-i->getType().dimensionLeft();
+      min[1]=i->getPosition().y()-i->getType().dimensionUp();
+      max[0]=i->getPosition().x()+i->getType().dimensionRight();
+      max[1]=i->getPosition().y()+i->getType().dimensionDown();
+      rtree.Insert(min,max,(Unit*)i);
+    }
+  }
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   void GameImpl::updateUnits()
   {
@@ -1817,6 +1833,7 @@ namespace BWAPI
         }
       }        
     }
+    computeRTree();
   }
   void GameImpl::processEvents()
   {
@@ -2468,5 +2485,10 @@ namespace BWAPI
     }
     if (addCommandToLatComBuffer)
       BroodwarImpl.addToCommandBuffer(new Command(command));
+  }
+  bool RTreeSearchCallback(BWAPI::Unit* id, void* arg)
+  {
+    BroodwarImpl.searchResults.insert(id);
+    return true; // keep going
   }
 }
