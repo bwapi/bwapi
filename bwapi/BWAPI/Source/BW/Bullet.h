@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Util/Bitmask.h>
 #include <Util/Types.h>
-#include "../StaticAssert.h"
 #include <BW/Position.h>
+#include <BW/Sprite.h>
 
 #include <BW/Offsets.h>
 
@@ -15,7 +14,7 @@ namespace BW
     /*0x00*/ BW::Bullet*  nextBullet;
     /*0x04*/ BW::Bullet*  previousBullet;
     /*0x08*/ u32          unknown_0x08; //usually holds 1 (
-    /*0x0C*/ BW::CSprite  *sprite; // sprite pointer
+    /*0x0C*/ BW::Sprite   *sprite; // sprite pointer
     /*0x10*/ BW::Position unknown_0x10; //address? animation related? changes a during the same bullet
     /*0x14*/ u32          unknown_0x14; //usually holds 0
     /*0x18*/ BW::Position targetPosition;
@@ -52,9 +51,4 @@ namespace BW
     /*0x6C*/ u32          unknown_0x6C; //some sort of cyclic burst counter (used by valkyries, goliath air attack)
   };
 #pragma pack()
-  /** Direct maping of the BulletNodeTable in bw memory. */
-  struct BulletArray
-  {
-    Bullet bullet[BULLET_ARRAY_MAX_LENGTH];
-  };
 };

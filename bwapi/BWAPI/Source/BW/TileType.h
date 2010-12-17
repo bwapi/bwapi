@@ -1,9 +1,7 @@
 #pragma once
-#include "../StaticAssert.h"
 #pragma pack(1)
 namespace BW
 {
-  const u32 TILE_TYPE_SIZE_IN_BYTES = 52;
   /** Represents information shared for all tiles in one tile group. */
   class TileType
   {
@@ -24,6 +22,5 @@ namespace BW
       u16 _4;
       u16 miniTile[16]; /** MegaTile References (VF4/VX4) */
   };
-  BOOST_STATIC_ASSERT(sizeof(TileType) == TILE_TYPE_SIZE_IN_BYTES);
 }
 #pragma pack()

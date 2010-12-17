@@ -1,6 +1,6 @@
 #pragma once
 
-namespace BW { struct Unit; };
+namespace BW { class Unit; };
 
 #include <BWAPI/Race.h>
 #include <BWAPI/Player.h>

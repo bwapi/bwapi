@@ -1,9 +1,7 @@
 #pragma once
 
 namespace Util  { class  Logger; }
-namespace BW    { struct UnitArray; }
-namespace BW    { struct Unit; }
-namespace BW    { struct BulletArray; }
+namespace BW    { class  Unit; }
 namespace BW    { struct Bullet; }
 namespace BWAPI { class  Player; }
 namespace BWAPI { class  PlayerImpl; }
@@ -333,7 +331,7 @@ namespace BWAPI
       std::set<BWAPI::Unit*> staticGeysers;
       std::set<BWAPI::Unit*> staticNeutralUnits;
 
-      UnitImpl* unitArray[UNIT_ARRAY_MAX_LENGTH];
+      UnitImpl*   unitArray[UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
       /** Will update the unitsOnTile content, should be called every frame. */

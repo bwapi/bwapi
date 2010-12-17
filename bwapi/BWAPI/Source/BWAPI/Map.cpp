@@ -2,6 +2,7 @@
 
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
+#include <BW/MiniTileFlags.h>
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <fstream>
@@ -199,7 +200,7 @@ namespace BWAPI
   {
     for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight() * 4); ++y)
       for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth() * 4); ++x)
-        this->walkability[x][y] = this->getMiniTile(x, y).getBit(BW::MiniTileFlags::Walkable);
+        this->walkability[x][y] = (this->getMiniTile(x, y) & BW::MiniTileFlags::Walkable) != 0;
     int y = BWAPI::Map::getHeight() * 4 - 1;
     for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); ++x)
     {
@@ -222,7 +223,7 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
-  Util::BitMask<u16> Map::getMiniTile(int x, int y) const
+  u16 Map::getMiniTile(int x, int y) const
   {
     int tx = x / 4;
     int ty = y / 4;
@@ -232,9 +233,7 @@ namespace BWAPI
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
     if ( tile && BW::BWDATA_MiniTileFlags )
       return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
-    Util::BitMask<u16> empty;
-    empty.value = 0;
-    return empty;
+    return 0;
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
   std::string Map::getMapHash()

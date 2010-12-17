@@ -171,10 +171,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\Source\Util\Bitmask.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\Util\Exceptions.h"
 					>
 				</File>

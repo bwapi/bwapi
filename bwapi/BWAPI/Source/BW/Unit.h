@@ -1,22 +1,18 @@
 #pragma once
 
-#include <Util/Bitmask.h>
 #include <Util/Types.h>
-#include "../StaticAssert.h"
-
-#include <BW/OrderID.h>
-#include <BW/MovementFlags.h>
+#include <BW/Sprite.h>
+#include <BW/Order.h>
+#include <BW/Path.h>
 #include <BW/Position.h>
-#include <BW/UnitStatusFlags.h>
-#include <BW/ParasiteFlags.h>
-#include <BW/OrderFlags.h>
+
+#include <BWAPI/UnitType.h>
 #include <BW/Offsets.h>
 
-namespace BW { struct CSprite; };
+namespace BW { struct Sprite; };
 namespace BW { struct Order; };
 namespace BW { struct Path; };
 
-#define UNIT_SIZE_IN_BYTES 336
 namespace BW
 {
   /**
@@ -26,8 +22,13 @@ namespace BW
    * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
    */
 #pragma pack(1)
-  struct Unit
+  class Unit
   {
+  public:
+    BWAPI::UnitType type();
+    bool movementFlag(u8 flags);
+    bool statusFlag(u32 flags);
+
     /*0x000*/ BW::Unit                            *prev;
     /*0x004*/ BW::Unit                            *next;                 /**< Pointer to next unit in the unit linked list, we use
                                                                           *   it to iterate units.
@@ -36,7 +37,7 @@ namespace BW
     /*0x008*/ s32                                 hitPoints;             /**< Hit points of unit, note that the displayed value
                                                                           *   in broodwar is ceil(healthPoints/256)
                                                                           */
-    /*0x00C*/ BW::CSprite                         *sprite;
+    /*0x00C*/ BW::Sprite                          *sprite;
     /*0x010*/ BW::Position                        moveToPos;
     /*0x014*/ BW::Unit                            *targetUnit;
     /*0x018*/ BW::Position                        nextMovementWaypoint;  /**< The next way point in the path the unit is following to get to its destination.
@@ -44,7 +45,7 @@ namespace BW
                                                                         * or other units.
                                                                         */
     /*0x01C*/ BW::Position                        nextTargetWaypoint;  /**< The desired position */
-    /*0x020*/ Util::BitMask<u8>                   movementFlags;       /**< Flags specifying movement type - defined in BW#MovementFlags. */
+    /*0x020*/ u8                                  movementFlags;       /**< Flags specifying movement type - defined in BW#MovementFlags. */
     /*0x021*/ u8                                  currentDirection1;   /**< The current direction the unit is facing */
     /*0x022*/ u8                                  flingyTurnRadius;
     /*0x023*/ u8                                  velocityDirection1;  /**< This usually only differs from the currentDirection field for units that can accelerate
@@ -68,7 +69,7 @@ namespace BW
     /*0x04B*/ u8                                  velocityDirection2;    // pathing related, gets this value from Path::unk_1A?
     /*0x04C*/ u8                                  playerID;             /**< Specification of owner of this unit. */
     /*0x04D*/ u8                                  orderID;              /**< Specification of type of order currently given. */
-    /*0x04E*/ Util::BitMask<u8>                   orderFlags;     /**< Additional order info (mostly unknown, wander property investigated so far) */
+    /*0x04E*/ u8                                  orderState;     /**< Additional order info (mostly unknown, wander property investigated so far) */
                                                   /*  0x01  Moving/Following Order
                                                       0x02  No collide (Larva)?
                                                       0x04  Harvesting? Working?
@@ -180,7 +181,7 @@ namespace BW
                       u8        resourceBelongsToAI;
                     } resource;  /** When the unit is resource container */
                     struct { BW::Unit *exit; } nydus; /** connected nydius canal */
-                    struct { BW::CSprite *nukeDot; } ghost;
+                    struct { BW::Sprite *nukeDot; } ghost;
                     struct
                     { BW::Unit *nuke;  // attached nuke
                       u32 hasNuke;     // 14
@@ -209,7 +210,7 @@ namespace BW
                   BW::Unit      *previousHarvestUnit;    // 18
                 } worker;
               };
-    /*0x0DC*/ Util::BitMask<u32>                status;
+    /*0x0DC*/ u32                               statusFlags;
     /*0x0E0*/ u8                                resourceType;       /**< Resource being held by worker: 1 = gas, 2 = ore */
     /*0x0E1*/ u8                                wireframeRandomizer;
     /*0x0E2*/ u8                                secondaryOrderState;
@@ -250,7 +251,7 @@ namespace BW
     /*0x11B*/ u8                                  isUnderStorm;
     /*0x11C*/ BW::Unit                            *irradiatedBy;      /**< @todo Verify */
     /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
-    /*0x121*/ Util::BitMask<u8>                   parasiteFlags;
+    /*0x121*/ u8                                  parasiteFlags;
     /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
@@ -273,13 +274,5 @@ namespace BW
     /*0x14F*/ u8                                  driftPosY;          /**< (mapsizex/1.5 max) */
   };
 #pragma pack()
-  /** Direct maping of the UnitNodeTable in bw memory. */
-  struct UnitArray
-  {
-    Unit unit[UNIT_ARRAY_MAX_LENGTH];
-  };
-
-  //BOOST_STATIC_ASSERT(sizeof(Unit) == UNIT_SIZE_IN_BYTES);
-  //BOOST_STATIC_ASSERT(sizeof(UnitArray) == UNIT_SIZE_IN_BYTES*  UNIT_ARRAY_MAX_LENGTH);
 };
 

@@ -51,6 +51,18 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
+  for each (UpgradeType i in UpgradeTypes::allUpgradeTypes())
+  {
+    if ( self->isUpgrading(i) )
+      bw->printf("Upgrading %s", i.getName().c_str());
+  }
+
+  for each (TechType i in TechTypes::allTechTypes())
+  {
+    if ( self->isResearching(i) )
+      bw->printf("Researching %s", i.getName().c_str());
+  }
+
   for each (Unit *u in self->getUnits())
   {
     if ( u->isUnderAttack() && u->getLastAttackingPlayer() )

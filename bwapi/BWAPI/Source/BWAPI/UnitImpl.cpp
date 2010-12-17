@@ -904,7 +904,7 @@ namespace BWAPI
     u8 animState = 0;
     if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
       animState = getOriginalRawData->sprite->mainGraphic->anim;
-    return animState == BW::Image::Anims::GndAttkInit || animState == BW::Image::Anims::AirAttkInit;
+    return animState == BW::Anims::GndAttkInit || animState == BW::Anims::AirAttkInit;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)

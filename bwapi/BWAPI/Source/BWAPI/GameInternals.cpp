@@ -47,6 +47,7 @@
 #include <BW/UnitID.h>
 #include <BW/TechID.h>
 #include <BW/UpgradeID.h>
+#include <BW/PlayerType.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -103,13 +104,11 @@ namespace BWAPI
 
       /* iterate through units and create UnitImpl for each */
       for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++)
-        unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[i],
-                                    (u16)i);
+        unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable[i], (u16)i);
 
       /* iterate through bullets and create BulletImpl for each */
       for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; i++)
-        bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable->bullet[i],
-                                        (u16)i);
+        bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable[i], (u16)i);
     }
     catch (GeneralException& exception)
     {
@@ -376,7 +375,7 @@ namespace BWAPI
     {
       deadUnits.push_back(u);
       int index = u->getIndex();
-      unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable->unit[index],(u16)index);
+      unitArray[index] = new UnitImpl(&BW::BWDATA_UnitNodeTable[index],(u16)index);
       u->die();
     }
 
@@ -418,7 +417,7 @@ namespace BWAPI
         if ( u )
         {
           drawTextScreen(8, 1, "_unknown_0x026: %02X", u->_unknown_0x026);
-          drawTextScreen(8, 11, "orderFlags: %02X", u->orderFlags);
+          drawTextScreen(8, 11, "orderState: %02X", u->orderState);
           drawTextScreen(8, 21, "_unused_0x052: %04X", u->_unused_0x052);
           drawTextScreen(8, 31, "_unused_0x066: %04X", u->_unused_0x066);
           drawTextScreen(8, 41, "_unknown_0x086: %02X", u->_unknown_0x086);
@@ -427,7 +426,7 @@ namespace BWAPI
           drawTextScreen(8, 71, "userActionFlags: %02X", u->userActionFlags);
           drawTextScreen(8, 81, "targetOrderSpecial: %02X", u->targetOrderSpecial);
           drawTextScreen(8, 91, "buildingOverlayState: %02X", u->buildingOverlayState);
-          drawTextScreen(8, 101, "status: %p", u->status);
+          drawTextScreen(8, 101, "status: %p", u->statusFlags);
           drawTextScreen(8, 111, "_unknown_0x0E8: %04X", u->_unknown_0x0E8);
           drawTextScreen(8, 121, "_unknown_0x0EA: %04X", u->_unknown_0x0EA);
           drawTextScreen(8, 131, "_unused_0x106: %02X", u->_unused_0x106);
