@@ -3,10 +3,10 @@
 #include "UnitImpl.h"
 
 #include <string>
-#include <Util/Bitmask.h>
 
 #include <BW/Offsets.h>
 #include <BW/UnitID.h>
+#include <BW/PlayerType.h>
 
 namespace BWAPI
 {
@@ -526,9 +526,9 @@ namespace BWAPI
           self->hasResearched[i] = BW::BWDATA_TechResearchBW->enabled[index][i - 24] == 1;
       }
       for(int i = 0; i < 63; ++i)
-        self->isUpgrading[i]   = BW::BWDATA_UpgradeProgress[index].getBit(1 << i);
+        self->isUpgrading[i]   = ( *(u8*)(BW::BWDATA_UpgradeProgress + index * 8 + i/8 ) & (1 << i%8)) != 0;
       for(int i = 0; i < 47; ++i)
-        self->isResearching[i] = ((Util::BitMask<u64>*) (BW::BWDATA_ResearchProgress + index * 6))->getBit(1 << i);
+        self->isResearching[i] = ( *(u8*)(BW::BWDATA_ResearchProgress + index * 6 + i/8 ) & (1 << i%8)) != 0;
     }
     if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {

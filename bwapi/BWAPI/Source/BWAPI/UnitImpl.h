@@ -23,7 +23,7 @@
 
 namespace Util  { class Logger; }
 namespace BW    { class Position; };
-namespace BW    { struct Unit; };
+namespace BW    { class Unit; };
 namespace BWAPI { class UnitPrototype;  };
 namespace BWAPI { class AbilityPrototype;  };
 namespace BWAPI { class Player;  };

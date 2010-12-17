@@ -2,18 +2,10 @@
 #pragma pack(1)
 
 #include <windows.h>
-#include <Util/Bitmask.h>
 #include <Util/Types.h>
-#include "../StaticAssert.h"
 #include "../Storm/storm.h"
 
-#include "UnitPrototypeFlags.h"
-#include "WeaponTargetFlags.h"
-#include "MiniTileFlags.h"
-#include "GroupFlags.h"
-#include "PlayerType.h"
-#include "Race.h"
-#include "Sprite.h"
+#include "Position.h"
 #include "Dialog.h"
 #include "Pathing.h"
 
@@ -40,10 +32,8 @@
 
 namespace BW
 {
-  struct Unit;
-  struct UnitArray;
+  class  Unit;
   struct Bullet;
-  struct BulletArray;
   class  TileType;
   class  dialog;
   struct bitmap;
@@ -188,14 +178,14 @@ namespace BW
   static RECT *BWDATA_ScrSize  = (RECT*)0x0051A16C;
   
   //------------------------------------------- CLIST DATA ---------------------------------------------------
-  static Unit      **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)     0x00628430;
-  static Unit      **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)     0x006283EC;
-  static Unit      **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)     0x006283F4;
-  static UnitArray *BWDATA_UnitNodeTable                    = (UnitArray*) 0x0059CCA8;
+  static Unit **BWDATA_UnitNodeList_VisibleUnit_First  = (Unit**)0x00628430;
+  static Unit **BWDATA_UnitNodeList_HiddenUnit_First   = (Unit**)0x006283EC;
+  static Unit **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)0x006283F4;
+  static Unit *BWDATA_UnitNodeTable                    = (Unit*) 0x0059CCA8;
 
-  static Bullet      **BWDATA_BulletNodeTable_FirstElement = (Bullet**)     0x0064DEAC;
-  static Bullet      **BWDATA_BulletNodeTable_LastElement  = (Bullet**)     0x0064DEC4;
-  static BulletArray *BWDATA_BulletNodeTable               = (BulletArray*) 0x0064B2E8;
+  static Bullet **BWDATA_BulletNodeTable_FirstElement = (Bullet**)0x0064DEAC;
+  static Bullet **BWDATA_BulletNodeTable_LastElement  = (Bullet**)0x0064DEC4;
+  static Bullet *BWDATA_BulletNodeTable               = (Bullet*) 0x0064B2E8;
 
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
   /* Mode Stuff */
@@ -436,7 +426,7 @@ namespace BW
   static _scUpgrs *BWDATA_UpgradeLevelSC = (_scUpgrs*)0x0058D2B0;
   static _bwUpgrs *BWDATA_UpgradeLevelBW = (_bwUpgrs*)0x0058F32C;
 
-  static Util::BitMask<u64> *BWDATA_UpgradeProgress = (Util::BitMask<u64>*) 0x0058F3E0;
+  static u32 BWDATA_UpgradeProgress = 0x0058F3E0;
 
   //--------------------------------------------- TECH DATA --------------------------------------------------
   static u16 *BWDATA_Tech_MineralCost  = (u16*) techdataDat[0].address;
@@ -464,7 +454,7 @@ namespace BW
   {
     struct MiniTileFlagArray
     {
-      Util::BitMask<u16> miniTile[16];
+      u16 miniTile[16];
     };
     MiniTileFlagArray tile[0x10000];
   };

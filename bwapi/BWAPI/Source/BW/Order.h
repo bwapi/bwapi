@@ -1,6 +1,6 @@
 #pragma once
 
-namespace BW { struct Unit; };
+namespace BW { class Unit; };
 namespace BW /** @todo Investigate*/
 {
 #pragma pack(1)

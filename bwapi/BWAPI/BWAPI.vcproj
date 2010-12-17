@@ -320,6 +320,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\Unit.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\UnitTarget.cpp"
 					>
 				</File>
