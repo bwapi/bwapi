@@ -331,8 +331,8 @@ namespace BWAPI
       break;
     }
   }
-  //--------------------------------------------- UNITS ON TILE ----------------------------------------------
-  std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
+  //--------------------------------------------- GET UNITS ON TILE ------------------------------------------
+  std::set<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
   {
     /* Retrieves a set of units that are on the specified tile */
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
@@ -341,6 +341,25 @@ namespace BWAPI
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
       return this->emptySet;
     return unitsOnTileData[x][y];
+  }
+
+  //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
+  {
+    searchResults.clear();
+    int min[2];
+    int max[2];
+    min[0]=left;
+    min[1]=top;
+    max[0]=right;
+    max[1]=bottom;
+    rtree.Search(min,max,RTreeSearchCallback, NULL);
+    return searchResults;
+  }
+  //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
+  {
+    return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error GameImpl::getLastError() const

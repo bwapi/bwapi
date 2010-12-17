@@ -104,7 +104,7 @@ void CancelConstructionTest::update()
   if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
   {
     std::set<Unit*> buildingsOnTile;
-    std::set<Unit*> unitsOnTile = Broodwar->unitsOnTile(buildLocation.x(),buildLocation.y());
+    std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
     for each(Unit* u in unitsOnTile)
     {
       if (u->getType()==unitType)
@@ -134,7 +134,7 @@ void CancelConstructionTest::update()
   }
 
   std::set<Unit*> buildingsOnTile;
-  std::set<Unit*> unitsOnTile = Broodwar->unitsOnTile(buildLocation.x(),buildLocation.y());
+  std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
   for each(Unit* u in unitsOnTile)
   {
     if (u->getType()==unitType)

@@ -470,10 +470,24 @@ namespace BWAPI
     if (data->flags[flag]==false)
       addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
   }
-  //----------------------------------------------- UNITS ON TILE --------------------------------------------
-  std::set<Unit*>& GameImpl::unitsOnTile(int x, int y)
+  //----------------------------------------------- GET UNITS ON TILE ----------------------------------------
+  std::set<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
   {
     return unitsOnTileData[x][y];
+  }
+  //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
+  {
+    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
+    std::set<Unit*> empty;
+    return empty;
+  }
+  //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
+  {
+    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
+    std::set<Unit*> empty;
+    return empty;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const

@@ -148,9 +148,13 @@ namespace BWAPI
        * the AIModule::onStart callback. */
       virtual void enableFlag(int flag) = 0;
 
-      /** Returns the set of units that are on the given build tile. Only returns accessible units on
-       * accessible tiles. */
-      virtual std::set<Unit*>& unitsOnTile(int tileX, int tileY) = 0;
+      /** Returns the set of accessible units that are on the given build tile. */
+      virtual std::set<Unit*>& getUnitsOnTile(int tileX, int tileY) = 0;
+
+      /** Returns the set of accessible units that are in or overlapping the given rectangle. */
+      virtual std::set<Unit*>  getUnitsInRectangle(int left, int top, int right, int bottom) = 0;
+      virtual std::set<Unit*>  getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) = 0;
+
 
       /** Returns the last error that was set. If you try to order enemy units around, or morph bunkers into
        * lurkers, BWAPI will set error codes, which can be retrieved using this function. */

@@ -207,6 +207,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\RTree.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\sha1.h"
 					>
 				</File>
