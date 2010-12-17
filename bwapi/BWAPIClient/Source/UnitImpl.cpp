@@ -474,6 +474,13 @@ namespace BWAPI
         return nothing;
     return connectedUnits;
   }
+  //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
+  std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
+  {
+    //Todo: implement R-tree in client
+    std::set<Unit*> nothing;
+    return nothing;
+  }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
   {

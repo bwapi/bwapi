@@ -489,6 +489,13 @@ namespace BWAPI
     std::set<Unit*> empty;
     return empty;
   }
+  //----------------------------------------------- GET UNITS IN RADIUS --------------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRadius(BWAPI::Position center, double radius)
+  {
+    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
+    std::set<Unit*> empty;
+    return empty;
+  }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const
   {
