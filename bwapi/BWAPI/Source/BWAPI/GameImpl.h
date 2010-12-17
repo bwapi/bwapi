@@ -100,6 +100,7 @@ namespace BWAPI
       virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
       virtual std::set<Unit*>  getUnitsInRectangle(int left, int top, int right, int bottom);
       virtual std::set<Unit*>  getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight);
+      virtual std::set<Unit*>  getUnitsInRadius(BWAPI::Position center, double radius);
 
       virtual Error       getLastError() const;
       virtual bool        setLastError(BWAPI::Error e);
@@ -291,7 +292,17 @@ namespace BWAPI
 
       bool noGUI;
       bool startedClient;
-      std::set<Unit*> searchResults;
+
+      Util::RTree<BWAPI::Unit*, int, 2, float> rtree;
+      std::set<Unit*> rtree_searchResults;
+      BWAPI::Position rtree_searchCenter;
+      double          rtree_searchRadius;
+
+      BWAPI::Unit*    rtree_searchUnit;
+      int             rtree_searchMaxGndRadius;
+      int             rtree_searchMinGndRadius;
+      int             rtree_searchMaxAirRadius;
+      int             rtree_searchMinAirRadius;
     private :
       HMODULE hMod;
       Map map;
@@ -384,7 +395,6 @@ namespace BWAPI
 
       bool externalModuleConnected;
       bool calledMatchEnd;
-      Util::RTree<BWAPI::Unit*, int, 2, float> rtree;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
@@ -395,4 +405,6 @@ namespace BWAPI
    */
   extern GameImpl BroodwarImpl;
   bool RTreeSearchCallback(BWAPI::Unit* id, void* arg);
+  bool RTreeSearchInRadiusCallback(BWAPI::Unit* id, void* arg);
+  bool RTreeSearchInRangeCallback(BWAPI::Unit* id, void* arg);
 };

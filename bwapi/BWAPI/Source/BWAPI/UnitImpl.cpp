@@ -497,6 +497,35 @@ namespace BWAPI
       return nothing;
     return connectedUnits;
   }
+  //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
+  std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
+  {
+    BroodwarImpl.rtree_searchResults.clear();
+    if ( !exists() )
+      return BroodwarImpl.rtree_searchResults;
+
+    UnitType thisType = this->getType();
+
+    BroodwarImpl.rtree_searchUnit         = (Unit*)this;
+    BroodwarImpl.rtree_searchMaxGndRadius = getPlayer()->groundWeaponMaxRange(thisType);
+    BroodwarImpl.rtree_searchMinGndRadius = thisType.groundWeapon().minRange();
+    BroodwarImpl.rtree_searchMaxAirRadius = getPlayer()->airWeaponMaxRange(thisType);
+    BroodwarImpl.rtree_searchMinAirRadius = thisType.airWeapon().minRange();
+
+    int r = max(BroodwarImpl.rtree_searchMaxGndRadius,BroodwarImpl.rtree_searchMaxAirRadius);
+
+    int min[2];
+    int max[2];
+
+    min[0] = self->positionX - thisType.dimensionLeft()  - r;
+    min[1] = self->positionY - thisType.dimensionUp()    - r;
+    max[0] = self->positionX + thisType.dimensionRight() + 1 + r;
+    max[1] = self->positionY + thisType.dimensionDown()  + 1 + r;
+
+    BroodwarImpl.rtree.Search(min,max,RTreeSearchInRangeCallback, NULL);
+
+    return BroodwarImpl.rtree_searchResults;
+  }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
   {

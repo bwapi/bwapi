@@ -3,6 +3,7 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 #include "GameImpl.h"
+#include "TemplatesImpl.h"
 
 #include <stdio.h>
 #include <windows.h>
@@ -2488,7 +2489,28 @@ namespace BWAPI
   }
   bool RTreeSearchCallback(BWAPI::Unit* id, void* arg)
   {
-    BroodwarImpl.searchResults.insert(id);
+    BroodwarImpl.rtree_searchResults.insert(id);
     return true; // keep going
   }
-}
+  bool RTreeSearchInRadiusCallback(BWAPI::Unit* id, void* arg)
+  {
+    if (id->getDistance(BroodwarImpl.rtree_searchCenter)<=BroodwarImpl.rtree_searchRadius)
+      BroodwarImpl.rtree_searchResults.insert(id);
+    return true; // keep going
+  }
+  bool RTreeSearchInRangeCallback(BWAPI::Unit* id, void* arg)
+  {
+    int d=computeDistance<UnitImpl>(BroodwarImpl.rtree_searchUnit,id);
+    if (id->isLifted() || id->getType().isFlyer())
+    {
+      if (BroodwarImpl.rtree_searchMinAirRadius < d && d<=BroodwarImpl.rtree_searchMaxAirRadius)
+        BroodwarImpl.rtree_searchResults.insert(id);
+    }
+    else
+    {
+      if (BroodwarImpl.rtree_searchMinGndRadius < d && d<=BroodwarImpl.rtree_searchMaxGndRadius)
+        BroodwarImpl.rtree_searchResults.insert(id);
+    }
+    return true; // keep going
+  }
+};

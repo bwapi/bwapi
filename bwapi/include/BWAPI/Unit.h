@@ -290,6 +290,9 @@ namespace BWAPI
        * GUI. */
       virtual std::set<Unit*> getLarva() const = 0;
 
+      /** Returns the set of units within weapon range of this unit. */
+      virtual std::set<Unit*> getUnitsInWeaponRange() const = 0;
+
       /**
        * 3 cases to consider:
        *

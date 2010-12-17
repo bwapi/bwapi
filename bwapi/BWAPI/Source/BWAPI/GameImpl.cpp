@@ -346,7 +346,7 @@ namespace BWAPI
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
   std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
   {
-    searchResults.clear();
+    rtree_searchResults.clear();
     int min[2];
     int max[2];
     min[0]=left;
@@ -354,12 +354,28 @@ namespace BWAPI
     max[0]=right;
     max[1]=bottom;
     rtree.Search(min,max,RTreeSearchCallback, NULL);
-    return searchResults;
+    return rtree_searchResults;
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
   std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
   {
     return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
+  }
+  //--------------------------------------------- GET UNITS IN RADIUS ----------------------------------------
+  std::set<Unit*> GameImpl::getUnitsInRadius(Position center, double radius)
+  {
+    rtree_searchCenter = center;
+    rtree_searchRadius = radius;
+    rtree_searchResults.clear();
+    int r=(int)ceil(radius);
+    int min[2];
+    int max[2];
+    min[0]=center.x()-r;
+    min[1]=center.y()-r;
+    max[0]=center.x()+r;
+    max[1]=center.y()+r;
+    rtree.Search(min,max,RTreeSearchInRadiusCallback, NULL);
+    return rtree_searchResults;
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error GameImpl::getLastError() const
