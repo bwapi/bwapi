@@ -908,17 +908,11 @@ namespace BWAPI
     return (int)gdwProcNum;
   }
   //---------------------------------------------------- GET APM ---------------------------------------------
-  double GameImpl::getAPM(bool includeSelects)
+  int GameImpl::getAPM(bool includeSelects)
   {
-    double GameDurationFactor = 1 - exp( -((double)this->getFrameCount()*42)/57000); // 0.95 * 60000
-    if ( GameDurationFactor < 0.01 ) 
-      GameDurationFactor = 0.01;
-    
-    double apm = botAPM_noSelect/(0.95*GameDurationFactor);
     if ( includeSelects )
-      apm += botAPM_select/(0.95*GameDurationFactor);
-    return apm;
-
+      return botAPM_selects;
+    return botAPM_noselects;
   }
   //---------------------------------------------------- SET MAP ---------------------------------------------
   bool GameImpl::setMap(const char *mapFileName)

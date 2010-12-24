@@ -88,8 +88,19 @@ void ExampleAIModule::onFrame()
 {
   Broodwar->drawTextScreen(200,0,"FPS: %d",Broodwar->getFPS());
   Broodwar->drawTextScreen(200,20,"Average FPS: %f",Broodwar->getAverageFPS());
+  Broodwar->drawTextScreen(200,40,"APM: %d",Broodwar->getAPM());
   if (show_visibility_data)
     drawVisibilityData();
+  int i=0;
+  for each(Unit* u in Broodwar->self()->getUnits())
+  {
+    if (u->getType().isWorker())
+    {
+      u->rightClick(Position(1,1));
+      i++;
+    }
+    if (i>=2) break;
+  }
 
   if (show_units)
     drawUnits();

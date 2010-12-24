@@ -27,8 +27,8 @@ namespace BWAPI
     bool isDebug;
 
     int instanceID;
-    double botAPM_noselects;
-    double botAPM_selects;
+    int botAPM_noselects;
+    int botAPM_selects;
 
     //forces
     int forceCount;

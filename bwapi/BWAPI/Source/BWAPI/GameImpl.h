@@ -218,8 +218,8 @@ namespace BWAPI
       virtual int  getReplayFrameCount();
       virtual void setGUI(bool enabled = true);
 
-      virtual int    getInstanceNumber();
-      virtual double getAPM(bool includeSelects = false);
+      virtual int getInstanceNumber();
+      virtual int getAPM(bool includeSelects = false);
 
       virtual bool setMap(const char *mapFileName);
 
@@ -379,10 +379,15 @@ namespace BWAPI
       bool actEnd;
       bool actBriefing;
 
+      DWORD  startTickCount;
       DWORD  lastTickCount;
       int    accumulatedFrames;
       int    fps;
       double averageFPS;
+      int botAPM_noselects;
+      int botAPM_selects;
+      double botAPMCounter_noselects;
+      double botAPMCounter_selects;
 
       int  textSize;
       bool hasLatCom;
