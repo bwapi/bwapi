@@ -154,6 +154,17 @@ namespace BWAPI
     {
       fps               = accumulatedFrames;
       averageFPS        = averageFPS*0.7+fps*0.3;
+
+      double APMInterval = 0.95;
+      int duration = (currentTickCount - lastTickCount);
+      int totalDuration = (currentTickCount - startTickCount);
+      botAPMCounter_selects     = botAPMCounter_selects * exp(-(duration)/(APMInterval*60000));
+      botAPMCounter_noselects   = botAPMCounter_noselects * exp(-(duration)/(APMInterval*60000));
+      double gameDurationFactor = 1-exp(-totalDuration/(APMInterval*60000));
+      if (gameDurationFactor < 0.01) gameDurationFactor = 0.01; //Prevent division by 0
+      botAPM_selects   = (int)floor(botAPMCounter_noselects+botAPMCounter_selects/(APMInterval*gameDurationFactor));
+      botAPM_noselects = (int)floor(botAPMCounter_noselects/(APMInterval*gameDurationFactor));
+
       lastTickCount     = currentTickCount;
       accumulatedFrames = 0;
     }
@@ -947,6 +958,7 @@ namespace BWAPI
 
     /* initialize the variables */
     frameCount      = 0;
+    startTickCount  = GetTickCount();
     textSize        = 1;
     onStartCalled   = true;
     BWAPIPlayer     = NULL;
@@ -2069,7 +2081,7 @@ namespace BWAPI
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
   void GameImpl::executeCommand(UnitCommand command, bool addCommandToLatComBuffer)
   {
-    botAPM_noSelect++;
+    botAPMCounter_noselects++;
     UnitCommandType ct = command.type;
     if      (ct == UnitCommandTypes::Attack_Move)
     {

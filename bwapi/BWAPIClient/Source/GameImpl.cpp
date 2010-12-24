@@ -1019,7 +1019,7 @@ namespace BWAPI
   {
     return data->instanceID;
   }
-  double GameImpl::getAPM(bool includeSelects)
+  int GameImpl::getAPM(bool includeSelects)
   {
     if ( includeSelects )
       return data->botAPM_selects;
