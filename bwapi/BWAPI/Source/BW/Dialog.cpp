@@ -367,7 +367,7 @@ namespace BW
   int GetTextWidth(const char *pszString, BYTE bSize)
   {
     // verify valid size index
-    if ( bSize > 3 )
+    if ( bSize > 3 || !pszString )
       return 0;
 
     // localize pointer
@@ -375,26 +375,29 @@ namespace BW
     if ( !font )
       return 0;
 
+    // Reference an unsigned character array
+    const BYTE *pbChars = (BYTE*)pszString;
+
     // Retrieve size
     int dwSize = 0;
-    for ( int i = 0; pszString[i] != 0; ++i )
+    for ( int i = 0; pbChars[i] != 0; ++i )
     {
-      switch ( pszString[i] )
+      switch ( pbChars[i] )
       {
       case 9:
         dwSize += font->Xmax * 2;
         continue;
-      case 32:
+      case ' ':
         dwSize += font->Xmax >> 1;
         continue;
       }
 
       // must be valid character
-      if ( (BYTE)pszString[i] > font->high || (BYTE)pszString[i] < font->low)
+      if ( pbChars[i] > font->high || pbChars[i] < font->low)
         continue;
 
       // localize character pointer
-      fntChr *chr = font->chrs[pszString[i] - font->low];
+      fntChr *chr = font->chrs[pbChars[i] - font->low];
       if ( chr == (fntChr*)font )
         continue;
 
@@ -407,7 +410,7 @@ namespace BW
   int GetTextHeight(const char *pszString, BYTE bSize)
   {
     // verify valid size index
-    if ( bSize > 3 )
+    if ( bSize > 3 || !pszString )
       return 0;
 
     // localize pointer
@@ -415,11 +418,14 @@ namespace BW
     if ( !font )
       return 0;
 
+    // Reference an unsigned character array
+    const BYTE *pbChars = (BYTE*)pszString;
+
     // Retrieve size
     int dwSize = font->Ymax;
-    for ( int i = 0; pszString[i] != 0; ++i )
+    for ( int i = 0; pbChars[i] != 0; ++i )
     {
-      switch ( pszString[i] )
+      switch ( pbChars[i] )
       {
       case 10:
         dwSize += font->Ymax;
@@ -440,21 +446,24 @@ namespace BW
     if ( !font || !dst->data )
       return false;
 
+    // Reference an unsigned character array
+    const BYTE *pbChars = (BYTE*)pszString;
+
     char lastColor = 0;
     char color     = 0;
     int  Xoffset   = 0;
     int  Yoffset   = 0;
-    for ( int c = 0; pszString[c] != 0; c++ )
+    for ( int c = 0; pbChars[c] != 0; c++ )
     {
       // make sure char is valid
-      if ( pszString[c] == 1 )
+      if ( pbChars[c] == 1 )
       {
         color = lastColor;
         continue;
       }
-      else if ( (BYTE)pszString[c] < 33 )
+      else if ( pbChars[c] < 33 )
       {
-        switch ( pszString[c] )
+        switch ( pbChars[c] )
         {
         case 9:
           Xoffset += font->Xmax * 2;
@@ -479,21 +488,21 @@ namespace BW
         case 19:
           Xoffset += dst->wid / 2 - GetTextWidth(pszString, bSize) / 2 - x;
           continue;
-        case 32:
+        case ' ':
           Xoffset += font->Xmax >> 1;
           continue;
         default:
           lastColor = color;
-          color     = bColorTable[pszString[c]];
+          color     = bColorTable[pbChars[c]];
           continue;
         }
       }
 
-      if ( (BYTE)pszString[c] > font->high || (BYTE)pszString[c] < font->low)
+      if ( pbChars[c] > font->high || pbChars[c] < font->low)
         continue;
 
       // localize character pointer
-      fntChr *chr = font->chrs[pszString[c] - font->low];
+      fntChr *chr = font->chrs[pbChars[c] - font->low];
       if ( chr == (fntChr*)font )
         continue;
 
