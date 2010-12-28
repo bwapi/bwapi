@@ -14,7 +14,6 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...);
 extern char logPath[MAX_PATH];
 extern bool logging;
 
-extern bool wantRefresh;
 extern DWORD gdwProcNum;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];

@@ -2,6 +2,7 @@
 #include <windows.h>
 
 #include "Holiday.h"
+#include "Detours.h"
 #include "../Storm/storm.h"
 
 #include <BWAPI/Color.h>
@@ -662,6 +663,7 @@ void DrawHoliday()
       {
         dwLastTick = dwThisTick;
         seq = seq ? 0 : 1;
+        wantRefresh = true;
       }
       for ( int p = 0; p <= BW::BWDATA_GameScreenBuffer->wid / 51; ++p )
       {

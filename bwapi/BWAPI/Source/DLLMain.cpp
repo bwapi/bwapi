@@ -345,7 +345,6 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 
         /* Get process count */
         gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
-        gdwHoliday = 0;
 
         /* Get revision/build automatically */
         char szDllPath[MAX_PATH];
@@ -493,10 +492,17 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
           return TRUE;
         }
 
-        SYSTEMTIME sysTime;
-        GetSystemTime(&sysTime);
-        if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 27 )
-          gdwHoliday = 1;
+        /* Check if it's time for a holiday */
+        gdwHoliday = 0;
+        char szHolidayMods[16];
+        GetPrivateProfileString("config", "holiday", "ON", szHolidayMods, 16, szConfigPath);
+        if ( SStrCmpI(szHolidayMods, "OFF", 16) != 0 )
+        {
+          SYSTEMTIME sysTime;
+          GetSystemTime(&sysTime);
+          if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 28 )
+            gdwHoliday = 1;
+        }
 
         CTRT_Thread(NULL);
         BWAPI::BWAPI_init();

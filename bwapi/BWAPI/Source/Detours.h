@@ -21,4 +21,5 @@ extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern double botAPM_noSelect;
 extern double botAPM_select;
+extern bool wantRefresh;
 
