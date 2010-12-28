@@ -1,6 +1,7 @@
 #include "Dialog.h"
 #include "../BWAPI/GameImpl.h"
 
+#include "../Detours.h"
 #include "../DLLMain.h"
 
 BYTE gbTinyBtnGfx[3][12*12] = {
