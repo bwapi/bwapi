@@ -74,9 +74,9 @@ namespace BWAPI
                                                o->airWeaponCooldown > 0 ||
                                               !o->statusFlag(BW::StatusFlags::Burrowed) );
           }
-          bool canDetect = o->statusFlag(BW::StatusFlags::RequiresDetection) ||
-                           (o->visibilityStatus == -1) ||
-                          ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
+          bool canDetect = !o->statusFlag(BW::StatusFlags::RequiresDetection) ||
+                           o->visibilityStatus == -1 ||
+                           ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
           self->isDetected = self->isVisible[selfPlayerID] & canDetect;
         }
       }
