@@ -80,6 +80,7 @@ namespace BWAPI
   }
   int Server::addEvent(BWAPI::Event e)
   {
+    assert(data->eventCount < GameData::MAX_EVENTS);
     BWAPIC::Event* e2 = &(data->events[data->eventCount]);
     data->eventCount++;
     int id   = data->eventCount;

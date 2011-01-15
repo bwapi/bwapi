@@ -116,23 +116,29 @@ namespace BWAPI
     int enemy;
     int neutral;
 
+	  static const int MAX_EVENTS = 10000;
+	  static const int MAX_STRINGS = 20000;
+	  static const int MAX_SHAPES = 20000;
+	  static const int MAX_COMMANDS = 20000;
+	  static const int MAX_UNIT_COMMANDS = 20000;
+
     //events from server to client
     int eventCount;
-    BWAPIC::Event events[10000];
+    BWAPIC::Event events[MAX_EVENTS];
 
     //strings (used in events, shapes, and commands)
     int stringCount;
-    char strings[20000][256];
+    char strings[MAX_STRINGS][256];
 
     //shapes, commands, unitCommands, from client to server
     int shapeCount;
-    BWAPIC::Shape shapes[20000];
+    BWAPIC::Shape shapes[MAX_SHAPES];
 
     int commandCount;
-    BWAPIC::Command commands[20000];
+    BWAPIC::Command commands[MAX_COMMANDS];
 
     int unitCommandCount;
-    BWAPIC::UnitCommand unitCommands[20000];
+    BWAPIC::UnitCommand unitCommands[MAX_UNIT_COMMANDS];
 
   };
 }

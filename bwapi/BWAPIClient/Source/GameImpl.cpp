@@ -9,6 +9,7 @@
 #include <Util\Foreach.h>
 #include <Util\Types.h>
 #include <string>
+#include <cassert>
 
 namespace BWAPI
 {
@@ -28,27 +29,30 @@ namespace BWAPI
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
+    assert(data->shapeCount < GameData::MAX_SHAPES);
     data->shapes[data->shapeCount]=s;
     return data->shapeCount++;
   }
   int GameImpl::addString(const char* text)
   {
+    assert(data->stringCount < GameData::MAX_STRINGS);
     strncpy(data->strings[data->stringCount],text,256);
     return data->stringCount++;
   }
   int GameImpl::addText(BWAPIC::Shape &s, const char* text)
   {
     s.extra1=addString(text);
-    data->shapes[data->shapeCount]=s;
-    return data->shapeCount++;
+    return addShape(s);
   }
   int GameImpl::addCommand(BWAPIC::Command &c)
   {
+    assert(data->commandCount < GameData::MAX_COMMANDS);
     data->commands[data->commandCount]=c;
     return data->commandCount++;
   }
   int GameImpl::addUnitCommand(BWAPIC::UnitCommand& c)
   {
+    assert(data->unitCommandCount < GameData::MAX_UNIT_COMMANDS);
     data->unitCommands[data->unitCommandCount]=c;
     return data->unitCommandCount++;
   }
