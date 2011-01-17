@@ -551,6 +551,10 @@ namespace BWAPI
       case BWAPIC::CommandType::SetGui:
         Broodwar->setGUI(v1 == 1);
         break;
+      case BWAPIC::CommandType::SetFrameSkip:
+        if (Broodwar->isInGame())
+          Broodwar->setFrameSkip(v1);
+        break;
       default:
         break;
       }

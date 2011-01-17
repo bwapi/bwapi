@@ -222,6 +222,7 @@ namespace BWAPI
       virtual int getAPM(bool includeSelects = false);
 
       virtual bool setMap(const char *mapFileName);
+      virtual void setFrameSkip(int frameSkip = 1);
 
       //Internal BWAPI commands:
       GameImpl();
