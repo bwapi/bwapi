@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <Util/sha1.h>
 
+#include "../../Debug.h"
+
 using namespace std;
 namespace BWAPI
 {
@@ -20,6 +22,11 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   Map::~Map()
   {
+    if ( activeTiles )
+    {
+      delete activeTiles;
+      activeTiles = NULL;
+    }
   }
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
@@ -166,7 +173,7 @@ namespace BWAPI
     u16 w = BWAPI::Map::getWidth();
     for (unsigned int y = 0; y < h; ++y)
       for (unsigned int x = 0; x < w; ++x)
-        this->buildability[x][y] = (*this->activeTiles)[y][x].bAlwaysUnbuildable != 0;
+        this->buildability[x][y] = (*this->activeTiles)[y][x].bAlwaysUnbuildable == 0;
   }
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()

@@ -3,6 +3,8 @@
 #include <BW/Offsets.h>
 #include <BW/UnitID.h>
 #include <Util/Exceptions.h>
+
+#include "../../Debug.h"
 namespace BW
 {
   namespace Orders

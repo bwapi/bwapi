@@ -22,6 +22,9 @@
 #include <BW/Path.h>
 #include "Server.h"
 #include "BWtoBWAPI.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   void UnitImpl::updateInternalData()

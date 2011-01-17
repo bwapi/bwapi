@@ -3,6 +3,8 @@
 
 #include "Unit.h"
 
+#include "../../Debug.h"
+
 namespace BW
 {
   BWAPI::UnitType Unit::type()

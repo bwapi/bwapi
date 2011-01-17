@@ -22,6 +22,8 @@
 #include <BW/Offsets.h>
 #include <BW/UnitID.h>
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------

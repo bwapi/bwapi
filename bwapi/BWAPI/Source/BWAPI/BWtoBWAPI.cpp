@@ -1,6 +1,9 @@
 #pragma once
 #include <BW/OrderID.h>
 #include <BW/UnitID.h>
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   int BWtoBWAPI_Order[191];

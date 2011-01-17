@@ -1,6 +1,9 @@
 #include "ShapeEllipse.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
 	ShapeEllipse::ShapeEllipse(int ctype, int x, int y, int xrad, int yrad, int color, bool isSolid)

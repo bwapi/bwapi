@@ -705,10 +705,6 @@
 			RelativePath=".\Source\DLLMain.h"
 			>
 		</File>
-		<File
-			RelativePath=".\source\StaticAssert.h"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

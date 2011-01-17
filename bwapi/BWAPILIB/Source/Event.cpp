@@ -1,4 +1,7 @@
 #include <BWAPI/Event.h>
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   Event::Event() : type(EventType::None), position(Positions::None), text(""), unit(NULL), player(NULL), isWinner(false)

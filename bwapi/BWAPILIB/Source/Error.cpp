@@ -6,6 +6,8 @@
 
 #include "Common.h"
 
+#include "../../Debug.h"
+
 #define BWAPI_ERROR_MAX_COUNT 28
 
 namespace BWAPI

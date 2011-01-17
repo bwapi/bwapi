@@ -4,6 +4,8 @@
 #include "BW/Offsets.h"
 #include "NewHackUtil.h"
 
+#include "../../Debug.h"
+
 void SetResolution(int width, int height)
 {
   HWND hWnd = SDrawGetFrameWindow();

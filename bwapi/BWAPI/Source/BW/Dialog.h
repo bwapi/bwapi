@@ -112,8 +112,6 @@ namespace BW
   class dialog   // BIN Dialog
   {
   public:
-    void *operator new(size_t size);
-    void operator delete(void *p);
     dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 0, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL);
     ~dialog();
 

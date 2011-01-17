@@ -1,6 +1,9 @@
 #include <BWAPI/Color.h>
 #include <list>
 #include <Util/Foreach.h>
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   int palette[256] = {0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000,

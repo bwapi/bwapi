@@ -8,6 +8,8 @@
 
 #include "Common.h"
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   bool initializingUpgradeType = true;

@@ -19,6 +19,8 @@
 #include "Holiday/Holiday.h"
 #include "CodePatch.h"
 
+#include "../../Debug.h"
+
 char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
 
@@ -335,6 +337,9 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   {
     case DLL_PROCESS_ATTACH:
       {
+#ifdef _DEBUG
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
         /* Retrieve the Starcraft path */
         if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
           SStrNCat(szInstallPath, "\\", MAX_PATH);

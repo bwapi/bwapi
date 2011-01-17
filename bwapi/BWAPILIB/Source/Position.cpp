@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   namespace Positions

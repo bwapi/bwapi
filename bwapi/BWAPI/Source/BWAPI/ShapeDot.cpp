@@ -1,6 +1,9 @@
 #include "ShapeDot.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeDot::ShapeDot(int ctype, int x, int y, int color)

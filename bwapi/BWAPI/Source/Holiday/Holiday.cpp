@@ -8,6 +8,8 @@
 #include <BWAPI/Color.h>
 #include <BW/Offsets.h>
 
+#include "../../Debug.h"
+
 DWORD gdwHoliday;
 
 #define err(x) MessageBox(NULL, x, "!", MB_OK | MB_ICONERROR)

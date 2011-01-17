@@ -1,6 +1,9 @@
 #include "ShapeCircle.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeCircle::ShapeCircle(int ctype, int x, int y, int radius, int color, bool isSolid)

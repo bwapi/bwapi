@@ -1,6 +1,9 @@
 #include "ShapeBox.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeBox::ShapeBox(int ctype, int left, int top, int right, int bottom, int color, bool isSolid)

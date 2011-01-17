@@ -5,6 +5,8 @@
 #include <BWAPI/UnitImpl.h>
 #include <BW/Unit.h>
 
+#include "../../Debug.h"
+
 namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------

@@ -7,6 +7,8 @@
 #include "Resolution.h"
 #include "WMode.h"
 
+#include "../../Debug.h"
+
 void ApplyCodePatches()
 {
   /* Create function-level hooks */

@@ -1,4 +1,7 @@
 #include <BWAPI/AIModule.h>
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   AIModule::AIModule()

@@ -12,6 +12,8 @@
 #include "DLLMain.h"
 #include "../../svnrev.h"
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   #define PIPE_TIMEOUT 2000

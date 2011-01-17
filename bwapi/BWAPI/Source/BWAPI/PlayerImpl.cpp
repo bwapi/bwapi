@@ -8,6 +8,8 @@
 #include <BW/UnitID.h>
 #include <BW/PlayerType.h>
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
