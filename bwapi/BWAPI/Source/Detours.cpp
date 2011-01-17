@@ -180,8 +180,8 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
   /* Save the allocated fog of war pointer */
   if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
   {
-    BW::BWDATA_MapFogOfWar = (u32*)rval;
-    //MessageBox(0, "BWDATA_MapFogOfWar", "", 0);
+    BW::BWDATA_ActiveTileArray = (u32*)rval;
+    //MessageBox(0, "BWDATA_ActiveTileArray", "", 0);
   }
 
   /* Save the allocated mini-tile flags pointer */

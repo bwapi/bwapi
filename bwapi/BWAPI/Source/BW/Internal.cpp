@@ -8,7 +8,7 @@ namespace BW
   TileType    *BWDATA_TileSet         = NULL;
   SAI_Paths   *BWDATA_SAIPathing      = NULL;
   char        *BWDATA_StringTableOff  = NULL;
-  u32         *BWDATA_MapFogOfWar     = NULL;
+  u32         *BWDATA_ActiveTileArray = NULL;
 
   MiniTileMaps_type* BWDATA_MiniTileFlags = NULL;
   void (__stdcall *pOldDrawGameProc)(BW::bitmap *pSurface, BW::bounds *pBounds) = NULL;

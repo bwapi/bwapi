@@ -453,8 +453,8 @@ namespace BWAPI
       BWAPI::Position scrPos = getScreenPosition();
 
       // draw mtx grid
-      for ( int y = scrPos.y()/32-1; y < (scrPos.y()+480)/32+1; ++y )
-        for ( int x = scrPos.x()/32-1; x < (scrPos.x()+640)/32+1; ++x )
+      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
+        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
           for ( int i = 0; i < 32; i += 4 )
           {
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
@@ -467,6 +467,19 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
+      BW::activeTile *tileMap = (BW::activeTile*)BW::BWDATA_ActiveTileArray;
+
+      BWAPI::Position scrPos = getScreenPosition();
+      setTextSize(0);
+      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
+      {
+        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
+        {
+          BW::activeTile *thisTile = &tileMap[x + y * mapWidth()];
+          drawTextMap(x*32,y*32, "%01X %01X\n%01X", thisTile->bUnknown1, thisTile->bUnknown2, thisTile->bUnknown3);
+        }
+      }
+      /*
       setTextSize(0);
       BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
       
@@ -492,7 +505,7 @@ namespace BWAPI
             drawLineMap(tileX * 32 + mTileX * 8 + 8, tileY * 32 + mTileY * 8, tileX * 32 + mTileX * 8,     tileY * 32 + mTileY * 8 + 8, c);
           }
         drawTextMouse(32, 32, "%u", idx & 0x1FFF);
-      }
+      }*/
 
     } // pathdebug
 #endif
@@ -1148,6 +1161,15 @@ namespace BWAPI
     {
       setGUI(noGUI);
     }
+    else if (parsed[0] == "/wmode")
+    {
+      ToggleWMode(640, 480);
+    }
+    else if (parsed[0] == "/grid")
+    {
+      grid = !grid;
+      printf("Matrix grid %s.", grid ? "enabled" : "disabled");
+    }
 #ifdef _DEBUG
     else if (parsed[0] == "/latency")
     {
@@ -1199,11 +1221,6 @@ namespace BWAPI
       unitDebug = !unitDebug;
       printf("unitdebug %s", unitDebug ? "ENABLED" : "DISABLED");
     }
-    else if (parsed[0] == "/grid")
-    {
-      grid = !grid;
-      printf("Matrix grid %s.", grid ? "enabled" : "disabled");
-    }
 // end knockoffs
     else if (parsed[0] == "/hud")
     {
@@ -1223,10 +1240,6 @@ namespace BWAPI
         printf("%s", getLastError().toString().c_str());
     }
 #endif
-    else if (parsed[0] == "/wmode")
-    {
-      ToggleWMode(640, 480);
-    }
     else
     {
       return false;
