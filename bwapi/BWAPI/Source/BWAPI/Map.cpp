@@ -152,7 +152,7 @@ namespace BWAPI
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    fogOfWar  = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_MapFogOfWar);
+    fogOfWar  = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ActiveTileArray);
     zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ZergCreepArray);
     setBuildability();
     setWalkability();

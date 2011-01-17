@@ -459,7 +459,25 @@ namespace BW
     MiniTileFlagArray tile[0x10000];
   };
   extern MiniTileMaps_type *BWDATA_MiniTileFlags;
-  extern u32               *BWDATA_MapFogOfWar;
+
+  struct activeTile
+  {
+    u8 bVisibilityFlags;
+    u8 bExploredFlags;
+    u8 bWalkable          : 1; // Set on tiles that can be walked on
+    u8 bUnknown1          : 1; // Unused?
+    u8 bUnwalkable        : 1; // Set on tiles that can't be walked on
+    u8 bUnknown2          : 3; // Unused?
+    u8 bHasCreep          : 1; // Set when creep occupies the area
+    u8 bAlwaysUnbuildable : 1; // always unbuildable, like water
+    u8 bGroundHeight      : 3; // ground height
+    u8 bCurrentlyOccupied : 1; // unbuildable but can be made buildable
+    u8 bCreepReceeding    : 1; // Set when the nearby structure supporting the creep is destroyed
+    u8 bCliffEdge         : 1; // Set if the tile is a cliff edge
+    u8 bTemporaryCreep    : 1; // Set when the creep occupying the area was created. Not set if creep tiles were preplaced.
+    u8 bUnknown3          : 1; // Unused?
+  };
+  extern u32               *BWDATA_ActiveTileArray;
   extern SAI_Paths         *BWDATA_SAIPathing;
 };
 #pragma pack()
