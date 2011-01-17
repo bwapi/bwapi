@@ -445,7 +445,6 @@ namespace BW
   //------------------------------------------------ MAPPING -------------------------------------------------
   /** Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group. */
   typedef u16 TileID;
-  extern TileID   *BWDATA_ZergCreepArray;
   extern TileID   *BWDATA_MapTileArray;
   extern TileType *BWDATA_TileSet;
 
@@ -477,7 +476,7 @@ namespace BW
     u8 bTemporaryCreep    : 1; // Set when the creep occupying the area was created. Not set if creep tiles were preplaced.
     u8 bUnknown3          : 1; // Unused?
   };
-  extern u32               *BWDATA_ActiveTileArray;
+  extern activeTile        *BWDATA_ActiveTileArray;
   extern SAI_Paths         *BWDATA_SAIPathing;
 };
 #pragma pack()

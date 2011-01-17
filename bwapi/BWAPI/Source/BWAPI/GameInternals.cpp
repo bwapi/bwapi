@@ -467,16 +467,13 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
-      BW::activeTile *tileMap = (BW::activeTile*)BW::BWDATA_ActiveTileArray;
-
       BWAPI::Position scrPos = getScreenPosition();
       setTextSize(0);
       for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
       {
         for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
         {
-          BW::activeTile *thisTile = &tileMap[x + y * mapWidth()];
-          drawTextMap(x*32,y*32, "%01X %01X\n%01X", thisTile->bUnknown1, thisTile->bUnknown2, thisTile->bUnknown3);
+          drawTextMap(x*32,y*32, "%u", this->getGroundHeight(x, y));
         }
       }
       /*

@@ -14,7 +14,7 @@ namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Map::Map()
-      : fogOfWar(NULL)
+      : activeTiles(NULL)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -62,10 +62,10 @@ namespace BWAPI
       {
         for(int y = 0; y < h; ++y)
         {
-          int tileData = (*fogOfWar)[y][x];
-          data->isVisible[x][y]  = (tileData & 255) != 255;
-          data->isExplored[x][y] = ((tileData >> 8) & 255) != 255;
-          data->hasCreep[x][y]   = (*zergCreep)[y][x] != 0;
+          BW::activeTile tileData = (*activeTiles)[y][x];
+          data->isVisible[x][y]  = tileData.bVisibilityFlags != 255;
+          data->isExplored[x][y] = tileData.bExploredFlags   != 255;
+          data->hasCreep[x][y]   = tileData.bTemporaryCreep  != 0;
         }
       }
     }
@@ -77,11 +77,10 @@ namespace BWAPI
       {
         for(int y = 0; y < h; ++y)
         {
-          u32 tileData = (*fogOfWar)[y][x];
-          data->isVisible[x][y]  = !(tileData & playerFlag);
-          data->isExplored[x][y] = !((tileData >> 8) & playerFlag);
-          bool canAccess = data->isVisible[x][y] || completeMapInfo;
-          data->hasCreep[x][y] = canAccess && (*zergCreep)[y][x] != 0;
+          BW::activeTile tileData = (*activeTiles)[y][x];
+          data->isVisible[x][y]   = !(tileData.bVisibilityFlags & playerFlag);
+          data->isExplored[x][y]  = !(tileData.bExploredFlags & playerFlag);
+          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && tileData.bTemporaryCreep != 0;
         }
       }
     }
@@ -105,55 +104,46 @@ namespace BWAPI
   {
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
-    u32 value =  (*this->fogOfWar)[y][x];
+    BW::activeTile value = (*this->activeTiles)[y][x];
     if (BroodwarImpl._isReplay())
-      return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
+      return value.bVisibilityFlags != 255;
+    return !(value.bVisibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
   //--------------------------------------------- HAS EXPLORED -----------------------------------------------
   bool Map::isExplored(int x, int y) const
   {
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
-    u32 value = (*this->fogOfWar)[y][x];
-    value = value >> 8;
+    BW::activeTile value = (*this->activeTiles)[y][x];
     if (BroodwarImpl._isReplay())
-      return (value & 255) != 255;
-    return !(value & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
+      return value.bExploredFlags != 255;
+    return !(value.bExploredFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
   //----------------------------------------------- HAS CREEP ------------------------------------------------
   bool Map::hasCreep(int x, int y) const
   {
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
-    return (*this->zergCreep)[y][x] != 0;
+    return (*this->activeTiles)[y][x].bTemporaryCreep != 0;
   }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const
   {
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return 0;
-    int value =  (*this->fogOfWar)[y][x];
-    value = value >> 16;
-    int h = 0;
-    if ((value & (0x200))!=0)
-      h = 1;
-    if ((value & (0x400))!=0)
-      h = 2;
-    return h;
+    return (*this->activeTiles)[y][x].bGroundHeight;
   }
   //-------------------------------------------------- LOAD --------------------------------------------------
   void Map::load()
   {
-    if ( fogOfWar )
+    if ( activeTiles )
     {
-      delete fogOfWar;
-      fogOfWar = NULL;
+      delete activeTiles;
+      activeTiles = NULL;
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    fogOfWar  = new Util::RectangleArray<u32>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ActiveTileArray);
-    zergCreep = new Util::RectangleArray<u16>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ZergCreepArray);
+    activeTiles = new Util::RectangleArray<BW::activeTile>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ActiveTileArray);
     setBuildability();
     setWalkability();
   }
@@ -172,34 +162,19 @@ namespace BWAPI
   //-------------------------------------------- SET BUILDABILITY --------------------------------------------
   void Map::setBuildability()
   {
-    for (unsigned int y = 0; y < BWAPI::Map::getHeight(); ++y)
-    {
-      for (unsigned int x = 0; x < BWAPI::Map::getWidth(); ++x)
-      {
-        BW::TileType *tile = BW::TileSet::getTileType(BWAPI::Map::getTile(x, y));
-        if ( tile )
-          this->buildability[x][y] = !((BW::TileSet::getTileType(BWAPI::Map::getTile(x, y))->buildability >> 4) & 0x8);
-        else
-          this->buildability[x][y] = false;
-      }
-    }
-    int y = BWAPI::Map::getHeight()-1;
-    for(unsigned int x = 0; x < BWAPI::Map::getWidth();x++)
-    {
-      this->buildability[x][y] = false;
-    }
-    --y;
-    for(int x = 0; x < 5; ++x)
-    {
-      this->buildability[x][y] = false;
-      this->buildability[BWAPI::Map::getWidth() - x - 1][y] = false;
-    }
+    u16 h = BWAPI::Map::getHeight();
+    u16 w = BWAPI::Map::getWidth();
+    for (unsigned int y = 0; y < h; ++y)
+      for (unsigned int x = 0; x < w; ++x)
+        this->buildability[x][y] = (*this->activeTiles)[y][x].bAlwaysUnbuildable != 0;
   }
   //-------------------------------------------- SET WALKABILITY ---------------------------------------------
   void Map::setWalkability()
   {
-    for (unsigned int y = 0; y < (u16)(BWAPI::Map::getHeight() * 4); ++y)
-      for (unsigned int x = 0; x < (u16)(BWAPI::Map::getWidth() * 4); ++x)
+    u16 h = BWAPI::Map::getHeight() * 4;
+    u16 w = BWAPI::Map::getWidth() * 4;
+    for (unsigned int y = 0; y < h; ++y)
+      for (unsigned int x = 0; x < w; ++x)
         this->walkability[x][y] = (this->getMiniTile(x, y) & BW::MiniTileFlags::Walkable) != 0;
     int y = BWAPI::Map::getHeight() * 4 - 1;
     for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); ++x)

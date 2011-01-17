@@ -68,15 +68,16 @@ namespace BWAPI
         {
           foreach(Unit *u, Broodwar->getUnitsOnTile(ix,iy))
           {
-            if ( u != builder && !u->getType().isFlyer() && !u->isLifted() &&
-                 u->getPosition().x() + u->getType().dimensionRight() >= targetX - type.dimensionLeft()  &&
-                 u->getPosition().y() + u->getType().dimensionDown()  >= targetY - type.dimensionUp()    &&
-                 u->getPosition().x() - u->getType().dimensionLeft()  <= targetX + type.dimensionRight() &&
-                 u->getPosition().y() - u->getType().dimensionUp()    <= targetY + type.dimensionDown() )
+            BWAPI::UnitType iterType = u->getType();
+            if ( !iterType.isFlyer() && !u->isLoaded() && !u->isLifted() && u != builder &&
+                 u->getPosition().x() + iterType.dimensionRight() >= targetX - type.dimensionLeft()  &&
+                 u->getPosition().y() + iterType.dimensionDown()  >= targetY - type.dimensionUp()    &&
+                 u->getPosition().x() - iterType.dimensionLeft()  <= targetX + type.dimensionRight() &&
+                 u->getPosition().y() - iterType.dimensionUp()    <= targetY + type.dimensionDown() )
             {
               if ( !type.isAddon() )
                 return false;
-              else if ( !u->getType().canMove() )
+              else if ( !iterType.canMove() )
                 return false;
             }
           }
