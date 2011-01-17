@@ -20,6 +20,8 @@
 #include <BW/Unit.h>
 #include <BW/Offsets.h>
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //--------------------------------------------- CAN ISSUE COMMAND ------------------------------------------

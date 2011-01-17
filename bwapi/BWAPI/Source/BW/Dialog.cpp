@@ -4,6 +4,8 @@
 #include "../Detours.h"
 #include "../DLLMain.h"
 
+#include "../../Debug.h"
+
 BYTE gbTinyBtnGfx[3][12*12] = {
   {
     0x00, 0x00, 0x00, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x7B, 0x00, 0x00, 0x00,
@@ -523,18 +525,6 @@ namespace BW
       Xoffset += chr->w;
     }
     return true;
-  }
-// -------------------------------------------------- GLOBAL -------------------------------------------------
-  void *dialog::operator new(size_t size)
-  {
-    void *pAlloc = SMAlloc(size);
-    if ( !pAlloc )
-      BWAPIError("Failed to allocate %u bytes in Dialog allocator.", size);
-    return pAlloc;
-  }
-  void dialog::operator delete(void *p)
-  {
-    SMFree(p);
   }
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))

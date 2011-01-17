@@ -1,5 +1,8 @@
 #include "TileSet.h"
 #include "TileType.h"
+
+#include "../../Debug.h"
+
 namespace BW
 {
   TileType* TileSet::getTileType(TileID tileID)

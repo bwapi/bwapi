@@ -12,3 +12,5 @@
 #else
   #define BUILD_STR "RELEASE"
 #endif
+
+#include "starcraftver.h"

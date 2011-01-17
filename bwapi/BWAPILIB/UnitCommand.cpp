@@ -1,5 +1,8 @@
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Unit.h>
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   UnitCommand::UnitCommand() : target(NULL), extra(0)

@@ -47,6 +47,8 @@
 #include "../NewHackUtil.h"
 #include "BWtoBWAPI.h"
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //----------------------------------------------- GET FORCES -----------------------------------------------

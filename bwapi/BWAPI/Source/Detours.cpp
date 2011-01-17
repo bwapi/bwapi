@@ -12,6 +12,8 @@
 #include "BW/Offsets.h"
 #include "DLLMain.h"
 
+#include "../../Debug.h"
+
 bool hideHUD;
 
 //----------------------------------------------- ON GAME END ------------------------------------------------

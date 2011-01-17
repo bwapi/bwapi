@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}

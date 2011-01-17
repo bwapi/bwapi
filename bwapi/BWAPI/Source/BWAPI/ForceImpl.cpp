@@ -1,5 +1,8 @@
 #include "ForceImpl.h"
 #include "GameImpl.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ForceImpl::ForceImpl(std::string name)

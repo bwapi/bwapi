@@ -5,6 +5,8 @@
 #include "BWAPI/PlayerImpl.h"
 #include "BWAPI/UnitImpl.h"
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -16,6 +18,9 @@ namespace BWAPI
       , lastExists(false)
   {
     self=&data;
+  }
+  BulletImpl::~BulletImpl()
+  {
   }
   //------------------------------------------------- GET ID -------------------------------------------------
   int BulletImpl::getID() const

@@ -2,6 +2,9 @@
 #include "DLLMain.h"
 #include <math.h>
 #include "GameImpl.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeLine::ShapeLine(int ctype, int x1, int y1, int x2, int y2, int color)

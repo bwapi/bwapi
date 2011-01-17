@@ -1,6 +1,9 @@
 #include "ShapeText.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeText::ShapeText(int ctype, int x, int y, std::string text, char size)

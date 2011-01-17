@@ -2,6 +2,8 @@
 #include "Resolution.h"
 #include "BW/Offsets.h"
 
+#include "../../Debug.h"
+
 WNDPROC wOriginalProc;
 HWND ghMainWnd;
 bool wmode;

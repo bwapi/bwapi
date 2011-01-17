@@ -1,5 +1,8 @@
 #include "PositionUnitTarget.h"
 #include "Unit.h"
+
+#include "../../Debug.h"
+
 namespace BW
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------

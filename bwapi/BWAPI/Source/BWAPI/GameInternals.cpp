@@ -1,7 +1,6 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
 #include "../../svnrev.h"
-#include "../../starcraftver.h"
 #include "GameImpl.h"
 #include "TemplatesImpl.h"
 
@@ -64,6 +63,9 @@
 #include "ShapeText.h"
 #include "BWtoBWAPI.h"
 #include "../Detours.h"
+
+#include "../../Debug.h"
+
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
@@ -126,9 +128,15 @@ namespace BWAPI
     for (int i = 0; i < PLAYER_COUNT; i++)
       delete players[i];
 
+    /* destroy all bullets */
+    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+      delete bulletArray[i];
+
     /* destroy all log handles */
     delete this->commandLog;
     delete this->newUnitLog;
+
+    delete Util::Logger::globalLog;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
@@ -473,7 +481,7 @@ namespace BWAPI
       {
         for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
         {
-          drawTextMap(x*32,y*32, "%u", this->getGroundHeight(x, y));
+          drawTextMap(x*32,y*32, "%u", this->canBuildHere(NULL, TilePosition(x,y), UnitTypes::Terran_Supply_Depot));
         }
       }
       /*
@@ -1329,11 +1337,11 @@ namespace BWAPI
     this->deadUnits.clear();
 
     //delete all shapes
-    for (unsigned int i = 0; i < this->shapes.size(); ++i)
-      delete this->shapes[i];
+    foreach (BWAPI::Shape *i, this->shapes)
+      delete i;
     this->shapes.clear();
 
-    for(int i = 0 ; i < PLAYER_COUNT; ++i)
+    for (int i = 0 ; i < PLAYER_COUNT; ++i)
       if ( this->players[i] )
         this->players[i]->onGameEnd();
 

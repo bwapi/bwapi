@@ -2,6 +2,9 @@
 #include "ShapeLine.h"
 #include "DLLMain.h"
 #include "BWAPI/Game.h"
+
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   ShapeTriangle::ShapeTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, int color, bool isSolid)

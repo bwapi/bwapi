@@ -11,6 +11,8 @@
 #include "ShapeTriangle.h"
 #include "ShapeText.h"
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------

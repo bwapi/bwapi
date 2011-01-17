@@ -3,6 +3,8 @@
 #include "Position.h"
 #include "Offsets.h"
 
+#include "../../Debug.h"
+
 namespace BW
 {
   TilePosition TilePosition::Invalid = TilePosition(1000, 1000);
