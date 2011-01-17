@@ -1112,6 +1112,15 @@ namespace BWAPI
         setLocalSpeed(atoi(parsed[1].c_str()));
       else
         setLocalSpeed();
+      printf("Changed game speed");
+    }
+    else if (parsed[0] == "/fs")
+    {
+      if (parsed[1] != "")
+        setFrameSkip(atoi(parsed[1].c_str()));
+      else
+        setFrameSkip();
+      printf("Altered frame skip");
     }
     else if (parsed[0] == "/cheats")
     {
@@ -1320,6 +1329,7 @@ namespace BWAPI
 
     //reset game speeds and text size
     this->setLocalSpeed();
+    this->setFrameSkip();
     this->setTextSize();
 
     //reset all Unit objects in the unit array

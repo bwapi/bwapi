@@ -749,6 +749,10 @@ namespace BWAPI
       }
     }
   }
+  void GameImpl::setFrameSkip(int frameSkip)
+  {
+    *BW::BWDATA_FrameSkip = frameSkip;
+  }
   //------------------------------------------ ISSUE COMMAND -------------------------------------------------
   bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
   {

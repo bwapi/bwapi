@@ -412,6 +412,9 @@ namespace BWAPI
 
       /** Changes the map to the one specified. Changes do not take effect unless the game is restarted. */
       virtual bool setMap(const char *mapFileName) = 0;
+
+      /** Sets the frame skip value. 1 = normal */
+      virtual void setFrameSkip(int frameSkip = 1) = 0;
   };
   extern Game* Broodwar;
 }

@@ -215,7 +215,8 @@ namespace BWAPI
       virtual int  getReplayFrameCount();
       virtual void setGUI(bool enabled = true);
       virtual int  getInstanceNumber();
-      virtual int getAPM(bool includeSelects = false);
+      virtual int  getAPM(bool includeSelects = false);
       virtual bool setMap(const char *mapFileName);
+      virtual void setFrameSkip(int frameSkip = 1);
   };
 }

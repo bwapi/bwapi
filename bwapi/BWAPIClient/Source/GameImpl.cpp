@@ -776,10 +776,14 @@ namespace BWAPI
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::RestartGame));
   }
-  //------------------------------------------- SET SCREEN POSITION ------------------------------------------
+  //---------------------------------------------- SET GAME SPEED --------------------------------------------
   void GameImpl::setLocalSpeed(int speed)
   {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetLocalSpeed,speed));
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetLocalSpeed, speed));
+  }
+  void GameImpl::setFrameSkip(int frameSkip)
+  {
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetFrameSkip, frameSkip));
   }
   //------------------------------------------- ISSUE COMMAND ------------------------------------------------
   bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
