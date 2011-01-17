@@ -180,7 +180,7 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
   /* Save the allocated fog of war pointer */
   if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
   {
-    BW::BWDATA_ActiveTileArray = (u32*)rval;
+    BW::BWDATA_ActiveTileArray = (BW::activeTile*)rval;
     //MessageBox(0, "BWDATA_ActiveTileArray", "", 0);
   }
 
@@ -190,13 +190,6 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
     BW::BWDATA_MiniTileFlags = (BW::MiniTileMaps_type*)rval;
     lastFile = "";
     //MessageBox(0, "BWDATA_MiniTileFlags", "", 0);
-  }
-
-  /* Save the allocated creep pointer */
-  if ( strcmpi(logfilename, "Starcraft\\SWAR\\MapComn\\creep.cpp") == 0 && logline == 420 )
-  {
-    BW::BWDATA_ZergCreepArray = (u16*)rval;
-    //MessageBox(0, "BWDATA_ZergCreepArray", "", 0);
   }
 
   /* Save the allocated SAI_Paths pointer */

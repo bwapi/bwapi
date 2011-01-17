@@ -45,8 +45,7 @@ namespace BWAPI
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
       u16 getMiniTile(int x, int y) const;
-      Util::RectangleArray<u32>* fogOfWar;
-      Util::RectangleArray<u16>* zergCreep;
+      Util::RectangleArray<BW::activeTile> *activeTiles;
       Util::RectangleArray<bool> buildability;
       Util::RectangleArray<bool> walkability;
       void setBuildability();
