@@ -16,41 +16,58 @@
 
 bool hideHUD;
 
-#ifdef _DEBUG
-
 #include <list>
 struct stormAlloc
 {
-  void *location;
-  char logName[MAX_PATH];
-  int  logline;
-  char lastFile[MAX_PATH];
+  void          *location;
+  bool          memLeak;
+#ifdef _DEBUG
+  char          logName[MAX_PATH];
+  int           logline;
+  char          lastFile[MAX_PATH];
+#endif
 };
 std::list<stormAlloc> allocations;
-bool firstFinished = false;
+std::list<stormAlloc> leaks;
 void *savedLoc;
+bool firstStarted = false;
 
 bool memtest(const stormAlloc& value) { return (value.location == savedLoc); }
-#endif
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
   //MessageBox(0, "OnGameEnd", "", 0);
   BWAPI::BroodwarImpl.onGameEnd();
-#ifdef _DEBUG
-  if ( firstFinished )
+  if ( firstStarted )
   {
+#ifdef _DEBUG
     FILE *s = fopen("bwapi-data\\logs\\memLeaks.txt", "w");
     if ( s )
-    {
-      for each ( stormAlloc i in allocations )
-        fprintf(s, "0x%p - %s:%d - %s\n", i.location, i.logName, i.logline, i.lastFile);
-      fclose(s);
-    }
-  }
-  firstFinished = true;
 #endif
+    {
+      for ( std::list<stormAlloc>::iterator i = allocations.begin(); i != allocations.end(); i++ )
+      {
+        if ( i->memLeak )
+        {
+#ifdef _DEBUG
+          fprintf(s, "<MEMLEAK DETECTED> 0x%p - %s:%d - %s\n", i->location, i->logName, i->logline, i->lastFile);
+#endif
+          leaks.push_back(*i);
+        }
+        else
+          i->memLeak = true;
+      }
+#ifdef _DEBUG
+      fclose(s);
+#endif
+    }
+    for each ( stormAlloc i in leaks )
+      _SMemFree(i.location, "BWAPI MemLeak - Detours.cpp", __LINE__, 0);
+    leaks.clear();
+  }
+  else
+    firstStarted = true;
   return SNetLeaveGame(type);
 }
 
@@ -209,10 +226,8 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 BOOL __stdcall _SMemFree(void *location, char *logfilename, int logline, char defaultValue)
 {
-#ifdef _DEBUG
   savedLoc = location;
   allocations.remove_if(memtest);
-#endif
   return SMemFree(location, logfilename, logline, defaultValue);
 }
 
@@ -221,17 +236,19 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
   /* Call the original function */
   void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
 
-#ifdef _DEBUG
-  if ( firstFinished )
+  if ( firstStarted )
   {
     stormAlloc t;
+    t.location = rval;
+    t.memLeak  = false;
+#ifdef _DEBUG
     strncpy(t.lastFile, lastFile.c_str(), MAX_PATH);
     strncpy(t.logName, logfilename, MAX_PATH);
-    t.location = rval;
     t.logline  = logline;
+#endif
     allocations.push_back(t);
   }
-#endif
+
   /* Save the allocated string table pointer */
   if ( lastFile == "rez\\stat_txt.tbl" )
   {
