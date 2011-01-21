@@ -7,6 +7,8 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 
+#include "../../Debug.h"
+
 #define THEPLUGINID 0x10001000
 
 #ifdef _DEBUG
@@ -140,7 +142,12 @@ MPQDraftPluginInterface thePluginInterface;
 __declspec(dllexport) BOOL APIENTRY DllMain( HINSTANCE hInstance, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
   if ( ul_reason_for_call == DLL_PROCESS_ATTACH )
+  {
+#ifdef _DEBUG
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
     thePluginInterface.SetInstance(hInstance);
+  }
   return TRUE;
 }
 

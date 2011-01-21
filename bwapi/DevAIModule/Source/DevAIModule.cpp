@@ -6,6 +6,8 @@ bool enabled;
 int mapH, mapW;
 DWORD startTicks;
 
+DWORD dwCount = 0;
+
 void DevAIModule::onStart()
 {
   // enable stuff
@@ -15,35 +17,42 @@ void DevAIModule::onStart()
   // save player info
   self = bw->self();
 
-  self->isEnemy(NULL);
-
   // save map info
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();
-
-  //bw->setLocalSpeed(0);
   startTicks = GetTickCount();
+
+  FILE *dIn = fopen("bwapi-data\\logs\\DevCount.txt", "r");
+  if ( dIn )
+  {
+    fscanf(dIn, "%u", &dwCount);
+    fclose(dIn);
+  }
+
+  ++dwCount;
+  FILE *dOut = fopen("bwapi-data\\logs\\DevCount.txt", "w");
+  if ( dOut )
+  {
+    fprintf(dOut, "%u", dwCount);
+    fclose(dOut);
+  }
+
+  bw->sendText("Beginning run %u.", dwCount);
+
+  // Set speed info
+  bw->setLocalSpeed(0);
+  bw->setFrameSkip(20);
 }
 
 void DevAIModule::onEnd(bool isWinner)
 {
-  //bw->restartGame();
+  bw->restartGame();
 }
 
 DWORD dwLastTickCount;
 void DevAIModule::onFrame()
 {
-  bw->drawTextScreen(20, 20, "%.2f | %d\n%d / %d\n%d | %dms\n%d | %dms\n%ums\n%.0f | %.0f", Broodwar->getAverageFPS(), 
-                                                   Broodwar->getFPS(), 
-                                                   Broodwar->getFrameCount(), 
-                                                   Broodwar->getReplayFrameCount(),
-                                                   Broodwar->getLatencyFrames(),
-                                                   Broodwar->getLatencyTime(),
-                                                   Broodwar->getRemainingLatencyFrames(),
-                                                   Broodwar->getRemainingLatencyTime(),
-                                                   GetTickCount() - startTicks,
-                                                   Broodwar->getAPM(),
-                                                   Broodwar->getAPM(true));
+  bw->drawTextMap(20, 20, "Runs: %u", dwCount);
 
   if ( bw->isReplay() )
     return;
@@ -51,78 +60,6 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  for each (UpgradeType i in UpgradeTypes::allUpgradeTypes())
-  {
-    if ( self->isUpgrading(i) )
-      bw->printf("Upgrading %s", i.getName().c_str());
-  }
-
-  for each (TechType i in TechTypes::allTechTypes())
-  {
-    if ( self->isResearching(i) )
-      bw->printf("Researching %s", i.getName().c_str());
-  }
-
-  for each (Unit *u in self->getUnits())
-  {
-    if ( u->isUnderAttack() && u->getLastAttackingPlayer() )
-    {
-      bw->drawCircleMap(u->getPosition().x(), u->getPosition().y(), u->getType().dimensionLeft(), u->getLastAttackingPlayer()->getColor(), true);
-    }
-  }
-}
-
-bool pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *unit, BWAPI::UnitType type, int width, int height)
-{
-  switch ( dwType )
-  {
-  case SEARCH_UNEXPLORED:
-    if ( unit )
-      return !Broodwar->isExplored(pt) && unit->hasPath((Position)pt);
-    else
-      return !Broodwar->isExplored(pt);
-  case SEARCH_EXPLORED:
-    if ( unit )
-      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt) && unit->hasPath((Position)pt);
-    else
-      return Broodwar->isExplored(pt) && !Broodwar->isVisible(pt);
-  case SEARCH_NOTVISIBLE:
-    if ( unit )
-      return (!Broodwar->isExplored(pt) || !Broodwar->isVisible(pt)) && unit->hasPath((Position)pt);
-    else
-      return !Broodwar->isExplored(pt) || !Broodwar->isVisible(pt);
-  case SEARCH_CONSTRUCT:
-    if ( type != BWAPI::UnitTypes::None && type != BWAPI::UnitTypes::Unknown )
-      return Broodwar->canBuildHere(unit, pt, type) && unit ? unit->hasPath(Position(pt)) : true;
-    break;
-  }
-  return false;
-}
-
-BWAPI::TilePosition spiralSearch(int dwType, BWAPI::TilePosition start, int radius, BWAPI::Unit *unit, BWAPI::UnitType type, int width, int height)
-{
-  int x = 0, y = 0, d = 1;
-  for ( int i = 1; i <= radius*2; ++i, d = -d )
-  {
-    for ( int iy = 0; iy < i; ++iy )
-    {
-      if ( pointSearch(dwType, BWAPI::TilePosition(start.x()+x, start.y()+y), unit, type, width, height) )
-        return BWAPI::TilePosition(start.x()+x, start.y()+y);
-      if ( y + d + start.y() < 0 || y + d + start.y() >= mapH )
-        break;
-      y += d;
-    }
-
-    for ( int ix = 0; ix < i; ++ix )
-    {
-      if ( pointSearch(dwType, BWAPI::TilePosition(start.x()+x, start.y()+y), unit, type, width, height) )
-        return BWAPI::TilePosition(start.x()+x, start.y()+y);
-      if ( x + d + start.x() < 0 || x + d + start.x() >= mapW )
-        break;
-      x += d;
-    }
-  }
-  return BWAPI::TilePositions::None;
 }
 
 void DevAIModule::onSendText(std::string text)
