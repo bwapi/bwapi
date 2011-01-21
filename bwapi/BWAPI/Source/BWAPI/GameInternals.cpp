@@ -145,8 +145,8 @@ namespace BWAPI
     this->inGame = true;
 
     //clear all shapes
-    for (unsigned int i = 0; i < this->shapes.size(); ++i)
-      delete this->shapes[i];
+    foreach (BWAPI::Shape *i, this->shapes)
+      delete i;
     this->shapes.clear();
 
 #ifdef _DEBUG

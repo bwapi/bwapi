@@ -6,6 +6,8 @@
 #include "../../svnrev.h"
 #include "../../starcraftver.h"
 
+#include "../../Debug.h"
+
 #ifdef _DEBUG
 #define MODULE "BWAPId.dll"
 #else
@@ -41,6 +43,9 @@ void BWAPIError(const char *format, ...)
 
 BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
 {
+#ifdef _DEBUG
+  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
   return TRUE;
 }
 

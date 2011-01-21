@@ -199,9 +199,10 @@ BOOL STORMAPI SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, 
 
 /*  SNetLeaveGame @ 119
  * 
- *  Notifies Storm that you have left the game. Storm will notify all connected peers through the network provider.
+ *  Notifies Storm that the player has left the game. Storm will
+ *  notify all connected peers through the network provider.
  *  
- *  type: The leave type. It's not particularly important.
+ *  type: The leave type. It doesn't appear to be important, no documentation available.
  *
  *  Returns TRUE if the function was called successfully and FALSE otherwise.
  */
@@ -556,13 +557,53 @@ BOOL STORMAPI SGdiSetPitch(int pitch);
 BOOL STORMAPI Ordinal393(char *string, int, int);
 
 
-void* STORMAPI SMemAlloc(int amount, char *logfilename, int logline, char defaultValue = 0);
+/*  SMemAlloc @ 401
+ *  
+ *  Allocates a block of memory. This block is different
+ *  from the standard malloc by including a header containing
+ *  information about the block. 
+ *
+ *  amount:       The amount of memory to allocate, in bytes.
+ *  logfilename:  The name of the file or object that this call belongs to.
+ *  logline:      The line in the file or one of the SLOG_ macros.
+ *  defaultValue: The default value of a byte in the allocated memory.
+ *
+ *  Returns a pointer to the allocated memory. This pointer does NOT include
+ *  the additional storm header.
+ */
+void*
+STORMAPI
+SMemAlloc(
+    __in  int amount,
+    __in  char *logfilename,
+    __in  int logline,
+    __in  char defaultValue = 0);
+
 #ifndef SMAlloc
 #define SMAlloc(amount) SMemAlloc((amount), __FILE__, __LINE__)
 #endif
 
 
-BOOL STORMAPI SMemFree(void *location, char *logfilename, int logline, char defaultValue = 0);
+/*  SMemFree @ 403
+ *  
+ *  Frees a block of memory that was created using SMemAlloc, 
+ *  includes the log file and line for debugging purposes.
+ *
+ *  location:     The memory location to be freed.
+ *  logfilename:  The name of the file or object that this call belongs to.
+ *  logline:      The line in the file or one of the SLOG_ macros.
+ *  defaultValue: 
+ *
+ *  Returns TRUE if the call was successful and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SMemFree(
+    __in  void *location,
+    __in  char *logfilename,
+    __in  int  logline,
+    __in  char defaultValue = 0);
+
 #ifndef SMFree
 #define SMFree(loc) SMemFree((loc), __FILE__, __LINE__)
 #endif

@@ -16,11 +16,41 @@
 
 bool hideHUD;
 
+#ifdef _DEBUG
+
+#include <list>
+struct stormAlloc
+{
+  void *location;
+  char logName[MAX_PATH];
+  int  logline;
+  char lastFile[MAX_PATH];
+};
+std::list<stormAlloc> allocations;
+bool firstFinished = false;
+void *savedLoc;
+
+bool memtest(const stormAlloc& value) { return (value.location == savedLoc); }
+#endif
+
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
   //MessageBox(0, "OnGameEnd", "", 0);
   BWAPI::BroodwarImpl.onGameEnd();
+#ifdef _DEBUG
+  if ( firstFinished )
+  {
+    FILE *s = fopen("bwapi-data\\logs\\memLeaks.txt", "w");
+    if ( s )
+    {
+      for each ( stormAlloc i in allocations )
+        fprintf(s, "0x%p - %s:%d - %s\n", i.location, i.logName, i.logline, i.lastFile);
+      fclose(s);
+    }
+  }
+  firstFinished = true;
+#endif
   return SNetLeaveGame(type);
 }
 
@@ -165,12 +195,43 @@ BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSea
   return TRUE;
 }
 
+BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
+{
+  lastFile = filename;
+  if ( !phFile )
+    return FALSE;
+
+  if ( !SFileOpenFileEx(NULL, filename, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+    return SFileOpenFile(filename, phFile);
+  return TRUE;
+}
+
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
+BOOL __stdcall _SMemFree(void *location, char *logfilename, int logline, char defaultValue)
+{
+#ifdef _DEBUG
+  savedLoc = location;
+  allocations.remove_if(memtest);
+#endif
+  return SMemFree(location, logfilename, logline, defaultValue);
+}
+
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue)
 {
   /* Call the original function */
   void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
 
+#ifdef _DEBUG
+  if ( firstFinished )
+  {
+    stormAlloc t;
+    strncpy(t.lastFile, lastFile.c_str(), MAX_PATH);
+    strncpy(t.logName, logfilename, MAX_PATH);
+    t.location = rval;
+    t.logline  = logline;
+    allocations.push_back(t);
+  }
+#endif
   /* Save the allocated string table pointer */
   if ( lastFile == "rez\\stat_txt.tbl" )
   {

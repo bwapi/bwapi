@@ -116,11 +116,11 @@ namespace BWAPI
     int enemy;
     int neutral;
 
-	  static const int MAX_EVENTS = 10000;
-	  static const int MAX_STRINGS = 20000;
-	  static const int MAX_SHAPES = 20000;
-	  static const int MAX_COMMANDS = 20000;
-	  static const int MAX_UNIT_COMMANDS = 20000;
+    static const int MAX_EVENTS         = 10000;
+    static const int MAX_STRINGS        = 20000;
+    static const int MAX_SHAPES         = 20000;
+    static const int MAX_COMMANDS       = 20000;
+    static const int MAX_UNIT_COMMANDS  = 20000;
 
     //events from server to client
     int eventCount;
