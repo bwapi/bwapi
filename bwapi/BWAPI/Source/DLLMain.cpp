@@ -140,11 +140,11 @@ void drawText(int _x, int _y, const char* ptext, int ctype, char size)
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 {
-  caps _caps;
-  _caps.dwSize = sizeof(caps);
-  SNetGetProviderCaps(&_caps);
+  CAPS caps;
+  caps.dwSize = sizeof(CAPS);
+  SNetGetProviderCaps(&caps);
 
-  u32 maxBuffer = _caps.dwBufferSize;
+  u32 maxBuffer = caps.maxmessagesize;
   if ( maxBuffer > 512 )
     maxBuffer = 512;
 
@@ -166,7 +166,7 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
     int callDelay = 1;
     if ( *BW::BWDATA_NetMode )
     {
-      callDelay = _caps.dwCallDelay;
+      callDelay = caps.dwCallDelay;
       if ( callDelay > 8 )
         callDelay = 8;
       else if ( callDelay < 2 )

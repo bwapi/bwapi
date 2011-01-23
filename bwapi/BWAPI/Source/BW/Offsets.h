@@ -49,12 +49,19 @@ namespace BW
   };
 
   //----------------------------------------------- DATA TABLES ----------------------------------------------
+#ifdef _MAC
+  static DatLoad *upgradesDat = (DatLoad*)0x0015AFCC;  /** 1.16.1 */
+  static DatLoad *techdataDat = (DatLoad*)0x0015A6F4;
+  static DatLoad *weaponsDat  = (DatLoad*)0x0015C19C;
+  static DatLoad *unitsDat    = (DatLoad*)0x0015AD38;
+  static DatLoad *flingyDat   = (DatLoad*)0x0014BC08;
+#else
   static DatLoad *upgradesDat = (DatLoad*)0x005136E0;  /** 1.15.3, 1.16, 1.16.1 */
   static DatLoad *techdataDat = (DatLoad*)0x005137D8;
   static DatLoad *weaponsDat  = (DatLoad*)0x00513868;
   static DatLoad *unitsDat    = (DatLoad*)0x00513C30;
   static DatLoad *flingyDat   = (DatLoad*)0x00515A38;
-
+#endif
   //----------------------------------------------- PLAYER DATA ----------------------------------------------
   /** Player resource counts */
   struct PlayerResources
@@ -111,9 +118,15 @@ namespace BW
 
   /** Speed & Latency */
   static u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
+#ifdef _MAC
+  static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x0014BF3C;
+  static u32     *BWDATA_GameSpeed          = (u32*) 0x00228458;
+#else
   static u32     *BWDATA_GameSpeedModifiers = (u32*) 0x005124D8;
-  static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
   static u32     *BWDATA_GameSpeed          = (u32*) 0x006CDFD4;
+#endif
+
+  static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
   static int     *BWDATA_FrameSkip          = (int*) 0x005124D4;
   static u8      *BWDATA_Latency            = (u8*)  0x006556e4;
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
