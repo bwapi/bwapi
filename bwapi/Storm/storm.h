@@ -74,11 +74,11 @@ BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *acti
 
 #ifndef CAPS_STRUCT
 #define CAPS_STRUCT
-struct caps
+struct CAPS
 {
-  DWORD dwSize;       // Size of this structure  // sizeof(caps)
+  DWORD dwSize;       // Size of this structure  // sizeof(CAPS)
   DWORD dwUnk_0x04;
-  DWORD dwBufferSize; // Size of the packet buffer, must be beteen 128 and 512
+  DWORD maxmessagesize; // Size of the packet buffer, must be beteen 128 and 512
   DWORD dwUnk_0x0C;
   DWORD dwUnk_0x10;
   DWORD dwUnk_0x14;   // some kind of timeout or timer related
@@ -87,9 +87,9 @@ struct caps
   DWORD dwCallDelay;  // the number of calls before data is sent over the network // between 2 and 8; single player is set to 1
 };
 #endif
-BOOL STORMAPI SNetGetPlayerCaps(char playerid, caps *playerCaps);
+BOOL STORMAPI SNetGetPlayerCaps(char playerid, CAPS *playerCaps);
 BOOL STORMAPI SNetGetPlayerName(int playerid, char *buffer, size_t buffersize);
-BOOL STORMAPI SNetGetProviderCaps(caps *providerCaps);
+BOOL STORMAPI SNetGetProviderCaps(CAPS *providerCaps);
 BOOL STORMAPI SNetGetTurnsInTransit(int *turns);
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
 

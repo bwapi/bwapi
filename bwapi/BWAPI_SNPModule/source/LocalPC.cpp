@@ -3,7 +3,7 @@
 
 namespace COMN
 {
-  bool __stdcall spiCompareNames(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult)
+  bool __stdcall spiCompareNetAddresses(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult)
   {
     // This function is complete
     if ( dwResult )
@@ -44,7 +44,7 @@ namespace COMN
     }
   }
 
-  bool __stdcall spiError(int a1, int a2, int a3)
+  bool __stdcall spiFreeExternalMessage(int a1, int a2, int a3)
   {
     // This function is complete
     SetLastError(ERROR_INVALID_PARAMETER);
@@ -109,14 +109,14 @@ namespace COMN
     return false;
   }
 
-  bool __stdcall spiEnumDevices(DWORD *a1)
+  bool __stdcall spiLockDeviceList(DWORD *a1)
   {
     // This function is complete
     *a1 = 0;
     return true;
   }
 
-  bool __stdcall spiReceive(SOCKADDR_IN **addr, char **data, DWORD *databytes)
+  bool __stdcall spiReceiveExternalMessage(SOCKADDR_IN **addr, char **data, DWORD *databytes)
   {
     // This function is complete
     if ( addr )
@@ -136,13 +136,13 @@ namespace COMN
     return false;
   }
 
-  bool __stdcall spiSend(int a1, int a2, int a3, int a4, int a5)
+  bool __stdcall spiSendExternalMessage(int a1, int a2, int a3, int a4, int a5)
   {
     // This function is complete
     return false;
   }
 
-  bool __stdcall spiInitialize()
+  bool __stdcall spiUnlockDeviceList()
   {
     // This function is complete
     return true;

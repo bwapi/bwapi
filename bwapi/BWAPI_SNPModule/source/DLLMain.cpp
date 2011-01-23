@@ -5,26 +5,26 @@
 
 netModule networks[] = {
   { "Local PC (UDP)", 'LUDP', "",
-    { sizeof(caps), 0, PKT_SIZE, 0, 0, 1000, 50, 8, 0},
+    { sizeof(CAPS), 0, PKT_SIZE, 0, 0, 1000, 50, 8, 0},
     { sizeof(netFunctions),
-      &COMN::spiCompareNames,
+      &COMN::spiCompareNetAddresses,
       &LUDP::spiDestroy,
       &COMN::spiFree,
-      &COMN::spiError,
+      &COMN::spiFreeExternalMessage,
       &COMN::spiGetGameInfo,
       &COMN::spiGetPerformanceData,
-      &LUDP::spiInitializeProvider,
+      &LUDP::spiInitialize,
       &COMN::spiInitializeDevice,
-      &COMN::spiEnumDevices,
+      &COMN::spiLockDeviceList,
       &LUDP::spiLockGameList,
-      &LUDP::spiReceiveFrom,
-      &COMN::spiReceive,
+      &LUDP::spiReceive,
+      &COMN::spiReceiveExternalMessage,
       &COMN::spiSelectGame,
-      &LUDP::spiSendTo,
-      &COMN::spiSend,
+      &LUDP::spiSend,
+      &COMN::spiSendExternalMessage,
       &LUDP::spiStartAdvertisingLadderGame,
       &LUDP::spiStopAdvertisingGame,
-      &COMN::spiInitialize,
+      &COMN::spiUnlockDeviceList,
       &LUDP::spiUnlockGameList,
       NULL,
       NULL,
@@ -36,26 +36,26 @@ netModule networks[] = {
       &COMN::spiLeagueGetName }
   },
   { "Local PC (Pipes)", 'LPIP', "",
-    { sizeof(caps), 0, PKT_SIZE, 0, 0, 100000, 200, 8, 0},
+    { sizeof(CAPS), 0, PKT_SIZE, 0, 0, 100000, 200, 8, 0},
     { sizeof(netFunctions),
-      &COMN::spiCompareNames,
+      &COMN::spiCompareNetAddresses,
       &LPIP::spiDestroy,
       &COMN::spiFree,
-      &COMN::spiError,
+      &COMN::spiFreeExternalMessage,
       &COMN::spiGetGameInfo,
       &COMN::spiGetPerformanceData,
-      &LPIP::spiInitializeProvider,
+      &LPIP::spiInitialize,
       &COMN::spiInitializeDevice,
-      &COMN::spiEnumDevices,
+      &COMN::spiLockDeviceList,
       &LPIP::spiLockGameList,
-      &LPIP::spiReceiveFrom,
-      &COMN::spiReceive,
+      &LPIP::spiReceive,
+      &COMN::spiReceiveExternalMessage,
       &COMN::spiSelectGame,
-      &LPIP::spiSendTo,
-      &COMN::spiSend,
+      &LPIP::spiSend,
+      &COMN::spiSendExternalMessage,
       &LPIP::spiStartAdvertisingLadderGame,
       &LPIP::spiStopAdvertisingGame,
-      &COMN::spiInitialize,
+      &COMN::spiUnlockDeviceList,
       &LPIP::spiUnlockGameList,
       NULL,
       NULL,
@@ -68,7 +68,7 @@ netModule networks[] = {
   }
 };
 
-BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName, char **ppszNetworkDescription, caps **ppCaps)
+BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName, char **ppszNetworkDescription, CAPS **ppCaps)
 {
   if ( dwNetworkCode && ppszNetworkName && ppszNetworkDescription && ppCaps )
   {
@@ -78,13 +78,13 @@ BOOL WINAPI SnpQuery(DWORD dwIndex, DWORD *dwNetworkCode, char **ppszNetworkName
       *dwNetworkCode          =  networks[LUDP_ID].dwIdentifier;
       *ppszNetworkName        =  networks[LUDP_ID].pszName;
       *ppszNetworkDescription =  networks[LUDP_ID].pszDescription;
-      *ppCaps                 = &networks[LUDP_ID].Caps;
+      *ppCaps                 = &networks[LUDP_ID].caps;
       return TRUE;
     case LPIP_ID:
       *dwNetworkCode          =  networks[LPIP_ID].dwIdentifier;
       *ppszNetworkName        =  networks[LPIP_ID].pszName;
       *ppszNetworkDescription =  networks[LPIP_ID].pszDescription;
-      *ppCaps                 = &networks[LPIP_ID].Caps;
+      *ppCaps                 = &networks[LPIP_ID].caps;
       return TRUE;
     default:
       return FALSE;

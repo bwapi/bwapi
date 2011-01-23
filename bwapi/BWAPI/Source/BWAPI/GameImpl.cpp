@@ -858,14 +858,14 @@ namespace BWAPI
   //--------------------------------------------------- LATENCY ----------------------------------------------
   int GameImpl::getLatencyFrames()
   {
-    caps _caps;
-    _caps.dwSize = sizeof(caps);
-    SNetGetProviderCaps(&_caps);
+    CAPS caps;
+    caps.dwSize = sizeof(CAPS);
+    SNetGetProviderCaps(&caps);
 
     DWORD dwCallDelay = 1;
     if ( *BW::BWDATA_NetMode )
     {
-      dwCallDelay = _caps.dwCallDelay;
+      dwCallDelay = caps.dwCallDelay;
       if ( dwCallDelay > 8 )
         dwCallDelay = 8;
       else if ( dwCallDelay < 2 )

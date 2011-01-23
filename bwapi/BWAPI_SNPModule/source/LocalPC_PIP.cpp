@@ -46,7 +46,7 @@ namespace LPIP
     return true;
   }
 
-  bool __stdcall spiInitializeProvider(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
+  bool __stdcall spiInitialize(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
   {
     /* Called when the module is loaded
        Perform all initialization functions here */
@@ -103,7 +103,7 @@ namespace LPIP
     return true;
   }
 
-  bool __stdcall spiReceiveFrom(SOCKADDR_IN **addr, char **data, DWORD *databytes)
+  bool __stdcall spiReceive(SOCKADDR_IN **addr, char **data, DWORD *databytes)
   {
     /* Passes pointers from queued receive data to storm */
     if ( !addr || !data || !databytes )
@@ -137,7 +137,7 @@ namespace LPIP
     return true;
   }
 
-  bool __stdcall spiSendTo(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen)
+  bool __stdcall spiSend(DWORD addrCount, SOCKADDR_IN **addrList, char *buf, DWORD bufLen)
   {
     /* Sends data to all listed addresses specified by storm */
     if ( !addrCount || !addrList || !buf || !bufLen || bufLen > PKT_SIZE )
