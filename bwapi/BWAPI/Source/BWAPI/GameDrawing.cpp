@@ -194,18 +194,8 @@ namespace BWAPI
   {
     noGUI = !enabled;
     if ( enabled )
-    {
-      BW::BWDATA_ScreenLayers[0].buffers = 1;
-      BW::BWDATA_ScreenLayers[1].buffers = 1;
-      BW::BWDATA_ScreenLayers[2].buffers = 1;
-      BW::BWDATA_ScreenLayers[5].buffers = 1;
-    }
+      setFrameSkip();
     else
-    {
-      BW::BWDATA_ScreenLayers[0].buffers = 0;
-      BW::BWDATA_ScreenLayers[1].buffers = 0;
-      BW::BWDATA_ScreenLayers[2].buffers = 0;
-      BW::BWDATA_ScreenLayers[5].buffers = 0;
-    }
+      setFrameSkip(999999); // IT'S OVER NINE THOUSAND!!11111111
   }
 };

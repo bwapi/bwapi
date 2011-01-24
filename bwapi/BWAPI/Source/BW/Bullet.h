@@ -37,13 +37,22 @@ namespace BW
     /*0x49*/ u8           unknown_0x49; //0x02 for vulture & wraiths; 0x01 for valkyries, goliath air attack, & missile turret; 0x21 for battle cruiser, 0x00 for marines, etc
     /*0x4A*/ u8           currentDirection;
     /*0x4B*/ u8           velocityDirection; //seems to always be the same as currentDirection
-    /*0x4C*/ s32          unknown_0x4C; //200, 400, or 500 - possibly some sort of state flags (weapon target flags? weapon type?)
-    /*0x50*/ s32          unknown_0x50; //usually holds e4 (Unknown unit type stuff?)
+    /*0x4C*/ u8           unknown_0x4C;
+    /*0x4D*/ u8           behaviourTypeInternal; // 0 = none
+                                                 // 1 = fly
+                                                 // 2 = fly & follow target
+                                                 // 3 = bounce
+                                                 // 4 = persist on site
+                                                 // 5 = appear on target/instant
+                                                 // 6 = attack target area
+    /*0x4E*/ u16          unknown_0x4E;
+    /*0x50*/ u16          someUnitType; //usually holds e4 (Unknown unit type stuff?)
+    /*0x52*/ u16          unknown_0x52; 
     /*0x54*/ s32          unknown_0x54; //usually holds 0
     /*0x58*/ BW::Position unknown_0x58; //same as unknown_0x10 for dragoons
     /*0x5C*/ BW::Unit*    targetUnit;
-    /*0x60*/ u8           time_left; // Is this really a  timer???
-    /*0x61*/ u8           max_time; // Is this really a  timer???
+    /*0x60*/ u8           weaponType;
+    /*0x61*/ u8           time_remaining;
     /*0x62*/ u8           unknown_0x62;
     /*0x63*/ u8           remainingBounces;  // Bounce count for mutalisk weapon
     /*0x64*/ BW::Unit*    sourceUnit;
