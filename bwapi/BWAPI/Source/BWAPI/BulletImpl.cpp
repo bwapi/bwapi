@@ -184,7 +184,7 @@ namespace BWAPI
         self->target = target->getID();
       self->targetPositionX = bwOriginalBullet->targetPosition.x;
       self->targetPositionY = bwOriginalBullet->targetPosition.y;
-      self->removeTimer     = bwOriginalBullet->max_time;
+      self->removeTimer     = bwOriginalBullet->time_remaining;
     }
     else
     {

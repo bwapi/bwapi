@@ -144,16 +144,19 @@ namespace BWAPI
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
 
-    //clear all shapes
-    foreach (BWAPI::Shape *i, this->shapes)
-      delete i;
-    this->shapes.clear();
+    if ( !noGUI )
+    {
+      //clear all shapes
+      foreach (BWAPI::Shape *i, this->shapes)
+        delete i;
+      this->shapes.clear();
 
 #ifdef _DEBUG
-    // menu dialog test update code
-    if ( myDlg )
-      myDlg->update();
+      // menu dialog test update code
+      if ( myDlg )
+        myDlg->update();
 #endif
+    }
 
     // Compute frame rate
     accumulatedFrames++;
@@ -417,6 +420,9 @@ namespace BWAPI
       this->frameCount++;
 
 #ifdef _DEBUG
+    if ( noGUI )
+      return;
+
     setTextSize(0);
     // unitdebug
     if ( unitDebug )
@@ -1165,10 +1171,12 @@ namespace BWAPI
     else if (parsed[0] == "/nogui")
     {
       setGUI(noGUI);
+      printf("nogui %s.", noGUI ? "enabled" : "disabled");
     }
     else if (parsed[0] == "/wmode")
     {
       ToggleWMode(640, 480);
+      printf("Toggled windowed mode.");
     }
     else if (parsed[0] == "/grid")
     {
