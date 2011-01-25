@@ -427,13 +427,9 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      for each ( Unit *_u in aliveUnits )
+      for ( unsigned int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i )
       {
-        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
-        if ( !u )
-          continue;
-        if ( u->AIOrderTargetUnit )
-          drawLineMap(u->position.x + 2, u->position.y - 2, u->AIOrderTargetUnit->position.x - 2, u->AIOrderTargetUnit->position.y + 2, _u->getPlayer()->getColor());
+        drawTextMap(BW::BWDATA_UnitNodeTable[i].position.x, BW::BWDATA_UnitNodeTable[i].position.y, "%s", BW::BWDATA_UnitNodeTable[i].type().getName().c_str());
       }
       // selected units
       if ( !selectedUnitSet.empty() )

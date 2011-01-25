@@ -140,7 +140,7 @@ void printUnitData(FILE *outWiki, UnitType u)
   fprintf(outWiki, "\n\n");
 }
 
-bool nameSort(const UnitType &u1, const UnitType &u2)
+bool unitNameSort(const UnitType &u1, const UnitType &u2)
 {
   return strcmp(maketitle(u1), maketitle(u2)) < 0;
 }
@@ -165,7 +165,7 @@ void writeUnitWiki()
   for each ( UnitType u in UnitTypes::allUnitTypes() )
     unitTypes.push_back(u);
 
-  std::sort(unitTypes.begin(), unitTypes.end(), nameSort);
+  std::sort(unitTypes.begin(), unitTypes.end(), unitNameSort);
 
   for each ( UnitType u in unitTypes )
     if ( u.getRace() == Races::Terran && !u.isHero() && !u.isBuilding() && !u.isSpell() && !u.isFlyer() )
@@ -289,5 +289,125 @@ void writeUnitWiki()
   fprintf(outWiki, "A macro type used to specify that we want to obtain data for only the buildings that can produce units.\n\n");
   fprintf(outWiki, "=== Unknown ===\n");
   fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is, and that it has been made unknown to us.\n\n");
+  fclose(outWiki);
+}
+
+void printWeaponData(FILE *outWiki, WeaponType w)
+{
+  fprintf(outWiki, "== %s ==\n", maketitle(w));
+  
+  fprintf(outWiki, "  * *Explosion Type*: %s\n", w.explosionType().getName().c_str());
+
+  if ( w.explosionType() == ExplosionTypes::Air_Splash      ||
+       w.explosionType() == ExplosionTypes::Corrosive_Acid  ||
+       w.explosionType() == ExplosionTypes::Enemy_Splash    ||
+       w.explosionType() == ExplosionTypes::Normal          ||
+       w.explosionType() == ExplosionTypes::Nuclear_Missile ||
+       w.explosionType() == ExplosionTypes::Radial_Splash   ||
+       w.explosionType() == ExplosionTypes::Yamato_Gun)
+  {
+    if ( w.damageAmount() || w.damageBonus() )
+    {
+      fprintf(outWiki, "  * *Damage Type*: %s\n", w.damageType().getName().c_str());
+      fprintf(outWiki, "  * *Damage*: %u\n", w.damageAmount());
+      if ( w.damageBonus() )
+        fprintf(outWiki, "  * *Bonus*: %u\n", w.damageBonus());
+      if ( w.explosionType() != ExplosionTypes::Yamato_Gun )
+        fprintf(outWiki, "  * *Factor*: %u\n", w.damageFactor());
+    }
+    fprintf(outWiki, "  * *Cooldown*: %u\n", w.damageCooldown());
+  }
+  if ( w.explosionType() == ExplosionTypes::Enemy_Splash ||
+       w.explosionType() == ExplosionTypes::Air_Splash ||
+       w.explosionType() == ExplosionTypes::Radial_Splash )
+    fprintf(outWiki, "  * *Splash Radius*: %u - %u - %u\n", w.innerSplashRadius(), w.medianSplashRadius(), w.outerSplashRadius());
+  fprintf(outWiki, "  * *Range*: %u - %u\n", w.minRange(), w.maxRange());
+
+  if ( w.getTech() != TechTypes::None )
+    fprintf(outWiki, "  * *Technology*: [TechTypes#%s %s]\n", makelink(w.getTech()));
+  if ( w.upgradeType() != UpgradeTypes::None )
+    fprintf(outWiki, "  * *Upgrade*: [UpgradeTypes#%s %s]\n", makelink(w.upgradeType()));
+
+  if ( w.targetsAir()         ||
+       w.targetsGround()      ||
+       w.targetsMechanical()  ||
+       w.targetsNonBuilding() ||
+       w.targetsNonRobotic()  ||
+       w.targetsOrganic()     ||
+       w.targetsOrgOrMech()   ||
+       w.targetsOwn()         ||
+       w.targetsTerrain() )
+  {
+    fprintf(outWiki, "\n  === Targets ===\n");
+    if ( w.targetsAir() )
+      fprintf(outWiki, "    * Air\n");
+    if ( w.targetsGround() )
+      fprintf(outWiki, "    * Ground\n");
+    if ( w.targetsMechanical() )
+      fprintf(outWiki, "    * Mechanical\n");
+    if ( w.targetsNonBuilding() )
+      fprintf(outWiki, "    * Non-Buildings\n");
+    if ( w.targetsNonRobotic() )
+      fprintf(outWiki, "    * Non-Robotic\n");
+    if ( w.targetsOrganic() )
+      fprintf(outWiki, "    * Organic\n");
+    if ( w.targetsOrgOrMech() )
+      fprintf(outWiki, "    * Organic or Mechanical\n");
+    if ( w.targetsOwn() )
+      fprintf(outWiki, "    * Own\n");
+    if ( w.targetsTerrain() )
+      fprintf(outWiki, "    * Terrain\n");
+  }
+  if ( w.whatUses() != UnitTypes::None )
+  {
+    fprintf(outWiki, "\n  === What Uses ===\n");
+    for each ( UnitType u in UnitTypes::allUnitTypes() )
+    {
+      if ( u.groundWeapon() == w || u.airWeapon() == w )
+        fprintf(outWiki, "    * [UnitTypes#%s %s]\n", makelink(u) );
+      for each ( TechType t in u.abilities() )
+        if ( t.getWeapon() == w )
+          fprintf(outWiki, "    * [UnitTypes#%s %s]\n", makelink(u) );
+    }
+  }
+  fprintf(outWiki, "\n\n");
+}
+
+bool weaponNameSort(const WeaponType &u1, const WeaponType &u2)
+{
+  return strcmp(maketitle(u1), maketitle(u2)) < 0;
+}
+
+void writeWeaponWiki()
+{
+  FILE *outWiki = fopen("WeaponTypes.wiki", "w");
+  if ( !outWiki )
+    return;
+
+  fprintf(outWiki, "#summary Weapon Types in BWAPI\n");
+  fprintf(outWiki, "#sidebar TableOfContents\n\n");
+
+  fprintf(outWiki, "This page contains a list of WeaponTypes provided by BWAPI.\n\n");
+
+  fprintf(outWiki, "<wiki:toc max_depth=\"3\" />\n\n");
+
+  std::vector<WeaponType> normWeaponTypes;
+  std::vector<WeaponType> spellWeaponTypes;
+  for each ( WeaponType u in WeaponTypes::normalWeaponTypes() )
+    normWeaponTypes.push_back(u);
+
+  for each ( WeaponType u in WeaponTypes::specialWeaponTypes() )
+    spellWeaponTypes.push_back(u);
+
+  std::sort(normWeaponTypes.begin(), normWeaponTypes.end(), weaponNameSort);
+  std::sort(spellWeaponTypes.begin(), spellWeaponTypes.end(), weaponNameSort);
+
+  fprintf(outWiki, "\n= Normal Weapons =\n");
+  for each ( WeaponType w in normWeaponTypes )
+    printWeaponData(outWiki, w);
+  fprintf(outWiki, "\n= Special Weapons =\n");
+  for each ( WeaponType w in spellWeaponTypes )
+    printWeaponData(outWiki, w);
+
   fclose(outWiki);
 }

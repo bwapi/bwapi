@@ -8,3 +8,4 @@
 #define maketitle(x) wiki(x.getName(), true).c_str()
 
 void writeUnitWiki();
+void writeWeaponWiki();

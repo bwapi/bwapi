@@ -175,6 +175,7 @@ namespace BWAPI
     extern const WeaponType Warp_Blades;
     extern const WeaponType Warp_Blades_Hero;
     extern const WeaponType Warp_Blades_Zeratul;
+    extern const WeaponType Independant_Laser_Battery;
 
     extern const WeaponType Yamato_Gun;
     extern const WeaponType Nuclear_Strike;
