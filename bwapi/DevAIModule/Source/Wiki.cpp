@@ -162,7 +162,7 @@ void printUnitData(FILE *outWiki, UnitType u)
 
 bool unitNameSort(const UnitType &u1, const UnitType &u2)
 {
-  return strcmp(maketitle(u1), maketitle(u2)) < 0;
+  return strcmpi(maketitle(u1), maketitle(u2)) < 0;
 }
 
 void writeUnitWiki()
@@ -405,7 +405,7 @@ void printWeaponData(FILE *outWiki, WeaponType w)
 
 bool weaponNameSort(const WeaponType &u1, const WeaponType &u2)
 {
-  return strcmp(maketitle(u1), maketitle(u2)) < 0;
+  return strcmpi(maketitle(u1), maketitle(u2)) < 0;
 }
 
 void writeWeaponWiki()
