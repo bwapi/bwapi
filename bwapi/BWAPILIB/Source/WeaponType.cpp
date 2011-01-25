@@ -159,6 +159,7 @@ namespace BWAPI
     const WeaponType Warp_Blades_Zeratul(85);
     const WeaponType Neutron_Flare(100);
     const WeaponType Halo_Rockets(103);
+    const WeaponType Independant_Laser_Battery(93);
 
     const WeaponType Yamato_Gun(30);
     const WeaponType Nuclear_Strike(31);
@@ -280,6 +281,7 @@ namespace BWAPI
       weaponTypeData[Warp_Blades.getID()].set("Warp Blades", TechTypes::None, 40, 3, 30, 1, UpgradeTypes::Protoss_Ground_Weapons, DamageTypes::Normal, ExplosionTypes::Normal, 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Protoss_Dark_Templar);
       weaponTypeData[Warp_Blades_Hero.getID()].set("Warp Blades (Hero)", TechTypes::None, 45, 1, 30, 1, UpgradeTypes::Protoss_Ground_Weapons, DamageTypes::Normal, ExplosionTypes::Normal, 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Hero_Dark_Templar);
       weaponTypeData[Warp_Blades_Zeratul.getID()].set("Warp Blades (Zeratul)", TechTypes::None, 100, 1, 22, 1, UpgradeTypes::Protoss_Ground_Weapons, DamageTypes::Normal, ExplosionTypes::Normal, 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Hero_Zeratul);
+      weaponTypeData[Independant_Laser_Battery.getID()].set("Independant Laser Battery", TechTypes::None, 7, 1, 22, 1, UpgradeTypes::None, DamageTypes::Normal, ExplosionTypes::Normal, 0, 8, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Special_Independant_Starport);
       weaponTypeData[None.getID()].set("None", TechTypes::None, 0, 0, 0, 0, UpgradeTypes::None, DamageTypes::None, ExplosionTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::None);
       weaponTypeData[Unknown.getID()].set("Unknown", TechTypes::None, 0, 0, 0, 0, UpgradeTypes::None, DamageTypes::None, ExplosionTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::None);
 
@@ -359,6 +361,7 @@ namespace BWAPI
       weaponTypeSet.insert(Warp_Blades);
       weaponTypeSet.insert(Warp_Blades_Hero);
       weaponTypeSet.insert(Warp_Blades_Zeratul);
+      weaponTypeSet.insert(Independant_Laser_Battery);
 
       normalWeaponTypeSet.insert(Gauss_Rifle);
       normalWeaponTypeSet.insert(Gauss_Rifle_Jim_Raynor);
@@ -436,6 +439,7 @@ namespace BWAPI
       normalWeaponTypeSet.insert(Warp_Blades);
       normalWeaponTypeSet.insert(Warp_Blades_Hero);
       normalWeaponTypeSet.insert(Warp_Blades_Zeratul);
+      normalWeaponTypeSet.insert(Independant_Laser_Battery);
 
       weaponTypeSet.insert(Yamato_Gun);
       weaponTypeSet.insert(Nuclear_Strike);

@@ -303,6 +303,8 @@ namespace BWAPI
     const UnitType Protoss_Scarab(85);
     const UnitType Critter_Rhynadon(89);
     const UnitType Critter_Bengalaas(90);
+    const UnitType Special_Cargo_Ship(91);
+    const UnitType Special_Mercenary_Gunship(92);
     const UnitType Critter_Scantid(93);
     const UnitType Critter_Kakaru(94);
     const UnitType Critter_Ragnasaur(95);
@@ -373,6 +375,9 @@ namespace BWAPI
     const UnitType Special_Protoss_Temple(174);
     const UnitType Special_XelNaga_Temple(175);
     const UnitType Resource_Mineral_Field(176);
+    const UnitType Resource_Mineral_Field_Type_2(177);
+    const UnitType Resource_Mineral_Field_Type_3(178);
+    const UnitType Special_Independant_Starport(184);
     const UnitType Resource_Vespene_Geyser(188);
     const UnitType Special_Warp_Gate(189);
     const UnitType Special_Psi_Disrupter(190);
@@ -392,6 +397,14 @@ namespace BWAPI
     const UnitType Powerup_Psi_Emitter(217);
     const UnitType Powerup_Data_Disk(218);
     const UnitType Powerup_Khaydarin_Crystal(219);
+    const UnitType Powerup_Mineral_Cluster_Type_1(220);
+    const UnitType Powerup_Mineral_Cluster_Type_2(221);
+    const UnitType Powerup_Protoss_Gas_Orb_Type_1(222);
+    const UnitType Powerup_Protoss_Gas_Orb_Type_2(223);
+    const UnitType Powerup_Zerg_Gas_Sac_Type_1(224);
+    const UnitType Powerup_Zerg_Gas_Sac_Type_2(225);
+    const UnitType Powerup_Terran_Gas_Tank_Type_1(226);
+    const UnitType Powerup_Terran_Gas_Tank_Type_2(227);
     const UnitType None(228);
     const UnitType AllUnits(229);
     const UnitType Men(230);
@@ -491,6 +504,8 @@ namespace BWAPI
       unitTypeData[Protoss_Scarab.getID()].set("Protoss Scarab", Races::Protoss, 0, Protoss_Reaver, 1, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::Protoss_Ground_Armor, 20, 10, 0, 0, 15, 0, 105, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Small, 1, 1, 2, 2, 2, 2, 128, 160, WeaponTypes::Scarab, 1, WeaponTypes::None, 0, 16, 1, 1, 27, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Critter_Rhynadon.getID()].set("Critter Rhynadon", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 60, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 10, UnitSizeTypes::Small, 1, 1, 16, 16, 15, 15, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
       unitTypeData[Critter_Bengalaas.getID()].set("Critter Bengalaas", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 60, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 10, UnitSizeTypes::Small, 1, 1, 16, 16, 15, 15, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+      unitTypeData[Special_Cargo_Ship.getID()].set("Special Cargo Ship", Races::Other,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,125,0,0,1,100,100,600,0,0,255,0,0,0, UnitSizeTypes::Medium,1,1,15,15,16,16,256,256, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Special_Mercenary_Gunship.getID()].set("Special Mercenary Gunship", Races::Other,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,125,0,0,1,100,100,600,0,0,255,0,0,0, UnitSizeTypes::Medium,1,1,15,15,16,16,128,224, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
       unitTypeData[Critter_Scantid.getID()].set("Critter Scantid", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 60, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 10, UnitSizeTypes::Small, 1, 1, 16, 16, 15, 15, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
       unitTypeData[Critter_Kakaru.getID()].set("Critter Kakaru", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 60, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 10, UnitSizeTypes::Small, 1, 1, 16, 16, 15, 15, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 5, 16, 51200, 14, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
       unitTypeData[Critter_Ragnasaur.getID()].set("Critter Ragnasaur", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 60, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 10, UnitSizeTypes::Small, 1, 1, 16, 16, 15, 15, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 4, 1, 1, 27, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
@@ -561,6 +576,9 @@ namespace BWAPI
       unitTypeData[Special_Protoss_Temple.getID()].set("Special Protoss Temple", Races::Protoss, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 1500, 0, 0, 1, 250, 0, 1, 0, 0, 255, 0, 0, 5000, UnitSizeTypes::Large, 7, 3, 112, 48, 111, 47, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_XelNaga_Temple.getID()].set("Special XelNaga Temple", Races::Protoss, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 5000, 0, 0, 1, 1500, 500, 4800, 0, 0, 255, 0, 0, 5000, UnitSizeTypes::Large, 5, 4, 80, 34, 79, 63, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Resource_Mineral_Field.getID()].set("Resource Mineral Field", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 10, 10, UnitSizeTypes::Independent, 2, 1, 32, 16, 31, 15, 0, 288, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0);
+      unitTypeData[Resource_Mineral_Field_Type_2.getID()].set("Resource Mineral Field Type 2", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 10, 10, UnitSizeTypes::Independent, 2, 1, 32, 16, 31, 15, 0, 288, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0);
+      unitTypeData[Resource_Mineral_Field_Type_3.getID()].set("Resource Mineral Field Type 3", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 10, 10, UnitSizeTypes::Independent, 2, 1, 32, 16, 31, 15, 0, 288, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0);
+      unitTypeData[Special_Independant_Starport.getID()].set("Special Independant Starport", Races::Other,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,10,10, UnitSizeTypes::Independent,2,2,32,32,31,31,0,288, WeaponTypes::Independant_Laser_Battery,1, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0);
       unitTypeData[Resource_Vespene_Geyser.getID()].set("Resource Vespene Geyser", Races::Other, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 10, 10, UnitSizeTypes::Independent, 4, 2, 64, 32, 63, 31, 0, 288, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0);
       unitTypeData[Special_Warp_Gate.getID()].set("Special Warp Gate", Races::Protoss, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 700, 0, 0, 1, 600, 200, 2400, 0, 0, 255, 0, 0, 2000, UnitSizeTypes::Large, 3, 2, 48, 32, 47, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Psi_Disrupter.getID()].set("Special Psi Disrupter", Races::Terran, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2000, 0, 0, 1, 1000, 400, 4800, 0, 0, 255, 0, 0, 3600, UnitSizeTypes::Large, 5, 3, 80, 38, 69, 47, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
@@ -580,6 +598,15 @@ namespace BWAPI
       unitTypeData[Powerup_Psi_Emitter.getID()].set("Powerup Psi Emitter", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 1, 1, 16, 16, 15, 15, 0, 160, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Powerup_Data_Disk.getID()].set("Powerup Data Disk", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 1, 1, 16, 16, 15, 15, 0, 160, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Powerup_Khaydarin_Crystal.getID()].set("Powerup Khaydarin Crystal", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 0, 1, 1, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 1, 1, 16, 16, 15, 15, 0, 160, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      unitTypeData[Powerup_Mineral_Cluster_Type_1.getID()].set("Powerup Mineral Cluster Type 1", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Mineral_Cluster_Type_2.getID()].set("Powerup Mineral Cluster Type 2", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Protoss_Gas_Orb_Type_1.getID()].set("Powerup Protoss Gas Orb Type 1", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Protoss_Gas_Orb_Type_2.getID()].set("Powerup Protoss Gas Orb Type 2", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Zerg_Gas_Sac_Type_1.getID()].set("Powerup Zerg Gas Sac Type 1", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Zerg_Gas_Sac_Type_2.getID()].set("Powerup Zerg Gas Sac Type 2", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Terran_Gas_Tank_Type_1.getID()].set("Powerup Terran Gas Tank Type 1", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+      unitTypeData[Powerup_Terran_Gas_Tank_Type_2.getID()].set("Powerup Terran Gas Tank Type 2", Races::None,0, None,0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None,800,0,0,0,1,1,1,0,0,255,0,0,0, UnitSizeTypes::Independent,1,1,16,16,15,15,0,160, WeaponTypes::None,0, WeaponTypes::None,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
       unitTypeData[None.getID()].set("None", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[AllUnits.getID()].set("All Units", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       unitTypeData[Men.getID()].set("Men", Races::None, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, UnitSizeTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -592,6 +619,7 @@ namespace BWAPI
       unitTypeData[Hero_Gantrithor.getID()].canAttack        = true;
       unitTypeData[Hero_Warbringer.getID()].canAttack        = true;
       unitTypeData[Terran_Nuclear_Missile.getID()].canAttack = true;
+      unitTypeData[Special_Independant_Starport.getID()].canAttack = false;
 
       foreach(UpgradeType i, UpgradeTypes::allUpgradeTypes())
       {
@@ -689,6 +717,8 @@ namespace BWAPI
       unitTypeSet.insert(Protoss_Scarab);
       unitTypeSet.insert(Critter_Rhynadon);
       unitTypeSet.insert(Critter_Bengalaas);
+      unitTypeSet.insert(Special_Cargo_Ship);
+      unitTypeSet.insert(Special_Mercenary_Gunship);
       unitTypeSet.insert(Critter_Scantid);
       unitTypeSet.insert(Critter_Kakaru);
       unitTypeSet.insert(Critter_Ragnasaur);
@@ -759,6 +789,9 @@ namespace BWAPI
       unitTypeSet.insert(Special_Protoss_Temple);
       unitTypeSet.insert(Special_XelNaga_Temple);
       unitTypeSet.insert(Resource_Mineral_Field);
+      unitTypeSet.insert(Resource_Mineral_Field_Type_2);
+      unitTypeSet.insert(Resource_Mineral_Field_Type_3);
+      unitTypeSet.insert(Special_Independant_Starport);
       unitTypeSet.insert(Resource_Vespene_Geyser);
       unitTypeSet.insert(Special_Warp_Gate);
       unitTypeSet.insert(Special_Psi_Disrupter);
@@ -778,6 +811,14 @@ namespace BWAPI
       unitTypeSet.insert(Powerup_Psi_Emitter);
       unitTypeSet.insert(Powerup_Data_Disk);
       unitTypeSet.insert(Powerup_Khaydarin_Crystal);
+      unitTypeSet.insert(Powerup_Mineral_Cluster_Type_1);
+      unitTypeSet.insert(Powerup_Mineral_Cluster_Type_2);
+      unitTypeSet.insert(Powerup_Protoss_Gas_Orb_Type_1);
+      unitTypeSet.insert(Powerup_Protoss_Gas_Orb_Type_2);
+      unitTypeSet.insert(Powerup_Zerg_Gas_Sac_Type_1);
+      unitTypeSet.insert(Powerup_Zerg_Gas_Sac_Type_2);
+      unitTypeSet.insert(Powerup_Terran_Gas_Tank_Type_1);
+      unitTypeSet.insert(Powerup_Terran_Gas_Tank_Type_2);
       unitTypeSet.insert(None);
       unitTypeSet.insert(Unknown);
 
