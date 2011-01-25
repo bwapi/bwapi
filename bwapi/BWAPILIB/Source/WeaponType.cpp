@@ -638,10 +638,10 @@ namespace BWAPI
   }
   std::set<WeaponType>& WeaponTypes::normalWeaponTypes()
   {
-    return weaponTypeSet;
+    return normalWeaponTypeSet;
   }
   std::set<WeaponType>& WeaponTypes::specialWeaponTypes()
   {
-    return weaponTypeSet;
+    return specialWeaponTypeSet;
   }
 }

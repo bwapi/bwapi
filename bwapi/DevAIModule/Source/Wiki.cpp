@@ -253,7 +253,12 @@ void writeUnitWiki()
   fprintf(outWiki, "\n= Other =\n");
   fprintf(outWiki, "\n== Critters ==\n");
   for each ( UnitType u in unitTypes )
-    if ( u.getRace() == Races::Other && !u.isBuilding() && !u.isPowerup() && !u.isResourceContainer() )
+    if ( u.getRace() == Races::Other && 
+         !u.isBuilding() && 
+         !u.isPowerup() && 
+         !u.isResourceContainer() &&
+         u != UnitTypes::Special_Cargo_Ship &&
+         u != UnitTypes::Special_Mercenary_Gunship)
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Resources ==\n");
@@ -276,6 +281,11 @@ void writeUnitWiki()
     if ( u.isPowerup() )
       printUnitData(outWiki, u);
 
+  fprintf(outWiki, "\n== Special ==\n");
+  printUnitData(outWiki, UnitTypes::Special_Cargo_Ship);
+  printUnitData(outWiki, UnitTypes::Special_Mercenary_Gunship);
+  printUnitData(outWiki, UnitTypes::Special_Independant_Starport);
+
   fprintf(outWiki, "\n== Misc ==\n");
   fprintf(outWiki, "=== None ===\n");
   fprintf(outWiki, "A type used to specify that no unit type exists.\n\n");
@@ -288,7 +298,7 @@ void writeUnitWiki()
   fprintf(outWiki, "=== Factories ===\n");
   fprintf(outWiki, "A macro type used to specify that we want to obtain data for only the buildings that can produce units.\n\n");
   fprintf(outWiki, "=== Unknown ===\n");
-  fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is, and that it has been made unknown to us.\n\n");
+  fprintf(outWiki, "A type used to specify that we shouldn't know what the unit is, and that it has been made unknown to us. It is also used for unit types that have not been implemented.\n\n");
   fclose(outWiki);
 }
 
@@ -389,7 +399,7 @@ void writeWeaponWiki()
 
   fprintf(outWiki, "This page contains a list of WeaponTypes provided by BWAPI.\n\n");
 
-  fprintf(outWiki, "<wiki:toc max_depth=\"3\" />\n\n");
+  fprintf(outWiki, "<wiki:toc max_depth=\"2\" />\n\n");
 
   std::vector<WeaponType> normWeaponTypes;
   std::vector<WeaponType> spellWeaponTypes;
@@ -409,5 +419,9 @@ void writeWeaponWiki()
   for each ( WeaponType w in spellWeaponTypes )
     printWeaponData(outWiki, w);
 
+  fprintf(outWiki, "= None =\n");
+  fprintf(outWiki, "A type used to specify that no weapon type exists.\n\n");
+  fprintf(outWiki, "= Unknown =\n");
+  fprintf(outWiki, "A type used to specify that we shouldn't know what the weapon type is, and that it has been made unknown to us. It is also used for weapon types that have not been implemented.\n\n");
   fclose(outWiki);
 }
