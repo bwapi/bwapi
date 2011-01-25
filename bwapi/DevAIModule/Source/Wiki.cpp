@@ -7,23 +7,43 @@ std::string wiki(std::string name, bool makeTitle = false)
   char temp[64];
   strcpy(temp, name.c_str());
 
-  bool inword = false;
+  bool inword      = false;
+  bool inAcronym   = false;
+  bool testAcronym = true;
   size_t tlen = strlen(temp);
   for ( unsigned int i = 0; i < tlen; ++i )
   {
+    if ( !inword )
+    {
+      int i2 = 0;
+      while ( isalpha(temp[i+i2]) )
+      {
+        if ( islower(temp[i+i2]) )
+        {
+          inAcronym = false;
+          break;
+        }
+        inAcronym = true;
+        ++i2;
+      }
+    }
+    
     if ( temp[i] == ' ' )
     {
       inword = false;
       if ( !makeTitle )
         temp[i] = '_';
     }
+    else if ( !isalpha(temp[i]) )
+    {
+      inword = false;
+    }
     else
     {
-      if ( inword )
+      if ( inword && !inAcronym )
         temp[i] = tolower(temp[i]);
       inword = true;
     }
-
   }
   return std::string(temp);
 }
