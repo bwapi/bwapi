@@ -22,6 +22,8 @@ void DevAIModule::onStart()
   mapW = bw->mapWidth();
   startTicks = GetTickCount();
 
+  bw->setGUI(false);
+  bw->setLocalSpeed(0);
 }
 
 void DevAIModule::onEnd(bool isWinner)
