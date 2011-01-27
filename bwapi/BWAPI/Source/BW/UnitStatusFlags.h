@@ -38,7 +38,7 @@ namespace BW
       SpeedUpgrade          = 0x10000000,
       CooldownUpgrade       = 0x20000000,
       IsHallucination       = 0x40000000,  /**< 1 for hallucinated units, 0 for "normal" units */
-      UNKNOWN9              = 0x80000000,
+      IsSelfDestructing     = 0x80000000  // Set for when the unit is self-destructing (scarab, scourge, infested terran)
     };
   };
 };
