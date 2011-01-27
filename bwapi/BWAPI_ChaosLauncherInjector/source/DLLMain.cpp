@@ -135,15 +135,17 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
   if ( !hThread )
-    BWAPIError("Unable to create remote thread.");
+    BWAPIError("Unable to create remote thread.\nError Code: 0x%p", GetLastError());
 
-  WaitForSingleObject(hThread, INFINITE);
+  if ( WaitForSingleObject(hThread, INFINITE) == WAIT_FAILED )
+    BWAPIError("WaitForSingleObject failed.\nError Code: 0x%p", GetLastError());
 
-  DWORD hLibModule = NULL;
-  GetExitCodeThread(hThread, &hLibModule);
+  DWORD dwExitCode = NULL;
+  if ( !GetExitCodeThread(hThread, &dwExitCode) )
+    BWAPIError("GetExitCodeThread failed.\nError Code: 0x%p", GetLastError());
 
-  if ( !hLibModule )
-    BWAPIError("Injection failed.\nThis may be caused by mixing DEBUG and RELEASE builds.");
+  if ( !dwExitCode )
+    BWAPIError("Injection failed.\nThis may be caused by mixing DEBUG and RELEASE builds. \nExit Code: 0x%p\nError Code: 0x%p", dwExitCode, GetLastError());
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);
