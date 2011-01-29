@@ -264,10 +264,10 @@ namespace BW
     /*0x134*/ void                                *CAIControl;        // pointer to AI class, we're not using this though
     /*0x138*/ u16                                 airStrength;        /**< verified */
     /*0x13A*/ u16                                 groundStrength;     /**< verified */
-    /*0x13C*/ u32                                 leftMostUnitOrder;  // Left-to-right order (triggers for example)
-    /*0x140*/ u32                                 leftMostUnitOrder2; // Left-to-right variant
-    /*0x144*/ u32                                 topMostUnitOrder;   // Top-to-bottom order
-    /*0x148*/ u32                                 topMostUnitOrder2;  // Top-to-bottom variant
+    /*0x13C*/ u32                                 unitFinderIndexLeft;    // Order for the unit's left boundry
+    /*0x140*/ u32                                 unitFinderIndexRight;   // Order for the unit's right boundry
+    /*0x144*/ u32                                 unitFinderIndexTop;     // Order for the unit's top boundry
+    /*0x148*/ u32                                 unitFinderIndexBottom;  // Order for the unit's bottom boundry
     /*0x14C*/ u8                                  _repulseUnknown;     /**< @todo Unknown */
     /*0x14D*/ u8                                  repulseAngle;       // updated only when air unit is being pushed
     /*0x14E*/ u8                                  driftPosX;          /**< (mapsizex/1.5 max) */

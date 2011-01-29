@@ -427,33 +427,23 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      for ( unsigned int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i )
+      BW::unitFinder *findX = BW::BWDATA_UnitOrderingX;
+      BW::unitFinder *findY = BW::BWDATA_UnitOrderingY;
+      for each ( Unit *_u in aliveUnits )
       {
-        drawTextMap(BW::BWDATA_UnitNodeTable[i].position.x, BW::BWDATA_UnitNodeTable[i].position.y, "%s", BW::BWDATA_UnitNodeTable[i].type().getName().c_str());
+        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
+
+        drawBoxMap(findX[u->unitFinderIndexLeft].searchValue,
+                   findY[u->unitFinderIndexTop].searchValue,
+                   findX[u->unitFinderIndexRight].searchValue,
+                   findY[u->unitFinderIndexBottom].searchValue,
+                   Colors::Orange);
       }
-      // selected units
-      if ( !selectedUnitSet.empty() )
+      for ( int x = 0; x < 3399 && findX[x].unitIndex && findX[x+1].unitIndex; ++x )
       {
-        BW::Unit *u = ((UnitImpl*)(*selectedUnitSet.begin()))->getOriginalRawData;
-        if ( u )
-        {
-          drawTextScreen(8, 1, "_unknown_0x026: %02X", u->_unknown_0x026);
-          drawTextScreen(8, 11, "orderState: %02X", u->orderState);
-          drawTextScreen(8, 21, "_unused_0x052: %04X", u->_unused_0x052);
-          drawTextScreen(8, 31, "_unused_0x066: %04X", u->_unused_0x066);
-          drawTextScreen(8, 41, "_unknown_0x086: %02X", u->_unknown_0x086);
-          drawTextScreen(8, 51, "_unknownTimer_0x087: %02X", u->_unknownTimer_0x087);
-          drawTextScreen(8, 61, "_unused_0x08C: %04X", u->_unused_0x08C);
-          drawTextScreen(8, 71, "userActionFlags: %02X", u->userActionFlags);
-          drawTextScreen(8, 81, "targetOrderSpecial: %02X", u->targetOrderSpecial);
-          drawTextScreen(8, 91, "buildingOverlayState: %02X", u->buildingOverlayState);
-          drawTextScreen(8, 101, "status: %p", u->statusFlags);
-          drawTextScreen(8, 111, "_unknown_0x0E8: %04X", u->_unknown_0x0E8);
-          drawTextScreen(8, 121, "_unknown_0x0EA: %04X", u->_unknown_0x0EA);
-          drawTextScreen(8, 131, "_unused_0x106: %02X", u->_unused_0x106);
-          drawTextScreen(8, 141, "_unused_0x125: %02X", u->_unused_0x125);
-          drawTextScreen(8, 151, "_unused_0x132: %04X", u->_unused_0x132);
-        }
+        BW::Position p1 = BW::BWDATA_UnitNodeTable[findX[x].unitIndex-1].position;
+        BW::Position p2 = BW::BWDATA_UnitNodeTable[findX[x+1].unitIndex-1].position;
+        drawLineMap(findX[x].searchValue, p1.y, findX[x+1].searchValue, p2.y, Colors::Purple);
       }
     } // unitdebug
 

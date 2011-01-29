@@ -200,6 +200,15 @@ namespace BW
   static Bullet **BWDATA_BulletNodeTable_LastElement  = (Bullet**)0x0064DEC4;
   static Bullet *BWDATA_BulletNodeTable               = (Bullet*) 0x0064B2E8;
 
+  struct unitFinder
+  {
+    int unitIndex;
+    int searchValue;
+  };
+  // array size 3400 (1700 * 2) for each
+  static unitFinder *BWDATA_UnitOrderingX             = (unitFinder*)0x0066FF78;
+  static unitFinder *BWDATA_UnitOrderingY             = (unitFinder*)0x006769B8;
+
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
   /* Mode Stuff */
   static u8             *BWDATA_gameType       = (u8*)  0x00596820;
