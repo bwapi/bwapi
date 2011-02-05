@@ -324,7 +324,7 @@ namespace BWAPI
                        self->order == BW::OrderID::Burrowed     ||
                        self->order == BW::OrderID::NukeTrain    ||
                        self->order == BW::OrderID::Larva;
-      self->target          = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(o->targetUnit)); //getTarget
+      self->target          = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(o->moveToUnit)); //getTarget
       self->targetPositionX = o->moveToPos.x;  //getTargetPosition
       self->targetPositionY = o->moveToPos.y;  //getTargetPosition
       self->orderTarget     = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->orderTargetUnit));  //getOrderTarget

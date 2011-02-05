@@ -563,21 +563,21 @@ namespace BWAPI
     return getGroundHeight(position.x(),position.y());
   }
   //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(int x, int y)
+  bool GameImpl::isBuildable(int x, int y, bool includeBuildings)
   {
-    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
+    if ( x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight )
       return 0;
-    return data->isBuildable[x][y];
+    return data->isBuildable[x][y] && ( includeBuildings ? !data->isOccupied[x][y] : true );
   }
   //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(TilePosition position)
+  bool GameImpl::isBuildable(TilePosition position, bool includeBuildings)
   {
-    return isBuildable(position.x(),position.y());
+    return isBuildable(position.x(), position.y(), includeBuildings);
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool GameImpl::isVisible(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
+    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
       return 0;
     return data->isVisible[x][y];
   }

@@ -201,9 +201,9 @@ namespace BWAPI
       /** Returns true if the specified build tile is buildable. Note that this just uses the static map data.
        * You will also need to make sure no ground units on the tile to see if its currently buildable. To do
        * this, see unitsOnTile. */
-      virtual bool isBuildable(int tileX, int tileY) = 0;
+      virtual bool isBuildable(int tileX, int tileY, bool includeBuildings = false) = 0;
       /** \copydoc isBuildable(int, int) */
-      virtual bool isBuildable(TilePosition position) = 0;
+      virtual bool isBuildable(TilePosition position, bool includeBuildings = false) = 0;
 
       /** Returns true if the specified build tile is visible. If the tile is concealed by fog of war, the
        * function will return false. */

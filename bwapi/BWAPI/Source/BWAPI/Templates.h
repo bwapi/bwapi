@@ -50,14 +50,14 @@ namespace BWAPI
         for(int iy = top; iy < bottom; ++iy)
         {
           // Check if tile is buildable and explored
-          if ( !Broodwar->isBuildable(ix, iy) || ( checkExplored && !Broodwar->isExplored(ix, iy)) )
+          if ( !Broodwar->isBuildable(ix, iy, true) || ( checkExplored && !Broodwar->isExplored(ix, iy)) )
             return false; // @TODO: Error code for !isExplored ??
-
-          // Check if builder is capable of reaching the building site
-          if ( builder && !builder->getType().isFlagBeacon() && !builder->hasPath( (Position)TilePosition(ix, iy) ) )
-            return false;
         }
       }
+
+      // Check if builder is capable of reaching the building site
+      if ( builder && !builder->getType().isFlagBeacon() && !builder->hasPath( (Position)TilePosition(left + width/2, top + height/2) ) )
+        return false;
 
       /* Ground unit dimension check */
       int targetX = left * 32 + type.tileWidth()  * 32 / 2;
@@ -69,7 +69,10 @@ namespace BWAPI
           foreach(Unit *u, Broodwar->getUnitsOnTile(ix,iy))
           {
             BWAPI::UnitType iterType = u->getType();
-            if ( !iterType.isFlyer() && !u->isLoaded() && !u->isLifted() && u != builder &&
+            if ( !iterType.isBuilding() &&
+                 !iterType.isFlyer()    &&
+                 !u->isLoaded()         &&
+                 u != builder           &&
                  u->getPosition().x() + iterType.dimensionRight() >= targetX - type.dimensionLeft()  &&
                  u->getPosition().y() + iterType.dimensionDown()  >= targetY - type.dimensionUp()    &&
                  u->getPosition().x() - iterType.dimensionLeft()  <= targetX + type.dimensionRight() &&

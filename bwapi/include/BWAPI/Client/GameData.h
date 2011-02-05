@@ -89,6 +89,7 @@ namespace BWAPI
     bool isVisible[256][256];
     bool isExplored[256][256];
     bool hasCreep[256][256];
+    bool isOccupied[256][256];
 
     unsigned short mapTileRegionId[256][256];
     unsigned short mapSplitTilesMiniTileMask[5000];
