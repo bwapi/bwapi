@@ -39,7 +39,7 @@ namespace BW
                                                                           */
     /*0x00C*/ BW::Sprite                          *sprite;
     /*0x010*/ BW::Position                        moveToPos;
-    /*0x014*/ BW::Unit                            *targetUnit;
+    /*0x014*/ BW::Unit                            *moveToUnit;          // The original description "target unit" was incorrect
     /*0x018*/ BW::Position                        nextMovementWaypoint;  /**< The next way point in the path the unit is following to get to its destination.
                                                                         * Equal to moveToPos for air units since they don't need to navigate around buildings
                                                                         * or other units.

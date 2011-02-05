@@ -70,9 +70,10 @@ namespace BWAPI
         for(int y = 0; y < h; ++y)
         {
           BW::activeTile tileData = (*activeTiles)[y][x];
-          data->isVisible[x][y]  = tileData.bVisibilityFlags != 255;
-          data->isExplored[x][y] = tileData.bExploredFlags   != 255;
-          data->hasCreep[x][y]   = tileData.bTemporaryCreep  != 0;
+          data->isVisible[x][y]  = tileData.bVisibilityFlags   != 255;
+          data->isExplored[x][y] = tileData.bExploredFlags     != 255;
+          data->hasCreep[x][y]   = tileData.bTemporaryCreep    != 0;
+          data->isOccupied[x][y] = tileData.bCurrentlyOccupied != 0;
         }
       }
     }
@@ -88,6 +89,7 @@ namespace BWAPI
           data->isVisible[x][y]   = !(tileData.bVisibilityFlags & playerFlag);
           data->isExplored[x][y]  = !(tileData.bExploredFlags & playerFlag);
           data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && tileData.bTemporaryCreep != 0;
+          data->isOccupied[x][y]  = (data->isVisible[x][y] || completeMapInfo) && tileData.bCurrentlyOccupied != 0;
         }
       }
     }
@@ -132,6 +134,13 @@ namespace BWAPI
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     return (*this->activeTiles)[y][x].bTemporaryCreep != 0;
+  }
+  //---------------------------------------------- IS OCCUPIED -----------------------------------------------
+  bool Map::isOccupied(int x, int y) const
+  {
+    if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
+      return false;
+    return (*this->activeTiles)[y][x].bCurrentlyOccupied != 0;
   }
   //--------------------------------------------- GROUND HEIGHT ----------------------------------------------
   int Map::groundHeight(int x, int y) const

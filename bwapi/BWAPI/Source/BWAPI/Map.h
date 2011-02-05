@@ -32,7 +32,8 @@ namespace BWAPI
       bool visible(int x, int y) const;
       bool isExplored(int x, int y) const;
       bool hasCreep(int x, int y) const;
-      int groundHeight(int x, int y) const;
+      bool isOccupied(int x, int y) const;
+      int  groundHeight(int x, int y) const;
 
       /** Loads buildability/walkability arrays from the currently opened map. */
       void load();

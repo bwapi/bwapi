@@ -125,8 +125,8 @@ namespace BWAPI
       virtual bool isWalkable(int x, int y);
       virtual int  getGroundHeight(int x, int y);
       virtual int  getGroundHeight(TilePosition position);
-      virtual bool isBuildable(int x, int y);
-      virtual bool isBuildable(TilePosition position);
+      virtual bool isBuildable(int x, int y, bool includeBuildings = false);
+      virtual bool isBuildable(TilePosition position, bool includeBuildings = false);
       virtual bool isVisible(int x, int y);
       virtual bool isVisible(TilePosition position);
       virtual bool isExplored(int x, int y);
