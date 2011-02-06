@@ -25,7 +25,8 @@ namespace BWAPIC
       SetTextSize,
       SetLatCom,
       SetGui,
-      SetFrameSkip
+      SetFrameSkip,
+      SetMap
     };
   }
 }
