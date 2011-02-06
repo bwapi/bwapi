@@ -557,6 +557,9 @@ namespace BWAPI
         if (Broodwar->isInGame())
           Broodwar->setFrameSkip(v1);
         break;
+      case BWAPIC::CommandType::SetMap:
+        Broodwar->setMap(data->strings[v1]);
+        break;
       default:
         break;
       }

@@ -1041,8 +1041,7 @@ namespace BWAPI
     if ( GetFileAttributes(mapFileName) == INVALID_FILE_ATTRIBUTES )
       return setLastError(Errors::File_Not_Found);
 
-    // @TODO: Implement
-    //strcpy(BW::BWDATA_CurrentMapFileName, mapFileName);
+    addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );
     return setLastError(Errors::None);
   }
 };
