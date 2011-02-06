@@ -21,11 +21,7 @@ struct stormAlloc
 {
   void          *location;
   bool          memLeak;
-#ifdef _DEBUG
-  char          logName[MAX_PATH];
-  int           logline;
   char          lastFile[MAX_PATH];
-#endif
 };
 std::list<stormAlloc> allocations;
 std::list<stormAlloc> leaks;
@@ -41,29 +37,29 @@ BOOL __stdcall _SNetLeaveGame(int type)
   BWAPI::BroodwarImpl.onGameEnd();
   if ( firstStarted )
   {
-#ifdef _DEBUG
-    FILE *s = fopen("bwapi-data\\logs\\memLeaks.txt", "w");
-    if ( s )
-#endif
+    // copy our leaks to a new list
+    for ( std::list<stormAlloc>::iterator i = allocations.begin(); i != allocations.end(); ++i )
     {
-      for ( std::list<stormAlloc>::iterator i = allocations.begin(); i != allocations.end(); i++ )
-      {
-        if ( i->memLeak )
-        {
-#ifdef _DEBUG
-          fprintf(s, "<MEMLEAK DETECTED> 0x%p - %s:%d - %s\n", i->location, i->logName, i->logline, i->lastFile);
-#endif
-          leaks.push_back(*i);
-        }
-        else
-          i->memLeak = true;
-      }
-#ifdef _DEBUG
-      fclose(s);
-#endif
+      if ( i->memLeak )
+        leaks.push_back(*i);
+      else
+        i->memLeak = true;
     }
+    // Deal with our leaks and remove them from the old list
     for each ( stormAlloc i in leaks )
-      _SMemFree(i.location, "BWAPI MemLeak - Detours.cpp", __LINE__, 0);
+    {
+      if ( !strcmpi(i.lastFile, "dlgs\\protoss.grp") || 
+           !strcmpi(i.lastFile, "dlgs\\terran.grp")  ||
+           !strcmpi(i.lastFile, "dlgs\\zerg.grp") )
+      {
+        _SMemFree(i.location, "BW Leak @BWAPI Detours.cpp", __LINE__, 0);
+      }
+      else
+      {
+        savedLoc = i.location;
+        allocations.remove_if(memtest);
+      }
+    }
     leaks.clear();
   }
   else
@@ -241,11 +237,7 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
     stormAlloc t;
     t.location = rval;
     t.memLeak  = false;
-#ifdef _DEBUG
     strncpy(t.lastFile, lastFile.c_str(), MAX_PATH);
-    strncpy(t.logName, logfilename, MAX_PATH);
-    t.logline  = logline;
-#endif
     allocations.push_back(t);
   }
 
