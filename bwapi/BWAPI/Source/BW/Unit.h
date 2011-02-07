@@ -99,9 +99,9 @@ namespace BW
     /*0x070*/ BW::Unit                            *subUnit;
     /*0x074*/ BW::Order                           *orderQueueHead;
     /*0x078*/ BW::Order                           *orderQueueTail;
-    /*0x07C*/ BW::Unit                            *AIOrderTargetUnit;   // Unknown, something with auto targetting?
+    /*0x07C*/ BW::Unit                            *AutoTargetUnit;   // The auto-acquired target
     /*0x080*/ BW::Unit                            *connectedUnit;        /**< Addon is connected to building (addon has conntected building, but not in other direction */
-    /*0x084*/ u8                                  orderQueueCount;         /**< @todo Verify */
+    /*0x084*/ u8                                  orderQueueCount;       /**< @todo Verify */
     /*0x085*/ u8                                  orderQueueTimer; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
     /*0x086*/ u8                                  _unknown_0x086;  // pathing related?
     /*0x087*/ u8                                  _unknownTimer_0x087;  // pathing related?

@@ -429,9 +429,9 @@ namespace BWAPI
     {
       BW::unitFinder *findX = BW::BWDATA_UnitOrderingX;
       BW::unitFinder *findY = BW::BWDATA_UnitOrderingY;
-      for each ( Unit *_u in aliveUnits )
+      for each ( UnitImpl *_u in aliveUnits )
       {
-        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
+        BW::Unit *u = _u->getOriginalRawData;
 
         drawBoxMap(findX[u->unitFinderIndexLeft].searchValue,
                    findY[u->unitFinderIndexTop].searchValue,
