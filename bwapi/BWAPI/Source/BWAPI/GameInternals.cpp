@@ -427,23 +427,15 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      BW::unitFinder *findX = BW::BWDATA_UnitOrderingX;
-      BW::unitFinder *findY = BW::BWDATA_UnitOrderingY;
-      for each ( UnitImpl *_u in aliveUnits )
+      if ( selectedUnitSet.size() > 0 )
       {
-        BW::Unit *u = _u->getOriginalRawData;
-
-        drawBoxMap(findX[u->unitFinderIndexLeft].searchValue,
-                   findY[u->unitFinderIndexTop].searchValue,
-                   findX[u->unitFinderIndexRight].searchValue,
-                   findY[u->unitFinderIndexBottom].searchValue,
-                   Colors::Orange);
-      }
-      for ( int x = 0; x < 3399 && findX[x].unitIndex && findX[x+1].unitIndex; ++x )
-      {
-        BW::Position p1 = BW::BWDATA_UnitNodeTable[findX[x].unitIndex-1].position;
-        BW::Position p2 = BW::BWDATA_UnitNodeTable[findX[x+1].unitIndex-1].position;
-        drawLineMap(findX[x].searchValue, p1.y, findX[x+1].searchValue, p2.y, Colors::Purple);
+        Position p = (*selectedUnitSet.begin())->getPosition();
+        std::set<Unit*> found = getUnitsInRectangle(p.x() - 200, p.y() - 200, p.x() + 200, p.y() + 200);
+        for each ( Unit *u in found )
+        {
+          Position p2 = u->getPosition();
+          drawLineMap(p.x(), p.y(), p2.x(), p2.y(), Colors::Purple);
+        }
       }
     } // unitdebug
 
@@ -1957,95 +1949,6 @@ namespace BWAPI
       b->updateData();
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->saveExists();
-  }
-  //----------------------------------------------------- DRAW -----------------------------------------------
-  bool GameImpl::inScreen(int ctype, int x, int y)
-  {
-    int screen_x1 = x;
-    int screen_y1 = y;
-    switch ( ctype )
-    {
-    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      screen_x1 -= *(BW::BWDATA_ScreenX);
-      screen_y1 -= *(BW::BWDATA_ScreenY);
-      break;
-    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
-      break;
-    }
-    if (screen_x1 < 0   || 
-        screen_y1 < 0   ||
-        screen_x1 > BW::BWDATA_GameScreenBuffer->wid || 
-        screen_y1 > BW::BWDATA_GameScreenBuffer->ht)
-      return false;
-    return true;
-  }
-
-  bool GameImpl::inScreen(int ctype, int x1, int y1, int x2, int y2)
-  {
-    int screen_x1 = x1;
-    int screen_y1 = y1;
-    int screen_x2 = x2;
-    int screen_y2 = y2;
-    switch ( ctype )
-    {
-    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      screen_x1 -= *(BW::BWDATA_ScreenX);
-      screen_y1 -= *(BW::BWDATA_ScreenY);
-      screen_x2 -= *(BW::BWDATA_ScreenX);
-      screen_y2 -= *(BW::BWDATA_ScreenY);
-      break;
-    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
-      screen_x2 += BW::BWDATA_Mouse->x;
-      screen_y2 += BW::BWDATA_Mouse->y;
-      break;
-    }
-    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
-    if ((screen_x1 < 0 && screen_x2 < 0) ||
-        (screen_y1 < 0 && screen_y2 < 0) ||
-        (screen_x1 > scrLimit.Xmax  && screen_x2 > scrLimit.Xmax) ||
-        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax))
-      return false;
-    return true;
-  }
-
-  bool GameImpl::inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3)
-  {
-    int screen_x1 = x1;
-    int screen_y1 = y1;
-    int screen_x2 = x2;
-    int screen_y2 = y2;
-    int screen_x3 = x3;
-    int screen_y3 = y3;
-    switch ( ctype )
-    {
-    case 2: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      screen_x1 -= *(BW::BWDATA_ScreenX);
-      screen_y1 -= *(BW::BWDATA_ScreenY);
-      screen_x2 -= *(BW::BWDATA_ScreenX);
-      screen_y2 -= *(BW::BWDATA_ScreenY);
-      screen_x3 -= *(BW::BWDATA_ScreenX);
-      screen_y3 -= *(BW::BWDATA_ScreenY);
-      break;
-    case 3: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
-      screen_x2 += BW::BWDATA_Mouse->x;
-      screen_y2 += BW::BWDATA_Mouse->y;
-      screen_x3 += BW::BWDATA_Mouse->x;
-      screen_y3 += BW::BWDATA_Mouse->y;
-      break;
-    }
-    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
-    if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
-        (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-        (screen_x1 > scrLimit.Xmax && screen_x2 > scrLimit.Xmax && screen_x3 > scrLimit.Xmax) ||
-        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax && screen_y3 > scrLimit.Ymax))
-      return false;
-    return true;
   }
 //--------------------------------------------------- ON SAVE ------------------------------------------------
   void GameImpl::onSaveGame(char *name)

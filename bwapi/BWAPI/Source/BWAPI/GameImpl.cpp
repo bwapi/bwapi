@@ -348,6 +348,58 @@ namespace BWAPI
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
   std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
   {
+    // localize the variables
+    std::set<Unit*> unitFinderResults;
+    BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
+    BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
+
+    // Grab the minimum x value without performing any additional computation
+    unsigned int xMin = 0;
+    while ( xFinder[xMin].searchValue < left && xFinder[xMin].unitIndex && xMin < 3400 )
+      ++xMin;
+
+    if ( !xFinder[xMin].unitIndex ) // no units were found on the horizontal plane
+      return unitFinderResults; // no results
+
+    // Grab the minimum y value without performing any additional computation
+    unsigned int yMin = 0;
+    while ( yFinder[yMin].searchValue < top && yFinder[yMin].unitIndex && yMin < 3400 )
+      ++yMin;
+
+    if ( !yFinder[yMin].unitIndex ) // no units were found on the vertical plane
+      return unitFinderResults; // no results
+
+    // Retrieve the unit indexes for the horizontal plane
+    std::vector<int> xList;
+    for ( unsigned int x = xMin; xFinder[x].searchValue <= right && xFinder[x].unitIndex && x < 3400; ++x )
+      xList.push_back(xFinder[x].unitIndex);
+
+    if ( xList.empty() )
+      return unitFinderResults; // no results
+
+    // Retrieve the unit indexes for the vertical plane
+    std::vector<int> yList;
+    for ( unsigned int y = yMin; yFinder[y].searchValue <= bottom && yFinder[y].unitIndex && y < 3400; ++y )
+      yList.push_back(yFinder[y].unitIndex);
+
+    if ( yList.empty() )
+      return unitFinderResults; // no results
+
+    // Save the intersection of the values found in both the horizontal and vertical planes
+    for each ( int xUnit in xList )
+    {
+      for each ( int yUnit in yList )
+      {
+        if ( xUnit == yUnit ) // intersection
+        {
+          UnitImpl *u = unitArray[xUnit-1];
+          if ( u && u->exists() )
+            unitFinderResults.insert(u);
+        }
+      }
+    }
+    return unitFinderResults;
+    /*
     rtree_searchResults.clear();
     int min[2];
     int max[2];
@@ -356,7 +408,7 @@ namespace BWAPI
     max[0]=right;
     max[1]=bottom;
     rtree.Search(min,max,RTreeSearchCallback, NULL);
-    return rtree_searchResults;
+    return rtree_searchResults;*/
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
   std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
