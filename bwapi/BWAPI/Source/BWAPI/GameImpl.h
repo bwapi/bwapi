@@ -23,7 +23,6 @@ namespace BWAPI { class  AIModule; }
 
 #include <Util/RectangleArray.h>
 #include <Util/Types.h>
-#include <Util/RTree.h>
 
 #include <BW/OrderTypes.h>
 #include <BW/Offsets.h>
@@ -98,7 +97,7 @@ namespace BWAPI
       virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
       virtual std::set<Unit*>  getUnitsInRectangle(int left, int top, int right, int bottom);
       virtual std::set<Unit*>  getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight);
-      virtual std::set<Unit*>  getUnitsInRadius(BWAPI::Position center, double radius);
+      virtual std::set<Unit*>  getUnitsInRadius(BWAPI::Position center, int radius);
 
       virtual Error       getLastError() const;
       virtual bool        setLastError(BWAPI::Error e);
@@ -292,16 +291,7 @@ namespace BWAPI
       bool noGUI;
       bool startedClient;
 
-      Util::RTree<BWAPI::Unit*, int, 2, float> rtree;
-      std::set<Unit*> rtree_searchResults;
-      BWAPI::Position rtree_searchCenter;
-      double          rtree_searchRadius;
-
-      BWAPI::Unit*    rtree_searchUnit;
-      int             rtree_searchMaxGndRadius;
-      int             rtree_searchMinGndRadius;
-      int             rtree_searchMaxAirRadius;
-      int             rtree_searchMinAirRadius;
+      UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
     private :
       HMODULE hMod;
       Map map;
@@ -332,7 +322,6 @@ namespace BWAPI
       std::set<BWAPI::Unit*> staticGeysers;
       std::set<BWAPI::Unit*> staticNeutralUnits;
 
-      UnitImpl*   unitArray[UNIT_ARRAY_MAX_LENGTH];
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
       /** Will update the unitsOnTile content, should be called every frame. */
@@ -344,7 +333,6 @@ namespace BWAPI
       void augmentUnitData();
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
-      void computeRTree();
       void processEvents();
       /**
        * Specifies if some order was given, so the loadSelect function will have
@@ -408,7 +396,4 @@ namespace BWAPI
    * variable is instantialised.
    */
   extern GameImpl BroodwarImpl;
-  bool RTreeSearchCallback(BWAPI::Unit* id, void* arg);
-  bool RTreeSearchInRadiusCallback(BWAPI::Unit* id, void* arg);
-  bool RTreeSearchInRangeCallback(BWAPI::Unit* id, void* arg);
 };

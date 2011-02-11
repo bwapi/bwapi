@@ -105,7 +105,7 @@ BOOL STORMAPI SCodeDelete(HANDLE handle) rBool;
 int  STORMAPI SCodeExecute(HANDLE handle, int a2) rInt;
 
 BOOL STORMAPI SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lpWindowName, WNDPROC pfnWndProc, int nMode, int nWidth, int nHeight, int nBits) rBool;
-BOOL STORMAPI SDrawCaptureScreen(char *source) rBool;
+BOOL STORMAPI SDrawCaptureScreen(const char *source) rBool;
 
 HWND STORMAPI SDrawGetFrameWindow(HWND *sdraw_framewindow) rPVoid;
 BOOL STORMAPI SDrawGetObjects(LPDIRECTDRAW *ddInterface, LPDIRECTDRAWSURFACE *primarySurface, LPDIRECTDRAWSURFACE *surface2, LPDIRECTDRAWSURFACE *surface3, LPDIRECTDRAWSURFACE *backSurface, LPDIRECTDRAWPALETTE *ddPalette, HPALETTE *hPalette) rBool;

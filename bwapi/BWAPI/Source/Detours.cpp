@@ -27,8 +27,20 @@ std::list<stormAlloc> allocations;
 std::list<stormAlloc> leaks;
 void *savedLoc;
 bool firstStarted = false;
+char gszScreenshotFormat[4];
 
 bool memtest(const stormAlloc& value) { return (value.location == savedLoc); }
+
+BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
+{
+  char *ext = strrchr((char*)pszOutput, '.');
+  if ( ext && strlen(gszScreenshotFormat) == 3 )
+  {
+    ++ext;
+    strncpy(ext, gszScreenshotFormat, 3);
+  }
+  return SDrawCaptureScreen(pszOutput);
+}
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)

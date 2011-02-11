@@ -18,10 +18,13 @@ void *__stdcall  _SMemAlloc(int amount, char *logfilename, int logline, char def
 BOOL  __stdcall  _SNetSendTurn(char *data, unsigned int databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 
+BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
+
 extern bool hideHUD;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern double botAPM_noSelect;
 extern double botAPM_select;
 extern bool wantRefresh;
+extern char gszScreenshotFormat[4];
 

@@ -126,22 +126,22 @@ namespace BWAPI
     return self->resourceGroup;
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  double UnitImpl::getDistance(Unit* target) const
+  int UnitImpl::getDistance(Unit* target) const
   {
     if ( !this->exists() || !target || !target->exists() )
-      return std::numeric_limits<double>::infinity();
+      return MAXINT;
 
     if (this == target)
       return 0;
 
-    return (double)computeDistance<UnitImpl>(this,target);
+    return computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  double UnitImpl::getDistance(Position target) const
+  int UnitImpl::getDistance(Position target) const
   {
-    if (!this->exists())
-      return std::numeric_limits<double>::infinity();
-    return (double)computeDistance<UnitImpl>(this,target);
+    if ( !this->exists() )
+      return MAXINT;
+    return computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit* target) const
@@ -499,34 +499,100 @@ namespace BWAPI
       return nothing;
     return connectedUnits;
   }
+  //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
+  std::set<Unit*> UnitImpl::getUnitsInRadius(int radius) const
+  {
+    // localize the variables
+    std::set<Unit*> unitFinderResults;
+    if ( !exists() || radius < 0 )
+      return unitFinderResults;
+    BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
+    BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
+
+    // Grab the unit's values
+    BW::Unit *_u  = this->getOriginalRawData;
+    int iLeft     = _u->unitFinderIndexLeft;
+    int iRight    = _u->unitFinderIndexRight;
+    int iTop      = _u->unitFinderIndexTop;
+    int iBottom   = _u->unitFinderIndexBottom;
+
+    int maxLeft   = xFinder[iLeft].searchValue - radius;
+    int maxRight  = xFinder[iRight].searchValue + radius;
+    int maxTop    = xFinder[iTop].searchValue - radius;
+    int maxBottom = xFinder[iBottom].searchValue + radius;
+
+    // Get units on horizontal plane
+    std::vector<int> xList;
+    // Left of the current unit
+    for ( int x = iRight; xFinder[x].searchValue >= maxLeft && x >= 0; --x )
+      xList.push_back(xFinder[x].unitIndex);
+
+    // Right of the current unit
+    for ( int x = iLeft; xFinder[x].searchValue <= maxRight && xFinder[x].unitIndex && x < 3400; ++x )
+      xList.push_back(xFinder[x].unitIndex);
+
+    if ( xList.empty() )
+      return unitFinderResults; // no results
+
+    // Get units on vertical plane
+    std::vector<int> yList;
+    // Above the current unit
+    for ( int y = iBottom; yFinder[y].searchValue >= maxTop && y >= 0; --y )
+      yList.push_back(yFinder[y].unitIndex);
+
+    // Under the current unit
+    for ( int y = iTop; yFinder[y].searchValue <= maxBottom && yFinder[y].unitIndex && y < 3400; ++y )
+      yList.push_back(yFinder[y].unitIndex);
+
+    if ( yList.empty() )
+      return unitFinderResults; // no results
+
+    // Save the intersection of the values found in both the horizontal and vertical planes
+    for each ( int xUnit in xList )
+    {
+      for each ( int yUnit in yList )
+      {
+        if ( xUnit == yUnit ) // intersection
+        {
+          UnitImpl *u = BroodwarImpl.unitArray[xUnit-1];
+          if ( u && u->exists() && u != this && this->getDistance(u) <= radius )
+            unitFinderResults.insert(u);
+        }
+      }
+    }
+    return unitFinderResults;
+  }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
   std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
   {
-    BroodwarImpl.rtree_searchResults.clear();
+    // initialization
+    std::set<Unit*> unitFinderResults;
     if ( !exists() )
-      return BroodwarImpl.rtree_searchResults;
+      return unitFinderResults;
 
+    // obtain sets for weapon ranges
     UnitType thisType = this->getType();
+    std::set<Unit*> maxGnd = getUnitsInRadius(getPlayer()->groundWeaponMaxRange(thisType));
+    std::set<Unit*> maxAir = getUnitsInRadius(getPlayer()->airWeaponMaxRange(thisType));
+    if ( maxGnd.empty() && maxAir.empty() ) // return if there are none
+      return unitFinderResults;
 
-    BroodwarImpl.rtree_searchUnit         = (Unit*)this;
-    BroodwarImpl.rtree_searchMaxGndRadius = getPlayer()->groundWeaponMaxRange(thisType);
-    BroodwarImpl.rtree_searchMinGndRadius = thisType.groundWeapon().minRange();
-    BroodwarImpl.rtree_searchMaxAirRadius = getPlayer()->airWeaponMaxRange(thisType);
-    BroodwarImpl.rtree_searchMinAirRadius = thisType.airWeapon().minRange();
+    std::set<Unit*> minGnd = getUnitsInRadius(thisType.groundWeapon().minRange() - 1);
+    std::set<Unit*> minAir = getUnitsInRadius(thisType.airWeapon().minRange() - 1);
+    
+    // remove the subset of minRange from maxRange
+    for each (Unit *u in minGnd)
+      maxGnd.erase(maxGnd.find(u));
+    for each (Unit *u in minAir)
+      maxAir.erase(maxAir.find(u));
 
-    int r = max(BroodwarImpl.rtree_searchMaxGndRadius,BroodwarImpl.rtree_searchMaxAirRadius);
+    if ( maxGnd.empty() && maxAir.empty() ) // return if we ended up removing them all
+      return unitFinderResults;
 
-    int min[2];
-    int max[2];
+    for each (Unit *u in maxAir)
+      maxGnd.insert(u);
 
-    min[0] = self->positionX - thisType.dimensionLeft()  - r;
-    min[1] = self->positionY - thisType.dimensionUp()    - r;
-    max[0] = self->positionX + thisType.dimensionRight() + 1 + r;
-    max[1] = self->positionY + thisType.dimensionDown()  + 1 + r;
-
-    BroodwarImpl.rtree.Search(min,max,RTreeSearchInRangeCallback, NULL);
-
-    return BroodwarImpl.rtree_searchResults;
+    return maxGnd;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
