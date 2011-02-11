@@ -307,34 +307,50 @@ namespace BWAPI
         char szKeyName[MAX_PATH];
         hMod = NULL;
 
-        SStrCopy(szKeyName, "ai_dll", MAX_PATH);
-        if ( gdwProcNum > 0 )
-        {
-          char tst[16];
-          sprintf_s(tst, 16, "_%u", gdwProcNum);
-          SStrNCat(szKeyName, tst, MAX_PATH);
-        }
+        SStrCopy(szKeyName, "ai", MAX_PATH);
 #ifdef _DEBUG
         SStrNCat(szKeyName, "_dbg", MAX_PATH);
 #endif
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
+
+        // Tokenize and retrieve correct path for the instance number
+        char *pszDll = strtok(szDllPath, ",");
+        for ( unsigned int i = 0; i < gdwProcNum-1; ++i )
+        {
+          char *pszNext = strtok(NULL, ",");
+          if ( !pszNext )
+            break;
+          pszDll = pszNext;
+        }
+
+        // Clean revision info
+        char *pszLoadRevCheck = strchr(pszDll, ':');
+        if ( pszLoadRevCheck )
+          pszLoadRevCheck[0] = 0;
+
+        // Remove spaces
+        while ( isspace(pszDll[0]) )
+          ++pszDll;
+
+        // Check if string was loaded
         if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
         {
           BWAPIError("Could not find %s under ai in \"%s\".", szKeyName, szConfigPath);
         }
         else
         {
-          Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", szDllPath);
-          hMod = LoadLibrary(szDllPath);
+          // Load DLL
+          Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", pszDll);
+          hMod = LoadLibrary(pszDll);
         }
         if ( !hMod )
         {
           //if hMod is a null pointer, there there was a problem when trying to load the AI Module
-          Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module");
+          Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module \"%s\"", pszDll);
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
-          printf("%cERROR: Failed to load the AI Module.", 6);
+          printf("%cERROR: Failed to load the AI Module \"%s\".", 6, pszDll);
           externalModuleConnected = false;
         }
         else
@@ -350,10 +366,10 @@ namespace BWAPI
           {
             this->client = newAIModule(this);
             Util::Logger::globalLog->logCritical("Created an Object of AIModule");
-            printf("%cLoaded the AI Module: %s", 7, szDllPath);
+            printf("%cLoaded the AI Module: %s", 7, pszDll);
             externalModuleConnected = true;
 
-            pszModuleName = szDllPath;
+            pszModuleName = pszDll;
             if ( strchr(pszModuleName, '/') )
               pszModuleName = &strrchr(pszModuleName, '/')[1];
 
@@ -362,11 +378,11 @@ namespace BWAPI
           }
           else
           {
-            Util::Logger::globalLog->logCritical("ERROR: Failed to find the newAIModule function in %s", szDllPath);
+            Util::Logger::globalLog->logCritical("ERROR: Failed to find the newAIModule function in %s", pszDll);
             this->client = new AIModule();
             Broodwar->enableFlag(Flag::CompleteMapInformation);
             Broodwar->enableFlag(Flag::UserInput);
-            printf("%cERROR: Failed to find the newAIModule function in %s", 6, szDllPath);
+            printf("%cERROR: Failed to find the newAIModule function in %s", 6, pszDll);
             externalModuleConnected = false;
           }
         }
@@ -429,11 +445,12 @@ namespace BWAPI
     {
       if ( selectedUnitSet.size() > 0 )
       {
-        Position p = (*selectedUnitSet.begin())->getPosition();
-        std::set<Unit*> found = getUnitsInRectangle(p.x() - 200, p.y() - 200, p.x() + 200, p.y() + 200);
-        for each ( Unit *u in found )
+        Unit *u = (*selectedUnitSet.begin());
+        std::set<Unit*> found = u->getUnitsInWeaponRange();
+        Position p = u->getPosition();
+        for each ( Unit *_u in found )
         {
-          Position p2 = u->getPosition();
+          Position p2 = _u->getPosition();
           drawLineMap(p.x(), p.y(), p2.x(), p2.y(), Colors::Purple);
         }
       }
@@ -1818,22 +1835,6 @@ namespace BWAPI
       }
     }
   }
-  //---------------------------------------------- COMPUTE R-TREE --------------------------------------------
-  void GameImpl::computeRTree()
-  {
-    //for now just build it from scratch (optimize after the initial implementation is working correctly)
-    rtree.RemoveAll();
-    int min[2];
-    int max[2];
-    foreach(UnitImpl* i, accessibleUnits)
-    {
-      min[0]=i->getPosition().x()-i->getType().dimensionLeft();
-      min[1]=i->getPosition().y()-i->getType().dimensionUp();
-      max[0]=i->getPosition().x()+i->getType().dimensionRight();
-      max[1]=i->getPosition().y()+i->getType().dimensionDown();
-      rtree.Insert(min,max,(Unit*)i);
-    }
-  }
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   void GameImpl::updateUnits()
   {
@@ -1859,7 +1860,6 @@ namespace BWAPI
         }
       }        
     }
-    computeRTree();
   }
   void GameImpl::processEvents()
   {
@@ -2422,31 +2422,5 @@ namespace BWAPI
     }
     if (addCommandToLatComBuffer)
       BroodwarImpl.addToCommandBuffer(new Command(command));
-  }
-  bool RTreeSearchCallback(BWAPI::Unit* id, void* arg)
-  {
-    BroodwarImpl.rtree_searchResults.insert(id);
-    return true; // keep going
-  }
-  bool RTreeSearchInRadiusCallback(BWAPI::Unit* id, void* arg)
-  {
-    if (id->getDistance(BroodwarImpl.rtree_searchCenter)<=BroodwarImpl.rtree_searchRadius)
-      BroodwarImpl.rtree_searchResults.insert(id);
-    return true; // keep going
-  }
-  bool RTreeSearchInRangeCallback(BWAPI::Unit* id, void* arg)
-  {
-    int d=computeDistance<UnitImpl>(BroodwarImpl.rtree_searchUnit,id);
-    if (id->isLifted() || id->getType().isFlyer())
-    {
-      if (BroodwarImpl.rtree_searchMinAirRadius < d && d<=BroodwarImpl.rtree_searchMaxAirRadius)
-        BroodwarImpl.rtree_searchResults.insert(id);
-    }
-    else
-    {
-      if (BroodwarImpl.rtree_searchMinGndRadius < d && d<=BroodwarImpl.rtree_searchMaxGndRadius)
-        BroodwarImpl.rtree_searchResults.insert(id);
-    }
-    return true; // keep going
   }
 };

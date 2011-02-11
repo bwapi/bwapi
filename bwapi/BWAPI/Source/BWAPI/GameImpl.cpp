@@ -399,16 +399,6 @@ namespace BWAPI
       }
     }
     return unitFinderResults;
-    /*
-    rtree_searchResults.clear();
-    int min[2];
-    int max[2];
-    min[0]=left;
-    min[1]=top;
-    max[0]=right;
-    max[1]=bottom;
-    rtree.Search(min,max,RTreeSearchCallback, NULL);
-    return rtree_searchResults;*/
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
   std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
@@ -416,20 +406,17 @@ namespace BWAPI
     return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
   }
   //--------------------------------------------- GET UNITS IN RADIUS ----------------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRadius(Position center, double radius)
+  std::set<Unit*> GameImpl::getUnitsInRadius(Position center, int radius)
   {
-    rtree_searchCenter = center;
-    rtree_searchRadius = radius;
-    rtree_searchResults.clear();
-    int r=(int)ceil(radius);
-    int min[2];
-    int max[2];
-    min[0]=center.x()-r;
-    min[1]=center.y()-r;
-    max[0]=center.x()+r;
-    max[1]=center.y()+r;
-    rtree.Search(min,max,RTreeSearchInRadiusCallback, NULL);
-    return rtree_searchResults;
+    center.makeValid();
+    std::set<Unit*> tempResults = getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius);
+    std::set<Unit*> unitFinderResults;
+    for each ( Unit *u in tempResults )
+    {
+      if ( center.getApproxDistance(u->getPosition()) <= radius )
+        unitFinderResults.insert(u);
+    }
+    return unitFinderResults;
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error GameImpl::getLastError() const

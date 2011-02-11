@@ -427,7 +427,7 @@ BOOL STORMAPI SDrawAutoInitialize(HINSTANCE hInst, LPCSTR lpClassName, LPCSTR lp
 BOOL 
 STORMAPI 
 SDrawCaptureScreen(
-    __in char *pszOutput);
+    __in const char *pszOutput);
 
 
 /*  SDrawGetFrameWindow @ 346

@@ -40,8 +40,8 @@ namespace BWAPI
       virtual int          getResources() const;
       virtual int          getResourceGroup() const;
 
-      virtual double       getDistance(Unit* target) const;
-      virtual double       getDistance(Position target) const;
+      virtual int          getDistance(Unit* target) const;
+      virtual int          getDistance(Position target) const;
       virtual bool         hasPath(Unit* target) const;
       virtual bool         hasPath(Position target) const;
       virtual int          getLastCommandFrame() const;
@@ -102,6 +102,7 @@ namespace BWAPI
       virtual std::set<Unit*> getInterceptors() const;
       virtual Unit*           getHatchery() const;
       virtual std::set<Unit*> getLarva() const;
+      virtual std::set<Unit*> getUnitsInRadius(int radius) const;
       virtual std::set<Unit*> getUnitsInWeaponRange() const;
 
       virtual bool exists() const;

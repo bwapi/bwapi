@@ -2,6 +2,7 @@
 
 #include <Util/Logger.h>
 #include <Util/Foreach.h>
+#include <assert.h>
 
 #include "GameImpl.h"
 #include "PlayerImpl.h"

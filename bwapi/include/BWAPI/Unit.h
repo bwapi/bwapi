@@ -85,10 +85,10 @@ namespace BWAPI
       virtual int getResourceGroup() const = 0;
 
       /** Returns the edge-to-edge distance between the current unit and the target unit. */
-      virtual double getDistance(Unit* target) const = 0;
+      virtual int getDistance(Unit* target) const = 0;
 
       /** Returns the distance from the edge of the current unit to the target position. */
-      virtual double getDistance(Position target) const = 0;
+      virtual int getDistance(Position target) const = 0;
 
       /** Returns true if the unit is able to move to the target unit */
       virtual bool hasPath(Unit* target) const = 0;
@@ -289,6 +289,9 @@ namespace BWAPI
        * or Hive, this function returns an empty set. Equivalent to clicking "Select Larva" from the Starcraft
        * GUI. */
       virtual std::set<Unit*> getLarva() const = 0;
+
+      /** Returns the set of units within the given radius of this unit */
+      virtual std::set<Unit*> getUnitsInRadius(int radius) const = 0;
 
       /** Returns the set of units within weapon range of this unit. */
       virtual std::set<Unit*> getUnitsInWeaponRange() const = 0;

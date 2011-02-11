@@ -809,7 +809,7 @@ namespace BWAPI
   template <class UnitImpl>
   int computeDistance(const Unit* a, const Unit* b)
   {
-    if (a==b || a==NULL || b==NULL) return 0;
+    if ( a == b || !a || !b ) return 0;
     UnitType thisType = a->getType();
     UnitType targType = b->getType();
     int ux = a->getPosition().x();
@@ -847,7 +847,7 @@ namespace BWAPI
   template <class UnitImpl>
   int computeDistance(const Unit* a, Position b)
   {
-    if (a==NULL) return 0;
+    if ( !a ) return 0;
     UnitType thisType = a->getType();
     int ux = a->getPosition().x();
     int uy = a->getPosition().y();

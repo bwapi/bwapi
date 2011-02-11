@@ -103,22 +103,22 @@ namespace BWAPI
     return self->resourceGroup;
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  double UnitImpl::getDistance(Unit* target) const
+  int UnitImpl::getDistance(Unit* target) const
   {
     if ( !this->exists() || !target || !target->exists() )
-      return std::numeric_limits<double>::infinity();
+      return MAXINT;
 
     if (this == target)
       return 0;
     
-    return (double)computeDistance<UnitImpl>(this,target);
+    return computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  double UnitImpl::getDistance(Position target) const
+  int UnitImpl::getDistance(Position target) const
   {
     if (!this->exists())
-      return std::numeric_limits<double>::infinity();
-    return (double)computeDistance<UnitImpl>(this,target);
+      return MAXINT;
+    return computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit *target) const
@@ -474,10 +474,16 @@ namespace BWAPI
         return nothing;
     return connectedUnits;
   }
+  //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
+  std::set<Unit*> UnitImpl::getUnitsInRadius(int radius) const
+  {
+    std::set<Unit*> nothing;
+    return nothing;
+  }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
   std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
   {
-    //Todo: implement R-tree in client
+    // @TODO: copy Broodwar's raw sorting to BWAPI client data and perform same or similar search
     std::set<Unit*> nothing;
     return nothing;
   }
