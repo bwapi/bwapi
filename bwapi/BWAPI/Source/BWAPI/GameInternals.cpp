@@ -694,7 +694,7 @@ namespace BWAPI
         switch ( menu )
         {
 //lan games lobby
-        case 10: 
+        case 10:
           actRegistry = false;
           SStrCopy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str(), MAX_PATH);
           SStrCopy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str(), MAX_PATH);
@@ -840,7 +840,28 @@ namespace BWAPI
               char szReplayPath[MAX_PATH];
               SStrCopy(szReplayPath, szInstallPath, MAX_PATH);
               SStrNCat(szReplayPath, "maps\\replays\\LastReplay.rep", MAX_PATH);
-              CopyFile(szReplayPath, autoMenuSaveReplay.c_str(), false);
+
+              SYSTEMTIME systemTime;
+              GetSystemTime(&systemTime);
+              char szBuf[64];
+              sprintf(szBuf, "%04u", systemTime.wYear);
+              SetEnvironmentVariable("YEAR", szBuf);
+              sprintf(szBuf, "%02u", systemTime.wMonth);
+              SetEnvironmentVariable("MONTH", szBuf);
+              sprintf(szBuf, "%02u", systemTime.wDay);
+              SetEnvironmentVariable("DAY", szBuf);
+              sprintf(szBuf, "%02u", systemTime.wHour);
+              SetEnvironmentVariable("HOUR", szBuf);
+              sprintf(szBuf, "%02u", systemTime.wMinute);
+              SetEnvironmentVariable("MINUTE", szBuf);
+              sprintf(szBuf, "%02u", systemTime.wSecond);
+              SetEnvironmentVariable("SECOND", szBuf);
+              sprintf(szBuf, "%03u", systemTime.wMilliseconds);
+              SetEnvironmentVariable("MILLISECOND", szBuf);
+
+              char szNewPath[MAX_PATH];
+              ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szNewPath, MAX_PATH);
+              CopyFile(szReplayPath, szNewPath, false);
             }
           }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
