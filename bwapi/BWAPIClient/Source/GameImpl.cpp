@@ -783,7 +783,13 @@ namespace BWAPI
   }
   void GameImpl::setFrameSkip(int frameSkip)
   {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetFrameSkip, frameSkip));
+    lastError = Errors::None;
+    if ( frameSkip > 0 )
+    {
+      addCommand(BWAPIC::Command(BWAPIC::CommandType::SetFrameSkip, frameSkip));
+      return;
+    }
+    lastError = Errors::Invalid_Parameter;
   }
   //------------------------------------------- ISSUE COMMAND ------------------------------------------------
   bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
