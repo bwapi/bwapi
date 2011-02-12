@@ -639,6 +639,13 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
 
+    if ( buffer[0] == '/' )
+    {
+      SNetSendServerChatCommand(buffer);
+      delete buffer;
+      return;
+    }
+
     if (_isReplay())
     {
       printf("%s", buffer);
