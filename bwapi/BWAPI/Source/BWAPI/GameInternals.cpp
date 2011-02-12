@@ -435,6 +435,22 @@ namespace BWAPI
     if ( *BW::BWDATA_IsRunning != 0 )
       this->frameCount++;
 
+    // grid
+    if ( grid )
+    {
+      BWAPI::Position scrPos = getScreenPosition();
+
+      // draw mtx grid
+      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
+        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
+          for ( int i = 0; i < 32; i += 4 )
+          {
+            drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
+            drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
+          }
+      if ( getReplayFrameCount() )
+        drawTextScreen(30, 30, "%d/%d = %u%%", getFrameCount(), getReplayFrameCount(), (u32)(getFrameCount()*100/getReplayFrameCount()));
+    } // grid
 #ifdef _DEBUG
     if ( noGUI )
       return;
@@ -455,23 +471,6 @@ namespace BWAPI
         }
       }
     } // unitdebug
-
-    // grid
-    if ( grid )
-    {
-      BWAPI::Position scrPos = getScreenPosition();
-
-      // draw mtx grid
-      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
-        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
-          for ( int i = 0; i < 32; i += 4 )
-          {
-            drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
-            drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
-          }
-      if ( getReplayFrameCount() )
-        drawTextScreen(30, 30, "%d/%d = %u%%", getFrameCount(), getReplayFrameCount(), (u32)(getFrameCount()*100/getReplayFrameCount()));
-    } // grid
 
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
