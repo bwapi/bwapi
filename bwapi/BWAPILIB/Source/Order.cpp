@@ -501,21 +501,21 @@ namespace BWAPI
 
   Order::Order()
   {
-    this->id = Orders::None.id;
+    this->id = Orders::None;
   }
   Order::Order(int id)
   {
     this->id = id;
     if (!initializingOrder && (id < 0 || id >= 191 || orderName[id].length() == 0))
-      this->id = Orders::Unknown.id;
+      this->id = Orders::Unknown;
   }
   Order::Order(const Order& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   Order& Order::operator=(const Order& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   Order::operator int() const

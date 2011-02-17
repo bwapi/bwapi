@@ -224,7 +224,7 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    if (getPlayer()==NULL ||
+    if ( !getPlayer() ||
         getPlayer()->getUpgradeLevel(upgrade) == 0 ||
         upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
       return 0;
@@ -788,14 +788,14 @@ namespace BWAPI
     //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
     if (getTarget() &&
         getTarget()->exists() &&
-        (getTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+        (getTarget()->getType().isMineralField() ||
             (getTarget()->isCompleted() &&
              getTarget()->getPlayer() == getPlayer() &&
              getTarget()->getType().isResourceDepot())))
       return true;
     if (getOrderTarget() &&
         getOrderTarget()->exists() &&
-        (getOrderTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
+        (getOrderTarget()->getType().isMineralField() ||
             (getOrderTarget()->isCompleted() &&
              getOrderTarget()->getPlayer() == getPlayer() &&
              getOrderTarget()->getType().isResourceDepot())))

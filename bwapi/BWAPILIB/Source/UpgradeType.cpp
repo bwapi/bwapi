@@ -329,21 +329,21 @@ namespace BWAPI
   }
   UpgradeType::UpgradeType()
   {
-    this->id = UpgradeTypes::None.id;
+    this->id = UpgradeTypes::None;
   }
   UpgradeType::UpgradeType(int id)
   {
     this->id = id;
     if (!initializingUpgradeType && (id < 0 || id >= 63 || !upgradeTypeData[id].valid) )
-      this->id = UpgradeTypes::Unknown.id;
+      this->id = UpgradeTypes::Unknown;
   }
   UpgradeType::UpgradeType(const UpgradeType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   UpgradeType& UpgradeType::operator=(const UpgradeType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   UpgradeType::operator int() const

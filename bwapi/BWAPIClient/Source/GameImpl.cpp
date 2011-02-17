@@ -207,7 +207,7 @@ namespace BWAPI
         if (u->getPlayer()->isNeutral())
         {
           neutralUnits.insert(u);
-          if ( u->getType() == UnitTypes::Resource_Mineral_Field )
+          if ( u->getType().isMineralField() )
             minerals.insert(u);
           else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
             geysers.insert(u);
@@ -226,7 +226,7 @@ namespace BWAPI
         if (u->getPlayer()->isNeutral())
         {
           neutralUnits.erase(u);
-          if (u->getType()==UnitTypes::Resource_Mineral_Field)
+          if ( u->getType().isMineralField() )
             minerals.erase(u);
           else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
             geysers.erase(u);

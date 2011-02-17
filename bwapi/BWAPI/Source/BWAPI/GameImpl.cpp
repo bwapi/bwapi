@@ -816,7 +816,7 @@ namespace BWAPI
     std::set<UnitImpl* > nextGroup;
     for each(Unit* u in units)
     {
-      if (u != NULL && u->exists() && u->canIssueCommand(command))
+      if (u && u->exists() && u->canIssueCommand(command))
       {
         if (command.type == UnitCommandTypes::Train ||
             command.type == UnitCommandTypes::Morph)

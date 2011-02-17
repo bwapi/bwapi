@@ -11,7 +11,7 @@ namespace BW
 {
   bool region::isConnectedTo(region *target)
   {
-    if ( target != NULL )
+    if ( target )
       return this->groupIndex == target->groupIndex;
     return false;
   }
@@ -58,7 +58,7 @@ namespace BW
 
   Position region::getCenter()
   {
-    if ( this != NULL )
+    if ( this )
       return BW::Position((u16)(this->rgnCenterX >> 8), (u16)(this->rgnCenterY >> 8));
     return BW::Position(0,0);
   }

@@ -75,21 +75,21 @@ namespace BWAPI
   }
   Race::Race()
   {
-    this->id = Races::None.id;
+    this->id = Races::None;
   }
   Race::Race(int id)
   {
     this->id = id;
     if (!initializingRace && (id < 0 || id >= 7) )
-      this->id = Races::Unknown.id;
+      this->id = Races::Unknown;
   }
   Race::Race(const Race& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   Race& Race::operator=(const Race& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   Race::operator int() const

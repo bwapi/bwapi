@@ -470,6 +470,11 @@ namespace BWAPI
           drawLineMap(p.x(), p.y(), p2.x(), p2.y(), Colors::Purple);
         }
       }
+      for each ( UnitImpl *u in aliveUnits )
+      {
+        if ( u->getType().isDetector() )
+          drawTextMap(u->getPosition().x(), u->getPosition().y(), "detector");
+      }
     } // unitdebug
 
     // pathdebug
@@ -1443,12 +1448,8 @@ namespace BWAPI
 
     u16 uId = i->getOriginalRawData->unitType;
     UnitType _getType = BWAPI::UnitType(uId);
-    if ( uId == BW::UnitID::Resource_MineralPatch1 ||
-         uId == BW::UnitID::Resource_MineralPatch2 ||
-         uId == BW::UnitID::Resource_MineralPatch3)
-    {
+    if ( _getType.isMineralField() )
       _getType = UnitTypes::Resource_Mineral_Field;
-    }
 
     if ( !i->getOriginalRawData->sprite )
       return false;
@@ -1727,7 +1728,7 @@ namespace BWAPI
       if (u->getPlayer()->isNeutral())
       {
         neutralUnits.insert(u);
-        if (u->getType() == UnitTypes::Resource_Mineral_Field)
+        if ( u->getType().isMineralField() )
           minerals.insert(u);
         else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
           geysers.insert(u);
@@ -1744,7 +1745,7 @@ namespace BWAPI
       if (u->getPlayer()->isNeutral())
       {
         neutralUnits.erase(u);
-        if (u->getType() == UnitTypes::Resource_Mineral_Field)
+        if ( u->getType().isMineralField() )
           minerals.erase(u);
         else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
           geysers.erase(u);
@@ -1847,7 +1848,7 @@ namespace BWAPI
         {
           i->saveInitialInformation();
           this->staticNeutralUnits.insert(i);
-          if (i->_getType == UnitTypes::Resource_Mineral_Field)
+          if ( i->_getType.isMineralField() )
             this->staticMinerals.insert(i);
           else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
             this->staticGeysers.insert(i);

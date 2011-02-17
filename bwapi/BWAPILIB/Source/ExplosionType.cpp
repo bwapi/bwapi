@@ -107,21 +107,21 @@ namespace BWAPI
   }
   ExplosionType::ExplosionType()
   {
-    this->id = ExplosionTypes::None.id;
+    this->id = ExplosionTypes::None;
   }
   ExplosionType::ExplosionType(int id)
   {
     this->id = id;
     if (!initializingExplosionType && (id < 0 || id >= 26))
-      this->id = ExplosionTypes::Unknown.id;
+      this->id = ExplosionTypes::Unknown;
   }
   ExplosionType::ExplosionType(const ExplosionType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   ExplosionType& ExplosionType::operator=(const ExplosionType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   ExplosionType::operator int() const

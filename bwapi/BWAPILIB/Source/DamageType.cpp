@@ -53,21 +53,21 @@ namespace BWAPI
   }
   DamageType::DamageType()
   {
-    this->id = DamageTypes::None.id;
+    this->id = DamageTypes::None;
   }
   DamageType::DamageType(int id)
   {
     this->id = id;
     if (!initializingDamageType && (id < 0 || id >= 7))
-      this->id = DamageTypes::Unknown.id;
+      this->id = DamageTypes::Unknown;
   }
   DamageType::DamageType(const DamageType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   DamageType& DamageType::operator=(const DamageType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   DamageType::operator int() const

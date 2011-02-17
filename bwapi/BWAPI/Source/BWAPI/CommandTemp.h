@@ -595,12 +595,12 @@ namespace BWAPI
       unit->self->target   = getUnitID(target);
       unit->self->isIdle   = false;
       unit->self->isMoving = true;
-      if (unit->getType().isWorker() && target->getType() == UnitTypes::Resource_Mineral_Field)
+      if (unit->getType().isWorker() && target->getType().isMineralField() )
       {
         unit->self->isGathering = true;
         unit->self->order       = Orders::MoveToMinerals;
       }
-      else if (unit->getType().isWorker() && target->getType().isRefinery())
+      else if (unit->getType().isWorker() && target->getType().isRefinery() )
       {
         unit->self->isGathering = true;
         unit->self->order       = Orders::MoveToGas;
