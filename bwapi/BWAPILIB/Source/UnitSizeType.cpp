@@ -50,21 +50,21 @@ namespace BWAPI
   }
   UnitSizeType::UnitSizeType()
   {
-    this->id = UnitSizeTypes::None.id;
+    this->id = UnitSizeTypes::None;
   }
   UnitSizeType::UnitSizeType(int id)
   {
     this->id = id;
     if (!initializingUnitSizeType && (id < 0 || id >= 6))
-      this->id = UnitSizeTypes::Unknown.id;
+      this->id = UnitSizeTypes::Unknown;
   }
   UnitSizeType::UnitSizeType(const UnitSizeType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   UnitSizeType& UnitSizeType::operator=(const UnitSizeType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   UnitSizeType::operator int() const

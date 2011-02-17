@@ -195,21 +195,21 @@ namespace BWAPI
   }
   TechType::TechType()
   {
-    this->id = TechTypes::None.id;
+    this->id = TechTypes::None;
   }
   TechType::TechType(int id)
   {
     this->id = id;
     if (!initializingTechType && (id < 0 || id >= 47 || techTypeData[id].name.length() == 0))
-      this->id = TechTypes::Unknown.id;
+      this->id = TechTypes::Unknown;
   }
   TechType::TechType(const TechType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   TechType& TechType::operator=(const TechType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   TechType::operator int() const

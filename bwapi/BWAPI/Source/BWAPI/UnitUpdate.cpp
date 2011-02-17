@@ -143,11 +143,7 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //_getResources
       _getResources = 0;
-      if (_getType == UnitTypes::Resource_Mineral_Field   ||
-          _getType == UnitTypes::Resource_Vespene_Geyser  ||
-          _getType == UnitTypes::Terran_Refinery          ||
-          _getType == UnitTypes::Protoss_Assimilator      ||
-          _getType == UnitTypes::Zerg_Extractor)
+      if ( _getType.isResourceContainer() )
         _getResources = o->building.resource.resourceCount;
 
       hasEmptyBuildQueue = getBuildQueueSlot < 5 ? (getBuildQueue[getBuildQueueSlot] == UnitTypes::None) : false;  //hasEmptyBuildQueue

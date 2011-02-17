@@ -661,19 +661,19 @@ namespace BWAPI
       return true;
 
     //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() != NULL &&
+    if (getTarget() &&
         getTarget()->exists() &&
-        (getTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
-            (getTarget()->isCompleted() &&
-             getTarget()->getPlayer() == getPlayer() &&
-             getTarget()->getType().isResourceDepot())))
+        (getTarget()->getType().isMineralField() ||
+         (getTarget()->isCompleted() &&
+          getTarget()->getPlayer() == getPlayer() &&
+          getTarget()->getType().isResourceDepot()) ) )
       return true;
-    if (getOrderTarget() != NULL &&
+    if (getOrderTarget() &&
         getOrderTarget()->exists() &&
-        (getOrderTarget()->getType() == UnitTypes::Resource_Mineral_Field ||
-            (getOrderTarget()->isCompleted() &&
-             getOrderTarget()->getPlayer() == getPlayer() &&
-             getOrderTarget()->getType().isResourceDepot())))
+        (getOrderTarget()->getType().isMineralField() ||
+         (getOrderTarget()->isCompleted() &&
+          getOrderTarget()->getPlayer() == getPlayer() &&
+          getOrderTarget()->getType().isResourceDepot()) ) )
       return true;
     return false;
   }

@@ -80,21 +80,21 @@ namespace BWAPI
   }
   GameType::GameType()
   {
-    this->id = GameTypes::None.id;
+    this->id = GameTypes::None;
   }
   GameType::GameType(int id)
   {
     this->id = id;
     if (!initializingGameType && (id < 0 || id >= 35 || gameTypeName[id].length() == 0))
-      this->id = GameTypes::Unknown.id;
+      this->id = GameTypes::Unknown;
   }
   GameType::GameType(const GameType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   GameType& GameType::operator=(const GameType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   GameType::operator int() const

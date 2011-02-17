@@ -65,21 +65,21 @@ namespace BWAPI
   }
   PlayerType::PlayerType()
   {
-    this->id = PlayerTypes::None.id;
+    this->id = PlayerTypes::None;
   }
   PlayerType::PlayerType(int id)
   {
     this->id = id;
     if (!initializingPlayerType && (id < 0 || id >= 13 || playerTypeName[id].length() == 0) )
-      this->id = PlayerTypes::Unknown.id;
+      this->id = PlayerTypes::Unknown;
   }
   PlayerType::PlayerType(const PlayerType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   PlayerType& PlayerType::operator=(const PlayerType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   PlayerType::operator int() const

@@ -85,7 +85,7 @@ namespace BWAPI
   }
   Color::Color(const Color& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   Color::Color(int red, int green, int blue)
   {
@@ -142,7 +142,7 @@ namespace BWAPI
   }
   Color& Color::operator=(const Color& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   Color::operator int() const

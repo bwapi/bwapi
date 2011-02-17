@@ -119,21 +119,21 @@ namespace BWAPI
 
   Error::Error()
   {
-    this->id = Errors::None.id;
+    this->id = Errors::None;
   }
   Error::Error(int id)
   {
     this->id = id;
     if (!initializingError && (id < 0 || id >= BWAPI_ERROR_MAX_COUNT))
-      this->id = Errors::Unknown.id;
+      this->id = Errors::Unknown;
   }
   Error::Error(const Error& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   Error& Error::operator=(const Error& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   Error::operator int() const

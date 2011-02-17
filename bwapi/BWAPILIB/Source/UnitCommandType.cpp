@@ -170,21 +170,21 @@ namespace BWAPI
   }
   UnitCommandType::UnitCommandType()
   {
-    this->id = UnitCommandTypes::None.id;
+    this->id = UnitCommandTypes::None;
   }
   UnitCommandType::UnitCommandType(int id)
   {
     this->id = id;
     if (!initializingUnitCommandType && (id < 0 || id >= BWAPI_UNIT_COMMAND_TYPE_COUNT))
-      this->id = UnitCommandTypes::Unknown.id;
+      this->id = UnitCommandTypes::Unknown;
   }
   UnitCommandType::UnitCommandType(const UnitCommandType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   UnitCommandType& UnitCommandType::operator=(const UnitCommandType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   UnitCommandType::operator int() const

@@ -549,12 +549,12 @@ namespace BWAPI
       unitTypeData[Zerg_Creep_Colony].set("Zerg Creep Colony", Races::Zerg, 0, Zerg_Drone, 1, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 400, 0, 0, 0, 75, 0, 300, 0, 0, 255, 0, 40, 120, UnitSizeTypes::Large, 2, 2, 24, 24, 23, 23, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Zerg_Spore_Colony].set("Zerg Spore Colony", Races::Zerg, 0, Zerg_Creep_Colony, 1, Zerg_Creep_Colony, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 400, 0, 0, 0, 50, 0, 300, 0, 0, 255, 0, 25, 195, UnitSizeTypes::Large, 2, 2, 24, 24, 23, 23, 224, 320, WeaponTypes::None, 0, WeaponTypes::Seeker_Spores, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Zerg_Sunken_Colony].set("Zerg Sunken Colony", Races::Zerg, 0, Zerg_Creep_Colony, 1, Zerg_Creep_Colony, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 300, 0, 0, 2, 50, 0, 300, 0, 0, 255, 0, 40, 240, UnitSizeTypes::Large, 2, 2, 24, 24, 23, 23, 224, 320, WeaponTypes::Subterranean_Tentacle, 1, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
-      unitTypeData[Special_Overmind_With_Shell].set("Special Overmind With Shell", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 5000, 0, 0, 1, 1, 1, 1, 0, 0, 255, 0, 0, 10000, UnitSizeTypes::Large, 5, 3, 80, 32, 79, 40, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
-      unitTypeData[Special_Overmind].set("Special Overmind", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2500, 0, 0, 1, 1, 1, 1, 0, 0, 255, 0, 0, 10000, UnitSizeTypes::Large, 5, 3, 80, 32, 79, 40, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+      unitTypeData[Special_Overmind_With_Shell].set("Special Overmind With Shell", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 5000, 0, 0, 1, 1, 1, 1, 0, 0, 255, 0, 0, 10000, UnitSizeTypes::Large, 5, 3, 80, 32, 79, 40, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+      unitTypeData[Special_Overmind].set("Special Overmind", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2500, 0, 0, 1, 1, 1, 1, 0, 0, 255, 0, 0, 10000, UnitSizeTypes::Large, 5, 3, 80, 32, 79, 40, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Zerg_Extractor].set("Zerg Extractor", Races::Zerg, 0, Zerg_Drone, 1, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 750, 0, 0, 1, 50, 0, 600, 0, 0, 255, 0, 25, 75, UnitSizeTypes::Large, 4, 2, 64, 32, 63, 31, 0, 224, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1);
       unitTypeData[Special_Mature_Chrysalis].set("Special Mature Chrysalis", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 250, 0, 0, 1, 0, 0, 0, 0, 0, 255, 0, 0, 5000, UnitSizeTypes::Large, 2, 2, 32, 32, 31, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
-      unitTypeData[Special_Cerebrate].set("Special Cerebrate", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 1500, 0, 0, 1, 0, 0, 0, 0, 0, 255, 0, 0, 2500, UnitSizeTypes::Large, 3, 2, 40, 32, 32, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
-      unitTypeData[Special_Cerebrate_Daggoth].set("Special Cerebrate Daggoth", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 1500, 0, 0, 1, 0, 0, 0, 0, 0, 255, 0, 0, 2500, UnitSizeTypes::Large, 3, 2, 40, 32, 32, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+      unitTypeData[Special_Cerebrate].set("Special Cerebrate", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 1500, 0, 0, 1, 0, 0, 0, 0, 0, 255, 0, 0, 2500, UnitSizeTypes::Large, 3, 2, 40, 32, 32, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+      unitTypeData[Special_Cerebrate_Daggoth].set("Special Cerebrate Daggoth", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 1500, 0, 0, 1, 0, 0, 0, 0, 0, 255, 0, 0, 2500, UnitSizeTypes::Large, 3, 2, 40, 32, 32, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Protoss_Nexus].set("Protoss Nexus", Races::Protoss, 0, Protoss_Probe, 1, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 750, 750, 0, 1, 400, 0, 1800, 0, 18, 255, 0, 400, 1200, UnitSizeTypes::Large, 4, 3, 56, 39, 56, 39, 0, 352, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Protoss_Robotics_Facility].set("Protoss Robotics Facility", Races::Protoss, 0, Protoss_Probe, 1, Protoss_Cybernetics_Core, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 500, 500, 0, 1, 200, 200, 1200, 0, 0, 255, 0, 300, 900, UnitSizeTypes::Large, 3, 2, 36, 16, 40, 20, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Protoss_Pylon].set("Protoss Pylon", Races::Protoss, 0, Protoss_Probe, 1, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 300, 300, 0, 0, 100, 0, 450, 0, 16, 255, 0, 50, 150, UnitSizeTypes::Large, 2, 2, 16, 12, 16, 20, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
@@ -583,7 +583,7 @@ namespace BWAPI
       unitTypeData[Special_Warp_Gate].set("Special Warp Gate", Races::Protoss, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 700, 0, 0, 1, 600, 200, 2400, 0, 0, 255, 0, 0, 2000, UnitSizeTypes::Large, 3, 2, 48, 32, 47, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Psi_Disrupter].set("Special Psi Disrupter", Races::Terran, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2000, 0, 0, 1, 1000, 400, 4800, 0, 0, 255, 0, 0, 3600, UnitSizeTypes::Large, 5, 3, 80, 38, 69, 47, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Power_Generator].set("Special Power Generator", Races::Terran, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 800, 0, 0, 1, 200, 50, 2400, 0, 0, 255, 0, 0, 600, UnitSizeTypes::Large, 4, 3, 56, 28, 63, 43, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
-      unitTypeData[Special_Overmind_Cocoon].set("Special Overmind Cocoon", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2500, 0, 0, 1, 1000, 500, 2400, 0, 0, 255, 0, 0, 4000, UnitSizeTypes::Large, 3, 2, 48, 32, 47, 31, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+      unitTypeData[Special_Overmind_Cocoon].set("Special Overmind Cocoon", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 2500, 0, 0, 1, 1000, 500, 2400, 0, 0, 255, 0, 0, 4000, UnitSizeTypes::Large, 3, 2, 48, 32, 47, 31, 0, 320, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Zerg_Beacon].set("Special Zerg Beacon", Races::Zerg, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 250, 0, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 3, 2, 48, 32, 47, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Terran_Beacon].set("Special Terran Beacon", Races::Terran, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 50, 50, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 3, 2, 48, 32, 47, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
       unitTypeData[Special_Protoss_Beacon].set("Special Protoss Beacon", Races::Protoss, 0, None, 0, None, None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, TechTypes::None, UpgradeTypes::None, 100000, 0, 0, 0, 100, 100, 1, 0, 0, 255, 0, 0, 0, UnitSizeTypes::Independent, 3, 2, 48, 32, 47, 31, 0, 256, WeaponTypes::None, 0, WeaponTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0);
@@ -844,21 +844,21 @@ namespace BWAPI
   }
   UnitType::UnitType()
   {
-    this->id = UnitTypes::None.id;
+    this->id = UnitTypes::None;
   }
   UnitType::UnitType(int id)
   {
     this->id = id;
     if (!initializingUnitType && (id < 0 || id >= BWAPI_UNIT_TYPE_MAX_COUNT || !unitTypeData[id].valid))
-      this->id = UnitTypes::Unknown.id;
+      this->id = UnitTypes::Unknown;
   }
   UnitType::UnitType(const UnitType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   UnitType& UnitType::operator=(const UnitType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   UnitType::operator int() const
@@ -1128,48 +1128,48 @@ namespace BWAPI
   bool UnitType::isHero() const
   {
     return unitTypeData[this->id].isHero ||
-           this->id == UnitTypes::Hero_Dark_Templar.id ||
-           this->id == UnitTypes::Terran_Civilian.id;
+           this->id == UnitTypes::Hero_Dark_Templar ||
+           this->id == UnitTypes::Terran_Civilian;
   }
   bool UnitType::isPowerup() const
   {
-    return this->id == UnitTypes::Powerup_Uraj_Crystal.id ||
-           this->id == UnitTypes::Powerup_Khalis_Crystal.id ||
-           (this->id >= UnitTypes::Powerup_Flag.id && this->id < UnitTypes::None.id);
+    return this->id == UnitTypes::Powerup_Uraj_Crystal ||
+           this->id == UnitTypes::Powerup_Khalis_Crystal ||
+           (this->id >= UnitTypes::Powerup_Flag && this->id < UnitTypes::None);
   }
   bool UnitType::isBeacon() const
   {
-    return this->id == UnitTypes::Special_Zerg_Beacon.id ||
-           this->id == UnitTypes::Special_Terran_Beacon.id ||
-           this->id == UnitTypes::Special_Protoss_Beacon.id;
+    return this->id == UnitTypes::Special_Zerg_Beacon ||
+           this->id == UnitTypes::Special_Terran_Beacon ||
+           this->id == UnitTypes::Special_Protoss_Beacon;
   }
   bool UnitType::isFlagBeacon() const
   {
-    return this->id == UnitTypes::Special_Zerg_Flag_Beacon.id ||
-           this->id == UnitTypes::Special_Terran_Flag_Beacon.id ||
-           this->id == UnitTypes::Special_Protoss_Flag_Beacon.id;
+    return this->id == UnitTypes::Special_Zerg_Flag_Beacon ||
+           this->id == UnitTypes::Special_Terran_Flag_Beacon ||
+           this->id == UnitTypes::Special_Protoss_Flag_Beacon;
   }
   bool UnitType::isSpecialBuilding() const
   {
-    return unitTypeData[this->id].isSpecialBuilding && this->id != UnitTypes::Zerg_Infested_Command_Center.id;
+    return unitTypeData[this->id].isSpecialBuilding && this->id != UnitTypes::Zerg_Infested_Command_Center;
   }
   bool UnitType::isSpell() const
   {
-    return this->id == UnitTypes::Spell_Dark_Swarm.id ||
-           this->id == UnitTypes::Spell_Disruption_Web.id ||
-           this->id == UnitTypes::Spell_Scanner_Sweep.id;
+    return this->id == UnitTypes::Spell_Dark_Swarm ||
+           this->id == UnitTypes::Spell_Disruption_Web ||
+           this->id == UnitTypes::Spell_Scanner_Sweep;
   }
   bool UnitType::producesLarva() const
   {
-    return this->id == UnitTypes::Zerg_Hatchery.id ||
-           this->id == UnitTypes::Zerg_Lair.id     ||
-           this->id == UnitTypes::Zerg_Hive.id;
+    return this->id == UnitTypes::Zerg_Hatchery ||
+           this->id == UnitTypes::Zerg_Lair     ||
+           this->id == UnitTypes::Zerg_Hive;
   }
   bool UnitType::isMineralField() const
   {
-    return id == UnitTypes::Resource_Mineral_Field.id        ||
-           id == UnitTypes::Resource_Mineral_Field_Type_2.id ||
-           id == UnitTypes::Resource_Mineral_Field_Type_3.id;
+    return id == UnitTypes::Resource_Mineral_Field        ||
+           id == UnitTypes::Resource_Mineral_Field_Type_2 ||
+           id == UnitTypes::Resource_Mineral_Field_Type_3;
   }
   UnitType UnitTypes::getUnitType(std::string name)
   {

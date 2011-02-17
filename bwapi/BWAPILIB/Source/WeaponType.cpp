@@ -495,21 +495,21 @@ namespace BWAPI
   }
   WeaponType::WeaponType()
   {
-    this->id = WeaponTypes::None.id;
+    this->id = WeaponTypes::None;
   }
   WeaponType::WeaponType(int id)
   {
     this->id = id;
     if (!initializingWeaponType && (id < 0 || id >= 132 || !weaponTypeData[id].valid))
-      this->id = WeaponTypes::Unknown.id;
+      this->id = WeaponTypes::Unknown;
   }
   WeaponType::WeaponType(const WeaponType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   WeaponType& WeaponType::operator=(const WeaponType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   WeaponType::operator int() const

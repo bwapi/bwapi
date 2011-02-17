@@ -71,7 +71,7 @@ namespace BW
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
         BWAPI::UnitImpl *inter = va_arg(list, BWAPI::UnitImpl*);
-        if ( inter != NULL )
+        if ( inter )
         {
           targets[finalCount] = UnitTarget(inter);
           ++finalCount;
@@ -87,7 +87,7 @@ namespace BW
       u8 finalCount = 0;
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
-        if ( units[i] != NULL )
+        if ( units[i] )
         {
           targets[finalCount] = UnitTarget(units[i]);
           ++finalCount;
@@ -102,7 +102,7 @@ namespace BW
       u8 finalCount = 0;
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
-        if ( units[i] != NULL )
+        if ( units[i] )
         {
           targets[finalCount] = UnitTarget(units[i]);
           ++finalCount;
@@ -121,7 +121,7 @@ namespace BW
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
         BWAPI::UnitImpl *inter = va_arg(list, BWAPI::UnitImpl*);
-        if ( inter != NULL )
+        if ( inter )
         {
           targets[finalCount] = UnitTarget(inter);
           ++finalCount;
@@ -137,7 +137,7 @@ namespace BW
       u8 finalCount = 0;
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
-        if ( units[i] != NULL )
+        if ( units[i] )
         {
           targets[finalCount] = UnitTarget(units[i]);
           ++finalCount;
@@ -152,7 +152,7 @@ namespace BW
       u8 finalCount = 0;
       for ( unsigned int i = 0; i < count && i < 12; ++i )
       {
-        if ( units[i] != NULL )
+        if ( units[i] )
         {
           targets[finalCount] = UnitTarget(units[i]);
           ++finalCount;

@@ -22,7 +22,7 @@ void GatherTest::start()
     if (u->getType().isWorker())
       worker = u;
   for each(Unit* u in Broodwar->getMinerals())
-    if (u->getType()==UnitTypes::Resource_Mineral_Field)
+    if ( u->getType().isMineralField() )
       mineral = u;
   for each(Unit* u in Broodwar->self()->getUnits())
     if (u->getType().isRefinery())

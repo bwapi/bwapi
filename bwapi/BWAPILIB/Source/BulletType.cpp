@@ -141,21 +141,21 @@ namespace BWAPI
 
   BulletType::BulletType()
   {
-    this->id = BulletTypes::None.id;
+    this->id = BulletTypes::None;
   }
   BulletType::BulletType(int id)
   {
     this->id = id;
     if (!initializingBulletType && (id < 0 || id >= 211 || bulletTypeName[id].length() == 0))
-      this->id = BulletTypes::Unknown.id;
+      this->id = BulletTypes::Unknown;
   }
   BulletType::BulletType(const BulletType& other)
   {
-    this->id = other.id;
+    this->id = other;
   }
   BulletType& BulletType::operator=(const BulletType& other)
   {
-    this->id = other.id;
+    this->id = other;
     return *this;
   }
   BulletType::operator int() const
