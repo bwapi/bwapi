@@ -49,13 +49,13 @@ namespace BWAPI
 
     void init()
     {
-      raceData[Zerg.getID()].set(   "Zerg",    UnitTypes::Zerg_Drone,    UnitTypes::Zerg_Hatchery,         UnitTypes::Zerg_Extractor,      UnitTypes::Zerg_Overlord,   UnitTypes::Zerg_Overlord);
-      raceData[Terran.getID()].set( "Terran",  UnitTypes::Terran_SCV,    UnitTypes::Terran_Command_Center, UnitTypes::Terran_Refinery,     UnitTypes::Terran_Dropship, UnitTypes::Terran_Supply_Depot);
-      raceData[Protoss.getID()].set("Protoss", UnitTypes::Protoss_Probe, UnitTypes::Protoss_Nexus,         UnitTypes::Protoss_Assimilator, UnitTypes::Protoss_Shuttle, UnitTypes::Protoss_Pylon);
-      raceData[Random.getID()].set( "Random",  UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
-      raceData[Other.getID()].set(  "Other",   UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
-      raceData[None.getID()].set(   "None",    UnitTypes::None,          UnitTypes::None,                  UnitTypes::None,                UnitTypes::None,            UnitTypes::None);
-      raceData[Unknown.getID()].set("Unknown", UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
+      raceData[Zerg].set(   "Zerg",    UnitTypes::Zerg_Drone,    UnitTypes::Zerg_Hatchery,         UnitTypes::Zerg_Extractor,      UnitTypes::Zerg_Overlord,   UnitTypes::Zerg_Overlord);
+      raceData[Terran].set( "Terran",  UnitTypes::Terran_SCV,    UnitTypes::Terran_Command_Center, UnitTypes::Terran_Refinery,     UnitTypes::Terran_Dropship, UnitTypes::Terran_Supply_Depot);
+      raceData[Protoss].set("Protoss", UnitTypes::Protoss_Probe, UnitTypes::Protoss_Nexus,         UnitTypes::Protoss_Assimilator, UnitTypes::Protoss_Shuttle, UnitTypes::Protoss_Pylon);
+      raceData[Random].set( "Random",  UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
+      raceData[Other].set(  "Other",   UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
+      raceData[None].set(   "None",    UnitTypes::None,          UnitTypes::None,                  UnitTypes::None,                UnitTypes::None,            UnitTypes::None);
+      raceData[Unknown].set("Unknown", UnitTypes::Unknown,       UnitTypes::Unknown,               UnitTypes::Unknown,             UnitTypes::Unknown,         UnitTypes::Unknown);
 
       raceSet.insert(Zerg);
       raceSet.insert(Terran);
@@ -92,17 +92,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool Race::operator==(const Race& other) const
+  Race::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool Race::operator!=(const Race& other) const
-  {
-    return this->id != other.id;
-  }
-  bool Race::operator<(const Race& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int Race::getID() const
   {

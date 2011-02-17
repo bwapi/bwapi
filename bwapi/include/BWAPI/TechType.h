@@ -14,9 +14,8 @@ namespace BWAPI
       TechType(int id);
       TechType(const TechType& other);
       TechType& operator=(const TechType& other);
-      bool operator==(const TechType& other) const;
-      bool operator!=(const TechType& other) const;
-      bool operator<(const TechType& other) const;
+      operator int() const;
+
       /** Returns the unique ID for this tech type. */
       int getID() const;
 

@@ -15,9 +15,7 @@ namespace BWAPI
       Order(int id);
       Order(const Order& other);
       Order& operator=(const Order& other);
-      bool operator==(const Order& other) const;
-      bool operator!=(const Order& other) const;
-      bool operator<(const Order& other) const;
+      operator int() const;
 
       /** Returns the unique ID for this order. */
       int getID() const;

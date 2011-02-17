@@ -10,9 +10,7 @@ namespace BWAPI
       UnitSizeType(int id);
       UnitSizeType(const UnitSizeType& other);
       UnitSizeType& operator=(const UnitSizeType& other);
-      bool operator==(const UnitSizeType& other) const;
-      bool operator!=(const UnitSizeType& other) const;
-      bool operator<(const UnitSizeType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this UnitSizeType. */
       int getID() const;

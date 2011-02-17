@@ -10,9 +10,7 @@ namespace BWAPI
       PlayerType(int id);
       PlayerType(const PlayerType& other);
       PlayerType& operator=(const PlayerType& other);
-      bool operator==(const PlayerType& other) const;
-      bool operator!=(const PlayerType& other) const;
-      bool operator<(const PlayerType& other) const;
+      operator int() const;
 
       /** Returns the unique ID for this player type. */
       int getID() const;

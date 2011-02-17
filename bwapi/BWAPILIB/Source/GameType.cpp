@@ -35,22 +35,22 @@ namespace BWAPI
 
     void init()
     {
-      gameTypeName[Melee.getID()]                 = "Melee";
-      gameTypeName[Free_For_All.getID()]          = "Free For All";
-      gameTypeName[One_on_One.getID()]            = "One on One";
-      gameTypeName[Capture_The_Flag.getID()]      = "Capture The Flag";
-      gameTypeName[Greed.getID()]                 = "Greed";
-      gameTypeName[Slaughter.getID()]             = "Slaughter";
-      gameTypeName[Sudden_Death.getID()]          = "Sudden Death";
-      gameTypeName[Ladder.getID()]                = "Ladder";
-      gameTypeName[Use_Map_Settings.getID()]      = "Use Map Settings";
-      gameTypeName[Team_Melee.getID()]            = "Team Melee";
-      gameTypeName[Team_Free_For_All.getID()]     = "Team Free For All";
-      gameTypeName[Team_Capture_The_Flag.getID()] = "Team Capture The Flag";
-      gameTypeName[Top_vs_Bottom.getID()]         = "Top vs Bottom";
-      gameTypeName[Pro_Gamer_League.getID()]      = "Pro Gamer League";
-      gameTypeName[None.getID()]                  = "None";
-      gameTypeName[Unknown.getID()]               = "Unknown";
+      gameTypeName[Melee]                 = "Melee";
+      gameTypeName[Free_For_All]          = "Free For All";
+      gameTypeName[One_on_One]            = "One on One";
+      gameTypeName[Capture_The_Flag]      = "Capture The Flag";
+      gameTypeName[Greed]                 = "Greed";
+      gameTypeName[Slaughter]             = "Slaughter";
+      gameTypeName[Sudden_Death]          = "Sudden Death";
+      gameTypeName[Ladder]                = "Ladder";
+      gameTypeName[Use_Map_Settings]      = "Use Map Settings";
+      gameTypeName[Team_Melee]            = "Team Melee";
+      gameTypeName[Team_Free_For_All]     = "Team Free For All";
+      gameTypeName[Team_Capture_The_Flag] = "Team Capture The Flag";
+      gameTypeName[Top_vs_Bottom]         = "Top vs Bottom";
+      gameTypeName[Pro_Gamer_League]      = "Pro Gamer League";
+      gameTypeName[None]                  = "None";
+      gameTypeName[Unknown]               = "Unknown";
 
       gameTypeSet.insert(Melee);
       gameTypeSet.insert(Free_For_All);
@@ -97,17 +97,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool GameType::operator==(const GameType& other) const
+  GameType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool GameType::operator!=(const GameType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool GameType::operator<(const GameType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int GameType::getID() const
   {

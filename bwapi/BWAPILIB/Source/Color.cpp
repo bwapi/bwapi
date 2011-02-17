@@ -145,17 +145,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool Color::operator==(const Color& other) const
+  Color::operator int() const
   {
-    return palette[this->id] == palette[other.id];
-  }
-  bool Color::operator!=(const Color& other) const
-  {
-    return palette[this->id] != palette[other.id];
-  }
-  bool Color::operator<(const Color& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int Color::getID() const
   {

@@ -10,9 +10,7 @@ namespace BWAPI
       ExplosionType(int id);
       ExplosionType(const ExplosionType& other);
       ExplosionType& operator=(const ExplosionType& other);
-      bool operator==(const ExplosionType& other) const;
-      bool operator!=(const ExplosionType& other) const;
-      bool operator<(const ExplosionType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this explosion type. */
       int getID() const;

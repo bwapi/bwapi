@@ -10,9 +10,7 @@ namespace BWAPI
       DamageType(int id);
       DamageType(const DamageType& other);
       DamageType& operator=(const DamageType& other);
-      bool operator==(const DamageType& other) const;
-      bool operator!=(const DamageType& other) const;
-      bool operator<(const DamageType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this damage type. */
       int getID() const;

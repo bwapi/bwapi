@@ -190,7 +190,7 @@ namespace BWAPI
     {
       self->id              = -1;
       self->player          = -1;
-      self->type            = BulletTypes::None.getID();
+      self->type            = BulletTypes::None;
       self->source          = -1;
       self->positionX       = Positions::None.x();
       self->positionY       = Positions::None.y();

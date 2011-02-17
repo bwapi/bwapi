@@ -512,9 +512,20 @@ namespace BWAPI
     // Grab the unit's values
     BW::Unit *_u  = this->getOriginalRawData;
     int iLeft     = _u->unitFinderIndexLeft;
+    if ( iLeft < 0 || iLeft >= MAX_SEARCH )
+      return unitFinderResults;
+
     int iRight    = _u->unitFinderIndexRight;
+    if ( iRight < 0 || iRight >= MAX_SEARCH )
+      return unitFinderResults;
+
     int iTop      = _u->unitFinderIndexTop;
+    if ( iTop < 0 || iTop >= MAX_SEARCH )
+      return unitFinderResults;
+
     int iBottom   = _u->unitFinderIndexBottom;
+    if ( iBottom < 0 || iBottom >= MAX_SEARCH )
+      return unitFinderResults;
 
     int maxLeft   = xFinder[iLeft].searchValue - radius;
     int maxRight  = xFinder[iRight].searchValue + radius;
@@ -528,7 +539,7 @@ namespace BWAPI
       xList.push_back(xFinder[x].unitIndex);
 
     // Right of the current unit
-    for ( int x = iLeft; xFinder[x].searchValue <= maxRight && xFinder[x].unitIndex && x < 3400; ++x )
+    for ( int x = iLeft; xFinder[x].searchValue <= maxRight && xFinder[x].unitIndex && x < MAX_SEARCH; ++x )
       xList.push_back(xFinder[x].unitIndex);
 
     if ( xList.empty() )
@@ -541,7 +552,7 @@ namespace BWAPI
       yList.push_back(yFinder[y].unitIndex);
 
     // Under the current unit
-    for ( int y = iTop; yFinder[y].searchValue <= maxBottom && yFinder[y].unitIndex && y < 3400; ++y )
+    for ( int y = iTop; yFinder[y].searchValue <= maxBottom && yFinder[y].unitIndex && y < MAX_SEARCH; ++y )
       yList.push_back(yFinder[y].unitIndex);
 
     if ( yList.empty() )
@@ -552,7 +563,7 @@ namespace BWAPI
     {
       for each ( int yUnit in yList )
       {
-        if ( xUnit == yUnit ) // intersection
+        if ( xUnit == yUnit && xUnit > 0 && xUnit <= UNIT_ARRAY_MAX_LENGTH ) // intersection
         {
           UnitImpl *u = BroodwarImpl.unitArray[xUnit-1];
           if ( u && u->exists() && u != this && this->getDistance(u) <= radius )
@@ -566,28 +577,35 @@ namespace BWAPI
   std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
   {
     // initialization
-    std::set<Unit*> unitFinderResults;
+    std::set<Unit*> noResults;
     if ( !exists() )
-      return unitFinderResults;
+      return noResults;
 
     // obtain sets for weapon ranges
     UnitType thisType = this->getType();
     std::set<Unit*> maxGnd = getUnitsInRadius(getPlayer()->groundWeaponMaxRange(thisType));
     std::set<Unit*> maxAir = getUnitsInRadius(getPlayer()->airWeaponMaxRange(thisType));
     if ( maxGnd.empty() && maxAir.empty() ) // return if there are none
-      return unitFinderResults;
+      return noResults;
 
-    std::set<Unit*> minGnd = getUnitsInRadius(thisType.groundWeapon().minRange() - 1);
-    std::set<Unit*> minAir = getUnitsInRadius(thisType.airWeapon().minRange() - 1);
-    
-    // remove the subset of minRange from maxRange
-    for each (Unit *u in minGnd)
-      maxGnd.erase(maxGnd.find(u));
-    for each (Unit *u in minAir)
-      maxAir.erase(maxAir.find(u));
-
+    // remove the subset of minRange from maxRange for ground weapons
+    if ( thisType.groundWeapon().minRange() > 0 )
+    {
+      std::set<Unit*> minGnd = getUnitsInRadius(thisType.groundWeapon().minRange() - 1);
+      for each (Unit *u in minGnd)
+        maxGnd.erase(maxGnd.find(u));
+    }
+/*  No min range for air weapons
+    // remove the subset of minRange from maxRange for air weapons
+    if ( thisType.airWeapon().minRange() > 0 )
+    {
+      std::set<Unit*> minAir = getUnitsInRadius(thisType.airWeapon().minRange() - 1);
+      for each (Unit *u in minAir)
+        maxAir.erase(maxAir.find(u));
+    }
+*/
     if ( maxGnd.empty() && maxAir.empty() ) // return if we ended up removing them all
-      return unitFinderResults;
+      return noResults;
 
     for each (Unit *u in maxAir)
       maxGnd.insert(u);
@@ -700,7 +718,7 @@ namespace BWAPI
   //--------------------------------------------- IS FOLLOWING -----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
-    return self->order == Orders::Follow.getID();
+    return self->order == Orders::Follow;
   }
   //--------------------------------------------- IS GATHERING GAS -------------------------------------------
   bool UnitImpl::isGatheringGas() const
@@ -708,22 +726,22 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::Harvest1.getID()   &&
-        self->order != Orders::Harvest2.getID()   &&
-        self->order != Orders::MoveToGas.getID()  &&
-        self->order != Orders::WaitForGas.getID() &&
-        self->order != Orders::HarvestGas.getID() &&
-        self->order != Orders::ReturnGas.getID()  &&
-        self->order != Orders::ResetCollision.getID())
+    if (self->order != Orders::Harvest1   &&
+        self->order != Orders::Harvest2   &&
+        self->order != Orders::MoveToGas  &&
+        self->order != Orders::WaitForGas &&
+        self->order != Orders::HarvestGas &&
+        self->order != Orders::ReturnGas  &&
+        self->order != Orders::ResetCollision)
       return false;
 
-    if (self->order == Orders::ResetCollision.getID())
+    if (self->order == Orders::ResetCollision)
       return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (self->order == Orders::WaitForGas.getID() ||
-        self->order == Orders::HarvestGas.getID() ||
-        self->order == Orders::ReturnGas.getID())
+    if (self->order == Orders::WaitForGas ||
+        self->order == Orders::HarvestGas ||
+        self->order == Orders::ReturnGas)
       return true;
 
     //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
@@ -749,22 +767,22 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::Harvest1.getID()        &&
-        self->order != Orders::Harvest2.getID()        &&
-        self->order != Orders::MoveToMinerals.getID()  &&
-        self->order != Orders::WaitForMinerals.getID() &&
-        self->order != Orders::MiningMinerals.getID()  &&
-        self->order != Orders::ReturnMinerals.getID()  &&
-        self->order != Orders::ResetCollision.getID())
+    if (self->order != Orders::Harvest1        &&
+        self->order != Orders::Harvest2        &&
+        self->order != Orders::MoveToMinerals  &&
+        self->order != Orders::WaitForMinerals &&
+        self->order != Orders::MiningMinerals  &&
+        self->order != Orders::ReturnMinerals  &&
+        self->order != Orders::ResetCollision)
       return false;
 
-    if (self->order == Orders::ResetCollision.getID())
+    if (self->order == Orders::ResetCollision)
       return self->carryResourceType == 2;
 
     //return true if BWOrder is WaitForMinerals, MiningMinerals, or ReturnMinerals
-    if (self->order == Orders::WaitForMinerals.getID() ||
-        self->order == Orders::MiningMinerals.getID() ||
-        self->order == Orders::ReturnMinerals.getID())
+    if (self->order == Orders::WaitForMinerals ||
+        self->order == Orders::MiningMinerals ||
+        self->order == Orders::ReturnMinerals)
       return true;
 
     //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
@@ -792,7 +810,7 @@ namespace BWAPI
   //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
   bool UnitImpl::isHoldingPosition() const
   {
-    return self->order == Orders::HoldPosition.getID();
+    return self->order == Orders::HoldPosition;
   }
   //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
@@ -876,7 +894,7 @@ namespace BWAPI
   //--------------------------------------------- IS PATROLLING ----------------------------------------------
   bool UnitImpl::isPatrolling() const
   {
-    return self->order == Orders::Patrol.getID();
+    return self->order == Orders::Patrol;
   }
   //--------------------------------------------- IS PLAGUED -------------------------------------------------
   bool UnitImpl::isPlagued() const
@@ -886,12 +904,12 @@ namespace BWAPI
   //--------------------------------------------- IS REPAIRING -----------------------------------------------
   bool UnitImpl::isRepairing() const
   {
-    return self->order == Orders::Repair.getID();
+    return self->order == Orders::Repair;
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    return self->order == Orders::ResearchTech.getID();
+    return self->order == Orders::ResearchTech;
   }
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSelected() const
@@ -942,7 +960,7 @@ namespace BWAPI
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    return self->order == Orders::Upgrade.getID();
+    return self->order == Orders::Upgrade;
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const

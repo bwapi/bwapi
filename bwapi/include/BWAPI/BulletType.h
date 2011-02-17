@@ -11,9 +11,7 @@ namespace BWAPI
       BulletType(int id);
       BulletType(const BulletType& other);
       BulletType& operator=(const BulletType& other);
-      bool operator==(const BulletType& other) const;
-      bool operator!=(const BulletType& other) const;
-      bool operator<(const BulletType& other) const;
+      operator int() const;
 
       /** Returns the unique ID for this bullet type. */
       int getID() const;

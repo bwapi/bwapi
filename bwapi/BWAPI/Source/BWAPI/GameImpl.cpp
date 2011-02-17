@@ -132,7 +132,7 @@ namespace BWAPI
     if ( !this->isFlagEnabled(Flag::CompleteMapInformation) )
       return NULL;
     int i = (unitIndex & 0x7FF);
-    if ( i < 1700 && this->unitArray[i]->canAccess() )
+    if ( i < UNIT_ARRAY_MAX_LENGTH && this->unitArray[i]->canAccess() )
       return this->unitArray[i];
     return NULL;
   }
@@ -355,7 +355,7 @@ namespace BWAPI
 
     // Grab the minimum x value without performing any additional computation
     unsigned int xMin = 0;
-    while ( xFinder[xMin].searchValue < left && xFinder[xMin].unitIndex && xMin < 3400 )
+    while ( xFinder[xMin].searchValue < left && xFinder[xMin].unitIndex && xMin < MAX_SEARCH )
       ++xMin;
 
     if ( !xFinder[xMin].unitIndex ) // no units were found on the horizontal plane
@@ -363,7 +363,7 @@ namespace BWAPI
 
     // Grab the minimum y value without performing any additional computation
     unsigned int yMin = 0;
-    while ( yFinder[yMin].searchValue < top && yFinder[yMin].unitIndex && yMin < 3400 )
+    while ( yFinder[yMin].searchValue < top && yFinder[yMin].unitIndex && yMin < MAX_SEARCH )
       ++yMin;
 
     if ( !yFinder[yMin].unitIndex ) // no units were found on the vertical plane
@@ -371,7 +371,7 @@ namespace BWAPI
 
     // Retrieve the unit indexes for the horizontal plane
     std::vector<int> xList;
-    for ( unsigned int x = xMin; xFinder[x].searchValue <= right && xFinder[x].unitIndex && x < 3400; ++x )
+    for ( unsigned int x = xMin; xFinder[x].searchValue <= right && xFinder[x].unitIndex && x < MAX_SEARCH; ++x )
       xList.push_back(xFinder[x].unitIndex);
 
     if ( xList.empty() )
@@ -379,7 +379,7 @@ namespace BWAPI
 
     // Retrieve the unit indexes for the vertical plane
     std::vector<int> yList;
-    for ( unsigned int y = yMin; yFinder[y].searchValue <= bottom && yFinder[y].unitIndex && y < 3400; ++y )
+    for ( unsigned int y = yMin; yFinder[y].searchValue <= bottom && yFinder[y].unitIndex && y < MAX_SEARCH; ++y )
       yList.push_back(yFinder[y].unitIndex);
 
     if ( yList.empty() )
@@ -390,7 +390,8 @@ namespace BWAPI
     {
       for each ( int yUnit in yList )
       {
-        if ( xUnit == yUnit ) // intersection
+        // Note: we use <= because we subtract 1
+        if ( xUnit == yUnit && xUnit > 0 && xUnit <= UNIT_ARRAY_MAX_LENGTH ) // intersection
         {
           UnitImpl *u = unitArray[xUnit-1];
           if ( u && u->exists() )

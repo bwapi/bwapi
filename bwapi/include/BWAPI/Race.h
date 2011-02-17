@@ -11,9 +11,7 @@ namespace BWAPI
       Race(int id);
       Race(const Race& other);
       Race& operator=(const Race& other);
-      bool operator==(const Race& other) const;
-      bool operator!=(const Race& other) const;
-      bool operator<(const Race& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this race. */
       int getID() const;

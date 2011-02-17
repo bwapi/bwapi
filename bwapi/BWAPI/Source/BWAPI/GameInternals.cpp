@@ -213,9 +213,9 @@ namespace BWAPI
         else
         {
           allDone = true;
-          foreach(Player* p, this->playerSet)
+          foreach(PlayerImpl *p, this->playerSet)
           {
-            if ( ((PlayerImpl*)p)->getIndex() >= 8 )
+            if ( p->getIndex() >= 8 )
               continue;
             if ( !p->isDefeated() && !p->isVictorious() && !p->leftGame() )
               allDone = false;
@@ -461,7 +461,7 @@ namespace BWAPI
     {
       if ( selectedUnitSet.size() > 0 )
       {
-        Unit *u = (*selectedUnitSet.begin());
+        Unit *u = *selectedUnitSet.begin();
         std::set<Unit*> found = u->getUnitsInWeaponRange();
         Position p = u->getPosition();
         for each ( Unit *_u in found )
@@ -621,7 +621,7 @@ namespace BWAPI
         {
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
           if ( gt != GameTypes::None && gt != GameTypes::Unknown )
-            tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
+            tempDlg->findIndex(17)->setSelectedByValue(gt);
 
           Race playerRace = Races::getRace(this->autoMenuRace);
           if ( this->autoMenuRace == "RANDOMTP" )
@@ -717,7 +717,7 @@ namespace BWAPI
           {
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              tempDlg->findIndex(17)->setSelectedByValue(gt.getID());
+              tempDlg->findIndex(17)->setSelectedByValue(gt);
 
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
           }
@@ -951,7 +951,7 @@ namespace BWAPI
     {
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
       if ( slotCtrl )
-        slotCtrl->setSelectedByValue(race.getID());
+        slotCtrl->setSelectedByValue(race);
     }
     else
     {
@@ -965,11 +965,11 @@ namespace BWAPI
           if ( txt && strlen(txt) > 0 )
           {
             if ( txt[0] >= '2' )
-              QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+              QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
           }
           else
           {
-            QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race.getID()), (u8)slot), 3);
+            QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
           }
         } // countdown
       }
@@ -1675,7 +1675,7 @@ namespace BWAPI
         j->self->buildType      = j->self->type;
       }
       if ( i->getTransport() )
-        ((UnitImpl*)i->getTransport())->loadedUnits.insert((Unit*)i);
+        ((UnitImpl*)i->getTransport())->loadedUnits.insert(i);
 
       if ( i->getHatchery() )
       {
@@ -1685,7 +1685,7 @@ namespace BWAPI
           hatchery->self->remainingTrainTime = 0;
       }
       if ( i->getCarrier() )
-        ((UnitImpl*)i->getCarrier())->connectedUnits.insert((Unit*)i);
+        ((UnitImpl*)i->getCarrier())->connectedUnits.insert(i);
 
     }
   }
@@ -1699,25 +1699,25 @@ namespace BWAPI
       this->commandBuffer.erase(this->commandBuffer.begin());
     }
     this->commandBuffer.push_back(std::vector<Command *>());
-    for (unsigned int i = 0; i < this->commandBuffer.size(); i++)
-      for (unsigned int j = 0; j < this->commandBuffer[i].size(); j++)
+    for (unsigned int i = 0; i < this->commandBuffer.size(); ++i)
+      for (unsigned int j = 0; j < this->commandBuffer[i].size(); ++j)
         this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
   }
   void GameImpl::computeSecondaryUnitSets()
   {
     // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
     // Also generates the UnitMorph and UnitRenegade callbacks
-    for (int y = 0; y < Map::getHeight(); y++)
-      for (int x = 0; x < Map::getWidth(); x++)
+    for (int y = 0; y < Map::getHeight(); ++y)
+      for (int x = 0; x < Map::getWidth(); ++x)
         this->unitsOnTileData[x][y].clear();
 
-    foreach(Player* p, playerSet)
+    foreach(PlayerImpl *p, playerSet)
     {
       for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
       {
-        ((PlayerImpl*)p)->self->allUnitCount[i]       = 0;
-        ((PlayerImpl*)p)->self->visibleUnitCount[i]   = 0;
-        ((PlayerImpl*)p)->self->completedUnitCount[i] = 0;
+        p->self->allUnitCount[i]       = 0;
+        p->self->visibleUnitCount[i]   = 0;
+        p->self->completedUnitCount[i] = 0;
       }
     }
 
@@ -1794,11 +1794,11 @@ namespace BWAPI
         ((PlayerImpl*)i->lastPlayer)->units.erase(i);
         ((PlayerImpl*)i->_getPlayer)->units.insert(i);
       }
-      int allUnits  = UnitTypes::AllUnits.getID();
-      int men       = UnitTypes::Men.getID();
-      int buildings = UnitTypes::Buildings.getID();
-      int factories = UnitTypes::Factories.getID();
-      int thisUnit  = i->_getType.getID();
+      int allUnits  = UnitTypes::AllUnits;
+      int men       = UnitTypes::Men;
+      int buildings = UnitTypes::Buildings;
+      int factories = UnitTypes::Factories;
+      int thisUnit  = i->_getType;
       // Increment specific unit count
       ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[thisUnit]++;
       if (i->isVisible())
@@ -1866,21 +1866,22 @@ namespace BWAPI
     computeSecondaryUnitSets();
     std::set<Unit*> selectedU = selectedUnitSet;
     selectedUnitSet.clear();
-    for each(Unit* u in selectedU)
+    for each ( UnitImpl* u in selectedU )
     {
-      if (u && u->exists())
-        selectedUnitSet.insert(u);
-      else
+      if ( u )
       {
-        if (u)
+        if ( u->exists() )
+          selectedUnitSet.insert(u);
+        else
         {
-          ((UnitImpl*)u)->setSelected(false);
-          if (((UnitImpl*)u)->self)
-            ((UnitImpl*)u)->self->isSelected = false;
-        }
-      }        
-    }
-  }
+          u->setSelected(false);
+          if ( u->self )
+            u->self->isSelected = false;
+        } // if exists
+      } // if u
+    } // for each in selectedU
+
+  } // updateUnits
   void GameImpl::processEvents()
   {
     //This function translates events into AIModule callbacks
@@ -2036,7 +2037,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Attack_Unit)
     {
       Unit* target = command.target;
-      switch ( command.unit->getType().getID() )
+      switch ( command.unit->getType() )
       {
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
@@ -2060,32 +2061,32 @@ namespace BWAPI
            extraType == UnitTypes::Zerg_Nydus_Canal )
         QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
       else if ( !extraType.isAddon() )
-        QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType.getID()), sizeof(BW::Orders::MakeBuilding));
+        QueueGameCommand((PBYTE)&BW::Orders::MakeBuilding(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType), sizeof(BW::Orders::MakeBuilding));
       else
-        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType.getID()), sizeof(BW::Orders::MakeAddon));
+        QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)extraType), sizeof(BW::Orders::MakeAddon));
     }
     else if (ct == UnitCommandTypes::Build_Addon)
     {
       TilePosition target(command.unit->getTilePosition().x() + 4, command.unit->getTilePosition().y() + 1);
       UnitType type1(command.extra);
       target.makeValid();
-      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)type1.getID()), sizeof(BW::Orders::MakeAddon));
+      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)type1), sizeof(BW::Orders::MakeAddon));
     }
     else if (ct == UnitCommandTypes::Train)
     {
       UnitType type1(command.extra);
-      switch ( command.unit->getType().getID() )
+      switch ( command.unit->getType() )
       {
       case BW::UnitID::Zerg_Larva:
       case BW::UnitID::Zerg_Mutalisk:
       case BW::UnitID::Zerg_Hydralisk:
-        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type1.getID()), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type1), 3);
         break;
       case BW::UnitID::Zerg_Hatchery:
       case BW::UnitID::Zerg_Lair:
       case BW::UnitID::Zerg_Spire:
       case BW::UnitID::Zerg_CreepColony:
-        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type1.getID()), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type1), 3);
         break;
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
@@ -2094,7 +2095,7 @@ namespace BWAPI
         QueueGameCommand((PBYTE)&BW::Orders::TrainFighter(), 1);
         break;
       default:
-        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit((u16)type1.getID()), 3);
+        QueueGameCommand((PBYTE)&BW::Orders::TrainUnit((u16)type1), 3);
         break;
       }
     }
@@ -2102,19 +2103,19 @@ namespace BWAPI
     {
       UnitType type(command.extra);
       if(type.isBuilding())
-        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type.getID()), sizeof(BW::Orders::BuildingMorph));
+        QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type), sizeof(BW::Orders::BuildingMorph));
       else
-        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type.getID()), sizeof(BW::Orders::UnitMorph));
+        QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type), sizeof(BW::Orders::UnitMorph));
     }
     else if (ct == UnitCommandTypes::Research)
     {
       TechType tech(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Invent((u8)tech.getID()), sizeof(BW::Orders::Invent));
+      QueueGameCommand((PBYTE)&BW::Orders::Invent((u8)tech), sizeof(BW::Orders::Invent));
     }
     else if (ct == UnitCommandTypes::Upgrade)
     {
       UpgradeType upgrade(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Upgrade((u8)upgrade.getID()), sizeof(BW::Orders::Upgrade));
+      QueueGameCommand((PBYTE)&BW::Orders::Upgrade((u8)upgrade), sizeof(BW::Orders::Upgrade));
     }
     else if (ct == UnitCommandTypes::Set_Rally_Position)
     {
@@ -2142,7 +2143,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Stop)
     {
-      switch ( command.unit->getType().getID() )
+      switch ( command.unit->getType() )
       {
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Warbringer:
@@ -2203,7 +2204,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Land)
     {
-      QueueGameCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), (u16)command.unit->getType().getID()), sizeof(BW::Orders::Land));
+      QueueGameCommand((PBYTE)&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), (u16)command.unit->getType()), sizeof(BW::Orders::Land));
     }
     else if (ct == UnitCommandTypes::Load)
     {
@@ -2292,7 +2293,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Use_Tech)
     {
       TechType tech(command.extra);
-      switch (tech.getID())
+      switch (tech)
       {
         case BW::TechID::Stimpacks:
           QueueGameCommand((PBYTE)&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
@@ -2335,7 +2336,7 @@ namespace BWAPI
       TechType tech(command.extra);
       Position position(command.x,command.y);
       u8 order = BW::OrderID::None;
-      switch (tech.getID())
+      switch (tech)
       {
         case BW::TechID::DarkSwarm:
           order = BW::OrderID::DarkSwarm;
@@ -2383,7 +2384,7 @@ namespace BWAPI
       else
       {
         u8 order;
-        switch (tech.getID())
+        switch (tech)
         {
           case BW::TechID::Consume:
             order = BW::OrderID::Consume;

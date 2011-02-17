@@ -15,7 +15,7 @@ struct netFunctions
   bool  (__stdcall *spiDestroy)();
   // Called in order to free blocks of packet memory returned in the spiReceive functions
   bool  (__stdcall *spiFree)(SOCKADDR_IN *addr, char *data, DWORD databytes);
-  void  *spiFreeExternalMessage;
+  bool  (__stdcall *spiFreeExternalMessage)(SOCKADDR_IN *addr, char *data, DWORD databytes);
   // Returns info on a specified game
   void  *spiGetGameInfo;
   // Returns packet statistics

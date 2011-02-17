@@ -642,7 +642,7 @@ bool ConvertImage(const char *pszFileName)
     for ( DWORD x = 0; x < dwWidth; ++x )
     {
       DWORD dwIndex = outBuff[y * dwWidth + x];
-      fprintf(out, "0x%02X, ", dwIndex ? BWAPI::Color(palette[dwIndex].peRed, palette[dwIndex].peGreen, palette[dwIndex].peBlue).getID() : 0 );
+      fprintf(out, "0x%02X, ", dwIndex ? BWAPI::Color(palette[dwIndex].peRed, palette[dwIndex].peGreen, palette[dwIndex].peBlue) : 0 );
     }
   }
   fprintf(out, "\n}\n\n");

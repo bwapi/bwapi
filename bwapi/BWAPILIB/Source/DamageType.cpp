@@ -26,13 +26,13 @@ namespace BWAPI
 
     void init()
     {
-      damageTypeName[Independent.getID()]  = "Independent";
-      damageTypeName[Explosive.getID()]    = "Explosive";
-      damageTypeName[Concussive.getID()]   = "Concussive";
-      damageTypeName[Normal.getID()]       = "Normal";
-      damageTypeName[Ignore_Armor.getID()] = "Ignore Armor";
-      damageTypeName[None.getID()]         = "None";
-      damageTypeName[Unknown.getID()]      = "Unknown";
+      damageTypeName[Independent]  = "Independent";
+      damageTypeName[Explosive]    = "Explosive";
+      damageTypeName[Concussive]   = "Concussive";
+      damageTypeName[Normal]       = "Normal";
+      damageTypeName[Ignore_Armor] = "Ignore Armor";
+      damageTypeName[None]         = "None";
+      damageTypeName[Unknown]      = "Unknown";
 
       damageTypeSet.insert(Independent);
       damageTypeSet.insert(Explosive);
@@ -70,17 +70,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool DamageType::operator==(const DamageType& other) const
+  DamageType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool DamageType::operator!=(const DamageType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool DamageType::operator<(const DamageType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int DamageType::getID() const
   {

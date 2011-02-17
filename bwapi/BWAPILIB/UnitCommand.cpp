@@ -39,7 +39,7 @@ namespace BWAPI
     target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
-    c.extra = type.getID();
+    c.extra = type;
     return c;
   }
   UnitCommand UnitCommand::buildAddon(Unit* unit, UnitType type)
@@ -47,7 +47,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Build_Addon;
-    c.extra = type.getID();
+    c.extra = type;
     return c;
   }
   UnitCommand UnitCommand::train(Unit* unit, UnitType type)
@@ -55,7 +55,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Train;
-    c.extra = type.getID();
+    c.extra = type;
     return c;
   }
   UnitCommand UnitCommand::morph(Unit* unit, UnitType type)
@@ -63,7 +63,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Morph;
-    c.extra = type.getID();
+    c.extra = type;
     return c;
   }
   UnitCommand UnitCommand::research(Unit* unit, TechType tech)
@@ -71,7 +71,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Research;
-    c.extra = tech.getID();
+    c.extra = tech;
     return c;
   }
   UnitCommand UnitCommand::upgrade(Unit* unit, UpgradeType upgrade)
@@ -79,7 +79,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Upgrade;
-    c.extra = upgrade.getID();
+    c.extra = upgrade;
     return c;
   }
   UnitCommand UnitCommand::setRallyPoint(Unit* unit, Position target)
@@ -330,7 +330,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Use_Tech;
-    c.extra = tech.getID();
+    c.extra = tech;
     if (tech==TechTypes::Burrowing)
     {
       if (unit->isBurrowed())
@@ -359,7 +359,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit  = unit;
     c.type  = UnitCommandTypes::Use_Tech_Position;
-    c.extra = tech.getID();
+    c.extra = tech;
     target.makeValid();
     c.x     = target.x();
     c.y     = target.y();
@@ -370,7 +370,7 @@ namespace BWAPI
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Use_Tech_Unit;
-    c.extra  = tech.getID();
+    c.extra  = tech;
     c.target = target;
     return c;
   }

@@ -65,52 +65,52 @@ namespace BWAPI
 
     void init()
     {
-      unitCommandTypeName[Attack_Move.getID()]          = "Attack Move";
-      unitCommandTypeName[Attack_Unit.getID()]          = "Attack Unit";
-      unitCommandTypeName[Build.getID()]                = "Build";
-      unitCommandTypeName[Build_Addon.getID()]          = "Build Addon";
-      unitCommandTypeName[Train.getID()]                = "Train";
-      unitCommandTypeName[Morph.getID()]                = "Morph";
-      unitCommandTypeName[Research.getID()]             = "Research";
-      unitCommandTypeName[Upgrade.getID()]              = "Upgrade";
-      unitCommandTypeName[Set_Rally_Position.getID()]   = "Set Rally Position";
-      unitCommandTypeName[Set_Rally_Unit.getID()]       = "Set Rally Unit";
-      unitCommandTypeName[Move.getID()]                 = "Move";
-      unitCommandTypeName[Patrol.getID()]               = "Patrol";
-      unitCommandTypeName[Hold_Position.getID()]        = "Hold Position";
-      unitCommandTypeName[Stop.getID()]                 = "Stop";
-      unitCommandTypeName[Follow.getID()]               = "Follow";
-      unitCommandTypeName[Gather.getID()]               = "Gather";
-      unitCommandTypeName[Return_Cargo.getID()]         = "Return Cargo";
-      unitCommandTypeName[Repair.getID()]               = "Repair";
-      unitCommandTypeName[Burrow.getID()]               = "Burrow";
-      unitCommandTypeName[Unburrow.getID()]             = "Unburrow";
-      unitCommandTypeName[Cloak.getID()]                = "Cloak";
-      unitCommandTypeName[Decloak.getID()]              = "Decloak";
-      unitCommandTypeName[Siege.getID()]                = "Siege";
-      unitCommandTypeName[Unsiege.getID()]              = "Unsiege";
-      unitCommandTypeName[Lift.getID()]                 = "Lift";
-      unitCommandTypeName[Land.getID()]                 = "Land";
-      unitCommandTypeName[Load.getID()]                 = "Load";
-      unitCommandTypeName[Unload.getID()]               = "Unload";
-      unitCommandTypeName[Unload_All.getID()]           = "Unload All";
-      unitCommandTypeName[Unload_All_Position.getID()]  = "Unload All Position";
-      unitCommandTypeName[Right_Click_Position.getID()] = "Right Click Position";
-      unitCommandTypeName[Right_Click_Unit.getID()]     = "Right Click Unit";
-      unitCommandTypeName[Halt_Construction.getID()]    = "Halt Construction";
-      unitCommandTypeName[Cancel_Construction.getID()]  = "Cancel Construction";
-      unitCommandTypeName[Cancel_Addon.getID()]         = "Cancel Addon";
-      unitCommandTypeName[Cancel_Train.getID()]         = "Cancel Train";
-      unitCommandTypeName[Cancel_Train_Slot.getID()]    = "Cancel Train Slot";
-      unitCommandTypeName[Cancel_Morph.getID()]         = "Cancel Morph";
-      unitCommandTypeName[Cancel_Research.getID()]      = "Cancel Research";
-      unitCommandTypeName[Cancel_Upgrade.getID()]       = "Cancel Upgrade";
-      unitCommandTypeName[Use_Tech.getID()]             = "Use Tech";
-      unitCommandTypeName[Use_Tech_Position.getID()]    = "Use Tech Position";
-      unitCommandTypeName[Use_Tech_Unit.getID()]        = "Use Tech Unit";
-      unitCommandTypeName[Place_COP.getID()]            = "Place COP";
-      unitCommandTypeName[None.getID()]                 = "None";
-      unitCommandTypeName[Unknown.getID()]              = "Unknown";
+      unitCommandTypeName[Attack_Move]          = "Attack Move";
+      unitCommandTypeName[Attack_Unit]          = "Attack Unit";
+      unitCommandTypeName[Build]                = "Build";
+      unitCommandTypeName[Build_Addon]          = "Build Addon";
+      unitCommandTypeName[Train]                = "Train";
+      unitCommandTypeName[Morph]                = "Morph";
+      unitCommandTypeName[Research]             = "Research";
+      unitCommandTypeName[Upgrade]              = "Upgrade";
+      unitCommandTypeName[Set_Rally_Position]   = "Set Rally Position";
+      unitCommandTypeName[Set_Rally_Unit]       = "Set Rally Unit";
+      unitCommandTypeName[Move]                 = "Move";
+      unitCommandTypeName[Patrol]               = "Patrol";
+      unitCommandTypeName[Hold_Position]        = "Hold Position";
+      unitCommandTypeName[Stop]                 = "Stop";
+      unitCommandTypeName[Follow]               = "Follow";
+      unitCommandTypeName[Gather]               = "Gather";
+      unitCommandTypeName[Return_Cargo]         = "Return Cargo";
+      unitCommandTypeName[Repair]               = "Repair";
+      unitCommandTypeName[Burrow]               = "Burrow";
+      unitCommandTypeName[Unburrow]             = "Unburrow";
+      unitCommandTypeName[Cloak]                = "Cloak";
+      unitCommandTypeName[Decloak]              = "Decloak";
+      unitCommandTypeName[Siege]                = "Siege";
+      unitCommandTypeName[Unsiege]              = "Unsiege";
+      unitCommandTypeName[Lift]                 = "Lift";
+      unitCommandTypeName[Land]                 = "Land";
+      unitCommandTypeName[Load]                 = "Load";
+      unitCommandTypeName[Unload]               = "Unload";
+      unitCommandTypeName[Unload_All]           = "Unload All";
+      unitCommandTypeName[Unload_All_Position]  = "Unload All Position";
+      unitCommandTypeName[Right_Click_Position] = "Right Click Position";
+      unitCommandTypeName[Right_Click_Unit]     = "Right Click Unit";
+      unitCommandTypeName[Halt_Construction]    = "Halt Construction";
+      unitCommandTypeName[Cancel_Construction]  = "Cancel Construction";
+      unitCommandTypeName[Cancel_Addon]         = "Cancel Addon";
+      unitCommandTypeName[Cancel_Train]         = "Cancel Train";
+      unitCommandTypeName[Cancel_Train_Slot]    = "Cancel Train Slot";
+      unitCommandTypeName[Cancel_Morph]         = "Cancel Morph";
+      unitCommandTypeName[Cancel_Research]      = "Cancel Research";
+      unitCommandTypeName[Cancel_Upgrade]       = "Cancel Upgrade";
+      unitCommandTypeName[Use_Tech]             = "Use Tech";
+      unitCommandTypeName[Use_Tech_Position]    = "Use Tech Position";
+      unitCommandTypeName[Use_Tech_Unit]        = "Use Tech Unit";
+      unitCommandTypeName[Place_COP]            = "Place COP";
+      unitCommandTypeName[None]                 = "None";
+      unitCommandTypeName[Unknown]              = "Unknown";
 
       unitCommandTypeSet.insert(Attack_Move);
       unitCommandTypeSet.insert(Attack_Unit);
@@ -187,21 +187,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool UnitCommandType::operator==(const UnitCommandType& other) const
+  UnitCommandType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool UnitCommandType::operator!=(const UnitCommandType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool UnitCommandType::operator<(const UnitCommandType& other) const
-  {
-    return this->id < other.id;
-  }
-  bool UnitCommandType::operator>(const UnitCommandType& other) const
-  {
-    return this->id > other.id;
+    return id;
   }
   int UnitCommandType::getID() const
   {

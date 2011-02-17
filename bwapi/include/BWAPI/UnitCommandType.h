@@ -13,10 +13,7 @@ namespace BWAPI
       UnitCommandType(int id);
       UnitCommandType(const UnitCommandType& other);
       UnitCommandType& operator=(const UnitCommandType& other);
-      bool operator==(const UnitCommandType& other) const;
-      bool operator!=(const UnitCommandType& other) const;
-      bool operator<(const UnitCommandType& other) const;
-      bool operator>(const UnitCommandType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this UnitCommandType. */
       int getID() const;

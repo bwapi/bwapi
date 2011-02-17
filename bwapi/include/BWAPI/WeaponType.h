@@ -14,9 +14,7 @@ namespace BWAPI
       WeaponType(int id);
       WeaponType(const WeaponType& other);
       WeaponType& operator=(const WeaponType& other);
-      bool operator==(const WeaponType& other) const;
-      bool operator!=(const WeaponType& other) const;
-      bool operator<(const WeaponType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this weapon type. */
       int getID() const;

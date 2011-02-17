@@ -110,42 +110,42 @@ namespace BWAPI
 
     void init()
     {
-      techTypeData[Stim_Packs.getID()].set("Stim Packs"                ,100,100,1200,0  ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Marine, UnitTypes::Terran_Firebat, UnitTypes::Hero_Jim_Raynor_Marine, UnitTypes::Hero_Gui_Montag);
-      techTypeData[Lockdown.getID()].set("Lockdown"                    ,200,200,1500,100,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::Lockdown        , true,  false, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan);
-      techTypeData[EMP_Shockwave.getID()].set("EMP Shockwave"          ,200,200,1800,100,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::EMP_Shockwave   , false, true,  UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Spider_Mines.getID()].set("Spider Mines"            ,100,100,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::Spider_Mines    , false, true,  UnitTypes::Terran_Vulture, UnitTypes::Hero_Jim_Raynor_Vulture);
-      techTypeData[Scanner_Sweep.getID()].set("Scanner Sweep"          ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , false, true,  UnitTypes::Terran_Comsat_Station);
-      techTypeData[Tank_Siege_Mode.getID()].set("Tank Siege Mode"      ,150,150,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Siege_Tank_Tank_Mode, UnitTypes::Terran_Siege_Tank_Siege_Mode, UnitTypes::Hero_Edmund_Duke_Tank_Mode, UnitTypes::Hero_Edmund_Duke_Siege_Mode);
-      techTypeData[Defensive_Matrix.getID()].set("Defensive Matrix"    ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  false, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Irradiate.getID()].set("Irradiate"                  ,200,200,1200,75 ,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::Irradiate       , true,  false, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Yamato_Gun.getID()].set("Yamato Gun"                ,100,100,1800,150,UnitTypes::Terran_Physics_Lab      ,Races::Terran ,WeaponTypes::Yamato_Gun      , true,  false, UnitTypes::Terran_Battlecruiser, UnitTypes::Hero_Gerard_DuGalle, UnitTypes::Hero_Hyperion, UnitTypes::Hero_Norad_II);
-      techTypeData[Cloaking_Field.getID()].set("Cloaking Field"        ,150,150,1500,25 ,UnitTypes::Terran_Control_Tower    ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Wraith, UnitTypes::Hero_Tom_Kazansky);
-      techTypeData[Personnel_Cloaking.getID()].set("Personnel Cloaking",100,100,1200,25 ,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Burrowing.getID()].set("Burrowing"                  ,100,100,1200,0  ,UnitTypes::Zerg_Hatchery           ,Races::Zerg   ,WeaponTypes::None            , false, false, UnitTypes::Zerg_Drone, UnitTypes::Zerg_Zergling, UnitTypes::Zerg_Hydralisk, UnitTypes::Zerg_Defiler, UnitTypes::Zerg_Infested_Terran, UnitTypes::Zerg_Lurker);
-      techTypeData[Infestation.getID()].set("Infestation"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::None            , true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Spawn_Broodlings.getID()].set("Spawn Broodlings"    ,100,100,1200,150,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Spawn_Broodlings, true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Dark_Swarm.getID()].set("Dark Swarm"                ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Dark_Swarm      , false, true,  UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
-      techTypeData[Plague.getID()].set("Plague"                        ,200,200,1500,150,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Plague          , false, true,  UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
-      techTypeData[Consume.getID()].set("Consume"                      ,100,100,1500,0  ,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Consume         , true,  false, UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Ensnare.getID()].set("Ensnare"                      ,100,100,1200,75 ,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Ensnare         , false, true,  UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Parasite.getID()].set("Parasite"                    ,0  ,0  ,0   ,75 ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Parasite        , true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Psionic_Storm.getID()].set("Psionic Storm"          ,200,200,1800,75 ,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Psionic_Storm   , false, true,  UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Hallucination.getID()].set("Hallucination"          ,150,150,1200,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar);
-      techTypeData[Recall.getID()].set("Recall"                        ,150,150,1800,150,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::None            , false, true,  UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
-      techTypeData[Stasis_Field.getID()].set("Stasis Field"            ,150,150,1500,100,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::Stasis_Field    , false, true,  UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
-      techTypeData[Archon_Warp.getID()].set("Archon Warp"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_High_Templar);
-      techTypeData[Restoration.getID()].set("Restoration"              ,100,100,1200,50 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Restoration     , true,  false, UnitTypes::Terran_Medic);
-      techTypeData[Disruption_Web.getID()].set("Disruption Web"        ,200,200,1200,125,UnitTypes::Protoss_Fleet_Beacon    ,Races::Protoss,WeaponTypes::Disruption_Web  , false, true,  UnitTypes::Protoss_Corsair, UnitTypes::Hero_Raszagal);
-      techTypeData[Mind_Control.getID()].set("Mind Control"            ,200,200,1800,150,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Mind_Control    , true,  false, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Dark_Archon_Meld.getID()].set("Dark Archon Meld"    ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_Dark_Templar);
-      techTypeData[Feedback.getID()].set("Feedback"                    ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::Feedback        , true,  false, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Optical_Flare.getID()].set("Optical Flare"          ,100,100,1800,75 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Optical_Flare   , true,  false, UnitTypes::Terran_Medic);
-      techTypeData[Maelstrom.getID()].set("Maelstrom"                  ,100,100,1500,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Maelstrom       , true,  false, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Lurker_Aspect.getID()].set("Lurker Aspect"          ,200,200,1800,0  ,UnitTypes::Zerg_Hydralisk_Den      ,Races::Zerg   ,WeaponTypes::None            , false, false, UnitTypes::Zerg_Lurker);
-      techTypeData[Healing.getID()].set("Healing"                      ,0  ,0  ,0   ,1  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  false, UnitTypes::Terran_Medic);
-      techTypeData[None.getID()].set("None"                            ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::None   ,WeaponTypes::None            , false, false, UnitTypes::None);
-      techTypeData[Unknown.getID()].set("Unknown"                      ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Unknown,WeaponTypes::None            , false, false, UnitTypes::None);
-      techTypeData[Nuclear_Strike.getID()].set("Nuclear Strike"        ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::Nuclear_Strike  , false, true,  UnitTypes::Terran_Ghost);
+      techTypeData[Stim_Packs].set("Stim Packs"                ,100,100,1200,0  ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Marine, UnitTypes::Terran_Firebat, UnitTypes::Hero_Jim_Raynor_Marine, UnitTypes::Hero_Gui_Montag);
+      techTypeData[Lockdown].set("Lockdown"                    ,200,200,1500,100,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::Lockdown        , true,  false, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan);
+      techTypeData[EMP_Shockwave].set("EMP Shockwave"          ,200,200,1800,100,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::EMP_Shockwave   , false, true,  UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
+      techTypeData[Spider_Mines].set("Spider Mines"            ,100,100,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::Spider_Mines    , false, true,  UnitTypes::Terran_Vulture, UnitTypes::Hero_Jim_Raynor_Vulture);
+      techTypeData[Scanner_Sweep].set("Scanner Sweep"          ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , false, true,  UnitTypes::Terran_Comsat_Station);
+      techTypeData[Tank_Siege_Mode].set("Tank Siege Mode"      ,150,150,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Siege_Tank_Tank_Mode, UnitTypes::Terran_Siege_Tank_Siege_Mode, UnitTypes::Hero_Edmund_Duke_Tank_Mode, UnitTypes::Hero_Edmund_Duke_Siege_Mode);
+      techTypeData[Defensive_Matrix].set("Defensive Matrix"    ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  false, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
+      techTypeData[Irradiate].set("Irradiate"                  ,200,200,1200,75 ,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::Irradiate       , true,  false, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
+      techTypeData[Yamato_Gun].set("Yamato Gun"                ,100,100,1800,150,UnitTypes::Terran_Physics_Lab      ,Races::Terran ,WeaponTypes::Yamato_Gun      , true,  false, UnitTypes::Terran_Battlecruiser, UnitTypes::Hero_Gerard_DuGalle, UnitTypes::Hero_Hyperion, UnitTypes::Hero_Norad_II);
+      techTypeData[Cloaking_Field].set("Cloaking Field"        ,150,150,1500,25 ,UnitTypes::Terran_Control_Tower    ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Wraith, UnitTypes::Hero_Tom_Kazansky);
+      techTypeData[Personnel_Cloaking].set("Personnel Cloaking",100,100,1200,25 ,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::None            , false, false, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan, UnitTypes::Hero_Infested_Kerrigan);
+      techTypeData[Burrowing].set("Burrowing"                  ,100,100,1200,0  ,UnitTypes::Zerg_Hatchery           ,Races::Zerg   ,WeaponTypes::None            , false, false, UnitTypes::Zerg_Drone, UnitTypes::Zerg_Zergling, UnitTypes::Zerg_Hydralisk, UnitTypes::Zerg_Defiler, UnitTypes::Zerg_Infested_Terran, UnitTypes::Zerg_Lurker);
+      techTypeData[Infestation].set("Infestation"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::None            , true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
+      techTypeData[Spawn_Broodlings].set("Spawn Broodlings"    ,100,100,1200,150,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Spawn_Broodlings, true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
+      techTypeData[Dark_Swarm].set("Dark Swarm"                ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Dark_Swarm      , false, true,  UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
+      techTypeData[Plague].set("Plague"                        ,200,200,1500,150,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Plague          , false, true,  UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
+      techTypeData[Consume].set("Consume"                      ,100,100,1500,0  ,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Consume         , true,  false, UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One, UnitTypes::Hero_Infested_Kerrigan);
+      techTypeData[Ensnare].set("Ensnare"                      ,100,100,1200,75 ,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Ensnare         , false, true,  UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch, UnitTypes::Hero_Infested_Kerrigan);
+      techTypeData[Parasite].set("Parasite"                    ,0  ,0  ,0   ,75 ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Parasite        , true,  false, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
+      techTypeData[Psionic_Storm].set("Psionic Storm"          ,200,200,1800,75 ,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Psionic_Storm   , false, true,  UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar, UnitTypes::Hero_Infested_Kerrigan);
+      techTypeData[Hallucination].set("Hallucination"          ,150,150,1200,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar);
+      techTypeData[Recall].set("Recall"                        ,150,150,1800,150,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::None            , false, true,  UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
+      techTypeData[Stasis_Field].set("Stasis Field"            ,150,150,1500,100,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::Stasis_Field    , false, true,  UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
+      techTypeData[Archon_Warp].set("Archon Warp"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_High_Templar);
+      techTypeData[Restoration].set("Restoration"              ,100,100,1200,50 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Restoration     , true,  false, UnitTypes::Terran_Medic);
+      techTypeData[Disruption_Web].set("Disruption Web"        ,200,200,1200,125,UnitTypes::Protoss_Fleet_Beacon    ,Races::Protoss,WeaponTypes::Disruption_Web  , false, true,  UnitTypes::Protoss_Corsair, UnitTypes::Hero_Raszagal);
+      techTypeData[Mind_Control].set("Mind Control"            ,200,200,1800,150,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Mind_Control    , true,  false, UnitTypes::Protoss_Dark_Archon);
+      techTypeData[Dark_Archon_Meld].set("Dark Archon Meld"    ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, UnitTypes::Protoss_Dark_Templar);
+      techTypeData[Feedback].set("Feedback"                    ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::Feedback        , true,  false, UnitTypes::Protoss_Dark_Archon);
+      techTypeData[Optical_Flare].set("Optical Flare"          ,100,100,1800,75 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Optical_Flare   , true,  false, UnitTypes::Terran_Medic);
+      techTypeData[Maelstrom].set("Maelstrom"                  ,100,100,1500,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Maelstrom       , true,  false, UnitTypes::Protoss_Dark_Archon);
+      techTypeData[Lurker_Aspect].set("Lurker Aspect"          ,200,200,1800,0  ,UnitTypes::Zerg_Hydralisk_Den      ,Races::Zerg   ,WeaponTypes::None            , false, false, UnitTypes::Zerg_Lurker);
+      techTypeData[Healing].set("Healing"                      ,0  ,0  ,0   ,1  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  false, UnitTypes::Terran_Medic);
+      techTypeData[None].set("None"                            ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::None   ,WeaponTypes::None            , false, false, UnitTypes::None);
+      techTypeData[Unknown].set("Unknown"                      ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Unknown,WeaponTypes::None            , false, false, UnitTypes::None);
+      techTypeData[Nuclear_Strike].set("Nuclear Strike"        ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::Nuclear_Strike  , false, true,  UnitTypes::Terran_Ghost);
 
       techTypeSet.insert(Stim_Packs);
       techTypeSet.insert(Lockdown);
@@ -212,17 +212,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool TechType::operator==(const TechType& other) const
+  TechType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool TechType::operator!=(const TechType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool TechType::operator<(const TechType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int TechType::getID() const
   {

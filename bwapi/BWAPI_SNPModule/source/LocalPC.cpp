@@ -32,19 +32,16 @@ namespace COMN
   bool __stdcall spiFree(SOCKADDR_IN *addr, char *data, DWORD databytes)
   {
     // This function is complete
-    if ( addr && data )
-    {
-      SMFree(addr);
-      return true;
-    }
-    else
+    if ( !addr || !data )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
+    SMFree(addr);
+    return true;
   }
 
-  bool __stdcall spiFreeExternalMessage(int a1, int a2, int a3)
+  bool __stdcall spiFreeExternalMessage(SOCKADDR_IN *addr, char *data, DWORD databytes)
   {
     // This function is complete
     SetLastError(ERROR_INVALID_PARAMETER);

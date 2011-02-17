@@ -14,9 +14,7 @@ namespace BWAPI
       Error(int id);
       Error(const Error& other);
       Error& operator=(const Error& other);
-      bool operator==(const Error& other) const;
-      bool operator!=(const Error& other) const;
-      bool operator<(const Error& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this error. */
       int getID() const;
