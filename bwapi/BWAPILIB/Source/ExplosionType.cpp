@@ -44,31 +44,31 @@ namespace BWAPI
 
     void init()
     {
-      explosionTypeName[None.getID()]            = "None";
-      explosionTypeName[Normal.getID()]          = "Normal";
-      explosionTypeName[Radial_Splash.getID()]   = "Radial Splash";
-      explosionTypeName[Enemy_Splash.getID()]    = "Enemy Splash";
-      explosionTypeName[Lockdown.getID()]        = "Lockdown";
-      explosionTypeName[Nuclear_Missile.getID()] = "Nuclear Missile";
-      explosionTypeName[Parasite.getID()]        = "Parasite";
-      explosionTypeName[Broodlings.getID()]      = "Broodlings";
-      explosionTypeName[EMP_Shockwave.getID()]   = "EMP Shockwave";
-      explosionTypeName[Irradiate.getID()]       = "Irradiate";
-      explosionTypeName[Ensnare.getID()]         = "Ensnare";
-      explosionTypeName[Plague.getID()]          = "Plague";
-      explosionTypeName[Stasis_Field.getID()]    = "Stasis Field";
-      explosionTypeName[Dark_Swarm.getID()]      = "Dark Swarm";
-      explosionTypeName[Consume.getID()]         = "Consume";
-      explosionTypeName[Yamato_Gun.getID()]      = "Yamato Gun";
-      explosionTypeName[Restoration.getID()]     = "Restoration";
-      explosionTypeName[Disruption_Web.getID()]  = "Disruption Web";
-      explosionTypeName[Corrosive_Acid.getID()]  = "Corrosive Acid";
-      explosionTypeName[Mind_Control.getID()]    = "Mind Control";
-      explosionTypeName[Feedback.getID()]        = "Feedback";
-      explosionTypeName[Optical_Flare.getID()]   = "Optical Flare";
-      explosionTypeName[Maelstrom.getID()]       = "Maelstrom";
-      explosionTypeName[Air_Splash.getID()]      = "Air Splash";
-      explosionTypeName[Unknown.getID()]         = "Unknown";
+      explosionTypeName[None]            = "None";
+      explosionTypeName[Normal]          = "Normal";
+      explosionTypeName[Radial_Splash]   = "Radial Splash";
+      explosionTypeName[Enemy_Splash]    = "Enemy Splash";
+      explosionTypeName[Lockdown]        = "Lockdown";
+      explosionTypeName[Nuclear_Missile] = "Nuclear Missile";
+      explosionTypeName[Parasite]        = "Parasite";
+      explosionTypeName[Broodlings]      = "Broodlings";
+      explosionTypeName[EMP_Shockwave]   = "EMP Shockwave";
+      explosionTypeName[Irradiate]       = "Irradiate";
+      explosionTypeName[Ensnare]         = "Ensnare";
+      explosionTypeName[Plague]          = "Plague";
+      explosionTypeName[Stasis_Field]    = "Stasis Field";
+      explosionTypeName[Dark_Swarm]      = "Dark Swarm";
+      explosionTypeName[Consume]         = "Consume";
+      explosionTypeName[Yamato_Gun]      = "Yamato Gun";
+      explosionTypeName[Restoration]     = "Restoration";
+      explosionTypeName[Disruption_Web]  = "Disruption Web";
+      explosionTypeName[Corrosive_Acid]  = "Corrosive Acid";
+      explosionTypeName[Mind_Control]    = "Mind Control";
+      explosionTypeName[Feedback]        = "Feedback";
+      explosionTypeName[Optical_Flare]   = "Optical Flare";
+      explosionTypeName[Maelstrom]       = "Maelstrom";
+      explosionTypeName[Air_Splash]      = "Air Splash";
+      explosionTypeName[Unknown]         = "Unknown";
 
       explosionTypeSet.insert(None);
       explosionTypeSet.insert(Normal);
@@ -124,17 +124,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool ExplosionType::operator==(const ExplosionType& other) const
+  ExplosionType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool ExplosionType::operator!=(const ExplosionType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool ExplosionType::operator<(const ExplosionType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int ExplosionType::getID() const
   {

@@ -22,9 +22,7 @@ namespace BWAPI
       UnitType(int id);
       UnitType(const UnitType& other);
       UnitType& operator=(const UnitType& other);
-      bool operator==(const UnitType& other) const;
-      bool operator!=(const UnitType& other) const;
-      bool operator<(const UnitType& other) const;
+      operator int() const;
 
       /** Returns a unique ID for this unit type. */
       int getID() const;
@@ -279,6 +277,9 @@ namespace BWAPI
 
       /** Returns true if the unit produces larva. */
       bool producesLarva() const;
+
+      /** Returns true if the unit is one of the three mineral field types. */
+      bool isMineralField() const;
 
     private:
       int id;

@@ -132,7 +132,10 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //_getPosition
       if ( _getTransport )
-        _getPosition = Position(((UnitImpl*)_getTransport)->getOriginalRawData->position.x,((UnitImpl*)_getTransport)->getOriginalRawData->position.y);
+      {
+        BW::Position transRawPos = ((UnitImpl*)_getTransport)->getOriginalRawData->position;
+        _getPosition = Position(transRawPos.x, transRawPos.y);
+      }
       else
         _getPosition = Position(o->position.x, o->position.y);
 
@@ -209,7 +212,7 @@ namespace BWAPI
       self->isAttackFrame = false;
       if ( o->sprite && o->sprite->mainGraphic )
       { 
-        self->isAttackFrame = startingAttack || (self->isAttacking && AttackAnimationRestFrame[_getType.getID()]!=10000 && (o->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType.getID()] || lastFrameSet != AttackAnimationRestFrame[_getType.getID()]));
+        self->isAttackFrame = startingAttack || (self->isAttacking && AttackAnimationRestFrame[_getType]!=10000 && (o->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType] || lastFrameSet != AttackAnimationRestFrame[_getType]));
         lastFrameSet = o->sprite->mainGraphic->frameSet;
       }
 
@@ -404,8 +407,8 @@ namespace BWAPI
       self->removeTimer         = 0;      //getRemoveTimer
       self->stasisTimer         = 0;      //getStasisTimer
       self->stimTimer           = 0;      //getStimTimer
-      self->order               = Orders::None.getID();  //getOrder
-      self->secondaryOrder      = Orders::None.getID();  //getSecondaryOrder
+      self->order               = Orders::None;  //getOrder
+      self->secondaryOrder      = Orders::None;  //getSecondaryOrder
       self->buildUnit           = -1;     //getBuildUnit
       self->isTraining          = false;  //isTraining
       self->isMorphing          = false;  //isMorphing
@@ -438,13 +441,13 @@ namespace BWAPI
     {
       self->exists = true;
       self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
-      self->type   = _getType.getID();
+      self->type   = _getType;
     }
     else
     {
       self->exists = false;
       self->player = BroodwarImpl.server.getPlayerID((Player*)BroodwarImpl.players[11]);
-      self->type   = UnitTypes::Unknown.getID();
+      self->type   = UnitTypes::Unknown;
     }
     if (canAccessInside())
     {
@@ -456,10 +459,10 @@ namespace BWAPI
       self->carrier               = -1;
       self->hatchery              = -1;
       self->hasNuke               = false;
-      self->buildType             = UnitTypes::None.getID();
-      self->tech                  = TechTypes::None.getID();
+      self->buildType             = UnitTypes::None;
+      self->tech                  = TechTypes::None;
       self->remainingResearchTime = 0;
-      self->upgrade               = UpgradeTypes::None.getID();
+      self->upgrade               = UpgradeTypes::None;
       self->remainingUpgradeTime  = 0;
       self->remainingBuildTime    = 0;
       self->rallyUnit             = -1;
@@ -470,7 +473,7 @@ namespace BWAPI
       {
         for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != UnitTypes::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
         {
-          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i].getID();
+          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i];
           self->trainingQueueCount++;
         }
       }
@@ -481,7 +484,7 @@ namespace BWAPI
 
       //------------------------------------------------------------------------------------------------------
       // Unit Type switch; special cases
-      switch ( _getType.getID() )
+      switch ( _getType )
       {
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Gantrithor:
@@ -532,7 +535,7 @@ namespace BWAPI
         case BW::OrderID::ZergBuildSelf:
           {
             UnitType type = getBuildQueue[getBuildQueueSlot % 5];
-            self->buildType = type == UnitTypes::None ? self->type : type.getID();
+            self->buildType = type == UnitTypes::None ? self->type : type;
           }
           break;
         case BW::OrderID::BuildTerran:
@@ -540,7 +543,7 @@ namespace BWAPI
         case BW::OrderID::ZergUnitMorph:
         case BW::OrderID::ZergBuildingMorph:
         case BW::OrderID::DroneLand:
-          self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].getID();
+          self->buildType = getBuildQueue[(getBuildQueueSlot % 5)];
           break;
         case BW::OrderID::ResearchTech:
           self->tech = o->building.techType;
@@ -557,11 +560,11 @@ namespace BWAPI
       if ( !hasEmptyBuildQueue &&
            !self->isIdle       &&
            self->secondaryOrder == BW::OrderID::BuildAddon )
-        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)].getID();
+        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)];
 
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
-      if ( !self->isMorphing || self->buildType != UnitTypes::None.getID() )
+      if ( !self->isMorphing || self->buildType != UnitTypes::None )
         self->remainingBuildTime = o->remainingBuildTime;
       //------------------------------------------------------------------------------------------------------
       //getRallyPosition
@@ -587,10 +590,10 @@ namespace BWAPI
     {
       self->scarabCount           = 0;                    //getScarabCount
       self->spiderMineCount       = 0;                    //getSpiderMineCount
-      self->buildType             = UnitTypes::None.getID();     //getBuildType
+      self->buildType             = UnitTypes::None;     //getBuildType
       self->trainingQueueCount    = 0;                    //getTrainingQueue
-      self->tech                  = TechTypes::None.getID();     //getTech
-      self->upgrade               = UpgradeTypes::None.getID();  //getUpgrade
+      self->tech                  = TechTypes::None;     //getTech
+      self->upgrade               = UpgradeTypes::None;  //getUpgrade
       self->remainingBuildTime    = 0;                    //getRemainingBuildTime
       self->remainingTrainTime    = 0;                    //getRemainingTrainTime
       self->remainingResearchTime = 0;                    //getRemainingResearchTime

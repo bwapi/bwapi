@@ -105,42 +105,42 @@ namespace BWAPI
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
-    return self->supplyTotal[race.getID()];
+    return self->supplyTotal[race];
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
-    return self->supplyUsed[race.getID()];
+    return self->supplyUsed[race];
   }
   //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
-    return self->allUnitCount[unit.getID()];
+    return self->allUnitCount[unit];
   }
   //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
   int PlayerImpl::visibleUnitCount(UnitType unit) const
   {
-    return self->visibleUnitCount[unit.getID()];
+    return self->visibleUnitCount[unit];
   }
   //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
-    return self->completedUnitCount[unit.getID()];
+    return self->completedUnitCount[unit];
   }
   //--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
-    return self->allUnitCount[unit.getID()]-self->completedUnitCount[unit.getID()];
+    return self->allUnitCount[unit]-self->completedUnitCount[unit];
   }
   //--------------------------------------------- DEAD UNIT COUNT --------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
-    return self->deadUnitCount[unit.getID()];
+    return self->deadUnitCount[unit];
   }
   //--------------------------------------------- KILLED UNIT COUNT ------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
-    return self->killedUnitCount[unit.getID()];
+    return self->killedUnitCount[unit];
   }
   //--------------------------------------------------- SCORE ------------------------------------------------
   int PlayerImpl::getUnitScore() const
@@ -166,22 +166,22 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    return self->upgradeLevel[upgrade.getID()];
+    return self->upgradeLevel[upgrade];
   }
   //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
   bool PlayerImpl::hasResearched(TechType tech) const
   {
-    return self->hasResearched[tech.getID()];
+    return self->hasResearched[tech];
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool PlayerImpl::isResearching(TechType tech) const
   {
-    return self->isResearching[tech.getID()];
+    return self->isResearching[tech];
   }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
-    return self->isUpgrading[upgrade.getID()];
+    return self->isUpgrading[upgrade];
   }
   //--------------------------------------------- MAX ENERGY -------------------------------------------------
   int PlayerImpl::maxEnergy(UnitType unit) const

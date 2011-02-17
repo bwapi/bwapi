@@ -192,24 +192,24 @@ namespace BWAPI
     {
       nukeDots.insert(Position(data->nukeDots[i].x,data->nukeDots[i].y));
     }
-    for (int y = 0; y < data->mapHeight; y++)
-      for (int x = 0; x < data->mapWidth; x++)
+    for (int y = 0; y < data->mapHeight; ++y)
+      for (int x = 0; x < data->mapWidth; ++x)
         unitsOnTileData[x][y].clear();
-    for(int e=0; e<data->eventCount; e++)
+    for(int e = 0; e < data->eventCount; ++e)
     {
       events.push_back(this->makeEvent(data->events[e]));
-      int id=data->events[e].v1;
+      int id = data->events[e].v1;
       if (data->events[e].type == EventType::UnitDiscover)
       {
-        Unit* u=&unitVector[id];
+        Unit* u = &unitVector[id];
         accessibleUnits.insert(u);
         ((PlayerImpl*)u->getPlayer())->units.insert(u);
         if (u->getPlayer()->isNeutral())
         {
           neutralUnits.insert(u);
-          if (u->getType()==UnitTypes::Resource_Mineral_Field)
+          if ( u->getType() == UnitTypes::Resource_Mineral_Field )
             minerals.insert(u);
-          else if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+          else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
             geysers.insert(u);
         }
         else
@@ -218,9 +218,9 @@ namespace BWAPI
             pylons.insert(u);
         }
       }
-      else if (data->events[e].type==EventType::UnitEvade)
+      else if (data->events[e].type == EventType::UnitEvade)
       {
-        Unit* u=&unitVector[id];
+        Unit* u = &unitVector[id];
         accessibleUnits.erase(u);
         ((PlayerImpl*)u->getPlayer())->units.erase(u);
         if (u->getPlayer()->isNeutral())
@@ -239,15 +239,15 @@ namespace BWAPI
       }
       else if (data->events[e].type==EventType::UnitRenegade)
       {
-        Unit* u=&unitVector[id];
-        for each(Player* p in players)
-          ((PlayerImpl*)p)->units.erase(u);
+        Unit* u = &unitVector[id];
+        for each(PlayerImpl *p in players)
+          p->units.erase(u);
         ((PlayerImpl*)u->getPlayer())->units.insert(u);
       }
-      else if (data->events[e].type==EventType::UnitMorph)
+      else if (data->events[e].type == EventType::UnitMorph)
       {
-        Unit* u=&unitVector[id];
-        if (u->getType()==UnitTypes::Resource_Vespene_Geyser)
+        Unit* u = &unitVector[id];
+        if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
         {
           geysers.insert(u);
           neutralUnits.insert(u);
@@ -259,12 +259,12 @@ namespace BWAPI
         }
       }
     }
-    foreach(Unit* u, accessibleUnits)
+    foreach(UnitImpl* u, accessibleUnits)
     {
-      ((UnitImpl*)u)->connectedUnits.clear();
-      ((UnitImpl*)u)->loadedUnits.clear();
+      u->connectedUnits.clear();
+      u->loadedUnits.clear();
     }
-    foreach(Unit* u, accessibleUnits)
+    foreach(UnitImpl* u, accessibleUnits)
     {
       int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / TILE_SIZE;
       int endX   = (u->getPosition().x() + u->getType().dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
@@ -273,23 +273,23 @@ namespace BWAPI
       for (int x = startX; x < endX; x++)
         for (int y = startY; y < endY; y++)
           unitsOnTileData[x][y].insert(u);
-      if (u->getType()==UnitTypes::Zerg_Larva && u->getHatchery()!=NULL)
+      if ( u->getType() == UnitTypes::Zerg_Larva && u->getHatchery() )
         ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
-      if (u->getType()==UnitTypes::Protoss_Interceptor && u->getCarrier()!=NULL)
+      if ( u->getType() == UnitTypes::Protoss_Interceptor && u->getCarrier() )
         ((UnitImpl*)u->getCarrier())->connectedUnits.insert(u);
-      if (u->getTransport()!=NULL)
+      if ( u->getTransport() )
         ((UnitImpl*)u->getTransport())->loadedUnits.insert(u);
     }
     selectedUnits.clear();
-    for(int i=0;i<data->selectedUnitCount;i++)
+    for ( int i = 0; i < data->selectedUnitCount; ++i )
     {
-      Unit* u=getUnit(data->selectedUnits[i]);
-      if (u!=NULL)
+      Unit* u = getUnit(data->selectedUnits[i]);
+      if ( u )
         selectedUnits.insert(u);
     }
     _allies.clear();
     _enemies.clear();
-    if (thePlayer!=NULL)
+    if ( thePlayer )
     {
       foreach(Player* p, players)
       {
@@ -376,13 +376,13 @@ namespace BWAPI
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit* GameImpl::getUnit(int unitId)
   {
-    if (unitId<0 || unitId>=(int)unitVector.size()) return NULL;
+    if (unitId < 0 || unitId >= (int)unitVector.size()) return NULL;
     return &unitVector[unitId];
   }
   //----------------------------------------------- INDEX TO UNIT --------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)
   {
-    if (unitIndex<0 || unitIndex>=1700)
+    if (unitIndex < 0 || unitIndex >= 1700)
       return NULL;
     return getUnit(data->unitArray[unitIndex]);
   }
@@ -878,104 +878,104 @@ namespace BWAPI
 
   void GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
   }
   void GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Map,left,top,right,bottom,0,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Map,left,top,right,bottom,0,0,color,isSolid));
   }
   void GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Mouse,left,top,right,bottom,0,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Mouse,left,top,right,bottom,0,0,color,isSolid));
   }
   void GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Screen,left,top,right,bottom,0,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Screen,left,top,right,bottom,0,0,color,isSolid));
   }
 
   void GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color,isSolid));
   }
   void GameImpl::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy,color,isSolid));
   }
   void GameImpl::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy,color,isSolid));
   }
   void GameImpl::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy,color,isSolid));
   }
 
   void GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,ctype,x,y,0,0,radius,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,ctype,x,y,0,0,radius,0,color,isSolid));
   }
   void GameImpl::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Map,x,y,0,0,radius,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Map,x,y,0,0,radius,0,color,isSolid));
   }
   void GameImpl::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,radius,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,radius,0,color,isSolid));
   }
   void GameImpl::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Screen,x,y,0,0,radius,0,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Screen,x,y,0,0,radius,0,color,isSolid));
   }
 
   void GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color,isSolid));
   }
   void GameImpl::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Map,x,y,0,0,xrad,yrad,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Map,x,y,0,0,xrad,yrad,color,isSolid));
   }
   void GameImpl::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,xrad,yrad,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,xrad,yrad,color,isSolid));
   }
   void GameImpl::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Screen,x,y,0,0,xrad,yrad,color.getID(),isSolid));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Screen,x,y,0,0,xrad,yrad,color,isSolid));
   }
 
   void GameImpl::drawDot(int ctype, int x, int y, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,ctype,x,y,0,0,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,ctype,x,y,0,0,0,0,color,false));
   }
   void GameImpl::drawDotMap(int x, int y, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,color,false));
   }
   void GameImpl::drawDotMouse(int x, int y, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,color,false));
   }
   void GameImpl::drawDotScreen(int x, int y, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,color,false));
   }
 
   void GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color,false));
   }
   void GameImpl::drawLineMap(int x1, int y1, int x2, int y2, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Map,x1,y1,x2,y2,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Map,x1,y1,x2,y2,0,0,color,false));
   }
   void GameImpl::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Mouse,x1,y1,x2,y2,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Mouse,x1,y1,x2,y2,0,0,color,false));
   }
   void GameImpl::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
   {
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color.getID(),false));
+    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color,false));
   }
   void* GameImpl::getScreenBuffer()
   {

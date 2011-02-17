@@ -29,6 +29,7 @@
 #define UNIT_ARRAY_MAX_LENGTH  1700
 #define BULLET_ARRAY_MAX_LENGTH 100
 #define TILE_SIZE                32
+#define MAX_SEARCH             3400
 
 namespace BW
 {
@@ -207,7 +208,7 @@ namespace BW
   };
   // array size 3400 (1700 * 2) for each
   static unitFinder *BWDATA_UnitOrderingX             = (unitFinder*)0x0066FF78;
-  static unitFinder *BWDATA_UnitOrderingY             = (unitFinder*)0x006769B8;
+  static unitFinder *BWDATA_UnitOrderingY             = &BWDATA_UnitOrderingX[MAX_SEARCH];
 
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
   /* Mode Stuff */
@@ -250,7 +251,7 @@ namespace BW
     GLUE_READY_P,           // guess
     GLUE_GAME_SELECT,       // guess
     GLUE_CREATE,            // guess
-    GLUE_CREATE2,           // guess
+    GLUE_CREATE_MULTI,      // guess
     GLUE_LOAD,              // guess
     GLUE_SCORE_Z_DEFEAT,    // guess
     GLUE_SCORE_Z_VICTORY,   // guess
@@ -260,9 +261,9 @@ namespace BW
     GLUE_SCORE_P_VICTORY,   // guess
     GLUE_MODEM,             // guess
     GLUE_DIRECT,            // guess
-    GLUE_CAMPAIGN2,         // guess
+    GLUE_EX_CAMPAIGN,       // guess
     GLUE_GAME_MODE,         // guess
-    GLUE_GAME_MODE2,        // guess
+    GLUE_EX_GAME_MODE,      // guess
     GLUE_GENERIC            // guess
   */
 

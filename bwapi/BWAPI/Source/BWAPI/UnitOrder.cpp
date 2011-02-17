@@ -40,10 +40,10 @@ namespace BWAPI
     if (command.type == UnitCommandTypes::Train ||
         command.type == UnitCommandTypes::Morph)
       if (getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
-        command.unit = (UnitImpl*)(*getLarva().begin());
+        command.unit = *getLarva().begin();
 
     if (command.type == UnitCommandTypes::Use_Tech_Unit &&
-       (command.extra==TechTypes::Archon_Warp.getID() || command.extra==TechTypes::Dark_Archon_Meld.getID()))
+       (command.extra==TechTypes::Archon_Warp || command.extra==TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
       BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);

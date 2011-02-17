@@ -10,9 +10,7 @@ namespace BWAPI
       GameType(int id);
       GameType(const GameType& other);
       GameType& operator=(const GameType& other);
-      bool operator==(const GameType& other) const;
-      bool operator!=(const GameType& other) const;
-      bool operator<(const GameType& other) const;
+      operator int() const;
 
       /** Returns the unique ID for this game type. */
       int getID() const;

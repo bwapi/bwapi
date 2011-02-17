@@ -25,12 +25,12 @@ namespace BWAPI
 
     void init()
     {
-      unitSizeTypeName[Independent.getID()] = "Independent";
-      unitSizeTypeName[Small.getID()]       = "Small";
-      unitSizeTypeName[Medium.getID()]      = "Medium";
-      unitSizeTypeName[Large.getID()]       = "Large";
-      unitSizeTypeName[None.getID()]        = "None";
-      unitSizeTypeName[Unknown.getID()]     = "Unknown";
+      unitSizeTypeName[Independent] = "Independent";
+      unitSizeTypeName[Small]       = "Small";
+      unitSizeTypeName[Medium]      = "Medium";
+      unitSizeTypeName[Large]       = "Large";
+      unitSizeTypeName[None]        = "None";
+      unitSizeTypeName[Unknown]     = "Unknown";
 
       unitSizeTypeSet.insert(Independent);
       unitSizeTypeSet.insert(Small);
@@ -67,17 +67,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool UnitSizeType::operator==(const UnitSizeType& other) const
+  UnitSizeType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool UnitSizeType::operator!=(const UnitSizeType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool UnitSizeType::operator<(const UnitSizeType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int UnitSizeType::getID() const
   {

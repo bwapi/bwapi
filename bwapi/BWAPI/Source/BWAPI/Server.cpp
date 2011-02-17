@@ -240,8 +240,8 @@ namespace BWAPI
       PlayerData* p2 = ((PlayerImpl*)i)->self;
 
       strncpy(p->name, i->getName().c_str(), 32);
-      p->race  = i->getRace().getID();
-      p->type  = i->getType().getID();
+      p->race  = i->getRace();
+      p->type  = i->getType();
       p->force = getForceID(i->getForce());
       p->color = p2->color;
       p->colorByte = p2->colorByte;
@@ -318,7 +318,7 @@ namespace BWAPI
     data->hasLatCom              = Broodwar->isLatComEnabled();
     if (Broodwar->isInGame())
     {
-      data->gameType          = Broodwar->getGameType().getID();
+      data->gameType          = Broodwar->getGameType();
       data->latency           = Broodwar->getLatency();
       for(int i = 0; i < 3; ++i)
         data->mouseState[i]   = Broodwar->getMouseState(i);
@@ -386,10 +386,10 @@ namespace BWAPI
       }
 
       //dynamic unit data
-      foreach(Unit *i, Broodwar->getAllUnits())
-        data->units[i->getID()] = ((UnitImpl*)i)->data;
+      foreach(UnitImpl *i, Broodwar->getAllUnits())
+        data->units[i->getID()] = i->data;
 
-      for(int i = 0; i < 1700; ++i)
+      for(int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       {
         Unit* u = Broodwar->indexToUnit(i);
         int id = -1;

@@ -173,109 +173,109 @@ namespace BWAPI
   {
     /* Draws a box */
     if (!inScreen(ctype,left,top,right,bottom)) return;
-    this->shapes.push_back(new ShapeBox(ctype, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(ctype, left, top, right, bottom, color, isSolid));
   }
   void  GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the map */
     if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
-    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Map, left, top, right, bottom, color, isSolid));
   }
   void  GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the mouse */
     if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
-    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Mouse, left, top, right, bottom, color, isSolid));
   }
   void  GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box in relation to the screen */
     if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
-    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeBox(BWAPI::CoordinateType::Screen, left, top, right, bottom, color, isSolid));
   }
   //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
   void  GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
-    this->shapes.push_back(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(ctype, ax, ay, bx, by, cx, cy, color, isSolid));
   }
   void  GameImpl::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy)) return;
-    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Map, ax, ay, bx, by, cx, cy, color, isSolid));
   }
   void  GameImpl::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy)) return;
-    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color, isSolid));
   }
   void  GameImpl::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
-    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeTriangle(BWAPI::CoordinateType::Screen, ax, ay, bx, by, cx, cy, color, isSolid));
   }
   //------------------------------------------------- DRAW CIRCLE --------------------------------------------
   void  GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
-    this->shapes.push_back(new ShapeCircle(ctype, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(ctype, x, y, radius, color, isSolid));
   }
   void  GameImpl::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x-radius,y-radius,x+radius,y+radius)) return;
-    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Map, x, y, radius, color, isSolid));
   }
   void  GameImpl::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x-radius,y-radius,x+radius,y+radius)) return;
-    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Mouse, x, y, radius, color, isSolid));
   }
   void  GameImpl::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
-    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeCircle(BWAPI::CoordinateType::Screen, x, y, radius, color, isSolid));
   }
   //------------------------------------------------- DRAW ELIPSE --------------------------------------------
   void  GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    this->shapes.push_back(new ShapeEllipse(ctype, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(ctype, x, y, xrad, yrad, color, isSolid));
   }
   void  GameImpl::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Map, x, y, xrad, yrad, color, isSolid));
   }
   void  GameImpl::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Mouse, x, y, xrad, yrad, color, isSolid));
   }
   void  GameImpl::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color.getID(), isSolid));
+    this->shapes.push_back(new ShapeEllipse(BWAPI::CoordinateType::Screen, x, y, xrad, yrad, color, isSolid));
   }
   //--------------------------------------------------- DRAW DOT ---------------------------------------------
   void  GameImpl::drawDot(int ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
-    this->shapes.push_back(new ShapeDot(ctype, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(ctype, x, y, color));
   }
   void  GameImpl::drawDotMap(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x,y)) return;
-    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Map, x, y, color));
   }
   void  GameImpl::drawDotMouse(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x,y)) return;
-    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Mouse, x, y, color));
   }
   void  GameImpl::drawDotScreen(int x, int y, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
-    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color.getID()));
+    this->shapes.push_back(new ShapeDot(BWAPI::CoordinateType::Screen, x, y, color));
   }
   //-------------------------------------------------- DRAW LINE ---------------------------------------------
   void  GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
@@ -288,24 +288,24 @@ namespace BWAPI
       begin.makeValid();
       end.makeValid();
     }
-    this->shapes.push_back(new ShapeLine(ctype, begin.x(), begin.y(), end.x(), end.y(), color.getID()));
+    this->shapes.push_back(new ShapeLine(ctype, begin.x(), begin.y(), end.x(), end.y(), color));
   }
   void  GameImpl::drawLineMap(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Map,x1,y1,x2,y2)) return;
     Position begin = Position(x1, y1).makeValid();
     Position end   = Position(x2, y2).makeValid();
-    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Map, begin.x(), begin.y(), end.x(), end.y(), color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Map, begin.x(), begin.y(), end.x(), end.y(), color));
   }
   void  GameImpl::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Mouse,x1,y1,x2,y2)) return;
-    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Mouse, x1, y1, x2, y2, color));
   }
   void  GameImpl::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
-    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color.getID()));
+    this->shapes.push_back(new ShapeLine(BWAPI::CoordinateType::Screen, x1, y1, x2, y2, color));
   }
   //------------------------------------------------ SCREEN BUFFER -------------------------------------------
   void *GameImpl::getScreenBuffer()

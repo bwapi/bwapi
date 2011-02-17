@@ -30,17 +30,17 @@ namespace BWAPI
 
     void init()
     {
-      playerTypeName[None.getID()]                 = "None";
-      playerTypeName[Computer.getID()]             = "Computer";
-      playerTypeName[Player.getID()]               = "Player";
-      playerTypeName[RescuePassive.getID()]        = "RescuePassive";
-      playerTypeName[EitherPreferComputer.getID()] = "EitherPreferComputer";
-      playerTypeName[EitherPreferHuman.getID()]    = "EitherPreferHuman";
-      playerTypeName[Neutral.getID()]              = "Neutral";
-      playerTypeName[Closed.getID()]               = "Closed";
-      playerTypeName[PlayerLeft.getID()]           = "PlayerLeft";
-      playerTypeName[ComputerLeft.getID()]         = "ComputerLeft";
-      playerTypeName[Unknown.getID()]              = "Unknown";
+      playerTypeName[None]                 = "None";
+      playerTypeName[Computer]             = "Computer";
+      playerTypeName[Player]               = "Player";
+      playerTypeName[RescuePassive]        = "RescuePassive";
+      playerTypeName[EitherPreferComputer] = "EitherPreferComputer";
+      playerTypeName[EitherPreferHuman]    = "EitherPreferHuman";
+      playerTypeName[Neutral]              = "Neutral";
+      playerTypeName[Closed]               = "Closed";
+      playerTypeName[PlayerLeft]           = "PlayerLeft";
+      playerTypeName[ComputerLeft]         = "ComputerLeft";
+      playerTypeName[Unknown]              = "Unknown";
 
       playerTypeSet.insert(None);
       playerTypeSet.insert(Computer);
@@ -82,17 +82,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool PlayerType::operator==(const PlayerType& other) const
+  PlayerType::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool PlayerType::operator!=(const PlayerType& other) const
-  {
-    return this->id != other.id;
-  }
-  bool PlayerType::operator<(const PlayerType& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int PlayerType::getID() const
   {

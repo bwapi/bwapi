@@ -593,7 +593,7 @@ namespace BWAPI
   //--------------------------------------------- IS FOLLOWING -----------------------------------------------
   bool UnitImpl::isFollowing() const
   {
-    return self->order == Orders::Follow.getID();
+    return self->order == Orders::Follow;
   }
   //--------------------------------------------- IS GATHERING GAS -------------------------------------------
   bool UnitImpl::isGatheringGas() const
@@ -601,22 +601,22 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::Harvest1.getID()   &&
-        self->order != Orders::Harvest2.getID()   &&
-        self->order != Orders::MoveToGas.getID()  &&
-        self->order != Orders::WaitForGas.getID() &&
-        self->order != Orders::HarvestGas.getID() &&
-        self->order != Orders::ReturnGas.getID()  &&
-        self->order != Orders::ResetCollision.getID())
+    if (self->order != Orders::Harvest1   &&
+        self->order != Orders::Harvest2   &&
+        self->order != Orders::MoveToGas  &&
+        self->order != Orders::WaitForGas &&
+        self->order != Orders::HarvestGas &&
+        self->order != Orders::ReturnGas  &&
+        self->order != Orders::ResetCollision)
       return false;
 
-    if (self->order == Orders::ResetCollision.getID())
+    if (self->order == Orders::ResetCollision)
       return self->carryResourceType == 1;
 
     //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (self->order == Orders::WaitForGas.getID() ||
-        self->order == Orders::HarvestGas.getID() ||
-        self->order == Orders::ReturnGas.getID())
+    if (self->order == Orders::WaitForGas ||
+        self->order == Orders::HarvestGas ||
+        self->order == Orders::ReturnGas)
       return true;
 
     //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
@@ -642,22 +642,22 @@ namespace BWAPI
     if (!self->isGathering)
       return false;
 
-    if (self->order != Orders::Harvest1.getID()        &&
-        self->order != Orders::Harvest2.getID()        &&
-        self->order != Orders::MoveToMinerals.getID()  &&
-        self->order != Orders::WaitForMinerals.getID() &&
-        self->order != Orders::MiningMinerals.getID()  &&
-        self->order != Orders::ReturnMinerals.getID()  &&
-        self->order != Orders::ResetCollision.getID())
+    if (self->order != Orders::Harvest1        &&
+        self->order != Orders::Harvest2        &&
+        self->order != Orders::MoveToMinerals  &&
+        self->order != Orders::WaitForMinerals &&
+        self->order != Orders::MiningMinerals  &&
+        self->order != Orders::ReturnMinerals  &&
+        self->order != Orders::ResetCollision)
       return false;
 
-    if (self->order == Orders::ResetCollision.getID())
+    if (self->order == Orders::ResetCollision)
       return self->carryResourceType == 2;
 
     //return true if BWOrder is WaitForMinerals, MiningMinerals, or ReturnMinerals
-    if (self->order == Orders::WaitForMinerals.getID() ||
-        self->order == Orders::MiningMinerals.getID() ||
-        self->order == Orders::ReturnMinerals.getID())
+    if (self->order == Orders::WaitForMinerals ||
+        self->order == Orders::MiningMinerals ||
+        self->order == Orders::ReturnMinerals)
       return true;
 
     //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
@@ -685,7 +685,7 @@ namespace BWAPI
   //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
   bool UnitImpl::isHoldingPosition() const
   {
-    return self->order == Orders::HoldPosition.getID();
+    return self->order == Orders::HoldPosition;
   }
   //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
@@ -769,7 +769,7 @@ namespace BWAPI
   //--------------------------------------------- IS PATROLLING ----------------------------------------------
   bool UnitImpl::isPatrolling() const
   {
-    return self->order == Orders::Patrol.getID();
+    return self->order == Orders::Patrol;
   }
   //--------------------------------------------- IS PLAGUED -------------------------------------------------
   bool UnitImpl::isPlagued() const
@@ -779,12 +779,12 @@ namespace BWAPI
   //--------------------------------------------- IS REPAIRING -----------------------------------------------
   bool UnitImpl::isRepairing() const
   {
-    return self->order == Orders::Repair.getID();
+    return self->order == Orders::Repair;
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool UnitImpl::isResearching() const
   {
-    return self->order == Orders::ResearchTech.getID();
+    return self->order == Orders::ResearchTech;
   }
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSelected() const
@@ -794,7 +794,7 @@ namespace BWAPI
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSieged() const
   {
-    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode.getID();
+    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode;
   }
   //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
@@ -834,7 +834,7 @@ namespace BWAPI
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool UnitImpl::isUpgrading() const
   {
-    return self->order == Orders::Upgrade.getID();
+    return self->order == Orders::Upgrade;
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible() const
@@ -871,15 +871,15 @@ namespace BWAPI
     if (command.type == UnitCommandTypes::Train ||
         command.type == UnitCommandTypes::Morph)
       if (getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
-        command.unit = (UnitImpl*)(*getLarva().begin());
+        command.unit = *getLarva().begin();
 
     BWAPIC::UnitCommand c;
     c.type=command.type;
     c.unitIndex=command.unit->getID();
-    if (command.target!=NULL)
-      c.targetIndex=command.target->getID();
+    if ( command.target )
+      c.targetIndex = command.target->getID();
     else
-      c.targetIndex=-1;
+      c.targetIndex = -1;
     c.x=command.x;
     c.y=command.y;
     c.extra=command.extra;

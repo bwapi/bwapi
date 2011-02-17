@@ -178,7 +178,7 @@ namespace BW
         , position(position)
         , type(type)
     {
-      switch( BWAPI::UnitType(type).getRace().getID() )
+      switch( BWAPI::UnitType(type).getRace() )
       {
       case BW::Race::Zerg:
         raceDependant = 0x19;
@@ -206,7 +206,7 @@ namespace BW
         : always0x0c(0x0C)
         , always0x9B(0x9B)
         , position(position)
-        , type((u16)type.getID())
+        , type((u16)type)
     {
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------

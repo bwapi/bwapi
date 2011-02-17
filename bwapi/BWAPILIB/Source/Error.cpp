@@ -49,34 +49,34 @@ namespace BWAPI
 
     void init()
     {
-      errorName[Unit_Does_Not_Exist.getID()]   = "Unit Does Not Exist";
-      errorName[Unit_Not_Visible.getID()]      = "Unit Not Visible";
-      errorName[Unit_Not_Owned.getID()]        = "Unit Not Owned";
-      errorName[Unit_Busy.getID()]             = "Unit Busy";
-      errorName[Incompatible_UnitType.getID()] = "Incompatible UnitType";
-      errorName[Incompatible_TechType.getID()] = "Incompatible TechType";
-      errorName[Incompatible_State.getID()]    = "Incompatible State";
-      errorName[Already_Researched.getID()]    = "Already Researched";
-      errorName[Fully_Upgraded.getID()]        = "Fully Upgraded";
-      errorName[Currently_Researching.getID()] = "Currently Researching";
-      errorName[Currently_Upgrading.getID()]   = "Currently Upgrading";
-      errorName[Insufficient_Minerals.getID()] = "Insufficient Minerals";
-      errorName[Insufficient_Gas.getID()]      = "Insufficient Gas";
-      errorName[Insufficient_Supply.getID()]   = "Insufficient Supply";
-      errorName[Insufficient_Energy.getID()]   = "Insufficient Energy";
-      errorName[Insufficient_Tech.getID()]     = "Insufficient Tech";
-      errorName[Insufficient_Ammo.getID()]     = "Insufficient Ammo";
-      errorName[Insufficient_Space.getID()]    = "Insufficient Space";
-      errorName[Invalid_Tile_Position.getID()] = "Invalid Tile Position";
-      errorName[Unbuildable_Location.getID()]  = "Unbuildable Location";
-      errorName[Unreachable_Location.getID()]  = "Unreachable Location";
-      errorName[Out_Of_Range.getID()]          = "Out Of Range";
-      errorName[Unable_To_Hit.getID()]         = "Unable To Hit";
-      errorName[Access_Denied.getID()]         = "Access Denied";
-      errorName[File_Not_Found.getID()]        = "File Not Found";
-      errorName[Invalid_Parameter.getID()]     = "Invalid Parameter";
-      errorName[None.getID()]                  = "None";
-      errorName[Unknown.getID()]               = "Unknown";
+      errorName[Unit_Does_Not_Exist]   = "Unit Does Not Exist";
+      errorName[Unit_Not_Visible]      = "Unit Not Visible";
+      errorName[Unit_Not_Owned]        = "Unit Not Owned";
+      errorName[Unit_Busy]             = "Unit Busy";
+      errorName[Incompatible_UnitType] = "Incompatible UnitType";
+      errorName[Incompatible_TechType] = "Incompatible TechType";
+      errorName[Incompatible_State]    = "Incompatible State";
+      errorName[Already_Researched]    = "Already Researched";
+      errorName[Fully_Upgraded]        = "Fully Upgraded";
+      errorName[Currently_Researching] = "Currently Researching";
+      errorName[Currently_Upgrading]   = "Currently Upgrading";
+      errorName[Insufficient_Minerals] = "Insufficient Minerals";
+      errorName[Insufficient_Gas]      = "Insufficient Gas";
+      errorName[Insufficient_Supply]   = "Insufficient Supply";
+      errorName[Insufficient_Energy]   = "Insufficient Energy";
+      errorName[Insufficient_Tech]     = "Insufficient Tech";
+      errorName[Insufficient_Ammo]     = "Insufficient Ammo";
+      errorName[Insufficient_Space]    = "Insufficient Space";
+      errorName[Invalid_Tile_Position] = "Invalid Tile Position";
+      errorName[Unbuildable_Location]  = "Unbuildable Location";
+      errorName[Unreachable_Location]  = "Unreachable Location";
+      errorName[Out_Of_Range]          = "Out Of Range";
+      errorName[Unable_To_Hit]         = "Unable To Hit";
+      errorName[Access_Denied]         = "Access Denied";
+      errorName[File_Not_Found]        = "File Not Found";
+      errorName[Invalid_Parameter]     = "Invalid Parameter";
+      errorName[None]                  = "None";
+      errorName[Unknown]               = "Unknown";
 
       errorSet.insert(Unit_Does_Not_Exist);
       errorSet.insert(Unit_Not_Visible);
@@ -136,17 +136,9 @@ namespace BWAPI
     this->id = other.id;
     return *this;
   }
-  bool Error::operator==(const Error& other) const
+  Error::operator int() const
   {
-    return this->id == other.id;
-  }
-  bool Error::operator!=(const Error& other) const
-  {
-    return this->id != other.id;
-  }
-  bool Error::operator<(const Error& other) const
-  {
-    return this->id < other.id;
+    return id;
   }
   int Error::getID() const
   {

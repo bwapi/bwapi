@@ -12,9 +12,7 @@ namespace BWAPI
       UpgradeType(int id);
       UpgradeType(const UpgradeType& other);
       UpgradeType& operator=(const UpgradeType& other);
-      bool operator==(const UpgradeType& other) const;
-      bool operator!=(const UpgradeType& other) const;
-      bool operator<(const UpgradeType& other) const;
+      operator int() const;
 
       /** Returns the unique ID for this upgrade type. */
       int getID() const;
