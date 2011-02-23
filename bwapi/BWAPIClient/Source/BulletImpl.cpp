@@ -65,19 +65,17 @@ namespace BWAPI
   }
   bool BulletImpl::isVisible() const
   {
-    if (Broodwar->self()==NULL)
+    if ( !Broodwar->self() )
     {
-      for(int i=0;i<9;i++)
-      {
+      for(int i = 0; i < 9; ++i)
         if (self->isVisible[i]) return true;
-      }
       return false;
     }
     return self->isVisible[Broodwar->self()->getID()];
   }
   bool BulletImpl::isVisible(Player* player) const
   {
-    if (player==NULL) return false;
+    if ( !player ) return false;
     return self->isVisible[player->getID()];
   }
 }

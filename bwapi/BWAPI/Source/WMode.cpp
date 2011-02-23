@@ -9,6 +9,9 @@ HWND ghMainWnd;
 bool wmode;
 HDC  hdcMem;
 void* pBits;
+bool gbWantUpdate = false;
+bool gbIsCursorHidden = true;
+bool gbHoldingAlt = false;
 
 RGBQUAD palette[256];
 
@@ -19,7 +22,7 @@ void InitializeWModeBitmap(int width, int height)
 
   // Create Bitmap HDC
   BITMAPINFO256 bmp = { 0 };
-  HBITMAP    hBmp  = NULL;
+  HBITMAP      hBmp = NULL;
 
   bmp.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
   bmp.bmiHeader.biWidth       = width;
@@ -71,6 +74,19 @@ void GetBorderSize(HWND hWnd, LPSIZE lpSize)
   }
 }
 
+LPARAM FixPoints(LPARAM lParam)
+{
+  RECT clientRct;
+  GetClientRect(ghMainWnd, &clientRct);
+
+  POINTS pt = MAKEPOINTS(lParam);
+  if ( clientRct.right != BW::BWDATA_GameScreenBuffer->wid )
+    pt.x = (SHORT)((float)pt.x * ((float)BW::BWDATA_GameScreenBuffer->wid / (float)clientRct.right));
+  if ( clientRct.bottom != BW::BWDATA_GameScreenBuffer->ht )
+    pt.y = (SHORT)((float)pt.y * ((float)BW::BWDATA_GameScreenBuffer->ht  / (float)clientRct.bottom));
+  return MAKELPARAM(pt.x, pt.y);
+}
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   if ( wmode )
@@ -83,8 +99,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         SIZE border;
         GetBorderSize(hWnd, &border);
 
-        int xLimit = 640 + border.cx;
-        int yLimit = 480 + border.cy;
+        int xLimit = BW::BWDATA_GameScreenBuffer->wid + border.cx;
+        int yLimit = BW::BWDATA_GameScreenBuffer->ht  + border.cy;
 
         RECT *rct = (RECT*)lParam;
         if ( rct->right - rct->left < xLimit )
@@ -94,70 +110,77 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
       }
     case WM_PAINT:
-      if ( BW::BWDATA_GameScreenBuffer->data && pBits )
+      if ( gbWantUpdate && pBits )
       {
         // begin paint
         PAINTSTRUCT paint;
         BeginPaint(hWnd, &paint);
 
-        // Copy the broodwar drawing buffer over
-        memcpy(pBits, BW::BWDATA_GameScreenBuffer->data, BW::BWDATA_GameScreenBuffer->wid * BW::BWDATA_GameScreenBuffer->ht);
-
         // Blit to the screen
-        BitBlt(paint.hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
+        SetStretchBltMode(paint.hdc, HALFTONE);
+        RECT cRect;
+        GetClientRect(hWnd, &cRect);
+        StretchBlt(paint.hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
 
         // end paint
         EndPaint(hWnd, &paint);
       } // data
       break;
+    case WM_NCMOUSEMOVE:
+      SetCursorShowState(true);
+      break;
     case WM_MOUSEMOVE:
-      if ((wParam & MK_LBUTTON) > 0)
+      SetCursorShowState(false);
+      lParam = FixPoints(lParam);
+      break;
+    case WM_LBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+    case WM_MBUTTONDOWN:
       {
         RECT clientRct;
         GetClientRect(hWnd, &clientRct);
-
         ClientToScreen(hWnd, (LPPOINT)&clientRct.left);
         ClientToScreen(hWnd, (LPPOINT)&clientRct.right);
-
         ClipCursor(&clientRct);
-      }
-      else
-      {
-        ClipCursor(NULL); 
-      }
-      break;
-    case WM_LBUTTONDOWN:
-    case WM_LBUTTONUP:
-    case WM_MOUSEWHEEL:
-    case WM_RBUTTONDOWN:
-    case WM_RBUTTONUP:
-    case WM_RBUTTONDBLCLK:
-    case WM_LBUTTONDBLCLK:
-    case WM_MBUTTONDOWN:
-    case WM_MBUTTONUP:
-    case WM_MBUTTONDBLCLK:
-      {
-        RECT rct;
-        GetClientRect(hWnd, &rct);
-
-        POINTS pt = MAKEPOINTS(lParam);
-        if ( pt.x <= rct.left )
-          pt.x = (SHORT)rct.left+1;
-        if ( pt.x >= rct.right )
-          pt.x = (SHORT)rct.right-1;
-        if ( pt.y <= rct.top )
-          pt.y = (SHORT)rct.top+1;
-        if ( pt.y >= rct.bottom )
-          pt.y = (SHORT)rct.bottom-1;
-        lParam = MAKELPARAM(pt.x, pt.y);
+        lParam = FixPoints(lParam);
         break;
       }
+    case WM_MBUTTONUP:
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+      ClipCursor(NULL);
+      lParam = FixPoints(lParam);
+      break;
+    case WM_MOUSEWHEEL:
+    case WM_RBUTTONDBLCLK:
+    case WM_LBUTTONDBLCLK:
+    case WM_MBUTTONDBLCLK:
+      lParam = FixPoints(lParam);
+      break;
     case WM_ACTIVATEAPP:
       if ( wOriginalProc )
         return wOriginalProc(hWnd, WM_ACTIVATEAPP, (WPARAM)1, NULL);
     case WM_SETCURSOR:
     case WM_ERASEBKGND:
       return DefWindowProc(hWnd, uMsg, wParam, lParam);
+    case WM_SYSKEYDOWN:
+      if ( wParam == VK_MENU && !(lParam & 0x40000000))
+      {
+        RECT rct;
+        GetClientRect(hWnd, &rct);
+        ClientToScreen(hWnd, (LPPOINT)&rct.left);
+        ClientToScreen(hWnd, (LPPOINT)&rct.right);
+        ClipCursor(&rct);
+        gbHoldingAlt = true;
+      }
+      break;
+    case WM_SYSKEYUP:
+      if ( wParam == VK_MENU )
+      {
+        ClipCursor(NULL);
+        gbHoldingAlt = false;
+      }
+      break;
     }
   }
 
@@ -187,16 +210,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
 {
-  if ( lpPoint )
-  {
-    if ( !wmode )
-      return GetCursorPos(lpPoint);
+  if ( !lpPoint )
+    return FALSE;
 
+  if ( !wmode )
+    return GetCursorPos(lpPoint);
+
+  if ( !gbHoldingAlt )
+  {
     lpPoint->x = 320;
     lpPoint->y = 240;
-    return TRUE;
   }
-  return FALSE;
+  else
+  {
+    POINT tempPoint;
+    GetCursorPos(&tempPoint);
+    ScreenToClient(ghMainWnd, &tempPoint);
+
+    LPARAM lConvert = FixPoints(MAKELPARAM(tempPoint.x, tempPoint.y));
+    POINTS final = MAKEPOINTS(lConvert);
+    lpPoint->x = final.x;
+    lpPoint->y = final.y;
+  }
+  return TRUE;
 }
 
 BOOL WINAPI _SetCursorPos(int X, int Y)
@@ -219,7 +255,7 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
     return SDrawLockSurface(surfacenumber, lpDestRect, lplpSurface, lpPitch, arg_unused);
 
   if ( lplpSurface )
-    *lplpSurface = BW::BWDATA_GameScreenBuffer->data;
+    *lplpSurface = pBits;
   if ( lpPitch )
     *lpPitch = 640;
   return TRUE;
@@ -230,6 +266,7 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
   if ( !wmode )
     return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
 
+  gbWantUpdate = true;
   return TRUE;
 }
 
@@ -287,9 +324,8 @@ void ToggleWMode(int width, int height)
     int w = width + border.cx;
     int h = height + border.cy;
     MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
-    HCURSOR cur = LoadCursor(NULL, IDC_ARROW);
-    SetCursor(cur);
-    ShowCursor(TRUE);
+    SetCursor(NULL);
+    SetCursorShowState(false);
   }
   else
   {
@@ -301,9 +337,18 @@ void ToggleWMode(int width, int height)
     SetWindowLong(ghMainWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
     SetWindowPos(ghMainWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
     SetCursor(NULL);
-    ShowCursor(FALSE);
+    SetCursorShowState(false);
     SetFocus(ghMainWnd);
 
     DDrawInitialize(width, height);
+  }
+}
+
+void SetCursorShowState(bool bShow)
+{
+  if ( bShow == gbIsCursorHidden )
+  {
+    ShowCursor(bShow);
+    gbIsCursorHidden = !bShow;
   }
 }
