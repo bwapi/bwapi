@@ -21,7 +21,7 @@ namespace BW
    * Values marked @todo Unknown are labeled as the EUDDB has them labeled, but the true meaning
    * is not understood. Values marked @todo Verify have known meanings, but are not confirmed.
    */
-#pragma pack(1)
+#pragma pack(1) // Note: alignment is probably default 4, not 1
   class Unit
   {
   public:
@@ -84,7 +84,7 @@ namespace BW
                                                       0x10  Lift/Land state
                                                   */
     /*0x050*/ u16                                 orderUnitType;
-    /*0x052*/ u16                                 _unused_0x052;
+    /*0x052*/ u16                                 _unused_0x052; // possible alignment
     /*0x054*/ u8                                  mainOrderTimer;         // A timer for orders, example: time left before minerals are harvested
     /*0x055*/ u8                                  groundWeaponCooldown;
     /*0x056*/ u8                                  airWeaponCooldown;
@@ -93,7 +93,7 @@ namespace BW
     /*0x05C*/ BW::Unit                            *orderTargetUnit;
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
     /*0x064*/ u16                                 unitType;             /**< Specifies the type of unit. */
-    /*0x066*/ u16                                 _unused_0x066;
+    /*0x066*/ u16                                 _unused_0x066; // possible alignment
     /*0x068*/ BW::Unit                            *previousPlayerUnit;
     /*0x06C*/ BW::Unit                            *nextPlayerUnit;
     /*0x070*/ BW::Unit                            *subUnit;
@@ -169,7 +169,7 @@ namespace BW
                   u8       landingTimer;         // B
                   u8       creepTimer;           // C
                   u8       upgradeLevel;         // D
-                  u16      _padding_0E;          // E
+                  u16      _padding_0E;          // E    // possible alignment
                   union                          // 10
                   { 
                     struct
@@ -217,8 +217,8 @@ namespace BW
     /*0x0E3*/ u8                                recentOrderTimer;   // Counts down from 15 to 0 when most orders are given,
                                                                     // or when the unit moves after reaching a patrol location
     /*0x0E4*/ s32                               visibilityStatus;   // Flags specifying which players can detect this unit (cloaked/burrowed)
-    /*0x0E8*/ u16                               _unknown_0x0E8;
-    /*0x0EA*/ u16                               _unknown_0x0EA;
+    /*0x0E8*/ u16                               _unknown_0x0E8;    // ??
+    /*0x0EA*/ u16                               _unknown_0x0EA;    // possible alignment
     /*0x0EC*/ BW::Unit                          *currentBuildUnit;
     /*0x0F0*/ BW::Unit                          *previousBurrowedUnit;
     /*0x0F4*/ BW::Unit                          *nextBurrowedUnit;
@@ -255,12 +255,12 @@ namespace BW
     /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
     /*0x123*/ u8                                  isBlind;
     /*0x124*/ u8                                  maelstromTimer;
-    /*0x125*/ u8                                  _unused_0x125;
-    /*0x126*/ u8                                  acidSporeCount;     /**< @todo Verify */
+    /*0x125*/ u8                                  _unused_0x125;  // ?? Might be afterburner timer or ultralisk roar timer
+    /*0x126*/ u8                                  acidSporeCount;
     /*0x127*/ u8                                  acidSporeTime[9];
     /*0x130*/ u16                                 bulletBehaviour3by3AttackSequence; // Counts up for the number of bullets shot by a unit using
                                                                                      // this weapon behaviour and resets after it reaches 12
-    /*0x132*/ u16                                 _unused_0x132;
+    /*0x132*/ u16                                 _unused_0x132;   // possible alignment
     /*0x134*/ void                                *CAIControl;        // pointer to AI class, we're not using this though
     /*0x138*/ u16                                 airStrength;        /**< verified */
     /*0x13A*/ u16                                 groundStrength;     /**< verified */

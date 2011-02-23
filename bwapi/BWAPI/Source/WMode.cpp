@@ -194,6 +194,22 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return TRUE;
     }
     break;
+#ifdef _DEBUG
+  case WM_KEYDOWN:
+    if ( wParam == VK_F6 && !(lParam & 0x40000000) )
+    {
+      strcpy(BW::BWDATA_CurrentMapFileName, "C:\\Program Files\\Starcraft\\maps\\(2)Challenger.scm");
+      *BW::BWDATA_gwGameMode     = 1;
+      *BW::BWDATA_gwNextGameMode = 1;
+      *BW::BWDATA_GameState      = 0;
+      *BW::BWDATA_CampaignIndex  = 0;
+      *BW::BWDATA_OpheliaEnabled = 1;
+      if ( !BW::FindDialogGlobal("Minimap") && (*BW::BWDATA_DialogList) )
+        (*BW::BWDATA_DialogList)->activate();
+      return TRUE;
+    }
+    break;
+#endif
   case WM_SYSCOMMAND:
     if ( wParam == SC_MAXIMIZE )
     {

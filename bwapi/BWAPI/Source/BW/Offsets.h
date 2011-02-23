@@ -218,6 +218,9 @@ namespace BW
   static int            *BWDATA_NetMode        = (int*) 0x0059688C;
   static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
 
+  static u32            *BWDATA_OpheliaEnabled = (u32*) 0x006D11C0;
+  static u16            *BWDATA_CampaignIndex  = (u16*) 0x0057F244;
+
   // note: unaligned because it's part of a structure that we're not using
   static u32            *BWDATA_ReplayFrames   = (u32*) 0x006D0F31;
 
