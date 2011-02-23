@@ -9,9 +9,9 @@ HWND ghMainWnd;
 bool wmode;
 HDC  hdcMem;
 void* pBits;
-bool gbWantUpdate = false;
+bool gbWantUpdate     = false;
 bool gbIsCursorHidden = true;
-bool gbHoldingAlt = false;
+bool gbHoldingAlt     = false;
 
 RGBQUAD palette[256];
 
@@ -32,16 +32,11 @@ void InitializeWModeBitmap(int width, int height)
   bmp.bmiHeader.biCompression = BI_RGB;
   for ( int i = 0; i < 256; ++i )
   {
-    bmp.bmiColors[i].rgbRed       = BW::BWDATA_GamePalette[i].peRed;
-    bmp.bmiColors[i].rgbGreen     = BW::BWDATA_GamePalette[i].peGreen;
-    bmp.bmiColors[i].rgbBlue      = BW::BWDATA_GamePalette[i].peBlue;
-    bmp.bmiColors[i].rgbReserved  = 0;
-    palette[i].rgbRed             = BW::BWDATA_GamePalette[i].peRed;
-    palette[i].rgbGreen           = BW::BWDATA_GamePalette[i].peGreen;
-    palette[i].rgbBlue            = BW::BWDATA_GamePalette[i].peBlue;
+    palette[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
+    palette[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
+    palette[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
   }
-
-  hBmp = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
+  hBmp   = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
   hdcMem = CreateCompatibleDC(NULL);
   SelectObject(hdcMem, hBmp);
 }
@@ -56,9 +51,9 @@ void GetBorderRect(HWND hWnd, LPRECT lpRect)
   GetWindowRect(hWnd, &windowRct);
   if ( lpRect )
   {
-    lpRect->left    = clientRct.left - windowRct.left;
-    lpRect->top     = clientRct.top - windowRct.top;
-    lpRect->right   = windowRct.right - clientRct.right;
+    lpRect->left    = clientRct.left   - windowRct.left;
+    lpRect->top     = clientRct.top    - windowRct.top;
+    lpRect->right   = windowRct.right  - clientRct.right;
     lpRect->bottom  = windowRct.bottom - clientRct.bottom;
   }
 }
@@ -164,6 +159,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_ERASEBKGND:
       return DefWindowProc(hWnd, uMsg, wParam, lParam);
     case WM_SYSKEYDOWN:
+    case WM_KEYDOWN:
       if ( wParam == VK_MENU && !(lParam & 0x40000000))
       {
         RECT rct;
@@ -175,14 +171,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       }
       break;
     case WM_SYSKEYUP:
+    case WM_KEYUP:
       if ( wParam == VK_MENU )
       {
         ClipCursor(NULL);
         gbHoldingAlt = false;
       }
       break;
-    }
-  }
+    } // switch
+  } // if wmode
 
   // Perform BWAPI-added functionality
   switch ( uMsg )
