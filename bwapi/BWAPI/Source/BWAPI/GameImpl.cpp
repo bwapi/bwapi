@@ -772,6 +772,12 @@ namespace BWAPI
   {
     /* Restarts the current match 
        Does not work on Battle.net */
+    if ( this->isMultiplayer() )
+    {
+      this->setLastError(Errors::Invalid_Parameter);
+      return;
+    }
+
     this->setLastError(Errors::None);
     *BW::BWDATA_GameState      = 0;
     *BW::BWDATA_gwGameMode     = 1;

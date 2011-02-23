@@ -191,9 +191,6 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     endDialog = BW::FindDialogGlobal("WMission");
   if ( endDialog )
     endDialog->findIndex(-2)->activate();
-
-  if ( wmode && ghMainWnd )
-    InvalidateRect(ghMainWnd, NULL, FALSE);
 }
 
 //------------------------------------------- AUTH ARCHIVE HOOK ----------------------------------------------
