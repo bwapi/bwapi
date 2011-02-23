@@ -584,6 +584,19 @@ namespace BWAPI
     BW::dialog *tempDlg;
     if ( autoMenuMode == "SINGLE_PLAYER" )
     {
+      /*if ( !actMainMenu && !isMultiplayer() && (*BW::BWDATA_DialogList) && !BW::FindDialogGlobal("TitleDlg") )
+      {
+        actMainMenu = true;
+        if ( !setMap("C:\\Program Files\\Starcraft\\maps\\(2)Challenger.scm") )
+          return;
+        *BW::BWDATA_gwGameMode        = 1;
+        *BW::BWDATA_gwNextGameMode    = 1;
+        *BW::BWDATA_GameState         = 0;
+        *BW::BWDATA_CampaignIndex     = 0;
+        *BW::BWDATA_OpheliaEnabled    = 1;
+        (*BW::BWDATA_DialogList)->activate();
+      }*/
+
       switch ( menu )
       {
 //main menu
