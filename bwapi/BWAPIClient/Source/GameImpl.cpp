@@ -16,72 +16,72 @@ namespace BWAPI
   Game* Broodwar = NULL;
   GameImpl::GameImpl(GameData* data)
   {
-    this->data=data;
-    for(int i=0;i<5;i++)
+    this->data = data;
+    for(int i = 0; i < 5; ++i)
       forceVector.push_back(ForceImpl(i));
-    for(int i=0;i<12;i++)
+    for(int i = 0; i < 12; ++i)
       playerVector.push_back(PlayerImpl(i));
-    for(int i=0;i<10000;i++)
+    for(int i = 0; i < 10000; ++i)
       unitVector.push_back(UnitImpl(i));
-    for(int i=0;i<100;i++)
+    for(int i = 0; i < 100; ++i)
       bulletVector.push_back(BulletImpl(i));
     inGame = false;
   }
   int GameImpl::addShape(BWAPIC::Shape &s)
   {
     assert(data->shapeCount < GameData::MAX_SHAPES);
-    data->shapes[data->shapeCount]=s;
+    data->shapes[data->shapeCount] = s;
     return data->shapeCount++;
   }
   int GameImpl::addString(const char* text)
   {
     assert(data->stringCount < GameData::MAX_STRINGS);
-    strncpy(data->strings[data->stringCount],text,256);
+    strncpy(data->strings[data->stringCount], text, 256);
     return data->stringCount++;
   }
   int GameImpl::addText(BWAPIC::Shape &s, const char* text)
   {
-    s.extra1=addString(text);
+    s.extra1 = addString(text);
     return addShape(s);
   }
   int GameImpl::addCommand(BWAPIC::Command &c)
   {
     assert(data->commandCount < GameData::MAX_COMMANDS);
-    data->commands[data->commandCount]=c;
+    data->commands[data->commandCount] = c;
     return data->commandCount++;
   }
   int GameImpl::addUnitCommand(BWAPIC::UnitCommand& c)
   {
     assert(data->unitCommandCount < GameData::MAX_UNIT_COMMANDS);
-    data->unitCommands[data->unitCommandCount]=c;
+    data->unitCommands[data->unitCommandCount] = c;
     return data->unitCommandCount++;
   }
   Event GameImpl::makeEvent(BWAPIC::Event e)
   {
     Event e2;
-    e2.type=e.type;
-    if (e.type==EventType::MatchEnd)
-      e2.isWinner=(e.v1 != 0);
-    if (e.type==EventType::NukeDetect)
-      e2.position=Position(e.v1,e.v2);
-    if (e.type==EventType::PlayerLeft)
-      e2.player=getPlayer(e.v1);
-    if (e.type==EventType::SaveGame || e.type==EventType::SendText)
-      e2.text=data->strings[e.v1];
-    if (e.type==EventType::ReceiveText)
+    e2.type = e.type;
+    if (e.type == EventType::MatchEnd)
+      e2.isWinner = (e.v1 != 0);
+    if (e.type == EventType::NukeDetect)
+      e2.position = Position(e.v1,e.v2);
+    if (e.type == EventType::PlayerLeft)
+      e2.player = getPlayer(e.v1);
+    if (e.type == EventType::SaveGame || e.type == EventType::SendText)
+      e2.text = data->strings[e.v1];
+    if (e.type == EventType::ReceiveText)
     {
-      e2.player=getPlayer(e.v1);
-      e2.text=data->strings[e.v2];
+      e2.player = getPlayer(e.v1);
+      e2.text   = data->strings[e.v2];
     }
-    if (e.type==EventType::UnitDiscover ||
-        e.type==EventType::UnitEvade ||
-        e.type==EventType::UnitShow ||
-        e.type==EventType::UnitHide ||
-        e.type==EventType::UnitCreate ||
-        e.type==EventType::UnitDestroy ||
-        e.type==EventType::UnitRenegade ||
-        e.type==EventType::UnitMorph)
-      e2.unit=getUnit(e.v1);
+    if (e.type == EventType::UnitDiscover ||
+        e.type == EventType::UnitEvade ||
+        e.type == EventType::UnitShow ||
+        e.type == EventType::UnitHide ||
+        e.type == EventType::UnitCreate ||
+        e.type == EventType::UnitDestroy ||
+        e.type == EventType::UnitRenegade ||
+        e.type == EventType::UnitMorph)
+      e2.unit = getUnit(e.v1);
     return e2;
 
   }
@@ -110,16 +110,16 @@ namespace BWAPI
     _enemies.clear();
 
     //clear unitsOnTileData
-    for(int x=0;x<256;x++)
-      for(int y=0;y<256;y++)
+    for(int x = 0; x < 256; ++x)
+      for(int y = 0; y < 256; ++y)
         unitsOnTileData[x][y].clear();
 
     //clear unit data
-    for(int i=0;i<10000;i++)
+    for(int i = 0; i < 10000; ++i)
       unitVector[i].clear();
 
     //clear player data
-    for(int i=0;i<12;i++)
+    for(int i = 0; i < 12; ++i)
       playerVector[i].units.clear();
 
   }
@@ -134,11 +134,11 @@ namespace BWAPI
     inGame = true;
 
     //load forces, players, and initial units from shared memory
-    for(int i=0;i<data->forceCount;i++)
+    for(int i = 0; i < data->forceCount; ++i)
       forces.insert(&forceVector[i]);
-    for(int i=0;i<data->playerCount;i++)
+    for(int i = 0; i < data->playerCount; ++i)
       players.insert(&playerVector[i]);
-    for(int i=0;i<data->initialUnitCount;i++)
+    for(int i = 0; i < data->initialUnitCount; ++i)
     {
       accessibleUnits.insert(&unitVector[i]);
       //save the initial state of each initial unit
@@ -146,7 +146,7 @@ namespace BWAPI
     }
 
     //load start locations from shared memory
-    for(int i=0;i<data->startLocationCount;i++)
+    for(int i = 0; i < data->startLocationCount; ++i)
       startLocations.insert(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
 
     thePlayer  = getPlayer(data->self);
@@ -154,7 +154,7 @@ namespace BWAPI
     theNeutral = getPlayer(data->neutral);
     _allies.clear();
     _enemies.clear();
-    if (thePlayer!=NULL)
+    if ( thePlayer )
     {
       foreach(Player* p, players)
       {
@@ -180,18 +180,15 @@ namespace BWAPI
   {
     events.clear();
     bullets.clear();
-    for(int i=0;i<100;i++)
+    for(int i = 0; i < 100; ++i)
     {
       if (bulletVector[i].exists())
-      {
         bullets.insert(&bulletVector[i]);
-      }
     }
     nukeDots.clear();
-    for(int i=0;i<data->nukeDotCount;i++)
-    {
+    for(int i = 0; i < data->nukeDotCount; ++i)
       nukeDots.insert(Position(data->nukeDots[i].x,data->nukeDots[i].y));
-    }
+
     for (int y = 0; y < data->mapHeight; ++y)
       for (int x = 0; x < data->mapWidth; ++x)
         unitsOnTileData[x][y].clear();

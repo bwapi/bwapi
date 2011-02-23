@@ -21,6 +21,7 @@ void GetBorderRect(HWND hWnd, LPRECT lpRect);
 void GetBorderSize(HWND hWnd, LPSIZE lpSize);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void ToggleWMode(int width, int height);
+void SetCursorShowState(bool bShow);
 
 extern WNDPROC wOriginalProc;
 extern HWND ghMainWnd;
