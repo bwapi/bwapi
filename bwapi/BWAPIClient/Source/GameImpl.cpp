@@ -477,25 +477,23 @@ namespace BWAPI
     return unitsOnTileData[x][y];
   }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
+  std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
   {
     //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
-    std::set<Unit*> empty;
-    return empty;
+    unitFinderResults.clear();
+    return unitFinderResults;
   }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
+  std::set<Unit*>& GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
   {
-    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
-    std::set<Unit*> empty;
-    return empty;
+    return getUnitsInRectangle(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
   }
   //----------------------------------------------- GET UNITS IN RADIUS --------------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRadius(BWAPI::Position center, int radius)
+  std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius)
   {
     //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
-    std::set<Unit*> empty;
-    return empty;
+    unitRadiusResults.clear();
+    return unitRadiusResults;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const

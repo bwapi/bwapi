@@ -346,10 +346,10 @@ namespace BWAPI
   }
 
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
+  std::set<Unit*> &GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
   {
     // localize the variables
-    std::set<Unit*> unitFinderResults;
+    unitFinderResults.clear();
     BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
     BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
 
@@ -402,22 +402,21 @@ namespace BWAPI
     return unitFinderResults;
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
+  std::set<Unit*> &GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
   {
     return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
   }
   //--------------------------------------------- GET UNITS IN RADIUS ----------------------------------------
-  std::set<Unit*> GameImpl::getUnitsInRadius(Position center, int radius)
+  std::set<Unit*> &GameImpl::getUnitsInRadius(Position center, int radius)
   {
+    unitRadiusResults.clear();
     center.makeValid();
-    std::set<Unit*> tempResults = getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius);
-    std::set<Unit*> unitFinderResults;
-    for each ( Unit *u in tempResults )
+    for each ( Unit *u in getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius) )
     {
       if ( center.getApproxDistance(u->getPosition()) <= radius )
-        unitFinderResults.insert(u);
+        unitRadiusResults.insert(u);
     }
-    return unitFinderResults;
+    return unitRadiusResults;
   }
   //--------------------------------------------- GET LAST ERROR ---------------------------------------------
   Error GameImpl::getLastError() const
