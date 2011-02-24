@@ -462,9 +462,8 @@ namespace BWAPI
       if ( selectedUnitSet.size() > 0 )
       {
         Unit *u = *selectedUnitSet.begin();
-        std::set<Unit*> found = u->getUnitsInWeaponRange();
         Position p = u->getPosition();
-        for each ( Unit *_u in found )
+        for each ( Unit *_u in u->getUnitsInWeaponRange() )
         {
           Position p2 = _u->getPosition();
           drawLineMap(p.x(), p.y(), p2.x(), p2.y(), Colors::Purple);

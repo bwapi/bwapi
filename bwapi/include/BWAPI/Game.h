@@ -152,11 +152,11 @@ namespace BWAPI
       virtual std::set<Unit*>& getUnitsOnTile(int tileX, int tileY) = 0;
 
       /** Returns the set of accessible units that are in or overlapping the given rectangle. */
-      virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) = 0;
-      virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) = 0;
+      virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) const = 0;
+      virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const = 0;
 
       /** Returns the set of accessible units within or overlapping a circle at the given point with the given radius. */
-      virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius) = 0;
+      virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius) const = 0;
 
       /** Returns the last error that was set. If you try to order enemy units around, or morph bunkers into
        * lurkers, BWAPI will set error codes, which can be retrieved using this function. */
