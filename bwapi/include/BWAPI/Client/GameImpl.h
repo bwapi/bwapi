@@ -49,8 +49,6 @@ namespace BWAPI
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set<Unit*> unitsOnTileData[256][256];
-      std::set<Unit*> unitFinderResults;
-      std::set<Unit*> unitRadiusResults;
 
       std::set< TilePosition > startLocations;
       std::list< Event > events;
@@ -111,9 +109,9 @@ namespace BWAPI
       virtual bool  isFlagEnabled(int flag);
       virtual void  enableFlag(int flag);
       virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
-      virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom);
-      virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight);
-      virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius);
+      virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) const;
+      virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const;
+      virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius) const;
       virtual Error getLastError() const;
       virtual bool  setLastError(BWAPI::Error e);
 

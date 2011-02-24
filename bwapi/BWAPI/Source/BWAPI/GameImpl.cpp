@@ -346,9 +346,10 @@ namespace BWAPI
   }
 
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
-  std::set<Unit*> &GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom)
+  std::set<Unit*> &GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
     // localize the variables
+    static std::set<Unit*> unitFinderResults;
     unitFinderResults.clear();
     BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
     BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
@@ -402,13 +403,14 @@ namespace BWAPI
     return unitFinderResults;
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
-  std::set<Unit*> &GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight)
+  std::set<Unit*> &GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const
   {
     return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
   }
   //--------------------------------------------- GET UNITS IN RADIUS ----------------------------------------
-  std::set<Unit*> &GameImpl::getUnitsInRadius(Position center, int radius)
+  std::set<Unit*> &GameImpl::getUnitsInRadius(Position center, int radius) const
   {
+    static std::set<Unit*> unitRadiusResults;
     unitRadiusResults.clear();
     center.makeValid();
     for each ( Unit *u in getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius) )

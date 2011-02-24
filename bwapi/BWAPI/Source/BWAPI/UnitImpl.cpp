@@ -500,12 +500,13 @@ namespace BWAPI
     return connectedUnits;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
-  std::set<Unit*> UnitImpl::getUnitsInRadius(int radius) const
+  std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
   {
     // localize the variables
-    std::set<Unit*> unitFinderResults;
+    static std::set<Unit*> unit_RadiusResults;
+    unit_RadiusResults.clear();
     if ( !exists() || radius < 0 )
-      return unitFinderResults;
+      return unit_RadiusResults;
     BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
     BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
 
@@ -513,19 +514,19 @@ namespace BWAPI
     BW::Unit *_u  = this->getOriginalRawData;
     int iLeft     = _u->unitFinderIndexLeft;
     if ( iLeft < 0 || iLeft >= MAX_SEARCH )
-      return unitFinderResults;
+      return unit_RadiusResults;
 
     int iRight    = _u->unitFinderIndexRight;
     if ( iRight < 0 || iRight >= MAX_SEARCH )
-      return unitFinderResults;
+      return unit_RadiusResults;
 
     int iTop      = _u->unitFinderIndexTop;
     if ( iTop < 0 || iTop >= MAX_SEARCH )
-      return unitFinderResults;
+      return unit_RadiusResults;
 
     int iBottom   = _u->unitFinderIndexBottom;
     if ( iBottom < 0 || iBottom >= MAX_SEARCH )
-      return unitFinderResults;
+      return unit_RadiusResults;
 
     int maxLeft   = xFinder[iLeft].searchValue - radius;
     int maxRight  = xFinder[iRight].searchValue + radius;
@@ -543,7 +544,7 @@ namespace BWAPI
       xList.push_back(xFinder[x].unitIndex);
 
     if ( xList.empty() )
-      return unitFinderResults; // no results
+      return unit_RadiusResults; // no results
 
     // Get units on vertical plane
     std::vector<int> yList;
@@ -556,7 +557,7 @@ namespace BWAPI
       yList.push_back(yFinder[y].unitIndex);
 
     if ( yList.empty() )
-      return unitFinderResults; // no results
+      return unit_RadiusResults; // no results
 
     // Save the intersection of the values found in both the horizontal and vertical planes
     for each ( int xUnit in xList )
@@ -567,50 +568,38 @@ namespace BWAPI
         {
           UnitImpl *u = BroodwarImpl.unitArray[xUnit-1];
           if ( u && u->exists() && u != this && this->getDistance(u) <= radius )
-            unitFinderResults.insert(u);
+            unit_RadiusResults.insert(u);
         }
       }
     }
-    return unitFinderResults;
+    return unit_RadiusResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
+  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange() const
   {
     // initialization
-    std::set<Unit*> noResults;
+    static std::set<Unit*> unit_WeaponResults;
+    unit_WeaponResults.clear();
     if ( !exists() )
-      return noResults;
+      return unit_WeaponResults;
 
-    // obtain sets for weapon ranges
     UnitType thisType = this->getType();
-    std::set<Unit*> maxGnd = getUnitsInRadius(getPlayer()->groundWeaponMaxRange(thisType));
-    std::set<Unit*> maxAir = getUnitsInRadius(getPlayer()->airWeaponMaxRange(thisType));
-    if ( maxGnd.empty() && maxAir.empty() ) // return if there are none
-      return noResults;
+
+    // Obtain the set of units within max ground weapon range
+    unit_WeaponResults = getUnitsInRadius(getPlayer()->groundWeaponMaxRange(thisType));
 
     // remove the subset of minRange from maxRange for ground weapons
-    if ( thisType.groundWeapon().minRange() > 0 )
+    if ( !unit_WeaponResults.empty() && thisType.groundWeapon().minRange() > 0 )
     {
-      std::set<Unit*> minGnd = getUnitsInRadius(thisType.groundWeapon().minRange() - 1);
-      for each (Unit *u in minGnd)
-        maxGnd.erase(maxGnd.find(u));
+      for each (Unit *u in getUnitsInRadius(thisType.groundWeapon().minRange() - 1))
+        unit_WeaponResults.erase(unit_WeaponResults.find(u));
     }
-/*  No min range for air weapons
-    // remove the subset of minRange from maxRange for air weapons
-    if ( thisType.airWeapon().minRange() > 0 )
-    {
-      std::set<Unit*> minAir = getUnitsInRadius(thisType.airWeapon().minRange() - 1);
-      for each (Unit *u in minAir)
-        maxAir.erase(maxAir.find(u));
-    }
-*/
-    if ( maxGnd.empty() && maxAir.empty() ) // return if we ended up removing them all
-      return noResults;
 
-    for each (Unit *u in maxAir)
-      maxGnd.insert(u);
+    // Add the air weapon results
+    for each (Unit *u in getUnitsInRadius(getPlayer()->airWeaponMaxRange(thisType)) )
+      unit_WeaponResults.insert(u);
 
-    return maxGnd;
+    return unit_WeaponResults;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const

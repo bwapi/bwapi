@@ -475,16 +475,16 @@ namespace BWAPI
     return connectedUnits;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
-  std::set<Unit*> UnitImpl::getUnitsInRadius(int radius) const
+  std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
   {
-    std::set<Unit*> nothing;
+    static std::set<Unit*> nothing;
     return nothing;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  std::set<Unit*> UnitImpl::getUnitsInWeaponRange() const
+  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange() const
   {
     // @TODO: copy Broodwar's raw sorting to BWAPI client data and perform same or similar search
-    std::set<Unit*> nothing;
+    static std::set<Unit*> nothing;
     return nothing;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
