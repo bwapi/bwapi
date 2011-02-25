@@ -149,7 +149,7 @@ namespace BW
                   BW::Unit *next;     // 4
                   BW::Unit *prev;     // 8
                   u8       inHanger;  // C
-                } interceptor;
+                } interceptor;  // also applies to scarab
                 
                 struct
                 {
@@ -182,6 +182,7 @@ namespace BW
                     } resource;  /** When the unit is resource container */
                     struct { BW::Unit *exit; } nydus; /** connected nydius canal */
                     struct { BW::Sprite *nukeDot; } ghost;
+                    struct { BW::Sprite *pylonAura; } pylon;
                     struct
                     { BW::Unit *nuke;  // attached nuke
                       u32 hasNuke;     // 14
@@ -226,12 +227,12 @@ namespace BW
               { struct
                 { u16      x, y;
                   BW::Unit *unit;
-                } rally;                /** If the unit is rally type @todo investigate*/
+                } rally;                /** If the unit is rally type */
 
                 struct
                 { BW::Unit *prevPsiProvider;
                   BW::Unit *nextPsiProvider;
-                } pylon;                /** If the unit is psi provider @todo investigate */
+                } pylon;                /** If the unit is psi provider */
               };
     /*0x100*/ BW::Path                            *path;
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown

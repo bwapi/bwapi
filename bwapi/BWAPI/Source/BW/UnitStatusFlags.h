@@ -34,7 +34,7 @@ namespace BW
       UNKNOWN6              = 0x01000000,
       UNKNOWN7              = 0x02000000,
       Invincible            = 0x04000000,
-      HoldPosition          = 0x08000000, // Set if the unit is currently holding position
+      HoldingPosition       = 0x08000000, // Set if the unit is currently holding position
       SpeedUpgrade          = 0x10000000,
       CooldownUpgrade       = 0x20000000,
       IsHallucination       = 0x40000000,  /**< 1 for hallucinated units, 0 for "normal" units */
