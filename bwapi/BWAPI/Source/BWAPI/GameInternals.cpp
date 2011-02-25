@@ -532,23 +532,8 @@ namespace BWAPI
     GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuRestartGame = std::string( strupr(buffer) );
 
-    if ( autoMenuMode != "OFF" && autoMenuMode != "" )
-    {
-      GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
-
-      //split path into path and filename
-      char* mapPathAndNameI         = buffer;
-      char* mapPathAndNameLastSlash = buffer;
-      while(mapPathAndNameI[0] != '\0')
-      {
-        if (mapPathAndNameI[0] == '\\' || mapPathAndNameI[0] == '/')
-          mapPathAndNameLastSlash = mapPathAndNameI + 1;
-        mapPathAndNameI++;
-      }
-      autoMenuMapName = std::string(mapPathAndNameLastSlash);
-      mapPathAndNameLastSlash[0] = '\0';
-      autoMenuMapPath = std::string(buffer);
-    }
+    GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
+    autoMenuMapPath = std::string(buffer);
     GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
     autoMenuLanMode = std::string(buffer);
     GetPrivateProfileString("auto_menu", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
@@ -615,8 +600,6 @@ namespace BWAPI
 //single player play custom / load replay selection screen
       case 22:
         actRegistry = false;
-        SStrCopy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str(), MAX_PATH);
-        SStrCopy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str(), MAX_PATH);
         if ( !actRaceSel )
         {
           actRaceSel = true;
@@ -628,49 +611,43 @@ namespace BWAPI
 //create single/multi player game screen
       case 11: 
         actRaceSel = false;
-        //the first time we enter the create game screen, it won't set the map correctly
-        //so we need to cancel out and re-enter
+        this->pressKey(VK_NEXT);
+
         tempDlg = BW::FindDialogGlobal("Create");
-        if ( *BW::BWDATA_menuStuff != -1 ) //Starcraft sets this to -1 after the first time we enter the create game screen
-          this->pressKey( tempDlg->findIndex(13)->getHotkey() );
-          //tempDlg->findIndex(13)->doEvent(14, 2);    // This is too efficient and will cause whatever trick being used to fail (infinite loop)
-        else
+        GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+        if ( gt != GameTypes::None && gt != GameTypes::Unknown )
+          tempDlg->findIndex(17)->setSelectedByValue(gt);
+
+        Race playerRace = Races::getRace(this->autoMenuRace);
+        if ( this->autoMenuRace == "RANDOMTP" )
+          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+        else if ( this->autoMenuRace == "RANDOMTZ" )
+          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+        else if ( this->autoMenuRace == "RANDOMPZ" )
+          playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+        if ( playerRace != Races::Unknown && playerRace != Races::None )
+          this->_changeRace(0, playerRace);
+
+        for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
         {
-          GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-          if ( gt != GameTypes::None && gt != GameTypes::Unknown )
-            tempDlg->findIndex(17)->setSelectedByValue(gt);
+          Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
+          if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
+            enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+          else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
+            enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+          else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
+            enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
 
-          Race playerRace = Races::getRace(this->autoMenuRace);
-          if ( this->autoMenuRace == "RANDOMTP" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-          else if ( this->autoMenuRace == "RANDOMTZ" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-          else if ( this->autoMenuRace == "RANDOMPZ" )
-            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-          if ( playerRace != Races::Unknown && playerRace != Races::None )
-            this->_changeRace(0, playerRace);
-
-          for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
-          {
-            Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
-            if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
-              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
-              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
-              enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-            if ( enemyRace != Races::Unknown && enemyRace != Races::None )
-              this->_changeRace(i, enemyRace);
-          }
-
-          //close remaining slots
-          for( int i = this->autoMenuEnemyCount; i < 7; ++i )
-            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
-
-          this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+          if ( enemyRace != Races::Unknown && enemyRace != Races::None )
+            this->_changeRace(i, enemyRace);
         }
+
+        //close remaining slots
+        for( int i = this->autoMenuEnemyCount; i < 7; ++i )
+          tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
+
+        this->pressKey( tempDlg->findIndex(12)->getHotkey() );
         break;
       }
     }
@@ -705,15 +682,14 @@ namespace BWAPI
         break;
       }
 
-      if (autoMenuMapName.length() > 0)
+      // create game
+      if ( autoMenuMapPath.length() > 0 )
       {
         switch ( menu )
         {
 //lan games lobby
         case 10:
           actRegistry = false;
-          SStrCopy(BW::BWDATA_menuMapRelativePath, autoMenuMapPath.c_str(), MAX_PATH);
-          SStrCopy(BW::BWDATA_menuMapFileName, autoMenuMapName.c_str(), MAX_PATH);
           if ( !actGameSel )
           {
             actGameSel = true;
@@ -724,23 +700,19 @@ namespace BWAPI
           break;
 //create single/multi player game screen
         case 11: 
-          actGameSel = false;
-          //the first time we enter the create game screen, it won't set the map correctly
-          //so we need to cancel out and re-enter
-          tempDlg = BW::FindDialogGlobal("Create");
-          if (*BW::BWDATA_menuStuff != -1) // Starcraft sets this to -1 after the first time we enter the create game screen
-            this->pressKey( tempDlg->findIndex(13)->getHotkey() );
-          else
           {
+            actGameSel = false;
+            this->pressKey(VK_NEXT);
+
+            tempDlg = BW::FindDialogGlobal("Create");
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
               tempDlg->findIndex(17)->setSelectedByValue(gt);
 
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+            break;
           }
-          break;
 // in lobby
-          
         case 3:
           actCreate = false;
           Race playerRace = Races::getRace(this->autoMenuRace);
@@ -753,11 +725,10 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(0, playerRace);
-
           break;
         }
       }
-      else // wait for other computer to make game
+      else // join game
       {
         switch ( menu )
         {
@@ -765,7 +736,6 @@ namespace BWAPI
         case 10: 
           actRegistry = false;
           this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(13)->getHotkey() );
-          //BW::FindDialogGlobal("GameSel")->findIndex(13)->activate();  // might bug
           break;
 //multiplayer game ready screen
         case 3: 
@@ -804,12 +774,6 @@ namespace BWAPI
 //multiplayer select connection screen
       case 2: 
         actMainMenu = false;
-        /*if ( !actConnSel )      // Broken
-        {
-          actConnSel = true;
-          if ( !BW::FindDialogGlobal("ConnSel")->findIndex(9)->activate() )
-            actConnSel = false;
-        }*/
         this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
         break;
       }

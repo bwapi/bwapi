@@ -282,6 +282,7 @@ namespace BWAPI
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
       std::string autoMenuMode;
+      std::string autoMenuMapPath;
       /** Count of game-frames passed from game start. */
       int frameCount;
       void refreshSelectionStates();
@@ -345,8 +346,6 @@ namespace BWAPI
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;
       std::string autoMenuLanMode;
-      std::string autoMenuMapPath;
-      std::string autoMenuMapName;
       std::string autoMenuRace;
       std::string autoMenuEnemyRace[8];
       unsigned int autoMenuEnemyCount;

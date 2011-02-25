@@ -31,6 +31,7 @@ void ApplyCodePatches()
   HackUtil::PatchImport("storm.dll", 119, &_SNetLeaveGame);
   HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
   HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
+  HackUtil::PatchImport("storm.dll", 266, &_SFileOpenArchive);
   HackUtil::PatchImport("storm.dll", 267, &_SFileOpenFile);
   HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
   HackUtil::PatchImport("storm.dll", 342, &_SDrawCaptureScreen);
