@@ -228,6 +228,27 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
   return TRUE;
 }
 
+BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq)
+{
+  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
+       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
+       BWAPI::BroodwarImpl.autoMenuMode != "OFF" )
+  {
+    const char *scheck = strstr(szMpqName, ".scx");
+    if ( !scheck )
+    {
+      scheck = strstr(szMpqName, ".scm");
+      if ( !scheck )
+        scheck = strstr(szMpqName, ".rep");
+    }
+    if ( scheck )
+    {
+      const char *pszMapPath = BWAPI::BroodwarImpl.autoMenuMapPath.c_str();
+      return SFileOpenArchive(pszMapPath, dwPriority, dwFlags, phMpq);
+    }
+  }
+  return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);
+}
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 BOOL __stdcall _SMemFree(void *location, char *logfilename, int logline, char defaultValue)
 {
