@@ -92,6 +92,8 @@ namespace BWAPI
       , wantSelectionUpdate(false)
       , noGUI(false)
       , calledMatchEnd(false)
+      , wantNewMapGen(true)
+      , autoMapTryCount(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -533,7 +535,13 @@ namespace BWAPI
     this->autoMenuRestartGame = std::string( strupr(buffer) );
 
     GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
+    for ( int i = strlen(buffer); i; --i )
+    {
+      if ( buffer[i] == '\\' )
+        buffer[i] = '/';
+    } 
     autoMenuMapPath = std::string(buffer);
+
     GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
     autoMenuLanMode = std::string(buffer);
     GetPrivateProfileString("auto_menu", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
@@ -564,6 +572,10 @@ namespace BWAPI
     this->inGame = false;
     events.push_back(Event::MenuFrame());
     this->server.update();
+
+    if ( autoMapTryCount > 100 )
+      return;
+
     int menu = *BW::BWDATA_glGluesMode;
     BW::dialog *tempDlg;
     if ( autoMenuMode == "SINGLE_PLAYER" )
@@ -647,6 +659,13 @@ namespace BWAPI
         for( int i = this->autoMenuEnemyCount; i < 7; ++i )
           tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
 
+        // if we encounter an unknown error when attempting to load the map
+        if ( BW::FindDialogGlobal("gluPOk") )
+        {
+          BWAPI::BroodwarImpl.wantNewMapGen = true;
+          ++autoMapTryCount;
+        }
+
         this->pressKey( tempDlg->findIndex(12)->getHotkey() );
         break;
       }
@@ -708,6 +727,13 @@ namespace BWAPI
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
             if (gt != GameTypes::None && gt != GameTypes::Unknown)
               tempDlg->findIndex(17)->setSelectedByValue(gt);
+
+            // if we encounter an unknown error when attempting to load the map
+            if ( BW::FindDialogGlobal("gluPOk") )
+            {
+              BWAPI::BroodwarImpl.wantNewMapGen = true;
+              autoMapTryCount++;
+            }
 
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
             break;
@@ -1396,6 +1422,8 @@ namespace BWAPI
 
     setGUI();
     onStartCalled = false;
+    wantNewMapGen = true;
+    autoMapTryCount = 0;
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
