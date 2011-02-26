@@ -245,42 +245,23 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
     }
     if ( scheck )
     {
-      if ( BWAPI::BroodwarImpl.wantNewMapGen )
+      if ( BWAPI::BroodwarImpl.wantNewMapGen && BWAPI::BroodwarImpl.autoMapPool.size() > 0 )
       {
-        const char *pszMapPath = BWAPI::BroodwarImpl.autoMenuMapPath.c_str();
-        WIN32_FIND_DATA finder = { 0 };
-        HANDLE hFind = FindFirstFileEx(pszMapPath, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
-        if ( (int)hFind <= 0 )
-          hFind = FindFirstFile(pszMapPath, &finder);
-        if ( (int)hFind > 0 )
-        {
-          std::vector<std::string> vFileSearch;
-          BOOL bResult = TRUE;
-          while ( bResult )
-          {
-            if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
-              vFileSearch.push_back( std::string(finder.cFileName) );
-            bResult = FindNextFile(hFind, &finder);
-          }
-          FindClose(hFind);
-          if ( vFileSearch.size() > 0 )
-          {
-            // Obtain a random map file
-            std::string chosen = vFileSearch[rand() % vFileSearch.size()];
-            // copy the original map path
-            char szFinalPath[MAX_PATH];
-            strcpy(szFinalPath, pszMapPath);
-            // isolate the path and copy our new map name
-            char *tmpRem = strrchr(szFinalPath, '/');
-            strcpy(&tmpRem[1], chosen.c_str());
+        BWAPI::BroodwarImpl.wantNewMapGen = false;
 
-            //MessageBox(NULL, szFinalPath, "", 0);
-            lastMapGen = szFinalPath;
-            BWAPI::BroodwarImpl.wantNewMapGen = false;
-            return SFileOpenArchive(szFinalPath, dwPriority, dwFlags, phMpq);
-          }
-        }
-        BWAPI::BroodwarImpl.setLastError(BWAPI::Errors::File_Not_Found);
+        // Obtain a random map file
+        std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
+
+        // copy the original map path
+        char szFinalPath[MAX_PATH];
+        strcpy(szFinalPath, BWAPI::BroodwarImpl.autoMenuMapPath.c_str());
+
+        // isolate the path and copy our new map name
+        char *tmpRem = strrchr(szFinalPath, '/');
+        strcpy( tmpRem ? &tmpRem[1] : szFinalPath, chosen.c_str());        
+
+        lastMapGen = szFinalPath;
+        return SFileOpenArchive(szFinalPath, dwPriority, dwFlags, phMpq);
       }
       else
       {

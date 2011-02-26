@@ -118,6 +118,7 @@ namespace BWAPI
     {
       BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
+    srand(GetTickCount());
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
@@ -541,6 +542,26 @@ namespace BWAPI
         buffer[i] = '/';
     } 
     autoMenuMapPath = std::string(buffer);
+
+    autoMapPool.clear();
+    if ( autoMenuMapPath.size() > 0 )
+    {
+      WIN32_FIND_DATA finder = { 0 };
+      HANDLE hFind = FindFirstFileEx(autoMenuMapPath.c_str(), FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
+      if ( (int)hFind <= 0 )
+        hFind = FindFirstFile(autoMenuMapPath.c_str(), &finder);
+      if ( (int)hFind > 0 )
+      {
+        BOOL bResult = TRUE;
+        while ( bResult )
+        {
+          if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+            autoMapPool.push_back( std::string(finder.cFileName) );
+          bResult = FindNextFile(hFind, &finder);
+        } // looping match found
+        FindClose(hFind);
+      } // if handle exists
+    } // map path size
 
     GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
     autoMenuLanMode = std::string(buffer);
