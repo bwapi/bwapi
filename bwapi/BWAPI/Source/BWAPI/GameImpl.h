@@ -283,6 +283,7 @@ namespace BWAPI
       bool onStartCalled;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
+      bool wasJustInGame;
       bool wantNewMapGen;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
