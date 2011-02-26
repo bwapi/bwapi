@@ -485,6 +485,12 @@ namespace BWAPI
       /** Returns true if the unit is under a Protoss Psionic Storm. */
       virtual bool isUnderStorm() const = 0;
 
+      /** Returns true if the unit is under a Dark Swarm. */
+      virtual bool isUnderDarkSwarm() const = 0;
+
+      /** Returns true if the unit is under a Disruption Web. */
+      virtual bool isUnderDisruptionWeb() const = 0;
+
       /** Returns true if the unit is a Protoss building that is unpowered because no pylons are in range. */
       virtual bool isUnpowered() const = 0;
 

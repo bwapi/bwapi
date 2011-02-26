@@ -826,6 +826,16 @@ namespace BWAPI
   {
     return self->isUnderStorm;
   }
+  //------------------------------------------------ IS UNDER DARK SWARM -------------------------------------
+  bool UnitImpl::isUnderDarkSwarm() const
+  {
+    return self->isUnderDarkSwarm;
+  }
+  //--------------------------------------------------- IS UNDER DWEB ----------------------------------------
+  bool UnitImpl::isUnderDisruptionWeb() const
+  {
+    return self->isUnderDWeb;
+  }
   //--------------------------------------------- IS UNPOWERED -----------------------------------------------
   bool UnitImpl::isUnpowered() const
   {
