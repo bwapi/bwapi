@@ -166,6 +166,8 @@ namespace BWAPI
       virtual bool isStuck() const;
       virtual bool isTraining() const;
       virtual bool isUnderStorm() const;
+      virtual bool isUnderDarkSwarm() const;
+      virtual bool isUnderDisruptionWeb() const;
       virtual bool isUnpowered() const;
       virtual bool isUpgrading() const;
       virtual bool isVisible() const;

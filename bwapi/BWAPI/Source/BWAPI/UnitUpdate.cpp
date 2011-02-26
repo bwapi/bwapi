@@ -172,6 +172,8 @@ namespace BWAPI
   void UnitImpl::updateData()
   {
     BW::Unit *o = getOriginalRawData;
+    self->isUnderDarkSwarm = false;
+    self->isUnderDWeb      = false;
     if (canAccess())
     {
       self->positionX = _getPosition.x(); //getPosition
@@ -426,6 +428,8 @@ namespace BWAPI
       self->isParasited         = false;  //isParasited
       self->isSelected          = false;  //isSelected
       self->isUnderStorm        = false;  //isUnderStorm
+      self->isUnderDarkSwarm    = false;
+      self->isUnderDWeb         = false;
       self->isUnpowered         = false;  //isUnpowered
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible

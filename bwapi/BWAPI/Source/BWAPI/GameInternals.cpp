@@ -463,20 +463,25 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      if ( selectedUnitSet.size() > 0 )
+      for each ( UnitImpl *_u in aliveUnits )
       {
-        Unit *u = *selectedUnitSet.begin();
-        Position p = u->getPosition();
-        for each ( Unit *_u in u->getUnitsInWeaponRange() )
-        {
-          Position p2 = _u->getPosition();
-          drawLineMap(p.x(), p.y(), p2.x(), p2.y(), Colors::Purple);
-        }
-      }
-      for each ( UnitImpl *u in aliveUnits )
-      {
-        if ( u->getType().isDetector() )
-          drawTextMap(u->getPosition().x(), u->getPosition().y(), "detector");
+        BW::Unit *u = _u->getOriginalRawData;
+        int l = -1, r = -1, t = -1, b = -1;
+        if ( u->unitFinderIndexLeft < 3400 )
+          l = BW::BWDATA_UnitOrderingX[u->unitFinderIndexLeft].searchValue;
+        if ( u->unitFinderIndexRight < 3400)
+          r = BW::BWDATA_UnitOrderingX[u->unitFinderIndexRight].searchValue;
+        if ( u->unitFinderIndexTop < 3400)
+          t = BW::BWDATA_UnitOrderingY[u->unitFinderIndexTop].searchValue;
+        if ( u->unitFinderIndexBottom < 3400)
+          b = BW::BWDATA_UnitOrderingY[u->unitFinderIndexBottom].searchValue;
+
+        if ( l > 0 && r > 0 && t > 0 && b > 0 )
+          drawBoxMap(l, t, r, b, _u->getType().isSpell() ? Colors::Green : Colors::Orange );
+        if ( _u->isUnderDarkSwarm() )
+          drawTextMap(_u->getPosition().x(), _u->getPosition().y(), "Dark Swarm");
+        if ( _u->isUnderDisruptionWeb() )
+          drawTextMap(_u->getPosition().x(), _u->getPosition().y(), "Disruption Web");
       }
     } // unitdebug
 
@@ -1927,6 +1932,43 @@ namespace BWAPI
         } // if exists
       } // if u
     } // for each in selectedU
+
+    for each ( UnitImpl *_u in this->neutralUnits )
+    {
+      BWAPI::UnitType ut = _u->getType();
+      if ( ut != UnitTypes::Spell_Dark_Swarm &&
+           ut != UnitTypes::Spell_Disruption_Web )
+        continue;
+
+      BW::Unit *u = _u->getOriginalRawData;
+      int l = u->unitFinderIndexLeft, r = u->unitFinderIndexRight, t = u->unitFinderIndexTop, b = u->unitFinderIndexBottom;
+
+      for ( int i = BW::BWDATA_UnitOrderingX[l].searchValue; l > 0 && BW::BWDATA_UnitOrderingX[l-1].searchValue >= i; --l ) {}
+      for ( int i = BW::BWDATA_UnitOrderingX[r].searchValue; r < 3400 && BW::BWDATA_UnitOrderingX[r+1].searchValue <= i; ++r ) {}
+      for ( int i = BW::BWDATA_UnitOrderingY[t].searchValue; t > 0 && BW::BWDATA_UnitOrderingY[t-1].searchValue >= i; --t ) {}
+      for ( int i = BW::BWDATA_UnitOrderingY[b].searchValue; b < 3400 && BW::BWDATA_UnitOrderingY[b+1].searchValue <= i; ++b ) {}
+
+      for ( int x = l+1; x < r; ++x )
+      {
+        for ( int y = t+1; y < b; ++y )
+        {
+          int xId = BW::BWDATA_UnitOrderingX[x].unitIndex;
+          int yId = BW::BWDATA_UnitOrderingY[y].unitIndex;
+          if ( !xId || xId != yId )
+            continue;
+
+          UnitImpl *unitUnder = unitArray[xId-1];
+          if ( unitUnder && unitUnder->exists() && !unitUnder->getType().isSpell() && !unitUnder->getType().isFlyer() )
+          {
+            if ( ut == UnitTypes::Spell_Dark_Swarm )
+              unitUnder->self->isUnderDarkSwarm = true;
+            else if ( ut == UnitTypes::Spell_Disruption_Web )
+              unitUnder->self->isUnderDWeb      = true;
+          } // unit under exists
+        } // y iter
+      } // x iter
+
+    } // for each neutral units
 
   } // updateUnits
   void GameImpl::processEvents()

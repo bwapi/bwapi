@@ -192,8 +192,8 @@ namespace BWAPI
     for (unsigned int y = 0; y < h; ++y)
       for (unsigned int x = 0; x < w; ++x)
         this->walkability[x][y] = (this->getMiniTile(x, y) & BW::MiniTileFlags::Walkable) != 0;
-    int y = BWAPI::Map::getHeight() * 4 - 1;
-    for(unsigned int x = 0; x < (unsigned int)(BWAPI::Map::getWidth() * 4); ++x)
+    int y = h - 1;
+    for(unsigned int x = 0; x < w; ++x)
     {
       this->walkability[x][y]   = false;
       this->walkability[x][y-1] = false;
