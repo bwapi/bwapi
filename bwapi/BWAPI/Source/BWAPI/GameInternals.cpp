@@ -94,6 +94,7 @@ namespace BWAPI
       , calledMatchEnd(false)
       , wantNewMapGen(true)
       , autoMapTryCount(0)
+      , wasJustInGame(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -590,7 +591,13 @@ namespace BWAPI
   void GameImpl::onMenuFrame()
   {
     //this function is called each frame while starcraft is in the main menu system (not in-game).
-    this->inGame = false;
+    this->inGame        = false;
+    if ( wasJustInGame )
+    {
+      wasJustInGame       = false;
+      this->wantNewMapGen = true;
+    }
+
     events.push_back(Event::MenuFrame());
     this->server.update();
 
@@ -860,36 +867,34 @@ namespace BWAPI
         if ( !actEnd )
         {
           actEnd = true;
-          if ( menu != 15 )//Only save replay if this is NOT the end of replay screen
+          //Only save replay if this is NOT the end of replay screen
+          if ( menu != 15 && autoMenuSaveReplay != "")
           {
-            if ( autoMenuSaveReplay != "" )
-            {
-              char szReplayPath[MAX_PATH];
-              SStrCopy(szReplayPath, szInstallPath, MAX_PATH);
-              SStrNCat(szReplayPath, "maps\\replays\\LastReplay.rep", MAX_PATH);
+            char szReplayPath[MAX_PATH];
+            SStrCopy(szReplayPath, szInstallPath, MAX_PATH);
+            SStrNCat(szReplayPath, "maps\\replays\\LastReplay.rep", MAX_PATH);
 
-              SYSTEMTIME systemTime;
-              GetSystemTime(&systemTime);
-              char szBuf[64];
-              sprintf(szBuf, "%04u", systemTime.wYear);
-              SetEnvironmentVariable("YEAR", szBuf);
-              sprintf(szBuf, "%02u", systemTime.wMonth);
-              SetEnvironmentVariable("MONTH", szBuf);
-              sprintf(szBuf, "%02u", systemTime.wDay);
-              SetEnvironmentVariable("DAY", szBuf);
-              sprintf(szBuf, "%02u", systemTime.wHour);
-              SetEnvironmentVariable("HOUR", szBuf);
-              sprintf(szBuf, "%02u", systemTime.wMinute);
-              SetEnvironmentVariable("MINUTE", szBuf);
-              sprintf(szBuf, "%02u", systemTime.wSecond);
-              SetEnvironmentVariable("SECOND", szBuf);
-              sprintf(szBuf, "%03u", systemTime.wMilliseconds);
-              SetEnvironmentVariable("MILLISECOND", szBuf);
+            SYSTEMTIME systemTime;
+            GetSystemTime(&systemTime);
+            char szBuf[64];
+            sprintf(szBuf, "%04u", systemTime.wYear);
+            SetEnvironmentVariable("YEAR", szBuf);
+            sprintf(szBuf, "%02u", systemTime.wMonth);
+            SetEnvironmentVariable("MONTH", szBuf);
+            sprintf(szBuf, "%02u", systemTime.wDay);
+            SetEnvironmentVariable("DAY", szBuf);
+            sprintf(szBuf, "%02u", systemTime.wHour);
+            SetEnvironmentVariable("HOUR", szBuf);
+            sprintf(szBuf, "%02u", systemTime.wMinute);
+            SetEnvironmentVariable("MINUTE", szBuf);
+            sprintf(szBuf, "%02u", systemTime.wSecond);
+            SetEnvironmentVariable("SECOND", szBuf);
+            sprintf(szBuf, "%03u", systemTime.wMilliseconds);
+            SetEnvironmentVariable("MILLISECOND", szBuf);
 
-              char szNewPath[MAX_PATH];
-              ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szNewPath, MAX_PATH);
-              CopyFile(szReplayPath, szNewPath, false);
-            }
+            char szNewPath[MAX_PATH];
+            ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szNewPath, MAX_PATH);
+            CopyFile(szReplayPath, szNewPath, false);
           }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
           {
@@ -1443,7 +1448,7 @@ namespace BWAPI
 
     setGUI();
     onStartCalled = false;
-    wantNewMapGen = true;
+    wasJustInGame = true;
     autoMapTryCount = 0;
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
