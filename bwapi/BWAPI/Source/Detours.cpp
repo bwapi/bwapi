@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string>
+#include <vector>
 #include <math.h>
 #include "../Storm/storm.h"
 
@@ -228,6 +229,7 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
   return TRUE;
 }
 
+std::string lastMapGen;
 BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq)
 {
   if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
@@ -243,8 +245,47 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
     }
     if ( scheck )
     {
-      const char *pszMapPath = BWAPI::BroodwarImpl.autoMenuMapPath.c_str();
-      return SFileOpenArchive(pszMapPath, dwPriority, dwFlags, phMpq);
+      if ( BWAPI::BroodwarImpl.wantNewMapGen )
+      {
+        const char *pszMapPath = BWAPI::BroodwarImpl.autoMenuMapPath.c_str();
+        WIN32_FIND_DATA finder = { 0 };
+        HANDLE hFind = FindFirstFileEx(pszMapPath, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
+        if ( (int)hFind <= 0 )
+          hFind = FindFirstFile(pszMapPath, &finder);
+        if ( (int)hFind > 0 )
+        {
+          std::vector<std::string> vFileSearch;
+          BOOL bResult = TRUE;
+          while ( bResult )
+          {
+            if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+              vFileSearch.push_back( std::string(finder.cFileName) );
+            bResult = FindNextFile(hFind, &finder);
+          }
+          FindClose(hFind);
+          if ( vFileSearch.size() > 0 )
+          {
+            // Obtain a random map file
+            std::string chosen = vFileSearch[rand() % vFileSearch.size()];
+            // copy the original map path
+            char szFinalPath[MAX_PATH];
+            strcpy(szFinalPath, pszMapPath);
+            // isolate the path and copy our new map name
+            char *tmpRem = strrchr(szFinalPath, '/');
+            strcpy(&tmpRem[1], chosen.c_str());
+
+            //MessageBox(NULL, szFinalPath, "", 0);
+            lastMapGen = szFinalPath;
+            BWAPI::BroodwarImpl.wantNewMapGen = false;
+            return SFileOpenArchive(szFinalPath, dwPriority, dwFlags, phMpq);
+          }
+        }
+        BWAPI::BroodwarImpl.setLastError(BWAPI::Errors::File_Not_Found);
+      }
+      else
+      {
+        return SFileOpenArchive(lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
+      }
     }
   }
   return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);

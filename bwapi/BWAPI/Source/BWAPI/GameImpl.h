@@ -283,6 +283,8 @@ namespace BWAPI
       bool onStartCalled;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
+      bool wantNewMapGen;
+      int  autoMapTryCount;
       /** Count of game-frames passed from game start. */
       int frameCount;
       void refreshSelectionStates();
