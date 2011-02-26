@@ -251,22 +251,9 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
 
         // Obtain a random map file
         std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
-
-        // copy the original map path
-        char szFinalPath[MAX_PATH];
-        strcpy(szFinalPath, BWAPI::BroodwarImpl.autoMenuMapPath.c_str());
-
-        // isolate the path and copy our new map name
-        char *tmpRem = strrchr(szFinalPath, '/');
-        strcpy( tmpRem ? &tmpRem[1] : szFinalPath, chosen.c_str());        
-
-        lastMapGen = szFinalPath;
-        return SFileOpenArchive(szFinalPath, dwPriority, dwFlags, phMpq);
+        lastMapGen = BWAPI::BroodwarImpl.autoMenuMapPath + chosen;
       }
-      else
-      {
-        return SFileOpenArchive(lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
-      }
+      return SFileOpenArchive(lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
     }
   }
   return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);
