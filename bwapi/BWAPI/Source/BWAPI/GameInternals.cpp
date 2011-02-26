@@ -553,8 +553,11 @@ namespace BWAPI
     if ( autoMenuMapPath.size() > 0 )
     {
       WIN32_FIND_DATA finder = { 0 };
+
+#ifdef FIND_FIRST_EX_LARGE_FETCH
       HANDLE hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
       if ( (int)hFind <= 0 )
+#endif
         hFind = FindFirstFile(buffer, &finder);
       if ( (int)hFind > 0 )
       {
