@@ -541,23 +541,36 @@ namespace BWAPI
     {
       if ( buffer[i] == '\\' )
         buffer[i] = '/';
-    } 
-    autoMenuMapPath = std::string(buffer);
+    }
+    char szMapPathTemp[MAX_PATH];
+    strcpy(szMapPathTemp, buffer);
+    char *pszPathEnd = strrchr(szMapPathTemp, '/');
+    if ( pszPathEnd )
+      pszPathEnd[1] = 0;
+    autoMenuMapPath = std::string(szMapPathTemp);
 
     autoMapPool.clear();
     if ( autoMenuMapPath.size() > 0 )
     {
       WIN32_FIND_DATA finder = { 0 };
-      HANDLE hFind = FindFirstFileEx(autoMenuMapPath.c_str(), FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
+      HANDLE hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
       if ( (int)hFind <= 0 )
-        hFind = FindFirstFile(autoMenuMapPath.c_str(), &finder);
+        hFind = FindFirstFile(buffer, &finder);
       if ( (int)hFind > 0 )
       {
         BOOL bResult = TRUE;
         while ( bResult )
         {
           if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
-            autoMapPool.push_back( std::string(finder.cFileName) );
+          {
+            std::string finderStr = std::string(finder.cFileName);
+            HANDLE hMPQ;
+            if ( SFileOpenArchive( (autoMenuMapPath + finderStr).c_str(), 0, 0, &hMPQ) && hMPQ )
+            {
+              autoMapPool.push_back( finderStr );
+              SFileCloseArchive(hMPQ);
+            }
+          }
           bResult = FindNextFile(hFind, &finder);
         } // looping match found
         FindClose(hFind);
@@ -1064,7 +1077,7 @@ namespace BWAPI
         /* find the opponent player */
         for (int i = 0; i < 8; i++)
           if ((this->players[i]->getType() == BW::PlayerType::Computer ||
-               this->players[i]->getType() == BW::PlayerType::Player ||
+               this->players[i]->getType() == BW::PlayerType::Player   ||
                this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
               this->BWAPIPlayer->isEnemy(this->players[i]))
             this->enemyPlayer = this->players[i];
