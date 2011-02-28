@@ -561,10 +561,10 @@ namespace BWAPI
 
 #ifdef FIND_FIRST_EX_LARGE_FETCH
       HANDLE hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
-      if ( (int)hFind <= 0 )
+      if ( hFind == INVALID_HANDLE_VALUE )
 #endif
         hFind = FindFirstFile(buffer, &finder);
-      if ( (int)hFind > 0 )
+      if ( hFind != INVALID_HANDLE_VALUE )
       {
         BOOL bResult = TRUE;
         while ( bResult )
@@ -602,11 +602,33 @@ namespace BWAPI
     }
 
     autoMenuEnemyCount = GetPrivateProfileInt("auto_menu", "enemy_count", 1, szConfigPath);
-    if      ( autoMenuEnemyCount > 7 ) autoMenuEnemyCount = 7;
+    if ( autoMenuEnemyCount > 7 ) autoMenuEnemyCount = 7;
     GetPrivateProfileString("auto_menu", "game_type", "MELEE", buffer, MAX_PATH, szConfigPath);
     autoMenuGameType = std::string(buffer);
     GetPrivateProfileString("auto_menu", "save_replay", "", buffer, MAX_PATH, szConfigPath);
     autoMenuSaveReplay = std::string(buffer);
+  }
+  int fixPathString(const char *in, char *out, size_t outLen)
+  {
+    unsigned int n = 0;
+    for ( unsigned int i = 0; in[i] != 0 && n < outLen; ++i )
+    {
+      if ( !iscntrl(in[i]) &&
+           in[i] != '?'    &&
+           in[i] != '*'    &&
+           in[i] != '<'    &&
+           in[i] != '|'    &&
+           in[i] != '"'    &&
+           in[i] != ':' )
+      {
+        if ( in[i] == '\\' )
+          out[n] = '/';
+        else
+          out[n] = in[i];
+        n++;
+      }
+    }
+    return n;
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
@@ -899,7 +921,7 @@ namespace BWAPI
             GetSystemTime(&systemTime);
             char szBuf[64];
             sprintf(szBuf, "%04u", systemTime.wYear);
-            SetEnvironmentVariable("YEAR", szBuf);
+            SetEnvironmentVariable("YEAR", &szBuf[2]);
             sprintf(szBuf, "%02u", systemTime.wMonth);
             SetEnvironmentVariable("MONTH", szBuf);
             sprintf(szBuf, "%02u", systemTime.wDay);
@@ -913,8 +935,19 @@ namespace BWAPI
             sprintf(szBuf, "%03u", systemTime.wMilliseconds);
             SetEnvironmentVariable("MILLISECOND", szBuf);
 
-            char szNewPath[MAX_PATH];
-            ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szNewPath, MAX_PATH);
+            SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
+            SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
+            SetEnvironmentVariable("MAP",        rn_MapName.c_str());
+            SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
+            SetEnvironmentVariable("ALLYRACES",  rn_AlliesRaces.c_str());
+            SetEnvironmentVariable("ENEMYNAMES", rn_EnemiesNames.c_str());
+            SetEnvironmentVariable("ENEMYRACES", rn_EnemiesRaces.c_str());
+
+            char szInterPath[MAX_PATH] = { 0 };
+            ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szInterPath, MAX_PATH);
+            char szNewPath[MAX_PATH] = { 0 };
+            fixPathString(szInterPath, szNewPath, MAX_PATH);
+
             CopyFile(szReplayPath, szNewPath, false);
           }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
@@ -1131,7 +1164,7 @@ namespace BWAPI
     {
       foreach(Player* p, playerSet)
       {
-        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
+        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer ) continue;
         if (BWAPIPlayer->isAlly(p))
           _allies.insert(p);
         if (BWAPIPlayer->isEnemy(p))
@@ -1171,6 +1204,23 @@ namespace BWAPI
     }
 
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+    rn_BWAPIName = this->BWAPIPlayer->getName().substr(0, 6);
+    rn_BWAPIRace = this->BWAPIPlayer->getRace().getName().substr(0, 1);
+    rn_MapName   = this->mapName().substr(0, 16);
+    rn_AlliesNames.clear();
+    rn_AlliesRaces.clear();
+    rn_EnemiesNames.clear();
+    rn_EnemiesRaces.clear();
+    for each ( Player *p in this->_allies )
+    {
+      rn_AlliesNames += p->getName().substr(0, 6);
+      rn_AlliesRaces += p->getRace().getName().substr(0, 1);
+    }
+    for each ( Player *p in this->_enemies )
+    {
+      rn_EnemiesNames += p->getName().substr(0, 6);
+      rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
+    }
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)

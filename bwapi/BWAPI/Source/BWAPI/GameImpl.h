@@ -356,6 +356,13 @@ namespace BWAPI
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;
+      std::string rn_BWAPIName;
+      std::string rn_BWAPIRace;
+      std::string rn_MapName;
+      std::string rn_AlliesNames;
+      std::string rn_AlliesRaces;
+      std::string rn_EnemiesNames;
+      std::string rn_EnemiesRaces;
       DWORD endTick;
       std::set<Player*> _allies;
       std::set<Player*> _enemies;
