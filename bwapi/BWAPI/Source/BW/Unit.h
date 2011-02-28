@@ -125,7 +125,7 @@ namespace BW
     /*0x0A6*/ u8                                  secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
     /*0x0A7*/ u8                                  buildingOverlayState; // 0 means the building has the largest amount of fire/blood
     /*0x0A8*/ u32                                 hpGainDuringRepair; /**< @todo Verify */
-    /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time */
+    /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location. */
     /*0x0AE*/ u16                                 previousHP;   // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
     /*0x0B0*/ u16                                 loadedUnitIndex[8];
     /*0x0C0*/ union
@@ -193,6 +193,11 @@ namespace BW
                       u16 _unknown_14;    // 14
                       u16 harvestValue3;
                     } hatchery; // wtf???
+                    struct
+                    {
+                      s16 originX;
+                      s16 originY;
+                    } powerup;
                   };
                 } building;
                 

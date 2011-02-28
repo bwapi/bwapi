@@ -156,7 +156,7 @@ BOOL STORMAPI STransInvertMask(HANDLE hTrans, int sourcemask) rBool;
 
 BOOL STORMAPI STransSetDirtyArrayInfo(int width, int height, int depth, int bits) rBool;
 
-BOOL STORMAPI STrans442(int a1, int a2, int a3, char *a4, size_t a5) rBool;
+BOOL STORMAPI STrans442(HANDLE hTrans, int a2, int a3, char *a4, size_t a5) rBool;
 BOOL STORMAPI STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6) rBool;
 
 BOOL STORMAPI STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut) rBool;

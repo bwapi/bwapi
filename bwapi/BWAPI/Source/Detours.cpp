@@ -250,6 +250,7 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
         BWAPI::BroodwarImpl.wantNewMapGen = false;
 
         // Obtain a random map file
+        srand(GetTickCount());
         std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
         lastMapGen = BWAPI::BroodwarImpl.autoMenuMapPath + chosen;
       }
