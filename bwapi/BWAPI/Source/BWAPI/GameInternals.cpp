@@ -559,8 +559,9 @@ namespace BWAPI
     {
       WIN32_FIND_DATA finder = { 0 };
 
+      HANDLE hFind;
 #ifdef FIND_FIRST_EX_LARGE_FETCH
-      HANDLE hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
+      hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
       if ( hFind == INVALID_HANDLE_VALUE )
 #endif
         hFind = FindFirstFile(buffer, &finder);
