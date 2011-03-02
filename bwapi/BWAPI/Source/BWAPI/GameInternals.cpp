@@ -483,6 +483,22 @@ namespace BWAPI
         if ( _u->isUnderDisruptionWeb() )
           drawTextMap(_u->getPosition().x(), _u->getPosition().y(), "Disruption Web");
       }
+      for each ( UnitImpl *_u in neutralUnits )
+      {
+        UnitType t = _u->getType();
+        if ( t == UnitTypes::Spell_Dark_Swarm )
+        {
+          int l = _u->getPosition().x() - t.dimensionLeft();
+          int r = _u->getPosition().x() + t.dimensionRight();
+          int u = _u->getPosition().y() - t.dimensionUp();
+          int b = _u->getPosition().y() + t.dimensionDown();
+          for each ( Unit *omg in this->getUnitsInRectangle(l, u, r, b) )
+          {
+            Position omgP = omg->getPosition();
+            drawLineMap(omgP.x()-5, omgP.y()-5, omgP.x(), omgP.y(), Colors::Blue);
+          }
+        }
+      }
     } // unitdebug
 
     // pathdebug
@@ -1991,34 +2007,19 @@ namespace BWAPI
            ut != UnitTypes::Spell_Disruption_Web )
         continue;
 
-      BW::Unit *u = _u->getOriginalRawData;
-      int l = u->unitFinderIndexLeft, r = u->unitFinderIndexRight, t = u->unitFinderIndexTop, b = u->unitFinderIndexBottom;
-
-      for ( int i = BW::BWDATA_UnitOrderingX[l].searchValue; l > 0 && BW::BWDATA_UnitOrderingX[l-1].searchValue >= i; --l ) {}
-      for ( int i = BW::BWDATA_UnitOrderingX[r].searchValue; r < 3400 && BW::BWDATA_UnitOrderingX[r+1].searchValue <= i; ++r ) {}
-      for ( int i = BW::BWDATA_UnitOrderingY[t].searchValue; t > 0 && BW::BWDATA_UnitOrderingY[t-1].searchValue >= i; --t ) {}
-      for ( int i = BW::BWDATA_UnitOrderingY[b].searchValue; b < 3400 && BW::BWDATA_UnitOrderingY[b+1].searchValue <= i; ++b ) {}
-
-      for ( int x = l+1; x < r; ++x )
+      int l = _u->getPosition().x() - ut.dimensionLeft();
+      int r = _u->getPosition().x() + ut.dimensionRight() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      int t = _u->getPosition().y() - ut.dimensionUp();
+      int b = _u->getPosition().y() + ut.dimensionDown() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      for each ( UnitImpl *uInside in this->getUnitsInRectangle(l, t, r, b) )
       {
-        for ( int y = t+1; y < b; ++y )
-        {
-          int xId = BW::BWDATA_UnitOrderingX[x].unitIndex;
-          int yId = BW::BWDATA_UnitOrderingY[y].unitIndex;
-          if ( !xId || xId != yId )
-            continue;
-
-          UnitImpl *unitUnder = unitArray[xId-1];
-          if ( unitUnder && unitUnder->exists() && !unitUnder->getType().isSpell() && !unitUnder->getType().isFlyer() )
-          {
-            if ( ut == UnitTypes::Spell_Dark_Swarm )
-              unitUnder->self->isUnderDarkSwarm = true;
-            else if ( ut == UnitTypes::Spell_Disruption_Web )
-              unitUnder->self->isUnderDWeb      = true;
-          } // unit under exists
-        } // y iter
-      } // x iter
-
+        if ( uInside->getType().isSpell() || uInside->getType().isFlyer() )
+          continue;
+        if ( ut == UnitTypes::Spell_Dark_Swarm )
+          uInside->self->isUnderDarkSwarm = true;
+        else if ( ut == UnitTypes::Spell_Disruption_Web )
+          uInside->self->isUnderDWeb      = true;
+      }
     } // for each neutral units
 
   } // updateUnits
