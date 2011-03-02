@@ -507,70 +507,13 @@ namespace BWAPI
     unit_RadiusResults.clear();
     if ( !exists() || radius < 0 )
       return unit_RadiusResults;
-    BW::unitFinder *xFinder = BW::BWDATA_UnitOrderingX;
-    BW::unitFinder *yFinder = BW::BWDATA_UnitOrderingY;
-
-    // Grab the unit's values
-    BW::Unit *_u  = this->getOriginalRawData;
-    int iLeft     = _u->unitFinderIndexLeft;
-    if ( iLeft < 0 || iLeft >= MAX_SEARCH )
-      return unit_RadiusResults;
-
-    int iRight    = _u->unitFinderIndexRight;
-    if ( iRight < 0 || iRight >= MAX_SEARCH )
-      return unit_RadiusResults;
-
-    int iTop      = _u->unitFinderIndexTop;
-    if ( iTop < 0 || iTop >= MAX_SEARCH )
-      return unit_RadiusResults;
-
-    int iBottom   = _u->unitFinderIndexBottom;
-    if ( iBottom < 0 || iBottom >= MAX_SEARCH )
-      return unit_RadiusResults;
-
-    int maxLeft   = xFinder[iLeft].searchValue - radius;
-    int maxRight  = xFinder[iRight].searchValue + radius;
-    int maxTop    = xFinder[iTop].searchValue - radius;
-    int maxBottom = xFinder[iBottom].searchValue + radius;
-
-    // Get units on horizontal plane
-    std::vector<int> xList;
-    // Left of the current unit
-    for ( int x = iRight; xFinder[x].searchValue >= maxLeft && x >= 0; --x )
-      xList.push_back(xFinder[x].unitIndex);
-
-    // Right of the current unit
-    for ( int x = iLeft; xFinder[x].searchValue <= maxRight && xFinder[x].unitIndex && x < MAX_SEARCH; ++x )
-      xList.push_back(xFinder[x].unitIndex);
-
-    if ( xList.empty() )
-      return unit_RadiusResults; // no results
-
-    // Get units on vertical plane
-    std::vector<int> yList;
-    // Above the current unit
-    for ( int y = iBottom; yFinder[y].searchValue >= maxTop && y >= 0; --y )
-      yList.push_back(yFinder[y].unitIndex);
-
-    // Under the current unit
-    for ( int y = iTop; yFinder[y].searchValue <= maxBottom && yFinder[y].unitIndex && y < MAX_SEARCH; ++y )
-      yList.push_back(yFinder[y].unitIndex);
-
-    if ( yList.empty() )
-      return unit_RadiusResults; // no results
-
-    // Save the intersection of the values found in both the horizontal and vertical planes
-    for each ( int xUnit in xList )
+    for each ( Unit *found in BroodwarImpl.getUnitsInRectangle(this->getPosition().x() - radius - _getType.dimensionLeft(), 
+                                                               this->getPosition().y() - radius - _getType.dimensionUp(), 
+                                                               this->getPosition().x() + radius + _getType.dimensionRight(), 
+                                                               this->getPosition().y() + radius + _getType.dimensionDown()) )
     {
-      for each ( int yUnit in yList )
-      {
-        if ( xUnit == yUnit && xUnit > 0 && xUnit <= UNIT_ARRAY_MAX_LENGTH ) // intersection
-        {
-          UnitImpl *u = BroodwarImpl.unitArray[xUnit-1];
-          if ( u && u->exists() && u != this && this->getDistance(u) <= radius )
-            unit_RadiusResults.insert(u);
-        }
-      }
+      if ( this->getDistance(found) <= radius )
+        unit_RadiusResults.insert(found);
     }
     return unit_RadiusResults;
   }

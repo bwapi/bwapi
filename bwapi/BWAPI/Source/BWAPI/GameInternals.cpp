@@ -463,41 +463,10 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      for each ( UnitImpl *_u in aliveUnits )
+      for each ( Unit *u in selectedUnitSet )
       {
-        BW::Unit *u = _u->getOriginalRawData;
-        int l = -1, r = -1, t = -1, b = -1;
-        if ( u->unitFinderIndexLeft < 3400 )
-          l = BW::BWDATA_UnitOrderingX[u->unitFinderIndexLeft].searchValue;
-        if ( u->unitFinderIndexRight < 3400)
-          r = BW::BWDATA_UnitOrderingX[u->unitFinderIndexRight].searchValue;
-        if ( u->unitFinderIndexTop < 3400)
-          t = BW::BWDATA_UnitOrderingY[u->unitFinderIndexTop].searchValue;
-        if ( u->unitFinderIndexBottom < 3400)
-          b = BW::BWDATA_UnitOrderingY[u->unitFinderIndexBottom].searchValue;
-
-        if ( l > 0 && r > 0 && t > 0 && b > 0 )
-          drawBoxMap(l, t, r, b, _u->getType().isSpell() ? Colors::Green : Colors::Orange );
-        if ( _u->isUnderDarkSwarm() )
-          drawTextMap(_u->getPosition().x(), _u->getPosition().y(), "Dark Swarm");
-        if ( _u->isUnderDisruptionWeb() )
-          drawTextMap(_u->getPosition().x(), _u->getPosition().y(), "Disruption Web");
-      }
-      for each ( UnitImpl *_u in neutralUnits )
-      {
-        UnitType t = _u->getType();
-        if ( t == UnitTypes::Spell_Dark_Swarm )
-        {
-          int l = _u->getPosition().x() - t.dimensionLeft();
-          int r = _u->getPosition().x() + t.dimensionRight();
-          int u = _u->getPosition().y() - t.dimensionUp();
-          int b = _u->getPosition().y() + t.dimensionDown();
-          for each ( Unit *omg in this->getUnitsInRectangle(l, u, r, b) )
-          {
-            Position omgP = omg->getPosition();
-            drawLineMap(omgP.x()-5, omgP.y()-5, omgP.x(), omgP.y(), Colors::Blue);
-          }
-        }
+        for each ( Unit *targ in u->getUnitsInWeaponRange() )
+          drawLineMap(u->getPosition().x(), u->getPosition().y(), targ->getPosition().x(), targ->getPosition().y(), Colors::Orange);
       }
     } // unitdebug
 
