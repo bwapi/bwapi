@@ -10,11 +10,6 @@ HANDLE ghRecvEvent;
 
 volatile gameStruc *gpMGameList;
 
-volatile DWORD gdwSendCalls;
-volatile DWORD gdwSendBytes;
-volatile DWORD gdwRecvCalls;
-volatile DWORD gdwRecvBytes;
-
 DWORD gdwProduct;
 DWORD gdwVerbyte;
 DWORD gdwMaxPlayers;
@@ -96,7 +91,6 @@ void LogBytes(char *pBuffer, DWORD dwSize, const char *format, ...)
 
 void CleanGameList(DWORD dwTimeout)
 {
-  EnterCriticalSection(&gCrit);
   if ( gpMGameList )
   {
     DWORD dwThisTickCount = GetTickCount();
@@ -118,5 +112,4 @@ void CleanGameList(DWORD dwTimeout)
       }
     }
   }
-  LeaveCriticalSection(&gCrit);
 }

@@ -18,8 +18,6 @@ namespace LUDP
   int SendData(SOCKET s, const char *buf, int len, const SOCKADDR_IN *to)
   {
     int rval = sendto(s, buf, len, 0, (SOCKADDR*)to, sizeof(SOCKADDR));
-    ++gdwSendCalls;
-    gdwSendBytes += len;
 
     if ( rval == SOCKET_ERROR )
     {

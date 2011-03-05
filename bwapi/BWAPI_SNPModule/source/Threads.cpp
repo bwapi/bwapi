@@ -6,9 +6,10 @@
 
 #include "../../LPIP_Server/SharedMemory.h"
 
+bool gbWantExit = false;
+
 namespace LUDP
 {
-  bool gbWantExit = false;
   volatile pktq *gpRecvQueue;
   volatile void *gpGameAdvert;
 
@@ -26,9 +27,6 @@ namespace LUDP
       int rVal = recvfrom(gsRecv, szBuffer, PKT_SIZE + sizeof(packet), 0, (SOCKADDR*)&saFrom, &dwSaFromLen);
       if ( gbWantExit )
         return 0;
-
-      ++gdwRecvCalls;
-      gdwRecvBytes += rVal;
 
       switch ( rVal )
       {
@@ -97,7 +95,6 @@ namespace LUDP
 
 namespace LPIP
 {
-  bool gbWantExit = false;
   volatile pktq *gpRecvQueue;
 
   SharedMemory *s;
@@ -117,9 +114,6 @@ namespace LPIP
         Error(GetLastError(), "Pipe failed to receive!");
         return 0;
       }
-
-      ++gdwRecvCalls;
-      gdwRecvBytes += length;
 
       pktq *recvPkt = (pktq*)SMAlloc(sizeof(pktq));
       if ( !recvPkt )

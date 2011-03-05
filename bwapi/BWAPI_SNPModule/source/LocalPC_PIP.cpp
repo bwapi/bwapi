@@ -11,20 +11,9 @@ namespace LPIP
 {
   bool __stdcall spiDestroy()
   {
-    /* Called when unloading the module
-       do any cleanup here */
-    spiStopAdvertisingGame();
-    gbWantExit = true;
-
     EnterCriticalSection(&gCrit);
-    // Free the game list
-    volatile gameStruc *g = gpMGameList;
-    while ( g )
-    {
-      volatile gameStruc *toFree = g;
-      g = g->pNext;
-      SMFree((void*)toFree);
-    }
+    spiStopAdvertisingGame();
+    COMN::spiDestroy();
 
     // Free the receive queue
     volatile pktq *r = gpRecvQueue;
@@ -48,28 +37,7 @@ namespace LPIP
 
   bool __stdcall spiInitialize(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
   {
-    /* Called when the module is loaded
-       Perform all initialization functions here */
-
-    // Save client information
-    gdwProduct    = gameClientInfo->dwProduct;
-    gdwVerbyte    = gameClientInfo->dwVerbyte;
-    gdwMaxPlayers = gameClientInfo->dwMaxPlayers;
-    gdwLangId     = gameClientInfo->dwLangId;
-
-    // Reset performance data
-    gdwSendCalls = 0;
-    gdwSendBytes = 0;
-    gdwRecvCalls = 0;
-    gdwRecvBytes = 0;
-
-    // set exit flag to false
-    gbWantExit  = false;
-
-    // Save event
-    ghRecvEvent = hEvent;
-    
-    // @TODO: Initialize any data/allocations/stuff here
+    COMN::spiInitialize(gameClientInfo, userData, bnCallbacks, moduleData, hEvent);
     s = new SharedMemory();
     if ( !s->connect() )
     {
@@ -92,13 +60,13 @@ namespace LPIP
   {
     /* Lock the game list for management and passing the updates to storm
        Clears games after a certain time */
+    EnterCriticalSection(&gCrit);
     if ( !ppGameList )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
     CleanGameList(10000);
-    EnterCriticalSection(&gCrit);
     *ppGameList = (gameStruc*)gpMGameList;
     return true;
   }
@@ -146,16 +114,15 @@ namespace LPIP
       return false;
     }
 
+    EnterCriticalSection(&gCrit);
     for ( int i = addrCount; i > 0; --i )
     {
       DWORD dwProcSendTo = *(DWORD*)&((SOCKADDR*)addrList[i-1])->sa_data[2];
       
       // @TODO: send stuff here using dwProcSendTo, buf, and bufLen
       s->sendData(buf, bufLen, dwProcSendTo);
-
-      ++gdwSendCalls;
-      gdwSendBytes += bufLen;
     }
+    LeaveCriticalSection(&gCrit);
     return true;
   }
 
@@ -205,13 +172,13 @@ namespace LPIP
   bool __stdcall spiUnlockGameList(gameStruc *pGameList, DWORD *a2)
   {
     /* Unlocks the game list and makes requests to update the list internally */
+    LeaveCriticalSection(&gCrit);
     if ( pGameList != gpMGameList )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
 
-    LeaveCriticalSection(&gCrit);
     if ( a2 )
       *a2 = 500;
 

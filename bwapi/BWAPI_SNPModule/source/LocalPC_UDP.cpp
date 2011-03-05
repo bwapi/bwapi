@@ -10,20 +10,9 @@ namespace LUDP
 {
   bool __stdcall spiDestroy()
   {
-    /* Called when unloading the module
-       do any cleanup here */
-    spiStopAdvertisingGame();
-    gbWantExit = true;
-
     EnterCriticalSection(&gCrit);
-    // Free the game list
-    volatile gameStruc *g = gpMGameList;
-    while ( g )
-    {
-      volatile gameStruc *toFree = g;
-      g = g->pNext;
-      SMFree((void*)toFree);
-    }
+    spiStopAdvertisingGame();
+    COMN::spiDestroy();
 
     // Free the receive queue
     volatile pktq *r = gpRecvQueue;
@@ -40,26 +29,7 @@ namespace LUDP
 
   bool __stdcall spiInitialize(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
   {
-    /* Called when the module is loaded
-       Perform all initialization functions here */
-
-    // Save client information
-    gdwProduct    = gameClientInfo->dwProduct;
-    gdwVerbyte    = gameClientInfo->dwVerbyte;
-    gdwMaxPlayers = gameClientInfo->dwMaxPlayers;
-    gdwLangId     = gameClientInfo->dwLangId;
-
-    // Reset performance data
-    gdwSendCalls = 0;
-    gdwSendBytes = 0;
-    gdwRecvCalls = 0;
-    gdwRecvBytes = 0;
-
-    // set exit flag to false
-    gbWantExit  = false;
-
-    // Save event and Initialize Sockets
-    ghRecvEvent = hEvent;
+    COMN::spiInitialize(gameClientInfo, userData, bnCallbacks, moduleData, hEvent);
     if ( !InitializeSockets() )
     {
       Error(SErrGetLastError(), "Unable to initialize socket data.");
@@ -72,13 +42,13 @@ namespace LUDP
   {
     /* Lock the game list for management and passing the updates to storm
        Clears games after a certain time */
+    EnterCriticalSection(&gCrit);
     if ( !ppGameList )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
     CleanGameList(2000);
-    EnterCriticalSection(&gCrit);
     *ppGameList = (gameStruc*)gpMGameList;
     return true;
   }
@@ -121,6 +91,7 @@ namespace LUDP
       return false;
     }
 
+    EnterCriticalSection(&gCrit);
     char buffer[PKT_SIZE + sizeof(packet)];
     memset(buffer, 0, PKT_SIZE + sizeof(packet));
 
@@ -133,6 +104,7 @@ namespace LUDP
 
     for ( int i = addrCount; i > 0; --i )
       SendData(gsSend, buffer, pktHead->wSize, addrList[i-1]);
+    LeaveCriticalSection(&gCrit);
     return true;
   }
 
@@ -198,13 +170,13 @@ namespace LUDP
   bool __stdcall spiUnlockGameList(gameStruc *pGameList, DWORD *a2)
   {
     /* Unlocks the game list and makes requests to update the list internally */
+    LeaveCriticalSection(&gCrit);
     if ( pGameList != gpMGameList )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
 
-    LeaveCriticalSection(&gCrit);
     if ( a2 )
       *a2 = 300;
 

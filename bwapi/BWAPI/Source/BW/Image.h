@@ -1,17 +1,33 @@
 #pragma once
 #include "Sprite.h"
+#include <windows.h>
 
 namespace BW { struct Sprite; };
 
 #pragma pack(1)
 namespace BW
 {
+  struct grpFrame
+  {
+    u8  left;
+    u8  top;
+    u8  right;
+    u8  bottom;
+    u32 dataOffset;
+  };
+  struct grpHead
+  {
+    u16       frameCount;
+    u16       width;
+    u16       height;
+    grpFrame  frames[1];
+  };
   struct Image
   {
     /* 0x00 */ Image        *prev;
     /* 0x04 */ Image        *next;
     /* 0x08 */ u16          imageID;
-    /* 0x0A */ u8           peletteType;
+    /* 0x0A */ u8           paletteType;
     /* 0x0B */ u8           direction;
     /* 0x0C */ u16          flags;
     /* 0x0E */ s8           horizontalOffset;
@@ -31,8 +47,9 @@ namespace BW
     /* 0x2A */ s16          graphicBottom;  // GRP frame index has changed.
     /* 0x2C */ void         *GRPFile;
     /* 0x30 */ void         *coloringData;
-    /* 0x34 */ void         *renderFunction1;
-    /* 0x38 */ void         *renderFunction2;
+    // void (__fastcall *renderFunction)(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
+    /* 0x34 */ void (__fastcall *renderFunction1)(int,int,grpFrame*,RECT*,int);
+    /* 0x38 */ void (__fastcall *renderFunction2)(int,int,grpFrame*,RECT*,int);
     /* 0x3C */ Sprite       *spriteOwner;
   };
   namespace Anims

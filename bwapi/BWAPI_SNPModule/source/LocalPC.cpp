@@ -1,5 +1,6 @@
 #include "LocalPC.h"
 #include "Connect.h"
+#include "Threads.h"
 
 namespace COMN
 {
@@ -29,6 +30,23 @@ namespace COMN
     return true;
   }
 
+  bool __stdcall spiDestroy()
+  {
+    /* Called when unloading the module
+       do any cleanup here */
+    gbWantExit = true;
+
+    // Free the game list
+    volatile gameStruc *g = gpMGameList;
+    while ( g )
+    {
+      volatile gameStruc *toFree = g;
+      g = g->pNext;
+      SMFree((void*)toFree);
+    }
+    return true;
+  }
+
   bool __stdcall spiFree(SOCKADDR_IN *addr, char *data, DWORD databytes)
   {
     // This function is complete
@@ -53,51 +71,54 @@ namespace COMN
     // Finds the game struct that matches a name or index and returns it in pGameResult
     if ( pGameResult )
       memset(pGameResult, 0, sizeof(gameStruc));
-    if ( pszFindGameName && pGameResult && (dwFindIndex || *pszFindGameName) )
-    {
-      EnterCriticalSection(&gCrit);
-      volatile gameStruc *g = gpMGameList;
-      while ( g && 
-              (dwFindIndex && dwFindIndex != g->dwIndex || 
-               *pszFindGameName && _strcmpi(pszFindGameName, (char*)g->szGameName)) )
-        g = g->pNext;
-      
-      if ( g )
-        memcpy(pGameResult, (void*)g, sizeof(gameStruc));
-
-      LeaveCriticalSection(&gCrit);
-      if ( pGameResult->dwIndex )
-        return true;
-    }
-    else
+    if ( !pszFindGameName || !pGameResult || (!dwFindIndex && !(*pszFindGameName)) )
     {
       SetLastError(ERROR_INVALID_PARAMETER);
       return false;
     }
+
+    EnterCriticalSection(&gCrit);
+    volatile gameStruc *g = gpMGameList;
+    while ( g && 
+            (dwFindIndex && dwFindIndex != g->dwIndex || 
+             *pszFindGameName && _strcmpi(pszFindGameName, (char*)g->szGameName)) )
+      g = g->pNext;
+    
+    if ( g )
+      memcpy(pGameResult, (void*)g, sizeof(gameStruc));
+
+    LeaveCriticalSection(&gCrit);
+    if ( pGameResult->dwIndex )
+      return true;
+
     SetLastError(STORM_ERROR_GAME_NOT_FOUND);
     return false;
   }
 
   bool __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
   {
-    // Returns performance data in dwResult
-    switch ( dwType )
-    {
-    case 12:    // Total number of calls made to sendto
-      *dwResult = gdwSendCalls;
-      return true;
-    case 13:    // Total number of calls made to recvfrom
-      *dwResult = gdwRecvCalls;
-      return true;
-    case 14:    // Total number of bytes sent using sendto
-      *dwResult = gdwSendBytes;
-      return true;
-    case 15:    // Total number of bytes received using recvfrom
-      *dwResult = gdwRecvBytes;
-      return true;
-    default:
-      return false;
-    }
+    // Returns performance data in dwResult, we are not using this
+    *dwResult = 0;
+    return true;
+  }
+
+  bool __stdcall spiInitialize(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent)
+  {
+    /* Called when the module is loaded
+       Perform all initialization functions here */
+
+    // Save client information
+    gdwProduct    = gameClientInfo->dwProduct;
+    gdwVerbyte    = gameClientInfo->dwVerbyte;
+    gdwMaxPlayers = gameClientInfo->dwMaxPlayers;
+    gdwLangId     = gameClientInfo->dwLangId;
+
+    // set exit flag to false
+    gbWantExit  = false;
+
+    // Save event
+    ghRecvEvent = hEvent;
+    return true;
   }
 
   bool __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)
