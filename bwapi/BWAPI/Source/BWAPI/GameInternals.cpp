@@ -445,8 +445,8 @@ namespace BWAPI
       BWAPI::Position scrPos = getScreenPosition();
 
       // draw mtx grid
-      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
-        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
+      for ( int y = scrPos.y()/32; y < (scrPos.y() + BW::BWDATA_GameScreenBuffer->ht)/32 + 1; ++y )
+        for ( int x = scrPos.x()/32; x < (scrPos.x() + BW::BWDATA_GameScreenBuffer->wid)/32 + 1; ++x )
           for ( int i = 0; i < 32; i += 4 )
           {
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
@@ -472,9 +472,9 @@ namespace BWAPI
     {
       BWAPI::Position scrPos = getScreenPosition();
       setTextSize(0);
-      for ( int y = scrPos.y()/32; y < (scrPos.y()+480)/32+1; ++y )
+      for ( int y = scrPos.y()/32; y < (scrPos.y() + BW::BWDATA_GameScreenBuffer->ht)/32 + 1; ++y )
       {
-        for ( int x = scrPos.x()/32; x < (scrPos.x()+640)/32+1; ++x )
+        for ( int x = scrPos.x()/32; x < (scrPos.x() + BW::BWDATA_GameScreenBuffer->wid)/32 + 1; ++x )
         {
           drawTextMap(x*32,y*32, "%u", this->canBuildHere(NULL, TilePosition(x,y), UnitTypes::Terran_Supply_Depot));
         }
@@ -1277,7 +1277,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/wmode")
     {
-      ToggleWMode(640, 480);
+      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
       printf("Toggled windowed mode.");
     }
     else if (parsed[0] == "/grid")

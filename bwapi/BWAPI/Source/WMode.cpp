@@ -187,7 +187,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   case WM_SYSKEYDOWN:
     if ( wParam == VK_RETURN && (lParam & 0x20000000) && !(lParam & 0x40000000) )
     {
-      ToggleWMode(640, 480);
+      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
       return TRUE;
     }
     break;
@@ -210,7 +210,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   case WM_SYSCOMMAND:
     if ( wParam == SC_MAXIMIZE )
     {
-      ToggleWMode(640, 480);
+      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, false);
       return TRUE;
     }
   }
@@ -314,9 +314,9 @@ BOOL __stdcall _SDrawRealizePalette()
   return TRUE;
 }
 
-void ToggleWMode(int width, int height)
+void SetWMode(int width, int height, bool state)
 {
-  if ( !wmode )
+  if ( state )
   {
     wmode = true;
     if ( !ghMainWnd )
@@ -355,6 +355,7 @@ void ToggleWMode(int width, int height)
     SetCursorShowState(false);
     SetFocus(ghMainWnd);
 
+    DDrawDestroy();
     DDrawInitialize(width, height);
   }
 }

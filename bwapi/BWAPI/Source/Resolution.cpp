@@ -1,7 +1,13 @@
 #include "Resolution.h"
 #include "WMode.h"
 #include "DLLMain.h"
+
+#include <BWAPI/CoordinateType.h>
+
 #include "BW/Offsets.h"
+#include "BW/Sprite.h"
+#include "BW/Image.h"
+
 #include "NewHackUtil.h"
 
 #include "../../Debug.h"
@@ -11,14 +17,10 @@ void SetResolution(int width, int height)
   HWND hWnd = SDrawGetFrameWindow();
   MoveWindow(hWnd, 0, 0, width, height, TRUE);
 
-  if ( !wmode )
-  {
-    // re-initialize directdraw here
-    DDrawDestroy();
-    DDrawInitialize(width, height);
-  }
-  // Resize buffers and stuff
+  // re-initialize w-mode or ddraw
+  SetWMode(width, height, wmode);
 
+  // Resize buffers and stuff
   void *newBuf = SMAlloc(width * height);
   void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
   
@@ -46,12 +48,12 @@ void SetResolution(int width, int height)
   if ( oldBuf )
     SMFree(oldBuf);
 
-  if ( (*BW::BWDATA_MainBltMask)->hTrans )
-    STransDelete((*BW::BWDATA_MainBltMask)->hTrans);
-
+  HANDLE oldTrans = (*BW::BWDATA_MainBltMask)->hTrans;
   (*BW::BWDATA_MainBltMask)->info.right  = width;
   (*BW::BWDATA_MainBltMask)->info.bottom = height;
   STransCreateE(newBuf, width, height, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
+  if ( oldTrans )
+    STransDelete(oldTrans);
 
   BW::BWFXN_UpdateBltMasks();
 
@@ -164,12 +166,69 @@ void BlitToBitmap(DWORD dwOffset, int height, BYTE *pbBuffer, BYTE *pbData)
   }
 }*/
 
-void __stdcall GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
+void updateImageDrawingData()
+{
+  for ( int y = 0; y < BW::BWDATA_MapSize->y; ++y )
+  {
+    for ( BW::Sprite *s = BW::BWDATA_spriteGroups[y]; s; s = s->next )
+    {
+      for ( BW::Image *i = s->underlay; i; i = i->next )
+        i->updateGraphicData();
+    }
+  }
+}
+
+void blitGameText(int line, int x, int y)
+{
+  if ( BW::BWDATA_Chat_GameText[line].txt[0] )
+  {
+    char szString[256];
+    szString[0] = 0;
+    if ( BW::BWDATA_Chat_ColorBytes[line] )
+    {
+      szString[0] = BW::BWDATA_Chat_ColorBytes[line];
+      szString[1] = 0;
+    }
+    strncat(szString, BW::BWDATA_Chat_GameText[line].txt, sizeof(BW::_gametext));
+    BW::BlitText(szString, BW::BWDATA_GameScreenBuffer, x, y, 1);
+  }
+}
+
+void drawGameText()
+{
+  int l = *BW::BWDATA_Chat_NextLine;
+
+  int y = 112;
+  for ( int i = 11; i > 0; i-- )
+  {
+    blitGameText(l, 10, y);
+    y += *BW::BWDATA_Chat_IncrementY;
+    l = (l + 1) % 11;
+  }
+  blitGameText(12, 10, 295);
+  blitGameText(11, 420, 24);
+}
+/*
+void drawDragSelect()
+{
+  if ( *BW::BWDATA_WantsRefresh )
+  {
+    int x1 = BW::BWDATA_SelectBox->Xmin, x2 = BW::BWDATA_SelectBox->Xmax;
+    int y1 = BW::BWDATA_SelectBox->Ymin, y2 = BW::BWDATA_SelectBox->Ymax;
+    drawBox(x1, y1, x1+1, y2, 18, BWAPI::CoordinateType::Screen);
+    drawBox(x2, y1, x2+1, y2, 18, BWAPI::CoordinateType::Screen);
+    drawBox(x1, y1, x2, y1+1, 18, BWAPI::CoordinateType::Screen);
+    drawBox(x1, y2, x2, y2+1, 18, BWAPI::CoordinateType::Screen);
+  }
+}*/
+
+void GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
   bool bitEnabled = BW::BWDATA_ScreenLayers[5].bits & 1;
   if ( bitEnabled )
   {
     // map tiles 1
+    updateImageDrawingData();
   }
   else
   {
@@ -177,7 +236,7 @@ void __stdcall GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
   }
   // sprites
   // Space tileset stars
-  // draw game text
-  // draw drag Select box
+  drawGameText();
+  BW::BWFXN_drawDragSelBox();
   // draw thingys
 }

@@ -260,7 +260,7 @@ namespace BWAPI
   void GameImpl::setScreenPosition(int x, int y)
   {
     if ( noGUI ) return;
-    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    ::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     /* Sets the screen's position relative to the map */
     if (x < 0)
       x = 0;

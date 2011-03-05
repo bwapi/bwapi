@@ -74,7 +74,7 @@ namespace BWAPI
       screen_y2 += BW::BWDATA_Mouse->y;
       break;
     }
-    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    ::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
         (screen_x1 > scrLimit.Xmax  && screen_x2 > scrLimit.Xmax) ||
@@ -121,7 +121,7 @@ namespace BWAPI
       screen_y3 += BW::BWDATA_Mouse->y;
       break;
     }
-    BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    ::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
         (screen_x1 > scrLimit.Xmax && screen_x2 > scrLimit.Xmax && screen_x3 > scrLimit.Xmax) ||

@@ -24,6 +24,9 @@ namespace BW
   };
   struct Image
   {
+    void updateGraphicData();
+    void drawImage();
+
     /* 0x00 */ Image        *prev;
     /* 0x04 */ Image        *next;
     /* 0x08 */ u16          imageID;
@@ -45,9 +48,9 @@ namespace BW
     /* 0x26 */ s16          graphicTop;     // puts part of graphic out of bounds. Also
     /* 0x28 */ s16          graphicRight;   // changes to match the graphic size when the
     /* 0x2A */ s16          graphicBottom;  // GRP frame index has changed.
-    /* 0x2C */ void         *GRPFile;
+    /* 0x2C */ grpHead      *GRPFile;
     /* 0x30 */ void         *coloringData;
-    // void (__fastcall *renderFunction)(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
+    // void __fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
     /* 0x34 */ void (__fastcall *renderFunction1)(int,int,grpFrame*,RECT*,int);
     /* 0x38 */ void (__fastcall *renderFunction2)(int,int,grpFrame*,RECT*,int);
     /* 0x3C */ Sprite       *spriteOwner;
