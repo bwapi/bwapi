@@ -21,6 +21,14 @@ typedef void*           PVOID;
 typedef int             BOOL;
 typedef void*           HANDLE;
 
+typedef struct
+{
+  s16 Xmin;
+  s16 Ymin;
+  s16 Xmax;
+  s16 Ymax;
+} rect;
+
 #ifdef NULL
 #undef NULL
 #endif

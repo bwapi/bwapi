@@ -241,7 +241,7 @@ namespace BW
         dlg->rct.Xmax = dlg->rct.Xmin + dlg->srcBits.wid - 1;
         dlg->rct.Ymin = evt->cursor.y - mouseOffset->y;
         dlg->rct.Ymax = dlg->rct.Ymin + dlg->srcBits.ht - 1;
-        BW::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+        ::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
         if ( dlg->rct.Xmin < 0 )
         {
           dlg->rct.Xmax -= dlg->rct.Xmin;

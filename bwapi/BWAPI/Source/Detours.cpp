@@ -5,7 +5,7 @@
 #include "../Storm/storm.h"
 
 #include "WMode.h"
-//#include "Resolution.h"
+#include "Resolution.h"
 #include "Holiday/Holiday.h"
 
 #include "Detours.h"

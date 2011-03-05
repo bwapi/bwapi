@@ -9,6 +9,9 @@
 #include "Dialog.h"
 #include "Pathing.h"
 
+#include "Unit.h"
+#include "Sprite.h"
+
 /**
  * Broodwar content access tools. The namespace contains:
  * -# Data structers corresponding to bw data structures
@@ -272,6 +275,22 @@ namespace BW
 
   static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
 
+  //--------------------------------------- FOR RESOLUTION HACK ----------------------------------------------
+  static Sprite **BWDATA_spriteGroups = (Sprite**) 0x00629688;
+
+  struct _gametext
+  {
+    char txt[218];
+  };
+  static _gametext *BWDATA_Chat_GameText   = (_gametext*)0x00640B60;
+  static u8        *BWDATA_Chat_NextLine   = (u8*)       0x00640B58;
+  static u8        *BWDATA_Chat_ColorBytes = (u8*)       0x00641674;
+  static u32       *BWDATA_Chat_IncrementY = (u32*)      0x00640B20;
+  
+  //static ::rect    *BWDATA_SelectBox       = (::rect*)   0x0066FF50;
+  //static bool      *BWDATA_WantsRefresh    = (bool*)     0x0066FF5C;
+  static void (__cdecl *BWFXN_drawDragSelBox)()      = (void (__cdecl*)()) 0x00470040;
+
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static Unit **BWDATA_ClientSelectionGroup = (Unit**) 0x00597208;
   static u8   *BWDATA_ClientSelectionCount  = (u8*)    0x0059723D;
@@ -376,7 +395,8 @@ namespace BW
   static u8  *BWDATA_Unit_SpaceProvided       = (u8*)  unitsDat[48].address;
   static u16 *BWDATA_Unit_BuildScore          = (u16*) unitsDat[49].address;
   static u16 *BWDATA_Unit_DestroyScore        = (u16*) unitsDat[50].address;
-  static u16 *BWDATA_Unit_BroodwarOnly        = (u16*) unitsDat[52].address;
+  static u16 *BWDATA_Unit_MapStringID         = (u16*) unitsDat[51].address;
+  static u8  *BWDATA_Unit_BroodwarOnly        = (u8*)  unitsDat[52].address;
 
   /** Unit Placement Size */
   struct UnitPlacement_type

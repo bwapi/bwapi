@@ -244,7 +244,7 @@ namespace BW
     /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
     /*0x106*/ u8                                  _unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;          // 1 if a medic is currently healing this unit
-    /*0x108*/ BW::rect                            contourBounds;          // a rect that specifies the closest contour (collision) points
+    /*0x108*/ ::rect                              contourBounds;          // a rect that specifies the closest contour (collision) points
     /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
     /*0x112*/ u16                                 defenseMatrixDamage;
     /*0x114*/ u8                                  defenseMatrixTimer;
