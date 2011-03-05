@@ -8,34 +8,32 @@ namespace BW
 {
   struct Image
   {
-    Image   *prev;
-    Image   *next;
-    u16     imageID;
-    u8      peletteType;
-    u8      direction;
-    u16     flags;
-    s8      horizontalOffset;
-    s8      verticalOffset;
-    u16     iscriptHeader;
-    u16     iscriptOffset;
-    u16     unknown_14;
-    u8      anim;
-    u8      wait;
-    u16     frameSet;
-    u16     frameIndex;
-    u16     unknown_1C;
-    u16     unknown_1E;
-    u16     unknown_20;
-    u16     unknown_22;
-    u16     unknown_24;
-    u16     unknown_26;
-    u16     unknown_28;
-    u16     unknown_2A;
-    void    *GRPFile;
-    void    *coloringData;
-    void    *renderFunction1;
-    void    *renderFunction2;
-    Sprite  *spriteOwner;
+    /* 0x00 */ Image        *prev;
+    /* 0x04 */ Image        *next;
+    /* 0x08 */ u16          imageID;
+    /* 0x0A */ u8           peletteType;
+    /* 0x0B */ u8           direction;
+    /* 0x0C */ u16          flags;
+    /* 0x0E */ s8           horizontalOffset;
+    /* 0x0F */ s8           verticalOffset;
+    /* 0x10 */ u16          iscriptHeader;
+    /* 0x12 */ u16          iscriptOffset;
+    /* 0x14 */ u16          unknown_14;
+    /* 0x16 */ u8           anim;
+    /* 0x17 */ u8           wait;
+    /* 0x18 */ u16          frameSet;
+    /* 0x1A */ u16          frameIndex;
+    /* 0x1C */ BW::Position mapPosition;
+    /* 0x20 */ BW::Position screenPosition;
+    /* 0x24 */ s16          graphicLeft;    // For GRP file. Only altered when screen 
+    /* 0x26 */ s16          graphicTop;     // puts part of graphic out of bounds. Also
+    /* 0x28 */ s16          graphicRight;   // changes to match the graphic size when the
+    /* 0x2A */ s16          graphicBottom;  // GRP frame index has changed.
+    /* 0x2C */ void         *GRPFile;
+    /* 0x30 */ void         *coloringData;
+    /* 0x34 */ void         *renderFunction1;
+    /* 0x38 */ void         *renderFunction2;
+    /* 0x3C */ Sprite       *spriteOwner;
   };
   namespace Anims
   {

@@ -57,7 +57,6 @@ void SetResolution(int width, int height)
 
   if ( hdcMem )
     InitializeWModeBitmap(width, height);
-
 }
 
 void DDrawDestroy()
@@ -167,6 +166,18 @@ void BlitToBitmap(DWORD dwOffset, int height, BYTE *pbBuffer, BYTE *pbData)
 
 void __stdcall GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
-  
-  return;
+  bool bitEnabled = BW::BWDATA_ScreenLayers[5].bits & 1;
+  if ( bitEnabled )
+  {
+    // map tiles 1
+  }
+  else
+  {
+    // map tiles 2
+  }
+  // sprites
+  // Space tileset stars
+  // draw game text
+  // draw drag Select box
+  // draw thingys
 }
