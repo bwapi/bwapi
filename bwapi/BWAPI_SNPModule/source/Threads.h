@@ -5,10 +5,10 @@
 
 #include "../../LPIP_Server/SharedMemory.h"
 
+extern bool gbWantExit;
+
 namespace LUDP
 {
-  extern bool gbWantExit;
-
   DWORD WINAPI RecvThread(LPVOID);
 
   #ifndef _PKTUDP
@@ -42,7 +42,6 @@ namespace LUDP
 
 namespace LPIP
 {
-  extern bool gbWantExit;
   extern SharedMemory *s;
 
   DWORD WINAPI RecvThread(LPVOID);

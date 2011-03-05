@@ -33,9 +33,11 @@ namespace LPIP
 
 namespace COMN
 {
+  bool __stdcall spiDestroy();
   bool __stdcall spiCompareNetAddresses(SOCKADDR_IN *addr1, SOCKADDR_IN *addr2, DWORD *dwResult);
   bool __stdcall spiFree(SOCKADDR_IN *addr, char *data, DWORD databytes);
   bool __stdcall spiFreeExternalMessage(SOCKADDR_IN *addr, char *data, DWORD databytes);
+  bool __stdcall spiInitialize(clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData, HANDLE hEvent);
   bool __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, gameStruc *pGameResult);
   bool __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4);
   bool __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5);

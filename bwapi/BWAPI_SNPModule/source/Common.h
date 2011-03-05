@@ -15,11 +15,6 @@ extern HANDLE hRecvThread;
 
 extern volatile gameStruc *gpMGameList;
 
-extern volatile DWORD gdwSendCalls;
-extern volatile DWORD gdwSendBytes;
-extern volatile DWORD gdwRecvCalls;
-extern volatile DWORD gdwRecvBytes;
-
 extern DWORD gdwProduct;
 extern DWORD gdwVerbyte;
 extern DWORD gdwMaxPlayers;
