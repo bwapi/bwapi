@@ -82,6 +82,77 @@ LPARAM FixPoints(LPARAM lParam)
   return MAKELPARAM(pt.x, pt.y);
 }
 
+bool SendHotkey(BW::dlgEvent *pEvent)
+{
+  BW::dialog *dlg = BW::BWDATA_EventDialogs[pEvent->wNo];
+  if ( dlg && dlg->pfcnInteract(dlg, pEvent) )
+    return true;
+
+  dlg = (*BW::BWDATA_DialogList);
+  while ( dlg )
+  {
+    if ( dlg->pfcnInteract(dlg, pEvent) )
+      return true;
+    dlg = dlg->next();
+  }
+  return false;
+}
+
+void ButtonEvent(DWORD dwEvent, LPARAM lParam)
+{
+  BYTE bFlag = 0;
+  switch( dwEvent )
+  {
+  case BW_LBUTTONDOWN:
+  case BW_LBUTTONUP:
+  case BW_LBUTTONDBLCLK:
+    bFlag = 0x02;
+    break;
+  case BW_RBUTTONDOWN:
+  case BW_RBUTTONUP:
+  case BW_RBUTTONDBLCLK:
+    bFlag = 0x08;
+    break;
+  case BW_MBUTTONDOWN:
+  case BW_MBUTTONUP:
+  case BW_MBUTTONDBLCLK:
+    bFlag = 0x20;
+    break;
+  }
+  if ( !( (*BW::BWDATA_InputFlags) & ~bFlag & 0x2A) )
+    {
+
+    switch( dwEvent )
+    {
+    case BW_LBUTTONDOWN:
+    case BW_RBUTTONDOWN:
+    case BW_MBUTTONDOWN:
+    case BW_LBUTTONDBLCLK:
+    case BW_RBUTTONDBLCLK:
+    case BW_MBUTTONDBLCLK:
+      *BW::BWDATA_InputFlags |= bFlag;
+      SetCapture(ghMainWnd);
+      break;
+    case BW_LBUTTONUP:
+    case BW_RBUTTONUP:
+    case BW_MBUTTONUP:
+      *BW::BWDATA_InputFlags &= ~bFlag;
+      ReleaseCapture();
+      break;
+    }
+    POINTS pt = MAKEPOINTS(lParam);
+    BW::dlgEvent evt = { 0 };
+    
+    evt.wNo = (WORD)dwEvent;
+    evt.cursor.x = pt.x;
+    evt.cursor.y = pt.y;
+    BW::BWDATA_Mouse->x = pt.x;
+    BW::BWDATA_Mouse->y = pt.y;
+    if ( !SendHotkey(&evt) && BW::BWDATA_InputProcs[dwEvent] )
+      BW::BWDATA_InputProcs[dwEvent](&evt);
+  }
+}
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   if ( wmode )
@@ -191,6 +262,25 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return TRUE;
     }
     break;
+  case WM_MOUSEMOVE:
+    {
+      (*BW::BWDATA_InputFlags) |= 1;
+      POINTS pt = MAKEPOINTS(lParam);
+      BW::BWDATA_Mouse->x = pt.x;
+      BW::BWDATA_Mouse->y = pt.y;
+      return TRUE;
+    }
+  case WM_LBUTTONDOWN:
+  case WM_LBUTTONUP:
+  case WM_LBUTTONDBLCLK:
+  case WM_RBUTTONDOWN:
+  case WM_RBUTTONUP:
+  case WM_RBUTTONDBLCLK:
+  case WM_MBUTTONDOWN:
+  case WM_MBUTTONUP:
+  case WM_MBUTTONDBLCLK:
+    ButtonEvent(uMsg - WM_MOUSEFIRST + BW_MOUSEFIRST, lParam);
+    return TRUE;
 #ifdef _DEBUG
   case WM_KEYDOWN:
     if ( wParam == VK_F6 && !(lParam & 0x40000000) )

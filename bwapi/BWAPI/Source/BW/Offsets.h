@@ -286,10 +286,12 @@ namespace BW
   static u8        *BWDATA_Chat_NextLine   = (u8*)       0x00640B58;
   static u8        *BWDATA_Chat_ColorBytes = (u8*)       0x00641674;
   static u32       *BWDATA_Chat_IncrementY = (u32*)      0x00640B20;
-  
-  //static ::rect    *BWDATA_SelectBox       = (::rect*)   0x0066FF50;
-  //static bool      *BWDATA_WantsRefresh    = (bool*)     0x0066FF5C;
-  static void (__cdecl *BWFXN_drawDragSelBox)()      = (void (__cdecl*)()) 0x00470040;
+
+  static void (__cdecl *BWFXN_drawDragSelBox)()           = (void (__cdecl*)()) 0x00470040;
+  static void (__fastcall **BWDATA_InputProcs)(dlgEvent*) = (void (__fastcall**)(dlgEvent*))0x005968A0;
+  static dialog **BWDATA_EventDialogs                     = (dialog**)0x006D5E40;
+
+  static u8 *BWDATA_InputFlags = (u8*)0x006CDDC0;
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static Unit **BWDATA_ClientSelectionGroup = (Unit**) 0x00597208;
@@ -309,7 +311,7 @@ namespace BW
   static u32            *BWDATA_MoveToY                  = (u32*)             0x006284A8;
   static Position       *BWDATA_MoveToTile               = (Position*)        0x0057F1D0;
 
-  static POINT          *BWDATA_Mouse                    = (POINT*) 0x006CDDC4; // @TODO: No-Offset method of getting this
+  static POINT          *BWDATA_Mouse                    = (POINT*) 0x006CDDC4;
   static u32            *BWDATA_ScreenX                  = (u32*)   0x00628448;
   static u32            *BWDATA_ScreenY                  = (u32*)   0x00628470;
 

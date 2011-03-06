@@ -37,6 +37,23 @@
 #define CTRL_DLG_ACTIVE       0x40000000
 #define CTRL_LBOX_NORECALC    0x80000000
 
+#define BW_KEYFIRST      0
+#define BW_KEYDOWN       0
+#define BW_KEYRPT        1
+#define BW_KEYREPEAT     1
+#define BW_KEYUP         2
+#define BW_MOUSEMOVE     3
+#define BW_MOUSEFIRST    3
+#define BW_LBUTTONDOWN   4
+#define BW_LBUTTONUP     5
+#define BW_LBUTTONDBLCLK 6
+#define BW_RBUTTONDOWN   7
+#define BW_RBUTTONUP     8
+#define BW_RBUTTONDBLCLK 9
+#define BW_MBUTTONDOWN   10
+#define BW_MBUTTONUP     11
+#define BW_MBUTTONDBLCLK 12
+
 namespace BW
 {
   namespace ctrls
