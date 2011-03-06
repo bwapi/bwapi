@@ -63,6 +63,8 @@ void _SelectReturnMenu()
   case 'UDPN':
   case 'LUDP':
   case 'LPIP':
+  case 'DRIP':
+  case 'SMEM':
     *BW::BWDATA_glGluesMode = 10; // game select
     break;
   case 'MDMX':
