@@ -1,5 +1,4 @@
 #include "Image.h"
-#include "Offsets.h"
 
 namespace BW
 {
@@ -22,43 +21,44 @@ namespace BW
     int screenX   = this->mapPosition.x - (*BW::BWDATA_MoveToX);
     int screenY   = this->mapPosition.y - (*BW::BWDATA_MoveToY);
 
-    this->graphicLeft = 0;
+    int grpLeft = 0;
     if ( screenX < 0 )
     {
       grpRight += screenX;
-      this->graphicLeft = (s16)(-screenX);
-      screenX = 0;
+      grpLeft  = -screenX;
+      screenX  = 0;
     }
     this->screenPosition.x = (s16)screenX;
+    this->grpBounds.left   = (s16)grpLeft;
     if ( grpRight >= BW::BWDATA_GameScreenBuffer->wid - screenX )
       grpRight = BW::BWDATA_GameScreenBuffer->wid - screenX;
     int _bot = grpBottom;
     
-    this->graphicRight = (s16)grpRight;
-    int top = 0;
+    this->grpBounds.right = (s16)grpRight;
+    int grpTop = 0;
     if ( screenY < 0 )
     {
-      _bot += screenY;
-      top = -screenY;
+      _bot    = screenY + grpBottom;
+      grpTop  = -screenY;
       screenY = 0;
     }
-    this->graphicTop       = (s16)top;
+    this->grpBounds.top    = (s16)grpTop;
     this->screenPosition.y = (s16)screenY;
     if ( _bot < BW::BWDATA_GameScreenBuffer->ht - screenY )
-      this->graphicBottom = (s16)_bot;
+      this->grpBounds.bottom = (s16)_bot;
     else
-      this->graphicBottom = (s16)(BW::BWDATA_GameScreenBuffer->ht - screenY);
+      this->grpBounds.bottom = (s16)(BW::BWDATA_GameScreenBuffer->ht - screenY);
   }
 
   void Image::drawImage()
   {
-    if ( (this->flags & 0x40)    && 
-         this->graphicBottom > 0 &&
-         this->graphicRight  > 0 )
+    if ( (this->flags & 0x40)       && 
+         this->grpBounds.bottom > 0 &&
+         this->grpBounds.right  > 0 )
     {
       if ( (this->flags & 1) /*|| this->needsRefresh()*/ )
       {
-        RECT rctDraw = { this->graphicLeft, this->graphicTop, this->graphicRight, this->graphicBottom };
+        RECT rctDraw = { this->grpBounds.left, this->grpBounds.top, this->grpBounds.right, this->grpBounds.bottom };
         this->renderFunction1(this->screenPosition.x, this->screenPosition.y, &this->GRPFile->frames[this->frameIndex], &rctDraw, (int)this->coloringData);
       }
     }

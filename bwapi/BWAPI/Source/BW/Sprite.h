@@ -2,13 +2,14 @@
 #include "Position.h"
 #include "Image.h"
 
-namespace BW { struct Image; };
+namespace BW { class Image; };
 
 #pragma pack(1)
 namespace BW
 {
-  struct Sprite
+  class Sprite
   {
+  public:
     /*0x00*/ Sprite    *prev;
     /*0x04*/ Sprite    *next;
     /*0x08*/ u16       spriteID;

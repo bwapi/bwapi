@@ -37,13 +37,22 @@
 namespace BW
 {
   class  Unit;
+  class Sprite;
+  class Image;
   struct Bullet;
   class  TileType;
   class  dialog;
   struct bitmap;
-  struct rect;
   struct dlgEvent;
   struct fntHead;
+
+  struct rect
+  {
+    s16 left;
+    s16 top;
+    s16 right;
+    s16 bottom;
+  };
 
   struct DatLoad
   {
@@ -288,6 +297,13 @@ namespace BW
   static u32       *BWDATA_Chat_IncrementY = (u32*)      0x00640B20;
 
   static void (__cdecl *BWFXN_drawDragSelBox)()           = (void (__cdecl*)()) 0x00470040;
+  static void (__cdecl *BWFXN_drawAllThingys)()           = (void (__cdecl*)()) 0x00488180;
+  static void (__cdecl *BWFXN_drawMapTiles)()             = (void (__cdecl*)()) 0x0049C780;
+  static void (__cdecl *BWFXN_blitMapTiles)()             = (void (__cdecl*)()) 0x0040C253;
+  static void (__cdecl *BWFXN_drawAllSprites)()           = (void (__cdecl*)()) 0x00498D40;
+  //static void (__cdecl *BWFXN_updateImageData)()          = (void (__cdecl*)()) 0x00498CF0;
+
+
   static void (__fastcall **BWDATA_InputProcs)(dlgEvent*) = (void (__fastcall**)(dlgEvent*))0x005968A0;
   static dialog **BWDATA_EventDialogs                     = (dialog**)0x006D5E40;
 
