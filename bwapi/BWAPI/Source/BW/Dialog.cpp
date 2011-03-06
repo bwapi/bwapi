@@ -241,7 +241,7 @@ namespace BW
         dlg->rct.Xmax = dlg->rct.Xmin + dlg->srcBits.wid - 1;
         dlg->rct.Ymin = evt->cursor.y - mouseOffset->y;
         dlg->rct.Ymax = dlg->rct.Ymin + dlg->srcBits.ht - 1;
-        ::rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+        rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
         if ( dlg->rct.Xmin < 0 )
         {
           dlg->rct.Xmax -= dlg->rct.Xmin;
@@ -252,15 +252,15 @@ namespace BW
           dlg->rct.Ymax -= dlg->rct.Ymin;
           dlg->rct.Ymin -= dlg->rct.Ymin;
         }
-        if ( dlg->rct.Xmax > scrLimit.Xmax )
+        if ( dlg->rct.Xmax > scrLimit.right )
         {
-          dlg->rct.Xmin -= dlg->rct.Xmax - scrLimit.Xmax;
-          dlg->rct.Xmax -= dlg->rct.Xmax - scrLimit.Xmax;
+          dlg->rct.Xmin -= dlg->rct.Xmax - scrLimit.right;
+          dlg->rct.Xmax -= dlg->rct.Xmax - scrLimit.right;
         }
-        if ( dlg->rct.Ymax > (scrLimit.Ymax - 40) )
+        if ( dlg->rct.Ymax > (scrLimit.bottom - 40) )
         {
-          dlg->rct.Ymin -= dlg->rct.Ymax - (scrLimit.Ymax - 40);
-          dlg->rct.Ymax -= dlg->rct.Ymax - (scrLimit.Ymax - 40);
+          dlg->rct.Ymin -= dlg->rct.Ymax - (scrLimit.bottom - 40);
+          dlg->rct.Ymax -= dlg->rct.Ymax - (scrLimit.bottom - 40);
         }
         wantRefresh = true;
       }

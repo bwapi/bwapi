@@ -194,7 +194,7 @@ namespace BW
 
     // Data //
     dialog  *pNext;         // 0x00
-    ::rect    rct;            // 0x04   // official name
+    ::rect  rct;            // 0x04   // official name
     bitmap  srcBits;        // 0x0C   // official
     char    *pszText;       // 0x14   // official name
     LONG    lFlags;         // 0x18   // official name
@@ -265,11 +265,11 @@ namespace BW
       struct _btn
       {
         dialog  *pDlg;          // 0x32   // official
-        ::rect    responseRct;    // 0x36
+        ::rect  responseRct;    // 0x36
         WORD    wHighlight;     // 0x3E
         WORD    wUnknown_0x40;
         void    *pSmk;          // 0x42
-        ::rect    textRct;        // 0x46
+        ::rect  textRct;        // 0x46
         WORD    wAlignment;    // 0x4E
       } btn;
 

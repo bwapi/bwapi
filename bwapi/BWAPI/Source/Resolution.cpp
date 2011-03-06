@@ -208,35 +208,17 @@ void drawGameText()
   blitGameText(12, 10, 295);
   blitGameText(11, 420, 24);
 }
-/*
-void drawDragSelect()
-{
-  if ( *BW::BWDATA_WantsRefresh )
-  {
-    int x1 = BW::BWDATA_SelectBox->Xmin, x2 = BW::BWDATA_SelectBox->Xmax;
-    int y1 = BW::BWDATA_SelectBox->Ymin, y2 = BW::BWDATA_SelectBox->Ymax;
-    drawBox(x1, y1, x1+1, y2, 18, BWAPI::CoordinateType::Screen);
-    drawBox(x2, y1, x2+1, y2, 18, BWAPI::CoordinateType::Screen);
-    drawBox(x1, y1, x2, y1+1, 18, BWAPI::CoordinateType::Screen);
-    drawBox(x1, y2, x2, y2+1, 18, BWAPI::CoordinateType::Screen);
-  }
-}*/
 
 void GameUpdate(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
-  bool bitEnabled = BW::BWDATA_ScreenLayers[5].bits & 1;
-  if ( bitEnabled )
-  {
-    // map tiles 1
-    updateImageDrawingData();
-  }
-  else
-  {
-    // map tiles 2
-  }
-  // sprites
+  updateImageDrawingData();   //BW::BWFXN_updateImageData();
+  BW::BWFXN_drawMapTiles();
+  BW::BWFXN_blitMapTiles();
+
+  //
+  BW::BWFXN_drawAllSprites();// sprites
   // Space tileset stars
   drawGameText();
   BW::BWFXN_drawDragSelBox();
-  // draw thingys
+  BW::BWFXN_drawAllThingys(); // draw thingys
 }

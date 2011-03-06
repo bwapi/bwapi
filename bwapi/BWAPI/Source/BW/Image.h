@@ -1,29 +1,32 @@
 #pragma once
-#include "Sprite.h"
 #include <windows.h>
 
-namespace BW { struct Sprite; };
+#include "Sprite.h"
+#include "Offsets.h"
+
+namespace BW { class Sprite; };
 
 #pragma pack(1)
 namespace BW
 {
   struct grpFrame
   {
-    u8  left;
-    u8  top;
-    u8  right;
-    u8  bottom;
+    s8  left;
+    s8  top;
+    s8  right;
+    s8  bottom;
     u32 dataOffset;
   };
   struct grpHead
   {
-    u16       frameCount;
-    u16       width;
-    u16       height;
+    s16       frameCount;
+    s16       width;
+    s16       height;
     grpFrame  frames[1];
   };
-  struct Image
+  class Image
   {
+  public:
     void updateGraphicData();
     void drawImage();
 
@@ -42,12 +45,9 @@ namespace BW
     /* 0x17 */ u8           wait;
     /* 0x18 */ u16          frameSet;
     /* 0x1A */ u16          frameIndex;
-    /* 0x1C */ BW::Position mapPosition;
-    /* 0x20 */ BW::Position screenPosition;
-    /* 0x24 */ s16          graphicLeft;    // For GRP file. Only altered when screen 
-    /* 0x26 */ s16          graphicTop;     // puts part of graphic out of bounds. Also
-    /* 0x28 */ s16          graphicRight;   // changes to match the graphic size when the
-    /* 0x2A */ s16          graphicBottom;  // GRP frame index has changed.
+    /* 0x1C */ POINTS       mapPosition;
+    /* 0x20 */ POINTS       screenPosition;
+    /* 0x24 */ rect         grpBounds;      // Bounds for GRP frame, only different from normal when part of graphic is out of bounds.
     /* 0x2C */ grpHead      *GRPFile;
     /* 0x30 */ void         *coloringData;
     // void __fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);

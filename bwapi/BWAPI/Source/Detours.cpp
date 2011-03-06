@@ -20,9 +20,9 @@ bool hideHUD;
 #include <list>
 struct stormAlloc
 {
-  void          *location;
-  bool          memLeak;
-  char          lastFile[MAX_PATH];
+  void *location;
+  bool memLeak;
+  char lastFile[MAX_PATH];
 };
 std::list<stormAlloc> allocations;
 std::list<stormAlloc> leaks;
