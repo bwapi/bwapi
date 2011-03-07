@@ -118,7 +118,7 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="../include;../Util/Source;../TinyXml/Source;../BWAPI/Source"
+				AdditionalIncludeDirectories="../include;../Util/Source;../BWAPI/Source"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"

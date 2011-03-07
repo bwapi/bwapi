@@ -120,8 +120,7 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     break;
   }
   if ( !( (*BW::BWDATA_InputFlags) & ~bFlag & 0x2A) )
-    {
-
+  {
     switch( dwEvent )
     {
     case BW_LBUTTONDOWN:
@@ -178,15 +177,20 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
       if ( gbWantUpdate && pBits )
       {
+        gbWantUpdate = false;
+
         // begin paint
         PAINTSTRUCT paint;
-        BeginPaint(hWnd, &paint);
+        HDC hdc = BeginPaint(hWnd, &paint);
 
         // Blit to the screen
-        SetStretchBltMode(paint.hdc, HALFTONE);
+        SetStretchBltMode(hdc, HALFTONE);
         RECT cRect;
         GetClientRect(hWnd, &cRect);
-        StretchBlt(paint.hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+        if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
+          BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
+        else
+          StretchBlt(hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
 
         // end paint
         EndPaint(hWnd, &paint);
@@ -388,7 +392,7 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
   }
 
   if ( !IsIconic(ghMainWnd) )
-    _SDrawRealizePalette();
+    SetDIBColorTable(hdcMem, firstentry, numentries, palette);
   return TRUE;
 }
 

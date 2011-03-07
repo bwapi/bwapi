@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="BWAPI_SNPModule"
-	ProjectGUID="{667D44FB-A8F1-4E46-8AD0-AA585E8367DC}"
-	RootNamespace="BWAPI_SNPModule"
+	Name="SNP_Network"
+	ProjectGUID="{452BDDC2-D77B-45C3-991E-7D93DE3638B0}"
+	RootNamespace="SNP_Network"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -26,8 +26,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Updating revision information"
-				CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;$(SolutionDir)\revisionUpdate.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -46,14 +44,14 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				OmitFramePointers="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_SNPMODULE_EXPORTS"
+				AdditionalIncludeDirectories="../Util/Source"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SNP_NETWORK_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="false"
 				WarningLevel="4"
-				DisableSpecificWarnings="4100; 4996"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -67,10 +65,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="Ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(IntDir)\$(ProjectName).dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile="source\SNPModule.def"
+				ModuleDefinitionFile="Source\SNPModule.def"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -109,83 +108,107 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
+			Name="SNP"
 			>
-			<File
-				RelativePath=".\source\Commands.cpp"
+			<Filter
+				Name="Source Files"
 				>
-			</File>
-			<File
-				RelativePath=".\source\Common.cpp"
+				<File
+					RelativePath=".\Source\CriticalSection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\SNPModule.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
 				>
-			</File>
-			<File
-				RelativePath=".\source\Connect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\LocalPC.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\LocalPC_PIP.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\LocalPC_UDP.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\LPIP_Server\SharedMemory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Threads.cpp"
-				>
-			</File>
+				<File
+					RelativePath=".\Source\CriticalSection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\SNPModule.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\SNPNetwork.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
-			Name="Header Files"
+			Name="DirectIP"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\Source\DirectIP.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\SettingsDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\UDPSocket.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\Source\DirectIP.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\SettingsDialog.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\UDPSocket.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Resource Files"
+				>
+				<File
+					RelativePath=".\Source\resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\UI.rc"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="LocalPC"
 			>
 			<File
-				RelativePath=".\source\Commands.h"
+				RelativePath=".\Source\LocalPC.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\source\Common.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Connect.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\LocalPC.h"
-				>
-			</File>
-			<File
-				RelativePath="..\LPIP_Server\SharedMemory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Template.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Threads.h"
+				RelativePath=".\Source\LocalPC.h"
 				>
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\source\caps.mpq"
+			RelativePath=".\Source\caps.mpq"
 			>
 		</File>
 		<File
-			RelativePath=".\source\DLLMain.cpp"
+			RelativePath=".\Source\DLLMain.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\source\SNPModule.def"
+			RelativePath=".\Source\SNPModule.def"
 			>
 		</File>
 	</Files>

@@ -42,7 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="Source\"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				WarningLevel="3"
@@ -101,6 +101,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="Source\"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 			/>
@@ -159,7 +160,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\MemoryFrame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\Mutex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\RemoteProcess.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\sha1.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedMemory.cpp"
 					>
 				</File>
 				<File
@@ -195,6 +212,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\MemoryFrame.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\Mutex.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\RectangleArray.h"
 					>
 				</File>
@@ -203,7 +228,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Util\RemoteProcess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\RemoteProcessID.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Util\sha1.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedMemory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Util\SharedStructure.h"
 					>
 				</File>
 				<File
