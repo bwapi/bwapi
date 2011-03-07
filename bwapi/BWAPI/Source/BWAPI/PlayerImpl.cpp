@@ -271,7 +271,7 @@ namespace BWAPI
   }
   int PlayerImpl::getKillScore() const
   {
-    return self->totalUnitScore;
+    return self->totalKillScore;
   }
   int PlayerImpl::getBuildingScore() const
   {
