@@ -50,12 +50,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIModule", "DevAIModule\
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SNP_Network", "SNP_Network\SNP_Network.vcproj", "{452BDDC2-D77B-45C3-991E-7D93DE3638B0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
-		{08C0C784-F586-4CAA-8951-8ADF1586C0E9} = {08C0C784-F586-4CAA-8951-8ADF1586C0E9}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -110,10 +104,6 @@ Global
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Debug|Win32.Build.0 = Debug|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.ActiveCfg = Release|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.Build.0 = Release|Win32
-		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug|Win32.ActiveCfg = Release|Win32
-		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug|Win32.Build.0 = Release|Win32
-		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Release|Win32.ActiveCfg = Release|Win32
-		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
