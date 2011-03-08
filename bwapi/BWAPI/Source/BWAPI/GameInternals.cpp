@@ -2139,25 +2139,23 @@ namespace BWAPI
     if      (ct == UnitCommandTypes::Attack_Move)
     {
       Position target(command.x,command.y);
-      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
+      if ( command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
+        QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::Attack1), sizeof(BW::Orders::Attack));
+      else
+        QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)target.x(), (u16)target.y()), BW::OrderID::AttackMove), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Attack_Unit)
     {
       Unit* target = command.target;
-      switch ( command.unit->getType() )
-      {
-      case BW::UnitID::Protoss_Carrier:
-      case BW::UnitID::Protoss_Hero_Gantrithor:
+      UnitType ut = command.unit->getType();
+      if ( ut == UnitTypes::Protoss_Carrier || ut == UnitTypes::Hero_Gantrithor )
         QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::CarrierAttack1), sizeof(BW::Orders::Attack));
-        break;
-      case BW::UnitID::Protoss_Reaver:
-      case BW::UnitID::Protoss_Hero_Warbringer:
+      else if ( ut == UnitTypes::Protoss_Reaver || ut == UnitTypes::Hero_Warbringer )
         QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::ReaverAttack1), sizeof(BW::Orders::Attack));
-        break;
-      default:
+      else if ( ut.isBuilding() )
+        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::TowerAttack), sizeof(BW::Orders::Attack));
+      else
         QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)target, BW::OrderID::Attack1), sizeof(BW::Orders::Attack));
-        break;
-      }
     }
     else if (ct == UnitCommandTypes::Build)
     {

@@ -35,6 +35,25 @@ void DevAIModule::onFrame()
 
   if ( !enabled )
     return;
+
+  for each ( Unit *u in self->getUnits() )
+  {
+    if ( !u->isIdle() || bw->getFrameCount() <= u->getLastCommandFrame() + bw->getLatencyFrames() )
+      continue;
+    if ( u->getType() == UnitTypes::Protoss_Reaver || u->getType() == UnitTypes::Zerg_Sunken_Colony || u->getType() == UnitTypes::Protoss_Carrier )
+    {
+      for each ( Unit *atk in u->getUnitsInRadius(200) )
+      {
+        if ( !atk->isInvincible() && u->attack(atk) )
+        {
+          bw->printf("Attemted attack of %s: %s", atk->getType().getName().c_str(), bw->getLastError().toString().c_str() );
+          break;
+        }
+        else
+          bw->printf("Failed attack of %s: %s", atk->getType().getName().c_str(), bw->getLastError().toString().c_str() );
+      }
+    }
+  }
 }
 
 void DevAIModule::onSendText(std::string text)

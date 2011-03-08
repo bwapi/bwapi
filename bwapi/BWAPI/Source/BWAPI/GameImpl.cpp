@@ -395,7 +395,7 @@ namespace BWAPI
         if ( xUnit == yUnit && xUnit > 0 && xUnit <= UNIT_ARRAY_MAX_LENGTH ) // intersection
         {
           UnitImpl *u = unitArray[xUnit-1];
-          if ( u && u->exists() )
+          if ( u && u->exists() && u->canAccess() )
             unitFinderResults.insert(u);
         }
       }
@@ -851,7 +851,7 @@ namespace BWAPI
     if (groupsOf12.empty())
       return false;
     UnitImpl* selected[13];
-    for(std::list< std::set<UnitImpl*> >::iterator i=groupsOf12.begin();i!=groupsOf12.end();i++)
+    for(std::list< std::set<UnitImpl*> >::iterator i = groupsOf12.begin(); i != groupsOf12.end(); i++)
     {
       int k=0;
       for each(UnitImpl* j in *i)
@@ -860,7 +860,7 @@ namespace BWAPI
         k++;
       }
       command.unit = selected[0];
-      selected[k]=NULL;
+      selected[k] = NULL;
       BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
       botAPM_select++;
       QueueGameCommand((PBYTE)&sel, sel.size);

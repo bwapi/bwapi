@@ -432,7 +432,7 @@ namespace BWAPI
       virtual bool isMorphing() const = 0;
 
       /** Returns true if the unit is moving.
-       * \see Unit::attackMove, Unit::stop. */
+       * \see Unit::attack, Unit::stop. */
       virtual bool isMoving() const = 0;
 
       /** Returns true if the unit has been parasited by some other player. */
@@ -512,10 +512,10 @@ namespace BWAPI
       virtual bool issueCommand(UnitCommand command) = 0;
 
       /** Orders the unit to attack move to the specified location. */
-      virtual bool attackMove(Position target) = 0;
+      virtual bool attack(Position target) = 0;
 
       /** Orders the unit to attack the specified unit. */
-      virtual bool attackUnit(Unit* target) = 0;
+      virtual bool attack(Unit* target) = 0;
 
       /** Orders the unit to build the given unit type at the given position. Note that if the player does not
        * have enough resources when the unit attempts to place the building down, the order will fail. The

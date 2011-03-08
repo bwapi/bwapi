@@ -121,7 +121,7 @@ void EventTest::onFrame()
 
       for each(Unit* u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
-          u->attackUnit(scv);
+          u->attack(scv);
       expectedEvents.push_back(Event::UnitHide(NULL));
       expectedEvents.push_back(Event::UnitEvade(NULL));
       expectedEvents.push_back(Event::UnitDestroy(NULL));
@@ -180,7 +180,7 @@ void EventTest::onFrame()
       state = DestroyingEnemy;
       for each(Unit* u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
-          u->attackMove(Position(Broodwar->mapWidth()*16,0));
+          u->attack(Position(Broodwar->mapWidth()*16,0));
       expectedEvents.push_back(Event::UnitDiscover(NULL));
       expectedEvents.push_back(Event::UnitShow(NULL));
       expectedEvents.push_back(Event::UnitHide(NULL));

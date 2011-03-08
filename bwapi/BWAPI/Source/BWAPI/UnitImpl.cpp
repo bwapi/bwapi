@@ -515,6 +515,9 @@ namespace BWAPI
       if ( this->getDistance(found) <= radius )
         unit_RadiusResults.insert(found);
     }
+    std::set<Unit*>::iterator findself = unit_RadiusResults.find((Unit*)this);
+    if ( findself != unit_RadiusResults.end() )
+      unit_RadiusResults.erase(findself);
     return unit_RadiusResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------

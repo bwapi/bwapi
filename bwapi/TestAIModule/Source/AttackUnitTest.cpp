@@ -49,7 +49,7 @@ void AttackUnitTest::start()
   FAILTEST(target->exists());
   startingHPS = target->getHitPoints() + target->getShields();
   FAILTEST(unit->isIdle()==true);
-  FAILTEST(unit->attackUnit(target));
+  FAILTEST(unit->attack(target));
   FAILTEST(unit->getOrder()==Orders::AttackUnit);
   FAILTEST(unit->getTarget()==target);
   startFrame = Broodwar->getFrameCount();

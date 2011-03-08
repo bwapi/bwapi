@@ -43,7 +43,7 @@ namespace BWAPI
         command.unit = *getLarva().begin();
 
     if (command.type == UnitCommandTypes::Use_Tech_Unit &&
-       (command.extra==TechTypes::Archon_Warp || command.extra==TechTypes::Dark_Archon_Meld))
+       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
       BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);
@@ -59,14 +59,14 @@ namespace BWAPI
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitImpl::attackMove(Position target)
+  bool UnitImpl::attack(Position target)
   {
-    return issueCommand(UnitCommand::attackMove(this, target));
+    return issueCommand(UnitCommand::attack(this, target));
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
-  bool UnitImpl::attackUnit(Unit* target)
+  bool UnitImpl::attack(Unit* target)
   {
-    return issueCommand(UnitCommand::attackUnit(this, target));
+    return issueCommand(UnitCommand::attack(this, target));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool UnitImpl::build(TilePosition target, UnitType type)
