@@ -42,7 +42,7 @@ void AttackMoveTest::start()
   targetPosition = unit->getPosition();
   targetPosition.x()+=32*30;
   targetPosition.makeValid();
-  FAILTEST(unit->attackMove(targetPosition));
+  FAILTEST(unit->attack(targetPosition));
   FAILTEST(unit->getOrder()==Orders::AttackMove);
   FAILTEST(unit->getTargetPosition()==targetPosition);
   startFrame = Broodwar->getFrameCount();

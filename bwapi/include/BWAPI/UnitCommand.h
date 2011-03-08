@@ -16,8 +16,8 @@ namespace BWAPI
       UnitCommand();
       UnitCommand(Unit* _unit, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra);
 
-      static UnitCommand attackMove(Unit* unit, Position target);
-      static UnitCommand attackUnit(Unit* unit, Unit* target);
+      static UnitCommand attack(Unit* unit, Position target);
+      static UnitCommand attack(Unit* unit, Unit* target);
       static UnitCommand build(Unit* unit, TilePosition target, UnitType type);
       static UnitCommand buildAddon(Unit* unit, UnitType type);
       static UnitCommand train(Unit* unit, UnitType type);

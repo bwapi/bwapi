@@ -67,7 +67,7 @@ void MicroTest::onFrame()
           {
             if (e)
             {
-              s->attackUnit(e);
+              s->attack(e);
               Broodwar->drawLineMap(s->getPosition().x(),s->getPosition().y(),e->getPosition().x(),e->getPosition().y(),Colors::Red);
             }
             else

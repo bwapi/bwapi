@@ -13,7 +13,7 @@ namespace BWAPI
   }
   UnitCommand::UnitCommand(Unit* _unit, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : unit(_unit), type(_type), target(_target), x(_x), y(_y), extra(_extra)
   {}
-  UnitCommand UnitCommand::attackMove(Unit* unit, Position target)
+  UnitCommand UnitCommand::attack(Unit* unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
@@ -23,7 +23,7 @@ namespace BWAPI
     c.y    = target.y();
     return c;
   }
-  UnitCommand UnitCommand::attackUnit(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::attack(Unit* unit, Unit* target)
   {
     UnitCommand c;
     c.unit   = unit;

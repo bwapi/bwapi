@@ -176,8 +176,8 @@ namespace BWAPI
       virtual bool canIssueCommand(UnitCommand c) const;
       virtual bool issueCommand(UnitCommand command);
 
-      virtual bool attackMove(Position target);
-      virtual bool attackUnit(Unit* target);
+      virtual bool attack(Position target);
+      virtual bool attack(Unit* target);
       virtual bool build(TilePosition target, UnitType type);
       virtual bool buildAddon(UnitType type);
       virtual bool train(UnitType type);

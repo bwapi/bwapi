@@ -884,30 +884,30 @@ namespace BWAPI
         command.unit = *getLarva().begin();
 
     BWAPIC::UnitCommand c;
-    c.type=command.type;
-    c.unitIndex=command.unit->getID();
+    c.type      = command.type;
+    c.unitIndex = command.unit->getID();
     if ( command.target )
       c.targetIndex = command.target->getID();
     else
       c.targetIndex = -1;
-    c.x=command.x;
-    c.y=command.y;
-    c.extra=command.extra;
+    c.x     = command.x;
+    c.y     = command.y;
+    c.extra = command.extra;
     Command(command).execute(0);
     ((GameImpl*)Broodwar)->addUnitCommand(c);
     lastCommandFrame = Broodwar->getFrameCount();
-    lastCommand = command;
+    lastCommand      = command;
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitImpl::attackMove(Position target)
+  bool UnitImpl::attack(Position target)
   {
-    return issueCommand(UnitCommand::attackMove(this, target));
+    return issueCommand(UnitCommand::attack(this, target));
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
-  bool UnitImpl::attackUnit(Unit* target)
+  bool UnitImpl::attack(Unit* target)
   {
-    return issueCommand(UnitCommand::attackUnit(this, target));
+    return issueCommand(UnitCommand::attack(this, target));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool UnitImpl::build(TilePosition target, UnitType type)
