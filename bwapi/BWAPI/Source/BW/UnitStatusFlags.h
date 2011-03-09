@@ -25,14 +25,14 @@ namespace BW
       CanNotAttack          = 0x00008000,  /**< @todo Unknown */
       IsAUnit               = 0x00010000,  // canAttack? /**< @todo Unknown */
       IsABuilding           = 0x00020000,
-      IsgnoreTileCollision  = 0x00040000,
+      IgnoreTileCollision   = 0x00040000,
       UNKNOWN4              = 0x00080000,
       IsNormal              = 0x00100000,  /**< 1 for "normal" units, 0 for hallucinated units */
       NoCollide             = 0x00200000,
       UNKNOWN5              = 0x00400000,
       IsGathering           = 0x00800000,
       UNKNOWN6              = 0x01000000,
-      UNKNOWN7              = 0x02000000,
+      UNKNOWN7              = 0x02000000, // Turret related
       Invincible            = 0x04000000,
       HoldingPosition       = 0x08000000, // Set if the unit is currently holding position
       SpeedUpgrade          = 0x10000000,

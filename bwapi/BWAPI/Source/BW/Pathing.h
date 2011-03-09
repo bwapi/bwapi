@@ -68,12 +68,19 @@ namespace BW
     u16       localBuffer[10]; // local array of IDs for neighbors
   };
 
-  // Contour IDs and values:
-  // 0: BOTTOM: y1, x1, x2
-  // 1: LEFT;   x1, y1, y2
-  // 2: TOP;    y1, x1, x2
-  // 3: RIGHT:  x1, y1, y2
+  /* Contour IDs and values:
+     0: BOTTOM: y1, x1, x2
+     1: LEFT;   x1, y1, y2
+     2: TOP;    y1, x1, x2
+     3: RIGHT:  x1, y1, y2
 
+    In Starcraft Beta they are labelled opposite: TOP, RIGHT, BOTTOM, LEFT
+    Additional Beta Notes:
+
+    Involving a 16-byte const array:
+      LEFT_TURN  = true;
+      RIGHT_TURN = false;
+  */
   struct contour
   {
     s16 v[3];
@@ -107,7 +114,7 @@ namespace BW
     split      splitTiles[25000];     // 0x2000C
     region     regions[5000];         // 0x449FC
     u16        globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
-    contourHub *contoursMain;         // 0x97A1C
+    contourHub *contours;             // 0x97A1C
   };
 }
 

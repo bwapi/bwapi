@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <math.h>
+#include <Util/Exceptions.h>
 #include "../Storm/storm.h"
 
 #include "WMode.h"
@@ -262,8 +263,15 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 BOOL __stdcall _SMemFree(void *location, char *logfilename, int logline, char defaultValue)
 {
-  savedLoc = location;
-  allocations.remove_if(memtest);
+  try
+  {
+    savedLoc = location;
+    allocations.remove_if(memtest);
+  }
+  catch (GeneralException &e)
+  {
+    MessageBox(NULL, e.getMessage().c_str(), "Allocations Error in " __FUNCTION__, MB_OK | MB_ICONERROR);
+  }
   return SMemFree(location, logfilename, logline, defaultValue);
 }
 

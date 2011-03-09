@@ -58,7 +58,7 @@ namespace BW
     /*0x028*/ BW::Position                        position;             /**< Current position of the unit */
     /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
     /*0x030*/ u32                                 yHalt;                /**< @todo Unknown */
-    /*0x034*/ u32                                 flingySpeed;
+    /*0x034*/ u32                                 flingyTopSpeed;
     /*0x038*/ s32                                 current_speed1;
     /*0x03C*/ s32                                 current_speed2;
     /*0x040*/ s32                                 current_speedX;
@@ -241,7 +241,7 @@ namespace BW
               };
     /*0x100*/ BW::Path                            *path;
     /*0x104*/ u8                                  pathingCollisionInterval;  // unknown
-    /*0x105*/ u8                                  pathingEnabled;         // 1 for ground units
+    /*0x105*/ u8                                  pathingFlags;           // 0x01 = uses pathing; 0x02 = ?; 0x04 = ?
     /*0x106*/ u8                                  _unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;          // 1 if a medic is currently healing this unit
     /*0x108*/ rect                                contourBounds;          // a rect that specifies the closest contour (collision) points
