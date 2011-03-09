@@ -7,17 +7,16 @@ namespace BW
   {
   enum Enum
     {
-      OrderedAtLeastOnce  = 1 << 0, /**< @todo investigate more.
+      OrderedAtLeastOnce  = 0x01, /**< @todo investigate more.
                                      * It get's to 0 after the first move-involved command - sometimes get's to 1 again
                                      */
-      Accelerating        = 1 << 1, /**< Unit is accelerating  */
-      Braking             = 1 << 2, /**< Not when unit reaches destination, just when you hit stop, or building is finished */
-      StartingAttack      = 1 << 3, /** Always 1 for a moment when the unit is starting new attack cycle*/
-      Moving              = 1 << 4, /**< Still moving, but not accelerating */
-      Lifted              = 1 << 5, /**< Lifted cc has this on (just before it moves) */
-      unknown1            = 1 << 6, /**< The value is unknown, but it has something to do with changing direction& accelerating */
-      _alwaysZero1        = 1 << 7
-
+      Accelerating        = 0x02, /**< Unit is accelerating  */
+      Braking             = 0x04, /**< Not when unit reaches destination, just when you hit stop, or building is finished */
+      StartingAttack      = 0x08, /** Always 1 for a moment when the unit is starting new attack cycle*/
+      Moving              = 0x10, /**< Still moving, but not accelerating */
+      Lifted              = 0x20, /**< Lifted cc has this on (just before it moves) */
+      unknown1            = 0x40, /**< The value is unknown, but it has something to do with changing direction& accelerating */
+      _alwaysZero1        = 0x80
     };
   };
 };

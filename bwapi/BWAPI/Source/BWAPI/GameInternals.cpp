@@ -463,8 +463,10 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      //for each ( UnitImpl *_u in selectedUnitSet )
-      //{}
+      for each ( Unit *u in this->aliveUnits )
+      {
+        drawCircleMap(u->getPosition().x(), u->getPosition().y(), 2, Colors::Cyan);
+      }
     } // unitdebug
 
     // pathdebug
@@ -1526,34 +1528,38 @@ namespace BWAPI
   {
     //this function determines if a unit in one of the alive unit lists is actually "alive" according to BWAPI
     //this function is only used in computeUnitExistence and shouldn't be called from any other function
+    BW::Unit *u = i->getOriginalRawData;
+    UnitType _getType = BWAPI::UnitType(u->unitType);
 
-    if ( i->getOriginalRawData->orderID == BW::OrderID::Die )
+    // Replica of official Unit::IsDead function
+    if ( !u->sprite || (u->orderID == BW::OrderID::Die && u->orderState == 1) )
+    {
+      //Broodwar->printf("%s has met a true death", _getType.getName().c_str());
       return false;
+    }
+    // The rest is garbage?
 
-    u16 uId = i->getOriginalRawData->unitType;
-    UnitType _getType = BWAPI::UnitType(uId);
-    if ( _getType.isMineralField() )
-      _getType = UnitTypes::Resource_Mineral_Field;
-
-    if ( !i->getOriginalRawData->sprite )
+    if ( u->orderID == BW::OrderID::Die && u->orderState != 1)
+    { // Starcraft will keep a unit alive when order state is not 1
+      // if for some reason the "die" order was interrupted, the unit will remain alive with 0 hp
+      //Broodwar->printf("Bad logic, %s would not die with order state %u", _getType.getName().c_str(), u->orderState);
       return false;
+    }
 
     if ( isHidden ) //usually means: is inside another unit?
     {
       if (_getType == UnitTypes::Unknown)
+      { // Unknown units are not actually dead, idk why we assume so
+        //Broodwar->printf("Bad logic?, unknown unit type death");
         return false;//skip subunits if they are in this list
-
-      if (_getType == UnitTypes::Protoss_Scarab ||
-          _getType == UnitTypes::Terran_Vulture_Spider_Mine)
+      }
+      else if (_getType == UnitTypes::Protoss_Scarab )
+      { // some reason we decided all protoss scarabs are dead
+        //Broodwar->printf("Bad logic?, %s death", _getType.getName().c_str());
         return false;
+      }
     }
-
-    if ( !_getType.isInvincible() && i->getOriginalRawData->hitPoints <= 0 )
-    {
-      Broodwar->printf("Unit %s is dead, 0 HP", _getType.getName().c_str());
-      return false;
-    }
-
+    // unit is alive
     return true;
   }
   //------------------------------------------ Compute Unit Existence ----------------------------------------
@@ -2064,7 +2070,7 @@ namespace BWAPI
       this->bulletArray[i]->setExists(false);
     std::set<Bullet*> lastBullets = bullets;
     bullets.clear();
-    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement; curritem; curritem = curritem->nextBullet)
+    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement; curritem; curritem = curritem->next)
     {
       BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);

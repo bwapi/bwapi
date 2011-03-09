@@ -209,8 +209,7 @@ namespace BW
   static Unit **BWDATA_UnitNodeList_ScannerSweep_First = (Unit**)0x006283F4;
   static Unit *BWDATA_UnitNodeTable                    = (Unit*) 0x0059CCA8;
 
-  static Bullet **BWDATA_BulletNodeTable_FirstElement = (Bullet**)0x0064DEAC;
-  static Bullet **BWDATA_BulletNodeTable_LastElement  = (Bullet**)0x0064DEC4;
+  static Bullet **BWDATA_BulletNodeTable_FirstElement = (Bullet**)0x0064DEC4;
   static Bullet *BWDATA_BulletNodeTable               = (Bullet*) 0x0064B2E8;
 
   struct unitFinder
