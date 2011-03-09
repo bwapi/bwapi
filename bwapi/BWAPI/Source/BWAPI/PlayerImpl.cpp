@@ -480,7 +480,7 @@ namespace BWAPI
           self->upgradeLevel[i] = 0;
           for each(UnitType t in UpgradeType(i).whatUses())
           {
-            if (self->completedUnitCount[t]>0)
+            if (self->completedUnitCount[t] > 0)
               self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
           }
         }
@@ -489,7 +489,7 @@ namespace BWAPI
           self->upgradeLevel[i] = 0;
           for each(UnitType t in UpgradeType(i).whatUses())
           {
-            if (self->completedUnitCount[t]>0)
+            if (self->completedUnitCount[t] > 0)
               self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
           }
         }
