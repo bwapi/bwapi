@@ -41,8 +41,8 @@ void UpgradeTest::start()
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;LOGTYPE;return;});
   BWAssertF(upgrader->getRemainingUpgradeTime()==0,{fail=true;LOGTYPE;return;});
   previousUpgradeLevel = Broodwar->self()->getUpgradeLevel(upgradeType);
-  correctMineralCount = Broodwar->self()->minerals() - (upgradeType.mineralPriceBase()+upgradeType.mineralPriceFactor()*previousUpgradeLevel);
-  correctGasCount = Broodwar->self()->gas() - (upgradeType.gasPriceBase()+upgradeType.gasPriceFactor()*previousUpgradeLevel);
+  correctMineralCount  = Broodwar->self()->minerals() - upgradeType.mineralPrice(previousUpgradeLevel+1);
+  correctGasCount      = Broodwar->self()->gas() - upgradeType.gasPrice(previousUpgradeLevel+1);
 
   upgrader->upgrade(upgradeType);
 
@@ -54,7 +54,7 @@ void UpgradeTest::start()
   BWAssertF(upgrader->getTech()==TechTypes::None,{fail=true;LOGTYPE;return;});
   BWAssertF(upgrader->getUpgrade()==upgradeType,{fail=true;LOGTYPE;return;});
   BWAssertF(upgrader->getRemainingResearchTime()==0,{fail=true;LOGTYPE;return;});
-  BWAssertF(upgrader->getRemainingUpgradeTime()==upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel,{fail=true;LOGTYPE;return;});
+  BWAssertF(upgrader->getRemainingUpgradeTime()==upgradeType.upgradeTime(previousUpgradeLevel+1),{fail=true;LOGTYPE;return;});
   BWAssertF(Broodwar->self()->getUpgradeLevel(upgradeType)==previousUpgradeLevel,{fail=true;LOGTYPE;return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;LOGTYPE;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;LOGTYPE;return;});
@@ -76,13 +76,13 @@ void UpgradeTest::update()
   BWAssertF(upgrader!=NULL,{fail=true;LOGTYPE;return;});
   nextUpdateFrame++;
   Broodwar->setScreenPosition(upgrader->getPosition().x()-320,upgrader->getPosition().y()-240);
-  int correctRemainingUpgradeTime = startUpgradeFrame+Broodwar->getLatency()+upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel-thisFrame;
-  if (correctRemainingUpgradeTime>upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel)
-    correctRemainingUpgradeTime=upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel;
+  int correctRemainingUpgradeTime = startUpgradeFrame+Broodwar->getLatency()+upgradeType.upgradeTime(previousUpgradeLevel + 1) - thisFrame;
+  if (correctRemainingUpgradeTime>upgradeType.upgradeTime(previousUpgradeLevel + 1))
+    correctRemainingUpgradeTime=upgradeType.upgradeTime(previousUpgradeLevel + 1);
   if (correctRemainingUpgradeTime<0)
     correctRemainingUpgradeTime=0;
   BWAssertF(upgrader->getRemainingUpgradeTime() == correctRemainingUpgradeTime,{Broodwar->printf("%d %d",upgrader->getRemainingUpgradeTime(), correctRemainingUpgradeTime);});
-  int lastFrame = startUpgradeFrame+Broodwar->getLatency()+upgradeType.upgradeTimeBase()+upgradeType.upgradeTimeFactor()*previousUpgradeLevel;
+  int lastFrame = startUpgradeFrame+Broodwar->getLatency() + upgradeType.upgradeTime(previousUpgradeLevel + 1);
   if (thisFrame>lastFrame) //terminate condition
   {
     running = false;

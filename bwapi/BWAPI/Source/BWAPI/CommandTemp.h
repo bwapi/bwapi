@@ -337,8 +337,8 @@ namespace BWAPI
 
       if (frame < Broodwar->getLatency())
       {
-        player->self->minerals += upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
-        player->self->gas      += upgradeType.gasPriceBase()     + upgradeType.gasPriceFactor()*level;
+        player->self->minerals += upgradeType.mineralPrice(level+1);
+        player->self->gas      += upgradeType.gasPrice(level+1);
       }
     }
     else if (command.type == UnitCommandTypes::Cloak)
@@ -750,11 +750,11 @@ namespace BWAPI
       unit->self->upgrade = upgradeType;
       unit->self->isIdle  = false;
       int level           = unit->getPlayer()->getUpgradeLevel(upgradeType);
-      unit->self->remainingUpgradeTime = upgradeType.upgradeTimeBase() + upgradeType.upgradeTimeFactor()*level;
+      unit->self->remainingUpgradeTime = upgradeType.upgradeTime(level+1);
       if (frame < Broodwar->getLatency())
       {
-        player->self->minerals -= upgradeType.mineralPriceBase() + upgradeType.mineralPriceFactor()*level;
-        player->self->gas      -= upgradeType.gasPriceBase()     + upgradeType.gasPriceFactor()*level;
+        player->self->minerals -= upgradeType.mineralPrice(level+1);
+        player->self->gas      -= upgradeType.gasPrice(level+1);
       }
       player->self->isUpgrading[upgradeType] = true;
     }
