@@ -294,12 +294,13 @@ namespace BWAPI
     bool canUpgrade(const Unit* unit, UpgradeType type)
     {
       Broodwar->setLastError(Errors::None);
-      if ( !Broodwar->self() )
+      Player *self = Broodwar->self();
+      if ( !self )
         return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
       if ( unit )
       {
-        if (unit->getPlayer() != Broodwar->self())
+        if (unit->getPlayer() != self)
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
         if (unit->getType() != type.whatUpgrades())
@@ -308,16 +309,58 @@ namespace BWAPI
         if ( unit->isLifted() || !unit->isIdle() || !unit->isCompleted() )
           return Broodwar->setLastError(Errors::Unit_Busy);
       }
-      if (Broodwar->self()->isUpgrading(type))
+      int nextLvl = self->getUpgradeLevel(type)+1;
+      
+      UnitType what = type.whatUpgrades();
+      if ( what != UnitTypes::None )
+      {
+        if ( what == UnitTypes::Zerg_Hatchery && 
+             !self->completedUnitCount(UnitTypes::Zerg_Hatchery) &&
+             !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
+             !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+          return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        else if ( what == UnitTypes::Zerg_Lair &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+          return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        else if ( what == UnitTypes::Zerg_Spire &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Spire) &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Greater_Spire) )
+          return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        else if ( !self->completedUnitCount(what) )
+          return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+      }
+      
+      UnitType req = type.whatsRequired(nextLvl);
+      if ( req != UnitTypes::None )
+      {
+        if ( req == UnitTypes::Zerg_Hatchery && 
+             !self->completedUnitCount(UnitTypes::Zerg_Hatchery) &&
+             !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
+             !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+        else if ( req == UnitTypes::Zerg_Lair &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+        else if ( req == UnitTypes::Zerg_Spire &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Spire) &&
+                  !self->completedUnitCount(UnitTypes::Zerg_Greater_Spire) )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+        else if ( !self->completedUnitCount(req) )
+          return Broodwar->setLastError(Errors::Insufficient_Tech);
+      }
+
+      if (self->isUpgrading(type))
         return Broodwar->setLastError(Errors::Currently_Upgrading);
 
-      if (Broodwar->self()->getUpgradeLevel(type) >= type.maxRepeats())
+      if (self->getUpgradeLevel(type) >= type.maxRepeats())
         return Broodwar->setLastError(Errors::Fully_Upgraded);
 
-      if (Broodwar->self()->minerals() < type.mineralPriceBase()+type.mineralPriceFactor()*(Broodwar->self()->getUpgradeLevel(type)))
+      if ( self->minerals() < type.mineralPrice(nextLvl) )
         return Broodwar->setLastError(Errors::Insufficient_Minerals);
 
-      if (Broodwar->self()->gas() < type.gasPriceBase()+type.gasPriceFactor()*(Broodwar->self()->getUpgradeLevel(type)))
+      if ( self->gas() < type.gasPrice(nextLvl) )
         return Broodwar->setLastError(Errors::Insufficient_Gas);
 
       return true;

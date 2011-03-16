@@ -36,8 +36,8 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  if ( self->isUpgrading(UpgradeTypes::Singularity_Charge) )
-    bw->printf("OH SHI-");
+  if ( !bw->canUpgrade(NULL, UpgradeTypes::Terran_Infantry_Weapons) )
+    bw->printf("OH SHI- %s", bw->getLastError().toString().c_str());
 }
 
 void DevAIModule::onSendText(std::string text)
