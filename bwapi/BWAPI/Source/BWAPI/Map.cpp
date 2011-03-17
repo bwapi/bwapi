@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "DLLMain.h"
 
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
@@ -41,7 +42,10 @@ namespace BWAPI
   //---------------------------------------------- GET PATH NAME ---------------------------------------------
   std::string Map::getPathName()
   {
-    std::string mapPathName(BW::BWDATA_CurrentMapFileName);
+    char *map = BW::BWDATA_CurrentMapFileName;
+    if ( szInstallPath[0] && !strnicmp(map, szInstallPath, strlen(szInstallPath)) )
+      map = &map[strlen(szInstallPath)];
+    std::string mapPathName(map);
     return mapPathName;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
