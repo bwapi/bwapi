@@ -479,9 +479,57 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
   std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
-    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
     static std::set<Unit*> unitFinderResults;
     unitFinderResults.clear();
+    
+    unitFinder *xFinder = data->xUnitSearch;
+    unitFinder *yFinder = data->yUnitSearch;
+
+    // Grab the minimum x value without performing any additional computation
+    unsigned int xMin = 0;
+    while ( xFinder[xMin].searchValue < left && xFinder[xMin].unitIndex >= 0 && xMin < 3400 )
+      ++xMin;
+
+    if ( xFinder[xMin].unitIndex < 0 ) // no units were found on the horizontal plane
+      return unitFinderResults; // no results
+
+    // Grab the minimum y value without performing any additional computation
+    unsigned int yMin = 0;
+    while ( yFinder[yMin].searchValue < top && yFinder[yMin].unitIndex >= 0 && yMin < 3400 )
+      ++yMin;
+
+    if ( yFinder[yMin].unitIndex < 0 ) // no units were found on the vertical plane
+      return unitFinderResults; // no results
+
+    // Retrieve the unit indexes for the horizontal plane
+    std::vector<int> xList;
+    for ( unsigned int x = xMin; xFinder[x].searchValue <= right && xFinder[x].unitIndex >= 0 && x < 3400; ++x )
+      xList.push_back(xFinder[x].unitIndex);
+
+    if ( xList.empty() )
+      return unitFinderResults; // no results
+
+    // Retrieve the unit indexes for the vertical plane
+    std::vector<int> yList;
+    for ( unsigned int y = yMin; yFinder[y].searchValue <= bottom && yFinder[y].unitIndex >= 0 && y < 3400; ++y )
+      yList.push_back(yFinder[y].unitIndex);
+
+    if ( yList.empty() )
+      return unitFinderResults; // no results
+
+    // Save the intersection of the values found in both the horizontal and vertical planes
+    for each ( int xUnit in xList )
+    {
+      for each ( int yUnit in yList )
+      {
+        if ( xUnit == yUnit && xUnit >= 0 ) // intersection
+        {
+          Unit *u = Broodwar->getUnit(xUnit);
+          if ( u && u->exists() )
+            unitFinderResults.insert(u);
+        }
+      }
+    }
     return unitFinderResults;
   }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
@@ -492,9 +540,14 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS IN RADIUS --------------------------------------
   std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius) const
   {
-    //TODO: Implement R-Tree on BWAPI Client (and add a way to disable it on server)
     static std::set<Unit*> unitRadiusResults;
     unitRadiusResults.clear();
+    center.makeValid();
+    for each ( Unit *u in getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius) )
+    {
+      if ( center.getApproxDistance(u->getPosition()) <= radius )
+        unitRadiusResults.insert(u);
+    }
     return unitRadiusResults;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------

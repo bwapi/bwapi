@@ -19,6 +19,11 @@ namespace BWAPIC
 }
 namespace BWAPI
 {
+  struct unitFinder
+  {
+    int unitIndex;
+    int searchValue;
+  };
   struct GameData
   {
     GameData() {}
@@ -141,5 +146,7 @@ namespace BWAPI
     int unitCommandCount;
     BWAPIC::UnitCommand unitCommands[MAX_UNIT_COMMANDS];
 
+    unitFinder xUnitSearch[1700*2];
+    unitFinder yUnitSearch[1700*2];
   };
 }

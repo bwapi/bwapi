@@ -36,8 +36,11 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  bw->printf("%s", bw->mapFileName().c_str());
-  bw->printf("%s", bw->mapPathName().c_str());
+  for each ( Unit *u in bw->getSelectedUnits() )
+  {
+    for each ( Unit *f in u->getUnitsInWeaponRange() )
+      bw->drawLineMap(u->getPosition().x(), u->getPosition().y(), f->getPosition().x(), f->getPosition().y(), Colors::Orange);
+  }
 }
 
 void DevAIModule::onSendText(std::string text)

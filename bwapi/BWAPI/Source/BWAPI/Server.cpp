@@ -398,6 +398,47 @@ namespace BWAPI
         data->unitArray[i] = id;
       }
 
+      unitFinder     *xf   = data->xUnitSearch;
+      unitFinder     *yf   = data->yUnitSearch;
+      BW::unitFinder *bwxf = BW::BWDATA_UnitOrderingX;
+      BW::unitFinder *bwyf = BW::BWDATA_UnitOrderingY;
+      for ( int i = 0; i < UNIT_ARRAY_MAX_LENGTH*2 && (bwxf->unitIndex > 0 || bwyf->unitIndex > 0); ++i, bwxf++, bwyf++ )
+      {
+        if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= 1700 )
+        {
+          UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
+          if ( u && u->canAccess() )
+          {
+            xf->searchValue = bwxf->searchValue;
+            xf->unitIndex   = u->getID();
+            xf++;
+          }
+        } // x index
+
+        if ( bwyf->unitIndex > 0 && bwyf->unitIndex <= 1700 )
+        {
+          UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
+          if ( u && u->canAccess() )
+          {
+            yf->searchValue = bwyf->searchValue;
+            yf->unitIndex   = u->getID();
+            yf++;
+          }
+        } // x index
+
+      } // loop unit finder
+      // Set final values (prevent searching beyond this index)
+      if ( yf <= &data->yUnitSearch[UNIT_ARRAY_MAX_LENGTH*2-1] )
+      {
+        yf->searchValue = -1;
+        yf->unitIndex   = -1;
+      } // final y
+      if ( xf <= &data->xUnitSearch[UNIT_ARRAY_MAX_LENGTH*2-1] )
+      {
+        xf->searchValue = -1;
+        xf->unitIndex   = -1;
+      } // final x
+
       //dynamic bullet data
       for(int id = 0; id < 100; ++id)
         data->bullets[id] = BroodwarImpl.getBulletFromIndex(id)->data;
