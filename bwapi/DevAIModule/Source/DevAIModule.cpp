@@ -36,8 +36,8 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  if ( !bw->canUpgrade(NULL, UpgradeTypes::Terran_Infantry_Weapons) )
-    bw->printf("OH SHI- %s", bw->getLastError().toString().c_str());
+  bw->printf("%s", bw->mapFileName().c_str());
+  bw->printf("%s", bw->mapPathName().c_str());
 }
 
 void DevAIModule::onSendText(std::string text)
