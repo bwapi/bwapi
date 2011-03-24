@@ -114,8 +114,7 @@ void DDrawInitialize(int width, int height)
   // Create DirectDrawPalette
   DDCHECK( (*BW::BWDATA_DDInterface)->CreatePalette(DDPCAPS_8BIT | DDPCAPS_ALLOW256, BW::BWDATA_GamePalette, BW::BWDATA_PrimaryPalette, NULL) == DD_OK );
 
-  DDSURFACEDESC surfaceDesc;
-  memset(&surfaceDesc, 0, sizeof(DDSURFACEDESC));
+  DDSURFACEDESC surfaceDesc = { 0 };
   surfaceDesc.dwSize          = sizeof(DDSURFACEDESC);
   surfaceDesc.dwFlags         = DDSD_CAPS;
   surfaceDesc.ddsCaps.dwCaps  = DDSCAPS_PRIMARYSURFACE;
