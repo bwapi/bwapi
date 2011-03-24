@@ -11,54 +11,54 @@ namespace BW
   {
 
     //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
-    Attack::Attack(BWAPI::UnitImpl* target, u8 OrderID)
+    Attack::Attack(BWAPI::UnitImpl* target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
-        , always0xe4(0xe4)
+        , always0xe4(BW::UnitID::None)
         , order(OrderID)
-        , type(0x00)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
-    Attack::Attack(const BW::Position& target, u8 OrderID)
+    Attack::Attack(const BW::Position& target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
-        , always0xe4(0xe4)
+        , always0xe4(BW::UnitID::None)
         , order(OrderID)
-        , type(0x00)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
-    Attack::Attack(const PositionUnitTarget& target, u8 OrderID)
+    Attack::Attack(const PositionUnitTarget& target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
-        , always0xe4(0xe4)
+        , always0xe4(BW::UnitID::None)
         , order(OrderID)
-        , type(0x00)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
-    RightClick::RightClick(BWAPI::UnitImpl* target)
+    RightClick::RightClick(BWAPI::UnitImpl* target, bool queued)
         : always0x14(0x14)
         , target(target)
-        , always0xe4(0xe4)
-        , alwaysZero(0x0)
+        , always0xe4(BW::UnitID::None)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
-    RightClick::RightClick(const BW::Position& target)
+    RightClick::RightClick(const BW::Position& target, bool queued)
         : always0x14(0x14)
         , target(target)
-        , always0xe4(0xe4)
-        , alwaysZero(0x0)
+        , always0xe4(BW::UnitID::None)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
-    RightClick::RightClick(const PositionUnitTarget& target)
+    RightClick::RightClick(const PositionUnitTarget& target, bool queued)
         : always0x14(0x14)
         , target(target)
-        , always0xe4(0xe4)
-        , alwaysZero(0x0)
+        , always0xe4(BW::UnitID::None)
+        , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- SHIFT SELECT CONSTRUCTOR ---------------------------------------
@@ -346,9 +346,9 @@ namespace BW
     {
     }
     //--------------------------------------------- HOLD POSITION --------------------------------------------
-    HoldPosition::HoldPosition(u8 type)
+    HoldPosition::HoldPosition(bool queued)
         : always0x2B(0x2B)
-        , type(type)
+        , type(queued ? 1 : 0)
     {
     }
     //------------------------------------------------ UNLOAD UNIT -------------------------------------------
@@ -394,15 +394,15 @@ namespace BW
     {
     }
     //------------------------------------------ RETURN CARGO ------------------------------------------------
-    ReturnCargo::ReturnCargo(u8 type)
+    ReturnCargo::ReturnCargo(bool queued)
         : always0x1E(0x1E)
-        , type(type)
+        , type(queued ? 1 : 0)
     {
     }
     //------------------------------------------------ STOP --------------------------------------------------
-    Stop::Stop(u8 type)
+    Stop::Stop(bool queued)
         : always0x1A(0x1A)
-        , type(type)
+        , type(queued ? 1 : 0)
     {
     }
     //------------------------------------------ REAVER STOP -------------------------------------------------

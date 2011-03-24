@@ -30,7 +30,7 @@ namespace BWAPI
     return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command);
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-  bool UnitImpl::issueCommand(UnitCommand command)
+  bool UnitImpl::issueCommand(UnitCommand command, bool shiftQueueCommand)
   {
     if (!canIssueCommand(command))
       return false;
@@ -53,7 +53,7 @@ namespace BWAPI
     else
       ((UnitImpl*)command.unit)->orderSelect();
 
-    BroodwarImpl.executeCommand( command );
+    BroodwarImpl.executeCommand( command, true, shiftQueueCommand );
     ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
     ((UnitImpl*)command.unit)->lastCommand      = command;
     return true;

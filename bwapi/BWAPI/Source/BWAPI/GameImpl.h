@@ -262,7 +262,7 @@ namespace BWAPI
       void loadSelected();
       void copyMapToSharedMemory();
       void moveToSelected();
-      void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true);
+      void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true, bool queued = false);
 
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);

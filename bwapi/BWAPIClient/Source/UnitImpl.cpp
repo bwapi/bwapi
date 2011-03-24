@@ -907,7 +907,7 @@ namespace BWAPI
     return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command);
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-  bool UnitImpl::issueCommand(UnitCommand command)
+  bool UnitImpl::issueCommand(UnitCommand command, bool shiftQueueCommand)
   {
     if (!canIssueCommand(command))
       return false;
