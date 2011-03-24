@@ -268,11 +268,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     break;
   case WM_MOUSEMOVE:
     {
-      (*BW::BWDATA_InputFlags) |= 1;
-      POINTS pt = MAKEPOINTS(lParam);
-      BW::BWDATA_Mouse->x = pt.x;
-      BW::BWDATA_Mouse->y = pt.y;
-      return TRUE;
+      if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
+      {
+        (*BW::BWDATA_InputFlags) |= 1;
+        POINTS pt = MAKEPOINTS(lParam);
+        BW::BWDATA_Mouse->x = pt.x;
+        BW::BWDATA_Mouse->y = pt.y;
+        return TRUE;
+      }
     }
   case WM_LBUTTONDOWN:
   case WM_LBUTTONUP:
@@ -283,8 +286,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   case WM_MBUTTONDOWN:
   case WM_MBUTTONUP:
   case WM_MBUTTONDBLCLK:
-    ButtonEvent(uMsg - WM_MOUSEFIRST + BW_MOUSEFIRST, lParam);
-    return TRUE;
+    if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
+    {
+      ButtonEvent(uMsg - WM_MOUSEFIRST + BW_MOUSEFIRST, lParam);
+      return TRUE;
+    }
 #ifdef _DEBUG
   case WM_KEYDOWN:
     if ( wParam == VK_F6 && !(lParam & 0x40000000) )
@@ -410,6 +416,10 @@ BOOL __stdcall _SDrawRealizePalette()
 
 void SetWMode(int width, int height, bool state)
 {
+  // Compatibility for Xen W-Mode
+  if ( ghMainWnd && !(GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU) )
+    return;
+
   if ( state )
   {
     wmode = true;
