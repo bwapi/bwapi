@@ -19,11 +19,11 @@ namespace BW
     {
       public :
         /** Attack Location on position. */
-        Attack(const BW::Position& target, u8 order);
+        Attack(const BW::Position& target, u8 order, bool queued = false);
         /** Attack Location on unit. */
-        Attack(BWAPI::UnitImpl* target, u8 order);
+        Attack(BWAPI::UnitImpl* target, u8 order, bool queued = false);
         /** Attack Location on general target. */
-        Attack(const PositionUnitTarget& target, u8 order);
+        Attack(const PositionUnitTarget& target, u8 order, bool queued = false);
       private :
         /** 0x15 = Attack Location command-code in bw */
         u8 always0x15;
@@ -37,17 +37,17 @@ namespace BW
     {
       public :
         /** Right-click on position. */
-        RightClick(const BW::Position& target);
+        RightClick(const BW::Position& target, bool queued = false);
         /** Right-click on unit. */
-        RightClick(BWAPI::UnitImpl* target);
+        RightClick(BWAPI::UnitImpl* target, bool queued = false);
         /** Right-click on general target. */
-        RightClick(const PositionUnitTarget& target);
+        RightClick(const PositionUnitTarget& target, bool queued = false);
       private :
         /** 0x14 = Rightclick command-code in bw */
         u8 always0x14;
         BW::PositionUnitTarget target;
-        u8 always0xe4;
-        u16 alwaysZero;
+        u16 always0xe4;
+        u8  type;
     };
     /** Selection addition in bw */
     class SelectAdd
@@ -352,7 +352,7 @@ namespace BW
     class HoldPosition
     {
       public :
-        HoldPosition(u8 type = 0);
+        HoldPosition(bool queued = false);
       private :
         u8 always0x2B;
         u8 type;
@@ -426,7 +426,7 @@ namespace BW
     class ReturnCargo
     {
       public :
-        ReturnCargo(u8 type = 0);
+        ReturnCargo(bool queued = false);
       private :
         u8 always0x1E;
         u8 type;
@@ -435,7 +435,7 @@ namespace BW
     class Stop
     {
       public :
-        Stop(u8 type = 0);
+        Stop(bool queued = false);
       private :
         u8 always0x1A;
         u8 type;

@@ -36,8 +36,10 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
+  BWAPI::Position position = BWAPI::Position(100,100);
   for each ( Unit *u in bw->getSelectedUnits() )
   {
+    u->attack(position);
     for each ( Unit *f in u->getUnitsInWeaponRange() )
       bw->drawLineMap(u->getPosition().x(), u->getPosition().y(), f->getPosition().x(), f->getPosition().y(), Colors::Orange);
   }

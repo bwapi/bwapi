@@ -509,7 +509,7 @@ namespace BWAPI
       virtual bool canIssueCommand(UnitCommand command) const = 0;
 
       /** Issues the give unit command, or returns false if there is an error */
-      virtual bool issueCommand(UnitCommand command) = 0;
+      virtual bool issueCommand(UnitCommand command, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to attack move to the specified location. */
       virtual bool attack(Position target) = 0;
