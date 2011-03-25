@@ -410,7 +410,7 @@ BOOL __stdcall _SDrawRealizePalette()
   if ( IsIconic(ghMainWnd) )
     return FALSE;
 
-  SetDIBColorTable(hdcMem, 0, 256, palette);
+  // SetDIBColorTable(hdcMem, 0, 256, palette);
   return TRUE;
 }
 
@@ -445,6 +445,8 @@ void SetWMode(int width, int height, bool state)
     MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
     SetCursor(NULL);
     SetCursorShowState(false);
+
+    SetDIBColorTable(hdcMem, 0, 256, palette);
   }
   else
   {

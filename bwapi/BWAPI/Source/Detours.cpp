@@ -17,21 +17,10 @@
 #include "../../Debug.h"
 
 bool hideHUD;
-
-#include <list>
-struct stormAlloc
-{
-  void *location;
-  bool memLeak;
-  char lastFile[MAX_PATH];
-};
-std::list<stormAlloc> allocations;
-std::list<stormAlloc> leaks;
-void *savedLoc;
-bool firstStarted = false;
 char gszScreenshotFormat[4];
 
-bool memtest(const stormAlloc& value) { return (value.location == savedLoc); }
+void *leakUIClassLoc;
+void *leakUIGrpLoc;
 
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 {
@@ -49,35 +38,6 @@ BOOL __stdcall _SNetLeaveGame(int type)
 {
   //MessageBox(0, "OnGameEnd", "", 0);
   BWAPI::BroodwarImpl.onGameEnd();
-  if ( firstStarted )
-  {
-    // copy our leaks to a new list
-    for ( std::list<stormAlloc>::iterator i = allocations.begin(); i != allocations.end(); ++i )
-    {
-      if ( i->memLeak )
-        leaks.push_back(*i);
-      else
-        i->memLeak = true;
-    }
-    // Deal with our leaks and remove them from the old list
-    for each ( stormAlloc i in leaks )
-    {
-      if ( !strcmpi(i.lastFile, "dlgs\\protoss.grp") || 
-           !strcmpi(i.lastFile, "dlgs\\terran.grp")  ||
-           !strcmpi(i.lastFile, "dlgs\\zerg.grp") )
-      {
-        _SMemFree(i.location, "BW Leak @BWAPI Detours.cpp", __LINE__, 0);
-      }
-      else
-      {
-        savedLoc = i.location;
-        allocations.remove_if(memtest);
-      }
-    }
-    leaks.clear();
-  }
-  else
-    firstStarted = true;
   return SNetLeaveGame(type);
 }
 
@@ -261,32 +221,31 @@ BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD 
   return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);
 }
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
-BOOL __stdcall _SMemFree(void *location, char *logfilename, int logline, char defaultValue)
-{
-  try
-  {
-    savedLoc = location;
-    allocations.remove_if(memtest);
-  }
-  catch (GeneralException &e)
-  {
-    MessageBox(NULL, e.getMessage().c_str(), "Allocations Error in " __FUNCTION__, MB_OK | MB_ICONERROR);
-  }
-  return SMemFree(location, logfilename, logline, defaultValue);
-}
-
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue)
 {
   /* Call the original function */
   void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
 
-  if ( firstStarted )
+  if ( lastFile == "dlgs\\protoss.grp" || 
+       lastFile == "dlgs\\terran.grp"  ||
+       lastFile == "dlgs\\zerg.grp" )
   {
-    stormAlloc t;
-    t.location = rval;
-    t.memLeak  = false;
-    strncpy(t.lastFile, lastFile.c_str(), MAX_PATH);
-    allocations.push_back(t);
+    if ( strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
+    {
+      if ( leakUIClassLoc )
+        SMFree(leakUIClassLoc);
+      leakUIClassLoc = rval;
+      BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
+      BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+    }
+    else if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
+    {
+      if ( leakUIGrpLoc )
+        SMFree(leakUIGrpLoc);
+      leakUIGrpLoc = rval;
+      BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
+      BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+    }
   }
 
   /* Save the allocated string table pointer */
