@@ -283,6 +283,8 @@ namespace BW
 
   static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
 
+  static void **BWDATA_customList_UIDlgData = (void**)0x0051A350;
+
   //--------------------------------------- FOR RESOLUTION HACK ----------------------------------------------
   static Sprite **BWDATA_spriteGroups = (Sprite**) 0x00629688;
 

@@ -14,7 +14,6 @@ BOOL  __stdcall  _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal);
 BOOL  __stdcall  _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 BOOL  __stdcall  _SFileOpenFile(const char *filename, HANDLE *phFile);
 BOOL  __stdcall  _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
-BOOL  __stdcall  _SMemFree(void *location, char *logfilename, int logline, char defaultValue);
 void *__stdcall  _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue);
 BOOL  __stdcall  _SNetSendTurn(char *data, unsigned int databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
