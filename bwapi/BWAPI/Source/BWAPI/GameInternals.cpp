@@ -463,10 +463,7 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      for each ( Unit *u in this->aliveUnits )
-      {
-        drawCircleMap(u->getPosition().x(), u->getPosition().y(), 2, Colors::Cyan);
-      }
+      // put whatever here
     } // unitdebug
 
     // pathdebug
