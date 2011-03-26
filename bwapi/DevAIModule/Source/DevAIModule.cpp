@@ -36,12 +36,13 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  BWAPI::Position position = BWAPI::Position(100,100);
-  for each ( Unit *u in bw->getSelectedUnits() )
+  for each ( Bullet *b in bw->getBullets() )
   {
-    u->attack(position);
-    for each ( Unit *f in u->getUnitsInWeaponRange() )
-      bw->drawLineMap(u->getPosition().x(), u->getPosition().y(), f->getPosition().x(), f->getPosition().y(), Colors::Orange);
+    if ( b && b->exists() )
+    {
+      bw->drawTextMap(b->getPosition().x(), b->getPosition().y(), "%cO", b->getPlayer() ? b->getPlayer()->getTextColor() : 2);
+      bw->drawTextMap(b->getPosition().x(), b->getPosition().y(), "%cX", b->getPlayer() ? b->getPlayer()->getTextColor() : 2);
+    }
   }
 }
 
