@@ -104,7 +104,7 @@ namespace BW
     /*0x084*/ u8                                  orderQueueCount;       /**< @todo Verify */
     /*0x085*/ u8                                  orderQueueTimer; /* counts/cycles down from from 8 to 0 (inclusive). See also 0x122. */
     /*0x086*/ u8                                  _unknown_0x086;  // pathing related?
-    /*0x087*/ u8                                  _unknownTimer_0x087;  // pathing related?
+    /*0x087*/ u8                                  attackNotifyTimer;  // Prevent "Your forces are under attack." on every attack
     /*0x088*/ u16                                 displayedUnitID;
     /*0x08A*/ u8                                  lastEventTimer; // countdown that stops being recent when it hits 0 
     /*0x08B*/ u8                                  lastEventColor; // 17 = was completed (train, morph), 174 = was attacked
@@ -146,8 +146,8 @@ namespace BW
                 struct
                 {
                   BW::Unit *parent;   // 0
-                  BW::Unit *next;     // 4
-                  BW::Unit *prev;     // 8
+                  BW::Unit *prev;     // 4
+                  BW::Unit *next;     // 8
                   u8       inHanger;  // C
                 } interceptor;  // also applies to scarab
                 
@@ -212,8 +212,8 @@ namespace BW
                   u8            isCarryingSomething;     // E
                   u8            resourceCarryCount;      // F
                   BW::Unit      *harvestTarget;          // 10
-                  BW::Unit      *nextHarvestUnit;        // 14   // When there is a gather conflict
-                  BW::Unit      *previousHarvestUnit;    // 18
+                  BW::Unit      *prevHarvestUnit;        // 14   // When there is a gather conflict
+                  BW::Unit      *nextHarvestUnit;        // 18
                 } worker;
               };
     /*0x0DC*/ u32                               statusFlags;
