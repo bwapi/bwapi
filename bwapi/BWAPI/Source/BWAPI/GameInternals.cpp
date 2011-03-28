@@ -2540,6 +2540,36 @@ namespace BWAPI
           case BW::TechID::YamatoGun:
             order = BW::OrderID::FireYamatoGun1;
             break;
+          case BW::TechID::DarkSwarm:
+            order = BW::OrderID::DarkSwarm;
+            break;
+          case BW::TechID::DisruptionWeb:
+            order = BW::OrderID::CastDisruptionWeb;
+            break;
+          case BW::TechID::EMPShockwave:
+            order = BW::OrderID::EmpShockwave;
+            break;
+          case BW::TechID::Ensnare:
+            order = BW::OrderID::Ensnare;
+            break;
+          case BW::TechID::NuclearStrike:
+            order = BW::OrderID::NukePaint;
+            break;
+          case BW::TechID::Plague:
+            order = BW::OrderID::Plague;
+            break;
+          case BW::TechID::PsionicStorm:
+            order = BW::OrderID::PsiStorm;
+            break;
+          case BW::TechID::Recall:
+            order = BW::OrderID::Teleport;
+            break;
+          case BW::TechID::ScannerSweep:
+            order = BW::OrderID::PlaceScanner;
+            break;
+          case BW::TechID::StasisField:
+            order = BW::OrderID::StasisField;
+            break;
           default:
             order = BW::OrderID::None;
         }
