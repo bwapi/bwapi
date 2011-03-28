@@ -617,12 +617,12 @@ namespace BWAPI
         }
         else if ( UnitCommandTypes::Use_Tech_Position == ct)
         {
-          if (!tech.targetsPosition())
+          if ( !tech.targetsPosition() )
             return Broodwar->setLastError(Errors::Incompatible_TechType);
         }
         else if ( UnitCommandTypes::Use_Tech_Unit     == ct)
         {
-          if (!tech.targetsUnit())
+          if ( !tech.targetsUnit() && !tech.targetsPosition() )
             return Broodwar->setLastError(Errors::Incompatible_TechType);
         }
         if ( UnitCommandTypes::Burrow == ct )
