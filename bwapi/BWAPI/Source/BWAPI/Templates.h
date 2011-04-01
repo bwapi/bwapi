@@ -5,6 +5,27 @@ namespace BWAPI
 {
   namespace Templates
   {
+    //-------------------------------------------- UNIT FINDER -----------------------------------------------
+    template <class finder>
+    int getUnitFinderMinimum(const finder *uf, int min)
+    {
+      unsigned int i = 0;
+      while ( uf[i].searchValue < min && uf[i].unitIndex && i < 3400 )
+        ++i;
+
+      if ( uf[i].unitIndex <= 0 ) // no units were found on the horizontal plane
+        return -1; // no results
+      return i;
+    }
+    template <class finder>
+    int getUnitFinderMaximum(const finder *uf, int max, int startIndex)
+    {
+      unsigned int i = startIndex;
+      while ( uf[i].searchValue < max && uf[i].unitIndex && i < 3400 )
+        ++i;
+
+      return i;
+    }
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
     bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)

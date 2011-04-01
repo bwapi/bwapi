@@ -497,30 +497,22 @@ namespace BWAPI
     return unit_RadiusResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange() const
+  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
   {
     static std::set<Unit*> unit_WeaponResults;
     unit_WeaponResults.clear();
     if ( !exists() )
       return unit_WeaponResults;
 
-    UnitType thisType = UnitType(self->type);
-    Player   *pl      = getPlayer();
-
     // Obtain the set of units within max ground weapon range
-    unit_WeaponResults = getUnitsInRadius(pl->groundWeaponMaxRange(thisType));
+    unit_WeaponResults = getUnitsInRadius(getPlayer()->weaponMaxRange(weapon));
 
     // remove the subset of minRange from maxRange for ground weapons
-    if ( !unit_WeaponResults.empty() && thisType.groundWeapon().minRange() > 0 )
+    if ( !unit_WeaponResults.empty() && weapon.minRange() > 0 )
     {
-      for each (Unit *u in getUnitsInRadius(thisType.groundWeapon().minRange() - 1))
+      for each (Unit *u in getUnitsInRadius(weapon.minRange() - 1))
         unit_WeaponResults.erase(unit_WeaponResults.find(u));
     }
-
-    // Add the air weapon results
-    for each (Unit *u in getUnitsInRadius(pl->airWeaponMaxRange(thisType)) )
-      unit_WeaponResults.insert(u);
-
     return unit_WeaponResults;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------

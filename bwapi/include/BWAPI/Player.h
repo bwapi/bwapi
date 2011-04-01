@@ -143,6 +143,9 @@ namespace BWAPI
       /** Returns the max air weapon range of the given unit type, includes upgrades */
       virtual int airWeaponMaxRange(UnitType unit) const = 0;
 
+      /** Returns the max range of the given weapon with upgrades */
+      virtual int weaponMaxRange(WeaponType weapon) const = 0;
+
       /** Returns the sight range of the given unit type, includes upgrades */
       virtual int sightRange(UnitType unit) const = 0 ;
 

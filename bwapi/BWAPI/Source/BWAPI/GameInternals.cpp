@@ -463,7 +463,13 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      // put whatever here
+      for each ( Unit *s in this->selectedUnitSet )
+      {
+        for each ( Unit *u in s->getUnitsInWeaponRange(s->getType().groundWeapon()) )
+        {
+          drawLineMap(s->getPosition().x(), s->getPosition().y(), u->getPosition().x(), u->getPosition().y(), Colors::Red);
+        }
+      }
     } // unitdebug
 
     // pathdebug
