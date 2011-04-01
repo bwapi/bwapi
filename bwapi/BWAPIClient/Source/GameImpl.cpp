@@ -480,55 +480,41 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
     static std::set<Unit*> unitFinderResults;
-    unitFinderResults.clear();
+    static int lastLeft   = -1;
+    static int lastRight  = -1;
+    static int lastTop    = -1;
+    static int lastBottom = -1;
+    static int lastFrame  = -1;
+    if ( lastFrame == data->frameCount && lastLeft == left && lastTop == top && lastRight == right && lastBottom == bottom )
+      return unitFinderResults;
     
-    unitFinder *xFinder = data->xUnitSearch;
-    unitFinder *yFinder = data->yUnitSearch;
+    lastLeft    = left;
+    lastTop     = top;
+    lastRight   = right;
+    lastBottom  = bottom;
+    lastFrame   = data->frameCount;
+    unitFinderResults.clear();
 
-    // Grab the minimum x value without performing any additional computation
-    unsigned int xMin = 0;
-    while ( xFinder[xMin].searchValue < left && xFinder[xMin].unitIndex >= 0 && xMin < 3400 )
-      ++xMin;
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = data->mapWidth < data->mapHeight;
+    unitFinder *finder = useY ? data->yUnitSearch : data->xUnitSearch;
 
-    if ( xFinder[xMin].unitIndex < 0 ) // no units were found on the horizontal plane
-      return unitFinderResults; // no results
+    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, useY ? top : left);
+    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, useY ? bottom : right, minFind);
 
-    // Grab the minimum y value without performing any additional computation
-    unsigned int yMin = 0;
-    while ( yFinder[yMin].searchValue < top && yFinder[yMin].unitIndex >= 0 && yMin < 3400 )
-      ++yMin;
-
-    if ( yFinder[yMin].unitIndex < 0 ) // no units were found on the vertical plane
-      return unitFinderResults; // no results
-
-    // Retrieve the unit indexes for the horizontal plane
-    std::vector<int> xList;
-    for ( unsigned int x = xMin; xFinder[x].searchValue <= right && xFinder[x].unitIndex >= 0 && x < 3400; ++x )
-      xList.push_back(xFinder[x].unitIndex);
-
-    if ( xList.empty() )
-      return unitFinderResults; // no results
-
-    // Retrieve the unit indexes for the vertical plane
-    std::vector<int> yList;
-    for ( unsigned int y = yMin; yFinder[y].searchValue <= bottom && yFinder[y].unitIndex >= 0 && y < 3400; ++y )
-      yList.push_back(yFinder[y].unitIndex);
-
-    if ( yList.empty() )
-      return unitFinderResults; // no results
-
-    // Save the intersection of the values found in both the horizontal and vertical planes
-    for each ( int xUnit in xList )
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      for each ( int yUnit in yList )
-      {
-        if ( xUnit == yUnit && xUnit >= 0 ) // intersection
-        {
-          Unit *u = Broodwar->getUnit(xUnit);
-          if ( u && u->exists() )
-            unitFinderResults.insert(u);
-        }
-      }
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      Unit *u = Broodwar->getUnit(unitID);
+      Position p = u->getPosition();
+      if ( !u || !u->exists() || (useY ? (p.x() < left || p.x() > right) : (p.y() < top || p.y() > bottom)) )
+        continue;
+      unitFinderResults.insert(u);
     }
     return unitFinderResults;
   }
@@ -540,15 +526,39 @@ namespace BWAPI
   //----------------------------------------------- GET UNITS IN RADIUS --------------------------------------
   std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius) const
   {
-    static std::set<Unit*> unitRadiusResults;
-    unitRadiusResults.clear();
-    center.makeValid();
-    for each ( Unit *u in getUnitsInRectangle(center.x() - radius, center.y() - radius, center.x() + radius, center.y() + radius) )
+    static std::set<Unit*> unitFinderResults;
+    static Position lastPosition = Positions::Invalid;
+    static int lastRadius        = -1;
+    static int lastFrame         = -1;
+    if ( lastFrame == data->frameCount && lastRadius == radius && lastPosition == center )
+      return unitFinderResults;
+
+    lastPosition  = center;
+    lastRadius    = radius;
+    lastFrame     = data->frameCount;
+    unitFinderResults.clear();
+
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = data->mapWidth < data->mapHeight;
+    unitFinder *finder = useY ? data->yUnitSearch : data->xUnitSearch;
+
+    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, (useY ? center.y() : center.x()) - radius);
+    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, (useY ? center.y() : center.x()) + radius, minFind);
+
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      if ( center.getApproxDistance(u->getPosition()) <= radius )
-        unitRadiusResults.insert(u);
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      Unit *u = Broodwar->getUnit(unitID);
+      if ( !u || !u->exists() || center.getApproxDistance(u->getPosition()) > radius )
+        continue;
+      unitFinderResults.insert(u);
     }
-    return unitRadiusResults;
+    return unitFinderResults;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const

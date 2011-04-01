@@ -507,10 +507,11 @@ namespace BWAPI
     unit_RadiusResults.clear();
     if ( !exists() || radius < 0 )
       return unit_RadiusResults;
-    for each ( Unit *found in BroodwarImpl.getUnitsInRectangle(this->getPosition().x() - radius - _getType.dimensionLeft(), 
-                                                               this->getPosition().y() - radius - _getType.dimensionUp(), 
-                                                               this->getPosition().x() + radius + _getType.dimensionRight(), 
-                                                               this->getPosition().y() + radius + _getType.dimensionDown()) )
+    Position p = this->getPosition();
+    for each ( Unit *found in BroodwarImpl.getUnitsInRectangle(p.x() - radius - _getType.dimensionLeft(), 
+                                                               p.y() - radius - _getType.dimensionUp(), 
+                                                               p.x() + radius + _getType.dimensionRight(), 
+                                                               p.y() + radius + _getType.dimensionDown()) )
     {
       if ( this->getDistance(found) <= radius )
         unit_RadiusResults.insert(found);
@@ -521,30 +522,22 @@ namespace BWAPI
     return unit_RadiusResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange() const
+  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
   {
-    // initialization
     static std::set<Unit*> unit_WeaponResults;
     unit_WeaponResults.clear();
     if ( !exists() )
       return unit_WeaponResults;
 
-    UnitType thisType = this->getType();
-
     // Obtain the set of units within max ground weapon range
-    unit_WeaponResults = getUnitsInRadius(getPlayer()->groundWeaponMaxRange(thisType));
+    unit_WeaponResults = getUnitsInRadius(getPlayer()->weaponMaxRange(weapon));
 
     // remove the subset of minRange from maxRange for ground weapons
-    if ( !unit_WeaponResults.empty() && thisType.groundWeapon().minRange() > 0 )
+    if ( !unit_WeaponResults.empty() && weapon.minRange() > 0 )
     {
-      for each (Unit *u in getUnitsInRadius(thisType.groundWeapon().minRange() - 1))
+      for each (Unit *u in getUnitsInRadius(weapon.minRange() - 1))
         unit_WeaponResults.erase(unit_WeaponResults.find(u));
     }
-
-    // Add the air weapon results
-    for each (Unit *u in getUnitsInRadius(getPlayer()->airWeaponMaxRange(thisType)) )
-      unit_WeaponResults.insert(u);
-
     return unit_WeaponResults;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------

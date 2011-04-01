@@ -103,7 +103,7 @@ namespace BWAPI
       virtual Unit*           getHatchery() const;
       virtual std::set<Unit*> getLarva() const;
       virtual std::set<Unit*>& getUnitsInRadius(int radius) const;
-      virtual std::set<Unit*>& getUnitsInWeaponRange() const;
+      virtual std::set<Unit*>& getUnitsInWeaponRange(WeaponType weapon) const;
 
       virtual bool exists() const;
       virtual bool hasNuke() const;

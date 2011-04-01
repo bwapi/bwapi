@@ -250,6 +250,19 @@ namespace BWAPI
       range += 3*32;
     return range;
   }
+  //----------------------------------------------- WEAPON MAX RANGE -----------------------------------------
+  int PlayerImpl::weaponMaxRange(WeaponType weapon) const
+  {
+    int range = weapon.maxRange();
+    if ( (weapon == WeaponTypes::Gauss_Rifle   && getUpgradeLevel(UpgradeTypes::U_238_Shells)   > 0) ||
+         (weapon == WeaponTypes::Needle_Spines && getUpgradeLevel(UpgradeTypes::Grooved_Spines) > 0) )
+      range += 1*32;
+    else if ( weapon == WeaponTypes::Phase_Disruptor       && getUpgradeLevel(UpgradeTypes::Singularity_Charge) > 0 )
+      range += 2*32;
+    else if ( weapon == WeaponTypes::Hellfire_Missile_Pack && getUpgradeLevel(UpgradeTypes::Charon_Boosters)    > 0 )
+      range += 3*32;
+    return range;
+  }
   //--------------------------------------------- SIGHT RANGE ------------------------------------------------
   int PlayerImpl::sightRange(UnitType unit) const
   {
