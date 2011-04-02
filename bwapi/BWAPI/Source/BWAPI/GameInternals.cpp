@@ -936,6 +936,22 @@ namespace BWAPI
             char szNewPath[MAX_PATH] = { 0 };
             fixPathString(szInterPath, szNewPath, MAX_PATH);
 
+            char *last = strrchr(szNewPath, '/');
+            char szDirectory[MAX_PATH] = { 0 };
+            strncpy(szDirectory, szNewPath, last ? last - szNewPath : 0);
+
+            char *current = strchr(szDirectory, '/');
+            MessageBox(NULL, szDirectory, "", 0);
+            while ( current )
+            {
+              char lower[MAX_PATH] = { 0 };
+              strncpy(lower, szDirectory, current - szDirectory);
+              if ( GetFileAttributes(lower) == INVALID_FILE_ATTRIBUTES )
+                CreateDirectory(lower, NULL);
+              current = strchr(current+1, '/');
+            }
+            if ( GetFileAttributes(szDirectory) == INVALID_FILE_ATTRIBUTES )
+              CreateDirectory(szDirectory, NULL);
             CopyFile(szReplayPath, szNewPath, false);
           }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
