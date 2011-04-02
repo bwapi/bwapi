@@ -542,7 +542,7 @@ void SetWMode(int width, int height, bool state)
     // Hack to enable drawing in Broodwar
     *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
 
-    POINT pos = { windowRect.left + 40 * gdwProcNum, windowRect.top + 40 * gdwProcNum };
+    POINT pos = { windowRect.left + (gdwProcNum ? 32 : 0), windowRect.top + (gdwProcNum ? 32 : 0) };
     // Change the window settings
     SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
     SetWindowPos(ghMainWnd, HWND_NOTOPMOST, pos.x, pos.y, width, height, SWP_SHOWWINDOW);

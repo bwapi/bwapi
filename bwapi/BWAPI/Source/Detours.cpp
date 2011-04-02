@@ -18,10 +18,51 @@
 
 bool hideHUD;
 char gszScreenshotFormat[4];
+char gszDesiredReplayName[MAX_PATH];
 
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
+//----------------------------------------------- FILE HOOKS -------------------------------------------------
+void setReplayName(char *pOutFilename, const char *pInFileName)
+{
+  if ( strstr(pInFileName, "LastReplay.rep") )
+  {
+    if ( gszDesiredReplayName[0] )
+      strcpy(pOutFilename, gszDesiredReplayName);
+    else
+      strcpy(pOutFilename, pInFileName);
+
+    if ( gdwProcNum )
+    {
+      char tmp[16];
+      sprintf(tmp, " (%u).rep", gdwProcNum);
+      char *ext = strrchr(pOutFilename, '.');
+      strcpy_s(ext, MAX_PATH - (ext ? ext - pOutFilename : 0), tmp);
+    }
+  }
+  else
+    strcpy(pOutFilename, pInFileName);
+}
+BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
+{
+  char szNewFileName[MAX_PATH];
+  setReplayName(szNewFileName, lpFileName);
+  return DeleteFile(szNewFileName);
+}
+DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
+{
+  char szNewFileName[MAX_PATH];
+  setReplayName(szNewFileName, lpFileName);
+  return GetFileAttributes(szNewFileName);
+}
+HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
+{
+  char szNewFileName[MAX_PATH];
+  setReplayName(szNewFileName, lpFileName);
+  return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+}
+//--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 {
   char *ext = strrchr((char*)pszOutput, '.');
@@ -36,7 +77,6 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
-  //MessageBox(0, "OnGameEnd", "", 0);
   BWAPI::BroodwarImpl.onGameEnd();
   return SNetLeaveGame(type);
 }

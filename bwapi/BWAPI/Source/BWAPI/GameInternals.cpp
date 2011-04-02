@@ -120,6 +120,7 @@ namespace BWAPI
       BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
     srand(GetTickCount());
+    gszDesiredReplayName[0] = 0;
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
@@ -599,7 +600,7 @@ namespace BWAPI
   int fixPathString(const char *in, char *out, size_t outLen)
   {
     unsigned int n = 0;
-    for ( unsigned int i = 0; in[i] != 0 && n < outLen; ++i )
+    for ( unsigned int i = 0; in[i] != 0 && n < outLen-1; ++i )
     {
       if ( !iscntrl(in[i]) &&
            in[i] != '?'    &&
@@ -613,9 +614,10 @@ namespace BWAPI
           out[n] = '/';
         else
           out[n] = in[i];
-        n++;
+        ++n;
       }
     }
+    out[n] = 0;
     return n;
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -898,62 +900,6 @@ namespace BWAPI
         if ( !actEnd )
         {
           actEnd = true;
-          //Only save replay if this is NOT the end of replay screen
-          if ( menu != 15 && autoMenuSaveReplay != "")
-          {
-            char szReplayPath[MAX_PATH];
-            SStrCopy(szReplayPath, szInstallPath, MAX_PATH);
-            SStrNCat(szReplayPath, "maps\\replays\\LastReplay.rep", MAX_PATH);
-
-            SYSTEMTIME systemTime;
-            GetSystemTime(&systemTime);
-            char szBuf[64];
-            sprintf(szBuf, "%04u", systemTime.wYear);
-            SetEnvironmentVariable("YEAR", &szBuf[2]);
-            sprintf(szBuf, "%02u", systemTime.wMonth);
-            SetEnvironmentVariable("MONTH", szBuf);
-            sprintf(szBuf, "%02u", systemTime.wDay);
-            SetEnvironmentVariable("DAY", szBuf);
-            sprintf(szBuf, "%02u", systemTime.wHour);
-            SetEnvironmentVariable("HOUR", szBuf);
-            sprintf(szBuf, "%02u", systemTime.wMinute);
-            SetEnvironmentVariable("MINUTE", szBuf);
-            sprintf(szBuf, "%02u", systemTime.wSecond);
-            SetEnvironmentVariable("SECOND", szBuf);
-            sprintf(szBuf, "%03u", systemTime.wMilliseconds);
-            SetEnvironmentVariable("MILLISECOND", szBuf);
-
-            SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
-            SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
-            SetEnvironmentVariable("MAP",        rn_MapName.c_str());
-            SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
-            SetEnvironmentVariable("ALLYRACES",  rn_AlliesRaces.c_str());
-            SetEnvironmentVariable("ENEMYNAMES", rn_EnemiesNames.c_str());
-            SetEnvironmentVariable("ENEMYRACES", rn_EnemiesRaces.c_str());
-
-            char szInterPath[MAX_PATH] = { 0 };
-            ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szInterPath, MAX_PATH);
-            char szNewPath[MAX_PATH] = { 0 };
-            fixPathString(szInterPath, szNewPath, MAX_PATH);
-
-            char *last = strrchr(szNewPath, '/');
-            char szDirectory[MAX_PATH] = { 0 };
-            strncpy(szDirectory, szNewPath, last ? last - szNewPath : 0);
-
-            char *current = strchr(szDirectory, '/');
-            MessageBox(NULL, szDirectory, "", 0);
-            while ( current )
-            {
-              char lower[MAX_PATH] = { 0 };
-              strncpy(lower, szDirectory, current - szDirectory);
-              if ( GetFileAttributes(lower) == INVALID_FILE_ATTRIBUTES )
-                CreateDirectory(lower, NULL);
-              current = strchr(current+1, '/');
-            }
-            if ( GetFileAttributes(szDirectory) == INVALID_FILE_ATTRIBUTES )
-              CreateDirectory(szDirectory, NULL);
-            CopyFile(szReplayPath, szNewPath, false);
-          }
           if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
           {
             if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
@@ -1077,6 +1023,8 @@ namespace BWAPI
   void GameImpl::onGameStart()
   {
     /** This function is called at the start of every match */
+    gszDesiredReplayName[0] = 0;
+
     actMainMenu = false;
     actRegistry = false;
     actCreate   = false;
@@ -1388,6 +1336,55 @@ namespace BWAPI
     //this is called at the end of every match
     if ( !this->onStartCalled )
       return;
+
+    if ( autoMenuSaveReplay != "")
+    {
+      SYSTEMTIME systemTime;
+      GetSystemTime(&systemTime);
+      char szBuf[64];
+      sprintf(szBuf, "%04u", systemTime.wYear);
+      SetEnvironmentVariable("YEAR", &szBuf[2]);
+      sprintf(szBuf, "%02u", systemTime.wMonth);
+      SetEnvironmentVariable("MONTH", szBuf);
+      sprintf(szBuf, "%02u", systemTime.wDay);
+      SetEnvironmentVariable("DAY", szBuf);
+      sprintf(szBuf, "%02u", systemTime.wHour);
+      SetEnvironmentVariable("HOUR", szBuf);
+      sprintf(szBuf, "%02u", systemTime.wMinute);
+      SetEnvironmentVariable("MINUTE", szBuf);
+      sprintf(szBuf, "%02u", systemTime.wSecond);
+      SetEnvironmentVariable("SECOND", szBuf);
+      sprintf(szBuf, "%03u", systemTime.wMilliseconds);
+      SetEnvironmentVariable("MILLISECOND", szBuf);
+
+      SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
+      SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
+      SetEnvironmentVariable("MAP",        rn_MapName.c_str());
+      SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
+      SetEnvironmentVariable("ALLYRACES",  rn_AlliesRaces.c_str());
+      SetEnvironmentVariable("ENEMYNAMES", rn_EnemiesNames.c_str());
+      SetEnvironmentVariable("ENEMYRACES", rn_EnemiesRaces.c_str());
+
+      char szInterPath[MAX_PATH] = { 0 };
+      ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szInterPath, MAX_PATH);
+      fixPathString(szInterPath, gszDesiredReplayName, MAX_PATH);
+
+      char *last = strrchr(gszDesiredReplayName, '/');
+      char szDirectory[MAX_PATH] = { 0 };
+      strncpy(szDirectory, gszDesiredReplayName, last ? last - gszDesiredReplayName : 0);
+
+      char *current = strchr(szDirectory, '/');
+      while ( current )
+      {
+        char lower[MAX_PATH] = { 0 };
+        strncpy(lower, szDirectory, current - szDirectory);
+        if ( GetFileAttributes(lower) == INVALID_FILE_ATTRIBUTES )
+          CreateDirectory(lower, NULL);
+        current = strchr(current+1, '/');
+      }
+      if ( GetFileAttributes(szDirectory) == INVALID_FILE_ATTRIBUTES )
+        CreateDirectory(szDirectory, NULL);
+    }
 
 #ifdef _DEBUG
     if ( myDlg )

@@ -48,7 +48,7 @@ void ApplyCodePatches()
   HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
 
-  // wmode/drawing
+  /* wmode/drawing detours */
   HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
   HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
   HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
@@ -56,6 +56,11 @@ void ApplyCodePatches()
   HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
   HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
   HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
+  
+  /* Other Detours */
+  HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
+  HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
+  HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
