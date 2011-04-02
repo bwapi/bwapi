@@ -326,10 +326,10 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   if ( std::string( strupr(logging_str) ) == "ON" )
     switchToWMode = true;
 
-  if ( windowRect.right < 100 )
-    windowRect.right = 100;
-  if ( windowRect.bottom < 100 )
-    windowRect.bottom = 100;
+  if ( windowRect.right < WMODE_MIN_WIDTH )
+    windowRect.right = WMODE_MIN_WIDTH;
+  if ( windowRect.bottom < WMODE_MIN_HEIGHT )
+    windowRect.bottom = WMODE_MIN_HEIGHT;
 
   /* Shift the position of w-mode */
   if ( gdwProcNum > 0 )

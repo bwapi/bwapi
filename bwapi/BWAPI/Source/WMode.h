@@ -3,6 +3,9 @@
 
 #include "BW/Offsets.h"
 
+#define WMODE_MIN_WIDTH  200
+#define WMODE_MIN_HEIGHT 150
+
 struct BITMAPINFO256 {
     BITMAPINFOHEADER    bmiHeader;
     RGBQUAD             bmiColors[256];
