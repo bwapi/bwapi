@@ -5,6 +5,7 @@
 
 #define WMODE_MIN_WIDTH  200
 #define WMODE_MIN_HEIGHT 150
+#define WMODE_SNAP_RANGE 20
 
 struct BITMAPINFO256 {
     BITMAPINFOHEADER    bmiHeader;
