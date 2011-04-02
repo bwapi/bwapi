@@ -20,6 +20,10 @@ void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
 
+BOOL WINAPI _DeleteFile(LPCTSTR lpFileName);
+DWORD WINAPI _GetFileAttributes(LPCTSTR lpFileName);
+HANDLE WINAPI _CreateFile(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
+
 extern bool hideHUD;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
@@ -27,4 +31,5 @@ extern double botAPM_noSelect;
 extern double botAPM_select;
 extern bool wantRefresh;
 extern char gszScreenshotFormat[4];
+extern char gszDesiredReplayName[MAX_PATH];
 
