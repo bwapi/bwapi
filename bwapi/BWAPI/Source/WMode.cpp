@@ -227,17 +227,17 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           }
         }
 
-        if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - 16 &&
-             ws.cx <= BW::BWDATA_GameScreenBuffer->wid + 16 )
+        if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - WMODE_SNAP_RANGE &&
+             ws.cx <= BW::BWDATA_GameScreenBuffer->wid + WMODE_SNAP_RANGE )
         {
           ws.cx = BW::BWDATA_GameScreenBuffer->wid;
-          CorrectWindowWidth(wParam, &ws, rct, &border);
+          CorrectWindowWidth( (wParam == WMSZ_TOP || wParam == WMSZ_BOTTOM) ? WMSZ_RIGHT : wParam, &ws, rct, &border);
         }
-        if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - 16 &&
-             ws.cy <= BW::BWDATA_GameScreenBuffer->ht + 16 )
+        if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - WMODE_SNAP_RANGE &&
+             ws.cy <= BW::BWDATA_GameScreenBuffer->ht + WMODE_SNAP_RANGE )
         {
           ws.cy = BW::BWDATA_GameScreenBuffer->ht;
-          CorrectWindowHeight(wParam, &ws, rct, &border);
+          CorrectWindowHeight( (wParam == WMSZ_RIGHT || wParam == WMSZ_LEFT) ? WMSZ_BOTTOM : wParam, &ws, rct, &border);
         }
         break;
       } // case WM_SIZING
