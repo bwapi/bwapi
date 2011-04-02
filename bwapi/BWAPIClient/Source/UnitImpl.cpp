@@ -14,27 +14,27 @@ namespace BWAPI
   UnitImpl::UnitImpl(int id)
     : clientInfo(NULL)
   {
-    this->self=&(BWAPI::BWAPIClient.data->units[id]);
-    this->id=id;
+    this->self = &(BWAPI::BWAPIClient.data->units[id]);
+    this->id   = id;
     clear();
   }
   void UnitImpl::clear()
   {
-    initialType=UnitTypes::None;
-    initialResources=0;
-    initialHitPoints=0;
-    initialPosition=Positions::None;
-    connectedUnits.clear();
+    initialType      = UnitTypes::None;
+    initialResources = 0;
+    initialHitPoints = 0;
+    initialPosition  = Positions::None;
     lastCommandFrame = 0;
-    lastCommand = UnitCommand();
-    clientInfo = NULL;
+    lastCommand      = UnitCommand();
+    clientInfo       = NULL;
+    connectedUnits.clear();
   }
   void UnitImpl::saveInitialState()
   {
-    this->initialType=getType();
-    this->initialResources=getResources();
-    this->initialHitPoints=getHitPoints();
-    this->initialPosition=getPosition();
+    this->initialType      = getType();
+    this->initialResources = getResources();
+    this->initialHitPoints = getHitPoints();
+    this->initialPosition  = getPosition();
   }
   //--------------------------------------------- GET ID -----------------------------------------------------
   int UnitImpl::getID() const
@@ -209,7 +209,7 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    if (getPlayer()==NULL ||
+    if (getPlayer() == NULL ||
         getPlayer()->getUpgradeLevel(upgrade) == 0 ||
         upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
       return 0;
@@ -344,10 +344,10 @@ namespace BWAPI
     return UnitType(self->buildType);
   }
   //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
-  std::list<UnitType > UnitImpl::getTrainingQueue() const
+  std::list<UnitType> UnitImpl::getTrainingQueue() const
   {
-    std::list<UnitType > trainingQueue;
-    for (int i=0;i<self->trainingQueueCount;i++)
+    std::list<UnitType> trainingQueue;
+    for ( int i = 0; i < self->trainingQueueCount; ++i )
       trainingQueue.push_back(self->trainingQueue[i]);
     return trainingQueue;
   }
@@ -468,52 +468,94 @@ namespace BWAPI
   std::set<Unit*> UnitImpl::getLarva() const
   {
     std::set<Unit*> nothing;
-    if (getType() != UnitTypes::Zerg_Hatchery &&
-        getType() != UnitTypes::Zerg_Lair &&
-        getType() != UnitTypes::Zerg_Hive)
+    if ( !getType().producesLarva() )
         return nothing;
     return connectedUnits;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
   {
-    static std::set<Unit*> unit_RadiusResults;
-    unit_RadiusResults.clear();
-    if ( !exists() || radius < 0 )
-      return unit_RadiusResults;
+    static std::set<Unit*> unitFinderResults;
+    unitFinderResults.clear();
+    if ( !exists() )
+      return unitFinderResults;
 
-    UnitType ut = UnitType(self->type);
-    for each ( Unit *found in Broodwar->getUnitsInRectangle(self->positionX - radius - ut.dimensionLeft(), 
-                                                            self->positionY - radius - ut.dimensionUp(), 
-                                                            self->positionX + radius + ut.dimensionRight(), 
-                                                            self->positionY + radius + ut.dimensionDown()) )
+    Position p    = this->getPosition();
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = Broodwar->mapWidth() < Broodwar->mapHeight();
+    const unitFinder *finder = useY ? ((GameImpl*)Broodwar)->getGameData()->yUnitSearch : ((GameImpl*)Broodwar)->getGameData()->xUnitSearch;
+
+    UnitType t = this->getType();
+    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, (useY ? p.y() - t.dimensionUp()   : p.x() - t.dimensionLeft())  - radius );
+    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, (useY ? p.y() + t.dimensionDown() : p.x() + t.dimensionRight()) + radius, minFind );
+
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      if ( this->getDistance(found) <= radius )
-        unit_RadiusResults.insert(found);
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      Unit *u = Broodwar->getUnit(unitID);
+      if ( !u || !u->exists() || u == this || this->getDistance(u) > radius )
+        continue;
+      unitFinderResults.insert(u);
     }
-    std::set<Unit*>::iterator findself = unit_RadiusResults.find((Unit*)this);
-    if ( findself != unit_RadiusResults.end() )
-      unit_RadiusResults.erase(findself);
-    return unit_RadiusResults;
+    return unitFinderResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
   std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
   {
-    static std::set<Unit*> unit_WeaponResults;
-    unit_WeaponResults.clear();
+    static std::set<Unit*> unitFinderResults;
+    unitFinderResults.clear();
     if ( !exists() )
-      return unit_WeaponResults;
+      return unitFinderResults;
 
-    // Obtain the set of units within max ground weapon range
-    unit_WeaponResults = getUnitsInRadius(getPlayer()->weaponMaxRange(weapon));
+    Position p = this->getPosition();
+    int wpnMax = getPlayer()->weaponMaxRange(weapon);
+    int wpnMin = weapon.minRange();
 
-    // remove the subset of minRange from maxRange for ground weapons
-    if ( !unit_WeaponResults.empty() && weapon.minRange() > 0 )
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = Broodwar->mapWidth() < Broodwar->mapHeight();
+    const unitFinder *finder = useY ? ((GameImpl*)Broodwar)->getGameData()->yUnitSearch : ((GameImpl*)Broodwar)->getGameData()->xUnitSearch;
+
+    UnitType t = this->getType();
+    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, (useY ? p.y() - t.dimensionUp()   : p.x() - t.dimensionLeft())  - wpnMax );
+    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, (useY ? p.y() + t.dimensionDown() : p.x() + t.dimensionRight()) + wpnMax, minFind );
+
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      for each (Unit *u in getUnitsInRadius(weapon.minRange() - 1))
-        unit_WeaponResults.erase(unit_WeaponResults.find(u));
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      Unit *u = Broodwar->getUnit(unitID);
+      if ( !u || !u->exists() || u == this )
+        continue;
+
+      int distance = this->getDistance(u);
+      if ( distance < wpnMin ||
+           distance > wpnMax ||
+           u->isInvincible() ||
+           (weapon.targetsOwn() && u->getPlayer() != getPlayer()) )
+        continue;
+
+      UnitType ut = u->getType();
+      if ( ( !weapon.targetsAir()        && (u->isLifted()  || ut.isFlyer())       ) ||
+           ( !weapon.targetsGround()     && (!u->isLifted() && !ut.isFlyer())      ) ||
+           ( weapon.targetsMechanical()  && !ut.isMechanical()                     ) ||
+           ( weapon.targetsOrganic()     && !ut.isOrganic()                        ) ||
+           ( weapon.targetsNonBuilding() && ut.isBuilding()                        ) ||
+           ( weapon.targetsNonRobotic()  && ut.isRobotic()                         ) ||
+           ( weapon.targetsOrgOrMech()   && !ut.isOrganic() && !ut.isMechanical()  ) )
+        continue;
+
+      unitFinderResults.insert(u);
     }
-    return unit_WeaponResults;
+    return unitFinderResults;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const

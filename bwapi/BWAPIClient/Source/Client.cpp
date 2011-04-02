@@ -6,10 +6,10 @@ namespace BWAPI
   Client BWAPIClient;
   Client::Client()
   {
-    pipeObjectHandle       = INVALID_HANDLE_VALUE;
-    mapFileHandle          = INVALID_HANDLE_VALUE;
-    connected              = false;
-    showedErrorBox         = false;
+    pipeObjectHandle = INVALID_HANDLE_VALUE;
+    mapFileHandle    = INVALID_HANDLE_VALUE;
+    connected        = false;
+    showedErrorBox   = false;
   }
   Client::~Client()
   {
@@ -31,11 +31,11 @@ namespace BWAPI
       return false;
 
     COMMTIMEOUTS c;
-    c.ReadIntervalTimeout = 100;
-    c.ReadTotalTimeoutMultiplier = 100;
-    c.ReadTotalTimeoutConstant = 2000;
+    c.ReadIntervalTimeout         = 100;
+    c.ReadTotalTimeoutMultiplier  = 100;
+    c.ReadTotalTimeoutConstant    = 2000;
     c.WriteTotalTimeoutMultiplier = 100;
-    c.WriteTotalTimeoutConstant = 2000;
+    c.WriteTotalTimeoutConstant   = 2000;
     SetCommTimeouts(pipeObjectHandle,&c);
     connected=true;
     printf("Connected\n");
@@ -46,12 +46,12 @@ namespace BWAPI
     if (BWAPI::Broodwar!=NULL)
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = new GameImpl(data);
-    if (BWAPI::BWAPI_getRevision()!= BWAPI::Broodwar->getRevision())
+    if (BWAPI::BWAPI_getRevision() != BWAPI::Broodwar->getRevision())
     {
       //error
       printf("Error: Client and Server are not compatible!\n");
-      printf("Client Revision: %d\n",BWAPI::BWAPI_getRevision());
-      printf("Server Revision: %d\n",BWAPI::Broodwar->getRevision());
+      printf("Client Revision: %d\n", BWAPI::BWAPI_getRevision());
+      printf("Server Revision: %d\n", BWAPI::Broodwar->getRevision());
       disconnect();
       Sleep(2000);
       return false;
@@ -61,7 +61,7 @@ namespace BWAPI
     while (code!=2)
     {
       DWORD receivedByteCount;
-      BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
+      BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(int), &receivedByteCount, NULL);
     }
     return true;
   }
@@ -69,19 +69,19 @@ namespace BWAPI
   {
     if (!connected) return;
     CloseHandle(pipeObjectHandle);
-    connected=false;
+    connected = false;
     printf("Disconnected\n");
-    if (BWAPI::Broodwar!=NULL)
+    if ( BWAPI::Broodwar != NULL )
       delete (GameImpl*)BWAPI::Broodwar;
-    BWAPI::Broodwar=NULL;
+    BWAPI::Broodwar = NULL;
   }
   void Client::update()
   {
     DWORD writtenByteCount;
-    int code=1;
-    WriteFile(pipeObjectHandle,&code,sizeof(int),&writtenByteCount,NULL);
+    int code = 1;
+    WriteFile(pipeObjectHandle, &code, sizeof(int), &writtenByteCount, NULL);
 
-    while (code!=2)
+    while (code != 2)
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
@@ -91,22 +91,16 @@ namespace BWAPI
         return;
       }
     }
-    for(int i=0; i<data->eventCount; i++)
+    for(int i = 0; i < data->eventCount; ++i)
     {
       EventType::Enum type(data->events[i].type);
 
       if (type == EventType::MatchStart)
-      {
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
-      }
       if (type == EventType::MatchFrame || type == EventType::MenuFrame)
-      {
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
-      }
     }
-    if (Broodwar!=NULL && ((GameImpl*)BWAPI::Broodwar)->inGame==true && Broodwar->isInGame()==false)
-    {
+    if ( Broodwar != NULL && ((GameImpl*)BWAPI::Broodwar)->inGame && !Broodwar->isInGame() )
       ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
-    }
   }
 }
