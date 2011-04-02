@@ -152,9 +152,9 @@ namespace BW
         break;
       case 14: // Hide
         break;
-      case 15: // Scroll up???
+      case 15: // Scroll up
         break;
-      case 16: // Scroll down???
+      case 16: // Scroll down
         break;
       default:
         sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);

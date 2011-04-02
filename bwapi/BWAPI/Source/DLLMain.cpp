@@ -266,7 +266,7 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
     memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
     *BW::BWDATA_sgdwBytesInCmdQueue += length;
   }
-  // assume no error, would fatal anyway
+  // assume no error, would be fatal in Starcraft anyway
 }
 
 //------------------------------------------------ BWAPI ERROR -----------------------------------------------
@@ -317,6 +317,19 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, szConfigPath);
   if ( std::string( strupr(logging_str) ) == "ON" )
     logging = true;
+
+  windowRect.left   = GetPrivateProfileInt("window", "left",   0, szConfigPath);
+  windowRect.top    = GetPrivateProfileInt("window", "top",    0, szConfigPath);
+  windowRect.right  = GetPrivateProfileInt("window", "width",  0, szConfigPath);
+  windowRect.bottom = GetPrivateProfileInt("window", "height", 0, szConfigPath);
+  GetPrivateProfileString("window", "windowed", "OFF", logging_str, MAX_PATH, szConfigPath);
+  if ( std::string( strupr(logging_str) ) == "ON" )
+    switchToWMode = true;
+
+  if ( windowRect.right < 100 )
+    windowRect.right = 100;
+  if ( windowRect.bottom < 100 )
+    windowRect.bottom = 100;
 
   /* Shift the position of w-mode */
   if ( gdwProcNum > 0 )

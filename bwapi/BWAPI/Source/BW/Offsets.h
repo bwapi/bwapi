@@ -117,11 +117,21 @@ namespace BW
 
   /** Code Patches */
   static u32 BWDATA_MenuLoadHack      = 0x004DE392;
-  static u32 BWDATA_MenuInHack        = 0x004DD76E;
-  static u32 BWDATA_MenuOutHack       = 0x004DD162;
-  static u32 BWDATA_MultiplayerHack   = 0x004DD5A2;
-  static u32 BWDATA_MultiplayerHack2  = 0x004DD5C9;
+  static u32 BWDATA_ServerMenuIn      = 0x004DD5A2;
+  static u32 BWDATA_ServerMenuOut     = 0x004DD5C9;
   static u32 BWDATA_OpponentStartHack = 0x004B995D;
+
+  struct swishTimer
+  {
+    WORD wIndex;
+    WORD wType;
+  };
+  static swishTimer *BWDATA_commonSwishControllers  = (swishTimer*)0x005129EC;   // count: 43
+  static swishTimer *BWDATA_gluCustmSwishController = (swishTimer*)0x0051A9F0;   // count: 5
+  static swishTimer *BWDATA_gluCmpgnSwishController = (swishTimer*)0x00512B10;   // count: 2
+  static swishTimer *BWDATA_gluScoreSwishController = (swishTimer*)0x0051A844;   // count: 1
+  static swishTimer *BWDATA_gluChatSwishController  = (swishTimer*)0x0051A490;   // count: 5
+
 
   /** QueueGameCommand data */
   static u32    *BWDATA_sgdwBytesInCmdQueue = (u32*)      0x00654AA0;
