@@ -156,6 +156,38 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
   }
 }
 
+void CorrectWindowWidth(int type, SIZE *ws, RECT *rct, SIZE *border)
+{
+  switch ( type )
+  {
+    case WMSZ_LEFT:
+    case WMSZ_TOPLEFT:
+    case WMSZ_BOTTOMLEFT:
+      rct->left = rct->right - ws->cx - border->cx;
+      break;
+    case WMSZ_RIGHT:
+    case WMSZ_TOPRIGHT:
+    case WMSZ_BOTTOMRIGHT:
+      rct->right = rct->left + ws->cx + border->cx;
+      break;
+  }
+}
+void CorrectWindowHeight(int type, SIZE *ws, RECT *rct, SIZE *border)
+{
+  switch ( type )
+  {
+    case WMSZ_TOP:
+    case WMSZ_TOPLEFT:
+    case WMSZ_TOPRIGHT:
+      rct->top = rct->bottom - ws->cy - border->cy;
+      break;
+    case WMSZ_BOTTOM:
+    case WMSZ_BOTTOMRIGHT:
+    case WMSZ_BOTTOMLEFT:
+      rct->bottom = rct->top + ws->cy + border->cy;
+      break;
+  }
+}
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   if ( wmode )
@@ -165,11 +197,48 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_SIZING:
       {
+        SIZE border;
+        GetBorderSize(hWnd, &border);
+
         RECT *rct = (RECT*)lParam;
-        if ( rct->right - rct->left < 100 )
-          rct->right = rct->left + 100;
-        if ( rct->bottom - rct->top < 100 )
-          rct->bottom = rct->top + 100;
+        SIZE ws   = { rct->right - rct->left - border.cx, rct->bottom - rct->top - border.cy };
+        if ( ws.cx < WMODE_MIN_WIDTH )
+        {
+          ws.cx = WMODE_MIN_WIDTH;
+          CorrectWindowWidth(wParam, &ws, rct, &border);
+        }
+        if ( ws.cy < WMODE_MIN_HEIGHT )
+        {
+          ws.cy = WMODE_MIN_HEIGHT;
+          CorrectWindowHeight(wParam, &ws, rct, &border);
+        }
+
+        if ( GetKeyState(VK_CONTROL) & 0x8000 && ws.cy != ws.cx * 3 / 4 )
+        {
+          if ( wParam == WMSZ_TOP || wParam == WMSZ_BOTTOM )
+          {
+            ws.cx = ws.cy * 4 / 3;
+            CorrectWindowWidth(WMSZ_RIGHT, &ws, rct, &border);
+          }
+          else
+          {
+            ws.cy = ws.cx * 3 / 4;
+            CorrectWindowHeight( (wParam == WMSZ_RIGHT || wParam == WMSZ_LEFT) ? WMSZ_BOTTOM : wParam, &ws, rct, &border);
+          }
+        }
+
+        if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - 16 &&
+             ws.cx <= BW::BWDATA_GameScreenBuffer->wid + 16 )
+        {
+          ws.cx = BW::BWDATA_GameScreenBuffer->wid;
+          CorrectWindowWidth(wParam, &ws, rct, &border);
+        }
+        if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - 16 &&
+             ws.cy <= BW::BWDATA_GameScreenBuffer->ht + 16 )
+        {
+          ws.cy = BW::BWDATA_GameScreenBuffer->ht;
+          CorrectWindowHeight(wParam, &ws, rct, &border);
+        }
         break;
       } // case WM_SIZING
     case WM_SIZE:
