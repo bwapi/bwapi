@@ -502,43 +502,85 @@ namespace BWAPI
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
   {
-    // localize the variables
-    static std::set<Unit*> unit_RadiusResults;
-    unit_RadiusResults.clear();
-    if ( !exists() || radius < 0 )
-      return unit_RadiusResults;
-    Position p = this->getPosition();
-    for each ( Unit *found in BroodwarImpl.getUnitsInRectangle(p.x() - radius - _getType.dimensionLeft(), 
-                                                               p.y() - radius - _getType.dimensionUp(), 
-                                                               p.x() + radius + _getType.dimensionRight(), 
-                                                               p.y() + radius + _getType.dimensionDown()) )
+    static std::set<Unit*> unitFinderResults;
+    unitFinderResults.clear();
+    if ( !exists() )
+      return unitFinderResults;
+
+    Position p    = this->getPosition();
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = Broodwar->mapWidth() < Broodwar->mapHeight();
+    BW::unitFinder *finder = useY ? BW::BWDATA_UnitOrderingY : BW::BWDATA_UnitOrderingX;
+
+    int minFind = Templates::getUnitFinderMinimum<BW::unitFinder>(finder, (useY ? p.y() - _getType.dimensionUp()   : p.x() - _getType.dimensionLeft())  - radius );
+    int maxFind = Templates::getUnitFinderMaximum<BW::unitFinder>(finder, (useY ? p.y() + _getType.dimensionDown() : p.x() + _getType.dimensionRight()) + radius, minFind );
+
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      if ( this->getDistance(found) <= radius )
-        unit_RadiusResults.insert(found);
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      UnitImpl *u = BroodwarImpl.unitArray[unitID-1];
+      if ( !u || !u->canAccess() || u == this || this->getDistance(u) > radius )
+        continue;
+      unitFinderResults.insert(u);
     }
-    std::set<Unit*>::iterator findself = unit_RadiusResults.find((Unit*)this);
-    if ( findself != unit_RadiusResults.end() )
-      unit_RadiusResults.erase(findself);
-    return unit_RadiusResults;
+    return unitFinderResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
   std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
   {
-    static std::set<Unit*> unit_WeaponResults;
-    unit_WeaponResults.clear();
+    static std::set<Unit*> unitFinderResults;
+    unitFinderResults.clear();
     if ( !exists() )
-      return unit_WeaponResults;
+      return unitFinderResults;
 
-    // Obtain the set of units within max ground weapon range
-    unit_WeaponResults = getUnitsInRadius(getPlayer()->weaponMaxRange(weapon));
+    Position p = this->getPosition();
+    int wpnMax = getPlayer()->weaponMaxRange(weapon);
+    int wpnMin = weapon.minRange();
 
-    // remove the subset of minRange from maxRange for ground weapons
-    if ( !unit_WeaponResults.empty() && weapon.minRange() > 0 )
+    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
+    bool useY = Broodwar->mapWidth() < Broodwar->mapHeight();
+    BW::unitFinder *finder = useY ? BW::BWDATA_UnitOrderingY : BW::BWDATA_UnitOrderingX;
+
+    int minFind = Templates::getUnitFinderMinimum<BW::unitFinder>(finder, (useY ? p.y() - _getType.dimensionUp()   : p.x() - _getType.dimensionLeft())  - wpnMax );
+    int maxFind = Templates::getUnitFinderMaximum<BW::unitFinder>(finder, (useY ? p.y() + _getType.dimensionDown() : p.x() + _getType.dimensionRight()) + wpnMax, minFind );
+
+    bool checked[1701] = { false };
+    for ( int i = minFind; i < maxFind; ++i )
     {
-      for each (Unit *u in getUnitsInRadius(weapon.minRange() - 1))
-        unit_WeaponResults.erase(unit_WeaponResults.find(u));
+      int unitID = finder[i].unitIndex;
+      if ( checked[unitID] )
+        continue;
+
+      checked[unitID] = true;
+      UnitImpl *u = BroodwarImpl.unitArray[unitID-1];
+      if ( !u || !u->canAccess() || u == this )
+        continue;
+
+      int distance = this->getDistance(u);
+      if ( distance < wpnMin ||
+           distance > wpnMax ||
+           u->isInvincible() ||
+           (weapon.targetsOwn() && u->getPlayer() != getPlayer()) )
+        continue;
+
+      UnitType ut = u->getType();
+      if ( ( !weapon.targetsAir()        && (u->isLifted()  || ut.isFlyer())       ) ||
+           ( !weapon.targetsGround()     && (!u->isLifted() && !ut.isFlyer())      ) ||
+           ( weapon.targetsMechanical()  && !ut.isMechanical()                     ) ||
+           ( weapon.targetsOrganic()     && !ut.isOrganic()                        ) ||
+           ( weapon.targetsNonBuilding() && ut.isBuilding()                        ) ||
+           ( weapon.targetsNonRobotic()  && ut.isRobotic()                         ) ||
+           ( weapon.targetsOrgOrMech()   && !ut.isOrganic() && !ut.isMechanical()  ) )
+        continue;
+
+      unitFinderResults.insert(u);
     }
-    return unit_WeaponResults;
+    return unitFinderResults;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const

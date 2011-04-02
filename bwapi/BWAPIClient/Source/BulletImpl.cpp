@@ -12,8 +12,8 @@ namespace BWAPI
 {
   BulletImpl::BulletImpl(int index)
   {
-    this->self=&(BWAPI::BWAPIClient.data->bullets[index]);
-    this->index=index;
+    this->self  = &(BWAPI::BWAPIClient.data->bullets[index]);
+    this->index = index;
   }
   int BulletImpl::getID() const
   {
