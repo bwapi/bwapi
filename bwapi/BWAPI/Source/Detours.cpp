@@ -138,6 +138,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( *BW::BWDATA_gwGameMode == 4 )
     BWAPI::BroodwarImpl.onMenuFrame();
 
+  // NOSOUND config option
   if ( !nosound )
   {
     nosound = true;
@@ -145,6 +146,13 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     GetPrivateProfileString("starcraft", "sound", "ON", szNosound, 8, szConfigPath);
     if ( strcmpi(szNosound, "OFF") == 0 )
       BW::BWDATA_DSoundDestroy();
+  }
+
+  // WMODE config option
+  if ( switchToWMode && ghMainWnd )
+  {
+    switchToWMode = false;
+    SetWMode(windowRect.right, windowRect.bottom, true);
   }
 
   //click the menu dialog that pops up when you win/lose a game

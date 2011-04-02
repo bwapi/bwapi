@@ -2,6 +2,7 @@
 #include "Resolution.h"
 #include "BW/Offsets.h"
 
+#include "DLLMain.h"
 #include "../../Debug.h"
 
 WNDPROC wOriginalProc;
@@ -12,6 +13,9 @@ void* pBits;
 bool gbWantUpdate     = false;
 bool gbIsCursorHidden = true;
 bool gbHoldingAlt     = false;
+
+bool switchToWMode = false;
+RECT windowRect    = { 0, 0, 640, 480 };
 
 RGBQUAD palette[256];
 
@@ -161,19 +165,49 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_SIZING:
       {
-        SIZE border;
-        GetBorderSize(hWnd, &border);
-
-        int xLimit = BW::BWDATA_GameScreenBuffer->wid + border.cx;
-        int yLimit = BW::BWDATA_GameScreenBuffer->ht  + border.cy;
-
         RECT *rct = (RECT*)lParam;
-        if ( rct->right - rct->left < xLimit )
-          rct->right = rct->left + xLimit;
-        if ( rct->bottom - rct->top < yLimit )
-          rct->bottom = rct->top + yLimit;
+        if ( rct->right - rct->left < 100 )
+          rct->right = rct->left + 100;
+        if ( rct->bottom - rct->top < 100 )
+          rct->bottom = rct->top + 100;
         break;
-      }
+      } // case WM_SIZING
+    case WM_SIZE:
+      {
+        switch ( wParam )
+        {
+        case SIZE_RESTORED:
+          {
+            char szTemp[32];
+            RECT tempRect;
+            GetClientRect(hWnd, &tempRect);
+            windowRect.right  = tempRect.right;
+            windowRect.bottom = tempRect.bottom;
+            WritePrivateProfileString("window", "width",  itoa(tempRect.right,  szTemp, 10), szConfigPath);
+            WritePrivateProfileString("window", "height", itoa(tempRect.bottom, szTemp, 10), szConfigPath);
+            break;
+          }
+        }// wParam switch
+        break;
+      } // case WM_SIZE
+    case WM_MOVE:
+      {
+        RECT tempRect;
+        GetWindowRect(hWnd, &tempRect);
+        if ( tempRect.right > 0 && 
+             tempRect.bottom > 0 && 
+             tempRect.left < GetSystemMetrics(SM_CXFULLSCREEN) &&
+             tempRect.top  < GetSystemMetrics(SM_CYFULLSCREEN) )
+        {
+          windowRect.left = tempRect.left;
+          windowRect.top  = tempRect.top;
+
+          char szTemp[32];
+          WritePrivateProfileString("window", "left", itoa(tempRect.left, szTemp, 10), szConfigPath);
+          WritePrivateProfileString("window", "top",  itoa(tempRect.top, szTemp, 10), szConfigPath);
+        }
+        break;
+      } // case WM_MOVE
     case WM_PAINT:
       if ( gbWantUpdate && pBits )
       {
@@ -184,13 +218,19 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         HDC hdc = BeginPaint(hWnd, &paint);
 
         // Blit to the screen
-        SetStretchBltMode(hdc, HALFTONE);
         RECT cRect;
         GetClientRect(hWnd, &cRect);
         if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
+        {
+          // @TODO: Try SetDIBits
           BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
+        }
         else
+        {
+          // @TODO: Try StretchDIBits
+          SetStretchBltMode(hdc, HALFTONE);
           StretchBlt(hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+        }
 
         // end paint
         EndPaint(hWnd, &paint);
@@ -428,25 +468,48 @@ void SetWMode(int width, int height, bool state)
 
     // Call the DirectDraw destructor
     DDrawDestroy();
-    InitializeWModeBitmap(width, height);
+    InitializeWModeBitmap(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
 
     // Hack to enable drawing in Broodwar
     *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
 
+    POINT pos = { windowRect.left + 40 * gdwProcNum, windowRect.top + 40 * gdwProcNum };
     // Change the window settings
     SetWindowLong(ghMainWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-    SetWindowPos(ghMainWnd, HWND_NOTOPMOST, 0, 0, width, height, SWP_SHOWWINDOW);
+    SetWindowPos(ghMainWnd, HWND_NOTOPMOST, pos.x, pos.y, width, height, SWP_SHOWWINDOW);
     ShowWindow(ghMainWnd, SW_RESTORE);
 
     SIZE border;
     GetBorderSize(ghMainWnd, &border);
     int w = width + border.cx;
     int h = height + border.cy;
-    MoveWindow(ghMainWnd, 0, 0, w, h, TRUE);
+
+    int cx = GetSystemMetrics(SM_CXFULLSCREEN);
+    int cy = GetSystemMetrics(SM_CYFULLSCREEN);
+    while ( pos.x < 0 )
+      pos.x = 0;
+    while ( pos.y < 0 )
+      pos.y = 0;
+    if ( pos.y + h >= cy )
+    {
+      if ( gdwProcNum )
+        pos.y -= cy - h;
+      else
+        pos.y = cy - h;
+    }
+    if ( pos.x + w >= cx )
+    {
+      if ( gdwProcNum )
+        pos.x -= cx - w;
+      else
+        pos.x = cx - w;
+    }
+    MoveWindow(ghMainWnd, pos.x, pos.y, w, h, TRUE);
     SetCursor(NULL);
     SetCursorShowState(false);
 
     SetDIBColorTable(hdcMem, 0, 256, palette);
+    WritePrivateProfileString("window", "windowed", "ON", szConfigPath);
   }
   else
   {
@@ -463,6 +526,7 @@ void SetWMode(int width, int height, bool state)
 
     DDrawDestroy();
     DDrawInitialize(width, height);
+    WritePrivateProfileString("window", "windowed", "OFF", szConfigPath);
   }
 }
 

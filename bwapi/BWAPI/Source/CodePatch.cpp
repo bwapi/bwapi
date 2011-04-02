@@ -8,6 +8,7 @@
 #include "WMode.h"
 
 #include "../../Debug.h"
+#include <windows.h>
 
 void ApplyCodePatches()
 {
@@ -21,11 +22,20 @@ void ApplyCodePatches()
   /* Perform code patches */
   char zero = 0;
   HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // main menu load timer
-  HackUtil::WriteMem(BW::BWDATA_MenuInHack, &zero, 1);         // menu in speed
-  HackUtil::WriteMem(BW::BWDATA_MenuOutHack, &zero, 1);        // menu out speed
-  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack, &zero, 1);    // BNET Server menu in speed
-  HackUtil::WriteMem(BW::BWDATA_MultiplayerHack2, &zero, 1);   // BNET Server menu out speed
+  HackUtil::WriteMem(BW::BWDATA_ServerMenuIn, &zero, 1);    // BNET Server menu in speed
+  HackUtil::WriteMem(BW::BWDATA_ServerMenuOut, &zero, 1);   // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
+
+  for ( int i = 0; i < 43; ++i )
+    BW::BWDATA_commonSwishControllers[i].wType = 4;
+  for ( int i = 0; i < 5; ++i )
+  {
+    BW::BWDATA_gluCustmSwishController[i].wType = 4;
+    BW::BWDATA_gluChatSwishController[i].wType  = 4;
+  }
+  BW::BWDATA_gluCmpgnSwishController[0].wType = 4;
+  BW::BWDATA_gluCmpgnSwishController[1].wType = 4;
+  BW::BWDATA_gluScoreSwishController[0].wType = 4;
 
   /* Create import detours */
   HackUtil::PatchImport("storm.dll", 119, &_SNetLeaveGame);

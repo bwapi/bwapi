@@ -19,7 +19,7 @@ typedef void*           PVOID;
 typedef int             BOOL;
 typedef void*           HANDLE;
 
-typedef struct
+typedef struct __rect
 {
   s16 Xmin;
   s16 Ymin;
