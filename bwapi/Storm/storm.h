@@ -76,15 +76,15 @@ BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *acti
 #define CAPS_STRUCT
 struct CAPS
 {
-  DWORD dwSize;       // Size of this structure  // sizeof(CAPS)
+  DWORD dwSize;                 // Size of this structure  // sizeof(CAPS)
   DWORD dwUnk_0x04;
-  DWORD maxmessagesize; // Size of the packet buffer, must be beteen 128 and 512
+  DWORD maxmessagesize;         // Size of the packet buffer, must be beteen 128 and 512
   DWORD dwUnk_0x0C;
-  DWORD dwUnk_0x10;
-  DWORD dwUnk_0x14;   // some kind of timeout or timer related
-  DWORD dwPlayerLatency;  // ... latency?
-  DWORD dwPlayerCount;  // the number of players that can participate, must be between 1 and 20
-  DWORD dwCallDelay;  // the number of calls before data is sent over the network // between 2 and 8; single player is set to 1
+  DWORD dwDisplayedPlayerCount; // Displayed player count in the mode selection list
+  DWORD dwUnk_0x14;             // some kind of timeout or timer related
+  DWORD dwPlayerLatency;        // ... latency?
+  DWORD dwPlayerCount;          // the number of players that can participate, must be between 1 and 20
+  DWORD dwCallDelay;            // the number of calls before data is sent over the network // between 2 and 8; single player is set to 1
 };
 #endif
 BOOL STORMAPI SNetGetPlayerCaps(char playerid, CAPS *playerCaps);
