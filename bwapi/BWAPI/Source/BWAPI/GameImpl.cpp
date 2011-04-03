@@ -842,7 +842,7 @@ namespace BWAPI
       {
         if (command.type == UnitCommandTypes::Train ||
             command.type == UnitCommandTypes::Morph)
-          if (u->getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+          if (u->getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
             u = *u->getLarva().begin();
         nextGroup.insert((UnitImpl*)u);
         if (nextGroup.size()>=12)

@@ -397,7 +397,7 @@ namespace BWAPI
       if (UnitCommandTypes::Train == ct ||
           UnitCommandTypes::Morph == ct)
       {
-        if (thisUnit->getType().producesLarva() && UnitType(c.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+        if (thisUnit->getType().producesLarva() && c.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
         {
           if (thisUnit->getLarva().empty())
           {
@@ -509,7 +509,7 @@ namespace BWAPI
       if ( UnitCommandTypes::Morph       == ct ||
            UnitCommandTypes::Train       == ct)
       {
-        UnitType uType = UnitType(c.extra);
+        UnitType uType = c.getUnitType();
         if ( thisUnit->getType().producesLarva() && uType.whatBuilds().first == UnitTypes::Zerg_Larva )
         {
           if (thisUnit->getLarva().empty())
@@ -523,7 +523,7 @@ namespace BWAPI
            UnitCommandTypes::Morph       == ct ||
            UnitCommandTypes::Train       == ct )
       {
-        UnitType uType = UnitType(c.extra);
+        UnitType uType = c.getUnitType();
         if ( !Broodwar->canMake(thisUnit, uType) )
           return false;
 
@@ -560,9 +560,9 @@ namespace BWAPI
       } // build/train
 
       // Research/Upgrade requirements
-      if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(thisUnit,TechType(c.extra)) )
+      if ( UnitCommandTypes::Research == ct && !Broodwar->canResearch(thisUnit, c.getTechType()) )
         return false;
-      if ( UnitCommandTypes::Upgrade  == ct && !Broodwar->canUpgrade(thisUnit,UpgradeType(c.extra)) )
+      if ( UnitCommandTypes::Upgrade  == ct && !Broodwar->canUpgrade(thisUnit, c.getUpgradeType()) )
         return false;
 
       // Set Rally 

@@ -30,7 +30,7 @@ namespace BWAPI
     return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command);
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
-  bool UnitImpl::issueCommand(UnitCommand command, bool shiftQueueCommand)
+  bool UnitImpl::issueCommand(UnitCommand command)
   {
     if (!canIssueCommand(command))
       return false;
@@ -39,7 +39,7 @@ namespace BWAPI
 
     if (command.type == UnitCommandTypes::Train ||
         command.type == UnitCommandTypes::Morph)
-      if (getType().producesLarva() && UnitType(command.extra).whatBuilds().first == UnitTypes::Zerg_Larva )
+      if (getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
         command.unit = *getLarva().begin();
 
     if (command.type == UnitCommandTypes::Use_Tech_Unit &&
@@ -53,20 +53,20 @@ namespace BWAPI
     else
       ((UnitImpl*)command.unit)->orderSelect();
 
-    BroodwarImpl.executeCommand( command, true, shiftQueueCommand );
+    BroodwarImpl.executeCommand( command, true);
     ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
     ((UnitImpl*)command.unit)->lastCommand      = command;
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitImpl::attack(Position target)
+  bool UnitImpl::attack(Position target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::attack(this, target));
+    return issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
   }
   //--------------------------------------------- ATTACK UNIT ------------------------------------------------
-  bool UnitImpl::attack(Unit* target)
+  bool UnitImpl::attack(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::attack(this, target));
+    return issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool UnitImpl::build(TilePosition target, UnitType type)
@@ -109,44 +109,44 @@ namespace BWAPI
     return issueCommand(UnitCommand::setRallyPoint(this,target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
-  bool UnitImpl::move(Position target)
+  bool UnitImpl::move(Position target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::move(this,target));
+    return issueCommand(UnitCommand::move(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- PATROL -----------------------------------------------------
-  bool UnitImpl::patrol(Position target)
+  bool UnitImpl::patrol(Position target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::patrol(this,target));
+    return issueCommand(UnitCommand::patrol(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- HOLD POSITION ----------------------------------------------
-  bool UnitImpl::holdPosition()
+  bool UnitImpl::holdPosition(bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::holdPosition(this));
+    return issueCommand(UnitCommand::holdPosition(this, shiftQueueCommand));
   }
   //--------------------------------------------- STOP -------------------------------------------------------
-  bool UnitImpl::stop()
+  bool UnitImpl::stop(bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::stop(this));
+    return issueCommand(UnitCommand::stop(this, shiftQueueCommand));
   }
   //--------------------------------------------- FOLLOW -----------------------------------------------------
-  bool UnitImpl::follow(Unit* target)
+  bool UnitImpl::follow(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::follow(this,target));
+    return issueCommand(UnitCommand::follow(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- GATHER -----------------------------------------------------
-  bool UnitImpl::gather(Unit* target)
+  bool UnitImpl::gather(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::gather(this,target));
+    return issueCommand(UnitCommand::gather(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
-  bool UnitImpl::returnCargo()
+  bool UnitImpl::returnCargo(bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::returnCargo(this));
+    return issueCommand(UnitCommand::returnCargo(this, shiftQueueCommand));
   }
   //--------------------------------------------- REPAIR -----------------------------------------------------
-  bool UnitImpl::repair(Unit* target)
+  bool UnitImpl::repair(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::repair(this,target));
+    return issueCommand(UnitCommand::repair(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- BURROW -----------------------------------------------------
   bool UnitImpl::burrow()
@@ -189,9 +189,9 @@ namespace BWAPI
     return issueCommand(UnitCommand::land(this,target));
   }
   //--------------------------------------------- LOAD -------------------------------------------------------
-  bool UnitImpl::load(Unit* target)
+  bool UnitImpl::load(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::load(this,target));
+    return issueCommand(UnitCommand::load(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD -----------------------------------------------------
   bool UnitImpl::unload(Unit* target)
@@ -199,24 +199,24 @@ namespace BWAPI
     return issueCommand(UnitCommand::unload(this,target));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitImpl::unloadAll()
+  bool UnitImpl::unloadAll(bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::unloadAll(this));
+    return issueCommand(UnitCommand::unloadAll(this, shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitImpl::unloadAll(Position target)
+  bool UnitImpl::unloadAll(Position target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::unloadAll(this,target));
+    return issueCommand(UnitCommand::unloadAll(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitImpl::rightClick(Position target)
+  bool UnitImpl::rightClick(Position target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::rightClick(this,target));
+    return issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitImpl::rightClick(Unit* target)
+  bool UnitImpl::rightClick(Unit* target, bool shiftQueueCommand)
   {
-    return issueCommand(UnitCommand::rightClick(this,target));
+    return issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool UnitImpl::haltConstruction()

@@ -509,13 +509,13 @@ namespace BWAPI
       virtual bool canIssueCommand(UnitCommand command) const = 0;
 
       /** Issues the give unit command, or returns false if there is an error */
-      virtual bool issueCommand(UnitCommand command, bool shiftQueueCommand = false) = 0;
+      virtual bool issueCommand(UnitCommand command) = 0;
 
       /** Orders the unit to attack move to the specified location. */
-      virtual bool attack(Position target) = 0;
+      virtual bool attack(Position target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to attack the specified unit. */
-      virtual bool attack(Unit* target) = 0;
+      virtual bool attack(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to build the given unit type at the given position. Note that if the player does not
        * have enough resources when the unit attempts to place the building down, the order will fail. The
@@ -554,35 +554,35 @@ namespace BWAPI
 
       /** Orders the unit to move from its current position to the specified position.
        * \see Unit::isMoving.  */
-      virtual bool move(Position target) = 0;
+      virtual bool move(Position target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to patrol between its current position and the specified position.
        * \see Unit::isPatrolling.  */
-      virtual bool patrol(Position target) = 0;
+      virtual bool patrol(Position target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to hold its position.*/
-      virtual bool holdPosition() = 0;
+      virtual bool holdPosition(bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to stop. */
-      virtual bool stop() = 0;
+      virtual bool stop(bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to follow the specified unit.
        * \see Unit::isFollowing. */
-      virtual bool follow(Unit* target) = 0;
+      virtual bool follow(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to gather the specified unit (must be mineral or refinery type).
        * \see Unit::isGatheringGas, Unit::isGatheringMinerals. */
-      virtual bool gather(Unit* target) = 0;
+      virtual bool gather(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to return its cargo to a nearby resource depot such as a Command Center. Only
        * workers that are carrying minerals or gas can be ordered to return cargo.
        * \see Unit::isCarryingGas, Unit::isCarryingMinerals. */
-      virtual bool returnCargo() = 0;
+      virtual bool returnCargo(bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to repair the specified unit. Only Terran SCVs can be ordered to repair, and the
        * target must be a mechanical Terran unit or building.
        * \see Unit::isRepairing. */
-      virtual bool repair(Unit* target) = 0;
+      virtual bool repair(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to burrow. Either the unit must be a Zerg Lurker, or the unit must be a Zerg ground
        * unit and burrow tech must be researched.
@@ -620,7 +620,7 @@ namespace BWAPI
 
       /** Orders the unit to load the target unit.
        * \see Unit::unload, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
-      virtual bool load(Unit* target) = 0;
+      virtual bool load(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to unload the target unit.
        * \see Unit::load, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
@@ -628,20 +628,20 @@ namespace BWAPI
 
       /** Orders the unit to unload all loaded units at the unit's current position.
        * \see Unit::load, Unit::unload, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
-      virtual bool unloadAll() = 0;
+      virtual bool unloadAll(bool shiftQueueCommand = false) = 0;
 
       /** Orders the unit to unload all loaded units at the specified location. Unit should be a Terran
        * Dropship, Protoss Shuttle, or Zerg Overlord. If the unit is a Terran Bunker, the units will be
        * unloaded right outside the bunker, like in the first version of unloadAll.
        * \see Unit::load, Unit::unload, Unit::unloadAll, Unit::getLoadedUnits, Unit:isLoaded. */
-      virtual bool unloadAll(Position target) = 0;
+      virtual bool unloadAll(Position target, bool shiftQueueCommand = false) = 0;
 
       /** Works like the right click in the GUI. */
-      virtual bool rightClick(Position target) = 0;
+      virtual bool rightClick(Position target, bool shiftQueueCommand = false) = 0;
 
       /** Works like the right click in the GUI. Right click on a mineral patch to order a worker to mine,
        * right click on an enemy to attack it. */
-      virtual bool rightClick(Unit* target) = 0;
+      virtual bool rightClick(Unit* target, bool shiftQueueCommand = false) = 0;
 
       /** Orders the SCV to stop constructing the building, and the building is left in a partially complete
        * state until it is canceled, destroyed, or completed.
