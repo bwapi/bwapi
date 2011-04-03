@@ -2154,10 +2154,11 @@ namespace BWAPI
   }
 
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
-  void GameImpl::executeCommand(UnitCommand command, bool addCommandToLatComBuffer, bool queued)
+  void GameImpl::executeCommand(UnitCommand command, bool addCommandToLatComBuffer)
   {
     botAPMCounter_noselects++;
     UnitCommandType ct = command.type;
+    bool queued = command.isQueued();
     if      (ct == UnitCommandTypes::Attack_Move)
     {
       Position target(command.x,command.y);
@@ -2182,8 +2183,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Build)
     {
       TilePosition target(command.x,command.y);
-      UnitType type1(command.extra);
-      BWAPI::UnitType extraType(command.extra);
+      UnitType extraType(command.extra);
       if ( command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
            extraType == UnitTypes::Zerg_Nydus_Canal )
         QueueGameCommand((PBYTE)&BW::Orders::MakeNydusExit(BW::TilePosition((u16)target.x(), (u16)target.y())), sizeof(BW::Orders::MakeNydusExit));
@@ -2195,9 +2195,8 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Build_Addon)
     {
       TilePosition target(command.unit->getTilePosition().x() + 4, command.unit->getTilePosition().y() + 1);
-      UnitType type1(command.extra);
       target.makeValid();
-      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)type1), sizeof(BW::Orders::MakeAddon));
+      QueueGameCommand((PBYTE)&BW::Orders::MakeAddon(BW::TilePosition((u16)target.x(), (u16)target.y()), (u16)command.getUnitType()), sizeof(BW::Orders::MakeAddon));
     }
     else if (ct == UnitCommandTypes::Train)
     {
@@ -2229,20 +2228,18 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Morph)
     {
       UnitType type(command.extra);
-      if(type.isBuilding())
+      if ( type.isBuilding() )
         QueueGameCommand((PBYTE)&BW::Orders::BuildingMorph((u16)type), sizeof(BW::Orders::BuildingMorph));
       else
         QueueGameCommand((PBYTE)&BW::Orders::UnitMorph((u16)type), sizeof(BW::Orders::UnitMorph));
     }
     else if (ct == UnitCommandTypes::Research)
     {
-      TechType tech(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Invent((u8)tech), sizeof(BW::Orders::Invent));
+      QueueGameCommand((PBYTE)&BW::Orders::Invent((u8)command.getTechType()), sizeof(BW::Orders::Invent));
     }
     else if (ct == UnitCommandTypes::Upgrade)
     {
-      UpgradeType upgrade(command.extra);
-      QueueGameCommand((PBYTE)&BW::Orders::Upgrade((u8)upgrade), sizeof(BW::Orders::Upgrade));
+      QueueGameCommand((PBYTE)&BW::Orders::Upgrade((u8)command.getUpgradeType()), sizeof(BW::Orders::Upgrade));
     }
     else if (ct == UnitCommandTypes::Set_Rally_Position)
     {
@@ -2366,7 +2363,7 @@ namespace BWAPI
       if ( command.unit->getType()==UnitTypes::Terran_Bunker)
         QueueGameCommand((PBYTE)&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
       else
-        QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)command.unit->getPosition().x(), (u16)command.unit->getPosition().y()), BW::OrderID::MoveUnload), sizeof(BW::Orders::Attack));
+        QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)command.unit->getPosition().x(), (u16)command.unit->getPosition().y()), BW::OrderID::MoveUnload, queued), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Unload_All_Position)
     {
@@ -2385,7 +2382,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Halt_Construction)
     {
-      QueueGameCommand((PBYTE)&BW::Orders::Stop(queued), sizeof(BW::Orders::Stop));
+      QueueGameCommand((PBYTE)&BW::Orders::Stop(), sizeof(BW::Orders::Stop));
     }
     else if (ct == UnitCommandTypes::Cancel_Construction)
     {
@@ -2461,10 +2458,9 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Use_Tech_Position)
     {
-      TechType tech(command.extra);
       Position position(command.x,command.y);
       u8 order = BW::OrderID::None;
-      switch (tech)
+      switch ( command.getTechType() )
       {
         case BW::TechID::DarkSwarm:
           order = BW::OrderID::DarkSwarm;
@@ -2500,14 +2496,14 @@ namespace BWAPI
           order = BW::OrderID::StasisField;
           break;
       }
-      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), order, queued), sizeof(BW::Orders::Attack));
+      QueueGameCommand((PBYTE)&BW::Orders::Attack(BW::Position((u16)position.x(), (u16)position.y()), order), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Use_Tech_Unit)
     {
       TechType tech(command.extra);
-      if (tech==TechTypes::Archon_Warp)
+      if (tech == TechTypes::Archon_Warp)
         QueueGameCommand((PBYTE)&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
-      else if (tech==TechTypes::Dark_Archon_Meld)
+      else if (tech == TechTypes::Dark_Archon_Meld)
         QueueGameCommand((PBYTE)&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
       else
       {
@@ -2592,7 +2588,7 @@ namespace BWAPI
           default:
             order = BW::OrderID::None;
         }
-        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)command.target, order, queued), sizeof(BW::Orders::Attack));
+        QueueGameCommand((PBYTE)&BW::Orders::Attack((UnitImpl*)command.target, order), sizeof(BW::Orders::Attack));
       }
     }
     else if (ct == UnitCommandTypes::Place_COP)

@@ -7,28 +7,30 @@ namespace BWAPI
 {
   UnitCommand::UnitCommand() : target(NULL), extra(0)
   {
-    x = Positions::None.x();
-    y = Positions::None.y();
-    type = UnitCommandTypes::None;
+    x     = Positions::None.x();
+    y     = Positions::None.y();
+    type  = UnitCommandTypes::None;
   }
   UnitCommand::UnitCommand(Unit* _unit, UnitCommandType _type, Unit* _target, int _x, int _y, int _extra) : unit(_unit), type(_type), target(_target), x(_x), y(_y), extra(_extra)
   {}
-  UnitCommand UnitCommand::attack(Unit* unit, Position target)
+  UnitCommand UnitCommand::attack(Unit* unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Attack_Move;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Attack_Move;
     target.makeValid();
-    c.x    = target.x();
-    c.y    = target.y();
+    c.x     = target.x();
+    c.y     = target.y();
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::attack(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::attack(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Attack_Unit;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
   UnitCommand UnitCommand::build(Unit* unit, TilePosition target, UnitType type)
@@ -100,69 +102,77 @@ namespace BWAPI
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::move(Unit* unit, Position target)
+  UnitCommand UnitCommand::move(Unit* unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Move;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Move;
     target.makeValid();
-    c.x    = target.x();
-    c.y    = target.y();
+    c.x     = target.x();
+    c.y     = target.y();
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::patrol(Unit* unit, Position target)
+  UnitCommand UnitCommand::patrol(Unit* unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Patrol;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Patrol;
     target.makeValid();
-    c.x    = target.x();
-    c.y    = target.y();
+    c.x     = target.x();
+    c.y     = target.y();
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::holdPosition(Unit* unit)
+  UnitCommand UnitCommand::holdPosition(Unit* unit, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Hold_Position;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Hold_Position;
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::stop(Unit* unit)
+  UnitCommand UnitCommand::stop(Unit* unit, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Stop;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Stop;
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::follow(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::follow(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Follow;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::gather(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::gather(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Gather;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::returnCargo(Unit* unit)
+  UnitCommand UnitCommand::returnCargo(Unit* unit, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit = unit;
-    c.type = UnitCommandTypes::Return_Cargo;
+    c.unit  = unit;
+    c.type  = UnitCommandTypes::Return_Cargo;
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::repair(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::repair(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Repair;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
   UnitCommand UnitCommand::burrow(Unit* unit)
@@ -224,12 +234,13 @@ namespace BWAPI
     c.y    = target.y();
     return c;
   }
-  UnitCommand UnitCommand::load(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::load(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Load;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
   UnitCommand UnitCommand::unload(Unit* unit, Unit* target)
@@ -240,14 +251,15 @@ namespace BWAPI
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::unloadAll(Unit* unit)
+  UnitCommand UnitCommand::unloadAll(Unit* unit, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit = unit;
     c.type = UnitCommandTypes::Unload_All;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::unloadAll(Unit* unit, Position target)
+  UnitCommand UnitCommand::unloadAll(Unit* unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit = unit;
@@ -255,9 +267,10 @@ namespace BWAPI
     target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit* unit, Position target)
+  UnitCommand UnitCommand::rightClick(Unit* unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit = unit;
@@ -265,14 +278,16 @@ namespace BWAPI
     target.makeValid();
     c.x    = target.x();
     c.y    = target.y();
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit* unit, Unit* target)
+  UnitCommand UnitCommand::rightClick(Unit* unit, Unit* target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit   = unit;
     c.type   = UnitCommandTypes::Right_Click_Unit;
     c.target = target;
+    c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
   UnitCommand UnitCommand::haltConstruction(Unit* unit)
@@ -441,6 +456,26 @@ namespace BWAPI
     if (type == UnitCommandTypes::Cancel_Train_Slot)
       return extra;
     return -1;
+  }
+  bool UnitCommand::isQueued() const
+  {
+    if ( type == UnitCommandTypes::Attack_Move    ||
+         type == UnitCommandTypes::Attack_Unit    ||
+         type == UnitCommandTypes::Move           ||
+         type == UnitCommandTypes::Patrol         ||
+         type == UnitCommandTypes::Hold_Position  ||
+         type == UnitCommandTypes::Stop           ||
+         type == UnitCommandTypes::Follow         ||
+         type == UnitCommandTypes::Gather         ||
+         type == UnitCommandTypes::Return_Cargo   ||
+         type == UnitCommandTypes::Repair         ||
+         type == UnitCommandTypes::Load           ||
+         type == UnitCommandTypes::Unload_All     ||
+         type == UnitCommandTypes::Unload_All_Position  ||
+         type == UnitCommandTypes::Right_Click_Position ||
+         type == UnitCommandTypes::Right_Click_Unit )
+      return !!extra;
+    return false;
   }
   bool UnitCommand::operator==(const UnitCommand& other) const
   {
