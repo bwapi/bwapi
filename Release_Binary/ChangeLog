@@ -1,3 +1,75 @@
+========================================
+Changes from BWAPI Beta 3.4 to BWAPI 3.5
+========================================
+
+Changes:
+
+    * The return values for Game::getGroundHeight have been altered. This allows the inclusion of doodads in terrain height computation (For example: Units behind a tree).
+    * The DEBUG version now checks for memory leaks.
+    * Game::isBuildable now includes a boolean to specify whether to check if a visible building is blocking the way. It is false by default.
+    * Game::canBuildHere has slightly increased performance.
+    * Game::drawLine has greatly increased performance.
+    * The config values "ai_dll" and "ai_dll_dbg" have been replaced with "ai" and "ai_dbg", the revision and multi-instance entries ("ai_dll_rev", "ai_dll_#", etc.) have been removed. More information in the updated bwapi.ini config file.
+    * Some distance functions now use integers instead of doubles.
+    * The config option "save_replay" under "auto_menu" now accepts environment variables as well as our user defined variables. It also creates the directory if it does not exist, and creates the file directly instead of copying LastReplay.rep (LastReplay.rep will not be created).
+    * Most BWAPILIB objects now have an "operator int() const" as a replacement for all other comparison operators. This allows more flexibility, specifically for the developers of BWAPI, so that a call to ".getID()" does not need to be made.
+    * Resizing the window in Windowed Mode will now stretch the game screen.
+    * Holding ALT in Windowed Mode will now prevent the cursor from leaving the window (same as W-Mode functionality).
+    * The auto-menu map selection no longer loops back and forth with the previous menu in order to select the correct map.
+    * The map entry under auto_menu in the config now accepts wildcards, and chooses a random map from the pool when starting the game.
+    * BWAPI's custom network module has been marked deprecated and replaced by BWDI's module. (SNP file)
+    * Unit::attackMove and Unit::attackUnit have been renamed to Unit::attack to conform with the other functions. Current users can perform a Find&Replace in all files(a function provided by Visual Studio and Notepad++), or use a #define.
+    * Ordering an Infested Terran to Attack a location (Attack Move) will now cause it to explode at that location. (Also known as "Sap Location")
+    * Renamed UpgradeType::mineralPriceBase to UpgradeType::mineralPriceBase, UpgradeType::gasPriceBase to UpgradeType::gasPrice, and UpgradeType::upgradeTimeBase to UpgradeType::upgradeTime, as well as added the parameter that specifies the level. These functions now include the cost factors in calculations. To obtain the base value, use 1 as the parameter.
+    * There is a new menu hack that causes menus to load immediately instead of the old one which quickly played the swish-in and swish-out animations.
+    * BWAPI's windowed mode can now be resized smaller than the game's resolution. The window will snap to the original dimensions when they are close enough.
+    * Holding the CTRL key while resizing the windowed mode window will now maintain a 4:3 aspect ratio. 
+
+Additions:
+
+    * Added Game::getAPM which retrieves the bot's running actions per minute and ignores user actions.
+    * Added the errors Errors::File_Not_Found and Errors::Invalid_Parameter.
+    * Added Game::setMap which changes the map for when you next restart the game.
+    * Added Unit::isUnderAttack which identifies units that have been recently attacked.
+    * Added Unit::getLastAttackingPlayer which identifies the player that last attacked this unit.
+    * Added Game::getUnitsInRectangle.
+    * Added Game::getUnitsInRadius.
+    * Added Unit::getUnitsInRadius.
+    * Added Unit::getUnitsInWeaponRange.
+    * Added the configuration option "holiday" which allows disabling the once-secret holiday modifications that were activated at the appropriate time.
+    * Added Game::setFrameSkip which alters Starcraft's built-in frame skipping value.
+    * Added some more UnitTypes that are specific to Use Map Settings games, as well as the WeaponTypes to go with them.
+    * Added a new configuration option "screenshots" under "Starcraft" which allows you to specify the format Starcraft saves screenshots in. Defaults to "GIF".
+    * Added UnitType::isMineralField which just returns true if the unit is Mineral Field Type 1, 2, and 3. BWAPI currently converts all Mineral Fields to Type 1 for its own purpose, so you don't need to worry too much about it.
+    * Added Unit::isUnderDarkSwarm.
+    * Added Unit::isUnderDisruptionWeb.
+    * Added UpgradeType::whatsRequired, which returns the building required to accompany the upgrade at a certain level.
+    * Added Player::weaponMaxRange which takes a WeaponType instead of a UnitType.
+    * Added several configuration options for BWAPI's windowed mode.
+    * Added the ability to queue commands like you can in Starcraft. Many command constructors have this addition built-in. Re-read the documentation on them for more information.
+    * Added UnitCommand::isQueued. 
+
+Bug Fixes:
+
+    * Corrected the return values for Game::getLatencyFrames, Game::getLatencyTime, Game::getRemainingLatencyFrames, and Game::getRemainingLatencyTime.
+    * Fixed a crash involving the use of the extended ASCII character set in the drawText functions.
+    * Fixed a memory leak that was unique to Starcraft: Broodwar.
+    * Corrected WeaponTypes::normalWeaponTypes and WeaponTypes::specialWeaponTypes which were returning the wrong sets.
+    * Fixed a bug where Game::canBuildHere would fail in some cases where buildings can overlap. See  issue 302  for more information.
+    * Fixed a bug that would cause the game to freeze for several seconds when invalid positions were passed to Game::drawLineMap.
+    * Fixed a bug that prevented the usage of known /commands on a Battle.net server.
+    * Fixed an issue where Overmind With Shell, Overmind, Cerebrate, Cerebrate Daggoth, and Overmind Cocoon would return false for isDetector(). They now correctly return true.
+    * Fixed a bug in Windowed Mode where the System Cursor was displayed instead of the game cursor.
+    * Game::restartGame no longer freezes/crashes the game when called during multi-player. Instead it silently returns an error.
+    * Fixed an infinite loop involving auto-menu attempting to find the correct map.
+    * The new network mode now displays lobby slots correctly.
+    * Fixed a bug where Player::getKillScore returned the unit score instead of the kill score.
+    * Fixed an issue where ordering a Protoss Photon Cannon, Terran Missile Turret, Zerg Sunken Colony, or Zerg Spore Colony to attack would perform no action.
+    * Fixed a bug where Game::canUpgrade returned false positives when a required building was not present.
+    * Fixed an issue where some bullet types such as the Subterranean Spines were inaccessible with CompleteMapInformation disabled.
+    * Fixed an issue where area abilities such as EMP Shockwave could not be used on a unit target (Use_Tech_Unit).
+    * Fixed a bug where two or more instances could conflict and crash when saving LastReplay. 
+
 =============================================
 Changes from BWAPI Beta 3.3 to BWAPI Beta 3.4
 =============================================
