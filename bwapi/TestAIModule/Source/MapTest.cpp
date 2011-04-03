@@ -27,7 +27,7 @@ void MapTest::onStart()
   {
     for(int y=0;y<10;y++)
     {
-      BWAssert(Broodwar->getGroundHeight(x,y)==1);
+      BWAssert(Broodwar->getGroundHeight(x,y)==2);
       BWAssert(Broodwar->isBuildable(x,y));
       BWAssert(Broodwar->isVisible(x,y));
       BWAssert(Broodwar->isExplored(x,y));
@@ -35,7 +35,8 @@ void MapTest::onStart()
   }
   for(int x=5;x<14;x++)
   {
-    BWAssert(Broodwar->hasCreep(x,0));
+    // @TODO: Investigate
+    BWAssertF(Broodwar->hasCreep(x,0), { log("  hasCreep(%u,0)", x); });
   }
   for(int x=14;x<40;x++)
   {
