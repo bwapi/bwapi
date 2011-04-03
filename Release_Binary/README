@@ -1,6 +1,6 @@
-------------------
-| BWAPI Beta 3.4 |
-------------------
+-------------
+| BWAPI 3.5 |
+-------------
 
 The BWAPI web site    http://code.google.com/p/bwapi/
 Documentation         http://code.google.com/p/bwapi/wiki/BWAPIManual
@@ -121,11 +121,11 @@ management. For more information, visit:  http://code.google.com/p/bwsal/
 4. Bug Reports
 --------------
 
-   BWAPI is currently in beta, so as you write custom AI modules using BWAPI
-you may run into bugs or other problems. We cannot find all the bugs on our own
-so as a beta tester your feedback is invaluable and can be very helpful for
-improving BWAPI. When you find a bug, please describe what the bug is and, if
-possible, how to reproduce the bug and post the report in either a new issue at
+   BWAPI is not perfect. As you write custom AI modules using BWAPI you may run
+into bugs or other problems. We cannot find all the bugs on our own so your
+feedback is invaluable and can be very helpful for improving BWAPI. When you
+find a bug, please describe what the bug is and, if possible, how to reproduce
+the bug and post the report in either a new issue at
    http://code.google.com/p/bwapi/issues/list
 
 or in a message to the bwapi google group at
@@ -135,4 +135,4 @@ Additionally, the contents of the BWAPI global log may prove useful in tracking
 down the bug, so when appropriate please include relevant contents of the file
    <starcraft folder>/bwapi-data/logs/global.log
 
-in your bug report. Thank you for beta testing BWAPI.
+in your bug report. Thank you for using BWAPI.
