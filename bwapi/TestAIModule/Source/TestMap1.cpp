@@ -56,7 +56,7 @@ void TestMap1::onStart()
   BWAssert(Broodwar->getMousePosition()==Positions::Unknown);
   BWAssert(Broodwar->isInGame()==true);
   BWAssert(Broodwar->isMultiplayer()==false);
-  BWAssert(Broodwar->isPaused()==false);
+  BWAssert(Broodwar->isPaused()==false);    // Why would this fail?
   BWAssert(Broodwar->isReplay()==false);
   BWAssert(Broodwar->getFrameCount()==0);
   BWAssert(Broodwar->self()!=NULL);
@@ -164,13 +164,13 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Bunker)==1);
   for each(UnitType t in UnitTypes::allUnitTypes())
   {
-    if (t.isBuilding() && t.getRace()==Races::Terran)
+    if (t.isBuilding() && t.getRace() == Races::Terran && !t.isSpecialBuilding() )
     {
-      BWAssert(Broodwar->self()->completedUnitCount(t)>0);
+      BWAssertF(Broodwar->self()->completedUnitCount(t)>0, { log("  No %s owned.", t.getName().c_str()); });
     }
     else
     {
-      BWAssert(Broodwar->self()->completedUnitCount(t)==0);
+      BWAssertF(Broodwar->self()->completedUnitCount(t)==0, { log("  Extra %s owned.", t.getName().c_str()); });
     }
     BWAssert(Broodwar->self()->incompleteUnitCount(t)==0);
     BWAssert(Broodwar->self()->deadUnitCount(t)==0);
@@ -213,9 +213,9 @@ void TestMap1::onStart()
   }
   BWAssert(Broodwar->self()->getRace()==Races::Terran);
   BWAssert(Broodwar->self()->getType()==PlayerTypes::Player);
-  BWAssert(Broodwar->self()->minerals()==50);
+  BWAssert(Broodwar->self()->minerals()==0);
   BWAssert(Broodwar->self()->gas()==0);
-  BWAssert(Broodwar->self()->cumulativeMinerals()==50);
+  BWAssert(Broodwar->self()->cumulativeMinerals()==0);
   BWAssert(Broodwar->self()->cumulativeGas()==0);
   BWAssert(Broodwar->self()->supplyTotal()==120);
   BWAssert(Broodwar->self()->supplyUsed()==0);
