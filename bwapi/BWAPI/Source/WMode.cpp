@@ -23,10 +23,10 @@ void InitializeWModeBitmap(int width, int height)
 {
   if ( hdcMem )
     DeleteDC(hdcMem);
+  hdcMem = NULL;
 
   // Create Bitmap HDC
   BITMAPINFO256 bmp = { 0 };
-  HBITMAP      hBmp = NULL;
 
   bmp.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
   bmp.bmiHeader.biWidth       = width;
@@ -40,8 +40,10 @@ void InitializeWModeBitmap(int width, int height)
     palette[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
     palette[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
   }
-  hBmp   = CreateDIBSection(NULL, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
-  hdcMem = CreateCompatibleDC(NULL);
+  HDC hdc = GetDC(ghMainWnd);
+  HBITMAP hBmp = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
+  hdcMem = CreateCompatibleDC(hdc);
+  ReleaseDC(ghMainWnd, hdc);
   SelectObject(hdcMem, hBmp);
 }
 
@@ -285,6 +287,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // begin paint
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(hWnd, &paint);
+
         // Blit to the screen
         RECT cRect;
         GetClientRect(hWnd, &cRect);
@@ -295,7 +298,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         else
         {
           SetStretchBltMode(hdc, HALFTONE);
-          StretchBlt(hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+          StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
         }
 
         // end paint
@@ -485,10 +488,10 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
   if ( !wmode )
     return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
 
-  if ( ghMainWnd && lpSurface && lpRect )
+  if ( ghMainWnd && lpSurface )
   {
     gbWantUpdate = true;
-    InvalidateRect(ghMainWnd, NULL, FALSE);
+    InvalidateRect(ghMainWnd, lpRect, FALSE);
   }
   return TRUE;
 }

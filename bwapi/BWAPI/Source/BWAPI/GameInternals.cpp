@@ -1156,23 +1156,26 @@ namespace BWAPI
     }
 
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
-    rn_BWAPIName = this->BWAPIPlayer->getName().substr(0, 6);
-    rn_BWAPIRace = this->BWAPIPlayer->getRace().getName().substr(0, 1);
-    rn_MapName   = this->mapName().substr(0, 16);
-    rn_AlliesNames.clear();
-    rn_AlliesRaces.clear();
-    rn_EnemiesNames.clear();
-    rn_EnemiesRaces.clear();
-    for each ( Player *p in this->_allies )
+    if ( !this->isReplay() )
     {
-      rn_AlliesNames += p->getName().substr(0, 6);
-      rn_AlliesRaces += p->getRace().getName().substr(0, 1);
-    }
-    for each ( Player *p in this->_enemies )
-    {
-      rn_EnemiesNames += p->getName().substr(0, 6);
-      rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
-    }
+      rn_BWAPIName = BWAPIPlayer->getName().substr(0, 6);
+      rn_BWAPIRace = BWAPIPlayer->getRace().getName().substr(0, 1);
+      rn_MapName   = mapName().substr(0, 16);
+      rn_AlliesNames.clear();
+      rn_AlliesRaces.clear();
+      rn_EnemiesNames.clear();
+      rn_EnemiesRaces.clear();
+      for each ( Player *p in this->_allies )
+      {
+        rn_AlliesNames += p->getName().substr(0, 6);
+        rn_AlliesRaces += p->getRace().getName().substr(0, 1);
+      }
+      for each ( Player *p in this->_enemies )
+      {
+        rn_EnemiesNames += p->getName().substr(0, 6);
+        rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
+      }
+    } // !isReplay
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
@@ -1337,7 +1340,7 @@ namespace BWAPI
     if ( !this->onStartCalled )
       return;
 
-    if ( autoMenuSaveReplay != "")
+    if ( autoMenuSaveReplay != "" && !this->isReplay() )
     {
       SYSTEMTIME systemTime;
       GetSystemTime(&systemTime);
