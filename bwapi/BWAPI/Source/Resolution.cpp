@@ -61,6 +61,7 @@ void SetResolution(int width, int height)
     InitializeWModeBitmap(width, height);
 }
 
+HMODULE ddLib;
 void DDrawDestroy()
 {
   SDrawManualInitialize(ghMainWnd);
@@ -97,8 +98,11 @@ void DDrawInitialize(int width, int height)
 
   // Initialize module
   ShowWindow(ghMainWnd, SW_NORMAL);
-  HMODULE ddLib = LoadLibrary("ddraw.dll");
-  DDCHECK(ddLib);
+  if ( !ddLib )
+  {
+    ddLib = LoadLibrary("ddraw.dll");
+    DDCHECK(ddLib);
+  }
 
   // Obtain function DirectDrawCreate
   HRESULT (WINAPI *_DirectDrawCreate)(GUID FAR* lpGUID, LPDIRECTDRAW FAR* lplpDD, IUnknown FAR* pUnkOuter);
