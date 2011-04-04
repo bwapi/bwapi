@@ -27,12 +27,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void SetWMode(int width, int height, bool state);
 void SetCursorShowState(bool bShow);
 
-extern WNDPROC wOriginalProc;
-extern HWND ghMainWnd;
-extern HDC  hdcMem;
-extern void* pBits;
-extern RGBQUAD palette[256];
-extern bool wmode;
+extern WNDPROC  wOriginalProc;
+extern HWND     ghMainWnd;
+extern HDC      hdcMem;
+extern void*    pBits;
+extern RGBQUAD  palette[256];
+extern bool     wmode;
 
 extern bool switchToWMode;
 extern RECT windowRect;

@@ -71,6 +71,19 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
     ++ext;
     strncpy(ext, gszScreenshotFormat, 3);
   }
+  if ( wmode && pBits )
+  {
+    // Create compatible palette
+    PALETTEENTRY pal[256];
+    for ( int i = 0; i < 256; ++i )
+    {
+      pal[i].peRed    = palette[i].rgbRed;
+      pal[i].peGreen  = palette[i].rgbGreen;
+      pal[i].peBlue   = palette[i].rgbBlue;
+      pal[i].peFlags  = 0;;
+    }
+    return SBmpSaveImage(pszOutput, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+  }
   return SDrawCaptureScreen(pszOutput);
 }
 
@@ -138,6 +151,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     wantRefresh = false;
     memset(BW::BWDATA_RefreshRegions, 1, 1200);
   }
+
 
   //GameUpdate(pSurface, pBounds);
   if ( BW::pOldDrawGameProc )

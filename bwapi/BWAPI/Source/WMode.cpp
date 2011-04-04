@@ -285,18 +285,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // begin paint
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(hWnd, &paint);
-
         // Blit to the screen
         RECT cRect;
         GetClientRect(hWnd, &cRect);
         if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
         {
-          // @TODO: Try SetDIBits
           BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
         }
         else
         {
-          // @TODO: Try StretchDIBits
           SetStretchBltMode(hdc, HALFTONE);
           StretchBlt(hdc, cRect.left, cRect.top, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
         }
@@ -488,9 +485,11 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
   if ( !wmode )
     return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
 
-  gbWantUpdate = true;
-  if ( ghMainWnd )
+  if ( ghMainWnd && lpSurface && lpRect )
+  {
+    gbWantUpdate = true;
     InvalidateRect(ghMainWnd, NULL, FALSE);
+  }
   return TRUE;
 }
 
@@ -519,7 +518,6 @@ BOOL __stdcall _SDrawRealizePalette()
   if ( IsIconic(ghMainWnd) )
     return FALSE;
 
-  // SetDIBColorTable(hdcMem, 0, 256, palette);
   return TRUE;
 }
 

@@ -139,7 +139,7 @@ EXPORTS
   SBmpDecodeImage               @321 NONAME
 
   SBmpLoadImage                 @323 NONAME
-  ;SBmpSaveImage                 @324 NONAME
+  SBmpSaveImage                 @324 NONAME
   SBmpAllocLoadImage            @325 NONAME
   ;SBmpSaveImageEx               @326 NONAME
 

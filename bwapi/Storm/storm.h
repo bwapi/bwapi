@@ -404,6 +404,30 @@ SBmpLoadImage(
     __out_opt DWORD        *pdwHeight   = NULL,
     __out_opt DWORD        *pdwBpp      = NULL);
 
+/*  SBmpSaveImage @ 324
+ * 
+ *  Save an image from a buffer to a file. The image format is determined 
+ *  from the filename and is either .gif, .pcx, .tga, or .bmp being the default.
+ *  
+ *  pszFileName:  The name of the file to create.
+ *  pPalette:     A pointer to a palette array containing 256 entries.
+ *  pBuffer:      A buffer containing the image data.
+ *  pdwWidth:     The width of the image.
+ *  pdwHeight:    The height of the image.
+ *  pdwBpp:       The bits per pixel.
+ *
+ *  Returns TRUE if the image was saved correctly, FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SBmpSaveImage(
+    __in  const char    *pszFileName,
+    __in  PALETTEENTRY  *pPalette,
+    __in  void          *pBuffer,
+    __in  DWORD         dwWidth,
+    __in  DWORD         dwHeight,
+    __in  DWORD         dwBpp = 8);
+
 
 HANDLE STORMAPI SBmpAllocLoadImage(const char *fileName, PALETTEENTRY *palette, void **buffer, int *width, int *height, int unused6, int unused7, void *(STORMAPI *allocFunction)(DWORD));
 
