@@ -1,3 +1,11 @@
+==========================================
+Changes from BWAPI Beta 3.5 to BWAPI 3.5.1
+==========================================
+
+Bug Fixes:
+    * Fixed an issue where screenshots were disabled while in Windowed mode.
+    * Fixed a bug/regression that caused replays to crash.
+
 ========================================
 Changes from BWAPI Beta 3.4 to BWAPI 3.5
 ========================================

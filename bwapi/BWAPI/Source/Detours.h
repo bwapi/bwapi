@@ -20,8 +20,10 @@ void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
 
-BOOL WINAPI _DeleteFile(LPCTSTR lpFileName);
-DWORD WINAPI _GetFileAttributes(LPCTSTR lpFileName);
+HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData);
+BOOL   WINAPI _FindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData);
+BOOL   WINAPI _DeleteFile(LPCTSTR lpFileName);
+DWORD  WINAPI _GetFileAttributes(LPCTSTR lpFileName);
 HANDLE WINAPI _CreateFile(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 
 extern bool hideHUD;

@@ -2,6 +2,8 @@
 #include "Resolution.h"
 #include "BW/Offsets.h"
 
+#include "BWAPI/GameImpl.h"
+
 #include "DLLMain.h"
 #include "../../Debug.h"
 
@@ -376,16 +378,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     break;
   case WM_MOUSEMOVE:
+    if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
     {
-      if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
-      {
-        (*BW::BWDATA_InputFlags) |= 1;
-        POINTS pt = MAKEPOINTS(lParam);
-        BW::BWDATA_Mouse->x = pt.x;
-        BW::BWDATA_Mouse->y = pt.y;
-        return TRUE;
-      }
+      (*BW::BWDATA_InputFlags) |= 1;
+      POINTS pt = MAKEPOINTS(lParam);
+      BW::BWDATA_Mouse->x = pt.x;
+      BW::BWDATA_Mouse->y = pt.y;
+      return TRUE;
     }
+    break;
   case WM_LBUTTONDOWN:
   case WM_LBUTTONUP:
   case WM_LBUTTONDBLCLK:
@@ -400,28 +401,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       ButtonEvent(uMsg - WM_MOUSEFIRST + BW_MOUSEFIRST, lParam);
       return TRUE;
     }
-#ifdef _DEBUG
-  case WM_KEYDOWN:
-    if ( wParam == VK_F6 && !(lParam & 0x40000000) )
-    {
-      strcpy(BW::BWDATA_CurrentMapFileName, "C:\\Program Files\\Starcraft\\maps\\(2)Challenger.scm");
-      *BW::BWDATA_gwGameMode        = 1;
-      *BW::BWDATA_gwNextGameMode    = 1;
-      *BW::BWDATA_GameState         = 0;
-      *BW::BWDATA_CampaignIndex     = 0;
-      *BW::BWDATA_OpheliaEnabled    = 1;
-      if ( !BW::FindDialogGlobal("Minimap") && (*BW::BWDATA_DialogList) )
-        (*BW::BWDATA_DialogList)->activate();
-      return TRUE;
-    }
     break;
-#endif
   case WM_SYSCOMMAND:
     if ( wParam == SC_MAXIMIZE )
     {
       SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, false);
       return TRUE;
     }
+    break;
   }
 
   // Call the original WndProc

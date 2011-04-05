@@ -61,6 +61,7 @@ void ApplyCodePatches()
   HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
   HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
   HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
+  HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
