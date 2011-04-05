@@ -92,9 +92,8 @@ namespace BWAPI
       , wantSelectionUpdate(false)
       , noGUI(false)
       , calledMatchEnd(false)
-      , wantNewMapGen(true)
       , autoMapTryCount(0)
-      , wasJustInGame(false)
+      , outOfGame(true)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -547,32 +546,24 @@ namespace BWAPI
     {
       WIN32_FIND_DATA finder = { 0 };
 
-      HANDLE hFind;
-#ifdef FIND_FIRST_EX_LARGE_FETCH
-      hFind = FindFirstFileEx(buffer, FindExInfoBasic, &finder, FindExSearchNameMatch, NULL, FIND_FIRST_EX_LARGE_FETCH);
-      if ( hFind == INVALID_HANDLE_VALUE )
-#endif
-        hFind = FindFirstFile(buffer, &finder);
+      HANDLE hFind = FindFirstFile(buffer, &finder);
       if ( hFind != INVALID_HANDLE_VALUE )
       {
         BOOL bResult = TRUE;
         while ( bResult )
         {
+          // Check if found is not a directory
           if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
           {
             std::string finderStr = std::string(finder.cFileName);
-            HANDLE hMPQ;
-            if ( SFileOpenArchive( (autoMenuMapPath + finderStr).c_str(), 0, 0, &hMPQ) && hMPQ )
-            {
+            if ( getFileType((autoMenuMapPath + finderStr).c_str()) )
               autoMapPool.push_back( finderStr );
-              SFileCloseArchive(hMPQ);
-            }
           }
           bResult = FindNextFile(hFind, &finder);
-        } // looping match found
+        } // ^ loop
         FindClose(hFind);
-      } // if handle exists
-    } // map path size
+      } // handle exists
+    } // map path exists
 
     GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
     autoMenuLanMode = std::string(buffer);
@@ -596,6 +587,8 @@ namespace BWAPI
     autoMenuGameType = std::string(buffer);
     GetPrivateProfileString("auto_menu", "save_replay", "", buffer, MAX_PATH, szConfigPath);
     autoMenuSaveReplay = std::string(buffer);
+
+    this->chooseNewRandomMap();
   }
   int fixPathString(const char *in, char *out, size_t outLen)
   {
@@ -620,21 +613,27 @@ namespace BWAPI
     out[n] = 0;
     return n;
   }
+  void GameImpl::chooseNewRandomMap()
+  {
+    if ( BWAPI::BroodwarImpl.autoMapPool.size() > 0 )
+    {
+      // Obtain a random map file
+      srand(GetTickCount());
+      std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
+      lastMapGen = BWAPI::BroodwarImpl.autoMenuMapPath + chosen;
+    }
+  }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame        = false;
-    if ( wasJustInGame )
-    {
-      wasJustInGame       = false;
-      this->wantNewMapGen = true;
-    }
+    this->outOfGame     = true;
 
     events.push_back(Event::MenuFrame());
     this->server.update();
 
-    if ( autoMapTryCount > 100 )
+    if ( autoMapTryCount > 50 )
       return;
 
     int menu = *BW::BWDATA_glGluesMode;
@@ -684,7 +683,6 @@ namespace BWAPI
 //create single/multi player game screen
       case 11: 
         actRaceSel = false;
-        this->pressKey(VK_NEXT);
 
         tempDlg = BW::FindDialogGlobal("Create");
         GameType gt = GameTypes::getGameType(this->autoMenuGameType);
@@ -723,10 +721,9 @@ namespace BWAPI
         // if we encounter an unknown error when attempting to load the map
         if ( BW::FindDialogGlobal("gluPOk") )
         {
-          BWAPI::BroodwarImpl.wantNewMapGen = true;
+          BWAPI::BroodwarImpl.chooseNewRandomMap();
           ++autoMapTryCount;
         }
-
         this->pressKey( tempDlg->findIndex(12)->getHotkey() );
         break;
       }
@@ -782,7 +779,6 @@ namespace BWAPI
         case 11: 
           {
             actGameSel = false;
-            this->pressKey(VK_NEXT);
 
             tempDlg = BW::FindDialogGlobal("Create");
             GameType gt = GameTypes::getGameType(this->autoMenuGameType);
@@ -792,10 +788,9 @@ namespace BWAPI
             // if we encounter an unknown error when attempting to load the map
             if ( BW::FindDialogGlobal("gluPOk") )
             {
-              BWAPI::BroodwarImpl.wantNewMapGen = true;
-              autoMapTryCount++;
+              BWAPI::BroodwarImpl.chooseNewRandomMap();
+              ++autoMapTryCount;
             }
-
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
             break;
           }
@@ -1025,6 +1020,7 @@ namespace BWAPI
     /** This function is called at the start of every match */
     gszDesiredReplayName[0] = 0;
 
+    outOfGame   = false;
     actMainMenu = false;
     actRegistry = false;
     actCreate   = false;
@@ -1158,8 +1154,11 @@ namespace BWAPI
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
     if ( !this->isReplay() )
     {
-      rn_BWAPIName = BWAPIPlayer->getName().substr(0, 6);
-      rn_BWAPIRace = BWAPIPlayer->getRace().getName().substr(0, 1);
+      if ( BWAPIPlayer )
+      {
+        rn_BWAPIName = BWAPIPlayer->getName().substr(0, 6);
+        rn_BWAPIRace = BWAPIPlayer->getRace().getName().substr(0, 1);
+      }
       rn_MapName   = mapName().substr(0, 16);
       rn_AlliesNames.clear();
       rn_AlliesRaces.clear();
@@ -1167,13 +1166,19 @@ namespace BWAPI
       rn_EnemiesRaces.clear();
       for each ( Player *p in this->_allies )
       {
-        rn_AlliesNames += p->getName().substr(0, 6);
-        rn_AlliesRaces += p->getRace().getName().substr(0, 1);
+        if ( p )
+        {
+          rn_AlliesNames += p->getName().substr(0, 6);
+          rn_AlliesRaces += p->getRace().getName().substr(0, 1);
+        }
       }
       for each ( Player *p in this->_enemies )
       {
-        rn_EnemiesNames += p->getName().substr(0, 6);
-        rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
+        if ( p )
+        {
+          rn_EnemiesNames += p->getName().substr(0, 6);
+          rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
+        }
       }
     } // !isReplay
   }
@@ -1340,6 +1345,7 @@ namespace BWAPI
     if ( !this->onStartCalled )
       return;
 
+    outOfGame = false;
     if ( autoMenuSaveReplay != "" && !this->isReplay() )
     {
       SYSTEMTIME systemTime;
@@ -1523,7 +1529,6 @@ namespace BWAPI
 
     setGUI();
     onStartCalled = false;
-    wasJustInGame = true;
     autoMapTryCount = 0;
   }
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------

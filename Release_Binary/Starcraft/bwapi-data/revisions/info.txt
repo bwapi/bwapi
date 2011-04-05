@@ -14,6 +14,7 @@ INSTRUCTIONS
 
 REVISION    RELEASE
 
+3584        BWAPI 3.5.1
 3577        BWAPI 3.5
 3347        BWAPI Beta 3.4
 3163        BWAPI Beta 3.3

@@ -11,6 +11,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
 
 void BWAPIError(const char *format, ...);
 void BWAPIError(DWORD dwErrCode, const char *format, ...);
+int getFileType(const char *szFileName);
 
 extern char logPath[MAX_PATH];
 extern bool logging;

@@ -24,9 +24,19 @@ void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
+HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
+{
+  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
+       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
+       BWAPI::BroodwarImpl.autoMenuMode != "OFF"      &&
+       BWAPI::BroodwarImpl.lastMapGen.size() > 0      &&
+       strstr(lpFileName, "*.*")  )
+    return FindFirstFile(BWAPI::BroodwarImpl.lastMapGen.c_str(), lpFindFileData);
+  return FindFirstFile(lpFileName, lpFindFileData);
+}
 void setReplayName(char *pOutFilename, const char *pInFileName)
 {
-  if ( strstr(pInFileName, "LastReplay.rep") )
+  if ( !BWAPI::BroodwarImpl.outOfGame && strstr(pInFileName, "LastReplay.rep") )
   {
     if ( gszDesiredReplayName[0] )
       strcpy(pOutFilename, gszDesiredReplayName);
@@ -60,6 +70,23 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
 {
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
+       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
+       BWAPI::BroodwarImpl.autoMenuMode != "OFF" &&
+       BWAPI::BroodwarImpl.outOfGame )
+  {
+    const char *scheck = strrchr(lpFileName, '.');
+    if ( scheck )
+    {
+      int extCheck = strcmpi(scheck, ".scm");
+      if ( extCheck )
+        extCheck = strcmpi(scheck, ".scx");
+      if ( extCheck )
+        extCheck = strcmpi(scheck, ".rep");
+      if ( extCheck == 0 )
+        return CreateFile(BWAPI::BroodwarImpl.lastMapGen.c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+    } // ext check
+  } // automenu
   return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
@@ -151,7 +178,6 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     wantRefresh = false;
     memset(BW::BWDATA_RefreshRegions, 1, 1200);
   }
-
 
   //GameUpdate(pSurface, pBounds);
   if ( BW::pOldDrawGameProc )
@@ -252,34 +278,24 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
   return TRUE;
 }
 
-std::string lastMapGen;
 BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq)
 {
   if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
        BWAPI::BroodwarImpl.autoMenuMode != ""         &&
        BWAPI::BroodwarImpl.autoMenuMode != "OFF" )
   {
-    const char *scheck = strstr(szMpqName, ".scx");
-    if ( !scheck )
-    {
-      scheck = strstr(szMpqName, ".scm");
-      if ( !scheck )
-        scheck = strstr(szMpqName, ".rep");
-    }
+    const char *scheck = strrchr(szMpqName, '.');
     if ( scheck )
     {
-      if ( BWAPI::BroodwarImpl.wantNewMapGen && BWAPI::BroodwarImpl.autoMapPool.size() > 0 )
-      {
-        BWAPI::BroodwarImpl.wantNewMapGen = false;
-
-        // Obtain a random map file
-        srand(GetTickCount());
-        std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
-        lastMapGen = BWAPI::BroodwarImpl.autoMenuMapPath + chosen;
-      }
-      return SFileOpenArchive(lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
-    }
-  }
+      int extCheck = strcmpi(scheck, ".scm");
+      if ( extCheck )
+        extCheck = strcmpi(scheck, ".scx");
+      if ( extCheck )
+        extCheck = strcmpi(scheck, ".rep");
+      if ( extCheck == 0 )
+        return SFileOpenArchive(BWAPI::BroodwarImpl.lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
+    } // ext Check
+  } // automenu
   return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);
 }
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------

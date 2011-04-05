@@ -124,6 +124,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   if ( !loadLibAddress )
     BWAPIError("Could not get Proc Address for LoadLibraryA.");
 
+  // @TODO: Suspend thread?
   void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
   if ( !pathAddress )
     BWAPIError("Could not allocate memory for DLL path.");
@@ -145,7 +146,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
     BWAPIError("GetExitCodeThread failed.\nError Code: 0x%p", GetLastError());
 
   if ( !dwExitCode )
-    BWAPIError("Injection failed.\nThis may be caused by mixing DEBUG and RELEASE builds. \nExit Code: 0x%p\nError Code: 0x%p", dwExitCode, GetLastError());
+    BWAPIError("Injection failed.\nThis is caused when BWAPI crashes before injecting completely. \nError Code: 0x%p", GetLastError());
 
   VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
   CloseHandle(hThread);

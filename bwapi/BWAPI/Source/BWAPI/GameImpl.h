@@ -264,6 +264,8 @@ namespace BWAPI
       void moveToSelected();
       void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true);
 
+      void chooseNewRandomMap();
+
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
       PlayerImpl *BWAPIPlayer;
@@ -281,10 +283,10 @@ namespace BWAPI
       Server server;
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
+      std::string lastMapGen;
+      bool outOfGame;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
-      bool wasJustInGame;
-      bool wantNewMapGen;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
       /** Count of game-frames passed from game start. */
