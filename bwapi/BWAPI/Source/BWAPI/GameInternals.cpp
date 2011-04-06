@@ -615,12 +615,12 @@ namespace BWAPI
   }
   void GameImpl::chooseNewRandomMap()
   {
-    if ( BWAPI::BroodwarImpl.autoMapPool.size() > 0 )
+    if ( this->autoMapPool.size() > 0 )
     {
       // Obtain a random map file
       srand(GetTickCount());
-      std::string chosen = BWAPI::BroodwarImpl.autoMapPool[rand() % BWAPI::BroodwarImpl.autoMapPool.size()];
-      lastMapGen = BWAPI::BroodwarImpl.autoMenuMapPath + chosen;
+      std::string chosen = this->autoMapPool[rand() % this->autoMapPool.size()];
+      lastMapGen = this->autoMenuMapPath + chosen;
     }
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -640,19 +640,6 @@ namespace BWAPI
     BW::dialog *tempDlg;
     if ( autoMenuMode == "SINGLE_PLAYER" )
     {
-      /*if ( !actMainMenu && !isMultiplayer() && (*BW::BWDATA_DialogList) && !BW::FindDialogGlobal("TitleDlg") )
-      {
-        actMainMenu = true;
-        if ( !setMap("C:\\Program Files\\Starcraft\\maps\\(2)Challenger.scm") )
-          return;
-        *BW::BWDATA_gwGameMode        = 1;
-        *BW::BWDATA_gwNextGameMode    = 1;
-        *BW::BWDATA_GameState         = 0;
-        *BW::BWDATA_CampaignIndex     = 0;
-        *BW::BWDATA_OpheliaEnabled    = 1;
-        (*BW::BWDATA_DialogList)->activate();
-      }*/
-
       switch ( menu )
       {
 //main menu
@@ -683,45 +670,46 @@ namespace BWAPI
 //create single/multi player game screen
       case 11: 
         actRaceSel = false;
-
         tempDlg = BW::FindDialogGlobal("Create");
-        GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-        if ( gt != GameTypes::None && gt != GameTypes::Unknown )
-          tempDlg->findIndex(17)->setSelectedByValue(gt);
-
-        Race playerRace = Races::getRace(this->autoMenuRace);
-        if ( this->autoMenuRace == "RANDOMTP" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-        else if ( this->autoMenuRace == "RANDOMTZ" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-        else if ( this->autoMenuRace == "RANDOMPZ" )
-          playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-        if ( playerRace != Races::Unknown && playerRace != Races::None )
-          this->_changeRace(0, playerRace);
-
-        for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
+        if ( this->lastMapGen.size() > 0 && getFileType(this->lastMapGen.c_str()) == 1 )
         {
-          Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
-          if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
-            enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-          else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
-            enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-          else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
-            enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+          GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+          if ( gt != GameTypes::None && gt != GameTypes::Unknown )
+            tempDlg->findIndex(17)->setSelectedByValue(gt);
 
-          if ( enemyRace != Races::Unknown && enemyRace != Races::None )
-            this->_changeRace(i, enemyRace);
+          Race playerRace = Races::getRace(this->autoMenuRace);
+          if ( this->autoMenuRace == "RANDOMTP" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+          else if ( this->autoMenuRace == "RANDOMTZ" )
+            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+          else if ( this->autoMenuRace == "RANDOMPZ" )
+            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+          if ( playerRace != Races::Unknown && playerRace != Races::None )
+            this->_changeRace(0, playerRace);
+
+          for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
+          {
+            Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
+            if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
+              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+            else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
+              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+            else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
+              enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+            if ( enemyRace != Races::Unknown && enemyRace != Races::None )
+              this->_changeRace(i, enemyRace);
+          }
+
+          //close remaining slots
+          for( int i = this->autoMenuEnemyCount; i < 7; ++i )
+            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
         }
-
-        //close remaining slots
-        for( int i = this->autoMenuEnemyCount; i < 7; ++i )
-          tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
-
         // if we encounter an unknown error when attempting to load the map
         if ( BW::FindDialogGlobal("gluPOk") )
         {
-          BWAPI::BroodwarImpl.chooseNewRandomMap();
+          this->chooseNewRandomMap();
           ++autoMapTryCount;
         }
         this->pressKey( tempDlg->findIndex(12)->getHotkey() );
@@ -779,16 +767,17 @@ namespace BWAPI
         case 11: 
           {
             actGameSel = false;
-
             tempDlg = BW::FindDialogGlobal("Create");
-            GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-            if (gt != GameTypes::None && gt != GameTypes::Unknown)
-              tempDlg->findIndex(17)->setSelectedByValue(gt);
-
+            if ( this->lastMapGen.size() > 0 && getFileType(this->lastMapGen.c_str()) == 1 )
+            {
+              GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+              if (gt != GameTypes::None && gt != GameTypes::Unknown)
+                tempDlg->findIndex(17)->setSelectedByValue(gt);
+            }
             // if we encounter an unknown error when attempting to load the map
             if ( BW::FindDialogGlobal("gluPOk") )
             {
-              BWAPI::BroodwarImpl.chooseNewRandomMap();
+              this->chooseNewRandomMap();
               ++autoMapTryCount;
             }
             this->pressKey( tempDlg->findIndex(12)->getHotkey() );
