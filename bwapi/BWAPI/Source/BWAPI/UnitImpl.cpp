@@ -77,13 +77,13 @@ namespace BWAPI
   //--------------------------------------------- GET POSITION -----------------------------------------------
   Position UnitImpl::getPosition() const
   {
-    return Position(self->positionX,self->positionY);
+    return Position(self->positionX, self->positionY);
   }
   //--------------------------------------------- GET TILE POSITION ------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
-    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
-                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
+    return TilePosition(Position(abs(self->positionX - this->getType().tileWidth()  * TILE_SIZE / 2),
+                                 abs(self->positionY - this->getType().tileHeight() * TILE_SIZE / 2)) );
   }
   //--------------------------------------------- GET ANGLE --------------------------------------------------
   double UnitImpl::getAngle() const
@@ -161,9 +161,9 @@ namespace BWAPI
 
     BWAPI::Position srcPos = this->getPosition();
 
-    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
+    if ( srcPos.x() >= Broodwar->mapWidth()*32  ||
          srcPos.y() >= Broodwar->mapHeight()*32 ||
-         target.x() >= Broodwar->mapWidth()*32 ||
+         target.x() >= Broodwar->mapWidth()*32  ||
          target.y() >= Broodwar->mapHeight()*32 )
       return BroodwarImpl.setLastError(Errors::Unknown);
 

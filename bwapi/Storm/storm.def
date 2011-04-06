@@ -230,7 +230,7 @@ EXPORTS
   ;STransLoadI                   @439 NONAME
   STransSetDirtyArrayInfo       @440 NONAME
   ;STransUpdateDirtyArray        @441 NONAME
-  STrans442                     @442 NONAME
+  STransPointInMask             @442 NONAME
   STransCombineMasks            @443 NONAME
   ;STransCreateI                 @444 NONAME
   STransCreateE                 @445 NONAME

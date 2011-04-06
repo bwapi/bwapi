@@ -347,7 +347,9 @@ namespace BW
   //--------------------------------------------- STRINGS ----------------------------------------------------
   static char           *BWDATA_CurrentMapFileName       = (char*) 0x0057FD3C;
   static char           *BWDATA_CurrentMapName           = (char*) 0x0057FE40;
+  static char           *BWDATA_CurrentMapFolder         = (char*) 0x0059BB70;
   static char           *BWDATA_SaveGameFile             = (char*) 0x00685148;
+  
   const char            *GetStatString(int index);
 
   extern char           *BWDATA_StringTableOff;
