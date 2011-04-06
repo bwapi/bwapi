@@ -620,7 +620,7 @@ namespace BWAPI
       // Obtain a random map file
       srand(GetTickCount());
       std::string chosen = this->autoMapPool[rand() % this->autoMapPool.size()];
-      lastMapGen = this->autoMenuMapPath + chosen;
+      lastMapGen         = this->autoMenuMapPath + chosen;
     }
   }
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
@@ -705,6 +705,15 @@ namespace BWAPI
           //close remaining slots
           for( int i = this->autoMenuEnemyCount; i < 7; ++i )
             tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
+        }
+        else
+        {
+          BW::BWDATA_CurrentMapFolder[0] = 0;
+          if ( szInstallPath[0] )
+            strcpy(BW::BWDATA_CurrentMapFolder, szInstallPath);
+          strcat(BW::BWDATA_CurrentMapFolder, this->autoMenuMapPath.c_str());
+          BW::BWDATA_CurrentMapFolder[strlen(BW::BWDATA_CurrentMapFolder)-1] = 0;
+
         }
         // if we encounter an unknown error when attempting to load the map
         if ( BW::FindDialogGlobal("gluPOk") )
@@ -1315,10 +1324,9 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test")
     {
-      if ( setMap(parsed[1].c_str()) )
-        printf("Set map to \"%s\".", parsed[1].c_str());
-      else
-        printf("%s", getLastError().toString().c_str());
+      printf("%s", mapPathName().c_str());
+      printf("%s", mapFileName().c_str());
+      printf("%s", mapName().c_str());
     }
 #endif
     else
@@ -1864,8 +1872,8 @@ namespace BWAPI
       {
         int tx = i->getTilePosition().x();
         int ty = i->getTilePosition().y();
-        for(int x = tx; x < tx + i->getType().tileWidth(); ++x)
-          for(int y = ty; y < ty + i->getType().tileHeight(); ++y)
+        for(int x = tx; x < tx + i->getType().tileWidth() && x < Map::getWidth(); ++x)
+          for(int y = ty; y < ty + i->getType().tileHeight() && y < Map::getHeight(); ++y)
             unitsOnTileData[x][y].insert(i);
       }
       else
@@ -1874,8 +1882,8 @@ namespace BWAPI
         int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
         int startY = (i->_getPosition.y() - i->_getType.dimensionUp())   / TILE_SIZE;
         int endY   = (i->_getPosition.y() + i->_getType.dimensionDown()  + TILE_SIZE - 1) / TILE_SIZE;
-        for (int x = startX; x < endX; x++)
-          for (int y = startY; y < endY; y++)
+        for (int x = startX; x < endX && x < Map::getWidth(); x++)
+          for (int y = startY; y < endY && y < Map::getHeight(); y++)
             unitsOnTileData[x][y].insert(i);
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)

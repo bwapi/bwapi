@@ -97,7 +97,7 @@ namespace BW
       break;
     case 2: // Key Modifier?? Key up?
       break;
-    case 3: // Mouse update/Move
+    case 3: // Mouse Move
       break;
     case 4: // Left Button down
       break;
@@ -117,7 +117,7 @@ namespace BW
       break;
     case 12: // Middle Button double click
       break;
-    case 13: // unknown; Loop? Always? Dialog only?
+    case 13: // Idle
       break;
     case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
@@ -162,9 +162,9 @@ namespace BW
         break;
       }
       break;
-    case 15: // User Key press
+    case 15: // User Key Press (like WM_CHAR)
       break;
-    case 16: //         unknown
+    case 16: // System Key Press
       break;
     case 17: // Mouse wheel Scroll up
       break;

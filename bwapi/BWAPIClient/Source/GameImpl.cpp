@@ -267,8 +267,8 @@ namespace BWAPI
       int endX   = (u->getPosition().x() + u->getType().dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
       int startY = (u->getPosition().y() - u->getType().dimensionUp()) / TILE_SIZE;
       int endY   = (u->getPosition().y() + u->getType().dimensionDown() + TILE_SIZE - 1) / TILE_SIZE;
-      for (int x = startX; x < endX; x++)
-        for (int y = startY; y < endY; y++)
+      for (int x = startX; x < endX && x < mapWidth(); x++)
+        for (int y = startY; y < endY && y < mapHeight(); y++)
           unitsOnTileData[x][y].insert(u);
       if ( u->getType() == UnitTypes::Zerg_Larva && u->getHatchery() )
         ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);

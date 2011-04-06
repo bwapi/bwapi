@@ -59,8 +59,8 @@ namespace BWAPI
   //--------------------------------------------- GET TILE POSITION ------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
-    return TilePosition(Position(self->positionX - this->getType().tileWidth() * TILE_SIZE / 2,
-                                 self->positionY - this->getType().tileHeight() * TILE_SIZE / 2));
+    return TilePosition(Position(abs(self->positionX - this->getType().tileWidth()  * TILE_SIZE / 2),
+                                 abs(self->positionY - this->getType().tileHeight() * TILE_SIZE / 2)) );
   }
   //--------------------------------------------- GET ANGLE --------------------------------------------------
   double UnitImpl::getAngle() const
