@@ -1,4 +1,11 @@
 =======================================
+Changes from BWAPI 3.5.2 to BWAPI 3.5.3
+=======================================
+
+Bug Fixes:
+    * Fixed an issue/regression where auto-menu would spawn or hide units in replays depending on the selected auto-menu game type.
+
+=======================================
 Changes from BWAPI 3.5.1 to BWAPI 3.5.2
 =======================================
 
