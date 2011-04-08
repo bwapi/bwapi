@@ -349,7 +349,100 @@ namespace BW
   static char           *BWDATA_CurrentMapName           = (char*) 0x0057FE40;
   static char           *BWDATA_CurrentMapFolder         = (char*) 0x0059BB70;
   static char           *BWDATA_SaveGameFile             = (char*) 0x00685148;
-  
+
+  struct MapVectorEntry   // sizeof 1348
+  {
+    MapVectorEntry *prev;         // First entry points to begin in controller // 0
+    MapVectorEntry *next;         // negative value indicates vector::end and points to &end in controller // 4
+    char  szEntryName[65];        // fixed entry name // 8
+    char  szMapName[32];          // 73
+    char  szMapDescription[316];  // 105
+    char  szTotalPlayers[35];     // 421
+    char  szComputerSlots[35];    // 456
+    char  szHumanSlots[35];       // 491
+    char  szMapDimensions[35];    // 526
+    char  szMapTileset[35];       // 561
+    DWORD dwListEntryIndex;       // 596
+    DWORD dwUnknown_258;          // 600
+    DWORD dwUnknown_25C;          // 604
+    DWORD dwUnknown_260;          // 608
+    DWORD dwUnknown_264;          // 612
+    BYTE  bEntryFlags;            // 616
+    char  szFullPath[MAX_PATH];   // 617
+    char  szFileName[MAX_PATH];   // 877
+    BYTE  bUnknown_471;           // 1137
+    WORD  wMapWidth;              // 1138
+    WORD  wMapHeight;             // 1140
+    WORD  wMapTileset;            // 1142
+    BYTE  bUnknown_478;           // 1144
+    BYTE  bTotalPlayers;          // 1145
+    BYTE  bComputerSlots;         // 1146
+    BYTE  bHumanSlots;            // 1147
+    BYTE  bUnknown_47C;           // 1148
+    WORD  wUnknown_47D;           // 1149
+    struct 
+    {
+      struct
+      {
+        BYTE  bCmd;             //  1151
+        DWORD dwSeed;           //  1152
+        BYTE  bPlayerBytes[12]; // only 8 are sent in actual command    // 1156
+      } gameInitCommand;
+      struct
+      {
+        char  szPlayerName[24];   // 1168
+        DWORD dwGameFlags;        // 1192
+        WORD  wMapWidth;          // 1196
+        WORD  wMapHeight;         // 1198
+        BYTE  bActivePlayerCount; // 1200
+        BYTE  bAvailableSlots;    // 1201
+        BYTE  bGameSpeed;         // 1202
+        BYTE  bGameState;         // 1203
+        WORD  wGameType;          // 1204
+        WORD  wGameSubType;       // 1206
+        DWORD dwSeed;             // 1208
+        WORD  wTileset;           // 1212
+        BYTE  bAutosaved;         // set if it was saved as LastReplay    // 1214
+        BYTE  bComputerPlayerCount; // 1215
+      } gameData;
+      char szGameName[25];  // 1216
+      char szMapName[32];   // 1241
+      struct
+      {
+        WORD  wGameType;              // 1273
+        WORD  wGameSubType;           // 1275
+        WORD  wSubTypeDisplay;        // 1277
+        WORD  wSubTypeLabel;          // 1279
+        BYTE  bVictoryCondition;      // 1281
+        BYTE  bResourceType;          // 1282
+        BYTE  bUseStandardUnitStats;  // 1283
+        BYTE  bFogOfWar_Unused;       // 1284
+        BYTE  bStartingUnits;         // 1285
+        BYTE  bUseFixedPosition;      // 1286
+        BYTE  bRestrictionFlags;      // 1287
+        BYTE  bAlliesEnabled;         // 1288
+        BYTE  bTeamsEnabled;          // 1289
+        BYTE  bCheatsEnabled;         // 1290
+        BYTE  bTournamentModeEnabled; // 1291
+        DWORD dwVictoryConditionValue;  // 1292
+        DWORD dwResourceMineralsValue;  // 1296
+        DWORD dwResourceGasValue; // unused // 1300
+        BYTE  __align_1; // 1304
+      } gameTemplate;
+    } partialReplayGameHeader;
+    DWORD dwUnknown_519[7]; // 1305
+    BYTE  bPlayerSlotEnabled[12];  // 1333
+    BYTE  __align_3[3];   // 1345
+  };  // 1348
+
+  struct MapVectorController // sizeof 12
+  {
+    int unknown_00;
+    MapVectorEntry *end;
+    MapVectorEntry *begin;
+  };
+  static MapVectorController *BWDATA_MapListVector = (MapVectorController*)0x0051A274;
+
   const char            *GetStatString(int index);
 
   extern char           *BWDATA_StringTableOff;
