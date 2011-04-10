@@ -1560,6 +1560,9 @@ namespace BWAPI
     //clear everything in the server
     this->server.clearAll();
 
+    // clear messages so they are not stored until the next match
+    this->sentMessages.clear();
+
     // Reset menu activation variables
     actMainMenu = false;
     actRegistry = false;
