@@ -789,14 +789,7 @@ namespace BWAPI
     }
 
     this->setLastError(Errors::None);
-    *BW::BWDATA_GameState      = 0;
-    *BW::BWDATA_gwGameMode     = 1;
-    *BW::BWDATA_gwNextGameMode = 1;
-    *BW::BWDATA_OpheliaEnabled = 1;
-    if ( strchr(BW::BWDATA_CurrentMapFileName, '.') )
-    {
-      *BW::BWDATA_CampaignIndex  = 0;
-    }
+    QueueGameCommand((PBYTE)&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
   void  GameImpl::setLocalSpeed(int speed)

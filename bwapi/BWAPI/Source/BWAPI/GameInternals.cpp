@@ -593,20 +593,21 @@ namespace BWAPI
   int fixPathString(const char *in, char *out, size_t outLen)
   {
     unsigned int n = 0;
-    for ( unsigned int i = 0; in[i] != 0 && n < outLen-1; ++i )
+    const unsigned char *_in = (const unsigned char*)in;
+    for ( unsigned int i = 0; _in[i] != 0 && n < outLen-1; ++i )
     {
-      if ( !iscntrl(in[i]) &&
-           in[i] != '?'    &&
-           in[i] != '*'    &&
-           in[i] != '<'    &&
-           in[i] != '|'    &&
-           in[i] != '"'    &&
-           in[i] != ':' )
+      if ( !iscntrl(_in[i]) &&
+           _in[i] != '?'    &&
+           _in[i] != '*'    &&
+           _in[i] != '<'    &&
+           _in[i] != '|'    &&
+           _in[i] != '"'    &&
+           _in[i] != ':' )
       {
-        if ( in[i] == '\\' )
+        if ( _in[i] == '\\' )
           out[n] = '/';
         else
-          out[n] = in[i];
+          out[n] = _in[i];
         ++n;
       }
     }
@@ -671,57 +672,77 @@ namespace BWAPI
       case 11: 
         actRaceSel = false;
         tempDlg = BW::FindDialogGlobal("Create");
-        if ( this->lastMapGen.size() > 0 && getFileType(this->lastMapGen.c_str()) == 1 )
+
+        if ( this->lastMapGen.size() > 0 )
         {
-          GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-          if ( gt != GameTypes::None && gt != GameTypes::Unknown )
-            tempDlg->findIndex(17)->setSelectedByValue(gt);
-
-          Race playerRace = Races::getRace(this->autoMenuRace);
-          if ( this->autoMenuRace == "RANDOMTP" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-          else if ( this->autoMenuRace == "RANDOMTZ" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-          else if ( this->autoMenuRace == "RANDOMPZ" )
-            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-          if ( playerRace != Races::Unknown && playerRace != Races::None )
-            this->_changeRace(0, playerRace);
-
-          for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
+          if ( getFileType(this->lastMapGen.c_str()) == 1 )
           {
-            Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
-            if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
-              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
-              enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
-              enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+            GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+            BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
+            if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
+              gameTypeDropdown->setSelectedByValue(gt);
 
-            if ( enemyRace != Races::Unknown && enemyRace != Races::None )
-              this->_changeRace(i, enemyRace);
+            Race playerRace = Races::getRace(this->autoMenuRace);
+            if ( this->autoMenuRace == "RANDOMTP" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+            else if ( this->autoMenuRace == "RANDOMTZ" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+            else if ( this->autoMenuRace == "RANDOMPZ" )
+              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+            if ( playerRace != Races::Unknown && playerRace != Races::None )
+              this->_changeRace(0, playerRace);
+
+            for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
+            {
+              Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
+              if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
+                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+              else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
+                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+              else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
+                enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+              if ( enemyRace != Races::Unknown && enemyRace != Races::None )
+                this->_changeRace(i, enemyRace);
+            }
+            //close remaining slots
+            for( int i = this->autoMenuEnemyCount; i < 7; ++i )
+            {
+              BW::dialog *slot = tempDlg->findIndex((short)(21 + i));
+              if ( slot->getSelectedIndex() != 0 )
+                slot->setSelectedIndex(0);
+            }
+          } // if map is playable
+
+          // get the full map path
+          char mapName[MAX_PATH] = { 0 };
+          SStrCopy(mapName, szInstallPath, MAX_PATH);
+          SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
+
+          // get the filename
+          char *pszFile = strrchr(mapName, '/');
+          if ( !pszFile )
+            pszFile = strrchr(mapName, '\\');
+          if ( pszFile )
+            ++pszFile;
+          // Apply the altered name to all vector entries
+          for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end; i = i->next )
+          {
+            SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
+            SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
+            SStrCopy(i->szFullPath,  mapName, MAX_PATH);
           }
 
-          //close remaining slots
-          for( int i = this->autoMenuEnemyCount; i < 7; ++i )
-            tempDlg->findIndex((short)(21 + i))->setSelectedIndex(0);
-        }
-        else
-        {
-          BW::BWDATA_CurrentMapFolder[0] = 0;
-          if ( szInstallPath[0] )
-            strcpy(BW::BWDATA_CurrentMapFolder, szInstallPath);
-          strcat(BW::BWDATA_CurrentMapFolder, this->autoMenuMapPath.c_str());
-          BW::BWDATA_CurrentMapFolder[strlen(BW::BWDATA_CurrentMapFolder)-1] = 0;
-
-        }
-        // if we encounter an unknown error when attempting to load the map
-        if ( BW::FindDialogGlobal("gluPOk") )
-        {
-          this->chooseNewRandomMap();
-          ++autoMapTryCount;
-        }
-        this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+          // if we encounter an unknown error when attempting to load the map
+          if ( BW::FindDialogGlobal("gluPOk") )
+          {
+            this->chooseNewRandomMap();
+            ++autoMapTryCount;
+            this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+          }
+          this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+        } // if lastmapgen
         break;
       }
     }
@@ -777,19 +798,44 @@ namespace BWAPI
           {
             actGameSel = false;
             tempDlg = BW::FindDialogGlobal("Create");
-            if ( this->lastMapGen.size() > 0 && getFileType(this->lastMapGen.c_str()) == 1 )
+            if ( this->lastMapGen.size() > 0 )
             {
-              GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-              if (gt != GameTypes::None && gt != GameTypes::Unknown)
-                tempDlg->findIndex(17)->setSelectedByValue(gt);
+              if ( getFileType(this->lastMapGen.c_str()) == 1 )
+              {
+                GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+                BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
+                if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
+                  gameTypeDropdown->setSelectedByValue(gt);
+              }
+
+              // Get the full map path
+              char mapName[MAX_PATH] = { 0 };
+              SStrCopy(mapName, szInstallPath, MAX_PATH);
+              SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
+
+              // get the filename
+              char *pszFile = strrchr(mapName, '/');
+              if ( !pszFile )
+                pszFile = strrchr(mapName, '\\');
+              if ( pszFile )
+                ++pszFile;
+              // Apply the altered name to all vector entries
+              for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end; i = i->next )
+              {
+                SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
+                SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
+                SStrCopy(i->szFullPath,  mapName, MAX_PATH);
+              }
+
+              // if we encounter an unknown error when attempting to load the map
+              if ( BW::FindDialogGlobal("gluPOk") )
+              {
+                this->chooseNewRandomMap();
+                ++autoMapTryCount;
+                this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+              }
+              this->pressKey( tempDlg->findIndex(12)->getHotkey() );
             }
-            // if we encounter an unknown error when attempting to load the map
-            if ( BW::FindDialogGlobal("gluPOk") )
-            {
-              this->chooseNewRandomMap();
-              ++autoMapTryCount;
-            }
-            this->pressKey( tempDlg->findIndex(12)->getHotkey() );
             break;
           }
 // in lobby
@@ -980,7 +1026,7 @@ namespace BWAPI
     if ( custom )
     {
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
-      if ( slotCtrl )
+      if ( slotCtrl && (int)slotCtrl->getSelectedValue() != race )
         slotCtrl->setSelectedByValue(race);
     }
     else

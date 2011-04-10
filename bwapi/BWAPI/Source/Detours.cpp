@@ -70,23 +70,6 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
 {
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
-  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
-       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
-       BWAPI::BroodwarImpl.autoMenuMode != "OFF" &&
-       BWAPI::BroodwarImpl.outOfGame )
-  {
-    const char *scheck = strrchr(lpFileName, '.');
-    if ( scheck )
-    {
-      int extCheck = strcmpi(scheck, ".scm");
-      if ( extCheck )
-        extCheck = strcmpi(scheck, ".scx");
-      if ( extCheck )
-        extCheck = strcmpi(scheck, ".rep");
-      if ( extCheck == 0 )
-        return CreateFile(BWAPI::BroodwarImpl.lastMapGen.c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-    } // ext check
-  } // automenu
   return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
@@ -278,26 +261,6 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
   return TRUE;
 }
 
-BOOL __stdcall _SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq)
-{
-  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
-       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
-       BWAPI::BroodwarImpl.autoMenuMode != "OFF" )
-  {
-    const char *scheck = strrchr(szMpqName, '.');
-    if ( scheck )
-    {
-      int extCheck = strcmpi(scheck, ".scm");
-      if ( extCheck )
-        extCheck = strcmpi(scheck, ".scx");
-      if ( extCheck )
-        extCheck = strcmpi(scheck, ".rep");
-      if ( extCheck == 0 )
-        return SFileOpenArchive(BWAPI::BroodwarImpl.lastMapGen.c_str(), dwPriority, dwFlags, phMpq);
-    } // ext Check
-  } // automenu
-  return SFileOpenArchive(szMpqName, dwPriority, dwFlags, phMpq);
-}
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue)
 {

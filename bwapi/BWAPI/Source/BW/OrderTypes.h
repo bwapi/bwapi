@@ -491,6 +491,14 @@ namespace BW
         u8 always0x12;
         u32 flags;
     };
+
+    class RestartGame
+    {
+      public :
+        RestartGame();
+      private :
+        u8 always0x08;
+    };
   } // namespace orders
 }; // namespace BW
 #pragma pack()
