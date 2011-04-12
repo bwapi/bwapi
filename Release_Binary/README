@@ -62,7 +62,11 @@ Build Instructions:
    5.2. Click Build -> Build Solution. The Example AI Module is now compiled
         into a dll.
 
-All three projects are now built. To run the Example AI Module:
+All three projects are now built. If you do not intend to build any projects or do 
+not have Visual C++ installed, then you must install the Visual C++ Redistributables
+(vcredist_x86.exe) included in this archive in order to use BWAPI.
+
+To run the Example AI Module:
 
 1. Copy Release/ExampleAIModule.dll to
    <starcraft folder>/bwapi-data/AI/ExampleAIModule.dll
