@@ -21,11 +21,13 @@ void ApplyCodePatches()
 
   /* Perform code patches */
   char zero = 0;
-  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);            // main menu load timer
-  HackUtil::WriteMem(BW::BWDATA_ServerMenuIn, &zero, 1);    // BNET Server menu in speed
-  HackUtil::WriteMem(BW::BWDATA_ServerMenuOut, &zero, 1);   // BNET Server menu out speed
-  HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);  // Start without an opponent
-
+  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);             // main menu load timer
+  HackUtil::WriteMem(BW::BWDATA_ServerMenuIn, &zero, 1);        // BNET Server menu in speed
+  HackUtil::WriteMem(BW::BWDATA_ServerMenuOut, &zero, 1);       // BNET Server menu out speed
+  HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);   // Start without an opponent
+  HackUtil::WriteNops(BW::BWDATA_SingleSpeedHack, 11);          // Use multiplayer speed setting instead
+                                                                // of always setting speed to "Normal" in
+                                                                // single player
   for ( int i = 0; i < 43; ++i )
     BW::BWDATA_commonSwishControllers[i].wType = 4;
   for ( int i = 0; i < 5; ++i )
