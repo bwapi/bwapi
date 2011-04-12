@@ -120,6 +120,7 @@ namespace BW
   static u32 BWDATA_ServerMenuIn      = 0x004DD5A2;
   static u32 BWDATA_ServerMenuOut     = 0x004DD5C9;
   static u32 BWDATA_OpponentStartHack = 0x004B995D;
+  static u32 BWDATA_SingleSpeedHack   = 0x004D99FB;
 
   struct swishTimer
   {
