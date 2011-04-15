@@ -1,5 +1,6 @@
 #include "ShapeDot.h"
 #include "DLLMain.h"
+#include "Graphics.h"
 #include "BWAPI/Game.h"
 
 #include "../../Debug.h"

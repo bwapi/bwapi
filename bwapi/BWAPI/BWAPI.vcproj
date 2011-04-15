@@ -129,6 +129,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
@@ -139,6 +140,7 @@
 				BufferSecurityCheck="false"
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
+				DebugInformationFormat="3"
 				DisableSpecificWarnings="4238; 4100; 4996;"
 			/>
 			<Tool
@@ -157,6 +159,7 @@
 				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -656,6 +659,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Graphics.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Holiday\Holiday.h"
 					>
 				</File>
@@ -681,6 +688,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\Detours.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Graphics.cpp"
 					>
 				</File>
 				<File

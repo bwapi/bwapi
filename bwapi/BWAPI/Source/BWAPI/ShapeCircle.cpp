@@ -1,5 +1,6 @@
 #include "ShapeCircle.h"
 #include "DLLMain.h"
+#include "Graphics.h"
 #include "BWAPI/Game.h"
 
 #include "../../Debug.h"
