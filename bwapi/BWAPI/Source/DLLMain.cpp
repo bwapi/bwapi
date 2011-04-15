@@ -84,10 +84,19 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
     box.top     =  0;
   }
 
-  u8 *data = BW::BWDATA_GameScreenBuffer->data;
-  for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
-    for ( int ix = box.left; ix < box.left + box.right; ix++ )
-      data[iy * BW::BWDATA_GameScreenBuffer->wid + ix] = (u8)color;
+  u8 *data    = BW::BWDATA_GameScreenBuffer->data;
+  u16 scrWid  = BW::BWDATA_GameScreenBuffer->wid;
+
+  if ( box.right == 1 )
+  {
+    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+      data[iy * scrWid + box.left] = (u8)color;
+  }
+  else
+  {
+    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+      memset(&data[iy * scrWid + box.left], (u8)color, box.right);
+  }
 }
 
 void drawDot(int _x, int _y, int color, int ctype)
@@ -166,7 +175,9 @@ void drawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
   int E = TwoDy - Dx; //2*Dy - Dx
   int y = y1;
   int xDraw, yDraw;
-  u8 *data = BW::BWDATA_GameScreenBuffer->data;
+  u8 *data    = BW::BWDATA_GameScreenBuffer->data;
+  u16 scrWid  = BW::BWDATA_GameScreenBuffer->wid;
+  u16 scrHgt  = BW::BWDATA_GameScreenBuffer->ht;
   for ( int x = x1; x != x2; x += xstep )
   {
     if (steep)
@@ -182,9 +193,9 @@ void drawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
     // plot
     if ( xDraw + 1 > 0 &&
          yDraw + 1 > 0 &&
-         xDraw < BW::BWDATA_GameScreenBuffer->wid - 2 &&
-         yDraw < BW::BWDATA_GameScreenBuffer->ht - 2)
-           data[yDraw * BW::BWDATA_GameScreenBuffer->wid + xDraw] = (u8)color;
+         xDraw < scrWid - 2 &&
+         yDraw < scrHgt - 2)
+           data[yDraw * scrWid + xDraw] = (u8)color;
          
     // next
     if (E > 0)
