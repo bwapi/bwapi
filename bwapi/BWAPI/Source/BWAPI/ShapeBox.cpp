@@ -19,17 +19,18 @@ namespace BWAPI
 
   void ShapeBox::draw()
   {
+    int w = right - left;
+    int h = bottom - top;
     if (this->isSolid)
     {
-      drawBox(left, top, right - left, bottom - top, color, ctype);
+      drawBox(left, top, w, h, color, ctype);
     }
     else
     {
-      int lineWidth = 1;
-      drawBox(left, top, lineWidth, bottom - top, color, ctype);
-      drawBox(left, top, right - left, lineWidth, color, ctype);
-      drawBox(right - lineWidth, top, lineWidth, bottom - top, color, ctype);
-      drawBox(left, bottom - lineWidth, right - left, lineWidth, color, ctype);
+      drawBox(   left,      top, 1, h, color, ctype);
+      drawBox(   left,      top, w, 1, color, ctype);
+      drawBox(right-1,      top, 1, h, color, ctype);
+      drawBox(   left, bottom-1, w, 1, color, ctype);
     }
   }
 };
