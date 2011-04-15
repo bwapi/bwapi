@@ -4,6 +4,8 @@
 
 #include "BW/Offsets.h"
 
+void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds);
+
 BOOL  __stdcall  _SNetLeaveGame(int type);
 int   __cdecl    _nextFrameHook();
 int   __stdcall  _SStrCopy(char *dest, const char *source, size_t size);

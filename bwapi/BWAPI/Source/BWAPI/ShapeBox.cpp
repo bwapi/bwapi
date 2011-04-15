@@ -1,5 +1,6 @@
 #include "ShapeBox.h"
 #include "DLLMain.h"
+#include "Graphics.h"
 #include "BWAPI/Game.h"
 
 #include "../../Debug.h"
@@ -19,8 +20,8 @@ namespace BWAPI
 
   void ShapeBox::draw()
   {
-    int w = right - left;
-    int h = bottom - top;
+    int w = abs(right - left);
+    int h = abs(bottom - top);
     if (this->isSolid)
     {
       drawBox(left, top, w, h, color, ctype);
