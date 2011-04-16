@@ -24,6 +24,7 @@ namespace BWAPI
     int h = abs(bottom - top);
     if (this->isSolid)
     {
+      //drawBoxEx(left, top, w, h, Colors::Green, 3, Colors::Teal, ctype, 0, 40);
       drawBox(left, top, w, h, color, ctype);
     }
     else

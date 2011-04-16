@@ -463,13 +463,17 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
+      drawBoxScreen(100, 100, 200, 200, Color(255, 0, 0), true);
+      drawBoxScreen(200, 100, 300, 200, Color(0, 255, 0), true);
+      drawBoxScreen(300, 100, 400, 200, Color(0, 0, 255), true);
+      /*
       for each ( Unit *s in this->selectedUnitSet )
       {
         for each ( Unit *u in s->getUnitsInWeaponRange(s->getType().groundWeapon()) )
         {
           drawLineMap(s->getPosition().x(), s->getPosition().y(), u->getPosition().x(), u->getPosition().y(), Colors::Red);
         }
-      }
+      }*/
     } // unitdebug
 
     // pathdebug

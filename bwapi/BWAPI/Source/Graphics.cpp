@@ -2,6 +2,7 @@
 #include "BW/Offsets.h"
 
 #include <BWAPI/CoordinateType.h>
+#include <BWAPI/Color.h>
 
 void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
@@ -52,6 +53,99 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   {
     for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
       memset(&data[iy * scrWid + box.left], (u8)color, box.right);
+  }
+}
+
+void drawBoxEx(int _x, int _y, int _w, int _h, int borderColor, int borderThickness, int color, int ctype, int style, int intensity)
+{
+  RECT box = { _x, _y, _w, _h };
+  switch ( ctype )
+  {
+  case BWAPI::CoordinateType::Map:
+    box.left -= *(BW::BWDATA_ScreenX);
+    box.top  -= *(BW::BWDATA_ScreenY);
+    break;
+  case BWAPI::CoordinateType::Mouse:
+    box.left += BW::BWDATA_Mouse->x;
+    box.top  += BW::BWDATA_Mouse->y;
+    break;
+  }
+
+  SIZE screen = { BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+
+  int right  = box.left + box.right;
+  int bottom = box.top  + box.bottom;
+  if (right    <= 0   ||
+      bottom   <= 0   ||
+      box.left >= screen.cx - 1 ||
+      box.top  >= screen.cy - 1)
+    return;
+
+  RECT border = { borderThickness, borderThickness, borderThickness, borderThickness };
+  if ( right > screen.cx - 1 )
+  {
+    box.right = (screen.cx - 1) - box.left;
+    border.right -= right - (screen.cx - 1);
+  }
+  if ( bottom > screen.cy - 1 )
+  {
+    box.bottom = (screen.cy - 1) - box.top;
+    border.bottom -= bottom - (screen.cy - 1);
+  }
+  if ( box.left < 0 )
+  { 
+    box.right += box.left; // subtracts because < 0
+    border.left += box.left;
+    box.left  =  0;
+  }
+  if ( box.top < 0 )
+  {
+    box.bottom  += box.top; // subtracts because < 0
+    border.bottom += box.left;
+    box.top     =  0;
+  }
+  u8 *data    = BW::BWDATA_GameScreenBuffer->data;
+  right  = box.left + box.right;
+  bottom = box.top  + box.bottom;
+
+  if ( border.left < 0 )
+    border.left = 0;
+  if ( border.top < 0 )
+    border.top = 0;
+  if ( border.right < 0 )
+    border.right = 0;
+  if ( border.bottom < 0 )
+    border.bottom = 0;
+
+  // Draw Border
+  // top
+  if ( border.top > 0 )
+    for ( int iy = box.top; iy < box.top + border.top; ++iy )
+      memset(&data[iy * screen.cx + box.left], (u8)borderColor, box.right);
+  // bottom
+  if ( border.bottom > 0 )
+    for ( int iy = bottom - border.bottom; iy < bottom; ++iy )
+      memset(&data[iy * screen.cx + box.left], (u8)borderColor, box.right);
+  // left
+  if ( border.left > 0 )
+    for ( int iy = box.top; iy < bottom; ++iy )
+      memset(&data[iy * screen.cx + box.left], (u8)borderColor, border.left);
+  // right
+  if ( border.right > 0 )
+    for ( int iy = box.top; iy < bottom; ++iy )
+      memset(&data[iy * screen.cx + (right - border.right)], (u8)borderColor, border.right);
+
+  BWAPI::Color c(color);
+  int r = (c.red()*intensity)/100;
+  int g = (c.green()*intensity)/100;
+  int b = (c.blue()*intensity)/100;
+  for ( int iy = box.top + border.top; iy < bottom - border.bottom; ++iy )
+  {
+    for ( int ix = box.left + border.left; ix < right - border.right; ++ix )
+    {
+      BWAPI::Color d(data[iy * screen.cx + ix]);
+      data[iy * screen.cx + ix] = (u8)BWAPI::Color( d.red() | r, d.green() | g, d.blue() | b);
+    }
   }
 }
 
