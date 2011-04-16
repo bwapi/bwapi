@@ -124,77 +124,26 @@ namespace BWAPI
   bool UnitImpl::hasPath(Unit *target) const
   {
     if ( !target )
-      return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-    return hasPath(target->getPosition());
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Position target) const
-  {
-    ((GameImpl*)Broodwar)->setLastError(Errors::None);
-    if (!exists()) return false;
+      return Broodwar->setLastError(Errors::Invalid_Parameter);
+
+    Broodwar->setLastError(Errors::None);
+    if ( !exists() ) return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
     if ( this->getType().isFlyer() || this->isLifted() )
       return true;
 
-    const GameData* gameData = ((GameImpl*)Broodwar)->getGameData();
+    return Broodwar->hasPath(this->getPosition(), target->getPosition());
+  }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Position target) const
+  {
+    Broodwar->setLastError(Errors::None);
+    if ( !exists() ) return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
-    BWAPI::Position srcPos = this->getPosition();
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
 
-    if ( srcPos.x() >= Broodwar->mapWidth()*32 ||
-         srcPos.y() >= Broodwar->mapHeight()*32 ||
-         target.x() >= Broodwar->mapWidth()*32 ||
-         target.y() >= Broodwar->mapHeight()*32 )
-      return ((GameImpl*)Broodwar)->setLastError(Errors::Unknown);
-
-    if ( gameData )
-    {
-      unsigned short srcIdx = gameData->mapTileRegionId[srcPos.x()/32][srcPos.y()/32];
-      unsigned short dstIdx = gameData->mapTileRegionId[target.x()/32][target.y()/32];
-
-      unsigned short srcGroup = 0;
-      unsigned short dstGroup = 0;
-      if ( srcIdx & 0x2000 )
-      {
-        int minitilePosX = (srcPos.x()&0x1F)/8;
-        int minitilePosY = (srcPos.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        unsigned short miniTileMask = gameData->mapSplitTilesMiniTileMask[srcIdx&0x1FFF];
-        unsigned short rgn1         = gameData->mapSplitTilesRegion1[srcIdx&0x1FFF];
-        unsigned short rgn2         = gameData->mapSplitTilesRegion2[srcIdx&0x1FFF];
-        if ( (miniTileMask >> minitileShift) & 1 )
-          srcGroup = gameData->regionGroupIndex[rgn2];
-        else
-          srcGroup = gameData->regionGroupIndex[rgn1];
-      }
-      else
-      {
-        srcGroup = gameData->regionGroupIndex[srcIdx];
-      }
-
-      if ( dstIdx & 0x2000 )
-      {
-        int minitilePosX = (target.x()&0x1F)/8;
-        int minitilePosY = (target.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-
-        unsigned short miniTileMask = gameData->mapSplitTilesMiniTileMask[dstIdx&0x1FFF];
-        unsigned short rgn1         = gameData->mapSplitTilesRegion1[dstIdx&0x1FFF];
-        unsigned short rgn2         = gameData->mapSplitTilesRegion2[dstIdx&0x1FFF];
-
-        if ( (miniTileMask >> minitileShift) & 1 )
-          dstGroup = gameData->regionGroupIndex[rgn2];
-        else
-          dstGroup = gameData->regionGroupIndex[rgn1];
-      }
-      else
-      {
-        dstGroup = gameData->regionGroupIndex[dstIdx];
-      }
-
-      if ( srcGroup == dstGroup )
-        return true;
-    }
-    return ((GameImpl*)Broodwar)->setLastError(Errors::Out_Of_Range);
+    return Broodwar->hasPath(this->getPosition(), target);
   }
   //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
   int UnitImpl::getLastCommandFrame() const

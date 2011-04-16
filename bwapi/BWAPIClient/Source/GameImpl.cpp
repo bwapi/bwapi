@@ -1110,4 +1110,60 @@ namespace BWAPI
     addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );
     return setLastError(Errors::None);
   }
+  bool GameImpl::hasPath(Position source, Position destination) const
+  {
+    Broodwar->setLastError(Errors::None);
+    if ( !source.isValid() || !destination.isValid() )
+      return Broodwar->setLastError(Errors::Unreachable_Location);
+
+    if ( data )
+    {
+      unsigned short srcIdx = data->mapTileRegionId[source.x()/32][source.y()/32];
+      unsigned short dstIdx = data->mapTileRegionId[destination.x()/32][destination.y()/32];
+
+      unsigned short srcGroup = 0;
+      unsigned short dstGroup = 0;
+      if ( srcIdx & 0x2000 )
+      {
+        int minitilePosX = (source.x()&0x1F)/8;
+        int minitilePosY = (source.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+        unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[srcIdx&0x1FFF];
+        unsigned short rgn1         = data->mapSplitTilesRegion1[srcIdx&0x1FFF];
+        unsigned short rgn2         = data->mapSplitTilesRegion2[srcIdx&0x1FFF];
+        if ( (miniTileMask >> minitileShift) & 1 )
+          srcGroup = data->regionGroupIndex[rgn2];
+        else
+          srcGroup = data->regionGroupIndex[rgn1];
+      }
+      else
+      {
+        srcGroup = data->regionGroupIndex[srcIdx];
+      }
+
+      if ( dstIdx & 0x2000 )
+      {
+        int minitilePosX = (destination.x()&0x1F)/8;
+        int minitilePosY = (destination.y()&0x1F)/8;
+        int minitileShift = minitilePosX + minitilePosY * 4;
+
+        unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[dstIdx&0x1FFF];
+        unsigned short rgn1         = data->mapSplitTilesRegion1[dstIdx&0x1FFF];
+        unsigned short rgn2         = data->mapSplitTilesRegion2[dstIdx&0x1FFF];
+
+        if ( (miniTileMask >> minitileShift) & 1 )
+          dstGroup = data->regionGroupIndex[rgn2];
+        else
+          dstGroup = data->regionGroupIndex[rgn1];
+      }
+      else
+      {
+        dstGroup = data->regionGroupIndex[dstIdx];
+      }
+
+      if ( srcGroup == dstGroup )
+        return true;
+    }
+    return Broodwar->setLastError(Errors::Unreachable_Location);
+  }
 };

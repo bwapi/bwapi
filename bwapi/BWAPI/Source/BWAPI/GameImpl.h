@@ -223,6 +223,8 @@ namespace BWAPI
       virtual bool setMap(const char *mapFileName);
       virtual void setFrameSkip(int frameSkip = 1);
 
+      virtual bool hasPath(Position source, Position destination) const;
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
