@@ -415,6 +415,9 @@ namespace BWAPI
 
       /** Sets the frame skip value. 1 = normal */
       virtual void setFrameSkip(int frameSkip = 1) = 0;
+
+      /** Returns true if Starcraft can find a path from the source to the destination. */
+      virtual bool hasPath(Position source, Position destination) const = 0;
   };
   extern Game* Broodwar;
 }

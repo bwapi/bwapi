@@ -123,6 +123,11 @@ namespace BWAPI
     return sqrt(x * x + y * y);
   }
   //----------------------------------------------------------------------------------------------------------
+  bool Position::hasPath(const Position& destination) const
+  {
+    return Broodwar->hasPath(*this, destination);
+  }
+  //----------------------------------------------------------------------------------------------------------
   int& Position::x()
   {
     return this->_x;

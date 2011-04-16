@@ -147,8 +147,15 @@ namespace BWAPI
   bool UnitImpl::hasPath(Unit* target) const
   {
     if ( !target )
-      return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-    return hasPath(target->getPosition());
+      return Broodwar->setLastError(Errors::Invalid_Parameter);
+
+    BroodwarImpl.setLastError(Errors::None);
+    checkAccessBool();
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    return Broodwar->hasPath(this->getPosition(), target->getPosition());
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Position target) const
@@ -159,57 +166,7 @@ namespace BWAPI
     if ( this->getType().isFlyer() || this->isLifted() )
       return true;
 
-    BWAPI::Position srcPos = this->getPosition();
-
-    if ( srcPos.x() >= Broodwar->mapWidth()*32  ||
-         srcPos.y() >= Broodwar->mapHeight()*32 ||
-         target.x() >= Broodwar->mapWidth()*32  ||
-         target.y() >= Broodwar->mapHeight()*32 )
-      return BroodwarImpl.setLastError(Errors::Unknown);
-
-    if ( BW::BWDATA_SAIPathing )
-    {
-      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[srcPos.y()/32][srcPos.x()/32];
-      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[target.y()/32][target.x()/32];
-
-      u16 srcGroup = 0;
-      u16 dstGroup = 0;
-      if ( srcIdx & 0x2000 )
-      {
-        int minitilePosX = (srcPos.x()&0x1F)/8;
-        int minitilePosY = (srcPos.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        srcGroup = BW::BWDATA_SAIPathing->regions[srcIdx].groupIndex;
-      }
-
-      if ( dstIdx & 0x2000 )
-      {
-        int minitilePosX = (target.x()&0x1F)/8;
-        int minitilePosY = (target.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        dstGroup = BW::BWDATA_SAIPathing->regions[dstIdx].groupIndex;
-      }
-
-      if ( srcGroup == dstGroup )
-        return true;
-    }
-    return BroodwarImpl.setLastError(Errors::Out_Of_Range);
+    return Broodwar->hasPath(this->getPosition(), target);
   }
   //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
   int UnitImpl::getLastCommandFrame() const
