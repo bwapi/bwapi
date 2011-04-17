@@ -2,6 +2,7 @@
 #include "TilePosition.h"
 
 #include <math.h>
+#include <BWAPI/Constants.h>
 
 #include "Offsets.h"
 
@@ -51,4 +52,43 @@ namespace BW
                      (long double)((long double)this->y - position.y) * ((long double)this->y - position.y));
   }
   //----------------------------------------------------------------------------------------------------------
+  int Position::getApproxDistance(const Position& position) const
+  {
+    unsigned int min = abs(x - position.x);
+    unsigned int max = abs(y - position.y);
+    if ( max < min )
+    {
+      unsigned int temp = min;
+      min = max;
+      max = temp;
+    }
+    if ( min < (max >> 2) )
+      return max;
+
+    int minCalc = (3*min) >> 3;
+    return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
+  }
+  region *Position::getRegion() const
+  {
+    TilePosition tp(x/32, y/32);
+    if ( tp.x >= 256 && tp.y >= 256 )
+      return NULL;
+
+    // Obtain the region IDs from the positions
+    u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[tp.y][tp.x];
+
+    if ( id & 0x2000 )
+    {
+      // Get source region from split-tile based on walk tile
+      int minitilePosX = (x&0x1F)/8;
+      int minitilePosY = (y&0x1F)/8;
+      int minitileShift = minitilePosX + minitilePosY * 4;
+      BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[id&0x1FFF];
+      if ( (t->minitileMask >> minitileShift) & 1 )
+        return &BW::BWDATA_SAIPathing->regions[t->rgn2];
+      return &BW::BWDATA_SAIPathing->regions[t->rgn1];
+    }
+    // Get source region from tile
+    return &BW::BWDATA_SAIPathing->regions[id];
+  }
 };

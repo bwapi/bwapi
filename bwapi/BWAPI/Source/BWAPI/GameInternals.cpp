@@ -479,14 +479,21 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
-      BWAPI::Position scrPos = getScreenPosition();
-      setTextSize(0);
-      for ( int y = scrPos.y()/32; y < (scrPos.y() + BW::BWDATA_GameScreenBuffer->ht)/32 + 1; ++y )
+      for each ( Unit *s in this->selectedUnitSet )
       {
-        for ( int x = scrPos.x()/32; x < (scrPos.x() + BW::BWDATA_GameScreenBuffer->wid)/32 + 1; ++x )
+        BW::Position last((u16)s->getPosition().x(), (u16)s->getPosition().y());
+        BW::region *unitRegion  = last.getRegion();
+        BW::Position mouse( (u16)(BW::BWDATA_Mouse->x + *BW::BWDATA_ScreenX), (u16)(BW::BWDATA_Mouse->y + *BW::BWDATA_ScreenY) );
+        BW::region *mouseRegion = mouse.getRegion();
+        if ( !unitRegion || !mouseRegion )
+          continue;
+
+        for each ( BW::region *r in unitRegion->getRoughPath(mouseRegion) )
         {
-          drawTextMap(x*32,y*32, "%u", this->canBuildHere(NULL, TilePosition(x,y), UnitTypes::Terran_Supply_Depot));
+          drawLineMap(last.x, last.y, r->getCenter().x, r->getCenter().y, Colors::Orange);
+          last = r->getCenter();
         }
+        drawLineMap(last.x, last.y, mouse.x, mouse.y, Colors::Orange);
       }
       /*
       setTextSize(0);
