@@ -1,4 +1,7 @@
 #include <set>
+#include <list>
+#include <bitset>
+#include <vector>
 
 #include "util/foreach.h"
 
@@ -19,48 +22,93 @@ namespace BW
   bool region::isConnectedTo(u16 index)
   {
     if ( index < BW::BWDATA_SAIPathing->regionCount )
-      return this->groupIndex == getRegion(index)->groupIndex;
+      return this->groupIndex == getRegionFromId(index)->groupIndex;
     return false;
   }
 
-  u8 region::getAccessibleNeighbours(region **out_regions, u16 outSize)
+  std::vector<region*> &region::getAccessibleNeighbours()
   {
-    u8 count = 0;
-    for ( u8 i = 0; i < this->neighborCount && count < outSize; ++i )
+    static std::vector<region*> neighbors;
+    neighbors.clear();
+    for ( u8 i = 0; i < this->neighborCount; ++i )
     {
       region *neighbor = this->getNeighbor(i);
       if ( this->isConnectedTo( neighbor ) )
-      {
-        out_regions[count] = neighbor;
-        count++;
-      }
+        neighbors.push_back(neighbor);
     }
-    return count;
+    return neighbors;
   }
 
-  u16 region::getDistance(region *dst)
+  int region::getAirDistance(region *dst)
   {
-    return dst->getCenter().getDistance(this->getCenter());
+    return dst->getCenter().getApproxDistance(this->getCenter());
   }
 
-  u16 region::getPointPath(region *target, Position *out_points, u16 outSize)
+  #define MAX_STEPS 100
+  bool calcRoughPath(region *current, region *target, std::vector<region*> *regionList, int step, int currentDistance, int *bestDistance, std::bitset<5000> *tested, std::vector<region*> *bestRegionList)
   {
-    // @Todo
-    return 0;
+    // If we've reached our goal
+    if ( current == target )
+    {
+      if ( currentDistance > *bestDistance )
+        return false;
+      *bestDistance = currentDistance;
+      (*bestRegionList) = (*regionList);
+      return true;
+    }
+
+    // don't exceed max steps
+    if ( step >= MAX_STEPS )
+      return false;
+
+    // iterate all accessable neighbors
+    (*regionList).push_back(current);
+    (*tested).set(current->getIndex(), true);
+    std::vector<region*> accessibleNeighborsCopy = current->getAccessibleNeighbours();
+    for each ( region *r in accessibleNeighborsCopy )
+    {
+      // Skip this entry if we've already passed through it
+      if ( (*tested).test(r->getIndex()) )
+        continue;
+      
+      // Obtain the total distance and skip this entry if it's larger than the best distance
+      int nextDistance = currentDistance + current->getAirDistance(r);
+      if ( nextDistance > *bestDistance )
+        continue;
+      
+      // Perform nested call on neighbor
+      calcRoughPath(r, target, regionList, step + 1, nextDistance, bestDistance, tested, bestRegionList);
+    }
+    (*tested).set(current->getIndex(), false);
+    (*regionList).pop_back();
+    return false;
   }
 
+  std::vector<region*> &region::getRoughPath(region *target)
+  {
+    static std::vector<region*> regions;
+    regions.clear();
+
+    if ( this->groupIndex != target->groupIndex )
+      return regions;
+    std::bitset<5000> tested;
+    tested.reset();
+
+    int best = MAXINT;
+    std::vector<region*> tempRgns;
+    calcRoughPath(this, target, &tempRgns, 0, 0, &best, &tested, &regions);
+    return regions;
+  }
   region *region::getNeighbor(u8 index)
   {
     if ( index <= this->neighborCount )
-      return getRegion(this->neighbors[index]);
+      return getRegionFromId(this->neighbors[index]);
     return NULL;
   }
 
   Position region::getCenter()
   {
-    if ( this )
-      return BW::Position((u16)(this->rgnCenterX >> 8), (u16)(this->rgnCenterY >> 8));
-    return BW::Position(0,0);
+    return BW::Position((u16)(this->rgnCenterX >> 8), (u16)(this->rgnCenterY >> 8));
   }
 
   u16 region::getIndex()

@@ -6,6 +6,7 @@
 #include "../Storm/storm.h"
 
 #include "Position.h"
+#include "TilePosition.h"
 #include "Dialog.h"
 #include "Pathing.h"
 
@@ -31,7 +32,6 @@
 #define FLINGY_TYPE_COUNT       209
 #define UNIT_ARRAY_MAX_LENGTH  1700
 #define BULLET_ARRAY_MAX_LENGTH 100
-#define TILE_SIZE                32
 #define MAX_SEARCH             3400
 
 namespace BW
@@ -340,7 +340,7 @@ namespace BW
   static u32            *BWDATA_ScreenX                  = (u32*)   0x00628448;
   static u32            *BWDATA_ScreenY                  = (u32*)   0x00628470;
 
-  static Position       *BWDATA_MapSize                  = (Position*) 0x0057F1D4;
+  static TilePosition   *BWDATA_MapSize                  = (TilePosition*) 0x0057F1D4;
 
   //--------------------------------------------- STRINGS ----------------------------------------------------
   static char           *BWDATA_CurrentMapFileName       = (char*) 0x0057FD3C;

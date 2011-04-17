@@ -2,6 +2,7 @@
 
 #include "Position.h"
 #include "Offsets.h"
+#include <BWAPI/Constants.h>
 
 #include "../../Debug.h"
 
@@ -47,7 +48,7 @@ namespace BW
   //----------------------------------------------------------------------------------------------------------
   bool TilePosition::isValid()
   {
-    return *this != Invalid;
+    return this->x < BW::BWDATA_MapSize->x && this->y < BW::BWDATA_MapSize->y;
   }
   //----------------------------------------------------------------------------------------------------------
 };

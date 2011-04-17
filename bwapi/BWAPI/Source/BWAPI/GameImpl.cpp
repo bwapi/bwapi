@@ -1010,50 +1010,11 @@ namespace BWAPI
 
     if ( BW::BWDATA_SAIPathing )
     {
-      // Obtain the region IDs from the positions
-      u16 srcIdx = BW::BWDATA_SAIPathing->mapTileRegionId[source.y()/32][source.x()/32];
-      u16 dstIdx = BW::BWDATA_SAIPathing->mapTileRegionId[destination.y()/32][destination.x()/32];
+      BW::region *srcRgn = BW::Position((u16)source.x(), (u16)source.y()).getRegion();
+      BW::region *dstRgn = BW::Position((u16)destination.x(), (u16)destination.y()).getRegion();
 
-      u16 srcGroup = 0;
-      u16 dstGroup = 0;
-      if ( srcIdx & 0x2000 )
-      {
-        // Get source region group from a split-tile based on walk tile
-        int minitilePosX = (source.x()&0x1F)/8;
-        int minitilePosY = (source.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[srcIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          srcGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        // Get source region group from tile
-        srcGroup = BW::BWDATA_SAIPathing->regions[srcIdx].groupIndex;
-      }
-
-      if ( dstIdx & 0x2000 )
-      {
-        // Get destination region group from a split-tile based on walk tile
-        int minitilePosX = (destination.x()&0x1F)/8;
-        int minitilePosY = (destination.y()&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[dstIdx&0x1FFF];
-        if ( (t->minitileMask >> minitileShift) & 1 )
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn2].groupIndex;
-        else
-          dstGroup = BW::BWDATA_SAIPathing->regions[t->rgn1].groupIndex;
-      }
-      else
-      {
-        // Get destination region group from tile
-        dstGroup = BW::BWDATA_SAIPathing->regions[dstIdx].groupIndex;
-      }
-
-      // Return true if the locations are connected
-      if ( srcGroup == dstGroup )
+      // Return true if the locations are valid and connected
+      if ( srcRgn && dstRgn && srcRgn->groupIndex == dstRgn->groupIndex )
         return true;
     }
     return Broodwar->setLastError(Errors::Unreachable_Location);

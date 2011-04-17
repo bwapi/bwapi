@@ -4,12 +4,12 @@
 #include <Util/Types.h>
 #include <set>
 #include <list>
+#include <vector>
 
-#define getRegion(x) (&(BW::BWDATA_SAIPathing->regions[(x)&0x1FFF]))
+#define getRegionFromId(x) (&(BW::BWDATA_SAIPathing->regions[(x)&0x1FFF]))
 
 namespace BW
 {
-
   struct pathPoint
   {
     u16 x;
@@ -35,14 +35,14 @@ namespace BW
   class region
   {
   public:
-    bool     isConnectedTo(region *target);
-    bool     isConnectedTo(u16 index);
-    u8       getAccessibleNeighbours(region **out_regions, u16 outputCount);
-    u16      getDistance(region *dst);
-    u16      getPointPath(region *target, Position *out_points, u16 outSize);
-    region   *getNeighbor(u8 index);
-    Position getCenter();
-    u16      getIndex();
+    bool                  isConnectedTo(region *target);
+    bool                  isConnectedTo(u16 index);
+    std::vector<region*>  &getAccessibleNeighbours();
+    int                   getAirDistance(region *dst);
+    std::vector<region*>  &getRoughPath(region *target);
+    region                *getNeighbor(u8 index);
+    Position              getCenter();
+    u16                   getIndex();
 
     u16       accessabilityFlags;
               // 0x1FF9 = High ground    1001

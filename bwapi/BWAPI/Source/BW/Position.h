@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Util/Types.h>
-namespace BW { class TilePosition; }
+namespace BW { class TilePosition; class region; }
 
 namespace BW
 {
@@ -16,6 +16,8 @@ namespace BW
       bool operator != (const BW::Position& position) const;
       bool operator  < (const BW::Position& position) const;
       u16 getDistance(const Position& position) const;
+      int getApproxDistance(const Position& position) const;
+      region *getRegion() const;
       u16 x;
       u16 y;
   };
