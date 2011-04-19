@@ -776,7 +776,7 @@ namespace BWAPI
       return false;
 
     int distance = computeDistance<UnitImpl>(this,target);
-    return minRange < distance && maxRange >= distance;
+    return (minRange ? minRange < distance : true) && maxRange >= distance;
   }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
   bool UnitImpl::isIrradiated() const
