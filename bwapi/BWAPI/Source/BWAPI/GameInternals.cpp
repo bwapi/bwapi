@@ -479,24 +479,8 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
-      /*
-      for each ( Unit *s in this->selectedUnitSet )
-      {
-        BW::Position last((u16)s->getPosition().x(), (u16)s->getPosition().y());
-        BW::region *unitRegion  = last.getRegion();
-        BW::Position mouse( (u16)(BW::BWDATA_Mouse->x + *BW::BWDATA_ScreenX), (u16)(BW::BWDATA_Mouse->y + *BW::BWDATA_ScreenY) );
-        BW::region *mouseRegion = mouse.getRegion();
-        if ( !unitRegion || !mouseRegion )
-          continue;
-
-        for each ( BW::region *r in unitRegion->getRoughPath(mouseRegion) )
-        {
-          drawLineMap(last.x, last.y, r->getCenter().x, r->getCenter().y, Colors::Orange);
-          last = r->getCenter();
-        }
-        drawLineMap(last.x, last.y, mouse.x, mouse.y, Colors::Orange);
-      }*/
-      BWAPI::Position mouse  = getMousePosition() + getScreenPosition();
+      BWAPI::Position mouse   = getMousePosition() + getScreenPosition();
+      BW::region *selectedRgn = BW::Position((u16)mouse.x(), (u16)mouse.y()).getRegion();
       int scrx = (getScreenPosition().x()/32 - 1)*32;
       int scry = (getScreenPosition().y()/32 - 1)*32;
       for ( int x = (scrx > 0 ? scrx : 0); x < getScreenPosition().x() + BW::BWDATA_ScreenLayers[5].width && x/32 < this->mapWidth(); x += 32 )
@@ -513,14 +497,16 @@ namespace BWAPI
             {
               for ( int mTileX = 0; mTileX < 4; ++mTileX )
               {
-                BWAPI::Color c = BWAPI::Colors::Grey;
-                if ( getRegionFromId(t->rgn1)->accessabilityFlags == 0x1FFD )
-                  c = BWAPI::Colors::Red;
+                BW::region *rgn1 = getRegionFromId(t->rgn1);
+                BWAPI::Color c = selectedRgn == rgn1 ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
+                if ( rgn1->accessabilityFlags == 0x1FFD )
+                  c = selectedRgn == rgn1 ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
                 if ( ((t->minitileMask >> ( mTileX + mTileY * 4 )) & 1) )
                 {
-                  c = BWAPI::Colors::Grey;
-                  if ( getRegionFromId(t->rgn2)->accessabilityFlags == 0x1FFD )
-                    c = BWAPI::Colors::Red;
+                  BW::region *rgn2 = getRegionFromId(t->rgn2);
+                  c = selectedRgn == rgn2 ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
+                  if ( rgn2->accessabilityFlags == 0x1FFD )
+                    c = selectedRgn == rgn2 ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
                 }
                 drawLineMap(x + mTileX * 8,     y + mTileY * 8, x + mTileX * 8 + 8, y + mTileY * 8 + 8, c);
                 drawLineMap(x + mTileX * 8 + 8, y + mTileY * 8, x + mTileX * 8,     y + mTileY * 8 + 8, c);
@@ -529,10 +515,10 @@ namespace BWAPI
           } // index & 0x2000
           else
           {
-            BWAPI::Color c = BWAPI::Colors::Grey;
             BW::region *r = getRegionFromId(idx);
+            BWAPI::Color c = selectedRgn == r ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
             if ( r->accessabilityFlags == 0x1FFD )
-              c = BWAPI::Colors::Red;
+              c = selectedRgn == r ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
             drawLineMap(x,    y,    x + 32,      y + 32,      c);
             drawLineMap(x+8,  y,    x + 32,      y + 32 - 8,  c);
             drawLineMap(x+16, y,    x + 32,      y + 32 - 16, c);
@@ -551,13 +537,20 @@ namespace BWAPI
           }
         } // iterate y
       } // iterate x
-      for ( int i = 0; i < BW::BWDATA_SAIPathing->regionCount; ++i )
+      for ( unsigned int i = 0; i < BW::BWDATA_SAIPathing->regionCount; ++i )
       {
         BW::region *r = &BW::BWDATA_SAIPathing->regions[i];
-        for ( int n = 0; n < r->neighborCount; ++n )
+        if ( r->accessabilityFlags != 0x1FFD )
+          drawBoxMap(r->rgnBox.left, r->rgnBox.top, r->rgnBox.right, r->rgnBox.bottom, r == selectedRgn ? Colors::Cyan : Colors::Purple);
+        for ( u8 n = 0; n < r->neighborCount; ++n )
         {
           BW::region *neighbor = r->getNeighbor(n);
-          drawLineMap(r->getCenter().x, r->getCenter().y, neighbor->getCenter().x, neighbor->getCenter().y, neighbor->groupIndex == r->groupIndex ? Colors::Green : Colors::Red);
+          if ( r->accessabilityFlags != 0x1FFD && neighbor->accessabilityFlags != 0x1FFD )
+            drawLineMap(r->getCenter().x, r->getCenter().y, neighbor->getCenter().x, neighbor->getCenter().y, neighbor->groupIndex == r->groupIndex ? Colors::Green : Colors::Red);
+        }
+        if ( r == selectedRgn )
+        {
+          drawTextMap(r->getCenter().x, r->getCenter().y, "%cTiles: %u\nPaths: %u\nFlags: %p\nGroupID: %u", 4, r->tileCount, r->pathCount, r->properties, r->groupIndex);
         }
       }
       for ( int i = 0; i < 4; ++i )
@@ -565,7 +558,6 @@ namespace BWAPI
         BW::contourHub *hub = BW::BWDATA_SAIPathing->contours;
         for ( int c = 0; c < hub->contourCount[i]; ++c )
         {
-          setTextSize(3);
           BW::contour *cont = &hub->contours[i][c];
           bool select = false;
           int l = getScreenPosition().x();
