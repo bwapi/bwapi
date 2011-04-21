@@ -606,8 +606,11 @@ namespace BWAPI
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
     
-    GetPrivateProfileString("auto_menu", BUILD_DEBUG ? "auto_menu_dbg" : "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
+    GetPrivateProfileString("auto_menu", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuMode = std::string( strupr(buffer) );
+
+    GetPrivateProfileString("auto_menu", "pause_dbg", "OFF", buffer, MAX_PATH, szConfigPath);
+    this->autoMenuPause = std::string( strupr(buffer) );
 
     GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuRestartGame = std::string( strupr(buffer) );
@@ -719,6 +722,9 @@ namespace BWAPI
     this->server.update();
 
     if ( autoMapTryCount > 50 )
+      return;
+
+    if ( autoMenuPause != "OFF" && !IsDebuggerPresent() )
       return;
 
     int menu = *BW::BWDATA_glGluesMode;
