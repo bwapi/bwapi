@@ -605,7 +605,8 @@ namespace BWAPI
     //this function is called when starcraft loads and at the end of each match.
     //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
     char buffer[MAX_PATH];
-    GetPrivateProfileString("auto_menu", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
+    
+    GetPrivateProfileString("auto_menu", BUILD_DEBUG ? "auto_menu_dbg" : "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuMode = std::string( strupr(buffer) );
 
     GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
