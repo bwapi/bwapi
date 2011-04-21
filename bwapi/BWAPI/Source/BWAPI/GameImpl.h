@@ -360,7 +360,9 @@ namespace BWAPI
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;
+#ifdef _DEBUG
       std::string autoMenuPause;
+#endif
       std::string rn_BWAPIName;
       std::string rn_BWAPIRace;
       std::string rn_MapName;

@@ -608,10 +608,10 @@ namespace BWAPI
     
     GetPrivateProfileString("auto_menu", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuMode = std::string( strupr(buffer) );
-
+#ifdef _DEBUG
     GetPrivateProfileString("auto_menu", "pause_dbg", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuPause = std::string( strupr(buffer) );
-
+#endif
     GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
     this->autoMenuRestartGame = std::string( strupr(buffer) );
 
@@ -724,8 +724,10 @@ namespace BWAPI
     if ( autoMapTryCount > 50 )
       return;
 
+#ifdef _DEBUG
     if ( autoMenuPause != "OFF" && !IsDebuggerPresent() )
       return;
+#endif
 
     int menu = *BW::BWDATA_glGluesMode;
     BW::dialog *tempDlg;
