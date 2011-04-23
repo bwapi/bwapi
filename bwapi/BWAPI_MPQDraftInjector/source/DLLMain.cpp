@@ -19,7 +19,7 @@
 
 const char* plugin_name = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD_STR ")";
 
-void BWAPIError(const char *format, ...)
+BOOL BWAPIError(const char *format, ...)
 {
   char buffer[MAX_PATH];
   va_list ap;
@@ -36,6 +36,7 @@ void BWAPIError(const char *format, ...)
     fclose(f);
   }
   MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR);
+  return FALSE;
 }
 
 class MPQDraftPluginInterface : public IMPQDraftPlugin
@@ -117,13 +118,28 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
     BOOL WINAPI InitializePlugin(IMPQDraftServer* server)
     {
       char envBuffer[MAX_PATH];
+      bool envFailed = false;
       if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
-        if ( !GetCurrentDirectoryA(MAX_PATH, envBuffer) )
-          BWAPIError("Could not find ChaosDir or current directory.");
+      {
+        envFailed = true;
+        if ( !GetCurrentDirectory(MAX_PATH, envBuffer) )
+          return BWAPIError("Could not find ChaosDir or CurrentDirectory. \nError Code: 0x%p", GetLastError());
+      }
 
       strcat(envBuffer, "\\" MODULE);
+      DWORD dwFileAttribs = GetFileAttributes(envBuffer);
+      if ( dwFileAttribs == INVALID_FILE_ATTRIBUTES || dwFileAttribs & FILE_ATTRIBUTE_DIRECTORY )
+      {
+        if ( !envFailed && !GetCurrentDirectory(MAX_PATH, envBuffer) )
+          return BWAPIError("Could not find CurrentDirectory. \nError Code: 0x%p", GetLastError());
+        strcat(envBuffer, "\\" MODULE);
+        dwFileAttribs = GetFileAttributes(envBuffer);
+        if ( dwFileAttribs == INVALID_FILE_ATTRIBUTES || dwFileAttribs & FILE_ATTRIBUTE_DIRECTORY )
+          return BWAPIError("Could not find file \"%s\". \nError Code: 0x%p", envBuffer, GetLastError());
+      }
+
       if ( !LoadLibrary(envBuffer) )
-        BWAPIError("Could not find and/or load " MODULE ".\nThis may be caused by mixing DEBUG and RELEASE builds.");
+        return BWAPIError("Could not load \"%s\". \nError Code: 0x%p", envBuffer, GetLastError());
       return TRUE;
     }
     BOOL WINAPI TerminatePlugin()
