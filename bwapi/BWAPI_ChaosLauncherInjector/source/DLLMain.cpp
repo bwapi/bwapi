@@ -22,6 +22,44 @@ struct ExchangeData
   BOOL bConfigDialog;                 //Is Configurable
 };
 
+DWORD GetRegString(HKEY hBaseKey, const char *pszSubKey, const char *pszValueName, char *pszOutput, DWORD *dwOutSize)
+{
+  HKEY hKey = NULL;;
+  DWORD dwErrCode = RegOpenKeyEx(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
+  if ( dwErrCode != ERROR_SUCCESS )
+    return dwErrCode;
+
+  dwErrCode = RegQueryValueEx(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
+  RegCloseKey(hKey);
+  return dwErrCode;
+}
+
+bool BWAPIError(DWORD dwErrCode, const char *format, ...)
+{
+  char buffer[MAX_PATH];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(buffer, MAX_PATH, MAX_PATH, format, ap);
+  va_end(ap);
+
+  char szErrMsg[256];
+  FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrMsg, MAX_PATH, NULL);
+
+  SYSTEMTIME time;
+  GetSystemTime(&time);
+  FILE* f = fopen("bwapi-error.txt", "a+");
+  if ( f )
+  {
+    fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s - %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer, szErrMsg);
+    fclose(f);
+  }
+
+  char buffer2[MAX_PATH*2];
+  sprintf(buffer2, "%s\n%s", buffer, szErrMsg);
+  MessageBox(NULL, buffer2, "Error", MB_OK | MB_ICONERROR);
+  return FALSE;
+}
+
 bool BWAPIError(const char *format, ...)
 {
   char buffer[MAX_PATH];
@@ -76,36 +114,20 @@ extern "C" __declspec(dllexport) bool OpenConfig()
 {
   char szBwPath[MAX_PATH];
   DWORD dwPathSize = MAX_PATH;
-  HKEY hKey;
 
-  char szErrString[256];
-  DWORD dwErrCode = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
+  DWORD dwErrCode = GetRegString(HKEY_CURRENT_USER, "SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath", szBwPath, &dwPathSize);
   if ( dwErrCode != ERROR_SUCCESS )
   {
-    dwErrCode = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
+    dwErrCode = GetRegString(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath", szBwPath, &dwPathSize);
     if ( dwErrCode != ERROR_SUCCESS )
-    {
-      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-      return BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
-    }
+      return BWAPIError(dwErrCode, "An error occured when retrieving the registry key.");
   }
-
-  if ( !hKey )
-    return false;
-
-  dwErrCode = RegQueryValueEx(hKey, "InstallPath", NULL, NULL, (LPBYTE)szBwPath, &dwPathSize);
-  if ( dwErrCode != ERROR_SUCCESS )
-  {
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-    return BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
-  }
-  RegCloseKey(hKey);
 
   // Load the config file
   char szExecPath[MAX_PATH*2];
   strcpy(szExecPath, szBwPath);
   strcat(szExecPath, "\\bwapi-data\\bwapi.ini");
-  if ( !ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) )
+  if ( ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) <= (HINSTANCE)32 )
     return BWAPIError("Unable to open BWAPI config file.");
   return true;
 }
@@ -113,42 +135,72 @@ extern "C" __declspec(dllexport) bool OpenConfig()
 extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
 {
   char envBuffer[MAX_PATH];
+  bool envFailed = false;
   if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
+  {
+    envFailed = true;
     if ( !GetCurrentDirectory(MAX_PATH, envBuffer) )
-      BWAPIError("Could not find ChaosDir or current directory.");
+      return BWAPIError(GetLastError(), "Could not find ChaosDir or CurrentDirectory.");
+  }
 
-  std::string dllFileName(envBuffer);
-  dllFileName.append("\\" MODULE);
+  strcat(envBuffer, "\\" MODULE);
+  DWORD dwFileAttribs = GetFileAttributes(envBuffer);
+  if ( dwFileAttribs == INVALID_FILE_ATTRIBUTES || dwFileAttribs & FILE_ATTRIBUTE_DIRECTORY )
+  {
+    if ( !envFailed && !GetCurrentDirectory(MAX_PATH, envBuffer) )
+      return BWAPIError(GetLastError(), "Could not find CurrentDirectory.");
+    strcat(envBuffer, "\\" MODULE);
+    dwFileAttribs = GetFileAttributes(envBuffer);
+    if ( dwFileAttribs == INVALID_FILE_ATTRIBUTES || dwFileAttribs & FILE_ATTRIBUTE_DIRECTORY )
+      return BWAPIError(GetLastError(), "Could not find file \"%s\".", envBuffer);
+  }
+  DWORD dwDllSize = strlen(envBuffer)+1;
 
   LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
   if ( !loadLibAddress )
-    BWAPIError("Could not get Proc Address for LoadLibraryA.");
+    return BWAPIError(GetLastError(), "Could not get Proc Address for LoadLibraryA.");
 
   // @TODO: Suspend thread?
-  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
+  void* pathAddress = VirtualAllocEx(hProcess, NULL, dwDllSize, MEM_COMMIT, PAGE_READWRITE);
   if ( !pathAddress )
-    BWAPIError("Could not allocate memory for DLL path.");
+    return BWAPIError(GetLastError(), "Could not allocate memory for DLL path.");
 
   SIZE_T bytesWritten;
-  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
-  if ( !success || bytesWritten != dllFileName.size() + 1)
-    BWAPIError("Unable to write process memory.");
+  BOOL success = WriteProcessMemory(hProcess, pathAddress, envBuffer, dwDllSize, &bytesWritten);
+  if ( !success )
+  {
+    VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
+    return BWAPIError(GetLastError(), "Unable to write process memory.");
+  }
+  if ( bytesWritten != dwDllSize )
+    BWAPIError("WriteToProcessMemory bytesWritten is not the expected value.");
 
   HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
   if ( !hThread )
-    BWAPIError("Unable to create remote thread.\nError Code: 0x%p", GetLastError());
+  {
+    VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
+    return BWAPIError(GetLastError(), "Unable to create remote thread.");
+  }
 
   if ( WaitForSingleObject(hThread, INFINITE) == WAIT_FAILED )
-    BWAPIError("WaitForSingleObject failed.\nError Code: 0x%p", GetLastError());
+  {
+    VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
+    CloseHandle(hThread);
+    return BWAPIError(GetLastError(), "WaitForSingleObject failed.");
+  }
 
   DWORD dwExitCode = NULL;
   if ( !GetExitCodeThread(hThread, &dwExitCode) )
-    BWAPIError("GetExitCodeThread failed.\nError Code: 0x%p", GetLastError());
+  {
+    VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
+    CloseHandle(hThread);
+    return BWAPIError(GetLastError(), "GetExitCodeThread failed.");
+  }
 
   if ( !dwExitCode )
-    BWAPIError("Injection failed.\nThis is caused when BWAPI crashes before injecting completely. \nError Code: 0x%p", GetLastError());
+    BWAPIError(GetLastError(), "Injection failed.\nThis is caused when BWAPI crashes before injecting completely.");
 
-  VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
+  VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
   CloseHandle(hThread);
   return true; //everything OK
 }
