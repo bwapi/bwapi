@@ -202,8 +202,8 @@ void drawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
   bool steep = abs(Dy) >= abs(Dx);
   if ( steep )
   {
-    std::swap<int>(x1, y1);
-    std::swap<int>(x2, y2);
+    std::swap(x1, y1);
+    std::swap(x2, y2);
     // recompute Dx, Dy after swap
     Dx = x2 - x1;
     Dy = y2 - y1;

@@ -275,11 +275,11 @@ DWORD WINAPI PersistentPatch(LPVOID)
 
     if ( ghMainWnd )
     {
-      WNDPROC thisProc = (WNDPROC)GetWindowLong(ghMainWnd, GWL_WNDPROC);
+      WNDPROC thisProc = (WNDPROC)GetWindowLong(ghMainWnd, GWLP_WNDPROC);
       if ( thisProc != &WindowProc )
       {
         wOriginalProc = thisProc;
-        SetWindowLong(ghMainWnd, GWL_WNDPROC, (LONG)&WindowProc);
+        SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
       }
     }
 
