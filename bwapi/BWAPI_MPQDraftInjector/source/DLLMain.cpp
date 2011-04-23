@@ -74,9 +74,12 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
       DWORD dwErrCode = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
       if ( dwErrCode != ERROR_SUCCESS )
       {
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-        BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
-        return FALSE;
+        dwErrCode = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
+        if ( dwErrCode != ERROR_SUCCESS )
+        {
+          FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
+          return BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
+        }
       }
 
       if ( !hKey )
@@ -86,8 +89,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
       if ( dwErrCode != ERROR_SUCCESS )
       {
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-        BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
-        return FALSE;
+        return BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
       }
       RegCloseKey(hKey);
 
@@ -96,10 +98,7 @@ class MPQDraftPluginInterface : public IMPQDraftPlugin
       strcpy(szExecPath, szBwPath);
       strcat(szExecPath, "\\bwapi-data\\bwapi.ini");
       if ( !ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) )
-      {
-        BWAPIError("Unable to open BWAPI config file.");
-        return FALSE;
-      }
+        return BWAPIError("Unable to open BWAPI config file.");
       return TRUE;
     }
     BOOL WINAPI ReadyForPatch()

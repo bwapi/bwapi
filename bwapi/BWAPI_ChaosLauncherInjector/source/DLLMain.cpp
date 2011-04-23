@@ -22,7 +22,7 @@ struct ExchangeData
   BOOL bConfigDialog;                 //Is Configurable
 };
 
-void BWAPIError(const char *format, ...)
+bool BWAPIError(const char *format, ...)
 {
   char buffer[MAX_PATH];
   va_list ap;
@@ -39,6 +39,7 @@ void BWAPIError(const char *format, ...)
     fclose(f);
   }
   MessageBox(NULL, buffer, "Error", MB_OK | MB_ICONERROR );
+  return false;
 }
 
 BOOL APIENTRY DllMain(HMODULE, DWORD, LPVOID)
@@ -81,9 +82,12 @@ extern "C" __declspec(dllexport) bool OpenConfig()
   DWORD dwErrCode = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
   if ( dwErrCode != ERROR_SUCCESS )
   {
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-    BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
-    return false;
+    dwErrCode = RegOpenKeyEx(HKEY_CURRENT_USER, "SOFTWARE\\Blizzard Entertainment\\Starcraft", 0, KEY_QUERY_VALUE, &hKey);
+    if ( dwErrCode != ERROR_SUCCESS )
+    {
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
+      return BWAPIError("An error occured when opening the registry key:\n0x%p\n%s", dwErrCode, szErrString);
+    }
   }
 
   if ( !hKey )
@@ -93,8 +97,7 @@ extern "C" __declspec(dllexport) bool OpenConfig()
   if ( dwErrCode != ERROR_SUCCESS )
   {
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrCode, 0, szErrString, 256, NULL);
-    BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
-    return false;
+    return BWAPIError("An error occured when querying the registry value:\n0x%p\n%s", dwErrCode, szErrString);
   }
   RegCloseKey(hKey);
 
@@ -103,10 +106,7 @@ extern "C" __declspec(dllexport) bool OpenConfig()
   strcpy(szExecPath, szBwPath);
   strcat(szExecPath, "\\bwapi-data\\bwapi.ini");
   if ( !ShellExecute(NULL, "open", szExecPath, NULL, NULL, SW_SHOWNORMAL) )
-  {
-    BWAPIError("Unable to open BWAPI config file.");
-    return false;
-  }
+    return BWAPIError("Unable to open BWAPI config file.");
   return true;
 }
 
