@@ -297,7 +297,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
         /* Retrieve the Starcraft path */
-        if ( SRegLoadString("Starcraft", "InstallPath", SREG_LOCAL_MACHINE, szInstallPath, MAX_PATH) )
+        if ( SRegLoadString("Starcraft", "InstallPath", SREG_NONE, szInstallPath, MAX_PATH) )
           SStrNCat(szInstallPath, "\\", MAX_PATH);
 
         /* Create the config path */

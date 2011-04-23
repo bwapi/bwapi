@@ -655,12 +655,16 @@ BOOL STORMAPI SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 
 #ifndef SREG_
 #define SREG_
-// Flags for SReg functions; Default is CURRENT_USER and "Blizzard Entertainment" key
+// Flags for SReg functions
 
-#define SREG_CURRENT_USER  0x00000001
-#define SREG_BATTLE_NET    0x00000002
-#define SREG_LOCAL_MACHINE 0x00000004
-#define SREG_RAW_KEY       0x00000010
+// Default behaviour checks both HKEY_LOCAL_MACHINE and HKEY_CURRENT_USER
+// relative to the "Software\\Blizzard Entertainment\\" key in both hives.
+
+#define SREG_NONE                   0x00000000
+#define SREG_EXCLUDE_LOCAL_MACHINE  0x00000001  // excludes checking the HKEY_LOCAL_MACHINE hive
+#define SREG_BATTLE_NET             0x00000002  // sets the relative key to "Software\\Battle.net\\" instead
+#define SREG_EXCLUDE_CURRENT_USER   0x00000004  // excludes checking the HKEY_CURRENT_USER hive
+#define SREG_ABSOLUTE               0x00000010  // specified that the key is not a relative key
 
 #endif
 
