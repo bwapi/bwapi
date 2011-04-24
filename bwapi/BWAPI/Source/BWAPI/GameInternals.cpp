@@ -1317,6 +1317,8 @@ namespace BWAPI
         }
       }
     } // !isReplay
+    botAPMCounter_selects = 0;
+    botAPMCounter_noselects = 0;
   }
   //------------------------------------------- PLAYER ID CONVERT --------------------------------------------
   int GameImpl::stormIdToPlayerId(int dwStormId)
