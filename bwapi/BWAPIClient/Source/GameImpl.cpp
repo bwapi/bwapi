@@ -367,7 +367,7 @@ namespace BWAPI
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
   {
-    if (playerId<0 || playerId>=(int)playerVector.size()) return NULL;
+    if (playerId < 0 || playerId >= (int)playerVector.size()) return NULL;
     return &playerVector[playerId];
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
@@ -835,6 +835,34 @@ namespace BWAPI
   void GameImpl::restartGame()
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::RestartGame));
+  }
+  //--------------------------------------------- SET ALLIANCE -----------------------------------------------
+  bool GameImpl::setAlliance(BWAPI::Player *player, bool allied, bool alliedVictory)
+  {
+    /* Set the current player's alliance status */
+    if ( !self() || isReplay() || !player || player == self() )
+    {
+      lastError = Errors::Invalid_Parameter;
+      return false;
+    }
+
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetAllies, player->getID(), allied ? (alliedVictory ? 2 : 1) : 0));
+    lastError = Errors::None;
+    return true;
+  }
+  //----------------------------------------------- SET VISION -----------------------------------------------
+  bool GameImpl::setVision(BWAPI::Player *player, bool enabled)
+  {
+    /* Set the current player's vision status */
+    if ( !self() || isReplay() || !player || player == self() )
+    {
+      lastError = Errors::Invalid_Parameter;
+      return false;
+    }
+
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetVision, player->getID(), enabled ? 1 : 0));
+    lastError = Errors::None;
+    return true;
   }
   //---------------------------------------------- SET GAME SPEED --------------------------------------------
   void GameImpl::setLocalSpeed(int speed)

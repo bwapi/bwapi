@@ -418,6 +418,12 @@ namespace BWAPI
 
       /** Returns true if Starcraft can find a path from the source to the destination. */
       virtual bool hasPath(Position source, Position destination) const = 0;
+
+      /** Sets the BWAPI player's alliance with another player. */
+      virtual bool setAlliance(BWAPI::Player *player, bool allied = true, bool alliedVictory = true) = 0;
+
+      /** Sets the BWAPI player's vision with another player. */
+      virtual bool setVision(BWAPI::Player *player, bool enabled = true) = 0;
   };
   extern Game* Broodwar;
 }

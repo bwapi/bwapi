@@ -26,7 +26,9 @@ namespace BWAPIC
       SetLatCom,
       SetGui,
       SetFrameSkip,
-      SetMap
+      SetMap,
+      SetAllies,
+      SetVision
     };
   }
 }

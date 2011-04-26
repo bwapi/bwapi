@@ -113,7 +113,8 @@ namespace BW
   {
     u8 player[PLAYER_COUNT];
   };
-  static PlayerAlliance *BWDATA_Alliance = (PlayerAlliance*) 0x0058D634;
+  static PlayerAlliance *BWDATA_Alliance     = (PlayerAlliance*) 0x0058D634;
+  static u32            *BWDATA_PlayerVision = (u32*)            0x0057F1EC;
 
   /** Code Patches */
   static u32 BWDATA_MenuLoadHack      = 0x004DE392;

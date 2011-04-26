@@ -602,6 +602,12 @@ namespace BWAPI
       case BWAPIC::CommandType::SetMap:
         Broodwar->setMap(data->strings[v1]);
         break;
+      case BWAPIC::CommandType::SetAllies:
+        Broodwar->setAlliance(getPlayer(v1), v2 != 0, v2 == 2);
+        break;
+      case BWAPIC::CommandType::SetVision:
+        Broodwar->setVision(getPlayer(v1), v2 != 0);
+        break;
       default:
         break;
       }

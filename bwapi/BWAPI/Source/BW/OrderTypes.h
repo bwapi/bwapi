@@ -499,6 +499,24 @@ namespace BW
       private :
         u8 always0x08;
     };
+
+    class SetAllies
+    {
+      public :
+        SetAllies(u32 allies);
+      private :
+        u8  always0x0E;
+        u32 allies;
+    };
+
+    class SetVision
+    {
+      public :
+        SetVision(u16 vision);
+      private :
+        u8  always0x0D;
+        u16 vision;
+    };
   } // namespace orders
 }; // namespace BW
 #pragma pack()

@@ -219,5 +219,7 @@ namespace BWAPI
       virtual bool setMap(const char *mapFileName);
       virtual void setFrameSkip(int frameSkip = 1);
       virtual bool hasPath(Position source, Position destination) const;
+      virtual bool setAlliance(BWAPI::Player *player, bool allied = true, bool alliedVictory = true);
+      virtual bool setVision(BWAPI::Player *player, bool enabled = true);
   };
 }
