@@ -50,6 +50,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIModule", "DevAIModule\
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWScriptEmulator", "BWScriptEmulator\BWScriptEmulator.vcproj", "{9568B84C-42BE-4068-8775-FAEFB2DBC770}"
+	ProjectSection(ProjectDependencies) = postProject
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -104,6 +109,10 @@ Global
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Debug|Win32.Build.0 = Debug|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.ActiveCfg = Release|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.Build.0 = Release|Win32
+		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Debug|Win32.Build.0 = Debug|Win32
+		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Release|Win32.ActiveCfg = Release|Win32
+		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

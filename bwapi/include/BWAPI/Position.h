@@ -21,9 +21,9 @@ namespace BWAPI
       Position& operator+=(const Position& position);
       Position& operator-=(const Position& position);
       double getDistance(const Position& position) const;
-      int getApproxDistance(const Position& position) const;
+      int    getApproxDistance(const Position& position) const;
       double getLength() const;
-      bool hasPath(const Position& destination) const;
+      bool   hasPath(const Position& destination) const;
       int& x();
       int& y();
       int x() const;

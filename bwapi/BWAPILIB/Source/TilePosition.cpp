@@ -106,6 +106,11 @@ namespace BWAPI
     return sqrt(x * x + y * y);
   }
   //----------------------------------------------------------------------------------------------------------
+  bool TilePosition::hasPath(const TilePosition& destination) const
+  {
+    return Broodwar->hasPath(Position(*this), Position(destination));
+  }
+  //----------------------------------------------------------------------------------------------------------
   int& TilePosition::x()
   {
     return this->_x;

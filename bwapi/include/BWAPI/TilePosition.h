@@ -22,6 +22,7 @@ namespace BWAPI
       TilePosition& operator-=(const TilePosition& position);
       double getDistance(const TilePosition& position) const;
       double getLength() const;
+      bool   hasPath(const TilePosition& destination) const;
       int& x();
       int& y();
       int x() const;
