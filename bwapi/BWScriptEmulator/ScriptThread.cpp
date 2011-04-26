@@ -148,7 +148,7 @@ aithread::aithread(WORD wStartBlock, BWAPI::Position location, void *town)
 aithread::~aithread()
 {
   for each ( char *c in this->debugQueue )
-    delete c;
+    free(c);
   this->debugQueue.clear();
 }
 
@@ -1221,8 +1221,7 @@ void aithread::saveDebug(const char *prefix, int iOpcode, const char *pszFormat,
   if ( debugQueue.size() > 40 )
   {
     char *front = this->debugQueue.front();
-    if ( front )
-      free(front);
+    free(front);
     this->debugQueue.pop_front();
   }
   this->debugQueue.push_back(tmp);

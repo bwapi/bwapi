@@ -642,7 +642,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     sendTextEx(false, "%s", buffer);
-    delete [] buffer;
+    free(buffer);
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
@@ -790,6 +790,40 @@ namespace BWAPI
 
     this->setLastError(Errors::None);
     QueueGameCommand((PBYTE)&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
+  }
+  //--------------------------------------------- SET ALLIANCE -----------------------------------------------
+  bool GameImpl::setAlliance(BWAPI::Player *player, bool allied, bool alliedVictory)
+  {
+    /* Set the current player's alliance status */
+    if ( !BWAPIPlayer || isReplay() || !player || player == BWAPIPlayer )
+      return this->setLastError(Errors::Invalid_Parameter);
+
+    u32 alliance = 0;
+    for ( int i = 0; i < PLAYER_COUNT; ++i )
+      alliance |= (BW::BWDATA_Alliance[BWAPIPlayer->getIndex()].player[i] & 3) << (i*2);
+    
+    u8 newAlliance = allied ? (alliedVictory ? 2 : 1) : 0;
+    if ( allied )
+      alliance |= newAlliance << ( ((PlayerImpl*)player)->getIndex()*2);
+    else
+      alliance &= ~(3 << ( ((PlayerImpl*)player)->getIndex()*2) );
+    QueueGameCommand((PBYTE)&BW::Orders::SetAllies(alliance), sizeof(BW::Orders::SetAllies));
+    return this->setLastError(Errors::None);
+  }
+  //----------------------------------------------- SET VISION -----------------------------------------------
+  bool GameImpl::setVision(BWAPI::Player *player, bool enabled)
+  {
+    /* Set the current player's vision status */
+    if ( !BWAPIPlayer || isReplay() || !player || player == BWAPIPlayer )
+      return this->setLastError(Errors::Invalid_Parameter);
+
+    u16 vision = (u16)BW::BWDATA_PlayerVision[BWAPIPlayer->getIndex()];    
+    if ( enabled )
+      vision |= 1 << ((PlayerImpl*)player)->getIndex();
+    else
+      vision &= ~(1 <<  ((PlayerImpl*)player)->getIndex() );
+    QueueGameCommand((PBYTE)&BW::Orders::SetVision(vision), sizeof(BW::Orders::SetVision));
+    return this->setLastError(Errors::None);
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
   void  GameImpl::setLocalSpeed(int speed)
