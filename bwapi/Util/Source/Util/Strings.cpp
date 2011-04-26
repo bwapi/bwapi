@@ -83,12 +83,12 @@ namespace Util
   {
     unsigned long Length;
     fread(&Length,sizeof(unsigned long),1,f);
-    char* Buffer = new char[Length + 1];
+    char* Buffer = (char*)malloc(Length + 1);
     Buffer[Length] = 0;
     if (Length != 0)
       fread(Buffer,Length*sizeof(char),1,f);
     std::string ReturnValue = Buffer;;
-    delete [] Buffer;
+    free(Buffer);
     return ReturnValue;
   }
   //------------------------------------------- BEGINS WIHT NUMBER -------------------------------------------
@@ -109,7 +109,7 @@ namespace Util
 
   void Strings::loadFromFile(const std::string &fileName, std::string &target,const long bufferSize)
   {
-    char* buffer = new char[bufferSize];
+    char* buffer = (char*)malloc(bufferSize);
     FILE* f = fopen(fileName.c_str(),"rt");
     size_t fileSize;
     if (f)
@@ -121,13 +121,13 @@ namespace Util
     }
     else
       throw new FileException("Couldn't open file " + fileName);
-    delete [] buffer;
+    free(buffer);
   }
   //------------------------------------------------ TRIM ALL ------------------------------------------------
   std::string Strings::trimAll(std::string input)
   {
     size_t length = input.size();
-    char* buffer = new char[length + 1];
+    char* buffer = (char*)malloc(length + 1);
     long pos = 0;
     for (size_t i = 0;i < length;i++)
     {
@@ -139,7 +139,7 @@ namespace Util
     }
     buffer[pos] = 0;
     std::string returnValue = buffer;
-    delete [] buffer;
+    free(buffer);
     return returnValue;
   }
   //------------------------------------------------ TRIM ALL ------------------------------------------------

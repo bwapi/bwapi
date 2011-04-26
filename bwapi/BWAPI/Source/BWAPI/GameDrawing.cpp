@@ -142,7 +142,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(ctype,x,y,std::string(buffer),(char)textSize));
-    delete buffer;
+    free(buffer);
   }
   void  GameImpl::drawTextMap(int x, int y, const char *format, ...)
   {
@@ -150,7 +150,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Map,x,y,std::string(buffer),(char)textSize));
-    delete buffer;
+    free(buffer);
   }
   void  GameImpl::drawTextMouse(int x, int y, const char *format, ...)
   {
@@ -158,7 +158,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Mouse,x,y,std::string(buffer),(char)textSize));
-    delete buffer;
+    free(buffer);
   }
   void  GameImpl::drawTextScreen(int x, int y, const char *format, ...)
   {
@@ -166,7 +166,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     this->shapes.push_back(new ShapeText(BWAPI::CoordinateType::Screen,x,y,std::string(buffer),(char)textSize));
-    delete buffer;
+    free(buffer);
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void  GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)

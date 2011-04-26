@@ -633,7 +633,7 @@ namespace BWAPI
     evt.dwSize     = strlen(buffer) + 1;
 
     SEvtDispatch('SNET', 1, 4, &evt);
-    delete buffer;
+    free(buffer);
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
   void GameImpl::sendText(const char *format, ...)
@@ -642,7 +642,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     sendTextEx(false, "%s", buffer);
-    delete buffer;
+    delete [] buffer;
   }
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
@@ -653,14 +653,14 @@ namespace BWAPI
     if ( buffer[0] == '/' )
     {
       SNetSendServerChatCommand(buffer);
-      delete buffer;
+      free(buffer);
       return;
     }
 
     if (_isReplay())
     {
       printf("%s", buffer);
-      delete buffer;
+      free(buffer);
       return;
     }
 
@@ -681,7 +681,7 @@ namespace BWAPI
       {
         printf("%c%s: %c%s", this->BWAPIPlayer->getTextColor(), this->BWAPIPlayer->getName().c_str(), 0x07, buffer);
       }
-      delete buffer;
+      free(buffer);
       return;
     }
 
@@ -710,7 +710,7 @@ namespace BWAPI
       szMessage[1] = 0x4C;
       SNetSendMessage(-1, &szMessage[1], msgLen + 2);
     } // isInGame
-    delete buffer;
+    free(buffer);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(BWAPI::Race race)

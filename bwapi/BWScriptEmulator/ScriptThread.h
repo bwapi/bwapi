@@ -1,5 +1,7 @@
 #include <windows.h>
 #include <BWAPI.h>
+
+#include <list>
 #include <deque>
 
 void UpdateScripts();
@@ -35,7 +37,7 @@ public:
   DWORD sleep();
   void  killThread();
   void  showDebug(int x, int y);
-  void  saveDebug(int iOpcode, const char *pszFormat = NULL, ...);
+  void  saveDebug(const char *prefix, int iOpcode, const char *pszFormat = NULL, ...);
   void  retry();
 
 private:
@@ -53,6 +55,4 @@ private:
   DWORD             dwBytesRead;
   std::deque<char*> debugQueue;
 };
-
-extern std::deque<aithread> aiThreadList;
 
