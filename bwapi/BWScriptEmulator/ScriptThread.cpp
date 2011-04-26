@@ -456,12 +456,23 @@ void aithread::execute()
         MainController->dwAttackTime = 0;
         continue;
       }
-    case AISCRIPT::PLAYER_ENEMY:  // not started   missing alliance function
-      this->saveDebug("\x06", bOpcode);
-      
+    case AISCRIPT::PLAYER_ENEMY:  // complete ?
+      this->saveDebug("\x03", bOpcode);
+      for each ( Unit *u in bw->getUnitsInRectangle(locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        Player *pl = u->getPlayer();
+        if ( pl != self )
+          bw->setAlliance(pl, false);
+      }
       continue;
-    case AISCRIPT::PLAYER_ALLY:  // not started    missing alliance function
-      this->saveDebug("\x06", bOpcode);
+    case AISCRIPT::PLAYER_ALLY:  // complete ?
+      this->saveDebug("\x03", bOpcode);
+      for each ( Unit *u in bw->getUnitsInRectangle(locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        Player *pl = u->getPlayer();
+        if ( pl != self )
+          bw->setAlliance(pl);
+      }
       continue;
     case AISCRIPT::DEFAULT_MIN:  // COMPLETED
       MainController->bDefaultMin = this->read<BYTE>();
@@ -477,6 +488,8 @@ void aithread::execute()
       return;
     case AISCRIPT::SWITCH_RESCUE:  // COMPLETED (can't actually emulate)
       this->saveDebug("\x03", bOpcode);
+      for each ( Player *pl in bw->enemies() )  // closest thing to becoming neutral+rescuable
+        bw->setAlliance(pl);
       continue;
     case AISCRIPT::MOVE_DT: // 
       this->saveDebug("\x06", bOpcode);
@@ -962,16 +975,20 @@ void aithread::execute()
     case AISCRIPT::EXIT_TRANSPORT: // not started
       this->saveDebug("\x06", bOpcode);
       continue;
-    case AISCRIPT::SHAREDVISION_ON: // not started
+    case AISCRIPT::SHAREDVISION_ON: // performs reverse vision
       {
         BYTE bPlayer = this->read<BYTE>();
-        this->saveDebug("\x06", bOpcode, "%3u", bPlayer);
+        this->saveDebug("\x03", bOpcode, "%3u", bPlayer);
+        Player *pl = bw->getPlayer(bPlayer);
+        bw->setVision(pl); // players swapped for compatibility
         continue;
       }
-    case AISCRIPT::SHAREDVISION_OFF: // not started
+    case AISCRIPT::SHAREDVISION_OFF: // performs reverse vision
       {
         BYTE bPlayer = this->read<BYTE>();
-        this->saveDebug("\x06", bOpcode, "%3u", bPlayer);
+        this->saveDebug("\x03", bOpcode, "%3u", bPlayer);
+        Player *pl = bw->getPlayer(bPlayer);
+        bw->setVision(pl, false); // players swapped for compatibility
         continue;
       }
     case AISCRIPT::NUKE_LOCATION: // not started
