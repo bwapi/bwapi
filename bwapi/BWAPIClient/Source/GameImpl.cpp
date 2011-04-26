@@ -764,7 +764,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::Printf,addString(buffer)));
-    delete buffer;
+    free(buffer);
     return;
   }
   //--------------------------------------------- SEND TEXT --------------------------------------------------
@@ -773,7 +773,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText,addString(buffer)));
-    delete buffer;
+    free(buffer);
     return;
   }
   //--------------------------------------------- SEND TEXT EX -----------------------------------------------
@@ -912,28 +912,28 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,0,0,false),buffer);
-    delete buffer;
+    free(buffer);
   }
   void GameImpl::drawTextMap(int x, int y, const char *format, ...)
   {
     char *buffer;
     vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,0,false),buffer);
-    delete buffer;
+    free(buffer);
   }
   void GameImpl::drawTextMouse(int x, int y, const char *format, ...)
   {
     char *buffer;
     vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,0,false),buffer);
-    delete buffer;
+    free(buffer);
   }
   void GameImpl::drawTextScreen(int x, int y, const char *format, ...)
   {
     char *buffer;
     vstretchyprintf(buffer, format);
     addText(BWAPIC::Shape(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,0,false),buffer);
-    delete buffer;
+    free(buffer);
   }
 
   void GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)

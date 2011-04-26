@@ -147,7 +147,7 @@ void BWAPIError(const char *format, ...)
     fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
     fclose(f);
   }
-  delete buffer;
+  free(buffer);
 }
 
 void BWAPIError(DWORD dwErrCode, const char *format, ...)
@@ -158,7 +158,7 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
   char szErrString[256];
   SErrGetErrorStr(dwErrCode, szErrString, 256);
   BWAPIError("%s    %s", szErrString, buffer);
-  delete buffer;
+  free(buffer);
 }
 
 char logPath[MAX_PATH];

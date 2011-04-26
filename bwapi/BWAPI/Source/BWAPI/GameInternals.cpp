@@ -463,10 +463,10 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
-      for each ( UnitImpl *s in this->selectedUnitSet )
+      /*for each ( UnitImpl *s in this->selectedUnitSet )
       {
         BW::Unit *u = s->getOriginalRawData;
-      }
+      }*/
     } // unitdebug
 
     // pathdebug

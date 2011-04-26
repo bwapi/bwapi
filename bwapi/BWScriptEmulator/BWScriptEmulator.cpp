@@ -60,8 +60,6 @@ void BWScriptEmulator::onStart()
   else // ( selfRace == Races::Terran )
     AICreateThread("TMCx", sLoc );
 
-  UpdateScripts();
-
   srand(dwRandomSeed);
   dwLastRandom = dwRandomSeed;
 }
