@@ -44,10 +44,10 @@ namespace HackUtil
   DWORD*                   _GetFunctionsList(char* sourceModule, char* importModule);
   /* These functions are not specifically made for public use */
 
-  bool PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction);
-  bool PatchImport(char* importModule, LPCSTR name, void* patchFunction);
-  bool PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction);
-  bool PatchImport(char* importModule, int ordinal, void* patchFunction);
+  FARPROC PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction);
+  FARPROC PatchImport(char* importModule, LPCSTR name, void* patchFunction);
+  FARPROC PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction);
+  FARPROC PatchImport(char* importModule, int ordinal, void* patchFunction);
   /* Creates a detour for the specified import function in any loaded module */
 
   FARPROC GetImport(char* importModule, LPCSTR name);

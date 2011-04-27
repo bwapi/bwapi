@@ -84,22 +84,22 @@ namespace HackUtil
     return NULL;
   }
 
-  bool PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
+  FARPROC PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
   {
     if ( !name )
-      return false;
+      return NULL;
 
     HMODULE tempModule = GetModuleHandleA(sourceModule);
     if ( !tempModule )
-      return false;
+      return NULL;
 
     IMAGE_THUNK_DATA32* importOrigin = _GetImportsList(sourceModule, importModule);
     if ( !importOrigin )
-      return false;
+      return NULL;
 
     DWORD* importFunction = _GetFunctionsList(sourceModule, importModule);
     if ( !importFunction )
-      return false;
+      return NULL;
 
     for (u32 i = 0; importOrigin[i].u1.Ordinal != 0; i++)
     {
@@ -107,33 +107,35 @@ namespace HackUtil
       {
         if (IMAGE_ORDINAL32(importOrigin[i].u1.Ordinal) == IMAGE_ORDINAL32((DWORD)name))
         {
+          FARPROC oldFxn = (FARPROC)importFunction[i];
           WriteMem(&importFunction[i], &patchFunction, 4);
-          return true;
+          return oldFxn;
         }
       }
       else
       {
         if (strcmpi(name, (const char*)((PIMAGE_IMPORT_BY_NAME)((u32)importOrigin[i].u1.AddressOfData + (u32)tempModule))->Name) == 0)
         {
+          FARPROC oldFxn = (FARPROC)importFunction[i];
           WriteMem(&importFunction[i], &patchFunction, 4);
-          return true;
+          return oldFxn;
         }
       }
     }
-    return false;
+    return NULL;
   }
 
-  bool PatchImport(char* importModule, LPCSTR name, void* patchFunction)
+  FARPROC PatchImport(char* importModule, LPCSTR name, void* patchFunction)
   {
     return PatchImport(NULL, importModule, name, patchFunction);
   }
 
-  bool PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction)
+  FARPROC PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction)
   {
     return PatchImport(sourceModule, importModule, (LPCSTR)ordinal, patchFunction);
   }
   
-  bool PatchImport(char* importModule, int ordinal, void* patchFunction)
+  FARPROC PatchImport(char* importModule, int ordinal, void* patchFunction)
   {
     return PatchImport(NULL, importModule, (LPCSTR)ordinal, patchFunction);
   }
