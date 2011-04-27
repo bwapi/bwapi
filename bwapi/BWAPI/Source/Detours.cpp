@@ -13,6 +13,7 @@
 #include "BWAPI/GameImpl.h"
 #include "BW/Offsets.h"
 #include "DLLMain.h"
+#include "NewHackUtil.h"
 
 #include "../../Debug.h"
 
@@ -37,6 +38,12 @@ DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
 HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 
+//------------------------------------------- DIRECT DRAW INIT -----------------------------------------------
+void DDInit()
+{
+  DDrawInitialize(640, 480);
+}
+//--------------------------------------------- CREATE WINDOW ------------------------------------------------
 bool detourCreateWindow = false;
 HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
 {
@@ -46,6 +53,7 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
     detourCreateWindow = true;
     if ( switchToWMode )
     {
+      HackUtil::CallPatch(BW::BWDATA_DDrawInitCallPatch, &DDInit);
       if ( _CreateWindowExAOld )
         hWndReturn = _CreateWindowExAOld(dwExStyle, 
                                           lpClassName, 
