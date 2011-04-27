@@ -16,6 +16,7 @@ void ApplyCodePatches()
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &_nextFrameHook);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
+  HackUtil::CallPatch(BW::BWDATA_DDrawInitCallPatch, &DDInit);
   HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy,    &DDrawDestroy);
   HackUtil::JmpPatch(BW::BWFXN_NetSelectReturnMenu, &_SelectReturnMenu);
 
@@ -57,12 +58,19 @@ void ApplyCodePatches()
   HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
   HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
   HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
+  HackUtil::PatchImport("user32.dll", "CreateWindowExA", &_CreateWindowExA);
   
   /* Other Detours */
   HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
   HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
   HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
   HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
+}
+
+//------------------------------------------- DIRECT DRAW INIT -----------------------------------------------
+void DDInit()
+{
+  DDrawInitialize(640, 480);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------

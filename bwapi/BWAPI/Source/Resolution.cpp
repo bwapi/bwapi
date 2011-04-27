@@ -89,7 +89,7 @@ void DDrawDestroy()
 
 void DDrawInitialize(int width, int height)
 {
-  if ( !ghMainWnd )
+  if ( !ghMainWnd || wmode )
     return;
 
   // Initialize module

@@ -23,6 +23,48 @@ char gszDesiredReplayName[MAX_PATH];
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
+bool detourCreateWindow = false;
+HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
+{
+  HWND hWndReturn = NULL;
+  if ( strcmp(lpClassName, "SWarClass") == 0 )
+  {
+    detourCreateWindow = true;
+    if ( switchToWMode )
+    {
+      switchToWMode = false;
+      hWndReturn = CreateWindowEx(dwExStyle, 
+                                  lpClassName, 
+                                  lpWindowName, 
+                                  dwStyle | WS_OVERLAPPEDWINDOW, 
+                                  windowRect.left, 
+                                  windowRect.top, 
+                                  windowRect.right, 
+                                  windowRect.bottom, 
+                                  hWndParent, 
+                                  hMenu, 
+                                  hInstance, 
+                                  lpParam);
+      ghMainWnd = hWndReturn;
+      SetWMode(windowRect.right, windowRect.bottom, true);
+    }
+    else
+    {
+      hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+      ghMainWnd = hWndReturn;
+    }
+    // Obtain/hack WndProc
+    wOriginalProc = (WNDPROC)GetWindowLong(hWndReturn, GWLP_WNDPROC);
+    SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
+    return hWndReturn;
+  }
+  else
+  {
+    hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+  }
+  return hWndReturn;
+}
+
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
 {
