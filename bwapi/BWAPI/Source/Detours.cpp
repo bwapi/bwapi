@@ -23,6 +23,20 @@ char gszDesiredReplayName[MAX_PATH];
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
+BOOL   (STORMAPI *_SNetLeaveGameOld)(int type);
+int    (STORMAPI *_SStrCopyOld)(char *dest, const char *source, size_t size);
+BOOL   (STORMAPI *_SNetReceiveMessageOld)(int *senderplayerid, u8 **data, int *databytes);
+BOOL   (STORMAPI *_SFileOpenFileExOld)(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
+BOOL   (STORMAPI *_SFileOpenFileOld)(const char *filename, HANDLE *phFile);
+void*  (STORMAPI *_SMemAllocOld)(int amount, char *logfilename, int logline, char defaultValue);
+BOOL   (STORMAPI *_SNetSendTurnOld)(char *data, unsigned int databytes);
+BOOL   (STORMAPI *_SDrawCaptureScreenOld)(const char *pszOutput);
+HANDLE (WINAPI   *_FindFirstFileOld)(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData);
+BOOL   (WINAPI   *_DeleteFileOld)(LPCTSTR lpFileName);
+DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
+HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
+HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
+
 bool detourCreateWindow = false;
 HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
 {
@@ -32,35 +46,54 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
     detourCreateWindow = true;
     if ( switchToWMode )
     {
-      switchToWMode = false;
-      hWndReturn = CreateWindowEx(dwExStyle, 
-                                  lpClassName, 
-                                  lpWindowName, 
-                                  dwStyle | WS_OVERLAPPEDWINDOW, 
-                                  windowRect.left, 
-                                  windowRect.top, 
-                                  windowRect.right, 
-                                  windowRect.bottom, 
-                                  hWndParent, 
-                                  hMenu, 
-                                  hInstance, 
-                                  lpParam);
+      if ( _CreateWindowExAOld )
+        hWndReturn = _CreateWindowExAOld(dwExStyle, 
+                                          lpClassName, 
+                                          lpWindowName, 
+                                          dwStyle | WS_OVERLAPPEDWINDOW, 
+                                          windowRect.left, 
+                                          windowRect.top, 
+                                          windowRect.right, 
+                                          windowRect.bottom, 
+                                          hWndParent, 
+                                          hMenu, 
+                                          hInstance, 
+                                          lpParam);
+      else
+        hWndReturn = CreateWindowEx(dwExStyle, 
+                                    lpClassName, 
+                                    lpWindowName, 
+                                    dwStyle | WS_OVERLAPPEDWINDOW, 
+                                    windowRect.left, 
+                                    windowRect.top, 
+                                    windowRect.right, 
+                                    windowRect.bottom, 
+                                    hWndParent, 
+                                    hMenu, 
+                                    hInstance, 
+                                    lpParam);
       ghMainWnd = hWndReturn;
       SetWMode(windowRect.right, windowRect.bottom, true);
     }
     else
     {
-      hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+      if ( _CreateWindowExAOld )
+        hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+      else
+        hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
       ghMainWnd = hWndReturn;
     }
+    switchToWMode = false;
     // Obtain/hack WndProc
     wOriginalProc = (WNDPROC)GetWindowLong(hWndReturn, GWLP_WNDPROC);
     SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
-    return hWndReturn;
   }
   else
   {
-    hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+    if ( _CreateWindowExAOld )
+      hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+    else
+      hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
   }
   return hWndReturn;
 }
@@ -68,13 +101,17 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
 {
+  const char *pszFile = lpFileName;
   if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
        BWAPI::BroodwarImpl.autoMenuMode != ""         &&
        BWAPI::BroodwarImpl.autoMenuMode != "OFF"      &&
        BWAPI::BroodwarImpl.lastMapGen.size() > 0      &&
        strstr(lpFileName, "*.*")  )
-    return FindFirstFile(BWAPI::BroodwarImpl.lastMapGen.c_str(), lpFindFileData);
-  return FindFirstFile(lpFileName, lpFindFileData);
+    pszFile = BWAPI::BroodwarImpl.lastMapGen.c_str();
+
+  if ( _FindFirstFileOld )
+    return _FindFirstFileOld(pszFile, lpFindFileData);
+  return FindFirstFile(pszFile, lpFindFileData);
 }
 void setReplayName(char *pOutFilename, const char *pInFileName)
 {
@@ -100,18 +137,24 @@ BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
 {
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+  if ( _DeleteFileOld )
+    return _DeleteFileOld(szNewFileName);
   return DeleteFile(szNewFileName);
 }
 DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
 {
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+  if ( _GetFileAttributesOld )
+    return _GetFileAttributesOld(szNewFileName);
   return GetFileAttributes(szNewFileName);
 }
 HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
 {
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+  if ( _CreateFileOld )
+    return _CreateFileOld(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
   return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
@@ -136,6 +179,8 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
     }
     return SBmpSaveImage(pszOutput, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
   }
+  if ( _SDrawCaptureScreenOld )
+    return _SDrawCaptureScreenOld(pszOutput);
   return SDrawCaptureScreen(pszOutput);
 }
 
@@ -143,6 +188,8 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 BOOL __stdcall _SNetLeaveGame(int type)
 {
   BWAPI::BroodwarImpl.onGameEnd();
+  if ( _SNetLeaveGameOld )
+    return _SNetLeaveGameOld(type);
   return SNetLeaveGame(type);
 }
 
@@ -178,13 +225,20 @@ int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
       /* onSend Lobby */
     }
   }
+  if ( _SStrCopyOld )
+    return _SStrCopyOld(dest, source, size);
   return SStrCopy(dest, source, size);
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
 BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databytes)
 {
-  BOOL rval = SNetReceiveMessage(senderplayerid, (char**)data, databytes);
+  BOOL rval;
+  if ( _SNetReceiveMessageOld )
+    rval = _SNetReceiveMessageOld(senderplayerid, data, databytes);
+  else
+    rval = SNetReceiveMessage(senderplayerid, (char**)data, databytes);
+
   if ( rval && *databytes > 2 && (*data)[0] == 0)
     BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
 
@@ -288,7 +342,11 @@ BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSea
     return FALSE;
 
   if ( !SFileOpenFileEx(NULL, szFileName, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+  {
+    if ( _SFileOpenFileExOld )
+      return _SFileOpenFileExOld(hMpq, szFileName, dwSearchScope, phFile);
     return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+  }
   return TRUE;
 }
 
@@ -299,7 +357,11 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
     return FALSE;
 
   if ( !SFileOpenFileEx(NULL, filename, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+  {
+    if ( _SFileOpenFileOld )
+      return _SFileOpenFileOld(filename, phFile);
     return SFileOpenFile(filename, phFile);
+  }
   return TRUE;
 }
 
@@ -307,7 +369,11 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue)
 {
   /* Call the original function */
-  void *rval = SMemAlloc(amount, logfilename, logline, defaultValue);
+  void *rval = NULL;
+  if ( _SMemAllocOld )
+    rval = _SMemAllocOld(amount, logfilename, logline, defaultValue);
+  else
+    rval = SMemAlloc(amount, logfilename, logline, defaultValue);
 
   if ( lastFile == "dlgs\\protoss.grp" || 
        lastFile == "dlgs\\terran.grp"  ||
@@ -387,6 +453,8 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
   /* Save tick/frame counts for getRemainingLatency*  */
   lastTurnTime  = GetTickCount();
   lastTurnFrame = BWAPI::BroodwarImpl.getFrameCount();
+  if ( _SNetSendTurnOld )
+    return _SNetSendTurnOld(data, databytes);
   return SNetSendTurn(data, databytes);
 }
 

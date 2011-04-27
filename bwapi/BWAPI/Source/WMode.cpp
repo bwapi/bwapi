@@ -21,6 +21,14 @@ RECT windowRect    = { 0, 0, 640, 480 };
 
 RGBQUAD palette[256];
 
+BOOL (WINAPI   *_GetCursorPosOld)(LPPOINT lpPoint);
+BOOL (WINAPI   *_SetCursorPosOld)(int X, int Y);
+BOOL (WINAPI   *_ClipCursorOld)(const RECT *lpRect);
+BOOL (STORMAPI *_SDrawLockSurfaceOld)(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
+BOOL (STORMAPI *_SDrawUnlockSurfaceOld)(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
+BOOL (STORMAPI *_SDrawUpdatePaletteOld)(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
+BOOL (STORMAPI *_SDrawRealizePaletteOld)();
+
 void InitializeWModeBitmap(int width, int height)
 {
   if ( hdcMem )
@@ -423,7 +431,11 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
     return FALSE;
 
   if ( !wmode )
+  {
+    if ( _GetCursorPosOld )
+      return _GetCursorPosOld(lpPoint);
     return GetCursorPos(lpPoint);
+  }
 
   if ( !gbHoldingAlt )
   {
@@ -433,7 +445,10 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
   else
   {
     POINT tempPoint;
-    GetCursorPos(&tempPoint);
+    if ( _GetCursorPosOld )
+      _GetCursorPosOld(&tempPoint);
+    else
+      GetCursorPos(&tempPoint);
     ScreenToClient(ghMainWnd, &tempPoint);
 
     LPARAM lConvert = FixPoints(MAKELPARAM(tempPoint.x, tempPoint.y));
@@ -447,21 +462,33 @@ BOOL WINAPI _GetCursorPos(LPPOINT lpPoint)
 BOOL WINAPI _SetCursorPos(int X, int Y)
 {
   if ( !wmode )
+  {
+    if ( _SetCursorPosOld )
+      return _SetCursorPosOld(X, Y);
     return SetCursorPos(X, Y);
+  }
   return TRUE;
 }
 
 BOOL WINAPI _ClipCursor(const RECT *lpRect)
 {
   if ( !wmode )
+  {
+    if ( _ClipCursorOld )
+      return _ClipCursorOld(lpRect);
     return ClipCursor(lpRect);
+  }
   return TRUE;
 }
 
 BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused)
 {
   if ( !wmode )
+  {
+    if ( _SDrawLockSurfaceOld )
+      return _SDrawLockSurfaceOld(surfacenumber, lpDestRect, lplpSurface, lpPitch, arg_unused);
     return SDrawLockSurface(surfacenumber, lpDestRect, lplpSurface, lpPitch, arg_unused);
+  }
 
   if ( lplpSurface )
     *lplpSurface = pBits;
@@ -473,7 +500,11 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
   if ( !wmode )
+  {
+    if ( _SDrawUnlockSurfaceOld )
+      return _SDrawUnlockSurfaceOld(surfacenumber, lpSurface, a3, lpRect);
     return SDrawUnlockSurface(surfacenumber, lpSurface, a3, lpRect);
+  }
 
   if ( ghMainWnd && lpSurface )
   {
@@ -486,7 +517,11 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
 BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4)
 {
   if ( !wmode || !ghMainWnd )
+  {
+    if ( _SDrawUpdatePaletteOld )
+      return _SDrawUpdatePaletteOld(firstentry, numentries, pPalEntries, a4);
     return SDrawUpdatePalette(firstentry, numentries, pPalEntries, a4);
+  }
 
   for ( unsigned int i = firstentry; i < firstentry + numentries; ++i )
   {
@@ -503,7 +538,11 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
 BOOL __stdcall _SDrawRealizePalette()
 {
   if ( !wmode || !ghMainWnd )
+  {
+    if ( _SDrawRealizePaletteOld )
+      return _SDrawRealizePaletteOld();
     return SDrawRealizePalette();
+  }
 
   if ( IsIconic(ghMainWnd) )
     return FALSE;
