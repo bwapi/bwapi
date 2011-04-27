@@ -12,53 +12,49 @@
 
 #include "../../Debug.h"
 
+void SetBitmap(BW::bitmap *Bitmap, int width, int height, void *data)
+{
+  if ( !Bitmap )
+    return;
+  Bitmap->wid   = (WORD)width;
+  Bitmap->ht    = (WORD)height;
+  Bitmap->data  = (BYTE*)data;
+}
+
 void SetResolution(int width, int height)
 {
-  HWND hWnd = SDrawGetFrameWindow();
-  MoveWindow(hWnd, 0, 0, width, height, TRUE);
-
-  // re-initialize w-mode or ddraw
-  SetWMode(width, height, wmode);
-
-  // Resize buffers and stuff
+  // Resize game screen data buffer
   void *newBuf = SMAlloc(width * height);
   void *oldBuf = BW::BWDATA_GameScreenBuffer->data;
-  
-  memset(newBuf, 0, width * height);
-
-  BW::BWDATA_GameScreenBuffer->data = (u8*)newBuf;
-  BW::BWDATA_GameScreenBuffer->wid = (u16)width;
-  BW::BWDATA_GameScreenBuffer->ht = (u16)height;
+  SetBitmap(BW::BWDATA_GameScreenBuffer, width, height, newBuf);
   if ( oldBuf )
     SMFree(oldBuf);
 
-  BW::BWDATA_ScreenLayers[5].width = (WORD)width;
+  // Set new screen limits
+  BW::BWDATA_ScreenLayers[5].width  = (WORD)width;
   BW::BWDATA_ScreenLayers[5].height = (WORD)height;
-  BW::BWDATA_ScrLimit->right  = width - 1;
-  BW::BWDATA_ScrLimit->bottom = height - 1;
-  BW::BWDATA_ScrSize->right   = width;
-  BW::BWDATA_ScrSize->bottom  = height;
+  SetRect(BW::BWDATA_ScrLimit, 0, 0, width - 1, height - 1);
+  SetRect(BW::BWDATA_ScrSize,  0, 0, width,     height);
 
+  // Resize game screen console (HUD) buffer
   newBuf = SMAlloc(width * height);
   oldBuf = BW::BWDATA_GameScreenConsole->data;
-
-  BW::BWDATA_GameScreenConsole->data = (u8*)newBuf;
-  BW::BWDATA_GameScreenConsole->wid = (u16)width;
-  BW::BWDATA_GameScreenConsole->ht = (u16)height;
+  SetBitmap(BW::BWDATA_GameScreenConsole, width, height, newBuf);
   if ( oldBuf )
     SMFree(oldBuf);
 
+  // Recreate STrans thingy
   HANDLE oldTrans = (*BW::BWDATA_MainBltMask)->hTrans;
-  (*BW::BWDATA_MainBltMask)->info.right  = width;
-  (*BW::BWDATA_MainBltMask)->info.bottom = height;
+  SetRect(&(*BW::BWDATA_MainBltMask)->info, 0, 0, width, height);
   STransCreateE(newBuf, width, height, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
   if ( oldTrans )
     STransDelete(oldTrans);
 
+  // call a function that does some weird stuff
   BW::BWFXN_UpdateBltMasks();
 
-  if ( hdcMem )
-    InitializeWModeBitmap(width, height);
+  // re-initialize w-mode or ddraw, this function can do both
+  SetWMode(width, height, wmode);
 }
 
 HMODULE ddLib;
