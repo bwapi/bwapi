@@ -270,19 +270,22 @@ DWORD WINAPI PersistentPatch(LPVOID)
       BW::BWDATA_ScreenLayers[5].pUpdate = DrawHook;
     }
 
-    if ( !ghMainWnd )
-      ghMainWnd = SDrawGetFrameWindow();
-
-    if ( ghMainWnd )
+    // Only grab this info if we are not currently detouring the CreateWindowEx procedure
+    if ( !detourCreateWindow )
     {
-      WNDPROC thisProc = (WNDPROC)GetWindowLong(ghMainWnd, GWLP_WNDPROC);
-      if ( thisProc != &WindowProc )
+      if ( !ghMainWnd )
+        ghMainWnd = SDrawGetFrameWindow();
+
+      if ( ghMainWnd )
       {
-        wOriginalProc = thisProc;
-        SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
+        WNDPROC thisProc = (WNDPROC)GetWindowLong(ghMainWnd, GWLP_WNDPROC);
+        if ( thisProc != &WindowProc )
+        {
+          wOriginalProc = thisProc;
+          SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
+        }
       }
     }
-
   } //loop
 }
 
