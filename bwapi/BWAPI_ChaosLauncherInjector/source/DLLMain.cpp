@@ -132,7 +132,12 @@ extern "C" __declspec(dllexport) bool OpenConfig()
   return true;
 }
 
-extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
+extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE, DWORD)
+{
+  return true;
+}
+
+extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD)
 {
   char envBuffer[MAX_PATH];
   bool envFailed = false;
@@ -203,10 +208,4 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
   VirtualFreeEx(hProcess, pathAddress, dwDllSize, MEM_RELEASE);
   CloseHandle(hThread);
   return true; //everything OK
-}
-
-extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD lParam)
-{
-  ApplyPatch(hProcess, lParam);
-  return true;
 }

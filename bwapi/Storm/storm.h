@@ -668,8 +668,8 @@ BOOL STORMAPI SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
 
 #endif
 
-BOOL STORMAPI STransBlt(HANDLE hTrans, int a2, int a3, int a4, int a5);
-BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *pMask, int pitch, int width, HANDLE hTrans);
+BOOL STORMAPI STransBlt(void *lpSurface, int x, int y, int width, HANDLE hTrans);
+BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *lpSource, int pitch, int width, HANDLE hTrans);
 
 BOOL STORMAPI STransDelete(HANDLE hTrans);
 
