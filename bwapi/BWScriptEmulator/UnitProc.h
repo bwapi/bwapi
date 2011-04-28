@@ -31,6 +31,7 @@ public:
   bool UseAbility(TechType tech, Unit *target);
   bool AbilityInUse(TechType tech, Unit *target);
 
+  int       iEmulatedOrder;
   Position  guardLocation;
   Position  destLocation;
   Unit      *thisUnit;

@@ -247,18 +247,18 @@ namespace BWAPI
       self->resources           = _getResources;                        //getResources
       self->resourceGroup       = _getType.isResourceContainer() ? o->building.resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
-      self->acidSporeCount      = o->acidSporeCount;   //getAcidSporeCount
-      self->defenseMatrixPoints = o->defenseMatrixDamage/256;  //getDefenseMatrixPoints
-      self->defenseMatrixTimer  = o->defenseMatrixTimer; //getDefenseMatrixTimer
-      self->ensnareTimer        = o->ensnareTimer;     //getEnsnareTimer
-      self->irradiateTimer      = o->irradiateTimer;   //getIrradiateTimer
-      self->lockdownTimer       = o->lockdownTimer;    //getLockdownTimer
-      self->maelstromTimer      = o->maelstromTimer;   //getMaelstromTimer
+      self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
+      self->defenseMatrixPoints = o->status.defenseMatrixDamage/256;  //getDefenseMatrixPoints
+      self->defenseMatrixTimer  = o->status.defenseMatrixTimer; //getDefenseMatrixTimer
+      self->ensnareTimer        = o->status.ensnareTimer;     //getEnsnareTimer
+      self->irradiateTimer      = o->status.irradiateTimer;   //getIrradiateTimer
+      self->lockdownTimer       = o->status.lockdownTimer;    //getLockdownTimer
+      self->maelstromTimer      = o->status.maelstromTimer;   //getMaelstromTimer
       self->orderTimer          = o->mainOrderTimer;   //getOrderTimer
-      self->plagueTimer         = o->plagueTimer;      //getPlagueTimer
-      self->removeTimer         = o->removeTimer;      //getRemoveTimer
-      self->stasisTimer         = o->stasisTimer;      //getStasisTimer
-      self->stimTimer           = o->stimTimer;        //getStimTimer
+      self->plagueTimer         = o->status.plagueTimer;      //getPlagueTimer
+      self->removeTimer         = o->status.removeTimer;      //getRemoveTimer
+      self->stasisTimer         = o->status.stasisTimer;      //getStasisTimer
+      self->stimTimer           = o->status.stimTimer;        //getStimTimer
       self->order               = o->orderID;          //getOrder
       self->secondaryOrder      = o->secondaryOrderID; //getSecondaryOrder
       self->buildUnit           = o->currentBuildUnit ? BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->currentBuildUnit)) : -1; //getBuildUnit
@@ -362,7 +362,7 @@ namespace BWAPI
 
       self->isAccelerating  = o->movementFlag(BW::MovementFlags::Accelerating);  //isAccelerating
       self->isBeingGathered = _getType.isResourceContainer() && (o->building.resource.gatherQueueCount || o->building.resource.nextGatherer);  //isBeingGathered
-      self->isBlind         = o->isBlind != 0;   //isBlind
+      self->isBlind         = o->status.isBlind != 0;   //isBlind
       self->isBraking       = o->movementFlag(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------
       //isCarryingGas, isCarryingMinerals
@@ -374,9 +374,9 @@ namespace BWAPI
       self->isGathering     = _getType.isWorker() && o->statusFlag(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
       self->isLifted        = o->statusFlag(BW::StatusFlags::InAir) &&
                               o->type().isBuilding(); //isLifted
-      self->isParasited     = o->parasiteFlags != 0; //isParasited
+      self->isParasited     = o->status.parasiteFlags != 0; //isParasited
       self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
-      self->isUnderStorm    = o->isUnderStorm != 0; //isUnderStorm
+      self->isUnderStorm    = o->status.isUnderStorm != 0; //isUnderStorm
       self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing); //isUnpowered
       self->isStuck         = o->movementState == UM_MoveToLegal;
       self->isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible

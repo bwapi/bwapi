@@ -236,6 +236,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OrderID.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ScienceVessel.h"
 				>
 			</File>
@@ -257,6 +261,10 @@
 			</File>
 			<File
 				RelativePath=".\Transport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitID.h"
 				>
 			</File>
 			<File

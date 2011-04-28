@@ -245,25 +245,28 @@ namespace BW
     /*0x106*/ u8                                  _unused_0x106;
     /*0x107*/ u8                                  isBeingHealed;          // 1 if a medic is currently healing this unit
     /*0x108*/ rect                                contourBounds;          // a rect that specifies the closest contour (collision) points
-    /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
-    /*0x112*/ u16                                 defenseMatrixDamage;
-    /*0x114*/ u8                                  defenseMatrixTimer;
-    /*0x115*/ u8                                  stimTimer;
-    /*0x116*/ u8                                  ensnareTimer;
-    /*0x117*/ u8                                  lockdownTimer;
-    /*0x118*/ u8                                  irradiateTimer;
-    /*0x119*/ u8                                  stasisTimer;
-    /*0x11A*/ u8                                  plagueTimer;
-    /*0x11B*/ u8                                  isUnderStorm;
-    /*0x11C*/ BW::Unit                            *irradiatedBy;      /**< @todo Verify */
-    /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
-    /*0x121*/ u8                                  parasiteFlags;
-    /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
-    /*0x123*/ u8                                  isBlind;
-    /*0x124*/ u8                                  maelstromTimer;
-    /*0x125*/ u8                                  _unused_0x125;  // ?? Might be afterburner timer or ultralisk roar timer
-    /*0x126*/ u8                                  acidSporeCount;
-    /*0x127*/ u8                                  acidSporeTime[9];
+    struct
+    {
+      /*0x110*/ u16                                 removeTimer;            /**< Verified for Hallucination, DWeb, Scarab, DSwarm, and Broodling; does not apply to scanner sweep */
+      /*0x112*/ u16                                 defenseMatrixDamage;
+      /*0x114*/ u8                                  defenseMatrixTimer;
+      /*0x115*/ u8                                  stimTimer;
+      /*0x116*/ u8                                  ensnareTimer;
+      /*0x117*/ u8                                  lockdownTimer;
+      /*0x118*/ u8                                  irradiateTimer;
+      /*0x119*/ u8                                  stasisTimer;
+      /*0x11A*/ u8                                  plagueTimer;
+      /*0x11B*/ u8                                  isUnderStorm;
+      /*0x11C*/ BW::Unit                            *irradiatedBy;      /**< @todo Verify */
+      /*0x120*/ u8                                  irradiatePlayerID;  /**< @todo Verify */
+      /*0x121*/ u8                                  parasiteFlags;
+      /*0x122*/ u8                                  cycleCounter;       /* counts/cycles up from 0 to 7 (inclusive). See also 0x85. */
+      /*0x123*/ u8                                  isBlind;
+      /*0x124*/ u8                                  maelstromTimer;
+      /*0x125*/ u8                                  _unused_0x125;  // ?? Might be afterburner timer or ultralisk roar timer
+      /*0x126*/ u8                                  acidSporeCount;
+      /*0x127*/ u8                                  acidSporeTime[9];
+    } status;
     /*0x130*/ u16                                 bulletBehaviour3by3AttackSequence; // Counts up for the number of bullets shot by a unit using
                                                                                      // this weapon behaviour and resets after it reaches 12
     /*0x132*/ u16                                 _unused_0x132;   // possible alignment
