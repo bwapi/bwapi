@@ -120,8 +120,12 @@ namespace BWAPI
       virtual bool isExplored(TilePosition position);
       virtual bool hasCreep(int x, int y);
       virtual bool hasCreep(TilePosition position);
-      virtual bool hasPower(int x, int y, int tileWidth, int tileHeight);
-      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight);
+      virtual bool hasPower(int tileX, int tileY, UnitType unitType = UnitTypes::None) const;
+      virtual bool hasPower(TilePosition position, UnitType unitType = UnitTypes::None) const;
+      virtual bool hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const;
+      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const;
+      virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const;
+      virtual bool hasPowerPrecise(Position position, UnitType unitType = UnitTypes::None) const;
 
       virtual bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored = false);
       virtual bool canMake(const Unit* builder, UnitType type);

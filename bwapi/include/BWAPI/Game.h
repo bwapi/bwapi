@@ -224,9 +224,17 @@ namespace BWAPI
       virtual bool hasCreep(TilePosition position) = 0;
 
       /** Returns true if the given build location is powered by a nearby friendly pylon. */
-      virtual bool hasPower(int tileX, int tileY, int tileWidth, int tileHeight) = 0;
-      /** \copydoc hasPower(int, int, int, int) */
-      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight) = 0;
+      virtual bool hasPower(int tileX, int tileY, UnitType unitType = UnitTypes::None) const = 0;
+      /** Returns true if the given build location is powered by a nearby friendly pylon. */
+      virtual bool hasPower(TilePosition position, UnitType unitType = UnitTypes::None) const = 0;
+      /** Returns true if the given build location is powered by a nearby friendly pylon. */
+      virtual bool hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const = 0;
+      /** Returns true if the given build location is powered by a nearby friendly pylon. */
+      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const = 0;
+      /** Returns true if the given pixel location is powered by a nearby friendly pylon. */
+      virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const = 0;
+      /** Returns true if the given pixel location is powered by a nearby friendly pylon. */
+      virtual bool hasPowerPrecise(Position position, UnitType unitType = UnitTypes::None) const = 0;
 
       /** Returns true if the given unit type can be built at the given build tile position. Note the tile
        * position specifies the top left tile of the building. If builder is not null, the unit will be

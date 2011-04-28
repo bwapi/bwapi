@@ -5,6 +5,40 @@ namespace BWAPI
 {
   namespace Templates
   {
+    //--------------------------------------------- HAS POWER ------------------------------------------------
+    const bool bPsiFieldMask[10][16] = {
+      { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
+      { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+      { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+      { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+      { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 }
+    };
+    template <class UnitImpl>
+    bool hasPower(int x, int y, UnitType unitType, const std::set<UnitImpl*> &pylons)
+    {
+      if ( unitType >= 0 && unitType < UnitTypes::None && (!unitType.requiresPsi() || !unitType.isBuilding()) )
+        return true;
+
+      /* Loop through all pylons for the current player */
+      foreach (UnitImpl* i, pylons)
+      {
+        Position p = i->getPosition();
+        if ( abs(p.x() - x) >= 256 )
+          continue;
+
+        if ( abs(p.y() - y) >= 160 )
+          continue;
+
+        if ( bPsiFieldMask[(y - p.y() + 160) / 32][(x - p.x() + 256) / 32] )
+          return true;
+      }
+      return false;
+    }
     //-------------------------------------------- UNIT FINDER -----------------------------------------------
     template <class finder>
     int getUnitFinderMinimum(const finder *uf, int min)
