@@ -10,11 +10,12 @@ UnitProc::UnitProc(Unit *pUnit)
 
 void UnitProc::Init()
 {
-  this->thisUnit      = NULL;
-  this->guardLocation = Positions::None;
-  this->destLocation  = Positions::None;
-  this->initialized   = false;
-  this->dwState       = 0;
+  this->thisUnit        = NULL;
+  this->guardLocation   = Positions::None;
+  this->destLocation    = Positions::None;
+  this->initialized     = false;
+  this->dwState         = 0;
+  this->iEmulatedOrder  = Orders::Guard;
 }
 void UnitProc::Init(Unit *pUnit)
 {
@@ -23,6 +24,7 @@ void UnitProc::Init(Unit *pUnit)
   this->destLocation  = Positions::None;
   this->initialized   = false;
   this->dwState       = 0;
+  
 }
 
 UnitProc::~UnitProc()
