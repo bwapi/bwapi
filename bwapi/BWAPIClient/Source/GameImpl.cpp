@@ -671,67 +671,31 @@ namespace BWAPI
     return hasCreep(position.x(),position.y());
   }
   //--------------------------------------------- HAS POWER --------------------------------------------------
-  bool GameImpl::hasPower(int x, int y, int tileWidth, int tileHeight)
+  bool GameImpl::hasPower(int tileX, int tileY, UnitType unitType) const
   {
-    if (!(tileWidth == 2 && tileHeight == 2) &&
-        !(tileWidth == 3 && tileHeight == 2) &&
-        !(tileWidth == 4 && tileHeight == 3))
-      return false;
-
-    if (tileWidth == 4)
-      x++;
-    /* Loop through all pylons for the current player */
-    foreach (UnitImpl* i, pylons)
-    {
-      if ( !i->isCompleted() )
-        continue;
-      int px = i->getTilePosition().x();
-      int py = i->getTilePosition().y();
-      int bx = x - px + 7;
-      int by = y - py + 5;
-      /* Deal with special cases, pylon offset cutoff */
-      if (bx >= 0 && by >= 0 && bx <= 14 && by <= 9)
-      {
-        switch(by)
-        {
-        case 0:
-          if ( tileHeight == 3 && bx >= 4 && bx <= 9 )
-            return true;
-          break;
-        case 1:
-          if (bx >= 1 && bx <= 12) 
-            return true;
-          break;
-        case 2:
-          if (bx <= 13) 
-            return true;
-          break;
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-          return true;
-        case 7:
-          if (bx <= 13) 
-            return true;
-          break;
-        case 8:
-          if (bx >= 1 && bx <= 12) 
-            return true;
-          break;
-        case 9:
-          if (bx >= 4 && bx <= 9) 
-            return true;
-          break;
-        }
-      }
-    }
-    return false;
+    if ( unitType >= 0 && unitType < UnitTypes::None )
+      return hasPowerPrecise( tileX*32 + unitType.tileWidth()*16, tileY*32 + unitType.tileHeight()*16, unitType);
+    return hasPowerPrecise( tileX*32, tileY*32, UnitTypes::None);
   }
-  //--------------------------------------------- HAS POWER --------------------------------------------------
-  bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight)
+  bool GameImpl::hasPower(TilePosition position, UnitType unitType) const
   {
-    return hasPower(position.x(),position.y(),tileWidth,tileHeight);
+    return hasPower(position.x(), position.y(), unitType);
+  }
+  bool GameImpl::hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType) const
+  {
+    return hasPowerPrecise( tileX*32 + tileWidth*16, tileY*32 + tileHeight*16, unitType);
+  }
+  bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType) const
+  {
+    return hasPower(position.x(), position.y(), unitType);
+  }
+  bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
+  {
+    return Templates::hasPower<Unit>(x, y, unitType, pylons);
+  }
+  bool GameImpl::hasPowerPrecise(Position position, UnitType unitType) const
+  {
+    return hasPowerPrecise(position.x(), position.y(), unitType);
   }
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
   bool GameImpl::canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
