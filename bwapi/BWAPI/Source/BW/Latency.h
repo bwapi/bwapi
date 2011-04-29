@@ -1,5 +1,4 @@
 #pragma once
-#include <Util/Types.h>
 namespace BW
 {
   /** Number of frames until actions take effect @ref localData.  */
