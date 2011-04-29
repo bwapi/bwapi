@@ -687,7 +687,7 @@ namespace BWAPI
   }
   bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType) const
   {
-    return hasPower(position.x(), position.y(), unitType);
+    return hasPower(position.x(), position.y(), tileWidth, tileHeight, unitType);
   }
   bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
   {
