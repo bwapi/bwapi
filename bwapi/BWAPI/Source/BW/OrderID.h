@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Util/Types.h>
 #include <string>
 
 namespace BW

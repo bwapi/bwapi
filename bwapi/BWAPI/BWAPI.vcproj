@@ -267,6 +267,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\TriggerEngine.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\BW\Unit.h"
 					>
 				</File>
@@ -327,6 +331,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BW\TriggerEngine.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BW\Unit.cpp"
 					>
 				</File>
@@ -383,10 +391,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\BW\ParasiteFlags.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\BW\PlayerType.h"
 					>
 				</File>
@@ -396,6 +400,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BW\TechID.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BW\Triggers.h"
 					>
 				</File>
 				<File
