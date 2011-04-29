@@ -27,6 +27,9 @@ namespace BWAPI
       /* Loop through all pylons for the current player */
       foreach (UnitImpl* i, pylons)
       {
+        if ( !i->exists() || !i->isCompleted() )
+          continue;
+
         Position p = i->getPosition();
         if ( abs(p.x() - x) >= 256 )
           continue;
