@@ -9,7 +9,7 @@ namespace BWAPI
 {
   class Server
   {
-    public:
+  public:
     Server();
     ~Server();
     void update();
@@ -24,7 +24,7 @@ namespace BWAPI
     Unit* getUnit(int id);
     GameData* data;
     void clearAll();
-    private:
+  private:
     void onMatchStart();
     void checkForConnections();
     void initializeSharedMemory();
@@ -35,6 +35,7 @@ namespace BWAPI
     HANDLE pipeObjectHandle;
     HANDLE mapFileHandle;
     bool connected;
+    bool localOnly;
     std::vector<Force*> forceVector;
     std::map<Force*, int> forceLookup;
 
