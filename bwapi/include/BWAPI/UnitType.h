@@ -489,6 +489,20 @@ namespace BWAPI
     extern const UnitType Powerup_Zerg_Gas_Sac_Type_2;
     extern const UnitType Powerup_Terran_Gas_Tank_Type_1;
     extern const UnitType Powerup_Terran_Gas_Tank_Type_2;
+    extern const UnitType Special_Map_Revealer;
+    extern const UnitType Special_Floor_Missile_Trap;
+    extern const UnitType Special_Floor_Hatch;
+    extern const UnitType Special_Upper_Level_Door;
+    extern const UnitType Special_Right_Upper_Level_Door;
+    extern const UnitType Special_Pit_Door;
+    extern const UnitType Special_Right_Pit_Door;
+    extern const UnitType Special_Floor_Gun_Trap;
+    extern const UnitType Special_Wall_Missile_Trap;
+    extern const UnitType Special_Wall_Flame_Trap;
+    extern const UnitType Special_Right_Wall_Missile_Trap;
+    extern const UnitType Special_Right_Wall_Flame_Trap;
+    extern const UnitType Special_Start_Location;
+
     extern const UnitType None;
     extern const UnitType AllUnits;
     extern const UnitType Men;

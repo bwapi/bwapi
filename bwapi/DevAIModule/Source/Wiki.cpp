@@ -273,12 +273,7 @@ void writeUnitWiki()
   fprintf(outWiki, "\n= Other =\n");
   fprintf(outWiki, "\n== Critters ==\n");
   for each ( UnitType u in unitTypes )
-    if ( u.getRace() == Races::Other && 
-         !u.isBuilding() && 
-         !u.isPowerup() && 
-         !u.isResourceContainer() &&
-         u != UnitTypes::Special_Cargo_Ship &&
-         u != UnitTypes::Special_Mercenary_Gunship)
+    if ( !strnicmp(u.getName().c_str(), "Critter", strlen("Critter")) )
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Resources ==\n");
@@ -301,10 +296,23 @@ void writeUnitWiki()
     if ( u.isPowerup() )
       printUnitData(outWiki, u);
 
+  fprintf(outWiki, "\n== Traps ==\n");
+  for each ( UnitType u in unitTypes )
+    if ( strstr(u.getName().c_str(), " Trap") )
+      printUnitData(outWiki, u);
+
+  fprintf(outWiki, "\n== Doors ==\n");
+  for each ( UnitType u in unitTypes )
+    if ( strstr(u.getName().c_str(), " Door") )
+      printUnitData(outWiki, u);
+
   fprintf(outWiki, "\n== Special ==\n");
   printUnitData(outWiki, UnitTypes::Special_Cargo_Ship);
-  printUnitData(outWiki, UnitTypes::Special_Mercenary_Gunship);
+  printUnitData(outWiki, UnitTypes::Special_Floor_Hatch);
   printUnitData(outWiki, UnitTypes::Special_Independant_Starport);
+  printUnitData(outWiki, UnitTypes::Special_Map_Revealer);
+  printUnitData(outWiki, UnitTypes::Special_Mercenary_Gunship);
+  printUnitData(outWiki, UnitTypes::Special_Start_Location);
 
   fprintf(outWiki, "\n== Misc ==\n");
   fprintf(outWiki, "=== None ===\n");
