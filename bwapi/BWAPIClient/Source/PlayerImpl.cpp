@@ -95,51 +95,71 @@ namespace BWAPI
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const
   {
+    if ( self->race < 0 || self->race >= 3 )
+      return 0;
     return self->supplyTotal[self->race];
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed() const
   {
+    if ( self->race < 0 || self->race >= 3 )
+      return 0;
     return self->supplyUsed[self->race];
   }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
   {
+    if ( race < 0 || race >= 3 )
+      return 0;
     return self->supplyTotal[race];
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
   {
+    if ( race < 0 || race >= 3 )
+      return 0;
     return self->supplyUsed[race];
   }
   //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
     return self->allUnitCount[unit];
   }
   //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
   int PlayerImpl::visibleUnitCount(UnitType unit) const
   {
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
     return self->visibleUnitCount[unit];
   }
   //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
     return self->completedUnitCount[unit];
   }
   //--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
   int PlayerImpl::incompleteUnitCount(UnitType unit) const
   {
-    return self->allUnitCount[unit]-self->completedUnitCount[unit];
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
+    return self->allUnitCount[unit] - self->completedUnitCount[unit];
   }
   //--------------------------------------------- DEAD UNIT COUNT --------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
     return self->deadUnitCount[unit];
   }
   //--------------------------------------------- KILLED UNIT COUNT ------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
+    if ( unit < 0 || unit >= BWAPI_UNIT_TYPE_MAX_COUNT )
+      return 0;
     return self->killedUnitCount[unit];
   }
   //--------------------------------------------------- SCORE ------------------------------------------------
@@ -166,21 +186,29 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
+    if ( upgrade < 0 || upgrade >= 63 )
+      return 0;
     return self->upgradeLevel[upgrade];
   }
   //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
   bool PlayerImpl::hasResearched(TechType tech) const
   {
+    if ( tech < 0 || tech >= 47 )
+      return false;
     return self->hasResearched[tech];
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool PlayerImpl::isResearching(TechType tech) const
   {
+    if ( tech < 0 || tech >= 47 )
+      return false;
     return self->isResearching[tech];
   }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
+    if ( upgrade < 0 || upgrade >= 63 )
+      return false;
     return self->isUpgrading[upgrade];
   }
   //--------------------------------------------- MAX ENERGY -------------------------------------------------
