@@ -26,11 +26,14 @@ namespace BWAPI
     data      = NULL;
     int size  = sizeof(GameData);
 
+    // create file mapping
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
     if ( mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL )
       Util::Logger::globalLog->log("Error: unable to make shared memory, may not have enough access");
     else
       data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+
+    // check if memory was created or if we should create it locally
     if ( !data )
     {
       Util::Logger::globalLog->log("Error: MapViewOfFile failed, may not have enough access");
@@ -66,6 +69,11 @@ namespace BWAPI
   {
     if ( pipeObjectHandle )
       DisconnectNamedPipe(pipeObjectHandle);
+    if ( localOnly && data )
+    {
+      free(data);
+      data = NULL;
+    }
   }
   void Server::update()
   {
@@ -143,16 +151,19 @@ namespace BWAPI
 
   void Server::setWaitForResponse(bool wait)
   {
+    if ( pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL )
+      return;
+
     DWORD dwMode = PIPE_READMODE_MESSAGE;
     if (wait)
       dwMode |= PIPE_WAIT;
     else
       dwMode |= PIPE_NOWAIT;
-    SetNamedPipeHandleState(pipeObjectHandle,&dwMode,NULL,NULL);
+    SetNamedPipeHandleState(pipeObjectHandle, &dwMode, NULL, NULL);
   }
   void Server::checkForConnections()
   {
-    if (connected)
+    if (connected || localOnly || pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL )
       return;
     BOOL success = ConnectNamedPipe(pipeObjectHandle, NULL);
     if (!success && GetLastError() != ERROR_PIPE_CONNECTED)
