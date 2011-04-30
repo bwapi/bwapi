@@ -160,6 +160,10 @@ namespace BWAPI
     const WeaponType Neutron_Flare(100);
     const WeaponType Halo_Rockets(103);
     const WeaponType Independant_Laser_Battery(93);
+    const WeaponType Twin_Autocannons_Floor_Trap(96);
+    const WeaponType Hellfire_Missile_Pack_Wall_Trap(97);
+    const WeaponType Flame_Thrower_Wall_Trap(98);
+    const WeaponType Hellfire_Missile_Pack_Floor_Trap(99);
 
     const WeaponType Yamato_Gun(30);
     const WeaponType Nuclear_Strike(31);
@@ -282,6 +286,11 @@ namespace BWAPI
       weaponTypeData[Warp_Blades_Hero].set("Warp Blades (Hero)", TechTypes::None, 45, 1, 30, 1, UpgradeTypes::Protoss_Ground_Weapons, DamageTypes::Normal, ExplosionTypes::Normal, 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Hero_Dark_Templar);
       weaponTypeData[Warp_Blades_Zeratul].set("Warp Blades (Zeratul)", TechTypes::None, 100, 1, 22, 1, UpgradeTypes::Protoss_Ground_Weapons, DamageTypes::Normal, ExplosionTypes::Normal, 0, 15, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Hero_Zeratul);
       weaponTypeData[Independant_Laser_Battery].set("Independant Laser Battery", TechTypes::None, 7, 1, 22, 1, UpgradeTypes::None, DamageTypes::Normal, ExplosionTypes::Normal, 0, 8, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::Special_Independant_Starport);
+      weaponTypeData[Twin_Autocannons_Floor_Trap].set("Twin Autocannons (Floor Trap)"          , TechTypes::None  , 10              , 1              , 22                , 1               , UpgradeTypes::Terran_Vehicle_Weapons , DamageTypes::Normal    , ExplosionTypes::Normal      , 0           , 160         , 0                    , 0                     , 0                    , 0              , 1                 , 0                     , 0                  , 0                      , 0                     , 0                  , 0                    , 0              , UnitTypes::Special_Floor_Gun_Trap);
+      weaponTypeData[Hellfire_Missile_Pack_Wall_Trap].set("Hellfire Missile Pack (Wall Trap)"  , TechTypes::None  , 10              , 1              , 22                , 2               , UpgradeTypes::Terran_Vehicle_Weapons , DamageTypes::Explosive , ExplosionTypes::Normal      , 0           , 160         , 0                    , 0                     , 0                    , 0              , 1                 , 0                     , 0                  , 0                      , 0                     , 0                  , 0                    , 0              , UnitTypes::Special_Wall_Missile_Trap);
+      weaponTypeData[Hellfire_Missile_Pack_Floor_Trap].set("Hellfire Missile Pack (Floor Trap)", TechTypes::None  , 10              , 1              , 22                , 2               , UpgradeTypes::Terran_Vehicle_Weapons , DamageTypes::Explosive , ExplosionTypes::Normal      , 0           , 160         , 0                    , 0                     , 0                    , 0              , 1                 , 0                     , 0                  , 0                      , 0                     , 0                  , 0                    , 0              , UnitTypes::Special_Floor_Missile_Trap);
+      weaponTypeData[Flame_Thrower_Wall_Trap].set("Flame Thrower (Wall Trap)"                  , TechTypes::None  , 8               , 1              , 22                , 1               , UpgradeTypes::Terran_Infantry_Weapons, DamageTypes::Concussive, ExplosionTypes::Enemy_Splash, 0           , 64          , 15                   , 20                    , 25                   , 0              , 1                 , 0                     , 0                  , 0                      , 0                     , 0                  , 0                    , 0              , UnitTypes::Special_Wall_Flame_Trap);
+
       weaponTypeData[None].set("None", TechTypes::None, 0, 0, 0, 0, UpgradeTypes::None, DamageTypes::None, ExplosionTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::None);
       weaponTypeData[Unknown].set("Unknown", TechTypes::None, 0, 0, 0, 0, UpgradeTypes::None, DamageTypes::None, ExplosionTypes::None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, UnitTypes::None);
 
@@ -362,6 +371,10 @@ namespace BWAPI
       weaponTypeSet.insert(Warp_Blades_Hero);
       weaponTypeSet.insert(Warp_Blades_Zeratul);
       weaponTypeSet.insert(Independant_Laser_Battery);
+      weaponTypeSet.insert(Twin_Autocannons_Floor_Trap);
+      weaponTypeSet.insert(Hellfire_Missile_Pack_Wall_Trap);
+      weaponTypeSet.insert(Hellfire_Missile_Pack_Floor_Trap);
+      weaponTypeSet.insert(Flame_Thrower_Wall_Trap);
 
       normalWeaponTypeSet.insert(Gauss_Rifle);
       normalWeaponTypeSet.insert(Gauss_Rifle_Jim_Raynor);
@@ -440,6 +453,10 @@ namespace BWAPI
       normalWeaponTypeSet.insert(Warp_Blades_Hero);
       normalWeaponTypeSet.insert(Warp_Blades_Zeratul);
       normalWeaponTypeSet.insert(Independant_Laser_Battery);
+      normalWeaponTypeSet.insert(Twin_Autocannons_Floor_Trap);
+      normalWeaponTypeSet.insert(Hellfire_Missile_Pack_Wall_Trap);
+      normalWeaponTypeSet.insert(Hellfire_Missile_Pack_Floor_Trap);
+      normalWeaponTypeSet.insert(Flame_Thrower_Wall_Trap);
 
       weaponTypeSet.insert(Yamato_Gun);
       weaponTypeSet.insert(Nuclear_Strike);
