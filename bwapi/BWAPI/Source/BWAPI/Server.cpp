@@ -27,7 +27,7 @@ namespace BWAPI
     int size  = sizeof(GameData);
 
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
-    if (mapFileHandle == INVALID_HANDLE_VALUE)
+    if ( mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL )
       Util::Logger::globalLog->log("Error: unable to make shared memory, may not have enough access");
     else
       data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
@@ -47,20 +47,25 @@ namespace BWAPI
                                            PIPE_SYSTEM_BUFFER_SIZE,
                                            PIPE_TIMEOUT,
                                            NULL);
-    if (pipeObjectHandle == INVALID_HANDLE_VALUE)
+    if ( pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL )
+    {
       Util::Logger::globalLog->log("Error: unable to make pipe");
-    COMMTIMEOUTS c;
-    c.ReadIntervalTimeout         = 100;
-    c.ReadTotalTimeoutMultiplier  = 100;
-    c.ReadTotalTimeoutConstant    = 2000;
-    c.WriteTotalTimeoutMultiplier = 100;
-    c.WriteTotalTimeoutConstant   = 2000;
-    SetCommTimeouts(pipeObjectHandle,&c);
-
+    }
+    else
+    {
+      COMMTIMEOUTS c;
+      c.ReadIntervalTimeout         = 100;
+      c.ReadTotalTimeoutMultiplier  = 100;
+      c.ReadTotalTimeoutConstant    = 2000;
+      c.WriteTotalTimeoutMultiplier = 100;
+      c.WriteTotalTimeoutConstant   = 2000;
+      SetCommTimeouts(pipeObjectHandle,&c);
+    }
   }
   Server::~Server()
   {
-    DisconnectNamedPipe(pipeObjectHandle);
+    if ( pipeObjectHandle )
+      DisconnectNamedPipe(pipeObjectHandle);
   }
   void Server::update()
   {
