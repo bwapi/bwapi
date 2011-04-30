@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <tlhelp32.h>
 
-#include <Util/FileLogger.h>
 #include <Util/Gnu.h>
 #include <Util/Foreach.h>
 
@@ -167,7 +166,6 @@ bool logging;
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
   /* Initialize logging options */
-  delete Util::Logger::globalLog;
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
   
   logging = false;
@@ -226,28 +224,7 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     } // file exists
   } // is multi-instance
 
-  /* create log handles */
-  if (logging)
-  {
-    BWAPI::BroodwarImpl.commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::MicroDetailed);
-    BWAPI::BroodwarImpl.newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::MicroDetailed);
-  }
-  else
-  {
-    BWAPI::BroodwarImpl.commandLog = new Util::FileLogger(std::string(logPath) + "\\commands", Util::LogLevel::DontLog);
-    BWAPI::BroodwarImpl.newUnitLog = new Util::FileLogger(std::string(logPath) + "\\new_unit_id", Util::LogLevel::DontLog);
-  }
   BWAPI::BroodwarImpl.loadAutoMenuData();
-
-  if (logging)
-  {
-    Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::MicroDetailed);
-    Util::Logger::globalLog->log("BWAPI initialisation started");
-  }
-  else
-  {
-    Util::Logger::globalLog = new Util::FileLogger(std::string(logPath) + "\\global", Util::LogLevel::DontLog);
-  }
   ApplyCodePatches();
   return 0;
 }

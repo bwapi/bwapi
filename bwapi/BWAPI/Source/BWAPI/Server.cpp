@@ -1,6 +1,5 @@
 #include "Server.h"
 
-#include <Util/Logger.h>
 #include <Util/Foreach.h>
 #include <assert.h>
 
@@ -28,15 +27,12 @@ namespace BWAPI
 
     // create file mapping
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
-    if ( mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL )
-      Util::Logger::globalLog->log("Error: unable to make shared memory, may not have enough access");
-    else
+    if ( mapFileHandle != INVALID_HANDLE_VALUE && mapFileHandle != NULL )
       data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
 
     // check if memory was created or if we should create it locally
     if ( !data )
     {
-      Util::Logger::globalLog->log("Error: MapViewOfFile failed, may not have enough access");
       data      = (GameData*)malloc(size);
       localOnly = true;
     }
@@ -50,11 +46,7 @@ namespace BWAPI
                                            PIPE_SYSTEM_BUFFER_SIZE,
                                            PIPE_TIMEOUT,
                                            NULL);
-    if ( pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL )
-    {
-      Util::Logger::globalLog->log("Error: unable to make pipe");
-    }
-    else
+    if ( pipeObjectHandle != INVALID_HANDLE_VALUE && pipeObjectHandle != NULL )
     {
       COMMTIMEOUTS c;
       c.ReadIntervalTimeout         = 100;

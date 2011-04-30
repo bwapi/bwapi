@@ -12,7 +12,6 @@
 #include <math.h>
 #include <fstream>
 
-#include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Foreach.h>
@@ -25,7 +24,6 @@
 #include <BWAPI/TemplatesImpl.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
-#include <BWAPI/ScreenLogger.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI.h>
 

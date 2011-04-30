@@ -14,7 +14,6 @@
 #include <fstream>
 #include <ddraw.h>
 
-#include <Util/FileLogger.h>
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
 #include <Util/Foreach.h>
@@ -26,7 +25,6 @@
 #include <BWAPI/BulletImpl.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
-#include <BWAPI/ScreenLogger.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI.h>
 
@@ -135,12 +133,6 @@ namespace BWAPI
     /* destroy all bullets */
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       delete bulletArray[i];
-
-    /* destroy all log handles */
-    delete this->commandLog;
-    delete this->newUnitLog;
-
-    delete Util::Logger::globalLog;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
@@ -188,10 +180,7 @@ namespace BWAPI
     {
       //the first time update() is called, we also call onGameStart to initialize some things
       if ( !onStartCalled )
-      {
         this->onGameStart();
-        Util::Logger::globalLog->log("calling onGameStart");
-      }
       
       if ( !this->enabled )
         return;
@@ -230,7 +219,6 @@ namespace BWAPI
           this->calledMatchEnd = true;
           events.push_back(Event::MatchFrame());
           events.push_back(Event::MatchEnd(win));
-          Util::Logger::globalLog->log("creating MatchEnd(%s) event", win ? "true" : "false");
           processEvents();
           server.update();
           events.clear();
@@ -299,7 +287,6 @@ namespace BWAPI
       char *pszModuleName = "<Nothing>";
       if (server.isConnected()) //check to see if the server is connected to the client
       {
-        Util::Logger::globalLog->logCritical("Client connected, not loading AI module.");
         this->client = new AIModule();
         printf("BWAPI: Connected to AI Client process");
         pszModuleName = "<Client Connection>";
@@ -344,13 +331,11 @@ namespace BWAPI
         else
         {
           // Load DLL
-          Util::Logger::globalLog->logCritical("Loading AI DLL from: %s", pszDll);
           hMod = LoadLibrary(pszDll);
         }
         if ( !hMod )
         {
           //if hMod is a null pointer, there there was a problem when trying to load the AI Module
-          Util::Logger::globalLog->logCritical("ERROR: Failed to load the AI Module \"%s\"", pszDll);
           this->client = new AIModule();
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
@@ -359,17 +344,12 @@ namespace BWAPI
         }
         else
         {
-          Util::Logger::globalLog->logCritical("Loaded AI Module");
-          Util::Logger::globalLog->logCritical("Importing by Virtual Function Table from AI DLL");
-
           typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
-          Util::Logger::globalLog->logCritical("Creating an Object of AIModule");
 
           PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
           if ( newAIModule )
           {
             this->client = newAIModule(this);
-            Util::Logger::globalLog->logCritical("Created an Object of AIModule");
             printf("%cLoaded the AI Module: %s", 7, pszDll);
             externalModuleConnected = true;
 
@@ -382,7 +362,6 @@ namespace BWAPI
           }
           else
           {
-            Util::Logger::globalLog->logCritical("ERROR: Failed to find the newAIModule function in %s", pszDll);
             this->client = new AIModule();
             Broodwar->enableFlag(Flag::CompleteMapInformation);
             Broodwar->enableFlag(Flag::UserInput);
@@ -1189,22 +1168,17 @@ namespace BWAPI
     else
     {
       /* Get the current player */
-      if ( this->players[*BW::BWDATA_g_LocalHumanID] )
-      {
-        this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
-        /* find the opponent player */
-        for (int i = 0; i < 8; i++)
-          if ((this->players[i]->getType() == BW::PlayerType::Computer ||
-               this->players[i]->getType() == BW::PlayerType::Player   ||
-               this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
-              this->BWAPIPlayer->isEnemy(this->players[i]))
-            this->enemyPlayer = this->players[i];
-      }
-      else
-      {
-        this->commandLog->log("Error: Could not locate BWAPI player.");
+      if ( !this->players[*BW::BWDATA_g_LocalHumanID] )
         return;
-      }
+
+      this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
+      /* find the opponent player */
+      for (int i = 0; i < 8; i++)
+        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
+             this->players[i]->getType() == BW::PlayerType::Player   ||
+             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
+            this->BWAPIPlayer->isEnemy(this->players[i]))
+          this->enemyPlayer = this->players[i];
     }
 
     /* Clear our sets */
@@ -1537,7 +1511,6 @@ namespace BWAPI
     {
       events.push_back(Event::MatchFrame());
       events.push_back(Event::MatchEnd(false));
-      Util::Logger::globalLog->log("creating MatchEnd(leave) event");
       processEvents();
       server.update();
       events.clear();
@@ -1593,7 +1566,6 @@ namespace BWAPI
       FreeLibrary(hMod);
       hMod = NULL;
     }
-    Util::Logger::globalLog->logCritical("Unloaded AI Module");
 
     this->invalidIndices.clear();
     this->startedClient = false;
