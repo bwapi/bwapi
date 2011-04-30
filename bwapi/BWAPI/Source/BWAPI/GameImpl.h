@@ -1,6 +1,5 @@
 #pragma once
 
-namespace Util  { class  Logger; }
 namespace BW    { class  Unit; }
 namespace BW    { struct Bullet; }
 namespace BWAPI { class  Player; }
@@ -281,8 +280,6 @@ namespace BWAPI
       PlayerImpl *enemyPlayer;
 
       std::vector<Shape*> shapes;
-      Util::Logger* newUnitLog;
-      Util::Logger* commandLog;
       std::set<int> invalidIndices;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);

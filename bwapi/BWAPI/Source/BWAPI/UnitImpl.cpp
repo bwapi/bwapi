@@ -4,7 +4,6 @@
 #include <limits>
 #include <sstream>
 
-#include <Util/Logger.h>
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
 
@@ -951,10 +950,7 @@ namespace BWAPI
     if (index > UNIT_ARRAY_MAX_LENGTH)
     {
       if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
-      {
-        BroodwarImpl.newUnitLog->log("Error: Found new invalid unit index: %d, broodwar address: 0x%x",index,unit);
         BroodwarImpl.invalidIndices.insert(index);
-      }
       return NULL;
     }
     return BroodwarImpl.getUnitFromIndex(index);

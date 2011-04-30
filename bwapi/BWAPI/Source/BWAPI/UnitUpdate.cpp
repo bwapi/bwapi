@@ -4,7 +4,6 @@
 #include <limits>
 #include <sstream>
 
-#include <Util/Logger.h>
 #include <Util/Foreach.h>
 #include <Util/Gnu.h>
 
