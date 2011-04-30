@@ -22,11 +22,21 @@ namespace BWAPI
   Server::Server()
   {
     connected = false;
-    int size = sizeof(GameData);
+    localOnly = false;
+    data      = NULL;
+    int size  = sizeof(GameData);
+
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
     if (mapFileHandle == INVALID_HANDLE_VALUE)
-      Util::Logger::globalLog->log("Error: unable to make shared memory");
-    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+      Util::Logger::globalLog->log("Error: unable to make shared memory, may not have enough access");
+    else
+      data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+    if ( !data )
+    {
+      Util::Logger::globalLog->log("Error: MapViewOfFile failed, may not have enough access");
+      data      = (GameData*)malloc(size);
+      localOnly = true;
+    }
     initializeSharedMemory();
 
     pipeObjectHandle = CreateNamedPipe("\\\\.\\pipe\\bwapi_pipe",
