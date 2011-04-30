@@ -214,93 +214,94 @@ namespace BWAPI
   namespace UnitTypes
   {
     const UnitType Terran_Marine(0);
-    const UnitType Hero_Jim_Raynor_Marine(20);
     const UnitType Terran_Ghost(1);
-    const UnitType Hero_Sarah_Kerrigan(16);
-    const UnitType Hero_Samir_Duran(99);
-    const UnitType Hero_Infested_Duran(104);
-    const UnitType Hero_Alexei_Stukov(100);
     const UnitType Terran_Vulture(2);
-    const UnitType Hero_Jim_Raynor_Vulture(19);
     const UnitType Terran_Goliath(3);
-    const UnitType Hero_Alan_Schezar(17);
+    // goliath turret (4)
     const UnitType Terran_Siege_Tank_Tank_Mode(5);
-    const UnitType Hero_Edmund_Duke_Tank_Mode(23);
+    // siege tank turret (6)
     const UnitType Terran_SCV(7);
     const UnitType Terran_Wraith(8);
-    const UnitType Hero_Tom_Kazansky(21);
     const UnitType Terran_Science_Vessel(9);
-    const UnitType Hero_Magellan(22);
+    const UnitType Hero_Gui_Montag(10);
     const UnitType Terran_Dropship(11);
     const UnitType Terran_Battlecruiser(12);
+    const UnitType Terran_Vulture_Spider_Mine(13);
+    const UnitType Terran_Nuclear_Missile(14);
+    const UnitType Terran_Civilian(15);
+    const UnitType Hero_Sarah_Kerrigan(16);
+    const UnitType Hero_Alan_Schezar(17);
+    // alan turret (18)
+    const UnitType Hero_Jim_Raynor_Vulture(19);
+    const UnitType Hero_Jim_Raynor_Marine(20);
+    const UnitType Hero_Tom_Kazansky(21);
+    const UnitType Hero_Magellan(22);
+    const UnitType Hero_Edmund_Duke_Tank_Mode(23);
+    // edmund duke turret (24)
+    const UnitType Hero_Edmund_Duke_Siege_Mode(25);
+    // edmund duke turret siege mode (26)
     const UnitType Hero_Arcturus_Mengsk(27);
     const UnitType Hero_Hyperion(28);
     const UnitType Hero_Norad_II(29);
-    const UnitType Hero_Gerard_DuGalle(102);
-    const UnitType Terran_Vulture_Spider_Mine(13);
-    const UnitType Terran_Nuclear_Missile(14);
     const UnitType Terran_Siege_Tank_Siege_Mode(30);
-    const UnitType Hero_Edmund_Duke_Siege_Mode(25);
+    // siege tank siege mode turret (31)
     const UnitType Terran_Firebat(32);
-    const UnitType Hero_Gui_Montag(10);
     const UnitType Spell_Scanner_Sweep(33);
     const UnitType Terran_Medic(34);
-    const UnitType Terran_Civilian(15);
     const UnitType Zerg_Larva(35);
     const UnitType Zerg_Egg(36);
     const UnitType Zerg_Zergling(37);
-    const UnitType Hero_Devouring_One(54);
-    const UnitType Hero_Infested_Kerrigan(51);
     const UnitType Zerg_Hydralisk(38);
-    const UnitType Hero_Hunter_Killer(53);
     const UnitType Zerg_Ultralisk(39);
-    const UnitType Hero_Torrasque(48);
     const UnitType Zerg_Broodling(40);
     const UnitType Zerg_Drone(41);
     const UnitType Zerg_Overlord(42);
-    const UnitType Hero_Yggdrasill(57);
     const UnitType Zerg_Mutalisk(43);
-    const UnitType Hero_Kukulza_Mutalisk(55);
     const UnitType Zerg_Guardian(44);
-    const UnitType Hero_Kukulza_Guardian(56);
     const UnitType Zerg_Queen(45);
-    const UnitType Hero_Matriarch(49);
     const UnitType Zerg_Defiler(46);
-    const UnitType Hero_Unclean_One(52);
     const UnitType Zerg_Scourge(47);
+    const UnitType Hero_Torrasque(48);
+    const UnitType Hero_Matriarch(49);
     const UnitType Zerg_Infested_Terran(50);
+    const UnitType Hero_Infested_Kerrigan(51);
+    const UnitType Hero_Unclean_One(52);
+    const UnitType Hero_Hunter_Killer(53);
+    const UnitType Hero_Devouring_One(54);
+    const UnitType Hero_Kukulza_Mutalisk(55);
+    const UnitType Hero_Kukulza_Guardian(56);
+    const UnitType Hero_Yggdrasill(57);
     const UnitType Terran_Valkyrie(58);
     const UnitType Zerg_Cocoon(59);
     const UnitType Protoss_Corsair(60);
-    const UnitType Hero_Raszagal(98);
     const UnitType Protoss_Dark_Templar(61);
-    const UnitType Hero_Dark_Templar(74);
-    const UnitType Hero_Zeratul(75);
     const UnitType Zerg_Devourer(62);
     const UnitType Protoss_Dark_Archon(63);
     const UnitType Protoss_Probe(64);
     const UnitType Protoss_Zealot(65);
-    const UnitType Hero_Fenix_Zealot(77);
     const UnitType Protoss_Dragoon(66);
-    const UnitType Hero_Fenix_Dragoon(78);
     const UnitType Protoss_High_Templar(67);
-    const UnitType Hero_Tassadar(79);
-    const UnitType Hero_Aldaris(87);
     const UnitType Protoss_Archon(68);
-    const UnitType Hero_Tassadar_Zeratul_Archon(76);
     const UnitType Protoss_Shuttle(69);
     const UnitType Protoss_Scout(70);
-    const UnitType Hero_Mojo(80);
-    const UnitType Hero_Artanis(88);
     const UnitType Protoss_Arbiter(71);
-    const UnitType Hero_Danimoth(86);
     const UnitType Protoss_Carrier(72);
-    const UnitType Hero_Gantrithor(82);
     const UnitType Protoss_Interceptor(73);
-    const UnitType Protoss_Reaver(83);
+    const UnitType Hero_Dark_Templar(74);
+    const UnitType Hero_Zeratul(75);
+    const UnitType Hero_Tassadar_Zeratul_Archon(76);
+    const UnitType Hero_Fenix_Zealot(77);
+    const UnitType Hero_Fenix_Dragoon(78);
+    const UnitType Hero_Tassadar(79);
+    const UnitType Hero_Mojo(80);
     const UnitType Hero_Warbringer(81);
+    const UnitType Hero_Gantrithor(82);
+    const UnitType Protoss_Reaver(83);
     const UnitType Protoss_Observer(84);
     const UnitType Protoss_Scarab(85);
+    const UnitType Hero_Danimoth(86);
+    const UnitType Hero_Aldaris(87);
+    const UnitType Hero_Artanis(88);
     const UnitType Critter_Rhynadon(89);
     const UnitType Critter_Bengalaas(90);
     const UnitType Special_Cargo_Ship(91);
@@ -310,7 +311,13 @@ namespace BWAPI
     const UnitType Critter_Ragnasaur(95);
     const UnitType Critter_Ursadon(96);
     const UnitType Zerg_Lurker_Egg(97);
+    const UnitType Hero_Raszagal(98);
+    const UnitType Hero_Samir_Duran(99);
+    const UnitType Hero_Alexei_Stukov(100);
+    const UnitType Special_Map_Revealer(101);
+    const UnitType Hero_Gerard_DuGalle(102);
     const UnitType Zerg_Lurker(103);
+    const UnitType Hero_Infested_Duran(104);
     const UnitType Spell_Disruption_Web(105);
     const UnitType Terran_Command_Center(106);
     const UnitType Terran_Comsat_Station(107);
@@ -325,13 +332,17 @@ namespace BWAPI
     const UnitType Terran_Science_Facility(116);
     const UnitType Terran_Covert_Ops(117);
     const UnitType Terran_Physics_Lab(118);
+    // starbase (119)
     const UnitType Terran_Machine_Shop(120);
+    // repair bay (121)
     const UnitType Terran_Engineering_Bay(122);
     const UnitType Terran_Armory(123);
     const UnitType Terran_Missile_Turret(124);
     const UnitType Terran_Bunker(125);
     const UnitType Special_Crashed_Norad_II(126);
     const UnitType Special_Ion_Cannon(127);
+    const UnitType Powerup_Uraj_Crystal(128);
+    const UnitType Powerup_Khalis_Crystal(129);
     const UnitType Zerg_Infested_Command_Center(130);
     const UnitType Zerg_Hatchery(131);
     const UnitType Zerg_Lair(132);
@@ -347,6 +358,7 @@ namespace BWAPI
     const UnitType Zerg_Spawning_Pool(142);
     const UnitType Zerg_Creep_Colony(143);
     const UnitType Zerg_Spore_Colony(144);
+    // unused zerg 1 (145)
     const UnitType Zerg_Sunken_Colony(146);
     const UnitType Special_Overmind_With_Shell(147);
     const UnitType Special_Overmind(148);
@@ -354,12 +366,15 @@ namespace BWAPI
     const UnitType Special_Mature_Chrysalis(150);
     const UnitType Special_Cerebrate(151);
     const UnitType Special_Cerebrate_Daggoth(152);
+    // unused zerg 2 (153)
     const UnitType Protoss_Nexus(154);
     const UnitType Protoss_Robotics_Facility(155);
     const UnitType Protoss_Pylon(156);
     const UnitType Protoss_Assimilator(157);
+    // unused protoss 1 (158)
     const UnitType Protoss_Observatory(159);
     const UnitType Protoss_Gateway(160);
+    // unused protoss 2 (161)
     const UnitType Protoss_Photon_Cannon(162);
     const UnitType Protoss_Citadel_of_Adun(163);
     const UnitType Protoss_Cybernetics_Core(164);
@@ -377,21 +392,42 @@ namespace BWAPI
     const UnitType Resource_Mineral_Field(176);
     const UnitType Resource_Mineral_Field_Type_2(177);
     const UnitType Resource_Mineral_Field_Type_3(178);
+    // cave (179)
+    // cave-in (180)
+    // cantina (181)
+    // mining platform (182)
+    // independant command center (183)
     const UnitType Special_Independant_Starport(184);
+    // independant jump gate (185)
+    // ruins (186)
+    // unused khaydarin crystal formation (187)
     const UnitType Resource_Vespene_Geyser(188);
     const UnitType Special_Warp_Gate(189);
     const UnitType Special_Psi_Disrupter(190);
-    const UnitType Special_Power_Generator(200);
-    const UnitType Special_Overmind_Cocoon(201);
+    // zerg marker (191)
+    // terran marker (192)
+    // protoss marker (193)
     const UnitType Special_Zerg_Beacon(194);
     const UnitType Special_Terran_Beacon(195);
     const UnitType Special_Protoss_Beacon(196);
     const UnitType Special_Zerg_Flag_Beacon(197);
     const UnitType Special_Terran_Flag_Beacon(198);
     const UnitType Special_Protoss_Flag_Beacon(199);
+    const UnitType Special_Power_Generator(200);
+    const UnitType Special_Overmind_Cocoon(201);
     const UnitType Spell_Dark_Swarm(202);
-    const UnitType Powerup_Uraj_Crystal(128);
-    const UnitType Powerup_Khalis_Crystal(129);
+    const UnitType Special_Floor_Missile_Trap(203);
+    const UnitType Special_Floor_Hatch(204);
+    const UnitType Special_Upper_Level_Door(205);
+    const UnitType Special_Right_Upper_Level_Door(206);
+    const UnitType Special_Pit_Door(207);
+    const UnitType Special_Right_Pit_Door(208);
+    const UnitType Special_Floor_Gun_Trap(209);
+    const UnitType Special_Wall_Missile_Trap(210);
+    const UnitType Special_Wall_Flame_Trap(211);
+    const UnitType Special_Right_Wall_Missile_Trap(212);
+    const UnitType Special_Right_Wall_Flame_Trap(213);
+    const UnitType Special_Start_Location(214);
     const UnitType Powerup_Flag(215);
     const UnitType Powerup_Young_Chrysalis(216);
     const UnitType Powerup_Psi_Emitter(217);
