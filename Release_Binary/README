@@ -47,15 +47,17 @@ Build Instructions:
 
 1. Extract the entire zip to a folder on your computer.
 
-2. Copy the contents of Chaoslauncher/Release/ to your Chaos Launcher folder.
+2. Copy the contents of Chaoslauncher/ to your Chaos Launcher folder.
 
 3. Copy the contents of Starcraft/ to your actual Starcraft folder.
 
 4. Copy the contents of WINDOWS/ to your C:\WINDOWS or C:\WINNT folder (which
-   ever your version of Windows has).
+   ever your version of Windows has).  You can actually copy these Dlls to anywhere
+   on your system PATH.  
 
 5. Open ExampleProjects.sln in VC++ 2008 SP1 or VC++ 2008 Express Edition and
-   compile the project as RELEASE.
+   compile the project as RELEASE.  Note, if you want to use Visual Studio 2010
+   you will have to recompile BWAPI from source.
    To do this:
    5.1. Change the dropdown box in the top center of the window from "Debug" to
         "Release".
