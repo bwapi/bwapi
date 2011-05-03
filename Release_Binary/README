@@ -73,8 +73,8 @@ To run the Example AI Module:
 1. Copy Release/ExampleAIModule.dll to
    <starcraft folder>/bwapi-data/AI/ExampleAIModule.dll
 
-2. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai_dll to
-   ExampleAIMdoule.dll if it isn't already.
+2. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai to
+   bwapi-data/AI/ExampleAIModule.dll if it isn't already.
    
 3. Run Chaoslauncher with BWAPI Injector checked. You can also check W-MODE
    to have Broodwar run in a window rather than full-screen.
