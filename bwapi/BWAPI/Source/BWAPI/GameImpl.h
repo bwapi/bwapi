@@ -295,6 +295,10 @@ namespace BWAPI
       std::string autoMenuMapPath;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
+      std::string autoMapIteration;
+      std::string lastAutoMapString;
+      unsigned int lastAutoMapEntry;
+
       /** Count of game-frames passed from game start. */
       int frameCount;
       void refreshSelectionStates();
