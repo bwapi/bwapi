@@ -37,8 +37,8 @@
 namespace BW
 {
   class  Unit;
-  class Sprite;
-  class Image;
+  class  Sprite;
+  class  Image;
   struct Bullet;
   class  TileType;
   class  dialog;
@@ -354,7 +354,8 @@ namespace BW
   {
     MapVectorEntry *prev;         // First entry points to begin in controller // 0
     MapVectorEntry *next;         // negative value indicates vector::end and points to &end in controller // 4
-    char  szEntryName[65];        // fixed entry name // 8
+    char  szEntryName[64];        // fixed entry name // 8
+    BYTE  bUnknown_48;            // 72
     char  szMapName[32];          // 73
     char  szMapDescription[316];  // 105
     char  szTotalPlayers[35];     // 421
@@ -363,7 +364,7 @@ namespace BW
     char  szMapDimensions[35];    // 526
     char  szMapTileset[35];       // 561
     DWORD dwListEntryIndex;       // 596
-    DWORD dwUnknown_258;          // 600
+    DWORD dwUnknown_258;          // 600  Computer slots?
     DWORD dwUnknown_25C;          // 604
     DWORD dwUnknown_260;          // 608
     DWORD dwUnknown_264;          // 612
@@ -386,10 +387,11 @@ namespace BW
       {
         BYTE  bCmd;             //  1151
         DWORD dwSeed;           //  1152
-        BYTE  bPlayerBytes[12]; // only 8 are sent in actual command    // 1156
+        BYTE  bPlayerBytes[8];  //  1156
       } gameInitCommand;
       struct
       {
+        DWORD dwUnknownAlways0;   // 1164
         char  szPlayerName[24];   // 1168
         DWORD dwGameFlags;        // 1192
         WORD  wMapWidth;          // 1196
@@ -435,13 +437,14 @@ namespace BW
     BYTE  __align_3[3];   // 1345
   };  // 1348
 
-  struct MapVectorController // sizeof 12
+  template <class _T>
+  struct BlizzVectorController // sizeof 12
   {
     int unknown_00;
-    MapVectorEntry *end;
-    MapVectorEntry *begin;
+    _T *end;
+    _T *begin;
   };
-  static MapVectorController *BWDATA_MapListVector = (MapVectorController*)0x0051A274;
+  static BlizzVectorController<MapVectorEntry> *BWDATA_MapListVector = (BlizzVectorController<MapVectorEntry>*)0x0051A274;
 
   const char            *GetStatString(int index);
 

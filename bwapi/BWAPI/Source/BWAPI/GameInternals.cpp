@@ -92,6 +92,7 @@ namespace BWAPI
       , calledMatchEnd(false)
       , autoMapTryCount(0)
       , outOfGame(true)
+      , lastAutoMapEntry(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -593,36 +594,48 @@ namespace BWAPI
       if ( buffer[i] == '\\' )
         buffer[i] = '/';
     }
-    char szMapPathTemp[MAX_PATH];
-    strcpy(szMapPathTemp, buffer);
-    char *pszPathEnd = strrchr(szMapPathTemp, '/');
-    if ( pszPathEnd )
-      pszPathEnd[1] = 0;
-    autoMenuMapPath = std::string(szMapPathTemp);
-
-    autoMapPool.clear();
-    if ( autoMenuMapPath.size() > 0 )
+    if ( lastAutoMapString != buffer )
     {
-      WIN32_FIND_DATA finder = { 0 };
+      lastAutoMapString = buffer;
 
-      HANDLE hFind = FindFirstFile(buffer, &finder);
-      if ( hFind != INVALID_HANDLE_VALUE )
+      char szMapPathTemp[MAX_PATH];
+      strcpy(szMapPathTemp, buffer);
+      char *pszPathEnd = strrchr(szMapPathTemp, '/');
+      if ( pszPathEnd )
+        pszPathEnd[1] = 0;
+      autoMenuMapPath = std::string(szMapPathTemp);
+
+      autoMapPool.clear();
+      if ( autoMenuMapPath.size() > 0 )
       {
-        BOOL bResult = TRUE;
-        while ( bResult )
+        WIN32_FIND_DATA finder = { 0 };
+
+        HANDLE hFind = FindFirstFile(buffer, &finder);
+        if ( hFind != INVALID_HANDLE_VALUE )
         {
-          // Check if found is not a directory
-          if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+          BOOL bResult = TRUE;
+          while ( bResult )
           {
-            std::string finderStr = std::string(finder.cFileName);
-            if ( getFileType((autoMenuMapPath + finderStr).c_str()) )
-              autoMapPool.push_back( finderStr );
-          }
-          bResult = FindNextFile(hFind, &finder);
-        } // ^ loop
-        FindClose(hFind);
-      } // handle exists
-    } // map path exists
+            // Check if found is not a directory
+            if ( !(finder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+            {
+              std::string finderStr = std::string(finder.cFileName);
+              if ( getFileType((autoMenuMapPath + finderStr).c_str()) )
+                autoMapPool.push_back( finderStr );
+            }
+            bResult = FindNextFile(hFind, &finder);
+          } // ^ loop
+          FindClose(hFind);
+        } // handle exists
+      } // map path exists
+      lastAutoMapEntry = 0;
+    }
+    GetPrivateProfileString("auto_menu", "mapiteration", "RANDOM", buffer, MAX_PATH, szConfigPath);
+    if ( autoMapIteration != buffer )
+    {
+      autoMapIteration = std::string(strupr(buffer));
+      lastAutoMapEntry = 0;
+    }
 
     GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
     autoMenuLanMode = std::string(buffer);
@@ -679,7 +692,19 @@ namespace BWAPI
     {
       // Obtain a random map file
       srand(GetTickCount());
-      std::string chosen = this->autoMapPool[rand() % this->autoMapPool.size()];
+
+      int chosenEntry = 0;
+      if ( autoMapIteration == "RANDOM" )
+      {
+        chosenEntry = rand() % this->autoMapPool.size();
+      }
+      else if ( autoMapIteration == "SEQUENCE" )
+      {
+        if ( lastAutoMapEntry >= this->autoMapPool.size() )
+          lastAutoMapEntry = 0;
+        chosenEntry = lastAutoMapEntry++;
+      }
+      std::string chosen = this->autoMapPool[chosenEntry];
       lastMapGen         = this->autoMenuMapPath + chosen;
     }
   }
