@@ -123,4 +123,38 @@ namespace BW
     };
   };
 
+  namespace PlayerGroups
+  {
+    enum Enum
+    {
+      Player1,
+      Player2,
+      Player3,
+      Player4,
+      Player5,
+      Player6,
+      Player7,
+      Player8,
+      Player9,
+      Player10,
+      Player11,
+      Player12,
+      None,
+      CurrentPlayer,
+      Foes,
+      Allies,
+      NeutralPlayers,
+      AllPlayers,
+      Force1,
+      Force2,
+      Force3,
+      Force4,
+      Unused1,
+      Unused2,
+      Unused3,
+      Unused4,
+      NonAlliedVictoryPlayers,
+      Max
+    };
+  };
 };
