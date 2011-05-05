@@ -15,7 +15,7 @@ namespace BW
       BYTE  bConditionType;
       BYTE  bExtraType;
       BYTE  bFlags;
-      WORD  __wAlign;
+      BYTE  __bAlign[2];
 
       bool canBeTrue();
     };
@@ -33,8 +33,7 @@ namespace BW
       BYTE  bActionType;
       BYTE  bModifier;
       BYTE  bFlags;
-      WORD  __wAlign;
-      BYTE  __bAlign;
+      BYTE  __bAlign[3];
 
       bool affectsGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer);
     };

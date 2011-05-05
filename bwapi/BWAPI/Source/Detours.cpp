@@ -183,7 +183,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
       pal[i].peRed    = palette[i].rgbRed;
       pal[i].peGreen  = palette[i].rgbGreen;
       pal[i].peBlue   = palette[i].rgbBlue;
-      pal[i].peFlags  = 0;;
+      pal[i].peFlags  = 0;
     }
     return SBmpSaveImage(pszOutput, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
   }

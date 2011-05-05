@@ -7,6 +7,8 @@
 #include "DLLMain.h"
 #include "../../Debug.h"
 
+#include "Recording.h"
+
 WNDPROC wOriginalProc;
 HWND ghMainWnd;
 bool wmode;
@@ -29,6 +31,7 @@ BOOL (STORMAPI *_SDrawUnlockSurfaceOld)(int surfacenumber, void *lpSurface, int 
 BOOL (STORMAPI *_SDrawUpdatePaletteOld)(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
 BOOL (STORMAPI *_SDrawRealizePaletteOld)();
 
+BITMAPINFO256 bmp;
 void InitializeWModeBitmap(int width, int height)
 {
   if ( hdcMem )
@@ -36,23 +39,25 @@ void InitializeWModeBitmap(int width, int height)
   hdcMem = NULL;
 
   // Create Bitmap HDC
-  BITMAPINFO256 bmp = { 0 };
-
-  bmp.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-  bmp.bmiHeader.biWidth       = width;
-  bmp.bmiHeader.biHeight      = -(height);
-  bmp.bmiHeader.biPlanes      = 1;
-  bmp.bmiHeader.biBitCount    = 8;
-  bmp.bmiHeader.biCompression = BI_RGB;
+  memset(&bmp, 0, sizeof(BITMAPINFO256));
+  bmp.bmiHeader.biSize          = sizeof(BITMAPINFOHEADER);
+  bmp.bmiHeader.biWidth         = width;
+  bmp.bmiHeader.biHeight        = -(height);
+  bmp.bmiHeader.biPlanes        = 1;
+  bmp.bmiHeader.biBitCount      = 8;
+  bmp.bmiHeader.biCompression   = BI_RGB;
+  bmp.bmiHeader.biSizeImage     = width * height;
+  bmp.bmiHeader.biXPelsPerMeter = 10000;
+  bmp.bmiHeader.biYPelsPerMeter = 10000;
   for ( int i = 0; i < 256; ++i )
   {
     palette[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
     palette[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
     palette[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
   }
-  HDC hdc = GetDC(ghMainWnd);
-  HBITMAP hBmp = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
-  hdcMem = CreateCompatibleDC(hdc);
+  HDC     hdc   = GetDC(ghMainWnd);
+  HBITMAP hBmp  = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
+  hdcMem        = CreateCompatibleDC(hdc);
   ReleaseDC(ghMainWnd, hdc);
   SelectObject(hdcMem, hBmp);
 }
@@ -298,6 +303,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(hWnd, &paint);
 
+        // @TODO: Try DrawDib, a multimedia streaming playback function, which may or may not reduce CPU usage
+        // StretchDib for stretchiness
+
         // Blit to the screen
         RECT cRect;
         GetClientRect(hWnd, &cRect);
@@ -313,6 +321,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         // end paint
         EndPaint(hWnd, &paint);
+        if ( recordingStarted )
+          RecordFrame(pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
       } // data
       break;
     case WM_NCMOUSEMOVE:
@@ -497,6 +507,24 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
   return TRUE;
 }
 
+/*
+  if ( lpSurface && lpRect && lpRect->left == 0 && lpRect->top == 0 && lpRect->right == 640 && lpRect->bottom == 480)
+  {
+    char szScreenshot[MAX_PATH];
+    sprintf(szScreenshot, "scrtest\\%u 0x%08X.gif", dwScrCount++, lpSurface);
+
+    PALETTEENTRY pal[256];
+    for ( int i = 0; i < 256; ++i )
+    {
+      pal[i].peRed    = palette[i].rgbRed;
+      pal[i].peGreen  = palette[i].rgbGreen;
+      pal[i].peBlue   = palette[i].rgbBlue;
+      pal[i].peFlags  = 0;
+    }
+    int wid = lpRect->right - lpRect->left;
+    SBmpSaveImage(szScreenshot, pal, (void*)((u32)lpSurface + lpRect->left + (lpRect->top * wid)), wid, lpRect->bottom - lpRect->top);
+  }*/
+
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
   if ( !wmode )
@@ -516,18 +544,18 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
 
 BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4)
 {
-  if ( !wmode || !ghMainWnd )
-  {
-    if ( _SDrawUpdatePaletteOld )
-      return _SDrawUpdatePaletteOld(firstentry, numentries, pPalEntries, a4);
-    return SDrawUpdatePalette(firstentry, numentries, pPalEntries, a4);
-  }
-
   for ( unsigned int i = firstentry; i < firstentry + numentries; ++i )
   {
     palette[i].rgbRed   = pPalEntries[i].peRed;
     palette[i].rgbGreen = pPalEntries[i].peGreen;
     palette[i].rgbBlue  = pPalEntries[i].peBlue;
+  }
+
+  if ( !wmode || !ghMainWnd )
+  {
+    if ( _SDrawUpdatePaletteOld )
+      return _SDrawUpdatePaletteOld(firstentry, numentries, pPalEntries, a4);
+    return SDrawUpdatePalette(firstentry, numentries, pPalEntries, a4);
   }
 
   if ( !IsIconic(ghMainWnd) )

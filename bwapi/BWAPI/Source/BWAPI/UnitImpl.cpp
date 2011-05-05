@@ -387,6 +387,11 @@ namespace BWAPI
   {
     return Broodwar->getUnit(self->orderTarget);
   }
+  //--------------------------------------------- GET ORDER TARGET POSITION ----------------------------------
+  Position UnitImpl::getOrderTargetPosition() const
+  {
+	  return Position(self->orderTargetPositionX,self->orderTargetPositionY);
+  }
   //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
   Order UnitImpl::getSecondaryOrder() const
   {

@@ -67,6 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
+				AdditionalDependencies="Vfw32.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -156,6 +157,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
+				AdditionalDependencies="Vfw32.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""
@@ -671,6 +673,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\Recording.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\Resolution.h"
 					>
 				</File>
@@ -700,6 +706,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\NewHackUtil.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\Recording.cpp"
 					>
 				</File>
 				<File
