@@ -170,16 +170,6 @@ namespace BW
   static LPDIRECTDRAWPALETTE *BWDATA_PrimaryPalette = (LPDIRECTDRAWPALETTE*)0x006D5E0C;
   static LPDIRECTDRAWSURFACE *BWDATA_BackSurface    = (LPDIRECTDRAWSURFACE*)0x006D5E10;
 
-  struct bltMask
-  {
-    bltMask *prev;
-    bltMask *next;
-    HANDLE  hTrans;
-    RECT    info;
-    DWORD   dwReserved;
-  };
-  static bltMask **BWDATA_MainBltMask = (bltMask**)0x00597238;
-
   static void (__cdecl *BWFXN_DDrawDestroy)()   = (void(__cdecl*)())0x0041D8B0;
   static u32  BWDATA_DDrawInitCallPatch         = 0x004DB0A2;
   static void (__cdecl *BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
@@ -437,6 +427,15 @@ namespace BW
     BYTE  __align_3[3];   // 1345
   };  // 1348
 
+  struct TransVectorEntry
+  {
+    TransVectorEntry  *prev;
+    TransVectorEntry  *next;
+    HANDLE            hTrans;
+    RECT              info;
+    DWORD             dwReserved;
+  };
+
   template <class _T>
   struct BlizzVectorController // sizeof 12
   {
@@ -444,7 +443,9 @@ namespace BW
     _T *end;
     _T *begin;
   };
-  static BlizzVectorController<MapVectorEntry> *BWDATA_MapListVector = (BlizzVectorController<MapVectorEntry>*)0x0051A274;
+  static BlizzVectorController<MapVectorEntry>    *BWDATA_MapListVector   = (BlizzVectorController<MapVectorEntry>*)    0x0051A274;
+  static BlizzVectorController<TransVectorEntry>  *BWDATA_TransMaskVector = (BlizzVectorController<TransVectorEntry>*)  0x0051A334;
+  //static BlizzVectorController<Triggers::Trigger> *BWDATA_TriggerVectors  = (BlizzVectorController<Triggers::Trigger>*) 0x0051A280;
 
   const char            *GetStatString(int index);
 

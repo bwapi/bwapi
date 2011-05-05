@@ -78,6 +78,8 @@ namespace BWAPI
       unit->self->order           = Orders::AttackMove;
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
+	  unit->self->orderTargetPositionX = position.x();
+	  unit->self->orderTargetPositionY = position.y();
     }
     else if (command.type == UnitCommandTypes::Attack_Unit)
     {
@@ -515,6 +517,8 @@ namespace BWAPI
       unit->self->order           = Orders::Move;
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
+	  unit->self->orderTargetPositionX = position.x();
+	  unit->self->orderTargetPositionY = position.y();
       unit->self->isMoving        = true;
       unit->self->isIdle          = false;
     }
@@ -529,6 +533,8 @@ namespace BWAPI
       unit->self->isMoving        = true;
       unit->self->targetPositionX = position.x();
       unit->self->targetPositionY = position.y();
+	  unit->self->orderTargetPositionX = position.x();
+	  unit->self->orderTargetPositionY = position.y();
     }
     else if (command.type == UnitCommandTypes::Repair)
     {
@@ -584,6 +590,8 @@ namespace BWAPI
         unit->self->order           = Orders::Move;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
         unit->self->isMoving        = true;
         unit->self->isIdle          = false;
       }
@@ -719,6 +727,8 @@ namespace BWAPI
         unit->self->order = Orders::MoveUnload;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
     }
     else if (command.type == UnitCommandTypes::Unload_All_Position)
@@ -734,6 +744,8 @@ namespace BWAPI
         unit->self->order           = Orders::MoveUnload;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
     }
     else if (command.type == UnitCommandTypes::Unsiege)
@@ -777,36 +789,48 @@ namespace BWAPI
         unit->self->order           = Orders::CastDarkSwarm;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Disruption_Web)
       {
         unit->self->order           = Orders::CastDisruptionWeb;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::EMP_Shockwave)
       {
         unit->self->order           = Orders::CastEMPShockwave;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Ensnare)
       {
         unit->self->order           = Orders::CastEnsnare;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Maelstrom)
       {
         unit->self->order           = Orders::CastMaelstrom;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Nuclear_Strike)
       {
         unit->self->order           = Orders::CastNuclearStrike;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Plague)
       {
@@ -819,30 +843,40 @@ namespace BWAPI
         unit->self->order           = Orders::CastPsionicStorm;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Recall)
       {
         unit->self->order           = Orders::CastRecall;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Scanner_Sweep)
       {
         unit->self->order           = Orders::CastScannerSweep;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Spider_Mines)
       {
         unit->self->order           = Orders::PlaceMine;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
       else if (techType == TechTypes::Stasis_Field)
       {
         unit->self->order           = Orders::CastStasisField;
         unit->self->targetPositionX = position.x();
         unit->self->targetPositionY = position.y();
+		unit->self->orderTargetPositionX = position.x();
+		unit->self->orderTargetPositionY = position.y();
       }
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Unit)
@@ -855,6 +889,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Defensive_Matrix)
       {
@@ -862,6 +898,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Feedback)
       {
@@ -869,6 +907,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Hallucination)
       {
@@ -876,6 +916,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Healing)
       {
@@ -883,6 +925,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Infestation)
       {
@@ -890,6 +934,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Irradiate)
       {
@@ -897,6 +943,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Lockdown)
       {
@@ -904,6 +952,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Mind_Control)
       {
@@ -911,6 +961,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Optical_Flare)
       {
@@ -918,6 +970,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Parasite)
       {
@@ -925,6 +979,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Restoration)
       {
@@ -932,6 +988,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Spawn_Broodlings)
       {
@@ -939,6 +997,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Yamato_Gun)
       {
@@ -946,6 +1006,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Archon_Warp)
       {
@@ -953,6 +1015,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
       else if (techType == TechTypes::Dark_Archon_Meld)
       {
@@ -960,6 +1024,8 @@ namespace BWAPI
         unit->self->orderTarget     = getUnitID(target);
         unit->self->targetPositionX = target->getPosition().x();
         unit->self->targetPositionY = target->getPosition().y();
+		unit->self->orderTargetPositionX = target->getPosition().x();
+		unit->self->orderTargetPositionY = target->getPosition().y();
       }
     }
   }

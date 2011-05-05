@@ -61,6 +61,7 @@
 #include "ShapeText.h"
 #include "BWtoBWAPI.h"
 #include "../Detours.h"
+#include "../Recording.h"
 
 #include "../../Debug.h"
 
@@ -816,7 +817,7 @@ namespace BWAPI
           if ( pszFile )
             ++pszFile;
           // Apply the altered name to all vector entries
-          for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end; i = i->next )
+          for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)BW::BWDATA_MapListVector; i = i->next )
           {
             SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
             SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
@@ -909,7 +910,7 @@ namespace BWAPI
               if ( pszFile )
                 ++pszFile;
               // Apply the altered name to all vector entries
-              for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end; i = i->next )
+              for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)BW::BWDATA_MapListVector; i = i->next )
               {
                 SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
                 SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
@@ -1454,11 +1455,18 @@ namespace BWAPI
       printf("Done");
       SetResolution(1024, 768);
     }
+    else if (parsed[0] == "/record")
+    {
+      if ( !StartVideoRecording("test.avi", BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, &bmp) )
+        MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
+    }
+    else if (parsed[0] == "/stop")
+    {
+      StopVideoRecording();
+    }
     else if (parsed[0] == "/test")
     {
-      printf("%s", mapPathName().c_str());
-      printf("%s", mapFileName().c_str());
-      printf("%s", mapName().c_str());
+      SetResolution(640, 480);
     }
 #endif
     else

@@ -12,6 +12,8 @@ struct BITMAPINFO256 {
     RGBQUAD             bmiColors[256];
 };
 
+extern BITMAPINFO256 bmp;
+
 BOOL WINAPI   _GetCursorPos(LPPOINT lpPoint);
 BOOL WINAPI   _SetCursorPos(int X, int Y);
 BOOL WINAPI   _ClipCursor(const RECT *lpRect);

@@ -56,6 +56,8 @@ namespace BWAPI
     int targetPositionY;
     int order;
     int orderTarget;
+	int orderTargetPositionX;
+	int orderTargetPositionY;
     int secondaryOrder;
     int rallyPositionX;
     int rallyPositionY;

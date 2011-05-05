@@ -44,14 +44,20 @@ void SetResolution(int width, int height)
     SMFree(oldBuf);
 
   // Recreate STrans thingy
-  HANDLE oldTrans = (*BW::BWDATA_MainBltMask)->hTrans;
-  SetRect(&(*BW::BWDATA_MainBltMask)->info, 0, 0, width, height);
-  STransCreateE(newBuf, width, height, 8, 0, 0, &(*BW::BWDATA_MainBltMask)->hTrans);
-  if ( oldTrans )
-    STransDelete(oldTrans);
+  BW::TransVectorEntry *transEntry = BW::BWDATA_TransMaskVector->begin;
+  if ( (u32)transEntry && (u32)transEntry != (u32)BW::BWDATA_MapListVector )
+  {
+    HANDLE oldTrans = transEntry->hTrans;
+    SetRect(&transEntry->info, 0, 0, width, height);
+    STransCreateE(newBuf, width, height, 8, 0, 0, &transEntry->hTrans);
+    if ( oldTrans )
+      STransDelete(oldTrans);
 
-  // call a function that does some weird stuff
-  BW::BWFXN_UpdateBltMasks();
+    // call a function that does some weird stuff
+    BW::BWFXN_UpdateBltMasks();
+  }
+
+  STransSetDirtyArrayInfo(width, height, 16, 16);
 
   // re-initialize w-mode or ddraw, this function can do both
   SetWMode(width, height, wmode);

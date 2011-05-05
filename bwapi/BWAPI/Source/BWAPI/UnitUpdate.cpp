@@ -324,10 +324,12 @@ namespace BWAPI
                        self->order == BW::OrderID::Burrowed     ||
                        self->order == BW::OrderID::NukeTrain    ||
                        self->order == BW::OrderID::Larva;
-      self->target          = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(o->moveToUnit)); //getTarget
-      self->targetPositionX = o->moveToPos.x;  //getTargetPosition
-      self->targetPositionY = o->moveToPos.y;  //getTargetPosition
-      self->orderTarget     = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->orderTargetUnit));  //getOrderTarget
+      self->target               = BroodwarImpl.server.getUnitID((Unit*)UnitImpl::BWUnitToBWAPIUnit(o->moveToUnit)); //getTarget
+      self->targetPositionX      = o->moveToPos.x;  //getTargetPosition
+      self->targetPositionY      = o->moveToPos.y;  //getTargetPosition
+	  self->orderTargetPositionX = o->orderTargetPos.x;
+	  self->orderTargetPositionY = o->orderTargetPos.y;
+      self->orderTarget          = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->orderTargetUnit));  //getOrderTarget
       //------------------------------------------------------------------------------------------------------
       //getAddon
       self->addon = -1;
@@ -415,6 +417,8 @@ namespace BWAPI
       self->targetPositionX     = Positions::Unknown.x(); //getTargetPosition
       self->targetPositionY     = Positions::Unknown.y(); //getTargetPosition
       self->orderTarget         = -1;     //getOrderTarget
+	  self->orderTargetPositionX = Positions::Unknown.x();
+	  self->orderTargetPositionY = Positions::Unknown.y();
       self->addon               = -1;     //getAddon
       self->nydusExit           = -1;     //getNydusExit
       self->powerUp             = -1;     //getPowerUp

@@ -100,6 +100,7 @@ namespace BWAPI
       virtual Position getTargetPosition() const;
       virtual Order    getOrder() const;
       virtual Unit*    getOrderTarget() const;
+	  virtual Position getOrderTargetPosition() const;
       virtual Order    getSecondaryOrder() const;
       virtual Position getRallyPosition() const;
       virtual Unit*    getRallyUnit() const;

@@ -239,12 +239,16 @@ namespace BWAPI
 
       // TODO: add doc
       virtual Order getOrder() const = 0;
+	  virtual Order getSecondaryOrder() const = 0;
 
       /** This is usually set when the low level unit AI acquires a new target automatically. For example if
        * an enemy probe comes in range of your marine, the marine will start attacking it, and getOrderTarget
        * will be set in this case, but not getTarget. */
       virtual Unit* getOrderTarget() const = 0;
-      virtual Order getSecondaryOrder() const = 0;
+
+	  /** Returns the target position for the units order. For example for the move order getTargetPosition
+	   * returns the end of the units path but this returns the location the unit is trying to move to.  */
+      virtual Position getOrderTargetPosition() const = 0;
 
       /** Returns the position the building is rallied to. If the building does not produce units,
        * Positions::None is returned.
