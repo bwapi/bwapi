@@ -680,7 +680,7 @@ namespace BWAPI
         }
         else if ( UnitCommandTypes::Use_Tech_Unit     == ct)
         {
-          if ( !tech.targetsUnit() && !tech.targetsPosition() )
+          if ( !tech.targetsUnit() )
             return Broodwar->setLastError(Errors::Incompatible_TechType);
         }
         if ( UnitCommandTypes::Burrow == ct )

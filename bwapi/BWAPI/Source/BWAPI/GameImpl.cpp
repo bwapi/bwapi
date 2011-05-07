@@ -859,9 +859,12 @@ namespace BWAPI
       }
       command.unit = selected[0];
       selected[k] = NULL;
-      BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
-      botAPM_select++;
-      QueueGameCommand((PBYTE)&sel, sel.size);
+      if ( command.type != BWAPI::UnitCommandTypes::Unload )
+      {
+        BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
+        botAPM_select++;
+        QueueGameCommand((PBYTE)&sel, sel.size);
+      }
 
       BroodwarImpl.executeCommand( command, false );
       for each(UnitImpl* j in *i)

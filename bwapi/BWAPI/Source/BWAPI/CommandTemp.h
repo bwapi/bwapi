@@ -711,7 +711,7 @@ namespace BWAPI
     {
       if (!unit->self->exists)
         return;
-      unit->self->order = Orders::Unload;
+      unit->self->order  = Orders::Unload;
       unit->self->target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Unload_All)

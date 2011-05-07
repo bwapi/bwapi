@@ -1546,10 +1546,12 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       //SetResolution(640, 480);
-      printf("OBSERVERS:");
-      for each ( Player *p in observers() )
+      printf("Unloading");
+      for each ( Unit *u in self()->getUnits() )
       {
-        printf("  %c%s", p->getTextColor(), p->getName().c_str() );
+        std::set<Unit*> lu = u->getLoadedUnits();
+        for each ( Unit *i in lu )
+          u->unload(i);
       }
     }
 #endif
@@ -2704,6 +2706,12 @@ namespace BWAPI
           break;
         case BW::TechID::Ensnare:
           order = BW::OrderID::Ensnare;
+          break;
+        case BW::TechID::Healing:
+          order = BW::OrderID::HealMove;
+          break;
+        case BW::TechID::Maelstorm:
+          order = BW::OrderID::CastMaelstrom;
           break;
         case BW::TechID::NuclearStrike:
           order = BW::OrderID::NukePaint;
