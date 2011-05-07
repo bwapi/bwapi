@@ -49,7 +49,7 @@ namespace BWAPI
       botAPM_select++;
       QueueGameCommand((PBYTE)&sel, sel.size);
     }
-    else
+    else if ( command.type != UnitCommandTypes::Unload )
       ((UnitImpl*)command.unit)->orderSelect();
 
     BroodwarImpl.executeCommand( command, true);
