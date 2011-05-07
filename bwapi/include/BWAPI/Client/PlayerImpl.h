@@ -70,5 +70,7 @@ namespace BWAPI
       virtual int getBuildingScore() const;
       virtual int getRazingScore() const;
       virtual int getCustomScore() const;
+
+      virtual bool isObserver() const;
   };
 };

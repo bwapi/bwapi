@@ -36,6 +36,7 @@ namespace BWAPI
     self->totalBuildingScore  = 0;
     self->totalRazingScore    = 0;
     self->customScore         = 0;
+    self->isParticipating     = false;
 
     if ( index < 12 )
     {
@@ -138,14 +139,14 @@ namespace BWAPI
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isAlly(Player* player) const
   {
-    if ( !player || isNeutral() || player->isNeutral() || !((PlayerImpl*)player)->isParticipating() )
+    if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
     return BW::BWDATA_Alliance[index].player[ ((PlayerImpl*)player)->getIndex() ] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(Player* player) const
   {
-    if ( !player || this->isNeutral() || player->isNeutral() || !((PlayerImpl*)player)->isParticipating() )
+    if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
     return BW::BWDATA_Alliance[index].player[ ((PlayerImpl*)player)->getIndex() ] == 0;
   }
@@ -159,7 +160,7 @@ namespace BWAPI
   {
     /* error checking */
     BroodwarImpl.setLastError(Errors::None);
-    if (this->isNeutral())
+    if ( this->isNeutral() )
       return TilePositions::None;
     if ( !BroodwarImpl._isReplay() &&
          BroodwarImpl.self()->isEnemy((Player*)this) &&
@@ -175,14 +176,14 @@ namespace BWAPI
   //--------------------------------------------- IS VICTORIOUS ----------------------------------------------
   bool PlayerImpl::isVictorious() const
   {
-    if (index >= 8) 
+    if ( index >= 8 ) 
       return false;
     return BW::BWDATA_PlayerVictory[index] == 3;
   }
   //--------------------------------------------- IS DEFEATED ------------------------------------------------
   bool PlayerImpl::isDefeated() const
   {
-    if (index >= 8) 
+    if ( index >= 8 ) 
       return false;
     return BW::BWDATA_PlayerVictory[index] == 1 ||
            BW::BWDATA_PlayerVictory[index] == 2 ||
@@ -649,16 +650,6 @@ namespace BWAPI
     this->leftTheGame = false;
   }
   //----------------------------------------------------------------------------------------------------------
-  bool PlayerImpl::isParticipating()
-  {
-    return BW::BWDATA_AllScores->supplies[BW::Race::Zerg].available[index]    != 0 ||
-           BW::BWDATA_AllScores->supplies[BW::Race::Zerg].used[index]         != 0 ||
-           BW::BWDATA_AllScores->supplies[BW::Race::Terran].available[index]  != 0 ||
-           BW::BWDATA_AllScores->supplies[BW::Race::Terran].used[index]       != 0 ||
-           BW::BWDATA_AllScores->supplies[BW::Race::Protoss].available[index] != 0 ||
-           BW::BWDATA_AllScores->supplies[BW::Race::Protoss].used[index]      != 0;
-  }
-  //----------------------------------------------------------------------------------------------------------
   BWAPI::Color PlayerImpl::getColor() const
   {
     return BWAPI::Color(self->color);
@@ -667,5 +658,14 @@ namespace BWAPI
   {
     return self->colorByte;
   }
+  //----------------------------------------------------------------------------------------------------------
+  bool PlayerImpl::isObserver() const
+  {
+    return !self->isParticipating;
+  }
 
+  void PlayerImpl::setParticipating(bool isParticipating)
+  {
+    self->isParticipating = isParticipating;
+  }
 };

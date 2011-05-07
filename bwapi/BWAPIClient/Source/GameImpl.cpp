@@ -108,6 +108,7 @@ namespace BWAPI
     theNeutral = NULL;
     _allies.clear();
     _enemies.clear();
+    _observers.clear();
 
     //clear unitsOnTileData
     for(int x = 0; x < 256; ++x)
@@ -154,15 +155,25 @@ namespace BWAPI
     theNeutral = getPlayer(data->neutral);
     _allies.clear();
     _enemies.clear();
+    _observers.clear();
+    // check if the current player exists
     if ( thePlayer )
     {
+      // iterate each player
       foreach(Player* p, players)
       {
-        if (p->leftGame() || p->isDefeated() || p == thePlayer) continue;
-        if (thePlayer->isAlly(p))
+        // check if the player should not be updated
+        if ( p->leftGame() || p->isDefeated() || p == thePlayer )
+          continue;
+        // add player to allies set
+        if ( thePlayer->isAlly(p) )
           _allies.insert(p);
-        if (thePlayer->isEnemy(p))
+        // add player to enemies set
+        if ( thePlayer->isEnemy(p) )
           _enemies.insert(p);
+        // add player to observers set
+        if ( p->isObserver() )
+          _observers.insert(p);
       }
     }
     onMatchFrame();
@@ -284,17 +295,27 @@ namespace BWAPI
       if ( u )
         selectedUnits.insert(u);
     }
+    // clear player sets
     _allies.clear();
     _enemies.clear();
+    _observers.clear();
     if ( thePlayer )
     {
+      // iterate each player
       foreach(Player* p, players)
       {
-        if (p->leftGame() || p->isDefeated() || p == thePlayer) continue;
-        if (thePlayer->isAlly(p))
+        // check if player should be skipped
+        if ( p->leftGame() || p->isDefeated() || p == thePlayer )
+          continue;
+        // add player to allies set
+        if ( thePlayer->isAlly(p) )
           _allies.insert(p);
-        if (thePlayer->isEnemy(p))
+        // add player to enemy set
+        if ( thePlayer->isEnemy(p) )
           _enemies.insert(p);
+        // add player to obs set
+        if ( p->isObserver() )
+          _observers.insert(p);
       }
     }
   }
@@ -891,6 +912,13 @@ namespace BWAPI
     /* Returns a set of all the enemy players that have not left or been defeated. */
     lastError = Errors::None;
     return _enemies;
+  }
+  //-------------------------------------------- OBSERVERS ---------------------------------------------------
+  std::set<Player*>& GameImpl::observers()
+  {
+    /* Returns a set of all the enemy players that have not left or been defeated. */
+    lastError = Errors::None;
+    return _observers;
   }
 
   //---------------------------------------------- SET TEXT SIZE ---------------------------------------------

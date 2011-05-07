@@ -44,12 +44,12 @@ void SetResolution(int width, int height)
     SMFree(oldBuf);
 
   // Recreate STrans thingy
-  BW::TransVectorEntry *transEntry = BW::BWDATA_TransMaskVector->begin;
-  if ( (u32)transEntry && (u32)transEntry != (u32)BW::BWDATA_MapListVector )
+  BW::BlizzVectorEntry<BW::TransVectorEntry> *transEntry = BW::BWDATA_TransMaskVector->begin;
+  if ( (u32)transEntry && (u32)transEntry != (u32)&BW::BWDATA_TransMaskVector->begin )
   {
-    HANDLE oldTrans = transEntry->hTrans;
-    SetRect(&transEntry->info, 0, 0, width, height);
-    STransCreateE(newBuf, width, height, 8, 0, 0, &transEntry->hTrans);
+    HANDLE oldTrans = transEntry->container.hTrans;
+    SetRect(&transEntry->container.info, 0, 0, width, height);
+    STransCreateE(newBuf, width, height, 8, 0, 0, &transEntry->container.hTrans);
     if ( oldTrans )
       STransDelete(oldTrans);
 

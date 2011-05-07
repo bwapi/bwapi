@@ -18,7 +18,7 @@ namespace BW
 
         // "None" also indicates the end of the list
         if ( this->conditions[i].bConditionType == Conditions::None )
-          break;;
+          break;
       }
       return true;
     }

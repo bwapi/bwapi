@@ -92,6 +92,8 @@ namespace BWAPI
       virtual int getRazingScore() const;
       virtual int getCustomScore() const;
 
+      virtual bool isObserver() const;
+
       //Internal BWAPI commands:
       /**
        * Constructs new player
@@ -118,7 +120,7 @@ namespace BWAPI
       std::set<Unit*> units;
       bool leftTheGame;
 
-      bool isParticipating();
+      void setParticipating(bool isParticipating = true);
 
     private :
       int id;

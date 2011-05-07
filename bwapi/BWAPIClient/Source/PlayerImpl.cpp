@@ -335,4 +335,8 @@ namespace BWAPI
   {
     return self->colorByte;
   }
+  bool PlayerImpl::isObserver() const
+  {
+    return !self->isParticipating;
+  }
 }
