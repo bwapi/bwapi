@@ -169,5 +169,8 @@ namespace BWAPI
 
       /** Returns the Player's Custom Score */
       virtual int getCustomScore() const = 0;
+
+      /** Returns true if the Player is only observing the game, and not participating */
+      virtual bool isObserver() const = 0;
   };
 };

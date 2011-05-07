@@ -169,6 +169,7 @@ namespace BWAPI
       virtual Player *neutral();
       virtual std::set<BWAPI::Player*>& allies();
       virtual std::set<BWAPI::Player*>& enemies();
+      virtual std::set<BWAPI::Player*>& observers();
 
       virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char *format, ...);
@@ -381,6 +382,7 @@ namespace BWAPI
       DWORD endTick;
       std::set<Player*> _allies;
       std::set<Player*> _enemies;
+      std::set<Player*> _observers;
 
       bool inGame;
 

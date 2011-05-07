@@ -920,6 +920,13 @@ namespace BWAPI
     this->setLastError(Errors::None);
     return _enemies;
   }
+  //---------------------------------------------------- OBSERVERS -------------------------------------------
+  std::set<Player*>& GameImpl::observers()
+  {
+    /* Returns a set of all the enemy players that have not left or been defeated. */
+    this->setLastError(Errors::None);
+    return _observers;
+  }
   //--------------------------------------------------- LATENCY ----------------------------------------------
   int GameImpl::getLatencyFrames()
   {

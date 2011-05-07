@@ -12,6 +12,7 @@
 
 #include "Unit.h"
 #include "Sprite.h"
+#include "TriggerEngine.h"
 
 /**
  * Broodwar content access tools. The namespace contains:
@@ -106,7 +107,8 @@ namespace BW
     u8   nTeam;
     char szName[25];
   };
-  static PlayerInfo *BWDATA_Players = (PlayerInfo*) 0x0057EEE0;
+  static PlayerInfo *BWDATA_Players       = (PlayerInfo*) 0x0057EEE0;
+  static PlayerInfo *BWDATA_LobbyPlayers  = (PlayerInfo*) 0x0059BDB0;
 
   /** Player Alliances */
   struct PlayerAlliance
@@ -342,8 +344,6 @@ namespace BW
 
   struct MapVectorEntry   // sizeof 1348
   {
-    MapVectorEntry *prev;         // First entry points to begin in controller // 0
-    MapVectorEntry *next;         // negative value indicates vector::end and points to &end in controller // 4
     char  szEntryName[64];        // fixed entry name // 8
     BYTE  bUnknown_48;            // 72
     char  szMapName[32];          // 73
@@ -429,23 +429,31 @@ namespace BW
 
   struct TransVectorEntry
   {
-    TransVectorEntry  *prev;
-    TransVectorEntry  *next;
     HANDLE            hTrans;
     RECT              info;
     DWORD             dwReserved;
+  };
+
+
+  template <class _T>
+  struct BlizzVectorEntry
+  {
+    BlizzVectorEntry<_T> *prev; // First entry points to begin in controller
+    BlizzVectorEntry<_T> *next; // negative value indicates vector::end and points to &end in controller
+    _T container;
   };
 
   template <class _T>
   struct BlizzVectorController // sizeof 12
   {
     int unknown_00;
-    _T *end;
-    _T *begin;
+    BlizzVectorEntry<_T> *end;
+    BlizzVectorEntry<_T> *begin;
   };
+
   static BlizzVectorController<MapVectorEntry>    *BWDATA_MapListVector   = (BlizzVectorController<MapVectorEntry>*)    0x0051A274;
   static BlizzVectorController<TransVectorEntry>  *BWDATA_TransMaskVector = (BlizzVectorController<TransVectorEntry>*)  0x0051A334;
-  //static BlizzVectorController<Triggers::Trigger> *BWDATA_TriggerVectors  = (BlizzVectorController<Triggers::Trigger>*) 0x0051A280;
+  static BlizzVectorController<Triggers::Trigger> *BWDATA_TriggerVectors  = (BlizzVectorController<Triggers::Trigger>*) 0x0051A280;
 
   const char            *GetStatString(int index);
 

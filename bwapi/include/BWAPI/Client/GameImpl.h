@@ -58,6 +58,7 @@ namespace BWAPI
       Player* theNeutral;
       std::set<Player*> _allies;
       std::set<Player*> _enemies;
+      std::set<Player*> _observers;
       Error lastError;
 
     public :
@@ -157,12 +158,12 @@ namespace BWAPI
       virtual bool isPaused();
       virtual bool isReplay();
 
-      virtual void  startGame();
-      virtual void  pauseGame();
-      virtual void  resumeGame();
-      virtual void  leaveGame();
-      virtual void  restartGame();
-      virtual void  setLocalSpeed(int speed = -1);
+      virtual void startGame();
+      virtual void pauseGame();
+      virtual void resumeGame();
+      virtual void leaveGame();
+      virtual void restartGame();
+      virtual void setLocalSpeed(int speed = -1);
       virtual bool issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command);
       virtual std::set<BWAPI::Unit*>& getSelectedUnits();
       virtual Player* self();
@@ -170,6 +171,7 @@ namespace BWAPI
       virtual Player* neutral();
       virtual std::set<BWAPI::Player*>& allies();
       virtual std::set<BWAPI::Player*>& enemies();
+      virtual std::set<BWAPI::Player*>& observers();
 
       virtual void setTextSize(int size = 1);
       virtual void drawText(int ctype, int x, int y, const char *format, ...);

@@ -45,6 +45,7 @@
 #include <BW/TechID.h>
 #include <BW/UpgradeID.h>
 #include <BW/PlayerType.h>
+#include <BW/TriggerEngine.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -247,15 +248,19 @@ namespace BWAPI
       //update players and check to see if they have just left the game.
       _allies.clear();
       _enemies.clear();
+      _observers.clear();
       if (BWAPIPlayer)
       {
         foreach(Player* p, playerSet)
         {
-          if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer) continue;
-          if (BWAPIPlayer->isAlly(p))
+          if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
+            continue;
+          if ( BWAPIPlayer->isAlly(p) )
             _allies.insert(p);
-          if (BWAPIPlayer->isEnemy(p))
+          if ( BWAPIPlayer->isEnemy(p) )
             _enemies.insert(p);
+          if ( p->isObserver() )
+            _observers.insert(p);
         }
       }
       for (int i = 0; i < PLAYER_COUNT; i++)
@@ -444,6 +449,11 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug )
     {
+      for each (TilePosition tp in this->getStartLocations() )
+      {
+        Position p(tp);
+        drawBoxMap(p.x(), p.y(), p.x() + 128, p.y() + 96, Colors::Orange);
+      }
       /*for each ( UnitImpl *s in this->selectedUnitSet )
       {
         BW::Unit *u = s->getOriginalRawData;
@@ -817,11 +827,11 @@ namespace BWAPI
           if ( pszFile )
             ++pszFile;
           // Apply the altered name to all vector entries
-          for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)BW::BWDATA_MapListVector; i = i->next )
+          for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
           {
-            SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
-            SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
-            SStrCopy(i->szFullPath,  mapName, MAX_PATH);
+            SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
+            SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
+            SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
           }
 
           // if we encounter an unknown error when attempting to load the map
@@ -910,11 +920,11 @@ namespace BWAPI
               if ( pszFile )
                 ++pszFile;
               // Apply the altered name to all vector entries
-              for ( BW::MapVectorEntry *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)BW::BWDATA_MapListVector; i = i->next )
+              for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
               {
-                SStrCopy(i->szEntryName, pszFile ? pszFile : mapName, 65);
-                SStrCopy(i->szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
-                SStrCopy(i->szFullPath,  mapName, MAX_PATH);
+                SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
+                SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
+                SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
               }
 
               // if we encounter an unknown error when attempting to load the map
@@ -1186,6 +1196,55 @@ namespace BWAPI
     BWAPIPlayer = NULL;
     enemyPlayer = NULL;
 
+
+    /* roughly identify which players can possibly participate in this game */
+    bool playerHasTriggers[PLAYABLE_PLAYER_COUNT]             = { true };
+    // iterate triggers for each player
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      // reset participation
+      if ( this->players[i] )
+        this->players[i]->setParticipating(false);
+
+      // First check if player owns a unit at start
+      for ( int u = 0; u < BW::UnitID::None; ++u )
+      {
+        if ( BW::BWDATA_AllScores->unitCounts.all[u][i] )
+        {
+          if ( this->players[i] )
+            this->players[i]->setParticipating();
+          break;
+        }
+      }
+/*      // note: may not be necessary, not sure if SC does this from the beginning or not
+      // Ignore triggers for non-active player types
+      if ( BW::BWDATA_Players[i].nType != BW::PlayerType::Computer &&
+           BW::BWDATA_Players[i].nType != BW::PlayerType::Player )
+        continue;
+*/
+      // Then iterate each trigger
+      // checking if a unit can be created or given to the player later in the game
+      for ( BW::BlizzVectorEntry<BW::Triggers::Trigger> *t = BW::BWDATA_TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA_TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA_TriggerVectors[i].begin; t = t->next )
+      {
+        // check if trigger conditions can be met
+        if ( t->container.conditionsCanBeMet() )
+        {
+          // check participation of players
+          for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+          {
+            if ( !this->players[p] || !this->players[p]->isObserver() )
+              continue;
+            if ( t->container.actionsAllowGameplay(i, p) )
+            {
+              this->players[p]->setParticipating();
+              playerHasTriggers[p] = true;
+            }
+          }
+        } // conds can be met
+      } // trigvector iterator
+    } // playercount iterator
+
+
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
       for (int i = 0; i < Flag::Max; i++)
@@ -1199,12 +1258,15 @@ namespace BWAPI
 
       this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
       /* find the opponent player */
-      for (int i = 0; i < 8; i++)
-        if ((this->players[i]->getType() == BW::PlayerType::Computer ||
-             this->players[i]->getType() == BW::PlayerType::Player   ||
-             this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
-            this->BWAPIPlayer->isEnemy(this->players[i]))
+      for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+      {
+        if ( (this->players[i]->getType() == BW::PlayerType::Computer ||
+              this->players[i]->getType() == BW::PlayerType::Player   ||
+              this->players[i]->getType() == BW::PlayerType::EitherPreferComputer) &&
+             !this->players[i]->isObserver() &&
+             this->BWAPIPlayer->isEnemy(this->players[i]) )
           this->enemyPlayer = this->players[i];
+      }
     }
 
     /* Clear our sets */
@@ -1216,16 +1278,29 @@ namespace BWAPI
 
     /* get the set of start locations */
     BW::Position *StartLocs = BW::BWDATA_startPositions;
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT ; ++i)
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( StartLocs[i].x != 0 || StartLocs[i].y != 0 )
-        startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - 64) / TILE_SIZE,
-                                                   (StartLocs[i].y - 48) / TILE_SIZE) );
+      if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) )
+      {
+        if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) &&
+             (this->getGameType() != GameTypes::Use_Map_Settings || 
+              playerHasTriggers[i]                               || 
+              (BW::BWDATA_LobbyPlayers[i].nRace == BW::Race::Select &&
+               (BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferComputer ||
+                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferHuman    ||
+                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::Player               ||
+                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::Computer)
+              )) )
+        {
+          startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - 64) / TILE_SIZE,
+                                                     (StartLocs[i].y - 48) / TILE_SIZE) );
+        }
+      }
     }
 
     // Get Player Objects
     this->server.clearAll();
-    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
       if ( this->players[i] && 
            BW::BWDATA_Players[i].nType != BW::PlayerType::None &&
@@ -1237,15 +1312,19 @@ namespace BWAPI
     }
     _allies.clear();
     _enemies.clear();
+    _observers.clear();
     if (BWAPIPlayer)
     {
       foreach(Player* p, playerSet)
       {
-        if (p->leftGame() || p->isDefeated() || p == BWAPIPlayer ) continue;
-        if (BWAPIPlayer->isAlly(p))
+        if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
+          continue;
+        if ( BWAPIPlayer->isAlly(p) )
           _allies.insert(p);
-        if (BWAPIPlayer->isEnemy(p))
+        if ( BWAPIPlayer->isEnemy(p) )
           _enemies.insert(p);
+        if ( p->isObserver() )
+          _observers.insert(p);
       }
     }
 
@@ -1466,7 +1545,12 @@ namespace BWAPI
     }
     else if (parsed[0] == "/test")
     {
-      SetResolution(640, 480);
+      //SetResolution(640, 480);
+      printf("OBSERVERS:");
+      for each ( Player *p in observers() )
+      {
+        printf("  %c%s", p->getTextColor(), p->getName().c_str() );
+      }
     }
 #endif
     else
@@ -1583,6 +1667,7 @@ namespace BWAPI
     staticNeutralUnits.clear();
     _allies.clear();
     _enemies.clear();
+    _observers.clear();
 
     memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
     wantSelectionUpdate = false;

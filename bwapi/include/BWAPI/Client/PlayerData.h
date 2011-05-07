@@ -16,6 +16,7 @@ namespace BWAPI
     bool isVictorious;
     bool isDefeated;
     bool leftGame;
+    bool isParticipating;
 
     int minerals;
     int gas;

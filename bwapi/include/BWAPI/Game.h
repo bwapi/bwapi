@@ -337,6 +337,9 @@ namespace BWAPI
       /** Returns a set of all the enemy players that have not left or been defeated. */
       virtual std::set<BWAPI::Player*>& enemies() = 0;
 
+      /** Returns a set of all the observer players that have not left. */
+      virtual std::set<BWAPI::Player*>& observers() = 0;
+
       virtual void setTextSize(int size = 1) = 0;
       /** Draws text on the screen at the given position. Text can be drawn in different colors by using the
        * following control characters: TODO: add image from wiki.*/
