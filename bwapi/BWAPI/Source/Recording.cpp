@@ -35,7 +35,7 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
   aisinfo.dwScale               = 1;
   aisinfo.dwRate                = 30;
   aisinfo.dwSuggestedBufferSize = width * height;
-  aisinfo.dwQuality             = ~0;
+  aisinfo.dwQuality             = (DWORD)~0;
   aisinfo.dwSampleSize          = width * height;
   SetRect(&aisinfo.rcFrame, 0, 0, width, height);
 

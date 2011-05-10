@@ -240,7 +240,7 @@ namespace BWAPI
       void loadAutoMenuData();
       void onMenuFrame();
       PlayerImpl* players[12];
-      void pressKey(int key);
+      void pressKey(int key, bool holdAlt = false);
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
 
@@ -366,6 +366,9 @@ namespace BWAPI
       std::string autoMenuRace;
       std::string autoMenuEnemyRace[8];
       unsigned int autoMenuEnemyCount;
+      unsigned int autoMenuMinPlayerCount;
+      unsigned int autoMenuMaxPlayerCount;
+      unsigned int autoMenuWaitPlayerTime;
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;
