@@ -9,7 +9,6 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...);
 int getFileType(const char *szFileName);
 
 extern char logPath[MAX_PATH];
-extern bool logging;
 
 extern DWORD gdwProcNum;
 extern char szInstallPath[MAX_PATH];

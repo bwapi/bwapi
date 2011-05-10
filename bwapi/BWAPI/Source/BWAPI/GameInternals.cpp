@@ -1,6 +1,6 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 
-#include "../../svnrev.h"
+#include "../svnrev.h"
 #include "GameImpl.h"
 #include "TemplatesImpl.h"
 
@@ -63,6 +63,8 @@
 #include "BWtoBWAPI.h"
 #include "../Detours.h"
 #include "../Recording.h"
+
+#include "../Storm/storm.h"
 
 #include "../../Debug.h"
 
@@ -671,6 +673,10 @@ namespace BWAPI
     GetPrivateProfileString("auto_menu", "save_replay", "", buffer, MAX_PATH, szConfigPath);
     autoMenuSaveReplay = std::string(buffer);
 
+    autoMenuMinPlayerCount = GetPrivateProfileInt("auto_menu", "wait_for_min_players", 2, szConfigPath);
+    autoMenuMaxPlayerCount = GetPrivateProfileInt("auto_menu", "wait_for_max_players", 8, szConfigPath);
+    autoMenuWaitPlayerTime = GetPrivateProfileInt("auto_menu", "wait_for_time", 30000, szConfigPath);
+
     this->chooseNewRandomMap();
   }
   int fixPathString(const char *in, char *out, size_t outLen)
@@ -719,6 +725,28 @@ namespace BWAPI
       lastMapGen         = this->autoMenuMapPath + chosen;
     }
   }
+  //--------------------------------------------- GET LOBBY STUFF --------------------------------------------
+  unsigned int getLobbyPlayerCount()
+  {
+    unsigned int rval = 0;
+    for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      if ( BW::BWDATA_Players[i].nType == BW::PlayerType::Player )
+        ++rval;
+    }
+    return rval;
+  }
+  unsigned int getLobbyOpenCount()
+  {
+    unsigned int rval = 0;
+    for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      if ( BW::BWDATA_Players[i].nType == BW::PlayerType::EitherPreferHuman )
+        ++rval;
+    }
+    return rval;
+  }
+  DWORD createdTimer;
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
@@ -829,6 +857,10 @@ namespace BWAPI
           // Apply the altered name to all vector entries
           for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
           {
+            i->container.bTotalPlayers  = 8;
+            i->container.bHumanSlots    = 8;
+            for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+              i->container.bPlayerSlotEnabled[p] = 1;
             SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
             SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
             SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
@@ -896,8 +928,9 @@ namespace BWAPI
 //create single/multi player game screen
         case 11: 
           {
-            actGameSel = false;
-            tempDlg = BW::FindDialogGlobal("Create");
+            actGameSel    = false;
+            createdTimer  = GetTickCount();
+            tempDlg       = BW::FindDialogGlobal("Create");
             if ( this->lastMapGen.size() > 0 )
             {
               if ( getFileType(this->lastMapGen.c_str()) == 1 )
@@ -922,6 +955,10 @@ namespace BWAPI
               // Apply the altered name to all vector entries
               for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
               {
+                i->container.bTotalPlayers  = 8;
+                i->container.bHumanSlots    = 8;
+                for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+                  i->container.bPlayerSlotEnabled[p] = 1;
                 SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
                 SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
                 SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
@@ -951,6 +988,16 @@ namespace BWAPI
 
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(0, playerRace);
+
+          if ( getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0 )
+          {
+            if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
+            {
+              tempDlg = BW::FindDialogGlobal("Chat");
+              if ( tempDlg )
+                this->pressKey( tempDlg->findIndex(7)->getHotkey(), true );
+            }
+          }
           break;
         }
       }
@@ -976,7 +1023,7 @@ namespace BWAPI
           if ( playerRace != Races::Unknown && playerRace != Races::None )
             this->_changeRace(1, playerRace);
 
-          break;          
+          break;
         }
       }
     }
@@ -1100,10 +1147,18 @@ namespace BWAPI
   }
 
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
-  void GameImpl::pressKey(int key)
+  void GameImpl::pressKey(int key, bool holdAlt)
   {
-    PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
-    PostMessage(SDrawGetFrameWindow(), WM_KEYUP, (WPARAM)key, NULL);
+    if ( holdAlt )
+    {
+      PostMessage(SDrawGetFrameWindow(), WM_SYSKEYDOWN, (WPARAM)key, 0x20000000);
+      PostMessage(SDrawGetFrameWindow(), WM_SYSKEYUP,   (WPARAM)key, 0xE0000000);
+    }
+    else
+    {
+      PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
+      PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);
+    }
   }
   void GameImpl::mouseDown(int x, int y)
   {

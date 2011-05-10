@@ -161,25 +161,19 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
 }
 
 char logPath[MAX_PATH];
-bool logging;
 //--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
 DWORD WINAPI CTRT_Thread(LPVOID)
 {
   /* Initialize logging options */
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
-  
-  logging = false;
-  char logging_str[MAX_PATH];
-  GetPrivateProfileString("config", "logging", "OFF", logging_str, MAX_PATH, szConfigPath);
-  if ( std::string( strupr(logging_str) ) == "ON" )
-    logging = true;
 
+  char szBuffer[32];
   windowRect.left   = GetPrivateProfileInt("window", "left",   0, szConfigPath);
   windowRect.top    = GetPrivateProfileInt("window", "top",    0, szConfigPath);
   windowRect.right  = GetPrivateProfileInt("window", "width",  0, szConfigPath);
   windowRect.bottom = GetPrivateProfileInt("window", "height", 0, szConfigPath);
-  GetPrivateProfileString("window", "windowed", "OFF", logging_str, MAX_PATH, szConfigPath);
-  if ( std::string( strupr(logging_str) ) == "ON" )
+  GetPrivateProfileString("window", "windowed", "OFF", szBuffer, 32, szConfigPath);
+  if ( std::string( strupr(szBuffer) ) == "ON" )
     switchToWMode = true;
 
   if ( windowRect.right < WMODE_MIN_WIDTH )
