@@ -68,6 +68,8 @@
 
 #include "../../Debug.h"
 
+#define TOURNAMENT_STR "BWAPI r" SVN_REV_STR " Tournament Mode Engaged!"
+
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
@@ -97,6 +99,8 @@ namespace BWAPI
       , autoMapTryCount(0)
       , outOfGame(true)
       , lastAutoMapEntry(0)
+      , tournamentAI(NULL)
+      , tournamentController(NULL)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -251,7 +255,7 @@ namespace BWAPI
       _allies.clear();
       _enemies.clear();
       _observers.clear();
-      if (BWAPIPlayer)
+      if ( BWAPIPlayer )
       {
         foreach(Player* p, playerSet)
         {
@@ -292,26 +296,80 @@ namespace BWAPI
     //if not, then we load the AI dll specified in bwapi.ini
     if ( !this->startedClient )
     {
+      // Declare typedefs for function pointers
+      typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
+      typedef TournamentModule* (*PFNCreateTournament)();
+
+      // Initialize Tournament Variables
+      hTournamentModule           = NULL;
+      this->tournamentAI          = NULL;
+      this->tournamentController  = NULL;
+
+#ifndef _DEBUG
+      // Load tournament string and module if string exists
+      char szTDllPath[MAX_PATH];
+      GetPrivateProfileString("ai", "tournament", "NULL", szTDllPath, MAX_PATH, szConfigPath);
+      if ( strcmpi(szTDllPath, "NULL") != 0 )
+        hTournamentModule = LoadLibrary(szTDllPath);
+
+      // If tournament module exists
+      if ( hTournamentModule )
+      {
+        // Obtain our tournament functions
+        PFNCreateA1         newTournamentAI     = (PFNCreateA1)GetProcAddress(hTournamentModule, TEXT("newTournamentAI"));
+        PFNCreateTournament newTournamentModule = (PFNCreateTournament)GetProcAddress(hTournamentModule, TEXT("newTournamentModule"));
+
+        // Call the tournament functions if they exist
+        if ( newTournamentAI && newTournamentModule )
+        {
+          this->tournamentAI         = newTournamentAI(this);
+          this->tournamentController = newTournamentModule();
+        }
+        else // error when one function is not found
+        {
+          // Free the tournament module
+          FreeLibrary(hTournamentModule);
+          hTournamentModule = NULL;
+
+          // Create our error string
+          char szMissingTournFunctions[64];
+          szMissingTournFunctions[0] = 0;
+          if ( !newTournamentAI )
+            strcpy(szMissingTournFunctions, "newTournamentAI");
+          if ( !newTournamentModule )
+            strcat(szMissingTournFunctions, !szMissingTournFunctions[0] ? "newTournamentModule function" : " and newTournamentModule functions");
+          else
+            strcat(szMissingTournFunctions, " function");
+          // print error message
+          printf("%cERROR: Failed to find the %s in tournament module.", 6, szMissingTournFunctions);
+        }
+      }
+      this->bTournamentMessageAppeared = false;
+#else
+      this->bTournamentMessageAppeared = true;
+#endif
+
+      // Connect to external module if it exists
       externalModuleConnected = false;
       char *pszModuleName = "<Nothing>";
-      if (server.isConnected()) //check to see if the server is connected to the client
+      if ( server.isConnected() ) //check to see if the server is connected to the client
       {
+        // assign a blank AI module to our variable
         this->client = new AIModule();
-        printf("BWAPI: Connected to AI Client process");
+        // Hide success strings in tournament mode
+        if ( !hTournamentModule )
+          printf("BWAPI: Connected to AI Client process");
+        // Set the module string
         pszModuleName = "<Client Connection>";
         externalModuleConnected = true;
       }
       else // if not, load the AI module DLL
       {
+        // declare/assign variables
         char szDllPath[MAX_PATH];
-        char szKeyName[MAX_PATH];
-        hMod = NULL;
+        hAIModule         = NULL;
 
-        SStrCopy(szKeyName, "ai", MAX_PATH);
-#ifdef _DEBUG
-        SStrNCat(szKeyName, "_dbg", MAX_PATH);
-#endif
-        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
+        GetPrivateProfileString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "NULL", szDllPath, MAX_PATH, szConfigPath);
 
         // Tokenize and retrieve correct path for the instance number
         char *pszDll = strtok(szDllPath, ",");
@@ -333,35 +391,41 @@ namespace BWAPI
           ++pszDll;
 
         // Check if string was loaded
-        if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
+        if ( strcmpi(szDllPath, "NULL") == 0 )
         {
-          BWAPIError("Could not find %s under ai in \"%s\".", szKeyName, szConfigPath);
+          BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", szConfigPath);
         }
         else
         {
           // Load DLL
-          hMod = LoadLibrary(pszDll);
+          hAIModule = LoadLibrary(pszDll);
         }
-        if ( !hMod )
+        if ( !hAIModule )
         {
-          //if hMod is a null pointer, there there was a problem when trying to load the AI Module
+          //if hAIModule is a NULL pointer, there there was a problem when trying to load the AI Module
           this->client = new AIModule();
+          // enable flags to allow interaction
           Broodwar->enableFlag(Flag::CompleteMapInformation);
           Broodwar->enableFlag(Flag::UserInput);
+          // print error string
           printf("%cERROR: Failed to load the AI Module \"%s\".", 6, pszDll);
           externalModuleConnected = false;
         }
         else
         {
-          typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
-
-          PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, TEXT("newAIModule"));
+          // Obtain the AI module function
+          PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hAIModule, TEXT("newAIModule"));
           if ( newAIModule )
           {
+            // Call the AI module function and assign the client variable
             this->client = newAIModule(this);
-            printf("%cLoaded the AI Module: %s", 7, pszDll);
+
+            // Hide success strings in tournament mode
+            if ( !hTournamentModule )
+              printf("%cLoaded the AI Module: %s", 7, pszDll);
             externalModuleConnected = true;
 
+            // Strip the path from the module name
             pszModuleName = pszDll;
             if ( strchr(pszModuleName, '/') )
               pszModuleName = &strrchr(pszModuleName, '/')[1];
@@ -369,20 +433,32 @@ namespace BWAPI
             if ( strchr(pszModuleName, '\\') )
               pszModuleName = &strrchr(pszModuleName, '\\')[1];
           }
-          else
+          else  // If the AIModule function is not found
           {
+            // Create a dummy AI module
             this->client = new AIModule();
+            // Enable flags to allow interaction
             Broodwar->enableFlag(Flag::CompleteMapInformation);
             Broodwar->enableFlag(Flag::UserInput);
+            // Print an error message
             printf("%cERROR: Failed to find the newAIModule function in %s", 6, pszDll);
             externalModuleConnected = false;
           }
         }
       }
+
       //push the MatchStart event to the front of the queue so that it is the first event in the queue.
       events.push_front(Event::MatchStart());
       this->startedClient = true;
-      sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " is now live using \"%s\".", pszModuleName );
+      // Don't send text in tournament mode
+      if ( !hTournamentModule )
+        sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " is now live using \"%s\".", pszModuleName );
+    }
+
+    if ( !this->bTournamentMessageAppeared && hTournamentModule && this->frameCount > (int)(*BW::BWDATA_g_LocalHumanID)*8 )
+    {
+      this->bTournamentMessageAppeared = true;
+      sendText("%s", TOURNAMENT_STR);
     }
 
     //each frame we add a MatchFrame event to the queue
@@ -535,9 +611,7 @@ namespace BWAPI
             drawLineMap(r->getCenter().x, r->getCenter().y, neighbor->getCenter().x, neighbor->getCenter().y, neighbor->groupIndex == r->groupIndex ? Colors::Green : Colors::Red);
         }
         if ( r == selectedRgn )
-        {
           drawTextMap(r->getCenter().x, r->getCenter().y, "%cTiles: %u\nPaths: %u\nFlags: %p\nGroupID: %u", 4, r->tileCount, r->pathCount, r->properties, r->groupIndex);
-        }
       }
       for ( int i = 0; i < 4; ++i )
       {
@@ -1234,9 +1308,10 @@ namespace BWAPI
     startTickCount  = GetTickCount();
     textSize        = 1;
     onStartCalled   = true;
-    BWAPIPlayer     = NULL;
     bulletCount     = 0;
     calledMatchEnd  = false;
+    BWAPIPlayer     = NULL;
+    enemyPlayer     = NULL;
 
     srand(GetTickCount());
 
@@ -1247,10 +1322,6 @@ namespace BWAPI
     /* load the map data */
     map.load();
     this->savedMapHash = Map::getMapHash();
-
-    BWAPIPlayer = NULL;
-    enemyPlayer = NULL;
-
 
     /* roughly identify which players can possibly participate in this game */
     bool playerHasTriggers[PLAYABLE_PLAYER_COUNT]             = { true };
@@ -1736,11 +1807,18 @@ namespace BWAPI
     this->commandBuffer.clear();
 
     //remove AI Module from memory (object was already deleted)
-    if ( hMod )
+    if ( hAIModule )
     {
-      FreeLibrary(hMod);
-      hMod = NULL;
+      FreeLibrary(hAIModule);
+      hAIModule = NULL;
     }
+
+    if ( hTournamentModule )
+    {
+      FreeLibrary(hTournamentModule);
+      hTournamentModule = NULL;
+    }
+    this->bTournamentMessageAppeared = false;
 
     this->invalidIndices.clear();
     this->startedClient = false;
@@ -2364,7 +2442,67 @@ namespace BWAPI
       default:
         break;
       }
-    }
+
+      if ( !tournamentAI )
+        continue;
+
+      switch (et)
+      {
+      case EventType::MatchStart:
+        tournamentAI->onStart();
+        break;
+      case EventType::MatchEnd:
+        tournamentAI->onEnd(e.isWinner);
+        break;
+      case EventType::MatchFrame:
+        tournamentAI->onFrame();
+        break;
+      case EventType::MenuFrame:
+        break;
+      case EventType::SendText:
+        tournamentAI->onSendText(e.text);
+        break;
+      case EventType::ReceiveText:
+        tournamentAI->onReceiveText(e.player, e.text);
+        break;
+      case EventType::PlayerLeft:
+        tournamentAI->onPlayerLeft(e.player);
+        break;
+      case EventType::NukeDetect:
+        tournamentAI->onNukeDetect(e.position);
+        break;
+      case EventType::UnitDiscover:
+        tournamentAI->onUnitDiscover(e.unit);
+        break;
+      case EventType::UnitEvade:
+        tournamentAI->onUnitEvade(e.unit);
+        break;
+      case EventType::UnitCreate:
+        tournamentAI->onUnitCreate(e.unit);
+        break;
+      case EventType::UnitDestroy:
+        tournamentAI->onUnitDestroy(e.unit);
+        break;
+      case EventType::UnitMorph:
+        tournamentAI->onUnitMorph(e.unit);
+        break;
+      case EventType::UnitShow:
+        tournamentAI->onUnitShow(e.unit);
+        break;
+      case EventType::UnitHide:
+        tournamentAI->onUnitHide(e.unit);
+        break;
+      case EventType::UnitRenegade:
+        tournamentAI->onUnitRenegade(e.unit);
+        break;
+      case EventType::SaveGame:
+        tournamentAI->onSaveGame(e.text);
+        break;
+      default:
+        break;
+      }
+
+    } // foreach event
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()
@@ -2411,6 +2549,9 @@ namespace BWAPI
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
   void GameImpl::onReceiveText(int playerId, std::string text)
   {
+    if ( !this->bTournamentMessageAppeared && hTournamentModule && text == TOURNAMENT_STR )
+      this->bTournamentMessageAppeared = true;
+
     /* Do onReceiveText */
     int realId = stormIdToPlayerId(playerId);
     if ( realId != -1 && 

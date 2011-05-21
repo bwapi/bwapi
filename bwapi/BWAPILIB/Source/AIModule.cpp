@@ -40,4 +40,25 @@ namespace BWAPI
   { }
   void AIModule::onSaveGame(std::string gameName)
   { }
+
+  TournamentModule::TournamentModule()
+  { }
+  TournamentModule::~TournamentModule()
+  { }
+  bool TournamentModule::onPrintf(char *pszString)
+  {
+    return true;
+  }
+  bool TournamentModule::onSendText(char *pszString)
+  {
+    return true;
+  }
+  bool TournamentModule::onAction(int actionType, int parameter)
+  {
+    return true;
+  }
+  bool TournamentModule::onDraw(int shape, int ctype, int x1, int y1, int x2, int y2, int x3, int y3, Color color, bool isSolid)
+  {
+    return true;
+  }
 }

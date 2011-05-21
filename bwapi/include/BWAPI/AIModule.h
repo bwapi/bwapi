@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <BWAPI/Position.h>
+#include <BWAPI/Color.h>
 namespace BWAPI
 {
   class Unit;
@@ -85,5 +86,28 @@ namespace BWAPI
 
       // TODO: Add Doxygen documentation
       virtual void onSaveGame(std::string gameName);
+  };
+  class TournamentModule
+  {
+    public:
+      TournamentModule();
+      virtual ~TournamentModule();
+
+      /** BWAPI calls this any time Game::printf is called. Return true to allow it, or false to disallow it.
+          You may also edit the string before returning. */
+      virtual bool onPrintf(char *pszString);
+
+      /** BWAPI calls this any time Game::sendText is called. Return true to allow it, or false to disallow it. 
+          You may also edit the string before returning. */
+      virtual bool onSendText(char *pszString);
+
+      /** BWAPI calls this any time some Game-related functions are called.
+          Return true to allow them, or false to disallow them.
+          This includes functions like Game::pauseGame and Game::enableFlag. */
+      virtual bool onAction(int actionType, int parameter);
+
+      /** BWAPI calls this any time some drawing functions are called.
+          Return true to allow it, or false to disallow it. */
+      virtual bool onDraw(int shape, int ctype, int x1, int y1, int x2, int y2, int x3, int y3, BWAPI::Color color, bool isSolid);
   };
 }
