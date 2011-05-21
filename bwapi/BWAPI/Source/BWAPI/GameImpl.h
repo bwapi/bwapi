@@ -311,7 +311,8 @@ namespace BWAPI
 
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
     private :
-      HMODULE hMod;
+      HMODULE hAIModule;
+      HMODULE hTournamentModule;
       Map map;
 
       std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
@@ -358,7 +359,10 @@ namespace BWAPI
        */
       std::string savedMapHash;
       bool flags[BWAPI::Flag::Max];
-      AIModule* client;
+      AIModule          *client;
+      AIModule          *tournamentAI;
+      TournamentModule  *tournamentController;
+      bool              bTournamentMessageAppeared;
       BWAPI::Error lastError;
       std::list<UnitImpl*> deadUnits;
       u32 cheatFlags;

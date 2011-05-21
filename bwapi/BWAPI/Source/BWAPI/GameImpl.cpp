@@ -588,6 +588,12 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
 
+    if ( this->tournamentController && !this->tournamentController->onPrintf(buffer) )
+    {
+      free(buffer);
+      return;
+    }
+
     s_evt evt;
     evt.dwFlags    = 4;
     evt.dwPlayerId = -1;
@@ -611,6 +617,13 @@ namespace BWAPI
     if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
+
+    if ( this->tournamentController && !this->tournamentController->onSendText(buffer) )
+    {
+      free(buffer);
+      return;
+    }
+      
 
     if ( buffer[0] == '/' )
     {
