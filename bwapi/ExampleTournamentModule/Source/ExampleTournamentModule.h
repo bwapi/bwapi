@@ -1,9 +1,13 @@
 #pragma once
 #include <BWAPI.h>
 
+#define TOURNAMENT_NAME "AIIDE 2011"
+#define SPONSORS "the BWAPI Project Team"
+
 class ExampleTournamentModule : public BWAPI::TournamentModule
 {
   virtual bool onAction(int actionType, void *parameter = NULL);
+  virtual void onFirstAdvertisement();
 };
 
 class ExampleTournamentAI : public BWAPI::AIModule

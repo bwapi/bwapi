@@ -3,6 +3,9 @@
 #include "ExampleTournamentModule.h"
 using namespace BWAPI;
 
+bool leader = false;
+
+
 void ExampleTournamentAI::onStart()
 {
 }
@@ -161,3 +164,9 @@ bool ExampleTournamentModule::onAction(int actionType, void *parameter)
   return true;
 }
 
+void ExampleTournamentModule::onFirstAdvertisement()
+{
+  leader = true;
+  Broodwar->sendText("Welcome to " TOURNAMENT_NAME "!");
+  Broodwar->sendText("Brought to you by " SPONSORS ".");
+}
