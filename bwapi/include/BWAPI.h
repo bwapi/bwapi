@@ -22,6 +22,7 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/TilePosition.h>
+#include <BWAPI/TournamentAction.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/UnitCommandType.h>

@@ -421,6 +421,8 @@ namespace BWAPI
 
       bool externalModuleConnected;
       bool calledMatchEnd;
+      bool isTournamentCall;
+      bool tournamentCheck(int type, void *parameter = NULL);
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

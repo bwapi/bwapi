@@ -3,10 +3,7 @@
 
 class ExampleTournamentModule : public BWAPI::TournamentModule
 {
-  virtual bool onPrintf(char *pszString);
-  virtual bool onSendText(char *pszString);
-  virtual bool onAction(int actionType, int parameter);
-  virtual bool onDraw(int shape, int ctype, int x1, int y1, int x2, int y2, int x3, int y3, BWAPI::Color color, bool isSolid);
+  virtual bool onAction(int actionType, void *parameter = NULL);
 };
 
 class ExampleTournamentAI : public BWAPI::AIModule

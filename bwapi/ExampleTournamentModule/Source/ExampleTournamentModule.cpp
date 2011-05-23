@@ -91,8 +91,8 @@ const char *pszBadWords[] =
   NULL
 };
 
+// as well as the Battle.net swear word filter algorithm
 const char szBadWordCharacters[] = { '!', '@', '#', '$', '%', '&' };
-
 void BadWordFilter(char *pszString)
 {
   // Iterate each badword
@@ -123,21 +123,41 @@ void BadWordFilter(char *pszString)
   }
 }
 
-bool ExampleTournamentModule::onPrintf(char *pszString)
+bool ExampleTournamentModule::onAction(int actionType, void *parameter)
 {
-  BadWordFilter(pszString);
+  switch ( actionType )
+  {
+  case Tournament::SendText:
+  case Tournament::Printf:
+    // Call our bad word filter and allow the AI module to send text
+    BadWordFilter((char*)parameter);
+    return true;
+  case Tournament::EnableFlag:
+    switch ( *(int*)parameter )
+    {
+    case Flag::CompleteMapInformation:
+    case Flag::UserInput:
+      // Disallow these two flags
+      return false;
+    }
+    // Allow other flags if we add more that don't affect gameplay specifically
+    return true;
+  case Tournament::LeaveGame:
+  case Tournament::PauseGame:
+  case Tournament::RestartGame:
+  case Tournament::ResumeGame:
+  case Tournament::SetFrameSkip:
+  case Tournament::SetGUI:
+  case Tournament::SetLocalSpeed:
+  case Tournament::SetMap:
+    return false; // Disallow these actions
+  case Tournament::ChangeRace:
+  case Tournament::SetLatCom:
+  case Tournament::SetTextSize:
+    return true; // Allow these actions
+  default:
+    break;
+  }
   return true;
 }
-bool ExampleTournamentModule::onSendText(char *pszString)
-{
-  BadWordFilter(pszString);
-  return true;
-}
-bool ExampleTournamentModule::onAction(int actionType, int parameter)
-{
-  return true; // Not yet implemented
-}
-bool ExampleTournamentModule::onDraw(int shape, int ctype, int x1, int y1, int x2, int y2, int x3, int y3, BWAPI::Color color, bool isSolid)
-{
-  return true;  // Allow AI module to draw shapes and figures
-}
+

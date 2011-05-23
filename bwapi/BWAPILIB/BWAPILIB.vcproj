@@ -338,6 +338,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\BWAPI\TournamentAction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\BWAPI\UnitCommand.h"
 				>
 			</File>

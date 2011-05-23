@@ -101,6 +101,7 @@ namespace BWAPI
       , lastAutoMapEntry(0)
       , tournamentAI(NULL)
       , tournamentController(NULL)
+      , isTournamentCall(false)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -2377,6 +2378,17 @@ namespace BWAPI
     } // for each neutral units
 
   } // updateUnits
+  bool GameImpl::tournamentCheck(int type, void *parameter)
+  {
+    if ( this->tournamentController && !isTournamentCall )
+    {
+      isTournamentCall  = true;
+      bool allow        = this->tournamentController->onAction(type, parameter);
+      isTournamentCall  = false;
+      return allow;
+    }
+    return true;
+  }
   void GameImpl::processEvents()
   {
     //This function translates events into AIModule callbacks
@@ -2446,6 +2458,7 @@ namespace BWAPI
       if ( !tournamentAI )
         continue;
 
+      isTournamentCall = true;
       switch (et)
       {
       case EventType::MatchStart:
@@ -2501,6 +2514,7 @@ namespace BWAPI
       default:
         break;
       }
+      isTournamentCall = false;
 
     } // foreach event
   }
