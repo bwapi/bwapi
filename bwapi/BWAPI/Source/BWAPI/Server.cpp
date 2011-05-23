@@ -314,6 +314,68 @@ namespace BWAPI
       addEvent(e);
       if (e.type == EventType::MatchStart)
         matchStarting = true;
+
+
+      if ( !BroodwarImpl.tournamentAI )
+        continue;
+
+      BroodwarImpl.isTournamentCall = true;
+      switch ( e.type )
+      {
+      case EventType::MatchStart:
+        BroodwarImpl.tournamentAI->onStart();
+        break;
+      case EventType::MatchEnd:
+        BroodwarImpl.tournamentAI->onEnd(e.isWinner);
+        break;
+      case EventType::MatchFrame:
+        BroodwarImpl.tournamentAI->onFrame();
+        break;
+      case EventType::MenuFrame:
+        break;
+      case EventType::SendText:
+        BroodwarImpl.tournamentAI->onSendText(e.text);
+        break;
+      case EventType::ReceiveText:
+        BroodwarImpl.tournamentAI->onReceiveText(e.player, e.text);
+        break;
+      case EventType::PlayerLeft:
+        BroodwarImpl.tournamentAI->onPlayerLeft(e.player);
+        break;
+      case EventType::NukeDetect:
+        BroodwarImpl.tournamentAI->onNukeDetect(e.position);
+        break;
+      case EventType::UnitDiscover:
+        BroodwarImpl.tournamentAI->onUnitDiscover(e.unit);
+        break;
+      case EventType::UnitEvade:
+        BroodwarImpl.tournamentAI->onUnitEvade(e.unit);
+        break;
+      case EventType::UnitCreate:
+        BroodwarImpl.tournamentAI->onUnitCreate(e.unit);
+        break;
+      case EventType::UnitDestroy:
+        BroodwarImpl.tournamentAI->onUnitDestroy(e.unit);
+        break;
+      case EventType::UnitMorph:
+        BroodwarImpl.tournamentAI->onUnitMorph(e.unit);
+        break;
+      case EventType::UnitShow:
+        BroodwarImpl.tournamentAI->onUnitShow(e.unit);
+        break;
+      case EventType::UnitHide:
+        BroodwarImpl.tournamentAI->onUnitHide(e.unit);
+        break;
+      case EventType::UnitRenegade:
+        BroodwarImpl.tournamentAI->onUnitRenegade(e.unit);
+        break;
+      case EventType::SaveGame:
+        BroodwarImpl.tournamentAI->onSaveGame(e.text);
+        break;
+      default:
+        break;
+      }
+      BroodwarImpl.isTournamentCall = false;
     }
     foreach(UnitImpl* u, BroodwarImpl.lastEvadedUnits)
       data->units[u->getID()] = u->data;
