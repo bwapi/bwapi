@@ -459,7 +459,11 @@ namespace BWAPI
     if ( !this->bTournamentMessageAppeared && hTournamentModule && this->frameCount > (int)(*BW::BWDATA_g_LocalHumanID)*8 )
     {
       this->bTournamentMessageAppeared = true;
+      this->isTournamentCall = true;
       sendText("%s", TOURNAMENT_STR);
+      if ( this->tournamentController )
+        this->tournamentController->onFirstAdvertisement();
+      this->isTournamentCall = false;
     }
 
     //each frame we add a MatchFrame event to the queue
@@ -1814,6 +1818,8 @@ namespace BWAPI
       hAIModule = NULL;
     }
 
+    this->tournamentController = NULL;
+    this->tournamentAI         = NULL;
     if ( hTournamentModule )
     {
       FreeLibrary(hTournamentModule);

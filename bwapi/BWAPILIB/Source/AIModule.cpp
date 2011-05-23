@@ -49,4 +49,6 @@ namespace BWAPI
   {
     return true;
   }
+  void TournamentModule::onFirstAdvertisement()
+  { }
 }
