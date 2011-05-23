@@ -307,28 +307,34 @@ namespace BWAPI
 
     /* Error checking */
     this->setLastError(Errors::None);
-    if (this->frameCount > 0)
+    if ( this->frameCount > 0 )
     {
-      this->printf("\x06" "ERROR: Flags can only be enabled at the start of a game.");
+      this->setLastError(Errors::Access_Denied);
       return;
     }
 
-    if (flag >= BWAPI::Flag::Max)
+    if ( flag >= BWAPI::Flag::Max )
     {
-      this->printf("\x06" "ERROR: Invalid flag (%d).", flag);
+      this->setLastError(Errors::Invalid_Parameter);
       return;
     }
+    
+    if ( !this->tournamentCheck(Tournament::EnableFlag, &flag) )
+      return;
 
     /* Modify flag state */
     this->flags[flag] = true;
-    switch(flag)
+    if ( !this->hTournamentModule )
     {
-    case BWAPI::Flag::CompleteMapInformation:
-      this->sendText("Enabled Flag CompleteMapInformation");
-      break;
-    case BWAPI::Flag::UserInput:
-      this->sendText("Enabled Flag UserInput");
-      break;
+      switch(flag)
+      {
+      case BWAPI::Flag::CompleteMapInformation:
+        this->sendText("Enabled Flag CompleteMapInformation");
+        break;
+      case BWAPI::Flag::UserInput:
+        this->sendText("Enabled Flag UserInput");
+        break;
+      }
     }
   }
   //--------------------------------------------- GET UNITS ON TILE ------------------------------------------
@@ -588,7 +594,7 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
 
-    if ( this->tournamentController && !this->tournamentController->onPrintf(buffer) )
+    if ( !this->tournamentCheck(Tournament::Printf, buffer) )
     {
       free(buffer);
       return;
@@ -618,12 +624,11 @@ namespace BWAPI
     char *buffer;
     vstretchyprintf(buffer, format);
 
-    if ( this->tournamentController && !this->tournamentController->onSendText(buffer) )
+    if ( !this->tournamentCheck(Tournament::SendText, buffer) )
     {
       free(buffer);
       return;
     }
-      
 
     if ( buffer[0] == '/' )
     {
@@ -691,6 +696,8 @@ namespace BWAPI
   void GameImpl::changeRace(BWAPI::Race race)
   {
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::ChangeRace, &race) )
+      return;
     this->_changeRace(this->BWAPIPlayer->getIndex(),race);
   }
   //------------------------------------------------ IS IN GAME ----------------------------------------------
@@ -728,6 +735,8 @@ namespace BWAPI
   {
     /* Starts the game as a lobby host */
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::StartGame) )
+      return;
     QueueGameCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
@@ -735,6 +744,8 @@ namespace BWAPI
   {
     /* Pauses the game */
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::PauseGame) )
+      return;
     QueueGameCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
@@ -742,6 +753,8 @@ namespace BWAPI
   {
     /* Resumes the game */
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::ResumeGame) )
+      return;
     QueueGameCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
@@ -749,6 +762,8 @@ namespace BWAPI
   {
     /* Leaves the current game. Moves directly to the post-game score screen */
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::LeaveGame) )
+      return;
     *BW::BWDATA_GameState      = 0;
     *BW::BWDATA_gwNextGameMode = 6;
   }
@@ -764,6 +779,8 @@ namespace BWAPI
     }
 
     this->setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::RestartGame) )
+      return;
     QueueGameCommand((PBYTE)&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
   }
   //--------------------------------------------- SET ALLIANCE -----------------------------------------------
@@ -804,6 +821,8 @@ namespace BWAPI
   void  GameImpl::setLocalSpeed(int speed)
   {
     /* Sets the frame rate of the client */
+    if ( !this->tournamentCheck(Tournament::SetLocalSpeed, &speed) )
+      return;
     if (speed < 0)
     {
       /* Reset the speed if it is negative */
@@ -826,6 +845,9 @@ namespace BWAPI
   void GameImpl::setFrameSkip(int frameSkip)
   {
     setLastError(Errors::None);
+    if ( !this->tournamentCheck(Tournament::SetFrameSkip, &frameSkip) )
+      return;
+
     if ( frameSkip > 0 )
     {
       *BW::BWDATA_FrameSkip = frameSkip;
@@ -989,6 +1011,8 @@ namespace BWAPI
   }
   void GameImpl::setLatCom(bool isEnabled)
   {
+    if ( !this->tournamentCheck(Tournament::SetLatCom, &isEnabled) )
+      return;
     hasLatCom = isEnabled;
   }
   //--------------------------------------------------- REPLAY -----------------------------------------------
@@ -1016,6 +1040,9 @@ namespace BWAPI
 
     if ( GetFileAttributes(mapFileName) == INVALID_FILE_ATTRIBUTES )
       return setLastError(Errors::File_Not_Found);
+
+    if ( !this->tournamentCheck(Tournament::SetMap, (void*)mapFileName) )
+      return setLastError(Errors::None);
 
     strcpy(BW::BWDATA_CurrentMapFileName, mapFileName);
     return setLastError(Errors::None);

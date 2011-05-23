@@ -134,6 +134,8 @@ namespace BWAPI
   {
     if ( size < 1 || size > 3 )
       size = 1;
+    if ( !this->tournamentCheck(Tournament::SetTextSize, &size) )
+      return;
     textSize = size;
   }
   void  GameImpl::drawText(int ctype, int x, int y, const char *format, ...)
@@ -315,10 +317,12 @@ namespace BWAPI
   //--------------------------------------------------- SET GUI ----------------------------------------------
   void GameImpl::setGUI(bool enabled)
   {
+    if ( !this->tournamentCheck(Tournament::SetGUI, &enabled) )
+      return;
     noGUI = !enabled;
     if ( enabled )
       setFrameSkip();
     else
-      setFrameSkip(999999); // IT'S OVER NINE THOUSAND!!11111111
+      setFrameSkip(999999); // IT'S OVER NINE THOUSAND!!11one11one111eleven21
   }
 };
