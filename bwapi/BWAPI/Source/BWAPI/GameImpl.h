@@ -310,6 +310,8 @@ namespace BWAPI
       bool startedClient;
 
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
+      bool isTournamentCall;
+      AIModule *tournamentAI;
     private :
       HMODULE hAIModule;
       HMODULE hTournamentModule;
@@ -360,7 +362,6 @@ namespace BWAPI
       std::string savedMapHash;
       bool flags[BWAPI::Flag::Max];
       AIModule          *client;
-      AIModule          *tournamentAI;
       TournamentModule  *tournamentController;
       bool              bTournamentMessageAppeared;
       BWAPI::Error lastError;
@@ -421,7 +422,6 @@ namespace BWAPI
 
       bool externalModuleConnected;
       bool calledMatchEnd;
-      bool isTournamentCall;
       bool tournamentCheck(int type, void *parameter = NULL);
   };
   /**
