@@ -231,6 +231,7 @@ namespace BWAPI
 
       virtual bool setAlliance(BWAPI::Player *player, bool allied = true, bool alliedVictory = true);
       virtual bool setVision(BWAPI::Player *player, bool enabled = true);
+      virtual int  elapsedTime() const;
 
       //Internal BWAPI commands:
       GameImpl();
