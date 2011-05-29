@@ -428,11 +428,13 @@ namespace BWAPI
 
             // Strip the path from the module name
             pszModuleName = pszDll;
-            if ( strchr(pszModuleName, '/') )
-              pszModuleName = &strrchr(pszModuleName, '/')[1];
+            char *pTmp = strchr(pszModuleName, '/');
+            if ( pTmp )
+              pszModuleName = &pTmp[1];
 
-            if ( strchr(pszModuleName, '\\') )
-              pszModuleName = &strrchr(pszModuleName, '\\')[1];
+            pTmp = strchr(pszModuleName, '\\');
+            if ( pTmp )
+              pszModuleName = &pTmp[1];
           }
           else  // If the AIModule function is not found
           {
@@ -683,8 +685,8 @@ namespace BWAPI
     GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
     for ( int i = strlen(buffer); i; --i )
     {
-      if ( buffer[i] == '\\' )
-        buffer[i] = '/';
+      if ( buffer[i] == '/' )
+        buffer[i] = '\\';
     }
     if ( lastAutoMapString != buffer )
     {
@@ -692,7 +694,7 @@ namespace BWAPI
 
       char szMapPathTemp[MAX_PATH];
       strcpy(szMapPathTemp, buffer);
-      char *pszPathEnd = strrchr(szMapPathTemp, '/');
+      char *pszPathEnd = strrchr(szMapPathTemp, '\\');
       if ( pszPathEnd )
         pszPathEnd[1] = 0;
       autoMenuMapPath = std::string(szMapPathTemp);
@@ -772,8 +774,8 @@ namespace BWAPI
            _in[i] != '"'    &&
            _in[i] != ':' )
       {
-        if ( _in[i] == '\\' )
-          out[n] = '/';
+        if ( _in[i] == '/' )
+          out[n] = '\\';
         else
           out[n] = _in[i];
         ++n;
@@ -928,11 +930,15 @@ namespace BWAPI
           SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
 
           // get the filename
-          char *pszFile = strrchr(mapName, '/');
-          if ( !pszFile )
-            pszFile = strrchr(mapName, '\\');
-          if ( pszFile )
-            ++pszFile;
+          char *pszFile = mapName;
+          char *pszTmp  = strrchr(pszFile, '\\');
+          if ( pszTmp )
+            pszFile = &pszTmp[1];
+
+          pszTmp  = strrchr(pszFile, '/');
+          if ( pszTmp )
+            pszFile = &pszTmp[1];
+
           // Apply the altered name to all vector entries
           for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
           {
@@ -940,10 +946,18 @@ namespace BWAPI
             i->container.bHumanSlots    = 8;
             for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
               i->container.bPlayerSlotEnabled[p] = 1;
-            SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
-            SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
+            SStrCopy(i->container.szEntryName, pszFile, 65);
+            SStrCopy(i->container.szFileName,  pszFile, MAX_PATH);
             SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
           }
+
+          // Update the map folder location
+          SStrCopy(BW::BWDATA_CurrentMapFolder, mapName, MAX_PATH);
+          pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '\\');
+          if ( !pszFile )
+            pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '/');
+          if ( pszFile )
+            pszFile[0] = 0;
 
           // if we encounter an unknown error when attempting to load the map
           if ( BW::FindDialogGlobal("gluPOk") )
@@ -1026,9 +1040,9 @@ namespace BWAPI
               SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
 
               // get the filename
-              char *pszFile = strrchr(mapName, '/');
+              char *pszFile = strrchr(mapName, '\\');
               if ( !pszFile )
-                pszFile = strrchr(mapName, '\\');
+                pszFile = strrchr(mapName, '/');
               if ( pszFile )
                 ++pszFile;
               // Apply the altered name to all vector entries
@@ -1042,6 +1056,14 @@ namespace BWAPI
                 SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
                 SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
               }
+
+              // Update the map folder location
+              SStrCopy(BW::BWDATA_CurrentMapFolder, mapName, MAX_PATH);
+              pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '\\');
+              if ( !pszFile )
+                pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '/');
+              if ( pszFile )
+                pszFile[0] = 0;
 
               // if we encounter an unknown error when attempting to load the map
               if ( BW::FindDialogGlobal("gluPOk") )
@@ -1677,13 +1699,8 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       //SetResolution(640, 480);
-      printf("Unloading");
-      for each ( Unit *u in self()->getUnits() )
-      {
-        std::set<Unit*> lu = u->getLoadedUnits();
-        for each ( Unit *i in lu )
-          u->unload(i);
-      }
+      printf("%s", this->mapFileName().c_str());
+      printf("%s", this->mapPathName().c_str());
     }
 #endif
     else
@@ -1732,18 +1749,18 @@ namespace BWAPI
       ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szInterPath, MAX_PATH);
       fixPathString(szInterPath, gszDesiredReplayName, MAX_PATH);
 
-      char *last = strrchr(gszDesiredReplayName, '/');
+      char *last = strrchr(gszDesiredReplayName, '\\');
       char szDirectory[MAX_PATH] = { 0 };
       strncpy(szDirectory, gszDesiredReplayName, last ? last - gszDesiredReplayName : 0);
 
-      char *current = strchr(szDirectory, '/');
+      char *current = strchr(szDirectory, '\\');
       while ( current )
       {
         char lower[MAX_PATH] = { 0 };
         strncpy(lower, szDirectory, current - szDirectory);
         if ( GetFileAttributes(lower) == INVALID_FILE_ATTRIBUTES )
           CreateDirectory(lower, NULL);
-        current = strchr(current+1, '/');
+        current = strchr(current+1, '\\');
       }
       if ( GetFileAttributes(szDirectory) == INVALID_FILE_ATTRIBUTES )
         CreateDirectory(szDirectory, NULL);

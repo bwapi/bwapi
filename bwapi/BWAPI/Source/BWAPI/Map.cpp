@@ -51,9 +51,11 @@ namespace BWAPI
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    std::string mapNameAbsolute(BW::BWDATA_CurrentMapFileName);
-    std::string::size_type lastDelimiterPos = mapNameAbsolute.rfind('\\');
-    return mapNameAbsolute.substr(lastDelimiterPos + 1, mapNameAbsolute.size() - lastDelimiterPos - 1);
+    char *pszMapName = strrchr(BW::BWDATA_CurrentMapFileName, '\\');
+    if ( !pszMapName )
+      pszMapName = strrchr(BW::BWDATA_CurrentMapFileName, '/');
+    std::string mapNameAbsolute(pszMapName ? &pszMapName[1] : BW::BWDATA_CurrentMapFileName);
+    return mapNameAbsolute;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
