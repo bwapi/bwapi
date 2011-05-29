@@ -9,6 +9,10 @@
 
 using namespace BWAPI;
 
+#define MACRO_BUILD   0
+#define MACRO_UPGRADE 1
+#define MACRO_TECH    2
+
 std::list<aithread> aiThreadList;
 
 BYTE *pbAIScriptBinary;
@@ -181,7 +185,7 @@ int GetProtossAirRushScore(Player *player)
          player->completedUnitCount(UnitTypes::Protoss_Scout);
 }
 
-int GetStandardUnitCount(UnitType type, Player *player, bool bCompleted)
+int GetStandardUnitCount(UnitType type, bool bCompleted, Player *player)
 {
   int count = 0;
   Player *pl = (player ? player : self);
@@ -249,22 +253,27 @@ void aithread::execute()
       this->dwSleepTime = this->read<WORD>();
       this->saveDebug("\x07", bOpcode, "%3u", this->dwSleepTime);
       return;
-    case AISCRIPT::START_TOWN:      // not started
+    case AISCRIPT::START_TOWN:      // incomplete
+    case AISCRIPT::START_AREATOWN:  // incomplete
       this->saveDebug("\x06", bOpcode);
+      /* town *pTown = (bOpcode == AISCRIPT::START_TOWN) ? AI_StartTown(x,y,flags) : AI_StartAreaTown(x,y,flags);
+      MainController->pTown = pTown;
+      if ( !pTown )
+      {
+        this->killThread();
+        return;
+      }*/
       MainController->wFlags |= CONTROLLER_TOWN_STARTED;
-      // townStart stuff
-      continue;
-    case AISCRIPT::START_AREATOWN:  // not started
-      this->saveDebug("\x06", bOpcode);
-      MainController->wFlags |= CONTROLLER_TOWN_STARTED;
-      // townStart stuff
+      MainController->bIfDif = 1;
+      // AI_StartShareTown();
       continue;
     case AISCRIPT::EXPAND:          // not started
       {
-        BYTE bExpandID    = this->read<BYTE>();
+        BYTE bExpandMax   = this->read<BYTE>();
         WORD wExpandBlock = this->read<WORD>();
-        this->saveDebug("\x06", bOpcode, "%3u p_%X", bExpandID, wExpandBlock);
-        //ai expand
+        this->saveDebug("\x06", bOpcode, "%3u p_%X", bExpandMax, wExpandBlock);
+        // if ( GetExpansionCount() < bExpandMax )
+        //   this->Expand(wExpandBlock, bExpandMax);
         continue;
       }
     case AISCRIPT::BUILD: // unfinished
@@ -274,9 +283,8 @@ void aithread::execute()
         BYTE bPriority      = this->read<BYTE>();
 
         this->saveDebug("\x06", bOpcode, "%3u %s %3u", bBuildCount, AISCRIPT::getUnitName(wBuildType), bPriority);
-        bTotBuildCount[wBuildType.getID()] = bBuildCount;
-
-        //
+        //if ( bBuildCount <= 30 && wBuildType < UnitTypes::None )
+        //  this->pTown->MacroManagerSet(MACRO_BUILD, bBuildCount, wBuildType, bPriority, false);
         continue;
       }
     case AISCRIPT::UPGRADE: // unfinished
@@ -285,7 +293,7 @@ void aithread::execute()
         UpgradeType wUpgType  = UpgradeType(this->read<WORD>());
         BYTE bPriority = this->read<BYTE>();
         this->saveDebug("\x06", bOpcode, "%3u %s %3u", bUpgLevel, wUpgType.getName().c_str(), bPriority);
-        //        
+        //this->pTown->MacroManagerSet(MACRO_UPGRADE, bUpgLevel, wUpgType, bPriority, false);
         continue;
       }
     case AISCRIPT::TECH: // unfinished
@@ -293,7 +301,7 @@ void aithread::execute()
         TechType wTechType = TechType(this->read<WORD>());
         BYTE bPriority = this->read<BYTE>();
         this->saveDebug("\x06", bOpcode, "%s %3u", wTechType.getName().c_str(), bPriority);
-        //
+        //this->pTown->MacroManagerSet(MACRO_TECH, 1, wTechType, bPriority, false);
         continue;
       }
     case AISCRIPT::WAIT_BUILD: // incomplete
@@ -321,6 +329,7 @@ void aithread::execute()
       memset(MainController->attackGroups, 0, sizeof(MainController->attackGroups));
       MainController->wAttackGroup = 0;
       MainController->dwAttackTime = 0;
+      // AttackClear();
       continue;
     case AISCRIPT::ATTACK_ADD:  // COMPLETED
       {
@@ -332,18 +341,19 @@ void aithread::execute()
       }
     case AISCRIPT::ATTACK_PREPARE:  // not started
       this->saveDebug("\x06", bOpcode);
+      // AI_AttackManager(thisLocation, 1, 0);
       continue;
     case AISCRIPT::ATTACK_DO:  // not started
       this->saveDebug("\x06", bOpcode);
-      // if ( AISomeAttackManager )
+      // if ( AI_AttackManager(thisLocation, 1, 0) )
       {
         retryBlock = false;
         continue;
       }
       // this->retry();
       // return;
-    case AISCRIPT::WAIT_SECURE:  // not started
-      this->saveDebug("\x06", bOpcode);
+    case AISCRIPT::WAIT_SECURE:  // COMPLETED
+      this->saveDebug("\x07", bOpcode);
       if ( MainController->wFlags & CONTROLLER_SECURE_FINISHED )
       {
         retryBlock = false;
@@ -357,10 +367,11 @@ void aithread::execute()
       continue;
     case AISCRIPT::BUILD_BUNKERS:  // not started
       this->saveDebug("\x06", bOpcode);
+      // BuildBunkers();
       continue;
     case AISCRIPT::WAIT_BUNKERS:  // not started
       this->saveDebug("\x06", bOpcode);
-      // if ( AIWaitBunkersFinished )
+      // if ( AIWaitBunkersFinished() )
       {
         retryBlock = false;
         continue;
@@ -454,10 +465,13 @@ void aithread::execute()
         memset(MainController->attackGroups, 0, sizeof(MainController->attackGroups));
         MainController->wAttackGroup = 0;
         MainController->dwAttackTime = 0;
+        // AttackClear();
+        // SendSuicide(bSuicideType);
+        MainController->dwAttackTime = bw->elapsedTime() - 175;
         continue;
       }
-    case AISCRIPT::PLAYER_ENEMY:  // complete ?
-      this->saveDebug("\x03", bOpcode);
+    case AISCRIPT::PLAYER_ENEMY:  // COMPLETED
+      this->saveDebug("\x07", bOpcode);
       for each ( Unit *u in bw->getUnitsInRectangle(locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
       {
         Player *pl = u->getPlayer();
@@ -465,8 +479,8 @@ void aithread::execute()
           bw->setAlliance(pl, false);
       }
       continue;
-    case AISCRIPT::PLAYER_ALLY:  // complete ?
-      this->saveDebug("\x03", bOpcode);
+    case AISCRIPT::PLAYER_ALLY:  // COMPLETED
+      this->saveDebug("\x07", bOpcode);
       for each ( Unit *u in bw->getUnitsInRectangle(locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
       {
         Player *pl = u->getPlayer();
@@ -491,7 +505,7 @@ void aithread::execute()
       for each ( Player *pl in bw->enemies() )  // closest thing to becoming neutral+rescuable
         bw->setAlliance(pl);
       continue;
-    case AISCRIPT::MOVE_DT: // 
+    case AISCRIPT::MOVE_DT: // incomplete
       this->saveDebug("\x06", bOpcode);
       for each ( Unit *u in self->getUnits() )
       {
@@ -499,7 +513,7 @@ void aithread::execute()
         if ( (ut == UnitTypes::Protoss_Dark_Templar || ut == UnitTypes::Hero_Dark_Templar) &&
              u->exists() && u->isCompleted() )
         {
-          //special re-assignment
+          // special re-assignment
         }
       }
       continue;
@@ -515,11 +529,25 @@ void aithread::execute()
       Broodwar->sendText("Illegal AI script executed.");
       this->saveDebug("\x07", bOpcode);
       continue;
-    case AISCRIPT::ENTER_BUNKER: // not started
+    case AISCRIPT::ENTER_BUNKER: // incomplete
       this->saveDebug("\x06", bOpcode);
+      // ignore if there are no bunkers
+      if ( !self->completedUnitCount(UnitTypes::Terran_Bunker) )
+        continue;
+
+      // iterate units at location
+      for each ( Unit *u in bw->getUnitsInRectangle(this->locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        if ( u->getPlayer() != self || u->getType() != UnitTypes::Terran_Bunker )
+          continue;
+        // Unit *best = GetBestUnitFinder(stuff goes here);
+        // if ( best && best->canEnterTransport(u) )
+        //   u->load(best);
+      }
       continue;
     case AISCRIPT::VALUE_AREA: // not started
       this->saveDebug("\x06", bOpcode);
+      // ValueArea(this->locationCenter);
       continue;
     case AISCRIPT::TRANSPORTS_OFF: // COMPLETE
       this->saveDebug("\x07", bOpcode);
@@ -539,6 +567,7 @@ void aithread::execute()
       continue;
     case AISCRIPT::CLEAR_COMBATDATA: // not started
       this->saveDebug("\x06", bOpcode);
+      // ClearCombatData(this->locationBounds);
       continue;
     case AISCRIPT::RANDOM_JUMP: // COMPLETED
       {
@@ -550,12 +579,12 @@ void aithread::execute()
           this->dwScriptOffset = wJmpOffset;
         continue;
       }
-    case AISCRIPT::TIME_JUMP: // completed? missing elapsedTime
+    case AISCRIPT::TIME_JUMP: // COMPLETED
       {
         BYTE bTimePast  = 60 * this->read<BYTE>();
         WORD wJmpOffset = this->read<WORD>();
         this->saveDebug("\x03", bOpcode, "%3u p_%X", bTimePast, wJmpOffset);
-        if ( (bw->getFrameCount() / 24) >= bTimePast )
+        if ( bw->elapsedTime() >= bTimePast )
           this->dwScriptOffset = wJmpOffset;
         continue;
       }
@@ -569,10 +598,11 @@ void aithread::execute()
       continue;
     case AISCRIPT::BUILD_TURRETS: // not started
       this->saveDebug("\x06", bOpcode);
+      // BuildTurrets();
       continue;
     case AISCRIPT::WAIT_TURRETS: // not started
       this->saveDebug("\x06", bOpcode);
-      // if ( AIWaitTurretsFinished )
+      // if ( AIWaitTurretsFinished() )
       {
         retryBlock = false;
         continue;
@@ -587,13 +617,14 @@ void aithread::execute()
       {
         WORD wUnk = this->read<WORD>();
         this->saveDebug("\x06", bOpcode, "%3u", wUnk);
+        // HarassFactor(wUnk);
         continue;
       }
     case AISCRIPT::START_CAMPAIGN: // COMPLETE
       this->saveDebug("\x07", bOpcode);
       MainController->wFlags |= CONTROLLER_IS_CAMPAIGN;
       continue;
-    case AISCRIPT::RACE_JUMP: // completed?
+    case AISCRIPT::RACE_JUMP: // incomplete
       {
         WORD t_jmp = this->read<WORD>();
         WORD z_jmp = this->read<WORD>();
@@ -618,14 +649,15 @@ void aithread::execute()
         BYTE bSize  = this->read<BYTE>();
         WORD wBlock = this->read<WORD>();
         this->saveDebug("\x06", bOpcode, "%3u p_%X", bSize, wBlock);
-        // unknown region calculations
+        // if ( this->pTown->RegionSize() < bSize )
+        //   this->dwScriptOffset = wBlock;
         continue;
       }
     case AISCRIPT::GET_OLDPEONS: // not started
       {
         BYTE bCount = this->read<BYTE>();
         this->saveDebug("\x06", bOpcode, "%3u", bCount);
-        // getOldPeons
+        // this->pTown->GetOldPeons(bCount);
         continue;
       }
     case AISCRIPT::GROUNDMAP_JUMP: // COMPLETED
@@ -651,15 +683,16 @@ void aithread::execute()
         UnitType wType = UnitType(this->read<WORD>());
         BYTE bIndex    = this->read<BYTE>();
         this->saveDebug("\x06", bOpcode, "%s %3u", AISCRIPT::getUnitName(wType), bIndex);
+        // this->pTown->PlaceGuard(bIndex, wType);
         continue;
       }
-    case AISCRIPT::WAIT_FORCE:  //
+    case AISCRIPT::WAIT_FORCE:  // COMPLETED
       {
         BYTE bCount     = this->read<BYTE>();
         UnitType wType  = UnitType(this->read<WORD>());
 
         this->saveDebug("\x06", bOpcode, "%3u %s", bCount, AISCRIPT::getUnitName(wType) );
-        if ( GetStandardUnitCount(wType, Broodwar->self()) < bCount )
+        if ( GetStandardUnitCount(wType) < bCount )
         {
           MainController->wWaitForType = wType + 1;
           this->retry();
@@ -672,6 +705,7 @@ void aithread::execute()
       {
         UnitType wType = UnitType(this->read<WORD>());
         this->saveDebug("\x06", bOpcode, "%s", AISCRIPT::getUnitName(wType));
+        // GuardResources(wType);
         continue;
       }
     case AISCRIPT::CALL:    // COMPLETE
@@ -688,7 +722,7 @@ void aithread::execute()
       {
         WORD wBlock = this->read<WORD>();
         this->saveDebug("\x06", bOpcode, "p_%X", wBlock);
-        //if ( !EvalHarass )
+        //if ( !EvalHarass(this->locationCenter) )
         //  this->dwScriptOffset = wBlock;
         continue;
       }
@@ -704,28 +738,30 @@ void aithread::execute()
       }
     case AISCRIPT::PANIC: // COMPLETED
       MainController->wPanicBlock = this->read<WORD>();
-      this->saveDebug("\x06", bOpcode, "p_%X", MainController->wPanicBlock);
+      this->saveDebug("\x07", bOpcode, "p_%X", MainController->wPanicBlock);
       continue;
-    case AISCRIPT::PLAYER_NEED: // 
+    case AISCRIPT::PLAYER_NEED: // incomplete
       {
         BYTE bBuildCount    = this->read<BYTE>();
         UnitType wBuildType = UnitType(this->read<WORD>());
         this->saveDebug("\x06", bOpcode, "%3u %s", bBuildCount, AISCRIPT::getUnitName(wBuildType));
-
+        //if ( bBuildCount <= 30 && wBuildType < UnitTypes::None )
+        //  this->pTown->MacroManagerSet(MACRO_BUILD, bBuildCount, wBuildType, 80, true);
         continue;
       }
-    case AISCRIPT::DO_MORPH:  // 
+    case AISCRIPT::DO_MORPH:  // COMPLETED
       {
         BYTE bCount     = this->read<BYTE>();
         UnitType wType  = UnitType(this->read<WORD>());
-        if ( GetStandardUnitCount(wType, Broodwar->self()) < bCount )
+        
+        if ( GetStandardUnitCount(wType) < bCount )
           MainController->wWaitForType = wType + 1;
 
-        this->saveDebug("\x06", bOpcode, "%3u %s", bCount, AISCRIPT::getUnitName(wType));
+        this->saveDebug("\x07", bOpcode, "%3u %s", bCount, AISCRIPT::getUnitName(wType));
         continue;
       }
-    case AISCRIPT::WAIT_UPGRADES: // not started
-      this->saveDebug("\x06", bOpcode);
+    case AISCRIPT::WAIT_UPGRADES: // COMPLETED
+      this->saveDebug("\x07", bOpcode);
       if ( MainController->wFlags & CONTROLLER_UPGRADES_FINISHED )
       {
         retryBlock = false;
@@ -881,13 +917,13 @@ void aithread::execute()
           MainController->bDefineMax[wType] = bCount;
         continue;
       }
-    case AISCRIPT::TRAIN: // 
+    case AISCRIPT::TRAIN: // COMPLETED
       {
         BYTE     bCount = this->read<BYTE>();
         UnitType wType  = UnitType(this->read<WORD>());
 
-        this->saveDebug("\x06", bOpcode, "%3u %s", bCount, AISCRIPT::getUnitName(wType));
-        if ( GetStandardUnitCount(wType, Broodwar->self(), false) < bCount )
+        this->saveDebug("\x07", bOpcode, "%3u %s", bCount, AISCRIPT::getUnitName(wType));
+        if ( GetStandardUnitCount(wType, false) < bCount )
         {
           MainController->wWaitForType = wType + 1;
           this->retry();
@@ -900,7 +936,7 @@ void aithread::execute()
       this->saveDebug("\x07", bOpcode);
       MainController->wFlags |= CONTROLLER_TARGET_EXPANSION;
       continue;
-    case AISCRIPT::WAIT_TRAIN: // FINISHED!
+    case AISCRIPT::WAIT_TRAIN: // COMPLETE
       {
         BYTE     bCount = this->read<BYTE>();
         UnitType wType  = UnitType(this->read<WORD>());
@@ -927,23 +963,21 @@ void aithread::execute()
       continue;
     case AISCRIPT::MAKE_PATROL: // not started
       this->saveDebug("\x06", bOpcode);
+      // MakePatrol(this->locationBounds);
       continue;
     case AISCRIPT::GIVE_MONEY:  // COMPLETE
       this->saveDebug("\x07", bOpcode);
+
+      // Minerals
       if ( Broodwar->self()->minerals() < 500 )
-      {
-        Broodwar->sendText("whats mine is mine");
-        Broodwar->sendText("whats mine is mine");
-        Broodwar->sendText("whats mine is mine");
-        Broodwar->sendText("whats mine is mine");
-      }
+        for ( int i = 0; i < 2000; i += 500 )
+          Broodwar->sendText("whats mine is mine");
+
+      // Gas
       if ( Broodwar->self()->gas() < 500 )
-      {
-        Broodwar->sendText("breathe deep");
-        Broodwar->sendText("breathe deep");
-        Broodwar->sendText("breathe deep");
-        Broodwar->sendText("breathe deep");
-      }
+        for ( int i = 0; i < 2000; i += 500 )
+          Broodwar->sendText("breathe deep");
+
       continue;
     case AISCRIPT::PREP_DOWN: // not started
       {
@@ -952,10 +986,10 @@ void aithread::execute()
         UnitType wMilitary = UnitType(this->read<WORD>());
         this->saveDebug("\x06", bOpcode, "%3u %3u %s", bSaveCount, bMinimum, AISCRIPT::getUnitName(wMilitary));
 
-        DWORD dwCountToAdd = GetStandardUnitCount(wMilitary, self, false) - bSaveCount;
+        DWORD dwCountToAdd = GetStandardUnitCount(wMilitary, false) - bSaveCount;
         if ( dwCountToAdd < bMinimum )
           dwCountToAdd = bMinimum;
-        // AI_AttackAdd
+        // AI_AttackAdd(dwCountToAdd, wMilitary);
         continue;
       }
     case AISCRIPT::RESOURCES_JUMP:  // COMPLETE
@@ -971,9 +1005,31 @@ void aithread::execute()
       }
     case AISCRIPT::ENTER_TRANSPORT: // not started
       this->saveDebug("\x06", bOpcode);
+
+      // iterate units at location
+      for each ( Unit *u in bw->getUnitsInRectangle(this->locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        if ( u->getPlayer() != self )
+          continue;
+        // Unit *best = GetBestUnitFinder(stuff goes here);
+        // if ( best )
+        //   best->load(u);
+      }
       continue;
-    case AISCRIPT::EXIT_TRANSPORT: // not started
-      this->saveDebug("\x06", bOpcode);
+    case AISCRIPT::EXIT_TRANSPORT: // COMPLETED
+      this->saveDebug("\x07", bOpcode);
+      // iterate units at location
+      for each ( Unit *u in bw->getUnitsInRectangle(this->locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        if ( u->getPlayer() != self || u->isHallucination() )
+          continue;
+        
+        UnitType ut = u->getType();
+        if ( (ut == UnitTypes::Zerg_Overlord && !self->getUpgradeLevel(UpgradeTypes::Ventral_Sacs)) || !ut.spaceProvided() )
+          continue;
+
+        u->unloadAll();
+      }
       continue;
     case AISCRIPT::SHAREDVISION_ON: // performs reverse vision
       {
@@ -994,18 +1050,17 @@ void aithread::execute()
     case AISCRIPT::NUKE_LOCATION: // not started
       this->saveDebug("\x06", bOpcode);
       continue;
-    case AISCRIPT::HARASS_LOCATION: // FINISHED! (no code for this)
+    case AISCRIPT::HARASS_LOCATION: // COMPLETED (no code for this)
       this->saveDebug("\x07", bOpcode);
       continue;
     case AISCRIPT::IMPLODE: // not started
       this->saveDebug("\x06", bOpcode);
+      // Implode();
       continue;
     case AISCRIPT::GUARD_ALL: // not started
       this->saveDebug("\x06", bOpcode);
-      for each ( Unit *u in self->getUnits() )
-      {
-        // MakeGuard
-      }
+      for each ( Unit *u in self->getUnits() ) {}
+        // MakeGuard(u);
       continue;
     case AISCRIPT::ENEMYOWNS_JUMP:  // COMPLETED
       {
@@ -1089,13 +1144,21 @@ void aithread::execute()
       // return;
     case AISCRIPT::QUICK_ATTACK:  // not started
       this->saveDebug("\x06", bOpcode);
+      // AI_AttackManager(thisLocation, 1, 0);
+      MainController->dwAttackTime = bw->elapsedTime() - 175;
       continue;
     case AISCRIPT::JUNKYARD_DOG:  // not started
+      for each ( Unit *u in bw->getUnitsInRectangle(locationBounds.left, locationBounds.top, locationBounds.right, locationBounds.bottom) )
+      {
+        if ( u->getPlayer() != self )
+          continue;
+        // run junkyard dog
+      }
       this->saveDebug("\x06", bOpcode);
       continue;
-    case AISCRIPT::FAKE_NUKE:   // not started
+    case AISCRIPT::FAKE_NUKE:   // COMPLETED
       this->saveDebug("\x06", bOpcode);
-      //MainController->dwLastNukeTime = elapsedTime + 1;
+      MainController->dwLastNukeTime = bw->elapsedTime() + 1;
       continue;
     case AISCRIPT::DISRUPTION_WEB:  // not started
       this->saveDebug("\x06", bOpcode);
@@ -1116,10 +1179,10 @@ void aithread::execute()
           this->dwScriptOffset = wJump;
         continue;
       }
-    case AISCRIPT::CREATE_NUKE: // not started
+    case AISCRIPT::CREATE_NUKE: // not started (can't be emulated)
       this->saveDebug("\x06", bOpcode);
       continue;
-    case AISCRIPT::CREATE_UNIT: // not started
+    case AISCRIPT::CREATE_UNIT: // not started (can't be emulated)
       {
         UnitType wType  = UnitType(this->read<WORD>()); // type
         WORD wX         = this->read<WORD>(); // x
@@ -1136,6 +1199,7 @@ void aithread::execute()
       }
     case AISCRIPT::HELP_IFTROUBLE:  // not started
       this->saveDebug("\x06", bOpcode);
+      // HelpIfTrouble();
       continue;
     case AISCRIPT::ALLIES_WATCH: // not started
       {
@@ -1146,9 +1210,11 @@ void aithread::execute()
       }
     case AISCRIPT::TRY_TOWNPOINT: // not started
       {
-        BYTE bUnk1  = this->read<BYTE>();
-        WORD wBlock = this->read<WORD>();
-        this->saveDebug("\x06", bOpcode, "%3u p_%X", bUnk1, wBlock);
+        BYTE bExpansions  = this->read<BYTE>();
+        WORD wBlock       = this->read<WORD>();
+        this->saveDebug("\x06", bOpcode, "%3u p_%X", bExpansions, wBlock);
+        // if ( GetExpansionCount() == bExpansions )
+        //   this->dwScriptOffset = wJump;
         continue;
       }
     default:

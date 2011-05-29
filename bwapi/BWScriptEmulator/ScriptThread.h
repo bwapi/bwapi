@@ -6,7 +6,7 @@
 
 void UpdateScripts();
 bool LoadAIBinary(const char *pszFileName);
-int GetStandardUnitCount(BWAPI::UnitType type, BWAPI::Player *player = NULL, bool bCompleted = true);
+int GetStandardUnitCount(BWAPI::UnitType type, bool bCompleted = true, BWAPI::Player *player = NULL);
 
 void AICreateThread(WORD wStartBlock, BWAPI::Position location, void *pTown = NULL);
 void AICreateThread(char *pszScriptID, BWAPI::Position location);
