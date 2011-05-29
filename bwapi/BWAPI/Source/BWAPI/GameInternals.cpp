@@ -1094,7 +1094,7 @@ namespace BWAPI
             }
           }
 
-          if ( !actCreate && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
+          if ( !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
           {
             if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
             {
