@@ -16,6 +16,17 @@ void ExampleTournamentAI::onEnd(bool isWinner)
 
 void ExampleTournamentAI::onFrame()
 {
+  // If the elapsed game time has exceeded 20 minutes
+  if ( Broodwar->elapsedTime() > 20 * 60 ) 
+  {
+    /*// Possibly save the player's score
+      Broodwar->self()->getUnitScore();
+      Broodwar->self()->getKillScore();
+      Broodwar->self()->getBuildingScore();
+      Broodwar->self()->getRazingScore();  */
+    Broodwar->sendText("DRAW");
+    Broodwar->leaveGame();
+  }
 }
 
 void ExampleTournamentAI::onSendText(std::string text)
