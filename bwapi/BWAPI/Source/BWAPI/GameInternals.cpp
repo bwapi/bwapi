@@ -1014,12 +1014,13 @@ namespace BWAPI
             if ( !BW::FindDialogGlobal("GameSel")->findIndex(15)->activate() )
               actGameSel = false;
           }
-          actCreate = false;
           break;
 //create single/multi player game screen
         case 11: 
           {
             actGameSel    = false;
+            actCreate     = false;
+            actRaceSel    = false;
             createdTimer  = GetTickCount();
             tempDlg       = BW::FindDialogGlobal("Create");
             if ( this->lastMapGen.size() > 0 )
@@ -1076,25 +1077,34 @@ namespace BWAPI
           }
 // in lobby
         case 3:
-          actCreate = false;
-          Race playerRace = Races::getRace(this->autoMenuRace);
-          if ( this->autoMenuRace == "RANDOMTP" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-          else if ( this->autoMenuRace == "RANDOMTZ" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-          else if ( this->autoMenuRace == "RANDOMPZ" )
-            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+          if ( !actRaceSel )
+          {
+            Race playerRace = Races::getRace(this->autoMenuRace);
+            if ( this->autoMenuRace == "RANDOMTP" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+            else if ( this->autoMenuRace == "RANDOMTZ" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+            else if ( this->autoMenuRace == "RANDOMPZ" )
+              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
 
-          if ( playerRace != Races::Unknown && playerRace != Races::None )
-            this->_changeRace(0, playerRace);
+            if ( playerRace != Races::Unknown && playerRace != Races::None )
+            {
+              actRaceSel = true;
+              this->_changeRace(0, playerRace);
+            }
+          }
 
-          if ( getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0 )
+          if ( !actCreate && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
           {
             if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
             {
               tempDlg = BW::FindDialogGlobal("Chat");
               if ( tempDlg )
-                this->pressKey( tempDlg->findIndex(7)->getHotkey(), true );
+              {
+                actCreate = true;
+                if ( !tempDlg->findIndex(7)->activate() )
+                  actCreate = false;
+              }
             }
           }
           break;
@@ -1246,64 +1256,60 @@ namespace BWAPI
   }
 
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
-  void GameImpl::pressKey(int key, bool holdAlt)
+  void GameImpl::pressKey(int key)
   {
-    if ( holdAlt )
-    {
-      PostMessage(SDrawGetFrameWindow(), WM_SYSKEYDOWN, (WPARAM)key, 0x20000000);
-      PostMessage(SDrawGetFrameWindow(), WM_SYSKEYUP,   (WPARAM)key, 0xE0000000);
-    }
-    else
-    {
-      PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
-      PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);
-    }
+    // Press and release the key
+    PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
+    PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);
   }
   void GameImpl::mouseDown(int x, int y)
   {
+    // Press the left mouse button
     PostMessage(SDrawGetFrameWindow(), WM_LBUTTONDOWN, NULL, (LPARAM)MAKELONG(x,y));
   }
   void GameImpl::mouseUp(int x, int y)
   {
+    // Release the left mouse button
     PostMessage(SDrawGetFrameWindow(), WM_LBUTTONUP, NULL, (LPARAM)MAKELONG(x,y));
   }
 
   //---------------------------------------------- CHANGE SLOT -----------------------------------------------
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
+    // Send the Change Slot command for multi-player
     QueueGameCommand((PBYTE)&BW::Orders::ChangeSlot(slot, slotID), 3);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
+    // Obtain the single player dialog
     BW::dialog *custom = BW::FindDialogGlobal("Create");
     if ( custom )
     {
+      // Apply the single player change
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
       if ( slotCtrl && (int)slotCtrl->getSelectedValue() != race )
         slotCtrl->setSelectedByValue(race);
+      return;
     }
-    else
-    {
-      custom = BW::FindDialogGlobal("Chat");
-      if ( custom )
-      {
-        BW::dialog *countdown = custom->findIndex(24);
-        if ( countdown )
-        {
-          char *txt = countdown->getText();
-          if ( txt && strlen(txt) > 0 )
-          {
-            if ( txt[0] >= '2' )
-              QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
-          }
-          else
-          {
-            QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
-          }
-        } // countdown
-      }
-    }
+
+    // Obtain the multi-player dialog
+    custom = BW::FindDialogGlobal("Chat");
+    if ( !custom ) // return if not found
+      return;
+
+    // Obtain the countdown control
+    BW::dialog *countdown = custom->findIndex(24);
+    if ( !countdown ) // return if not found
+      return;
+
+    // Obtain the countdown control's text
+    char *txt = countdown->getText();
+    if ( txt && strlen(txt) > 0 && txt[0] < '2' )
+      return; // return if the countdown is less than 2
+    
+    // Send the change race command for multi-player
+    QueueGameCommand((PBYTE)&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -1318,6 +1324,7 @@ namespace BWAPI
     /** This function is called at the start of every match */
     gszDesiredReplayName[0] = 0;
 
+    // Reset our auto-menu booleans
     outOfGame   = false;
     actMainMenu = false;
     actRegistry = false;

@@ -241,7 +241,7 @@ namespace BWAPI
       void loadAutoMenuData();
       void onMenuFrame();
       PlayerImpl* players[12];
-      void pressKey(int key, bool holdAlt = false);
+      void pressKey(int key);
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
 
