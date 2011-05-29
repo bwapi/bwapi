@@ -435,6 +435,9 @@ namespace BWAPI
 
       /** Sets the BWAPI player's vision with another player. */
       virtual bool setVision(BWAPI::Player *player, bool enabled = true) = 0;
+
+      /** Returns the elapsed game time in seconds. */
+      virtual int  elapsedTime() const = 0;
   };
   extern Game* Broodwar;
 }

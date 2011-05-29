@@ -1186,4 +1186,8 @@ namespace BWAPI
     }
     return Broodwar->setLastError(Errors::Unreachable_Location);
   }
+  int GameImpl::elapsedTime() const
+  {
+    return data->elapsedTime;
+  }
 };

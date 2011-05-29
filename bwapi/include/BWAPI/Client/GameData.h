@@ -66,6 +66,7 @@ namespace BWAPI
     bool hasLatCom;
     int replayFrameCount;
     int frameCount;
+    int elapsedTime;
     int fps;
     double averageFPS;
 

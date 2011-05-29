@@ -523,8 +523,6 @@ namespace BWAPI
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
             drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
           }
-      if ( getReplayFrameCount() )
-        drawTextScreen(30, 30, "%d/%d = %u%%", getFrameCount(), getReplayFrameCount(), (u32)(getFrameCount()*100/getReplayFrameCount()));
     } // grid
 #ifdef _DEBUG
     if ( noGUI )
@@ -1699,8 +1697,7 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       //SetResolution(640, 480);
-      printf("%s", this->mapFileName().c_str());
-      printf("%s", this->mapPathName().c_str());
+      printf("%u", this->elapsedTime());
     }
 #endif
     else
