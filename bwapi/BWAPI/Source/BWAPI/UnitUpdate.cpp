@@ -223,7 +223,7 @@ namespace BWAPI
     else
     {
       self->positionX             = BWAPI::Positions::Unknown.x();  //getPosition
-      self->positionX             = BWAPI::Positions::Unknown.y();  //getPosition
+      self->positionY             = BWAPI::Positions::Unknown.y();  //getPosition
       self->angle                 = 0;      //getAngle
       self->velocityX             = 0;      //getVelocityX
       self->velocityY             = 0;      //getVelocityY
