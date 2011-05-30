@@ -287,13 +287,13 @@ namespace BWAPI
   void GameImpl::pingMinimap(int x, int y)
   {
     this->setLastError(Errors::None);
-    QueueGameCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)x,(u16)y)), sizeof(BW::Orders::MinimapPing));
+    QueueGameCommand(&BW::Orders::MinimapPing(BW::Position((u16)x,(u16)y)), sizeof(BW::Orders::MinimapPing));
   }
   //---------------------------------------------- PING MINIMAP ----------------------------------------------
   void GameImpl::pingMinimap(BWAPI::Position p)
   {
     this->setLastError(Errors::None);
-    QueueGameCommand((PBYTE)&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
+    QueueGameCommand(&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool  GameImpl::isFlagEnabled(int flag)
@@ -650,7 +650,7 @@ namespace BWAPI
       if (cheatID != BW::CheatFlags::None)
       {
         this->cheatFlags ^= cheatID;
-        QueueGameCommand((PBYTE)&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        QueueGameCommand(&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
             cheatID == BW::CheatFlags::WhatsMineIsMine ||
@@ -737,7 +737,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::StartGame) )
       return;
-    QueueGameCommand((PBYTE)&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
+    QueueGameCommand(&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
   void GameImpl::pauseGame()
@@ -746,7 +746,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::PauseGame) )
       return;
-    QueueGameCommand((PBYTE)&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
+    QueueGameCommand(&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
   void GameImpl::resumeGame()
@@ -755,7 +755,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::ResumeGame) )
       return;
-    QueueGameCommand((PBYTE)&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
+    QueueGameCommand(&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
   void GameImpl::leaveGame()
@@ -781,7 +781,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::RestartGame) )
       return;
-    QueueGameCommand((PBYTE)&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
+    QueueGameCommand(&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
   }
   //--------------------------------------------- SET ALLIANCE -----------------------------------------------
   bool GameImpl::setAlliance(BWAPI::Player *player, bool allied, bool alliedVictory)
@@ -799,7 +799,7 @@ namespace BWAPI
       alliance |= newAlliance << ( ((PlayerImpl*)player)->getIndex()*2);
     else
       alliance &= ~(3 << ( ((PlayerImpl*)player)->getIndex()*2) );
-    QueueGameCommand((PBYTE)&BW::Orders::SetAllies(alliance), sizeof(BW::Orders::SetAllies));
+    QueueGameCommand(&BW::Orders::SetAllies(alliance), sizeof(BW::Orders::SetAllies));
     return this->setLastError(Errors::None);
   }
   //----------------------------------------------- SET VISION -----------------------------------------------
@@ -814,7 +814,7 @@ namespace BWAPI
       vision |= 1 << ((PlayerImpl*)player)->getIndex();
     else
       vision &= ~(1 <<  ((PlayerImpl*)player)->getIndex() );
-    QueueGameCommand((PBYTE)&BW::Orders::SetVision(vision), sizeof(BW::Orders::SetVision));
+    QueueGameCommand(&BW::Orders::SetVision(vision), sizeof(BW::Orders::SetVision));
     return this->setLastError(Errors::None);
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
@@ -898,7 +898,7 @@ namespace BWAPI
       {
         BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
         botAPM_select++;
-        QueueGameCommand((PBYTE)&sel, sel.size);
+        QueueGameCommand(&sel, sel.size);
       }
 
       BroodwarImpl.executeCommand( command, false );

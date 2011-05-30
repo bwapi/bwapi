@@ -47,21 +47,21 @@ DWORD getProcessCount(const char *pszProcName)
 }
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
-void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
+void __fastcall QueueGameCommand(void *pBuffer, DWORD dwLength)
 {
   CAPS caps;
   caps.dwSize = sizeof(CAPS);
   SNetGetProviderCaps(&caps);
 
-  u32 maxBuffer = caps.maxmessagesize;
-  if ( maxBuffer > 512 )
-    maxBuffer = 512;
+  DWORD dwMaxBuffer = caps.maxmessagesize;
+  if ( dwMaxBuffer > 512 )
+    dwMaxBuffer = 512;
 
-  if ( length + *BW::BWDATA_sgdwBytesInCmdQueue <= maxBuffer )
+  if ( dwLength + *BW::BWDATA_sgdwBytesInCmdQueue <= dwMaxBuffer )
   {
     // Copy data to primary turn buffer
-    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
-    *BW::BWDATA_sgdwBytesInCmdQueue += length;
+    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], pBuffer, dwLength);
+    *BW::BWDATA_sgdwBytesInCmdQueue += dwLength;
     return;
   }
   
@@ -87,8 +87,8 @@ void __fastcall QueueGameCommand(BYTE *buffer, DWORD length)
 
     // Send the turn and fill the new buffer
     BW::BWFXN_sendTurn();
-    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], buffer, length);
-    *BW::BWDATA_sgdwBytesInCmdQueue += length;
+    memcpy(&BW::BWDATA_TurnBuffer[*BW::BWDATA_sgdwBytesInCmdQueue], pBuffer, dwLength);
+    *BW::BWDATA_sgdwBytesInCmdQueue += dwLength;
   }
   // assume no error, would be fatal in Starcraft anyway
 }

@@ -943,7 +943,7 @@ namespace BWAPI
   {
     BW::Orders::Select sel = BW::Orders::Select(1, this);
     botAPM_select++;
-    QueueGameCommand((PBYTE)&sel, sel.size);
+    QueueGameCommand(&sel, sel.size);
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)

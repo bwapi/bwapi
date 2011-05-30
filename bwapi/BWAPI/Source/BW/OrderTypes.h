@@ -3,6 +3,7 @@
 #include <Util/Types.h>
 
 #include <BWAPI/UnitType.h>
+#include <BWAPI/Position.h>
 #include "PositionUnitTarget.h"
 #include "Race.h"
 #include <BW/TilePosition.h>
@@ -20,6 +21,7 @@ namespace BW
       public :
         /** Attack Location on position. */
         Attack(const BW::Position& target, u8 order, bool queued = false);
+        Attack(const BWAPI::Position& target, u8 order, bool queued = false);
         /** Attack Location on unit. */
         Attack(BWAPI::UnitImpl* target, u8 order, bool queued = false);
         /** Attack Location on general target. */
@@ -79,7 +81,7 @@ namespace BW
     class TrainUnit
     {
       public :
-        TrainUnit(u16 type);
+        TrainUnit(int type);
         /** 0x1f = Train Command-code in bw */
         u8 always0x1f;
         /** Type of unit to train */
@@ -97,7 +99,8 @@ namespace BW
     class MakeBuilding
     {
       public :
-        MakeBuilding(BW::TilePosition position, u16 type);
+        MakeBuilding(BW::TilePosition position, int type);
+        MakeBuilding(int tileX, int tileY, int type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         /** Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f */
@@ -111,8 +114,7 @@ namespace BW
     class PlaceCOP
     {
       public :
-        PlaceCOP(BW::TilePosition position, u16 type);
-        PlaceCOP(BW::TilePosition position, BWAPI::UnitType type);
+        PlaceCOP(BW::TilePosition position, int type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         u8 always0x9B;
@@ -125,7 +127,7 @@ namespace BW
     class Invent
     {
       public :
-        Invent(u8 type);
+        Invent(int type);
         /** 0x30 = invent tech Command-code in bw */
         u8 always0x30;
         /** Type of tech to invent */
@@ -134,7 +136,7 @@ namespace BW
     class Upgrade
     {
       public :
-        Upgrade(u8 upgrade);
+        Upgrade(int upgrade);
         /** 0x32 = upgrade Command-code in bw */
         u8 always0x32;
         /** Type of upgrade */
@@ -143,7 +145,8 @@ namespace BW
     class MakeAddon
     {
       public :
-        MakeAddon(BW::TilePosition position, u16 type);
+        MakeAddon(BW::TilePosition position, int type);
+        MakeAddon(int tileX, int tileY, int type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         /** 1e for terran 1f for protoss*/
@@ -156,6 +159,7 @@ namespace BW
     {
       public :
         MakeNydusExit(BW::TilePosition position);
+        MakeNydusExit(int tileX, int tileY);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         /** 1e for terran 1f for protoss*/
@@ -272,7 +276,7 @@ namespace BW
     class BuildingMorph
     {
       public :
-        BuildingMorph(u16 type);
+        BuildingMorph(int type);
         /** 0x35 = Building Morph for zerg */
         u8 always0x35;
         /** Type of unit to train */
@@ -323,7 +327,7 @@ namespace BW
     class Land
     {
       public :
-        Land(BW::TilePosition position, u16 type);
+        Land(BW::TilePosition position, int type);
       private :
         u8 always0x0C;
         u8 always0x47;
@@ -398,7 +402,7 @@ namespace BW
     class UnitMorph
     {
       public :
-        UnitMorph(u16 type);
+        UnitMorph(int type);
         /** 0x23 = Unit Morph (Zerg) Command-code in bw */
         u8 always0x23;
         /** Type of unit to train */
