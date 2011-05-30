@@ -31,10 +31,13 @@ namespace BWAPI
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
   {
-    if (!canIssueCommand(command))
+    if ( !canIssueCommand(command) )
       return false;
 
     command.unit = this;
+
+    if ( BroodwarImpl.addToCommandOptimizer(command) )
+      return true;
 
     if (command.type == UnitCommandTypes::Train ||
         command.type == UnitCommandTypes::Morph)
@@ -47,7 +50,7 @@ namespace BWAPI
       //select both units for archon warp or dark archon meld
       BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);
       botAPM_select++;
-      QueueGameCommand((PBYTE)&sel, sel.size);
+      QueueGameCommand(&sel, sel.size);
     }
     else if ( command.type != UnitCommandTypes::Unload )
       ((UnitImpl*)command.unit)->orderSelect();

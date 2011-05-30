@@ -273,6 +273,7 @@ namespace BWAPI
       void copyMapToSharedMemory();
       void moveToSelected();
       void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true);
+      bool addToCommandOptimizer(UnitCommand command);
 
       void chooseNewRandomMap();
 
@@ -424,6 +425,7 @@ namespace BWAPI
       bool externalModuleConnected;
       bool calledMatchEnd;
       bool tournamentCheck(int type, void *parameter = NULL);
+      int  commandOptimizerLevel;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

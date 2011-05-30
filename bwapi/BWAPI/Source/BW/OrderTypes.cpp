@@ -10,7 +10,7 @@ namespace BW
   namespace Orders
   {
 
-    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
     Attack::Attack(BWAPI::UnitImpl* target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
@@ -19,7 +19,7 @@ namespace BW
         , type(queued ? 1 : 0)
     {
     }
-    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
     Attack::Attack(const BW::Position& target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
@@ -28,7 +28,15 @@ namespace BW
         , type(queued ? 1 : 0)
     {
     }
-    //--------------------------------------- ATTACK LOCATION COONSTRUCTOR -----------------------------------
+    Attack::Attack(const BWAPI::Position& target, u8 OrderID, bool queued)
+        : always0x15(0x15)
+        , target(BW::Position((u16)target.x(), (u16)target.y()))
+        , always0xe4(BW::UnitID::None)
+        , order(OrderID)
+        , type(queued ? 1 : 0)
+    {
+    }
+    //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
     Attack::Attack(const PositionUnitTarget& target, u8 OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
@@ -37,7 +45,7 @@ namespace BW
         , type(queued ? 1 : 0)
     {
     }
-    //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
+    //--------------------------------------- RIGHT CLICK CONSTRUCTOR ---------------------------------------
     RightClick::RightClick(BWAPI::UnitImpl* target, bool queued)
         : always0x14(0x14)
         , target(target)
@@ -45,7 +53,7 @@ namespace BW
         , type(queued ? 1 : 0)
     {
     }
-    //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
+    //--------------------------------------- RIGHT CLICK CONSTRUCTOR ---------------------------------------
     RightClick::RightClick(const BW::Position& target, bool queued)
         : always0x14(0x14)
         , target(target)
@@ -53,7 +61,7 @@ namespace BW
         , type(queued ? 1 : 0)
     {
     }
-    //--------------------------------------- RIGHT CLICK COONSTRUCTOR ---------------------------------------
+    //--------------------------------------- RIGHT CLICK CONSTRUCTOR ---------------------------------------
     RightClick::RightClick(const PositionUnitTarget& target, bool queued)
         : always0x14(0x14)
         , target(target)
@@ -162,9 +170,9 @@ namespace BW
       size = 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
-    TrainUnit::TrainUnit(u16 type)
+    TrainUnit::TrainUnit(int type)
         : always0x1f(0x1f)
-        , type(type)
+        , type((u16)type)
     {
     }
     //--------------------------------------- TRAIN FIGHTER CONSTRUCTOR --------------------------------------
@@ -173,10 +181,31 @@ namespace BW
     {
     }
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
-    MakeBuilding::MakeBuilding(BW::TilePosition position, u16 type)
+    MakeBuilding::MakeBuilding(BW::TilePosition position, int type)
         : always0x0c(0x0c)
         , position(position)
-        , type(type)
+        , type((u16)type)
+    {
+      switch( BWAPI::UnitType(type).getRace() )
+      {
+      case BW::Race::Zerg:
+        raceDependant = 0x19;
+        break;
+      case BW::Race::Terran:
+        raceDependant = 0x1e;
+        break;
+      case BW::Race::Protoss:
+        raceDependant = 0x1f;
+        break;
+      default:
+        throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
+        break;
+      }
+    }
+    MakeBuilding::MakeBuilding(int tileX, int tileY, int type)
+        : always0x0c(0x0c)
+        , position(BW::TilePosition((u16)tileX, (u16)tileY))
+        , type((u16)type)
     {
       switch( BWAPI::UnitType(type).getRace() )
       {
@@ -195,14 +224,7 @@ namespace BW
       }
     }
     //---------------------------------------------- PLACE COP -----------------------------------------------
-    PlaceCOP::PlaceCOP(BW::TilePosition position, u16 type)
-        : always0x0c(0x0C)
-        , always0x9B(0x9B)
-        , position(position)
-        , type(type)
-    {
-    }
-    PlaceCOP::PlaceCOP(BW::TilePosition position, BWAPI::UnitType type)
+    PlaceCOP::PlaceCOP(BW::TilePosition position, int type)
         : always0x0c(0x0C)
         , always0x9B(0x9B)
         , position(position)
@@ -210,23 +232,30 @@ namespace BW
     {
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
-    Invent::Invent(u8 tech)
+    Invent::Invent(int tech)
         : always0x30(0x30)
-        , tech(tech)
+        , tech((u8)tech)
     {
     }
     //----------------------------------------------- UPGRADE ------------------------------------------------
-    Upgrade::Upgrade(u8 upgrade)
+    Upgrade::Upgrade(int upgrade)
         : always0x32(0x32)
-        , upgrade(upgrade)
+        , upgrade((u8)upgrade)
     {
     }
     //---------------------------------------------- MAKE ADDON ----------------------------------------------
-    MakeAddon::MakeAddon(BW::TilePosition position, u16 type)
+    MakeAddon::MakeAddon(BW::TilePosition position, int type)
         : always0x0c(0x0c)
         , always0x24(0x24)
         , position(position)
-        , type(type)
+        , type((u16)type)
+    {
+    }
+    MakeAddon::MakeAddon(int tileX, int tileY, int type)
+        : always0x0c(0x0c)
+        , always0x24(0x24)
+        , position(BW::TilePosition((u16)tileX, (u16)tileY))
+        , type((u16)type)
     {
     }
     //---------------------------------------------- MAKE NYDUS ----------------------------------------------
@@ -234,6 +263,13 @@ namespace BW
         : always0x0c(0x0c)
         , always0x2E(0x2E)
         , position(position)
+        , type(BW::UnitID::Zerg_NydusCanal)
+    {
+    }
+    MakeNydusExit::MakeNydusExit(int tileX, int tileY)
+        : always0x0c(0x0c)
+        , always0x2E(0x2E)
+        , position(BW::TilePosition((u16)tileX, (u16)tileY))
         , type(BW::UnitID::Zerg_NydusCanal)
     {
     }
@@ -294,9 +330,9 @@ namespace BW
     {
     }
     //---------------------------------------- BUILDING MORPH CONSTRUCTOR ------------------------------------
-    BuildingMorph::BuildingMorph(u16 type)
+    BuildingMorph::BuildingMorph(int type)
         : always0x35(0x35)
-        , type(type)
+        , type((u16)type)
     {
     }
     //------------------------------------------ CANCEL ADDON ------------------------------------------------
@@ -326,11 +362,11 @@ namespace BW
     {
     }
     //------------------------------------------------- LAND -------------------------------------------------
-    Land::Land(BW::TilePosition position, u16 type)
+    Land::Land(BW::TilePosition position, int type)
         : always0x0C(0x0C)
         , always0x47(0x47)
         , position(position)
-        , type(type)
+        , type((u16)type)
     {
     }
     //---------------------------------------------- BURROW --------------------------------------------------
@@ -376,9 +412,9 @@ namespace BW
     {
     }
     //----------------------------------------- UNIT MORPH CONSTRUCTOR ---------------------------------------
-    UnitMorph::UnitMorph(u16 type)
+    UnitMorph::UnitMorph(int type)
         : always0x23(0x23)
-        , type(type)
+        , type((u16)type)
     {
     }
     //------------------------------------------------ CLOAK -------------------------------------------------
