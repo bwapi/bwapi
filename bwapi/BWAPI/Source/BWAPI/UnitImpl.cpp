@@ -974,6 +974,7 @@ namespace BWAPI
     nukeDetected       = false;
     lastType           = UnitTypes::Unknown;
     lastPlayer         = NULL;
+    clientInfo         = NULL;
     updateData();
   }
 
