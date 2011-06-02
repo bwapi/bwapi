@@ -292,6 +292,9 @@ namespace BWAPI
 
       int lastCommandFrame;
       UnitCommand lastCommand;
+
+      void* clientInfo;
+
     private:
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
@@ -301,8 +304,6 @@ namespace BWAPI
       BWAPI::Position staticPosition;
       int staticResources;
       int staticHitPoints;
-
-      void* clientInfo;
   };
 };
 
