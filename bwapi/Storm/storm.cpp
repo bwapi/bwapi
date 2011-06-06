@@ -11,7 +11,7 @@ BOOL STORMAPI SNetEnumProviders(int (STORMAPI *callback)(DWORD, DWORD, DWORD, DW
 
 BOOL STORMAPI SNetEnumGames(int (STORMAPI *callback)(DWORD, DWORD, DWORD), int *hintnextcall) rBool;
 BOOL STORMAPI SNetDropPlayer(int playerid, DWORD flags) rBool;
-BOOL STORMAPI SNetGetGameInfo(int type, char *src, unsigned int length, int *byteswritten) rBool;
+BOOL STORMAPI SNetGetGameInfo(int type, void *dst, size_t length, size_t *byteswritten) rBool;
 
 BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers) rBool;
 

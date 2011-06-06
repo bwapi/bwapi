@@ -810,7 +810,7 @@ namespace BWAPI
     unsigned int rval = 0;
     for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( BW::BWDATA_Players[i].nType == BW::PlayerType::Player )
+      if ( BW::BWDATA_Players[i].nType == BW::PlayerType::Player  && BW::BWDATA_PlayerDownloadStatus[i] >= 100 )
         ++rval;
     }
     return rval;
@@ -1098,12 +1098,13 @@ namespace BWAPI
           {
             if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
             {
-              tempDlg = BW::FindDialogGlobal("Chat");
-              if ( tempDlg )
+              DWORD dwMode = 0;
+              SNetGetGameInfo(GAMEINFO_MODEFLAG, &dwMode, sizeof(dwMode));
+              if ( !(dwMode & GAMESTATE_STARTED) )
               {
                 actCreate = true;
-                if ( !tempDlg->findIndex(7)->activate() )
-                  actCreate = false;
+                SNetSetGameMode(dwMode | GAMESTATE_STARTED);
+                QueueGameCommand(&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
               }
             }
           }

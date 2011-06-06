@@ -56,7 +56,26 @@ BOOL STORMAPI SNetEnumProviders(int (STORMAPI *callback)(DWORD, DWORD, DWORD, DW
 
 BOOL STORMAPI SNetEnumGames(int (STORMAPI *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
 BOOL STORMAPI SNetDropPlayer(int playerid, DWORD flags);
-BOOL STORMAPI SNetGetGameInfo(int type, char *src, unsigned int length, int *byteswritten);
+
+/*  SNetGetGameInfo @ 107
+ * 
+ *  Retrieves specific game information from Storm, such as name, password,
+ *  stats, mode, game template, and players.
+ *  
+ *  type:         The type of data to retrieve. See GAMEINFO_ flags.
+ *  dst:          The destination buffer for the data.
+ *  length:       The maximum size of the destination buffer.
+ *  byteswritten: The number of bytes written to the destination buffer.
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SNetGetGameInfo(
+    __in  int type,
+    __out void *dst,
+    __in  size_t length,
+    __out size_t *byteswritten = NULL);
 
 #ifndef GAME_INFO
 #define GAME_INFO
@@ -253,7 +272,7 @@ BOOL STORMAPI SNetSendTurn(char *data, unsigned int databytes);
 
 #endif
 
-BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2);
+BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2 = 0);
 
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
 int  STORMAPI SNetSendServerChatCommand(const char *command);
