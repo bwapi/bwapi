@@ -684,18 +684,24 @@ namespace BWAPI
         Broodwar->setMap(data->strings[v1]);
         break;
       case BWAPIC::CommandType::SetAllies:
-        Broodwar->setAlliance(getPlayer(v1), v2 != 0, v2 == 2);
+        if (Broodwar->isInGame())
+          Broodwar->setAlliance(getPlayer(v1), v2 != 0, v2 == 2);
         break;
       case BWAPIC::CommandType::SetVision:
-        Broodwar->setVision(getPlayer(v1), v2 != 0);
+        if (Broodwar->isInGame())
+          Broodwar->setVision(getPlayer(v1), v2 != 0);
+        break;
+      case BWAPIC::CommandType::SetCommandOptimizerLevel:
+        if (Broodwar->isInGame())
+          Broodwar->setCommandOptimizationLevel(v1);
         break;
       default:
         break;
       }
     }
-    if (Broodwar->isInGame())
+    if ( Broodwar->isInGame() )
     {
-      for(int i = 0; i < data->unitCommandCount; ++i)
+      for ( int i = 0; i < data->unitCommandCount; ++i )
       {
         if (data->unitCommands[i].unitIndex < 0 || data->unitCommands[i].unitIndex >= (int)unitVector.size())
           continue;
@@ -706,7 +712,7 @@ namespace BWAPI
 
         unit->issueCommand(UnitCommand(unit, data->unitCommands[i].type, target, data->unitCommands[i].x, data->unitCommands[i].y, data->unitCommands[i].extra));
       }
-      for(int i = 0; i < data->shapeCount; ++i)
+      for ( int i = 0; i < data->shapeCount; ++i )
       {
         BWAPIC::ShapeType::Enum s = data->shapes[i].type;
         /* Note: Variables here so that the calls aren't excessively long */
@@ -716,7 +722,7 @@ namespace BWAPI
         bool isSolid       = data->shapes[i].isSolid;
         BWAPI::Color color = Color(data->shapes[i].color);
 
-        switch (s)
+        switch ( s )
         {
           case BWAPIC::ShapeType::Text:
             Broodwar->drawText(ctype, x1, y1, data->strings[data->shapes[i].extra1]);

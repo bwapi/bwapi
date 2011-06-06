@@ -1070,5 +1070,14 @@ namespace BWAPI
   {
     return (int)*BW::BWDATA_ElapsedTime;
   }
+  //-------------------------------------- SET COMMAND OPTIMIZATION LEVEL ------------------------------------
+  void GameImpl::setCommandOptimizationLevel(int level)
+  {
+    if ( level < 0 )
+      level = 0;
+    if ( level > 3 )
+      level = 3;
+    this->commandOptimizerLevel = level;
+  }
 };
 
