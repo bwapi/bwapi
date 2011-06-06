@@ -438,6 +438,13 @@ namespace BWAPI
 
       /** Returns the elapsed game time in seconds. */
       virtual int  elapsedTime() const = 0;
+
+      /** Sets the level of command optimizations.
+          0 = No optimization.
+          1 = Some optimization    (Stop, Hold Position, Siege, Burrow, etc.).
+          2 = More optimization    (Train, Set Rally, Lift, [multi-select buildings]).
+          3 = Maximum optimization (Attack/Move to position, use ability at position, etc.).*/
+      virtual void setCommandOptimizationLevel(int level = 2) = 0;
   };
   extern Game* Broodwar;
 }

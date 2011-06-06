@@ -36,15 +36,24 @@ namespace BWAPI
 
     command.unit = this;
 
+    if ( (command.type == UnitCommandTypes::Train ||
+          command.type == UnitCommandTypes::Morph) &&
+         getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
+      command.unit = *getLarva().begin();
+
+    ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
+    ((UnitImpl*)command.unit)->lastCommand      = command;
+    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target && 
+       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
+    {
+      ((UnitImpl*)command.target)->lastCommandFrame = BroodwarImpl.frameCount;
+      ((UnitImpl*)command.target)->lastCommand      = command;
+    }
+
     if ( BroodwarImpl.addToCommandOptimizer(command) )
       return true;
 
-    if (command.type == UnitCommandTypes::Train ||
-        command.type == UnitCommandTypes::Morph)
-      if (getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
-        command.unit = *getLarva().begin();
-
-    if (command.type == UnitCommandTypes::Use_Tech_Unit &&
+    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target &&
        (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
@@ -56,8 +65,6 @@ namespace BWAPI
       ((UnitImpl*)command.unit)->orderSelect();
 
     BroodwarImpl.executeCommand( command, true);
-    ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
-    ((UnitImpl*)command.unit)->lastCommand      = command;
     return true;
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------

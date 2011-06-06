@@ -2635,13 +2635,36 @@ namespace BWAPI
       return false;
 
     // Store some commonly accessed variables
+    UnitCommandType uct = command.getType();
+
     Unit      *utarg   = command.getTarget();
     UnitType  targType = utarg ? utarg->getType() : UnitTypes::None;
     Unit      *uthis   = command.getUnit();
     UnitType  thisType = uthis ? uthis->getType() : UnitTypes::None;
 
+    //  Exclude commands that cannot be optimized.
+    if (  uct == UnitCommandTypes::Build_Addon ||
+          uct == UnitCommandTypes::Land        || 
+          uct == UnitCommandTypes::Build       ||
+          uct == UnitCommandTypes::Place_COP )
+      return false;
+
+    // Exclude commands not optimized at optimizer level 1 (no multi-select buildings)
+    if ( commandOptimizerLevel <= 1 && thisType < UnitTypes::None && thisType.isBuilding() )
+      return false;
+
+    // Exclude commands not optimized at or below optimizer level 2 (no position commands)
+    if ( commandOptimizerLevel <= 2 && 
+        (uct == UnitCommandTypes::Attack_Move           ||
+         uct == UnitCommandTypes::Move                  ||
+         uct == UnitCommandTypes::Patrol                ||
+         uct == UnitCommandTypes::Right_Click_Position  ||
+         uct == UnitCommandTypes::Set_Rally_Position    ||
+         uct == UnitCommandTypes::Unload_All_Position   ||
+         uct == UnitCommandTypes::Use_Tech_Position) )
+      return false;
+
     // Simplify some commands if possible to decrease their size
-    UnitCommandType uct = command.getType();
     if ( uct == UnitCommandTypes::Attack_Unit )
     {
       if ( thisType.canAttack() && utarg && self() && self()->isEnemy(utarg->getPlayer()) )

@@ -28,7 +28,8 @@ namespace BWAPIC
       SetFrameSkip,
       SetMap,
       SetAllies,
-      SetVision
+      SetVision,
+      SetCommandOptimizerLevel
     };
   }
 }
