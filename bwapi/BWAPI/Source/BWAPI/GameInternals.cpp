@@ -510,6 +510,124 @@ namespace BWAPI
     if ( *BW::BWDATA_IsRunning != 0 )
       this->frameCount++;
 
+    // If we should process our commands just before sending them
+    if ( *BW::BWDATA_FramesUntilNextTurn == 1 )
+    {
+      // Iterate the command types
+      for ( int i = 0; i < UnitCommandTypes::None; ++i )
+      {
+        // Declare our temporary variables
+        std::vector<UnitImpl*> groupOf12(12);
+        int e = 0, x = 0, y = 0;
+        Unit      *t = NULL;
+        UnitType  ut;
+        bool      o = false;
+
+        // Iterate the vector
+        std::vector<UnitCommand>::iterator c = commandOptimizer[i].begin();
+        // Re-Iterate all remaining commands
+        while ( c != commandOptimizer[i].end() )
+        {
+          // Iterate all commands, and only process those that are equal
+          while ( c != commandOptimizer[i].end() )
+          {
+            if ( groupOf12.size() == 0 )
+            {
+              // Assign our comparison variables to determine which commands should be grouped
+              // Note: Using individual variables instead of comparing UnitCommand operator== because
+              //       it will also compare the type which is not necessary, and we may create a new
+              //       optimization type that does a fuzzy position comparison
+              e = c->extra;
+              t = c->target;
+              x = c->x;
+              y = c->y;
+              if (  i == UnitCommandTypes::Attack_Unit ||
+                    i == UnitCommandTypes::Unload_All  ||
+                    i == UnitCommandTypes::Load        ||
+                    i == UnitCommandTypes::Cancel_Morph )
+                o = c->unit->getType().isBuilding();
+              else if ( i == UnitCommandTypes::Use_Tech )
+                o = c->unit->isSieged() || c->unit->isCloaked() || c->unit->isBurrowed();
+              else
+                o = false;
+              groupOf12.push_back((UnitImpl*)c->unit);
+              c = commandOptimizer[i].erase(c);
+            }
+            else if ( e == c->extra && t == c->target && x == c->x && y == c->y )
+            {
+              bool oTmp;
+              if (  i == UnitCommandTypes::Attack_Unit ||
+                    i == UnitCommandTypes::Unload_All  ||
+                    i == UnitCommandTypes::Load        ||
+                    i == UnitCommandTypes::Cancel_Morph )
+                oTmp = c->unit->getType().isBuilding();
+              else if ( i == UnitCommandTypes::Use_Tech )
+                oTmp = c->unit->isSieged() || c->unit->isCloaked() || c->unit->isBurrowed();
+              else
+                oTmp = false;
+
+              if ( o == oTmp )
+              {
+                groupOf12.push_back((UnitImpl*)c->unit);
+                c = commandOptimizer[i].erase(c);
+              }
+              else
+                ++c;
+            }
+            else
+            {
+              ++c;
+            }
+
+            // If our group of 12 is full
+            if ( groupOf12.size() == 12 )
+            {
+              // Select the group
+              BW::Orders::Select sel(groupOf12);
+              ++botAPM_select;
+              QueueGameCommand(&sel, sel.size);
+
+              // Workaround for doing certain actions
+              Unit *unit = (i == UnitCommandTypes::Load         || 
+                            i == UnitCommandTypes::Attack_Unit  ||
+                            i == UnitCommandTypes::Train        ||
+                            i == UnitCommandTypes::Load         ||
+                            i == UnitCommandTypes::Unload_All   ||
+                            i == UnitCommandTypes::Cancel_Morph ||
+                            i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : NULL;
+
+              // execute command
+              executeCommand(UnitCommand(unit, i, t, x, y, e), false);
+              groupOf12.clear();
+            } // groupOf12 max execute
+          } // second while
+
+          if ( groupOf12.size() > 0 )
+          {
+            // Select the group
+            BW::Orders::Select sel(groupOf12);
+            ++botAPM_select;
+            QueueGameCommand(&sel, sel.size);
+
+            // Workaround for doing certain actions
+            Unit *unit = (i == UnitCommandTypes::Load         || 
+                          i == UnitCommandTypes::Attack_Unit  ||
+                          i == UnitCommandTypes::Train        ||
+                          i == UnitCommandTypes::Load         ||
+                          i == UnitCommandTypes::Unload_All   ||
+                          i == UnitCommandTypes::Cancel_Morph ||
+                          i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : NULL;
+
+            // execute command
+            executeCommand(UnitCommand(unit, i, t, x, y, e), false);
+            groupOf12.clear();
+          }
+          // Reset iterator
+          c = commandOptimizer[i].begin();
+        } // first while
+      } // iterate command types
+    } // execute all stored commands
+
     // grid
     if ( grid )
     {
@@ -1705,7 +1823,8 @@ namespace BWAPI
     else if (parsed[0] == "/test")
     {
       //SetResolution(640, 480);
-      printf("%u", this->elapsedTime());
+      //printf("%u", this->elapsedTime());
+      this->setCommandOptimizationLevel(3);
     }
 #endif
     else
@@ -1832,6 +1951,10 @@ namespace BWAPI
       for (unsigned int i = 0; i < this->commandBuffer[j].size(); i++)
         delete this->commandBuffer[j][i];
     this->commandBuffer.clear();
+
+    // clear command optimization buffer
+    for ( int i = 0; i < UnitCommandTypes::None; ++i )
+      commandOptimizer[i].clear();
 
     //remove AI Module from memory (object was already deleted)
     if ( hAIModule )
@@ -2626,7 +2749,6 @@ namespace BWAPI
     this->setScreenPosition(x, y);
   }
 
-  std::vector<UnitCommand> commandOptimizer[BWAPI_UNIT_COMMAND_TYPE_COUNT];
   //------------------------------------------- ADD TO CMD OPTIMIZER -----------------------------------------
   bool GameImpl::addToCommandOptimizer(UnitCommand command)
   {
@@ -2646,8 +2768,70 @@ namespace BWAPI
     if (  uct == UnitCommandTypes::Build_Addon ||
           uct == UnitCommandTypes::Land        || 
           uct == UnitCommandTypes::Build       ||
-          uct == UnitCommandTypes::Place_COP )
+          uct == UnitCommandTypes::Place_COP   ||
+          (uct == UnitCommandTypes::Use_Tech_Unit &&
+          (command.getTechType() == TechTypes::Archon_Warp ||
+           command.getTechType() == TechTypes::Dark_Archon_Meld)) )
       return false;
+
+
+    // Simplify some commands if possible to decrease their size
+    if ( uct == UnitCommandTypes::Attack_Unit )
+    {
+      // Use Right Click for Attack Unit
+      if ( thisType.canAttack() && utarg && self() && self()->isEnemy(utarg->getPlayer()) )
+        command.type = UnitCommandTypes::Right_Click_Unit;
+    }
+    else if ( uct == UnitCommandTypes::Move )
+    {
+      // Use Right Click for Move
+      command = UnitCommand::rightClick(uthis, command.getTargetPosition());
+    }
+    else if ( uct == UnitCommandTypes::Gather )
+    {
+      // Use Right Click for gather
+      if ( targType.isResourceContainer() )
+        command = UnitCommand::rightClick(uthis, utarg);
+    }
+    else if ( uct == UnitCommandTypes::Set_Rally_Position )
+    {
+      // Use Right Click for Set Rally
+      if ( thisType.canProduce() && 
+           thisType != UnitTypes::Protoss_Carrier && thisType != UnitTypes::Hero_Gantrithor &&
+           thisType != UnitTypes::Protoss_Reaver  && thisType != UnitTypes::Hero_Warbringer )
+        command = UnitCommand::rightClick(uthis, command.getTargetPosition());
+    }
+    else if ( uct == UnitCommandTypes::Set_Rally_Unit )
+    {
+      // Use Right Click for Set Rally
+      if ( thisType.canProduce() && 
+           thisType != UnitTypes::Protoss_Carrier && thisType != UnitTypes::Hero_Gantrithor &&
+           thisType != UnitTypes::Protoss_Reaver  && thisType != UnitTypes::Hero_Warbringer )
+        command = UnitCommand::rightClick(uthis, utarg);
+    }
+    else if ( uct == UnitCommandTypes::Use_Tech_Unit )
+    {
+      // Use Right Click for infestation
+      if ( command.getTechType() == TechTypes::Infestation &&
+           (thisType == UnitTypes::Zerg_Queen || thisType == UnitTypes::Hero_Matriarch) &&
+           targType == UnitTypes::Terran_Command_Center )
+        command = UnitCommand::rightClick(uthis, utarg);
+    }
+    else if ( uct == UnitCommandTypes::Train )
+    {
+      // Create a single placeholder since we assume it stores an interceptor or scarab when it's not important
+      if ( thisType == UnitTypes::Protoss_Carrier ||
+           thisType == UnitTypes::Hero_Gantrithor ||
+           thisType == UnitTypes::Protoss_Reaver  ||
+           thisType == UnitTypes::Hero_Warbringer)
+        command = UnitCommand::train(uthis, UnitTypes::Protoss_Interceptor);
+    }
+    else if ( uct == UnitCommandTypes::Unload_All_Position )
+    {
+      // Bunkers should only use Unload_All
+      if ( thisType == UnitTypes::Terran_Bunker )
+        command = UnitCommand::unloadAll(uthis);
+    }
 
     // Exclude commands not optimized at optimizer level 1 (no multi-select buildings)
     if ( commandOptimizerLevel <= 1 && thisType < UnitTypes::None && thisType.isBuilding() )
@@ -2664,40 +2848,6 @@ namespace BWAPI
          uct == UnitCommandTypes::Use_Tech_Position) )
       return false;
 
-    // Simplify some commands if possible to decrease their size
-    if ( uct == UnitCommandTypes::Attack_Unit )
-    {
-      if ( thisType.canAttack() && utarg && self() && self()->isEnemy(utarg->getPlayer()) )
-        command.type = UnitCommandTypes::Right_Click_Unit;
-    }
-    else if ( uct == UnitCommandTypes::Move )
-      command = UnitCommand::rightClick(uthis, command.getTargetPosition());
-    else if ( uct == UnitCommandTypes::Gather )
-    {
-      if ( targType.isResourceContainer() )
-        command = UnitCommand::rightClick(uthis, utarg);
-    }
-    else if ( uct == UnitCommandTypes::Set_Rally_Position )
-    {
-      if ( thisType.canProduce() && 
-           thisType != UnitTypes::Protoss_Carrier && thisType != UnitTypes::Hero_Gantrithor &&
-           thisType != UnitTypes::Protoss_Reaver  && thisType != UnitTypes::Hero_Warbringer )
-        command = UnitCommand::rightClick(uthis, command.getTargetPosition());
-    }
-    else if ( uct == UnitCommandTypes::Set_Rally_Unit )
-    {
-      if ( thisType.canProduce() && 
-           thisType != UnitTypes::Protoss_Carrier && thisType != UnitTypes::Hero_Gantrithor &&
-           thisType != UnitTypes::Protoss_Reaver  && thisType != UnitTypes::Hero_Warbringer )
-        command = UnitCommand::rightClick(uthis, utarg);
-    }
-    else if ( uct == UnitCommandTypes::Use_Tech_Unit )
-    {
-      if ( command.getTechType() == TechTypes::Infestation &&
-           (thisType == UnitTypes::Zerg_Queen || thisType == UnitTypes::Hero_Matriarch) &&
-           targType == UnitTypes::Terran_Command_Center )
-        command = UnitCommand::rightClick(uthis, utarg);
-    }
     // Add command to the command optimizer buffer and unload it later
     commandOptimizer[command.getType().getID()].push_back(command);
     return true;
@@ -2710,7 +2860,7 @@ namespace BWAPI
     bool queued = command.isQueued();
     if      (ct == UnitCommandTypes::Attack_Move)
     {
-      if ( command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
+      if ( command.unit && command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
         QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::Attack1, queued), sizeof(BW::Orders::Attack));
       else
         QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::AttackMove, queued), sizeof(BW::Orders::Attack));
@@ -2718,7 +2868,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Attack_Unit)
     {
       UnitImpl *target = (UnitImpl*)command.target;
-      UnitType ut      = command.unit->getType();
+      UnitType ut      = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( ut == UnitTypes::Protoss_Carrier || ut == UnitTypes::Hero_Gantrithor )
         QueueGameCommand(&BW::Orders::Attack(target, BW::OrderID::CarrierAttack1, queued), sizeof(BW::Orders::Attack));
       else if ( ut == UnitTypes::Protoss_Reaver || ut == UnitTypes::Hero_Warbringer )
@@ -2731,7 +2881,7 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Build)
     {
       UnitType extraType(command.extra);
-      if ( command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
+      if ( command.unit && command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
            extraType == UnitTypes::Zerg_Nydus_Canal )
         QueueGameCommand(&BW::Orders::MakeNydusExit(command.x,command.y), sizeof(BW::Orders::MakeNydusExit));
       else if ( !extraType.isAddon() )
@@ -2739,16 +2889,16 @@ namespace BWAPI
       else
         QueueGameCommand(&BW::Orders::MakeAddon(command.x,command.y, extraType), sizeof(BW::Orders::MakeAddon));
     }
-    else if (ct == UnitCommandTypes::Build_Addon)
+    else if ( ct == UnitCommandTypes::Build_Addon && command.unit )
     {
       TilePosition target(command.unit->getTilePosition().x() + 4, command.unit->getTilePosition().y() + 1);
       target.makeValid();
       QueueGameCommand(&BW::Orders::MakeAddon(target.x(), target.y(), command.getUnitType()), sizeof(BW::Orders::MakeAddon));
     }
-    else if (ct == UnitCommandTypes::Train)
+    else if ( ct == UnitCommandTypes::Train )
     {
       UnitType type1(command.extra);
-      switch ( command.unit->getType() )
+      switch ( command.unit ? command.unit->getType() : UnitTypes::None )
       {
       case BW::UnitID::Zerg_Larva:
       case BW::UnitID::Zerg_Mutalisk:
@@ -2798,7 +2948,6 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Move)
     {
-      // @TODO: Make this right click, not sure if there's a difference in behaviour but it will save a byte for each move command (replays)
       QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::Move, queued), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Patrol)
@@ -2811,7 +2960,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Stop)
     {
-      switch ( command.unit->getType() )
+      switch ( command.unit ? command.unit->getType() : UnitTypes::None )
       {
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Warbringer:
@@ -2876,7 +3025,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Load)
     {
-      BWAPI::UnitType thisType = command.unit->getType();
+      BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( thisType == UnitTypes::Terran_Bunker )
       {
         QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::PickupBunker, queued), sizeof(BW::Orders::Attack));
@@ -2901,7 +3050,7 @@ namespace BWAPI
     {
       QueueGameCommand(&BW::Orders::UnloadUnit((UnitImpl*)command.target), sizeof(BW::Orders::UnloadUnit));
     }
-    else if (ct == UnitCommandTypes::Unload_All)
+    else if (ct == UnitCommandTypes::Unload_All && command.unit)
     {
       if ( command.unit->getType() == UnitTypes::Terran_Bunker )
         QueueGameCommand(&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
@@ -2910,7 +3059,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Unload_All_Position)
     {
-      if ( command.unit->getType() == UnitTypes::Terran_Bunker)
+      if ( command.unit && command.unit->getType() == UnitTypes::Terran_Bunker)
         QueueGameCommand(&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
       else
         QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::MoveUnload, queued), sizeof(BW::Orders::Attack));
@@ -2941,7 +3090,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Cancel_Morph)
     {
-      if ( command.unit->getType().isBuilding() )
+      if ( command.unit && command.unit->getType().isBuilding() )
         QueueGameCommand(&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
       else
         QueueGameCommand(&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
@@ -2963,20 +3112,20 @@ namespace BWAPI
           QueueGameCommand(&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
           break;
         case BW::TechID::TankSiegeMode:
-          if (command.unit->isSieged())
+          if (command.unit && command.unit->isSieged())
             QueueGameCommand(&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
           else
             QueueGameCommand(&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
           break;
         case BW::TechID::PersonnelCloaking:
         case BW::TechID::CloakingField:
-          if(command.unit->isCloaked())
+          if (command.unit && command.unit->isCloaked())
             QueueGameCommand(&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
           else
             QueueGameCommand(&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
           break;
         case BW::TechID::Burrowing:
-          if(command.unit->isBurrowed())
+          if(command.unit && command.unit->isBurrowed())
             QueueGameCommand(&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
           else
             QueueGameCommand(&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
@@ -3123,7 +3272,7 @@ namespace BWAPI
         QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, order), sizeof(BW::Orders::Attack));
       }
     }
-    else if (ct == UnitCommandTypes::Place_COP)
+    else if ( ct == UnitCommandTypes::Place_COP && command.unit )
     {
       QueueGameCommand(&BW::Orders::PlaceCOP(BW::TilePosition((u16)command.x, (u16)command.y), command.unit->getType()), sizeof(BW::Orders::PlaceCOP));
     }

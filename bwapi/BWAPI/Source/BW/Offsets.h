@@ -156,6 +156,7 @@ namespace BW
 #endif
 
   static u32     *BWDATA_LatencyFrames      = (u32*) 0x0051CE70;
+  static u32     *BWDATA_FramesUntilNextTurn = (u32*)0x0051CEA0;
   static int     *BWDATA_FrameSkip          = (int*) 0x005124D4;
   static u8      *BWDATA_Latency            = (u8*)  0x006556e4;
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------

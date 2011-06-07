@@ -57,7 +57,10 @@ namespace BWAPI
        (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
-      BW::Orders::Select sel = BW::Orders::Select(2, (UnitImpl*)command.unit, (UnitImpl*)command.target);
+      UnitImpl *sel2[2];
+      sel2[0] = (UnitImpl*)command.unit;
+      sel2[1] = (UnitImpl*)command.target;
+      BW::Orders::Select sel(2, sel2);
       botAPM_select++;
       QueueGameCommand(&sel, sel.size);
     }

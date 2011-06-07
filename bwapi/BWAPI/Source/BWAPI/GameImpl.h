@@ -428,6 +428,7 @@ namespace BWAPI
       bool calledMatchEnd;
       bool tournamentCheck(int type, void *parameter = NULL);
       int  commandOptimizerLevel;
+      std::vector<UnitCommand> commandOptimizer[BWAPI_UNIT_COMMAND_TYPE_COUNT];
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.
