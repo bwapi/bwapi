@@ -517,7 +517,7 @@ namespace BWAPI
       for ( int i = 0; i < UnitCommandTypes::None; ++i )
       {
         // Declare our temporary variables
-        std::vector<UnitImpl*> groupOf12(12);
+        std::vector<UnitImpl*> groupOf12;
         int e = 0, x = 0, y = 0;
         Unit      *t = NULL;
         UnitType  ut;
