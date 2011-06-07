@@ -941,7 +941,8 @@ namespace BWAPI
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
-    BW::Orders::Select sel = BW::Orders::Select(1, this);
+    UnitImpl *u = this;
+    BW::Orders::Select sel = BW::Orders::Select(1, &u);
     botAPM_select++;
     QueueGameCommand(&sel, sel.size);
   }

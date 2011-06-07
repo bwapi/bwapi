@@ -55,7 +55,6 @@ namespace BW
     class SelectAdd
     {
       public :
-        SelectAdd(u8 count, ...);
         SelectAdd(u8 count, BWAPI::UnitImpl **units);
         SelectAdd(u8 count, BW::Unit **units);
         /** 0x0A = Shift-Select command-code in bw */
@@ -68,9 +67,10 @@ namespace BW
     class Select
     {
       public :
-        Select(u8 count, ...);
         Select(u8 count, BWAPI::UnitImpl **units);
         Select(u8 count, BW::Unit **units);
+        Select(std::vector<BW::Unit*> vUnits);
+        Select(std::vector<BWAPI::UnitImpl*> vUnits);
         /** 0x09 = Select command-code in bw */
         u8         always0x09;
         u8         targCount;
