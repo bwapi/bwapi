@@ -511,7 +511,8 @@ namespace BWAPI
       this->frameCount++;
 
     // If we should process our commands just before sending them
-    if ( *BW::BWDATA_FramesUntilNextTurn == 1 )
+    // @TODO: Only process on the frame before commands are sent
+    //if ( *BW::BWDATA_FramesUntilNextTurn == 1 )
     {
       // Iterate the command types
       for ( int i = 0; i < UnitCommandTypes::None; ++i )
@@ -551,6 +552,7 @@ namespace BWAPI
               else
                 o = false;
               groupOf12.push_back((UnitImpl*)c->unit);
+              BroodwarImpl.addToCommandBuffer(new Command(*c));
               c = commandOptimizer[i].erase(c);
             }
             else if ( e == c->extra && t == c->target && x == c->x && y == c->y )
@@ -569,6 +571,7 @@ namespace BWAPI
               if ( o == oTmp )
               {
                 groupOf12.push_back((UnitImpl*)c->unit);
+                BroodwarImpl.addToCommandBuffer(new Command(*c));
                 c = commandOptimizer[i].erase(c);
               }
               else
@@ -2776,7 +2779,7 @@ namespace BWAPI
 
 
     // Simplify some commands if possible to decrease their size
-    if ( uct == UnitCommandTypes::Attack_Unit )
+    /*if ( uct == UnitCommandTypes::Attack_Unit )
     {
       // Use Right Click for Attack Unit
       if ( thisType.canAttack() && utarg && self() && self()->isEnemy(utarg->getPlayer()) )
@@ -2787,7 +2790,7 @@ namespace BWAPI
       // Use Right Click for Move
       command = UnitCommand::rightClick(uthis, command.getTargetPosition());
     }
-    else if ( uct == UnitCommandTypes::Gather )
+    else */if ( uct == UnitCommandTypes::Gather )
     {
       // Use Right Click for gather
       if ( targType.isResourceContainer() )
