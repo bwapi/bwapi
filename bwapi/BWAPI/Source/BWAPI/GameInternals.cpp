@@ -2772,6 +2772,8 @@ namespace BWAPI
           uct == UnitCommandTypes::Land        || 
           uct == UnitCommandTypes::Build       ||
           uct == UnitCommandTypes::Place_COP   ||
+          uct == UnitCommandTypes::Research    ||
+          uct == UnitCommandTypes::Upgrade     || 
           (uct == UnitCommandTypes::Use_Tech_Unit &&
           (command.getTechType() == TechTypes::Archon_Warp ||
            command.getTechType() == TechTypes::Dark_Archon_Meld)) )
