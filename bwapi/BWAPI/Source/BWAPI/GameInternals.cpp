@@ -2779,7 +2779,7 @@ namespace BWAPI
 
 
     // Simplify some commands if possible to decrease their size
-    /*if ( uct == UnitCommandTypes::Attack_Unit )
+    if ( uct == UnitCommandTypes::Attack_Unit )
     {
       // Use Right Click for Attack Unit
       if ( thisType.canAttack() && utarg && self() && self()->isEnemy(utarg->getPlayer()) )
@@ -2790,7 +2790,7 @@ namespace BWAPI
       // Use Right Click for Move
       command = UnitCommand::rightClick(uthis, command.getTargetPosition());
     }
-    else */if ( uct == UnitCommandTypes::Gather )
+    else if ( uct == UnitCommandTypes::Gather )
     {
       // Use Right Click for gather
       if ( targType.isResourceContainer() )

@@ -20,7 +20,8 @@ namespace BWAPI
       SetMap,
       SetFrameSkip,
       Printf,
-      SendText
+      SendText,
+      SetCommandOptimizationLevel
     };
 
   };
