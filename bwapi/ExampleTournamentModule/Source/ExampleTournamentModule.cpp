@@ -8,14 +8,21 @@ bool leader = false;
 
 void ExampleTournamentAI::onStart()
 {
+  Broodwar->setCommandOptimizationLevel(MINIMUM_COMMAND_OPTIMIZATION);
 }
 
+int maxAPM;
 void ExampleTournamentAI::onEnd(bool isWinner)
 {
+  // save maxAPM or something
 }
 
 void ExampleTournamentAI::onFrame()
 {
+  int thisAPM = Broodwar->getAPM();
+  if ( thisAPM > maxAPM )
+    maxAPM = thisAPM;
+
   // If the elapsed game time has exceeded 20 minutes
   if ( Broodwar->elapsedTime() > 20 * 60 ) 
   {
@@ -169,6 +176,9 @@ bool ExampleTournamentModule::onAction(int actionType, void *parameter)
   case Tournament::SetLatCom:
   case Tournament::SetTextSize:
     return true; // Allow these actions
+  case Tournament::SetCommandOptimizationLevel:
+    return *(int*)parameter > MINIMUM_COMMAND_OPTIMIZATION; // Set a minimum command optimization level 
+                                                            // to reduce APM with no action loss
   default:
     break;
   }

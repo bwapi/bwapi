@@ -3,6 +3,7 @@
 
 #define TOURNAMENT_NAME "AIIDE 2011"
 #define SPONSORS "the BWAPI Project Team"
+#define MINIMUM_COMMAND_OPTIMIZATION 1
 
 class ExampleTournamentModule : public BWAPI::TournamentModule
 {
