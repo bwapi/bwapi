@@ -8,6 +8,7 @@ bool leader = false;
 
 void ExampleTournamentAI::onStart()
 {
+  // Set the command optimization level (reduces high APM, size of bloated replays, etc)
   Broodwar->setCommandOptimizationLevel(MINIMUM_COMMAND_OPTIMIZATION);
 }
 

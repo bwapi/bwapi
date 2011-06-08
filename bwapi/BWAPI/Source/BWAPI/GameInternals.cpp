@@ -2851,6 +2851,17 @@ namespace BWAPI
          uct == UnitCommandTypes::Use_Tech_Position) )
       return false;
 
+    if ( commandOptimizerLevel >= 4 && 
+         (uct == UnitCommandTypes::Attack_Move          ||
+          uct == UnitCommandTypes::Move                 ||
+          uct == UnitCommandTypes::Patrol               ||
+          uct == UnitCommandTypes::Right_Click_Position ||
+          uct == UnitCommandTypes::Set_Rally_Position   ||
+          uct == UnitCommandTypes::Unload_All_Position  ||
+          uct == UnitCommandTypes::Use_Tech_Position) )
+    {
+      command = UnitCommand(uthis, uct, utarg, command.x & (~0x1F), command.y & (~0x1F), command.extra);
+    }
     // Add command to the command optimizer buffer and unload it later
     commandOptimizer[command.getType().getID()].push_back(command);
     return true;

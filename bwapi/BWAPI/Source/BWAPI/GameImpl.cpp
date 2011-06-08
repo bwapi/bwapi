@@ -1075,8 +1075,8 @@ namespace BWAPI
   {
     if ( level < 0 )
       level = 0;
-    if ( level > 3 )
-      level = 3;
+    if ( level > 4 )
+      level = 4;
     if ( !this->tournamentCheck(Tournament::SetCommandOptimizationLevel, &level) )
       return;
     this->commandOptimizerLevel = level;
