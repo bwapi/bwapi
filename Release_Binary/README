@@ -1,5 +1,5 @@
 ---------------
-| BWAPI 3.5.4 |
+| BWAPI 3.6   |
 ---------------
 
 The BWAPI web site    http://code.google.com/p/bwapi/
@@ -42,6 +42,12 @@ you started in AI development with BWAPI:
                         a way of making your AI Module run in a seperate
                         process without actually converting it to a client
                         program.
+                        
+  - Example Tournament Module - This project shows how to build a tournament module which
+                                can manage tournaments by limiting what the AI module can
+                                do and control the flow of the game without altering the
+                                AI module itself. The tournament module is only available
+                                in RELEASE mode.
 
 Build Instructions:
 

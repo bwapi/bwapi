@@ -1478,7 +1478,6 @@ namespace BWAPI
     this->savedMapHash = Map::getMapHash();
 
     /* roughly identify which players can possibly participate in this game */
-    bool playerHasTriggers[PLAYABLE_PLAYER_COUNT]             = { true };
     // iterate triggers for each player
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
@@ -1515,10 +1514,7 @@ namespace BWAPI
             if ( !this->players[p] || !this->players[p]->isObserver() )
               continue;
             if ( t->container.actionsAllowGameplay(i, p) )
-            {
               this->players[p]->setParticipating();
-              playerHasTriggers[p] = true;
-            }
           }
         } // conds can be met
       } // trigvector iterator
@@ -1564,7 +1560,7 @@ namespace BWAPI
       {
         if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) &&
              (this->getGameType() != GameTypes::Use_Map_Settings || 
-              playerHasTriggers[i]                               || 
+             !this->players[i]->isObserver()                     || 
               (BW::BWDATA_LobbyPlayers[i].nRace == BW::Race::Select &&
                (BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferComputer ||
                 BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferHuman    ||
