@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine=""
+				CommandLine="XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y"
 			/>
 			<Tool
 				Name="VCLinkerTool"
