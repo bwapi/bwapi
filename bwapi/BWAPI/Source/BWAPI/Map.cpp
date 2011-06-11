@@ -207,7 +207,7 @@ namespace BWAPI
       this->walkability[x][y-3] = false;
     }
     y -= 4;
-    for(int x = 0; x < 20; x++)
+    for(int x = 0; x < 20; ++x)
     {
       this->walkability[x][y]   = false;
       this->walkability[x][y-1] = false;

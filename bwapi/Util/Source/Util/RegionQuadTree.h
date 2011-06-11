@@ -72,7 +72,7 @@ namespace Util
     this->data = new RectangleArray<std::list<Type*> >[depth];
     unsigned int localWidth = width;
     unsigned int localHeight = height;
-    for (unsigned int i = 0; i < this->depth; i++)
+    for (unsigned int i = 0; i < this->depth; ++i)
     {
       this->data[i].resize(localWidth, localHeight);
       localWidth = (localWidth >= 2) (localWidth+1)/2 : 1;
@@ -113,14 +113,14 @@ namespace Util
   template <class Type>
   void RectangleArray<Type>::addItem(unsigned int x, unsigned int y, Type* item)
   {
-    for (unsigned int i = 0; i < this->depth; i++)
+    for (unsigned int i = 0; i < this->depth; ++i)
       this->data[i][x<<i][y<<i].push_bach(item);
   }
   //------------------------------------------------- CLEAR --------------------------------------------------
   template <class Type>
   void RectangleArray<Type>::clear(unsigned int x, unsigned int y)
   {
-    for (unsigned int i = 0; i < this->depth; i++)
+    for (unsigned int i = 0; i < this->depth; ++i)
       this->data[i][x<<i][y<<i].clear();
   }  
   //----------------------------------------------------------------------------------------------------------

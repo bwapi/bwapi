@@ -46,12 +46,12 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 
   if ( box.right == 1 )
   {
-    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+    for ( int iy = box.top; iy < box.top + box.bottom; ++iy )
       data[iy * scrWid + box.left] = (u8)color;
   }
   else
   {
-    for ( int iy = box.top; iy < box.top + box.bottom; iy++ )
+    for ( int iy = box.top; iy < box.top + box.bottom; ++iy )
       memset(&data[iy * scrWid + box.left], (u8)color, box.right);
   }
 }

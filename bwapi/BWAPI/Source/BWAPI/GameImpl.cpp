@@ -675,10 +675,8 @@ namespace BWAPI
       if ( toAllies )
       {
         for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
-        {
           if ( this->BWAPIPlayer->isAlly(players[i]) && BW::BWDATA_Players[i].dwStormId != -1 )
             SNetSendMessage(BW::BWDATA_Players[i].dwStormId, szMessage, msgLen + 3);
-        }
       }
       else
       {
@@ -826,7 +824,7 @@ namespace BWAPI
     if (speed < 0)
     {
       /* Reset the speed if it is negative */
-      for ( int i = 0; i < 7; i++ )
+      for ( int i = 0; i < 7; ++i )
       {
         BW::BWDATA_GameSpeedModifiers[i]    = BW::OriginalSpeedModifiers[i];
         BW::BWDATA_GameSpeedModifiers[i+7]  = BW::OriginalSpeedModifiers[i] * 3;
@@ -835,7 +833,7 @@ namespace BWAPI
     else
     {
       /* Set all speeds if it is positive */
-      for (int i = 0; i < 7; i++)
+      for ( int i = 0; i < 7; ++i )
       {
         BW::BWDATA_GameSpeedModifiers[i]    = speed;
         BW::BWDATA_GameSpeedModifiers[i+7]  = speed * 3;
@@ -884,16 +882,14 @@ namespace BWAPI
     if (groupsOf12.empty())
       return false;
     UnitImpl* selected[13];
-    for(std::list< std::set<UnitImpl*> >::iterator i = groupsOf12.begin(); i != groupsOf12.end(); i++)
+    for(std::list< std::set<UnitImpl*> >::iterator i = groupsOf12.begin(); i != groupsOf12.end(); ++i)
     {
-      int k=0;
+      int k = 0;
       for each(UnitImpl* j in *i)
-      {
-        selected[k]=j;
-        k++;
-      }
-      command.unit = selected[0];
-      selected[k] = NULL;
+        selected[k++] = j;
+
+      command.unit  = selected[0];
+      selected[k]   = NULL;
       if ( command.type != BWAPI::UnitCommandTypes::Unload )
       {
         BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
@@ -905,8 +901,8 @@ namespace BWAPI
       for each(UnitImpl* j in *i)
       {
         j->lastCommandFrame = BroodwarImpl.frameCount;
-        command.unit = (Unit*)j;
-        j->lastCommand = command;
+        j->lastCommand      = command;
+        command.unit        = (Unit*)j;
         BroodwarImpl.addToCommandBuffer(new Command(command));
       }
     }

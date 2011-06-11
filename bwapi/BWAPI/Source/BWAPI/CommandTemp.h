@@ -679,8 +679,7 @@ namespace BWAPI
       if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
           (frame <= Broodwar->getLatency() && Broodwar->getLatency() > 2))
       {
-        unit->self->trainingQueue[unit->self->trainingQueueCount] = unitType;
-        unit->self->trainingQueueCount++;
+        unit->self->trainingQueue[unit->self->trainingQueueCount++] = unitType;
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
       }
