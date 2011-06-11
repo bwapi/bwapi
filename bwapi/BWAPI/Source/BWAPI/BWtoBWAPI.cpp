@@ -10,10 +10,9 @@ namespace BWAPI
   int AttackAnimationRestFrame[234];
   void BWtoBWAPI_init()
   {
-    for(int i=0;i<191;i++)
-    {
-      BWtoBWAPI_Order[i]=i;
-    }
+    for(int i = 0; i < 191; ++i)
+      BWtoBWAPI_Order[i] = i;
+
     BWtoBWAPI_Order[BW::OrderID::ReaverStop]  = BW::OrderID::Stop;
     BWtoBWAPI_Order[BW::OrderID::CarrierStop] = BW::OrderID::Stop;
 
@@ -55,49 +54,47 @@ namespace BWAPI
     BWtoBWAPI_Order[BW::OrderID::ResetCollision2] = BW::OrderID::ResetCollision1;
     BWtoBWAPI_Order[BW::OrderID::NukePaint]       = BW::OrderID::NukeGround;
 
+    for(int i = 0; i < 234; ++i)
+      AttackAnimationRestFrame[i] = 10000;
 
-    for(int i=0;i<234;i++)
-    {
-      AttackAnimationRestFrame[i]=10000;
-    }
-    AttackAnimationRestFrame[BW::UnitID::Terran_Marine] = 34;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Ghost] = 34;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Vulture] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Goliath] = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Marine]             = 34;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Ghost]              = 34;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Vulture]            = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Goliath]            = 10000;
     AttackAnimationRestFrame[BW::UnitID::Terran_SiegeTankSiegeMode] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_SiegeTankTankMode] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_SCV] = 17;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Wraith] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_ScienceVessel] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Battlecruiser] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Firebat] = 0;
-    AttackAnimationRestFrame[BW::UnitID::Terran_Valkyrie] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Terran_MissileTurret] = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_SiegeTankTankMode]  = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_SCV]                = 17;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Wraith]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_ScienceVessel]      = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Battlecruiser]      = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Firebat]            = 0;
+    AttackAnimationRestFrame[BW::UnitID::Terran_Valkyrie]           = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Terran_MissileTurret]      = 10000;
 
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Corsair] = 0;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_DarkTemplar] = 153;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Probe] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Zealot] = 0;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Dragoon] = 357;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Archon] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Scout] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Arbiter] = 0;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Carrier] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Interceptor] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Reaver] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_Scarab] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Protoss_PhotonCannon] = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Corsair]           = 0;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_DarkTemplar]       = 153;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Probe]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Zealot]            = 0;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Dragoon]           = 357;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Archon]            = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Scout]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Arbiter]           = 0;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Carrier]           = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Interceptor]       = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Reaver]            = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_Scarab]            = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Protoss_PhotonCannon]      = 10000;
 
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Zergling] = 85;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Hydralisk] = 51;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Ultralisk] = 153;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Broodling] = 17;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Drone] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Lurker] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Mutalisk] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Guardian] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_Devourer] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_SporeColony] = 10000;
-    AttackAnimationRestFrame[BW::UnitID::Zerg_SunkenColony] = 33;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Zergling]             = 85;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Hydralisk]            = 51;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Ultralisk]            = 153;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Broodling]            = 17;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Drone]                = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Lurker]               = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Mutalisk]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Guardian]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_Devourer]             = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_SporeColony]          = 10000;
+    AttackAnimationRestFrame[BW::UnitID::Zerg_SunkenColony]         = 33;
   }
 }

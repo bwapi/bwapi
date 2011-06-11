@@ -112,15 +112,15 @@ namespace BWAPI
       memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
 
       /* iterate through players and create PlayerImpl for each */
-      for (int i = 0; i < PLAYER_COUNT; i++)
+      for (int i = 0; i < PLAYER_COUNT; ++i)
         players[i] = new PlayerImpl((u8)i);
 
       /* iterate through units and create UnitImpl for each */
-      for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++)
+      for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
         unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable[i], (u16)i);
 
       /* iterate through bullets and create BulletImpl for each */
-      for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; i++)
+      for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
         bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable[i], (u16)i);
     }
     catch (GeneralException& exception)
@@ -134,11 +134,11 @@ namespace BWAPI
   GameImpl::~GameImpl()
   {
     /* destroy all UnitImpl */
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; i++)
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       delete unitArray[i];
 
     /* destroy all PlayerImpl */
-    for (int i = 0; i < PLAYER_COUNT; i++)
+    for (int i = 0; i < PLAYER_COUNT; ++i)
       delete players[i];
 
     /* destroy all bullets */
@@ -151,19 +151,19 @@ namespace BWAPI
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
 
-    if ( !noGUI )
-    {
-      //clear all shapes
-      foreach (BWAPI::Shape *i, this->shapes)
-        delete i;
-      this->shapes.clear();
+    //clear all shapes
+    foreach (BWAPI::Shape *i, this->shapes)
+      delete i;
+    this->shapes.clear();
 
 #ifdef _DEBUG
+    if ( !noGUI )
+    {
       // menu dialog test update code
       if ( myDlg )
         myDlg->update();
-#endif
     }
+#endif
 
     // Compute frame rate
     accumulatedFrames++;
@@ -270,7 +270,7 @@ namespace BWAPI
             _observers.insert(p);
         }
       }
-      for (int i = 0; i < PLAYER_COUNT; i++)
+      for (int i = 0; i < PLAYER_COUNT; ++i)
       {
         bool prevLeftGame = this->players[i]->leftGame();
         this->players[i]->updateData();
@@ -1470,7 +1470,7 @@ namespace BWAPI
     srand(GetTickCount());
 
     /* set all the flags to the default of disabled */
-    for (int i = 0; i < Flag::Max; i++)
+    for (int i = 0; i < Flag::Max; ++i)
       this->flags[i] = false;
 
     /* load the map data */
@@ -1523,7 +1523,7 @@ namespace BWAPI
 
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
-      for (int i = 0; i < Flag::Max; i++)
+      for (int i = 0; i < Flag::Max; ++i)
         this->flags[i] = true;
     }
     else
@@ -1672,7 +1672,7 @@ namespace BWAPI
   int GameImpl::stormIdToPlayerId(int dwStormId)
   {
     /* Translates a storm ID to a player Index */
-    for (int i = 0; i < PLAYER_COUNT; i++)
+    for (int i = 0; i < PLAYER_COUNT; ++i)
     {
       if ( BW::BWDATA_Players[i].dwStormId == dwStormId )
         return i;
@@ -1946,8 +1946,8 @@ namespace BWAPI
     wantSelectionUpdate = false;
 
     //clear latency buffer
-    for(unsigned int j = 0; j < this->commandBuffer.size(); j++)
-      for (unsigned int i = 0; i < this->commandBuffer[j].size(); i++)
+    for(unsigned int j = 0; j < this->commandBuffer.size(); ++j)
+      for (unsigned int i = 0; i < this->commandBuffer[j].size(); ++i)
         delete this->commandBuffer[j][i];
     this->commandBuffer.clear();
 
@@ -2320,7 +2320,7 @@ namespace BWAPI
     //apply latency compensation
     while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
     {
-      for (unsigned int i = 0; i < this->commandBuffer[0].size(); i++)
+      for (unsigned int i = 0; i < this->commandBuffer[0].size(); ++i)
         delete this->commandBuffer[0][i];
       this->commandBuffer.erase(this->commandBuffer.begin());
     }
@@ -2396,8 +2396,8 @@ namespace BWAPI
         int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
         int startY = (i->_getPosition.y() - i->_getType.dimensionUp())   / TILE_SIZE;
         int endY   = (i->_getPosition.y() + i->_getType.dimensionDown()  + TILE_SIZE - 1) / TILE_SIZE;
-        for (int x = startX; x < endX && x < Map::getWidth(); x++)
-          for (int y = startY; y < endY && y < Map::getHeight(); y++)
+        for (int x = startX; x < endX && x < Map::getWidth(); ++x)
+          for (int y = startY; y < endY && y < Map::getHeight(); ++y)
             unitsOnTileData[x][y].insert(i);
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)

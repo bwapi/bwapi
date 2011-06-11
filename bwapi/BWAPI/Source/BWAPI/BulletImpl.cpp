@@ -112,10 +112,7 @@ namespace BWAPI
   void BulletImpl::saveExists()
   {
     if ( !lastExists && __exists)
-    {
-      id = BroodwarImpl.bulletCount;
-      BroodwarImpl.bulletCount++;
-    }
+      id = BroodwarImpl.bulletCount++;
     lastExists = __exists;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------

@@ -7,6 +7,7 @@
 
 namespace BWAPI
 {
+  bool rgbInitialized = false;
   unsigned int palette[256] = { 0x000000, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
                                 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
                                 0x2c2418, 0x482414, 0x5c2c14, 0x703014, 0x683c24, 0x7c4018, 0x784c2c, 0xa80808,
@@ -59,6 +60,10 @@ namespace BWAPI
     BYTE closest[64][64][64];
     unsigned int getBestIdFor(unsigned int red, unsigned int green, unsigned int blue)
     {
+      __assume(red   < 256);
+      __assume(green < 256);
+      __assume(blue  < 256);
+
       unsigned int min_dist   = 3 * 256 * 256;
       unsigned int best_id    = MAXUINT;
       for( unsigned int id = 0; id < 255; ++id )
@@ -84,10 +89,6 @@ namespace BWAPI
 
     void init()
     {
-      for ( unsigned int r = 0; r < 64; ++r )
-        for ( unsigned int g = 0; g < 64; ++g )
-          for ( unsigned int b = 0; b < 64; ++b )
-            closest[r][g][b] = (BYTE)getBestIdFor(r << 2, g << 2, b << 2);
     } // init
   }
   Color::Color()
@@ -104,6 +105,14 @@ namespace BWAPI
   }
   Color::Color(int red, int green, int blue)
   {
+    if ( !rgbInitialized )
+    {
+      rgbInitialized = true;
+      for ( unsigned int r = 0; r < 64; ++r )
+        for ( unsigned int g = 0; g < 64; ++g )
+          for ( unsigned int b = 0; b < 64; ++b )
+            Colors::closest[r][g][b] = (BYTE)Colors::getBestIdFor(r << 2, g << 2, b << 2);
+    }
     this->id = Colors::closest[(BYTE)red >> 2][(BYTE)green >> 2][(BYTE)blue >> 2];
   }
   Color& Color::operator=(const Color& other)

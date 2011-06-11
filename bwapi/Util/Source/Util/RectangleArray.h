@@ -107,7 +107,7 @@ namespace Util
 
     columns = new Type*[this->getWidth()];
     unsigned int i = 0;
-    for (unsigned int position = 0;i < width; i ++,position += height)
+    for (unsigned int position = 0; i < width; i++, position += height)
       columns[i] = &this->data[position];
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
@@ -121,7 +121,7 @@ namespace Util
     columns = new Type*[this->getWidth()];
     
     unsigned int i = 0;
-    for (unsigned int position = 0;i < width; i ++,position += height)
+    for (unsigned int position = 0; i < width; i++, position += height)
       columns[i] = &data[position];
     memcpy(this->data, rectangleArray.data, sizeof(Type)*this->getWidth()*this->getHeight());
   }
@@ -201,16 +201,16 @@ namespace Util
 
     this->columns = new Type*[this->width];
     unsigned int i = 0;
-    for (unsigned int position = 0;i < this->width; i ++,position += this->height)
+    for (unsigned int position = 0; i < this->width; i++, position += this->height)
       columns[i] = &data[position];
   }
   //--------------------------------------------- PRINT TO FILE ----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::printToFile(FILE* f)
   {
-    for (unsigned int y = 0; y < this->getHeight(); y++)
+    for (unsigned int y = 0; y < this->getHeight(); ++y)
     {
-      for (unsigned int x = 0; x < this->getWidth(); x++)
+      for (unsigned int x = 0; x < this->getWidth(); ++x)
       {
         char ch = this->getColumn(x)[y];
         fprintf(f, "%c", ch);
@@ -232,19 +232,19 @@ namespace Util
   template <class Type>
   void RectangleArray<Type>::setTo(const Type& value)
   {
-    for (unsigned int i = 0; i < this->getWidth()*this->getHeight(); i++)
+    for (unsigned int i = 0; i < this->getWidth()*this->getHeight(); ++i)
       this->data[i] = value;
   }
   //--------------------------------------------- SET BORDER TO ----------------------------------------------
   template <class Type>
   void RectangleArray<Type>::setBorderTo(const Type& value)
   {
-    for (unsigned int i = 0; i < this->width; i++)
+    for (unsigned int i = 0; i < this->width; ++i)
     {
       this->getColumn(i)[0] = value;
       this->getColumn(i)[this->height - 1] = value;
     }
-    for (unsigned int i = 0; i < this->height; i++)
+    for (unsigned int i = 0; i < this->height; ++i)
     {
       this->getColumn(0)[i] = value;
       this->getColumn(this->width - 1)[i] = value;

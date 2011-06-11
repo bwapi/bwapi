@@ -383,7 +383,7 @@ namespace BW
 
     // Retrieve size
     int dwSize = 0;
-    for ( int i = 0; pbChars[i] != 0; ++i )
+    for ( int i = 0; pbChars[i]; ++i )
     {
       switch ( pbChars[i] )
       {
@@ -426,7 +426,7 @@ namespace BW
 
     // Retrieve size
     int dwSize = font->Ymax;
-    for ( int i = 0; pbChars[i] != 0; ++i )
+    for ( int i = 0; pbChars[i]; ++i )
     {
       switch ( pbChars[i] )
       {
@@ -456,7 +456,7 @@ namespace BW
     char color     = 0;
     int  Xoffset   = 0;
     int  Yoffset   = 0;
-    for ( int c = 0; pbChars[c] != 0; c++ )
+    for ( int c = 0; pbChars[c]; ++c )
     {
       // make sure char is valid
       if ( pbChars[c] == 1 )

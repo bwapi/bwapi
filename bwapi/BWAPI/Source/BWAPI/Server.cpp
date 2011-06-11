@@ -99,8 +99,7 @@ namespace BWAPI
   int Server::addEvent(BWAPI::Event e)
   {
     assert(data->eventCount < GameData::MAX_EVENTS);
-    BWAPIC::Event* e2 = &(data->events[data->eventCount]);
-    data->eventCount++;
+    BWAPIC::Event* e2 = &(data->events[data->eventCount++]);
     int id   = data->eventCount;
     e2->type = e.type;
     e2->v1   = 0;
@@ -413,10 +412,7 @@ namespace BWAPI
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
       int i = 0;
       foreach(Unit *t, Broodwar->getSelectedUnits())
-      {
-        data->selectedUnits[i] = getUnitID(t);
-        i++;
-      }
+        data->selectedUnits[i++] = getUnitID(t);
 
       //dynamic map data
       BroodwarImpl.copyMapToSharedMemory();
