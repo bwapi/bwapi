@@ -2,6 +2,7 @@
 #include <BWAPI/Unit.h>
 #include <BW/Offsets.h>
 #include <BW/UnitID.h>
+#include <BW/OrderID.h>
 #include <Util/Exceptions.h>
 
 #include "../../Debug.h"
@@ -153,17 +154,18 @@ namespace BW
         : always0x0c(0x0c)
         , position(position)
         , type((u16)type)
+        , raceDependant(0)
     {
       switch( BWAPI::UnitType(type).getRace() )
       {
       case BW::Race::Zerg:
-        raceDependant = 0x19;
+        raceDependant = BW::OrderID::DroneStartBuild;
         break;
       case BW::Race::Terran:
-        raceDependant = 0x1e;
+        raceDependant = BW::OrderID::BuildTerran;
         break;
       case BW::Race::Protoss:
-        raceDependant = 0x1f;
+        raceDependant = BW::OrderID::BuildProtoss1;
         break;
       default:
         throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
@@ -174,17 +176,18 @@ namespace BW
         : always0x0c(0x0c)
         , position(BW::TilePosition((u16)tileX, (u16)tileY))
         , type((u16)type)
+        , raceDependant(0)
     {
       switch( BWAPI::UnitType(type).getRace() )
       {
       case BW::Race::Zerg:
-        raceDependant = 0x19;
+        raceDependant = BW::OrderID::DroneStartBuild;
         break;
       case BW::Race::Terran:
-        raceDependant = 0x1e;
+        raceDependant = BW::OrderID::BuildTerran;
         break;
       case BW::Race::Protoss:
-        raceDependant = 0x1f;
+        raceDependant = BW::OrderID::BuildProtoss1;
         break;
       default:
         throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
@@ -194,7 +197,7 @@ namespace BW
     //---------------------------------------------- PLACE COP -----------------------------------------------
     PlaceCOP::PlaceCOP(BW::TilePosition position, int type)
         : always0x0c(0x0C)
-        , always0x9B(0x9B)
+        , always0x9B(BW::OrderID::CTFCOP2)
         , position(position)
         , type((u16)type)
     {
@@ -214,14 +217,14 @@ namespace BW
     //---------------------------------------------- MAKE ADDON ----------------------------------------------
     MakeAddon::MakeAddon(BW::TilePosition position, int type)
         : always0x0c(0x0c)
-        , always0x24(0x24)
+        , always0x24(BW::OrderID::PlaceAddon)
         , position(position)
         , type((u16)type)
     {
     }
     MakeAddon::MakeAddon(int tileX, int tileY, int type)
         : always0x0c(0x0c)
-        , always0x24(0x24)
+        , always0x24(BW::OrderID::PlaceAddon)
         , position(BW::TilePosition((u16)tileX, (u16)tileY))
         , type((u16)type)
     {
@@ -229,14 +232,14 @@ namespace BW
     //---------------------------------------------- MAKE NYDUS ----------------------------------------------
     MakeNydusExit::MakeNydusExit(BW::TilePosition position)
         : always0x0c(0x0c)
-        , always0x2E(0x2E)
+        , always0x2E(BW::OrderID::BuildNydusExit)
         , position(position)
         , type(BW::UnitID::Zerg_NydusCanal)
     {
     }
     MakeNydusExit::MakeNydusExit(int tileX, int tileY)
         : always0x0c(0x0c)
-        , always0x2E(0x2E)
+        , always0x2E(BW::OrderID::BuildNydusExit)
         , position(BW::TilePosition((u16)tileX, (u16)tileY))
         , type(BW::UnitID::Zerg_NydusCanal)
     {
@@ -332,7 +335,7 @@ namespace BW
     //------------------------------------------------- LAND -------------------------------------------------
     Land::Land(BW::TilePosition position, int type)
         : always0x0C(0x0C)
-        , always0x47(0x47)
+        , always0x47(BW::OrderID::BuildingLand)
         , position(position)
         , type((u16)type)
     {

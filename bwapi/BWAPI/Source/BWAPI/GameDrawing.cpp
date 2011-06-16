@@ -77,8 +77,8 @@ namespace BWAPI
     rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
-        (screen_x1 > scrLimit.Xmax  && screen_x2 > scrLimit.Xmax) ||
-        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax))
+        (screen_x1 > scrLimit.right  && screen_x2 > scrLimit.right) ||
+        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom))
       return false;
     return true;
   }
@@ -124,8 +124,8 @@ namespace BWAPI
     rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-        (screen_x1 > scrLimit.Xmax && screen_x2 > scrLimit.Xmax && screen_x3 > scrLimit.Xmax) ||
-        (screen_y1 > scrLimit.Ymax && screen_y2 > scrLimit.Ymax && screen_y3 > scrLimit.Ymax))
+        (screen_x1 > scrLimit.right && screen_x2 > scrLimit.right && screen_x3 > scrLimit.right) ||
+        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom && screen_y3 > scrLimit.bottom))
       return false;
     return true;
   }

@@ -193,7 +193,7 @@ int STORMAPI SStrCmp(const char *string1, const char *string2, size_t size) rInt
 int STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size) rInt;
 char* STORMAPI SStrUpper(char* string) rPVoid;
 
-void STORMAPI SRgn523(int handle, RECT *rect, int a3, int a4) rVoid;
+void STORMAPI SRgn523(int handle, RECT *pRect, int a3, int a4) rVoid;
 void STORMAPI SRgn524(int handle, int a2) rVoid;
 void STORMAPI SRgn525(int handle) rVoid;
 

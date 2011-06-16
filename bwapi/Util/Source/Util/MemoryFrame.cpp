@@ -9,8 +9,6 @@ namespace Util
     : frameBase(base)
     , frameSize(size)
   {
-    if(size < 0)
-      this->frameSize = 0;
   }
 
   MemoryFrame::MemoryFrame()

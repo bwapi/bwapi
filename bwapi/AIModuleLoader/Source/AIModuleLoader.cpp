@@ -19,14 +19,14 @@ void reconnect()
 int main(int argc, const char* argv[])
 {
   const char* szDllPath = "";
+  char buffer[1024] = { 0 };
   if (argc>=2)
     szDllPath = argv[1];
   else
   {
-    char buffer[1024];
-    szDllPath = buffer;
     printf("Enter path name to AI DLL:");
-    scanf("%s",buffer);
+    scanf("%s", buffer);
+    szDllPath = buffer;
   }
   BWAPI::BWAPI_init();
   printf("Connecting...");

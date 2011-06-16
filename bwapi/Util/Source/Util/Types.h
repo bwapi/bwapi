@@ -21,10 +21,10 @@ typedef void*           HANDLE;
 
 typedef struct __rect
 {
-  s16 Xmin;
-  s16 Ymin;
-  s16 Xmax;
-  s16 Ymax;
+  s16 left;
+  s16 top;
+  s16 right;
+  s16 bottom;
 } rect;
 
 #ifdef NULL

@@ -200,7 +200,7 @@ namespace BW
           if ( (WORD)dlg->lUser )
           {
             dlg->parent()->srcBits.ht = (WORD)dlg->lUser;
-            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
+            dlg->parent()->rct.bottom = dlg->parent()->rct.top + dlg->parent()->srcBits.ht - 1;
             dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
             dlg->lUser = 0;
           }
@@ -208,7 +208,7 @@ namespace BW
           {
             dlg->lUser = dlg->parent()->srcBits.ht;
             dlg->parent()->srcBits.ht = 13;
-            dlg->parent()->rct.Ymax = dlg->parent()->rct.Ymin + dlg->parent()->srcBits.ht - 1;
+            dlg->parent()->rct.bottom = dlg->parent()->rct.top + dlg->parent()->srcBits.ht - 1;
             dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
           }
           wantRefresh = true;
@@ -237,40 +237,40 @@ namespace BW
     case 3: // Mouse update/Move
       if ( dlg->wUnk_0x1E )
       {
-        dlg->rct.Xmin = evt->cursor.x - mouseOffset->x;
-        dlg->rct.Xmax = dlg->rct.Xmin + dlg->srcBits.wid - 1;
-        dlg->rct.Ymin = evt->cursor.y - mouseOffset->y;
-        dlg->rct.Ymax = dlg->rct.Ymin + dlg->srcBits.ht - 1;
-        rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
-        if ( dlg->rct.Xmin < 0 )
+        dlg->rct.left   = evt->cursor.x - mouseOffset->x;
+        dlg->rct.right  = dlg->rct.left + dlg->srcBits.wid - 1;
+        dlg->rct.top    = evt->cursor.y - mouseOffset->y;
+        dlg->rct.bottom = dlg->rct.top + dlg->srcBits.ht - 1;
+        rect scrLimit   = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+        if ( dlg->rct.left < 0 )
         {
-          dlg->rct.Xmax -= dlg->rct.Xmin;
-          dlg->rct.Xmin -= dlg->rct.Xmin;
+          dlg->rct.right -= dlg->rct.left;
+          dlg->rct.left  -= dlg->rct.left;
         }
-        if ( dlg->rct.Ymin < 0 )
+        if ( dlg->rct.top < 0 )
         {
-          dlg->rct.Ymax -= dlg->rct.Ymin;
-          dlg->rct.Ymin -= dlg->rct.Ymin;
+          dlg->rct.bottom -= dlg->rct.top;
+          dlg->rct.top    -= dlg->rct.top;
         }
-        if ( dlg->rct.Xmax > scrLimit.right )
+        if ( dlg->rct.right > scrLimit.right )
         {
-          dlg->rct.Xmin -= dlg->rct.Xmax - scrLimit.right;
-          dlg->rct.Xmax -= dlg->rct.Xmax - scrLimit.right;
+          dlg->rct.left  -= dlg->rct.right - scrLimit.right;
+          dlg->rct.right -= dlg->rct.right - scrLimit.right;
         }
-        if ( dlg->rct.Ymax > (scrLimit.bottom - 40) )
+        if ( dlg->rct.bottom > (scrLimit.bottom - 40) )
         {
-          dlg->rct.Ymin -= dlg->rct.Ymax - (scrLimit.bottom - 40);
-          dlg->rct.Ymax -= dlg->rct.Ymax - (scrLimit.bottom - 40);
+          dlg->rct.top    -= dlg->rct.bottom - (scrLimit.bottom - 40);
+          dlg->rct.bottom -= dlg->rct.bottom - (scrLimit.bottom - 40);
         }
         wantRefresh = true;
       }
       i = dlg->child();
       while( i )
       {
-        if ( !(evt->cursor.x >= (dlg->rct.Xmin + i->rct.Xmin) &&
-             evt->cursor.x <= (dlg->rct.Xmin + i->rct.Xmax) &&
-             evt->cursor.y >= (dlg->rct.Ymin + i->rct.Ymin) &&
-             evt->cursor.y <= (dlg->rct.Ymin + i->rct.Ymax))
+        if ( !(evt->cursor.x >= (dlg->rct.left + i->rct.left) &&
+             evt->cursor.x <= (dlg->rct.left + i->rct.right) &&
+             evt->cursor.y >= (dlg->rct.top + i->rct.top) &&
+             evt->cursor.y <= (dlg->rct.top + i->rct.bottom))
            )
         {
           switch( i->wIndex )
@@ -285,13 +285,13 @@ namespace BW
       }
       break;
     case 4: // Left Button down
-      if ( evt->cursor.x >= dlg->rct.Xmin &&
-         evt->cursor.x <= dlg->rct.Xmax - 27 &&
-         evt->cursor.y >= dlg->rct.Ymin &&
-         evt->cursor.y <= dlg->rct.Ymin + 12 )
+      if ( evt->cursor.x >= dlg->rct.left &&
+         evt->cursor.x <= dlg->rct.right - 27 &&
+         evt->cursor.y >= dlg->rct.top &&
+         evt->cursor.y <= dlg->rct.top + 12 )
       {
-        mouseOffset->x = evt->cursor.x - dlg->rct.Xmin;
-        mouseOffset->y = evt->cursor.y - dlg->rct.Ymin;
+        mouseOffset->x = evt->cursor.x - dlg->rct.left;
+        mouseOffset->y = evt->cursor.y - dlg->rct.top;
         dlg->wUnk_0x1E = 1;
       }
       break;
@@ -552,10 +552,10 @@ namespace BW
     }
 
     // Set size properties
-    rct.Xmin    = left;
-    rct.Ymin    = top;
-    rct.Xmax    = rct.Xmin + width - 1;
-    rct.Ymax    = rct.Ymin + height - 1;
+    rct.left    = left;
+    rct.top     = top;
+    rct.right   = rct.left + width - 1;
+    rct.bottom  = rct.top  + height - 1;
     srcBits.wid = width;
     srcBits.ht  = height;
 

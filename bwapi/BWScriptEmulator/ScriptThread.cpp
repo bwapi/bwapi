@@ -464,7 +464,7 @@ void aithread::execute()
         this->saveDebug("\x06", bOpcode, "%3u", bSuicideType);
         memset(MainController->attackGroups, 0, sizeof(MainController->attackGroups));
         MainController->wAttackGroup = 0;
-        MainController->dwAttackTime = 0;
+        // MainController->dwAttackTime = 0;
         // AttackClear();
         // SendSuicide(bSuicideType);
         MainController->dwAttackTime = bw->elapsedTime() - 175;
