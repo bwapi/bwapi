@@ -517,18 +517,17 @@ namespace BWAPI
       }
       else
       {
+        memset(self->upgradeLevel, 0, sizeof(self->upgradeLevel));
         for(int i = 0; i < 46; ++i)
         {
-          self->upgradeLevel[i] = 0;
           for each(UnitType t in UpgradeType(i).whatUses())
           {
             if (self->completedUnitCount[t] > 0)
               self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
           }
         }
-        for(int i = 46; i < 63; ++i)
+        for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
         {
-          self->upgradeLevel[i] = 0;
           for each(UnitType t in UpgradeType(i).whatUses())
           {
             if (self->completedUnitCount[t] > 0)
@@ -551,48 +550,46 @@ namespace BWAPI
       self->gas                = BW::BWDATA_PlayerResources->gas[index];
       self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals[index];
       self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas[index];
+      memset(self->upgradeLevel, 0, sizeof(self->upgradeLevel));
       for(int i = 0; i < 46; ++i)
         self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
-      for(int i = 46; i < 63; ++i)
+      for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
         self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
+      memset(self->hasResearched, 0, sizeof(self->hasResearched));
       for(int i = 0; i < 24; ++i)
       {
         if (TechType(i).whatResearches() == UnitTypes::None)
           self->hasResearched[i] = true;
         else
-          self->hasResearched[i] = BW::BWDATA_TechResearchSC->enabled[index][i] == 1;
+          self->hasResearched[i] = !!BW::BWDATA_TechResearchSC->enabled[index][i];
       }
-      for(int i = 24; i < 47; ++i)
+      for(int i = 24; i < TECH_TYPE_COUNT; ++i)
       {
         if (TechType(i).whatResearches() == UnitTypes::None)
           self->hasResearched[i] = true;
         else
-          self->hasResearched[i] = BW::BWDATA_TechResearchBW->enabled[index][i - 24] == 1;
+          self->hasResearched[i] = !!BW::BWDATA_TechResearchBW->enabled[index][i - 24];
       }
-      for(int i = 0; i < 63; ++i)
+      memset(self->isUpgrading, 0, sizeof(self->isUpgrading));
+      for(int i = 0; i < UPGRADE_TYPE_COUNT; ++i)
         self->isUpgrading[i]   = ( *(u8*)(BW::BWDATA_UpgradeProgress + index * 8 + i/8 ) & (1 << i%8)) != 0;
-      for(int i = 0; i < 47; ++i)
+      memset(self->isResearching, 0, sizeof(self->isResearching));
+      for(int i = 0; i < TECH_TYPE_COUNT; ++i)
         self->isResearching[i] = ( *(u8*)(BW::BWDATA_ResearchProgress + index * 6 + i/8 ) & (1 << i%8)) != 0;
     }
     if (!BroodwarImpl._isReplay() && BroodwarImpl.self()->isEnemy((Player*)this) && !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
     {
-      for (u8 i = 0; i < 3; ++i)
-      {
-        self->supplyTotal[i] = 0;
-        self->supplyUsed[i]  = 0;
-      }
-      for(int i = 0; i < UNIT_TYPE_COUNT; ++i)
-      {
-        self->deadUnitCount[i]      = 0;
-        self->killedUnitCount[i]    = 0;
-      }
+      memset(self->supplyTotal,     0, sizeof(self->supplyTotal));
+      memset(self->supplyUsed,      0, sizeof(self->supplyUsed));
+      memset(self->deadUnitCount,   0, sizeof(self->deadUnitCount));
+      memset(self->killedUnitCount, 0, sizeof(self->killedUnitCount));
       self->totalUnitScore      = 0;
       self->totalKillScore      = 0;
       self->totalBuildingScore  = 0;
       self->totalRazingScore    = 0;
       self->customScore         = 0;
     }
-    else
+    else if ( index < 12 )
     {
       for (u8 i = 0; i < RACE_COUNT; ++i)
       {

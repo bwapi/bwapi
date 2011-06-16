@@ -594,7 +594,6 @@ namespace BWAPI
               Unit *unit = (i == UnitCommandTypes::Load         || 
                             i == UnitCommandTypes::Attack_Unit  ||
                             i == UnitCommandTypes::Train        ||
-                            i == UnitCommandTypes::Load         ||
                             i == UnitCommandTypes::Unload_All   ||
                             i == UnitCommandTypes::Cancel_Morph ||
                             i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : NULL;
@@ -616,7 +615,6 @@ namespace BWAPI
             Unit *unit = (i == UnitCommandTypes::Load         || 
                           i == UnitCommandTypes::Attack_Unit  ||
                           i == UnitCommandTypes::Train        ||
-                          i == UnitCommandTypes::Load         ||
                           i == UnitCommandTypes::Unload_All   ||
                           i == UnitCommandTypes::Cancel_Morph ||
                           i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : NULL;

@@ -46,7 +46,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="../include;../Util/Source;../TinyXml/Source;../BWAPI/Source"
+				AdditionalIncludeDirectories="../include;../Util/Source;../BWAPI/Source"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"

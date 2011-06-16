@@ -65,7 +65,7 @@ namespace BW
     (*regionList).push_back(current);
     (*tested).set(current->getIndex(), true);
     std::vector<region*> accessibleNeighborsCopy = current->getAccessibleNeighbours();
-    for each ( region *r in accessibleNeighborsCopy )
+    foreach( region *r, accessibleNeighborsCopy )
     {
       // Skip this entry if we've already passed through it
       if ( (*tested).test(r->getIndex()) )

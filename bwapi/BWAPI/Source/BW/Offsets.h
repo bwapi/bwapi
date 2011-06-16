@@ -47,14 +47,6 @@ namespace BW
   struct dlgEvent;
   struct fntHead;
 
-  struct rect
-  {
-    s16 left;
-    s16 top;
-    s16 right;
-    s16 bottom;
-  };
-
   struct DatLoad
   {
     u32   address;

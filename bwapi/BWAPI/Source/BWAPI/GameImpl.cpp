@@ -264,10 +264,10 @@ namespace BWAPI
       x = 0;
     if (y < 0)
       y = 0;
-    if (x > Map::getWidth()  * 32 - scrLimit.Xmax)
-      x = Map::getWidth() * 32 - scrLimit.Xmax;
-    if (y > Map::getHeight() * 32 - (scrLimit.Ymax + 80))
-      y = Map::getHeight() * 32 - (scrLimit.Ymax + 80);
+    if (x > Map::getWidth()  * 32 - scrLimit.right)
+      x = Map::getWidth() * 32 - scrLimit.right;
+    if (y > Map::getHeight() * 32 - (scrLimit.bottom + 80))
+      y = Map::getHeight() * 32 - (scrLimit.bottom + 80);
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
