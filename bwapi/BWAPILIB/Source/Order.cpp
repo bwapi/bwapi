@@ -115,6 +115,7 @@ namespace BWAPI
     const Order NukeWait(123);
     const Order NukeTrain(124);
     const Order NukeLaunch(125);
+    const Order NukePaint(126);
     const Order NukeUnit(127);
     const Order CastNuclearStrike(128);
     const Order NukeTrack(129);
@@ -274,6 +275,7 @@ namespace BWAPI
       orderName[NukeWait]               = "NukeWait";
       orderName[NukeTrain]              = "NukeTrain";
       orderName[NukeLaunch]             = "NukeLaunch";
+      orderName[NukePaint]              = "NukePaint";
       orderName[NukeUnit]               = "NukeUnit";
       orderName[CastNuclearStrike]      = "CastNuclearStrike";
       orderName[NukeTrack]              = "NukeTrack";
@@ -431,6 +433,7 @@ namespace BWAPI
       orderSet.insert(NukeWait);
       orderSet.insert(NukeTrain);
       orderSet.insert(NukeLaunch);
+      orderSet.insert(NukePaint);
       orderSet.insert(NukeUnit);
       orderSet.insert(CastNuclearStrike);
       orderSet.insert(NukeTrack);

@@ -133,6 +133,7 @@ namespace BWAPI
     extern const Order NukeWait;
     extern const Order NukeTrain;
     extern const Order NukeLaunch;
+    extern const Order NukePaint;
     extern const Order NukeUnit;
     extern const Order CastNuclearStrike;
     extern const Order NukeTrack;

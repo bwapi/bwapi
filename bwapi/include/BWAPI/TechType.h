@@ -3,6 +3,7 @@
 #include <string>
 #include <set>
 #include <BWAPI/Race.h>
+#include <BWAPI/Order.h>
 namespace BWAPI
 {
   class UnitType;
@@ -56,6 +57,9 @@ namespace BWAPI
       /** Returns the set of units that can use this tech type. Usually this will just be a set of one unit
        * type, however in some cases, such as TechTypes::Burrowing, several unit types will be returned. */
       const std::set<UnitType>& whatUses() const;
+
+      /** Returns the order used to execute this tech type as an action. */
+      Order getOrder() const;
 
     private:
       int id;
