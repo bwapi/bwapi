@@ -2768,7 +2768,8 @@ namespace BWAPI
           uct == UnitCommandTypes::Place_COP   ||
           uct == UnitCommandTypes::Research    ||
           uct == UnitCommandTypes::Upgrade     || 
-          (uct == UnitCommandTypes::Use_Tech_Unit &&
+          (commandOptimizerLevel < 4 &&
+           uct == UnitCommandTypes::Use_Tech_Unit &&
           (command.getTechType() == TechTypes::Archon_Warp ||
            command.getTechType() == TechTypes::Dark_Archon_Meld)) )
       return false;
@@ -2831,6 +2832,32 @@ namespace BWAPI
       if ( thisType == UnitTypes::Terran_Bunker )
         command = UnitCommand::unloadAll(uthis);
     }
+    else if ( uct == UnitCommandTypes::Use_Tech )
+    {
+      // Simplify siege/cloak/burrow tech to their specific commands to allow grouping them
+      switch ( command.getTechType() )
+      {
+      case BW::TechID::TankSiegeMode:
+        if ( command.unit && command.unit->isSieged() )
+          command = UnitCommand::unsiege(uthis);
+        else
+          command = UnitCommand::siege(uthis);
+        break;
+      case BW::TechID::PersonnelCloaking:
+      case BW::TechID::CloakingField:
+        if ( command.unit && command.unit->isCloaked() )
+          command = UnitCommand::decloak(uthis);
+        else
+          command = UnitCommand::cloak(uthis);
+        break;
+      case BW::TechID::Burrowing:
+        if ( command.unit && command.unit->isBurrowed() )
+          command = UnitCommand::unburrow(uthis);
+        else
+          command = UnitCommand::burrow(uthis);
+        break;
+      }
+    }
 
     // Exclude commands not optimized at optimizer level 1 (no multi-select buildings)
     if ( commandOptimizerLevel <= 1 && thisType < UnitTypes::None && thisType.isBuilding() )
@@ -2847,16 +2874,21 @@ namespace BWAPI
          uct == UnitCommandTypes::Use_Tech_Position) )
       return false;
 
-    if ( commandOptimizerLevel >= 4 && 
-         (uct == UnitCommandTypes::Attack_Move          ||
-          uct == UnitCommandTypes::Move                 ||
-          uct == UnitCommandTypes::Patrol               ||
-          uct == UnitCommandTypes::Right_Click_Position ||
-          uct == UnitCommandTypes::Set_Rally_Position   ||
-          uct == UnitCommandTypes::Unload_All_Position  ||
-          uct == UnitCommandTypes::Use_Tech_Position) )
+    if ( commandOptimizerLevel >= 4 )
     {
-      command = UnitCommand(uthis, uct, utarg, command.x & (~0x1F), command.y & (~0x1F), command.extra);
+      // Align locations to 32 pixels
+      if ( uct == UnitCommandTypes::Attack_Move          ||
+           uct == UnitCommandTypes::Move                 ||
+           uct == UnitCommandTypes::Patrol               ||
+           uct == UnitCommandTypes::Right_Click_Position ||
+           uct == UnitCommandTypes::Set_Rally_Position   ||
+           uct == UnitCommandTypes::Unload_All_Position  ||
+           uct == UnitCommandTypes::Use_Tech_Position )
+        command = UnitCommand(uthis, uct, utarg, command.x & (~0x1F), command.y & (~0x1F), command.extra);
+      else if ( uct == UnitCommandTypes::Use_Tech_Unit &&   // Group Archon & Dark Archon merging
+                (command.getTechType() == TechTypes::Archon_Warp ||
+                command.getTechType() == TechTypes::Dark_Archon_Meld) )
+        command = UnitCommand::useTech(uthis, command.getTechType(), NULL);
     }
     // Add command to the command optimizer buffer and unload it later
     commandOptimizer[command.getType().getID()].push_back(command);
@@ -2868,7 +2900,7 @@ namespace BWAPI
     botAPMCounter_noselects++;
     UnitCommandType ct = command.type;
     bool queued = command.isQueued();
-    if      (ct == UnitCommandTypes::Attack_Move)
+    if (ct == UnitCommandTypes::Attack_Move)
     {
       if ( command.unit && command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
         QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::Attack1, queued), sizeof(BW::Orders::Attack));
@@ -2941,33 +2973,19 @@ namespace BWAPI
         QueueGameCommand(&BW::Orders::UnitMorph(type), sizeof(BW::Orders::UnitMorph));
     }
     else if (ct == UnitCommandTypes::Research)
-    {
       QueueGameCommand(&BW::Orders::Invent(command.getTechType()), sizeof(BW::Orders::Invent));
-    }
     else if (ct == UnitCommandTypes::Upgrade)
-    {
       QueueGameCommand(&BW::Orders::Upgrade(command.getUpgradeType()), sizeof(BW::Orders::Upgrade));
-    }
     else if (ct == UnitCommandTypes::Set_Rally_Position)
-    {
       QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Set_Rally_Unit)
-    {
       QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Move)
-    {
       QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::Move, queued), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Patrol)
-    {
       QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::Patrol, queued), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Hold_Position)
-    {
       QueueGameCommand(&BW::Orders::HoldPosition(queued), sizeof(BW::Orders::HoldPosition));
-    }
     else if (ct == UnitCommandTypes::Stop)
     {
       switch ( command.unit ? command.unit->getType() : UnitTypes::None )
@@ -2986,75 +3004,45 @@ namespace BWAPI
       }
     }
     else if (ct == UnitCommandTypes::Follow)
-    {
       QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Follow, queued), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Gather)
-    {
       QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Harvest1, queued), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Return_Cargo)
-    {
       QueueGameCommand(&BW::Orders::ReturnCargo(queued), sizeof(BW::Orders::ReturnCargo));
-    }
     else if (ct == UnitCommandTypes::Repair)
-    {
       QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Repair1, queued), sizeof(BW::Orders::Attack));
-    }
     else if (ct == UnitCommandTypes::Burrow)
-    {
       QueueGameCommand(&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
-    }
     else if (ct == UnitCommandTypes::Unburrow)
-    {
       QueueGameCommand(&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
-    }
     else if (ct == UnitCommandTypes::Cloak)
-    {
       QueueGameCommand(&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
-    }
     else if (ct == UnitCommandTypes::Decloak)
-    {
       QueueGameCommand(&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
-    }
     else if (ct == UnitCommandTypes::Siege)
-    {
       QueueGameCommand(&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
-    }
     else if (ct == UnitCommandTypes::Unsiege)
-    {
       QueueGameCommand(&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
-    }
     else if (ct == UnitCommandTypes::Lift)
-    {
       QueueGameCommand(&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
-    }
     else if (ct == UnitCommandTypes::Land)
-    {
       QueueGameCommand(&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), command.unit->getType()), sizeof(BW::Orders::Land));
-    }
     else if (ct == UnitCommandTypes::Load)
     {
       BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( thisType == UnitTypes::Terran_Bunker )
-      {
         QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::PickupBunker, queued), sizeof(BW::Orders::Attack));
-      }
       else if ( thisType == UnitTypes::Terran_Dropship || 
                 thisType == UnitTypes::Protoss_Shuttle || 
                 thisType == UnitTypes::Zerg_Overlord   ||
                 thisType == UnitTypes::Hero_Yggdrasill )
-      {
         QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::PickupTransport, queued), sizeof(BW::Orders::Attack));
-      }
       else if ( command.target->getType() == UnitTypes::Terran_Bunker   ||
                 command.target->getType() == UnitTypes::Terran_Dropship ||
                 command.target->getType() == UnitTypes::Protoss_Shuttle ||
                 command.target->getType() == UnitTypes::Zerg_Overlord   ||
                 command.target->getType() == UnitTypes::Hero_Yggdrasill )
-      {
         QueueGameCommand(&BW::Orders::RightClick((UnitImpl*)command.target, queued), sizeof(BW::Orders::RightClick));
-      }
     }
     else if (ct == UnitCommandTypes::Unload)
     {
@@ -3075,29 +3063,17 @@ namespace BWAPI
         QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::MoveUnload, queued), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Right_Click_Position)
-    {
       QueueGameCommand(&BW::Orders::RightClick(BW::Position((u16)command.x, (u16)command.y), queued), sizeof(BW::Orders::RightClick));
-    }
     else if (ct == UnitCommandTypes::Right_Click_Unit)
-    {
       QueueGameCommand(&BW::Orders::RightClick((UnitImpl*)command.target, queued), sizeof(BW::Orders::RightClick));
-    }
     else if (ct == UnitCommandTypes::Halt_Construction)
-    {
       QueueGameCommand(&BW::Orders::Stop(), sizeof(BW::Orders::Stop));
-    }
     else if (ct == UnitCommandTypes::Cancel_Construction)
-    {
       QueueGameCommand(&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
-    }
     else if (ct == UnitCommandTypes::Cancel_Addon)
-    {
       QueueGameCommand(&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
-    }
     else if (ct == UnitCommandTypes::Cancel_Train || ct == UnitCommandTypes::Cancel_Train_Slot)
-    {
       QueueGameCommand(&BW::Orders::CancelTrain((s8)command.extra), sizeof(BW::Orders::CancelTrain));
-    }
     else if (ct == UnitCommandTypes::Cancel_Morph)
     {
       if ( command.unit && command.unit->getType().isBuilding() )
@@ -3106,13 +3082,9 @@ namespace BWAPI
         QueueGameCommand(&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
     }
     else if (ct == UnitCommandTypes::Cancel_Research)
-    {
       QueueGameCommand(&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
-    }
     else if (ct == UnitCommandTypes::Cancel_Upgrade)
-    {
       QueueGameCommand(&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
-    }
     else if (ct == UnitCommandTypes::Use_Tech)
     {
       TechType tech(command.extra);
@@ -3122,20 +3094,20 @@ namespace BWAPI
           QueueGameCommand(&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
           break;
         case BW::TechID::TankSiegeMode:
-          if (command.unit && command.unit->isSieged())
+          if ( command.unit && command.unit->isSieged() )
             QueueGameCommand(&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
           else
             QueueGameCommand(&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
           break;
         case BW::TechID::PersonnelCloaking:
         case BW::TechID::CloakingField:
-          if (command.unit && command.unit->isCloaked())
+          if ( command.unit && command.unit->isCloaked() )
             QueueGameCommand(&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
           else
             QueueGameCommand(&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
           break;
         case BW::TechID::Burrowing:
-          if(command.unit && command.unit->isBurrowed())
+          if ( command.unit && command.unit->isBurrowed() )
             QueueGameCommand(&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
           else
             QueueGameCommand(&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
@@ -3144,50 +3116,8 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Use_Tech_Position)
     {
-      u8 order = BW::OrderID::None;
-      switch ( command.getTechType() )
-      {
-        case BW::TechID::DarkSwarm:
-          order = BW::OrderID::DarkSwarm;
-          break;
-        case BW::TechID::DisruptionWeb:
-          order = BW::OrderID::CastDisruptionWeb;
-          break;
-        case BW::TechID::EMPShockwave:
-          order = BW::OrderID::EmpShockwave;
-          break;
-        case BW::TechID::Ensnare:
-          order = BW::OrderID::Ensnare;
-          break;
-        case BW::TechID::Healing:
-          order = BW::OrderID::HealMove;
-          break;
-        case BW::TechID::Maelstorm:
-          order = BW::OrderID::CastMaelstrom;
-          break;
-        case BW::TechID::NuclearStrike:
-          order = BW::OrderID::NukePaint;
-          break;
-        case BW::TechID::Plague:
-          order = BW::OrderID::Plague;
-          break;
-        case BW::TechID::PsionicStorm:
-          order = BW::OrderID::PsiStorm;
-          break;
-        case BW::TechID::Recall:
-          order = BW::OrderID::Teleport;
-          break;
-        case BW::TechID::ScannerSweep:
-          order = BW::OrderID::PlaceScanner;
-          break;
-        case BW::TechID::SpiderMines:
-          order = BW::OrderID::PlaceMine;
-          break;
-        case BW::TechID::StasisField:
-          order = BW::OrderID::StasisField;
-          break;
-      }
-      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), order), sizeof(BW::Orders::Attack));
+      int order = (command.getTechType() == TechTypes::Healing ? Orders::HealMove : command.getTechType().getOrder());
+      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), (u8)order), sizeof(BW::Orders::Attack));
     }
     else if (ct == UnitCommandTypes::Use_Tech_Unit)
     {
@@ -3197,95 +3127,11 @@ namespace BWAPI
       else if (tech == TechTypes::Dark_Archon_Meld)
         QueueGameCommand(&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
       else
-      {
-        u8 order;
-        switch (tech)
-        {
-          case BW::TechID::Consume:
-            order = BW::OrderID::Consume;
-            break;
-          case BW::TechID::DefensiveMatrix:
-            order = BW::OrderID::DefensiveMatrix;
-            break;
-          case BW::TechID::Feedback:
-            order = BW::OrderID::CastFeedback;
-            break;
-          case BW::TechID::Hallucination:
-            order = BW::OrderID::Hallucination1;
-            break;
-          case BW::TechID::Healing:
-            order = BW::OrderID::MedicHeal1;
-            break;
-          case BW::TechID::Infestation:
-            order = BW::OrderID::InfestMine2;
-            break;
-          case BW::TechID::Irradiate:
-            order = BW::OrderID::Irradiate;
-            break;
-          case BW::TechID::Lockdown:
-            order = BW::OrderID::MagnaPulse;
-            break;
-          case BW::TechID::Maelstorm:
-            order = BW::OrderID::CastMaelstrom;
-            break;
-          case BW::TechID::MindControl:
-            order = BW::OrderID::CastMindControl;
-            break;
-          case BW::TechID::OpticalFlare:
-            order = BW::OrderID::CastOpticalFlare;
-            break;
-          case BW::TechID::Parasite:
-            order = BW::OrderID::CastParasite;
-            break;
-          case BW::TechID::Restoration:
-            order = BW::OrderID::Restoration;
-            break;
-          case BW::TechID::SpawnBroodlings:
-            order = BW::OrderID::SummonBroodlings;
-            break;
-          case BW::TechID::YamatoGun:
-            order = BW::OrderID::FireYamatoGun1;
-            break;
-          case BW::TechID::DarkSwarm:
-            order = BW::OrderID::DarkSwarm;
-            break;
-          case BW::TechID::DisruptionWeb:
-            order = BW::OrderID::CastDisruptionWeb;
-            break;
-          case BW::TechID::EMPShockwave:
-            order = BW::OrderID::EmpShockwave;
-            break;
-          case BW::TechID::Ensnare:
-            order = BW::OrderID::Ensnare;
-            break;
-          case BW::TechID::NuclearStrike:
-            order = BW::OrderID::NukePaint;
-            break;
-          case BW::TechID::Plague:
-            order = BW::OrderID::Plague;
-            break;
-          case BW::TechID::PsionicStorm:
-            order = BW::OrderID::PsiStorm;
-            break;
-          case BW::TechID::Recall:
-            order = BW::OrderID::Teleport;
-            break;
-          case BW::TechID::ScannerSweep:
-            order = BW::OrderID::PlaceScanner;
-            break;
-          case BW::TechID::StasisField:
-            order = BW::OrderID::StasisField;
-            break;
-          default:
-            order = BW::OrderID::None;
-        }
-        QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, order), sizeof(BW::Orders::Attack));
-      }
+        QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, (u8)tech.getOrder()), sizeof(BW::Orders::Attack));
     }
     else if ( ct == UnitCommandTypes::Place_COP && command.unit )
-    {
       QueueGameCommand(&BW::Orders::PlaceCOP(BW::TilePosition((u16)command.x, (u16)command.y), command.unit->getType()), sizeof(BW::Orders::PlaceCOP));
-    }
+
     if (addCommandToLatComBuffer)
       BroodwarImpl.addToCommandBuffer(new Command(command));
   }
