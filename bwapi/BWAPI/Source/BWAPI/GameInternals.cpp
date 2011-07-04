@@ -656,6 +656,9 @@ namespace BWAPI
         Position p(tp);
         drawBoxMap(p.x(), p.y(), p.x() + 128, p.y() + 96, Colors::Orange);
       }
+      for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+      {
+      }
       /*for each ( UnitImpl *s in this->selectedUnitSet )
       {
         BW::Unit *u = s->getOriginalRawData;
@@ -1493,12 +1496,7 @@ namespace BWAPI
           break;
         }
       }
-/*      // note: may not be necessary, not sure if SC does this from the beginning or not
-      // Ignore triggers for non-active player types
-      if ( BW::BWDATA_Players[i].nType != BW::PlayerType::Computer &&
-           BW::BWDATA_Players[i].nType != BW::PlayerType::Player )
-        continue;
-*/
+
       // Then iterate each trigger
       // checking if a unit can be created or given to the player later in the game
       for ( BW::BlizzVectorEntry<BW::Triggers::Trigger> *t = BW::BWDATA_TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA_TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA_TriggerVectors[i].begin; t = t->next )
@@ -1509,8 +1507,11 @@ namespace BWAPI
           // check participation of players
           for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
           {
+            // Don't bother checking for participation if the player doesn't exist
+            // or if the player is already participating (NOT observing)
             if ( !this->players[p] || !this->players[p]->isObserver() )
               continue;
+            // Check if trigger actions allow gameplay and set participation if it does.
             if ( t->container.actionsAllowGameplay(i, p) )
               this->players[p]->setParticipating();
           }
@@ -1521,6 +1522,7 @@ namespace BWAPI
 
     if (*(BW::BWDATA_InReplay)) /* set replay flags */
     {
+      // Set every cheat flag to true
       for (int i = 0; i < Flag::Max; ++i)
         this->flags[i] = true;
     }
@@ -1550,26 +1552,68 @@ namespace BWAPI
       delete f;
     this->forces.clear();
 
+    /* get pre-race info */
+    BYTE bRaceInfo[12] = { 0 };
+    BYTE bOwnerInfo[12] = { 0 };
+
+    HANDLE hFile = NULL;
+    if ( SFileOpenFileEx(NULL, "staredit\\scenario.chk", SFILE_FROM_MPQ, &hFile) && hFile )
+    {
+      DWORD dwFilesize = SFileGetFileSize(hFile, NULL);
+      void *pData = SMAlloc(dwFilesize);
+      if ( pData )
+      {
+        DWORD dwRead = 0;
+        if ( SFileReadFile(hFile, pData, dwFilesize, &dwRead, 0) && dwRead == dwFilesize )
+        {
+          struct _mapchunk
+          {
+            DWORD dwId;
+            DWORD dwSize;
+            BYTE  bData[1];
+          } *mcptr;
+          for ( mcptr = (_mapchunk*)pData; (DWORD)mcptr < (DWORD)pData + dwFilesize; mcptr = (_mapchunk*)&mcptr->bData[mcptr->dwSize] )
+          {
+            switch ( mcptr->dwId )
+            {
+            case MAKEFOURCC('S', 'I', 'D', 'E'):
+              if ( mcptr->dwSize == 12 )
+                memcpy(bRaceInfo, mcptr->bData, 12);
+              break;
+            case MAKEFOURCC('O', 'W', 'N', 'R'):
+              if ( mcptr->dwSize == 12 )
+                memcpy(bOwnerInfo, mcptr->bData, 12);
+              break;
+            }
+          }
+        }
+        SMFree(pData);
+      }
+      SFileCloseFile(hFile);
+    }
+
     /* get the set of start locations */
     BW::Position *StartLocs = BW::BWDATA_startPositions;
+    // Iterate all players
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) )
-      {
-        if ( (StartLocs[i].x != 0 || StartLocs[i].y != 0) &&
-             (this->getGameType() != GameTypes::Use_Map_Settings || 
-             !this->players[i]->isObserver()                     || 
-              (BW::BWDATA_LobbyPlayers[i].nRace == BW::Race::Select &&
-               (BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferComputer ||
-                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::EitherPreferHuman    ||
-                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::Player               ||
-                BW::BWDATA_LobbyPlayers[i].nType == BW::PlayerType::Computer)
-              )) )
-        {
-          startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - 64) / TILE_SIZE,
-                                                     (StartLocs[i].y - 48) / TILE_SIZE) );
-        }
-      }
+      // Skip Start Locations that don't exist
+      if ( StartLocs[i].x == 0 && StartLocs[i].y == 0 )
+        continue;
+
+      // If the game is UMS and player is observer and race is not (UserSelect OR invalid player type), skip
+      if ( this->getGameType() == GameTypes::Use_Map_Settings && 
+           this->players[i]->isObserver() && 
+           (bRaceInfo[i] != BW::Race::Select ||
+           (bOwnerInfo[i] != BW::PlayerType::Computer &&
+            bOwnerInfo[i] != BW::PlayerType::Player   &&
+            bOwnerInfo[i] != BW::PlayerType::EitherPreferComputer &&
+            bOwnerInfo[i] != BW::PlayerType::EitherPreferHuman)) )
+        continue;
+
+      // add start location
+      startLocations.insert(BWAPI::TilePosition( (StartLocs[i].x - 64) / TILE_SIZE,
+                                                 (StartLocs[i].y - 48) / TILE_SIZE) );
     }
 
     // Get Player Objects
