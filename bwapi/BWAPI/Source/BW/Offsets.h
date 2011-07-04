@@ -100,7 +100,6 @@ namespace BW
     char szName[25];
   };
   static PlayerInfo *BWDATA_Players       = (PlayerInfo*) 0x0057EEE0;
-  static PlayerInfo *BWDATA_LobbyPlayers  = (PlayerInfo*) 0x0059BDB0;
 
   static u32 *BWDATA_PlayerDownloadStatus = (u32*) 0x0068F4FC;
 
