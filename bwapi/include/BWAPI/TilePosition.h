@@ -15,6 +15,7 @@ namespace BWAPI
       bool operator != (const TilePosition& TilePosition) const;
       bool operator  < (const TilePosition& TilePosition) const;
       bool isValid() const;
+      operator bool() const;
       TilePosition operator+(const TilePosition& position) const;
       TilePosition operator-(const TilePosition& position) const;
       TilePosition& makeValid();

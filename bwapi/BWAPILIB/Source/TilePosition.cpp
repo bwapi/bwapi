@@ -56,6 +56,10 @@ namespace BWAPI
   {
     return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth() && _y < Broodwar->mapHeight());
   }
+  TilePosition::operator bool() const
+  {
+    return this->isValid();
+  }
   //----------------------------------------------------------------------------------------------------------
   TilePosition TilePosition::operator+(const TilePosition& position) const
   {
