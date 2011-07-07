@@ -56,6 +56,10 @@ namespace BWAPI
   {
     return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32);
   }
+  Position::operator bool() const
+  {
+    return this->isValid();
+  }
   //----------------------------------------------------------------------------------------------------------
   Position Position::operator+(const Position& position) const
   {

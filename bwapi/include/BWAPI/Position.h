@@ -14,6 +14,7 @@ namespace BWAPI
       bool operator == (const Position& position) const;
       bool operator != (const Position& position) const;
       bool operator  < (const Position& position) const;
+      operator bool() const;
       bool isValid() const;
       Position operator+(const Position& position) const;
       Position operator-(const Position& position) const;
