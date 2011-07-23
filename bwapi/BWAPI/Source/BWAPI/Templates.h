@@ -850,6 +850,13 @@ namespace BWAPI
           if ( !canUnload )
             return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
         }
+
+        if ( thisUnit->getType() != UnitTypes::Terran_Bunker )
+        {
+          BWAPI::Position targDropPos = UnitCommandTypes::Unload_All_Position == ct ? c.getTargetPosition() : thisUnit->getPosition();
+          if ( !Broodwar->isWalkable(targDropPos.x()*8, targDropPos.y()*8) )
+            return Broodwar->setLastError(Errors::Unreachable_Location);
+        }
       } // unload
 
       // Halt construction

@@ -183,7 +183,7 @@ void STORMAPI SMemFill(void *location, size_t length, char fillWith) rVoid;
 void STORMAPI SMemZero(void *location, DWORD length) rVoid;
 int  STORMAPI SMemCmp(void *location1, void *location2, DWORD size) rInt;
 
-int   STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length) rInt;
+int   STORMAPI SStrCopy(char *dest, const char *src, int max_length) rInt;
 DWORD STORMAPI SStrHash(const char *string, DWORD flags, DWORD Seed) rInt;
 int   STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length) rInt;
 
@@ -193,9 +193,9 @@ int STORMAPI SStrCmp(const char *string1, const char *string2, size_t size) rInt
 int STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size) rInt;
 char* STORMAPI SStrUpper(char* string) rPVoid;
 
-void STORMAPI SRgn523(int handle, RECT *pRect, int a3, int a4) rVoid;
-void STORMAPI SRgn524(int handle, int a2) rVoid;
-void STORMAPI SRgn525(int handle) rVoid;
+void STORMAPI SRgn523(HANDLE hRgn, RECT *pRect, int a3, int a4) rVoid;
+void STORMAPI SRgnCreateRegion(HANDLE *hRgn, int a2) rVoid;
+void STORMAPI SRgnDeleteRegion(HANDLE hRgn) rVoid;
 
 void STORMAPI SRgn529i(int handle, int a2, int a3) rVoid;
 
