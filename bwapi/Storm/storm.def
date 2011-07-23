@@ -309,8 +309,8 @@ EXPORTS
   ;Ordinal521                    @521 NONAME
 
   SRgn523                       @523 NONAME
-  SRgn524                       @524 NONAME
-  SRgn525                       @525 NONAME
+  SRgnCreateRegion              @524 NONAME
+  SRgnDeleteRegion              @525 NONAME
 
   ;SRgn527                       @527 NONAME
   ;SRgn528i                      @528 NONAME

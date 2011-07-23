@@ -55,7 +55,21 @@ BOOL STORMAPI SNetDestroy();
 BOOL STORMAPI SNetEnumProviders(int (STORMAPI *callback)(DWORD, DWORD, DWORD, DWORD), int mincaps);
 
 BOOL STORMAPI SNetEnumGames(int (STORMAPI *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
-BOOL STORMAPI SNetDropPlayer(int playerid, DWORD flags);
+
+/*  SNetDropPlayer @ 106
+ * 
+ *  Drops a player from the current game.
+ *  
+ *  playerid:     The player ID for the player to be dropped.
+ *  flags:        
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SNetDropPlayer(
+      __in  int playerid,
+      __in  DWORD flags);
 
 /*  SNetGetGameInfo @ 107
  * 
@@ -107,8 +121,37 @@ struct CAPS
 };
 #endif
 BOOL STORMAPI SNetGetPlayerCaps(char playerid, CAPS *playerCaps);
-BOOL STORMAPI SNetGetPlayerName(int playerid, char *buffer, size_t buffersize);
-BOOL STORMAPI SNetGetProviderCaps(CAPS *providerCaps);
+
+/*  SNetGetPlayerName @ 113
+ * 
+ *  Retrieves the name of a player given their player ID.
+ *  
+ *  playerid:     The player's ID.
+ *  buffer:       The buffer that will receive the name.
+ *  buffersize:   The maximum size of buffer.
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SNetGetPlayerName(
+      __in  int playerid, 
+      __out char *buffer, 
+      __in  size_t buffersize);
+
+/*  SNetGetProviderCaps @ 114
+ * 
+ *  Retrieves network provider capacity information.
+ *  
+ *  providerCaps: A pointer to a CAPS structure that will receive the information.
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL 
+STORMAPI 
+SNetGetProviderCaps(
+      __out CAPS *providerCaps);
+
 BOOL STORMAPI SNetGetTurnsInTransit(int *turns);
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
 
@@ -851,11 +894,69 @@ SMemZero(
 
 int   STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
 
-int   STORMAPI SStrCopy(char *dest, const char *src, DWORD max_length);
-DWORD STORMAPI SStrHash(const char *string, DWORD flags, DWORD Seed);
+/*  SStrCopy @ 501
+ *  
+ *  Copies a string from src to dest (including NULL terminator)
+ *  until the max_length is reached.
+ *
+ *  dest:         The destination array.
+ *  src:          The source array.
+ *  max_length:   The maximum length of dest.
+ *
+ *  Returns the number of characters copied.
+ */
+int
+STORMAPI
+SStrCopy(
+    __out char *dest, 
+    __in  const char *src,
+    __in  int max_length = 0x7FFFFFFF);
+
+
+#ifndef STRING_HASH_
+#define STRING_HASH_
+
+#define STORM_HASH_ABSOLUTE 1
+
+#endif
+
+/*  SStrHash @ 502
+ *  
+ *  Creates a simple hash for the string. This function
+ *  should NOT be used for sensitive information.
+ *
+ *  string:   The input string.
+ *  flags:    If STORM_HASH_ABSOLUTE is set then this
+              function uses the absolute string, otherwise
+              it will convert backslashes to forward
+              slashes and some other processing.
+ *  seed:     The hash seed. If this value is 0 then the
+ *            default value 0x7FED7FED will be used.
+ *
+ *  Returns the 32-bit hash of the string.
+ */
+DWORD
+STORMAPI
+SStrHash(
+      __in  const char *string,
+      __in  DWORD flags = 0,
+      __in  DWORD Seed  = 0);
+
 int   STORMAPI SStrNCat(char *dest, const char *src, DWORD max_length);
 
-int   STORMAPI SStrLen(const char* string);
+/*  SStrLen @ 506
+ *  
+ *  Retrieves the length of a string.
+ *
+ *  string:   The input string of which to obtain a
+ *            length for.
+ *
+ *  Returns the length of the string.
+ */
+int
+STORMAPI
+SStrLen(
+      __in  const char* string);
 
 int   STORMAPI SStrCmp(const char *string1, const char *string2, size_t size);
 int   STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size);
