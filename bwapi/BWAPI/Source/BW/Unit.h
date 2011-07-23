@@ -112,7 +112,8 @@ namespace BW
     /*0x08E*/ u8                                  rankIncrease;       /**< Adds this value to the unit's base rank */
     /*0x08F*/ u8                                  killCount;          /**< Killcount */
     /*0x090*/ u8                                  lastAttackingPlayer; // the player that last attacked this unit
-    /*0x091*/ u16                                 secondaryOrderTimer; // A guess
+    /*0x091*/ u8                                  secondaryOrderTimer;
+    /*0x092*/ u8                                  _unknown_0x091;
     /*0x093*/ u8                                  userActionFlags;     // some flags that change when the user interacts with the unit
                                                                        // 2 = issued an order, 3 = interrupted an order, 4 = self destructing
     /*0x094*/ u16                                 currentButtonSet;    // The u16 is a guess, used to be u8

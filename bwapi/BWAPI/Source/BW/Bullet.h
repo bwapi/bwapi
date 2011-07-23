@@ -48,18 +48,18 @@ namespace BW
                                                  // 5 = appear on target/instant
                                                  // 6 = attack target area
     /*0x4E*/ u16          unknown_0x4E;
-    /*0x50*/ u16          someUnitType; //usually holds e4 (Unknown unit type stuff?)
+    /*0x50*/ u16          someUnitType; //usually holds UnitTypes::None (Unknown unit type stuff?)
     /*0x52*/ u16          unknown_0x52; 
     /*0x54*/ s32          unknown_0x54; //usually holds 0
     /*0x58*/ BW::Position flyToPosition;
     /*0x5C*/ BW::Unit*    targetUnit;
     /*0x60*/ u8           weaponType;
     /*0x61*/ u8           time_remaining;
-    /*0x62*/ u8           hitFlags;          // 0x01 = miss target; 0x02 = no damage (hallucination)
-    /*0x63*/ u8           remainingBounces;  // Bounce count for mutalisk weapon
+    /*0x62*/ u8           hitFlags;           // 0x01 = miss target; 0x02 = no damage (hallucination)
+    /*0x63*/ u8           remainingBounces;   // Bounce count for mutalisk weapon
     /*0x64*/ BW::Unit*    sourceUnit;
-    /*0x68*/ BW::Unit*    unknown_0x68; //usually holds 0x00000000 ; Unknown Unit pointer (Mutalisk Weapon)
-    /*0x6C*/ u32          unknown_0x6C; //some sort of cyclic burst counter (used by valkyries, goliath air attack)
+    /*0x68*/ BW::Unit*    nextBounceUnit;     // Next unit for bounce, temporary
+    /*0x6C*/ u32          unknown_0x6C;       // some sort of cyclic burst counter (used by valkyries, goliath air attack)
   };
 #pragma pack()
 };

@@ -1,4 +1,24 @@
 =====================================
+Changes from BWAPI 3.6 to BWAPI 3.6.1
+=====================================
+
+Changes:
+  * The command optimizer now groups some Use_Tech commands correctly.
+  * Command optimizer level 4 will now group Archon Warp and Dark Archon Meld. 
+
+Additions:
+  * Added Orders::NukePaint.
+  * Added TechType::getOrder.
+  * Position and TilePosition can now be treated as a boolean value and will automatically call isValid(). This is an effort to make cleaner-looking code. 
+
+Bug Fixes:
+  * Fixed an issue where every module using the BWAPILIB library would take some loading time when initializing color information. Instead it will only initialize the information on the first call to the Color(r, g, b) constructor.
+  * Fixed various minor potential buffer overflows/underflows.
+  * Correctly initialize some Player values.
+  * Fixed a bug where non-existent players' Start Locations were excluded from the Start Location group in a Use Map Settings (revealing only opponent Start Locations).
+  * Fixed a regression where Archon Warp and Dark Archon Meld always returned an error. 
+
+=====================================
 Changes from BWAPI 3.5.4 to BWAPI 3.6
 =====================================
 
