@@ -1196,4 +1196,8 @@ namespace BWAPI
     //queue up command for server so it also applies the change
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetCommandOptimizerLevel, level));
   }
+  int GameImpl::countdownTimer() const
+  {
+    return data->countdownTimer;
+  }
 };

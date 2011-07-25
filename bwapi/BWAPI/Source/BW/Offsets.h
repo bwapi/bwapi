@@ -226,6 +226,7 @@ namespace BW
   static u32            *BWDATA_InReplay       = (u32*) 0x006D0F14;
   static int            *BWDATA_NetMode        = (int*) 0x0059688C;
   static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
+  static u32            *BWDATA_CountdownTimer = (u32*) 0x0058D6F4; // Countdown Timer (in seconds)
   static u32            *BWDATA_ElapsedTime    = (u32*) 0x0058D6F8; // Elapsed Game Time (in seconds)
 
   // note: unaligned because it's part of a structure that we're not using

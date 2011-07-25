@@ -229,5 +229,6 @@ namespace BWAPI
       virtual bool setVision(BWAPI::Player *player, bool enabled = true);
       virtual int  elapsedTime() const;
       virtual void setCommandOptimizationLevel(int level = 2);
+      virtual int  countdownTimer() const;
   };
 }

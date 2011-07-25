@@ -234,6 +234,7 @@ namespace BWAPI
       virtual int  elapsedTime() const;
 
       virtual void setCommandOptimizationLevel(int level = 2);
+      virtual int  countdownTimer() const;
 
       //Internal BWAPI commands:
       GameImpl();
