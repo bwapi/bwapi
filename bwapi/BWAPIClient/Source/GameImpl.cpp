@@ -80,7 +80,8 @@ namespace BWAPI
         e.type == EventType::UnitCreate ||
         e.type == EventType::UnitDestroy ||
         e.type == EventType::UnitRenegade ||
-        e.type == EventType::UnitMorph)
+        e.type == EventType::UnitMorph ||
+        e.type == EventType::UnitComplete )
       e2.unit = getUnit(e.v1);
     return e2;
 

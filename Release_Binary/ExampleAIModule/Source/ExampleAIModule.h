@@ -29,6 +29,7 @@ public:
   virtual void onUnitMorph(BWAPI::Unit* unit);
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
+  virtual void onUnitComplete(BWAPI::Unit *unit);
   void drawStats(); //not part of BWAPI::AIModule
   void drawBullets();
   void drawVisibilityData();

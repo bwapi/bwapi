@@ -67,56 +67,59 @@ int main(int argc, const char* argv[])
         {
           case EventType::MatchStart:
             client->onStart();
-          break;
+            break;
           case EventType::MatchEnd:
             client->onEnd(e->isWinner);
-          break;
+            break;
           case EventType::MatchFrame:
             client->onFrame();
-          break;
+            break;
           case EventType::MenuFrame:
-          break;
+            break;
           case EventType::SendText:
             client->onSendText(e->text);
-          break;
+            break;
           case EventType::ReceiveText:
             client->onReceiveText(e->player, e->text);
-          break;
+            break;
           case EventType::PlayerLeft:
             client->onPlayerLeft(e->player);
-          break;
+            break;
           case EventType::NukeDetect:
             client->onNukeDetect(e->position);
-          break;
+            break;
           case EventType::UnitDiscover:
             client->onUnitDiscover(e->unit);
-          break;
+            break;
           case EventType::UnitEvade:
             client->onUnitEvade(e->unit);
-          break;
+            break;
           case EventType::UnitShow:
             client->onUnitShow(e->unit);
-          break;
+            break;
           case EventType::UnitHide:
             client->onUnitHide(e->unit);
-          break;
+            break;
           case EventType::UnitCreate:
             client->onUnitCreate(e->unit);
-          break;
+            break;
           case EventType::UnitDestroy:
             client->onUnitDestroy(e->unit);
-          break;
+            break;
           case EventType::UnitMorph:
             client->onUnitMorph(e->unit);
-          break;
+            break;
           case EventType::UnitRenegade:
             client->onUnitRenegade(e->unit);
-          break;
+            break;
           case EventType::SaveGame:
             client->onSaveGame(e->text);
-          break;
+            break;
+          case EventType::UnitComplete:
+            client->onUnitComplete(e->unit);
+            break;
           default:
-          break;
+            break;
         }
       }
       BWAPI::BWAPIClient.update();

@@ -29,6 +29,8 @@ namespace BWAPI
       static Event UnitMorph(Unit* unit);
       static Event UnitRenegade(Unit* unit);
       static Event SaveGame(std::string gameName);
+      static Event UnitComplete(Unit *unit);
+      //static Event TriggerAction();
       EventType::Enum type;
       Position position;
       std::string text;

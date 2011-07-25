@@ -416,3 +416,7 @@ void ExampleAIModule::showForces()
     }
   }
 }
+
+void ExampleAIModule::onUnitComplete()
+{
+}
