@@ -295,7 +295,7 @@ struct s_evt
 {
   DWORD dwFlags;
   int   dwPlayerId;
-  BYTE  *pData;
+  void  *pData;
   DWORD dwSize;
 };
 #endif

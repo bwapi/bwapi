@@ -600,12 +600,7 @@ namespace BWAPI
       return;
     }
 
-    s_evt evt;
-    evt.dwFlags    = 4;
-    evt.dwPlayerId = -1;
-    evt.pData      = (BYTE*)buffer;
-    evt.dwSize     = strlen(buffer) + 1;
-
+    s_evt evt = { 4, -1, buffer, strlen(buffer) + 1 };
     SEvtDispatch('SNET', 1, 4, &evt);
     free(buffer);
   }

@@ -1,6 +1,8 @@
 #pragma once
 #include <windows.h>
 
+#include "Triggers.h"
+
 namespace BW
 {
   namespace Triggers
@@ -45,7 +47,7 @@ namespace BW
       Condition conditions[16];
       Action    actions[64];
       DWORD     dwExecutionFlags;
-      BYTE      bExecuteFor[27];
+      BYTE      bExecuteFor[PlayerGroups::Max];
       BYTE      bCurrentActionIndex;
 
       bool conditionsCanBeMet();

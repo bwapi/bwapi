@@ -37,6 +37,17 @@ BOOL   (WINAPI   *_DeleteFileOld)(LPCTSTR lpFileName);
 DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
 HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
+VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
+
+//------------------------------------------------ SLEEP ----------------------------------------------------
+VOID WINAPI _Sleep(DWORD dwMilliseconds)
+{
+  if ( dwMilliseconds == 1500 ) // Main menu timer
+    return;
+
+  if ( _SleepOld )
+    _SleepOld(dwMilliseconds);
+}
 
 //------------------------------------------- DIRECT DRAW INIT -----------------------------------------------
 void DDInit()
