@@ -776,7 +776,7 @@ namespace BWAPI
           }
           if ( select )
           {
-            BYTE b = cont->unk_07;
+            BYTE b = cont->unk_relation;
             unsigned int len = abs(cont->v[2] - cont->v[1]);
             drawTextMouse(32, 0, "%cLength: %u\n%cUnknown: %u (0x%02X) (b%u%u%u%u%u%u%u%u)", 4, len, 4, b, b, b&0x80 ? 1:0, b&0x40 ? 1:0, b&0x20 ? 1:0, b&0x10 ? 1:0, b&8 ? 1:0, b&4 ? 1:0, b&2 ? 1:0, b&1 ? 1:0);
           }

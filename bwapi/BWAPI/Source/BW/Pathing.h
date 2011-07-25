@@ -85,7 +85,7 @@ namespace BW
   {
     s16 v[3];
     u8  type;
-    u8  unk_07;
+    u8  unk_relation;   // Relation to neighboring contours. The highest 2 bits are unused.
   };
 
   struct contourHub

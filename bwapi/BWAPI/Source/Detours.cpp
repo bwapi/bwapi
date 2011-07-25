@@ -14,6 +14,7 @@
 #include "BW/Offsets.h"
 #include "DLLMain.h"
 #include "NewHackUtil.h"
+#include "BW/TriggerEngine.h"
 
 #include "../../Debug.h"
 
@@ -38,6 +39,17 @@ DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
 HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
+
+bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
+bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
+{
+  bool rval = BWTriggerActionFxnTable[pAction->bActionType](pAction);
+  if ( rval )
+  {
+    // do stuff
+  }
+  return rval;
+}
 
 //------------------------------------------------ SLEEP ----------------------------------------------------
 VOID WINAPI _Sleep(DWORD dwMilliseconds)

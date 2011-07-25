@@ -450,8 +450,9 @@ namespace BW
   static BlizzVectorController<TransVectorEntry>  *BWDATA_TransMaskVector = (BlizzVectorController<TransVectorEntry>*)  0x0051A334;
   static BlizzVectorController<Triggers::Trigger> *BWDATA_TriggerVectors  = (BlizzVectorController<Triggers::Trigger>*) 0x0051A280;
 
-  const char            *GetStatString(int index);
+  static bool (__fastcall **BWDATA_TriggerActionFxnTable)(BW::Triggers::Action*) = (bool(__fastcall**)(BW::Triggers::Action*))0x00512800;
 
+  const char            *GetStatString(int index);
   extern char           *BWDATA_StringTableOff;
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
