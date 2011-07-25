@@ -21,7 +21,6 @@ void ApplyCodePatches()
 
   /* Perform code patches */
   char zero = 0;
-  HackUtil::WriteNops(BW::BWDATA_MenuLoadHack, 11);             // main menu load timer
   HackUtil::WriteMem(BW::BWDATA_ServerMenuIn, &zero, 1);        // BNET Server menu in speed
   HackUtil::WriteMem(BW::BWDATA_ServerMenuOut, &zero, 1);       // BNET Server menu out speed
   HackUtil::WriteMem(BW::BWDATA_OpponentStartHack, &zero, 1);   // Start without an opponent
@@ -64,7 +63,7 @@ void ApplyCodePatches()
   *(FARPROC*)&_GetFileAttributesOld = HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
   *(FARPROC*)&_CreateFileOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
   *(FARPROC*)&_FindFirstFileOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
-
+  *(FARPROC*)&_SleepOld             = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
