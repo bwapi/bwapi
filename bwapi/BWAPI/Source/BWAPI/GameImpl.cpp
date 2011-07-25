@@ -1072,5 +1072,10 @@ namespace BWAPI
       return;
     this->commandOptimizerLevel = level;
   }
+  //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
+  int GameImpl::countdownTimer() const
+  {
+    return (int)*BW::BWDATA_CountdownTimer;
+  }
 };
 

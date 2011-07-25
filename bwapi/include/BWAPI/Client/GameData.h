@@ -67,6 +67,7 @@ namespace BWAPI
     int replayFrameCount;
     int frameCount;
     int elapsedTime;
+    int countdownTimer;
     int fps;
     double averageFPS;
 

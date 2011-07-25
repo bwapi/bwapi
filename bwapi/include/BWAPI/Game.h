@@ -445,6 +445,9 @@ namespace BWAPI
           2 = More optimization    (Train, Set Rally, Lift, [multi-select buildings]).
           3 = Maximum optimization (Attack/Move to position, use ability at position, etc.).*/
       virtual void setCommandOptimizationLevel(int level = 2) = 0;
+
+      /** Returns the remaining countdown time in seconds. */
+      virtual int  countdownTimer() const = 0;
   };
   extern Game* Broodwar;
 }
