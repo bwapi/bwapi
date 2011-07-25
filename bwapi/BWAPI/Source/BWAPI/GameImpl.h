@@ -278,6 +278,7 @@ namespace BWAPI
       bool addToCommandOptimizer(UnitCommand command);
 
       void chooseNewRandomMap();
+      static void SendClientEvent(BWAPI::AIModule *module, Event &e);
 
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);

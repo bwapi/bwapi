@@ -4,7 +4,13 @@
 
 namespace BWAPI
 {
-  Event::Event() : type(EventType::None), position(Positions::None), text(""), unit(NULL), player(NULL), isWinner(false)
+  Event::Event()
+    :type(EventType::None)
+    ,position(Positions::None)
+    ,text("")
+    ,unit(NULL)
+    ,player(NULL)
+    ,isWinner(false)
   {
   }
   bool Event::operator==(const Event& other)
@@ -131,6 +137,13 @@ namespace BWAPI
     Event e;
     e.type = EventType::SaveGame;
     e.text = gameName;
+    return e;
+  }
+  Event Event::UnitComplete(Unit *unit)
+  {
+    Event e;
+    e.type = EventType::UnitComplete;
+    e.unit = unit;
     return e;
   }
 }

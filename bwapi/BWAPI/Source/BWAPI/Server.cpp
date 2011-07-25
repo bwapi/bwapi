@@ -134,6 +134,9 @@ namespace BWAPI
     case BWAPI::EventType::UnitRenegade:
       e2->v1 = getUnitID(e.unit);
       break;
+    case BWAPI::EventType::UnitComplete:
+      e2->v1 = getUnitID(e.unit);
+      break;
     default:
       break;
     }
@@ -370,6 +373,9 @@ namespace BWAPI
         break;
       case EventType::SaveGame:
         BroodwarImpl.tournamentAI->onSaveGame(e.text);
+        break;
+      case EventType::UnitComplete:
+        BroodwarImpl.tournamentAI->onUnitComplete(e.unit);
         break;
       default:
         break;

@@ -40,6 +40,8 @@ namespace BWAPI
   { }
   void AIModule::onSaveGame(std::string gameName)
   { }
+  void AIModule::onUnitComplete(BWAPI::Unit *unit)
+  { }
 
   TournamentModule::TournamentModule()
   { }

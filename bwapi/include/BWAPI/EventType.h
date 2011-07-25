@@ -22,6 +22,8 @@ namespace BWAPI
       UnitMorph,
       UnitRenegade,
       SaveGame,
+      UnitComplete,
+      //TriggerAction,
       None
     };
   }

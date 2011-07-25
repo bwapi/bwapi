@@ -33,6 +33,7 @@ namespace BWAPI
       , userSelected(false)
       , isAlive(false)
       , wasAlive(false)
+      , wasCompleted(false)
       , wasAccessible(false)
       , wasVisible(false)
       , staticInformation(false)
@@ -970,6 +971,7 @@ namespace BWAPI
     userSelected       = false;
     isAlive            = false;
     wasAlive           = false;
+    wasCompleted       = false;
     wasAccessible      = false;
     wasVisible         = false;
     nukeDetected       = false;

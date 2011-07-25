@@ -2043,6 +2043,7 @@ namespace BWAPI
       unitArray[i]->userSelected      = false;
       unitArray[i]->isAlive           = false;
       unitArray[i]->wasAlive          = false;
+      unitArray[i]->wasCompleted      = false;
       unitArray[i]->wasAccessible     = false;
       unitArray[i]->wasVisible        = false;
       unitArray[i]->staticInformation = false;
@@ -2214,12 +2215,17 @@ namespace BWAPI
       {
         if ( !u->wasAlive )
           events.push_back(Event::UnitCreate(u));
+        if ( !u->wasCompleted && u->isCompleted() )
+        {
+          events.push_back(Event::UnitComplete(u));
+          u->wasCompleted = true;
+        }
         if ( !u->wasAccessible )
         {
           discoverUnits.push_back(u);
           events.push_back(Event::UnitDiscover(u));
         }
-        if (u->isVisible())
+        if ( u->isVisible() )
         {
           if ( !u->wasVisible )
             events.push_back(Event::UnitShow(u));
@@ -2583,6 +2589,68 @@ namespace BWAPI
     }
     return true;
   }
+  void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)
+  {
+    EventType::Enum et = e.type;
+    switch (et)
+    {
+    case EventType::MatchStart:
+      module->onStart();
+      break;
+    case EventType::MatchEnd:
+      module->onEnd(e.isWinner);
+      break;
+    case EventType::MatchFrame:
+      module->onFrame();
+      break;
+    case EventType::MenuFrame:
+      break;
+    case EventType::SendText:
+      module->onSendText(e.text);
+      break;
+    case EventType::ReceiveText:
+      module->onReceiveText(e.player, e.text);
+      break;
+    case EventType::PlayerLeft:
+      module->onPlayerLeft(e.player);
+      break;
+    case EventType::NukeDetect:
+      module->onNukeDetect(e.position);
+      break;
+    case EventType::UnitDiscover:
+      module->onUnitDiscover(e.unit);
+      break;
+    case EventType::UnitEvade:
+      module->onUnitEvade(e.unit);
+      break;
+    case EventType::UnitCreate:
+      module->onUnitCreate(e.unit);
+      break;
+    case EventType::UnitDestroy:
+      module->onUnitDestroy(e.unit);
+      break;
+    case EventType::UnitMorph:
+      module->onUnitMorph(e.unit);
+      break;
+    case EventType::UnitShow:
+      module->onUnitShow(e.unit);
+      break;
+    case EventType::UnitHide:
+      module->onUnitHide(e.unit);
+      break;
+    case EventType::UnitRenegade:
+      module->onUnitRenegade(e.unit);
+      break;
+    case EventType::SaveGame:
+      module->onSaveGame(e.text);
+      break;
+    case EventType::UnitComplete:
+      module->onUnitComplete(e.unit);
+      break;
+    default:
+      break;
+    }
+  }
   void GameImpl::processEvents()
   {
     //This function translates events into AIModule callbacks
@@ -2592,124 +2660,14 @@ namespace BWAPI
       return;
     foreach(Event e, events)
     {
-      EventType::Enum et = e.type;
-      switch (et)
-      {
-      case EventType::MatchStart:
-        client->onStart();
-        break;
-      case EventType::MatchEnd:
-        client->onEnd(e.isWinner);
-        break;
-      case EventType::MatchFrame:
-        client->onFrame();
-        break;
-      case EventType::MenuFrame:
-        break;
-      case EventType::SendText:
-        client->onSendText(e.text);
-        break;
-      case EventType::ReceiveText:
-        client->onReceiveText(e.player, e.text);
-        break;
-      case EventType::PlayerLeft:
-        client->onPlayerLeft(e.player);
-        break;
-      case EventType::NukeDetect:
-        client->onNukeDetect(e.position);
-        break;
-      case EventType::UnitDiscover:
-        client->onUnitDiscover(e.unit);
-        break;
-      case EventType::UnitEvade:
-        client->onUnitEvade(e.unit);
-        break;
-      case EventType::UnitCreate:
-        client->onUnitCreate(e.unit);
-        break;
-      case EventType::UnitDestroy:
-        client->onUnitDestroy(e.unit);
-        break;
-      case EventType::UnitMorph:
-        client->onUnitMorph(e.unit);
-        break;
-      case EventType::UnitShow:
-        client->onUnitShow(e.unit);
-        break;
-      case EventType::UnitHide:
-        client->onUnitHide(e.unit);
-        break;
-      case EventType::UnitRenegade:
-        client->onUnitRenegade(e.unit);
-        break;
-      case EventType::SaveGame:
-        client->onSaveGame(e.text);
-        break;
-      default:
-        break;
-      }
+      SendClientEvent(client, e);
 
       if ( !tournamentAI )
         continue;
 
       isTournamentCall = true;
-      switch (et)
-      {
-      case EventType::MatchStart:
-        tournamentAI->onStart();
-        break;
-      case EventType::MatchEnd:
-        tournamentAI->onEnd(e.isWinner);
-        break;
-      case EventType::MatchFrame:
-        tournamentAI->onFrame();
-        break;
-      case EventType::MenuFrame:
-        break;
-      case EventType::SendText:
-        tournamentAI->onSendText(e.text);
-        break;
-      case EventType::ReceiveText:
-        tournamentAI->onReceiveText(e.player, e.text);
-        break;
-      case EventType::PlayerLeft:
-        tournamentAI->onPlayerLeft(e.player);
-        break;
-      case EventType::NukeDetect:
-        tournamentAI->onNukeDetect(e.position);
-        break;
-      case EventType::UnitDiscover:
-        tournamentAI->onUnitDiscover(e.unit);
-        break;
-      case EventType::UnitEvade:
-        tournamentAI->onUnitEvade(e.unit);
-        break;
-      case EventType::UnitCreate:
-        tournamentAI->onUnitCreate(e.unit);
-        break;
-      case EventType::UnitDestroy:
-        tournamentAI->onUnitDestroy(e.unit);
-        break;
-      case EventType::UnitMorph:
-        tournamentAI->onUnitMorph(e.unit);
-        break;
-      case EventType::UnitShow:
-        tournamentAI->onUnitShow(e.unit);
-        break;
-      case EventType::UnitHide:
-        tournamentAI->onUnitHide(e.unit);
-        break;
-      case EventType::UnitRenegade:
-        tournamentAI->onUnitRenegade(e.unit);
-        break;
-      case EventType::SaveGame:
-        tournamentAI->onSaveGame(e.text);
-        break;
-      default:
-        break;
-      }
+      SendClientEvent(tournamentAI, e);
       isTournamentCall = false;
-
     } // foreach event
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------

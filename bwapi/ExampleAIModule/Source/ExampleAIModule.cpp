@@ -268,6 +268,12 @@ void ExampleAIModule::onSaveGame(std::string gameName)
 {
   Broodwar->printf("The game was saved to \"%s\".", gameName.c_str());
 }
+
+void ExampleAIModule::onUnitComplete(BWAPI::Unit *unit)
+{
+  if ( Broodwar->self() == unit->getPlayer() )
+    Broodwar->printf("A %s has just finished constructing.", unit->getType().getName().c_str());
+}
 /*
 DWORD WINAPI AnalyzeThread()
 {

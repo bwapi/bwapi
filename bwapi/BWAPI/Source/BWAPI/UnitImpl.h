@@ -245,6 +245,7 @@ namespace BWAPI
       int _getResources;
       int _getHitPoints;
       bool _isCompleted;
+      bool wasCompleted;
       Unit* _getTransport;
 
       /**
