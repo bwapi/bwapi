@@ -1074,4 +1074,9 @@ namespace BWAPI
   {
     return self->recentlyAttacked;
   }
+  //------------------------------------------------- REPLAY ID ----------------------------------------------
+  int UnitImpl::getReplayID() const
+  {
+    return self->replayID;
+  }
 };

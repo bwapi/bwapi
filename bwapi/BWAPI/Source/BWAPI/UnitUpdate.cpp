@@ -14,6 +14,7 @@
 #include <BWAPI/WeaponType.h>
 
 #include <BW/Unit.h>
+#include <BW/UnitTarget.h>
 #include <BW/UnitStatusFlags.h>
 #include <BW/MovementFlags.h>
 #include <BW/UnitID.h>
@@ -29,7 +30,10 @@ namespace BWAPI
   void UnitImpl::updateInternalData()
   {
     BW::Unit *o = getOriginalRawData;
+    if ( !o )
+      return;
     int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
+    self->replayID   = BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ? BW::UnitTarget(o).getTarget() : 0;
     if (isAlive)
     {
       _getPlayer = (Player*)BroodwarImpl.players[getOriginalRawData->playerID]; //_getPlayer

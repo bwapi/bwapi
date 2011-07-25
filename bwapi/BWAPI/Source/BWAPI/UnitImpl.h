@@ -36,7 +36,6 @@ namespace BWAPI
   class UnitImpl : public Unit
   {
     public:
-
       virtual int          getID() const;
       virtual Player*      getPlayer() const;
       virtual UnitType     getType() const;
@@ -227,6 +226,8 @@ namespace BWAPI
       virtual bool          isUnderAttack() const;
       virtual BWAPI::Player *getLastAttackingPlayer() const;
 
+      virtual int getReplayID() const;
+
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
                u16 index);
@@ -293,8 +294,7 @@ namespace BWAPI
       int lastCommandFrame;
       UnitCommand lastCommand;
 
-      void* clientInfo;
-
+      void *clientInfo;
     private:
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();

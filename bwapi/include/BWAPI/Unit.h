@@ -701,5 +701,8 @@ namespace BWAPI
 
       /** Returns the player that last attacked this unit. */
       virtual BWAPI::Player *getLastAttackingPlayer() const = 0;
+
+      /** Returns the unit ID that is used in a replay (*.rep) file's action recordings. */
+      virtual int getReplayID() const = 0;
   };
 }

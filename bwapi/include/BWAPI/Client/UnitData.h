@@ -106,5 +106,6 @@ namespace BWAPI
 
     int  lastAttackerPlayer;
     bool recentlyAttacked;
+    int  replayID;
   };
 }
