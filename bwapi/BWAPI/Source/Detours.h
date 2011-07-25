@@ -52,3 +52,6 @@ extern DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
 extern HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 extern HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 extern VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
+
+bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
+extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);

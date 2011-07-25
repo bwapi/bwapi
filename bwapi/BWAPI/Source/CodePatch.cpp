@@ -64,6 +64,10 @@ void ApplyCodePatches()
   *(FARPROC*)&_CreateFileOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
   *(FARPROC*)&_FindFirstFileOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
   *(FARPROC*)&_SleepOld             = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
+
+  memcpy(BWTriggerActionFxnTable, BW::BWDATA_TriggerActionFxnTable, sizeof(BWTriggerActionFxnTable));
+  for ( int i = 0; i < countof(BWTriggerActionFxnTable); ++i )
+    BW::BWDATA_TriggerActionFxnTable[i] = &TriggerActionReplacement;
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
