@@ -39,6 +39,8 @@ namespace BWAPI
       virtual int repairedGas() const;
       virtual int refundedMinerals() const;
       virtual int refundedGas() const;
+      virtual int spentMinerals() const;
+      virtual int spentGas() const;
 
       virtual int supplyTotal() const;
       virtual int supplyUsed() const;

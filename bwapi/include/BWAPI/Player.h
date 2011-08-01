@@ -88,6 +88,11 @@ namespace BWAPI
       /** Returns the cumulative amount of gas the player has gained from refunded units up to this point. */
       virtual int refundedGas() const = 0;
 
+      /** Returns the cumulative amount of minerals the player has spent up to this point (not including repairs). */
+      virtual int spentMinerals() const = 0;
+
+      /** Returns the cumulative amount of gas the player has spent up to this point (not including repairs). */
+      virtual int spentGas() const = 0;
       // TODO: ground methods
       /** Returns the total amount of supply the player has. If a race is provided, the total supply for the
        * given race will be returned, otherwise the player's initial race will be used. Supply counts returned
