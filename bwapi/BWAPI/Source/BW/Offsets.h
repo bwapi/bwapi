@@ -314,6 +314,8 @@ namespace BW
 
   static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
   static u32 BWFXN_NextLogicFrame       =        0x004D974E;
+  static u32 BWFXN_SpendRepair      =        0x00467006;
+  static u32 BWFXN_SpendRepairReturnAddress =        0x0046700D;
 
   static void (*BWDATA_DSoundDestroy)()  = (void (*)()) 0x004BC180;
 

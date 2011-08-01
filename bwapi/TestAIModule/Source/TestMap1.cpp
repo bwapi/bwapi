@@ -215,8 +215,8 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()->getType()==PlayerTypes::Player);
   BWAssert(Broodwar->self()->minerals()==0);
   BWAssert(Broodwar->self()->gas()==0);
-  BWAssert(Broodwar->self()->cumulativeMinerals()==0);
-  BWAssert(Broodwar->self()->cumulativeGas()==0);
+  BWAssert(Broodwar->self()->gatheredMinerals()==0);
+  BWAssert(Broodwar->self()->gatheredGas()==0);
   BWAssert(Broodwar->self()->supplyTotal()==120);
   BWAssert(Broodwar->self()->supplyUsed()==0);
 
@@ -224,8 +224,8 @@ void TestMap1::onStart()
   BWAssert(Broodwar->enemy()->getType()==PlayerTypes::Computer);
   BWAssert(Broodwar->enemy()->minerals()==0);
   BWAssert(Broodwar->enemy()->gas()==0);
-  BWAssert(Broodwar->enemy()->cumulativeMinerals()==0);
-  BWAssert(Broodwar->enemy()->cumulativeGas()==0);
+  BWAssert(Broodwar->enemy()->gatheredMinerals()==0);
+  BWAssert(Broodwar->enemy()->gatheredGas()==0);
   BWAssert(Broodwar->enemy()->supplyTotal()==0);
   BWAssert(Broodwar->enemy()->supplyUsed()==0);
 
@@ -277,8 +277,8 @@ void TestMap1::onFrame()
     BWAssert(Broodwar->isReplay()==false);
     BWAssert(Broodwar->self()->minerals()==10050);
     BWAssert(Broodwar->self()->gas()==10000);
-    BWAssert(Broodwar->self()->cumulativeMinerals()==50);
-    BWAssert(Broodwar->self()->cumulativeGas()==0);
+    BWAssert(Broodwar->self()->gatheredMinerals()==50);
+    BWAssert(Broodwar->self()->gatheredGas()==0);
     for each(Unit* u in Broodwar->self()->getUnits())
     {
       if (u->getType().isFlyingBuilding())

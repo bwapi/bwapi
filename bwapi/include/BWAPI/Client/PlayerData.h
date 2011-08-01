@@ -20,8 +20,12 @@ namespace BWAPI
 
     int minerals;
     int gas;
-    int cumulativeMinerals;
-    int cumulativeGas;
+    int gatheredMinerals;
+    int gatheredGas;
+    int repairedMinerals;
+    int repairedGas;
+    int refundedMinerals;
+    int refundedGas;
     int supplyTotal[3];
     int supplyUsed[3];
 

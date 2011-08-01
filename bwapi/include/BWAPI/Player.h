@@ -71,10 +71,22 @@ namespace BWAPI
 
       /** Returns the cumulative amount of minerals the player has mined up to this point (including the 50
        * minerals at the start of the game). */
-      virtual int cumulativeMinerals() const = 0;
+      virtual int gatheredMinerals() const = 0;
 
       /** Returns the cumulative amount of gas the player has harvested up to this point. */
-      virtual int cumulativeGas() const = 0;
+      virtual int gatheredGas() const = 0;
+
+      /** Returns the cumulative amount of minerals the player has spent on repairs up to this point. */
+      virtual int repairedMinerals() const = 0;
+
+      /** Returns the cumulative amount of gas the player has spent on repairs up to this point. */
+      virtual int repairedGas() const = 0;
+
+      /** Returns the cumulative amount of minerals the player has gained from refunded units up to this point. */
+      virtual int refundedMinerals() const = 0;
+
+      /** Returns the cumulative amount of gas the player has gained from refunded units up to this point. */
+      virtual int refundedGas() const = 0;
 
       // TODO: ground methods
       /** Returns the total amount of supply the player has. If a race is provided, the total supply for the
