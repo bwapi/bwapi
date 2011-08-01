@@ -1528,9 +1528,13 @@ namespace BWAPI
     // iterate triggers for each player
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      // reset participation
+      // reset participation and resources
       if ( this->players[i] )
+      {
         this->players[i]->setParticipating(false);
+        this->players[i]->resetResources();
+      }
+
 
       // First check if player owns a unit at start
       for ( int u = 0; u < BW::UnitID::None; ++u )

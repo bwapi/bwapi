@@ -41,10 +41,7 @@ namespace BWAPI
     self->repairedGas         = 0;
     self->refundedMinerals    = 0;
     self->refundedGas         = 0;
-    _repairedMinerals = 0;
-    _repairedGas      = 0;
-    _refundedMinerals = 0;
-    _refundedGas      = 0;
+    resetResources();
     if ( index < 12 )
     {
       self->color = BW::BWDATA_PlayerColors[index];
@@ -723,6 +720,13 @@ namespace BWAPI
   void PlayerImpl::setParticipating(bool isParticipating)
   {
     self->isParticipating = isParticipating;
+  }
+  void PlayerImpl::resetResources()
+  {
+    _repairedMinerals = 0;
+    _repairedGas      = 0;
+    _refundedMinerals = 0;
+    _refundedGas      = 0;
   }
   //----------------------------------------------------------------------------------------------------------
   int PlayerImpl::getMaxUpgradeLevel(UpgradeType upgrade) const
