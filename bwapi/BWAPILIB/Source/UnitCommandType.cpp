@@ -199,6 +199,10 @@ namespace BWAPI
   {
     return unitCommandTypeName[this->id];
   }
+  const char *UnitCommandType::c_str() const
+  {
+    return unitCommandTypeName[this->id].c_str();
+  }
   UnitCommandType UnitCommandTypes::getUnitCommandType(std::string name)
   {
     fixName(&name);

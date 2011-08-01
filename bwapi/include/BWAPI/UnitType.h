@@ -29,6 +29,7 @@ namespace BWAPI
 
       /** Returns the name of the unit. */
       std::string getName() const;
+      const char *c_str() const;
 
       /** Returns the race that the unit belongs to. For example UnitTypes::Terran_SCV.getRace() will return
        * Races::Terran. */

@@ -533,6 +533,10 @@ namespace BWAPI
   {
     return orderName[this->id];
   }
+  const char *Order::c_str() const
+  {
+    return orderName[this->id].c_str();
+  }
   Order Orders::getOrder(std::string name)
   {
     fixName(&name);

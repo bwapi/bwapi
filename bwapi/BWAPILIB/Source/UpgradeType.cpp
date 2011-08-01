@@ -363,6 +363,10 @@ namespace BWAPI
   {
     return upgradeTypeData[this->id].name;
   }
+  const char *UpgradeType::c_str() const
+  {
+    return upgradeTypeData[this->id].name.c_str();
+  }
   Race UpgradeType::getRace() const
   {
     return upgradeTypeData[this->id].race;

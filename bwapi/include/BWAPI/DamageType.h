@@ -18,6 +18,7 @@ namespace BWAPI
       /** Returns the name of this damage type. For example DamageTypes::Explosive.getName() will return
        * std::string("Explosive"). */
       std::string getName() const;
+      const char *c_str() const;
     private:
       int id;
   };

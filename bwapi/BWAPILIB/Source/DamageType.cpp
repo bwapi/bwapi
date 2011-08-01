@@ -82,7 +82,10 @@ namespace BWAPI
   {
     return damageTypeName[this->id];
   }
-
+  const char *DamageType::c_str() const
+  {
+    return damageTypeName[this->id].c_str();
+  }
   DamageType DamageTypes::getDamageType(std::string name)
   {
     fixName(&name);

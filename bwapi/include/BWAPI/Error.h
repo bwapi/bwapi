@@ -22,6 +22,7 @@ namespace BWAPI
       /** Returns the name of the error. For example Errors::Insufficient_Minerals?.toString() will return a
        * std::string object containing "Insufficient Minerals". */
       std::string toString() const;
+      const char *c_str() const;
     private:
       int id;
   };

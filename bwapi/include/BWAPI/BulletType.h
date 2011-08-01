@@ -18,6 +18,7 @@ namespace BWAPI
 
       /** Returns the name of this bullet type. */
       std::string getName() const;
+      const char *c_str() const;
     private:
       int id;
   };

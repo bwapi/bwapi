@@ -18,6 +18,7 @@ namespace BWAPI
       /** Returns the string corresponding to the UnitSizeType object. For example,
        * UnitSizeTypes::Medium.getName() returns std::string("Medium")*/
       std::string getName() const;
+      const char *c_str() const;
     private:
       int id;
   };

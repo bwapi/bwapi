@@ -148,6 +148,10 @@ namespace BWAPI
   {
     return errorName[this->id];
   }
+  const char *Error::c_str() const
+  {
+    return errorName[this->id].c_str();
+  }
   Error Errors::getError(std::string name)
   {
     fixName(&name);

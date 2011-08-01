@@ -109,6 +109,10 @@ namespace BWAPI
   {
     return gameTypeName[this->id];
   }
+  const char *GameType::c_str() const
+  {
+    return gameTypeName[this->id].c_str();
+  }
   GameType GameTypes::getGameType(std::string name)
   {
     fixName(&name);

@@ -59,7 +59,7 @@ void printUnitData(FILE *outWiki, UnitType u)
     if ( u.maxEnergy() )
       fprintf(outWiki, "  * *Max Energy*: %u\n", u.maxEnergy());
     fprintf(outWiki, "  * *Armor*: %u\n", u.armor());
-    fprintf(outWiki, "  * *Unit Size*: %s\n", u.size().getName().c_str());
+    fprintf(outWiki, "  * *Unit Size*: %s\n", u.size().c_str());
   }
   if ( u.whatBuilds().second > 0 )
   {
@@ -273,7 +273,7 @@ void writeUnitWiki()
   fprintf(outWiki, "\n= Other =\n");
   fprintf(outWiki, "\n== Critters ==\n");
   for each ( UnitType u in unitTypes )
-    if ( !strnicmp(u.getName().c_str(), "Critter", strlen("Critter")) )
+    if ( !strnicmp(u.c_str(), "Critter", strlen("Critter")) )
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Resources ==\n");
@@ -298,12 +298,12 @@ void writeUnitWiki()
 
   fprintf(outWiki, "\n== Traps ==\n");
   for each ( UnitType u in unitTypes )
-    if ( strstr(u.getName().c_str(), " Trap") )
+    if ( strstr(u.c_str(), " Trap") )
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Doors ==\n");
   for each ( UnitType u in unitTypes )
-    if ( strstr(u.getName().c_str(), " Door") )
+    if ( strstr(u.c_str(), " Door") )
       printUnitData(outWiki, u);
 
   fprintf(outWiki, "\n== Special ==\n");
@@ -334,7 +334,7 @@ void printWeaponData(FILE *outWiki, WeaponType w)
 {
   fprintf(outWiki, "== %s ==\n", maketitle(w));
   
-  fprintf(outWiki, "  * *Explosion Type*: %s\n", w.explosionType().getName().c_str());
+  fprintf(outWiki, "  * *Explosion Type*: %s\n", w.explosionType().c_str());
 
   if ( w.explosionType() == ExplosionTypes::Air_Splash      ||
        w.explosionType() == ExplosionTypes::Corrosive_Acid  ||
@@ -346,7 +346,7 @@ void printWeaponData(FILE *outWiki, WeaponType w)
   {
     if ( w.damageAmount() || w.damageBonus() )
     {
-      fprintf(outWiki, "  * *Damage Type*: %s\n", w.damageType().getName().c_str());
+      fprintf(outWiki, "  * *Damage Type*: %s\n", w.damageType().c_str());
       fprintf(outWiki, "  * *Damage*: %u\n", w.damageAmount());
       if ( w.damageBonus() )
         fprintf(outWiki, "  * *Bonus*: %u\n", w.damageBonus());

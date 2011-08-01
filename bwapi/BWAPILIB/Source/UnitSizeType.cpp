@@ -79,6 +79,10 @@ namespace BWAPI
   {
     return unitSizeTypeName[this->id];
   }
+  const char *UnitSizeType::c_str() const
+  {
+    return unitSizeTypeName[this->id].c_str();
+  }
   UnitSizeType UnitSizeTypes::getUnitSizeType(std::string name)
   {
     fixName(&name);
