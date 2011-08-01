@@ -86,7 +86,7 @@ namespace BW
     s16 v[3];
     u8  type;
     u8  unk_relation;   // Relation to neighboring contours. The highest 2 bits are unused.
-                        // bitwise:   XXXX YY
+                        // bitwise:   YY XXXX
                         // Where YY is the neighboring contours direction; 
                         //    1 = in, 0 = out; One bit for each neighbor
                         // And XXXX is a unique ID for the combination, used for an unknown array.

@@ -32,6 +32,7 @@ namespace BWAPI { class  AIModule; }
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/Region.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
@@ -348,6 +349,8 @@ namespace BWAPI
       std::set<BWAPI::Unit*> staticMinerals;
       std::set<BWAPI::Unit*> staticGeysers;
       std::set<BWAPI::Unit*> staticNeutralUnits;
+
+      std::set<BWAPI::Region*> regionsList;
 
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector<std::vector<Command *> > commandBuffer;
