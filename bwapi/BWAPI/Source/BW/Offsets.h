@@ -556,6 +556,12 @@ namespace BW
   };
   static UnitsDimensions_type *BWDATA_Unit_Dimensions = (UnitsDimensions_type*) unitsDat[38].address;
 
+  struct _uavail
+  {
+    u8 available[12][228];
+  };
+  static _uavail *BWDATA_UnitAvailability = (_uavail*)0x0057F27C;
+
   //-------------------------------------------- FLINGY DATA -------------------------------------------------
   static u16 *BWDATA_Flingy_SpriteID        = (u16*) flingyDat[0].address;
   static u32 *BWDATA_Flingy_TopSpeed        = (u32*) flingyDat[1].address;
@@ -600,7 +606,9 @@ namespace BW
 
   struct _scUpgrs {    u8 level[PLAYER_COUNT][46];  };
   struct _bwUpgrs {    u8 level[PLAYER_COUNT][15];  };
+  static _scUpgrs *BWDATA_UpgradeMaxSC   = (_scUpgrs*)0x0058D088;
   static _scUpgrs *BWDATA_UpgradeLevelSC = (_scUpgrs*)0x0058D2B0;
+  static _bwUpgrs *BWDATA_UpgradeMaxBW   = (_bwUpgrs*)0x0058F24A;
   static _bwUpgrs *BWDATA_UpgradeLevelBW = (_bwUpgrs*)0x0058F32C;
 
   static u32 BWDATA_UpgradeProgress = 0x0058F3E0;
@@ -614,8 +622,10 @@ namespace BW
 
   struct _scTechs {    u8 enabled[PLAYER_COUNT][24];  };
   struct _bwTechs {    u8 enabled[PLAYER_COUNT][20];  };
-  static _scTechs *BWDATA_TechResearchSC = (_scTechs*)0x0058CF44;
-  static _bwTechs *BWDATA_TechResearchBW = (_bwTechs*)0x0058F140;
+  static _scTechs *BWDATA_TechAvailableSC = (_scTechs*)0x0058CE24;
+  static _scTechs *BWDATA_TechResearchSC  = (_scTechs*)0x0058CF44;
+  static _bwTechs *BWDATA_TechAvailableBW = (_bwTechs*)0x0058F050;
+  static _bwTechs *BWDATA_TechResearchBW  = (_bwTechs*)0x0058F140;
 
   static u32 BWDATA_ResearchProgress  = 0x0058F230;
 

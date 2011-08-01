@@ -539,16 +539,20 @@ namespace BWAPI
     memset(self->hasResearched, 0, sizeof(self->hasResearched));
     memset(self->isUpgrading,   0, sizeof(self->isUpgrading));
     memset(self->isResearching, 0, sizeof(self->isResearching));
+    
+    memset(self->maxUpgradeLevel,     0, sizeof(self->maxUpgradeLevel));
+    memset(self->isResearchAvailable, 0, sizeof(self->isResearchAvailable));
+    memset(self->isUnitAvailable,     0, sizeof(self->isUnitAvailable));
 
     if ( this->isNeutral() || 
          (!BroodwarImpl._isReplay() && 
-          BroodwarImpl.self()->isEnemy((Player*)this) && 
+          BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) )
     {
       self->minerals           = 0;
       self->gas                = 0;
-      self->gatheredMinerals = 0;
-      self->gatheredGas      = 0;
+      self->gatheredMinerals   = 0;
+      self->gatheredGas        = 0;
       self->repairedMinerals   = 0;
       self->repairedGas        = 0;
       self->refundedMinerals   = 0;
@@ -589,15 +593,27 @@ namespace BWAPI
 
       // set upgrade level
       for(int i = 0; i < 46; ++i)
-        self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
+      {
+        self->upgradeLevel[i]     = BW::BWDATA_UpgradeLevelSC->level[index][i];
+        self->maxUpgradeLevel[i]  = BW::BWDATA_UpgradeMaxSC->level[index][i];
+      }
       for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
-        self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
+      {
+        self->upgradeLevel[i]     = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];
+        self->maxUpgradeLevel[i]  = BW::BWDATA_UpgradeMaxBW->level[index][i - 46];
+      }
 
       // set abilities researched
       for(int i = 0; i < 24; ++i)
-        self->hasResearched[i] = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA_TechResearchSC->enabled[index][i]);
+      {
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA_TechResearchSC->enabled[index][i]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA_TechAvailableSC->enabled[index][i];
+      }
       for(int i = 24; i < TECH_TYPE_COUNT; ++i)
-        self->hasResearched[i] = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA_TechResearchBW->enabled[index][i - 24]);
+      {
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA_TechResearchBW->enabled[index][i - 24]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA_TechAvailableBW->enabled[index][i - 24];
+      }
 
       // set upgrades in progress
       for(int i = 0; i < UPGRADE_TYPE_COUNT; ++i)
@@ -606,6 +622,9 @@ namespace BWAPI
       // set research in progress
       for(int i = 0; i < TECH_TYPE_COUNT; ++i)
         self->isResearching[i] = ( *(u8*)(BW::BWDATA_ResearchProgress + index * 6 + i/8 ) & (1 << i%8)) != 0;
+
+      for ( int i = 0; i < UNIT_TYPE_COUNT; ++i )
+        self->isUnitAvailable[i] = !!BW::BWDATA_UnitAvailability->available[index][i];
     }
     if ( (!BroodwarImpl._isReplay() && 
           BroodwarImpl.self()->isEnemy((Player*)this) && 
@@ -616,6 +635,7 @@ namespace BWAPI
       memset(self->supplyUsed,      0, sizeof(self->supplyUsed));
       memset(self->deadUnitCount,   0, sizeof(self->deadUnitCount));
       memset(self->killedUnitCount, 0, sizeof(self->killedUnitCount));
+
       self->totalUnitScore      = 0;
       self->totalKillScore      = 0;
       self->totalBuildingScore  = 0;
@@ -703,5 +723,24 @@ namespace BWAPI
   void PlayerImpl::setParticipating(bool isParticipating)
   {
     self->isParticipating = isParticipating;
+  }
+  //----------------------------------------------------------------------------------------------------------
+  int PlayerImpl::getMaxUpgradeLevel(UpgradeType upgrade) const
+  {
+    if ( upgrade >= UpgradeTypes::None )
+      return 0;
+    return self->maxUpgradeLevel[upgrade];
+  }
+  bool PlayerImpl::isResearchAvailable(TechType tech) const
+  {
+    if ( tech >= TechTypes::None )
+      return false;
+    return self->isResearchAvailable[tech];
+  }
+  bool PlayerImpl::isUnitAvailable(UnitType unit) const
+  {
+    if ( unit >= UnitTypes::None )
+      return false;
+    return self->isUnitAvailable[unit];
   }
 };

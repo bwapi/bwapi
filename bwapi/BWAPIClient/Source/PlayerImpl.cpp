@@ -359,4 +359,22 @@ namespace BWAPI
   {
     return !self->isParticipating;
   }
+  int PlayerImpl::getMaxUpgradeLevel(UpgradeType upgrade) const
+  {
+    if ( upgrade >= UpgradeTypes::None )
+      return 0;
+    return self->maxUpgradeLevel[upgrade];
+  }
+  bool PlayerImpl::isResearchAvailable(TechType tech) const
+  {
+    if ( tech >= TechTypes::None )
+      return false;
+    return self->isResearchAvailable[tech];
+  }
+  bool PlayerImpl::isUnitAvailable(UnitType unit) const
+  {
+    if ( unit >= UnitTypes::None )
+      return false;
+    return self->isUnitAvailable[unit];
+  }
 }

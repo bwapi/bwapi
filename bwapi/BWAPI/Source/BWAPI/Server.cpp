@@ -429,6 +429,8 @@ namespace BWAPI
       foreach(Player *i, Broodwar->getPlayers())
       {
         int id         = getPlayerID(i);
+        if ( id >= 12 )
+          continue;
         PlayerData* p  = &(data->players[id]);
         PlayerData* p2 = ((PlayerImpl*)i)->self;
 
@@ -471,6 +473,9 @@ namespace BWAPI
           p->hasResearched[j] = p2->hasResearched[j];
           p->isResearching[j] = p2->isResearching[j];
         }
+        memcpy(p->isResearchAvailable, p2->isResearchAvailable, sizeof(p->isResearchAvailable));
+        memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
+        memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
       }
 
       //dynamic unit data

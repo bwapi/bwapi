@@ -98,6 +98,10 @@ namespace BWAPI
 
       virtual bool isObserver() const;
 
+      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const;
+      virtual bool isResearchAvailable(TechType tech) const;
+      virtual bool isUnitAvailable(UnitType unit) const;
+
       //Internal BWAPI commands:
       /**
        * Constructs new player

@@ -145,6 +145,8 @@ namespace BWAPI
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       delete bulletArray[i];
   }
+  int orespent;
+  int gasspent;
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
@@ -649,20 +651,64 @@ namespace BWAPI
 
     setTextSize(0);
     // unitdebug
-    if ( unitDebug )
+    if ( unitDebug && BWAPIPlayer )
     {
-      for each (TilePosition tp in this->getStartLocations() )
+      for each (Unit *_u in BWAPIPlayer->getUnits() )
       {
-        Position p(tp);
-        drawBoxMap(p.x(), p.y(), p.x() + 128, p.y() + 96, Colors::Orange);
-      }
-      for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
-      {
-      }
-      /*for each ( UnitImpl *s in this->selectedUnitSet )
-      {
-        BW::Unit *u = s->getOriginalRawData;
-      }*/
+        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
+        if ( u->orderID != BW::OrderID::Repair1 || 
+             u->type()  != UnitTypes::Terran_SCV ||
+             u->orderState < 6   ||
+             !u->orderTargetUnit ||
+             u->worker.repairResourceLossTimer ||
+             _u->getDistance(_u->getOrderTarget()) > 5 )
+          continue;
+
+        BW::Unit *t = u->orderTargetUnit;
+        int topCost = 0;
+        if ( t->type().mineralPrice() && t->type().gasPrice() )
+          topCost = t->type().mineralPrice() < t->type().gasPrice() ? t->type().mineralPrice() : t->type().gasPrice();
+        else if ( t->type().mineralPrice() )
+          topCost = t->type().mineralPrice();
+        else if ( t->type().gasPrice() )
+          topCost = t->type().gasPrice();
+        else
+          continue;
+
+        int  hp     = t->type().maxHitPoints();
+        WORD hpgain = t->hpGainDuringRepair;
+        
+        int repairTime = (3 * hp) / (topCost * hpgain);
+        if ( repairTime )
+        {
+          if ( topCost == t->type().mineralPrice() )
+          {
+            orespent += 1;
+            gasspent += t->type().gasPrice() / t->type().mineralPrice();
+          }
+          else
+          {
+            gasspent += 1;
+            orespent += t->type().mineralPrice() / t->type().gasPrice();
+          }
+        }
+        else
+        {
+          if ( t->type().mineralPrice() )
+          {
+            int tmp = (t->type().mineralPrice() * hpgain) / (3 * hp);
+            orespent += tmp < 1 ? 1 : tmp;
+          }
+          if ( t->type().gasPrice() )
+          {
+            int tmp = (t->type().gasPrice() * hpgain) / (3 * hp);
+            gasspent += tmp < 1 ? 1 : tmp;
+          }
+
+        }
+      } // iterate
+
+      drawTextScreen(12, 12, "Ore Spent: %u\nGas Spent: %u", orespent, gasspent);
     } // unitdebug
 
     // pathdebug

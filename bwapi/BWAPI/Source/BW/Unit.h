@@ -125,7 +125,8 @@ namespace BW
     /*0x0A5*/ u8                                  targetOrderSpecial; /**< A byte used to determine the target ID for the unit */
     /*0x0A6*/ u8                                  secondaryOrderID;   /**< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) */
     /*0x0A7*/ u8                                  buildingOverlayState; // 0 means the building has the largest amount of fire/blood
-    /*0x0A8*/ u32                                 hpGainDuringRepair; /**< @todo Verify */
+    /*0x0A8*/ u16                                 hpGainDuringRepair; /**< @todo Verify */
+    /*0x0AA*/ u16                                 _unknown_0x0AA;
     /*0x0AC*/ u16                                 remainingBuildTime; /**< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location. */
     /*0x0AE*/ u16                                 previousHP;   // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
     /*0x0B0*/ u16                                 loadedUnitIndex[8];
@@ -208,8 +209,7 @@ namespace BW
                   u16           targetResourceX;         // 4
                   u16           targetResourceY;         // 6
                   BW::Unit      *targetResourceUnit;     // 8
-                  u8            repairResourceLossTimer; // C
-                  u8            _unknown_0D;             // D
+                  u16           repairResourceLossTimer; // C
                   u8            isCarryingSomething;     // E
                   u8            resourceCarryCount;      // F
                   BW::Unit      *harvestTarget;          // 10
