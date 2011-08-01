@@ -134,7 +134,7 @@ namespace BWAPI
       s32 _refundedGas;
 
       void setParticipating(bool isParticipating = true);
-
+      void resetResources();
     private :
       int id;
       u8 index;  /**< Order of the player, is used to load player's information from the memory */

@@ -15,7 +15,15 @@ void ApplyCodePatches()
   /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &_nextFrameHook);
   HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
-  HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_spendRepairHook);
+  HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_repairHook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundMinerals, &_refundMineralsHook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundGas, &_refundGasHook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundMinAndGas2, &_refundMinAndGas2Hook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundMin3, &_refundMin3Hook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundGas3, &_refundGas3Hook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundMin4, &_refundMin4Hook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundGas4, &_refundGas4Hook);
+  HackUtil::JmpPatch(BW::BWFXN_RefundMinAndGas5, &_refundMinAndGas5Hook);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
   HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy,    &DDrawDestroy);
