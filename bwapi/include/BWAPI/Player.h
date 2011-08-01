@@ -184,5 +184,14 @@ namespace BWAPI
 
       /** Returns true if the Player is only observing the game, and not participating */
       virtual bool isObserver() const = 0;
+
+      /** Returns the maximum upgrades available specific to the player (Use Map Settings). */
+      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const = 0;
+
+      /** Returns true if the research is available for the player to research (Use Map Settings). */
+      virtual bool isResearchAvailable(TechType tech) const = 0;
+
+      /** Returns true if the unit is available for the player to build (Use Map Settings). */
+      virtual bool isUnitAvailable(UnitType unit) const = 0;
   };
 };

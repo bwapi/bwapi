@@ -54,6 +54,8 @@ namespace BWAPI
   //---------------------------------------------- IS VALID --------------------------------------------------
   bool TilePosition::isValid() const
   {
+    if ( !Broodwar )
+      return false;
     return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth() && _y < Broodwar->mapHeight());
   }
   TilePosition::operator bool() const
@@ -73,14 +75,18 @@ namespace BWAPI
   //-------------------------------------------- MAKE VALID --------------------------------------------------
   TilePosition& TilePosition::makeValid()
   {
-    if (_x > Broodwar->mapWidth() - 1)
-      _x = Broodwar->mapWidth() - 1;
-    if (_y > Broodwar->mapHeight() - 1)
-      _y = Broodwar->mapHeight() - 1;
     if (_x < 0)
       _x = 0;
     if (_y < 0)
       _y = 0;
+
+    if ( !Broodwar )
+      return *this;
+
+    if (_x > Broodwar->mapWidth() - 1)
+      _x = Broodwar->mapWidth() - 1;
+    if (_y > Broodwar->mapHeight() - 1)
+      _y = Broodwar->mapHeight() - 1;
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
@@ -112,6 +118,9 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   bool TilePosition::hasPath(const TilePosition& destination) const
   {
+    if ( !Broodwar )
+      return false;
+
     return Broodwar->hasPath(Position(*this), Position(destination));
   }
   //----------------------------------------------------------------------------------------------------------

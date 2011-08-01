@@ -54,6 +54,8 @@ namespace BWAPI
   //---------------------------------------------- IS VALID --------------------------------------------------
   bool Position::isValid() const
   {
+    if ( !Broodwar )
+      return false;
     return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32);
   }
   Position::operator bool() const
@@ -73,14 +75,18 @@ namespace BWAPI
   //-------------------------------------------- MAKE VALID --------------------------------------------------
   Position& Position::makeValid()
   {
-    if (_x > Broodwar->mapWidth()*32 - 1)
-      _x = Broodwar->mapWidth()*32 - 1;
-    if (_y > Broodwar->mapHeight()*32 - 1)
-      _y = Broodwar->mapHeight()*32 - 1;
     if (_x < 0)
       _x = 0;
     if (_y < 0)
       _y = 0;
+
+    if ( !Broodwar )
+      return *this;
+
+    if (_x > Broodwar->mapWidth()*32 - 1)
+      _x = Broodwar->mapWidth()*32 - 1;
+    if (_y > Broodwar->mapHeight()*32 - 1)
+      _y = Broodwar->mapHeight()*32 - 1;
     return *this;
   }
   //----------------------------------------------------------------------------------------------------------
@@ -129,6 +135,8 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   bool Position::hasPath(const Position& destination) const
   {
+    if ( !Broodwar )
+      return false;
     return Broodwar->hasPath(*this, destination);
   }
   //----------------------------------------------------------------------------------------------------------

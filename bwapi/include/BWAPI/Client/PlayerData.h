@@ -48,5 +48,9 @@ namespace BWAPI
     int totalBuildingScore;
     int totalRazingScore;
     int customScore;
+
+    int   maxUpgradeLevel[61];
+    bool  isResearchAvailable[44];
+    bool  isUnitAvailable[228];
   };
 }

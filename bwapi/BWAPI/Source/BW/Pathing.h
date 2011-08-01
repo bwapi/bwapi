@@ -44,28 +44,28 @@ namespace BW
     Position              getCenter();
     u16                   getIndex();
 
-    u16       accessabilityFlags;
-              // 0x1FF9 = High ground    1001
-              // 0x1FFB = Low ground     1011
-              // 0x1FFD = Inaccessable   1101
-    u16       groupIndex; // Identifies connected regions
-    u16       tileCount;
-    u8        pathCount;
-    u8        neighborCount;
-    u32       unk_8;
-    u16       *neighbors; // allocated array of IDs for neighbors
-    u32       rgnCenterX; // must >> 8; in pixels
-    u32       rgnCenterY; // must >> 8; in pixels
-    pathRect  rgnBox; // in pixels
-    u32       properties; // flags
-    /*
-      0x001 = Key Point
-      0x002 = Choke Point/Corridor
-      0x100 = Map Bottom
-    */
-    u32       unk_24;
-    u32       unk_28;
-    u16       localBuffer[10]; // local array of IDs for neighbors
+    /*0x00*/u16       accessabilityFlags;
+                      // 0x1FF9 = High ground    1001
+                      // 0x1FFB = Low ground     1011
+                      // 0x1FFD = Inaccessable   1101
+    /*0x02*/u16       groupIndex; // Identifies connected regions
+    /*0x04*/u16       tileCount;
+    /*0x06*/u8        pathCount;
+    /*0x07*/u8        neighborCount;
+    /*0x08*/u32       unk_8;
+    /*0x0C*/u16       *neighbors; // allocated array of IDs for neighbors
+    /*0x10*/u32       rgnCenterX; // must >> 8; in pixels
+    /*0x14*/u32       rgnCenterY; // must >> 8; in pixels
+    /*0x18*/pathRect  rgnBox; // in pixels
+    /*0x20*/u32       properties; // flags
+                      /*
+                        0x001 = Key Point
+                        0x002 = Choke Point/Corridor
+                        0x100 = Map Bottom
+                      */
+    /*0x24*/u32       unk_24;
+    /*0x28*/u32       unk_28;
+    /*0x2C*/u16       localBuffer[10]; // local array of IDs for neighbors
   };
 
   /* Contour IDs and values:
@@ -86,6 +86,10 @@ namespace BW
     s16 v[3];
     u8  type;
     u8  unk_relation;   // Relation to neighboring contours. The highest 2 bits are unused.
+                        // bitwise:   XXXX YY
+                        // Where YY is the neighboring contours direction; 
+                        //    1 = in, 0 = out; One bit for each neighbor
+                        // And XXXX is a unique ID for the combination, used for an unknown array.
   };
 
   struct contourHub
