@@ -14,6 +14,8 @@ void ApplyCodePatches()
 {
   /* Create function-level hooks */
   HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &_nextFrameHook);
+  HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
+  HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_spendRepairHook);
   HackUtil::JmpPatch(BW::BWFXN_QueueCommand,    &CommandFilter);
   HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
   HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy,    &DDrawDestroy);

@@ -11,6 +11,7 @@
 
 #include "Detours.h"
 #include "BWAPI/GameImpl.h"
+#include "BWAPI/PlayerImpl.h"
 #include "BW/Offsets.h"
 #include "DLLMain.h"
 #include "NewHackUtil.h"
@@ -229,6 +230,42 @@ int __cdecl _nextFrameHook()
 {
   BWAPI::BroodwarImpl.update();
   return *BW::BWDATA_NextLogicFrameData;
+}
+
+DWORD d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
+
+//--------------------------------------------- SPEND REPAIR HOOK --------------------------------------------
+void __declspec(naked) _spendRepairHook()
+{
+  
+  __asm
+  {
+    mov d_eaxSave, eax
+    mov d_ebxSave, ebx
+    mov d_ecxSave, ecx
+    mov d_edxSave, edx
+    mov d_esiSave, esi
+    mov d_ediSave, edi
+    mov d_espSave, esp
+    mov d_ebpSave, ebp
+  }
+  BWAPI::BroodwarImpl.players[d_eaxSave]->_repairedMinerals += d_ebxSave;
+  BWAPI::BroodwarImpl.players[d_eaxSave]->_repairedGas      += d_ediSave;
+
+  __asm
+  {
+    mov eax, d_eaxSave
+    mov ebx, d_ebxSave
+    mov ecx, d_ecxSave
+    mov edx, d_edxSave
+    mov esi, d_esiSave
+    mov edi, d_ediSave
+    mov esp, d_espSave
+    mov ebp, d_ebpSave
+
+    mov ecx, dword ptr ds:[eax*4+0x57f120]
+    jmp BW::BWFXN_SpendRepairReturnAddress
+  }
 }
 
 //------------------------------------------------- SEND TEXT ------------------------------------------------

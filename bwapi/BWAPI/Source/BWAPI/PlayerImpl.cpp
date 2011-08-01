@@ -37,7 +37,14 @@ namespace BWAPI
     self->totalRazingScore    = 0;
     self->customScore         = 0;
     self->isParticipating     = false;
-
+    self->repairedMinerals    = 0;
+    self->repairedGas         = 0;
+    self->refundedMinerals    = 0;
+    self->refundedGas         = 0;
+    _repairedMinerals = 0;
+    _repairedGas      = 0;
+    _refundedMinerals = 0;
+    _refundedGas      = 0;
     if ( index < 12 )
     {
       self->color = BW::BWDATA_PlayerColors[index];
@@ -205,15 +212,35 @@ namespace BWAPI
   {
     return self->gas;
   }
-  //--------------------------------------------- CUMULATIVE MINERALS ----------------------------------------
-  int PlayerImpl::cumulativeMinerals() const
+  //--------------------------------------------- GATHERED MINERALS ------------------------------------------
+  int PlayerImpl::gatheredMinerals() const
   {
-    return self->cumulativeMinerals;
+    return self->gatheredMinerals;
   }
-  //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
-  int PlayerImpl::cumulativeGas() const
+  //--------------------------------------------- GATHERED GAS -----------------------------------------------
+  int PlayerImpl::gatheredGas() const
   {
-    return self->cumulativeGas;
+    return self->gatheredGas;
+  }
+  //--------------------------------------------- REPAIRED MINERALS ------------------------------------------
+  int PlayerImpl::repairedMinerals() const
+  {
+    return self->repairedMinerals;
+  }
+  //--------------------------------------------- REPAIRED GAS -----------------------------------------------
+  int PlayerImpl::repairedGas() const
+  {
+    return self->repairedGas;
+  }
+  //--------------------------------------------- REFUNDED MINERALS ------------------------------------------
+  int PlayerImpl::refundedMinerals() const
+  {
+    return self->refundedMinerals;
+  }
+  //--------------------------------------------- REFUNDED GAS -----------------------------------------------
+  int PlayerImpl::refundedGas() const
+  {
+    return self->refundedGas;
   }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const
@@ -520,8 +547,13 @@ namespace BWAPI
     {
       self->minerals           = 0;
       self->gas                = 0;
-      self->cumulativeMinerals = 0;
-      self->cumulativeGas      = 0;
+      self->gatheredMinerals = 0;
+      self->gatheredGas      = 0;
+      self->repairedMinerals   = 0;
+      self->repairedGas        = 0;
+      self->refundedMinerals   = 0;
+      self->refundedGas        = 0;
+
       if ( !this->isNeutral() && index < 12 )
       {
         // set upgrade level for visible enemy units
@@ -548,8 +580,12 @@ namespace BWAPI
       // set resources
       self->minerals           = BW::BWDATA_PlayerResources->minerals[index];
       self->gas                = BW::BWDATA_PlayerResources->gas[index];
-      self->cumulativeMinerals = BW::BWDATA_PlayerResources->cumulativeMinerals[index];
-      self->cumulativeGas      = BW::BWDATA_PlayerResources->cumulativeGas[index];
+      self->gatheredMinerals   = BW::BWDATA_PlayerResources->cumulativeMinerals[index];
+      self->gatheredGas        = BW::BWDATA_PlayerResources->cumulativeGas[index];
+      self->repairedMinerals   = this->_repairedMinerals;
+      self->repairedGas        = this->_repairedGas;
+      self->refundedMinerals   = this->_refundedMinerals;
+      self->refundedGas        = this->_refundedGas;
 
       // set upgrade level
       for(int i = 0; i < 46; ++i)

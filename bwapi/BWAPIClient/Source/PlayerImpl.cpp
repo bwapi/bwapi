@@ -82,15 +82,35 @@ namespace BWAPI
   {
     return self->gas;
   }
-  //--------------------------------------------- CUMULATIVE MINERALS ----------------------------------------
-  int PlayerImpl::cumulativeMinerals() const
+  //--------------------------------------------- GATHERED MINERALS ------------------------------------------
+  int PlayerImpl::gatheredMinerals() const
   {
-    return self->cumulativeMinerals;
+    return self->gatheredMinerals;
   }
-  //--------------------------------------------- CUMULATIVE GAS ---------------------------------------------
-  int PlayerImpl::cumulativeGas() const
+  //--------------------------------------------- GATHERED GAS -----------------------------------------------
+  int PlayerImpl::gatheredGas() const
   {
-    return self->cumulativeGas;
+    return self->gatheredGas;
+  }
+  //--------------------------------------------- REPAIRED MINERALS ------------------------------------------
+  int PlayerImpl::repairedMinerals() const
+  {
+    return self->repairedMinerals;
+  }
+  //--------------------------------------------- REPAIRED GAS -----------------------------------------------
+  int PlayerImpl::repairedGas() const
+  {
+    return self->repairedGas;
+  }
+  //--------------------------------------------- REFUNDED MINERALS ------------------------------------------
+  int PlayerImpl::refundedMinerals() const
+  {
+    return self->refundedMinerals;
+  }
+  //--------------------------------------------- REFUNDED GAS -----------------------------------------------
+  int PlayerImpl::refundedGas() const
+  {
+    return self->refundedGas;
   }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const

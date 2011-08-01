@@ -54,8 +54,12 @@ namespace BWAPI
       virtual int  minerals() const;
       virtual int  gas() const;
 
-      virtual int  cumulativeMinerals() const;
-      virtual int  cumulativeGas() const;
+      virtual int  gatheredMinerals() const;
+      virtual int  gatheredGas() const;
+      virtual int  repairedMinerals() const;
+      virtual int  repairedGas() const;
+      virtual int  refundedMinerals() const;
+      virtual int  refundedGas() const;
 
       virtual int  supplyTotal() const;
       virtual int  supplyUsed() const;
@@ -119,6 +123,11 @@ namespace BWAPI
       void onGameEnd();
       std::set<Unit*> units;
       bool leftTheGame;
+
+      s32 _repairedMinerals;
+      s32 _repairedGas;
+      s32 _refundedMinerals;
+      s32 _refundedGas;
 
       void setParticipating(bool isParticipating = true);
 

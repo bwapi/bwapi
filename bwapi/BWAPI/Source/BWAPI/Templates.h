@@ -794,13 +794,15 @@ namespace BWAPI
 
         int thisUnitFreeSpace = thisUnitSpaceProvided;
         int targetFreeSpace   = targetSpaceProvided;
-        for each(Unit* u in thisUnit->getLoadedUnits())
+        std::set<Unit*> loadedUnits = thisUnit->getLoadedUnits();
+        for each(Unit* u in loadedUnits)
         {
           int r = u->getType().spaceRequired();
           if (r > 0 && r < 8)
             thisUnitFreeSpace -= r;
         }
-        for each(Unit* u in c.target->getLoadedUnits())
+        std::set<Unit*> targetLoadedUnits = c.target->getLoadedUnits();
+        for each(Unit* u in targetLoadedUnits)
         {
           int r = u->getType().spaceRequired();
           if (r > 0 && r < 8)

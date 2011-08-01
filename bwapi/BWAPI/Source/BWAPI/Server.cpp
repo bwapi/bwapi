@@ -437,8 +437,12 @@ namespace BWAPI
         p->leftGame           = i->leftGame();
         p->minerals           = p2->minerals;
         p->gas                = p2->gas;
-        p->cumulativeMinerals = p2->cumulativeMinerals;
-        p->cumulativeGas      = p2->cumulativeGas;
+        p->gatheredMinerals   = p2->gatheredMinerals;
+        p->gatheredGas        = p2->gatheredGas;
+        p->repairedMinerals   = p2->repairedMinerals;
+        p->repairedGas        = p2->repairedGas;
+        p->refundedMinerals   = p2->refundedMinerals;
+        p->refundedGas        = p2->refundedGas;
         for(int j = 0; j < 3; ++j)
         {
           p->supplyTotal[j]   = p2->supplyTotal[j];
