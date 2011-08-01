@@ -226,6 +226,10 @@ namespace BWAPI
   {
     return techTypeData[this->id].name;
   }
+  const char *TechType::c_str() const
+  {
+    return techTypeData[this->id].name.c_str();
+  }
   Race TechType::getRace() const
   {
     return techTypeData[this->id].race;

@@ -936,6 +936,10 @@ namespace BWAPI
   {
     return unitTypeData[this->id].name;
   }
+  const char *UnitType::c_str() const
+  {
+    return unitTypeData[this->id].name.c_str();
+  }
   Race UnitType::getRace() const
   {
     return unitTypeData[this->id].race;

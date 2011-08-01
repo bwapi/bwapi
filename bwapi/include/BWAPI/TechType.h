@@ -22,6 +22,7 @@ namespace BWAPI
 
       /** Returns the name of the tech type. */
       std::string getName() const;
+      const char *c_str() const;
 
       /** Returns the race that uses the TechType. For example, TechTypes::Scanner_Sweep?.getRace() will
        * return Races::Terran. */

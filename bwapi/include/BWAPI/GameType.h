@@ -18,6 +18,7 @@ namespace BWAPI
       /** Returns the name of the game type. For example GameTypes::Melee.getName() will return an
        * std::string object containing "Melee". */
       std::string getName() const;
+      const char *c_str() const;
     private:
       int id;
   };

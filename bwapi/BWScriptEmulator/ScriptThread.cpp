@@ -292,7 +292,7 @@ void aithread::execute()
         BYTE bUpgLevel = this->read<BYTE>();
         UpgradeType wUpgType  = UpgradeType(this->read<WORD>());
         BYTE bPriority = this->read<BYTE>();
-        this->saveDebug("\x06", bOpcode, "%3u %s %3u", bUpgLevel, wUpgType.getName().c_str(), bPriority);
+        this->saveDebug("\x06", bOpcode, "%3u %s %3u", bUpgLevel, wUpgType.c_str(), bPriority);
         //this->pTown->MacroManagerSet(MACRO_UPGRADE, bUpgLevel, wUpgType, bPriority, false);
         continue;
       }
@@ -300,7 +300,7 @@ void aithread::execute()
       {
         TechType wTechType = TechType(this->read<WORD>());
         BYTE bPriority = this->read<BYTE>();
-        this->saveDebug("\x06", bOpcode, "%s %3u", wTechType.getName().c_str(), bPriority);
+        this->saveDebug("\x06", bOpcode, "%s %3u", wTechType.c_str(), bPriority);
         //this->pTown->MacroManagerSet(MACRO_TECH, 1, wTechType, bPriority, false);
         continue;
       }

@@ -20,10 +20,12 @@ namespace BWAPI
     const PlayerType Computer(1);
     const PlayerType Player(2);
     const PlayerType RescuePassive(3);
+    // Rescue Active
     const PlayerType EitherPreferComputer(5);
     const PlayerType EitherPreferHuman(6);
     const PlayerType Neutral(7);
     const PlayerType Closed(8);
+    // Observer
     const PlayerType PlayerLeft(10);
     const PlayerType ComputerLeft(11);
     const PlayerType Unknown(12);
@@ -93,6 +95,10 @@ namespace BWAPI
   std::string PlayerType::getName() const
   {
     return playerTypeName[this->id];
+  }
+  const char *PlayerType::c_str() const
+  {
+    return playerTypeName[this->id].c_str();
   }
   PlayerType PlayerTypes::getPlayerType(std::string name)
   {

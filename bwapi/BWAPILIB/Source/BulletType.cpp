@@ -170,6 +170,10 @@ namespace BWAPI
   {
     return bulletTypeName[this->id];
   }
+  const char *BulletType::c_str() const
+  {
+    return bulletTypeName[this->id].c_str();
+  }
   BulletType BulletTypes::getBulletType(std::string name)
   {
     fixName(&name);

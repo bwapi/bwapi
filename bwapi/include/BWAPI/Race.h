@@ -19,6 +19,7 @@ namespace BWAPI
       /** Returns the name of the race. For example Races::Terran.getName() will return a std::string object
        * containing "Terran". */
       std::string getName() const;
+      const char *c_str() const;
 
       /** Returns the worker unit type for the given race. For example Races::Protoss.getWorker() will return
        * a pointer to UnitTypes::Protoss_Probe. */

@@ -19,6 +19,7 @@ namespace BWAPI
 
       /** Returns the name for the upgrade type. */
       std::string getName() const;
+      const char *c_str() const;
 
       /** Returns the race the upgrade is for. For example, UpgradeTypes::Terran_Infantry_Armor.getRace()
        * will return Races::Terran. */

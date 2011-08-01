@@ -136,7 +136,10 @@ namespace BWAPI
   {
     return explosionTypeName[this->id];
   }
-
+  const char *ExplosionType::c_str() const
+  {
+    return explosionTypeName[this->id].c_str();
+  }
   ExplosionType ExplosionTypes::getExplosionType(std::string name)
   {
     fixName(&name);

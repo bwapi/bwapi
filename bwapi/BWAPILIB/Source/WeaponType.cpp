@@ -541,6 +541,10 @@ namespace BWAPI
   {
     return weaponTypeData[this->id].name;
   }
+  const char *WeaponType::c_str() const
+  {
+    return weaponTypeData[this->id].name.c_str();
+  }
   TechType WeaponType::getTech() const
   {
     return weaponTypeData[this->id].techType;
