@@ -26,6 +26,8 @@
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>
+#include <BWAPI/Region.h>
+#include <BWAPI/RegionImpl.h>
 #include <BWAPI.h>
 
 #include <BW/Unit.h>
@@ -714,6 +716,7 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
+      /*
       BWAPI::Position mouse   = getMousePosition() + getScreenPosition();
       BW::region *selectedRgn = BW::Position((u16)mouse.x(), (u16)mouse.y()).getRegion();
       int scrx = (getScreenPosition().x()/32 - 1)*32;
@@ -827,6 +830,10 @@ namespace BWAPI
             drawTextMouse(32, 0, "%cLength: %u\n%cUnknown: %u (0x%02X) (b%u%u%u%u%u%u%u%u)", 4, len, 4, b, b, b&0x80 ? 1:0, b&0x40 ? 1:0, b&0x20 ? 1:0, b&0x10 ? 1:0, b&8 ? 1:0, b&4 ? 1:0, b&2 ? 1:0, b&1 ? 1:0);
           }
         }
+      }*/
+      foreach (BWAPI::Region *r, this->regionsList )
+      {
+        drawTextMap(r->getCenter().x(), r->getCenter().y(), "%u", r->getRegionGroupID());
       }
     } // pathdebug
 #endif
@@ -1524,6 +1531,17 @@ namespace BWAPI
     map.load();
     this->savedMapHash = Map::getMapHash();
 
+    foreach( BWAPI::Region *r, this->regionsList )
+      delete r;
+    this->regionsList.clear();
+
+    if ( BW::BWDATA_SAIPathing )
+    {
+      u32 rgnCount = BW::BWDATA_SAIPathing->regionCount;
+      for ( u32 i = 0; i < rgnCount; ++i )
+        this->regionsList.insert(new BWAPI::RegionImpl(i));
+    }
+
     /* roughly identify which players can possibly participate in this game */
     // iterate triggers for each player
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
@@ -2054,6 +2072,7 @@ namespace BWAPI
       hAIModule = NULL;
     }
 
+    // Unload tournament module
     this->tournamentController = NULL;
     this->tournamentAI         = NULL;
     if ( hTournamentModule )
@@ -2076,6 +2095,12 @@ namespace BWAPI
       delete i;
     this->shapes.clear();
 
+    // delete all regions
+    foreach( BWAPI::Region *r, this->regionsList )
+      delete r;
+    this->regionsList.clear();
+
+    // player-specific game end
     for (int i = 0 ; i < PLAYER_COUNT; ++i)
       if ( this->players[i] )
         this->players[i]->onGameEnd();
