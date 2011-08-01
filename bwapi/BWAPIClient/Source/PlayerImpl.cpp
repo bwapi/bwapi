@@ -112,6 +112,16 @@ namespace BWAPI
   {
     return self->refundedGas;
   }
+  //--------------------------------------------- SPENT MINERALS ---------------------------------------------
+  int PlayerImpl::spentMinerals() const
+  {
+    return self->gatheredMinerals + self->refundedMinerals - self->minerals - self->repairedMinerals;
+  }
+  //--------------------------------------------- SPENT GAS --------------------------------------------------
+  int PlayerImpl::spentGas() const
+  {
+    return self->gatheredGas + self->refundedGas - self->gas - self->repairedGas;
+  }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal() const
   {
