@@ -39,7 +39,6 @@ namespace BW
     bool                  isConnectedTo(u16 index);
     std::vector<region*>  &getAccessibleNeighbours();
     int                   getAirDistance(region *dst);
-    std::vector<region*>  &getRoughPath(region *target);
     region                *getNeighbor(u8 index);
     Position              getCenter();
     u16                   getIndex();
