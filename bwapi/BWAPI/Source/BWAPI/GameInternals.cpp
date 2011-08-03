@@ -1494,6 +1494,13 @@ namespace BWAPI
     command->execute(0);
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
+  inline int getRegionIdForPolygon(int x, int y)
+  {
+    int tmp = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
+    if ( tmp & 0x2000 )
+      return -1;
+    return tmp;
+  }
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
@@ -1531,18 +1538,94 @@ namespace BWAPI
     map.load();
     this->savedMapHash = Map::getMapHash();
 
+    // Clear existing regions
     foreach( BWAPI::Region *r, this->regionsList )
       delete r;
     this->regionsList.clear();
 
+    // Obtain Broodwar Regions
     if ( BW::BWDATA_SAIPathing )
     {
       u32 rgnCount = BW::BWDATA_SAIPathing->regionCount;
+      // Iterate regions and insert into region list
       for ( u32 i = 0; i < rgnCount; ++i )
         this->regionsList.insert(new BWAPI::RegionImpl(i));
+
+      // Iterate regions again and update neighbor lists
       foreach ( BWAPI::Region *r, this->regionsList )
         ((BWAPI::RegionImpl*)r)->UpdateRegionRelations();
-    }
+
+      // Use bool to skip tiles that have already been processed (by region id it belongs to)
+      bool rgntested[5000] = { 0 };
+      // Store map width and height locally so that excessive calls or retrieval of non-local data aren't made
+      int mapw = this->mapWidth();
+      int maph = this->mapHeight();
+      for ( int x = 0; x < mapw; ++x )
+      {
+        for ( int y = 0; y < maph; ++y )
+        {
+          // get region ID
+          u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
+          if ( rgntested[id] )
+            continue;
+
+          BW::region *r;
+          if ( id & 0x2000 )
+          {
+/*        // Handle split-tiles; don't worry about this for now, we will start
+            // with broken regions and handle the details later
+            // planning a precalculated array for diagonal polygon connections
+
+            // Get source region from split-tile based on walk tile
+            int minitilePosX = ( x & 0x1F)/8;
+            int minitilePosY = ( y & 0x1F)/8;
+            int minitileShift = minitilePosX + minitilePosY * 4;
+            BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[id&0x1FFF];
+            if ( (t->minitileMask >> minitileShift) & 1 )
+              // t->rgn2
+            else
+              // t->rgn1
+              */
+          }
+          else // all of this 32x32 tile belongs to region
+          {
+            rgntested[id] = true;
+            r = &BW::BWDATA_SAIPathing->regions[id];
+            int rx = x, ry = y;
+            do
+            {
+              //  adj[y][x];    // Using this format for possibly later optimizations
+              int adj[3][3];
+              memset(adj, -1, sizeof(adj));
+
+              // Assign adjacent tiles' regions ids
+              if ( rx != 0 ) // left
+                adj[1][0] = getRegionIdForPolygon(rx-1, ry);
+              if ( rx != 0 && ry != 0 ) // top left
+                adj[0][0] = getRegionIdForPolygon(rx-1, ry-1);
+              if ( rx != 0 && ry != maph - 1 ) // bottom left
+                adj[2][0] = getRegionIdForPolygon(rx-1, ry+1);
+              if ( rx != mapw - 1 ) // right
+                adj[1][0] = getRegionIdForPolygon(rx-1, ry);
+              if ( rx != mapw - 1 && ry != 0 ) // top right
+                adj[0][0] = getRegionIdForPolygon(rx-1, ry-1);
+              if ( rx != mapw - 1 && ry != maph - 1 ) // bottom right
+                adj[2][0] = getRegionIdForPolygon(rx-1, ry+1);
+              if ( ry != 0 ) // top
+                adj[0][1] = getRegionIdForPolygon(rx, ry-1);
+              if ( ry != maph - 1 ) // bottom
+                adj[2][1] = getRegionIdForPolygon(rx, ry+1);
+              // End creation of 3x3 assignments
+
+
+              // More stuff
+            } while ( rx != x && ry != y );
+
+          } // else id is full tile rgn
+
+        } // for y
+      } // for x
+    } // if SAI_Pathing
 
     /* roughly identify which players can possibly participate in this game */
     // iterate triggers for each player
