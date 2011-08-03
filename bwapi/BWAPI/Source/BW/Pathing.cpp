@@ -44,61 +44,6 @@ namespace BW
     return dst->getCenter().getApproxDistance(this->getCenter());
   }
 
-  #define MAX_STEPS 100
-  bool calcRoughPath(region *current, region *target, std::vector<region*> *regionList, int step, int currentDistance, int *bestDistance, std::bitset<5000> *tested, std::vector<region*> *bestRegionList)
-  {
-    // If we've reached our goal
-    if ( current == target )
-    {
-      if ( currentDistance > *bestDistance )
-        return false;
-      *bestDistance = currentDistance;
-      (*bestRegionList) = (*regionList);
-      return true;
-    }
-
-    // don't exceed max steps
-    if ( step >= MAX_STEPS )
-      return false;
-
-    // iterate all accessable neighbors
-    (*regionList).push_back(current);
-    (*tested).set(current->getIndex(), true);
-    std::vector<region*> accessibleNeighborsCopy = current->getAccessibleNeighbours();
-    foreach( region *r, accessibleNeighborsCopy )
-    {
-      // Skip this entry if we've already passed through it
-      if ( (*tested).test(r->getIndex()) )
-        continue;
-      
-      // Obtain the total distance and skip this entry if it's larger than the best distance
-      int nextDistance = currentDistance + current->getAirDistance(r);
-      if ( nextDistance > *bestDistance )
-        continue;
-      
-      // Perform nested call on neighbor
-      calcRoughPath(r, target, regionList, step + 1, nextDistance, bestDistance, tested, bestRegionList);
-    }
-    (*tested).set(current->getIndex(), false);
-    (*regionList).pop_back();
-    return false;
-  }
-
-  std::vector<region*> &region::getRoughPath(region *target)
-  {
-    static std::vector<region*> regions;
-    regions.clear();
-
-    if ( this->groupIndex != target->groupIndex )
-      return regions;
-    std::bitset<5000> tested;
-    tested.reset();
-
-    int best = MAXINT;
-    std::vector<region*> tempRgns;
-    calcRoughPath(this, target, &tempRgns, 0, 0, &best, &tested, &regions);
-    return regions;
-  }
   region *region::getNeighbor(u8 index)
   {
     if ( index <= this->neighborCount )

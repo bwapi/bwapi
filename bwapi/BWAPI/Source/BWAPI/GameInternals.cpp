@@ -1540,6 +1540,8 @@ namespace BWAPI
       u32 rgnCount = BW::BWDATA_SAIPathing->regionCount;
       for ( u32 i = 0; i < rgnCount; ++i )
         this->regionsList.insert(new BWAPI::RegionImpl(i));
+      foreach ( BWAPI::Region *r, this->regionsList )
+        ((BWAPI::RegionImpl*)r)->UpdateRegionRelations();
     }
 
     /* roughly identify which players can possibly participate in this game */

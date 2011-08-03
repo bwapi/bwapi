@@ -3,6 +3,8 @@
 #include <BWAPI/Region.h>
 #include <BWAPI/Position.h>
 
+#include <BWAPI/Client/RegionData.h>
+
 namespace BWAPI
 {
   class RegionImpl : public Region
@@ -13,14 +15,14 @@ namespace BWAPI
 
     RegionImpl(int id);
     ~RegionImpl();
+    void UpdateRegionRelations();
   private:
-    int islandID;
-    BWAPI::Position center;
-    bool isWalkable;
-    bool isHigherGround;
-    int  priority;
+    RegionData data;
+    RegionData *self;
     
-    std::set<Region*> neighbors;
+    std::set<Region*> accessableNeighbors;
+    std::set<Region*> inaccessableNeighbors;
+    int regionID;
   };
 
 };
