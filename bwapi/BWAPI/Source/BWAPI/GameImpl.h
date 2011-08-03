@@ -70,6 +70,7 @@ namespace BWAPI
       virtual Player  *getPlayer(int playerID);
       virtual Unit    *getUnit(int unitID);
       virtual Unit    *indexToUnit(int unitIndex);
+      virtual Region  *getRegion(int regionID);
 
       virtual GameType getGameType();
 

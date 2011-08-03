@@ -7,6 +7,7 @@
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 #include "BulletImpl.h"
+#include "RegionImpl.h"
 #include <BWAPI/Client/GameData.h>
 
 #include "DLLMain.h"
@@ -196,12 +197,15 @@ namespace BWAPI
 
     //load static map data
     for(int x = 0; x < Broodwar->mapWidth()*4; ++x)
+    {
       for(int y = 0; y < Broodwar->mapHeight()*4; ++y)
       {
         data->isWalkable[x][y] = Broodwar->isWalkable(x, y);
       }
+    }
 
     for(int x = 0; x < Broodwar->mapWidth(); ++x)
+    {
       for(int y = 0; y < Broodwar->mapHeight(); ++y)
       {
         data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
@@ -211,19 +215,20 @@ namespace BWAPI
         else
           data->mapTileRegionId[x][y] = 0;
       }
-    
-    memset(data->mapSplitTilesMiniTileMask, 0, sizeof(data->mapSplitTilesMiniTileMask));
-    memset(data->mapSplitTilesRegion1,      0, sizeof(data->mapSplitTilesRegion1));
-    memset(data->mapSplitTilesRegion2,      0, sizeof(data->mapSplitTilesRegion2));
-    memset(data->regionGroupIndex,          0, sizeof(data->regionGroupIndex));
+    }
+
     if ( BW::BWDATA_SAIPathing )
     {
+      data->regionCount = BW::BWDATA_SAIPathing->regionCount;
       for(int i = 0; i < 5000; ++i)
       {
         data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
         data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
-        data->regionGroupIndex[i]          = BW::BWDATA_SAIPathing->regions[i].groupIndex;
+        if ( BW::BWDATA_SAIPathing->regions[i].unk_28 )
+          data->regions[i] = *((RegionImpl*)BW::BWDATA_SAIPathing->regions[i].unk_28)->getData();
+        else
+          memset( &data->regions[i], 0, sizeof(data->regions[i]));
       }
     }
 
@@ -568,7 +573,6 @@ namespace BWAPI
       return NULL;
     return forceVector[id];
   }
-
   int Server::getPlayerID(Player* player)
   {
     if ( !player )

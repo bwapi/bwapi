@@ -115,6 +115,13 @@ namespace BWAPI
     return server.getForce(forceID);
   }
   //----------------------------------------------------------------------------------------------------------
+  Region *GameImpl::getRegion(int regionID)
+  {
+    if ( !BW::BWDATA_SAIPathing || regionID < 0 || regionID >= (int)BW::BWDATA_SAIPathing->regionCount )
+      return NULL;
+    return (Region*)BW::BWDATA_SAIPathing->regions[regionID].unk_28;
+  }
+  //----------------------------------------------------------------------------------------------------------
   Player* GameImpl::getPlayer(int playerID)
   {
     return server.getPlayer(playerID);

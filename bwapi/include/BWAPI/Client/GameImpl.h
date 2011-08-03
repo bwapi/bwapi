@@ -7,6 +7,7 @@
 #include "UnitCommand.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
+#include "RegionImpl.h"
 #include "UnitImpl.h"
 #include "BulletImpl.h"
 #include <list>
@@ -29,10 +30,11 @@ namespace BWAPI
       void clearAll();
 
       GameData* data;
-      std::vector<ForceImpl> forceVector;
+      std::vector<ForceImpl>  forceVector;
       std::vector<PlayerImpl> playerVector;
-      std::vector<UnitImpl> unitVector;
+      std::vector<UnitImpl>   unitVector;
       std::vector<BulletImpl> bulletVector;
+      RegionImpl *regionArray[5000];
 
       std::set<Force*> forces;
       std::set<Player*> players;
@@ -49,6 +51,7 @@ namespace BWAPI
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set<Unit*> unitsOnTileData[256][256];
+      std::set<Region*> regions;
 
       std::set< TilePosition > startLocations;
       std::list< Event > events;
@@ -90,6 +93,7 @@ namespace BWAPI
       virtual Player* getPlayer(int playerID);
       virtual Unit* getUnit(int unitID);
       virtual Unit* indexToUnit(int unitIndex);
+      virtual Region* getRegion(int regionID);
 
       virtual GameType getGameType();
       virtual int getLatency();

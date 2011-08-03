@@ -1624,7 +1624,7 @@ namespace BWAPI
 
     // Clear existing regions
     foreach( BWAPI::Region *r, this->regionsList )
-      delete r;
+      delete ((RegionImpl*)r);
     this->regionsList.clear();
 
     // Obtain Broodwar Regions
@@ -1839,7 +1839,7 @@ namespace BWAPI
     this->startLocations.clear();
     this->playerSet.clear();
     for each(Force* f in forces)
-      delete f;
+      delete ((ForceImpl*)f);
     this->forces.clear();
 
     /* get pre-race info */
@@ -2223,10 +2223,8 @@ namespace BWAPI
 
 #ifdef _DEBUG
     if ( myDlg )
-    {
       delete myDlg;
-      myDlg = NULL;
-    }
+    myDlg = NULL;
 #endif
 
     if ( !this->calledMatchEnd )
@@ -2244,10 +2242,8 @@ namespace BWAPI
     }
 
     if ( this->client )
-    {
       delete this->client;
-      this->client = NULL;
-    }
+    this->client = NULL;
     //clear all sets
     aliveUnits.clear();
     dyingUnits.clear();
@@ -2258,8 +2254,8 @@ namespace BWAPI
     selectedUnitSet.clear();
     emptySet.clear();
     startLocations.clear();
-    for each(Force* f in forces)
-      delete f;
+    foreach(Force* f, forces)
+      delete ((ForceImpl*)f);
     forces.clear();
     playerSet.clear();
     minerals.clear();
@@ -2289,19 +2285,15 @@ namespace BWAPI
 
     //remove AI Module from memory (object was already deleted)
     if ( hAIModule )
-    {
       FreeLibrary(hAIModule);
-      hAIModule = NULL;
-    }
+    hAIModule = NULL;
 
     // Unload tournament module
     this->tournamentController = NULL;
     this->tournamentAI         = NULL;
     if ( hTournamentModule )
-    {
       FreeLibrary(hTournamentModule);
-      hTournamentModule = NULL;
-    }
+    hTournamentModule = NULL;
     this->bTournamentMessageAppeared = false;
 
     this->invalidIndices.clear();
@@ -2319,7 +2311,7 @@ namespace BWAPI
 
     // delete all regions
     foreach( BWAPI::Region *r, this->regionsList )
-      delete r;
+      delete ((RegionImpl*)r);
     this->regionsList.clear();
 
     // player-specific game end
