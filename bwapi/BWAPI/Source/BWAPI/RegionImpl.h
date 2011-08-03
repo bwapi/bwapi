@@ -11,22 +11,32 @@ namespace BWAPI
   class RegionImpl : public Region
   {
   public:
+    virtual int getID() const;
     virtual int getRegionGroupID() const;
     virtual BWAPI::Position getCenter() const;
+    virtual bool isHigherGround() const;
+    virtual int getDefensePriority() const;
+    virtual bool isWalkable() const;
+
+    virtual const std::set<Region*> &getNeighbors() const;
+
+    virtual int getBoundsLeft() const;
+    virtual int getBoundsTop() const;
+    virtual int getBoundsRight() const;
+    virtual int getBoundsBottom() const;
 
     RegionImpl(int id);
     ~RegionImpl();
     void UpdateRegionRelations();
     void AddPoint(int x, int y);
-    std::vector<BWAPI::Position> &getPolygon();
+    std::vector<BWAPI::Position> &getSimplePolygon();
+    void SimplifyPolygon();
   private:
     RegionData data;
     RegionData *self;
     
-    std::set<Region*> accessableNeighbors;
-    std::set<Region*> inaccessableNeighbors;
+    std::set<Region*> neighbors;
     std::vector<BWAPI::Position> polygon;
-    int regionID;
   };
 
 };

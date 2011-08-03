@@ -830,18 +830,20 @@ namespace BWAPI
           }
         }
       }
+      /*
       foreach (BWAPI::Region *r, this->regionsList )
       {
         drawTextMap(r->getCenter().x(), r->getCenter().y(), "%u", r->getRegionGroupID());
+        
+        std::vector<BWAPI::Position> poly = ((BWAPI::RegionImpl*)r)->getSimplePolygon();
         BWAPI::Position prev = Positions::None;
-        std::vector<BWAPI::Position> poly = ((BWAPI::RegionImpl*)r)->getPolygon();
-        for ( std::vector<BWAPI::Position>::iterator i = poly.begin(); i != poly.end(); ++i )
+        for ( std::vector<BWAPI::Position>::iterator j = poly.begin(); j != poly.end(); ++j )
         {
           if ( prev != Positions::None )
-            drawLineMap(prev.x(), prev.y(), i->x(), i->y(), Colors::Yellow);
-          prev = *i;
+            drawLineMap(prev.x(), prev.y(), j->x(), j->y(), Colors::Yellow);
+          prev = *j;
         }
-      }
+      }*/
     } // pathdebug
 #endif
     //finally return control to starcraft
@@ -1501,34 +1503,6 @@ namespace BWAPI
     command->execute(0);
     this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
   }
-  inline int getRegionIdForPolygon(int x, int y)
-  {
-    if ( x < 0 || y < 0 || x >= BWAPI::Map::getWidth() || y >= BWAPI::Map::getHeight() )
-      return -1;
-    int tmp = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
-    if ( tmp & 0x2000 )
-      return -1;
-    return tmp;
-  }
-  inline void rotate_cw(int &x, int &y)
-  {
-    if ( x == 0 && y == 0 )
-      x = 1;
-    else if ( x == 0 && y == 1 )
-      y = 0;
-    else if ( x == 0 && y == 2 )
-      y = 1;
-    else if ( x == 1 && y == 0 )
-      x = 2;
-    else if ( x == 1 && y == 2 )
-      x = 0;
-    else if ( x == 2 && y == 2 )
-      x = 1;
-    else if ( x == 2 && y == 1 )
-      y = 2;
-    else if ( x == 2 && y == 0 )
-      y = 1;
-  }
   inline void rotate_cw2(int &x, int &y)
   {
     if ( x == 0 && y == 0 )
@@ -1559,25 +1533,6 @@ namespace BWAPI
     }
     else if ( x == 2 && y == 0 )
       y = 2;
-  }
-  inline void rotate_ccw(int &x,int &y)
-  {
-    if ( x == 0 && y == 0 )
-      y = 1;
-    else if ( x == 0 && y == 1 )
-      y = 2;
-    else if ( x == 0 && y == 2 )
-      x = 1;
-    else if ( x == 1 && y == 2 )
-      x = 2;
-    else if ( x == 2 && y == 2 )
-      y = 1;
-    else if ( x == 2 && y == 1 )
-      y = 0;
-    else if ( x == 2 && y == 0 )
-      x = 1;
-    else if ( x == 1 && y == 0 )
-      x = 0;
   }
   inline void rotate_ccw2(int &x,int &y)
   {
@@ -1610,9 +1565,11 @@ namespace BWAPI
       y = 1;
     }
   }
+  int walkmapw;
+  int walkmaph;
   inline int getRegionIdFromWalkTile(int x, int y)
   {
-    if ( x < 0 || y < 0 || x >= BWAPI::Map::getWidth()*4 || y >= BWAPI::Map::getHeight()*4 )
+    if ( x < 0 || y < 0 || x >= walkmapw || y >= walkmaph )
       return -1;
 
     // Obtain the region IDs from the positions
@@ -1682,21 +1639,25 @@ namespace BWAPI
       foreach ( BWAPI::Region *r, this->regionsList )
         ((BWAPI::RegionImpl*)r)->UpdateRegionRelations();
 
-      // Use bool to skip tiles that have already been processed (by region id it belongs to)
-      bool rgntested[5000] = { 0 };
+      // Create simple region polygons
+      /*
       // Store map width and height locally so that excessive calls or retrieval of non-local data aren't made
-      int mapw = this->mapWidth();
-      int maph = this->mapHeight();
-      for ( int x = 0; x < mapw*4; ++x )
+      walkmapw = this->mapWidth()*4;
+      walkmaph = this->mapHeight()*4;
+
+      // Use bool to skip tiles that have already been processed
+      bool rgnTested[5000] = { 0 };
+      for ( int x = 0; x < walkmapw; ++x )
       {
-        for ( int y = 0; y < maph*4; ++y )
+        for ( int y = 0; y < walkmaph; ++y )
         {
           // get region ID
           int id = getRegionIdFromWalkTile(x, y);
-          if ( id == -1 || rgntested[id] )
+          if ( id == -1 || rgnTested[id] )
             continue;
 
-          rgntested[id] = true;
+          rgnTested[id] = true;
+
           BW::region *r = &BW::BWDATA_SAIPathing->regions[id];
           BWAPI::RegionImpl *rgn = (BWAPI::RegionImpl*)r->unk_28;
           if ( !rgn )
@@ -1704,8 +1665,6 @@ namespace BWAPI
 
           // iteration variables
           int rx = x, ry = y, nx = 1, ny = 2;
-          //rgn->AddPoint(x*32, y*32);
-
           do
           {
             rotate_cw2(nx, ny);
@@ -1795,12 +1754,14 @@ namespace BWAPI
                 rgn->AddPoint(rx*8, ry*8);
               break;
             }
-            
+        
             // More stuff
           } while ( rx != x || ry != y );
 
+          rgn->SimplifyPolygon();
         } // for y
       } // for x
+      */
     } // if SAI_Pathing
 
     /* roughly identify which players can possibly participate in this game */
