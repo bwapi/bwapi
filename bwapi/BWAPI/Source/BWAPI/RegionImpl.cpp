@@ -6,6 +6,8 @@
 #include <BW/Offsets.h>
 #include <Util/Foreach.h>
 
+#include "../../Debug.h"
+
 namespace BWAPI
 {
   RegionImpl::RegionImpl(int id)
@@ -152,5 +154,9 @@ namespace BWAPI
   int RegionImpl::getBoundsBottom() const
   {
     return self->bottomMost;
+  }
+  RegionData *RegionImpl::getData()
+  {
+    return self;
   }
 };

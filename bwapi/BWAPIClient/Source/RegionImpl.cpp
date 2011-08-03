@@ -1,7 +1,17 @@
+#include "Client.h"
 #include "RegionImpl.h"
 
 namespace BWAPI
 {
+  RegionImpl::RegionImpl(int index)
+  {
+    this->self = &BWAPI::BWAPIClient.data->regions[index];
+  }
+  void RegionImpl::setNeighbors()
+  {
+    for ( int i = 0; i < self->neighborCount; ++i )
+      this->neighbors.insert(Broodwar->getRegion(self->neighbors[i]));
+  }
   int RegionImpl::getRegionGroupID() const
   {
     return self->islandID;
@@ -42,4 +52,9 @@ namespace BWAPI
   {
     return self->bottomMost;
   }
+  const std::set<Region*> &RegionImpl::getNeighbors() const
+  {
+    return this->neighbors;
+  }
+
 };

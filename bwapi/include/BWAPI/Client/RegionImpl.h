@@ -9,7 +9,10 @@ namespace BWAPI
   {
   private:
     RegionData *self;
+    std::set<Region*> neighbors;
   public:
+    RegionImpl(int index);
+    void setNeighbors();
     virtual int getID() const;
     virtual int getRegionGroupID() const;
     virtual BWAPI::Position getCenter() const;

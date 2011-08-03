@@ -31,6 +31,7 @@ namespace BWAPI
     void AddPoint(int x, int y);
     std::vector<BWAPI::Position> &getSimplePolygon();
     void SimplifyPolygon();
+    RegionData *getData();
   private:
     RegionData data;
     RegionData *self;

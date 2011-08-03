@@ -2,6 +2,7 @@
 #include "GameImpl.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
+#include "RegionImpl.h"
 #include "UnitImpl.h"
 #include "TemplatesImpl.h"
 #include "BulletImpl.h"
@@ -124,6 +125,10 @@ namespace BWAPI
     for(int i = 0; i < 12; ++i)
       playerVector[i].units.clear();
 
+    foreach( Region *r, regions )
+      delete ((RegionImpl*)r);
+    regions.clear();
+    memset(this->regionArray, 0, sizeof(this->regionArray));
   }
   const GameData* GameImpl::getGameData() const
   {
@@ -150,6 +155,14 @@ namespace BWAPI
     //load start locations from shared memory
     for(int i = 0; i < data->startLocationCount; ++i)
       startLocations.insert(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
+
+    for ( int i = 0; i < data->regionCount; ++i )
+    {
+      this->regionArray[i] = new RegionImpl(i);
+      regions.insert(this->regionArray[i]);
+    }
+    for ( int i = 0; i < data->regionCount; ++i )
+      this->regionArray[i]->setNeighbors();
 
     thePlayer  = getPlayer(data->self);
     theEnemy   = getPlayer(data->enemy);
@@ -385,6 +398,12 @@ namespace BWAPI
   {
     if (forceId<0 || forceId>=(int)forceVector.size()) return NULL;
     return &forceVector[forceId];
+  }
+  Region *GameImpl::getRegion(int regionID)
+  {
+    if ( regionID < 0 || regionID >= data->regionCount )
+      return NULL;
+    return regionArray[regionID];
   }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
@@ -1153,13 +1172,13 @@ namespace BWAPI
         unsigned short rgn1         = data->mapSplitTilesRegion1[srcIdx&0x1FFF];
         unsigned short rgn2         = data->mapSplitTilesRegion2[srcIdx&0x1FFF];
         if ( (miniTileMask >> minitileShift) & 1 )
-          srcGroup = data->regionGroupIndex[rgn2];
+          srcGroup = data->regions[rgn2].islandID;
         else
-          srcGroup = data->regionGroupIndex[rgn1];
+          srcGroup = data->regions[rgn1].islandID;
       }
       else
       {
-        srcGroup = data->regionGroupIndex[srcIdx];
+        srcGroup = data->regions[srcIdx].islandID;
       }
 
       if ( dstIdx & 0x2000 )
@@ -1173,13 +1192,13 @@ namespace BWAPI
         unsigned short rgn2         = data->mapSplitTilesRegion2[dstIdx&0x1FFF];
 
         if ( (miniTileMask >> minitileShift) & 1 )
-          dstGroup = data->regionGroupIndex[rgn2];
+          dstGroup = data->regions[rgn2].islandID;
         else
-          dstGroup = data->regionGroupIndex[rgn1];
+          dstGroup = data->regions[rgn1].islandID;
       }
       else
       {
-        dstGroup = data->regionGroupIndex[dstIdx];
+        dstGroup = data->regions[dstIdx].islandID;
       }
 
       if ( srcGroup == dstGroup )

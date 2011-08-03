@@ -7,6 +7,8 @@ namespace BWAPI
 {
   class Region
   {
+  protected:
+    virtual ~Region() {};
   public:
     /** Returns the unique ID for this region assigned by Broodwar. */
     virtual int getID() const = 0;

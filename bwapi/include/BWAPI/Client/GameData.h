@@ -103,8 +103,8 @@ namespace BWAPI
     unsigned short mapSplitTilesMiniTileMask[5000];
     unsigned short mapSplitTilesRegion1[5000];
     unsigned short mapSplitTilesRegion2[5000];
-    unsigned short regionGroupIndex[5000];
 
+    int regionCount;
     RegionData regions[5000];
 
     // start locations
