@@ -1504,6 +1504,8 @@ namespace BWAPI
   }
   inline int getRegionIdForPolygon(int x, int y)
   {
+    if ( x < 0 || y < 0 || x >= BWAPI::Map::getWidth() || y >= BWAPI::Map::getHeight() )
+      return -1;
     int tmp = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
     if ( tmp & 0x2000 )
       return -1;
@@ -1528,6 +1530,37 @@ namespace BWAPI
     else if ( x == 2 && y == 0 )
       y = 1;
   }
+  inline void rotate_cw2(int &x, int &y)
+  {
+    if ( x == 0 && y == 0 )
+      x = 2;
+    else if ( x == 0 && y == 1 )
+    {
+      x = 1;
+      y = 0;
+    }
+    else if ( x == 0 && y == 2 )
+      y = 0;
+    else if ( x == 1 && y == 0 )
+    {
+      x = 2;
+      y = 1;
+    }
+    else if ( x == 1 && y == 2 )
+    {
+      x = 0;
+      y = 1;
+    }
+    else if ( x == 2 && y == 2 )
+      x = 0;
+    else if ( x == 2 && y == 1 )
+    {
+      x = 1;
+      y = 2;
+    }
+    else if ( x == 2 && y == 0 )
+      y = 2;
+  }
   inline void rotate_ccw(int &x,int &y)
   {
     if ( x == 0 && y == 0 )
@@ -1546,6 +1579,37 @@ namespace BWAPI
       x = 1;
     else if ( x == 1 && y == 0 )
       x = 0;
+  }
+  inline void rotate_ccw2(int &x,int &y)
+  {
+    if ( x == 0 && y == 0 )
+      y = 2;
+    else if ( x == 0 && y == 1 )
+    {
+      x = 1;
+      y = 2;
+    }
+    else if ( x == 0 && y == 2 )
+      x = 2;
+    else if ( x == 1 && y == 2 )
+    {
+      x = 2;
+      y = 1;
+    }
+    else if ( x == 2 && y == 2 )
+      y = 0;
+    else if ( x == 2 && y == 1 )
+    {
+      x = 1;
+      y = 0;
+    }
+    else if ( x == 2 && y == 0 )
+      x = 0;
+    else if ( x == 1 && y == 0 )
+    {
+      x = 0;
+      y = 1;
+    }
   }
 
   //--------------------------------------------- ON GAME START ----------------------------------------------
@@ -1607,9 +1671,9 @@ namespace BWAPI
       // Store map width and height locally so that excessive calls or retrieval of non-local data aren't made
       int mapw = this->mapWidth();
       int maph = this->mapHeight();
-      for ( int y = 0; y < maph; ++y )
+      for ( int x = 0; x < mapw; ++x )
       {
-        for ( int x = 0; x < mapw; ++x )
+        for ( int y = 0; y < maph; ++y )
         {
           // get region ID
           u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
@@ -1644,41 +1708,18 @@ namespace BWAPI
 
             // iteration variables
             int rx = x, ry = y, nx = 1, ny = 2;
+            rgn->AddPoint(x*32, y*32);
 
-            //  adj[y][x];    // Using this format for possibly later optimizations
-            int adj[3][3];
             do
             {
-              memset(adj, -1, sizeof(adj));
-
-              // Assign adjacent tiles' regions ids
-              if ( rx != 0 ) // left
-                adj[1][0] = getRegionIdForPolygon(rx-1, ry);
-              if ( rx != 0 && ry != 0 ) // top left
-                adj[0][0] = getRegionIdForPolygon(rx-1, ry-1);
-              if ( rx != 0 && ry != maph - 1 ) // bottom left
-                adj[2][0] = getRegionIdForPolygon(rx-1, ry+1);
-              if ( rx != mapw - 1 ) // right
-                adj[1][0] = getRegionIdForPolygon(rx-1, ry);
-              if ( rx != mapw - 1 && ry != 0 ) // top right
-                adj[0][0] = getRegionIdForPolygon(rx-1, ry-1);
-              if ( rx != mapw - 1 && ry != maph - 1 ) // bottom right
-                adj[2][0] = getRegionIdForPolygon(rx-1, ry+1);
-              if ( ry != 0 ) // top
-                adj[0][1] = getRegionIdForPolygon(rx, ry-1);
-              if ( ry != maph - 1 ) // bottom
-                adj[2][1] = getRegionIdForPolygon(rx, ry+1);
-              // End creation of 3x3 assignments
-              rotate_cw(nx, ny);
-              rotate_cw(nx, ny);
-              if ( adj[nx][ny] != id )
+              rotate_cw2(nx, ny);
+              if ( getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id )
               {
                 bool done = false;
-                for( int count = 0; count <= 4 && adj[nx][ny] != id; ++count )
+                for( int count = 0; count <= 4 && getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id; ++count )
                 {
-                  rotate_ccw(nx, ny);
-                  rotate_ccw(nx, ny);
-                  if (count == 4)
+                  rotate_ccw2(nx, ny);
+                  if ( count == 4 )
                     done = true;
                 }
                 if ( done )
@@ -1688,7 +1729,7 @@ namespace BWAPI
               ry = ry + ny - 1;
               rgn->AddPoint(rx*32, ry*32);
               // More stuff
-            } while ( rx != x && ry != y );
+            } while ( rx != x || ry != y );
 
           } // else id is full tile rgn
 
