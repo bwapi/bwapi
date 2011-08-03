@@ -5,12 +5,10 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include <tchar.h>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <math.h>
-#include <fstream>
 
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -1083,6 +1081,36 @@ namespace BWAPI
   int GameImpl::countdownTimer() const
   {
     return (int)*BW::BWDATA_CountdownTimer;
+  }
+  //----------------------------------------------- GET ALL REGIONS ------------------------------------------
+  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
+  {
+    return this->regionsList;
+  }
+  //------------------------------------------------- GET REGION AT ------------------------------------------
+  BWAPI::Region *GameImpl::getRegionAt(int x, int y) const
+  {
+    if ( x < 0 || y < 0 || x >= Broodwar->mapWidth()*32 || y >= Broodwar->mapHeight()*32 )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    BW::region *rgn = BW::Position((u16)x, (u16)y).getRegion();
+    if ( !rgn )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    return (Region*)rgn->unk_28;
+  }
+  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
+  {
+    if ( !position )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    return getRegionAt(position.x(), position.y());
   }
 };
 
