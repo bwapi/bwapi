@@ -1,5 +1,6 @@
 #pragma once
 #include <set>
+#include <vector>
 #include <BWAPI/Region.h>
 #include <BWAPI/Position.h>
 
@@ -16,12 +17,15 @@ namespace BWAPI
     RegionImpl(int id);
     ~RegionImpl();
     void UpdateRegionRelations();
+    void AddPoint(int x, int y);
+    std::vector<BWAPI::Position> &getPolygon();
   private:
     RegionData data;
     RegionData *self;
     
     std::set<Region*> accessableNeighbors;
     std::set<Region*> inaccessableNeighbors;
+    std::vector<BWAPI::Position> polygon;
     int regionID;
   };
 
