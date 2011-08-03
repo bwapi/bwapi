@@ -1,5 +1,8 @@
 #include "RegionImpl.h"
 
+#include <set>
+#include <vector>
+
 #include <BW/Offsets.h>
 #include <Util/Foreach.h>
 
@@ -30,6 +33,8 @@ namespace BWAPI
     // Connect the BWAPI Region and BW Region two ways
     this->regionID  = id;
     r->unk_28       = (u32)this;
+    
+    this->polygon.clear();
   }
   void RegionImpl::UpdateRegionRelations()
   {
@@ -64,5 +69,13 @@ namespace BWAPI
   BWAPI::Position RegionImpl::getCenter() const
   {
     return BWAPI::Position(self->center_x, self->center_y);
+  }
+  void RegionImpl::AddPoint(int x, int y)
+  {
+    this->polygon.push_back(BWAPI::Position(x,y));
+  }
+  std::vector<BWAPI::Position> &RegionImpl::getPolygon()
+  {
+    return this->polygon;
   }
 };
