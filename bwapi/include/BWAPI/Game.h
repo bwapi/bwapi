@@ -454,6 +454,13 @@ namespace BWAPI
 
     /** Returns the remaining countdown time in seconds. */
     virtual int  countdownTimer() const = 0;
+
+    /** Returns the set of all map regions. */
+    virtual const std::set<BWAPI::Region*> &getAllRegions() const = 0;
+
+    /** Returns the region at a position. */
+    virtual BWAPI::Region *getRegionAt(int x, int y) const = 0;
+    virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const = 0;
   };
   extern Game* Broodwar;
 }

@@ -1219,4 +1219,43 @@ namespace BWAPI
   {
     return data->countdownTimer;
   }
+  //----------------------------------------------- GET ALL REGIONS ------------------------------------------
+  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
+  {
+    return this->regions;
+  }
+  //------------------------------------------------- GET REGION AT ------------------------------------------
+  BWAPI::Region *GameImpl::getRegionAt(int x, int y) const
+  {
+    if ( x < 0 || y < 0 || x >= Broodwar->mapWidth()*32 || y >= Broodwar->mapHeight()*32 )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    unsigned short idx = data->mapTileRegionId[x/32][y/32];
+    if ( idx & 0x2000 )
+    {
+      int minitilePosX = (x&0x1F)/8;
+      int minitilePosY = (y&0x1F)/8;
+      int minitileShift = minitilePosX + minitilePosY * 4;
+      unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[idx&0x1FFF];
+      unsigned short rgn1         = data->mapSplitTilesRegion1[idx&0x1FFF];
+      unsigned short rgn2         = data->mapSplitTilesRegion2[idx&0x1FFF];
+      if ( (miniTileMask >> minitileShift) & 1 )
+        return Broodwar->getRegion(rgn2);
+      else
+        return Broodwar->getRegion(rgn1);
+    }
+    return Broodwar->getRegion(idx);
+  }
+  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
+  {
+    if ( !position )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    return getRegionAt(position.x(), position.y());
+  }
 };
+

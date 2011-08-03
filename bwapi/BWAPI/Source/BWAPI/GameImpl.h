@@ -238,6 +238,10 @@ namespace BWAPI
       virtual void setCommandOptimizationLevel(int level = 2);
       virtual int  countdownTimer() const;
 
+      virtual const std::set<BWAPI::Region*> &getAllRegions() const;
+      virtual BWAPI::Region *getRegionAt(int x, int y) const;
+      virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const;
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
