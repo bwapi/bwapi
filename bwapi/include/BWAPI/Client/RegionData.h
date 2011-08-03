@@ -4,6 +4,7 @@ namespace BWAPI
 {
   struct RegionData
   {
+    int   id;
     int   islandID;
     int   center_x;
     int   center_y;
