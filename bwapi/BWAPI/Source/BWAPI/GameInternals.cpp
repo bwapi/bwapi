@@ -716,7 +716,6 @@ namespace BWAPI
     // pathdebug
     if ( pathDebug && BW::BWDATA_SAIPathing )
     {
-      /*
       BWAPI::Position mouse   = getMousePosition() + getScreenPosition();
       BW::region *selectedRgn = BW::Position((u16)mouse.x(), (u16)mouse.y()).getRegion();
       int scrx = (getScreenPosition().x()/32 - 1)*32;
@@ -830,7 +829,7 @@ namespace BWAPI
             drawTextMouse(32, 0, "%cLength: %u\n%cUnknown: %u (0x%02X) (b%u%u%u%u%u%u%u%u)", 4, len, 4, b, b, b&0x80 ? 1:0, b&0x40 ? 1:0, b&0x20 ? 1:0, b&0x10 ? 1:0, b&8 ? 1:0, b&4 ? 1:0, b&2 ? 1:0, b&1 ? 1:0);
           }
         }
-      }*/
+      }
       foreach (BWAPI::Region *r, this->regionsList )
       {
         drawTextMap(r->getCenter().x(), r->getCenter().y(), "%u", r->getRegionGroupID());
@@ -839,7 +838,7 @@ namespace BWAPI
         for ( std::vector<BWAPI::Position>::iterator i = poly.begin(); i != poly.end(); ++i )
         {
           if ( prev != Positions::None )
-            drawLineMap(prev.x(), prev.y(), i->x(), i->y(), Colors::Green);
+            drawLineMap(prev.x(), prev.y(), i->x(), i->y(), Colors::Yellow);
           prev = *i;
         }
       }
@@ -1708,26 +1707,99 @@ namespace BWAPI
 
             // iteration variables
             int rx = x, ry = y, nx = 1, ny = 2;
-            rgn->AddPoint(x*32, y*32);
+            //rgn->AddPoint(x*32, y*32);
 
             do
             {
               rotate_cw2(nx, ny);
-              if ( getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id )
+              bool done  = false;
+              for( int count = 0; getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id && count <= 4; ++count )
               {
-                bool done = false;
-                for( int count = 0; count <= 4 && getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id; ++count )
-                {
-                  rotate_ccw2(nx, ny);
-                  if ( count == 4 )
-                    done = true;
-                }
-                if ( done )
-                  break;
+                rotate_ccw2(nx, ny);
+                if ( count == 4 )
+                  done = true;
               }
-              rx = rx + nx - 1;
-              ry = ry + ny - 1;
-              rgn->AddPoint(rx*32, ry*32);
+              if ( done )
+                break;
+
+              rx += nx - 1;
+              ry += ny - 1;
+
+              DWORD dwTileRelation = 0;
+              if ( getRegionIdForPolygon(rx-1, ry) == id ) // left
+                dwTileRelation |= 1;
+              if ( getRegionIdForPolygon(rx+1, ry) == id ) // right
+                dwTileRelation |= 2;
+              if ( getRegionIdForPolygon(rx, ry-1) == id ) // top
+                dwTileRelation |= 4;
+              if ( getRegionIdForPolygon(rx, ry+1) == id ) // bottom
+                dwTileRelation |= 8;
+              switch ( dwTileRelation )
+              {
+              case 0: // border surrounds this
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                break;
+              case 1: // only left side is open
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                break;
+              case 2: // only right side is open
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                break;
+              case 4: // only top side open
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                break;
+              case 5: // top and left is open
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                break;
+              case 6: // top and right is open
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                break;
+              case 8: // bottom is open
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                break;
+              case 9: // bottom and left is open
+                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                break;
+              case 10: // bottom and right is open
+                rgn->AddPoint(rx*32 + 31, ry*32);
+                rgn->AddPoint(rx*32, ry*32);
+                rgn->AddPoint(rx*32, ry*32 + 31);
+                break;
+              default:
+
+                if ( nx == 2 && (getRegionIdForPolygon(rx, ry+1) != id || getRegionIdForPolygon(rx-1, ry+1) != id) )
+                  rgn->AddPoint(rx*32, ry*32 + 31);
+                else if ( (ny == 0 && getRegionIdForPolygon(rx+1, ry) != id) || (nx == 0 && getRegionIdForPolygon(rx+1, ry-1) != id) )
+                  rgn->AddPoint(rx*32 + 31, ry*32);
+                else if ( ny == 0 && getRegionIdForPolygon(rx+1, ry+1) != id )
+                  rgn->AddPoint(rx*32 + 31, ry*32 + 31);
+                else
+                  rgn->AddPoint(rx*32, ry*32);
+                break;
+              }
+              
               // More stuff
             } while ( rx != x || ry != y );
 
