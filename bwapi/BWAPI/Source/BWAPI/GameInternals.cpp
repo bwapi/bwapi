@@ -1610,7 +1610,24 @@ namespace BWAPI
       y = 1;
     }
   }
+  inline int getRegionIdFromWalkTile(int x, int y)
+  {
+    if ( x < 0 || y < 0 || x >= BWAPI::Map::getWidth()*4 || y >= BWAPI::Map::getHeight()*4 )
+      return -1;
 
+    // Obtain the region IDs from the positions
+    u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[y/4][x/4];
+    if ( id & 0x2000 )
+    {
+      // Get source region from split-tile based on walk tile
+      int minitileShift = (x&0x3) + (y&0x3) * 4;
+      BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[id&0x1FFF];
+      if ( (t->minitileMask >> minitileShift) & 1 )
+        return t->rgn2;
+      return t->rgn1;
+    }
+    return id;
+  }
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
@@ -1670,140 +1687,117 @@ namespace BWAPI
       // Store map width and height locally so that excessive calls or retrieval of non-local data aren't made
       int mapw = this->mapWidth();
       int maph = this->mapHeight();
-      for ( int x = 0; x < mapw; ++x )
+      for ( int x = 0; x < mapw*4; ++x )
       {
-        for ( int y = 0; y < maph; ++y )
+        for ( int y = 0; y < maph*4; ++y )
         {
           // get region ID
-          u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
-          if ( rgntested[id] )
+          int id = getRegionIdFromWalkTile(x, y);
+          if ( id == -1 || rgntested[id] )
             continue;
 
-          BW::region *r;
-          if ( id & 0x2000 )
+          rgntested[id] = true;
+          BW::region *r = &BW::BWDATA_SAIPathing->regions[id];
+          BWAPI::RegionImpl *rgn = (BWAPI::RegionImpl*)r->unk_28;
+          if ( !rgn )
+            continue;
+
+          // iteration variables
+          int rx = x, ry = y, nx = 1, ny = 2;
+          //rgn->AddPoint(x*32, y*32);
+
+          do
           {
-/*        // Handle split-tiles; don't worry about this for now, we will start
-            // with broken regions and handle the details later
-            // planning a precalculated array for diagonal polygon connections
-
-            // Get source region from split-tile based on walk tile
-            int minitilePosX = ( x & 0x1F)/8;
-            int minitilePosY = ( y & 0x1F)/8;
-            int minitileShift = minitilePosX + minitilePosY * 4;
-            BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[id&0x1FFF];
-            if ( (t->minitileMask >> minitileShift) & 1 )
-              // t->rgn2
-            else
-              // t->rgn1
-              */
-          }
-          else // all of this 32x32 tile belongs to region
-          {
-            rgntested[id] = true;
-            r = &BW::BWDATA_SAIPathing->regions[id];
-            BWAPI::RegionImpl *rgn = (BWAPI::RegionImpl*)r->unk_28;
-            if ( !rgn )
-              continue;
-
-            // iteration variables
-            int rx = x, ry = y, nx = 1, ny = 2;
-            //rgn->AddPoint(x*32, y*32);
-
-            do
+            rotate_cw2(nx, ny);
+            bool done  = false;
+            for( int count = 0; getRegionIdFromWalkTile(rx + nx - 1, ry + ny - 1) != id && count <= 4; ++count )
             {
-              rotate_cw2(nx, ny);
-              bool done  = false;
-              for( int count = 0; getRegionIdForPolygon(rx + nx - 1, ry + ny - 1) != id && count <= 4; ++count )
-              {
-                rotate_ccw2(nx, ny);
-                if ( count == 4 )
-                  done = true;
-              }
-              if ( done )
-                break;
+              rotate_ccw2(nx, ny);
+              if ( count == 4 )
+                done = true;
+            }
+            if ( done )
+              break;
 
-              rx += nx - 1;
-              ry += ny - 1;
+            rx += nx - 1;
+            ry += ny - 1;
 
-              DWORD dwTileRelation = 0;
-              if ( getRegionIdForPolygon(rx-1, ry) == id ) // left
-                dwTileRelation |= 1;
-              if ( getRegionIdForPolygon(rx+1, ry) == id ) // right
-                dwTileRelation |= 2;
-              if ( getRegionIdForPolygon(rx, ry-1) == id ) // top
-                dwTileRelation |= 4;
-              if ( getRegionIdForPolygon(rx, ry+1) == id ) // bottom
-                dwTileRelation |= 8;
-              switch ( dwTileRelation )
-              {
-              case 0: // border surrounds this
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                break;
-              case 1: // only left side is open
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                break;
-              case 2: // only right side is open
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                break;
-              case 4: // only top side open
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                break;
-              case 5: // top and left is open
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                break;
-              case 6: // top and right is open
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                break;
-              case 8: // bottom is open
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                break;
-              case 9: // bottom and left is open
-                rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                break;
-              case 10: // bottom and right is open
-                rgn->AddPoint(rx*32 + 31, ry*32);
-                rgn->AddPoint(rx*32, ry*32);
-                rgn->AddPoint(rx*32, ry*32 + 31);
-                break;
-              default:
-
-                if ( nx == 2 && (getRegionIdForPolygon(rx, ry+1) != id || getRegionIdForPolygon(rx-1, ry+1) != id) )
-                  rgn->AddPoint(rx*32, ry*32 + 31);
-                else if ( (ny == 0 && getRegionIdForPolygon(rx+1, ry) != id) || (nx == 0 && getRegionIdForPolygon(rx+1, ry-1) != id) )
-                  rgn->AddPoint(rx*32 + 31, ry*32);
-                else if ( ny == 0 && getRegionIdForPolygon(rx+1, ry+1) != id )
-                  rgn->AddPoint(rx*32 + 31, ry*32 + 31);
-                else
-                  rgn->AddPoint(rx*32, ry*32);
-                break;
-              }
-              
-              // More stuff
-            } while ( rx != x || ry != y );
-
-          } // else id is full tile rgn
+            DWORD dwTileRelation = 0;
+            if ( getRegionIdFromWalkTile(rx-1, ry) == id ) // left
+              dwTileRelation |= 1;
+            if ( getRegionIdFromWalkTile(rx+1, ry) == id ) // right
+              dwTileRelation |= 2;
+            if ( getRegionIdFromWalkTile(rx, ry-1) == id ) // top
+              dwTileRelation |= 4;
+            if ( getRegionIdFromWalkTile(rx, ry+1) == id ) // bottom
+              dwTileRelation |= 8;
+            switch ( dwTileRelation )
+            {
+            case 0: // border surrounds this
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              break;
+            case 1: // only left side is open
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              break;
+            case 2: // only right side is open
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              break;
+            case 4: // only top side open
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              break;
+            case 5: // top and left is open
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              break;
+            case 6: // top and right is open
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              break;
+            case 8: // bottom is open
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              break;
+            case 9: // bottom and left is open
+              rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              break;
+            case 10: // bottom and right is open
+              rgn->AddPoint(rx*8 + 7, ry*8);
+              rgn->AddPoint(rx*8, ry*8);
+              rgn->AddPoint(rx*8, ry*8 + 7);
+              break;
+            default:
+              if ( nx == 2 && (getRegionIdFromWalkTile(rx, ry+1) != id || getRegionIdFromWalkTile(rx-1, ry+1) != id) )
+                rgn->AddPoint(rx*8, ry*8 + 7);
+              else if ( (ny == 0 && getRegionIdFromWalkTile(rx+1, ry) != id) || (nx == 0 && getRegionIdFromWalkTile(rx+1, ry-1) != id) )
+                rgn->AddPoint(rx*8 + 7, ry*8);
+              else if ( ny == 0 && getRegionIdFromWalkTile(rx+1, ry+1) != id )
+                rgn->AddPoint(rx*8 + 7, ry*8 + 7);
+              else
+                rgn->AddPoint(rx*8, ry*8);
+              break;
+            }
+            
+            // More stuff
+          } while ( rx != x || ry != y );
 
         } // for y
       } // for x
