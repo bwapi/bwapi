@@ -6,6 +6,7 @@
 #include "Detours.h"
 #include "Resolution.h"
 #include "WMode.h"
+#include "Assembly.h"
 
 #include "../../Debug.h"
 #include <windows.h>
@@ -13,7 +14,7 @@
 void ApplyCodePatches()
 {
   /* Create function-level hooks */
-  HackUtil::CallPatch(BW::BWFXN_NextLogicFrame, &_nextFrameHook);
+  HackUtil::CallPatch(BW::BWFXN_P_IsGamePaused, &_nextFrameHook);
   HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
   HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_repairHook);
   HackUtil::JmpPatch(BW::BWFXN_RefundMinerals, &_refundMineralsHook);

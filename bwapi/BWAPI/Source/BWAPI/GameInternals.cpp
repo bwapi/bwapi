@@ -511,7 +511,7 @@ namespace BWAPI
     */
 
     //increment frame count if the game is not paused
-    if ( *BW::BWDATA_IsRunning != 0 )
+    if ( *BW::BWDATA_isGamePaused == 0 )
       this->frameCount++;
 
     // If we should process our commands just before sending them

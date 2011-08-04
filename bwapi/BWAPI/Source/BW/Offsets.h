@@ -225,7 +225,6 @@ namespace BW
   static u32            *BWDATA_InGame         = (u32*) 0x006556E0;
   static u32            *BWDATA_InReplay       = (u32*) 0x006D0F14;
   static int            *BWDATA_NetMode        = (int*) 0x0059688C;
-  static u8             *BWDATA_IsRunning      = (u8*)  0x0051CE6C;
   static u32            *BWDATA_CountdownTimer = (u32*) 0x0058D6F4; // Countdown Timer (in seconds)
   static u32            *BWDATA_ElapsedTime    = (u32*) 0x0058D6F8; // Elapsed Game Time (in seconds)
 
@@ -312,26 +311,40 @@ namespace BW
   static u8   *BWDATA_ClientSelectionCount  = (u8*)    0x0059723D;
   static u32  BWDATA_PlayerSelection        =          0x006284E0;
 
-  static int *BWDATA_NextLogicFrameData = (int*) 0x006509C4;
-  static u32 BWFXN_NextLogicFrame       =        0x004D974E;
-  static u32 BWFXN_SpendRepair          =        0x00467006;
-  static u32 BWFXN_SpendRepairReturnAddress =    0x0046700D;
-  static u32 BWFXN_RefundMinerals           =    0x0042ce97;//building cancel
-  static u32 BWFXN_RefundMineralsReturnAddress = 0x0042ce9e;//building cancel
-  static u32 BWFXN_RefundGas              =      0x0042ceb8;//building cancel
-  static u32 BWFXN_RefundGasReturnAddress =      0x0042cebe;//building cancel
-  static u32 BWFXN_RefundMinAndGas2       =      0x0042ced9;//morphing
-  static u32 BWFXN_RefundMinAndGas2ReturnAddress = 0x0042cedf;//morphing
-  static u32 BWFXN_RefundMin3         =      0x0045D44D;//morphing
-  static u32 BWFXN_RefundMin3ReturnAddress = 0x0045D454;//morphing
-  static u32 BWFXN_RefundGas3         =      0x0045D46e;//morphing
-  static u32 BWFXN_RefundGas3ReturnAddress = 0x0045D474;//morphing
-  static u32 BWFXN_RefundMin4         =      0x004541C2;//upgrade cancel
-  static u32 BWFXN_RefundMin4ReturnAddress = 0x004541CD;//upgrade cancel
-  static u32 BWFXN_RefundGas4         =      0x004541FD;//upgrade cancel
-  static u32 BWFXN_RefundGas4ReturnAddress = 0x00454204;//upgrade cancel
-  static u32 BWFXN_RefundMinAndGas5         =      0x00453E62;//research cancel
-  static u32 BWFXN_RefundMinAndGas5ReturnAddress = 0x00453E68;//research cancel
+  static u32 *BWDATA_isGamePaused           = (u32*)0x006509C4;
+  static u32 BWFXN_P_IsGamePaused           = 0x004D974E;
+
+  // These 2 can be merged;
+  // void __usercall refundBuildingCost(unsigned __int16 unitType<ax>, unsigned __int8 playerID<cl>)
+  // Function takes cost of unit type, multiplies it by 3/4, and adds it to the player's resources.
+  static u32 BWFXN_RefundMinerals                 = 0x0042ce97;//building cancel
+  static u32 BWFXN_RefundMineralsReturnAddress    = 0x0042ce9e;//building cancel
+  static u32 BWFXN_RefundGas                      = 0x0042ceb8;//building cancel
+  static u32 BWFXN_RefundGasReturnAddress         = 0x0042cebe;//building cancel
+
+  static u32 BWFXN_RefundMinAndGas2               = 0x0042ced9;//morphing
+  static u32 BWFXN_RefundMinAndGas2ReturnAddress  = 0x0042cedf;//morphing
+
+  static u32 BWFXN_RefundMinAndGas5               = 0x00453E62;//research cancel
+  static u32 BWFXN_RefundMinAndGas5ReturnAddress  = 0x00453E68;//research cancel
+
+  // These 2 can be merged;
+  // void __userpurge refundUpgrade(unsigned __int8 upgradeType<al>, unsigned __int8 playerID)
+  // Function calculates the cost of the upgrade by taking the upgrade level, multiplying 
+  // with cost factor, and adding base cost, then adding that to player's resources.
+  static u32 BWFXN_RefundMin4                     = 0x004541C2;//upgrade cancel
+  static u32 BWFXN_RefundMin4ReturnAddress        = 0x004541CD;//upgrade cancel
+  static u32 BWFXN_RefundGas4                     = 0x004541FD;//upgrade cancel
+  static u32 BWFXN_RefundGas4ReturnAddress        = 0x00454204;//upgrade cancel
+
+  // A little trickier, but can also be merged
+  static u32 BWFXN_RefundMin3                     = 0x0045D44D;//morphing
+  static u32 BWFXN_RefundMin3ReturnAddress        = 0x0045D454;//morphing
+  static u32 BWFXN_RefundGas3                     = 0x0045D46e;//morphing
+  static u32 BWFXN_RefundGas3ReturnAddress        = 0x0045D474;//morphing
+
+  static u32 BWFXN_SpendRepair                    = 0x00467006;
+  static u32 BWFXN_SpendRepairReturnAddress       = 0x0046700D;
 
   static void (*BWDATA_DSoundDestroy)()  = (void (*)()) 0x004BC180;
 
