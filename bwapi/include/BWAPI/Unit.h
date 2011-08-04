@@ -7,6 +7,7 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Position.h>
+#include <BWAPI/Region.h>
 #include <BWAPI/TilePosition.h>
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Client/UnitData.h>
@@ -706,5 +707,8 @@ namespace BWAPI
 
     /** Returns the unit ID that is used in a replay (*.rep) file's action recordings. */
     virtual int getReplayID() const = 0;
+
+    /** Returns the region that this unit is currently in. */
+    virtual BWAPI::Region *getRegion() const = 0;
   };
 }
