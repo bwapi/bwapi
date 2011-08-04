@@ -720,7 +720,7 @@ namespace BWAPI
   bool GameImpl::isPaused()
   {
     this->setLastError(Errors::None);
-    return *BW::BWDATA_IsRunning == 0;
+    return *BW::BWDATA_isGamePaused != 0;
   }
   //----------------------------------------------- IN REPLAY ------------------------------------------------
   bool  GameImpl::isReplay()

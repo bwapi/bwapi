@@ -665,6 +665,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\Source\Assembly.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\CodePatch.h"
 					>
 				</File>
@@ -700,6 +704,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\Source\Assembly.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Source\CodePatch.cpp"
 					>

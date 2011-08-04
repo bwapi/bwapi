@@ -18,15 +18,6 @@ BOOL  STORMAPI   _SFileOpenFile(const char *filename, HANDLE *phFile);
 void *STORMAPI   _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue);
 BOOL  STORMAPI   _SNetSendTurn(char *data, unsigned int databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
-void __declspec() _repairHook();
-void __declspec() _refundMineralsHook();
-void __declspec() _refundGasHook();
-void __declspec() _refundMinAndGas2Hook();
-void __declspec() _refundMin3Hook();
-void __declspec() _refundGas3Hook();
-void __declspec() _refundMin4Hook();
-void __declspec() _refundGas4Hook();
-void __declspec() _refundMinAndGas5Hook();
 
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
 
