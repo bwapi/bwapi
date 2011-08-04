@@ -216,5 +216,6 @@ namespace BWAPI
       virtual BWAPI::Player *getLastAttackingPlayer() const;
 
       virtual int getReplayID() const;
+      virtual BWAPI::Region *getRegion() const;
   };
 }

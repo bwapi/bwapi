@@ -1081,4 +1081,9 @@ namespace BWAPI
   {
     return self->replayID;
   }
+  //--------------------------------------------------- REGION -----------------------------------------------
+  BWAPI::Region *UnitImpl::getRegion() const
+  {
+    return Broodwar->getRegionAt(this->getPosition());
+  }
 };

@@ -6,6 +6,7 @@
 
 #include <Util/Types.h>
 #include <BWAPI/Order.h>
+#include <BWAPI/Region.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/UnitType.h>
@@ -227,6 +228,8 @@ namespace BWAPI
       virtual BWAPI::Player *getLastAttackingPlayer() const;
 
       virtual int getReplayID() const;
+
+      virtual BWAPI::Region *getRegion() const;
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
