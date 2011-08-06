@@ -37,6 +37,8 @@ namespace BWAPI
     r->unk_28 = (u32)this;
     
     this->polygon.clear();
+    this->closestAccessibleRgn    = NULL;
+    this->closestInaccessibleRgn  = NULL;
   }
   void RegionImpl::UpdateRegionRelations()
   {
@@ -45,17 +47,37 @@ namespace BWAPI
 
     // Assign region neighbors
     this->neighbors.clear();
+
+    int accessibleBestDist    = 99999;
+    int inaccessibleBestDist  = 99999;
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor((unsigned char)n);
-      this->neighbors.insert((BWAPI::Region*)neighbor->unk_28);
-/*
-      // Separate region relationships
+      BWAPI::Region *bwapiNeighbor = (BWAPI::Region*)neighbor->unk_28;
+
+      // continue if this is null (but it shouldn't be)
+      if ( !bwapiNeighbor )
+        continue;
+
+      // add our neighbor
+      this->neighbors.insert(bwapiNeighbor);
+
+      // Obtain the closest accessible and inaccessible Regions from their Region center
+      int dst = r->getCenter().getApproxDistance(neighbor->getCenter());
       if ( r->isConnectedTo( neighbor ) )
-        this->accessableNeighbors.insert((BWAPI::Region*)neighbor->unk_28);
-      else
-        this->inaccessableNeighbors.insert((BWAPI::Region*)neighbor->unk_28);
-*/
+      {
+        if ( dst < accessibleBestDist )
+        {
+          accessibleBestDist = dst;
+          this->closestAccessibleRgn = bwapiNeighbor;
+        }
+      }
+      else if ( dst < inaccessibleBestDist )
+      {
+        inaccessibleBestDist = dst;
+        this->closestInaccessibleRgn = bwapiNeighbor;
+      }
+
       // Client compatibility for neighbors
       ++self->neighborCount;
       self->neighbors[n] = neighbor->getIndex();
@@ -131,7 +153,7 @@ namespace BWAPI
   {
     return self->isWalkable;
   }
-  const std::set<Region*> &RegionImpl::getNeighbors() const
+  const std::set<BWAPI::Region*> &RegionImpl::getNeighbors() const
   {
     return this->neighbors;
   }
@@ -158,5 +180,17 @@ namespace BWAPI
   RegionData *RegionImpl::getData()
   {
     return self;
+  }
+  BWAPI::Region *RegionImpl::getClosestAccessibleRegion() const
+  {
+    return this->closestAccessibleRgn;
+  }
+  BWAPI::Region *RegionImpl::getClosestInaccessibleRegion() const
+  {
+    return this->closestInaccessibleRgn;
+  }
+  int RegionImpl::getDistance(BWAPI::Region *other) const
+  {
+    return this->getCenter().getApproxDistance(other->getCenter());
   }
 };

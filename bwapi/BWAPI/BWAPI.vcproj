@@ -53,7 +53,7 @@
 				BufferSecurityCheck="false"
 				WarningLevel="4"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4238;4100;4996;"
+				DisableSpecificWarnings="4238; 4100; 4996; 4740;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -142,7 +142,7 @@
 				RuntimeTypeInfo="false"
 				WarningLevel="4"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4238; 4100; 4996;"
+				DisableSpecificWarnings="4238; 4100; 4996; 4740;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
