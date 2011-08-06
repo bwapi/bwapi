@@ -12,13 +12,15 @@ namespace BWAPI
     public:
       Event();
       ~Event();
-      bool operator==(const Event& other);
+      Event(const Event& other);
+      Event& operator=(const Event& other);
+      bool operator==(const Event& other) const;
       static Event MatchStart();
       static Event MatchEnd(bool isWinner);
       static Event MatchFrame();
       static Event MenuFrame();
-      static Event SendText(std::string text);
-      static Event ReceiveText(Player* player, std::string text);
+      static Event SendText(const char* text = NULL);
+      static Event ReceiveText(Player* player, const char* text = NULL);
       static Event PlayerLeft(Player* player);
       static Event NukeDetect(Position target);
       static Event UnitDiscover(Unit* unit);
@@ -29,18 +31,18 @@ namespace BWAPI
       static Event UnitDestroy(Unit* unit);
       static Event UnitMorph(Unit* unit);
       static Event UnitRenegade(Unit* unit);
-      static Event SaveGame(std::string gameName);
+      static Event SaveGame(const char* gameName = NULL);
       static Event UnitComplete(Unit *unit);
       EventType::Enum getType() const;
       Position getPosition() const;
-      std::string& getText() const;
+      const std::string& getText() const;
       Unit* getUnit() const;
       Player* getPlayer() const;
       bool isWinner() const;
 
       Event& setType(EventType::Enum type);
       Event& setPosition(Position position);
-      Event& setText(std::string &text);
+      Event& setText(const char* text);
       Event& setUnit(Unit* unit);
       Event& setPlayer(Player* player);
       Event& setWinner(bool isWinner);

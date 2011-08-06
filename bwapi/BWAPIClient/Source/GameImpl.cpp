@@ -68,11 +68,11 @@ namespace BWAPI
     if (e.type == EventType::PlayerLeft)
       e2.setPlayer(getPlayer(e.v1));
     if (e.type == EventType::SaveGame || e.type == EventType::SendText)
-      e2.setText(std::string(data->strings[e.v1]));
+      e2.setText(data->strings[e.v1]);
     if (e.type == EventType::ReceiveText)
     {
       e2.setPlayer(getPlayer(e.v1));
-      e2.setText(std::string(data->strings[e.v2]));
+      e2.setText(data->strings[e.v2]);
     }
     if (e.type == EventType::UnitDiscover ||
         e.type == EventType::UnitEvade ||

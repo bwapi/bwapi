@@ -196,7 +196,7 @@ void EventTest::onSendText(std::string text)
   BWAssert(onEndCalled==false);
   if (strictEventChecking)
   {
-    BWAssert(isEventExpectedNext(Event::SendText(text)));
+    BWAssert(isEventExpectedNext(Event::SendText(text.c_str())));
     if (expectedEvents.size()>0)
       expectedEvents.pop_front();
   }
@@ -207,7 +207,7 @@ void EventTest::onReceiveText(Player* player, std::string text)
   BWAssert(onEndCalled==false);
   if (strictEventChecking)
   {
-    BWAssert(isEventExpectedNext(Event::ReceiveText(player,text)));
+    BWAssert(isEventExpectedNext(Event::ReceiveText(player,text.c_str())));
     if (expectedEvents.size()>0)
       expectedEvents.pop_front();
   }
@@ -328,7 +328,7 @@ void EventTest::onSaveGame(std::string gameName)
   BWAssert(onEndCalled==false);
   if (strictEventChecking)
   {
-    BWAssert(isEventExpectedNext(Event::SaveGame(gameName)));
+    BWAssert(isEventExpectedNext(Event::SaveGame(gameName.c_str())));
     if (expectedEvents.size()>0)
       expectedEvents.pop_front();
   }

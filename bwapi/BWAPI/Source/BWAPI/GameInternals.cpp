@@ -2819,6 +2819,7 @@ namespace BWAPI
     }
   }
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
+  std::set<Unit*> selectedU;
   void GameImpl::updateUnits()
   {
     computeUnitExistence();
@@ -2827,7 +2828,7 @@ namespace BWAPI
     augmentUnitData();
     applyLatencyCompensation();
     computeSecondaryUnitSets();
-    std::set<Unit*> selectedU = selectedUnitSet;
+    selectedU = selectedUnitSet;
     selectedUnitSet.clear();
     for each ( UnitImpl* u in selectedU )
     {
@@ -2960,12 +2961,13 @@ namespace BWAPI
     } // foreach event
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
+  std::set<Bullet*> lastBullets;
   void GameImpl::updateBullets()
   {
     //update bullet information
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->setExists(false);
-    std::set<Bullet*> lastBullets = bullets;
+    lastBullets = bullets;
     bullets.clear();
     for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement; curritem; curritem = curritem->next)
     {
@@ -2985,7 +2987,7 @@ namespace BWAPI
   void GameImpl::onSaveGame(char *name)
   {
     /* called when the game is being saved */
-    events.push_back(Event::SaveGame(std::string(name)));
+    events.push_back(Event::SaveGame(name));
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
   void GameImpl::onSendText(const char* text)
@@ -2996,7 +2998,10 @@ namespace BWAPI
     if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
     {
       if ( externalModuleConnected )
-        events.push_back(Event::SendText(std::string(text)));
+      {
+        events.push_back(Event::SendText());
+        events.back().setText(text);
+      }
       else
         sendText("%s", text);
     }
@@ -3013,7 +3018,10 @@ namespace BWAPI
          (!this->BWAPIPlayer ||
           realId != this->BWAPIPlayer->getIndex() ) &&
          this->isFlagEnabled(BWAPI::Flag::UserInput) )
-      events.push_back(Event::ReceiveText(this->players[realId], text));
+    {
+      events.push_back(Event::ReceiveText(this->players[realId]));
+      events.back().setText(text.c_str());
+    }
   }
   //------------------------------------------- CENTER ON SELECTED -------------------------------------------
   void GameImpl::moveToSelected()
