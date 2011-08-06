@@ -46,7 +46,7 @@ namespace BW
     /*0x00*/u16       accessabilityFlags;
                       // 0x1FF9 = High ground    1001
                       // 0x1FFB = Low ground     1011
-                      // 0x1FFD = Inaccessable   1101
+                      // 0x1FFD = Inaccessible   1101
     /*0x02*/u16       groupIndex; // Identifies connected regions
     /*0x04*/u16       tileCount;
     /*0x06*/u8        pathCount;

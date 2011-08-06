@@ -18,12 +18,17 @@ namespace BWAPI
     virtual int getDefensePriority() const;
     virtual bool isWalkable() const;
 
-    virtual const std::set<Region*> &getNeighbors() const;
+    virtual const std::set<BWAPI::Region*> &getNeighbors() const;
 
     virtual int getBoundsLeft() const;
     virtual int getBoundsTop() const;
     virtual int getBoundsRight() const;
     virtual int getBoundsBottom() const;
+
+    virtual BWAPI::Region *getClosestAccessibleRegion() const;
+    virtual BWAPI::Region *getClosestInaccessibleRegion() const;
+
+    virtual int getDistance(BWAPI::Region *other) const;
 
     RegionImpl(int id);
     ~RegionImpl();
@@ -36,8 +41,10 @@ namespace BWAPI
     RegionData data;
     RegionData *self;
     
-    std::set<Region*> neighbors;
+    std::set<BWAPI::Region*> neighbors;
     std::vector<BWAPI::Position> polygon;
+    BWAPI::Region *closestAccessibleRgn;
+    BWAPI::Region *closestInaccessibleRgn;
   };
 
 };
