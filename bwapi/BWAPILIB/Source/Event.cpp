@@ -14,13 +14,38 @@ namespace BWAPI
     ,winner(false)
   {
   }
+  Event::Event(const Event& other)
+  {
+    type = other.type;
+    position = other.position;
+    if (other.text!=NULL)
+      text = new std::string(*other.text);
+    else
+      text = NULL;
+    unit = other.unit;
+    player = other.player;
+    winner = other.winner;
+  }
   Event::~Event()
   {
     if (text!=NULL)
       delete text;
     text=NULL;
   }
-  bool Event::operator==(const Event& other)
+  Event& Event::operator=(const Event& other)
+  {
+    type = other.type;
+    position = other.position;
+    if (other.text!=NULL)
+      text = new std::string(*other.text);
+    else
+      text = NULL;
+    unit = other.unit;
+    player = other.player;
+    winner = other.winner;
+    return *this;
+  }
+  bool Event::operator==(const Event& other) const
   {
     return (type     == other.type &&
             position == other.position &&
@@ -54,19 +79,21 @@ namespace BWAPI
     e.type = EventType::MenuFrame;
     return e;
   }
-  Event Event::SendText(std::string text)
+  Event Event::SendText(const char* text)
   {
     Event e;
     e.type = EventType::SendText;
-    e.text = new std::string(text);
+    if (text!=NULL)
+      e.text = new std::string(text);
     return e;
   }
-  Event Event::ReceiveText(Player* player, std::string text)
+  Event Event::ReceiveText(Player* player, const char* text)
   {
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    e.text   = new std::string(text);
+    if (text!=NULL)
+      e.text   = new std::string(text);
     return e;
   }
   Event Event::PlayerLeft(Player* player)
@@ -139,11 +166,12 @@ namespace BWAPI
     e.unit = unit;
     return e;
   }
-  Event Event::SaveGame(std::string gameName)
+  Event Event::SaveGame(const char* gameName)
   {
     Event e;
     e.type = EventType::SaveGame;
-    e.text = new std::string(gameName);
+    if (gameName!=NULL)
+      e.text = new std::string(gameName);
     return e;
   }
   Event Event::UnitComplete(Unit *unit)
@@ -161,7 +189,7 @@ namespace BWAPI
   {
     return position;
   }
-  std::string& Event::getText() const
+  const std::string& Event::getText() const
   {
     if (text==NULL)
       return emptyString;
@@ -189,12 +217,27 @@ namespace BWAPI
     this->position = position;
     return *this;
   }
-  Event& Event::setText(std::string &text)
+  Event& Event::setText(const char* text)
   {
     if (this->text!=NULL)
-      *this->text = text;
+    {
+      if (text!=NULL)
+      {
+        this->text->assign(text);
+      }
+      else
+      {
+        delete this->text;
+        this->text = NULL;
+      }
+    }
     else
-      this->text = new std::string(text);
+    {
+      if (text!=NULL)
+      {
+        this->text = new std::string(text);
+      }
+    }
     return *this;
   }
   Event& Event::setUnit(Unit* unit)

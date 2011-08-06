@@ -163,9 +163,9 @@ namespace BWAPI
     }
 
     if ( _exists && 
-         (isVisible() || 
+         (BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ||
           BroodwarImpl._isReplay() || 
-          BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) )
+          isVisible()) )
     {
       self->exists = true;
       self->id = id;
