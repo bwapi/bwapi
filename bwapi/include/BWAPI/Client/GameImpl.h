@@ -237,5 +237,6 @@ namespace BWAPI
       virtual const std::set<BWAPI::Region*> &getAllRegions() const;
       virtual BWAPI::Region *getRegionAt(int x, int y) const;
       virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const;
+      virtual int getLastEventTime() const;
   };
 }

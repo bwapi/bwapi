@@ -1112,5 +1112,9 @@ namespace BWAPI
     }
     return getRegionAt(position.x(), position.y());
   }
+  int GameImpl::getLastEventTime() const
+  {
+    return this->lastEventTime;
+  }
 };
 

@@ -105,6 +105,7 @@ namespace BWAPI
       , tournamentController(NULL)
       , isTournamentCall(false)
       , commandOptimizerLevel(0)
+      , lastEventTime(0)
   {
     BWAPI::Broodwar = static_cast<Game*>(this);
 
@@ -2941,20 +2942,33 @@ namespace BWAPI
       break;
     }
   }
+
+  DWORD dwLastEventTime;
   void GameImpl::processEvents()
   {
     //This function translates events into AIModule callbacks
-    if ( !client )
-      return;
-    if (server.isConnected())
+    if ( !client || server.isConnected() )
       return;
     foreach(Event e, events)
     {
+      // Reset event stopwatch
+      if ( tournamentAI )
+      {
+        this->lastEventTime = 0;
+        dwLastEventTime     = GetTickCount();
+      }
+
+      // Send event to the AI Client module
       SendClientEvent(client, e);
 
+      // continue if the tournament is not loaded
       if ( !tournamentAI )
         continue;
 
+      // Save the last event time
+      this->lastEventTime = GetTickCount() - dwLastEventTime;
+
+      // Send same event to the Tournament module for post-processing
       isTournamentCall = true;
       SendClientEvent(tournamentAI, e);
       isTournamentCall = false;
