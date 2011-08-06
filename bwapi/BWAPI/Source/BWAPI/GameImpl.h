@@ -242,6 +242,8 @@ namespace BWAPI
       virtual BWAPI::Region *getRegionAt(int x, int y) const;
       virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const;
 
+      virtual int getLastEventTime() const;
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
@@ -439,6 +441,8 @@ namespace BWAPI
       bool tournamentCheck(int type, void *parameter = NULL);
       int  commandOptimizerLevel;
       std::vector<UnitCommand> commandOptimizer[BWAPI_UNIT_COMMAND_TYPE_COUNT];
+
+      int lastEventTime;
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

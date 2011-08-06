@@ -461,6 +461,10 @@ namespace BWAPI
     /** Returns the region at a position. */
     virtual BWAPI::Region *getRegionAt(int x, int y) const = 0;
     virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const = 0;
+
+    /** Returns the time taken to perform the previous event call. Used for tournament management. */
+    virtual int getLastEventTime() const = 0;
+
   };
   extern Game* Broodwar;
 }
