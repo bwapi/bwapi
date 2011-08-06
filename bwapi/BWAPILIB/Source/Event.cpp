@@ -4,23 +4,30 @@
 
 namespace BWAPI
 {
+  std::string emptyString;
   Event::Event()
     :type(EventType::None)
     ,position(Positions::None)
-    ,text("")
+    ,text(NULL)
     ,unit(NULL)
     ,player(NULL)
-    ,isWinner(false)
+    ,winner(false)
   {
+  }
+  Event::~Event()
+  {
+    if (text!=NULL)
+      delete text;
+    text=NULL;
   }
   bool Event::operator==(const Event& other)
   {
     return (type     == other.type &&
             position == other.position &&
-            text     == other.text &&
+            ((text==NULL && other.text==NULL) || (text!=NULL && other.text!=NULL &&*text == *other.text)) &&
             unit     == other.unit &&
             player   == other.player &&
-            isWinner == other.isWinner);
+            winner == other.winner);
   }
   Event Event::MatchStart()
   {
@@ -31,8 +38,8 @@ namespace BWAPI
   Event Event::MatchEnd(bool isWinner)
   {
     Event e;
-    e.type     = EventType::MatchEnd;
-    e.isWinner = isWinner;
+    e.type   = EventType::MatchEnd;
+    e.winner = isWinner;
     return e;
   }
   Event Event::MatchFrame()
@@ -51,7 +58,7 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SendText;
-    e.text = text;
+    e.text = new std::string(text);
     return e;
   }
   Event Event::ReceiveText(Player* player, std::string text)
@@ -59,7 +66,7 @@ namespace BWAPI
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    e.text   = text;
+    e.text   = new std::string(text);
     return e;
   }
   Event Event::PlayerLeft(Player* player)
@@ -136,7 +143,7 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SaveGame;
-    e.text = gameName;
+    e.text = new std::string(gameName);
     return e;
   }
   Event Event::UnitComplete(Unit *unit)
@@ -145,5 +152,64 @@ namespace BWAPI
     e.type = EventType::UnitComplete;
     e.unit = unit;
     return e;
+  }
+  EventType::Enum Event::getType() const
+  {
+    return type;
+  }
+  Position Event::getPosition() const
+  {
+    return position;
+  }
+  std::string& Event::getText() const
+  {
+    if (text==NULL)
+      return emptyString;
+    return *text;
+  }
+  Unit* Event::getUnit() const
+  {
+    return unit;
+  }
+  Player* Event::getPlayer() const
+  {
+    return player;
+  }
+  bool Event::isWinner() const
+  {
+    return winner;
+  }
+  Event& Event::setType(EventType::Enum type)
+  {
+    this->type = type;
+    return *this;
+  }
+  Event& Event::setPosition(Position position)
+  {
+    this->position = position;
+    return *this;
+  }
+  Event& Event::setText(std::string &text)
+  {
+    if (this->text!=NULL)
+      *this->text = text;
+    else
+      this->text = new std::string(text);
+    return *this;
+  }
+  Event& Event::setUnit(Unit* unit)
+  {
+    this->unit = unit;
+    return *this;
+  }
+  Event& Event::setPlayer(Player* player)
+  {
+    this->player = player;
+    return *this;
+  }
+  Event& Event::setWinner(bool isWinner)
+  {
+    this->winner = isWinner;
+    return *this;
   }
 }

@@ -11,6 +11,7 @@ namespace BWAPI
   {
     public:
       Event();
+      ~Event();
       bool operator==(const Event& other);
       static Event MatchStart();
       static Event MatchEnd(bool isWinner);
@@ -30,12 +31,26 @@ namespace BWAPI
       static Event UnitRenegade(Unit* unit);
       static Event SaveGame(std::string gameName);
       static Event UnitComplete(Unit *unit);
+      EventType::Enum getType() const;
+      Position getPosition() const;
+      std::string& getText() const;
+      Unit* getUnit() const;
+      Player* getPlayer() const;
+      bool isWinner() const;
+
+      Event& setType(EventType::Enum type);
+      Event& setPosition(Position position);
+      Event& setText(std::string &text);
+      Event& setUnit(Unit* unit);
+      Event& setPlayer(Player* player);
+      Event& setWinner(bool isWinner);
       //static Event TriggerAction();
+    private:
       EventType::Enum type;
       Position position;
-      std::string text;
+      std::string* text;
       Unit* unit;
       Player* player;
-      bool isWinner;
+      bool winner;
   };
 }

@@ -14,7 +14,7 @@ bool EventTest::isEventExpectedNext(Event e)
 {
   if (expectedEvents.empty()) return false;
   Event e2 = (*expectedEvents.begin());
-  return (e.type==e2.type);
+  return (e.getType()==e2.getType());
 }
 void EventTest::onStart()
 {
@@ -49,9 +49,9 @@ void EventTest::onEnd(bool isWinner)
     er.close();
     return;
   }
-  if ((*expectedEvents.begin()).type!=EventType::MatchEnd)
+  if ((*expectedEvents.begin()).getType()!=EventType::MatchEnd)
   {
-    er << "onEnd: Error: expected event was " << (*expectedEvents.begin()).type << ", not MatchEnd\n";
+    er << "onEnd: Error: expected event was " << (*expectedEvents.begin()).getType() << ", not MatchEnd\n";
     er.close();
     return;
   }
