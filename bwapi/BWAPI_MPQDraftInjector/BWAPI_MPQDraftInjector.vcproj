@@ -46,7 +46,7 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_MPQDRAFTINJECTOR_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWAPI_MPQDRAFTINJECTOR_EXPORTS;_SECURE_SCL 0"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"

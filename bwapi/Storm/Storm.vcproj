@@ -44,7 +44,7 @@
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;STORM_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;STORM_EXPORTS;_SECURE_SCL 0"
 				ExceptionHandling="0"
 				StructMemberAlignment="1"
 				BufferSecurityCheck="false"

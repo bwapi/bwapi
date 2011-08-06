@@ -48,7 +48,7 @@
 				Optimization="1"
 				FavorSizeOrSpeed="2"
 				OmitFramePointers="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CREATETHREADREMOTETEST_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_SECURE_SCL 0"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"

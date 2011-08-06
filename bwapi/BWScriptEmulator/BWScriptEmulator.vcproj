@@ -119,7 +119,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR;_SECURE_SCL 0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"

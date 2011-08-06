@@ -45,7 +45,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EXAMPLETOURNAMENTMODULE_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EXAMPLETOURNAMENTMODULE_EXPORTS;_SECURE_SCL 0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y"
+				CommandLine="XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.vcproj&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.h&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;XCOPY &quot;$(SolutionDir)ExampleTournamentModule\*.cpp&quot; &quot;$(SolutionDir)..\Release_Binary\ExampleTournamentModule&quot; /S /C /I /R /Y&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCLinkerTool"
