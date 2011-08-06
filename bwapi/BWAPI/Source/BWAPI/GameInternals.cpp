@@ -2880,14 +2880,14 @@ namespace BWAPI
   }
   void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)
   {
-    EventType::Enum et = e.type;
+    EventType::Enum et = e.getType();
     switch (et)
     {
     case EventType::MatchStart:
       module->onStart();
       break;
     case EventType::MatchEnd:
-      module->onEnd(e.isWinner);
+      module->onEnd(e.isWinner());
       break;
     case EventType::MatchFrame:
       module->onFrame();
@@ -2895,46 +2895,46 @@ namespace BWAPI
     case EventType::MenuFrame:
       break;
     case EventType::SendText:
-      module->onSendText(e.text);
+      module->onSendText(e.getText());
       break;
     case EventType::ReceiveText:
-      module->onReceiveText(e.player, e.text);
+      module->onReceiveText(e.getPlayer(), e.getText());
       break;
     case EventType::PlayerLeft:
-      module->onPlayerLeft(e.player);
+      module->onPlayerLeft(e.getPlayer());
       break;
     case EventType::NukeDetect:
-      module->onNukeDetect(e.position);
+      module->onNukeDetect(e.getPosition());
       break;
     case EventType::UnitDiscover:
-      module->onUnitDiscover(e.unit);
+      module->onUnitDiscover(e.getUnit());
       break;
     case EventType::UnitEvade:
-      module->onUnitEvade(e.unit);
+      module->onUnitEvade(e.getUnit());
       break;
     case EventType::UnitCreate:
-      module->onUnitCreate(e.unit);
+      module->onUnitCreate(e.getUnit());
       break;
     case EventType::UnitDestroy:
-      module->onUnitDestroy(e.unit);
+      module->onUnitDestroy(e.getUnit());
       break;
     case EventType::UnitMorph:
-      module->onUnitMorph(e.unit);
+      module->onUnitMorph(e.getUnit());
       break;
     case EventType::UnitShow:
-      module->onUnitShow(e.unit);
+      module->onUnitShow(e.getUnit());
       break;
     case EventType::UnitHide:
-      module->onUnitHide(e.unit);
+      module->onUnitHide(e.getUnit());
       break;
     case EventType::UnitRenegade:
-      module->onUnitRenegade(e.unit);
+      module->onUnitRenegade(e.getUnit());
       break;
     case EventType::SaveGame:
-      module->onSaveGame(e.text);
+      module->onSaveGame(e.getText());
       break;
     case EventType::UnitComplete:
-      module->onUnitComplete(e.unit);
+      module->onUnitComplete(e.getUnit());
       break;
     default:
       break;

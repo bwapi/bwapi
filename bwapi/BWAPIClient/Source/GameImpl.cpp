@@ -60,19 +60,19 @@ namespace BWAPI
   Event GameImpl::makeEvent(BWAPIC::Event e)
   {
     Event e2;
-    e2.type = e.type;
+    e2.setType(e.type);
     if (e.type == EventType::MatchEnd)
-      e2.isWinner = (e.v1 != 0);
+      e2.setWinner(e.v1 != 0);
     if (e.type == EventType::NukeDetect)
-      e2.position = Position(e.v1,e.v2);
+      e2.setPosition(Position(e.v1,e.v2));
     if (e.type == EventType::PlayerLeft)
-      e2.player = getPlayer(e.v1);
+      e2.setPlayer(getPlayer(e.v1));
     if (e.type == EventType::SaveGame || e.type == EventType::SendText)
-      e2.text = data->strings[e.v1];
+      e2.setText(std::string(data->strings[e.v1]));
     if (e.type == EventType::ReceiveText)
     {
-      e2.player = getPlayer(e.v1);
-      e2.text   = data->strings[e.v2];
+      e2.setPlayer(getPlayer(e.v1));
+      e2.setText(std::string(data->strings[e.v2]));
     }
     if (e.type == EventType::UnitDiscover ||
         e.type == EventType::UnitEvade ||
@@ -83,7 +83,7 @@ namespace BWAPI
         e.type == EventType::UnitRenegade ||
         e.type == EventType::UnitMorph ||
         e.type == EventType::UnitComplete )
-      e2.unit = getUnit(e.v1);
+      e2.setUnit(getUnit(e.v1));
     return e2;
 
   }

@@ -102,28 +102,28 @@ namespace BWAPI
     assert(data->eventCount < GameData::MAX_EVENTS);
     BWAPIC::Event* e2 = &(data->events[data->eventCount++]);
     int id   = data->eventCount;
-    e2->type = e.type;
+    e2->type = e.getType();
     e2->v1   = 0;
     e2->v2   = 0;
-    switch (e.type)
+    switch (e.getType())
     {
     case BWAPI::EventType::MatchEnd:
-      e2->v1 = e.isWinner;
+      e2->v1 = e.isWinner();
       break;
     case BWAPI::EventType::SendText:
     case BWAPI::EventType::SaveGame:
-      e2->v1 = addString(e.text.c_str());
+      e2->v1 = addString(e.getText().c_str());
       break;
     case BWAPI::EventType::PlayerLeft:
-      e2->v1 = getPlayerID(e.player);
+      e2->v1 = getPlayerID(e.getPlayer());
       break;
     case BWAPI::EventType::ReceiveText:
-      e2->v1  = getPlayerID(e.player);
-      e2->v2  = addString(e.text.c_str());
+      e2->v1  = getPlayerID(e.getPlayer());
+      e2->v2  = addString(e.getText().c_str());
       break;
     case BWAPI::EventType::NukeDetect:
-      e2->v1 = e.position.x();
-      e2->v2 = e.position.y();
+      e2->v1 = e.getPosition().x();
+      e2->v2 = e.getPosition().y();
       break;
     case BWAPI::EventType::UnitDiscover:
     case BWAPI::EventType::UnitEvade:
@@ -133,10 +133,8 @@ namespace BWAPI
     case BWAPI::EventType::UnitShow:
     case BWAPI::EventType::UnitHide:
     case BWAPI::EventType::UnitRenegade:
-      e2->v1 = getUnitID(e.unit);
-      break;
     case BWAPI::EventType::UnitComplete:
-      e2->v1 = getUnitID(e.unit);
+      e2->v1 = getUnitID(e.getUnit());
       break;
     default:
       break;
@@ -319,7 +317,7 @@ namespace BWAPI
     foreach(Event e, BroodwarImpl.events)
     {
       addEvent(e);
-      if (e.type == EventType::MatchStart)
+      if (e.getType() == EventType::MatchStart)
         matchStarting = true;
 
 
@@ -327,13 +325,13 @@ namespace BWAPI
         continue;
 
       BroodwarImpl.isTournamentCall = true;
-      switch ( e.type )
+      switch ( e.getType() )
       {
       case EventType::MatchStart:
         BroodwarImpl.tournamentAI->onStart();
         break;
       case EventType::MatchEnd:
-        BroodwarImpl.tournamentAI->onEnd(e.isWinner);
+        BroodwarImpl.tournamentAI->onEnd(e.isWinner());
         break;
       case EventType::MatchFrame:
         BroodwarImpl.tournamentAI->onFrame();
@@ -341,46 +339,46 @@ namespace BWAPI
       case EventType::MenuFrame:
         break;
       case EventType::SendText:
-        BroodwarImpl.tournamentAI->onSendText(e.text);
+        BroodwarImpl.tournamentAI->onSendText(e.getText());
         break;
       case EventType::ReceiveText:
-        BroodwarImpl.tournamentAI->onReceiveText(e.player, e.text);
+        BroodwarImpl.tournamentAI->onReceiveText(e.getPlayer(), e.getText());
         break;
       case EventType::PlayerLeft:
-        BroodwarImpl.tournamentAI->onPlayerLeft(e.player);
+        BroodwarImpl.tournamentAI->onPlayerLeft(e.getPlayer());
         break;
       case EventType::NukeDetect:
-        BroodwarImpl.tournamentAI->onNukeDetect(e.position);
+        BroodwarImpl.tournamentAI->onNukeDetect(e.getPosition());
         break;
       case EventType::UnitDiscover:
-        BroodwarImpl.tournamentAI->onUnitDiscover(e.unit);
+        BroodwarImpl.tournamentAI->onUnitDiscover(e.getUnit());
         break;
       case EventType::UnitEvade:
-        BroodwarImpl.tournamentAI->onUnitEvade(e.unit);
+        BroodwarImpl.tournamentAI->onUnitEvade(e.getUnit());
         break;
       case EventType::UnitCreate:
-        BroodwarImpl.tournamentAI->onUnitCreate(e.unit);
+        BroodwarImpl.tournamentAI->onUnitCreate(e.getUnit());
         break;
       case EventType::UnitDestroy:
-        BroodwarImpl.tournamentAI->onUnitDestroy(e.unit);
+        BroodwarImpl.tournamentAI->onUnitDestroy(e.getUnit());
         break;
       case EventType::UnitMorph:
-        BroodwarImpl.tournamentAI->onUnitMorph(e.unit);
+        BroodwarImpl.tournamentAI->onUnitMorph(e.getUnit());
         break;
       case EventType::UnitShow:
-        BroodwarImpl.tournamentAI->onUnitShow(e.unit);
+        BroodwarImpl.tournamentAI->onUnitShow(e.getUnit());
         break;
       case EventType::UnitHide:
-        BroodwarImpl.tournamentAI->onUnitHide(e.unit);
+        BroodwarImpl.tournamentAI->onUnitHide(e.getUnit());
         break;
       case EventType::UnitRenegade:
-        BroodwarImpl.tournamentAI->onUnitRenegade(e.unit);
+        BroodwarImpl.tournamentAI->onUnitRenegade(e.getUnit());
         break;
       case EventType::SaveGame:
-        BroodwarImpl.tournamentAI->onSaveGame(e.text);
+        BroodwarImpl.tournamentAI->onSaveGame(e.getText());
         break;
       case EventType::UnitComplete:
-        BroodwarImpl.tournamentAI->onUnitComplete(e.unit);
+        BroodwarImpl.tournamentAI->onUnitComplete(e.getUnit());
         break;
       default:
         break;
