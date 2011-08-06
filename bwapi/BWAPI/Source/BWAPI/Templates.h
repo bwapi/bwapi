@@ -845,18 +845,16 @@ namespace BWAPI
 
         if ( UnitCommandTypes::Unload == ct )
         {
-          bool canUnload = false;
-          std::set<Unit*> loadedUnits = thisUnit->getLoadedUnits();
-          if (loadedUnits.find(c.target) != loadedUnits.end())
-            canUnload = true;
-          if ( !canUnload )
+          if ( !c.target )
             return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+          if ( !c.target->isLoaded() )
+            return Broodwar->setLastError(Errors::Incompatible_State);
         }
 
-        if ( thisUnit->getType() != UnitTypes::Terran_Bunker )
+        if ( thisUnit->getType() != UnitTypes::Terran_Bunker && thisUnit )
         {
-          BWAPI::Position targDropPos = UnitCommandTypes::Unload_All_Position == ct ? c.getTargetPosition() : thisUnit->getPosition();
-          if ( !Broodwar->isWalkable(targDropPos.x()*8, targDropPos.y()*8) )
+          BWAPI::Position targDropPos = (UnitCommandTypes::Unload_All_Position == ct ? c.getTargetPosition() : thisUnit->getPosition());
+          if ( !Broodwar->isWalkable(targDropPos.x()/8, targDropPos.y()/8) )
             return Broodwar->setLastError(Errors::Unreachable_Location);
         }
       } // unload
