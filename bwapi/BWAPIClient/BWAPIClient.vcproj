@@ -111,7 +111,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..;../include;../Util/Source;../include/BWAPI/Client"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_SECURE_SCL 0"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -204,11 +204,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\BWAPI\Client\Command.h"
+				RelativePath=".\Source\Command.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Command.h"
+				RelativePath="..\include\BWAPI\Client\Command.h"
 				>
 			</File>
 			<File
