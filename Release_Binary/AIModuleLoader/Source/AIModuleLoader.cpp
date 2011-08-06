@@ -62,14 +62,14 @@ int main(int argc, const char* argv[])
     {
       for(std::list<Event>::iterator e=Broodwar->getEvents().begin();e!=Broodwar->getEvents().end();e++)
       {
-        EventType::Enum et=e->type;
+        EventType::Enum et=e->getType();
         switch (et)
         {
           case EventType::MatchStart:
             client->onStart();
           break;
           case EventType::MatchEnd:
-            client->onEnd(e->isWinner);
+            client->onEnd(e->isWinner());
           break;
           case EventType::MatchFrame:
             client->onFrame();
@@ -77,43 +77,43 @@ int main(int argc, const char* argv[])
           case EventType::MenuFrame:
           break;
           case EventType::SendText:
-            client->onSendText(e->text);
+            client->onSendText(e->getText());
           break;
           case EventType::ReceiveText:
-            client->onReceiveText(e->player, e->text);
+            client->onReceiveText(e->getPlayer(), e->getText());
           break;
           case EventType::PlayerLeft:
-            client->onPlayerLeft(e->player);
+            client->onPlayerLeft(e->getPlayer());
           break;
           case EventType::NukeDetect:
-            client->onNukeDetect(e->position);
+            client->onNukeDetect(e->getPosition());
           break;
           case EventType::UnitDiscover:
-            client->onUnitDiscover(e->unit);
+            client->onUnitDiscover(e->getUnit());
           break;
           case EventType::UnitEvade:
-            client->onUnitEvade(e->unit);
+            client->onUnitEvade(e->getUnit());
           break;
           case EventType::UnitShow:
-            client->onUnitShow(e->unit);
+            client->onUnitShow(e->getUnit());
           break;
           case EventType::UnitHide:
-            client->onUnitHide(e->unit);
+            client->onUnitHide(e->getUnit());
           break;
           case EventType::UnitCreate:
-            client->onUnitCreate(e->unit);
+            client->onUnitCreate(e->getUnit());
           break;
           case EventType::UnitDestroy:
-            client->onUnitDestroy(e->unit);
+            client->onUnitDestroy(e->getUnit());
           break;
           case EventType::UnitMorph:
-            client->onUnitMorph(e->unit);
+            client->onUnitMorph(e->getUnit());
           break;
           case EventType::UnitRenegade:
-            client->onUnitRenegade(e->unit);
+            client->onUnitRenegade(e->getUnit());
           break;
           case EventType::SaveGame:
-            client->onSaveGame(e->text);
+            client->onSaveGame(e->getText());
           break;
           default:
           break;

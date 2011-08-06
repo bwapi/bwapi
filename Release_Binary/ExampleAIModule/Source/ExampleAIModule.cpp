@@ -417,6 +417,8 @@ void ExampleAIModule::showForces()
   }
 }
 
-void ExampleAIModule::onUnitComplete()
+void ExampleAIModule::onUnitComplete(BWAPI::Unit *unit)
 {
+  if (!Broodwar->isReplay() && Broodwar->getFrameCount()>1)
+    Broodwar->sendText("A %s [%x] has been completed at (%d,%d)",unit->getType().getName().c_str(),unit,unit->getPosition().x(),unit->getPosition().y());
 }
