@@ -394,16 +394,16 @@ namespace BWAPI
       {
         if ( req == UnitTypes::Zerg_Hatchery && 
              !self->completedUnitCount(UnitTypes::Zerg_Hatchery) &&
-             !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
-             !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+             !self->allUnitCount(UnitTypes::Zerg_Lair) &&
+             !self->allUnitCount(UnitTypes::Zerg_Hive) )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
         else if ( req == UnitTypes::Zerg_Lair &&
                   !self->completedUnitCount(UnitTypes::Zerg_Lair) &&
-                  !self->completedUnitCount(UnitTypes::Zerg_Hive) )
+                  !self->allUnitCount(UnitTypes::Zerg_Hive) )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
         else if ( req == UnitTypes::Zerg_Spire &&
                   !self->completedUnitCount(UnitTypes::Zerg_Spire) &&
-                  !self->completedUnitCount(UnitTypes::Zerg_Greater_Spire) )
+                  !self->allUnitCount(UnitTypes::Zerg_Greater_Spire) )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
         else if ( !self->completedUnitCount(req) )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
