@@ -188,7 +188,7 @@ namespace BWAPI
 
       foreach(TechType i, techTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         techTypeMap.insert(std::make_pair(name, i));
       }

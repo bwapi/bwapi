@@ -8,6 +8,7 @@ namespace BW
   {
     enum Enum
     {
+      None                   = 0,
       BlackSheepWall         = 1 <<  0,
       OperationCwal          = 1 <<  1,
       PowerOverwelming       = 1 <<  2,
@@ -24,8 +25,7 @@ namespace BW
       FoodForThought         = 1 << 17,
       WhatsMineIsMine        = 1 << 18,
       BreatheDeep            = 1 << 19,
-      NoGlues                = 1 << 29,
-      None                   = 1 << 31
+      NoGlues                = 1 << 29
     };
   }
 };
