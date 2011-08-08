@@ -325,7 +325,7 @@ namespace BWAPI
 
       foreach(UpgradeType i, upgradeTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         upgradeTypeMap.insert(std::make_pair(name, i));
       }

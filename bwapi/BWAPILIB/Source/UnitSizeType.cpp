@@ -41,7 +41,7 @@ namespace BWAPI
 
       foreach(UnitSizeType i, unitSizeTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         unitSizeTypeMap.insert(std::make_pair(name, i));
       }

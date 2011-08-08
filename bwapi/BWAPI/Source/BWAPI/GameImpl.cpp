@@ -647,7 +647,7 @@ namespace BWAPI
     if (_isInGame() && _isSinglePlayer())
     {
       BW::CheatFlags::Enum cheatID = BW::getCheatFlag(buffer);
-      if (cheatID != BW::CheatFlags::None)
+      if ( cheatID != BW::CheatFlags::None )
       {
         this->cheatFlags ^= cheatID;
         QueueGameCommand(&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));

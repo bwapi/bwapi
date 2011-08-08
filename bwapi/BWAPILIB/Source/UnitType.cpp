@@ -892,13 +892,13 @@ namespace BWAPI
 
       foreach(UnitType i, unitTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         unitTypeMap.insert(std::make_pair(name, i));
       }
       foreach(UnitType i, macroTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         unitTypeMap.insert(std::make_pair(name, i));
       }

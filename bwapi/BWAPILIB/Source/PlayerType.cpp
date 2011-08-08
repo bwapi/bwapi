@@ -58,7 +58,7 @@ namespace BWAPI
 
       foreach(PlayerType i, playerTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         playerTypeMap.insert(std::make_pair(name, i));
       }

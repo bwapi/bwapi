@@ -15,4 +15,11 @@ namespace BWAPI
     }
   }
 
+  const char *underscoresToSpaces(const char *pszTypename)
+  {
+    for ( int i = strlen(pszTypename); i > 0; i-- )
+      if ( pszTypename[i] == '_' ) 
+        ((char*)pszTypename)[i] = ' ';
+    return pszTypename;
+  }
 }

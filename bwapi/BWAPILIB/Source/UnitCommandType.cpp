@@ -161,7 +161,7 @@ namespace BWAPI
 
       foreach(UnitCommandType i, unitCommandTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         unitCommandTypeMap.insert(std::make_pair(name, i));
       }

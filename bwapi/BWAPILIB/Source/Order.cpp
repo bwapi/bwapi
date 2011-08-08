@@ -494,7 +494,7 @@ namespace BWAPI
 
       foreach(Order i, orderSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         orderMap.insert(std::make_pair(name, i));
       }

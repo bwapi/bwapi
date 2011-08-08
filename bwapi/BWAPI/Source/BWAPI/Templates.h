@@ -392,21 +392,18 @@ namespace BWAPI
       UnitType req = type.whatsRequired(nextLvl);
       if ( req != UnitTypes::None )
       {
-        if ( req == UnitTypes::Zerg_Hatchery && 
-             !self->completedUnitCount(UnitTypes::Zerg_Hatchery) )
+        if ( req == UnitTypes::Zerg_Hatchery && !self->completedUnitCount(UnitTypes::Zerg_Hatchery) )
         {
           if ( !self->allUnitCount(UnitTypes::Zerg_Lair) &&
                !self->allUnitCount(UnitTypes::Zerg_Hive) )
             return Broodwar->setLastError(Errors::Insufficient_Tech);
         }
-        else if ( req == UnitTypes::Zerg_Lair &&
-                  !self->completedUnitCount(UnitTypes::Zerg_Lair) )
+        else if ( req == UnitTypes::Zerg_Lair && !self->completedUnitCount(UnitTypes::Zerg_Lair) )
         {
           if ( !self->allUnitCount(UnitTypes::Zerg_Hive) )
             return Broodwar->setLastError(Errors::Insufficient_Tech);
         }
-        else if ( req == UnitTypes::Zerg_Spire &&
-                  !self->completedUnitCount(UnitTypes::Zerg_Spire) )
+        else if ( req == UnitTypes::Zerg_Spire && !self->completedUnitCount(UnitTypes::Zerg_Spire) )
         {
           if ( !self->allUnitCount(UnitTypes::Zerg_Greater_Spire) )
             return Broodwar->setLastError(Errors::Insufficient_Tech);

@@ -66,7 +66,7 @@ namespace BWAPI
 
       foreach(Race i, raceSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         raceMap.insert(std::make_pair(name, i));
       }

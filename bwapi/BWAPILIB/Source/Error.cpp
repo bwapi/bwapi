@@ -109,7 +109,7 @@ namespace BWAPI
 
       foreach(Error i, errorSet)
       {
-        std::string name = i.toString();
+        std::string name(i.toString());
         fixName(&name);
         errorMap.insert(std::make_pair(name, i));
       }

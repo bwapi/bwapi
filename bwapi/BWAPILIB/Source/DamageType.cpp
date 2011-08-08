@@ -44,7 +44,7 @@ namespace BWAPI
 
       foreach(DamageType i, damageTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         damageTypeMap.insert(std::make_pair(name, i));
       }

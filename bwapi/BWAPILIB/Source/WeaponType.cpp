@@ -503,7 +503,7 @@ namespace BWAPI
 
       foreach(WeaponType i, weaponTypeSet)
       {
-        std::string name = i.getName();
+        std::string name(i.getName());
         fixName(&name);
         weaponTypeMap.insert(std::make_pair(name, i));
       }

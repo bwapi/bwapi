@@ -5,41 +5,40 @@ namespace BW
 {
   CheatFlags::Enum getCheatFlag(const char* name)
   {
-    std::string name2 = std::string(name);
-    if (name2 == std::string("black sheep wall"))
+    if ( strcmpi(name, "black sheep wall") == 0 )
       return CheatFlags::BlackSheepWall;
-    if (name2 == std::string("operation cwal"))
-      return CheatFlags::OperationCwal;
-    if (name2 == std::string("power overwhelming"))
-      return CheatFlags::PowerOverwelming;
-    if (name2 == std::string("something for nothing"))
-      return CheatFlags::SomethingForNothing;
-    if (name2 == std::string("show me the money"))
-      return CheatFlags::ShowMeTheMoney;
-    if (name2 == std::string("game over man"))
-      return CheatFlags::GameOverMan;
-    if (name2 == std::string("there is no cow level"))
-      return CheatFlags::ThereIsNoCowLevel;
-    if (name2 == std::string("staying alive"))
-      return CheatFlags::StayingAlive;
-    if (name2 == std::string("ophelia"))
-      return CheatFlags::Ophelia;
-    if (name2 == std::string("the gathering"))
-      return CheatFlags::TheGathering;
-    if (name2 == std::string("medieval man"))
-      return CheatFlags::MedievalMan;
-    if (name2 == std::string("modify the phase variance"))
-      return CheatFlags::ModifyThePhaseVariance;
-    if (name2 == std::string("war aint what it used to be"))
-      return CheatFlags::WarAintWhatItUsedToBe;
-    if (name2 == std::string("food for thought"))
-      return CheatFlags::FoodForThought;
-    if (name2 == std::string("whats mine is mine"))
-      return CheatFlags::WhatsMineIsMine;
-    if (name2 == std::string("breathe deep"))
+    else if ( strcmpi(name, "breathe deep") == 0 )
       return CheatFlags::BreatheDeep;
-    if (name2 == std::string("noglues"))
+    else if ( strcmpi(name, "food for thought") == 0 )
+      return CheatFlags::FoodForThought;
+    else if ( strcmpi(name, "game over man") == 0 )
+      return CheatFlags::GameOverMan;
+    else if ( strcmpi(name, "medieval man") == 0 )
+      return CheatFlags::MedievalMan;
+    else if ( strcmpi(name, "modify the phase variance") == 0 )
+      return CheatFlags::ModifyThePhaseVariance;
+    else if ( strcmpi(name, "noglues") == 0 )
       return CheatFlags::NoGlues;
+    else if ( strcmpi(name, "operation cwal") == 0 )
+      return CheatFlags::OperationCwal;
+    else if ( strcmpi(name, "ophelia") == 0 )
+      return CheatFlags::Ophelia;
+    else if ( strcmpi(name, "power overwhelming") == 0 )
+      return CheatFlags::PowerOverwelming;
+    else if ( strcmpi(name, "show me the money") == 0 )
+      return CheatFlags::ShowMeTheMoney;
+    else if ( strcmpi(name, "something for nothing") == 0 )
+      return CheatFlags::SomethingForNothing;
+    else if ( strcmpi(name, "staying alive") == 0 )
+      return CheatFlags::StayingAlive;
+    else if ( strcmpi(name, "the gathering") == 0 )
+      return CheatFlags::TheGathering;
+    else if ( strcmpi(name, "there is no cow level") == 0 )
+      return CheatFlags::ThereIsNoCowLevel;
+    else if ( strcmpi(name, "war aint what it used to be") == 0 )
+      return CheatFlags::WarAintWhatItUsedToBe;
+    else if ( strcmpi(name, "whats mine is mine") == 0 )
+      return CheatFlags::WhatsMineIsMine;
     return CheatFlags::None;
   }
 }
