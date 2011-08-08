@@ -42,59 +42,34 @@ namespace BWAPI
     const ExplosionType Air_Splash(24);
     const ExplosionType Unknown(25);
 
+#define SET_EXPLOSION_TYPE(x) explosionTypeName[x] = underscoresToSpaces(#x); explosionTypeSet.insert(x);
     void init()
     {
-      explosionTypeName[None]            = "None";
-      explosionTypeName[Normal]          = "Normal";
-      explosionTypeName[Radial_Splash]   = "Radial Splash";
-      explosionTypeName[Enemy_Splash]    = "Enemy Splash";
-      explosionTypeName[Lockdown]        = "Lockdown";
-      explosionTypeName[Nuclear_Missile] = "Nuclear Missile";
-      explosionTypeName[Parasite]        = "Parasite";
-      explosionTypeName[Broodlings]      = "Broodlings";
-      explosionTypeName[EMP_Shockwave]   = "EMP Shockwave";
-      explosionTypeName[Irradiate]       = "Irradiate";
-      explosionTypeName[Ensnare]         = "Ensnare";
-      explosionTypeName[Plague]          = "Plague";
-      explosionTypeName[Stasis_Field]    = "Stasis Field";
-      explosionTypeName[Dark_Swarm]      = "Dark Swarm";
-      explosionTypeName[Consume]         = "Consume";
-      explosionTypeName[Yamato_Gun]      = "Yamato Gun";
-      explosionTypeName[Restoration]     = "Restoration";
-      explosionTypeName[Disruption_Web]  = "Disruption Web";
-      explosionTypeName[Corrosive_Acid]  = "Corrosive Acid";
-      explosionTypeName[Mind_Control]    = "Mind Control";
-      explosionTypeName[Feedback]        = "Feedback";
-      explosionTypeName[Optical_Flare]   = "Optical Flare";
-      explosionTypeName[Maelstrom]       = "Maelstrom";
-      explosionTypeName[Air_Splash]      = "Air Splash";
-      explosionTypeName[Unknown]         = "Unknown";
-
-      explosionTypeSet.insert(None);
-      explosionTypeSet.insert(Normal);
-      explosionTypeSet.insert(Radial_Splash);
-      explosionTypeSet.insert(Enemy_Splash);
-      explosionTypeSet.insert(Lockdown);
-      explosionTypeSet.insert(Nuclear_Missile);
-      explosionTypeSet.insert(Parasite);
-      explosionTypeSet.insert(Broodlings);
-      explosionTypeSet.insert(EMP_Shockwave);
-      explosionTypeSet.insert(Irradiate);
-      explosionTypeSet.insert(Ensnare);
-      explosionTypeSet.insert(Plague);
-      explosionTypeSet.insert(Stasis_Field);
-      explosionTypeSet.insert(Dark_Swarm);
-      explosionTypeSet.insert(Consume);
-      explosionTypeSet.insert(Yamato_Gun);
-      explosionTypeSet.insert(Restoration);
-      explosionTypeSet.insert(Disruption_Web);
-      explosionTypeSet.insert(Corrosive_Acid);
-      explosionTypeSet.insert(Mind_Control);
-      explosionTypeSet.insert(Feedback);
-      explosionTypeSet.insert(Optical_Flare);
-      explosionTypeSet.insert(Maelstrom);
-      explosionTypeSet.insert(Air_Splash);
-      explosionTypeSet.insert(Unknown);
+      SET_EXPLOSION_TYPE(None);
+      SET_EXPLOSION_TYPE(Normal);
+      SET_EXPLOSION_TYPE(Radial_Splash);
+      SET_EXPLOSION_TYPE(Enemy_Splash);
+      SET_EXPLOSION_TYPE(Lockdown);
+      SET_EXPLOSION_TYPE(Nuclear_Missile);
+      SET_EXPLOSION_TYPE(Parasite);
+      SET_EXPLOSION_TYPE(Broodlings);
+      SET_EXPLOSION_TYPE(EMP_Shockwave);
+      SET_EXPLOSION_TYPE(Irradiate);
+      SET_EXPLOSION_TYPE(Ensnare);
+      SET_EXPLOSION_TYPE(Plague);
+      SET_EXPLOSION_TYPE(Stasis_Field);
+      SET_EXPLOSION_TYPE(Dark_Swarm);
+      SET_EXPLOSION_TYPE(Consume);
+      SET_EXPLOSION_TYPE(Yamato_Gun);
+      SET_EXPLOSION_TYPE(Restoration);
+      SET_EXPLOSION_TYPE(Disruption_Web);
+      SET_EXPLOSION_TYPE(Corrosive_Acid);
+      SET_EXPLOSION_TYPE(Mind_Control);
+      SET_EXPLOSION_TYPE(Feedback);
+      SET_EXPLOSION_TYPE(Optical_Flare);
+      SET_EXPLOSION_TYPE(Maelstrom);
+      SET_EXPLOSION_TYPE(Air_Splash);
+      SET_EXPLOSION_TYPE(Unknown);
 
       foreach(ExplosionType i, explosionTypeSet)
       {
