@@ -24,16 +24,23 @@ namespace BWAPI
     const DamageType None(5);
     const DamageType Unknown(6);
 
-#define SET_DAMAGE_TYPE(x) damageTypeName[x] = underscoresToSpaces(#x); damageTypeSet.insert(x);
     void init()
     {
-      SET_DAMAGE_TYPE(Independent);
-      SET_DAMAGE_TYPE(Explosive);
-      SET_DAMAGE_TYPE(Concussive);
-      SET_DAMAGE_TYPE(Normal);
-      SET_DAMAGE_TYPE(Ignore_Armor);
-      SET_DAMAGE_TYPE(None);
-      SET_DAMAGE_TYPE(Unknown);
+      damageTypeName[Independent]  = "Independent";
+      damageTypeName[Explosive]    = "Explosive";
+      damageTypeName[Concussive]   = "Concussive";
+      damageTypeName[Normal]       = "Normal";
+      damageTypeName[Ignore_Armor] = "Ignore Armor";
+      damageTypeName[None]         = "None";
+      damageTypeName[Unknown]      = "Unknown";
+
+      damageTypeSet.insert(Independent);
+      damageTypeSet.insert(Explosive);
+      damageTypeSet.insert(Concussive);
+      damageTypeSet.insert(Normal);
+      damageTypeSet.insert(Ignore_Armor);
+      damageTypeSet.insert(None);
+      damageTypeSet.insert(Unknown);
 
       foreach(DamageType i, damageTypeSet)
       {

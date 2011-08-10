@@ -23,15 +23,21 @@ namespace BWAPI
     const UnitSizeType None(4);
     const UnitSizeType Unknown(5);
 
-#define SET_SIZE_TYPE(x) unitSizeTypeName[x] = underscoresToSpaces(#x); unitSizeTypeSet.insert(x);
     void init()
     {
-      SET_SIZE_TYPE(Independent);
-      SET_SIZE_TYPE(Small);
-      SET_SIZE_TYPE(Medium);
-      SET_SIZE_TYPE(Large);
-      SET_SIZE_TYPE(None);
-      SET_SIZE_TYPE(Unknown);
+      unitSizeTypeName[Independent] = "Independent";
+      unitSizeTypeName[Small]       = "Small";
+      unitSizeTypeName[Medium]      = "Medium";
+      unitSizeTypeName[Large]       = "Large";
+      unitSizeTypeName[None]        = "None";
+      unitSizeTypeName[Unknown]     = "Unknown";
+
+      unitSizeTypeSet.insert(Independent);
+      unitSizeTypeSet.insert(Small);
+      unitSizeTypeSet.insert(Medium);
+      unitSizeTypeSet.insert(Large);
+      unitSizeTypeSet.insert(None);
+      unitSizeTypeSet.insert(Unknown);
 
       foreach(UnitSizeType i, unitSizeTypeSet)
       {
