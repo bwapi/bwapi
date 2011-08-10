@@ -287,6 +287,13 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         /* Get process count */
         gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
 
+        /* Get display warnings */
+        bool showWarn  = true;
+        char szTmp[16];
+        GetPrivateProfileString("Config", "show_warnings", "YES", szTmp, sizeof(szTmp), szConfigPath);
+        if ( strcmpi(szTmp, "YES") != 0 )
+          showWarn = false;
+
         /* Get revision/build automatically */
         char szDllPath[MAX_PATH];
         char szKeyName[MAX_PATH];
@@ -300,7 +307,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
         if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
         {
-          BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", szKeyName, szConfigPath);
+            BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", szKeyName, szConfigPath);
         }
         else
         {
@@ -330,7 +337,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
           HANDLE hFile = NULL;
           if ( !SFileOpenFileEx(NULL, pszDll, SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
           {
-            BWAPIError("Could not load module \"%s\" for revision identification.", pszDll);
+              BWAPIError("Could not load module \"%s\" for revision identification.", pszDll);
           }
           else
           {
@@ -341,7 +348,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             char *pbBuffer = (char*)SMAlloc(dwFileSize);
             if ( !pbBuffer )
             {
-              BWAPIError("Unable to allocate enough memory for module \"%s\" for revision identification.", pszDll);
+                BWAPIError("Unable to allocate enough memory for module \"%s\" for revision identification.", pszDll);
             }
             else
             {
@@ -381,7 +388,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
           if ( dwDesiredRevision > 0 && dwDesiredRevision != SVN_REV )
           {
             // revision that ai_dll_# for multiple instances was introduced
-            if ( gdwProcNum && dwDesiredRevision < 2753 )
+            if ( gdwProcNum && dwDesiredRevision < 2753 && showWarn )
             {
               char err[512];
               sprintf(err, "Revision %u is not compatible with multiple instances.\nExpecting revision 2753 (BWAPI Beta 3.1) or greater. If you proceed, the older revision of BWAPI will attempt to load its module from ai_dll instead of the multi-instance specification. Do you want to continue anyway?", dwDesiredRevision);
@@ -397,25 +404,31 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             HMODULE hLib = LoadLibrary(szRevModule);
             if ( hLib )
             {
-              char msg[MAX_PATH+32];
-              char szLoadedName[MAX_PATH];
-              GetModuleFileName(hLib, szLoadedName, MAX_PATH);
-              sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", szLoadedName);
-              MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+              if ( showWarn )
+              {
+                char msg[MAX_PATH+32];
+                char szLoadedName[MAX_PATH];
+                GetModuleFileName(hLib, szLoadedName, MAX_PATH);
+                sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", szLoadedName);
+                MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+              }
               return TRUE;
             }
 
-            char err[512];
-            sprintf(err, "Couldn't find revision module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current revision instead?", szRevModule);
-            BWAPIError("%s", err);
-            if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
-              return TRUE;
+            if ( showWarn )
+            {
+              char err[512];
+              sprintf(err, "Couldn't find revision module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current revision instead?", szRevModule);
+              BWAPIError("%s", err);
+              if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
+                return TRUE;
+            }
           } // specified rev is not this one
           else if ( dwDesiredBuild && BUILD_DEBUG + 1 != dwDesiredBuild )
           {
             char envBuffer[MAX_PATH];
             if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )
-              if ( !GetCurrentDirectory(MAX_PATH, envBuffer) )
+              if ( !GetCurrentDirectory(MAX_PATH, envBuffer) && showWarn )
                 BWAPIError("Could not find ChaosDir or current directory for build identification.");
 
             SStrNCat(envBuffer, "\\BWAPI", MAX_PATH);
@@ -426,17 +439,23 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             HMODULE hLib = LoadLibrary(envBuffer);
             if ( hLib )
             {
-              char msg[MAX_PATH+32];
-              sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", envBuffer);
-              MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+              if ( showWarn )
+              {
+                char msg[MAX_PATH+32];
+                sprintf_s(msg, MAX_PATH+32, "Loaded \"%s\" instead.", envBuffer);
+                MessageBox(NULL, msg, "Success", MB_OK | MB_ICONINFO);
+              }
               return TRUE;
             }
 
-            char err[512];
-            sprintf(err, "Couldn't find build module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current build instead?", envBuffer);
-            BWAPIError("%s", err);
-            if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
-              return TRUE;
+            if ( showWarn )
+            {
+              char err[512];
+              sprintf(err, "Couldn't find build module \"%s\" of which the AI DLL was compiled for. Do you want to try using the current build instead?", envBuffer);
+              BWAPIError("%s", err);
+              if ( MessageBox(NULL, err, "Error", MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON1 | MB_TASKMODAL) == IDNO )
+                return TRUE;
+            }
             return TRUE;
           }
         } // module str was found
