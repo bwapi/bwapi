@@ -30,20 +30,31 @@ namespace BWAPI
     const PlayerType ComputerLeft(11);
     const PlayerType Unknown(12);
 
-#define SET_PLAYER_TYPE(x) playerTypeName[x] = underscoresToSpaces(#x); playerTypeSet.insert(x);
     void init()
     {
-      SET_PLAYER_TYPE(None);
-      SET_PLAYER_TYPE(Computer);
-      SET_PLAYER_TYPE(Player);
-      SET_PLAYER_TYPE(RescuePassive);
-      SET_PLAYER_TYPE(EitherPreferComputer);
-      SET_PLAYER_TYPE(EitherPreferHuman);
-      SET_PLAYER_TYPE(Neutral);
-      SET_PLAYER_TYPE(Closed);
-      SET_PLAYER_TYPE(PlayerLeft);
-      SET_PLAYER_TYPE(ComputerLeft);
-      SET_PLAYER_TYPE(Unknown);
+      playerTypeName[None]                 = "None";
+      playerTypeName[Computer]             = "Computer";
+      playerTypeName[Player]               = "Player";
+      playerTypeName[RescuePassive]        = "RescuePassive";
+      playerTypeName[EitherPreferComputer] = "EitherPreferComputer";
+      playerTypeName[EitherPreferHuman]    = "EitherPreferHuman";
+      playerTypeName[Neutral]              = "Neutral";
+      playerTypeName[Closed]               = "Closed";
+      playerTypeName[PlayerLeft]           = "PlayerLeft";
+      playerTypeName[ComputerLeft]         = "ComputerLeft";
+      playerTypeName[Unknown]              = "Unknown";
+
+      playerTypeSet.insert(None);
+      playerTypeSet.insert(Computer);
+      playerTypeSet.insert(Player);
+      playerTypeSet.insert(RescuePassive);
+      playerTypeSet.insert(EitherPreferComputer);
+      playerTypeSet.insert(EitherPreferHuman);
+      playerTypeSet.insert(Neutral);
+      playerTypeSet.insert(Closed);
+      playerTypeSet.insert(PlayerLeft);
+      playerTypeSet.insert(ComputerLeft);
+      playerTypeSet.insert(Unknown);
 
       foreach(PlayerType i, playerTypeSet)
       {

@@ -33,25 +33,41 @@ namespace BWAPI
     const GameType None(33);
     const GameType Unknown(34);
 
-#define SET_GAME_TYPE(x) gameTypeName[x] = underscoresToSpaces(#x); gameTypeSet.insert(x);
     void init()
     {
-      SET_GAME_TYPE(Melee);
-      SET_GAME_TYPE(Free_For_All);
-      SET_GAME_TYPE(One_on_One);
-      SET_GAME_TYPE(Capture_The_Flag);
-      SET_GAME_TYPE(Greed);
-      SET_GAME_TYPE(Slaughter);
-      SET_GAME_TYPE(Sudden_Death);
-      SET_GAME_TYPE(Ladder);
-      SET_GAME_TYPE(Use_Map_Settings);
-      SET_GAME_TYPE(Team_Melee);
-      SET_GAME_TYPE(Team_Free_For_All);
-      SET_GAME_TYPE(Team_Capture_The_Flag);
-      SET_GAME_TYPE(Top_vs_Bottom);
-      SET_GAME_TYPE(Pro_Gamer_League);
-      SET_GAME_TYPE(None);
-      SET_GAME_TYPE(Unknown);
+      gameTypeName[Melee]                 = "Melee";
+      gameTypeName[Free_For_All]          = "Free For All";
+      gameTypeName[One_on_One]            = "One on One";
+      gameTypeName[Capture_The_Flag]      = "Capture The Flag";
+      gameTypeName[Greed]                 = "Greed";
+      gameTypeName[Slaughter]             = "Slaughter";
+      gameTypeName[Sudden_Death]          = "Sudden Death";
+      gameTypeName[Ladder]                = "Ladder";
+      gameTypeName[Use_Map_Settings]      = "Use Map Settings";
+      gameTypeName[Team_Melee]            = "Team Melee";
+      gameTypeName[Team_Free_For_All]     = "Team Free For All";
+      gameTypeName[Team_Capture_The_Flag] = "Team Capture The Flag";
+      gameTypeName[Top_vs_Bottom]         = "Top vs Bottom";
+      gameTypeName[Pro_Gamer_League]      = "Pro Gamer League";
+      gameTypeName[None]                  = "None";
+      gameTypeName[Unknown]               = "Unknown";
+
+      gameTypeSet.insert(Melee);
+      gameTypeSet.insert(Free_For_All);
+      gameTypeSet.insert(One_on_One);
+      gameTypeSet.insert(Capture_The_Flag);
+      gameTypeSet.insert(Greed);
+      gameTypeSet.insert(Slaughter);
+      gameTypeSet.insert(Sudden_Death);
+      gameTypeSet.insert(Ladder);
+      gameTypeSet.insert(Use_Map_Settings);
+      gameTypeSet.insert(Team_Melee);
+      gameTypeSet.insert(Team_Free_For_All);
+      gameTypeSet.insert(Team_Capture_The_Flag);
+      gameTypeSet.insert(Top_vs_Bottom);
+      gameTypeSet.insert(Pro_Gamer_League);
+      gameTypeSet.insert(None);
+      gameTypeSet.insert(Unknown);
 
       foreach(GameType i, gameTypeSet)
       {
