@@ -632,6 +632,8 @@ namespace BWAPI
 
       for ( int i = 0; i < UNIT_TYPE_COUNT; ++i )
         self->isUnitAvailable[i] = !!BW::BWDATA_UnitAvailability->available[index][i];
+
+      self->hasResearched[TechTypes::Nuclear_Strike] = self->isUnitAvailable[UnitTypes::Terran_Nuclear_Missile];
     }
     if ( (!BroodwarImpl._isReplay() && 
           BroodwarImpl.self()->isEnemy((Player*)this) && 

@@ -693,22 +693,27 @@ namespace BWAPI
         else if ( UnitCommandTypes::Siege == ct )
           tech = BWAPI::TechTypes::Tank_Siege_Mode;
 
-        // do checks
+        // researched check
         if ( !thisUnit->getType().isHero() && !Broodwar->self()->hasResearched(tech) && thisUnit->getType() != UnitTypes::Zerg_Lurker )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
 
+        // energy check
         if ( thisUnit->getEnergy() < tech.energyUsed() )
           return Broodwar->setLastError(Errors::Insufficient_Energy);
 
+        // unit check
         if ( tech != TechTypes::Burrowing && tech.whatUses().find(thisUnit->getType()) == tech.whatUses().end() )
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
+        // spider mine check
         if ( tech == TechTypes::Spider_Mines && thisUnit->getSpiderMineCount() <= 0 )
           return Broodwar->setLastError(Errors::Insufficient_Ammo);
 
+        // nuclear missile check
         if ( tech == TechTypes::Nuclear_Strike && thisUnit->getPlayer()->completedUnitCount(UnitTypes::Terran_Nuclear_Missile) == 0 )
           return Broodwar->setLastError(Errors::Insufficient_Ammo);
 
+        // state checks
         if (tech == TechTypes::Burrowing)
         {
           if ( !thisUnit->getType().isBurrowable() )
@@ -795,6 +800,7 @@ namespace BWAPI
         if ( c.target->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
           return Broodwar->setLastError(Errors::Insufficient_Tech);
 
+        // check if there is space available
         int thisUnitFreeSpace = thisUnitSpaceProvided;
         int targetFreeSpace   = targetSpaceProvided;
         std::set<Unit*> loadedUnits = thisUnit->getLoadedUnits();
@@ -839,6 +845,7 @@ namespace BWAPI
         if ( thisUnit->getLoadedUnits().size() == 0 )
           return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
+        // Check overlord tech
         int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
         if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0)
           return Broodwar->setLastError(Errors::Insufficient_Tech);

@@ -163,7 +163,7 @@ void EventTest::onFrame()
           ghost=u;
       BWAssert(ghost!=NULL);
       Position p(ghost->getPosition());
-      ghost->useTech(TechTypes::Nuclear_Strike,p);
+      BWAssert(ghost->useTech(TechTypes::Nuclear_Strike,p));
       expectedEvents.push_back(Event::NukeDetect(p));
       expectedEvents.push_back(Event::UnitHide(NULL));
       expectedEvents.push_back(Event::UnitEvade(NULL));
