@@ -3189,6 +3189,11 @@ namespace BWAPI
 
     if ( commandOptimizerLevel >= 4 )
     {
+      // Convert tech unit target to tech position target commands so that they can be
+      // optimized with nearby tech position commands of the same type.
+      if ( uct == UnitCommandTypes::Use_Tech_Unit && command.getTechType().targetsPosition() && utarg )
+        command = UnitCommand::useTech(uthis, command.getTechType(), utarg->getPosition());
+
       // Align locations to 32 pixels
       if ( uct == UnitCommandTypes::Attack_Move          ||
            uct == UnitCommandTypes::Move                 ||
