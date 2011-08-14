@@ -161,7 +161,6 @@ void ZergTest::onStart()
   this->addTestCase(new UseTechTest(TechTypes::Infestation));
   this->addTestCase(new TrainTest(UnitTypes::Zerg_Infested_Terran));
   this->addTestCase(new MPHSTest(UnitTypes::Zerg_Infested_Terran));
-  this->addTestCase(new AttackMoveTest(UnitTypes::Zerg_Infested_Terran));
   this->addTestCase(new AttackUnitTest(UnitTypes::Zerg_Infested_Terran,UnitTypes::Zerg_Infested_Command_Center));
 
   
