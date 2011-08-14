@@ -599,7 +599,7 @@ namespace BWAPI
   //------------------------------------------------- PRINTF -------------------------------------------------
   void GameImpl::printf(const char *format, ...)
   {
-    if ( data->hasGUI ) return;
+    if ( !data->hasGUI ) return;
     if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
