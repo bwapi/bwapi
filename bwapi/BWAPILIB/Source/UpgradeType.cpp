@@ -359,7 +359,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string UpgradeType::getName() const
+  const std::string &UpgradeType::getName() const
   {
     return upgradeTypeData[this->id].name;
   }
@@ -421,7 +421,7 @@ namespace BWAPI
       return UpgradeTypes::Unknown;
     return (*i).second;
   }
-  std::set<UpgradeType>& UpgradeTypes::allUpgradeTypes()
+  const std::set<UpgradeType>& UpgradeTypes::allUpgradeTypes()
   {
     return upgradeTypeSet;
   }

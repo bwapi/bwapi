@@ -16,7 +16,7 @@ namespace BWAPI
       int getID() const;
 
       /** Returns the name of this explosion type. */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
     private:
       int id;
@@ -27,7 +27,7 @@ namespace BWAPI
     ExplosionType getExplosionType(std::string name);
 
     /** Returns the set of all ExplosionTypes. */
-    std::set<ExplosionType>& allExplosionTypes();
+    const std::set<ExplosionType>& allExplosionTypes();
 
     void init();
     extern const ExplosionType None;

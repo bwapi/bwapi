@@ -75,7 +75,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string UnitSizeType::getName() const
+  const std::string &UnitSizeType::getName() const
   {
     return unitSizeTypeName[this->id];
   }
@@ -91,7 +91,7 @@ namespace BWAPI
       return UnitSizeTypes::Unknown;
     return (*i).second;
   }
-  std::set<UnitSizeType>& UnitSizeTypes::allUnitSizeTypes()
+  const std::set<UnitSizeType>& UnitSizeTypes::allUnitSizeTypes()
   {
     return unitSizeTypeSet;
   }

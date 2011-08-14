@@ -100,7 +100,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string Race::getName() const
+  const std::string &Race::getName() const
   {
     return raceData[this->id].name;
   }
@@ -136,7 +136,7 @@ namespace BWAPI
       return Races::Unknown;
     return (*i).second;
   }
-  std::set<Race>& Races::allRaces()
+  const std::set<Race>& Races::allRaces()
   {
     return raceSet;
   }

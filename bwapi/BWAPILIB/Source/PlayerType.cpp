@@ -92,7 +92,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string PlayerType::getName() const
+  const std::string &PlayerType::getName() const
   {
     return playerTypeName[this->id];
   }
@@ -108,7 +108,7 @@ namespace BWAPI
       return PlayerTypes::Unknown;
     return (*i).second;
   }
-  std::set<PlayerType>& PlayerTypes::allPlayerTypes()
+  const std::set<PlayerType>& PlayerTypes::allPlayerTypes()
   {
     return playerTypeSet;
   }

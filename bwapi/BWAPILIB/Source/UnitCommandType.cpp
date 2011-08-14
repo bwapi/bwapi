@@ -195,7 +195,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string UnitCommandType::getName() const
+  const std::string &UnitCommandType::getName() const
   {
     return unitCommandTypeName[this->id];
   }
@@ -211,7 +211,7 @@ namespace BWAPI
       return UnitCommandTypes::Unknown;
     return (*i).second;
   }
-  std::set<UnitCommandType>& UnitCommandTypes::allUnitCommandTypes()
+  const std::set<UnitCommandType>& UnitCommandTypes::allUnitCommandTypes()
   {
     return unitCommandTypeSet;
   }

@@ -932,7 +932,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string UnitType::getName() const
+  const std::string &UnitType::getName() const
   {
     return unitTypeData[this->id].name;
   }
@@ -1246,11 +1246,11 @@ namespace BWAPI
       return UnitTypes::Unknown;
     return (*i).second;
   }
-  std::set<UnitType>& UnitTypes::allUnitTypes()
+  const std::set<UnitType>& UnitTypes::allUnitTypes()
   {
     return unitTypeSet;
   }
-  std::set<UnitType>& UnitTypes::allMacroTypes()
+  const std::set<UnitType>& UnitTypes::allMacroTypes()
   {
     return macroTypeSet;
   }

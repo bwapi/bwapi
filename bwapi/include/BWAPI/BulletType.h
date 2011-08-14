@@ -17,7 +17,7 @@ namespace BWAPI
       int getID() const;
 
       /** Returns the name of this bullet type. */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
     private:
       int id;
@@ -29,7 +29,7 @@ namespace BWAPI
     BulletType getBulletType(std::string name);
 
     /** Returns the set of all the BulletTypes. */
-    std::set<BulletType>& allBulletTypes();
+    const std::set<BulletType>& allBulletTypes();
     void init();
     extern const BulletType Melee;
     extern const BulletType Fusion_Cutter_Hit;

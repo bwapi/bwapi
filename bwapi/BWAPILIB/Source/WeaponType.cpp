@@ -537,7 +537,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string WeaponType::getName() const
+  const std::string &WeaponType::getName() const
   {
     return weaponTypeData[this->id].name;
   }
@@ -645,15 +645,15 @@ namespace BWAPI
       return WeaponTypes::Unknown;
     return (*i).second;
   }
-  std::set<WeaponType>& WeaponTypes::allWeaponTypes()
+  const std::set<WeaponType>& WeaponTypes::allWeaponTypes()
   {
     return weaponTypeSet;
   }
-  std::set<WeaponType>& WeaponTypes::normalWeaponTypes()
+  const std::set<WeaponType>& WeaponTypes::normalWeaponTypes()
   {
     return normalWeaponTypeSet;
   }
-  std::set<WeaponType>& WeaponTypes::specialWeaponTypes()
+  const std::set<WeaponType>& WeaponTypes::specialWeaponTypes()
   {
     return specialWeaponTypeSet;
   }

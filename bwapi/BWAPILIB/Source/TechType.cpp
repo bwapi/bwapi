@@ -222,7 +222,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string TechType::getName() const
+  const std::string &TechType::getName() const
   {
     return techTypeData[this->id].name;
   }
@@ -282,7 +282,7 @@ namespace BWAPI
       return TechTypes::Unknown;
     return (*i).second;
   }
-  std::set<TechType>& TechTypes::allTechTypes()
+  const std::set<TechType>& TechTypes::allTechTypes()
   {
     return techTypeSet;
   }

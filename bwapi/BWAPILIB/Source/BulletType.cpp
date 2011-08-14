@@ -168,7 +168,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string BulletType::getName() const
+  const std::string &BulletType::getName() const
   {
     return bulletTypeName[this->id];
   }
@@ -184,7 +184,7 @@ namespace BWAPI
       return BulletTypes::Unknown;
     return (*i).second;
   }
-  std::set<BulletType>& BulletTypes::allBulletTypes()
+  const std::set<BulletType>& BulletTypes::allBulletTypes()
   {
     return bulletTypeSet;
   }

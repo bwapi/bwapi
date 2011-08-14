@@ -529,7 +529,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string Order::getName() const
+  const std::string &Order::getName() const
   {
     return orderName[this->id];
   }
@@ -545,7 +545,7 @@ namespace BWAPI
       return Orders::Unknown;
     return (*i).second;
   }
-  std::set<Order>& Orders::allOrders()
+  const std::set<Order>& Orders::allOrders()
   {
     return orderSet;
   }
