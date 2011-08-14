@@ -105,7 +105,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string GameType::getName() const
+  const std::string &GameType::getName() const
   {
     return gameTypeName[this->id];
   }
@@ -120,7 +120,7 @@ namespace BWAPI
     if (i == gameTypeMap.end()) return GameTypes::Unknown;
     return (*i).second;
   }
-  std::set<GameType>& GameTypes::allGameTypes()
+  const std::set<GameType>& GameTypes::allGameTypes()
   {
     return gameTypeSet;
   }

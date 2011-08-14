@@ -18,7 +18,7 @@ namespace BWAPI
       int getID() const;
 
       /** Returns the name for the upgrade type. */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
 
       /** Returns the race the upgrade is for. For example, UpgradeTypes::Terran_Infantry_Armor.getRace()
@@ -63,7 +63,7 @@ namespace BWAPI
     UpgradeType getUpgradeType(std::string name);
 
     /** Returns the set of all the UpgradeTypes. */
-    std::set<UpgradeType>& allUpgradeTypes();
+    const std::set<UpgradeType>& allUpgradeTypes();
     void init();
     extern const UpgradeType Terran_Infantry_Armor;
     extern const UpgradeType Terran_Vehicle_Plating;

@@ -33,7 +33,7 @@ namespace BWAPI
     Error getError(std::string name);
 
     /** The set of all the error codes. */
-    std::set<Error>& allErrors();
+    const std::set<Error>& allErrors();
 
     void init();
 

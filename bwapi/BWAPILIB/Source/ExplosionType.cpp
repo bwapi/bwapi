@@ -132,7 +132,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string ExplosionType::getName() const
+  const std::string &ExplosionType::getName() const
   {
     return explosionTypeName[this->id];
   }
@@ -148,7 +148,7 @@ namespace BWAPI
       return ExplosionTypes::Unknown;
     return (*i).second;
   }
-  std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()
+  const std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()
   {
     return explosionTypeSet;
   }

@@ -17,7 +17,7 @@ namespace BWAPI
 
       /** Returns the name of the player type. For example PlayerTypes::Computer.getName() will return an
        * std::string object containing "Computer". */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
     private:
       int id;
@@ -29,7 +29,7 @@ namespace BWAPI
     PlayerType getPlayerType(std::string name);
 
     /** Returns the set of all the PlayerTypes. */
-    std::set<PlayerType>& allPlayerTypes();
+    const std::set<PlayerType>& allPlayerTypes();
     void init();
     extern const PlayerType None;
     extern const PlayerType Computer;

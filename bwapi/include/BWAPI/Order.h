@@ -21,7 +21,7 @@ namespace BWAPI
       int getID() const;
 
       /** Returns the name of this order. */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
     private:
       int id;
@@ -32,7 +32,7 @@ namespace BWAPI
     Order getOrder(std::string name);
 
     /** Returns the set of all the Orders. */
-    std::set<Order>& allOrders();
+    const std::set<Order>& allOrders();
 
     void init();
     extern const Order Die;

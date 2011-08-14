@@ -78,7 +78,7 @@ namespace BWAPI
   {
     return this->id;
   }
-  std::string DamageType::getName() const
+  const std::string &DamageType::getName() const
   {
     return damageTypeName[this->id];
   }
@@ -94,7 +94,7 @@ namespace BWAPI
       return DamageTypes::Unknown;
     return (*i).second;
   }
-  std::set<DamageType>& DamageTypes::allDamageTypes()
+  const std::set<DamageType>& DamageTypes::allDamageTypes()
   {
     return damageTypeSet;
   }

@@ -28,7 +28,7 @@ namespace BWAPI
       int getID() const;
 
       /** Returns the name of the unit. */
-      std::string getName() const;
+      const std::string &getName() const;
       const char *c_str() const;
 
       /** Returns the race that the unit belongs to. For example UnitTypes::Terran_SCV.getRace() will return
@@ -293,10 +293,10 @@ namespace BWAPI
     UnitType getUnitType(std::string name);
 
     /** Returns the set of all the UnitTypes. */
-    std::set<UnitType>& allUnitTypes();
+    const std::set<UnitType>& allUnitTypes();
 
     /** Returns the set of all the MacroTypes. */
-    std::set<UnitType>& allMacroTypes();
+    const std::set<UnitType>& allMacroTypes();
     void init();
     extern const UnitType Terran_Marine;
     extern const UnitType Hero_Jim_Raynor_Marine;

@@ -160,7 +160,7 @@ namespace BWAPI
       return Errors::Unknown;
     return (*i).second;
   }
-  std::set<Error>& Errors::allErrors()
+  const std::set<Error>& Errors::allErrors()
   {
     return errorSet;
   }
