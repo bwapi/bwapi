@@ -22,7 +22,6 @@ namespace BWAPIC
       LeaveGame,
       RestartGame,
       SetLocalSpeed,
-      SetTextSize,
       SetLatCom,
       SetGui,
       SetFrameSkip,

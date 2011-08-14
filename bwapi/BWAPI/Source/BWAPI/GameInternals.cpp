@@ -55,13 +55,6 @@
 #include "Resolution.h"
 #include "NewHackUtil.h"
 
-#include "ShapeBox.h"
-#include "ShapeCircle.h"
-#include "ShapeEllipse.h"
-#include "ShapeDot.h"
-#include "ShapeLine.h"
-#include "ShapeTriangle.h"
-#include "ShapeText.h"
 #include "BWtoBWAPI.h"
 #include "../Detours.h"
 #include "../Recording.h"
@@ -91,12 +84,10 @@ namespace BWAPI
       , inGame(false)
       , frameCount(-1)
       , endTick(0)
-      , hasLatCom(true)
       , pathDebug(false)
       , unitDebug(false)
       , grid(false)
       , wantSelectionUpdate(false)
-      , noGUI(false)
       , calledMatchEnd(false)
       , autoMapTryCount(0)
       , outOfGame(true)
@@ -130,6 +121,7 @@ namespace BWAPI
     {
       BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
+    data = server.data;
     srand(GetTickCount());
     gszDesiredReplayName[0] = 0;
   }
@@ -155,11 +147,6 @@ namespace BWAPI
   {
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
-
-    //clear all shapes
-    foreach (BWAPI::Shape *i, this->shapes)
-      delete i;
-    this->shapes.clear();
 
 #ifdef _DEBUG
     if ( !noGUI )
@@ -476,10 +463,8 @@ namespace BWAPI
     //each frame we add a MatchFrame event to the queue
     events.push_back(Event::MatchFrame());
 
-    //if the AI is a DLL, processEvents() will translate the events into AIModule callbacks.
-    processEvents();
-
     //if the AI is a client process, this will signal the client to process the next frame
+    //if the AI is a DLL, this will translate the events into AIModule callbacks.
     server.update();
 
     //Before returning control to starcraft, we clear the unit data for units that are no longer accessible
@@ -2068,8 +2053,8 @@ namespace BWAPI
     }
     else if (parsed[0] == "/nogui")
     {
-      setGUI(noGUI);
-      printf("nogui %s.", noGUI ? "enabled" : "disabled");
+      setGUI(!data->hasGUI);
+      printf("GUI: %s.", data->hasGUI ? "enabled" : "disabled");
     }
     else if (parsed[0] == "/wmode")
     {
@@ -2304,11 +2289,6 @@ namespace BWAPI
     foreach (UnitImpl* d, this->deadUnits)
       delete d;
     this->deadUnits.clear();
-
-    //delete all shapes
-    foreach (BWAPI::Shape *i, this->shapes)
-      delete i;
-    this->shapes.clear();
 
     // delete all regions
     foreach( BWAPI::Region *r, this->regionsList )

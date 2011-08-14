@@ -70,23 +70,30 @@ namespace BWAPI
   }
   void Server::update()
   {
+    // Reset data coming in to server
+    data->stringCount      = 0;
+    data->commandCount     = 0;
+    data->unitCommandCount = 0;
+    data->shapeCount       = 0;
     if (connected)
     {
+      // Update BWAPI Client
       updateSharedMemory();
       callOnFrame();
       processCommands();
     }
     else
     {
-      data->eventCount = 0;
+      // Update BWAPI DLL
+      BroodwarImpl.processEvents();
+
       ((GameImpl*)Broodwar)->events.clear();
       if (!((GameImpl*)Broodwar)->startedClient)
         checkForConnections();
     }
-    data->commandCount     = 0;
-    data->unitCommandCount = 0;
-    data->shapeCount       = 0;
-    data->stringCount      = 0;
+    // Reset data going out to client
+    data->eventCount = 0;
+    data->eventStringCount = 0;
   }
   bool Server::isConnected()
   {
@@ -94,8 +101,8 @@ namespace BWAPI
   }
   int Server::addString(const char* text)
   {
-    strncpy(data->strings[data->stringCount],text,256);
-    return data->stringCount++;
+    strncpy(data->eventStrings[data->eventStringCount],text,256);
+    return data->eventStringCount++;
   }
   int Server::addEvent(BWAPI::Event e)
   {
@@ -174,6 +181,7 @@ namespace BWAPI
     data->revision         = SVN_REV;
     data->isDebug          = (BUILD_DEBUG == 1);
     data->eventCount       = 0;
+    data->eventStringCount = 0;
     data->commandCount     = 0;
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
@@ -182,6 +190,8 @@ namespace BWAPI
     data->mapPathName[0]   = 0;
     data->mapName[0]       = 0;
     data->mapHash[0]       = 0;
+    data->hasGUI           = true;
+    data->hasLatCom        = true;
     clearAll();
   }
   void Server::onMatchStart()
@@ -311,7 +321,6 @@ namespace BWAPI
 
   void Server::updateSharedMemory()
   {
-    data->eventCount   = 0;
     bool matchStarting = false;
     
     foreach(Event e, BroodwarImpl.events)
@@ -391,6 +400,7 @@ namespace BWAPI
     ((GameImpl*)Broodwar)->events.clear();
 
     data->frameCount             = Broodwar->getFrameCount();
+    data->replayFrameCount       = Broodwar->getReplayFrameCount();
     data->fps                    = Broodwar->getFPS();
     data->botAPM_noselects       = Broodwar->getAPM();
     data->botAPM_selects         = Broodwar->getAPM(true);
@@ -398,14 +408,12 @@ namespace BWAPI
     data->latencyTime            = Broodwar->getLatencyTime();
     data->remainingLatencyFrames = Broodwar->getRemainingLatencyFrames();
     data->remainingLatencyTime   = Broodwar->getRemainingLatencyTime();
-    data->replayFrameCount       = Broodwar->getReplayFrameCount();
     data->elapsedTime            = Broodwar->elapsedTime();
     data->countdownTimer         = Broodwar->countdownTimer();
     data->averageFPS             = Broodwar->getAverageFPS();
     data->mouseX                 = Broodwar->getMousePosition().x();
     data->mouseY                 = Broodwar->getMousePosition().y();
     data->isInGame               = Broodwar->isInGame();
-    data->hasLatCom              = Broodwar->isLatComEnabled();
     if (Broodwar->isInGame())
     {
       data->gameType          = Broodwar->getGameType();
@@ -680,10 +688,6 @@ namespace BWAPI
         if (Broodwar->isInGame())
           Broodwar->setLocalSpeed(v1);
         break;
-      case BWAPIC::CommandType::SetTextSize:
-        if (Broodwar->isInGame())
-          Broodwar->setTextSize(v1);
-        break;
       case BWAPIC::CommandType::SetLatCom:
         Broodwar->setLatCom(v1 == 1);
         break;
@@ -726,43 +730,6 @@ namespace BWAPI
 
         unit->issueCommand(UnitCommand(unit, data->unitCommands[i].type, target, data->unitCommands[i].x, data->unitCommands[i].y, data->unitCommands[i].extra));
       }
-      for ( int i = 0; i < data->shapeCount; ++i )
-      {
-        BWAPIC::ShapeType::Enum s = data->shapes[i].type;
-        /* Note: Variables here so that the calls aren't excessively long */
-        int  ctype         = data->shapes[i].ctype;
-        int  x1            = data->shapes[i].x1;
-        int  y1            = data->shapes[i].y1;
-        bool isSolid       = data->shapes[i].isSolid;
-        BWAPI::Color color = Color(data->shapes[i].color);
-
-        switch ( s )
-        {
-          case BWAPIC::ShapeType::Text:
-            Broodwar->drawText(ctype, x1, y1, data->strings[data->shapes[i].extra1]);
-            break;
-          case BWAPIC::ShapeType::Box:
-            Broodwar->drawBox(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, color, isSolid);
-            break;
-          case BWAPIC::ShapeType::Triangle:
-            Broodwar->drawTriangle(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, data->shapes[i].extra1, data->shapes[i].extra2, color, isSolid);
-            break;
-          case BWAPIC::ShapeType::Circle:
-            Broodwar->drawCircle(ctype, x1, y1, data->shapes[i].extra1, color, isSolid);
-            break;
-          case BWAPIC::ShapeType::Ellipse:
-            Broodwar->drawEllipse(ctype, x1, y1, data->shapes[i].extra1, data->shapes[i].extra2, color, data->shapes[i].isSolid);
-            break;
-          case BWAPIC::ShapeType::Dot:
-            Broodwar->drawDot(ctype, x1, y1, color);
-            break;
-          case BWAPIC::ShapeType::Line:
-            Broodwar->drawLine(ctype, x1, y1, data->shapes[i].x2, data->shapes[i].y2, color);
-            break;
-          default:
-            break;
-        } // switch
-      } // for
     } // if isInGame
   }
 

@@ -312,9 +312,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
       }
     }
 
-    unsigned int numShapes = BWAPI::BroodwarImpl.shapes.size();
-    for( unsigned int i = 0; i < numShapes; ++i )
-      BWAPI::BroodwarImpl.shapes[i]->draw();
+    unsigned int numShapes = BWAPI::BroodwarImpl.drawShapes();
     
     if ( numShapes )
       wantRefresh = true;

@@ -11,7 +11,6 @@
 #include "BW/Offsets.h"
 #include "BWAPI/GameImpl.h"
 #include "DLLMain.h"
-#include "BWAPI/Shape.h"
 
 #include "Detours.h"
 #include "WMode.h"

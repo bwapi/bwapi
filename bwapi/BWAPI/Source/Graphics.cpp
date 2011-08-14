@@ -4,7 +4,7 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Color.h>
 
-void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
+void bwDrawBox(int _x, int _y, int _w, int _h, int color, int ctype)
 {
   RECT box = { _x, _y, _w, _h };
   switch ( ctype )
@@ -56,7 +56,7 @@ void drawBox(int _x, int _y, int _w, int _h, int color, int ctype)
   }
 }
 
-void drawBoxEx(int _x, int _y, int _w, int _h, int borderColor, int borderThickness, int color, int ctype, int style, int intensity)
+void bwDrawBoxEx(int _x, int _y, int _w, int _h, int borderColor, int borderThickness, int color, int ctype, int style, int intensity)
 {
   RECT box = { _x, _y, _w, _h };
   switch ( ctype )
@@ -149,7 +149,7 @@ void drawBoxEx(int _x, int _y, int _w, int _h, int borderColor, int borderThickn
   }
 }
 
-void drawDot(int _x, int _y, int color, int ctype)
+void bwDrawDot(int _x, int _y, int color, int ctype)
 {
   POINT pt = { _x, _y };
   switch ( ctype )
@@ -173,7 +173,7 @@ void drawDot(int _x, int _y, int color, int ctype)
   data[pt.y * BW::BWDATA_GameScreenBuffer->wid + pt.x] = (u8)color;
 }
 
-void drawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
+void bwDrawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
 {
   POINT ptStart = { _x1, _y1 };
   POINT ptEnd   = { _x2, _y2 };
@@ -260,7 +260,7 @@ void drawLine(int _x1, int _y1, int _x2, int _y2, int color, int ctype)
   }
 }
 
-void drawText(int _x, int _y, const char* ptext, int ctype, char size)
+void bwDrawText(int _x, int _y, const char* ptext, int ctype, char size)
 {
   POINT pt = { _x, _y };
   switch ( ctype )
