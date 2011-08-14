@@ -139,7 +139,7 @@ namespace BWAPI
   {
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
-    return (*this->activeTiles)[y][x].bTemporaryCreep != 0;
+    return (*this->activeTiles)[y][x].bTemporaryCreep != 0 || (*this->activeTiles)[y][x].bHasCreep != 0;
   }
   //---------------------------------------------- IS OCCUPIED -----------------------------------------------
   bool Map::isOccupied(int x, int y) const
