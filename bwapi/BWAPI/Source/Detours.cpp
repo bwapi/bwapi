@@ -494,6 +494,9 @@ int   lastHotkey;
 DWORD lastHotkeyTime;
 void __fastcall CommandFilter(BYTE *buffer, DWORD length)
 {
+  if ( !buffer || !length )
+    return;
+
   /* Filter commands using BWAPI rules */
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) || 
        !BWAPI::BroodwarImpl.onStartCalled ||

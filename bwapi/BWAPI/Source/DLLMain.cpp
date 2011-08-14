@@ -48,6 +48,9 @@ DWORD getProcessCount(const char *pszProcName)
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, DWORD dwLength)
 {
+  if ( !pBuffer || !dwLength )
+    return;
+
   CAPS caps;
   caps.dwSize = sizeof(CAPS);
   SNetGetProviderCaps(&caps);
