@@ -65,6 +65,7 @@ namespace BWAPI
     int remainingLatencyFrames;
     int remainingLatencyTime;
     bool hasLatCom;
+    bool hasGUI;
     int replayFrameCount;
     int frameCount;
     int elapsedTime;
@@ -128,6 +129,7 @@ namespace BWAPI
     int neutral;
 
     static const int MAX_EVENTS         = 10000;
+    static const int MAX_EVENT_STRINGS  =  1000;
     static const int MAX_STRINGS        = 20000;
     static const int MAX_SHAPES         = 20000;
     static const int MAX_COMMANDS       = 20000;
@@ -137,7 +139,11 @@ namespace BWAPI
     int eventCount;
     BWAPIC::Event events[MAX_EVENTS];
 
-    //strings (used in events, shapes, and commands)
+    //strings used in events
+    int eventStringCount;
+    char eventStrings[MAX_EVENT_STRINGS][256];
+
+    //strings (used in shapes and commands)
     int stringCount;
     char strings[MAX_STRINGS][256];
 

@@ -36,9 +36,6 @@ namespace BWAPI { class  AIModule; }
 #include <BWAPI/Order.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
-#include "Shape.h"
-#include "ShapeBox.h"
-#include "ShapeLine.h"
 #include "Server.h"
 
 /**
@@ -76,6 +73,7 @@ namespace BWAPI
 
       virtual int      getLatency();
       virtual int      getFrameCount();
+      virtual int      getReplayFrameCount();
       virtual int      getFPS();
       virtual double   getAverageFPS();
 
@@ -220,7 +218,7 @@ namespace BWAPI
       virtual bool isDebug();
       virtual bool isLatComEnabled();
       virtual void setLatCom(bool isEnabled);
-      virtual int  getReplayFrameCount();
+      virtual bool isGUIEnabled();
       virtual void setGUI(bool enabled = true);
 
       virtual int getInstanceNumber();
@@ -294,7 +292,6 @@ namespace BWAPI
       PlayerImpl *BWAPIPlayer;
       PlayerImpl *enemyPlayer;
 
-      std::vector<Shape*> shapes;
       std::set<int> invalidIndices;
       std::list<std::string > sentMessages;
       void onSaveGame(char *name);
@@ -320,12 +317,15 @@ namespace BWAPI
       BW::Unit *savedUnitSelection[12];
       bool wantSelectionUpdate;
 
-      bool noGUI;
       bool startedClient;
 
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
       bool isTournamentCall;
       AIModule *tournamentAI;
+      GameData* data;
+      
+      int drawShapes();
+      void processEvents();
     private :
       HMODULE hAIModule;
       HMODULE hTournamentModule;
@@ -370,7 +370,6 @@ namespace BWAPI
       void augmentUnitData();
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
-      void processEvents();
       /**
        * Specifies if some order was given, so the loadSelect function will have
        * to be called.
@@ -443,6 +442,10 @@ namespace BWAPI
       std::vector<UnitCommand> commandOptimizer[BWAPI_UNIT_COMMAND_TYPE_COUNT];
 
       int lastEventTime;
+      int addShape(const BWAPIC::Shape &s);
+      int addString(const char* text);
+      int addText(BWAPIC::Shape &s, const char* text);
+
   };
   /**
    * Broodwar is, and always should be the ONLY instance of the Game class, it is singleton.

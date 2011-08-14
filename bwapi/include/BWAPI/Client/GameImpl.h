@@ -23,7 +23,7 @@ namespace BWAPI
   class GameImpl : public Game
   {
     private :
-      int addShape(BWAPIC::Shape &s);
+      int addShape(const BWAPIC::Shape &s);
       int addString(const char* text);
       int addText(BWAPIC::Shape &s, const char* text);
       int addCommand(BWAPIC::Command &c);
@@ -63,6 +63,7 @@ namespace BWAPI
       std::set<Player*> _enemies;
       std::set<Player*> _observers;
       Error lastError;
+      int textSize;
 
     public :
       Event makeEvent(BWAPIC::Event e);
@@ -98,6 +99,7 @@ namespace BWAPI
       virtual GameType getGameType();
       virtual int getLatency();
       virtual int getFrameCount();
+      virtual int getReplayFrameCount();
       virtual int getFPS();
       virtual double getAverageFPS();
       virtual BWAPI::Position getMousePosition();
@@ -222,7 +224,7 @@ namespace BWAPI
       virtual bool isDebug();
       virtual bool isLatComEnabled();
       virtual void setLatCom(bool isEnabled);
-      virtual int  getReplayFrameCount();
+      virtual bool isGUIEnabled();
       virtual void setGUI(bool enabled = true);
       virtual int  getInstanceNumber();
       virtual int  getAPM(bool includeSelects = false);

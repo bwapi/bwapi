@@ -187,6 +187,11 @@ namespace BWAPI
   {
     return this->frameCount;
   }
+  //--------------------------------------------- GET REPLAY FRAME COUNT -------------------------------------
+  int GameImpl::getReplayFrameCount()
+  {
+    return (int)*BW::BWDATA_ReplayFrames;
+  }
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS()
   {
@@ -262,7 +267,7 @@ namespace BWAPI
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
-    if ( noGUI ) return;
+    if ( !data->hasGUI ) return;
     rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
     /* Sets the screen's position relative to the map */
     if (x < 0)
@@ -594,7 +599,7 @@ namespace BWAPI
   //------------------------------------------------- PRINTF -------------------------------------------------
   void GameImpl::printf(const char *format, ...)
   {
-    if ( noGUI ) return;
+    if ( data->hasGUI ) return;
     if ( !format ) return;
     char *buffer;
     vstretchyprintf(buffer, format);
@@ -1010,11 +1015,6 @@ namespace BWAPI
     if ( !this->tournamentCheck(Tournament::SetLatCom, &isEnabled) )
       return;
     hasLatCom = isEnabled;
-  }
-  //--------------------------------------------------- REPLAY -----------------------------------------------
-  int GameImpl::getReplayFrameCount()
-  {
-    return (int)*BW::BWDATA_ReplayFrames;
   }
   //----------------------------------------------- GET INSTANCE ID ------------------------------------------
   int GameImpl::getInstanceNumber()
