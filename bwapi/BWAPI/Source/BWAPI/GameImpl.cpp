@@ -1008,13 +1008,13 @@ namespace BWAPI
   //----------------------------------------------- LAT COMPENSATION -----------------------------------------
   bool GameImpl::isLatComEnabled()
   {
-    return hasLatCom;
+    return data->hasLatCom;
   }
   void GameImpl::setLatCom(bool isEnabled)
   {
     if ( !this->tournamentCheck(Tournament::SetLatCom, &isEnabled) )
       return;
-    hasLatCom = isEnabled;
+    data->hasLatCom = isEnabled;
   }
   //----------------------------------------------- GET INSTANCE ID ------------------------------------------
   int GameImpl::getInstanceNumber()

@@ -429,7 +429,6 @@ namespace BWAPI
       double botAPMCounter_selects;
 
       int  textSize;
-      bool hasLatCom;
 
       bool pathDebug;
       bool unitDebug;
