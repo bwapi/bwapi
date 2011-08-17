@@ -37,7 +37,7 @@ DWORD getProcessCount(const char *pszProcName)
   {
     do
     {
-      if( SStrCmpI(pe32.szExeFile, pszProcName, MAX_PATH) == 0 )
+      if( strcmpi(pe32.szExeFile, pszProcName) == 0 )
         ++dwCount;
     } while( Process32Next(hSnapshot, &pe32) );
   }
@@ -229,7 +229,7 @@ DWORD WINAPI PersistentPatch(LPVOID)
 {
   for ever
   {
-    Sleep(250);
+    Sleep(300);
 
     // dialog/menu layer
     if ( BW::BWDATA_ScreenLayers[2].pUpdate != DrawDialogHook && 
@@ -307,7 +307,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         DWORD dwDesiredRevision = 0;
         DWORD dwDesiredBuild    = 0; // 0 = undefined, 1 = release, 2 = debug
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
-        if ( SStrCmpI(szDllPath, "NULL", MAX_PATH) == 0)
+        if ( strcmpi(szDllPath, "NULL") == 0)
         {
             BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", szKeyName, szConfigPath);
         }
@@ -466,10 +466,11 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         gdwHoliday = 0;
         char szHolidayMods[16];
         GetPrivateProfileString("config", "holiday", "ON", szHolidayMods, 16, szConfigPath);
-        if ( SStrCmpI(szHolidayMods, "OFF", 16) != 0 )
+        if ( strcmpi(szHolidayMods, "OFF") != 0 )
         {
           SYSTEMTIME sysTime;
           GetSystemTime(&sysTime);
+          // Christmas
           if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 28 )
             gdwHoliday = 1;
         }
