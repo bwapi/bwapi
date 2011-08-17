@@ -167,24 +167,60 @@ void setReplayName(char *pOutFilename, const char *pInFileName)
 }
 BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
 {
+  // Obtain the alternative replay name
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+
+  // DEBUG
+  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  if ( dbg )
+  {
+    fprintf(dbg, "DeleteFile(%s)\n", szNewFileName);
+    fclose(dbg);
+  }
+  ////
+
+  // call the original function
   if ( _DeleteFileOld )
     return _DeleteFileOld(szNewFileName);
   return DeleteFile(szNewFileName);
 }
 DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
 {
+  // obtain the alternative replay name
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+
+  // DEBUG
+  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  if ( dbg )
+  {
+    fprintf(dbg, "GetFileAttributes(%s)\n", szNewFileName);
+    fclose(dbg);
+  }
+  ////
+
+  // call the original function
   if ( _GetFileAttributesOld )
     return _GetFileAttributesOld(szNewFileName);
   return GetFileAttributes(szNewFileName);
 }
 HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
 {
+  // obtain the alternative replay name
   char szNewFileName[MAX_PATH];
   setReplayName(szNewFileName, lpFileName);
+
+  // DEBUG
+  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  if ( dbg )
+  {
+    fprintf(dbg, "CreateFile(%s)\n", szNewFileName);
+    fclose(dbg);
+  }
+  ////
+
+  // call the original function
   if ( _CreateFileOld )
     return _CreateFileOld(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
   return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
