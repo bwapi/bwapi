@@ -15,6 +15,8 @@ AVICOMPRESSOPTIONS  aviOptions;
 
 DWORD dwFrames;
 
+void *pFlipped;
+
 bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPINFO256 *bitmapInfo)
 {
   AVIFileInit();
@@ -35,7 +37,7 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
   aisinfo.dwScale               = 1;
   aisinfo.dwRate                = 30;
   aisinfo.dwSuggestedBufferSize = width * height;
-  aisinfo.dwQuality             = (DWORD)~0;
+  aisinfo.dwQuality             = (DWORD)(-1);
   aisinfo.dwSampleSize          = width * height;
   SetRect(&aisinfo.rcFrame, 0, 0, width, height);
 
@@ -61,12 +63,17 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
     return StopVideoRecording();
   }
   
-  if ( AVIStreamSetFormat(pAviStreamCompressed, 0, bitmapInfo, sizeof(BITMAPINFO256)) != AVIERR_OK )
+  bitmapInfo->bmiHeader.biHeight = abs(bitmapInfo->bmiHeader.biHeight);
+  if ( pAviStreamCompressed->SetFormat(0, bitmapInfo, sizeof(BITMAPINFO256)) != AVIERR_OK )
   {
+    bitmapInfo->bmiHeader.biHeight = -bitmapInfo->bmiHeader.biHeight;
     MessageBox(NULL, "AVIStreamSetFormat failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
+  bitmapInfo->bmiHeader.biHeight = -bitmapInfo->bmiHeader.biHeight;
+
+  pFlipped = malloc(width*height);
 
   ShowCursor(FALSE);
   recordingStarted = true;
@@ -79,26 +86,36 @@ bool StopVideoRecording()
   dwFrames         = 0;
 
   if ( pAviStream )
-  {
     AVIStreamClose(pAviStream);
-    pAviStream = NULL;
-  }
+  pAviStream = NULL;
+
   if ( pAviStreamCompressed )
-  {
     AVIStreamClose(pAviStreamCompressed);
-    pAviStreamCompressed = NULL;
-  }
+  pAviStreamCompressed = NULL;
+
   if ( pAviFile )
-  {
     AVIFileClose(pAviFile);
-    pAviFile = NULL;
-  }
+  pAviFile = NULL;
+
+  if ( pFlipped )
+    free(pFlipped);
+  pFlipped = NULL;
+
   AVIFileExit();
   return false;
 }
 
 void RecordFrame(void *pBuffer, int width, int height)
 {
-  AVIStreamWrite(pAviStreamCompressed, dwFrames, 1, pBuffer, width*height, AVIIF_KEYFRAME, NULL, NULL);
+  BYTE *pbFlipped = (BYTE*)((DWORD)pFlipped + width*(height-1));
+  BYTE *pbSrc     = (BYTE*)pBuffer;
+  DWORD dwEnd     = (DWORD)pBuffer + width*height;
+  while ( (DWORD)pbSrc < dwEnd )
+  {
+    memcpy(pbFlipped, pbSrc, width);
+    pbFlipped -= width;
+    pbSrc += width;
+  }
+  pAviStreamCompressed->Write(dwFrames, 1, pbFlipped, width*height, dwFrames % 16 == 0 ? AVIIF_KEYFRAME : 0, NULL, NULL);
   ++dwFrames;
 }

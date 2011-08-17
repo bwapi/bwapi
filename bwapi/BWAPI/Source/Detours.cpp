@@ -240,9 +240,9 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
     PALETTEENTRY pal[256];
     for ( int i = 0; i < 256; ++i )
     {
-      pal[i].peRed    = palette[i].rgbRed;
-      pal[i].peGreen  = palette[i].rgbGreen;
-      pal[i].peBlue   = palette[i].rgbBlue;
+      pal[i].peRed    = bmp.bmiColors[i].rgbRed;
+      pal[i].peGreen  = bmp.bmiColors[i].rgbGreen;
+      pal[i].peBlue   = bmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
     return SBmpSaveImage(pszOutput, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);

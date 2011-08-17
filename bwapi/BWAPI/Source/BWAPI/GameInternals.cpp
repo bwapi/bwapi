@@ -149,7 +149,7 @@ namespace BWAPI
     this->inGame = true;
 
 #ifdef _DEBUG
-    if ( !noGUI )
+    if ( data->hasGUI )
     {
       // menu dialog test update code
       if ( myDlg )
@@ -634,7 +634,7 @@ namespace BWAPI
           }
     } // grid
 #ifdef _DEBUG
-    if ( noGUI )
+    if ( !data->hasGUI )
       return;
 
     setTextSize(0);
