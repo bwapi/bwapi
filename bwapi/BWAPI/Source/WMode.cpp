@@ -21,8 +21,6 @@ bool gbHoldingAlt     = false;
 bool switchToWMode = false;
 RECT windowRect    = { 0, 0, 640, 480 };
 
-RGBQUAD palette[256];
-
 BOOL (WINAPI   *_GetCursorPosOld)(LPPOINT lpPoint);
 BOOL (WINAPI   *_SetCursorPosOld)(int X, int Y);
 BOOL (WINAPI   *_ClipCursorOld)(const RECT *lpRect);
@@ -47,13 +45,11 @@ void InitializeWModeBitmap(int width, int height)
   bmp.bmiHeader.biBitCount      = 8;
   bmp.bmiHeader.biCompression   = BI_RGB;
   bmp.bmiHeader.biSizeImage     = width * height;
-  bmp.bmiHeader.biXPelsPerMeter = 10000;
-  bmp.bmiHeader.biYPelsPerMeter = 10000;
   for ( int i = 0; i < 256; ++i )
   {
-    palette[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
-    palette[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
-    palette[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
+    bmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
+    bmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
+    bmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
   }
   HDC     hdc   = GetDC(ghMainWnd);
   HBITMAP hBmp  = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
@@ -303,12 +299,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(hWnd, &paint);
 
-        // @TODO: Try DrawDib, a multimedia streaming playback function, which may or may not reduce CPU usage
-        // StretchDib for stretchiness
-
         // Blit to the screen
         RECT cRect;
-        GetClientRect(hWnd, &cRect);
+        GetClientRect(hWnd, &cRect);        
         if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
         {
           BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
@@ -321,8 +314,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         // end paint
         EndPaint(hWnd, &paint);
+#ifdef _DEBUG
         if ( recordingStarted )
           RecordFrame(pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+#endif
       } // data
       break;
     case WM_NCMOUSEMOVE:
@@ -507,24 +502,6 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
   return TRUE;
 }
 
-/*
-  if ( lpSurface && lpRect && lpRect->left == 0 && lpRect->top == 0 && lpRect->right == 640 && lpRect->bottom == 480)
-  {
-    char szScreenshot[MAX_PATH];
-    sprintf(szScreenshot, "scrtest\\%u 0x%08X.gif", dwScrCount++, lpSurface);
-
-    PALETTEENTRY pal[256];
-    for ( int i = 0; i < 256; ++i )
-    {
-      pal[i].peRed    = palette[i].rgbRed;
-      pal[i].peGreen  = palette[i].rgbGreen;
-      pal[i].peBlue   = palette[i].rgbBlue;
-      pal[i].peFlags  = 0;
-    }
-    int wid = lpRect->right - lpRect->left;
-    SBmpSaveImage(szScreenshot, pal, (void*)((u32)lpSurface + lpRect->left + (lpRect->top * wid)), wid, lpRect->bottom - lpRect->top);
-  }*/
-
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
   if ( !wmode )
@@ -546,11 +523,10 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
 {
   for ( unsigned int i = firstentry; i < firstentry + numentries; ++i )
   {
-    palette[i].rgbRed   = pPalEntries[i].peRed;
-    palette[i].rgbGreen = pPalEntries[i].peGreen;
-    palette[i].rgbBlue  = pPalEntries[i].peBlue;
+    bmp.bmiColors[i].rgbRed   = pPalEntries[i].peRed;
+    bmp.bmiColors[i].rgbGreen = pPalEntries[i].peGreen;
+    bmp.bmiColors[i].rgbBlue  = pPalEntries[i].peBlue;
   }
-
   if ( !wmode || !ghMainWnd )
   {
     if ( _SDrawUpdatePaletteOld )
@@ -559,7 +535,7 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
   }
 
   if ( !IsIconic(ghMainWnd) )
-    SetDIBColorTable(hdcMem, firstentry, numentries, palette);
+    SetDIBColorTable(hdcMem, firstentry, numentries, bmp.bmiColors);
   return TRUE;
 }
 
@@ -632,7 +608,7 @@ void SetWMode(int width, int height, bool state)
     SetCursor(NULL);
     SetCursorShowState(false);
 
-    SetDIBColorTable(hdcMem, 0, 256, palette);
+    SetDIBColorTable(hdcMem, 0, 256, bmp.bmiColors);
     WritePrivateProfileString("window", "windowed", "ON", szConfigPath);
   }
   else
