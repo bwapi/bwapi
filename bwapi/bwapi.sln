@@ -62,6 +62,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PKLib", "PKLib\PKLib.vcproj", "{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -128,6 +130,10 @@ Global
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.Build.0 = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.Build.0 = Release|Win32
+		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug|Win32.ActiveCfg = Release|Win32
+		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug|Win32.Build.0 = Release|Win32
+		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.ActiveCfg = Release|Win32
+		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
