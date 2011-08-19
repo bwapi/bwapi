@@ -74,6 +74,13 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
   HWND hWndReturn = NULL;
   if ( strcmp(lpClassName, "SWarClass") == 0 )
   {
+    char szNewWindowName[256];
+    strcpy(szNewWindowName, lpWindowName);
+
+    size_t pos = strlen(szNewWindowName);
+    if ( gdwProcNum )
+      sprintf_s(&szNewWindowName[pos], 256 - pos, " Instance %u", gdwProcNum);
+
     detourCreateWindow = true;
     if ( switchToWMode )
     {
@@ -81,7 +88,7 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
       if ( _CreateWindowExAOld )
         hWndReturn = _CreateWindowExAOld(dwExStyle, 
                                           lpClassName, 
-                                          lpWindowName, 
+                                          szNewWindowName,
                                           dwStyle | WS_OVERLAPPEDWINDOW, 
                                           windowRect.left, 
                                           windowRect.top, 
@@ -94,7 +101,7 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
       else
         hWndReturn = CreateWindowEx(dwExStyle, 
                                     lpClassName, 
-                                    lpWindowName, 
+                                    szNewWindowName,
                                     dwStyle | WS_OVERLAPPEDWINDOW, 
                                     windowRect.left, 
                                     windowRect.top, 
@@ -110,9 +117,9 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
     else
     {
       if ( _CreateWindowExAOld )
-        hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+        hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, szNewWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
       else
-        hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+        hWndReturn = CreateWindowEx(dwExStyle, lpClassName, szNewWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
       ghMainWnd = hWndReturn;
     }
     switchToWMode = false;

@@ -188,10 +188,10 @@ namespace BW
         Slot slot;
     };
     /** Change race command in bw. */
-    class ChangeRace
+    class RequestChangeRace
     {
       public :
-        ChangeRace(u8 slot, u8 slotID);
+        RequestChangeRace(u8 slot, u8 slotID);
       private :
         /** 0x41 = Command code for change race in bw. */
         u8 always0x41;
@@ -199,6 +199,25 @@ namespace BW
         u8 slotID;
         /** Target slot race. */
         u8 race;
+    };
+    /** Lobby slot alteration (sent by host only). */
+    class UpdateSlot
+    {
+    public:
+      UpdateSlot(u8 slot, u8 stormPlayerID, u8 owner, u8 newRace, u8 team);
+    private:
+      /** 0x3E = Command code */
+      u8 always0x3E;
+      /** Order of the slot to change (0 for the 1st slot). */
+      u8 bSlot;
+      /** Storm ID of the player to map the slot to. */
+      u8 bStormPlayerID;
+      /** Player type. */
+      u8 nType;
+      /** Player's race. */
+      u8 bNewRace;
+      /** Player's force. */
+      u8 nTeam;
     };
     /** Starts game in the pre-game lobby. */
     class StartGame
