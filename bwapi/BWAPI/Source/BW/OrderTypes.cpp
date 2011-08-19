@@ -252,10 +252,19 @@ namespace BW
     {
     }
     //--------------------------------------- CHANGE RACE CONSTRUCTOR ----------------------------------------
-    ChangeRace::ChangeRace(u8 race, u8 slotID)
+    RequestChangeRace::RequestChangeRace(u8 race, u8 slotID)
         : race(race)
         , slotID(slotID)
         , always0x41(0x41)
+    {
+    }
+    UpdateSlot::UpdateSlot(u8 slot, u8 stormPlayerID, u8 owner, u8 newRace, u8 team)
+      : always0x3E(0x3E)
+      , bSlot(slot)
+      , bStormPlayerID(stormPlayerID)
+      , nType(owner)
+      , bNewRace(newRace)
+      , nTeam(team)
     {
     }
     //---------------------------------------- START GAME CONSTRUCTOR ----------------------------------------

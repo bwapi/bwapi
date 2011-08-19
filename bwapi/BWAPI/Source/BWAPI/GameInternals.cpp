@@ -1059,6 +1059,7 @@ namespace BWAPI
             if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
               gameTypeDropdown->setSelectedByValue(gt);
 
+            // get race
             Race playerRace = Races::getRace(this->autoMenuRace);
             if ( this->autoMenuRace == "RANDOMTP" )
               playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
@@ -1067,6 +1068,7 @@ namespace BWAPI
             else if ( this->autoMenuRace == "RANDOMPZ" )
               playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
 
+            // set race dropdown
             if ( playerRace != Races::Unknown && playerRace != Races::None )
               this->_changeRace(0, playerRace);
 
@@ -1259,8 +1261,21 @@ namespace BWAPI
 
             if ( playerRace != Races::Unknown && playerRace != Races::None )
             {
-              actRaceSel = true;
-              this->_changeRace(0, playerRace);
+              this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
+
+              u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
+              if ( currentRace == playerRace ||
+                    (this->autoMenuRace == "RANDOMTP" &&
+                    ( currentRace == Races::Terran ||
+                      currentRace == Races::Protoss)) ||
+                    (this->autoMenuRace == "RANDOMTZ" &&
+                    ( currentRace == Races::Terran ||
+                      currentRace == Races::Zerg)) ||
+                    (this->autoMenuRace == "RANDOMPZ" &&
+                    ( currentRace == Races::Protoss ||
+                      currentRace == Races::Zerg))
+                   )
+                actRaceSel = true;
             }
           }
 
@@ -1292,17 +1307,35 @@ namespace BWAPI
           break;
 //multiplayer game ready screen
         case 3: 
-          Race playerRace = Races::getRace(this->autoMenuRace);
-          if ( this->autoMenuRace == "RANDOMTP" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-          else if ( this->autoMenuRace == "RANDOMTZ" )
-            playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-          else if ( this->autoMenuRace == "RANDOMPZ" )
-            playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+          if ( !actRaceSel )
+          {
+            Race playerRace = Races::getRace(this->autoMenuRace);
+            if ( this->autoMenuRace == "RANDOMTP" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+            else if ( this->autoMenuRace == "RANDOMTZ" )
+              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+            else if ( this->autoMenuRace == "RANDOMPZ" )
+              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
 
-          if ( playerRace != Races::Unknown && playerRace != Races::None )
-            this->_changeRace(1, playerRace);
+            if ( playerRace != Races::Unknown && playerRace != Races::None )
+            {
+              this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
 
+              u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
+              if ( currentRace == playerRace ||
+                    (this->autoMenuRace == "RANDOMTP" &&
+                    ( currentRace == Races::Terran ||
+                      currentRace == Races::Protoss)) ||
+                    (this->autoMenuRace == "RANDOMTZ" &&
+                    ( currentRace == Races::Terran ||
+                      currentRace == Races::Zerg)) ||
+                    (this->autoMenuRace == "RANDOMPZ" &&
+                    ( currentRace == Races::Protoss ||
+                      currentRace == Races::Zerg))
+                   )
+                actRaceSel = true;
+            }
+          }
           break;
         }
       }
@@ -1480,7 +1513,7 @@ namespace BWAPI
       return; // return if the countdown is less than 2
     
     // Send the change race command for multi-player
-    QueueGameCommand(&BW::Orders::ChangeRace(static_cast<u8>(race), (u8)slot), 3);
+    QueueGameCommand(&BW::Orders::RequestChangeRace((u8)race, (u8)slot), 3);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
