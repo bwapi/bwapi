@@ -44,6 +44,9 @@ VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
 bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 {
+  if ( !pAction || pAction->bActionType >= countof(BWTriggerActionFxnTable) )
+    return false;
+
   bool rval = BWTriggerActionFxnTable[pAction->bActionType](pAction);
   if ( rval )
   {
