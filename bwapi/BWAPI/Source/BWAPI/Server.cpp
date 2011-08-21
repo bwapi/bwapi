@@ -2,7 +2,7 @@
 
 #include <Util/Foreach.h>
 #include <assert.h>
-
+#include <sstream>
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
@@ -15,6 +15,8 @@
 
 #include "../../Debug.h"
 
+#include <stdio.h>
+#include <time.h>
 namespace BWAPI
 {
   #define PIPE_TIMEOUT 3000
@@ -25,9 +27,80 @@ namespace BWAPI
     localOnly = false;
     data      = NULL;
     int size  = sizeof(GameData);
+    gameTable = NULL;
+    gameTableIndex = -1;
+    DWORD processID = GetCurrentProcessId();
 
-    // create file mapping
-    mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory");
+    // Try to open the game table
+    gameTableFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_shared_memory_game_list" );
+    if (gameTableFileHandle == INVALID_HANDLE_VALUE || gameTableFileHandle == NULL)
+    {
+      
+      // We can't open it, so try to create it
+      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory_game_list" );
+      if ( gameTableFileHandle != INVALID_HANDLE_VALUE && gameTableFileHandle != NULL )
+        gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameTable));
+      if (gameTable)
+      {
+        // If we created it, initialize it
+        for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
+        {
+          gameTable->gameInstances[i].serverProcessID = 0xFFFFFFFF;
+          gameTable->gameInstances[i].isConnected = false;
+          gameTable->gameInstances[i].lastKeepAliveTime = 0;
+        }
+      }
+    }
+    if ( gameTable == NULL && gameTableFileHandle != INVALID_HANDLE_VALUE && gameTableFileHandle != NULL )
+      gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameTable));
+
+    if (gameTable)
+    {
+      // Check to see if we are already in the table
+      for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
+      {
+        if (gameTable->gameInstances[i].serverProcessID == processID)
+        {
+          gameTableIndex = i;
+        }
+      }
+      // If not, try to find an empty row
+      if (gameTableIndex == -1)
+      {
+        for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
+        {
+          if (gameTable->gameInstances[i].serverProcessID == 0xFFFFFFFF)
+          {
+            gameTableIndex = i;
+            break;
+          }
+        }
+      }
+      // If we can't find an empty row, take over the row with the oldest keep alive time
+      if (gameTableIndex == -1)
+      {
+        time_t oldest = gameTable->gameInstances[0].lastKeepAliveTime;
+        gameTableIndex = 0;
+        for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; i++)
+        {
+          if (gameTable->gameInstances[0].lastKeepAliveTime < oldest)
+          {
+            oldest = gameTable->gameInstances[0].lastKeepAliveTime;
+            gameTableIndex = i;
+          }
+        }
+      }
+      //We have a game table index now, initialize our row
+      gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
+      gameTable->gameInstances[gameTableIndex].isConnected = false;
+      gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
+    }
+
+    std::stringstream sharedMemoryName;
+    sharedMemoryName << "Global\\bwapi_shared_memory_";
+    sharedMemoryName << processID;
+
+    mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, sharedMemoryName.str().c_str() );
     if ( mapFileHandle != INVALID_HANDLE_VALUE && mapFileHandle != NULL )
       data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
 
@@ -39,7 +112,11 @@ namespace BWAPI
     }
     initializeSharedMemory();
 
-    pipeObjectHandle = CreateNamedPipe("\\\\.\\pipe\\bwapi_pipe",
+    std::stringstream communicationPipe;
+    communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
+    communicationPipe << processID;
+
+    pipeObjectHandle = CreateNamedPipe(communicationPipe.str().c_str(),
                                            PIPE_ACCESS_DUPLEX,
                                            PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
                                            PIPE_UNLIMITED_INSTANCES,
@@ -65,6 +142,8 @@ namespace BWAPI
     data->commandCount     = 0;
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
+    gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
+    gameTable->gameInstances[gameTableIndex].isConnected = connected;
     if (connected)
     {
       // Update BWAPI Client

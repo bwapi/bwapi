@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <BWAPI/Client/GameData.h>
+#include <BWAPI/Client/GameTable.h>
 #include <BWAPI/Client/Event.h>
 #include <BWAPI.h>
 #include <vector>
@@ -34,6 +35,9 @@ namespace BWAPI
     void setWaitForResponse(bool wait);
     HANDLE pipeObjectHandle;
     HANDLE mapFileHandle;
+    HANDLE gameTableFileHandle;
+    GameTable* gameTable;
+    int gameTableIndex;
     bool connected;
     bool localOnly;
     std::vector<Force*> forceVector;
