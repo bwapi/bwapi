@@ -1289,7 +1289,7 @@ namespace BWAPI
               {
                 actCreate = true;
                 SNetSetGameMode(dwMode | GAMESTATE_STARTED);
-                QueueGameCommand(&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
+                QUEUE_COMMAND(BW::Orders::StartGame);
               }
             }
           }
@@ -1481,7 +1481,7 @@ namespace BWAPI
   void GameImpl::changeSlot(BW::Orders::ChangeSlot::Slot slot, u8 slotID)
   {
     // Send the Change Slot command for multi-player
-    QueueGameCommand(&BW::Orders::ChangeSlot(slot, slotID), 3);
+    QUEUE_COMMAND(BW::Orders::ChangeSlot, slot, slotID);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void  GameImpl::_changeRace(int slot, BWAPI::Race race)
@@ -1513,7 +1513,7 @@ namespace BWAPI
       return; // return if the countdown is less than 2
     
     // Send the change race command for multi-player
-    QueueGameCommand(&BW::Orders::RequestChangeRace((u8)race, (u8)slot), 3);
+    QUEUE_COMMAND(BW::Orders::RequestChangeRace, race, slot);
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -3234,39 +3234,38 @@ namespace BWAPI
     if (ct == UnitCommandTypes::Attack_Move)
     {
       if ( command.unit && command.unit->getType() == UnitTypes::Zerg_Infested_Terran )
-        QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::Attack1, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::Attack1, queued);
       else
-        QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::AttackMove, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::AttackMove, queued);
     }
     else if (ct == UnitCommandTypes::Attack_Unit)
     {
       UnitImpl *target = (UnitImpl*)command.target;
       UnitType ut      = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( ut == UnitTypes::Protoss_Carrier || ut == UnitTypes::Hero_Gantrithor )
-        QueueGameCommand(&BW::Orders::Attack(target, BW::OrderID::CarrierAttack1, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, target, BW::OrderID::CarrierAttack1, queued);
       else if ( ut == UnitTypes::Protoss_Reaver || ut == UnitTypes::Hero_Warbringer )
-        QueueGameCommand(&BW::Orders::Attack(target, BW::OrderID::ReaverAttack1, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, target, BW::OrderID::ReaverAttack1, queued);
       else if ( ut.isBuilding() )
-        QueueGameCommand(&BW::Orders::Attack(target, BW::OrderID::TowerAttack, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, target, BW::OrderID::TowerAttack, queued);
       else
-        QueueGameCommand(&BW::Orders::Attack(target, BW::OrderID::Attack1, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, target, BW::OrderID::Attack1, queued);
     }
     else if (ct == UnitCommandTypes::Build)
     {
       UnitType extraType(command.extra);
       if ( command.unit && command.unit->getType() == BWAPI::UnitTypes::Zerg_Nydus_Canal &&
            extraType == UnitTypes::Zerg_Nydus_Canal )
-        QueueGameCommand(&BW::Orders::MakeNydusExit(command.x,command.y), sizeof(BW::Orders::MakeNydusExit));
-      else if ( !extraType.isAddon() )
-        QueueGameCommand(&BW::Orders::MakeBuilding(command.x,command.y, extraType), sizeof(BW::Orders::MakeBuilding));
+        QUEUE_COMMAND(BW::Orders::MakeNydusExit, command.x, command.y);
+      else if ( extraType.isAddon() )
+        QUEUE_COMMAND(BW::Orders::MakeAddon, command.x, command.y, extraType);
       else
-        QueueGameCommand(&BW::Orders::MakeAddon(command.x,command.y, extraType), sizeof(BW::Orders::MakeAddon));
+        QUEUE_COMMAND(BW::Orders::MakeBuilding, command.x, command.y, extraType);
     }
     else if ( ct == UnitCommandTypes::Build_Addon && command.unit )
     {
       TilePosition target(command.unit->getTilePosition().x() + 4, command.unit->getTilePosition().y() + 1);
-      target.makeValid();
-      QueueGameCommand(&BW::Orders::MakeAddon(target.x(), target.y(), command.getUnitType()), sizeof(BW::Orders::MakeAddon));
+      QUEUE_COMMAND(BW::Orders::MakeAddon, target.makeValid(), command.getUnitType());
     }
     else if ( ct == UnitCommandTypes::Train )
     {
@@ -3276,22 +3275,22 @@ namespace BWAPI
       case BW::UnitID::Zerg_Larva:
       case BW::UnitID::Zerg_Mutalisk:
       case BW::UnitID::Zerg_Hydralisk:
-        QueueGameCommand(&BW::Orders::UnitMorph(type1), 3);
+        QUEUE_COMMAND(BW::Orders::UnitMorph, type1);
         break;
       case BW::UnitID::Zerg_Hatchery:
       case BW::UnitID::Zerg_Lair:
       case BW::UnitID::Zerg_Spire:
       case BW::UnitID::Zerg_CreepColony:
-        QueueGameCommand(&BW::Orders::BuildingMorph(type1), 3);
+        QUEUE_COMMAND(BW::Orders::BuildingMorph, type1);
         break;
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Warbringer:
-        QueueGameCommand(&BW::Orders::TrainFighter(), 1);
+        QUEUE_COMMAND(BW::Orders::TrainFighter);
         break;
       default:
-        QueueGameCommand(&BW::Orders::TrainUnit(type1), 3);
+        QUEUE_COMMAND(BW::Orders::TrainUnit, type1);
         break;
       }
     }
@@ -3299,169 +3298,169 @@ namespace BWAPI
     {
       UnitType type(command.extra);
       if ( type.isBuilding() )
-        QueueGameCommand(&BW::Orders::BuildingMorph(type), sizeof(BW::Orders::BuildingMorph));
+        QUEUE_COMMAND(BW::Orders::BuildingMorph, type);
       else
-        QueueGameCommand(&BW::Orders::UnitMorph(type), sizeof(BW::Orders::UnitMorph));
+        QUEUE_COMMAND(BW::Orders::UnitMorph, type);
     }
     else if (ct == UnitCommandTypes::Research)
-      QueueGameCommand(&BW::Orders::Invent(command.getTechType()), sizeof(BW::Orders::Invent));
+      QUEUE_COMMAND(BW::Orders::Invent, command.getTechType());
     else if (ct == UnitCommandTypes::Upgrade)
-      QueueGameCommand(&BW::Orders::Upgrade(command.getUpgradeType()), sizeof(BW::Orders::Upgrade));
+      QUEUE_COMMAND(BW::Orders::Upgrade, command.getUpgradeType());
     else if (ct == UnitCommandTypes::Set_Rally_Position)
-      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::RallyPointTile), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::RallyPointTile);
     else if (ct == UnitCommandTypes::Set_Rally_Unit)
-      QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::RallyPointUnit), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::RallyPointUnit);
     else if (ct == UnitCommandTypes::Move)
-      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::Move, queued), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::Move, queued);
     else if (ct == UnitCommandTypes::Patrol)
-      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), BW::OrderID::Patrol, queued), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::Patrol, queued);
     else if (ct == UnitCommandTypes::Hold_Position)
-      QueueGameCommand(&BW::Orders::HoldPosition(queued), sizeof(BW::Orders::HoldPosition));
+      QUEUE_COMMAND(BW::Orders::HoldPosition, queued);
     else if (ct == UnitCommandTypes::Stop)
     {
       switch ( command.unit ? command.unit->getType() : UnitTypes::None )
       {
       case BW::UnitID::Protoss_Reaver:
       case BW::UnitID::Protoss_Hero_Warbringer:
-        QueueGameCommand(&BW::Orders::ReaverStop(), sizeof(BW::Orders::ReaverStop));
+        QUEUE_COMMAND(BW::Orders::ReaverStop);
         break;
       case BW::UnitID::Protoss_Carrier:
       case BW::UnitID::Protoss_Hero_Gantrithor:
-        QueueGameCommand(&BW::Orders::CarrierStop(), sizeof(BW::Orders::CarrierStop));
+        QUEUE_COMMAND(BW::Orders::CarrierStop);
         break;
       default:
-        QueueGameCommand(&BW::Orders::Stop(queued), sizeof(BW::Orders::Stop));
+        QUEUE_COMMAND(BW::Orders::Stop, queued);
         break;
       }
     }
     else if (ct == UnitCommandTypes::Follow)
-      QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Follow, queued), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::Follow, queued);
     else if (ct == UnitCommandTypes::Gather)
-      QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Harvest1, queued), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::Harvest1, queued);
     else if (ct == UnitCommandTypes::Return_Cargo)
-      QueueGameCommand(&BW::Orders::ReturnCargo(queued), sizeof(BW::Orders::ReturnCargo));
+      QUEUE_COMMAND(BW::Orders::ReturnCargo, queued);
     else if (ct == UnitCommandTypes::Repair)
-      QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::Repair1, queued), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::Repair1, queued);
     else if (ct == UnitCommandTypes::Burrow)
-      QueueGameCommand(&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+      QUEUE_COMMAND(BW::Orders::Burrow);
     else if (ct == UnitCommandTypes::Unburrow)
-      QueueGameCommand(&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+      QUEUE_COMMAND(BW::Orders::Unburrow);
     else if (ct == UnitCommandTypes::Cloak)
-      QueueGameCommand(&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+      QUEUE_COMMAND(BW::Orders::Cloak);
     else if (ct == UnitCommandTypes::Decloak)
-      QueueGameCommand(&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+      QUEUE_COMMAND(BW::Orders::Decloak);
     else if (ct == UnitCommandTypes::Siege)
-      QueueGameCommand(&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+      QUEUE_COMMAND(BW::Orders::Siege);
     else if (ct == UnitCommandTypes::Unsiege)
-      QueueGameCommand(&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+      QUEUE_COMMAND(BW::Orders::Unsiege);
     else if (ct == UnitCommandTypes::Lift)
-      QueueGameCommand(&BW::Orders::Lift(), sizeof(BW::Orders::Lift));
+      QUEUE_COMMAND(BW::Orders::Lift);
     else if (ct == UnitCommandTypes::Land)
-      QueueGameCommand(&BW::Orders::Land(BW::TilePosition((u16)command.x, (u16)command.y), command.unit->getType()), sizeof(BW::Orders::Land));
+      QUEUE_COMMAND(BW::Orders::Land, command.x, command.y, command.unit->getType());
     else if (ct == UnitCommandTypes::Load)
     {
       BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;
       if ( thisType == UnitTypes::Terran_Bunker )
-        QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::PickupBunker, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::PickupBunker, queued);
       else if ( thisType == UnitTypes::Terran_Dropship || 
                 thisType == UnitTypes::Protoss_Shuttle || 
                 thisType == UnitTypes::Zerg_Overlord   ||
                 thisType == UnitTypes::Hero_Yggdrasill )
-        QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, BW::OrderID::PickupTransport, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, BW::OrderID::PickupTransport, queued);
       else if ( command.target->getType() == UnitTypes::Terran_Bunker   ||
                 command.target->getType() == UnitTypes::Terran_Dropship ||
                 command.target->getType() == UnitTypes::Protoss_Shuttle ||
                 command.target->getType() == UnitTypes::Zerg_Overlord   ||
                 command.target->getType() == UnitTypes::Hero_Yggdrasill )
-        QueueGameCommand(&BW::Orders::RightClick((UnitImpl*)command.target, queued), sizeof(BW::Orders::RightClick));
+        QUEUE_COMMAND(BW::Orders::RightClick, command.target, queued);
     }
     else if (ct == UnitCommandTypes::Unload)
     {
-      QueueGameCommand(&BW::Orders::UnloadUnit((UnitImpl*)command.target), sizeof(BW::Orders::UnloadUnit));
+      QUEUE_COMMAND(BW::Orders::UnloadUnit, command.target);
     }
     else if (ct == UnitCommandTypes::Unload_All && command.unit)
     {
       if ( command.unit->getType() == UnitTypes::Terran_Bunker )
-        QueueGameCommand(&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+        QUEUE_COMMAND(BW::Orders::UnloadAll);
       else
-        QueueGameCommand(&BW::Orders::Attack(command.unit->getPosition(), BW::OrderID::MoveUnload, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.unit->getPosition(), BW::OrderID::MoveUnload, queued);
     }
     else if (ct == UnitCommandTypes::Unload_All_Position)
     {
       if ( command.unit && command.unit->getType() == UnitTypes::Terran_Bunker)
-        QueueGameCommand(&BW::Orders::UnloadAll(), sizeof(BW::Orders::UnloadAll));
+        QUEUE_COMMAND(BW::Orders::UnloadAll);
       else
-        QueueGameCommand(&BW::Orders::Attack(Position(command.x, command.y), BW::OrderID::MoveUnload, queued), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, BW::OrderID::MoveUnload, queued);
     }
     else if (ct == UnitCommandTypes::Right_Click_Position)
-      QueueGameCommand(&BW::Orders::RightClick(BW::Position((u16)command.x, (u16)command.y), queued), sizeof(BW::Orders::RightClick));
+      QUEUE_COMMAND(BW::Orders::RightClick, command.x, command.y, queued);
     else if (ct == UnitCommandTypes::Right_Click_Unit)
-      QueueGameCommand(&BW::Orders::RightClick((UnitImpl*)command.target, queued), sizeof(BW::Orders::RightClick));
+      QUEUE_COMMAND(BW::Orders::RightClick, command.target, queued);
     else if (ct == UnitCommandTypes::Halt_Construction)
-      QueueGameCommand(&BW::Orders::Stop(), sizeof(BW::Orders::Stop));
+      QUEUE_COMMAND(BW::Orders::Stop);
     else if (ct == UnitCommandTypes::Cancel_Construction)
-      QueueGameCommand(&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+      QUEUE_COMMAND(BW::Orders::CancelConstruction);
     else if (ct == UnitCommandTypes::Cancel_Addon)
-      QueueGameCommand(&BW::Orders::CancelAddon(), sizeof(BW::Orders::CancelAddon));
+      QUEUE_COMMAND(BW::Orders::CancelAddon);
     else if (ct == UnitCommandTypes::Cancel_Train || ct == UnitCommandTypes::Cancel_Train_Slot)
-      QueueGameCommand(&BW::Orders::CancelTrain((s8)command.extra), sizeof(BW::Orders::CancelTrain));
+      QUEUE_COMMAND(BW::Orders::CancelTrain, command.extra);
     else if (ct == UnitCommandTypes::Cancel_Morph)
     {
       if ( command.unit && command.unit->getType().isBuilding() )
-        QueueGameCommand(&BW::Orders::CancelConstruction(), sizeof(BW::Orders::CancelConstruction));
+        QUEUE_COMMAND(BW::Orders::CancelConstruction);
       else
-        QueueGameCommand(&BW::Orders::CancelUnitMorph(), sizeof(BW::Orders::CancelUnitMorph));
+        QUEUE_COMMAND(BW::Orders::CancelUnitMorph);
     }
     else if (ct == UnitCommandTypes::Cancel_Research)
-      QueueGameCommand(&BW::Orders::CancelResearch(), sizeof(BW::Orders::CancelResearch));
+      QUEUE_COMMAND(BW::Orders::CancelResearch);
     else if (ct == UnitCommandTypes::Cancel_Upgrade)
-      QueueGameCommand(&BW::Orders::CancelUpgrade(), sizeof(BW::Orders::CancelUpgrade));
+      QUEUE_COMMAND(BW::Orders::CancelUpgrade);
     else if (ct == UnitCommandTypes::Use_Tech)
     {
       TechType tech(command.extra);
       switch (tech)
       {
         case BW::TechID::Stimpacks:
-          QueueGameCommand(&BW::Orders::UseStimPack(), sizeof(BW::Orders::UseStimPack));
+          QUEUE_COMMAND(BW::Orders::UseStimPack);
           break;
         case BW::TechID::TankSiegeMode:
           if ( command.unit && command.unit->isSieged() )
-            QueueGameCommand(&BW::Orders::Unsiege(), sizeof(BW::Orders::Unsiege));
+            QUEUE_COMMAND(BW::Orders::Unsiege);
           else
-            QueueGameCommand(&BW::Orders::Siege(), sizeof(BW::Orders::Siege));
+            QUEUE_COMMAND(BW::Orders::Siege);
           break;
         case BW::TechID::PersonnelCloaking:
         case BW::TechID::CloakingField:
           if ( command.unit && command.unit->isCloaked() )
-            QueueGameCommand(&BW::Orders::Decloak(), sizeof(BW::Orders::Decloak));
+            QUEUE_COMMAND(BW::Orders::Decloak);
           else
-            QueueGameCommand(&BW::Orders::Cloak(), sizeof(BW::Orders::Cloak));
+            QUEUE_COMMAND(BW::Orders::Cloak);
           break;
         case BW::TechID::Burrowing:
           if ( command.unit && command.unit->isBurrowed() )
-            QueueGameCommand(&BW::Orders::Unburrow(), sizeof(BW::Orders::Unburrow));
+            QUEUE_COMMAND(BW::Orders::Unburrow);
           else
-            QueueGameCommand(&BW::Orders::Burrow(), sizeof(BW::Orders::Burrow));
+            QUEUE_COMMAND(BW::Orders::Burrow);
           break;
       }
     }
     else if (ct == UnitCommandTypes::Use_Tech_Position)
     {
       int order = (command.getTechType() == TechTypes::Healing ? Orders::HealMove : command.getTechType().getOrder());
-      QueueGameCommand(&BW::Orders::Attack(Position(command.x,command.y), (u8)order), sizeof(BW::Orders::Attack));
+      QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, order);
     }
     else if (ct == UnitCommandTypes::Use_Tech_Unit)
     {
       TechType tech(command.extra);
       if (tech == TechTypes::Archon_Warp)
-        QueueGameCommand(&BW::Orders::MergeArchon(), sizeof(BW::Orders::MergeArchon));
+        QUEUE_COMMAND(BW::Orders::MergeArchon);
       else if (tech == TechTypes::Dark_Archon_Meld)
-        QueueGameCommand(&BW::Orders::MergeDarkArchon(), sizeof(BW::Orders::MergeDarkArchon));
+        QUEUE_COMMAND(BW::Orders::MergeDarkArchon);
       else
-        QueueGameCommand(&BW::Orders::Attack((UnitImpl*)command.target, (u8)tech.getOrder()), sizeof(BW::Orders::Attack));
+        QUEUE_COMMAND(BW::Orders::Attack, command.target, tech.getOrder());
     }
     else if ( ct == UnitCommandTypes::Place_COP && command.unit )
-      QueueGameCommand(&BW::Orders::PlaceCOP(BW::TilePosition((u16)command.x, (u16)command.y), command.unit->getType()), sizeof(BW::Orders::PlaceCOP));
+      QUEUE_COMMAND(BW::Orders::PlaceCOP, command.x, command.y, command.unit->getType());
 
     if (addCommandToLatComBuffer)
       BroodwarImpl.addToCommandBuffer(new Command(command));

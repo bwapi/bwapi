@@ -12,44 +12,52 @@ namespace BW
   {
 
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(BWAPI::UnitImpl* target, u8 OrderID, bool queued)
+    Attack::Attack(BWAPI::Unit* target, int OrderID, bool queued)
         : always0x15(0x15)
-        , target(target)
+        , target((BWAPI::UnitImpl*)target)
         , always0xe4(BW::UnitID::None)
-        , order(OrderID)
+        , order((u8)OrderID)
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const BW::Position& target, u8 OrderID, bool queued)
+    Attack::Attack(const BW::Position& target, int OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
         , always0xe4(BW::UnitID::None)
-        , order(OrderID)
+        , order((u8)OrderID)
         , type(queued ? 1 : 0)
     {
     }
-    Attack::Attack(const BWAPI::Position& target, u8 OrderID, bool queued)
+    Attack::Attack(int x, int y, int OrderID, bool queued)
+        : always0x15(0x15)
+        , target(BW::Position((u16)x, (u16)y))
+        , always0xe4(BW::UnitID::None)
+        , order((u8)OrderID)
+        , type(queued ? 1 : 0)
+    {
+    }
+    Attack::Attack(const BWAPI::Position& target, int OrderID, bool queued)
         : always0x15(0x15)
         , target(BW::Position((u16)target.x(), (u16)target.y()))
         , always0xe4(BW::UnitID::None)
-        , order(OrderID)
+        , order((u8)OrderID)
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const PositionUnitTarget& target, u8 OrderID, bool queued)
+    Attack::Attack(const PositionUnitTarget& target, int OrderID, bool queued)
         : always0x15(0x15)
         , target(target)
         , always0xe4(BW::UnitID::None)
-        , order(OrderID)
+        , order((u8)OrderID)
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- RIGHT CLICK CONSTRUCTOR ---------------------------------------
-    RightClick::RightClick(BWAPI::UnitImpl* target, bool queued)
+    RightClick::RightClick(BWAPI::Unit* target, bool queued)
         : always0x14(0x14)
-        , target(target)
+        , target((BWAPI::UnitImpl*)target)
         , always0xe4(BW::UnitID::None)
         , type(queued ? 1 : 0)
     {
@@ -58,6 +66,13 @@ namespace BW
     RightClick::RightClick(const BW::Position& target, bool queued)
         : always0x14(0x14)
         , target(target)
+        , always0xe4(BW::UnitID::None)
+        , type(queued ? 1 : 0)
+    {
+    }
+    RightClick::RightClick(int x, int y, bool queued)
+        : always0x14(0x14)
+        , target( BW::Position((u16)x, (u16)y) )
         , always0xe4(BW::UnitID::None)
         , type(queued ? 1 : 0)
     {
@@ -71,71 +86,71 @@ namespace BW
     {
     }
     //--------------------------------------- SHIFT SELECT CONSTRUCTOR ---------------------------------------
-    SelectAdd::SelectAdd(u8 count, BWAPI::UnitImpl **units)
+    SelectAdd::SelectAdd(int count, BWAPI::UnitImpl **units)
         : always0x0A(0x0A)
     {
-      u8 finalCount = 0;
-      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      unsigned int finalCount = 0;
+      for ( unsigned int i = 0; i < (unsigned int)count && i < 12; ++i )
         if ( units[i] )
           targets[finalCount++] = UnitTarget(units[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    SelectAdd::SelectAdd(u8 count, BW::Unit **units)
+    SelectAdd::SelectAdd(int count, BW::Unit **units)
         : always0x0A(0x0A)
     {
-      u8 finalCount = 0;
-      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      unsigned int finalCount = 0;
+      for ( unsigned int i = 0; i < (unsigned int)count && i < 12; ++i )
         if ( units[i] )
           targets[finalCount++] = UnitTarget(units[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
     //----------------------------------------- SELECT CONSTRUCTOR -------------------------------------------
-    Select::Select(u8 count, BWAPI::UnitImpl **units)
+    Select::Select(int count, BWAPI::UnitImpl **units)
         : always0x09(0x09)
     {
-      u8 finalCount = 0;
-      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      unsigned int finalCount = 0;
+      for ( unsigned int i = 0; i < (unsigned int)count && i < 12; ++i )
         if ( units[i] )
           targets[finalCount++] = UnitTarget(units[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    Select::Select(u8 count, BW::Unit **units)
+    Select::Select(int count, BW::Unit **units)
         : always0x09(0x09)
     {
-      u8 finalCount = 0;
-      for ( unsigned int i = 0; i < count && i < 12; ++i )
+      unsigned int finalCount = 0;
+      for ( unsigned int i = 0; i < (unsigned int)count && i < 12; ++i )
         if ( units[i] )
           targets[finalCount++] = UnitTarget(units[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    Select::Select(std::vector<BW::Unit*> vUnits)
+    Select::Select(const std::vector<BW::Unit*> &vUnits)
       : always0x09(0x09)
     {
-      u8 finalCount = 0;
+      unsigned int finalCount = 0;
       for ( unsigned int i = 0; i < vUnits.size() && i < 12; ++i )
         if ( vUnits[i] )
           targets[finalCount++] = UnitTarget(vUnits[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    Select::Select(std::vector<BWAPI::UnitImpl*> vUnits)
+    Select::Select(const std::vector<BWAPI::UnitImpl*> &vUnits)
       : always0x09(0x09)
     {
-      u8 finalCount = 0;
+      unsigned int finalCount = 0;
       for ( unsigned int i = 0; i < vUnits.size() && i < 12; ++i )
         if ( vUnits[i] )
           targets[finalCount++] = UnitTarget(vUnits[i]);
 
-      targCount = finalCount;
+      targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
@@ -202,6 +217,13 @@ namespace BW
         , type((u16)type)
     {
     }
+    PlaceCOP::PlaceCOP(int x, int y, int type)
+        : always0x0c(0x0C)
+        , always0x9B(BW::OrderID::CTFCOP2)
+        , position((u16)x, (u16)y)
+        , type((u16)type)
+    {
+    }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
     Invent::Invent(int tech)
         : always0x30(0x30)
@@ -219,6 +241,13 @@ namespace BW
         : always0x0c(0x0c)
         , always0x24(BW::OrderID::PlaceAddon)
         , position(position)
+        , type((u16)type)
+    {
+    }
+    MakeAddon::MakeAddon(BWAPI::TilePosition position, int type)
+        : always0x0c(0x0c)
+        , always0x24(BW::OrderID::PlaceAddon)
+        , position((u16)position.x(), (u16)position.y())
         , type((u16)type)
     {
     }
@@ -245,26 +274,26 @@ namespace BW
     {
     }
     //------------------------------------------- MOVE CONSTRUCTOR -------------------------------------------
-    ChangeSlot::ChangeSlot(Slot slot, u8 slotID)
+    ChangeSlot::ChangeSlot(Slot slot, int slotID)
         : slot(slot)
-        , slotID(slotID)
+        , slotID((u8)slotID)
         , always0x44(0x44)
     {
     }
     //--------------------------------------- CHANGE RACE CONSTRUCTOR ----------------------------------------
-    RequestChangeRace::RequestChangeRace(u8 race, u8 slotID)
-        : race(race)
-        , slotID(slotID)
+    RequestChangeRace::RequestChangeRace(int race, int slotID)
+        : race((u8)race)
+        , slotID((u8)slotID)
         , always0x41(0x41)
     {
     }
-    UpdateSlot::UpdateSlot(u8 slot, u8 stormPlayerID, u8 owner, u8 newRace, u8 team)
+    UpdateSlot::UpdateSlot(int slot, int stormPlayerID, int owner, int newRace, int team)
       : always0x3E(0x3E)
-      , bSlot(slot)
-      , bStormPlayerID(stormPlayerID)
-      , nType(owner)
-      , bNewRace(newRace)
-      , nTeam(team)
+      , bSlot((u8)slot)
+      , bStormPlayerID((u8)stormPlayerID)
+      , nType((u8)owner)
+      , bNewRace((u8)newRace)
+      , nTeam((u8)team)
     {
     }
     //---------------------------------------- START GAME CONSTRUCTOR ----------------------------------------
@@ -283,9 +312,9 @@ namespace BW
     {
     }
     //------------------------------------------ RESUME CONSTRUCTOR ------------------------------------------
-    LeaveGame::LeaveGame(u8 type)
+    LeaveGame::LeaveGame(int type)
         : always0x57(0x57)
-        , type(type)
+        , type((u8)type)
     {
     }
     //-------------------------------------- MERGE DARK ARCHON CONSTRUCTOR -----------------------------------
@@ -302,6 +331,16 @@ namespace BW
     MinimapPing::MinimapPing(BW::Position position)
         : always0x58(0x58)
         , position(position)
+    {
+    }
+    MinimapPing::MinimapPing(BWAPI::Position position)
+        : always0x58(0x58)
+        , position((u16)position.x(), (u16)position.y())
+    {
+    }
+    MinimapPing::MinimapPing(int x, int y)
+        : always0x58(0x58)
+        , position((u16)x, (u16)y)
     {
     }
     //------------------------------------------ STIM CONSTRUCTOR --------------------------------------------
@@ -349,6 +388,13 @@ namespace BW
         , type((u16)type)
     {
     }
+    Land::Land(int x, int y, int type)
+        : always0x0C(0x0C)
+        , always0x47(BW::OrderID::BuildingLand)
+        , position((u16)x, (u16)y)
+        , type((u16)type)
+    {
+    }
     //---------------------------------------------- BURROW --------------------------------------------------
     Burrow::Burrow()
         : always0x2C(0x2C)
@@ -368,9 +414,9 @@ namespace BW
     {
     }
     //------------------------------------------------ UNLOAD UNIT -------------------------------------------
-    UnloadUnit::UnloadUnit(BWAPI::UnitImpl* unload)
+    UnloadUnit::UnloadUnit(BWAPI::Unit* unload)
         : always0x29(0x29)
-        , target(unload)
+        , target((BWAPI::UnitImpl*)unload)
     {
     }
     //---------------------------------------------- UNLOAD ALL ----------------------------------------------
@@ -442,9 +488,9 @@ namespace BW
     {
     }
     //--------------------------------------------- CANCEL TRAIN ---------------------------------------------
-    CancelTrain::CancelTrain(s8 slot)
+    CancelTrain::CancelTrain(int slot)
         : always0x20(0x20)
-        , slot(slot)
+        , slot((s8)slot)
         , unknown(0)
     {
     }

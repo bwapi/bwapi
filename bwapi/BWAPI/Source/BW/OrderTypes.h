@@ -4,6 +4,8 @@
 
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Position.h>
+#include <BWAPI/Unit.h>
+
 #include "PositionUnitTarget.h"
 #include "Race.h"
 #include <BW/TilePosition.h>
@@ -20,12 +22,13 @@ namespace BW
     {
       public :
         /** Attack Location on position. */
-        Attack(const BW::Position& target, u8 order, bool queued = false);
-        Attack(const BWAPI::Position& target, u8 order, bool queued = false);
+        Attack(const BW::Position& target, int order, bool queued = false);
+        Attack(int x, int y, int order, bool queued = false);
+        Attack(const BWAPI::Position& target, int order, bool queued = false);
         /** Attack Location on unit. */
-        Attack(BWAPI::UnitImpl* target, u8 order, bool queued = false);
+        Attack(BWAPI::Unit* target, int order, bool queued = false);
         /** Attack Location on general target. */
-        Attack(const PositionUnitTarget& target, u8 order, bool queued = false);
+        Attack(const PositionUnitTarget& target, int order, bool queued = false);
       private :
         /** 0x15 = Attack Location command-code in bw */
         u8 always0x15;
@@ -40,8 +43,9 @@ namespace BW
       public :
         /** Right-click on position. */
         RightClick(const BW::Position& target, bool queued = false);
+        RightClick(int x, int y, bool queued = false);
         /** Right-click on unit. */
-        RightClick(BWAPI::UnitImpl* target, bool queued = false);
+        RightClick(BWAPI::Unit* target, bool queued = false);
         /** Right-click on general target. */
         RightClick(const PositionUnitTarget& target, bool queued = false);
       private :
@@ -55,8 +59,8 @@ namespace BW
     class SelectAdd
     {
       public :
-        SelectAdd(u8 count, BWAPI::UnitImpl **units);
-        SelectAdd(u8 count, BW::Unit **units);
+        SelectAdd(int count, BWAPI::UnitImpl **units);
+        SelectAdd(int count, BW::Unit **units);
         /** 0x0A = Shift-Select command-code in bw */
         u8         always0x0A;
         u8         targCount;
@@ -67,10 +71,10 @@ namespace BW
     class Select
     {
       public :
-        Select(u8 count, BWAPI::UnitImpl **units);
-        Select(u8 count, BW::Unit **units);
-        Select(std::vector<BW::Unit*> vUnits);
-        Select(std::vector<BWAPI::UnitImpl*> vUnits);
+        Select(int count, BWAPI::UnitImpl **units);
+        Select(int count, BW::Unit **units);
+        Select(const std::vector<BW::Unit*> &vUnits);
+        Select(const std::vector<BWAPI::UnitImpl*> &vUnits);
         /** 0x09 = Select command-code in bw */
         u8         always0x09;
         u8         targCount;
@@ -115,6 +119,7 @@ namespace BW
     {
       public :
         PlaceCOP(BW::TilePosition position, int type);
+        PlaceCOP(int x, int y, int type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
         u8 always0x9B;
@@ -146,6 +151,7 @@ namespace BW
     {
       public :
         MakeAddon(BW::TilePosition position, int type);
+        MakeAddon(BWAPI::TilePosition position, int type);
         MakeAddon(int tileX, int tileY, int type);
         /** 0x0c = make building Command-code in bw */
         u8 always0x0c;
@@ -178,7 +184,7 @@ namespace BW
           Open = 1,
           Closed = 2
         };
-        ChangeSlot(Slot slot, u8 slotID);
+        ChangeSlot(Slot slot, int slotID);
       private :
         /** 0x44 = Change slot command-code in bw */
         u8 always0x44;
@@ -191,7 +197,7 @@ namespace BW
     class RequestChangeRace
     {
       public :
-        RequestChangeRace(u8 slot, u8 slotID);
+        RequestChangeRace(int slot, int slotID);
       private :
         /** 0x41 = Command code for change race in bw. */
         u8 always0x41;
@@ -204,7 +210,7 @@ namespace BW
     class UpdateSlot
     {
     public:
-      UpdateSlot(u8 slot, u8 stormPlayerID, u8 owner, u8 newRace, u8 team);
+      UpdateSlot(int slot, int stormPlayerID, int owner, int newRace, int team);
     private:
       /** 0x3E = Command code */
       u8 always0x3E;
@@ -248,7 +254,7 @@ namespace BW
     class LeaveGame
     {
       public :
-        LeaveGame(u8 type);
+        LeaveGame(int type);
       private :
         /** 0x57 = Command code for unpause game. */
         u8 always0x57;
@@ -277,6 +283,8 @@ namespace BW
     {
       public :
         MinimapPing(BW::Position position);
+        MinimapPing(BWAPI::Position position);
+        MinimapPing(int x, int y);
       private :
         /** 0x58 = Command code for Minimap Ping. */
         u8 always0x58;
@@ -347,6 +355,7 @@ namespace BW
     {
       public :
         Land(BW::TilePosition position, int type);
+        Land(int x, int y, int type);
       private :
         u8 always0x0C;
         u8 always0x47;
@@ -384,7 +393,7 @@ namespace BW
     class UnloadUnit
     {
       public :
-        UnloadUnit(BWAPI::UnitImpl* unload);
+        UnloadUnit(BWAPI::Unit* unload);
         /** 0x29 = Unload Unit */
         u8 always0x29;
         /** The unit to unload bw index */
@@ -499,7 +508,7 @@ namespace BW
     class CancelTrain
     {
       public :
-        CancelTrain(s8 slot = -2);
+        CancelTrain(int slot = -2);
       private :
         u8 always0x20;
         s8 slot;
