@@ -17,7 +17,7 @@
 
 namespace BWAPI
 {
-  #define PIPE_TIMEOUT 2000
+  #define PIPE_TIMEOUT 3000
   #define PIPE_SYSTEM_BUFFER_SIZE 4096
   Server::Server()
   {
@@ -47,16 +47,6 @@ namespace BWAPI
                                            PIPE_SYSTEM_BUFFER_SIZE,
                                            PIPE_TIMEOUT,
                                            NULL);
-    if ( pipeObjectHandle != INVALID_HANDLE_VALUE && pipeObjectHandle != NULL )
-    {
-      COMMTIMEOUTS c;
-      c.ReadIntervalTimeout         = 100;
-      c.ReadTotalTimeoutMultiplier  = 100;
-      c.ReadTotalTimeoutConstant    = 2000;
-      c.WriteTotalTimeoutMultiplier = 100;
-      c.WriteTotalTimeoutConstant   = 2000;
-      SetCommTimeouts(pipeObjectHandle,&c);
-    }
   }
   Server::~Server()
   {
