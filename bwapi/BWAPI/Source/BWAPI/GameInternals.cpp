@@ -2163,7 +2163,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/record")
     {
-      if ( !StartVideoRecording("test.avi", BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, &bmp) )
+      if ( !StartVideoRecording("test.avi", BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht) )
         MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
     }
     else if (parsed[0] == "/stop")

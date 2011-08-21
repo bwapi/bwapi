@@ -17,7 +17,7 @@ DWORD dwFrames;
 
 void *pFlipped;
 
-bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPINFO256 *bitmapInfo)
+bool StartVideoRecording(const char *pszFilename, int width, int height)
 {
   AVIFileInit();
 
@@ -32,13 +32,22 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
     return StopVideoRecording();
   }
 
+  BITMAPINFOHEADER vidBmpInfo = bmp.bmiHeader;
+  vidBmpInfo.biBitCount       = 32;
+  vidBmpInfo.biHeight         = abs(vidBmpInfo.biHeight);
+  vidBmpInfo.biSizeImage      = vidBmpInfo.biWidth*vidBmpInfo.biHeight*4;
+  vidBmpInfo.biXPelsPerMeter  = 10000;
+  vidBmpInfo.biYPelsPerMeter  = 10000;
+  vidBmpInfo.biClrUsed        = 0;
+  vidBmpInfo.biClrImportant   = 0;
+
   AVISTREAMINFO aisinfo = { 0 };
   aisinfo.fccType               = streamtypeVIDEO;
   aisinfo.dwScale               = 1;
   aisinfo.dwRate                = 30;
-  aisinfo.dwSuggestedBufferSize = width * height;
+  aisinfo.dwSuggestedBufferSize = width * height * 4;
   aisinfo.dwQuality             = (DWORD)(-1);
-  aisinfo.dwSampleSize          = width * height;
+  aisinfo.dwSampleSize          = width * height * 4;
   SetRect(&aisinfo.rcFrame, 0, 0, width, height);
 
   if ( AVIFileCreateStream(pAviFile, &pAviStream, &aisinfo) != AVIERR_OK )
@@ -56,6 +65,7 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
     return StopVideoRecording();
   }
 
+
   if ( AVIMakeCompressedStream(&pAviStreamCompressed, pAviStream, pOptions, NULL) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIMakeCompressedStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
@@ -63,17 +73,14 @@ bool StartVideoRecording(const char *pszFilename, int width, int height, BITMAPI
     return StopVideoRecording();
   }
   
-  bitmapInfo->bmiHeader.biHeight = abs(bitmapInfo->bmiHeader.biHeight);
-  if ( pAviStreamCompressed->SetFormat(0, bitmapInfo, sizeof(BITMAPINFO256)) != AVIERR_OK )
+  if ( pAviStreamCompressed->SetFormat(0, &vidBmpInfo, sizeof(BITMAPINFO256)) != AVIERR_OK )
   {
-    bitmapInfo->bmiHeader.biHeight = -bitmapInfo->bmiHeader.biHeight;
     MessageBox(NULL, "AVIStreamSetFormat failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
-  bitmapInfo->bmiHeader.biHeight = -bitmapInfo->bmiHeader.biHeight;
-
-  pFlipped = malloc(width*height);
+  // Allocate memory for flipped video surface
+  pFlipped = malloc(width*height*4);
 
   ShowCursor(FALSE);
   recordingStarted = true;
@@ -107,15 +114,16 @@ bool StopVideoRecording()
 
 void RecordFrame(void *pBuffer, int width, int height)
 {
-  BYTE *pbFlipped = (BYTE*)((DWORD)pFlipped + width*(height-1));
-  BYTE *pbSrc     = (BYTE*)pBuffer;
-  DWORD dwEnd     = (DWORD)pBuffer + width*height;
-  while ( (DWORD)pbSrc < dwEnd )
+  DWORD *pbFlipped = (DWORD*)((DWORD)pFlipped + width*(height-1)*4);
+  BYTE  *pbSrc     = (BYTE*)pBuffer;
+  DWORD dwEnd      = (DWORD)pBuffer + width*height;
+  do
   {
-    memcpy(pbFlipped, pbSrc, width);
+    for ( unsigned int i = 0; i < (unsigned int)width; ++i )
+      pbFlipped[i] = *(DWORD*)&bmp.bmiColors[pbSrc[i]];
     pbFlipped -= width;
     pbSrc += width;
-  }
-  pAviStreamCompressed->Write(dwFrames, 1, pbFlipped, width*height, dwFrames % 16 == 0 ? AVIIF_KEYFRAME : 0, NULL, NULL);
+  } while ( (DWORD)pbSrc < dwEnd );
+  pAviStreamCompressed->Write(dwFrames, 1, pFlipped, width*height*4, dwFrames % 32 == 0 ? AVIIF_KEYFRAME : 0, NULL, NULL);
   ++dwFrames;
 }
