@@ -297,13 +297,13 @@ namespace BWAPI
   void GameImpl::pingMinimap(int x, int y)
   {
     this->setLastError(Errors::None);
-    QueueGameCommand(&BW::Orders::MinimapPing(BW::Position((u16)x,(u16)y)), sizeof(BW::Orders::MinimapPing));
+    QUEUE_COMMAND(BW::Orders::MinimapPing, x, y);
   }
   //---------------------------------------------- PING MINIMAP ----------------------------------------------
   void GameImpl::pingMinimap(BWAPI::Position p)
   {
     this->setLastError(Errors::None);
-    QueueGameCommand(&BW::Orders::MinimapPing(BW::Position((u16)p.x(),(u16)p.y())), sizeof(BW::Orders::MinimapPing));
+    QUEUE_COMMAND(BW::Orders::MinimapPing, p);
   }
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool  GameImpl::isFlagEnabled(int flag)
@@ -655,7 +655,7 @@ namespace BWAPI
       if ( cheatID != BW::CheatFlags::None )
       {
         this->cheatFlags ^= cheatID;
-        QueueGameCommand(&BW::Orders::UseCheat(this->cheatFlags), sizeof(BW::Orders::UseCheat));
+        QUEUE_COMMAND(BW::Orders::UseCheat, this->cheatFlags);
         if (cheatID == BW::CheatFlags::ShowMeTheMoney ||
             cheatID == BW::CheatFlags::BreatheDeep ||
             cheatID == BW::CheatFlags::WhatsMineIsMine ||
@@ -740,7 +740,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::StartGame) )
       return;
-    QueueGameCommand(&BW::Orders::StartGame(), sizeof(BW::Orders::StartGame));
+    QUEUE_COMMAND(BW::Orders::StartGame);
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
   void GameImpl::pauseGame()
@@ -749,7 +749,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::PauseGame) )
       return;
-    QueueGameCommand(&BW::Orders::PauseGame(), sizeof(BW::Orders::PauseGame));
+    QUEUE_COMMAND(BW::Orders::PauseGame);
   }
   //---------------------------------------------- RESUME GAME -----------------------------------------------
   void GameImpl::resumeGame()
@@ -758,7 +758,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::ResumeGame) )
       return;
-    QueueGameCommand(&BW::Orders::ResumeGame(), sizeof(BW::Orders::ResumeGame));
+    QUEUE_COMMAND(BW::Orders::ResumeGame);
   }
   //---------------------------------------------- LEAVE GAME ------------------------------------------------
   void GameImpl::leaveGame()
@@ -784,7 +784,7 @@ namespace BWAPI
     this->setLastError(Errors::None);
     if ( !this->tournamentCheck(Tournament::RestartGame) )
       return;
-    QueueGameCommand(&BW::Orders::RestartGame(), sizeof(BW::Orders::RestartGame));
+    QUEUE_COMMAND(BW::Orders::RestartGame);
   }
   //--------------------------------------------- SET ALLIANCE -----------------------------------------------
   bool GameImpl::setAlliance(BWAPI::Player *player, bool allied, bool alliedVictory)
@@ -802,7 +802,7 @@ namespace BWAPI
       alliance |= newAlliance << ( ((PlayerImpl*)player)->getIndex()*2);
     else
       alliance &= ~(3 << ( ((PlayerImpl*)player)->getIndex()*2) );
-    QueueGameCommand(&BW::Orders::SetAllies(alliance), sizeof(BW::Orders::SetAllies));
+    QUEUE_COMMAND(BW::Orders::SetAllies, alliance);
     return this->setLastError(Errors::None);
   }
   //----------------------------------------------- SET VISION -----------------------------------------------
@@ -817,7 +817,7 @@ namespace BWAPI
       vision |= 1 << ((PlayerImpl*)player)->getIndex();
     else
       vision &= ~(1 <<  ((PlayerImpl*)player)->getIndex() );
-    QueueGameCommand(&BW::Orders::SetVision(vision), sizeof(BW::Orders::SetVision));
+    QUEUE_COMMAND(BW::Orders::SetVision, vision);
     return this->setLastError(Errors::None);
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
