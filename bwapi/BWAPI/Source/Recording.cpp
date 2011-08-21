@@ -44,7 +44,7 @@ bool StartVideoRecording(const char *pszFilename, int width, int height)
   AVISTREAMINFO aisinfo = { 0 };
   aisinfo.fccType               = streamtypeVIDEO;
   aisinfo.dwScale               = 1;
-  aisinfo.dwRate                = 30;
+  aisinfo.dwRate                = 24;
   aisinfo.dwSuggestedBufferSize = width * height * 4;
   aisinfo.dwQuality             = (DWORD)(-1);
   aisinfo.dwSampleSize          = width * height * 4;

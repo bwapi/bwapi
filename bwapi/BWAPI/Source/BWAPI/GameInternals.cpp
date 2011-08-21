@@ -831,8 +831,14 @@ namespace BWAPI
         }
       }*/
     } // pathdebug
+    if ( !this->isPaused() )
+    {
+      if ( recordingStarted )
+        RecordFrame(pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+    }
 #endif
     setTextSize(); // Reset text size
+
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
