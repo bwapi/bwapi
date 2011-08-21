@@ -1,18 +1,12 @@
 #pragma once
 #include <BWAPI.h>
-/*
-#include <BWTA.h>
-#include <windows.h>
 
-extern bool analyzed;
-extern bool analysis_just_finished;
-extern BWTA::Region* home;
-extern BWTA::Region* enemy_base;
-DWORD WINAPI AnalyzeThread();
-*/
+// Remember not to use "Broodwar" in any global class constructor!
+
 class ExampleAIModule : public BWAPI::AIModule
 {
 public:
+  // Virtual functions for callbacks, leave these as they are.
   virtual void onStart();
   virtual void onEnd(bool isWinner);
   virtual void onFrame();
@@ -30,14 +24,6 @@ public:
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
   virtual void onUnitComplete(BWAPI::Unit *unit);
-  void drawStats(); //not part of BWAPI::AIModule
-  void drawUnits();
-  void drawBullets();
-  void drawVisibilityData();
-  //void drawTerrainData();
-  void showPlayers();
-  void showForces();
-  bool show_bullets;
-  bool show_units;
-  bool show_visibility_data;
+  // Everything below this line is safe to modify.
+
 };
