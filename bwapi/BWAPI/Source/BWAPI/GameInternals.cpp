@@ -1249,7 +1249,7 @@ namespace BWAPI
           }
 // in lobby
         case 3:
-          if ( !actRaceSel )
+          if ( !actRaceSel && BW::FindDialogGlobal("Chat") )
           {
             Race playerRace = Races::getRace(this->autoMenuRace);
             if ( this->autoMenuRace == "RANDOMTP" )
@@ -1307,7 +1307,7 @@ namespace BWAPI
           break;
 //multiplayer game ready screen
         case 3: 
-          if ( !actRaceSel )
+          if ( !actRaceSel && BW::FindDialogGlobal("Chat") )
           {
             Race playerRace = Races::getRace(this->autoMenuRace);
             if ( this->autoMenuRace == "RANDOMTP" )
