@@ -314,10 +314,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         // end paint
         EndPaint(hWnd, &paint);
+        /*
 #ifdef _DEBUG
         if ( recordingStarted )
           RecordFrame(pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
-#endif
+#endif*/
       } // data
       break;
     case WM_NCMOUSEMOVE:
