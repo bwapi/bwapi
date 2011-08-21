@@ -5,6 +5,7 @@
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
+#include "GameTable.h"
 
 
 namespace BWAPI
@@ -23,6 +24,9 @@ namespace BWAPI
   private:
     HANDLE pipeObjectHandle;
     HANDLE mapFileHandle;
+    HANDLE gameTableFileHandle;
+    GameTable* gameTable;
+    
     bool connected;
     bool showedErrorBox;
   };
