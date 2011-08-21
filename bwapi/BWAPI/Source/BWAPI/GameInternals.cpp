@@ -832,6 +832,7 @@ namespace BWAPI
       }*/
     } // pathdebug
 #endif
+    setTextSize(); // Reset text size
     //finally return control to starcraft
   }
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
