@@ -142,8 +142,11 @@ namespace BWAPI
     data->commandCount     = 0;
     data->unitCommandCount = 0;
     data->shapeCount       = 0;
-    gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
-    gameTable->gameInstances[gameTableIndex].isConnected = connected;
+    if (gameTable && gameTableIndex >= 0)
+    {
+      gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
+      gameTable->gameInstances[gameTableIndex].isConnected = connected;
+    }
     if (connected)
     {
       // Update BWAPI Client
