@@ -43,8 +43,8 @@ bool StartVideoRecording(const char *pszFilename, int width, int height)
 
   AVISTREAMINFO aisinfo = { 0 };
   aisinfo.fccType               = streamtypeVIDEO;
-  aisinfo.dwScale               = 1;
-  aisinfo.dwRate                = 24;
+  aisinfo.dwScale               = 42;
+  aisinfo.dwRate                = 1000;
   aisinfo.dwSuggestedBufferSize = width * height * 4;
   aisinfo.dwQuality             = (DWORD)(-1);
   aisinfo.dwSampleSize          = width * height * 4;
@@ -114,6 +114,9 @@ bool StopVideoRecording()
 
 void RecordFrame(void *pBuffer, int width, int height)
 {
+  if ( !pBuffer )
+    return;
+
   DWORD *pbFlipped = (DWORD*)((DWORD)pFlipped + width*(height-1)*4);
   BYTE  *pbSrc     = (BYTE*)pBuffer;
   DWORD dwEnd      = (DWORD)pBuffer + width*height;

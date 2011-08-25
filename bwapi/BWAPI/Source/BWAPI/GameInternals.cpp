@@ -831,10 +831,13 @@ namespace BWAPI
         }
       }*/
     } // pathdebug
-    if ( !this->isPaused() )
+    if ( !this->isPaused()  && 
+          recordingStarted  && 
+          pVidBuffer        && 
+          recordingUpdated )
     {
-      if ( recordingStarted )
-        RecordFrame(pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+      recordingUpdated = false;
+      RecordFrame(pVidBuffer, 640, 480);
     }
 #endif
     setTextSize(); // Reset text size
@@ -2170,7 +2173,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/record")
     {
-      if ( !StartVideoRecording("test.avi", BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht) )
+      if ( !StartVideoRecording("test.avi", 640, 480) )
         MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
     }
     else if (parsed[0] == "/stop")

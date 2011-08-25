@@ -561,7 +561,6 @@ SDrawGetObjects(
 /*  SDrawGetScreenSize @ 348
  *  
  *  Obtains information for the current screen resolution.
- *  SDrawManualInitialize or created in SDrawAutoInitialize.
  *
  *  pdwWidth:   Optional variable that receives the screen width.
  *  pdwHeight:  Optional variable that receives the screen height.

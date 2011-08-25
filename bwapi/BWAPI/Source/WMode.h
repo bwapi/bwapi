@@ -44,6 +44,9 @@ extern void*    pBits;
 extern RGBQUAD  palette[256];
 extern bool     wmode;
 
+extern void *pVidBuffer;
+extern bool recordingUpdated;
+
 extern bool switchToWMode;
 extern RECT windowRect;
 
