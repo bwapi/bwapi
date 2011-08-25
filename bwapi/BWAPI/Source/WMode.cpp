@@ -18,6 +18,9 @@ bool gbWantUpdate     = false;
 bool gbIsCursorHidden = true;
 bool gbHoldingAlt     = false;
 
+void *pVidBuffer;
+bool recordingUpdated;
+
 bool switchToWMode = false;
 RECT windowRect    = { 0, 0, 640, 480 };
 
@@ -505,6 +508,21 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
 
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
+  // Recording code to copy data over to a standard buffer,
+  // and also to hide the "Recording" message from the video.
+  if ( recordingStarted && !lpRect && lpSurface )
+  {
+    // Create the buffer if it does not exist
+    if ( !pVidBuffer )
+      pVidBuffer = malloc(640*480);
+    // Copy the buffer data
+    memcpy(pVidBuffer, lpSurface, 640*480);
+    recordingUpdated = true;
+
+    BW::bitmap tmpBmp = { 640, 480, (u8*)lpSurface };
+    BW::BlitText("\x07" "Recording", &tmpBmp, 406, 346, 0);
+  }
+
   if ( !wmode )
   {
     if ( _SDrawUnlockSurfaceOld )
