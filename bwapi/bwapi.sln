@@ -64,6 +64,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PKLib", "PKLib\PKLib.vcproj", "{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Replay_Tool", "Replay_Tool\Replay_Tool.vcproj", "{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551} = {BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -134,6 +139,10 @@ Global
 		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug|Win32.Build.0 = Release|Win32
 		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.ActiveCfg = Release|Win32
 		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.Build.0 = Release|Win32
+		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Debug|Win32.ActiveCfg = Debug|Win32
+		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Debug|Win32.Build.0 = Debug|Win32
+		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.ActiveCfg = Release|Win32
+		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,8 +29,8 @@
 //-----------------------------------------------------------------------------
 // Define calling convention
 
-#define PKEXPORT
-//#define PKEXPORT  __cdecl               // Use for normal __cdecl calling 
+//#define PKEXPORT
+#define PKEXPORT  __cdecl               // Use for normal __cdecl calling 
 //#define PKEXPORT  __stdcall
 //#define PKEXPORT  __fastcall
 
