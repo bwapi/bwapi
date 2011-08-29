@@ -217,5 +217,10 @@ namespace BWAPI
 
       virtual int getReplayID() const;
       virtual BWAPI::Region *getRegion() const;
+      
+      virtual int left() const;
+      virtual int top() const;
+      virtual int right() const;
+      virtual int bottom() const;
   };
 }

@@ -710,5 +710,11 @@ namespace BWAPI
 
     /** Returns the region that this unit is currently in. */
     virtual BWAPI::Region *getRegion() const = 0;
+
+    /** Returns the unit's bounds. */
+    virtual int left() const = 0;
+    virtual int top() const = 0;
+    virtual int right() const = 0;
+    virtual int bottom() const = 0;
   };
 }

@@ -140,8 +140,6 @@ namespace BWAPI
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       delete bulletArray[i];
   }
-  int orespent;
-  int gasspent;
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
@@ -643,60 +641,10 @@ namespace BWAPI
     {
       for each (Unit *_u in BWAPIPlayer->getUnits() )
       {
-        BW::Unit *u = ((UnitImpl*)_u)->getOriginalRawData;
-        if ( u->orderID != BW::OrderID::Repair1 || 
-             u->type()  != UnitTypes::Terran_SCV ||
-             u->orderState < 6   ||
-             !u->orderTargetUnit ||
-             u->worker.repairResourceLossTimer ||
-             _u->getDistance(_u->getOrderTarget()) > 5 )
-          continue;
-
-        BW::Unit *t = u->orderTargetUnit;
-        int topCost = 0;
-        if ( t->type().mineralPrice() && t->type().gasPrice() )
-          topCost = t->type().mineralPrice() < t->type().gasPrice() ? t->type().mineralPrice() : t->type().gasPrice();
-        else if ( t->type().mineralPrice() )
-          topCost = t->type().mineralPrice();
-        else if ( t->type().gasPrice() )
-          topCost = t->type().gasPrice();
-        else
-          continue;
-
-        int  hp     = t->type().maxHitPoints();
-        WORD hpgain = t->hpGainDuringRepair;
-        
-        int repairTime = (3 * hp) / (topCost * hpgain);
-        if ( repairTime )
-        {
-          if ( topCost == t->type().mineralPrice() )
-          {
-            orespent += 1;
-            gasspent += t->type().gasPrice() / t->type().mineralPrice();
-          }
-          else
-          {
-            gasspent += 1;
-            orespent += t->type().mineralPrice() / t->type().gasPrice();
-          }
-        }
-        else
-        {
-          if ( t->type().mineralPrice() )
-          {
-            int tmp = (t->type().mineralPrice() * hpgain) / (3 * hp);
-            orespent += tmp < 1 ? 1 : tmp;
-          }
-          if ( t->type().gasPrice() )
-          {
-            int tmp = (t->type().gasPrice() * hpgain) / (3 * hp);
-            gasspent += tmp < 1 ? 1 : tmp;
-          }
-
-        }
+        char msg[256];
+        sprintf(msg, "%s%s", _u->isUnderDarkSwarm() ? "isUnderDarkSwarm\n" : "", _u->isUnderDisruptionWeb() ? "isUnderDisruptionWeb" : "");
+        drawTextMap(_u->getPosition().x(), _u->getPosition().y(), msg);
       } // iterate
-
-      drawTextScreen(12, 12, "Ore Spent: %u\nGas Spent: %u", orespent, gasspent);
     } // unitdebug
 
     // pathdebug
@@ -2753,10 +2701,11 @@ namespace BWAPI
       }
       else
       {
-        int startX = (i->_getPosition.x() - i->_getType.dimensionLeft()) / TILE_SIZE;
-        int endX   = (i->_getPosition.x() + i->_getType.dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-        int startY = (i->_getPosition.y() - i->_getType.dimensionUp())   / TILE_SIZE;
-        int endY   = (i->_getPosition.y() + i->_getType.dimensionDown()  + TILE_SIZE - 1) / TILE_SIZE;
+        /* @TODO: Assign using getUnitsInRectangle */
+        int startX = i->left() / TILE_SIZE;
+        int endX   = (i->right() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+        int startY = i->top() / TILE_SIZE;
+        int endY   = (i->bottom() + TILE_SIZE - 1) / TILE_SIZE;
         for (int x = startX; x < endX && x < Map::getWidth(); ++x)
           for (int y = startY; y < endY && y < Map::getHeight(); ++y)
             unitsOnTileData[x][y].insert(i);
@@ -2876,11 +2825,9 @@ namespace BWAPI
            ut != UnitTypes::Spell_Disruption_Web )
         continue;
 
-      int l = _u->getPosition().x() - ut.dimensionLeft();
-      int r = _u->getPosition().x() + ut.dimensionRight() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      int t = _u->getPosition().y() - ut.dimensionUp();
-      int b = _u->getPosition().y() + ut.dimensionDown() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      for each ( UnitImpl *uInside in this->getUnitsInRectangle(l, t, r, b) )
+      int r = _u->right()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      int b = _u->bottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      for each ( UnitImpl *uInside in this->getUnitsInRectangle(_u->left(), _u->top(), r, b) )
       {
         if ( uInside->getType().isSpell() || uInside->getType().isFlyer() )
           continue;
