@@ -44,6 +44,14 @@ namespace BWAPI
     }
     //-------------------------------------------- UNIT FINDER -----------------------------------------------
     template <class finder>
+    int getUnitFinderIndex(const finder *uf, int value, int start = 0)
+    {
+      unsigned int i = start;
+      while ( uf[i].searchValue < value && uf[i].unitIndex && i < 1700*2 )
+        ++i;
+      return i;
+    }
+/*    template <class finder>
     int getUnitFinderMinimum(const finder *uf, int min)
     {
       unsigned int i = 0;
@@ -62,7 +70,7 @@ namespace BWAPI
         ++i;
 
       return i;
-    }
+    }*/
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
     template <class GameImpl, class PlayerImpl, class UnitImpl>
     bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
@@ -131,10 +139,10 @@ namespace BWAPI
                  !iterType.isFlyer()    &&
                  !u->isLoaded()         &&
                  u != builder           &&
-                 u->getPosition().x() + iterType.dimensionRight() >= targetX - type.dimensionLeft()  &&
-                 u->getPosition().y() + iterType.dimensionDown()  >= targetY - type.dimensionUp()    &&
-                 u->getPosition().x() - iterType.dimensionLeft()  <= targetX + type.dimensionRight() &&
-                 u->getPosition().y() - iterType.dimensionUp()    <= targetY + type.dimensionDown() )
+                 u->left()    <= targetX + type.dimensionRight()  &&
+                 u->top()     <= targetY + type.dimensionDown()   &&
+                 u->right()   >= targetX - type.dimensionLeft()   &&
+                 u->bottom()  >= targetY - type.dimensionUp()  )
             {
               if ( !type.isAddon() )
                 return false;
@@ -923,37 +931,22 @@ namespace BWAPI
   }
   //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
   template <class UnitImpl>
-  int computeDistance(const Unit* a, const Unit* b)
+  int computeDistance(const Unit* src, const Unit* targ)
   {
-    if ( a == b || !a || !b ) return 0;
-    UnitType thisType = a->getType();
-    UnitType targType = b->getType();
-    int ux = a->getPosition().x();
-    int uy = a->getPosition().y();
-    int tx = b->getPosition().x();
-    int ty = b->getPosition().y();
-    
-    int uLeft       = ux - thisType.dimensionLeft();
-    int uTop        = uy - thisType.dimensionUp();
-    int uRight      = ux + thisType.dimensionRight() + 1;
-    int uBottom     = uy + thisType.dimensionDown() + 1;
+    if ( src == targ || !src || !targ )
+      return 0;
 
-    int targLeft    = tx - targType.dimensionLeft();
-    int targTop     = ty - targType.dimensionUp();
-    int targRight   = tx + targType.dimensionRight() + 1;
-    int targBottom  = ty + targType.dimensionDown() + 1;
-    
-    int xDist = uLeft - targRight;
+    int xDist = src->left() - (targ->right() + 1);
     if ( xDist < 0 )
     {
-      xDist = targLeft - uRight;
+      xDist = targ->left() - (src->right() + 1);
       if ( xDist < 0 )
         xDist = 0;
     }
-    int yDist = uTop - targBottom;
+    int yDist = src->top() - (targ->bottom() + 1);
     if ( yDist < 0 )
     {
-      yDist = targTop - uBottom;
+      yDist = targ->top() - (src->bottom() + 1);
       if ( yDist < 0 )
         yDist = 0;
     }
@@ -961,36 +954,22 @@ namespace BWAPI
   }
   //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
   template <class UnitImpl>
-  int computeDistance(const Unit* a, Position b)
+  int computeDistance(const Unit* src, Position targ)
   {
-    if ( !a ) return 0;
-    UnitType thisType = a->getType();
-    int ux = a->getPosition().x();
-    int uy = a->getPosition().y();
-    int tx = b.x();
-    int ty = b.y();
-    
-    int uLeft       = ux - thisType.dimensionLeft();
-    int uTop        = uy - thisType.dimensionUp();
-    int uRight      = ux + thisType.dimensionRight() + 1;
-    int uBottom     = uy + thisType.dimensionDown() + 1;
+    if ( !src )
+      return 0;
 
-    int targLeft    = tx;
-    int targTop     = ty;
-    int targRight   = tx + 1;
-    int targBottom  = ty + 1;
-    
-    int xDist = uLeft - targRight;
+    int xDist = src->left() - (targ.x() + 1);
     if ( xDist < 0 )
     {
-      xDist = targLeft - uRight;
+      xDist = targ.x() - (src->right() + 1);
       if ( xDist < 0 )
         xDist = 0;
     }
-    int yDist = uTop - targBottom;
+    int yDist = src->top() - (targ.y() + 1);
     if ( yDist < 0 )
     {
-      yDist = targTop - uBottom;
+      yDist = targ.y() - (src->bottom() + 1);
       if ( yDist < 0 )
         yDist = 0;
     }

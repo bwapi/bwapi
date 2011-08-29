@@ -231,6 +231,11 @@ namespace BWAPI
 
       virtual BWAPI::Region *getRegion() const;
 
+      virtual int left() const;
+      virtual int top() const;
+      virtual int right() const;
+      virtual int bottom() const;
+
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
                u16 index);

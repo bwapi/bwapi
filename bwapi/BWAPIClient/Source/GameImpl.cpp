@@ -289,10 +289,11 @@ namespace BWAPI
     }
     foreach(UnitImpl* u, accessibleUnits)
     {
-      int startX = (u->getPosition().x() - u->getType().dimensionLeft()) / TILE_SIZE;
-      int endX   = (u->getPosition().x() + u->getType().dimensionRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-      int startY = (u->getPosition().y() - u->getType().dimensionUp()) / TILE_SIZE;
-      int endY   = (u->getPosition().y() + u->getType().dimensionDown() + TILE_SIZE - 1) / TILE_SIZE;
+      /* @TODO: Assign using getUnitsInRectangle */
+      int startX = u->left() / TILE_SIZE;
+      int endX   = (u->right() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+      int startY = u->top() / TILE_SIZE;
+      int endY   = (u->bottom() + TILE_SIZE - 1) / TILE_SIZE;
       for (int x = startX; x < endX && x < mapWidth(); x++)
         for (int y = startY; y < endY && y < mapHeight(); y++)
           unitsOnTileData[x][y].insert(u);
@@ -527,6 +528,7 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
     static std::set<Unit*> unitFinderResults;
+    static DWORD g_dwFinderFlags[1701] = { 0 };
     static int lastLeft   = -1;
     static int lastRight  = -1;
     static int lastTop    = -1;
@@ -540,29 +542,80 @@ namespace BWAPI
     lastRight   = right;
     lastBottom  = bottom;
     lastFrame   = data->frameCount;
+
+    // Clear the set
     unitFinderResults.clear();
 
-    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
-    bool useY = data->mapWidth < data->mapHeight;
-    unitFinder *finder = useY ? data->yUnitSearch : data->xUnitSearch;
+    if ( right < left )
+      std::swap<int>(left, right);
+    if ( bottom < top )
+      std::swap<int>(left, right);
 
-    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, useY ? top : left);
-    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, useY ? bottom : right, minFind);
+    // Declare some variables
+    int r = right, b = bottom;
+    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
+    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
 
-    bool checked[1701] = { false };
-    for ( int i = minFind; i < maxFind; ++i )
+    // Check if the location is smaller than the largest unit
+    if ( isWidthExtended )
+      r += UnitTypes::maxUnitWidth();
+    if ( isHeightExtended )
+      b += UnitTypes::maxUnitHeight();
+
+    // Localize the finder pointers
+    const unitFinder *finder_X = data->xUnitSearch;
+    const unitFinder *finder_Y = data->yUnitSearch;
+
+    // Obtain finder indexes for all bounds
+    int iLeft   = Templates::getUnitFinderIndex<unitFinder>(finder_X, left);
+    int iTop    = Templates::getUnitFinderIndex<unitFinder>(finder_Y, top);
+    int iRight  = Templates::getUnitFinderIndex<unitFinder>(finder_X, r + 1, iLeft);
+    int iBottom = Templates::getUnitFinderIndex<unitFinder>(finder_Y, b + 1, iTop);
+
+    // Iterate the X entries of the finder
+    for ( int x = iLeft; x < iRight; ++x )
     {
-      int unitID = finder[i].unitIndex;
-      if ( checked[unitID] )
+      int iUnitIndex = finder_X[x].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] == 1 )
         continue;
-
-      checked[unitID] = true;
-      Unit *u = Broodwar->getUnit(unitID);
-      Position p = u->getPosition();
-      if ( !u || !u->exists() || (useY ? (p.x() < left || p.x() > right) : (p.y() < top || p.y() > bottom)) )
-        continue;
-      unitFinderResults.insert(u);
+      if ( isWidthExtended )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->left() <= right )
+          g_dwFinderFlags[iUnitIndex] = 1;
+      }
+      else
+        g_dwFinderFlags[iUnitIndex] = 1;
     }
+    // Iterate the Y entries of the finder
+    for ( int y = iTop; y < iBottom; ++y )
+    {
+      int iUnitIndex = finder_Y[y].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] != 1 )
+        continue;
+      if ( isHeightExtended )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->top() <= bottom )
+          g_dwFinderFlags[iUnitIndex] = 2;
+      }
+      else
+        g_dwFinderFlags[iUnitIndex] = 2;
+    }
+    // Final Iteration
+    for ( int x = iLeft; x < iRight; ++x )
+    {
+      int iUnitIndex = finder_X[x].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] == 2 )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->exists() )
+          unitFinderResults.insert(u);
+      }
+      // Reset finderFlags so it can be reused without incident
+      g_dwFinderFlags[iUnitIndex] = 0;
+    }
+    // Return results
     return unitFinderResults;
   }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
@@ -574,6 +627,7 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius) const
   {
     static std::set<Unit*> unitFinderResults;
+    static DWORD g_dwFinderFlags[1701] = { 0 };
     static Position lastPosition = Positions::Invalid;
     static int lastRadius        = -1;
     static int lastFrame         = -1;
@@ -585,26 +639,76 @@ namespace BWAPI
     lastFrame     = data->frameCount;
     unitFinderResults.clear();
 
-    // Use the finder whos dimension is larger; less units are iterated if they are spread equally over the map
-    bool useY = data->mapWidth < data->mapHeight;
-    unitFinder *finder = useY ? data->yUnitSearch : data->xUnitSearch;
+    int left    = center.x() - radius;
+    int top     = center.y() - radius;
+    int right   = center.x() + radius;
+    int bottom  = center.y() + radius;
 
-    int minFind = Templates::getUnitFinderMinimum<unitFinder>(finder, (useY ? center.y() : center.x()) - radius);
-    int maxFind = Templates::getUnitFinderMaximum<unitFinder>(finder, (useY ? center.y() : center.x()) + radius, minFind);
+    // Declare some variables
+    int r = right, b = bottom;
+    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
+    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
 
-    bool checked[1701] = { false };
-    for ( int i = minFind; i < maxFind; ++i )
+    // Check if the location is smaller than the largest unit
+    if ( isWidthExtended )
+      r += UnitTypes::maxUnitWidth();
+    if ( isHeightExtended )
+      b += UnitTypes::maxUnitHeight();
+
+    // Localize the finder pointers
+    const unitFinder *finder_X = data->xUnitSearch;
+    const unitFinder *finder_Y = data->yUnitSearch;
+
+    // Obtain finder indexes for all bounds
+    int iLeft   = Templates::getUnitFinderIndex<unitFinder>(finder_X, left);
+    int iTop    = Templates::getUnitFinderIndex<unitFinder>(finder_Y, top);
+    int iRight  = Templates::getUnitFinderIndex<unitFinder>(finder_X, r + 1, iLeft);
+    int iBottom = Templates::getUnitFinderIndex<unitFinder>(finder_Y, b + 1, iTop);
+
+    // Iterate the X entries of the finder
+    for ( int x = iLeft; x < iRight; ++x )
     {
-      int unitID = finder[i].unitIndex;
-      if ( checked[unitID] )
+      int iUnitIndex = finder_X[x].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] == 1 )
         continue;
-
-      checked[unitID] = true;
-      Unit *u = Broodwar->getUnit(unitID);
-      if ( !u || !u->exists() || center.getApproxDistance(u->getPosition()) > radius )
-        continue;
-      unitFinderResults.insert(u);
+      if ( isWidthExtended )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->left() <= right )
+          g_dwFinderFlags[iUnitIndex] = 1;
+      }
+      else
+        g_dwFinderFlags[iUnitIndex] = 1;
     }
+    // Iterate the Y entries of the finder
+    for ( int y = iTop; y < iBottom; ++y )
+    {
+      int iUnitIndex = finder_Y[y].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] != 1 )
+        continue;
+      if ( isHeightExtended )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->top() <= bottom )
+          g_dwFinderFlags[iUnitIndex] = 2;
+      }
+      else
+        g_dwFinderFlags[iUnitIndex] = 2;
+    }
+    // Final Iteration
+    for ( int x = iLeft; x < iRight; ++x )
+    {
+      int iUnitIndex = finder_X[x].unitIndex;
+      if ( g_dwFinderFlags[iUnitIndex] == 2 )
+      {
+        Unit *u = Broodwar->getUnit(iUnitIndex);
+        if ( u && u->exists() && center.getApproxDistance(u->getPosition()) <= radius )
+          unitFinderResults.insert(u);
+      }
+      // Reset finderFlags so it can be reused without incident
+      g_dwFinderFlags[iUnitIndex] = 0;
+    }
+    // Return results
     return unitFinderResults;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------

@@ -576,8 +576,9 @@ namespace BWAPI
 
       unitFinder     *xf   = data->xUnitSearch;
       unitFinder     *yf   = data->yUnitSearch;
-      BW::unitFinder *bwxf = BW::BWDATA_UnitOrderingX;
-      BW::unitFinder *bwyf = BW::BWDATA_UnitOrderingY;
+      const BW::unitFinder *bwxf = BW::BWDATA_UnitOrderingX;
+      const BW::unitFinder *bwyf = BW::BWDATA_UnitOrderingY;
+
       for ( int i = 0; i < UNIT_ARRAY_MAX_LENGTH*2 && (bwxf->unitIndex > 0 || bwyf->unitIndex > 0); ++i, bwxf++, bwyf++ )
       {
         if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= 1700 )

@@ -292,6 +292,9 @@ namespace BWAPI
      * For example, UnitTypes::getUnitType("Terran Marine") will return UnitTypes::Terran_Marine. */
     UnitType getUnitType(std::string name);
 
+    int maxUnitWidth();
+    int maxUnitHeight();
+
     /** Returns the set of all the UnitTypes. */
     const std::set<UnitType>& allUnitTypes();
 

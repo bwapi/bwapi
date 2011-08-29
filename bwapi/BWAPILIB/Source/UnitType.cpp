@@ -211,6 +211,8 @@ namespace BWAPI
   std::map<std::string, UnitType> unitTypeMap;
   std::set< UnitType > unitTypeSet;
   std::set< UnitType > macroTypeSet;
+  int maxWidth;
+  int maxHeight;
   namespace UnitTypes
   {
     const UnitType Terran_Marine(0);
@@ -895,6 +897,13 @@ namespace BWAPI
         std::string name(i.getName());
         fixName(&name);
         unitTypeMap.insert(std::make_pair(name, i));
+
+        int wid = i.dimensionLeft() + i.dimensionRight()  + 1;
+        int hgt = i.dimensionUp()   + i.dimensionDown()   + 1;
+        if ( wid > maxWidth )
+          maxWidth = wid;
+        if ( hgt > maxHeight )
+          maxHeight = hgt;
       }
       foreach(UnitType i, macroTypeSet)
       {
@@ -1254,4 +1263,13 @@ namespace BWAPI
   {
     return macroTypeSet;
   }
+  int UnitTypes::maxUnitWidth()
+  {
+    return maxWidth;
+  }
+  int UnitTypes::maxUnitHeight()
+  {
+    return maxWidth;
+  }
+
 }
