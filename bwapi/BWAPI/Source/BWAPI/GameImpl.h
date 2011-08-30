@@ -326,6 +326,7 @@ namespace BWAPI
       
       int drawShapes();
       void processEvents();
+      Unit *_unitFromIndex(int index);
     private :
       HMODULE hAIModule;
       HMODULE hTournamentModule;

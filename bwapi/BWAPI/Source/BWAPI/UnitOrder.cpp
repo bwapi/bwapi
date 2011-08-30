@@ -26,7 +26,7 @@ namespace BWAPI
   //--------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
   bool UnitImpl::canIssueCommand(UnitCommand command) const
   {
-    return Templates::canIssueCommand<class GameImpl, class PlayerImpl, class UnitImpl>(this,command);
+    return Templates::canIssueCommand(this,command);
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
   bool UnitImpl::issueCommand(UnitCommand command)
