@@ -74,6 +74,7 @@ namespace BWAPI
       void onMatchEnd();
       void onMatchFrame();
       const GameData* getGameData() const;
+      Unit *_unitFromIndex(int index);
 
       virtual std::set< Force* >& getForces();
       virtual std::set< Player* >& getPlayers();

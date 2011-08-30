@@ -462,6 +462,12 @@ namespace BWAPI
     return connectedUnits;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
+  const Unit *unitsInRadius_Unit;
+  int unitsInRadius_Radius;
+  bool __fastcall BWAPI_unitRadiusIterator_callback(Unit *uIterator)
+  {
+    return ((UnitImpl*)uIterator)->canAccess() && unitsInRadius_Unit != uIterator && unitsInRadius_Unit->getDistance(uIterator) <= unitsInRadius_Radius;
+  }
   std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
   {
     // Initialize static variables
@@ -473,79 +479,58 @@ namespace BWAPI
     if ( !exists() )
       return unitFinderResults;
 
-    // Declare some variables
+    // Set rectangular values
     int left    = this->left()    - radius;
     int top     = this->top()     - radius;
     int right   = this->right()   + radius;
     int bottom  = this->bottom()  + radius;
 
-    int r = right, b = bottom;
-    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
-    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
+    // Store the data we are comparing found units to
+    unitsInRadius_Unit    = this;
+    unitsInRadius_Radius  = radius;
 
-    // Check if the location is smaller than the largest unit
-    if ( isWidthExtended )
-      r += UnitTypes::maxUnitWidth();
-    if ( isHeightExtended )
-      b += UnitTypes::maxUnitHeight();
-
-    // Localize the finder pointers
-    const BW::unitFinder *finder_X = BW::BWDATA_UnitOrderingX;
-    const BW::unitFinder *finder_Y = BW::BWDATA_UnitOrderingY;
-
-    // Obtain finder indexes for all bounds
-    int iLeft   = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, left);
-    int iTop    = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, top);
-    int iRight  = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, r + 1, iLeft);
-    int iBottom = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, b + 1, iTop);
-
-    // Iterate the X entries of the finder
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 1 )
-        continue;
-      if ( isWidthExtended )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        if ( u && u->left() <= right )
-          g_dwFinderFlags[iUnitIndex] = 1;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 1;
-    }
-    // Iterate the Y entries of the finder
-    for ( int y = iTop; y < iBottom; ++y )
-    {
-      int iUnitIndex = finder_Y[y].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] != 1 )
-        continue;
-      if ( isHeightExtended )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        if ( u && u->top() <= bottom )
-          g_dwFinderFlags[iUnitIndex] = 2;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 2;
-    }
-    // Final Iteration
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 2 )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        if ( u && u->canAccess() && u != this && this->getDistance(u) <= radius )
-          unitFinderResults.insert(u);
-      }
-      // Reset finderFlags so it can be reused without incident
-      g_dwFinderFlags[iUnitIndex] = 0;
-    }
+    // Have the unit finder do its stuff
+    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
+                                                BW::BWDATA_UnitOrderingY, 
+                                                g_dwFinderFlags, 
+                                                left, 
+                                                top, 
+                                                right, 
+                                                bottom,
+                                                &BWAPI_unitRadiusIterator_callback,
+                                                unitFinderResults);
     // Return results
     return unitFinderResults;
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
+  const Unit *unitsInWpnRange_Unit;
+  WeaponType unitsInWpnRange_Wpn;
+  int unitsInWpnRange_Max;
+  bool __fastcall BWAPI_unitInWpnRange_callback(Unit *uIterator)
+  {
+    // Unit check and unit status
+    if ( uIterator == unitsInWpnRange_Unit || !((UnitImpl*)uIterator)->canAccess() || uIterator->isInvincible() )
+      return false;
+
+    // Weapon distance check
+    int dist = unitsInWpnRange_Unit->getDistance(uIterator);
+    if ( (unitsInWpnRange_Wpn.minRange() && dist < unitsInWpnRange_Wpn.minRange()) || dist > unitsInWpnRange_Max )
+      return false;
+
+    // Weapon behavioural checks
+    UnitType ut = uIterator->getType();
+    if ( (( unitsInWpnRange_Wpn.targetsOwn()          && uIterator->getPlayer() != unitsInWpnRange_Unit->getPlayer() ) ||
+          ( !unitsInWpnRange_Wpn.targetsAir()         && (!uIterator->isLifted() && !ut.isFlyer()) ) ||
+          ( !unitsInWpnRange_Wpn.targetsGround()      && (uIterator->isLifted() || ut.isFlyer())   ) ||
+          ( unitsInWpnRange_Wpn.targetsMechanical()   && ut.isMechanical()                 ) ||
+          ( unitsInWpnRange_Wpn.targetsOrganic()      && ut.isOrganic()                    ) ||
+          ( unitsInWpnRange_Wpn.targetsNonBuilding()  && !ut.isBuilding()                  ) ||
+          ( unitsInWpnRange_Wpn.targetsNonRobotic()   && !ut.isRobotic()                   ) ||
+          ( unitsInWpnRange_Wpn.targetsOrgOrMech()    && (ut.isOrganic() || ut.isMechanical()) ))  )
+      return false;
+
+    return true;
+  }
   std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
   {
     // Initialize static variables
@@ -557,102 +542,29 @@ namespace BWAPI
     if ( !exists() )
       return unitFinderResults;
 
-    // Localize the finder pointers
-    const BW::unitFinder *finder_X = BW::BWDATA_UnitOrderingX;
-    const BW::unitFinder *finder_Y = BW::BWDATA_UnitOrderingY;
+    int max = getPlayer()->weaponMaxRange(weapon);
 
     // Declare some variables
-    int wpnMax  = getPlayer()->weaponMaxRange(weapon);
-    int wpnMin  = weapon.minRange();
-    int left    = this->left()    - wpnMax;
-    int top     = this->top()     - wpnMax;
-    int right   = this->right()   + wpnMax;
-    int bottom  = this->bottom()  + wpnMax;
+    int left    = this->left()    - max;
+    int top     = this->top()     - max;
+    int right   = this->right()   + max;
+    int bottom  = this->bottom()  + max;
 
-    int r = right, b = bottom;
-    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
-    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
+    // Store the data we are comparing found units to
+    unitsInWpnRange_Unit = this;
+    unitsInWpnRange_Max  = max;
+    unitsInWpnRange_Wpn  = weapon;
 
-    // Check if the location is smaller than the largest unit
-    if ( isWidthExtended )
-      r += UnitTypes::maxUnitWidth();
-    if ( isHeightExtended )
-      b += UnitTypes::maxUnitHeight();
-
-    // Obtain finder indexes for all bounds
-    int iLeft   = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, left);
-    int iTop    = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, top);
-    int iRight  = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, r + 1, iLeft);
-    int iBottom = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, b + 1, iTop);
-
-    // Iterate the X entries of the finder (for MAX range)
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 1 )
-        continue;
-      if ( isWidthExtended )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        if ( u && u->left() <= right )
-          g_dwFinderFlags[iUnitIndex] = 1;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 1;
-    }
-    // Iterate the Y entries of the finder (for MAX range)
-    for ( int y = iTop; y < iBottom; ++y )
-    {
-      int iUnitIndex = finder_Y[y].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] != 1 )
-        continue;
-      if ( isHeightExtended )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        if ( u && u->top() <= bottom )
-          g_dwFinderFlags[iUnitIndex] = 2;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 2;
-    }
-
-    // Final Iteration
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 2 )
-      {
-        UnitImpl *u = BroodwarImpl.unitArray[iUnitIndex-1];
-        // Unit checks
-        if ( u && 
-             u->canAccess() && 
-             u != this &&
-             !u->isInvincible() )
-        {
-          int dist = this->getDistance(u);
-          // Distance checks
-          if ( dist >= wpnMin && 
-               dist <= wpnMax )
-          {
-            UnitType ut = u->getType();
-            // Weapon checks
-            if ( !(( weapon.targetsOwn()          && u->getPlayer() != getPlayer()     ) ||
-                   ( !weapon.targetsAir()         && (!u->isLifted() && !ut.isFlyer()) ) ||
-                   ( !weapon.targetsGround()      && (u->isLifted() || ut.isFlyer())   ) ||
-                   ( weapon.targetsMechanical()   && ut.isMechanical()                 ) ||
-                   ( weapon.targetsOrganic()      && ut.isOrganic()                    ) ||
-                   ( weapon.targetsNonBuilding()  && !ut.isBuilding()                  ) ||
-                   ( weapon.targetsNonRobotic()   && !ut.isRobotic()                   ) ||
-                   ( weapon.targetsOrgOrMech()    && (ut.isOrganic() || ut.isMechanical()) ))  )
-            {
-              unitFinderResults.insert(u);
-            }
-          }
-        }
-      }
-      // Reset finderFlags so it can be reused without incident
-      g_dwFinderFlags[iUnitIndex] = 0;
-    }
+    // Have the unit finder do its stuff
+    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
+                                                BW::BWDATA_UnitOrderingY, 
+                                                g_dwFinderFlags, 
+                                                left, 
+                                                top, 
+                                                right, 
+                                                bottom,
+                                                &BWAPI_unitInWpnRange_callback,
+                                                unitFinderResults);
     // Return results
     return unitFinderResults;
   }

@@ -18,7 +18,7 @@ namespace BWAPI
       { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
       { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 }
     };
-    template <class UnitImpl>
+    template < class UnitImpl >
     bool hasPower(int x, int y, UnitType unitType, const std::set<UnitImpl*> &pylons)
     {
       if ( unitType >= 0 && unitType < UnitTypes::None && (!unitType.requiresPsi() || !unitType.isBuilding()) )
@@ -42,6 +42,13 @@ namespace BWAPI
       }
       return false;
     }
+    //---------------------------------------------- GENERAL -------------------------------------------------
+    template <class _T>
+    void swapIfLarger(_T &smaller, _T &larger)
+    {
+      if ( smaller > larger )
+        std::swap<_T>(smaller, larger);
+    }
     //-------------------------------------------- UNIT FINDER -----------------------------------------------
     template <class finder>
     int getUnitFinderIndex(const finder *uf, int value, int start = 0)
@@ -51,29 +58,79 @@ namespace BWAPI
         ++i;
       return i;
     }
-/*    template <class finder>
-    int getUnitFinderMinimum(const finder *uf, int min)
-    {
-      unsigned int i = 0;
-      while ( uf[i].searchValue < min && uf[i].unitIndex && i < 3400 )
-        ++i;
-
-      if ( uf[i].unitIndex <= 0 ) // no units were found on the horizontal plane
-        return -1; // no results
-      return i;
-    }
+    
     template <class finder>
-    int getUnitFinderMaximum(const finder *uf, int max, int startIndex)
+    void manageUnitFinder(finder *finder_x, finder *finder_y, DWORD *pdwFinderFlags, int left, int top, int right, int bottom, bool (__fastcall *callback)(Unit *uIterator), std::set<Unit*> &finderSet)
     {
-      unsigned int i = startIndex;
-      while ( uf[i].searchValue < max && uf[i].unitIndex && i < 3400 )
-        ++i;
+      // Clear the set
+      finderSet.clear();
 
-      return i;
-    }*/
+      Templates::swapIfLarger<int>(left, right);
+      Templates::swapIfLarger<int>(top, bottom);
+
+      // Declare some variables
+      int r = right, b = bottom;
+      bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
+      bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
+
+      // Check if the location is smaller than the largest unit
+      if ( isWidthExtended )
+        r += UnitTypes::maxUnitWidth();
+      if ( isHeightExtended )
+        b += UnitTypes::maxUnitHeight();
+
+      // Obtain finder indexes for all bounds
+      int iLeft   = Templates::getUnitFinderIndex<finder>(finder_x, left);
+      int iTop    = Templates::getUnitFinderIndex<finder>(finder_y, top);
+      int iRight  = Templates::getUnitFinderIndex<finder>(finder_x, r + 1, iLeft);
+      int iBottom = Templates::getUnitFinderIndex<finder>(finder_y, b + 1, iTop);
+
+      // Iterate the X entries of the finder
+      for ( int x = iLeft; x < iRight; ++x )
+      {
+        int iUnitIndex = finder_x[x].unitIndex;
+        if ( pdwFinderFlags[iUnitIndex] == 1 )
+          continue;
+        if ( isWidthExtended )
+        {
+          Unit *u = ((GameImpl*)Broodwar)->_unitFromIndex(iUnitIndex);
+          if ( u && u->left() <= right )
+            pdwFinderFlags[iUnitIndex] = 1;
+        }
+        else
+          pdwFinderFlags[iUnitIndex] = 1;
+      }
+      // Iterate the Y entries of the finder
+      for ( int y = iTop; y < iBottom; ++y )
+      {
+        int iUnitIndex = finder_y[y].unitIndex;
+        if ( pdwFinderFlags[iUnitIndex] != 1 )
+          continue;
+        if ( isHeightExtended )
+        {
+          Unit *u = ((GameImpl*)Broodwar)->_unitFromIndex(iUnitIndex);
+          if ( u && u->top() <= bottom )
+            pdwFinderFlags[iUnitIndex] = 2;
+        }
+        else
+          pdwFinderFlags[iUnitIndex] = 2;
+      }
+      // Final Iteration
+      for ( int x = iLeft; x < iRight; ++x )
+      {
+        int iUnitIndex = finder_x[x].unitIndex;
+        if ( pdwFinderFlags[iUnitIndex] == 2 )
+        {
+          Unit *u = ((GameImpl*)Broodwar)->_unitFromIndex(iUnitIndex);
+          if ( u && u->exists() && callback(u) )
+            finderSet.insert(u);
+        }
+        // Reset finderFlags so it can be reused without incident
+        pdwFinderFlags[iUnitIndex] = 0;
+      }
+    }
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
-    template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
+    static inline bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
     {
       Broodwar->setLastError(Errors::Unbuildable_Location);
       int width  = type.tileWidth();
@@ -202,8 +259,7 @@ namespace BWAPI
       return Broodwar->setLastError(Errors::None);
     }
     //------------------------------------------- CAN MAKE ---------------------------------------------------
-    template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canMake(const Unit* builder, UnitType type)
+    static inline bool canMake(const Unit* builder, UnitType type)
     {
       /* Error checking */
       Broodwar->setLastError(Errors::None);
@@ -322,8 +378,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN RESEARCH -----------------------------------------------
-    template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canResearch(const Unit* unit, TechType type)
+    static inline bool canResearch(const Unit* unit, TechType type)
     {
       /* Error checking */
       Broodwar->setLastError(Errors::None);
@@ -356,8 +411,7 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN UPGRADE ------------------------------------------------
-    template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canUpgrade(const Unit* unit, UpgradeType type)
+    static inline bool canUpgrade(const Unit* unit, UpgradeType type)
     {
       Broodwar->setLastError(Errors::None);
       Player *self = Broodwar->self();
@@ -436,8 +490,7 @@ namespace BWAPI
     }
 
     //------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
-    template <class GameImpl, class PlayerImpl, class UnitImpl>
-    bool canIssueCommand(const Unit* thisUnit, UnitCommand c)
+    static inline bool canIssueCommand(const Unit* thisUnit, UnitCommand c)
     {
       c.unit = (Unit*)thisUnit;
       BWAPI::UnitCommandType ct = c.type;
@@ -563,7 +616,7 @@ namespace BWAPI
           if (thisUnit->getLarva().empty())
             return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
           UnitImpl *larva = (UnitImpl*)(*thisUnit->getLarva().begin());
-          return canIssueCommand<GameImpl,PlayerImpl,UnitImpl>( larva, UnitCommand::train(larva,uType) );
+          return canIssueCommand( larva, UnitCommand::train(larva,uType) );
         }
       }
       if ( UnitCommandTypes::Build       == ct ||

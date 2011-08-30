@@ -358,8 +358,15 @@ namespace BWAPI
       return this->emptySet;
     return unitsOnTileData[x][y];
   }
-
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
+  Unit *GameImpl::_unitFromIndex(int index)
+  {
+    return this->unitArray[index-1];
+  }
+  bool __fastcall BWAPI_squareIterator_callback(Unit *uIterator)
+  {
+    return ((UnitImpl*)uIterator)->canAccess();
+  }
   std::set<Unit*> &GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
     // Initialize static variables
@@ -381,78 +388,16 @@ namespace BWAPI
     lastBottom  = bottom;
     lastFrame   = this->frameCount;
 
-    // Clear the set
-    unitFinderResults.clear();
-
-    if ( right < left )
-      std::swap<int>(left, right);
-    if ( bottom < top )
-      std::swap<int>(left, right);
-
-    // Declare some variables
-    int r = right, b = bottom;
-    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
-    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
-
-    // Check if the location is smaller than the largest unit
-    if ( isWidthExtended )
-      r += UnitTypes::maxUnitWidth();
-    if ( isHeightExtended )
-      b += UnitTypes::maxUnitHeight();
-
-    // Localize the finder pointers
-    const BW::unitFinder *finder_X = BW::BWDATA_UnitOrderingX;
-    const BW::unitFinder *finder_Y = BW::BWDATA_UnitOrderingY;
-
-    // Obtain finder indexes for all bounds
-    int iLeft   = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, left);
-    int iTop    = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, top);
-    int iRight  = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, r + 1, iLeft);
-    int iBottom = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, b + 1, iTop);
-
-    // Iterate the X entries of the finder
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 1 )
-        continue;
-      if ( isWidthExtended )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->left() <= right )
-          g_dwFinderFlags[iUnitIndex] = 1;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 1;
-    }
-    // Iterate the Y entries of the finder
-    for ( int y = iTop; y < iBottom; ++y )
-    {
-      int iUnitIndex = finder_Y[y].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] != 1 )
-        continue;
-      if ( isHeightExtended )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->top() <= bottom )
-          g_dwFinderFlags[iUnitIndex] = 2;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 2;
-    }
-    // Final Iteration
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 2 )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->canAccess() )
-          unitFinderResults.insert(u);
-      }
-      // Reset finderFlags so it can be reused without incident
-      g_dwFinderFlags[iUnitIndex] = 0;
-    }
+    // Have the unit finder do its stuff
+    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
+                                                BW::BWDATA_UnitOrderingY, 
+                                                g_dwFinderFlags, 
+                                                left, 
+                                                top, 
+                                                right, 
+                                                bottom,
+                                                &BWAPI_squareIterator_callback,
+                                                unitFinderResults);
     // Return results
     return unitFinderResults;
   }
@@ -462,6 +407,12 @@ namespace BWAPI
     return getUnitsInRectangle(topLeft.x(),topLeft.y(),bottomRight.x(),bottomRight.y());
   }
   //--------------------------------------------- GET UNITS IN RADIUS ----------------------------------------
+  BWAPI::Position unitsInRadius_compare;
+  int             unitsInRadius_radius;
+  bool __fastcall BWAPI_radiusIterator_callback(Unit *uIterator)
+  {
+    return ((UnitImpl*)uIterator)->canAccess() && uIterator->getDistance(unitsInRadius_compare) <= unitsInRadius_radius;
+  }
   std::set<Unit*> &GameImpl::getUnitsInRadius(Position center, int radius) const
   {
     // Initialize static variables
@@ -479,78 +430,26 @@ namespace BWAPI
     lastRadius    = radius;
     lastFrame     = this->frameCount;
 
+    // Set rectangular values
     int left    = center.x() - radius;
     int top     = center.y() - radius;
     int right   = center.x() + radius;
     int bottom  = center.y() + radius;
 
-    // Clear the set
-    unitFinderResults.clear();
+    // Store the data we are comparing found units to
+    unitsInRadius_compare = center;
+    unitsInRadius_radius  = radius;
 
-    // Declare some variables
-    int r = right, b = bottom;
-    bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
-    bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
-
-    // Check if the location is smaller than the largest unit
-    if ( isWidthExtended )
-      r += UnitTypes::maxUnitWidth();
-    if ( isHeightExtended )
-      b += UnitTypes::maxUnitHeight();
-
-    // Localize the finder pointers
-    const BW::unitFinder *finder_X = BW::BWDATA_UnitOrderingX;
-    const BW::unitFinder *finder_Y = BW::BWDATA_UnitOrderingY;
-
-    // Obtain finder indexes for all bounds
-    int iLeft   = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, left);
-    int iTop    = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, top);
-    int iRight  = Templates::getUnitFinderIndex<BW::unitFinder>(finder_X, r + 1, iLeft);
-    int iBottom = Templates::getUnitFinderIndex<BW::unitFinder>(finder_Y, b + 1, iTop);
-
-    // Iterate the X entries of the finder
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 1 )
-        continue;
-      if ( isWidthExtended )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->left() <= right )
-          g_dwFinderFlags[iUnitIndex] = 1;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 1;
-    }
-    // Iterate the Y entries of the finder
-    for ( int y = iTop; y < iBottom; ++y )
-    {
-      int iUnitIndex = finder_Y[y].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] != 1 )
-        continue;
-      if ( isHeightExtended )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->top() <= bottom )
-          g_dwFinderFlags[iUnitIndex] = 2;
-      }
-      else
-        g_dwFinderFlags[iUnitIndex] = 2;
-    }
-    // Final Iteration
-    for ( int x = iLeft; x < iRight; ++x )
-    {
-      int iUnitIndex = finder_X[x].unitIndex;
-      if ( g_dwFinderFlags[iUnitIndex] == 2 )
-      {
-        UnitImpl *u = unitArray[iUnitIndex-1];
-        if ( u && u->canAccess() && center.getApproxDistance(u->getPosition()) <= radius )
-          unitFinderResults.insert(u);
-      }
-      // Reset finderFlags so it can be reused without incident
-      g_dwFinderFlags[iUnitIndex] = 0;
-    }
+    // Have the unit finder do its stuff
+    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
+                                                BW::BWDATA_UnitOrderingY, 
+                                                g_dwFinderFlags, 
+                                                left, 
+                                                top, 
+                                                right, 
+                                                bottom,
+                                                &BWAPI_radiusIterator_callback,
+                                                unitFinderResults);
     // Return results
     return unitFinderResults;
   }
@@ -685,22 +584,22 @@ namespace BWAPI
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
   bool GameImpl::canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
   {
-    return Templates::canBuildHere<class GameImpl, class PlayerImpl, class UnitImpl>(builder,position,type,checkExplored);
+    return Templates::canBuildHere(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool GameImpl::canMake(const Unit* builder, UnitType type)
   {
-    return Templates::canMake<class GameImpl, class PlayerImpl, class UnitImpl>(builder,type);
+    return Templates::canMake(builder,type);
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
   bool GameImpl::canResearch(const Unit* unit, TechType type)
   {
-    return Templates::canResearch<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
+    return Templates::canResearch(unit,type);
   }
   //--------------------------------------------- CAN UPGRADE ------------------------------------------------
   bool GameImpl::canUpgrade(const Unit* unit, UpgradeType type)
   {
-    return Templates::canUpgrade<class GameImpl, class PlayerImpl, class UnitImpl>(unit,type);
+    return Templates::canUpgrade(unit,type);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   std::set< TilePosition >& GameImpl::getStartLocations()
