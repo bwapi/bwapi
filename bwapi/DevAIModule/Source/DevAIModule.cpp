@@ -28,6 +28,7 @@ void DevAIModule::onEnd(bool isWinner)
 }
 
 DWORD dwLastTickCount;
+bool testunload;
 void DevAIModule::onFrame()
 {
   if ( bw->isReplay() )
@@ -36,13 +37,10 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  for each ( Bullet *b in bw->getBullets() )
+  for each ( Unit *u in self->getUnits() )
   {
-    if ( b && b->exists() )
-    {
-      bw->drawTextMap(b->getPosition().x(), b->getPosition().y(), "%cO", b->getPlayer() ? b->getPlayer()->getTextColor() : 2);
-      bw->drawTextMap(b->getPosition().x(), b->getPosition().y(), "%cX", b->getPlayer() ? b->getPlayer()->getTextColor() : 2);
-    }
+    if ( u->getType().spaceProvided() && u->getLoadedUnits().size() )
+      bw->printf("%s", u->unloadAll() ? "true" : "false");
   }
 }
 

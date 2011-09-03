@@ -54,9 +54,11 @@ namespace BWAPI
   //---------------------------------------------- IS VALID --------------------------------------------------
   bool Position::isValid() const
   {
-    if ( !Broodwar )
+    if ( _x < 0 || _y < 0 )
       return false;
-    return (_x >= 0 && _y >= 0 && _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32);
+    if ( !Broodwar )
+      return true;
+    return _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32;
   }
   Position::operator bool() const
   {

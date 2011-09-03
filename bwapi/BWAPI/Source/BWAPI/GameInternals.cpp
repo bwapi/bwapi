@@ -624,12 +624,19 @@ namespace BWAPI
 
       // draw mtx grid
       for ( int y = scrPos.y()/32; y < (scrPos.y() + BW::BWDATA_GameScreenBuffer->ht)/32 + 1; ++y )
+      {
         for ( int x = scrPos.x()/32; x < (scrPos.x() + BW::BWDATA_GameScreenBuffer->wid)/32 + 1; ++x )
+        {
           for ( int i = 0; i < 32; i += 4 )
           {
             drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
             drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
           }
+        }
+      }
+      setTextSize(0);
+      drawTextScreen(64, 300, "\x04" "(%u, %u)", (scrPos.x()+this->getMousePosition().x())/32, (scrPos.y()+this->getMousePosition().y())/32);
+      setTextSize();
     } // grid
 #ifdef _DEBUG
     if ( !data->hasGUI )
