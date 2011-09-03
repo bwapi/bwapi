@@ -122,7 +122,7 @@ namespace BW
     case 14: // Control (used for when a control has been pressed)
       switch(evt->dwUser)
       {
-      case 0: // Update
+      case 0: // Update/Create
         break;
       case 1: // Kill
         break;
