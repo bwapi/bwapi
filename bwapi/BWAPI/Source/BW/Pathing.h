@@ -96,9 +96,9 @@ namespace BW
     contour *contours[4];
     u16     contourCount[4];
     u16     contourMax[4];
-    s16     unk_20[4];
+    s16     searchInner[4];
     s16     unk_28[4];
-    s16     unk_30[4];
+    s16     searchOuter[4];
   };
 
   struct split
