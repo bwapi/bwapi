@@ -458,16 +458,14 @@ namespace BW
     // Iterate all characters in the message
     for ( int c = 0; pbChars[c]; ++c )
     {
-      // make sure char is valid, and perform control character functions
-      if ( pbChars[c] == 1 )
-      {
-        color = lastColor;
-        continue;
-      }
-      else if ( pbChars[c] < 33 )
+      // Perform control character and whitespace functions
+      if ( pbChars[c] <= ' ' )
       {
         switch ( pbChars[c] )
         {
+        case 1:
+          color = lastColor;
+          continue;
         case 9:
           Xoffset += font->Xmax * 2;
           continue;
@@ -501,7 +499,7 @@ namespace BW
       }
 
       // Skip if the character is not supported by the font
-      if ( pbChars[c] > font->high || pbChars[c] < font->low)
+      if ( pbChars[c] > font->high || pbChars[c] < font->low )
         continue;
 
       // localize character pointer
@@ -509,28 +507,32 @@ namespace BW
       if ( chr == (fntChr*)font )
         continue;
 
-      // begin drawing character process
-      int pos = 0;
-      for ( int i = 0; pos < chr->h * chr->w; ++i )
+      if ( color != -1 )
       {
-        pos += chr->data[i] >> 3;
-        // Calculate some offsets to verify that the pixel being plotted is within the 2D target bounds
-        int newX = Xoffset + (chr->x + pos % chr->w);
-        int newY = Yoffset + (chr->y + pos / chr->w);
+        // begin drawing character process
+        for ( int i = 0, pos = 0; pos < chr->h * chr->w; ++i, ++pos )
+        {
+          // font position
+          pos += chr->data[i] >> 3;
 
-        // Calculate the actual target offset
-        int offset = newY * dst->wid + newX;
+          // x offset
+          int newX = Xoffset + (chr->x + pos % chr->w);
+          if ( newX >= dst->wid ) break;
+          if ( newX < 0 ) continue;
 
-        // Plot the pixel if it's within the target's bounds
-        if ( offset > 0 &&
-             offset < dst->wid * dst->ht && 
-             color < 24 && 
-             newX > 0 && 
-             newX < dst->wid && 
-             newY > 0 && 
-             newY < dst->ht )
+          // y offset
+          int newY = Yoffset + (chr->y + pos / chr->w);
+          if ( newY >= dst->ht ) break;
+          if ( newY < 0 ) continue;
+
+          // blit offset
+          int offset = newY * dst->wid + newX;
+          if ( offset >= dst->wid * dst->ht ) break;
+          if ( offset < 0 ) continue;
+
+          // Plot pixel
           dst->data[offset] = bFontColors[color][chr->data[i] & 0x07];
-        pos++;
+        }
       }
       Xoffset += chr->w;
     }
