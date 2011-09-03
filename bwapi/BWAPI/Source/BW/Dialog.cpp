@@ -452,13 +452,13 @@ namespace BW
     // Reference an unsigned character array
     const BYTE *pbChars = (BYTE*)pszString;
 
-    char lastColor = 0;
-    char color     = 0;
-    int  Xoffset   = 0;
-    int  Yoffset   = 0;
+    char lastColor = 0, color   = 0;
+    int  Xoffset   = x, Yoffset = y;
+
+    // Iterate all characters in the message
     for ( int c = 0; pbChars[c]; ++c )
     {
-      // make sure char is valid
+      // make sure char is valid, and perform control character functions
       if ( pbChars[c] == 1 )
       {
         color = lastColor;
@@ -472,8 +472,7 @@ namespace BW
           Xoffset += font->Xmax * 2;
           continue;
         case 10:
-          Xoffset += x;
-          Xoffset -= (Xoffset % (dst->wid));
+          Xoffset = x;
           Yoffset += font->Ymax;
           continue;
         case 11:
@@ -492,7 +491,7 @@ namespace BW
           Xoffset += dst->wid / 2 - GetTextWidth(pszString, bSize) / 2 - x;
           continue;
         case ' ':
-          Xoffset += font->Xmax >> 1;
+          Xoffset += font->Xmax / 2;
           continue;
         default:
           lastColor = color;
@@ -501,6 +500,7 @@ namespace BW
         }
       }
 
+      // Skip if the character is not supported by the font
       if ( pbChars[c] > font->high || pbChars[c] < font->low)
         continue;
 
@@ -509,17 +509,27 @@ namespace BW
       if ( chr == (fntChr*)font )
         continue;
 
-      // begin drawing process
+      // begin drawing character process
       int pos = 0;
       for ( int i = 0; pos < chr->h * chr->w; ++i )
       {
         pos += chr->data[i] >> 3;
-        int dstY = chr->y + pos/chr->w;
-        int dstX = chr->x + pos%chr->w;
-        int offs = y * dst->wid + x + Yoffset * dst->wid;
-        int final = offs + (dstY * dst->wid) + dstX + Xoffset;
-        if ( final > 0 && final < dst->wid * dst->ht && color < 24 && (dstX + x + Xoffset) > 0 && (dstX + x + Xoffset) < dst->wid && (dstY + y + Yoffset) > 0 && (dstY + y + Yoffset) < dst->ht )
-          dst->data[final] = bFontColors[color][chr->data[i] & 0x07];
+        // Calculate some offsets to verify that the pixel being plotted is within the 2D target bounds
+        int newX = Xoffset + (chr->x + pos % chr->w);
+        int newY = Yoffset + (chr->y + pos / chr->w);
+
+        // Calculate the actual target offset
+        int offset = newY * dst->wid + newX;
+
+        // Plot the pixel if it's within the target's bounds
+        if ( offset > 0 &&
+             offset < dst->wid * dst->ht && 
+             color < 24 && 
+             newX > 0 && 
+             newX < dst->wid && 
+             newY > 0 && 
+             newY < dst->ht )
+          dst->data[offset] = bFontColors[color][chr->data[i] & 0x07];
         pos++;
       }
       Xoffset += chr->w;
