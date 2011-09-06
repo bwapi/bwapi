@@ -28,8 +28,8 @@ typedef struct
     unsigned int  in_pos;               // 001C - Position in in_buff
     unsigned long in_bytes;             // 0020 - Number of bytes in input buffer
     void        * param;                // 0024 - Custom parameter
-    unsigned int (*read_buf)(char *buf, unsigned  int *size, void *param); // 0028
-    void         (*write_buf)(char *buf, unsigned  int *size, void *param);// 002C
+    unsigned int (PKEXPORT *read_buf)(char *buf, unsigned  int *size, void *param); // 0028
+    void         (PKEXPORT *write_buf)(char *buf, unsigned  int *size, void *param);// 002C
     unsigned char out_buff[0x2000];     // 0030 - Output circle buffer. Starting position is 0x1000
     unsigned char offs2030[0x204];      // 2030 - ???
     unsigned char in_buff[0x800];       // 2234 - Buffer for data to be decompressed

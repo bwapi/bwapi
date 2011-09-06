@@ -42,8 +42,8 @@
 #endif
 
 unsigned int PKEXPORT implode(
-   unsigned int (*read_buf)(char *buf, unsigned int *size, void *param),
-   void         (*write_buf)(char *buf, unsigned int *size, void *param),
+   unsigned int (PKEXPORT* read_buf)(char *buf, unsigned int *size, void *param),
+   void         (PKEXPORT* write_buf)(char *buf, unsigned int *size, void *param),
    char         *work_buf,
    void         *param,
    unsigned int *type,
@@ -51,8 +51,8 @@ unsigned int PKEXPORT implode(
 
 
 unsigned int PKEXPORT explode(
-   unsigned int (*read_buf)(char *buf, unsigned  int *size, void *param),
-   void         (*write_buf)(char *buf, unsigned  int *size, void *param),
+   unsigned int (PKEXPORT* read_buf)(char *buf, unsigned  int *size, void *param),
+   void         (PKEXPORT* write_buf)(char *buf, unsigned  int *size, void *param),
    char         *work_buf,
    void         *param);
 

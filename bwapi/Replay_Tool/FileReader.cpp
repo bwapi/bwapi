@@ -137,6 +137,45 @@ std::string FileReader::ReadString()
   return str;
 }
 
+std::string FileReader::ReadCString(const char *deliminators)
+{
+  std::string str;
+
+  int len = 0;
+  while ( this->dwOffset + len <= this->dwFileSize && this->pMem[this->dwOffset + len] != 0 )
+  {
+    bool brk = false;
+    for ( int i = 0; deliminators && deliminators[i]; ++i )
+    {
+      if ( this->pMem[this->dwOffset + len] == deliminators[i] )
+        brk = true;
+    }
+    if ( brk )
+      break;
+    ++len;
+  }
+
+  if ( len > 0 && (this->dwOffset + len <= this->dwFileSize || this->dwFileSize - this->dwOffset > 0) )
+  {
+    if ( this->dwOffset + len <= this->dwFileSize )
+    {
+      str.assign((char*)&this->pMem[this->dwOffset], len);
+      this->dwOffset += len;
+    }
+    else
+      str.assign((char*)&this->pMem[this->dwOffset], this->dwFileSize - this->dwOffset);
+  }
+  else
+  {
+    str = "";
+    if ( this->dwOffset + len <= this->dwFileSize )
+      this->dwOffset++;
+  }
+  if ( this->dwOffset + len > this->dwFileSize )
+    this->eof = true;
+  return str;
+}
+
 DWORD FileReader::GetSize()
 {
   return this->dwFileSize;
