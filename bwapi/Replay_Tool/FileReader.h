@@ -31,6 +31,7 @@ public:
   void Read(void *pBuffer, DWORD dwSize);
   int         Read7BitEncodedInt();
   std::string ReadString();
+  std::string ReadCString(const char *deliminators = NULL);
   DWORD       GetSize();
   //FileReader  Decompress(DWORD dwCompressedSize, DWORD dwDecompressedSize);  // Requires XNA header
 private:

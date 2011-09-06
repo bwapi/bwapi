@@ -38,6 +38,7 @@ bool FileWriter::Error(const char *pszMsg)
 bool FileWriter::Open(const char *pszFilename)
 {
   // Open the file handle
+  this->Close();
   this->hFile = CreateFile(pszFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
   if ( this->hFile == INVALID_HANDLE_VALUE )
     return this->Error();

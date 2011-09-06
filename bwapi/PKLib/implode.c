@@ -39,8 +39,8 @@ typedef struct
     unsigned short offs09AE;            // 09AE : 
 
     void         * param;               // 09B0 : User parameter
-    unsigned int (*read_buf)(char *buf, unsigned int *size, void *param);  // 9B4
-    void         (*write_buf)(char *buf, unsigned int *size, void *param); // 9B8
+    unsigned int (PKEXPORT *read_buf)(char *buf, unsigned int *size, void *param);  // 9B4
+    void         (PKEXPORT *write_buf)(char *buf, unsigned int *size, void *param); // 9B8
 
     unsigned short offs09BC[0x204];     // 09BC :
     unsigned long  offs0DC4;            // 0DC4 : 
