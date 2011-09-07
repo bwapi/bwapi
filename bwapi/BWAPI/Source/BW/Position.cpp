@@ -2,6 +2,7 @@
 #include "TilePosition.h"
 
 #include <math.h>
+#include <algorithm>
 #include <BWAPI/Constants.h>
 
 #include "Offsets.h"
@@ -57,16 +58,14 @@ namespace BW
     unsigned int min = abs(x - position.x);
     unsigned int max = abs(y - position.y);
     if ( max < min )
-    {
-      unsigned int temp = min;
-      min = max;
-      max = temp;
-    }
+      std::swap<unsigned int>(min,max);
+
     if ( min < (max >> 2) )
       return max;
 
-    int minCalc = (3*min) >> 3;
+    unsigned int minCalc = (3*min) >> 3;
     return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
+    // Simplifies to (99*min + 236*max)/256;
   }
   region *Position::getRegion() const
   {

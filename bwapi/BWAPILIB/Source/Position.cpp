@@ -4,6 +4,7 @@
 #include <BWAPI/Game.h>
 
 #include <math.h>
+#include <algorithm>
 
 #include "../../Debug.h"
 
@@ -116,16 +117,14 @@ namespace BWAPI
     unsigned int min = abs(_x - position.x());
     unsigned int max = abs(_y - position.y());
     if ( max < min )
-    {
-      unsigned int temp = min;
-      min = max;
-      max = temp;
-    }
+      std::swap<unsigned int>(min,max);
+
     if ( min < (max >> 2) )
       return max;
 
-    int minCalc = (3*min) >> 3;
+    unsigned int minCalc = (3*min) >> 3;
     return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
+    // Simplifies to (99*min + 236*max)/256;
   }
   //----------------------------------------------------------------------------------------------------------
   double Position::getLength() const

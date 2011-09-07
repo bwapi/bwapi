@@ -45,30 +45,64 @@ namespace BW
 {
   struct Path
   {
-    Position start;   // 0
-    Position next;    // 4
-    Position finish;  // 8
-    u32 timeStarted;  // 12
-    u32 unitID;       // 16
-    u32 unitUnknown_0x38_0x3C_copy;   /* Starcraft copies field 0x38 of the unit    // 20
-                                         if the unit's flingy movement type is 0,
-                                         otherwise it will copy field 0x3C
-                                      */
-    u8  isCalculating;  // 24   1 if the path is being calculated and not yet ready
-    u8  pathDelay;      // 25   Delay before a new path is created
-    u8  unk_1A;         // 26   unknown flag?
-    u8  pathCount;      // 27   dup of num_areas?
-    u8  num_areas;      // 28   Official name
-    u8  cur_area;       // 29
-    u8  num_segments;   // 30   Official name
-    u8  cur_segment;    // 31
-    Position steps[1];  // 32   sc allocates 96 bytes here? 
+    /* 0x00 */Position start;   // 0
+    /* 0x04 */Position next;    // 4
+    /* 0x08 */Position finish;  // 8
+    /* 0x0C */u32 timeStarted;  // 12
+    /* 0x10 */u32 unitID;       // 16
+    /* 0x14 */u32 unitUnknown_0x38_0x3C_copy;   /* Starcraft copies field 0x38 of the unit    // 20
+                                                   if the unit's flingy movement type is 0,
+                                                   otherwise it will copy field 0x3C
+                                                */
+    /* 0x18 */u8  isCalculating;  // 24   1 if the path is being calculated and not yet ready
+    /* 0x19 */u8  pathDelay;      // 25   Delay before a new path is created
+    /* 0x1A */u8  unk_1A;         // 26   unknown flag?
+    /* 0x1B */u8  pathCount;      // 27   dup of num_areas?
+    /* 0x1C */u8  num_areas;      // 28   Official name, number of regions following the segments
+    /* 0x1D */u8  cur_area;       // 29   The current region index
+    /* 0x1E */u8  num_segments;   // 30   Official name, number of Position segments
+    /* 0x1F */u8  cur_segment;    // 31   The current position segment
+    /* 0x20 */Position steps[1];  // 32
   }; 
   
   // note: u16 areas[num_areas] follow after steps[num_segments]
   // The last entry of the above struct can be viewed as follows:
   // Position steps[num_segments];
   // u16      regions[num_areas];  // region ID for SAI_Paths->regions; typically fills the rest of the struct with region IDs to the destination, and cut off if there isn't enough room
+
+
+  struct pathCreate
+  {
+    /* 0x000 */BW::Unit *pUnit;
+    /* 0x004 */Position src;
+    /* 0x008 */Position dst;
+    /* 0x00C */DWORD    dw__0C;
+    /* 0x010 */DWORD    dw__10;
+    /* 0x014 */DWORD    dw__14;
+    /* 0x018 */DWORD    dw__18;
+    /* 0x01C */BYTE     b__1C;
+    /* 0x01D */BYTE     b__1D;
+    /* 0x01E */BYTE     b__1E;
+    /* 0x01F */BYTE     b__1F;
+    /* 0x020 */WORD     wAreas[50];
+    /* 0x084 */WORD     cur_area;
+    /* 0x086 */WORD     num_areas;
+    /* 0x088 */Position segments[50];
+    /* 0x150 */WORD     cur_segment;
+    /* 0x152 */WORD     num_segments;
+    /* 0x154 */BYTE     b__154;
+    /* 0x155 */BYTE     b__155;
+    /* 0x156 */BYTE     b__156;
+    /* 0x157 */BYTE     b__157;
+    /* 0x158 */Position boundsTopLeft;
+    /* 0x15C */Position boundsBotRight;
+    /* 0x160 */WORD     w__160;
+    /* 0x162 */WORD     w__162;
+    /* 0x164 */WORD     w__164;
+    /* 0x166 */WORD     w__166;
+    /* 0x168 */WORD     w__168;
+    /* 0x16A */WORD     w__16A;
+  };
 
   char *getMoveStateName(u8 bMoveState);
 };
