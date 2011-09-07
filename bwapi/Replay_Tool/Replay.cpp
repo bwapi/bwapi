@@ -87,7 +87,7 @@ bool ParseReplay(const char *pszFilename, DWORD dwFlags)
       sprintf(szTmp, "Fixed replay with %u frames. Desired: %u frames.", replayHeader.dwFrameCount, g_dwHighestFrame);
       MessageBox(NULL, szTmp, "Fixed", 0);
 
-      replayHeader.dwFrameCount = g_dwHighestFrame + 10;
+      //replayHeader.dwFrameCount = g_dwHighestFrame + 10;
     }
 
     FileWriter fw;

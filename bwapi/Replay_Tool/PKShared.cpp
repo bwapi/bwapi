@@ -123,13 +123,13 @@ void CompressWrite(void *pInput, size_t inputSize, FileWriter &fw)
 
     unsigned int dwType = 0;
     unsigned int dwImplSize = 0x400;
-    if ( implode(&read_buf, &write_buf, bWorkBuff, &params, &dwType, &dwImplSize) || params.dwWritePos >= dwWriteSize )
+    if ( implode(&read_buf, &write_buf, bWorkBuff2, &params, &dwType, &dwImplSize) || params.dwWritePos >= dwWriteSize )
     {
       if ( !dwWriteSize )
         return;
       fw.Write<DWORD>(dwWriteSize);
-      fw.WriteRaw(params.pCompressedData, dwWriteSize);
-      dwPos += 0x2000;
+      fw.WriteRaw(&_pInput[dwPos], dwWriteSize);
+      dwPos += dwWriteSize;
     }
     else
     {
@@ -137,7 +137,7 @@ void CompressWrite(void *pInput, size_t inputSize, FileWriter &fw)
         return;
       fw.Write<DWORD>(params.dwWritePos);
       fw.WriteRaw(bSegment, params.dwWritePos);
-      dwPos += 0x2000;
+      dwPos += dwWriteSize;
     }
 
     
