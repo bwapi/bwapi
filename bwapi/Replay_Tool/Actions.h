@@ -8,6 +8,138 @@ void ParseActions(FileReader &fr);
 
 namespace Actions
 {
+  static const char *pszGroupType[] =
+  {
+    "Save",
+    "Recall",
+    "Add"
+  };
+
+  static const char *pszGameSpeed[] =
+  {
+    "Slowest",
+    "Slower",
+    "Slow",
+    "Normal",
+    "Fast",
+    "Faster",
+    "Fastest"
+  };
+
+  static const char *pszLatency[] =
+  {
+    "Low",
+    "High",
+    "Extra High"
+  };
+
+  static const char *pszLeaveType[] =
+  {
+    "Quit",
+    "Defeat",
+    "Victory",
+    "Finished",
+    "Draw",
+    "Dropped"
+  };
+
+  static const char *pszActionNames[] =
+  {
+    "Public Chat",
+    "Private Chat",
+    "Null Chat",
+    "0x03",
+    "0x04",
+    "Keep Alive",
+    "Save Game",
+    "Load Game",
+    "Restart Game",
+    "Select",
+    "Shift Select",
+    "Shift Deselect",
+    "Placebox",
+    "Set Fog",
+    "Set Allies",
+    "Set Speed",
+    "Pause",
+    "Unpause",
+    "Use Cheat",
+    "Group Units",
+    "Right Click",
+    "Target Click",
+    "0x16",
+    "0x17",
+    "Cancel Construction",
+    "Cancel Morph",
+    "Stop",
+    "Carrier Stop",
+    "Reaver Stop",
+    "Nothing",
+    "Return Cargo",
+    "Train",
+    "Cancel Train",
+    "Cloak",
+    "Decloak",
+    "Morph Unit",
+    "0x24",
+    "Unsiege",
+    "Siege",
+    "Build Fighter",
+    "Unload All",
+    "Exit Transport",
+    "Merge Archon",
+    "Hold Position",
+    "Burrow",
+    "Unburrow",
+    "Cancel Nuke",
+    "Lift Off",
+    "Research",
+    "Cancel Research",
+    "Upgrade",
+    "Cancel Upgrade",
+    "Cancel Addon",
+    "Morph Building",
+    "Use Stimpack",
+    "Game Synchronization",
+    "Voice On",
+    "Voice Off",
+    "Voice Squelch",
+    "Voice Unsquelch",
+    "[Lobby]Start Game",
+    "[Lobby]Set Download Progress",
+    "[Lobby]Set Slot Data (Host)",
+    "[Lobby]Ask Version",
+    "[Lobby]Confirm Version",
+    "[Lobby]Set Race",
+    "[Lobby]Set Force (Melee)",
+    "[Lobby]Set Force (UMS)",
+    "[Lobby]Set Slot",
+    "[Lobby]Swap Players",
+    "[Lobby]0x46",
+    "[Lobby]0x47",
+    "[Lobby]Set Game Seed",
+    "[Lobby]Request Info",
+    "[Lobby]Set Force Data",
+    "[Lobby]Set Force Names",
+    "[Lobby]Chat",
+    "[Lobby]Chat2",
+    "[Lobby]Boot Player",
+    "[Lobby]File Transfer",
+    "[Result]OK",
+    "[Result]Network Error",
+    "[Result]Unknown",
+    "[Result]Briefing Started",
+    "Skip Briefing",
+    "Set Latency",
+    "Set Replay Speed",
+    "Leave Game",
+    "Minimap Ping",
+    "0x59",
+    "Dark Archon Meld",
+    "Make Game Public",
+    "Chat"
+  };
+
   enum Enum
   {
     Chat_Public,
@@ -102,7 +234,8 @@ namespace Actions
     z__0x59,
     Summon_Dark_Archon,
     Set_Public_Game,
-    Chat_Replay
+    Chat_Replay,
+    Max
   };
   
 };

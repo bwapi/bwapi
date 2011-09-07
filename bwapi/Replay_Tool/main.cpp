@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include <BWAPI.h>
+
 #include "Replay.h"
 
 int Usage()
@@ -19,6 +21,8 @@ int Usage()
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+  BWAPI::BWAPI_init();
+
   char *pOpts = strchr(lpCmdLine, '-');
   size_t cmdSize = strlen(lpCmdLine);
   if ( !pOpts || cmdSize < 4 )
