@@ -694,5 +694,26 @@ namespace BW
   };
   extern activeTile        *BWDATA_ActiveTileArray;
   extern SAI_Paths         *BWDATA_SAIPathing;
+
+  // EXPERIMENTAL
+  //static int (__stdcall *BWFXN_getTileDistance)(int x, int y, int x2, int y2) = (int (__stdcall*)(int,int,int,int))0x00444100;
+  
+  struct baseLocation
+  {
+    /* 0x00 */BW::Position position;
+    /* 0x04 */BYTE  mineralClusters;
+    /* 0x05 */BYTE  gasGeysers;
+    /* 0x06 */BYTE  isStartLocation; // The "base" is actually a Start Location
+    /* 0x07 */BYTE  bFlags;
+                    /*  0x01 - This base is currently occupied.
+                        0x02 - An AI script has acquired this base as an expansion.
+                    */
+    /* 0x08 */DWORD remainingMinerals;
+    /* 0x0C */DWORD remainingGas;
+    /* 0x10 */DWORD unk_10[8];
+  };
+
+  // 250 entries max
+  //static baseLocation *BWDATA_Bases = (baseLocation*)0x00692688;
 };
 #pragma pack()
