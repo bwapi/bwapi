@@ -119,6 +119,8 @@ namespace BW
     u16        globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
     contourHub *contours;             // 0x97A1C
   };
+
+  bool isCollidingWithContour(contourHub *hub, int x, int y, int left, int top, int right, int bottom);
 }
 
 #pragma pack()
