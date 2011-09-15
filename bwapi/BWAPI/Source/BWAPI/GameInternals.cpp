@@ -646,12 +646,21 @@ namespace BWAPI
     // unitdebug
     if ( unitDebug && BWAPIPlayer )
     {
-      for each (Unit *_u in BWAPIPlayer->getUnits() )
-      {
-        char msg[256];
-        sprintf(msg, "%s%s", _u->isUnderDarkSwarm() ? "isUnderDarkSwarm\n" : "", _u->isUnderDisruptionWeb() ? "isUnderDisruptionWeb" : "");
-        drawTextMap(_u->getPosition().x(), _u->getPosition().y(), msg);
-      } // iterate
+      BWAPI::Color c = Colors::Red;
+      int x = this->getMousePosition().x() + this->getScreenPosition().x();
+      int y = this->getMousePosition().y() + this->getScreenPosition().y();
+      if ( BW::isCollidingWithContour(BW::BWDATA_SAIPathing->contours, 
+                                  x,
+                                  y,
+                                  UnitTypes::Terran_Marine.dimensionLeft(),
+                                  UnitTypes::Terran_Marine.dimensionUp(),
+                                  UnitTypes::Terran_Marine.dimensionRight(),
+                                  UnitTypes::Terran_Marine.dimensionDown()) )
+         c = Colors::Green;
+      drawBoxMap(x - UnitTypes::Terran_Marine.dimensionLeft(),
+                                  y - UnitTypes::Terran_Marine.dimensionUp(),
+                                  x + UnitTypes::Terran_Marine.dimensionRight(),
+                                  y + UnitTypes::Terran_Marine.dimensionDown(), c);
     } // unitdebug
 
     // pathdebug
