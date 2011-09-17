@@ -97,7 +97,7 @@ namespace BWAPI
     inGame = false;
     startLocations.clear();
     forces.clear();
-    players.clear();
+    playerSet.clear();
     bullets.clear();
     accessibleUnits.clear();
     minerals.clear();
@@ -129,9 +129,9 @@ namespace BWAPI
     for(int i = 0; i < 12; ++i)
       playerVector[i].units.clear();
 
-    foreach( Region *r, regions )
+    foreach( Region *r, regionsList )
       delete ((RegionImpl*)r);
-    regions.clear();
+    regionsList.clear();
     memset(this->regionArray, 0, sizeof(this->regionArray));
   }
   const GameData* GameImpl::getGameData() const
@@ -148,7 +148,7 @@ namespace BWAPI
     for(int i = 0; i < data->forceCount; ++i)
       forces.insert(&forceVector[i]);
     for(int i = 0; i < data->playerCount; ++i)
-      players.insert(&playerVector[i]);
+      playerSet.insert(&playerVector[i]);
     for(int i = 0; i < data->initialUnitCount; ++i)
     {
       accessibleUnits.insert(&unitVector[i]);
@@ -163,7 +163,7 @@ namespace BWAPI
     for ( int i = 0; i < data->regionCount; ++i )
     {
       this->regionArray[i] = new RegionImpl(i);
-      regions.insert(this->regionArray[i]);
+      regionsList.insert(this->regionArray[i]);
     }
     for ( int i = 0; i < data->regionCount; ++i )
       this->regionArray[i]->setNeighbors();
@@ -178,7 +178,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player* p, players)
+      foreach(Player* p, playerSet)
       {
         // check if the player should not be updated
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -267,7 +267,7 @@ namespace BWAPI
       else if (data->events[e].type==EventType::UnitRenegade)
       {
         Unit* u = &unitVector[id];
-        for each(PlayerImpl *p in players)
+        for each(PlayerImpl *p in playerSet)
           p->units.erase(u);
         ((PlayerImpl*)u->getPlayer())->units.insert(u);
       }
@@ -322,7 +322,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player* p, players)
+      foreach(Player* p, playerSet)
       {
         // check if player should be skipped
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -338,66 +338,6 @@ namespace BWAPI
           _observers.insert(p);
       }
     }
-  }
-  //------------------------------------------------- GET FORCES ---------------------------------------------
-  std::set< Force* >& GameImpl::getForces()
-  {
-    return forces;
-  }
-  //------------------------------------------------- GET PLAYERS --------------------------------------------
-  std::set< Player* >& GameImpl::getPlayers()
-  {
-    return players;
-  }
-  //------------------------------------------------- GET ALL UNITS ------------------------------------------
-  std::set< Unit* >& GameImpl::getAllUnits()
-  {
-    return accessibleUnits;
-  }
-  //------------------------------------------------- GET MINERALS -------------------------------------------
-  std::set< Unit* >& GameImpl::getMinerals()
-  {
-    return minerals;
-  }
-  //------------------------------------------------- GET GEYSERS --------------------------------------------
-  std::set< Unit* >& GameImpl::getGeysers()
-  {
-    return geysers;
-  }
-  //------------------------------------------------- GET NEUTRAL UNITS --------------------------------------
-  std::set< Unit* >& GameImpl::getNeutralUnits()
-  {
-    return neutralUnits;
-  }
-  //------------------------------------------------- GET STATIC MINERALS ------------------------------------
-  std::set< Unit* >& GameImpl::getStaticMinerals()
-  {
-    return staticMinerals;
-  }
-  //------------------------------------------------- GET STATIC GEYSERS -------------------------------------
-  std::set< Unit* >& GameImpl::getStaticGeysers()
-  {
-    return staticGeysers;
-  }
-  //------------------------------------------------- GET STATIC NEUTRAL UNITS -------------------------------
-  std::set< Unit* >& GameImpl::getStaticNeutralUnits()
-  {
-    return staticNeutralUnits;
-  }
-  //------------------------------------------------ GET BULLETS ---------------------------------------------
-  std::set< Bullet* >& GameImpl::getBullets()
-  {
-    return bullets;
-  }
-  //------------------------------------------------ GET NUKE DOTS -------------------------------------------
-  std::set< Position >& GameImpl::getNukeDots()
-  {
-    return nukeDots;
-  }
-  //------------------------------------------------ GET EVENTS ----------------------------------------------
-  std::list< Event >& GameImpl::getEvents()
-  {
-    return events;
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
@@ -468,21 +408,25 @@ namespace BWAPI
   //---------------------------------------------- GET MOUSE STATE -------------------------------------------
   bool GameImpl::getMouseState(MouseButton button)
   {
-    return data->mouseState[(int)button];
+    return getMouseState((int)button);
   }
   //---------------------------------------------- GET MOUSE STATE -------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
+    if ( button < 0 || button >= M_MAX )
+      return false;
     return data->mouseState[button];
   }
   //----------------------------------------------- GET KEY STATE --------------------------------------------
   bool GameImpl::getKeyState(Key key)
   {
-    return data->keyState[key];
+    return getKeyState((int)key);
   }
   //----------------------------------------------- GET KEY STATE --------------------------------------------
   bool GameImpl::getKeyState(int key)
   {
+    if ( key < 0 || key >= K_MAX )
+      return false;
     return data->keyState[key];
   }
   //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
@@ -513,14 +457,16 @@ namespace BWAPI
   //----------------------------------------------- IS FLAG ENABLED ------------------------------------------
   bool GameImpl::isFlagEnabled(int flag)
   {
-    if (flag<0 || flag>=2) return false;
+    if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
+      return false;
     return data->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
   void GameImpl::enableFlag(int flag)
   {
-    if (flag<0 || flag>=2) return;
-    if (data->flags[flag]==false)
+    if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
+      return;
+    if ( data->flags[flag] == false )
       addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
   }
   //----------------------------------------------- GET UNITS ON TILE ----------------------------------------
@@ -613,19 +559,6 @@ namespace BWAPI
     // Return results
     return unitFinderResults;
   }
-  //----------------------------------------------- GET LAST ERROR -------------------------------------------
-  Error GameImpl::getLastError() const
-  {
-    /* returns the last error encountered in BWAPI */
-    return lastError;
-  }
-  //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-  bool GameImpl::setLastError(BWAPI::Error e)
-  {
-    /* implies that an error has occured */
-    lastError = e;
-    return e == Errors::None;
-  }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
   int GameImpl::mapWidth()
   {
@@ -659,14 +592,14 @@ namespace BWAPI
   //--------------------------------------------- IS WALKABLE ------------------------------------------------
   bool GameImpl::isWalkable(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth*4 || y>=data->mapHeight*4)
+    if ( x < 0 || y < 0 || x >= data->mapWidth*4 || y >= data->mapHeight*4 )
       return 0;
     return data->isWalkable[x][y];
   }
   //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
   int GameImpl::getGroundHeight(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
+    if ( x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight )
       return 0;
     return data->getGroundHeight[x][y];
   }
@@ -682,22 +615,12 @@ namespace BWAPI
       return 0;
     return data->isBuildable[x][y] && ( includeBuildings ? !data->isOccupied[x][y] : true );
   }
-  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(TilePosition position, bool includeBuildings)
-  {
-    return isBuildable(position.x(), position.y(), includeBuildings);
-  }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool GameImpl::isVisible(int x, int y)
   {
     if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
       return 0;
     return data->isVisible[x][y];
-  }
-  //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool GameImpl::isVisible(TilePosition position)
-  {
-    return isVisible(position.x(),position.y());
   }
   //--------------------------------------------- IS EXPLORED ------------------------------------------------
   bool GameImpl::isExplored(int x, int y)
@@ -706,11 +629,6 @@ namespace BWAPI
       return 0;
     return data->isExplored[x][y];
   }
-  //--------------------------------------------- IS EXPLORED ------------------------------------------------
-  bool GameImpl::isExplored(TilePosition position)
-  {
-    return isExplored(position.x(),position.y());
-  }
   //--------------------------------------------- HAS CREEP --------------------------------------------------
   bool GameImpl::hasCreep(int x, int y)
   {
@@ -718,62 +636,10 @@ namespace BWAPI
       return 0;
     return data->hasCreep[x][y];
   }
-  //--------------------------------------------- HAS CREEP --------------------------------------------------
-  bool GameImpl::hasCreep(TilePosition position)
-  {
-    return hasCreep(position.x(),position.y());
-  }
   //--------------------------------------------- HAS POWER --------------------------------------------------
-  bool GameImpl::hasPower(int tileX, int tileY, UnitType unitType) const
-  {
-    if ( unitType >= 0 && unitType < UnitTypes::None )
-      return hasPowerPrecise( tileX*32 + unitType.tileWidth()*16, tileY*32 + unitType.tileHeight()*16, unitType);
-    return hasPowerPrecise( tileX*32, tileY*32, UnitTypes::None);
-  }
-  bool GameImpl::hasPower(TilePosition position, UnitType unitType) const
-  {
-    return hasPower(position.x(), position.y(), unitType);
-  }
-  bool GameImpl::hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType) const
-  {
-    return hasPowerPrecise( tileX*32 + tileWidth*16, tileY*32 + tileHeight*16, unitType);
-  }
-  bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType) const
-  {
-    return hasPower(position.x(), position.y(), tileWidth, tileHeight, unitType);
-  }
   bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
   {
     return Templates::hasPower<Unit>(x, y, unitType, pylons);
-  }
-  bool GameImpl::hasPowerPrecise(Position position, UnitType unitType) const
-  {
-    return hasPowerPrecise(position.x(), position.y(), unitType);
-  }
-  //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
-  bool GameImpl::canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
-  {
-    return Templates::canBuildHere(builder,position,type,checkExplored);
-  }
-  //--------------------------------------------- CAN MAKE ---------------------------------------------------
-  bool GameImpl::canMake(const Unit* builder, UnitType type)
-  {
-    return Templates::canMake(builder,type);
-  }
-  //--------------------------------------------- CAN RESEARCH -----------------------------------------------
-  bool GameImpl::canResearch(const Unit* unit, TechType type)
-  {
-    return Templates::canResearch(unit,type);
-  }
-  //--------------------------------------------- CAN UPGRADE ------------------------------------------------
-  bool GameImpl::canUpgrade(const Unit* unit, UpgradeType type)
-  {
-    return Templates::canUpgrade(unit,type);
-  }
-  //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  std::set< TilePosition >& GameImpl::getStartLocations()
-  {
-    return startLocations;
   }
   //------------------------------------------------ PRINTF --------------------------------------------------
   void GameImpl::printf(const char *format, ...)
@@ -1271,7 +1137,7 @@ namespace BWAPI
   //----------------------------------------------- GET ALL REGIONS ------------------------------------------
   const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
   {
-    return this->regions;
+    return this->regionsList;
   }
   //------------------------------------------------- GET REGION AT ------------------------------------------
   BWAPI::Region *GameImpl::getRegionAt(int x, int y) const

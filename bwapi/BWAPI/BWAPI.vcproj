@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
-				AdditionalIncludeDirectories="../Util/Source;Source;../include"
+				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -466,6 +466,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\GameInternals.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Shared\GameShared.cpp"
 					>
 				</File>
 				<File

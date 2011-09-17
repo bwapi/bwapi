@@ -11,7 +11,7 @@
 #include <BWAPI/Order.h>
 #include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
-#include "BWAPI/TemplatesImpl.h"
+#include <TemplatesImpl.h>
 #include "Command.h"
 #include "DLLMain.h"
 #include "Detours.h"

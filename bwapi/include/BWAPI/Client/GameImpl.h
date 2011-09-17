@@ -37,7 +37,7 @@ namespace BWAPI
       RegionImpl *regionArray[5000];
 
       std::set<Force*> forces;
-      std::set<Player*> players;
+      std::set<Player*> playerSet;
       std::set<Unit*> accessibleUnits;//all units that are accessible (and definitely alive)
       //notDestroyedUnits - accessibleUnits = all units that may or may not be alive (status unknown)
       std::set<Unit*> minerals;
@@ -51,7 +51,7 @@ namespace BWAPI
       std::set<Unit*> selectedUnits;
       std::set<Unit*> pylons;
       std::set<Unit*> unitsOnTileData[256][256];
-      std::set<Region*> regions;
+      std::set<Region*> regionsList;
 
       std::set< TilePosition > startLocations;
       std::list< Event > events;
