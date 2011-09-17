@@ -138,6 +138,32 @@ namespace BWAPI
       return MAXINT;
     return computeDistance<UnitImpl>(this,target);
   }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Unit* target) const
+  {
+    Broodwar->setLastError(Errors::None);
+    if ( !target )
+      return Broodwar->setLastError(Errors::Invalid_Parameter);
+    if ( !target->exists() || !exists() )
+      return Broodwar->setLastError(Errors::Unit_Not_Visible);
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    return Broodwar->hasPath(this->getPosition(), target->getPosition());
+  }
+  //--------------------------------------------- HAS PATH ---------------------------------------------------
+  bool UnitImpl::hasPath(Position target) const
+  {
+    Broodwar->setLastError(Errors::None);
+    if (!exists())
+      return Broodwar->setLastError(Errors::Unit_Not_Visible);
+
+    if ( this->getType().isFlyer() || this->isLifted() )
+      return true;
+
+    return Broodwar->hasPath(this->getPosition(), target);
+  }
   //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
   int UnitImpl::getLastCommandFrame() const
   {

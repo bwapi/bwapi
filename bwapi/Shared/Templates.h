@@ -512,11 +512,11 @@ namespace BWAPI
 
       // Basic header
       Broodwar->setLastError(Errors::None);
-      if (!thisUnit->exists())
-        return Broodwar->setLastError(Errors::Unit_Not_Visible);
-
       if (thisUnit->getPlayer() != Broodwar->self())
         return Broodwar->setLastError(Errors::Unit_Not_Owned);
+
+      if (!thisUnit->exists())
+        return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
 
       // Global can be ordered check
       if ( thisUnit->isLockedDown() || 
