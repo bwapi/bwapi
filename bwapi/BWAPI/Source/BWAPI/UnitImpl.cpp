@@ -59,97 +59,13 @@ namespace BWAPI
   {
     id = newID;
   }
-  //--------------------------------------------- GET ID -----------------------------------------------------
-  int UnitImpl::getID() const
-  {
-    return id;
-  }
-  //--------------------------------------------- GET PLAYER -------------------------------------------------
-  Player* UnitImpl::getPlayer() const
-  {
-    return Broodwar->getPlayer(self->player);
-  }
-  //--------------------------------------------- GET TYPE ---------------------------------------------------
-  UnitType UnitImpl::getType() const
-  {
-    return UnitType(self->type);
-  }
-  //--------------------------------------------- GET POSITION -----------------------------------------------
-  Position UnitImpl::getPosition() const
-  {
-    return Position(self->positionX, self->positionY);
-  }
-  //--------------------------------------------- GET TILE POSITION ------------------------------------------
-  TilePosition UnitImpl::getTilePosition() const
-  {
-    return TilePosition(Position(abs(self->positionX - this->getType().tileWidth()  * TILE_SIZE / 2),
-                                 abs(self->positionY - this->getType().tileHeight() * TILE_SIZE / 2)) );
-  }
-  //--------------------------------------------- GET ANGLE --------------------------------------------------
-  double UnitImpl::getAngle() const
-  {
-    return self->angle;
-  }
-  //--------------------------------------------- GET VELOCITY X ---------------------------------------------
-  double UnitImpl::getVelocityX() const
-  {
-    return self->velocityX;
-  }
-  //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
-  double UnitImpl::getVelocityY() const
-  {
-    return self->velocityY;
-  }
-  //--------------------------------------------- GET HIT POINTS ---------------------------------------------
-  int UnitImpl::getHitPoints() const
-  {
-    return self->hitPoints;
-  }
-  //--------------------------------------------- GET SHIELDS ------------------------------------------------
-  int UnitImpl::getShields() const
-  {
-    return self->shields;
-  }
-  //--------------------------------------------- GET ENERGY -------------------------------------------------
-  int UnitImpl::getEnergy() const
-  {
-    return self->energy;
-  }
-  //--------------------------------------------- GET RESOURCES ----------------------------------------------
-  int UnitImpl::getResources() const
-  {
-    return self->resources;
-  }
-  //--------------------------------------------- GET RESOURCE GROUP -----------------------------------------
-  int UnitImpl::getResourceGroup() const
-  {
-    return self->resourceGroup;
-  }
-  //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitImpl::getDistance(Unit* target) const
-  {
-    if ( !this->exists() || !target || !target->exists() )
-      return MAXINT;
-
-    if (this == target)
-      return 0;
-
-    return computeDistance<UnitImpl>(this,target);
-  }
-  //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitImpl::getDistance(Position target) const
-  {
-    if ( !this->exists() )
-      return MAXINT;
-    return computeDistance<UnitImpl>(this,target);
-  }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit* target) const
   {
     if ( !target )
       return Broodwar->setLastError(Errors::Invalid_Parameter);
 
-    BroodwarImpl.setLastError(Errors::None);
+    Broodwar->setLastError(Errors::None);
     checkAccessBool();
 
     if ( this->getType().isFlyer() || this->isLifted() )
@@ -167,25 +83,6 @@ namespace BWAPI
       return true;
 
     return Broodwar->hasPath(this->getPosition(), target);
-  }
-  //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
-  int UnitImpl::getLastCommandFrame() const
-  {
-    return this->lastCommandFrame;
-  }
-  //--------------------------------------------- GET LAST COMMAND -------------------------------------------
-  UnitCommand UnitImpl::getLastCommand() const
-  {
-    return this->lastCommand;
-  }
-  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
-  {
-    if ( !getPlayer() ||
-        getPlayer()->getUpgradeLevel(upgrade) == 0 ||
-        upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
-      return 0;
-    return getPlayer()->getUpgradeLevel(upgrade);
   }
   //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const
@@ -223,244 +120,6 @@ namespace BWAPI
       return this->staticResources;
     return 0;
   }
-  //--------------------------------------------- GET KILL COUNT ---------------------------------------------
-  int UnitImpl::getKillCount() const
-  {
-    return self->killCount;
-  }
-  //--------------------------------------------- GET ACID SPORE COUNT ---------------------------------------
-  int UnitImpl::getAcidSporeCount() const
-  {
-    return self->acidSporeCount;
-  }
-  //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
-  int UnitImpl::getInterceptorCount() const
-  {
-    if ( this->getType() != UnitTypes::Protoss_Carrier && this->getType() != UnitTypes::Hero_Gantrithor )
-      return 0;
-    return this->connectedUnits.size();
-  }
-  //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
-  int UnitImpl::getScarabCount() const
-  {
-    return self->scarabCount;
-  }
-  //--------------------------------------------- GET SPIDER MINE COUNT --------------------------------------
-  int UnitImpl::getSpiderMineCount() const
-  {
-    return self->spiderMineCount;
-  }
-  //--------------------------------------------- GET GROUND WEAPON COOLDOWN ---------------------------------
-  int UnitImpl::getGroundWeaponCooldown() const
-  {
-    return self->groundWeaponCooldown;
-  }
-  //--------------------------------------------- GET AIR WEAPON COOLDOWN ------------------------------------
-  int UnitImpl::getAirWeaponCooldown() const
-  {
-    return self->airWeaponCooldown;
-  }
-  //--------------------------------------------- GET SPELL COOLDOWN -----------------------------------------
-  int UnitImpl::getSpellCooldown() const
-  {
-    return self->spellCooldown;
-  }
-  //--------------------------------------------- GET DEFENSE MATRIX POINTS ----------------------------------
-  int UnitImpl::getDefenseMatrixPoints() const
-  {
-    return self->defenseMatrixPoints;
-  }
-  //--------------------------------------------- GET DEFENSE MATRIX TIMER -----------------------------------
-  int UnitImpl::getDefenseMatrixTimer() const
-  {
-    return self->defenseMatrixTimer;
-  }
-  //--------------------------------------------- GET ENSNARE TIMER ------------------------------------------
-  int UnitImpl::getEnsnareTimer() const
-  {
-    return self->ensnareTimer;
-  }
-  //--------------------------------------------- GET IRRADIATE TIMER ----------------------------------------
-  int UnitImpl::getIrradiateTimer() const
-  {
-    return self->irradiateTimer;
-  }
-  //--------------------------------------------- GET LOCKDOWN TIMER -----------------------------------------
-  int UnitImpl::getLockdownTimer() const
-  {
-    return self->lockdownTimer;
-  }
-  //--------------------------------------------- GET MAELSTROM TIMER ----------------------------------------
-  int UnitImpl::getMaelstromTimer() const
-  {
-    return self->maelstromTimer;
-  }
-  //--------------------------------------------- GET ORDER TIMER --------------------------------------------
-  int UnitImpl::getOrderTimer() const
-  {
-    return self->orderTimer;
-  }
-  //--------------------------------------------- GET PLAGUE TIMER -------------------------------------------
-  int UnitImpl::getPlagueTimer() const
-  {
-    return self->plagueTimer;
-  }
-  //--------------------------------------------- GET REMOVE TIMER -------------------------------------------
-  int UnitImpl::getRemoveTimer() const
-  {
-    return self->removeTimer;
-  }
-  //--------------------------------------------- GET STASIS TIMER -------------------------------------------
-  int UnitImpl::getStasisTimer() const
-  {
-    return self->stasisTimer;
-  }
-  //--------------------------------------------- GET STIM TIMER ---------------------------------------------
-  int UnitImpl::getStimTimer() const
-  {
-    return self->stimTimer;
-  }
-  //--------------------------------------------- GET BUILD TYPE ---------------------------------------------
-  UnitType UnitImpl::getBuildType() const
-  {
-    return UnitType(self->buildType);
-  }
-  //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
-  std::list<UnitType > UnitImpl::getTrainingQueue() const
-  {
-    std::list<UnitType > trainingQueue;
-    for (int i = 0; i < self->trainingQueueCount; ++i)
-      trainingQueue.push_back(self->trainingQueue[i]);
-    return trainingQueue;
-  }
-  //--------------------------------------------- GET TECH ---------------------------------------------------
-  TechType UnitImpl::getTech() const
-  {
-    return TechType(self->tech);
-  }
-  //--------------------------------------------- GET UPGRADE ------------------------------------------------
-  UpgradeType UnitImpl::getUpgrade() const
-  {
-    return UpgradeType(self->upgrade);
-  }
-  //--------------------------------------------- GET REMAINING BUILD TIME -----------------------------------
-  int UnitImpl::getRemainingBuildTime() const
-  {
-    return self->remainingBuildTime;
-  }
-  //--------------------------------------------- GET REMAINING TRAIN TIME -----------------------------------
-  int UnitImpl::getRemainingTrainTime() const
-  {
-    return self->remainingTrainTime;
-  }
-  //--------------------------------------------- GET REMAINING RESEARCH TIME --------------------------------
-  int UnitImpl::getRemainingResearchTime() const
-  {
-    return self->remainingResearchTime;
-  }
-  //--------------------------------------------- GET REMAINING UPGRADE TIME ---------------------------------
-  int UnitImpl::getRemainingUpgradeTime() const
-  {
-    return self->remainingUpgradeTime;
-  }
-  //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* UnitImpl::getBuildUnit() const
-  {
-    return Broodwar->getUnit(self->buildUnit);
-  }
-  //--------------------------------------------- GET TARGET -------------------------------------------------
-  Unit* UnitImpl::getTarget() const
-  {
-    return Broodwar->getUnit(self->target);
-  }
-  //--------------------------------------------- GET TARGET POSITION ----------------------------------------
-  Position UnitImpl::getTargetPosition() const
-  {
-    return Position(self->targetPositionX,self->targetPositionY);
-  }
-  //--------------------------------------------- GET ORDER --------------------------------------------------
-  Order UnitImpl::getOrder() const
-  {
-    return Order(self->order);
-  }
-  //--------------------------------------------- GET ORDER TARGET -------------------------------------------
-  Unit* UnitImpl::getOrderTarget() const
-  {
-    return Broodwar->getUnit(self->orderTarget);
-  }
-  //--------------------------------------------- GET ORDER TARGET POSITION ----------------------------------
-  Position UnitImpl::getOrderTargetPosition() const
-  {
-	  return Position(self->orderTargetPositionX,self->orderTargetPositionY);
-  }
-  //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
-  Order UnitImpl::getSecondaryOrder() const
-  {
-    return Order(self->secondaryOrder);
-  }
-  //--------------------------------------------- GET RALLY POSITION -----------------------------------------
-  Position UnitImpl::getRallyPosition() const
-  {
-    return Position(self->rallyPositionX,self->rallyPositionY);
-  }
-  //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
-  Unit* UnitImpl::getRallyUnit() const
-  {
-    return Broodwar->getUnit(self->rallyUnit);
-  }
-  //--------------------------------------------- GET ADDON --------------------------------------------------
-  Unit* UnitImpl::getAddon() const
-  {
-    return Broodwar->getUnit(self->addon);
-  }
-  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
-  Unit* UnitImpl::getNydusExit() const
-  {
-    return Broodwar->getUnit(self->nydusExit);
-  }
-  //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
-  Unit* UnitImpl::getPowerUp() const
-  {
-    return Broodwar->getUnit(self->powerUp);
-  }
-  //--------------------------------------------- GET TRANSPORT ----------------------------------------------
-  Unit* UnitImpl::getTransport() const
-  {
-    return Broodwar->getUnit(self->transport);
-  }
-  //--------------------------------------------- GET LOADED UNITS -------------------------------------------
-  std::set<Unit*> UnitImpl::getLoadedUnits() const
-  {
-    return loadedUnits;
-  }
-  //--------------------------------------------- GET CARRIER ------------------------------------------------
-  Unit* UnitImpl::getCarrier() const
-  {
-    return Broodwar->getUnit(self->carrier);
-  }
-  //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
-  std::set<Unit*> UnitImpl::getInterceptors() const
-  {
-    std::set<Unit*> nothing;
-    if ( getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor )
-      return nothing;
-    return connectedUnits;
-  }
-  //--------------------------------------------- GET HATCHERY -----------------------------------------------
-  Unit* UnitImpl::getHatchery() const
-  {
-    return Broodwar->getUnit(self->hatchery);
-  }
-  //--------------------------------------------- GET LARVA --------------------------------------------------
-  std::set<Unit*> UnitImpl::getLarva() const
-  {
-    std::set<Unit*> nothing;
-    if (getType() != UnitTypes::Zerg_Hatchery &&
-        getType() != UnitTypes::Zerg_Lair &&
-        getType() != UnitTypes::Zerg_Hive)
-      return nothing;
-    return connectedUnits;
-  }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   const Unit *unitsInRadius_Unit;
   int unitsInRadius_Radius;
@@ -480,10 +139,10 @@ namespace BWAPI
       return unitFinderResults;
 
     // Set rectangular values
-    int left    = this->left()    - radius;
-    int top     = this->top()     - radius;
-    int right   = this->right()   + radius;
-    int bottom  = this->bottom()  + radius;
+    int left    = this->getLeft()    - radius;
+    int top     = this->getTop()     - radius;
+    int right   = this->getRight()   + radius;
+    int bottom  = this->getBottom()  + radius;
 
     // Store the data we are comparing found units to
     unitsInRadius_Unit    = this;
@@ -545,10 +204,10 @@ namespace BWAPI
     int max = getPlayer()->weaponMaxRange(weapon);
 
     // Declare some variables
-    int left    = this->left()    - max;
-    int top     = this->top()     - max;
-    int right   = this->right()   + max;
-    int bottom  = this->bottom()  + max;
+    int left    = this->getLeft()    - max;
+    int top     = this->getTop()     - max;
+    int right   = this->getRight()   + max;
+    int bottom  = this->getBottom()  + max;
 
     // Store the data we are comparing found units to
     unitsInWpnRange_Unit = this;
@@ -568,395 +227,47 @@ namespace BWAPI
     // Return results
     return unitFinderResults;
   }
-  //--------------------------------------------- EXISTS -----------------------------------------------------
-  bool UnitImpl::exists() const
+  //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
+  bool UnitImpl::issueCommand(UnitCommand command)
   {
-    return self->exists;
-  }
-  //--------------------------------------------- HAS NUKE ---------------------------------------------------
-  bool UnitImpl::hasNuke() const
-  {
-    return self->hasNuke;
-  }
-  //--------------------------------------------- IS ACCELERATING --------------------------------------------
-  bool UnitImpl::isAccelerating() const
-  {
-    return self->isAccelerating;
-  }
-  //--------------------------------------------- IS ATTACKING -----------------------------------------------
-  bool UnitImpl::isAttacking() const
-  {
-    return self->isAttacking;
-  }
-  //--------------------------------------------- IS ATTACK FRAME --------------------------------------------
-  bool UnitImpl::isAttackFrame() const
-  {
-    return self->isAttackFrame;
-  }
-  //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
-  bool UnitImpl::isBeingConstructed() const
-  {
-    if (self->isMorphing)
-      return true;
-    if (self->isCompleted)
-      return false;
-    if (getType().getRace() != Races::Terran)
-      return true;
-    return self->buildUnit != -1;
-  }
-  //--------------------------------------------- IS BEING GATHERED ------------------------------------------
-  bool UnitImpl::isBeingGathered() const
-  {
-    return self->isBeingGathered;
-  }
-  //--------------------------------------------- IS BEING HEALED --------------------------------------------
-  bool UnitImpl::isBeingHealed() const
-  {
-    return getType().getRace() == Races::Terran &&
-           self->isCompleted &&
-           self->hitPoints > self->lastHitPoints;
-  }
-  //--------------------------------------------- IS BLIND ---------------------------------------------------
-  bool UnitImpl::isBlind() const
-  {
-    return self->isBlind;
-  }
-  //--------------------------------------------- IS BRAKING -------------------------------------------------
-  bool UnitImpl::isBraking() const
-  {
-    return self->isBraking;
-  }
-  //--------------------------------------------- IS BURROWED ------------------------------------------------
-  bool UnitImpl::isBurrowed() const
-  {
-    return self->isBurrowed;
-  }
-  //--------------------------------------------- IS CARRYING GAS --------------------------------------------
-  bool UnitImpl::isCarryingGas() const
-  {
-    return self->carryResourceType == 1;
-  }
-  //--------------------------------------------- IS CARRYING MINERALS ---------------------------------------
-  bool UnitImpl::isCarryingMinerals() const
-  {
-    return self->carryResourceType == 2;
-  }
-  //--------------------------------------------- IS CLOAKED -------------------------------------------------
-  bool UnitImpl::isCloaked() const
-  {
-    return self->isCloaked;
-  }
-  //--------------------------------------------- IS COMPLETED -----------------------------------------------
-  bool UnitImpl::isCompleted() const
-  {
-    return self->isCompleted;
-  }
-  //--------------------------------------------- IS CONSTRUCTING --------------------------------------------
-  bool UnitImpl::isConstructing() const
-  {
-    return self->isConstructing;
-  }
-  //--------------------------------------------- IS DEFENSE MATRIXED ----------------------------------------
-  bool UnitImpl::isDefenseMatrixed() const
-  {
-    return self->defenseMatrixTimer > 0;
-  }
-  //--------------------------------------------- IS DETECTED ------------------------------------------------
-  bool UnitImpl::isDetected() const
-  {
-    return self->isDetected;
-  }
-  //--------------------------------------------- IS ENSNARED ------------------------------------------------
-  bool UnitImpl::isEnsnared() const
-  {
-    return self->ensnareTimer > 0;
-  }
-  //--------------------------------------------- IS FOLLOWING -----------------------------------------------
-  bool UnitImpl::isFollowing() const
-  {
-    return self->order == Orders::Follow;
-  }
-  //--------------------------------------------- IS GATHERING GAS -------------------------------------------
-  bool UnitImpl::isGatheringGas() const
-  {
-    if (!self->isGathering)
+    if ( !canIssueCommand(command) )
       return false;
 
-    if (self->order != Orders::Harvest1   &&
-        self->order != Orders::Harvest2   &&
-        self->order != Orders::MoveToGas  &&
-        self->order != Orders::WaitForGas &&
-        self->order != Orders::HarvestGas &&
-        self->order != Orders::ReturnGas  &&
-        self->order != Orders::ResetCollision)
-      return false;
+    command.unit = this;
 
-    if (self->order == Orders::ResetCollision)
-      return self->carryResourceType == 1;
+    if ( (command.type == UnitCommandTypes::Train ||
+          command.type == UnitCommandTypes::Morph) &&
+         getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
+      command.unit = *getLarva().begin();
 
-    //return true if BWOrder is WaitForGas, HarvestGas, or ReturnGas
-    if (self->order == Orders::WaitForGas ||
-        self->order == Orders::HarvestGas ||
-        self->order == Orders::ReturnGas)
-      return true;
-
-    //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() &&
-        getTarget()->exists() && 
-        getTarget()->isCompleted() &&
-        getTarget()->getPlayer() == getPlayer() &&
-        getTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
-        (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot()))
-      return true;
-    if (getOrderTarget() &&
-        getOrderTarget()->exists() && 
-        getOrderTarget()->isCompleted() &&
-        getOrderTarget()->getPlayer() == getPlayer() &&
-        getOrderTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
-        (getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot()))
-      return true;
-    return false;
-  }
-  //--------------------------------------------- IS GATHERING MINERALS --------------------------------------
-  bool UnitImpl::isGatheringMinerals() const
-  {
-    if (!self->isGathering)
-      return false;
-
-    if (self->order != Orders::Harvest1        &&
-        self->order != Orders::Harvest2        &&
-        self->order != Orders::MoveToMinerals  &&
-        self->order != Orders::WaitForMinerals &&
-        self->order != Orders::MiningMinerals  &&
-        self->order != Orders::ReturnMinerals  &&
-        self->order != Orders::ResetCollision)
-      return false;
-
-    if (self->order == Orders::ResetCollision)
-      return self->carryResourceType == 2;
-
-    //return true if BWOrder is WaitForMinerals, MiningMinerals, or ReturnMinerals
-    if (self->order == Orders::WaitForMinerals ||
-        self->order == Orders::MiningMinerals ||
-        self->order == Orders::ReturnMinerals)
-      return true;
-
-    //if BWOrder is MoveToMinerals, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() &&
-        getTarget()->exists() &&
-        (getTarget()->getType().isMineralField() ||
-            (getTarget()->isCompleted() &&
-             getTarget()->getPlayer() == getPlayer() &&
-             getTarget()->getType().isResourceDepot())))
-      return true;
-    if (getOrderTarget() &&
-        getOrderTarget()->exists() &&
-        (getOrderTarget()->getType().isMineralField() ||
-            (getOrderTarget()->isCompleted() &&
-             getOrderTarget()->getPlayer() == getPlayer() &&
-             getOrderTarget()->getType().isResourceDepot())))
-      return true;
-    return false;
-  }
-  //--------------------------------------------- IS HALLUCINATION -------------------------------------------
-  bool UnitImpl::isHallucination() const
-  {
-    return self->isHallucination;
-  }
-  //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
-  bool UnitImpl::isHoldingPosition() const
-  {
-    return self->order == Orders::HoldPosition;
-  }
-  //--------------------------------------------- IS IDLE ----------------------------------------------------
-  bool UnitImpl::isIdle() const
-  {
-    return self->isIdle;
-  }
-  //--------------------------------------------- IS INTERRUPTIBLE -------------------------------------------
-  bool UnitImpl::isInterruptible() const
-  {
-    return self->isInterruptible;
-  }
-  //--------------------------------------------- IS INVINCIBLE ----------------------------------------------
-  bool UnitImpl::isInvincible() const
-  {
-    return self->isInvincible;
-  }
-  //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
-  bool UnitImpl::isInWeaponRange(Unit *target) const
-  {
-    if ( !exists() || !target || !target->exists() || this == target )
-      return false;
-
-    UnitType thisType = this->getType();
-    UnitType targType = target->getType();
-
-    WeaponType wpn = thisType.groundWeapon();
-    int minRange = wpn.minRange();
-    int maxRange = getPlayer()->groundWeaponMaxRange(thisType);
-    if ( targType.isFlyer() || target->isLifted() )
+    ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
+    ((UnitImpl*)command.unit)->lastCommand      = command;
+    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target && 
+       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
-      wpn = thisType.airWeapon();
-      minRange = wpn.minRange();
-      maxRange = getPlayer()->airWeaponMaxRange(thisType);
+      ((UnitImpl*)command.target)->lastCommandFrame = BroodwarImpl.frameCount;
+      ((UnitImpl*)command.target)->lastCommand      = command;
     }
-    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
-      return false;
 
-    int distance = computeDistance<UnitImpl>(this,target);
-    return (minRange ? minRange < distance : true) && maxRange >= distance;
-  }
-  //--------------------------------------------- IS IRRADIATED ----------------------------------------------
-  bool UnitImpl::isIrradiated() const
-  {
-    return self->irradiateTimer > 0;
-  }
-  //--------------------------------------------- IS LIFTED --------------------------------------------------
-  bool UnitImpl::isLifted() const
-  {
-    return self->isLifted;
-  }
-  //--------------------------------------------- IS LOADED --------------------------------------------------
-  bool UnitImpl::isLoaded() const
-  {
-    return self->transport != -1;
-  }
-  //--------------------------------------------- IS LOCKED DOWN ---------------------------------------------
-  bool UnitImpl::isLockedDown() const
-  {
-    return self->lockdownTimer > 0;
-  }
-  //--------------------------------------------- IS MAELSTROMMED --------------------------------------------
-  bool UnitImpl::isMaelstrommed() const
-  {
-    return self->maelstromTimer > 0;
-  }
-  //--------------------------------------------- IS MORPHING ------------------------------------------------
-  bool UnitImpl::isMorphing() const
-  {
-    return self->isMorphing;
-  }
-  //--------------------------------------------- IS MOVING --------------------------------------------------
-  bool UnitImpl::isMoving() const
-  {
-    return self->isMoving;
-  }
-  //--------------------------------------------- IS PARASITED -----------------------------------------------
-  bool UnitImpl::isParasited() const
-  {
-    return self->isParasited;
-  }
-  //--------------------------------------------- IS PATROLLING ----------------------------------------------
-  bool UnitImpl::isPatrolling() const
-  {
-    return self->order == Orders::Patrol;
-  }
-  //--------------------------------------------- IS PLAGUED -------------------------------------------------
-  bool UnitImpl::isPlagued() const
-  {
-    return self->plagueTimer > 0;
-  }
-  //--------------------------------------------- IS REPAIRING -----------------------------------------------
-  bool UnitImpl::isRepairing() const
-  {
-    return self->order == Orders::Repair;
-  }
-  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
-  bool UnitImpl::isResearching() const
-  {
-    return self->order == Orders::ResearchTech;
-  }
-  //--------------------------------------------- IS SELECTED ------------------------------------------------
-  bool UnitImpl::isSelected() const
-  {
-    return self->isSelected;
-  }
-  //--------------------------------------------- IS SELECTED ------------------------------------------------
-  bool UnitImpl::isSieged() const
-  {
-    return self->type  == BW::UnitID::Terran_SiegeTankSiegeMode ||
-           self->type  == BW::UnitID::Terran_Hero_EdmundDukeS;
-  }
-  //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
-  bool UnitImpl::isStartingAttack() const
-  {
-    return self->isStartingAttack;
-  }
-  //--------------------------------------------- IS STASISED ------------------------------------------------
-  bool UnitImpl::isStasised() const
-  {
-    return self->stasisTimer > 0;
-  }
-  //--------------------------------------------- IS STIMMED -------------------------------------------------
-  bool UnitImpl::isStimmed() const
-  {
-    return self->stimTimer > 0;
-  }
-  //--------------------------------------------- IS STUCK ---------------------------------------------------
-  bool UnitImpl::isStuck() const
-  {
-    return self->isStuck;
-  }
-  //--------------------------------------------- IS TRAINING ------------------------------------------------
-  bool UnitImpl::isTraining() const
-  {
-    return self->isTraining;
-  }
-  //--------------------------------------------- IS UNDER STORM ---------------------------------------------
-  bool UnitImpl::isUnderStorm() const
-  {
-    return self->isUnderStorm;
-  }
-  //------------------------------------------------ IS UNDER DARK SWARM -------------------------------------
-  bool UnitImpl::isUnderDarkSwarm() const
-  {
-    return self->isUnderDarkSwarm;
-  }
-  //--------------------------------------------------- IS UNDER DWEB ----------------------------------------
-  bool UnitImpl::isUnderDisruptionWeb() const
-  {
-    return self->isUnderDWeb;
-  }
-  //--------------------------------------------- IS UNPOWERED -----------------------------------------------
-  bool UnitImpl::isUnpowered() const
-  {
-    return self->isUnpowered;
-  }
-  //--------------------------------------------- IS UPGRADING -----------------------------------------------
-  bool UnitImpl::isUpgrading() const
-  {
-    return self->order == Orders::Upgrade;
-  }
-  //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool UnitImpl::isVisible() const
-  {
-    if ( !Broodwar->self() )
+    if ( BroodwarImpl.addToCommandOptimizer(command) )
+      return true;
+
+    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target &&
+       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
-      for(int i = 0; i < 9; ++i)
-      {
-        if (self->isVisible[i])
-          return true;
-      }
-      return false;
+      //select both units for archon warp or dark archon meld
+      UnitImpl *sel2[2];
+      sel2[0] = (UnitImpl*)command.unit;
+      sel2[1] = (UnitImpl*)command.target;
+      BW::Orders::Select sel(2, sel2);
+      botAPM_select++;
+      QueueGameCommand(&sel, sel.size);
     }
-    return self->isVisible[Broodwar->self()->getID()];
-  }
-  //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool UnitImpl::isVisible(Player* player) const
-  {
-    if ( !player )
-      return false;
-    return self->isVisible[player->getID()];
-  }
-  //--------------------------------------------- IS STARTING ATTACK SEQUENCE --------------------------------
-  bool UnitImpl::isStartingAttackSequence() const
-  {
-    checkAccessBool();
-    u8 animState = 0;
-    if ( getOriginalRawData->sprite && getOriginalRawData->sprite->mainGraphic )
-      animState = getOriginalRawData->sprite->mainGraphic->anim;
-    return animState == BW::Anims::GndAttkInit || animState == BW::Anims::AirAttkInit;
+    else if ( command.type != UnitCommandTypes::Unload )
+      ((UnitImpl*)command.unit)->orderSelect();
+
+    BroodwarImpl.executeCommand( command, true);
+    return true;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
   void UnitImpl::setSelected(bool selectedState)
@@ -1081,50 +392,5 @@ namespace BWAPI
     this->staticPosition     = this->_getPosition;
     this->staticResources    = this->_getResources;
     this->staticHitPoints    = this->_getHitPoints;
-  }
-  //------------------------------------------ SET/GET CLIENT INFO -------------------------------------------
-  void UnitImpl::setClientInfo(void* clientinfo)
-  {
-    this->clientInfo = clientinfo;
-  }
-  void* UnitImpl::getClientInfo() const
-  {
-    return clientInfo;
-  }
-  //--------------------------------------------- LAST ATTACKER ----------------------------------------------
-  BWAPI::Player *UnitImpl::getLastAttackingPlayer() const
-  {
-    return Broodwar->getPlayer(self->lastAttackerPlayer);
-  }
-  bool UnitImpl::isUnderAttack() const
-  {
-    return self->recentlyAttacked;
-  }
-  //------------------------------------------------- REPLAY ID ----------------------------------------------
-  int UnitImpl::getReplayID() const
-  {
-    return self->replayID;
-  }
-  //--------------------------------------------------- REGION -----------------------------------------------
-  BWAPI::Region *UnitImpl::getRegion() const
-  {
-    return Broodwar->getRegionAt(this->getPosition());
-  }
-  //------------------------------------------------ DIMENSIONS ----------------------------------------------
-  int UnitImpl::left() const
-  {
-    return this->_getPosition.x() - this->_getType.dimensionLeft();
-  }
-  int UnitImpl::top() const
-  {
-    return this->_getPosition.y() - this->_getType.dimensionUp();
-  }
-  int UnitImpl::right() const
-  {
-    return this->_getPosition.x() + this->_getType.dimensionRight();
-  }
-  int UnitImpl::bottom() const
-  {
-    return this->_getPosition.y() + this->_getType.dimensionDown();
   }
 };

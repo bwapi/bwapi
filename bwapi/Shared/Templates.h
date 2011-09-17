@@ -94,7 +94,7 @@ namespace BWAPI
         if ( isWidthExtended )
         {
           Unit *u = ((GameImpl*)Broodwar)->_unitFromIndex(iUnitIndex);
-          if ( u && u->left() <= right )
+          if ( u && u->getLeft() <= right )
             pdwFinderFlags[iUnitIndex] = 1;
         }
         else
@@ -109,7 +109,7 @@ namespace BWAPI
         if ( isHeightExtended )
         {
           Unit *u = ((GameImpl*)Broodwar)->_unitFromIndex(iUnitIndex);
-          if ( u && u->top() <= bottom )
+          if ( u && u->getTop() <= bottom )
             pdwFinderFlags[iUnitIndex] = 2;
         }
         else
@@ -196,10 +196,10 @@ namespace BWAPI
                  !iterType.isFlyer()    &&
                  !u->isLoaded()         &&
                  u != builder           &&
-                 u->left()    <= targetX + type.dimensionRight()  &&
-                 u->top()     <= targetY + type.dimensionDown()   &&
-                 u->right()   >= targetX - type.dimensionLeft()   &&
-                 u->bottom()  >= targetY - type.dimensionUp()  )
+                 u->getLeft()    <= targetX + type.dimensionRight()  &&
+                 u->getTop()     <= targetY + type.dimensionDown()   &&
+                 u->getRight()   >= targetX - type.dimensionLeft()   &&
+                 u->getBottom()  >= targetY - type.dimensionUp()  )
             {
               if ( !type.isAddon() )
                 return false;
@@ -989,17 +989,17 @@ namespace BWAPI
     if ( src == targ || !src || !targ )
       return 0;
 
-    int xDist = src->left() - (targ->right() + 1);
+    int xDist = src->getLeft() - (targ->getRight() + 1);
     if ( xDist < 0 )
     {
-      xDist = targ->left() - (src->right() + 1);
+      xDist = targ->getLeft() - (src->getRight() + 1);
       if ( xDist < 0 )
         xDist = 0;
     }
-    int yDist = src->top() - (targ->bottom() + 1);
+    int yDist = src->getTop() - (targ->getBottom() + 1);
     if ( yDist < 0 )
     {
-      yDist = targ->top() - (src->bottom() + 1);
+      yDist = targ->getTop() - (src->getBottom() + 1);
       if ( yDist < 0 )
         yDist = 0;
     }
@@ -1012,17 +1012,17 @@ namespace BWAPI
     if ( !src )
       return 0;
 
-    int xDist = src->left() - (targ.x() + 1);
+    int xDist = src->getLeft() - (targ.x() + 1);
     if ( xDist < 0 )
     {
-      xDist = targ.x() - (src->right() + 1);
+      xDist = targ.x() - (src->getRight() + 1);
       if ( xDist < 0 )
         xDist = 0;
     }
-    int yDist = src->top() - (targ.y() + 1);
+    int yDist = src->getTop() - (targ.y() + 1);
     if ( yDist < 0 )
     {
-      yDist = targ.y() - (src->bottom() + 1);
+      yDist = targ.y() - (src->getBottom() + 1);
       if ( yDist < 0 )
         yDist = 0;
     }

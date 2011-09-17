@@ -38,6 +38,7 @@ namespace BWAPI
   {
     public:
       virtual int          getID() const;
+      virtual int          getReplayID() const;
       virtual Player*      getPlayer() const;
       virtual UnitType     getType() const;
       virtual Position     getPosition() const;
@@ -45,6 +46,11 @@ namespace BWAPI
       virtual double       getAngle() const;
       virtual double       getVelocityX() const;
       virtual double       getVelocityY() const;
+      virtual BWAPI::Region *getRegion() const;
+      virtual int          getLeft() const;
+      virtual int          getTop() const;
+      virtual int          getRight() const;
+      virtual int          getBottom() const;
       virtual int          getHitPoints() const;
       virtual int          getShields() const;
       virtual int          getEnergy() const;
@@ -57,6 +63,7 @@ namespace BWAPI
       virtual bool         hasPath(Position target) const;
       virtual int          getLastCommandFrame() const;
       virtual UnitCommand  getLastCommand() const;
+      virtual BWAPI::Player *getLastAttackingPlayer() const;
       virtual int          getUpgradeLevel(UpgradeType upgrade) const;
 
       virtual UnitType     getInitialType() const;
@@ -116,12 +123,14 @@ namespace BWAPI
       virtual std::set<Unit*> getLarva() const;
       virtual std::set<Unit*>& getUnitsInRadius(int radius) const;
       virtual std::set<Unit*>& getUnitsInWeaponRange(WeaponType weapon) const;
+      virtual void *getClientInfo() const;
+      virtual void setClientInfo(void* clientinfo);
 
       virtual bool exists() const;
       virtual bool hasNuke() const;
       virtual bool isAccelerating() const;
-      virtual bool isAttacking() const;
       virtual bool isAttackFrame() const;
+      virtual bool isAttacking() const;
       virtual bool isBeingConstructed() const;
       virtual bool isBeingGathered() const;
       virtual bool isBeingHealed() const;
@@ -142,9 +151,9 @@ namespace BWAPI
       virtual bool isHallucination() const;
       virtual bool isHoldingPosition() const;
       virtual bool isIdle() const;
+      virtual bool isInWeaponRange(Unit *target) const;
       virtual bool isInterruptible() const;
       virtual bool isInvincible() const;
-      virtual bool isInWeaponRange(Unit *target) const;
       virtual bool isIrradiated() const;
       virtual bool isLifted() const;
       virtual bool isLoaded() const;
@@ -160,14 +169,14 @@ namespace BWAPI
       virtual bool isSelected() const;
       virtual bool isSieged() const;
       virtual bool isStartingAttack() const;
-      virtual bool isStartingAttackSequence() const;
       virtual bool isStasised() const;
       virtual bool isStimmed() const;
       virtual bool isStuck() const;
       virtual bool isTraining() const;
-      virtual bool isUnderStorm() const;
+      virtual bool isUnderAttack() const;
       virtual bool isUnderDarkSwarm() const;
       virtual bool isUnderDisruptionWeb() const;
+      virtual bool isUnderStorm() const;
       virtual bool isUnpowered() const;
       virtual bool isUpgrading() const;
       virtual bool isVisible() const;
@@ -218,23 +227,7 @@ namespace BWAPI
       virtual bool useTech(TechType tech);
       virtual bool useTech(TechType tech, Position target);
       virtual bool useTech(TechType tech, Unit* target);
-
-      virtual void setClientInfo(void* clientinfo);
-      virtual void *getClientInfo() const;
-
       virtual bool placeCOP(TilePosition target);
-
-      virtual bool          isUnderAttack() const;
-      virtual BWAPI::Player *getLastAttackingPlayer() const;
-
-      virtual int getReplayID() const;
-
-      virtual BWAPI::Region *getRegion() const;
-
-      virtual int left() const;
-      virtual int top() const;
-      virtual int right() const;
-      virtual int bottom() const;
 
       //Internal BWAPI commands:
       UnitImpl(BW::Unit* originalUnit,
