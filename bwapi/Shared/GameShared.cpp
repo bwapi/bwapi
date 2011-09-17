@@ -4,6 +4,16 @@
 
 namespace BWAPI
 {
+  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
+  bool GameImpl::getMouseState(MouseButton button)
+  {
+    return getMouseState((int)button);
+  }
+  //---------------------------------------------- GET KEY STATE ---------------------------------------------
+  bool GameImpl::getKeyState(Key key)
+  {
+    return getKeyState((int)key);
+  }
   //----------------------------------------------- GET FORCES -----------------------------------------------
   std::set< Force* >& GameImpl::getForces()
   {
@@ -144,6 +154,20 @@ namespace BWAPI
   std::set< TilePosition >& GameImpl::getStartLocations()
   {
     return startLocations;
+  }
+  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
+  {
+    if ( !position )
+    {
+      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return NULL;
+    }
+    return getRegionAt(position.x(), position.y());
+  }
+  //----------------------------------------------- GET ALL REGIONS ------------------------------------------
+  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
+  {
+    return this->regionsList;
   }
 };
 

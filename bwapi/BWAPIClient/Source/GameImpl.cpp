@@ -406,21 +406,11 @@ namespace BWAPI
     return Position(data->mouseX,data->mouseY);
   }
   //---------------------------------------------- GET MOUSE STATE -------------------------------------------
-  bool GameImpl::getMouseState(MouseButton button)
-  {
-    return getMouseState((int)button);
-  }
-  //---------------------------------------------- GET MOUSE STATE -------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
     if ( button < 0 || button >= M_MAX )
       return false;
     return data->mouseState[button];
-  }
-  //----------------------------------------------- GET KEY STATE --------------------------------------------
-  bool GameImpl::getKeyState(Key key)
-  {
-    return getKeyState((int)key);
   }
   //----------------------------------------------- GET KEY STATE --------------------------------------------
   bool GameImpl::getKeyState(int key)
@@ -1134,11 +1124,6 @@ namespace BWAPI
   {
     return data->countdownTimer;
   }
-  //----------------------------------------------- GET ALL REGIONS ------------------------------------------
-  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
-  {
-    return this->regionsList;
-  }
   //------------------------------------------------- GET REGION AT ------------------------------------------
   BWAPI::Region *GameImpl::getRegionAt(int x, int y) const
   {
@@ -1162,15 +1147,6 @@ namespace BWAPI
         return Broodwar->getRegion(rgn1);
     }
     return Broodwar->getRegion(idx);
-  }
-  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
-  {
-    if ( !position )
-    {
-      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
-      return NULL;
-    }
-    return getRegionAt(position.x(), position.y());
   }
   int GameImpl::getLastEventTime() const
   {
