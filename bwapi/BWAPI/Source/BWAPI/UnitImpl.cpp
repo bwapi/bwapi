@@ -49,12 +49,13 @@ namespace BWAPI
       , clientInfo(NULL)
   {
     self = &data;
+    clear();
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
   UnitImpl::~UnitImpl()
   {
   }
-  //--------------------------------------------- REVOKE ID --------------------------------------------------
+  //--------------------------------------------- SET ID -----------------------------------------------------
   void UnitImpl::setID(int newID)
   {
     id = newID;
@@ -83,42 +84,6 @@ namespace BWAPI
       return true;
 
     return Broodwar->hasPath(this->getPosition(), target);
-  }
-  //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
-  UnitType UnitImpl::getInitialType() const
-  {
-    if (this->staticInformation)
-      return this->staticType;
-    return UnitTypes::Unknown;
-  }
-  //--------------------------------------------- GET INITIAL POSITION ---------------------------------------
-  Position UnitImpl::getInitialPosition() const
-  {
-    if (this->staticInformation)
-      return this->staticPosition;
-    return Positions::Unknown;
-  }
-  //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
-  TilePosition UnitImpl::getInitialTilePosition() const
-  {
-    if (this->staticInformation)
-      return TilePosition(Position(staticPosition.x() - staticType.tileWidth() * TILE_SIZE / 2,
-                                   staticPosition.y() - staticType.tileHeight() * TILE_SIZE / 2));
-    return TilePositions::Unknown;
-  }
-  //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
-  int UnitImpl::getInitialHitPoints() const
-  {
-    if (this->staticInformation)
-      return this->staticHitPoints;
-    return 0;
-  }
-  //--------------------------------------------- GET INITIAL RESOURCES --------------------------------------
-  int UnitImpl::getInitialResources() const
-  {
-    if (this->staticInformation)
-      return this->staticResources;
-    return 0;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   const Unit *unitsInRadius_Unit;
@@ -383,14 +348,5 @@ namespace BWAPI
   u16 UnitImpl::getIndex() const
   {
     return this->index;
-  }
-  //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
-  void UnitImpl::saveInitialInformation()
-  {
-    this->staticInformation  = true;
-    this->staticType         = this->_getType;
-    this->staticPosition     = this->_getPosition;
-    this->staticResources    = this->_getResources;
-    this->staticHitPoints    = this->_getHitPoints;
   }
 };
