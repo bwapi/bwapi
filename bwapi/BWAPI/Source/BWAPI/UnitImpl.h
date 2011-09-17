@@ -15,7 +15,6 @@
 #include <BW/OrderID.h>
 #include <BWAPI/Client/UnitData.h>
 
-#define checkAccessBool() if (!attemptAccess()) return false
 #define checkOwnership()\
 {\
   if (_getPlayer != Broodwar->self())\
@@ -239,7 +238,6 @@ namespace BWAPI
       bool canAccess() const;
       bool canAccessDetected() const;
       bool canAccessInside() const;
-      bool attemptAccess() const;
       Player* _getPlayer;
       UnitType _getType;
       Position _getPosition;

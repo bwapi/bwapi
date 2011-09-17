@@ -198,21 +198,12 @@ namespace BWAPI
     return BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
   }
 
-  // calls canAccess, setting error codes as needed
-  bool UnitImpl::attemptAccess() const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    if (this->canAccess())
-      return true;
-    return BroodwarImpl.setLastError(Errors::Unit_Not_Visible);
-  }
-
-  //---------------------------------------------- UPDATE NEXT -----------------------------------------------
+  //--------------------------------------------- GET NEXT ---------------------------------------------------
   UnitImpl* UnitImpl::getNext() const
   {
     return UnitImpl::BWUnitToBWAPIUnit(getOriginalRawData->next);
   }
-  //----------------------------------------------- GET INDEX ------------------------------------------------
+  //--------------------------------------------- GET INDEX --------------------------------------------------
   u16 UnitImpl::getIndex() const
   {
     return this->index;
