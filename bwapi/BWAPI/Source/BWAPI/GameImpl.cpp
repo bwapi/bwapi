@@ -150,11 +150,6 @@ namespace BWAPI
     return BWAPI::Position(BW::BWDATA_Mouse->x, BW::BWDATA_Mouse->y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
-  bool GameImpl::getMouseState(MouseButton button)
-  {
-    return getMouseState((int)button);
-  }
-  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(int button)
   {
     if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
@@ -179,17 +174,12 @@ namespace BWAPI
     return pressed;
   }
   //---------------------------------------------- GET KEY STATE ---------------------------------------------
-  bool GameImpl::getKeyState(Key key)
-  {
-    return getKeyState((int)key);
-  }
-  //---------------------------------------------- GET KEY STATE ---------------------------------------------
   bool GameImpl::getKeyState(int key)
   {
     if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
       return false;
 
-    if (key < 0 || key >= 255)
+    if ( key < 0 || key >= K_MAX )
       return false;
 
     return (GetKeyState(key) & 128) > 0;
@@ -948,11 +938,6 @@ namespace BWAPI
   {
     return (int)*BW::BWDATA_CountdownTimer;
   }
-  //----------------------------------------------- GET ALL REGIONS ------------------------------------------
-  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
-  {
-    return this->regionsList;
-  }
   //------------------------------------------------- GET REGION AT ------------------------------------------
   BWAPI::Region *GameImpl::getRegionAt(int x, int y) const
   {
@@ -968,15 +953,6 @@ namespace BWAPI
       return NULL;
     }
     return (Region*)rgn->unk_28;
-  }
-  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
-  {
-    if ( !position )
-    {
-      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
-      return NULL;
-    }
-    return getRegionAt(position.x(), position.y());
   }
   int GameImpl::getLastEventTime() const
   {
