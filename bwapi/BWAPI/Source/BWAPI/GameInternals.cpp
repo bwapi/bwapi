@@ -2718,10 +2718,10 @@ namespace BWAPI
       else
       {
         /* @TODO: Assign using getUnitsInRectangle */
-        int startX = i->left() / TILE_SIZE;
-        int endX   = (i->right() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-        int startY = i->top() / TILE_SIZE;
-        int endY   = (i->bottom() + TILE_SIZE - 1) / TILE_SIZE;
+        int startX = i->getLeft() / TILE_SIZE;
+        int endX   = (i->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+        int startY = i->getTop() / TILE_SIZE;
+        int endY   = (i->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
         for (int x = startX; x < endX && x < Map::getWidth(); ++x)
           for (int y = startY; y < endY && y < Map::getHeight(); ++y)
             unitsOnTileData[x][y].insert(i);
@@ -2841,9 +2841,9 @@ namespace BWAPI
            ut != UnitTypes::Spell_Disruption_Web )
         continue;
 
-      int r = _u->right()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      int b = _u->bottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      for each ( UnitImpl *uInside in this->getUnitsInRectangle(_u->left(), _u->top(), r, b) )
+      int r = _u->getRight()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      int b = _u->getBottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      for each ( UnitImpl *uInside in this->getUnitsInRectangle(_u->getLeft(), _u->getTop(), r, b) )
       {
         if ( uInside->getType().isSpell() || uInside->getType().isFlyer() )
           continue;

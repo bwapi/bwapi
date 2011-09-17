@@ -47,6 +47,9 @@ namespace BWAPI
      * has a unique address. */
     virtual int getID() const = 0;
 
+    /** Returns the unit ID that is used in a replay (*.rep) file's action recordings. */
+    virtual int getReplayID() const = 0;
+
     /** Returns a pointer to the player that owns this unit. */
     virtual Player* getPlayer() const = 0;
 
@@ -69,6 +72,21 @@ namespace BWAPI
 
     /** Returns the y component of the unit's velocity, measured in pixels per frame. */
     virtual double getVelocityY() const = 0;
+
+    /** Returns the region that this unit is currently in. */
+    virtual BWAPI::Region *getRegion() const = 0;
+
+    /** Returns the X coordinate of the left side of the unit. */
+    virtual int getLeft() const = 0;
+
+    /** Returns the Y coordinate of the top side of the unit. */
+    virtual int getTop() const = 0;
+
+    /** Returns the X coordinate of the right side of the unit. */
+    virtual int getRight() const = 0;
+
+    /** Returns the Y coordinate of the bottom side of the unit. */
+    virtual int getBottom() const = 0;
 
     /** Returns the unit's current amount of hit points. */
     virtual int getHitPoints() const = 0;
@@ -104,6 +122,9 @@ namespace BWAPI
 
     /** Returns the last successful command. */
     virtual UnitCommand getLastCommand() const = 0;
+
+    /** Returns the player that last attacked this unit. */
+    virtual BWAPI::Player *getLastAttackingPlayer() const = 0;
 
     /** Returns the player's current upgrade level for the given upgrade, if the unit is affected by this
      * upgrade.*/
@@ -242,7 +263,7 @@ namespace BWAPI
 
     // TODO: add doc
     virtual Order getOrder() const = 0;
-  virtual Order getSecondaryOrder() const = 0;
+    virtual Order getSecondaryOrder() const = 0;
 
     /** This is usually set when the low level unit AI acquires a new target automatically. For example if
      * an enemy probe comes in range of your marine, the marine will start attacking it, and getOrderTarget
@@ -302,6 +323,12 @@ namespace BWAPI
 
     /** Returns the set of units within weapon range of this unit. */
     virtual std::set<Unit*>& getUnitsInWeaponRange(WeaponType weapon) const = 0;
+
+    /** Returns the unit's custom client info. The client is responsible for deallocation. */
+    virtual void* getClientInfo() const = 0;
+
+    /** Sets the unit's custom client info. The client is responsible for deallocation. */
+    virtual void setClientInfo(void* clientinfo) = 0;
 
     /**
      * 3 cases to consider:
@@ -489,14 +516,17 @@ namespace BWAPI
      * \see Unit::train, Unit::getTrainingQueue, Unit::cancelTrain, Unit::getRemainingTrainTime. */
     virtual bool isTraining() const = 0;
 
-    /** Returns true if the unit is under a Protoss Psionic Storm. */
-    virtual bool isUnderStorm() const = 0;
+    /** Returns true if the unit was recently attacked. */
+    virtual bool isUnderAttack() const = 0;
 
     /** Returns true if the unit is under a Dark Swarm. */
     virtual bool isUnderDarkSwarm() const = 0;
 
     /** Returns true if the unit is under a Disruption Web. */
     virtual bool isUnderDisruptionWeb() const = 0;
+
+    /** Returns true if the unit is under a Protoss Psionic Storm. */
+    virtual bool isUnderStorm() const = 0;
 
     /** Returns true if the unit is a Protoss building that is unpowered because no pylons are in range. */
     virtual bool isUnpowered() const = 0;
@@ -690,31 +720,8 @@ namespace BWAPI
      * tech.*/
     virtual bool useTech(TechType tech, Unit* target) = 0;
 
-    /** Sets the unit's custom client info. The client is responsible for deallocation. */
-    virtual void setClientInfo(void* clientinfo) = 0;
-
-    /** Returns the unit's custom client info. The client is responsible for deallocation. */
-    virtual void* getClientInfo() const = 0;
-
     /** Moves a Flag Beacon to the target location. */
     virtual bool placeCOP(TilePosition target) = 0;
 
-    /** Returns true if the unit was recently attacked. */
-    virtual bool          isUnderAttack() const = 0;
-
-    /** Returns the player that last attacked this unit. */
-    virtual BWAPI::Player *getLastAttackingPlayer() const = 0;
-
-    /** Returns the unit ID that is used in a replay (*.rep) file's action recordings. */
-    virtual int getReplayID() const = 0;
-
-    /** Returns the region that this unit is currently in. */
-    virtual BWAPI::Region *getRegion() const = 0;
-
-    /** Returns the unit's bounds. */
-    virtual int left() const = 0;
-    virtual int top() const = 0;
-    virtual int right() const = 0;
-    virtual int bottom() const = 0;
   };
 }

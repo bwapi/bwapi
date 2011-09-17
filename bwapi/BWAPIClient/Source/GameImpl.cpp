@@ -294,10 +294,10 @@ namespace BWAPI
     foreach(UnitImpl* u, accessibleUnits)
     {
       /* @TODO: Assign using getUnitsInRectangle */
-      int startX = u->left() / TILE_SIZE;
-      int endX   = (u->right() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-      int startY = u->top() / TILE_SIZE;
-      int endY   = (u->bottom() + TILE_SIZE - 1) / TILE_SIZE;
+      int startX = u->getLeft() / TILE_SIZE;
+      int endX   = (u->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
+      int startY = u->getTop() / TILE_SIZE;
+      int endY   = (u->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
       for (int x = startX; x < endX && x < mapWidth(); x++)
         for (int y = startY; y < endY && y < mapHeight(); y++)
           unitsOnTileData[x][y].insert(u);
