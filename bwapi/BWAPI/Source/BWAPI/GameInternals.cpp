@@ -2797,7 +2797,7 @@ namespace BWAPI
       {
         if (i->_getPlayer->isNeutral())
         {
-          i->saveInitialInformation();
+          i->saveInitialState();
           this->staticNeutralUnits.insert(i);
           if ( i->_getType.isMineralField() )
             this->staticMinerals.insert(i);

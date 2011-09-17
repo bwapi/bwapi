@@ -4,6 +4,26 @@
 
 namespace BWAPI
 {
+  //--------------------------------------------- CLEAR ------------------------------------------------------
+  void UnitImpl::clear()
+  {
+    initialType      = UnitTypes::None;
+    initialResources = 0;
+    initialHitPoints = 0;
+    initialPosition  = Positions::None;
+    lastCommandFrame = 0;
+    lastCommand      = UnitCommand();
+    clientInfo       = NULL;
+    connectedUnits.clear();
+  }
+  //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
+  void UnitImpl::saveInitialState()
+  {
+    initialType      = getType();
+    initialPosition  = getPosition();
+    initialResources = getResources();
+    initialHitPoints = getHitPoints();
+  }
   //--------------------------------------------- GET ID -----------------------------------------------------
   int UnitImpl::getID() const
   {
@@ -32,8 +52,8 @@ namespace BWAPI
   //--------------------------------------------- GET TILE POSITION ------------------------------------------
   TilePosition UnitImpl::getTilePosition() const
   {
-    return TilePosition(Position(abs(self->positionX - this->getType().tileWidth()  * TILE_SIZE / 2),
-                                 abs(self->positionY - this->getType().tileHeight() * TILE_SIZE / 2)) );
+    return TilePosition(Position(abs(self->positionX - getType().tileWidth()  * TILE_SIZE / 2),
+                                 abs(self->positionY - getType().tileHeight() * TILE_SIZE / 2)) );
   }
   //--------------------------------------------- GET ANGLE --------------------------------------------------
   double UnitImpl::getAngle() const
@@ -53,7 +73,7 @@ namespace BWAPI
   //--------------------------------------------- GET REGION -------------------------------------------------
   BWAPI::Region *UnitImpl::getRegion() const
   {
-    return Broodwar->getRegionAt(this->getPosition());
+    return Broodwar->getRegionAt(getPosition());
   }
   //--------------------------------------------- GET LEFT ---------------------------------------------------
   int UnitImpl::getLeft() const
@@ -103,7 +123,7 @@ namespace BWAPI
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
   int UnitImpl::getDistance(Unit* target) const
   {
-    if ( !this->exists() || !target || !target->exists() )
+    if ( !exists() || !target || !target->exists() )
       return MAXINT;
 
     if (this == target)
@@ -114,19 +134,19 @@ namespace BWAPI
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
   int UnitImpl::getDistance(Position target) const
   {
-    if (!this->exists())
+    if (!exists())
       return MAXINT;
     return computeDistance<UnitImpl>(this,target);
   }
   //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
   int UnitImpl::getLastCommandFrame() const
   {
-    return this->lastCommandFrame;
+    return lastCommandFrame;
   }
   //--------------------------------------------- GET LAST COMMAND -------------------------------------------
   UnitCommand UnitImpl::getLastCommand() const
   {
-    return this->lastCommand;
+    return lastCommand;
   }
   //--------------------------------------------- GET LAST ATTACKING PLAYER ----------------------------------
   BWAPI::Player *UnitImpl::getLastAttackingPlayer() const
@@ -142,6 +162,36 @@ namespace BWAPI
       return 0;
     return getPlayer()->getUpgradeLevel(upgrade);
   }
+  //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
+  UnitType UnitImpl::getInitialType() const
+  {
+    return initialType;
+  }
+  //--------------------------------------------- GET INITIAL POSITION ---------------------------------------
+  Position UnitImpl::getInitialPosition() const
+  {
+    return initialPosition;
+  }
+  //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
+  TilePosition UnitImpl::getInitialTilePosition() const
+  {
+    if (initialPosition == Positions::None)
+    {
+      return TilePositions::None;
+    }
+    return TilePosition(Position(initialPosition.x() - initialType.tileWidth() * TILE_SIZE / 2,
+                                 initialPosition.y() - initialType.tileHeight() * TILE_SIZE / 2));
+  }
+  //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
+  int UnitImpl::getInitialHitPoints() const
+  {
+    return initialHitPoints;
+  }
+  //--------------------------------------------- GET INITIAL RESOURCES --------------------------------------
+  int UnitImpl::getInitialResources() const
+  {
+    return initialResources;
+  }
   //--------------------------------------------- GET KILL COUNT ---------------------------------------------
   int UnitImpl::getKillCount() const
   {
@@ -155,9 +205,9 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
-    if (this->getType() != UnitTypes::Protoss_Carrier && this->getType() != UnitTypes::Hero_Gantrithor)
+    if (getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor)
       return 0;
-    return this->connectedUnits.size();
+    return connectedUnits.size();
   }
   //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
   int UnitImpl::getScarabCount() const
@@ -386,7 +436,7 @@ namespace BWAPI
   //--------------------------------------------- SET CLIENT INFO --------------------------------------------
   void UnitImpl::setClientInfo(void* clientinfo)
   {
-    this->clientInfo = clientinfo;
+    clientInfo = clientinfo;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
@@ -609,7 +659,7 @@ namespace BWAPI
     if ( !exists() || !target || !target->exists() || this == target )
       return false;
 
-    UnitType thisType = this->getType();
+    UnitType thisType = getType();
     UnitType targType = target->getType();
 
     WeaponType wpn = thisType.groundWeapon();

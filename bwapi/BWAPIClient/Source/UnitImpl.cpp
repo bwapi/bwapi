@@ -18,24 +18,6 @@ namespace BWAPI
     this->id   = id;
     clear();
   }
-  void UnitImpl::clear()
-  {
-    initialType      = UnitTypes::None;
-    initialResources = 0;
-    initialHitPoints = 0;
-    initialPosition  = Positions::None;
-    lastCommandFrame = 0;
-    lastCommand      = UnitCommand();
-    clientInfo       = NULL;
-    connectedUnits.clear();
-  }
-  void UnitImpl::saveInitialState()
-  {
-    this->initialType      = getType();
-    this->initialResources = getResources();
-    this->initialHitPoints = getHitPoints();
-    this->initialPosition  = getPosition();
-  }
   /* UnitShared.cpp */
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit* target) const
@@ -61,32 +43,6 @@ namespace BWAPI
       return true;
 
     return Broodwar->hasPath(this->getPosition(), target);
-  }
-  //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
-  UnitType UnitImpl::getInitialType() const
-  {
-    return this->initialType;
-  }
-  //--------------------------------------------- GET INITIAL POSITION ---------------------------------------
-  Position UnitImpl::getInitialPosition() const
-  {
-    return this->initialPosition;
-  }
-  //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
-  TilePosition UnitImpl::getInitialTilePosition() const
-  {
-    return TilePosition(Position(this->initialPosition.x() - this->initialType.tileWidth() * TILE_SIZE / 2,
-                                 this->initialPosition.y() - this->initialType.tileHeight() * TILE_SIZE / 2));
-  }
-  //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
-  int UnitImpl::getInitialHitPoints() const
-  {
-    return this->initialHitPoints;
-  }
-  //--------------------------------------------- GET INITIAL RESOURCES --------------------------------------
-  int UnitImpl::getInitialResources() const
-  {
-    return this->initialResources;
   }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   const Unit *unitsInRadius_Unit;

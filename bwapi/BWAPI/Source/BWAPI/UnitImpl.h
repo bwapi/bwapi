@@ -268,7 +268,7 @@ namespace BWAPI
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 
-      void saveInitialInformation();
+      void saveInitialState();
       void updateInternalData();
       void updateData();
       UnitData data;
@@ -300,12 +300,13 @@ namespace BWAPI
     private:
       /** Orders to select this unit (previous selection will be lost. */
       void orderSelect();
+      void clear();
 
       u16 index; /**< Index of the unit in the array (can be computed, it's just optimisation) */
-      UnitType staticType;
-      BWAPI::Position staticPosition;
-      int staticResources;
-      int staticHitPoints;
+      UnitType initialType;
+      BWAPI::Position initialPosition;
+      int initialResources;
+      int initialHitPoints;
   };
 };
 
