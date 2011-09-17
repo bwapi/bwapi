@@ -76,12 +76,12 @@ namespace BWAPI
     // user input
     int mouseX;
     int mouseY;
-    bool mouseState[3];
-    bool keyState[256];
+    bool mouseState[M_MAX];
+    bool keyState[K_MAX];
     int screenX;
     int screenY;
 
-    bool flags[2];
+    bool flags[BWAPI::Flag::Max];
 
     // map
     int mapWidth;

@@ -6,6 +6,7 @@ namespace BWAPI
     M_LEFT   = 0,
     M_RIGHT  = 1,
     M_MIDDLE = 2,
+    M_MAX
   };
 
   enum Key
@@ -205,6 +206,7 @@ namespace BWAPI
     K_ZOOM                = 0xFB,
     K_NONAME              = 0xFC,
     K_PA1                 = 0xFD,
-    K_OEM_CLEAR           = 0xFE
+    K_OEM_CLEAR           = 0xFE,
+    K_MAX
   };
 }

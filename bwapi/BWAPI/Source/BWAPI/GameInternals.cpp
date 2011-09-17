@@ -207,7 +207,7 @@ namespace BWAPI
         else
         {
           allDone = true;
-          foreach(PlayerImpl *p, this->playerSet)
+          foreach(PlayerImpl *p, this->players)
           {
             if ( p->getIndex() >= 8 )
               continue;
@@ -248,7 +248,7 @@ namespace BWAPI
       _observers.clear();
       if ( BWAPIPlayer )
       {
-        foreach(Player* p, playerSet)
+        foreach(Player* p, players)
         {
           if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
             continue;
@@ -1916,7 +1916,7 @@ namespace BWAPI
     _observers.clear();
     if (BWAPIPlayer)
     {
-      foreach(Player* p, playerSet)
+      foreach(Player* p, players)
       {
         if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
           continue;
@@ -2662,7 +2662,7 @@ namespace BWAPI
       for (int x = 0; x < Map::getWidth(); ++x)
         this->unitsOnTileData[x][y].clear();
 
-    foreach(PlayerImpl *p, playerSet)
+    foreach(PlayerImpl *p, players)
     {
       for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
       {
