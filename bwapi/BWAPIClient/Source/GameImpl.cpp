@@ -134,10 +134,6 @@ namespace BWAPI
     regionsList.clear();
     memset(this->regionArray, 0, sizeof(this->regionArray));
   }
-  const GameData* GameImpl::getGameData() const
-  {
-    return data;
-  }
   //------------------------------------------------- ON MATCH START -----------------------------------------
   void GameImpl::onMatchStart()
   {
