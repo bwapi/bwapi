@@ -169,5 +169,10 @@ namespace BWAPI
   {
     return this->regionsList;
   }
+
+  const GameData* GameImpl::getGameData() const
+  {
+    return data;
+  }
 };
 

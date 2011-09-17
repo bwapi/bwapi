@@ -322,6 +322,7 @@ namespace BWAPI
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
       bool isTournamentCall;
       AIModule *tournamentAI;
+      const GameData* getGameData() const;
       GameData* data;
       
       int drawShapes();
