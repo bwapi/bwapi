@@ -18,32 +18,6 @@ namespace BWAPI
     this->id   = id;
     clear();
   }
-  /* UnitShared.cpp */
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Unit* target) const
-  {
-    if ( !target )
-      return Broodwar->setLastError(Errors::Invalid_Parameter);
-
-    Broodwar->setLastError(Errors::None);
-    if ( !exists() ) return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target->getPosition());
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Position target) const
-  {
-    Broodwar->setLastError(Errors::None);
-    if ( !exists() ) return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target);
-  }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   const Unit *unitsInRadius_Unit;
   int unitsInRadius_Radius;

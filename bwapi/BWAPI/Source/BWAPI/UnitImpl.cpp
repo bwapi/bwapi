@@ -60,31 +60,6 @@ namespace BWAPI
   {
     id = newID;
   }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Unit* target) const
-  {
-    if ( !target )
-      return Broodwar->setLastError(Errors::Invalid_Parameter);
-
-    Broodwar->setLastError(Errors::None);
-    checkAccessBool();
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target->getPosition());
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Position target) const
-  {
-    BroodwarImpl.setLastError(Errors::None);
-    checkAccessBool();
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target);
-  }
   //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
   const Unit *unitsInRadius_Unit;
   int unitsInRadius_Radius;
