@@ -117,40 +117,25 @@ namespace BWAPI
     }
   }
 
-  Error::Error()
+  Error::Error() : Type(Errors::None)
   {
-    this->id = Errors::None;
   }
-  Error::Error(int id)
+  int getValidErrorID(int id)
   {
-    this->id = id;
-    if (!initializingError && (id < 0 || id >= BWAPI_ERROR_MAX_COUNT))
-      this->id = Errors::Unknown;
-  }
-  Error::Error(const Error& other)
-  {
-    this->id = other;
-  }
-  Error& Error::operator=(const Error& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  Error::operator int() const
-  {
+    if ( !initializingError && (id < 0 || id >= BWAPI_ERROR_MAX_COUNT) )
+      return Errors::Unknown;
     return id;
   }
-  int Error::getID() const
+  Error::Error(int id) : Type( getValidErrorID(id) )
   {
-    return this->id;
   }
   std::string Error::toString() const
   {
-    return errorName[this->id];
+    return errorName[this->getID()];
   }
   const char *Error::c_str() const
   {
-    return errorName[this->id].c_str();
+    return errorName[this->getID()].c_str();
   }
   Error Errors::getError(std::string name)
   {

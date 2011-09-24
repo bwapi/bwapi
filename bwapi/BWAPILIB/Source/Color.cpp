@@ -91,19 +91,13 @@ namespace BWAPI
     {
     } // init
   }
-  Color::Color()
+  Color::Color() : Type(0)
   {
-    this->id = 0;
   }
-  Color::Color(int id)
+  Color::Color(int id) : Type(id)
   {
-    this->id = id;
   }
-  Color::Color(const Color& other)
-  {
-    this->id = other;
-  }
-  Color::Color(int red, int green, int blue)
+  int getRGBIndex(int red, int green, int blue)
   {
     if ( !rgbInitialized )
     {
@@ -113,31 +107,21 @@ namespace BWAPI
           for ( unsigned int b = 0; b < 64; ++b )
             Colors::closest[r][g][b] = (BYTE)Colors::getBestIdFor(r << 2, g << 2, b << 2);
     }
-    this->id = Colors::closest[(BYTE)red >> 2][(BYTE)green >> 2][(BYTE)blue >> 2];
+    return Colors::closest[(BYTE)red >> 2][(BYTE)green >> 2][(BYTE)blue >> 2];
   }
-  Color& Color::operator=(const Color& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  Color::operator int() const
-  {
-    return id;
-  }
-  int Color::getID() const
-  {
-    return this->id;
-  }
+  Color::Color(int red, int green, int blue)
+    : Type( getRGBIndex(red, green, blue) )
+  {}
   int Color::red() const
   {
-    return (palette[this->id] >> 16) & 0xFF;
+    return (palette[this->getID()] >> 16) & 0xFF;
   }
   int Color::green() const
   {
-    return (palette[this->id] >> 8) & 0xFF;
+    return (palette[this->getID()] >> 8) & 0xFF;
   }
   int Color::blue() const
   {
-    return palette[this->id] & 0xFF;
+    return palette[this->getID()] & 0xFF;
   }
 }

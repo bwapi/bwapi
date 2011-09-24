@@ -78,40 +78,25 @@ namespace BWAPI
       initializingGameType = false;
     }
   }
-  GameType::GameType()
+  GameType::GameType() : Type(GameTypes::None)
   {
-    this->id = GameTypes::None;
   }
-  GameType::GameType(int id)
+  int getValidGameTypeID(int id)
   {
-    this->id = id;
-    if (!initializingGameType && (id < 0 || id >= 35 || gameTypeName[id].length() == 0))
-      this->id = GameTypes::Unknown;
-  }
-  GameType::GameType(const GameType& other)
-  {
-    this->id = other;
-  }
-  GameType& GameType::operator=(const GameType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  GameType::operator int() const
-  {
+    if ( !initializingGameType && (id < 0 || id >= 35 || gameTypeName[id].length() == 0) )
+      return GameTypes::Unknown;
     return id;
   }
-  int GameType::getID() const
+  GameType::GameType(int id) : Type( getValidGameTypeID(id) )
   {
-    return this->id;
   }
   const std::string &GameType::getName() const
   {
-    return gameTypeName[this->id];
+    return gameTypeName[this->getID()];
   }
   const char *GameType::c_str() const
   {
-    return gameTypeName[this->id].c_str();
+    return gameTypeName[this->getID()].c_str();
   }
   GameType GameTypes::getGameType(std::string name)
   {

@@ -168,40 +168,25 @@ namespace BWAPI
       initializingUnitCommandType = false;
     }
   }
-  UnitCommandType::UnitCommandType()
+  UnitCommandType::UnitCommandType() : Type(UnitCommandTypes::None)
   {
-    this->id = UnitCommandTypes::None;
   }
-  UnitCommandType::UnitCommandType(int id)
+  int getValidUnitCommandTypeID(int id)
   {
-    this->id = id;
-    if (!initializingUnitCommandType && (id < 0 || id >= BWAPI_UNIT_COMMAND_TYPE_COUNT))
-      this->id = UnitCommandTypes::Unknown;
-  }
-  UnitCommandType::UnitCommandType(const UnitCommandType& other)
-  {
-    this->id = other;
-  }
-  UnitCommandType& UnitCommandType::operator=(const UnitCommandType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  UnitCommandType::operator int() const
-  {
+    if ( !initializingUnitCommandType && (id < 0 || id >= BWAPI_UNIT_COMMAND_TYPE_COUNT) )
+      return UnitCommandTypes::Unknown;
     return id;
   }
-  int UnitCommandType::getID() const
+  UnitCommandType::UnitCommandType(int id) : Type( getValidUnitCommandTypeID(id) )
   {
-    return this->id;
   }
   const std::string &UnitCommandType::getName() const
   {
-    return unitCommandTypeName[this->id];
+    return unitCommandTypeName[this->getID()];
   }
   const char *UnitCommandType::c_str() const
   {
-    return unitCommandTypeName[this->id].c_str();
+    return unitCommandTypeName[this->getID()].c_str();
   }
   UnitCommandType UnitCommandTypes::getUnitCommandType(std::string name)
   {

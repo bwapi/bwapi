@@ -1,26 +1,19 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 namespace BWAPI
 {
-  class DamageType
+  class DamageType : public Type
   {
     public:
       DamageType();
       DamageType(int id);
-      DamageType(const DamageType& other);
-      DamageType& operator=(const DamageType& other);
-      operator int() const;
-
-      /** Returns a unique ID for this damage type. */
-      int getID() const;
 
       /** Returns the name of this damage type. For example DamageTypes::Explosive.getName() will return
        * std::string("Explosive"). */
       const std::string &getName() const;
       const char *c_str() const;
-    private:
-      int id;
   };
   namespace DamageTypes
   {

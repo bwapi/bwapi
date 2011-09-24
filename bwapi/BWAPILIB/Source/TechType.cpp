@@ -195,84 +195,69 @@ namespace BWAPI
       initializingTechType = false;
     }
   }
-  TechType::TechType()
+  TechType::TechType() : Type(TechTypes::None)
   {
-    this->id = TechTypes::None;
   }
-  TechType::TechType(int id)
+  int getValidTechTypeID(int id)
   {
-    this->id = id;
-    if (!initializingTechType && (id < 0 || id >= 47 || techTypeData[id].name.length() == 0))
-      this->id = TechTypes::Unknown;
-  }
-  TechType::TechType(const TechType& other)
-  {
-    this->id = other;
-  }
-  TechType& TechType::operator=(const TechType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  TechType::operator int() const
-  {
+    if ( !initializingTechType && (id < 0 || id >= 47 || techTypeData[id].name.length() == 0) )
+      return TechTypes::Unknown;
     return id;
   }
-  int TechType::getID() const
+  TechType::TechType(int id) : Type( getValidTechTypeID(id) )
   {
-    return this->id;
   }
   const std::string &TechType::getName() const
   {
-    return techTypeData[this->id].name;
+    return techTypeData[this->getID()].name;
   }
   const char *TechType::c_str() const
   {
-    return techTypeData[this->id].name.c_str();
+    return techTypeData[this->getID()].name.c_str();
   }
   Race TechType::getRace() const
   {
-    return techTypeData[this->id].race;
+    return techTypeData[this->getID()].race;
   }
   int TechType::mineralPrice() const
   {
-    return techTypeData[this->id].mineralPrice;
+    return techTypeData[this->getID()].mineralPrice;
   }
   int TechType::gasPrice() const
   {
-    return techTypeData[this->id].gasPrice;
+    return techTypeData[this->getID()].gasPrice;
   }
   int TechType::researchTime() const
   {
-    return techTypeData[this->id].researchTime;
+    return techTypeData[this->getID()].researchTime;
   }
   int TechType::energyUsed() const
   {
-    return techTypeData[this->id].energyUsed;
+    return techTypeData[this->getID()].energyUsed;
   }
   UnitType TechType::whatResearches() const
   {
-    return techTypeData[this->id].whatResearches;
+    return techTypeData[this->getID()].whatResearches;
   }
   WeaponType TechType::getWeapon() const
   {
-    return techTypeData[this->id].weapon;
+    return techTypeData[this->getID()].weapon;
   }
   bool TechType::targetsUnit() const
   {
-    return techTypeData[this->id].targetsUnit;
+    return techTypeData[this->getID()].targetsUnit;
   }
   bool TechType::targetsPosition() const
   {
-    return techTypeData[this->id].targetsPosition;
+    return techTypeData[this->getID()].targetsPosition;
   }
   const std::set<UnitType>& TechType::whatUses() const
   {
-    return techTypeData[this->id].whatUses;
+    return techTypeData[this->getID()].whatUses;
   }
   Order TechType::getOrder() const
   {
-    return techTypeData[this->id].orderType;
+    return techTypeData[this->getID()].orderType;
   }
   TechType TechTypes::getTechType(std::string name)
   {

@@ -141,40 +141,25 @@ namespace BWAPI
     }
   }
 
-  BulletType::BulletType()
+  BulletType::BulletType() : Type(BulletTypes::None)
   {
-    this->id = BulletTypes::None;
   }
-  BulletType::BulletType(int id)
+  int getValidBulletTypeID(int id)
   {
-    this->id = id;
-    if (!initializingBulletType && (id < 0 || id >= 211 || bulletTypeName[id].length() == 0))
-      this->id = BulletTypes::Unknown;
-  }
-  BulletType::BulletType(const BulletType& other)
-  {
-    this->id = other;
-  }
-  BulletType& BulletType::operator=(const BulletType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  BulletType::operator int() const
-  {
+    if ( !initializingBulletType && (id < 0 || id >= 211 || bulletTypeName[id].length() == 0) )
+      return BulletTypes::Unknown;
     return id;
   }
-  int BulletType::getID() const
+  BulletType::BulletType(int id) : Type( getValidBulletTypeID(id) )
   {
-    return this->id;
   }
   const std::string &BulletType::getName() const
   {
-    return bulletTypeName[this->id];
+    return bulletTypeName[this->getID()];
   }
   const char *BulletType::c_str() const
   {
-    return bulletTypeName[this->id].c_str();
+    return bulletTypeName[this->getID()].c_str();
   }
   BulletType BulletTypes::getBulletType(std::string name)
   {

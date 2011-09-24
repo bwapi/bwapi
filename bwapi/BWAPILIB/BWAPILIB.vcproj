@@ -237,6 +237,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\Type.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UnitCommand.cpp"
 				>
 			</File>
@@ -340,6 +344,10 @@
 			</File>
 			<File
 				RelativePath="..\include\BWAPI\TournamentAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\BWAPI\Type.h"
 				>
 			</File>
 			<File

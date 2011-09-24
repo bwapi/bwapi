@@ -332,85 +332,72 @@ namespace BWAPI
       initializingUpgradeType = false;
     }
   }
-  UpgradeType::UpgradeType()
+  UpgradeType::UpgradeType() : Type(UpgradeTypes::None)
   {
-    this->id = UpgradeTypes::None;
   }
-  UpgradeType::UpgradeType(int id)
+  int getValidUpgradeTypeID(int id)
   {
-    this->id = id;
-    if (!initializingUpgradeType && (id < 0 || id >= 63 || !upgradeTypeData[id].valid) )
-      this->id = UpgradeTypes::Unknown;
-  }
-  UpgradeType::UpgradeType(const UpgradeType& other)
-  {
-    this->id = other;
-  }
-  UpgradeType& UpgradeType::operator=(const UpgradeType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  UpgradeType::operator int() const
-  {
+    if ( !initializingUpgradeType && (id < 0 || id >= 63 || !upgradeTypeData[id].valid) )
+      return UpgradeTypes::Unknown;
     return id;
   }
-  int UpgradeType::getID() const
+  UpgradeType::UpgradeType(int id) : Type( getValidUpgradeTypeID(id) )
   {
-    return this->id;
   }
   const std::string &UpgradeType::getName() const
   {
-    return upgradeTypeData[this->id].name;
+    return upgradeTypeData[this->getID()].name;
   }
   const char *UpgradeType::c_str() const
   {
-    return upgradeTypeData[this->id].name.c_str();
+    return upgradeTypeData[this->getID()].name.c_str();
   }
   Race UpgradeType::getRace() const
   {
-    return upgradeTypeData[this->id].race;
+    return upgradeTypeData[this->getID()].race;
   }
   int UpgradeType::mineralPrice(int level) const
   {
-    return upgradeTypeData[this->id].mineralPriceBase + (level > 0 ? level - 1 : 0) * this->mineralPriceFactor();
+    return upgradeTypeData[this->getID()].mineralPriceBase + 
+           (level > 0 ? level - 1 : 0) * this->mineralPriceFactor();
   }
   int UpgradeType::mineralPriceFactor() const
   {
-    return upgradeTypeData[this->id].mineralPriceFactor;
+    return upgradeTypeData[this->getID()].mineralPriceFactor;
   }
   int UpgradeType::gasPrice(int level) const
   {
-    return upgradeTypeData[this->id].gasPriceBase + (level > 0 ? level - 1 : 0) * this->gasPriceFactor();
+    return upgradeTypeData[this->getID()].gasPriceBase + 
+           (level > 0 ? level - 1 : 0) * this->gasPriceFactor();
   }
   int UpgradeType::gasPriceFactor() const
   {
-    return upgradeTypeData[this->id].gasPriceFactor;
+    return upgradeTypeData[this->getID()].gasPriceFactor;
   }
   int UpgradeType::upgradeTime(int level) const
   {
-    return upgradeTypeData[this->id].upgradeTimeBase + (level > 0 ? level - 1 : 0) * this->upgradeTimeFactor();
+    return upgradeTypeData[this->getID()].upgradeTimeBase + (level > 0 ? level - 1 : 0) * this->upgradeTimeFactor();
   }
   int UpgradeType::upgradeTimeFactor() const
   {
-    return upgradeTypeData[this->id].upgradeTimeFactor;
+    return upgradeTypeData[this->getID()].upgradeTimeFactor;
   }
   UnitType UpgradeType::whatUpgrades() const
   {
-    return upgradeTypeData[this->id].whatUpgrades;
+    return upgradeTypeData[this->getID()].whatUpgrades;
   }
   const std::set<UnitType>& UpgradeType::whatUses() const
   {
-    return upgradeTypeData[this->id].whatUses;
+    return upgradeTypeData[this->getID()].whatUses;
   }
   int UpgradeType::maxRepeats() const
   {
-    return upgradeTypeData[this->id].maxRepeats;
+    return upgradeTypeData[this->getID()].maxRepeats;
   }
   UnitType UpgradeType::whatsRequired(int level) const
   {
     if ( level >= 1 && level <= 3)
-      return upgradeTypeData[this->id].requirement[level - 1];
+      return upgradeTypeData[this->getID()].requirement[level - 1];
     return UnitTypes::None;
   }
   UpgradeType UpgradeTypes::getUpgradeType(std::string name)

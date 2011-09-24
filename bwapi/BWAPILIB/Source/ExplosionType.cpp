@@ -105,40 +105,25 @@ namespace BWAPI
       initializingExplosionType = false;
     }
   }
-  ExplosionType::ExplosionType()
+  ExplosionType::ExplosionType() : Type(ExplosionTypes::None)
   {
-    this->id = ExplosionTypes::None;
   }
-  ExplosionType::ExplosionType(int id)
+  int getValidExplosionTypeID(int id)
   {
-    this->id = id;
-    if (!initializingExplosionType && (id < 0 || id >= 26))
-      this->id = ExplosionTypes::Unknown;
-  }
-  ExplosionType::ExplosionType(const ExplosionType& other)
-  {
-    this->id = other;
-  }
-  ExplosionType& ExplosionType::operator=(const ExplosionType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  ExplosionType::operator int() const
-  {
+    if ( !initializingExplosionType && (id < 0 || id >= 26) )
+      return ExplosionTypes::Unknown;
     return id;
   }
-  int ExplosionType::getID() const
+  ExplosionType::ExplosionType(int id) : Type( getValidExplosionTypeID(id) )
   {
-    return this->id;
   }
   const std::string &ExplosionType::getName() const
   {
-    return explosionTypeName[this->id];
+    return explosionTypeName[this->getID()];
   }
   const char *ExplosionType::c_str() const
   {
-    return explosionTypeName[this->id].c_str();
+    return explosionTypeName[this->getID()].c_str();
   }
   ExplosionType ExplosionTypes::getExplosionType(std::string name)
   {

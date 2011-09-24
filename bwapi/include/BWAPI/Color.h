@@ -1,25 +1,22 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 namespace BWAPI
 {
   // TODO: Add color palette image and info about text color
   /** StarCraft uses a 256 color palette to render everything, so the colors we can use to draw shapes using
    * BWAPI is limited to the colors available in the Palette. */
-  class Color
+  class Color : public Type
   {
     public:
       Color();
 
       /** Create a color using the specified index from the Broodwar color palette. */
       Color(int id);
-      Color(const Color& other);
 
       /** Create a color using the color in the palette that is closest to the RGB color specified. */
       Color(int red, int green, int blue);
-
-      /** Return the index of the color in the color palette. */
-      int getID() const;
 
       /** Return the red component of the color. */
       int red() const;
@@ -29,11 +26,6 @@ namespace BWAPI
 
       /** Return the blue component of the color. */
       int blue() const;
-
-      Color& operator=(const Color& other);
-      operator int() const;
-    private:
-      int id;
   };
 
   /** While any color from the palette can be used, the following colors are available as short cuts. */

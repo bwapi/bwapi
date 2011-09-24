@@ -139,6 +139,7 @@ extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE, DWORD)
 
 extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD)
 {
+  MessageBox(NULL, "", 0, 0);
   char envBuffer[MAX_PATH];
   bool envFailed = false;
   if ( !GetEnvironmentVariable("ChaosDir", envBuffer, MAX_PATH) )

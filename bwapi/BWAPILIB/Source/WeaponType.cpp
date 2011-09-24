@@ -510,132 +510,117 @@ namespace BWAPI
       initializingWeaponType = false;
     }
   }
-  WeaponType::WeaponType()
+  WeaponType::WeaponType() : Type(WeaponTypes::None)
   {
-    this->id = WeaponTypes::None;
   }
-  WeaponType::WeaponType(int id)
+  int getValidWeaponTypeID(int id)
   {
-    this->id = id;
-    if (!initializingWeaponType && (id < 0 || id >= 132 || !weaponTypeData[id].valid))
-      this->id = WeaponTypes::Unknown;
-  }
-  WeaponType::WeaponType(const WeaponType& other)
-  {
-    this->id = other;
-  }
-  WeaponType& WeaponType::operator=(const WeaponType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  WeaponType::operator int() const
-  {
+    if ( !initializingWeaponType && (id < 0 || id >= 132 || !weaponTypeData[id].valid) )
+      return WeaponTypes::Unknown;
     return id;
   }
-  int WeaponType::getID() const
+  WeaponType::WeaponType(int id) : Type( getValidWeaponTypeID(id) )
   {
-    return this->id;
   }
   const std::string &WeaponType::getName() const
   {
-    return weaponTypeData[this->id].name;
+    return weaponTypeData[this->getID()].name;
   }
   const char *WeaponType::c_str() const
   {
-    return weaponTypeData[this->id].name.c_str();
+    return weaponTypeData[this->getID()].name.c_str();
   }
   TechType WeaponType::getTech() const
   {
-    return weaponTypeData[this->id].techType;
+    return weaponTypeData[this->getID()].techType;
   }
   UnitType WeaponType::whatUses() const
   {
-    return weaponTypeData[this->id].whatUses;
+    return weaponTypeData[this->getID()].whatUses;
   }
   int WeaponType::damageAmount() const
   {
-    return weaponTypeData[this->id].damageAmount;
+    return weaponTypeData[this->getID()].damageAmount;
   }
   int WeaponType::damageBonus() const
   {
-    return weaponTypeData[this->id].damageBonus;
+    return weaponTypeData[this->getID()].damageBonus;
   }
   int WeaponType::damageCooldown() const
   {
-    return weaponTypeData[this->id].damageCooldown;
+    return weaponTypeData[this->getID()].damageCooldown;
   }
   int WeaponType::damageFactor() const
   {
-    return weaponTypeData[this->id].damageFactor;
+    return weaponTypeData[this->getID()].damageFactor;
   }
   UpgradeType WeaponType::upgradeType() const
   {
-    return weaponTypeData[this->id].upgradeType;
+    return weaponTypeData[this->getID()].upgradeType;
   }
   DamageType WeaponType::damageType() const
   {
-    return weaponTypeData[this->id].damageType;
+    return weaponTypeData[this->getID()].damageType;
   }
   ExplosionType WeaponType::explosionType() const
   {
-    return weaponTypeData[this->id].explosionType;
+    return weaponTypeData[this->getID()].explosionType;
   }
   int WeaponType::minRange() const
   {
-    return weaponTypeData[this->id].minRange;
+    return weaponTypeData[this->getID()].minRange;
   }
   int WeaponType::maxRange() const
   {
-    return weaponTypeData[this->id].maxRange;
+    return weaponTypeData[this->getID()].maxRange;
   }
   int WeaponType::innerSplashRadius() const
   {
-    return weaponTypeData[this->id].innerSplashRadius;
+    return weaponTypeData[this->getID()].innerSplashRadius;
   }
   int WeaponType::medianSplashRadius() const
   {
-    return weaponTypeData[this->id].medianSplashRadius;
+    return weaponTypeData[this->getID()].medianSplashRadius;
   }
   int WeaponType::outerSplashRadius() const
   {
-    return weaponTypeData[this->id].outerSplashRadius;
+    return weaponTypeData[this->getID()].outerSplashRadius;
   }
   bool WeaponType::targetsAir() const
   {
-    return weaponTypeData[this->id].targetsAir;
+    return weaponTypeData[this->getID()].targetsAir;
   }
   bool WeaponType::targetsGround() const
   {
-    return weaponTypeData[this->id].targetsGround;
+    return weaponTypeData[this->getID()].targetsGround;
   }
   bool WeaponType::targetsMechanical() const
   {
-    return weaponTypeData[this->id].targetsMechanical;
+    return weaponTypeData[this->getID()].targetsMechanical;
   }
   bool WeaponType::targetsOrganic() const
   {
-    return weaponTypeData[this->id].targetsOrganic;
+    return weaponTypeData[this->getID()].targetsOrganic;
   }
   bool WeaponType::targetsNonBuilding() const
   {
-    return weaponTypeData[this->id].targetsNonBuilding;
+    return weaponTypeData[this->getID()].targetsNonBuilding;
   }
   bool WeaponType::targetsNonRobotic() const
   {
-    return weaponTypeData[this->id].targetsNonRobotic;
+    return weaponTypeData[this->getID()].targetsNonRobotic;
   }
   bool WeaponType::targetsTerrain() const
   {
-    return weaponTypeData[this->id].targetsTerrain;
+    return weaponTypeData[this->getID()].targetsTerrain;
   }
   bool WeaponType::targetsOrgOrMech() const
   {
-    return weaponTypeData[this->id].targetsOrgOrMech;
+    return weaponTypeData[this->getID()].targetsOrgOrMech;
   }
   bool WeaponType::targetsOwn() const
   {
-    return weaponTypeData[this->id].targetsOwn;
+    return weaponTypeData[this->getID()].targetsOwn;
   }
   WeaponType WeaponTypes::getWeaponType(std::string name)
   {
