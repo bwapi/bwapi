@@ -1,26 +1,18 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 namespace BWAPI
 {
-  class PlayerType
+  class PlayerType : public Type
   {
     public:
       PlayerType();
       PlayerType(int id);
-      PlayerType(const PlayerType& other);
-      PlayerType& operator=(const PlayerType& other);
-      operator int() const;
-
-      /** Returns the unique ID for this player type. */
-      int getID() const;
-
       /** Returns the name of the player type. For example PlayerTypes::Computer.getName() will return an
        * std::string object containing "Computer". */
       const std::string &getName() const;
       const char *c_str() const;
-    private:
-      int id;
   };
   namespace PlayerTypes
   {

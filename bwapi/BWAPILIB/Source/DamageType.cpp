@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <BWAPI/DamageType.h>
+
 #include <Util/Foreach.h>
 
 #include "Common.h"
@@ -51,40 +52,25 @@ namespace BWAPI
       initializingDamageType = false;
     }
   }
-  DamageType::DamageType()
+  DamageType::DamageType() : Type(DamageTypes::None)
   {
-    this->id = DamageTypes::None;
   }
-  DamageType::DamageType(int id)
+  int getValidDamageTypeID(int id)
   {
-    this->id = id;
-    if (!initializingDamageType && (id < 0 || id >= 7))
-      this->id = DamageTypes::Unknown;
-  }
-  DamageType::DamageType(const DamageType& other)
-  {
-    this->id = other;
-  }
-  DamageType& DamageType::operator=(const DamageType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  DamageType::operator int() const
-  {
+    if ( !initializingDamageType && (id < 0 || id >= 7) ) 
+      return DamageTypes::Unknown;
     return id;
   }
-  int DamageType::getID() const
+  DamageType::DamageType(int id) : Type( getValidDamageTypeID(id) )
   {
-    return this->id;
   }
   const std::string &DamageType::getName() const
   {
-    return damageTypeName[this->id];
+    return damageTypeName[this->getID()];
   }
   const char *DamageType::c_str() const
   {
-    return damageTypeName[this->id].c_str();
+    return damageTypeName[this->getID()].c_str();
   }
   DamageType DamageTypes::getDamageType(std::string name)
   {

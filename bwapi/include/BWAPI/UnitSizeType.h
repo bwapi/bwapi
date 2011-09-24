@@ -1,26 +1,18 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 namespace BWAPI
 {
-  class UnitSizeType
+  class UnitSizeType : public Type
   {
-    public:
-      UnitSizeType();
-      UnitSizeType(int id);
-      UnitSizeType(const UnitSizeType& other);
-      UnitSizeType& operator=(const UnitSizeType& other);
-      operator int() const;
-
-      /** Returns a unique ID for this UnitSizeType. */
-      int getID() const;
-
-      /** Returns the string corresponding to the UnitSizeType object. For example,
-       * UnitSizeTypes::Medium.getName() returns std::string("Medium")*/
-      const std::string &getName() const;
-      const char *c_str() const;
-    private:
-      int id;
+  public:
+    UnitSizeType();
+    UnitSizeType(int id);
+    /** Returns the string corresponding to the UnitSizeType object. For example,
+     * UnitSizeTypes::Medium.getName() returns std::string("Medium")*/
+    const std::string &getName() const;
+    const char *c_str() const;
   };
   namespace UnitSizeTypes
   {

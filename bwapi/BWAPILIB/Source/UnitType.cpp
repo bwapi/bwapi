@@ -914,338 +914,323 @@ namespace BWAPI
       initializingUnitType = false;
     }
   }
-  UnitType::UnitType()
+  UnitType::UnitType() : Type(UnitTypes::None)
   {
-    this->id = UnitTypes::None;
   }
-  UnitType::UnitType(int id)
+  int getValidUnitTypeID(int id)
   {
-    this->id = id;
-    if (!initializingUnitType && (id < 0 || id >= BWAPI_UNIT_TYPE_MAX_COUNT || !unitTypeData[id].valid))
-      this->id = UnitTypes::Unknown;
-  }
-  UnitType::UnitType(const UnitType& other)
-  {
-    this->id = other;
-  }
-  UnitType& UnitType::operator=(const UnitType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  UnitType::operator int() const
-  {
+    if ( !initializingUnitType && (id < 0 || id >= BWAPI_UNIT_TYPE_MAX_COUNT || !unitTypeData[id].valid) )
+      return UnitTypes::Unknown;
     return id;
   }
-  int UnitType::getID() const
+  UnitType::UnitType(int id) : Type( getValidUnitTypeID(id) )
   {
-    return this->id;
   }
   const std::string &UnitType::getName() const
   {
-    return unitTypeData[this->id].name;
+    return unitTypeData[this->getID()].name;
   }
   const char *UnitType::c_str() const
   {
-    return unitTypeData[this->id].name.c_str();
+    return unitTypeData[this->getID()].name.c_str();
   }
   Race UnitType::getRace() const
   {
-    return unitTypeData[this->id].race;
+    return unitTypeData[this->getID()].race;
   }
   const std::pair<  UnitType, int> UnitType::whatBuilds() const
   {
-    return unitTypeData[this->id].whatBuilds;
+    return unitTypeData[this->getID()].whatBuilds;
   }
   const std::map<  UnitType, int >& UnitType::requiredUnits() const
   {
-    return unitTypeData[this->id].requiredUnits;
+    return unitTypeData[this->getID()].requiredUnits;
   }
   TechType UnitType::requiredTech() const
   {
-    return unitTypeData[this->id].requiredTech;
+    return unitTypeData[this->getID()].requiredTech;
   }
   TechType UnitType::cloakingTech() const
   {
-    return unitTypeData[this->id].cloakingTech;
+    return unitTypeData[this->getID()].cloakingTech;
   }
   const std::set< TechType >& UnitType::abilities() const
   {
-    return unitTypeData[this->id].abilities;
+    return unitTypeData[this->getID()].abilities;
   }
   const std::set< UpgradeType >& UnitType::upgrades() const
   {
-    return unitTypeData[this->id].upgrades;
+    return unitTypeData[this->getID()].upgrades;
   }
   UpgradeType UnitType::armorUpgrade() const
   {
-    return unitTypeData[this->id].armorUpgrade;
+    return unitTypeData[this->getID()].armorUpgrade;
   }
   int UnitType::maxHitPoints() const
   {
-    return unitTypeData[this->id].maxHitPoints;
+    return unitTypeData[this->getID()].maxHitPoints;
   }
   int UnitType::maxShields() const
   {
-    return unitTypeData[this->id].maxShields;
+    return unitTypeData[this->getID()].maxShields;
   }
   int UnitType::maxEnergy() const
   {
-    return unitTypeData[this->id].maxEnergy;
+    return unitTypeData[this->getID()].maxEnergy;
   }
   int UnitType::armor() const
   {
-    return unitTypeData[this->id].armor;
+    return unitTypeData[this->getID()].armor;
   }
   int UnitType::mineralPrice() const
   {
-    return unitTypeData[this->id].mineralPrice;
+    return unitTypeData[this->getID()].mineralPrice;
   }
   int UnitType::gasPrice() const
   {
-    return unitTypeData[this->id].gasPrice;
+    return unitTypeData[this->getID()].gasPrice;
   }
   int UnitType::buildTime() const
   {
-    return unitTypeData[this->id].buildTime;
+    return unitTypeData[this->getID()].buildTime;
   }
   int UnitType::supplyRequired() const
   {
-    return unitTypeData[this->id].supplyRequired;
+    return unitTypeData[this->getID()].supplyRequired;
   }
   int UnitType::supplyProvided() const
   {
-    return unitTypeData[this->id].supplyProvided;
+    return unitTypeData[this->getID()].supplyProvided;
   }
   int UnitType::spaceRequired() const
   {
-    return unitTypeData[this->id].spaceRequired;
+    return unitTypeData[this->getID()].spaceRequired;
   }
   int UnitType::spaceProvided() const
   {
-    return unitTypeData[this->id].spaceProvided;
+    return unitTypeData[this->getID()].spaceProvided;
   }
   int UnitType::buildScore() const
   {
-    return unitTypeData[this->id].buildScore;
+    return unitTypeData[this->getID()].buildScore;
   }
   int UnitType::destroyScore() const
   {
-    return unitTypeData[this->id].destroyScore;
+    return unitTypeData[this->getID()].destroyScore;
   }
   UnitSizeType UnitType::size() const
   {
-    return unitTypeData[this->id].unitSizeType;
+    return unitTypeData[this->getID()].unitSizeType;
   }
   int UnitType::tileWidth() const
   {
-    return unitTypeData[this->id].tileWidth;
+    return unitTypeData[this->getID()].tileWidth;
   }
   int UnitType::tileHeight() const
   {
-    return unitTypeData[this->id].tileHeight;
+    return unitTypeData[this->getID()].tileHeight;
   }
   int UnitType::dimensionLeft() const
   {
-    return unitTypeData[this->id].dimensionLeft;
+    return unitTypeData[this->getID()].dimensionLeft;
   }
   int UnitType::dimensionUp() const
   {
-    return unitTypeData[this->id].dimensionUp;
+    return unitTypeData[this->getID()].dimensionUp;
   }
   int UnitType::dimensionRight() const
   {
-    return unitTypeData[this->id].dimensionRight;
+    return unitTypeData[this->getID()].dimensionRight;
   }
   int UnitType::dimensionDown() const
   {
-    return unitTypeData[this->id].dimensionDown;
+    return unitTypeData[this->getID()].dimensionDown;
   }
   int UnitType::seekRange() const
   {
-    return unitTypeData[this->id].seekRange;
+    return unitTypeData[this->getID()].seekRange;
   }
   int UnitType::sightRange() const
   {
-    return unitTypeData[this->id].sightRange;
+    return unitTypeData[this->getID()].sightRange;
   }
   WeaponType UnitType::groundWeapon() const
   {
-    return unitTypeData[this->id].groundWeapon;
+    return unitTypeData[this->getID()].groundWeapon;
   }
   int UnitType::maxGroundHits() const
   {
-    return unitTypeData[this->id].maxGroundHits;
+    return unitTypeData[this->getID()].maxGroundHits;
   }
   WeaponType UnitType::airWeapon() const
   {
-    return unitTypeData[this->id].airWeapon;
+    return unitTypeData[this->getID()].airWeapon;
   }
   int UnitType::maxAirHits() const
   {
-    return unitTypeData[this->id].maxAirHits;
+    return unitTypeData[this->getID()].maxAirHits;
   }
   double UnitType::topSpeed() const
   {
-    return unitTypeData[this->id].topSpeed;
+    return unitTypeData[this->getID()].topSpeed;
   }
   int UnitType::acceleration() const
   {
-    return unitTypeData[this->id].acceleration;
+    return unitTypeData[this->getID()].acceleration;
   }
   int UnitType::haltDistance() const
   {
-    return unitTypeData[this->id].haltDistance;
+    return unitTypeData[this->getID()].haltDistance;
   }
   int UnitType::turnRadius() const
   {
-    return unitTypeData[this->id].turnRadius;
+    return unitTypeData[this->getID()].turnRadius;
   }
   bool UnitType::canProduce() const
   {
-    return unitTypeData[this->id].canProduce;
+    return unitTypeData[this->getID()].canProduce;
   }
   bool UnitType::canAttack() const
   {
-    return unitTypeData[this->id].canAttack;
+    return unitTypeData[this->getID()].canAttack;
   }
   bool UnitType::canMove() const
   {
-    return unitTypeData[this->id].canMove;
+    return unitTypeData[this->getID()].canMove;
   }
   bool UnitType::isFlyer() const
   {
-    return unitTypeData[this->id].isFlyer;
+    return unitTypeData[this->getID()].isFlyer;
   }
   bool UnitType::regeneratesHP() const
   {
-    return unitTypeData[this->id].regeneratesHP;
+    return unitTypeData[this->getID()].regeneratesHP;
   }
   bool UnitType::isSpellcaster() const
   {
-    return unitTypeData[this->id].isSpellcaster;
+    return unitTypeData[this->getID()].isSpellcaster;
   }
   bool UnitType::hasPermanentCloak() const
   {
-    return unitTypeData[this->id].hasPermanentCloak;
+    return unitTypeData[this->getID()].hasPermanentCloak;
   }
   bool UnitType::isInvincible() const
   {
-    return unitTypeData[this->id].isInvincible;
+    return unitTypeData[this->getID()].isInvincible;
   }
   bool UnitType::isOrganic() const
   {
-    return unitTypeData[this->id].isOrganic;
+    return unitTypeData[this->getID()].isOrganic;
   }
   bool UnitType::isMechanical() const
   {
-    return unitTypeData[this->id].isMechanical;
+    return unitTypeData[this->getID()].isMechanical;
   }
   bool UnitType::isRobotic() const
   {
-    return unitTypeData[this->id].isRobotic;
+    return unitTypeData[this->getID()].isRobotic;
   }
   bool UnitType::isDetector() const
   {
-    return unitTypeData[this->id].isDetector;
+    return unitTypeData[this->getID()].isDetector;
   }
   bool UnitType::isResourceContainer() const
   {
-    return unitTypeData[this->id].isResourceContainer;
+    return unitTypeData[this->getID()].isResourceContainer;
   }
   bool UnitType::isResourceDepot() const
   {
-    return unitTypeData[this->id].isResourceDepot;
+    return unitTypeData[this->getID()].isResourceDepot;
   }
   bool UnitType::isRefinery() const
   {
-    return unitTypeData[this->id].isRefinery;
+    return unitTypeData[this->getID()].isRefinery;
   }
   bool UnitType::isWorker() const
   {
-    return unitTypeData[this->id].isWorker;
+    return unitTypeData[this->getID()].isWorker;
   }
   bool UnitType::requiresPsi() const
   {
-    return unitTypeData[this->id].requiresPsi;
+    return unitTypeData[this->getID()].requiresPsi;
   }
   bool UnitType::requiresCreep() const
   {
-    return unitTypeData[this->id].requiresCreep;
+    return unitTypeData[this->getID()].requiresCreep;
   }
   bool UnitType::isTwoUnitsInOneEgg() const
   {
-    return unitTypeData[this->id].isTwoUnitsInOneEgg;
+    return unitTypeData[this->getID()].isTwoUnitsInOneEgg;
   }
   bool UnitType::isBurrowable() const
   {
-    return unitTypeData[this->id].isBurrowable;
+    return unitTypeData[this->getID()].isBurrowable;
   }
   bool UnitType::isCloakable() const
   {
-    return unitTypeData[this->id].isCloakable;
+    return unitTypeData[this->getID()].isCloakable;
   }
   bool UnitType::isBuilding() const
   {
-    return unitTypeData[this->id].isBuilding;
+    return unitTypeData[this->getID()].isBuilding;
   }
   bool UnitType::isAddon() const
   {
-    return unitTypeData[this->id].isAddon;
+    return unitTypeData[this->getID()].isAddon;
   }
   bool UnitType::isFlyingBuilding() const
   {
-    return unitTypeData[this->id].isFlyingBuilding;
+    return unitTypeData[this->getID()].isFlyingBuilding;
   }
   bool UnitType::isNeutral() const
   {
-    return unitTypeData[this->id].isNeutral;
+    return unitTypeData[this->getID()].isNeutral;
   }
   bool UnitType::isHero() const
   {
-    return unitTypeData[this->id].isHero ||
-           this->id == UnitTypes::Hero_Dark_Templar ||
-           this->id == UnitTypes::Terran_Civilian;
+    return unitTypeData[this->getID()].isHero ||
+           this->getID() == UnitTypes::Hero_Dark_Templar ||
+           this->getID() == UnitTypes::Terran_Civilian;
   }
   bool UnitType::isPowerup() const
   {
-    return this->id == UnitTypes::Powerup_Uraj_Crystal ||
-           this->id == UnitTypes::Powerup_Khalis_Crystal ||
-           (this->id >= UnitTypes::Powerup_Flag && this->id < UnitTypes::None);
+    return this->getID() == UnitTypes::Powerup_Uraj_Crystal ||
+           this->getID() == UnitTypes::Powerup_Khalis_Crystal ||
+           (this->getID() >= UnitTypes::Powerup_Flag && this->getID() < UnitTypes::None);
   }
   bool UnitType::isBeacon() const
   {
-    return this->id == UnitTypes::Special_Zerg_Beacon ||
-           this->id == UnitTypes::Special_Terran_Beacon ||
-           this->id == UnitTypes::Special_Protoss_Beacon;
+    return this->getID() == UnitTypes::Special_Zerg_Beacon ||
+           this->getID() == UnitTypes::Special_Terran_Beacon ||
+           this->getID() == UnitTypes::Special_Protoss_Beacon;
   }
   bool UnitType::isFlagBeacon() const
   {
-    return this->id == UnitTypes::Special_Zerg_Flag_Beacon ||
-           this->id == UnitTypes::Special_Terran_Flag_Beacon ||
-           this->id == UnitTypes::Special_Protoss_Flag_Beacon;
+    return this->getID() == UnitTypes::Special_Zerg_Flag_Beacon ||
+           this->getID() == UnitTypes::Special_Terran_Flag_Beacon ||
+           this->getID() == UnitTypes::Special_Protoss_Flag_Beacon;
   }
   bool UnitType::isSpecialBuilding() const
   {
-    return unitTypeData[this->id].isSpecialBuilding && this->id != UnitTypes::Zerg_Infested_Command_Center;
+    return unitTypeData[this->getID()].isSpecialBuilding && this->getID() != UnitTypes::Zerg_Infested_Command_Center;
   }
   bool UnitType::isSpell() const
   {
-    return this->id == UnitTypes::Spell_Dark_Swarm ||
-           this->id == UnitTypes::Spell_Disruption_Web ||
-           this->id == UnitTypes::Spell_Scanner_Sweep;
+    return this->getID() == UnitTypes::Spell_Dark_Swarm ||
+           this->getID() == UnitTypes::Spell_Disruption_Web ||
+           this->getID() == UnitTypes::Spell_Scanner_Sweep;
   }
   bool UnitType::producesLarva() const
   {
-    return this->id == UnitTypes::Zerg_Hatchery ||
-           this->id == UnitTypes::Zerg_Lair     ||
-           this->id == UnitTypes::Zerg_Hive;
+    return this->getID() == UnitTypes::Zerg_Hatchery ||
+           this->getID() == UnitTypes::Zerg_Lair     ||
+           this->getID() == UnitTypes::Zerg_Hive;
   }
   bool UnitType::isMineralField() const
   {
-    return id == UnitTypes::Resource_Mineral_Field        ||
-           id == UnitTypes::Resource_Mineral_Field_Type_2 ||
-           id == UnitTypes::Resource_Mineral_Field_Type_3;
+    return this->getID() == UnitTypes::Resource_Mineral_Field        ||
+           this->getID() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+           this->getID() == UnitTypes::Resource_Mineral_Field_Type_3;
   }
   UnitType UnitTypes::getUnitType(std::string name)
   {

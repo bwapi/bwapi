@@ -48,40 +48,25 @@ namespace BWAPI
       initializingUnitSizeType = false;
     }
   }
-  UnitSizeType::UnitSizeType()
+  UnitSizeType::UnitSizeType() : Type(UnitSizeTypes::None)
   {
-    this->id = UnitSizeTypes::None;
   }
-  UnitSizeType::UnitSizeType(int id)
+  int getValidUnitSizeTypeID(int id)
   {
-    this->id = id;
-    if (!initializingUnitSizeType && (id < 0 || id >= 6))
-      this->id = UnitSizeTypes::Unknown;
-  }
-  UnitSizeType::UnitSizeType(const UnitSizeType& other)
-  {
-    this->id = other;
-  }
-  UnitSizeType& UnitSizeType::operator=(const UnitSizeType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  UnitSizeType::operator int() const
-  {
+    if ( !initializingUnitSizeType && (id < 0 || id >= 6) )
+      return UnitSizeTypes::Unknown;
     return id;
   }
-  int UnitSizeType::getID() const
+  UnitSizeType::UnitSizeType(int id) : Type( getValidUnitSizeTypeID(id) )
   {
-    return this->id;
   }
   const std::string &UnitSizeType::getName() const
   {
-    return unitSizeTypeName[this->id];
+    return unitSizeTypeName[this->getID()];
   }
   const char *UnitSizeType::c_str() const
   {
-    return unitSizeTypeName[this->id].c_str();
+    return unitSizeTypeName[this->getID()].c_str();
   }
   UnitSizeType UnitSizeTypes::getUnitSizeType(std::string name)
   {

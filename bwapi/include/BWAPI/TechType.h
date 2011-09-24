@@ -4,21 +4,16 @@
 #include <set>
 #include <BWAPI/Race.h>
 #include <BWAPI/Order.h>
+#include "Type.h"
 namespace BWAPI
 {
   class UnitType;
   class WeaponType;
-  class TechType
+  class TechType : public Type
   {
     public:
       TechType();
       TechType(int id);
-      TechType(const TechType& other);
-      TechType& operator=(const TechType& other);
-      operator int() const;
-
-      /** Returns the unique ID for this tech type. */
-      int getID() const;
 
       /** Returns the name of the tech type. */
       const std::string &getName() const;
@@ -61,9 +56,6 @@ namespace BWAPI
 
       /** Returns the order used to execute this tech type as an action. */
       Order getOrder() const;
-
-    private:
-      int id;
   };
   namespace TechTypes
   {

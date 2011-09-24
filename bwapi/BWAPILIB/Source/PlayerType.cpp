@@ -65,40 +65,25 @@ namespace BWAPI
       initializingPlayerType = false;
     }
   }
-  PlayerType::PlayerType()
+  PlayerType::PlayerType() : Type(PlayerTypes::None)
   {
-    this->id = PlayerTypes::None;
   }
-  PlayerType::PlayerType(int id)
+  int getValidPlayerTypeID(int id)
   {
-    this->id = id;
-    if (!initializingPlayerType && (id < 0 || id >= 13 || playerTypeName[id].length() == 0) )
-      this->id = PlayerTypes::Unknown;
-  }
-  PlayerType::PlayerType(const PlayerType& other)
-  {
-    this->id = other;
-  }
-  PlayerType& PlayerType::operator=(const PlayerType& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  PlayerType::operator int() const
-  {
+    if ( !initializingPlayerType && (id < 0 || id >= 13 || playerTypeName[id].length() == 0) )
+      return PlayerTypes::Unknown;
     return id;
   }
-  int PlayerType::getID() const
+  PlayerType::PlayerType(int id) : Type( getValidPlayerTypeID(id) )
   {
-    return this->id;
   }
   const std::string &PlayerType::getName() const
   {
-    return playerTypeName[this->id];
+    return playerTypeName[this->getID()];
   }
   const char *PlayerType::c_str() const
   {
-    return playerTypeName[this->id].c_str();
+    return playerTypeName[this->getID()].c_str();
   }
   PlayerType PlayerTypes::getPlayerType(std::string name)
   {

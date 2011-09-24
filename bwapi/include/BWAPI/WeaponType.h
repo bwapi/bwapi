@@ -1,23 +1,18 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 namespace BWAPI
 {
   class TechType;
   class UpgradeType;
   class DamageType;
   class ExplosionType;
-  class WeaponType
+  class WeaponType : public Type
   {
     public:
       WeaponType();
       WeaponType(int id);
-      WeaponType(const WeaponType& other);
-      WeaponType& operator=(const WeaponType& other);
-      operator int() const;
-
-      /** Returns a unique ID for this weapon type. */
-      int getID() const;
 
       /** Returns the name of the weapon. */
       const std::string &getName() const;
@@ -81,8 +76,6 @@ namespace BWAPI
       bool targetsTerrain() const;
       bool targetsOrgOrMech() const;
       bool targetsOwn() const;
-    private:
-      int id;
   };
   namespace WeaponTypes
   {

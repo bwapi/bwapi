@@ -502,40 +502,25 @@ namespace BWAPI
     }
   }
 
-  Order::Order()
+  Order::Order() : Type(Orders::None)
   {
-    this->id = Orders::None;
   }
-  Order::Order(int id)
+  int getValidOrderID(int id)
   {
-    this->id = id;
-    if (!initializingOrder && (id < 0 || id >= 191 || orderName[id].length() == 0))
-      this->id = Orders::Unknown;
-  }
-  Order::Order(const Order& other)
-  {
-    this->id = other;
-  }
-  Order& Order::operator=(const Order& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  Order::operator int() const
-  {
+    if ( !initializingOrder && (id < 0 || id >= 191 || orderName[id].length() == 0) )
+      return Orders::Unknown;
     return id;
   }
-  int Order::getID() const
+  Order::Order(int id) : Type( getValidOrderID(id) )
   {
-    return this->id;
   }
   const std::string &Order::getName() const
   {
-    return orderName[this->id];
+    return orderName[this->getID()];
   }
   const char *Order::c_str() const
   {
-    return orderName[this->id].c_str();
+    return orderName[this->getID()].c_str();
   }
   Order Orders::getOrder(std::string name)
   {

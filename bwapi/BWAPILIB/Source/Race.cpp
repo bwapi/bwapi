@@ -73,60 +73,45 @@ namespace BWAPI
       initializingRace = false;
     }
   }
-  Race::Race()
+  Race::Race() : Type(Races::None)
   {
-    this->id = Races::None;
   }
-  Race::Race(int id)
+  int getValidRaceID(int id)
   {
-    this->id = id;
-    if (!initializingRace && (id < 0 || id >= 7) )
-      this->id = Races::Unknown;
-  }
-  Race::Race(const Race& other)
-  {
-    this->id = other;
-  }
-  Race& Race::operator=(const Race& other)
-  {
-    this->id = other;
-    return *this;
-  }
-  Race::operator int() const
-  {
+    if ( !initializingRace && (id < 0 || id >= 7) )
+      return Races::Unknown;
     return id;
   }
-  int Race::getID() const
+  Race::Race(int id) : Type( getValidRaceID(id) )
   {
-    return this->id;
   }
   const std::string &Race::getName() const
   {
-    return raceData[this->id].name;
+    return raceData[this->getID()].name;
   }
   const char *Race::c_str() const
   {
-    return raceData[this->id].name.c_str();
+    return raceData[this->getID()].name.c_str();
   }
   UnitType Race::getWorker() const
   {
-    return raceData[this->id].worker;
+    return raceData[this->getID()].worker;
   }
   UnitType Race::getCenter() const
   {
-    return raceData[this->id].center;
+    return raceData[this->getID()].center;
   }
   UnitType Race::getRefinery() const
   {
-    return raceData[this->id].refinery;
+    return raceData[this->getID()].refinery;
   }
   UnitType Race::getTransport() const
   {
-    return raceData[this->id].transport;
+    return raceData[this->getID()].transport;
   }
   UnitType Race::getSupplyProvider() const
   {
-    return raceData[this->id].supplyProvider;
+    return raceData[this->getID()].supplyProvider;
   }
   Race Races::getRace(std::string name)
   {

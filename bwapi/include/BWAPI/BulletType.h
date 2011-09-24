@@ -1,26 +1,19 @@
 #pragma once
 #include <string>
 #include <set>
+#include "Type.h"
 
 namespace BWAPI
 {
-  class BulletType
+  class BulletType : public Type
   {
     public:
       BulletType();
       BulletType(int id);
-      BulletType(const BulletType& other);
-      BulletType& operator=(const BulletType& other);
-      operator int() const;
-
-      /** Returns the unique ID for this bullet type. */
-      int getID() const;
 
       /** Returns the name of this bullet type. */
       const std::string &getName() const;
       const char *c_str() const;
-    private:
-      int id;
   };
 
   namespace BulletTypes
