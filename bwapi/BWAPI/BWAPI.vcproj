@@ -481,6 +481,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Shared\PlayerShared.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\RegionImpl.cpp"
 					>
 				</File>
