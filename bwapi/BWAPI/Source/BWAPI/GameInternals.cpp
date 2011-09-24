@@ -103,7 +103,7 @@ namespace BWAPI
     BWtoBWAPI_init();
     try
     {
-      memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
+      MemZero(savedUnitSelection);
 
       /* iterate through players and create PlayerImpl for each */
       for (int i = 0; i < PLAYER_COUNT; ++i)
@@ -2263,7 +2263,7 @@ namespace BWAPI
     _enemies.clear();
     _observers.clear();
 
-    memset(savedUnitSelection, 0, sizeof(savedUnitSelection));
+    MemZero(savedUnitSelection);
     wantSelectionUpdate = false;
 
     //clear latency buffer

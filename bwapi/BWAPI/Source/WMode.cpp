@@ -38,9 +38,9 @@ void InitializeWModeBitmap(int width, int height)
   if ( hdcMem )
     DeleteDC(hdcMem);
   hdcMem = NULL;
-
+  
   // Create Bitmap HDC
-  memset(&bmp, 0, sizeof(BITMAPINFO256));
+  MemZero(bmp);
   bmp.bmiHeader.biSize          = sizeof(BITMAPINFOHEADER);
   bmp.bmiHeader.biWidth         = width;
   bmp.bmiHeader.biHeight        = -(height);
@@ -634,7 +634,8 @@ void SetWMode(int width, int height, bool state)
   {
     wmode = false;
     *BW::BWDATA_PrimarySurface = NULL;
-    DeleteDC(hdcMem);
+    if ( hdcMem )
+      DeleteDC(hdcMem);
     hdcMem = NULL;
 
     SetWindowLong(ghMainWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);

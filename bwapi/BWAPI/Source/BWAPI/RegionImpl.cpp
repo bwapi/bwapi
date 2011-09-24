@@ -14,7 +14,7 @@ namespace BWAPI
   {
     // Set client data
     this->self = &this->data;
-    memset(&this->data, 0, sizeof(this->data));
+    MemZero(this->data);
 
     // Assuming this is called via GameInternals, so no checks are made
     BW::region *r         = &BW::BWDATA_SAIPathing->regions[id];

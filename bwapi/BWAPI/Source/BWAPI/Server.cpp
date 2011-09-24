@@ -308,7 +308,7 @@ namespace BWAPI
         if ( BW::BWDATA_SAIPathing->regions[i].unk_28 )
           data->regions[i] = *((RegionImpl*)BW::BWDATA_SAIPathing->regions[i].unk_28)->getData();
         else
-          memset( &data->regions[i], 0, sizeof(data->regions[i]));
+          MemZero(data->regions[i]);
       }
     }
 
