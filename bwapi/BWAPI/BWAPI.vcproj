@@ -449,6 +449,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Shared\BulletShared.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\BWtoBWAPI.cpp"
 					>
 				</File>
