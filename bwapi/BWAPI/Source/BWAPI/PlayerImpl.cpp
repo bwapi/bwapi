@@ -542,14 +542,14 @@ namespace BWAPI
     }
 
     // Reset values
-    memset(self->upgradeLevel,  0, sizeof(self->upgradeLevel));
-    memset(self->hasResearched, 0, sizeof(self->hasResearched));
-    memset(self->isUpgrading,   0, sizeof(self->isUpgrading));
-    memset(self->isResearching, 0, sizeof(self->isResearching));
+    MemZero(self->upgradeLevel);
+    MemZero(self->hasResearched);
+    MemZero(self->isUpgrading);
+    MemZero(self->isResearching);
     
-    memset(self->maxUpgradeLevel,     0, sizeof(self->maxUpgradeLevel));
-    memset(self->isResearchAvailable, 0, sizeof(self->isResearchAvailable));
-    memset(self->isUnitAvailable,     0, sizeof(self->isUnitAvailable));
+    MemZero(self->maxUpgradeLevel);
+    MemZero(self->isResearchAvailable);
+    MemZero(self->isUnitAvailable);
 
     if ( this->isNeutral() || 
          (!BroodwarImpl._isReplay() && 
@@ -640,10 +640,10 @@ namespace BWAPI
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) ||
           index >= 12 )
     {
-      memset(self->supplyTotal,     0, sizeof(self->supplyTotal));
-      memset(self->supplyUsed,      0, sizeof(self->supplyUsed));
-      memset(self->deadUnitCount,   0, sizeof(self->deadUnitCount));
-      memset(self->killedUnitCount, 0, sizeof(self->killedUnitCount));
+      MemZero(self->supplyTotal);
+      MemZero(self->supplyUsed);
+      MemZero(self->deadUnitCount);
+      MemZero(self->killedUnitCount);
 
       self->totalUnitScore      = 0;
       self->totalKillScore      = 0;

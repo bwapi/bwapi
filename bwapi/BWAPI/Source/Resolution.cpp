@@ -68,25 +68,21 @@ void DDrawDestroy()
 {
   SDrawManualInitialize(ghMainWnd);
   if ( *BW::BWDATA_PrimaryPalette )
-  {
     (*BW::BWDATA_PrimaryPalette)->Release();
-    *BW::BWDATA_PrimaryPalette = NULL;
-  }
+  *BW::BWDATA_PrimaryPalette = NULL;
+
   if ( *BW::BWDATA_PrimarySurface > (LPDIRECTDRAWSURFACE)1 )
-  {
     (*BW::BWDATA_PrimarySurface)->Release();
-    *BW::BWDATA_PrimarySurface = NULL;
-  }
+  *BW::BWDATA_PrimarySurface = NULL;
+
   if ( *BW::BWDATA_BackSurface )
-  {
     (*BW::BWDATA_BackSurface)->Release();
-    *BW::BWDATA_BackSurface = NULL;
-  }
+  *BW::BWDATA_BackSurface = NULL;
+
   if ( *BW::BWDATA_DDInterface )
-  {
     (*BW::BWDATA_DDInterface)->Release();
-    *BW::BWDATA_DDInterface = NULL;
-  }
+  *BW::BWDATA_DDInterface = NULL;
+
   if ( ghMainWnd )
     ShowWindow(ghMainWnd, SW_MINIMIZE);
 }
