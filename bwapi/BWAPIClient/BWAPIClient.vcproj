@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Shared\PlayerShared.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\RegionImpl.cpp"
 				>
 			</File>
@@ -212,11 +216,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\BWAPI\Client\Command.h"
+				RelativePath=".\Source\Command.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Source\Command.h"
+				RelativePath="..\include\BWAPI\Client\Command.h"
 				>
 			</File>
 			<File

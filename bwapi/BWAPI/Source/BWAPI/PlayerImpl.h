@@ -128,7 +128,6 @@ namespace BWAPI
       PlayerData* self;
       void onGameEnd();
       std::set<Unit*> units;
-      bool leftTheGame;
 
       s32 _repairedMinerals;
       s32 _repairedGas;
