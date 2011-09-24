@@ -6,14 +6,10 @@
 #include "UnitImpl.h"
 namespace BWAPI
 {
-  ForceImpl::ForceImpl(int id)
+  ForceImpl::ForceImpl(int _id)
+    : self( &(BWAPI::BWAPIClient.data->forces[id]) )
+    , id(_id)
   {
-    this->self=&(BWAPI::BWAPIClient.data->forces[id]);
-    this->id=id;
-  }
-  int ForceImpl::getID() const
-  {
-    return id;
   }
   std::string ForceImpl::getName() const
   {
@@ -22,9 +18,9 @@ namespace BWAPI
   std::set<Player*> ForceImpl::getPlayers() const
   {
     std::set<Player*> players;
-    for(int i=0;i<12;i++)
-      if (BWAPI::BWAPIClient.data->players[i].force==id)
-        players.insert(((GameImpl*)Broodwar)->getPlayer(i));
+    for( int i = 0; i < 12; ++i )
+      if ( BWAPI::BWAPIClient.data->players[i].force == id )
+        players.insert( ((GameImpl*)Broodwar)->getPlayer(i) );
     return players;
   }
 }

@@ -5,18 +5,14 @@
 
 namespace BWAPI
 {
-  ForceImpl::ForceImpl(std::string name)
+  ForceImpl::ForceImpl(std::string _name)
+    : name(_name)
+    , id(-1)
   {
-    this->name = name;
-    this->id = -1;
   }
   void ForceImpl::setID(int newID)
   {
     id = newID;
-  }
-  int ForceImpl::getID() const
-  {
-    return id;
   }
   std::string ForceImpl::getName() const
   {

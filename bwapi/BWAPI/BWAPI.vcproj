@@ -461,6 +461,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Shared\ForceShared.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\GameDrawing.cpp"
 					>
 				</File>
@@ -490,6 +494,10 @@
 				</File>
 				<File
 					RelativePath=".\Source\BWAPI\RegionImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Shared\RegionShared.cpp"
 					>
 				</File>
 				<File
