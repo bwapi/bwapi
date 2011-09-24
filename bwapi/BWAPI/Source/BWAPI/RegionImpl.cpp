@@ -11,9 +11,9 @@
 namespace BWAPI
 {
   RegionImpl::RegionImpl(int id)
+    : self( &data )
   {
     // Set client data
-    this->self = &this->data;
     MemZero(this->data);
 
     // Assuming this is called via GameInternals, so no checks are made
@@ -86,14 +86,6 @@ namespace BWAPI
   RegionImpl::~RegionImpl()
   {
   }
-  int RegionImpl::getRegionGroupID() const
-  {
-    return self->islandID;
-  }
-  BWAPI::Position RegionImpl::getCenter() const
-  {
-    return BWAPI::Position(self->center_x, self->center_y);
-  }
   void RegionImpl::AddPoint(int x, int y)
   {
     this->polygon.push_back(BWAPI::Position(x,y));
@@ -141,56 +133,8 @@ namespace BWAPI
         break;
     }
   }
-  bool RegionImpl::isHigherGround() const
-  {
-    return self->isHigherGround;
-  }
-  int RegionImpl::getDefensePriority() const
-  {
-    return self->priority;
-  }
-  bool RegionImpl::isWalkable() const
-  {
-    return self->isWalkable;
-  }
-  const std::set<BWAPI::Region*> &RegionImpl::getNeighbors() const
-  {
-    return this->neighbors;
-  }
-  int RegionImpl::getID() const
-  {
-    return self->id;
-  }
-  int RegionImpl::getBoundsLeft() const
-  {
-    return self->leftMost;
-  }
-  int RegionImpl::getBoundsTop() const
-  {
-    return self->topMost;
-  }
-  int RegionImpl::getBoundsRight() const
-  {
-    return self->rightMost;
-  }
-  int RegionImpl::getBoundsBottom() const
-  {
-    return self->bottomMost;
-  }
   RegionData *RegionImpl::getData()
   {
     return self;
-  }
-  BWAPI::Region *RegionImpl::getClosestAccessibleRegion() const
-  {
-    return this->closestAccessibleRgn;
-  }
-  BWAPI::Region *RegionImpl::getClosestInaccessibleRegion() const
-  {
-    return this->closestInaccessibleRgn;
-  }
-  int RegionImpl::getDistance(BWAPI::Region *other) const
-  {
-    return this->getCenter().getApproxDistance(other->getCenter());
   }
 };
