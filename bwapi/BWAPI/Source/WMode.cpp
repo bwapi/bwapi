@@ -123,19 +123,19 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
   BYTE bFlag = 0;
   switch( dwEvent )
   {
-  case BW_LBUTTONDOWN:
-  case BW_LBUTTONUP:
-  case BW_LBUTTONDBLCLK:
+  case BW_EVN_LBUTTONDOWN:
+  case BW_EVN_LBUTTONUP:
+  case BW_EVN_LBUTTONDBLCLK:
     bFlag = 0x02;
     break;
-  case BW_RBUTTONDOWN:
-  case BW_RBUTTONUP:
-  case BW_RBUTTONDBLCLK:
+  case BW_EVN_RBUTTONDOWN:
+  case BW_EVN_RBUTTONUP:
+  case BW_EVN_RBUTTONDBLCLK:
     bFlag = 0x08;
     break;
-  case BW_MBUTTONDOWN:
-  case BW_MBUTTONUP:
-  case BW_MBUTTONDBLCLK:
+  case BW_EVN_MBUTTONDOWN:
+  case BW_EVN_MBUTTONUP:
+  case BW_EVN_MBUTTONDBLCLK:
     bFlag = 0x20;
     break;
   }
@@ -143,18 +143,18 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
   {
     switch( dwEvent )
     {
-    case BW_LBUTTONDOWN:
-    case BW_RBUTTONDOWN:
-    case BW_MBUTTONDOWN:
-    case BW_LBUTTONDBLCLK:
-    case BW_RBUTTONDBLCLK:
-    case BW_MBUTTONDBLCLK:
+    case BW_EVN_LBUTTONDOWN:
+    case BW_EVN_RBUTTONDOWN:
+    case BW_EVN_MBUTTONDOWN:
+    case BW_EVN_LBUTTONDBLCLK:
+    case BW_EVN_RBUTTONDBLCLK:
+    case BW_EVN_MBUTTONDBLCLK:
       *BW::BWDATA_InputFlags |= bFlag;
       SetCapture(ghMainWnd);
       break;
-    case BW_LBUTTONUP:
-    case BW_RBUTTONUP:
-    case BW_MBUTTONUP:
+    case BW_EVN_LBUTTONUP:
+    case BW_EVN_RBUTTONUP:
+    case BW_EVN_MBUTTONUP:
       *BW::BWDATA_InputFlags &= ~bFlag;
       ReleaseCapture();
       break;
@@ -415,7 +415,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   case WM_MBUTTONDBLCLK:
     if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
     {
-      ButtonEvent(uMsg - WM_MOUSEFIRST + BW_MOUSEFIRST, lParam);
+      ButtonEvent(uMsg - WM_MOUSEFIRST + BW_EVN_MOUSEFIRST, lParam);
       return TRUE;
     }
     break;

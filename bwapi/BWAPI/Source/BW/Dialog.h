@@ -37,22 +37,46 @@
 #define CTRL_DLG_ACTIVE       0x40000000
 #define CTRL_LBOX_NORECALC    0x80000000
 
-#define BW_KEYFIRST      0
-#define BW_KEYDOWN       0
-#define BW_KEYRPT        1
-#define BW_KEYREPEAT     1
-#define BW_KEYUP         2
-#define BW_MOUSEMOVE     3
-#define BW_MOUSEFIRST    3
-#define BW_LBUTTONDOWN   4
-#define BW_LBUTTONUP     5
-#define BW_LBUTTONDBLCLK 6
-#define BW_RBUTTONDOWN   7
-#define BW_RBUTTONUP     8
-#define BW_RBUTTONDBLCLK 9
-#define BW_MBUTTONDOWN   10
-#define BW_MBUTTONUP     11
-#define BW_MBUTTONDBLCLK 12
+#define BW_EVN_KEYFIRST       0
+#define BW_EVN_KEYDOWN        0
+#define BW_EVN_KEYRPT         1
+#define BW_EVN_KEYREPEAT      1
+#define BW_EVN_KEYUP          2
+#define BW_EVN_MOUSEMOVE      3
+#define BW_EVN_MOUSEFIRST     3
+#define BW_EVN_LBUTTONDOWN    4
+#define BW_EVN_LBUTTONUP      5
+#define BW_EVN_LBUTTONDBLCLK  6
+#define BW_EVN_RBUTTONDOWN    7
+#define BW_EVN_RBUTTONUP      8
+#define BW_EVN_RBUTTONDBLCLK  9
+#define BW_EVN_MBUTTONDOWN    10
+#define BW_EVN_MBUTTONUP      11
+#define BW_EVN_MBUTTONDBLCLK  12
+#define BW_EVN_IDLE           13
+#define BW_EVN_USER           14
+#define BW_EVN_CHAR           15
+#define BW_EVN_SYSCHAR        16
+#define BW_EVN_WHEELUP        17
+#define BW_EVN_WHEELDWN       18
+
+#define BW_USER_CREATE        0
+#define BW_USER_DESTROY       1
+#define BW_USER_ACTIVATE      2
+#define BW_USER_HOTKEY        3
+#define BW_USER_MOUSEMOVE     4
+#define BW_USER_PREV          5
+#define BW_USER_NEXT          6
+#define BW_USER_UNK_7         7
+#define BW_USER_UNK_8         8
+#define BW_USER_MOUSEENTER    9
+#define BW_USER_INIT          10
+#define BW_USER_SELECT        11
+#define BW_USER_UNK_12        12
+#define BW_USER_SHOW          13
+#define BW_USER_HIDE          14
+#define BW_USER_SCROLLUP      15
+#define BW_USER_SCROLLDOWN    16
 
 namespace BW
 {
