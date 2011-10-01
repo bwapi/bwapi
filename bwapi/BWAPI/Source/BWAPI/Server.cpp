@@ -395,16 +395,19 @@ namespace BWAPI
   {
     bool matchStarting = false;
     
+    // iterate events
     foreach(Event e, BroodwarImpl.events)
     {
+      // Add the event to the server queue
       addEvent(e);
       if (e.getType() == EventType::MatchStart)
         matchStarting = true;
 
-
+      // ignore if tournament AI not loaded
       if ( !BroodwarImpl.tournamentAI )
         continue;
 
+      // call the tournament module callbacks for server/client
       BroodwarImpl.isTournamentCall = true;
       switch ( e.getType() )
       {

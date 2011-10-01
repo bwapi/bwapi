@@ -186,7 +186,7 @@ namespace BWAPI
       if ( !this->enabled )
         return;
 
-      if ( !this->calledMatchEnd && frameCount > 1)
+      if ( !this->calledMatchEnd && frameCount > 1 )
       {
         bool win     = false;
         bool allDone = false;
@@ -220,14 +220,10 @@ namespace BWAPI
           this->calledMatchEnd = true;
           events.push_back(Event::MatchFrame());
           events.push_back(Event::MatchEnd(win));
-          processEvents();
           server.update();
-          events.clear();
           this->inGame = false;
           events.push_back(Event::MenuFrame());
-          processEvents();
           server.update();
-          events.clear();
         }
       }
 
@@ -2222,16 +2218,13 @@ namespace BWAPI
 
     if ( !this->calledMatchEnd )
     {
+      this->calledMatchEnd = true;
       events.push_back(Event::MatchFrame());
       events.push_back(Event::MatchEnd(false));
-      processEvents();
       server.update();
-      events.clear();
       this->inGame = false;
       events.push_back(Event::MenuFrame());
-      processEvents();
       server.update();
-      events.clear();
     }
 
     if ( this->client )

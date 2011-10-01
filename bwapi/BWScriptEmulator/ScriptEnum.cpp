@@ -376,4 +376,19 @@ namespace AISCRIPT
       t = BWAPI::UnitTypes::None;
     return pszUnitInfo[t].pszScriptUnitName;
   }
+ int getUnitIdleOrder(int iUnitType)
+  {
+    int t = iUnitType;
+    if ( t > BWAPI::UnitTypes::None || t < 0 )
+      t = BWAPI::UnitTypes::None;
+    return pszUnitInfo[t].iComputerIdleOrder;
+  }
+  int getUnitInternal(int iUnitType)
+  {
+    int t = iUnitType;
+    if ( t > BWAPI::UnitTypes::None || t < 0 )
+      t = BWAPI::UnitTypes::None;
+    return pszUnitInfo[t].iComputerInternal;
+  }
+
 }

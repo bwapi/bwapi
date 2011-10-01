@@ -21,15 +21,8 @@ public:
   ~UnitProc();
   void Init();
   void Init(Unit *pUnit);
-  void OnIdle();
-  bool HealSelf();
-  bool ReturnToGuard();
-  bool CanUse(TechType tech);
-  bool CanHit(WeaponType wpn, Unit *target);
-  bool WorthHitting(Unit *target);
-  bool CheckForSpellcasting();
-  bool UseAbility(TechType tech, Unit *target);
-  bool AbilityInUse(TechType tech, Unit *target);
+  void EmulateIdleOrder();
+  void execute();
 
   int       iEmulatedOrder;
   Position  guardLocation;
@@ -38,5 +31,6 @@ public:
   bool      initialized;
   int       dwState;
 
-  virtual bool GenericIdle();
 };
+
+UnitProc *getUnitProc(BWAPI::Unit *pUnit);

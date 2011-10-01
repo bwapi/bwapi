@@ -2,6 +2,8 @@ namespace AISCRIPT
 {
   const char *getOpcodeName(int iOpcode);
   const char *getUnitName(int iUnitType);
+  int getUnitInternal(int iUnitType);
+  int getUnitIdleOrder(int iUnitType);
 
   enum Enum
   {
