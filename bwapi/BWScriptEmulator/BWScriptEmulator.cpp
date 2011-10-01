@@ -2,14 +2,10 @@
 #include <vector>
 #include <set>
 
-#include "ScienceVessel.h"
-#include "Transport.h"
-#include "Worker.h"
-#include "Spellcasting.h"
-
 #include "ScriptThread.h"
 #include "Controller.h"
 #include "Starcraft.h"
+#include "UnitProc.h"
 
 using namespace BWAPI;
 
@@ -79,18 +75,14 @@ void BWScriptEmulator::onFrame()
     return;
 
   UpdateScripts();
-/*
   for each ( Unit *u in self->getUnits() )
   {
-    if ( !u || !u->exists() || !u->isCompleted() )
+    if ( !u || !u->exists() )
       continue;
     UnitProc *proc = (UnitProc*)u->getClientInfo();
-    if ( proc )
-      proc->OnIdle();
-
-    if ( u->getType().cloakingTech() != TechTypes::None && u->isUnderAttack() && !u->isCloaked() )
-      u->cloak();
+    proc->execute();
   }
+/*
   for ( std::vector<spell>::iterator i = spellsCast.begin(); i != spellsCast.end(); ++i )
   {
     if (  !i->pUnit || !i->pUnit->exists() || i->pUnit->isInvincible() ||
@@ -171,29 +163,18 @@ void BWScriptEmulator::onUnitHide(BWAPI::Unit* unit)
 
 void BWScriptEmulator::onUnitCreate(BWAPI::Unit* unit)
 {
-  /*
   if ( unit && unit->exists() && unit->getPlayer() == self )
-  {
-    UnitType ut = unit->getType();
-    if ( ut == UnitTypes::Terran_Science_Vessel || ut == UnitTypes::Hero_Magellan )
-      unit->setClientInfo(new ScienceVessel(unit));
-    else if ( ut == UnitTypes::Protoss_Shuttle || unit->getType() == UnitTypes::Terran_Dropship )
-      unit->setClientInfo(new Transport(unit));
-    else if ( ut.isWorker() )
-      unit->setClientInfo(new Worker(unit));
-    else
-      unit->setClientInfo(new UnitProc(unit));
-  }*/
+    unit->setClientInfo(getUnitProc(unit));
 }
 
 void BWScriptEmulator::onUnitDestroy(BWAPI::Unit* unit)
 {
-  /*if ( unit->getPlayer() == self )
+  if ( unit->getPlayer() == self )
   {
     UnitProc *p = (UnitProc*)unit->getClientInfo();
     if ( p )
       delete p;
-  }*/
+  }
 }
 
 void BWScriptEmulator::onUnitMorph(BWAPI::Unit* unit)

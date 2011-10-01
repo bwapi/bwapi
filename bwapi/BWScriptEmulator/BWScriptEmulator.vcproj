@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ScienceVessel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ScriptEnum.cpp"
 				>
 			</File>
@@ -202,15 +198,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Spellcasting.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Starcraft.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Transport.cpp"
 				>
 			</File>
 			<File
@@ -218,7 +206,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Worker.cpp"
+				RelativePath=".\UType.cpp"
 				>
 			</File>
 		</Filter>
@@ -240,10 +228,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ScienceVessel.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ScriptEnum.h"
 				>
 			</File>
@@ -252,15 +236,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Spellcasting.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Starcraft.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Transport.h"
 				>
 			</File>
 			<File
@@ -272,7 +248,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Worker.h"
+				RelativePath=".\UType.h"
 				>
 			</File>
 		</Filter>
