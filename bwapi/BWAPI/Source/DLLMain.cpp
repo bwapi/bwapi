@@ -24,6 +24,17 @@ char szInstallPath[MAX_PATH];
 
 DWORD gdwProcNum = 0;
 
+std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
+{
+  char buffer[MAX_PATH];
+  GetPrivateProfileString(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, szConfigPath);
+  return std::string(strupr(buffer));
+}
+int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
+{
+  return GetPrivateProfileInt(pszKey, pszItem, iDefault, szConfigPath);
+}
+
 //--------------------------------------------- GET PROC COUNT -----------------------------------------------
 // Found/modified this from some random help board
 DWORD getProcessCount(const char *pszProcName)
@@ -169,14 +180,11 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   /* Initialize logging options */
   GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
 
-  char szBuffer[32];
-  windowRect.left   = GetPrivateProfileInt("window", "left",   0, szConfigPath);
-  windowRect.top    = GetPrivateProfileInt("window", "top",    0, szConfigPath);
-  windowRect.right  = GetPrivateProfileInt("window", "width",  0, szConfigPath);
-  windowRect.bottom = GetPrivateProfileInt("window", "height", 0, szConfigPath);
-  GetPrivateProfileString("window", "windowed", "OFF", szBuffer, 32, szConfigPath);
-  if ( std::string( strupr(szBuffer) ) == "ON" )
-    switchToWMode = true;
+  windowRect.left   = LoadConfigInt("window", "left");
+  windowRect.top    = LoadConfigInt("window", "top");
+  windowRect.right  = LoadConfigInt("window", "width");
+  windowRect.bottom = LoadConfigInt("window", "height");
+  switchToWMode     = LoadConfigString("window", "windowed", "OFF") == "ON";
 
   if ( windowRect.right < WMODE_MIN_WIDTH )
     windowRect.right = WMODE_MIN_WIDTH;
@@ -290,11 +298,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
 
         /* Get display warnings */
-        bool showWarn  = true;
-        char szTmp[16];
-        GetPrivateProfileString("Config", "show_warnings", "YES", szTmp, sizeof(szTmp), szConfigPath);
-        if ( strcmpi(szTmp, "YES") != 0 )
-          showWarn = false;
+        bool showWarn  = LoadConfigString("Config", "show_warnings", "YES") == "YES";
 
         /* Get revision/build automatically */
         char szDllPath[MAX_PATH];
@@ -464,9 +468,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 
         /* Check if it's time for a holiday */
         gdwHoliday = 0;
-        char szHolidayMods[16];
-        GetPrivateProfileString("config", "holiday", "ON", szHolidayMods, 16, szConfigPath);
-        if ( strcmpi(szHolidayMods, "OFF") != 0 )
+        if ( LoadConfigString("config", "holiday", "ON") != "OFF" )
         {
           SYSTEMTIME sysTime;
           GetSystemTime(&sysTime);

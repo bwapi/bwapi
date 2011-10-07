@@ -338,7 +338,8 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force* GameImpl::getForce(int forceId)
   {
-    if (forceId<0 || forceId>=(int)forceVector.size()) return NULL;
+    if (forceId < 0 || forceId >= (int)forceVector.size())
+      return NULL;
     return &forceVector[forceId];
   }
   Region *GameImpl::getRegion(int regionID)
@@ -350,19 +351,21 @@ namespace BWAPI
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player* GameImpl::getPlayer(int playerId)
   {
-    if (playerId < 0 || playerId >= (int)playerVector.size()) return NULL;
+    if (playerId < 0 || playerId >= (int)playerVector.size())
+      return NULL;
     return &playerVector[playerId];
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit* GameImpl::getUnit(int unitId)
   {
-    if (unitId < 0 || unitId >= (int)unitVector.size()) return NULL;
+    if (unitId < 0 || unitId >= (int)unitVector.size())
+      return NULL;
     return &unitVector[unitId];
   }
   //----------------------------------------------- INDEX TO UNIT --------------------------------------------
   Unit* GameImpl::indexToUnit(int unitIndex)
   {
-    if (unitIndex < 0 || unitIndex >= 1700)
+    if ( unitIndex < 0 || unitIndex >= 1700 )
       return NULL;
     return getUnit(data->unitArray[unitIndex]);
   }

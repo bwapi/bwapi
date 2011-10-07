@@ -32,10 +32,10 @@ namespace BWAPI
     int serverProcID = -1;
     int gameTableIndex = -1;
     gameTable = NULL;
-    gameTableFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_shared_memory_game_list" );
+    gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Global\\bwapi_shared_memory_game_list" );
     if (gameTableFileHandle == INVALID_HANDLE_VALUE || gameTableFileHandle == NULL )
       return false;
-    gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameTable));
+    gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
 
     //Find row with most recent keep alive that isn't connected
       
@@ -71,7 +71,7 @@ namespace BWAPI
     communicationPipe << serverProcID;
 
 
-    pipeObjectHandle = CreateFileA(communicationPipe.str().c_str(),GENERIC_READ | GENERIC_WRITE,0,NULL,OPEN_EXISTING,0,NULL);
+    pipeObjectHandle = CreateFile(communicationPipe.str().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL)
     {
       CloseHandle(gameTableFileHandle);
@@ -88,15 +88,15 @@ namespace BWAPI
 
     connected=true;
     printf("Connected\n");
-    mapFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, sharedMemoryName.str().c_str());
+    mapFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, sharedMemoryName.str().c_str());
     if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
     {
       CloseHandle(pipeObjectHandle);
       CloseHandle(gameTableFileHandle);
       return false;
     }
-    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameData));
-    if (BWAPI::Broodwar!=NULL)
+    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData));
+    if ( BWAPI::Broodwar )
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = new GameImpl(data);
     if (BWAPI::BWAPI_getRevision() != BWAPI::Broodwar->getRevision())
@@ -110,11 +110,11 @@ namespace BWAPI
       return false;
     }
     //wait for permission from server before we resume execution
-    int code=1;
-    while (code!=2)
+    int code = 1;
+    while ( code != 2 )
     {
       DWORD receivedByteCount;
-      BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(int), &receivedByteCount, NULL);
+      BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(code), &receivedByteCount, NULL);
     }
     return true;
   }
@@ -126,7 +126,7 @@ namespace BWAPI
     CloseHandle(mapFileHandle);
     connected = false;
     printf("Disconnected\n");
-    if ( BWAPI::Broodwar != NULL )
+    if ( BWAPI::Broodwar )
       delete (GameImpl*)BWAPI::Broodwar;
     BWAPI::Broodwar = NULL;
   }
@@ -134,13 +134,13 @@ namespace BWAPI
   {
     DWORD writtenByteCount;
     int code = 1;
-    WriteFile(pipeObjectHandle, &code, sizeof(int), &writtenByteCount, NULL);
+    WriteFile(pipeObjectHandle, &code, sizeof(code), &writtenByteCount, NULL);
 
     while (code != 2)
     {
       DWORD receivedByteCount;
-      BOOL success = ReadFile(pipeObjectHandle,&code,sizeof(int),&receivedByteCount,NULL);
-      if (!success)
+      BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(code), &receivedByteCount, NULL);
+      if ( !success )
       {
         disconnect();
         return;
@@ -150,12 +150,12 @@ namespace BWAPI
     {
       EventType::Enum type(data->events[i].type);
 
-      if (type == EventType::MatchStart)
+      if ( type == EventType::MatchStart )
         ((GameImpl*)BWAPI::Broodwar)->onMatchStart();
-      if (type == EventType::MatchFrame || type == EventType::MenuFrame)
+      if ( type == EventType::MatchFrame || type == EventType::MenuFrame )
         ((GameImpl*)BWAPI::Broodwar)->onMatchFrame();
     }
-    if ( Broodwar != NULL && ((GameImpl*)BWAPI::Broodwar)->inGame && !Broodwar->isInGame() )
+    if ( BWAPI::Broodwar && ((GameImpl*)BWAPI::Broodwar)->inGame && !Broodwar->isInGame() )
       ((GameImpl*)BWAPI::Broodwar)->onMatchEnd();
   }
 }

@@ -85,7 +85,7 @@ void ExampleAIModule::onFrame()
 
 
   // Prevent spamming by only running our onFrame once every number of latency frames.
-  // Latency frames are the number of frames before commands are processed!
+  // Latency frames are the number of frames before commands are processed.
   if ( Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0 )
     return;
 
@@ -112,6 +112,9 @@ void ExampleAIModule::onFrame()
     if ( u->isLoaded() || u->isUnpowered() || u->isStuck() )
       continue;
 
+    // Ignore the unit if it is incomplete or busy constructing
+    if ( !u->isCompleted() || u->isConstructing() )
+      continue;
 
     // Finally make the unit do some stuff!
 
@@ -123,36 +126,43 @@ void ExampleAIModule::onFrame()
       // if our worker is idle
       if ( u->isIdle() )
       {
-
-        // Find the closest mineral patch
-        // Declare some variables to help with obtaining the closest unit
-        Unit *closest = NULL;
-        int   closestDistance = 999999;
-        for ( std::set<Unit*>::iterator m = Broodwar->getMinerals().begin(); m != Broodwar->getMinerals().end(); ++m )
+        // Order workers carrying a resource to return them to the center,
+        // otherwise find a mineral patch to harvest.
+        if ( u->isCarryingGas() || u->isCarryingMinerals() )
         {
-          int newDistance = u->getDistance(*m);
+          u->returnCargo();
+        }
+        else if ( !u->getPowerUp() )  // The worker cannot harvest anything if it
+        {                             // is carrying a powerup such as a flag
+          // Find the closest mineral patch
+          // Declare some variables to help with obtaining the closest unit
+          Unit *closest = NULL;
+          int   closestDistance = 999999;
+          for ( std::set<Unit*>::iterator m = Broodwar->getMinerals().begin(); m != Broodwar->getMinerals().end(); ++m )
+          {
+            int newDistance = u->getDistance(*m);
 
-          // Continue iterating if the new distance is greater than the old distance
-          if ( newDistance >= closestDistance )
+            // Continue iterating if the new distance is greater than the old distance
+            if ( newDistance >= closestDistance )
+              continue;
+
+            // Save our distance information if it is closer
+            closestDistance = newDistance;
+            closest = *m;
+          }
+
+
+          // If a mineral patch was found
+          if ( closest )
+          {
+            // Order our worker to harvest the patch!
+            u->gather(closest);
+
+            // Continue iterating other units so we don't interrupt this order and produce unnecessary commands
             continue;
-
-          // Save our distance information if it is closer
-          closestDistance = newDistance;
-          closest = *m;
-        }
-
-
-        // If a mineral patch was found
-        if ( closest )
-        {
-          // Order our worker to harvest the patch!
-          u->gather(closest);
-
-          // Continue iterating other units so we don't interrupt this order and produce unnecessary commands
-          continue;
-        }
-
-      } // if idle
+          }
+        } // closure: has no powerup
+      } // closure: if idle
 
     }
     else if ( u->getType().isResourceDepot() ) // A resource depot is like a Command Center, Nexus, or Hatchery
@@ -164,12 +174,11 @@ void ExampleAIModule::onFrame()
 
         // If that fails, draw the error at the location so that you can visibly see what went wrong!
         Broodwar->drawTextMap( u->getPosition().x(), u->getPosition().y(), "%s", Broodwar->getLastError().c_str() );
-
       }
 
     }
 
-  } // unit iterator
+  } // closure: unit iterator
 }
 
 void ExampleAIModule::onSendText(std::string text)
