@@ -32,15 +32,15 @@ namespace BWAPI
     DWORD processID = GetCurrentProcessId();
 
     // Try to open the game table
-    gameTableFileHandle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, "Global\\bwapi_shared_memory_game_list" );
-    if (gameTableFileHandle == INVALID_HANDLE_VALUE || gameTableFileHandle == NULL)
+    gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Global\\bwapi_shared_memory_game_list" );
+    if ( gameTableFileHandle == INVALID_HANDLE_VALUE || gameTableFileHandle == NULL )
     {
       
       // We can't open it, so try to create it
       gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory_game_list" );
       if ( gameTableFileHandle != INVALID_HANDLE_VALUE && gameTableFileHandle != NULL )
-        gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameTable));
-      if (gameTable)
+        gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
+      if ( gameTable )
       {
         // If we created it, initialize it
         for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
@@ -52,7 +52,7 @@ namespace BWAPI
       }
     }
     if ( gameTable == NULL && gameTableFileHandle != INVALID_HANDLE_VALUE && gameTableFileHandle != NULL )
-      gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_ALL_ACCESS,0,0,sizeof(GameTable));
+      gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
 
     if (gameTable)
     {
@@ -102,7 +102,7 @@ namespace BWAPI
 
     mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, sharedMemoryName.str().c_str() );
     if ( mapFileHandle != INVALID_HANDLE_VALUE && mapFileHandle != NULL )
-      data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, size);
+      data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
 
     // check if memory was created or if we should create it locally
     if ( !data )

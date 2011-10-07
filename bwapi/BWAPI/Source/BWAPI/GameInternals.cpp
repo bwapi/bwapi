@@ -294,10 +294,9 @@ namespace BWAPI
 
 #ifndef _DEBUG
       // Load tournament string and module if string exists
-      char szTDllPath[MAX_PATH];
-      GetPrivateProfileString("ai", "tournament", "NULL", szTDllPath, MAX_PATH, szConfigPath);
-      if ( strcmpi(szTDllPath, "NULL") != 0 )
-        hTournamentModule = LoadLibrary(szTDllPath);
+      std::string TournamentDllPath = LoadConfigString("ai", "tournament");
+      if ( TournamentDllPath.size() > 0 )
+        hTournamentModule = LoadLibrary(TournamentDllPath.c_str());
 
       // If tournament module exists
       if ( hTournamentModule )
@@ -791,6 +790,7 @@ namespace BWAPI
         }
       }*/
     } // pathdebug
+#endif
     if ( !this->isPaused()  && 
           recordingStarted  && 
           pVidBuffer        && 
@@ -799,27 +799,23 @@ namespace BWAPI
       recordingUpdated = false;
       RecordFrame(pVidBuffer, 640, 480);
     }
-#endif
     setTextSize(); // Reset text size
 
     //finally return control to starcraft
   }
+
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
   void GameImpl::loadAutoMenuData()
   {
     //this function is called when starcraft loads and at the end of each match.
-    //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
-    char buffer[MAX_PATH];
-    
-    GetPrivateProfileString("auto_menu", "auto_menu", "OFF", buffer, MAX_PATH, szConfigPath);
-    this->autoMenuMode = std::string( strupr(buffer) );
+    //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type    
+    this->autoMenuMode = LoadConfigString("auto_menu", "auto_menu", "OFF");
 #ifdef _DEBUG
-    GetPrivateProfileString("auto_menu", "pause_dbg", "OFF", buffer, MAX_PATH, szConfigPath);
-    this->autoMenuPause = std::string( strupr(buffer) );
+    this->autoMenuPause = LoadConfigString("auto_menu", "pause_dbg", "OFF");
 #endif
-    GetPrivateProfileString("auto_menu", "auto_restart", "OFF", buffer, MAX_PATH, szConfigPath);
-    this->autoMenuRestartGame = std::string( strupr(buffer) );
+    this->autoMenuRestartGame = LoadConfigString("auto_menu", "auto_restart", "OFF");
 
+    char buffer[MAX_PATH];
     GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
     for ( int i = strlen(buffer); i; --i )
     {
@@ -862,39 +858,34 @@ namespace BWAPI
       } // map path exists
       lastAutoMapEntry = 0;
     }
-    GetPrivateProfileString("auto_menu", "mapiteration", "RANDOM", buffer, MAX_PATH, szConfigPath);
-    if ( autoMapIteration != buffer )
+    std::string newMapIteration = LoadConfigString("auto_menu", "mapiteration", "RANDOM");
+    if ( autoMapIteration != newMapIteration )
     {
-      autoMapIteration = std::string(strupr(buffer));
+      autoMapIteration = newMapIteration;
       lastAutoMapEntry = 0;
     }
 
-    GetPrivateProfileString("auto_menu", "lan_mode", "Local Area Network (UDP)", buffer, MAX_PATH, szConfigPath);
-    autoMenuLanMode = std::string(buffer);
-    GetPrivateProfileString("auto_menu", "race", "RANDOM", buffer, MAX_PATH, szConfigPath);
-    autoMenuRace = std::string(strupr(buffer));
-    GetPrivateProfileString("auto_menu", "enemy_race", "RANDOM", buffer, MAX_PATH, szConfigPath);
-    autoMenuEnemyRace[0] = std::string(strupr(buffer));
+    autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
+    autoMenuRace          = LoadConfigString("auto_menu", "race", "RANDOM");
+    autoMenuEnemyRace[0]  = LoadConfigString("auto_menu", "enemy_race", "RANDOM");
     for ( int i = 1; i < 8; ++i )
     {
       char key[16];
       sprintf(key, "enemy_race_%u", i);
-      GetPrivateProfileString("auto_menu", key, "DEFAULT", buffer, MAX_PATH, szConfigPath);
-      autoMenuEnemyRace[i] = std::string(strupr(buffer));
+      autoMenuEnemyRace[i] = LoadConfigString("auto_menu", key, "DEFAULT");
       if ( autoMenuEnemyRace[i] == "DEFAULT" )
         autoMenuEnemyRace[i] = autoMenuEnemyRace[0];
     }
 
-    autoMenuEnemyCount = GetPrivateProfileInt("auto_menu", "enemy_count", 1, szConfigPath);
-    if ( autoMenuEnemyCount > 7 ) autoMenuEnemyCount = 7;
-    GetPrivateProfileString("auto_menu", "game_type", "MELEE", buffer, MAX_PATH, szConfigPath);
-    autoMenuGameType = std::string(buffer);
-    GetPrivateProfileString("auto_menu", "save_replay", "", buffer, MAX_PATH, szConfigPath);
-    autoMenuSaveReplay = std::string(buffer);
+    autoMenuEnemyCount = LoadConfigInt("auto_menu", "enemy_count", 1);
+    if ( autoMenuEnemyCount > 7 )
+      autoMenuEnemyCount = 7;
+    autoMenuGameType    = LoadConfigString("auto_menu", "game_type", "MELEE");
+    autoMenuSaveReplay  = LoadConfigString("auto_menu", "save_replay");
 
-    autoMenuMinPlayerCount = GetPrivateProfileInt("auto_menu", "wait_for_min_players", 2, szConfigPath);
-    autoMenuMaxPlayerCount = GetPrivateProfileInt("auto_menu", "wait_for_max_players", 8, szConfigPath);
-    autoMenuWaitPlayerTime = GetPrivateProfileInt("auto_menu", "wait_for_time", 30000, szConfigPath);
+    autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
+    autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
+    autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
 
     this->chooseNewRandomMap();
   }
@@ -976,6 +967,7 @@ namespace BWAPI
     events.push_back(Event::MenuFrame());
     this->server.update();
 
+    // Don't attempt auto-menu if we run into 50 error message boxes
     if ( autoMapTryCount > 50 )
       return;
 
@@ -2069,6 +2061,15 @@ namespace BWAPI
       grid = !grid;
       printf("Matrix grid %s.", grid ? "enabled" : "disabled");
     }
+    else if (parsed[0] == "/record")
+    {
+      if ( !StartVideoRecording("test.avi", 640, 480) )
+        MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
+    }
+    else if (parsed[0] == "/stoprecord")
+    {
+      StopVideoRecording();
+    }
 #ifdef _DEBUG
     else if (parsed[0] == "/latency")
     {
@@ -2130,15 +2131,6 @@ namespace BWAPI
     {
       printf("Done");
       SetResolution(1024, 768);
-    }
-    else if (parsed[0] == "/record")
-    {
-      if ( !StartVideoRecording("test.avi", 640, 480) )
-        MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
-    }
-    else if (parsed[0] == "/stop")
-    {
-      StopVideoRecording();
     }
     else if (parsed[0] == "/test")
     {

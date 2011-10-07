@@ -289,9 +289,9 @@ namespace BWAPI
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    if (getPlayer() == NULL ||
-        getPlayer()->getUpgradeLevel(upgrade) == 0 ||
-        upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
+    if ( !getPlayer() ||
+          getPlayer()->getUpgradeLevel(upgrade) == 0 ||
+          upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
       return 0;
     return getPlayer()->getUpgradeLevel(upgrade);
   }

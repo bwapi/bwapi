@@ -378,9 +378,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( !nosound )
   {
     nosound = true;
-    char szNosound[8];
-    GetPrivateProfileString("starcraft", "sound", "ON", szNosound, 8, szConfigPath);
-    if ( strcmpi(szNosound, "OFF") == 0 )
+    if ( LoadConfigString("starcraft", "sound", "ON") == "OFF" )
       BW::BWDATA_DSoundDestroy();
   }
 

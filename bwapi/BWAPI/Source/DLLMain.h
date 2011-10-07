@@ -1,6 +1,10 @@
 #pragma once
 #include <windows.h>
+#include <string>
 #include "BW/Offsets.h"
+
+std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault = NULL);
+int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault = 0);
 
 void __fastcall QueueGameCommand(void *pBuffer, DWORD dwLength);
 

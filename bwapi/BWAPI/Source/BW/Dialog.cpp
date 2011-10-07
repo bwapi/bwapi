@@ -314,25 +314,6 @@ namespace BW
     }
     return dlg->defaultInteract(evt);
   }
-  // ------------------ CANVAS INTERACT --------------
-  bool __fastcall CanvasInteract(dialog *dlg, dlgEvent *evt)
-  {
-    switch (evt->wNo)
-    {
-    case 14: // Control (used for when a control has been pressed)
-      switch(evt->dwUser)
-      {
-      case 3: // Press Hotkey
-      case 4: // MouseOver
-      case 5: // Select Previous
-      case 6: // Select Next
-      case 9: // MouseEnter
-        return false;
-      }
-      break;
-    }
-    return dlg->defaultInteract(evt);
-  }
   // ------------------ CREATE DLG WINDOW ------------
   dialog *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight)
   {
