@@ -1232,6 +1232,13 @@ namespace BWAPI
            this->getID() == UnitTypes::Resource_Mineral_Field_Type_2 ||
            this->getID() == UnitTypes::Resource_Mineral_Field_Type_3;
   }
+  bool UnitType::canBuildAddon() const
+  {
+    return this->getID() == UnitTypes::Terran_Command_Center  ||
+           this->getID() == UnitTypes::Terran_Factory         ||
+           this->getID() == UnitTypes::Terran_Starport        ||
+           this->getID() == UnitTypes::Terran_Science_Facility;
+  }
   UnitType UnitTypes::getUnitType(std::string name)
   {
     fixName(&name);

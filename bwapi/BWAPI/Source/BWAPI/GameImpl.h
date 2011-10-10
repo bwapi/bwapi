@@ -305,6 +305,7 @@ namespace BWAPI
       bool outOfGame;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
+      std::string autoMenuGameName;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
       std::string autoMapIteration;

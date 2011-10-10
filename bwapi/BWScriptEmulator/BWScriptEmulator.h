@@ -7,6 +7,8 @@ using namespace BWAPI;
 
 #define bw BWAPI::Broodwar
 
+#define countof(x) ( sizeof(x)/sizeof(x[0]) )
+
 extern int mapH, mapW;
 extern Player *self;
 extern bool farcasting;

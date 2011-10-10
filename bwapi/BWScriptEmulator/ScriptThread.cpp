@@ -151,8 +151,8 @@ aithread::aithread(WORD wStartBlock, BWAPI::Position location, void *town)
 
 aithread::~aithread()
 {
-  for each ( char *c in this->debugQueue )
-    free(c);
+  for ( std::deque<char*>::iterator c = this->debugQueue.begin(); c != this->debugQueue.end(); ++c )
+    free(*c);
   this->debugQueue.clear();
 }
 

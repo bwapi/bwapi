@@ -15,13 +15,13 @@ AIController::~AIController()
 
 void AIController::AttackAdd(int count, BWAPI::UnitType type)
 {
-  if ( count <= 0 || count >= 64 || type >= BWAPI::UnitTypes::None )
+  if ( count <= 0 || count >= countof(this->attackGroups) || type >= BWAPI::UnitTypes::None )
     return;
 
   int u = 0;
-  for ( ; this->attackGroups[u] && u < 64; ++u )
-  {}
-  for ( int c = 0; c < count && u + c < 64; ++c )
+  while ( u < countof(this->attackGroups) && this->attackGroups[u] )
+    ++u;
+  for ( int c = 0; c < count && u + c < countof(this->attackGroups); ++c )
     this->attackGroups[u + c] = type + 1;
 }
 
@@ -35,21 +35,24 @@ void AIController::DefenseClear(int type)
 
 void AIController::DefenseBuild(int type, int count, BWAPI::UnitType uType)
 {
-  if ( type < 0 || type > 3 || count < 0 || count > 10 || uType >= BWAPI::UnitTypes::None )
+  if ( type < 0   || 
+       type > 3   ||
+       count < 0  || 
+       count > countof(this->defensebuild[0]) || uType >= BWAPI::UnitTypes::None )
     return;
   int u = 0;
-  for ( ; this->defensebuild[type][u] && u < 20; ++u )
-  {}
-  for ( int c = 0; c < count && u + c < 20; ++c )
+  while ( u < countof(this->defensebuild[0]) && this->defensebuild[type][u] )
+    ++u;
+  for ( int c = 0; c < count && u + c < countof(this->defensebuild[0]); ++c )
     this->defensebuild[type][u + c] = uType + 1;
 }
 void AIController::DefenseUse(int type, int count, BWAPI::UnitType uType)
 {
-  if ( type < 0 || type > 3 || count < 0 || count > 10 || uType >= BWAPI::UnitTypes::None )
+  if ( type < 0 || type > 3 || count < 0 || count > countof(this->defenseuse[0]) || uType >= BWAPI::UnitTypes::None )
     return;
   int u = 0;
-  for ( ; this->defenseuse[type][u] && u < 20; ++u )
-  {}
-  for ( int c = 0; c < count && u + c < 20; ++c )
+  while ( u < countof(this->defenseuse[0]) && this->defenseuse[type][u] )
+    ++u;
+  for ( int c = 0; c < count && u + c < countof(this->defenseuse[0]); ++c )
     this->defenseuse[type][u + c] = uType + 1;
 }

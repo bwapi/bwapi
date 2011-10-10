@@ -72,7 +72,7 @@ void UnitProc::EmulateIdleOrder()
           break;
         }
       }
-      if ( movetoRgnList.size() > 0 )
+      if ( !movetoRgnList.empty() )
         thisUnit->move(movetoRgnList[Random(0, movetoRgnList.size())]->getCenter());
     }
     break;

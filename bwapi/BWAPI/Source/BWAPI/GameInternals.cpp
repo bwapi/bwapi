@@ -97,14 +97,34 @@ namespace BWAPI
       , isTournamentCall(false)
       , commandOptimizerLevel(0)
       , lastEventTime(0)
+      , data(server.data)
+      , BWAPIPlayer(NULL)
+      , enemyPlayer(NULL)
+      , bulletCount(0)
+      , myDlg(NULL)
+      , bTournamentMessageAppeared(false)
+      , autoMenuEnemyCount(0)
+      , autoMenuMinPlayerCount(0)
+      , autoMenuMaxPlayerCount(0)
+      , autoMenuWaitPlayerTime(0)
+      , accumulatedFrames(0)
+      , fps(0)
+      , averageFPS(0)
+      , botAPM_selects(0)
+      , botAPM_noselects(0)
+      , botAPMCounter_selects(0)
+      , botAPMCounter_noselects(0)
+      , textSize(1)
+      , externalModuleConnected(false)
   {
+    MemZero(savedUnitSelection);
+    MemZero(flags);
+
     BWAPI::Broodwar = static_cast<Game*>(this);
 
     BWtoBWAPI_init();
     try
     {
-      MemZero(savedUnitSelection);
-
       /* iterate through players and create PlayerImpl for each */
       for (int i = 0; i < PLAYER_COUNT; ++i)
         players[i] = new PlayerImpl((u8)i);
@@ -121,7 +141,6 @@ namespace BWAPI
     {
       BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
-    data = server.data;
     srand(GetTickCount());
     gszDesiredReplayName[0] = 0;
   }
@@ -515,7 +534,7 @@ namespace BWAPI
           // Iterate all commands, and only process those that are equal
           while ( c != commandOptimizer[i].end() )
           {
-            if ( groupOf12.size() == 0 )
+            if ( groupOf12.empty() )
             {
               // Assign our comparison variables to determine which commands should be grouped
               // Note: Using individual variables instead of comparing UnitCommand operator== because
@@ -587,7 +606,7 @@ namespace BWAPI
             } // groupOf12 max execute
           } // second while
 
-          if ( groupOf12.size() > 0 )
+          if ( groupOf12.empty() )
           {
             // Select the group
             BW::Orders::Select sel(groupOf12);
@@ -814,6 +833,7 @@ namespace BWAPI
     this->autoMenuPause = LoadConfigString("auto_menu", "pause_dbg", "OFF");
 #endif
     this->autoMenuRestartGame = LoadConfigString("auto_menu", "auto_restart", "OFF");
+    this->autoMenuGameName    = LoadConfigString("auto_menu", "game");
 
     char buffer[MAX_PATH];
     GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
@@ -1819,7 +1839,7 @@ namespace BWAPI
     /* Clear our sets */
     this->startLocations.clear();
     this->playerSet.clear();
-    for each(Force* f in forces)
+    foreach(Force* f, forces)
       delete ((ForceImpl*)f);
     this->forces.clear();
 
@@ -1921,21 +1941,14 @@ namespace BWAPI
       this->playerSet.insert(this->players[11]);
 
     // Get Force Objects, assign Force<->Player relations
-    for ( int f = 0; f < 5; ++f )
+    ForceImpl *pNeutralForce = new ForceImpl(std::string(""));
+    pNeutralForce->players.insert(this->players[11]);
+    this->players[11]->force = pNeutralForce;
+
+    for ( int f = 1; f <= 4; ++f )
     {
-      ForceImpl *newForce;
-      if ( f == 0 )
-      {
-        newForce = new ForceImpl(std::string(""));
-        newForce->players.insert(this->players[11]);
-        this->players[11]->force = newForce;
-      }
-      else
-      {
-        newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f-1].name) );
-      }
-      
-      this->forces.insert( (Force*)newForce );
+      ForceImpl *newForce = new ForceImpl( std::string(BW::BWDATA_ForceNames[f-1].name) );
+      this->forces.insert( newForce );
       for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
       {
         if ( this->players[p] && BW::BWDATA_Players[p].nTeam == f )
@@ -1961,7 +1974,7 @@ namespace BWAPI
       rn_AlliesRaces.clear();
       rn_EnemiesNames.clear();
       rn_EnemiesRaces.clear();
-      for each ( Player *p in this->_allies )
+      foreach ( Player *p, this->_allies )
       {
         if ( p )
         {
@@ -1969,7 +1982,7 @@ namespace BWAPI
           rn_AlliesRaces += p->getRace().getName().substr(0, 1);
         }
       }
-      for each ( Player *p in this->_enemies )
+      foreach ( Player *p, this->_enemies )
       {
         if ( p )
         {
@@ -2804,7 +2817,7 @@ namespace BWAPI
     computeSecondaryUnitSets();
     selectedU = selectedUnitSet;
     selectedUnitSet.clear();
-    for each ( UnitImpl* u in selectedU )
+    foreach ( UnitImpl* u, selectedU )
     {
       if ( u )
       {
@@ -2819,7 +2832,7 @@ namespace BWAPI
       } // if u
     } // for each in selectedU
 
-    for each ( UnitImpl *_u in this->neutralUnits )
+    foreach ( UnitImpl *_u, this->neutralUnits )
     {
       BWAPI::UnitType ut = _u->getType();
       if ( ut != UnitTypes::Spell_Dark_Swarm &&
@@ -2828,7 +2841,7 @@ namespace BWAPI
 
       int r = _u->getRight()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
       int b = _u->getBottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      for each ( UnitImpl *uInside in this->getUnitsInRectangle(_u->getLeft(), _u->getTop(), r, b) )
+      foreach ( UnitImpl *uInside, this->getUnitsInRectangle(_u->getLeft(), _u->getTop(), r, b) )
       {
         if ( uInside->getType().isSpell() || uInside->getType().isFlyer() )
           continue;

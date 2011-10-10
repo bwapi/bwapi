@@ -433,7 +433,7 @@ namespace BW
     // Reference an unsigned character array
     const BYTE *pbChars = (BYTE*)pszString;
 
-    char lastColor = 0, color   = 0;
+    BYTE lastColor = 0, color   = 0;
     int  Xoffset   = x, Yoffset = y;
 
     // Iterate all characters in the message
@@ -456,7 +456,7 @@ namespace BW
           continue;
         case 11:
         case 20:
-          color = -1;
+          color = (BYTE)~0;
           continue;
         case 12:
           break;
@@ -488,7 +488,7 @@ namespace BW
       if ( chr == (fntChr*)font )
         continue;
 
-      if ( color != -1 )
+      if ( color != ~0 )
       {
         // begin drawing character process
         for ( int i = 0, pos = 0; pos < chr->h * chr->w; ++i, ++pos )
@@ -521,6 +521,11 @@ namespace BW
   }
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
+    : pNext( NULL )
+    , pszText( (char*)text )
+    , lFlags( CTRL_VISIBLE )
+    , wIndex( index )
+    , wCtrlType( ctrlType )
   {
     if ( ctrlType > ctrls::max)
       ctrlType = ctrls::cLSTATIC;
@@ -551,12 +556,6 @@ namespace BW
     rct.bottom  = rct.top  + height - 1;
     srcBits.wid = width;
     srcBits.ht  = height;
-
-    // Set misc properties
-    pszText     = (char*)text;
-    lFlags      = CTRL_VISIBLE;
-    wIndex      = index;
-    wCtrlType   = ctrlType;
 
     // Set callback functions
     pfcnUpdate  = BW::BWDATA_GenericDlgUpdateFxns[wCtrlType];

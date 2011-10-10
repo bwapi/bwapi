@@ -10,8 +10,8 @@ bool BuildingPlacer::canBuildHere(BWAPI::TilePosition position, BWAPI::UnitType 
   //returns true if we can build this type of unit here. Takes into account reserved tiles.
   if (!BWAPI::Broodwar->canBuildHere(NULL, position, type))
     return false;
-  for(int x = position.x(); x < position.x() + type.tileWidth(); x++)
-    for(int y = position.y(); y < position.y() + type.tileHeight(); y++)
+  for(int x = position.x(); x < position.x() + type.tileWidth(); ++x)
+    for(int y = position.y(); y < position.y() + type.tileHeight(); ++y)
       if (reserveMap[x][y])
         return false;
   return true;
@@ -29,14 +29,11 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
   if (!this->canBuildHere(position, type))
     return false;
 
-  int width=type.tileWidth();
-  int height=type.tileHeight();
+  int width  = type.tileWidth();
+  int height = type.tileHeight();
 
   //make sure we leave space for add-ons. These types of units can have addons:
-  if (type==BWAPI::UnitTypes::Terran_Command_Center ||
-    type==BWAPI::UnitTypes::Terran_Factory || 
-    type==BWAPI::UnitTypes::Terran_Starport ||
-    type==BWAPI::UnitTypes::Terran_Science_Facility)
+  if ( type.canBuildAddon() )
   {
     width+=2;
   }
@@ -64,19 +61,10 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
       for(int y = starty; y < endy; y++)
       {
         std::set<BWAPI::Unit*> units = BWAPI::Broodwar->getUnitsOnTile(x, y);
-        for(std::set<BWAPI::Unit*>::iterator i = units.begin(); i != units.end(); i++)
+        for( std::set<BWAPI::Unit*>::iterator i = units.begin(); i != units.end(); ++i )
         {
-          if (!(*i)->isLifted())
-          {
-            BWAPI::UnitType type=(*i)->getType();
-            if (type==BWAPI::UnitTypes::Terran_Command_Center ||
-              type==BWAPI::UnitTypes::Terran_Factory || 
-              type==BWAPI::UnitTypes::Terran_Starport ||
-              type==BWAPI::UnitTypes::Terran_Science_Facility)
-            {
-              return false;
-            }
-          }
+          if ( !(*i)->isLifted() && (*i)->getType().canBuildAddon() )
+            return false;
         }
       }
   }
@@ -154,7 +142,7 @@ bool BuildingPlacer::buildable(int x, int y) const
   //returns true if this tile is currently buildable, takes into account units on tile
   if (!BWAPI::Broodwar->isBuildable(x,y)) return false;
   std::set<BWAPI::Unit*> units = BWAPI::Broodwar->getUnitsOnTile(x, y);
-  for(std::set<BWAPI::Unit*>::iterator i = units.begin(); i != units.end(); i++)
+  for(std::set<BWAPI::Unit*>::iterator i = units.begin(); i != units.end(); ++i)
     if ((*i)->getType().isBuilding() && !(*i)->isLifted())
       return false;
   return true;
@@ -162,15 +150,15 @@ bool BuildingPlacer::buildable(int x, int y) const
 
 void BuildingPlacer::reserveTiles(BWAPI::TilePosition position, int width, int height)
 {
-  for(int x = position.x(); x < position.x() + width && x < (int)reserveMap.getWidth(); x++)
-    for(int y = position.y(); y < position.y() + height && y < (int)reserveMap.getHeight(); y++)
+  for(int x = position.x(); x < position.x() + width && x < (int)reserveMap.getWidth(); ++x)
+    for(int y = position.y(); y < position.y() + height && y < (int)reserveMap.getHeight(); ++y)
       reserveMap[x][y] = true;
 }
 
 void BuildingPlacer::freeTiles(BWAPI::TilePosition position, int width, int height)
 {
-  for(int x = position.x(); x < position.x() + width && x < (int)reserveMap.getWidth(); x++)
-    for(int y = position.y(); y < position.y() + height && y < (int)reserveMap.getHeight(); y++)
+  for(int x = position.x(); x < position.x() + width && x < (int)reserveMap.getWidth(); ++x)
+    for(int y = position.y(); y < position.y() + height && y < (int)reserveMap.getHeight(); ++y)
       reserveMap[x][y] = false;
 }
 
@@ -184,7 +172,7 @@ int BuildingPlacer::getBuildDistance() const
 }
 bool BuildingPlacer::isReserved(int x, int y) const
 {
-  if (x<0 || y<0 || x>=(int)reserveMap.getWidth() || y>=(int)reserveMap.getHeight())
+  if ( x < 0 || y < 0 || x >= (int)reserveMap.getWidth() || y >= (int)reserveMap.getHeight())
     return false;
   return reserveMap[x][y];
 }

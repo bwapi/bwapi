@@ -25,9 +25,9 @@ namespace BW
   class Unit
   {
   public:
-    BWAPI::UnitType type();
-    bool movementFlag(u8 flags);
-    bool statusFlag(u32 flags);
+    BWAPI::UnitType type() const;
+    bool movementFlag(u8 flags) const;
+    bool statusFlag(u32 flags) const;
 
     /*0x000*/ BW::Unit                            *prev;
     /*0x004*/ BW::Unit                            *next;                 /**< Pointer to next unit in the unit linked list, we use

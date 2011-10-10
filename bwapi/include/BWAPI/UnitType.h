@@ -275,6 +275,10 @@ namespace BWAPI
 
     /** Returns true if the unit is one of the three mineral field types. */
     bool isMineralField() const;
+
+    /** Returns true if the unit is capable of constructing an addon.
+        This consists of Command Center, Factory, Starport, and Science Facility. */
+    bool canBuildAddon() const;
   };
   namespace UnitTypes
   {
