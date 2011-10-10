@@ -719,7 +719,7 @@ namespace BWAPI
   {
     std::list< std::set<UnitImpl*> > groupsOf12;
     std::set<UnitImpl* > nextGroup;
-    for each(Unit* u in units)
+    foreach(Unit* u, units)
     {
       if (u && u->exists() && u->canIssueCommand(command))
       {
@@ -746,8 +746,8 @@ namespace BWAPI
     for(std::list< std::set<UnitImpl*> >::iterator i = groupsOf12.begin(); i != groupsOf12.end(); ++i)
     {
       int k = 0;
-      for each(UnitImpl* j in *i)
-        selected[k++] = j;
+      for(std::set<UnitImpl*>::iterator j = i->begin(); j != i->end(); ++j )
+        selected[k++] = *j;
 
       command.unit  = selected[0];
       selected[k]   = NULL;
@@ -759,7 +759,7 @@ namespace BWAPI
       }
 
       BroodwarImpl.executeCommand( command, false );
-      for each(UnitImpl* j in *i)
+      foreach(UnitImpl* j, *i)
       {
         j->lastCommandFrame = BroodwarImpl.frameCount;
         j->lastCommand      = command;

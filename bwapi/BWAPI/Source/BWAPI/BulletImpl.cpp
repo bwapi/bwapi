@@ -10,13 +10,13 @@
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  BulletImpl::BulletImpl(BW::Bullet* originalBullet,
-                     u16 index)
+  BulletImpl::BulletImpl(BW::Bullet* originalBullet, u16 index)
       : bwOriginalBullet(originalBullet)
       , index(index)
       , __exists(false)
       , lastExists(false)
       , self(&data)
+      , id(-1)
   {
   }
   BulletImpl::~BulletImpl()

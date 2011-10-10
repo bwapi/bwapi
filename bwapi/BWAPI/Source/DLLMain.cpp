@@ -197,8 +197,8 @@ DWORD WINAPI CTRT_Thread(LPVOID)
     char szWModeConfig[MAX_PATH];
     sprintf(szWModeConfig, "%s\\wmode.ini", szInstallPath);
 
-    FILE *test = fopen(szWModeConfig, "r");
-    if ( test )
+    DWORD dwWmodeConfigExists = GetFileAttributes(szWModeConfig);
+    if ( dwWmodeConfigExists != INVALID_FILE_ATTRIBUTES && !(dwWmodeConfigExists & FILE_ATTRIBUTE_DIRECTORY) )
     {
       // Get window location and screen dimensions
       int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, szWModeConfig);
@@ -309,7 +309,6 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         SStrNCat(szKeyName, "_dbg", MAX_PATH);
 #endif
         DWORD dwDesiredRevision = 0;
-        DWORD dwDesiredBuild    = 0; // 0 = undefined, 1 = release, 2 = debug
         GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
         if ( strcmpi(szDllPath, "NULL") == 0)
         {
@@ -317,6 +316,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
         }
         else
         {
+          DWORD dwDesiredBuild    = 0; // 0 = undefined, 1 = release, 2 = debug
+
           // Tokenize and retrieve correct path for the instance number
           char *pszDll = strtok(szDllPath, ",");
           for ( unsigned int i = 0; i < gdwProcNum-1; ++i )

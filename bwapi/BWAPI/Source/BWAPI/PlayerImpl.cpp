@@ -8,6 +8,8 @@
 #include <BW/UnitID.h>
 #include <BW/PlayerType.h>
 
+#include <Util/Foreach.h>
+
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -17,6 +19,7 @@ namespace BWAPI
       : index(index)
       , id(-1)
       , self(&data)
+      , force(NULL)
   {
     MemZero(data);
     resetResources();
@@ -246,7 +249,7 @@ namespace BWAPI
         // set upgrade level for visible enemy units
         for(int i = 0; i < 46; ++i)
         {
-          for each(UnitType t in UpgradeType(i).whatUses())
+          foreach(UnitType t, UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
               self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelSC->level[index][i];
@@ -254,7 +257,7 @@ namespace BWAPI
         }
         for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
         {
-          for each(UnitType t in UpgradeType(i).whatUses())
+          foreach(UnitType t, UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
               self->upgradeLevel[i] = BW::BWDATA_UpgradeLevelBW->level[index][i - 46];

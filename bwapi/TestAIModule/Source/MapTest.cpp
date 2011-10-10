@@ -86,6 +86,6 @@ void MapTest::onStart()
   BWAssert((*startLocations.begin()).x()==12);
   BWAssert((*startLocations.begin()).y()==9);
   startLocations.erase(startLocations.begin());
-  BWAssert(startLocations.size()==0);
+  BWAssert(startLocations.empty());
   Broodwar->printf("Completed all asserts");
 }

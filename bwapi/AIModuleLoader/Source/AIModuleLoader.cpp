@@ -25,7 +25,7 @@ int main(int argc, const char* argv[])
   else
   {
     printf("Enter path name to AI DLL:");
-    scanf("%s", buffer);
+    scanf("%1024s", buffer);
     szDllPath = buffer;
   }
   BWAPI::BWAPI_init();
@@ -58,9 +58,9 @@ int main(int argc, const char* argv[])
       client = newAIModule(Broodwar);
     }
     printf("starting match!\n");
-    while(Broodwar->isInGame())
+    while ( Broodwar->isInGame() )
     {
-      for(std::list<Event>::iterator e=Broodwar->getEvents().begin();e!=Broodwar->getEvents().end();e++)
+      for ( std::list<Event>::iterator e = Broodwar->getEvents().begin(); e != Broodwar->getEvents().end(); ++e )
       {
         EventType::Enum et=e->getType();
         switch (et)

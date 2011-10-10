@@ -263,8 +263,8 @@ namespace BWAPI
       else if (data->events[e].type==EventType::UnitRenegade)
       {
         Unit* u = &unitVector[id];
-        for each(PlayerImpl *p in playerSet)
-          p->units.erase(u);
+        for (std::set<Player*>::iterator p = playerSet.begin(); p != playerSet.end(); ++p )
+          ((PlayerImpl*)*p)->units.erase(u);
         ((PlayerImpl*)u->getPlayer())->units.insert(u);
       }
       else if (data->events[e].type == EventType::UnitMorph)
@@ -756,7 +756,7 @@ namespace BWAPI
   {
     bool success = false;
     //FIX FIX FIX naive implementation
-    for each(Unit* u in units)
+    foreach(Unit* u, units)
     {
       success |= u->issueCommand(command);
     }
