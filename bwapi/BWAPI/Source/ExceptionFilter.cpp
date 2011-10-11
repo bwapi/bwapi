@@ -106,7 +106,6 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     // Create a context record copy
     CONTEXT c = *ep->ContextRecord;
 
-    MessageBox(0, "", 0, 0);
     // Do the stack trace
     fprintf(hFile, "STACK:\n");
 
@@ -135,6 +134,8 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       } while( Module32Next(hSnapshot, &me32) );
     }
     CloseHandle(hSnapshot);
+
+    // @TODO: Load Broodwar symbols
 
     // Walk, don't run
     while ( StackWalk(IMAGE_FILE_MACHINE_I386, 
