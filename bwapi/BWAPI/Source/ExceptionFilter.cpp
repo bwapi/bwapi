@@ -1,6 +1,7 @@
 #include "ExceptionFilter.h"
 
 #include <string>
+#include <vector>
 #include <time.h>
 
 #include <Dbghelp.h>
@@ -8,10 +9,21 @@
 
 #include "DLLMain.h"
 
+// Declare the exception filter, which will be registered before DLLMain is called
 TopLevelExceptionFilter TopExceptionFilter(&BWAPIExceptionFilter);
 
+struct _customSymbolStore
+{
+  std::string name;
+  DWORD dwStartAddress;
+  DWORD dwEndAddress;
+};
+
+// The primary exception filter
 LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 {
+  ShowCursor(TRUE);
+
   SYSTEMTIME st;
   char szFilename[MAX_PATH];
 
@@ -129,13 +141,30 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     {
       do
       {
-        DWORD64 moduleBase = (DWORD)me32.modBaseAddr;
-        SymLoadModuleEx(hProcess, NULL, me32.szExePath, me32.szModule, moduleBase, me32.modBaseSize, NULL, 0);
+        SymLoadModule(hProcess, NULL, me32.szExePath, me32.szModule, (DWORD)me32.modBaseAddr, me32.modBaseSize);
       } while( Module32Next(hSnapshot, &me32) );
     }
     CloseHandle(hSnapshot);
 
-    // @TODO: Load Broodwar symbols
+    // Load custom symbols for Broodwar, etc
+    std::vector<_customSymbolStore> customSymbols;
+    FILE *hBWSymbols = fopen((std::string(szInstallPath) + "\\bwapi-data\\data\\Broodwar.map").c_str(), "r");
+    if ( hBWSymbols )
+    {
+      SymLoadModuleEx(hProcess, NULL, "Starcraft.exe", "Starcraft.exe", 0x00400000, 0, NULL, SLMFLAG_VIRTUAL | SLMFLAG_NO_SYMBOLS);
+      char szSymbolName[512];
+      DWORD dwAddress = 0;
+      DWORD dwSize = 0;
+      for (;;)
+      {
+        int iResult = fscanf(hBWSymbols, "%512s %x %x", szSymbolName, &dwAddress, &dwSize);
+        if ( iResult == EOF || iResult == 0 )
+          break;
+        _customSymbolStore sym = { szSymbolName, dwAddress, dwAddress + dwSize };
+        customSymbols.push_back(sym);
+      }
+      fclose(hBWSymbols);
+    }
 
     // Walk, don't run
     while ( StackWalk(IMAGE_FILE_MACHINE_I386, 
@@ -148,42 +177,52 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
                         &SymGetModuleBase, 
                         NULL) )
     {
-      fprintf(hFile, "  0x%p    ", sf.AddrPC.Offset);
-      int foundSomething = 0;
-      if ( sf.AddrPC.Offset )
+      DWORD dwOffset = sf.AddrPC.Offset;
+      fprintf(hFile, "  0x%p    ", dwOffset);
+      bool foundSomething = false;
+      if ( dwOffset )
       {
-        // Get the file name + line
-        IMAGEHLP_LINE il = { 0 };
-        il.SizeOfStruct = sizeof(IMAGEHLP_LINE);
-        DWORD dwJunk = 0;
-        if ( SymGetLineFromAddr(hProcess, sf.AddrPC.Offset, &dwJunk, &il) )
-        {
-          fprintf(hFile, "%s:%u    ", il.FileName, il.LineNumber);
-          ++foundSomething;
-        }
-        else
-        {
-          //fprintf(hFile, "\n\nERR: 0x%p\n\n", GetLastError());
-        }
-
         // Get the symbol name
         IMAGEHLP_SYMBOL_PACKAGE sip = { 0 };
         sip.sym.SizeOfStruct  = sizeof(IMAGEHLP_SYMBOL);
         sip.sym.MaxNameLength = MAX_SYM_NAME;
         
-        dwJunk = 0;
-        if ( SymGetSymFromAddr(hProcess, sf.AddrPC.Offset, &dwJunk, &sip.sym) )
+        DWORD dwJunk = 0;
+        if ( SymGetSymFromAddr(hProcess, dwOffset, &dwJunk, &sip.sym) )
         {
           fprintf(hFile, "%s", sip.sym.Name);
-          ++foundSomething;
+          foundSomething = true;
         }
-        else
+
+        // Get the file name + line
+        IMAGEHLP_LINE il = { 0 };
+        il.SizeOfStruct = sizeof(IMAGEHLP_LINE);
+        dwJunk = 0;
+        if ( SymGetLineFromAddr(hProcess, dwOffset, &dwJunk, &il) )
         {
-          //fprintf(hFile, "\n\nERR: 0x%p\n\n", GetLastError());
+          fprintf(hFile, "\n                  %s:%u", il.FileName, il.LineNumber);
+          foundSomething = true;
+        }
+
+        if ( !foundSomething )
+        {
+          for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin();
+                i != customSymbols.end();
+                ++i )
+          {
+            if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
+            {
+              fprintf(hFile, "%s", i->name.c_str());
+              foundSomething = true;
+              break;
+            }
+          }
         }
       }
       if ( !foundSomething )
+      {
         fprintf(hFile, "  ----");
+      }
       fprintf(hFile, "\n");
     }
     // Clean up
@@ -191,7 +230,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     fclose(hFile);
   } // ^if hFile
 
-
+  ShowCursor(FALSE);
   /* // Uncomment this block to "fix" integer divisions by 0
   if ( ep->ExceptionRecord->ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO )
   {
