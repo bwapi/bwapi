@@ -33,12 +33,13 @@ namespace BWAPI
     int gameTableIndex = -1;
     gameTable = NULL;
     gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Global\\bwapi_shared_memory_game_list" );
-    if (gameTableFileHandle == INVALID_HANDLE_VALUE || gameTableFileHandle == NULL )
+    if ( !gameTableFileHandle )
       return false;
     gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
+    if ( !gameTable )
+      return false;
 
     //Find row with most recent keep alive that isn't connected
-      
     time_t latest;
     for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
     {
@@ -52,15 +53,12 @@ namespace BWAPI
         }
       }
     }
+
     if (gameTableIndex != -1)
-    {
       serverProcID = gameTable->gameInstances[gameTableIndex].serverProcessID;
-    }
 
     if (serverProcID == -1)
-    {
       return false;
-    }
     
     std::stringstream sharedMemoryName;
     sharedMemoryName << "Global\\bwapi_shared_memory_";
@@ -70,9 +68,8 @@ namespace BWAPI
     communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
     communicationPipe << serverProcID;
 
-
     pipeObjectHandle = CreateFile(communicationPipe.str().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-    if (pipeObjectHandle == INVALID_HANDLE_VALUE || pipeObjectHandle == NULL)
+    if ( !pipeObjectHandle || pipeObjectHandle == INVALID_HANDLE_VALUE )
     {
       CloseHandle(gameTableFileHandle);
       return false;

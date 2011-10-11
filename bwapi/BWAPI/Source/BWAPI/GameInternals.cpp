@@ -2149,7 +2149,8 @@ namespace BWAPI
     {
       //SetResolution(640, 480);
       //printf("%u", this->elapsedTime());
-      this->setCommandOptimizationLevel(3);
+      int blah = 0;
+      printf("%u", 32/blah);
     }
 #endif
     else

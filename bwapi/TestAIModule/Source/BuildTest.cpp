@@ -218,52 +218,52 @@ void BuildTest::update()
   if (building!=NULL)
   {
     correctRemainingBuildTime = startFrame+unitType.buildTime()-thisFrame+1;
-    if (builder->getType().getRace()==Races::Protoss)
+    if (builder->getType().getRace() == Races::Protoss)
       correctRemainingBuildTime--;
-    if (builder->getType().getRace()==Races::Zerg)
+    if (builder->getType().getRace() == Races::Zerg)
       correctRemainingBuildTime--;
-    if (builder->getType()==UnitTypes::Zerg_Extractor)
+    if (builder->getType() == UnitTypes::Zerg_Extractor)
       correctRemainingBuildTime--;
-    if (correctRemainingBuildTime<0) correctRemainingBuildTime=0;
-    if (correctRemainingBuildTime>unitType.buildTime()) correctRemainingBuildTime=unitType.buildTime();
+    if (correctRemainingBuildTime < 0) correctRemainingBuildTime = 0;
+    if (correctRemainingBuildTime > unitType.buildTime()) correctRemainingBuildTime = unitType.buildTime();
   }
   bool correctIsConstructing = false;
       
-  if (builder->getType().getRace()==Races::Terran)
+  if (builder->getType().getRace() == Races::Terran)
     correctIsConstructing = true;
 
-  if (builder->getType().getRace()==Races::Protoss)
+  if (builder->getType().getRace() == Races::Protoss)
   {
-    if (unitType==UnitTypes::Protoss_Assimilator)
-      correctIsConstructing = (building==NULL) || thisFrame<startFrame+2;
+    if (unitType == UnitTypes::Protoss_Assimilator)
+      correctIsConstructing = !building || thisFrame < startFrame+2;
     else
-      correctIsConstructing = (building==NULL) || thisFrame<startFrame+1;
+      correctIsConstructing = !building || thisFrame < startFrame+1;
   }
-  if (builder->getType().getRace()==Races::Zerg)
+  if (builder->getType().getRace() == Races::Zerg)
     correctIsConstructing = true;
 
-  if (correctRemainingBuildTime>0 || building==NULL)
+  if ( correctRemainingBuildTime > 0 || !building )
   {
     BWAssertF(builder->isConstructing() == correctIsConstructing,{log("%d %d, %d", builder->isConstructing(), correctIsConstructing, correctRemainingBuildTime);});
     BWAssertF(builder->isIdle() != builder->isConstructing(),{log("%d %d, %d", builder->isIdle(), !builder->isConstructing(), correctRemainingBuildTime);});
   }
-  if (building!=NULL)
+  if ( building )
   {  
-    if (builder->getType().getRace()==Races::Terran)
+    if ( builder->getType().getRace() == Races::Terran )
     {
-      FAILTEST(builder->getBuildUnit()==building);
-      FAILTEST(building->getBuildUnit()==builder);
-      FAILTEST(builder->getBuildType()==building->getType());
+      FAILTEST(builder->getBuildUnit() == building);
+      FAILTEST(building->getBuildUnit() == builder);
+      FAILTEST(builder->getBuildType() == building->getType());
     }
-    FAILTEST(building->getBuildType()==building->getType());
-    BWAssertF(building->getRemainingBuildTime()==correctRemainingBuildTime,{log("%d %d",building->getRemainingBuildTime(),correctRemainingBuildTime);});
-    FAILTEST(building->isCompleted()==false);
-    FAILTEST(building->isConstructing()==true);
-    FAILTEST(building->isIdle()==false);
-    FAILTEST(building->isBeingConstructed()==true);
-    if (building->getType().getRace()==Races::Protoss)
+    FAILTEST(building->getBuildType() == building->getType());
+    BWAssertF(building->getRemainingBuildTime() == correctRemainingBuildTime,{log("%d %d",building->getRemainingBuildTime(),correctRemainingBuildTime);});
+    FAILTEST(building->isCompleted() == false);
+    FAILTEST(building->isConstructing() == true);
+    FAILTEST(building->isIdle() == false);
+    FAILTEST(building->isBeingConstructed() == true);
+    if (building->getType().getRace() == Races::Protoss)
     {
-      if (thisFrame>startFrame+Broodwar->getLatency()+unitType.buildTime() + 67)
+      if (thisFrame>startFrame + Broodwar->getLatency() + unitType.buildTime() + 67)
       {
         finishingBuilding = true;
         finishFrame = thisFrame;
@@ -271,7 +271,7 @@ void BuildTest::update()
     }
     else
     {
-      if (correctRemainingBuildTime==0)
+      if (correctRemainingBuildTime == 0)
       {
         finishingBuilding = true;
         finishFrame = thisFrame;
