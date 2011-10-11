@@ -780,6 +780,14 @@ namespace BWAPI
         if (Broodwar->isInGame())
           Broodwar->setCommandOptimizationLevel(v1);
         break;
+      case BWAPIC::CommandType::SetReplayVision:
+        if ( Broodwar->isInGame() )
+          Broodwar->setReplayVision(getPlayer(v1), v2 != 0);
+        break;
+      case BWAPIC::CommandType::SetRevealAll:
+        if ( Broodwar->isInGame() )
+          Broodwar->setRevealAll(v1 != 0);
+        break;
       default:
         break;
       }

@@ -242,6 +242,9 @@ namespace BWAPI
 
       virtual int getLastEventTime() const;
 
+      virtual bool setReplayVision(BWAPI::Player *player, bool enabled = true);
+      virtual bool setRevealAll(bool reveal = true);
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();
