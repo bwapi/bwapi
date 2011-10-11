@@ -111,6 +111,10 @@ namespace BW
   static PlayerAlliance *BWDATA_Alliance     = (PlayerAlliance*) 0x0058D634;
   static u32            *BWDATA_PlayerVision = (u32*)            0x0057F1EC;
 
+  // Replay Vision
+  static u32            *BWDATA_ReplayVision = (u32*)            0x006D0F18;
+  static u32            *BWDATA_ReplayRevealAll = (u32*)         0x006D0F1C;
+
   /** Code Patches */
   static u32 BWDATA_ServerMenuIn      = 0x004DD5A2;
   static u32 BWDATA_ServerMenuOut     = 0x004DD5C9;

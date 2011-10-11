@@ -2149,8 +2149,11 @@ namespace BWAPI
     {
       //SetResolution(640, 480);
       //printf("%u", this->elapsedTime());
-      int blah = 0;
-      printf("%u", 32/blah);
+      printf("Setting revealAll");
+      if ( !this->setRevealAll() )
+        printf("%s", this->getLastError().c_str());
+      //int blah = 0;
+      //printf("%u", 32/blah);
     }
 #endif
     else

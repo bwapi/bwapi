@@ -7,6 +7,8 @@
 #include <Dbghelp.h>
 #include <tlhelp32.h>
 
+#include <BWAPI/GameImpl.h>
+
 #include "DLLMain.h"
 
 // Declare the exception filter, which will be registered before DLLMain is called
@@ -18,6 +20,18 @@ struct _customSymbolStore
   DWORD dwStartAddress;
   DWORD dwEndAddress;
 };
+
+std::string getModuleNameFrom(LPCVOID pExcptAddr)
+{
+  MEMORY_BASIC_INFORMATION memInfo;
+  char szOffender[MAX_PATH] = { "_unknown_" };
+  if ( VirtualQuery(pExcptAddr, &memInfo, sizeof(memInfo)) )
+    GetModuleFileName(memInfo.AllocationBase ? (HMODULE)memInfo.AllocationBase : GetModuleHandle(NULL), szOffender, MAX_PATH);
+  char *pszLast = strrchr(szOffender, '\\');
+  return std::string(pszLast ? pszLast + 1 : szOffender);
+}
+
+#define NULLCHECK(x) if ( !(x) ) fprintf(hFile, "%s is NULL.\n", #x);
 
 // The primary exception filter
 LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
@@ -68,19 +82,30 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       } // ^if dwVerSize
     } // ^if GetModuleFileName
 
+    // BWAPI/Broodwar specific
+    fprintf(hFile, "BWAPI:\n");
+    fprintf(hFile, "  REVISION: %u\n", BWAPI::BroodwarImpl.getRevision());
+    fprintf(hFile, "  BUILD: %s\n", BWAPI::BroodwarImpl.isDebug() ? "DEBUG" : "RELEASE");
+    fprintf(hFile, "  ERROR: %s\n", BWAPI::BroodwarImpl.getLastError().c_str());
+    fprintf(hFile, "  LOCATION: %s %s\n", BWAPI::BroodwarImpl.isMultiplayer() ? (BWAPI::BroodwarImpl.isBattleNet() ? "Battle.net" : "Multiplayer") : "Single Player", BWAPI::BroodwarImpl.isReplay() ? "Replay" : "");
+    
+    if ( BWAPI::BroodwarImpl.isInGame() )
+    {
+      fprintf(hFile, "MAP: %s\n     %s\n", BWAPI::BroodwarImpl.mapName().c_str(), BWAPI::BroodwarImpl.mapFileName().c_str());
+      NULLCHECK(BWAPI::BroodwarImpl.self());
+      NULLCHECK(BWAPI::BroodwarImpl.enemy());
+      NULLCHECK(BWAPI::BroodwarImpl.neutral());
+    }
+
     // Print the exception info
     DWORD dwExceptionCode = ep->ExceptionRecord->ExceptionCode;
-    fprintf(hFile, "EXCEPTION: 0x%p    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
+    fprintf(hFile, "\nEXCEPTION: 0x%p    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
 
     // Store exception address
     PVOID pExceptionAddr = ep->ExceptionRecord->ExceptionAddress;
 
     // Print offending module info
-    MEMORY_BASIC_INFORMATION memInfo;
-    char szOffender[MAX_PATH] = { "_unknown_" };
-    if ( VirtualQuery(pExceptionAddr, &memInfo, sizeof(memInfo)) )
-      GetModuleFileName(memInfo.AllocationBase ? (HMODULE)memInfo.AllocationBase : GetModuleHandle(NULL), szOffender, MAX_PATH);    
-    fprintf(hFile, "FAULT: 0x%p    %s\n", pExceptionAddr, szOffender);
+    fprintf(hFile, "FAULT:     0x%p    %s\n", pExceptionAddr, getModuleNameFrom(pExceptionAddr).c_str());
 
     // Print register information
     fprintf(hFile, "REGISTERS:\n");
@@ -177,7 +202,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
                         NULL) )
     {
       DWORD dwOffset = sf.AddrPC.Offset;
-      fprintf(hFile, "  0x%p    ", dwOffset);
+      fprintf(hFile, "  %-16s  0x%p    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
       bool foundSomething = false;
       if ( dwOffset )
       {
@@ -199,7 +224,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
         dwJunk = 0;
         if ( SymGetLineFromAddr(hProcess, dwOffset, &dwJunk, &il) )
         {
-          fprintf(hFile, "\n                  %s:%u", il.FileName, il.LineNumber);
+          fprintf(hFile, "\n                                     %s:%u", il.FileName, il.LineNumber);
           foundSomething = true;
         }
 

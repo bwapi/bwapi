@@ -241,5 +241,7 @@ namespace BWAPI
       virtual BWAPI::Region *getRegionAt(int x, int y) const;
       virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const;
       virtual int getLastEventTime() const;
+      virtual bool setReplayVision(BWAPI::Player *player, bool enabled = true);
+      virtual bool setRevealAll(bool reveal = true);
   };
 }

@@ -1151,5 +1151,27 @@ namespace BWAPI
   {
     return 0;
   }
+  bool GameImpl::setReplayVision(Player *player, bool enabled)
+  {
+    if ( !player || !isReplay() )
+    {
+      lastError = Errors::Invalid_Parameter;
+      return false;
+    }
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetReplayVision, player->getID(), enabled ? 1 : 0));
+    lastError = Errors::None;
+    return true;
+  }
+  bool GameImpl::setRevealAll(bool reveal)
+  {
+    if ( !isReplay() )
+    {
+      lastError = Errors::Invalid_Parameter;
+      return false;
+    }
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetRevealAll, reveal ? 1 : 0));
+    lastError = Errors::None;
+    return true;
+  }
 };
 

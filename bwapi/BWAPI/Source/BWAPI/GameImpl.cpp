@@ -958,5 +958,26 @@ namespace BWAPI
   {
     return this->lastEventTime;
   }
+  bool GameImpl::setReplayVision(Player *player, bool enabled)
+  {
+    // Sets the replay vision status
+    if ( !isReplay() || !player )
+      return this->setLastError(Errors::Invalid_Parameter);
+
+    u32 vision = *BW::BWDATA_ReplayVision;
+    if ( enabled )
+      vision |= 1 << ((PlayerImpl*)player)->getIndex();
+    else
+      vision &= ~(1 <<  ((PlayerImpl*)player)->getIndex() );
+    *BW::BWDATA_ReplayVision = vision;
+    return this->setLastError(Errors::None);
+  }
+  bool GameImpl::setRevealAll(bool reveal)
+  {
+    if ( !isReplay() )
+      return this->setLastError(Errors::Invalid_Parameter);
+    *BW::BWDATA_ReplayRevealAll = reveal ? 1 : 0;
+    return this->setLastError(Errors::None);
+  }
 };
 

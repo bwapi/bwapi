@@ -465,6 +465,11 @@ namespace BWAPI
     /** Returns the time taken to perform the previous event call. Used for tournament management. */
     virtual int getLastEventTime() const = 0;
 
+    /** Hides or reveals a player in a replay. */
+    virtual bool setReplayVision(BWAPI::Player *player, bool enabled = true) = 0;
+
+    /** Enables or disables the Fog of War in a replay. */
+    virtual bool setRevealAll(bool reveal = true) = 0;
   };
   extern Game* Broodwar;
 }
