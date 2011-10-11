@@ -151,7 +151,6 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     FILE *hBWSymbols = fopen((std::string(szInstallPath) + "\\bwapi-data\\data\\Broodwar.map").c_str(), "r");
     if ( hBWSymbols )
     {
-      SymLoadModuleEx(hProcess, NULL, "Starcraft.exe", "Starcraft.exe", 0x00400000, 0, NULL, SLMFLAG_VIRTUAL | SLMFLAG_NO_SYMBOLS);
       char szSymbolName[512];
       DWORD dwAddress = 0;
       DWORD dwSize = 0;
