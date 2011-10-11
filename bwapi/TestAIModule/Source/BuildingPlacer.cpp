@@ -38,9 +38,9 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
     width+=2;
   }
   int startx = position.x() - buildDist;
-  if (startx<0) return false;
+  if (startx < 0) return false;
   int starty = position.y() - buildDist;
-  if (starty<0) return false;
+  if (starty < 0) return false;
   int endx = position.x() + width + buildDist;
   if (endx>BWAPI::Broodwar->mapWidth()) return false;
   if (endx<position.x() + width) return false;
@@ -49,16 +49,15 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
 
   for(int x = startx; x < endx; x++)
     for(int y = starty; y < endy; y++)
-      if (!type.isRefinery())
-        if (!buildable(x, y) || reserveMap[x][y])
-          return false;
+      if ( !type.isRefinery() && (!buildable(x, y) || reserveMap[x][y]) )
+        return false;
 
-  if (position.x()>3)
+  if (position.x() > 3)
   {
-    int startx2=startx-2;
-    if (startx2<0) startx2=0;
-    for(int x = startx2; x < startx; x++)
-      for(int y = starty; y < endy; y++)
+    int startx2 = startx - 2;
+    if (startx2 < 0) startx2 = 0;
+    for(int x = startx2; x < startx; ++x)
+      for(int y = starty; y < endy; ++y)
       {
         std::set<BWAPI::Unit*> units = BWAPI::Broodwar->getUnitsOnTile(x, y);
         for( std::set<BWAPI::Unit*>::iterator i = units.begin(); i != units.end(); ++i )

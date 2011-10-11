@@ -614,14 +614,14 @@ namespace BWAPI
   //--------------------------------------------- IS EXPLORED ------------------------------------------------
   bool GameImpl::isExplored(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
+    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
       return 0;
     return data->isExplored[x][y];
   }
   //--------------------------------------------- HAS CREEP --------------------------------------------------
   bool GameImpl::hasCreep(int x, int y)
   {
-    if (x<0 || y<0 || x>=data->mapWidth || y>=data->mapHeight)
+    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
       return 0;
     return data->hasCreep[x][y];
   }

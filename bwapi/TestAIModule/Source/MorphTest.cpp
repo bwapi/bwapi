@@ -93,21 +93,21 @@ void MorphTest::update()
     return;
   }
   int thisFrame = Broodwar->getFrameCount();
-  BWAssert(thisFrame==nextFrame);
-  FAILTEST(producer!=NULL);
+  BWAssert(thisFrame == nextFrame);
+  FAILTEST(producer != NULL);
   nextFrame++;
-  Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
+  Broodwar->setScreenPosition(producer->getPosition().x()-320, producer->getPosition().y()-240);
 
-  int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
-  if (correctRemainingTrainTime>unitType.buildTime())
-    correctRemainingTrainTime=unitType.buildTime();
-  if (correctRemainingTrainTime<0)
-    correctRemainingTrainTime=0;
+  int correctRemainingTrainTime = startFrame + Broodwar->getLatency() + unitType.buildTime() - thisFrame + 1;
+  if (correctRemainingTrainTime > unitType.buildTime())
+    correctRemainingTrainTime = unitType.buildTime();
+  if (correctRemainingTrainTime < 0)
+    correctRemainingTrainTime = 0;
 
   if (finishingMorph)
   {
-    FAILTEST(producer!=NULL);
-    FAILTEST(producer->getType()==unitType);
+    FAILTEST(producer != NULL);
+    FAILTEST(producer->getType() == unitType);
     if (producerType.isBuilding())
     {
       FAILTEST(producer->isBeingConstructed()==false);
@@ -117,9 +117,9 @@ void MorphTest::update()
       FAILTEST(producer->isMorphing()==false);
       FAILTEST(Broodwar->self()->completedUnitCount(unitType) == previousUnitCount+1);
     }
-    else if (unitType==UnitTypes::Zerg_Lurker || unitType==UnitTypes::Zerg_Devourer)
+    else if (unitType == UnitTypes::Zerg_Lurker || unitType == UnitTypes::Zerg_Devourer)
     {
-      if (thisFrame<finishFrame+16)
+      if (thisFrame < finishFrame + 16)
       {
         FAILTEST(producer->isBeingConstructed()==true);
         FAILTEST(producer->isConstructing()==true);

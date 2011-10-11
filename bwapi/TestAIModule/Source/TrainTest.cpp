@@ -74,14 +74,14 @@ void TrainTest::update()
   int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
   if (Broodwar->getLatency()==5)
     correctRemainingTrainTime += 1;
-  if (correctRemainingTrainTime>unitType.buildTime())
-    correctRemainingTrainTime=unitType.buildTime();
-  if (correctRemainingTrainTime<0)
-    correctRemainingTrainTime=0;
+  if (correctRemainingTrainTime > unitType.buildTime())
+    correctRemainingTrainTime = unitType.buildTime();
+  if (correctRemainingTrainTime < 0)
+    correctRemainingTrainTime = 0;
   BWAssertF(producer->getRemainingTrainTime() == correctRemainingTrainTime,{log("%d Error %d != %d",thisFrame-startFrame,producer->getRemainingTrainTime(), correctRemainingTrainTime);});
-  int lastFrame = startFrame+Broodwar->getLatency()+unitType.buildTime();
+  int lastFrame = startFrame + Broodwar->getLatency() + unitType.buildTime();
   if (Broodwar->getLatency()==5)
-    lastFrame += 1;
+    lastFrame++;
   if (unitType==UnitTypes::Terran_Nuclear_Missile)
     lastFrame++;
   if (thisFrame>lastFrame) //terminate condition
