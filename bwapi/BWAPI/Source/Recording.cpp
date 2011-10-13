@@ -17,15 +17,37 @@ DWORD dwFrames;
 
 void *pFlipped;
 
-bool StartVideoRecording(const char *pszFilename, int width, int height)
+SIZE gVidSize;
+
+bool StartVideoRecording(int width, int height)
 {
+  ShowCursor(TRUE);
   AVIFileInit();
 
   if ( recordingStarted )
     StopVideoRecording();
 
-  ShowCursor(TRUE);
-  if ( AVIFileOpen(&pAviFile, pszFilename, OF_WRITE | OF_CREATE, NULL) != AVIERR_OK )
+  gVidSize.cx = width;
+  gVidSize.cy = height;
+
+  char szFileName[MAX_PATH] = { 0 };
+
+  // Initialize OPENFILENAME struct
+  OPENFILENAME ofn = { 0 };
+  ofn.lStructSize = sizeof(OPENFILENAME);
+  ofn.lpstrFilter = "Video Files (*.avi)\0*.AVI\0\0\0";
+  ofn.Flags       = OFN_DONTADDTORECENT | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+  ofn.lpstrDefExt = "avi";
+  ofn.lpstrFile   = szFileName;
+  ofn.nMaxFile    = MAX_PATH;
+
+  if ( !GetSaveFileName(&ofn) )
+  {
+    ShowCursor(FALSE);
+    return StopVideoRecording();
+  }
+
+  if ( AVIFileOpen(&pAviFile, szFileName, OF_WRITE | OF_CREATE, NULL) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIFileOpen failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
@@ -64,7 +86,6 @@ bool StartVideoRecording(const char *pszFilename, int width, int height)
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
-
 
   if ( AVIMakeCompressedStream(&pAviStreamCompressed, pAviStream, pOptions, NULL) != AVIERR_OK )
   {
@@ -112,21 +133,21 @@ bool StopVideoRecording()
   return false;
 }
 
-void RecordFrame(void *pBuffer, int width, int height)
+void RecordFrame(void *pBuffer)
 {
   if ( !pBuffer )
     return;
 
-  DWORD *pbFlipped = (DWORD*)((DWORD)pFlipped + width*(height-1)*4);
+  DWORD *pbFlipped = (DWORD*)((DWORD)pFlipped + gVidSize.cx*(gVidSize.cy-1)*4);
   BYTE  *pbSrc     = (BYTE*)pBuffer;
-  DWORD dwEnd      = (DWORD)pBuffer + width*height;
+  DWORD dwEnd      = (DWORD)pBuffer + gVidSize.cx * gVidSize.cy;
   do
   {
-    for ( unsigned int i = 0; i < (unsigned int)width; ++i )
+    for ( unsigned int i = 0; i < (unsigned int)gVidSize.cx; ++i )
       pbFlipped[i] = *(DWORD*)&bmp.bmiColors[pbSrc[i]];
-    pbFlipped -= width;
-    pbSrc += width;
+    pbFlipped -= gVidSize.cx;
+    pbSrc += gVidSize.cx;
   } while ( (DWORD)pbSrc < dwEnd );
-  pAviStreamCompressed->Write(dwFrames, 1, pFlipped, width*height*4, dwFrames % 32 == 0 ? AVIIF_KEYFRAME : 0, NULL, NULL);
+  pAviStreamCompressed->Write(dwFrames, 1, pFlipped, gVidSize.cx*gVidSize.cy*4, AVIIF_KEYFRAME, NULL, NULL);
   ++dwFrames;
 }

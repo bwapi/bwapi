@@ -59,7 +59,7 @@ namespace BW
       if ( (this->flags & 1) /*|| this->needsRefresh()*/ )
       {
         RECT rctDraw = { this->grpBounds.left, this->grpBounds.top, this->grpBounds.right, this->grpBounds.bottom };
-        this->renderFunction1(this->screenPosition.x, this->screenPosition.y, &this->GRPFile->frames[this->frameIndex], &rctDraw, (int)this->coloringData);
+        this->renderFunction(this->screenPosition.x, this->screenPosition.y, &this->GRPFile->frames[this->frameIndex], &rctDraw, (int)this->coloringData);
       }
     }
     this->flags &= 0xFFFE;

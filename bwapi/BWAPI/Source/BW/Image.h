@@ -36,6 +36,23 @@ namespace BW
     /* 0x0A */ u8           paletteType;
     /* 0x0B */ u8           direction;
     /* 0x0C */ u16          flags;
+                            /*  0x0001  - 
+                                0x0002  - 
+                                0x0004  - 
+                                0x0008  - 
+                                0x0010  - 
+                                0x0020  - 
+                                0x0040  - 
+                                0x0080  - 
+                                0x0100  - 
+                                0x0200  - 
+                                0x0400  - 
+                                0x0800  - 
+                                0x1000  - 
+                                0x2000  - 
+                                0x4000  - 
+                                0x8000  - 
+                            */
     /* 0x0E */ s8           horizontalOffset;
     /* 0x0F */ s8           verticalOffset;
     /* 0x10 */ u16          iscriptHeader;
@@ -51,8 +68,8 @@ namespace BW
     /* 0x2C */ grpHead      *GRPFile;
     /* 0x30 */ void         *coloringData;
     // void __fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
-    /* 0x34 */ void (__fastcall *renderFunction1)(int,int,grpFrame*,RECT*,int);
-    /* 0x38 */ void (__fastcall *renderFunction2)(int,int,grpFrame*,RECT*,int);
+    /* 0x34 */ void (__fastcall *renderFunction)(int,int,grpFrame*,RECT*,int);
+    /* 0x38 */ void (__fastcall *updateFunction)(Image*);
     /* 0x3C */ Sprite       *spriteOwner;
   };
   namespace Anims
