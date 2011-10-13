@@ -816,7 +816,7 @@ namespace BWAPI
           recordingUpdated )
     {
       recordingUpdated = false;
-      RecordFrame(pVidBuffer, 640, 480);
+      RecordFrame(pVidBuffer);
     }
     setTextSize(); // Reset text size
 
@@ -2076,7 +2076,7 @@ namespace BWAPI
     }
     else if (parsed[0] == "/record")
     {
-      if ( !StartVideoRecording("test.avi", 640, 480) )
+      if ( !StartVideoRecording(640, 480) )
         MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
     }
     else if (parsed[0] == "/stoprecord")

@@ -48,6 +48,7 @@ void InitializeWModeBitmap(int width, int height)
   bmp.bmiHeader.biBitCount      = 8;
   bmp.bmiHeader.biCompression   = BI_RGB;
   bmp.bmiHeader.biSizeImage     = width * height;
+
   for ( int i = 0; i < 256; ++i )
   {
     bmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
