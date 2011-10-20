@@ -9,7 +9,11 @@ namespace Util
   class MemoryFrame;
 }
 
-#include <Util\Exceptions.h>
+#include <Util/Exceptions.h>
+
+#ifndef __FUNCTION__
+#define __FUNCTION__ "UNKNOWN FUNCTION"
+#endif
 
 namespace Util
 {

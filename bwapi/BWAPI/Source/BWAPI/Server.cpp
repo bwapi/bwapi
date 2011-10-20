@@ -73,7 +73,7 @@ namespace BWAPI
         // If we can't find an empty row, take over the row with the oldest keep alive time
         if (gameTableIndex == -1)
         {
-          time_t oldest = gameTable->gameInstances[0].lastKeepAliveTime;
+          DWORD oldest = gameTable->gameInstances[0].lastKeepAliveTime;
           gameTableIndex = 0;
           for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; ++i)
           {
@@ -87,7 +87,7 @@ namespace BWAPI
         //We have a game table index now, initialize our row
         gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
         gameTable->gameInstances[gameTableIndex].isConnected = false;
-        gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
+        gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
       } // if gameTable
     } // if gameTableFileHandle
 
@@ -139,7 +139,7 @@ namespace BWAPI
     data->shapeCount       = 0;
     if (gameTable && gameTableIndex >= 0)
     {
-      gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = time(NULL);
+      gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
       gameTable->gameInstances[gameTableIndex].isConnected = connected;
     }
     if (connected)

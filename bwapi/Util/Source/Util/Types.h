@@ -34,12 +34,13 @@ typedef struct __rect
 
 #define ever (;;)
 
+#include <cstdio>
 #define vstretchyprintf(buff,fmt) {\
   va_list ap;\
   va_start(ap, fmt);\
   int buffsize = _vscprintf(fmt, ap);\
   buff = (char*)malloc(buffsize+1);\
-  vsprintf_s(buff, buffsize+1, fmt, ap);\
+  vsprintf(buff, fmt, ap);\
   va_end(ap);\
 }
 

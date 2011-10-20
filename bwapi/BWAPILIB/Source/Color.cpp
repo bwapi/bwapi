@@ -5,6 +5,11 @@
 
 #include "../../Debug.h"
 
+#ifndef MAXUINT
+#include <limits>
+#define MAXUINT std::numeric_limits<unsigned int>::max()
+#endif
+
 namespace BWAPI
 {
   bool rgbInitialized = false;
@@ -60,10 +65,6 @@ namespace BWAPI
     BYTE closest[64][64][64];
     unsigned int getBestIdFor(unsigned int red, unsigned int green, unsigned int blue)
     {
-      __assume(red   < 256);
-      __assume(green < 256);
-      __assume(blue  < 256);
-
       unsigned int min_dist   = 3 * 256 * 256;
       unsigned int best_id    = MAXUINT;
       for( unsigned int id = 0; id < 255; ++id )

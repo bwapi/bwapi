@@ -21,11 +21,15 @@ SIZE gVidSize;
 
 bool StartVideoRecording(int width, int height)
 {
-  ShowCursor(TRUE);
+  // Initialize AVI thingy
   AVIFileInit();
 
+  // Stop recording if it is already recording
   if ( recordingStarted )
     StopVideoRecording();
+  
+  // Show the cursor so that the popup dialogs do not hide the cursor
+  ShowCursor(TRUE);
 
   gVidSize.cx = width;
   gVidSize.cy = height;
@@ -41,12 +45,14 @@ bool StartVideoRecording(int width, int height)
   ofn.lpstrFile   = szFileName;
   ofn.nMaxFile    = MAX_PATH;
 
+  // Obtain the file name for the video
   if ( !GetSaveFileName(&ofn) )
   {
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
 
+  // Create the AVI file
   if ( AVIFileOpen(&pAviFile, szFileName, OF_WRITE | OF_CREATE, NULL) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIFileOpen failed!", "Recording failed!", MB_OK | MB_ICONHAND);
@@ -54,6 +60,7 @@ bool StartVideoRecording(int width, int height)
     return StopVideoRecording();
   }
 
+  // Initialize new bitmap info header
   BITMAPINFOHEADER vidBmpInfo = bmp.bmiHeader;
   vidBmpInfo.biBitCount       = 32;
   vidBmpInfo.biHeight         = abs(vidBmpInfo.biHeight);
@@ -63,6 +70,7 @@ bool StartVideoRecording(int width, int height)
   vidBmpInfo.biClrUsed        = 0;
   vidBmpInfo.biClrImportant   = 0;
 
+  // initialize avistream info structure
   AVISTREAMINFO aisinfo = { 0 };
   aisinfo.fccType               = streamtypeVIDEO;
   aisinfo.dwScale               = 42;
@@ -72,6 +80,7 @@ bool StartVideoRecording(int width, int height)
   aisinfo.dwSampleSize          = width * height * 4;
   SetRect(&aisinfo.rcFrame, 0, 0, width, height);
 
+  // Create the uncompressed stream
   if ( AVIFileCreateStream(pAviFile, &pAviStream, &aisinfo) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIFileCreateStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
@@ -79,6 +88,7 @@ bool StartVideoRecording(int width, int height)
     return StopVideoRecording();
   }
 
+  // Retrieve the AVI compression options via popup dialog
   AVICOMPRESSOPTIONS *pOptions = &aviOptions;
   if ( !AVISaveOptions(NULL, 0, 1, &pAviStream, &pOptions) )
   {
@@ -87,6 +97,7 @@ bool StartVideoRecording(int width, int height)
     return StopVideoRecording();
   }
 
+  // Create the compressed AVI stream
   if ( AVIMakeCompressedStream(&pAviStreamCompressed, pAviStream, pOptions, NULL) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIMakeCompressedStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
@@ -94,7 +105,8 @@ bool StartVideoRecording(int width, int height)
     return StopVideoRecording();
   }
   
-  if ( pAviStreamCompressed->SetFormat(0, &vidBmpInfo, sizeof(BITMAPINFO256)) != AVIERR_OK )
+  // Set the compressed stream format
+  if ( AVIStreamSetFormat(pAviStreamCompressed, 0, &vidBmpInfo, sizeof(BITMAPINFOHEADER)) != AVIERR_OK )
   {
     MessageBox(NULL, "AVIStreamSetFormat failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
@@ -103,6 +115,7 @@ bool StartVideoRecording(int width, int height)
   // Allocate memory for flipped video surface
   pFlipped = malloc(width*height*4);
 
+  // Hide the cursor again
   ShowCursor(FALSE);
   recordingStarted = true;
   return true;
@@ -110,6 +123,7 @@ bool StartVideoRecording(int width, int height)
 
 bool StopVideoRecording()
 {
+  // De-allocate and close handles
   recordingStarted = false;
   dwFrames         = 0;
 
@@ -148,6 +162,5 @@ void RecordFrame(void *pBuffer)
     pbFlipped -= gVidSize.cx;
     pbSrc += gVidSize.cx;
   } while ( (DWORD)pbSrc < dwEnd );
-  pAviStreamCompressed->Write(dwFrames, 1, pFlipped, gVidSize.cx*gVidSize.cy*4, AVIIF_KEYFRAME, NULL, NULL);
-  ++dwFrames;
+  AVIStreamWrite(pAviStreamCompressed, dwFrames++, 1, pFlipped, gVidSize.cx*gVidSize.cy*4, AVIIF_KEYFRAME, NULL, NULL);
 }
