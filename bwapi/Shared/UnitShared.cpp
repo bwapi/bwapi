@@ -2,6 +2,11 @@
 #include <BWAPI/Client/UnitData.h>
 #include <TemplatesImpl.h>
 
+#ifndef MAXINT
+#include <limits>
+#define MAXINT std::numeric_limits<int>::max()
+#endif
+
 namespace BWAPI
 {
   //--------------------------------------------- CLEAR ------------------------------------------------------

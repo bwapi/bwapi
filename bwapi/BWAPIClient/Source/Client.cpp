@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <sstream>
 #include <iostream>
+#include <cstdio>
 
 namespace BWAPI
 {
@@ -40,7 +41,7 @@ namespace BWAPI
       return false;
 
     //Find row with most recent keep alive that isn't connected
-    time_t latest;
+    DWORD latest;
     for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
     {
       std::cout << i << " | " << gameTable->gameInstances[i].serverProcessID << " | " << gameTable->gameInstances[i].isConnected << " | " << gameTable->gameInstances[i].lastKeepAliveTime << "\n";
@@ -112,6 +113,11 @@ namespace BWAPI
     {
       DWORD receivedByteCount;
       BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(code), &receivedByteCount, NULL);
+	  if ( !success )
+      {
+        disconnect();
+        return false;
+      }
     }
     return true;
   }

@@ -45,7 +45,7 @@ namespace BWAPI
     s.extra1 = addString(text);
     return addShape(s);
   }
-  int GameImpl::addCommand(BWAPIC::Command &c)
+  int GameImpl::addCommand(const BWAPIC::Command &c)
   {
     assert(data->commandCount < GameData::MAX_COMMANDS);
     data->commands[data->commandCount] = c;
@@ -282,13 +282,15 @@ namespace BWAPI
         }
       }
     }
-    foreach(UnitImpl* u, accessibleUnits)
+    foreach(Unit* u_, accessibleUnits)
     {
+	  UnitImpl* u = static_cast<UnitImpl*>(u_);
       u->connectedUnits.clear();
       u->loadedUnits.clear();
     }
-    foreach(UnitImpl* u, accessibleUnits)
+    foreach(Unit* u_, accessibleUnits)
     {
+	  UnitImpl* u = static_cast<UnitImpl*>(u_);
       /* @TODO: Assign using getUnitsInRectangle */
       int startX = u->getLeft() / TILE_SIZE;
       int endX   = (u->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up

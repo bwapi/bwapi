@@ -5,7 +5,7 @@
 namespace BWAPI
 {
   BulletImpl::BulletImpl(int _index)
-    : self( &(BWAPI::BWAPIClient.data->bullets[index]) )
+    : self( &(BWAPI::BWAPIClient.data->bullets[_index]) )
     , index(_index)
   {
   }

@@ -1,6 +1,7 @@
 #include "Common.h"
 
 #include "../../Debug.h"
+#include <string.h>
 
 namespace BWAPI
 {

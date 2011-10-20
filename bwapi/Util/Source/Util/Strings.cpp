@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdarg.h>
+#include <cstdlib>
 
 #include "Exceptions.h"
 #include "Gnu.h"
@@ -31,7 +32,7 @@ namespace Util
     for (unsigned long i = begin; i < distance + begin && i < input.size();i++)
     {
       if (!isdigit(input[i]))
-        throw ParseException::ParseException("Strings::stringToInt - String " + input + " is not a number.");
+        throw ParseException("Strings::stringToInt - String " + input + " is not a number.");
       returnValue*=10;
       returnValue += (input[i] - '0');
     }
