@@ -15,9 +15,9 @@ BOOL STORMAPI SNetGetGameInfo(int type, void *dst, size_t length, size_t *bytesw
 
 BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers) rBool;
 
-BOOL STORMAPI SNetGetPlayerCaps(char playerid, CAPS *playerCaps) rBool;
+BOOL STORMAPI SNetGetPlayerCaps(char playerid, PCAPS playerCaps) rBool;
 BOOL STORMAPI SNetGetPlayerName(int playerid, char *buffer, size_t buffersize) rBool;
-BOOL STORMAPI SNetGetProviderCaps(CAPS *providerCaps) rBool;
+BOOL STORMAPI SNetGetProviderCaps(PCAPS providerCaps) rBool;
 BOOL STORMAPI SNetGetTurnsInTransit(int *turns) rBool;
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5) rBool;
 BOOL STORMAPI SNetInitializeProvider(DWORD providerName, clientInfo *gameClientInfo, userInfo *userData, battleInfo *bnCallbacks, moduleInfo *moduleData) rBool;
@@ -30,13 +30,13 @@ HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(s_evt
 
 int STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid) rInt;
 
-BOOL STORMAPI SNetSendMessage(int playerID, char *data, unsigned int databytes) rBool;
-BOOL STORMAPI SNetSendTurn(char *data, unsigned int databytes) rBool;
+BOOL STORMAPI SNetSendMessage(int playerID, void *data, size_t databytes) rBool;
+BOOL STORMAPI SNetSendTurn(void *data, size_t databytes) rBool;
 
 BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2) rBool;
 
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall) rBool;
-int STORMAPI SNetSendServerChatCommand(const char *command) rInt;
+BOOL STORMAPI SNetSendServerChatCommand(const char *command) rBool;
 
 BOOL STORMAPI SNetGetPlayerNames(DWORD flags) rBool;
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID) rBool;
@@ -202,7 +202,7 @@ void STORMAPI SRgn529i(int handle, int a2, int a3) rVoid;
 char* STORMAPI SStrChr(const char *string, char c) rPVoid;
 char* STORMAPI SStrChrR(const char *string, char c) rPVoid;
 
-size_t __cdecl SStrVPrintf(char *dest, size_t size, const char *format, ...) rInt;
+size_t SStrVPrintf(char *dest, size_t size, const char *format, ...) rInt;
 
 int STORMAPI SBigDel(void *buffer) rInt;
 
