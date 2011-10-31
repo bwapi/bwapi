@@ -134,14 +134,14 @@ namespace BWAPI
     if (this == target)
       return 0;
     
-    return computeDistance<UnitImpl>(this,target);
+    return computeDistance(this, target);
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
   int UnitImpl::getDistance(Position target) const
   {
-    if (!exists())
+    if ( !exists() )
       return MAXINT;
-    return computeDistance<UnitImpl>(this,target);
+    return computeDistance(this, target);
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
   bool UnitImpl::hasPath(Unit* target) const
@@ -794,25 +794,29 @@ namespace BWAPI
   //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
   bool UnitImpl::isInWeaponRange(Unit *target) const
   {
+    // Preliminary checks
     if ( !exists() || !target || !target->exists() || this == target )
       return false;
 
+    // Store the types as locals
     UnitType thisType = getType();
     UnitType targType = target->getType();
 
+    // Obtain the weapon type
     WeaponType wpn = thisType.groundWeapon();
-    int minRange = wpn.minRange();
-    int maxRange = getPlayer()->groundWeaponMaxRange(thisType);
     if ( targType.isFlyer() || target->isLifted() )
-    {
       wpn = thisType.airWeapon();
-      minRange = wpn.minRange();
-      maxRange = getPlayer()->airWeaponMaxRange(thisType);
-    }
+
+    // Return if there is no weapon type
     if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
       return false;
 
-    int distance = computeDistance<UnitImpl>(this,target);
+    // Retrieve the min and max weapon ranges
+    int minRange = wpn.minRange();
+    int maxRange = getPlayer()->weaponMaxRange(wpn);
+
+    // Check if the distance to the unit is within the weapon range
+    int distance = computeDistance(this, target);
     return (minRange ? minRange < distance : true) && maxRange >= distance;
   }
   //--------------------------------------------- IS IRRADIATED ----------------------------------------------
