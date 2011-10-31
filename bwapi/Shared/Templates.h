@@ -983,8 +983,7 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
-  template <class UnitImpl>
-  int computeDistance(const Unit* src, const Unit* targ)
+  static inline int computeDistance(const Unit *src, const Unit *targ)
   {
     if ( src == targ || !src || !targ )
       return 0;
@@ -1006,8 +1005,7 @@ namespace BWAPI
     return Position(0, 0).getApproxDistance(Position(xDist, yDist));
   }
   //--------------------------------------------- COMPUTE DISTANCE -------------------------------------------
-  template <class UnitImpl>
-  int computeDistance(const Unit* src, Position targ)
+  static inline int computeDistance(const Unit* src, Position targ)
   {
     if ( !src )
       return 0;

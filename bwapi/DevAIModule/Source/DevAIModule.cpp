@@ -20,6 +20,8 @@ void DevAIModule::onStart()
   // save map info
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();
+
+  bw->printf("%u", bw->getBullets().size());
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -37,10 +39,17 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  for each ( Unit *u in self->getUnits() )
+  std::set<Unit*> tanks;
+  for each ( Unit *u in bw->getAllUnits() )
   {
-    if ( u->getType().spaceProvided() && u->getLoadedUnits().size() )
-      bw->printf("%s", u->unloadAll() ? "true" : "false");
+    if ( u->getType() == UnitTypes::Terran_Siege_Tank_Siege_Mode )
+      tanks.insert(u);
+  }
+
+  for each ( Unit *u in self->getUnits() )
+  {    
+    for each ( Unit *t in tanks )
+      bw->drawLineMap(u->getPosition().x(), u->getPosition().y(), t->getPosition().x(), t->getPosition().y(), t->isInWeaponRange(u) ? Colors::Green : Colors::Red);
   }
 }
 

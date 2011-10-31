@@ -18,6 +18,7 @@ namespace BWAPI
       , self(&data)
       , id(-1)
   {
+    MemZero(data);
   }
   BulletImpl::~BulletImpl()
   {
