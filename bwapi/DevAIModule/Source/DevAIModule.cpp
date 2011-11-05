@@ -39,6 +39,9 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
+  if ( bw->getFrameCount() < 3 )
+    bw->printf("%u", bw->getBullets().size());
+
   std::set<Unit*> tanks;
   for each ( Unit *u in bw->getAllUnits() )
   {
