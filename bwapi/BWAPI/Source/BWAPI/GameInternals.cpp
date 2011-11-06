@@ -48,6 +48,7 @@
 #include <BW/UpgradeID.h>
 #include <BW/PlayerType.h>
 #include <BW/TriggerEngine.h>
+#include <BW/MenuPosition.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
@@ -991,56 +992,72 @@ namespace BWAPI
     if ( autoMapTryCount > 50 )
       return;
 
+    // Return if autoMenu is not enabled
+    if ( autoMenuMode == "" || autoMenuMode == "OFF" )
+      return;
+
+    // Wait for a debugger if autoMenuPause is enabled, and in DEBUG
 #ifdef _DEBUG
     if ( autoMenuPause != "OFF" && !IsDebuggerPresent() )
       return;
 #endif
 
+    // Get the menu mode
     int menu = *BW::BWDATA_glGluesMode;
-    BW::dialog *tempDlg;
-    if ( autoMenuMode == "SINGLE_PLAYER" )
+
+    // Declare a commonly used dialog pointer
+    BW::dialog *tempDlg = NULL;
+
+    // Get some autoMenu properties
+    bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
+    bool isCreating   = autoMenuMapPath.length() > 0;
+
+    // Iterate through the menus
+    switch ( menu )
     {
-      switch ( menu )
+    case BW::GLUE_MAIN_MENU:    // Main menu
+      if ( !actMainMenu )
       {
-//main menu
-      case 0: 
-        if ( !actMainMenu )
-        {
-          actMainMenu = true;
-          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(3)->activate() )
-            actMainMenu = false;
-        }
-        tempDlg = BW::FindDialogGlobal("Delete");
-        if ( tempDlg )
-          tempDlg->findIndex(7)->activate();
+        actMainMenu = true;
+        if ( !BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4)->activate() )
+          actMainMenu = false;
+      }
+      // Skip to campaign menu
+      BW::FindDialogGlobal("Delete")->findIndex(7)->activate();
 
-        actRegistry = false;
-        break;
-//single player play custom / load replay selection screen
-      case 22:
-        actRegistry = false;
-        if ( !actRaceSel )
-        {
-          actRaceSel = true;
-          if ( !BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate() )
-            actRaceSel = false;
-        }
-        actCreate = false;
-        break;
-//create single/multi player game screen
-      case 11: 
-        actRaceSel = false;
-        tempDlg = BW::FindDialogGlobal("Create");
+      actRegistry = false;
+      actConnSel  = false;
+      break;
+    case BW::GLUE_EX_CAMPAIGN:  // Campaign selection menu
+    case BW::GLUE_CAMPAIGN:
+      actRegistry = false;
+      if ( !actRaceSel )
+      {
+        actRaceSel = true;
+        if ( !BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate() )
+          actRaceSel = false;
+      }
+      actCreate = false;
+      break;
+    case BW::GLUE_CREATE:       // Game creation menu
+    case BW::GLUE_CREATE_MULTI:
+      actGameSel    = false;
+      actCreate     = false;
+      actRaceSel    = false;
+      createdTimer  = GetTickCount();
+      tempDlg = BW::FindDialogGlobal("Create");
 
-        if ( this->lastMapGen.size() > 0 )
+      if ( this->lastMapGen.size() > 0 )
+      {
+        if ( getFileType(this->lastMapGen.c_str()) == 1 )
         {
-          if ( getFileType(this->lastMapGen.c_str()) == 1 )
+          GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+          BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
+          if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
+            gameTypeDropdown->setSelectedByValue(gt);
+
+          if ( isAutoSingle )
           {
-            GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-            BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
-            if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
-              gameTypeDropdown->setSelectedByValue(gt);
-
             // get race
             Race playerRace = Races::getRace(this->autoMenuRace);
             if ( this->autoMenuRace == "RANDOMTP" )
@@ -1074,334 +1091,187 @@ namespace BWAPI
               if ( slot->getSelectedIndex() != 0 )
                 slot->setSelectedIndex(0);
             }
-          } // if map is playable
+          } // if single
+        } // if map is playable
 
-          // get the full map path
-          char mapName[MAX_PATH] = { 0 };
-          SStrCopy(mapName, szInstallPath, MAX_PATH);
-          SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
+        // get the full map path
+        char mapName[MAX_PATH] = { 0 };
+        SStrCopy(mapName, szInstallPath, MAX_PATH);
+        SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
 
-          // get the filename
-          char *pszFile = mapName;
-          char *pszTmp  = strrchr(pszFile, '\\');
-          if ( pszTmp )
-            pszFile = &pszTmp[1];
+        // get the filename
+        char *pszFile = mapName;
+        // Go to last backslash
+        char *pszTmp  = strrchr(pszFile, '\\');
+        if ( pszTmp )
+          pszFile = &pszTmp[1];
 
-          pszTmp  = strrchr(pszFile, '/');
-          if ( pszTmp )
-            pszFile = &pszTmp[1];
+        // go to last forward slash (after any backslashes)
+        pszTmp  = strrchr(pszFile, '/');
+        if ( pszTmp )
+          pszFile = &pszTmp[1];
 
-          // Apply the altered name to all vector entries
-          for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
-          {
-            i->container.bTotalPlayers  = 8;
-            i->container.bHumanSlots    = 8;
-            for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
-              i->container.bPlayerSlotEnabled[p] = 1;
-            SStrCopy(i->container.szEntryName, pszFile, 65);
-            SStrCopy(i->container.szFileName,  pszFile, MAX_PATH);
-            SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
-          }
-
-          // Update the map folder location
-          SStrCopy(BW::BWDATA_CurrentMapFolder, mapName, MAX_PATH);
-          pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '\\');
-          if ( !pszFile )
-            pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '/');
-          if ( pszFile )
-            pszFile[0] = 0;
-
-          // if we encounter an unknown error when attempting to load the map
-          if ( BW::FindDialogGlobal("gluPOk") )
-          {
-            this->chooseNewRandomMap();
-            ++autoMapTryCount;
-            this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
-          }
-          this->pressKey( tempDlg->findIndex(12)->getHotkey() );
-        } // if lastmapgen
-        break;
-      }
-    }
-    else if (autoMenuMode == "LAN")
-    {
-      switch ( menu )
-      {
-//main menu
-      case 0: 
-        if ( !actMainMenu )
+        // Apply the altered name to all vector entries
+        for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
         {
-          actMainMenu = true;
-          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate() )
-            actMainMenu = false;
+          i->container.bTotalPlayers  = 8;
+          i->container.bHumanSlots    = 8;
+          for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+            i->container.bPlayerSlotEnabled[p] = 1;
+          SStrCopy(i->container.szEntryName, pszFile, 65);
+          SStrCopy(i->container.szFileName,  pszFile, MAX_PATH);
+          SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
         }
-        tempDlg = BW::FindDialogGlobal("Delete");
-        if ( tempDlg )
-          tempDlg->findIndex(7)->activate();
 
-        actConnSel = false;
-        break;
-// Select connection
-      case 2:
-        actMainMenu = false;
-        BW::dialog *connDlg = BW::FindDialogGlobal("ConnSel");
+        // update map folder location
+        SStrCopy(BW::BWDATA_CurrentMapFolder, mapName, MAX_PATH);
+        // Go to last backslash
+        char *pszPos = BW::BWDATA_CurrentMapFolder;
+        pszTmp = strrchr(pszPos, '\\');
+        if ( pszTmp )
+          pszPos = pszTmp;
 
-        if ( connDlg->findIndex(5)->isVisible() && 
-             connDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )
-          pressKey( connDlg->findIndex(9)->getHotkey() );
+        // go to last forward slash (after any backslashes)
+        pszTmp  = strrchr(pszPos, '/');
+        if ( pszTmp )
+          pszPos = pszTmp;
+        
+        // Trim the "file"
+        if ( pszPos != BW::BWDATA_CurrentMapFolder )
+          pszPos[0] = 0;
 
-        actRegistry = false;
-        break;
+        // if we encounter an unknown error when attempting to load the map
+        if ( BW::FindDialogGlobal("gluPOk") )
+        {
+          this->chooseNewRandomMap();
+          ++autoMapTryCount;
+          this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+        }
+        this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+      } // if lastmapgen
+      break;
+    case BW::GLUE_CONNECT:
+      actMainMenu = false;
+      tempDlg = BW::FindDialogGlobal("ConnSel");
+
+      // Press hotkey if trying to get to BNET
+      // or press it after the LAN mode has been selected
+      if ( autoMenuMode == "BATTLE_NET" ||
+           (tempDlg->findIndex(5)->isVisible() && 
+           tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )  )
+        pressKey( tempDlg->findIndex(9)->getHotkey() );
+
+      actRegistry = false;
+      break;
+    case BW::GLUE_GAME_SELECT:  // Games listing
+      actRegistry = false;
+      if ( isCreating )
+      {
+        this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(15)->getHotkey() );
+      }
+      else // is joining
+      {
+        // @TODO: Join by name
+        this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(13)->getHotkey() );
+      }
+      break;
+    case BW::GLUE_CHAT:
+      if ( !actRaceSel && BW::FindDialogGlobal("Chat") )
+      {
+        // Determine the current player's race
+        Race playerRace = Races::getRace(this->autoMenuRace);
+        if ( this->autoMenuRace == "RANDOMTP" )
+          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+        else if ( this->autoMenuRace == "RANDOMTZ" )
+          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+        else if ( this->autoMenuRace == "RANDOMPZ" )
+          playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+
+        if ( playerRace != Races::Unknown && playerRace != Races::None )
+        {
+          // Set the race
+          this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
+
+          // Check if the race was selected correctly, and prevent further changing afterwords
+          u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
+          if ( currentRace == playerRace ||
+                (this->autoMenuRace == "RANDOMTP" &&
+                ( currentRace == Races::Terran ||
+                  currentRace == Races::Protoss)) ||
+                (this->autoMenuRace == "RANDOMTZ" &&
+                ( currentRace == Races::Terran ||
+                  currentRace == Races::Zerg)) ||
+                (this->autoMenuRace == "RANDOMPZ" &&
+                ( currentRace == Races::Protoss ||
+                  currentRace == Races::Zerg))
+               )
+            actRaceSel = true;
+        }
       }
 
-      // create game
-      if ( autoMenuMapPath.length() > 0 )
+      // Start the game if creating and auto-menu requirements are met
+      if ( isCreating && !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
-        switch ( menu )
+        if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
-//lan games lobby
-        case 10:
+          DWORD dwMode = 0;
+          SNGetGameInfo(GAMEINFO_MODEFLAG, dwMode);
+          if ( !(dwMode & GAMESTATE_STARTED) )
+          {
+            actCreate = true;
+            SNetSetGameMode(dwMode | GAMESTATE_STARTED);
+            QUEUE_COMMAND(BW::Orders::StartGame);
+          }
+        }
+      }
+      break;
+    case BW::GLUE_LOGIN:  // Registry/Character screen
+      actMainMenu = false;
+
+      // Type in "BWAPI" if no characters available
+      tempDlg = BW::FindDialogGlobal("gluPEdit");
+      if ( tempDlg )
+      {
+        tempDlg->findIndex(4)->setText("BWAPI");
+        tempDlg->findIndex(1)->activate();
+      }
+      else if ( !actRegistry )
+      {
+        actRegistry = true;
+        if ( !BW::FindDialogGlobal("Login")->findIndex(4)->activate() )
           actRegistry = false;
-          if ( !actGameSel )
-          {
-            actGameSel = true;
-            if ( !BW::FindDialogGlobal("GameSel")->findIndex(15)->activate() )
-              actGameSel = false;
-          }
-          break;
-//create single/multi player game screen
-        case 11: 
-          {
-            actGameSel    = false;
-            actCreate     = false;
-            actRaceSel    = false;
-            createdTimer  = GetTickCount();
-            tempDlg       = BW::FindDialogGlobal("Create");
-            if ( this->lastMapGen.size() > 0 )
-            {
-              if ( getFileType(this->lastMapGen.c_str()) == 1 )
-              {
-                GameType gt = GameTypes::getGameType(this->autoMenuGameType);
-                BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
-                if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
-                  gameTypeDropdown->setSelectedByValue(gt);
-              }
-
-              // Get the full map path
-              char mapName[MAX_PATH] = { 0 };
-              SStrCopy(mapName, szInstallPath, MAX_PATH);
-              SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
-
-              // get the filename
-              char *pszFile = strrchr(mapName, '\\');
-              if ( !pszFile )
-                pszFile = strrchr(mapName, '/');
-              if ( pszFile )
-                ++pszFile;
-              // Apply the altered name to all vector entries
-              for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA_MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA_MapListVector->end && (u32)i != (u32)&BW::BWDATA_MapListVector->begin; i = i->next )
-              {
-                i->container.bTotalPlayers  = 8;
-                i->container.bHumanSlots    = 8;
-                for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
-                  i->container.bPlayerSlotEnabled[p] = 1;
-                SStrCopy(i->container.szEntryName, pszFile ? pszFile : mapName, 65);
-                SStrCopy(i->container.szFileName,  pszFile ? pszFile : mapName, MAX_PATH);
-                SStrCopy(i->container.szFullPath,  mapName, MAX_PATH);
-              }
-
-              // Update the map folder location
-              SStrCopy(BW::BWDATA_CurrentMapFolder, mapName, MAX_PATH);
-              pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '\\');
-              if ( !pszFile )
-                pszFile = strrchr(BW::BWDATA_CurrentMapFolder, '/');
-              if ( pszFile )
-                pszFile[0] = 0;
-
-              // if we encounter an unknown error when attempting to load the map
-              if ( BW::FindDialogGlobal("gluPOk") )
-              {
-                this->chooseNewRandomMap();
-                ++autoMapTryCount;
-                this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
-              }
-              this->pressKey( tempDlg->findIndex(12)->getHotkey() );
-            }
-            break;
-          }
-// in lobby
-        case 3:
-          if ( !actRaceSel && BW::FindDialogGlobal("Chat") )
-          {
-            Race playerRace = Races::getRace(this->autoMenuRace);
-            if ( this->autoMenuRace == "RANDOMTP" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuRace == "RANDOMTZ" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuRace == "RANDOMPZ" )
-              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-            if ( playerRace != Races::Unknown && playerRace != Races::None )
-            {
-              this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
-
-              u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
-              if ( currentRace == playerRace ||
-                    (this->autoMenuRace == "RANDOMTP" &&
-                    ( currentRace == Races::Terran ||
-                      currentRace == Races::Protoss)) ||
-                    (this->autoMenuRace == "RANDOMTZ" &&
-                    ( currentRace == Races::Terran ||
-                      currentRace == Races::Zerg)) ||
-                    (this->autoMenuRace == "RANDOMPZ" &&
-                    ( currentRace == Races::Protoss ||
-                      currentRace == Races::Zerg))
-                   )
-                actRaceSel = true;
-            }
-          }
-
-          if ( !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
-          {
-            if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
-            {
-              DWORD dwMode = 0;
-              SNetGetGameInfo(GAMEINFO_MODEFLAG, &dwMode, sizeof(dwMode));
-              if ( !(dwMode & GAMESTATE_STARTED) )
-              {
-                actCreate = true;
-                SNetSetGameMode(dwMode | GAMESTATE_STARTED);
-                QUEUE_COMMAND(BW::Orders::StartGame);
-              }
-            }
-          }
-          break;
-        }
       }
-      else // join game
+      actRaceSel = false;
+      break;
+    case BW::GLUE_SCORE_Z_DEFEAT: 
+    case BW::GLUE_SCORE_Z_VICTORY:
+    case BW::GLUE_SCORE_T_DEFEAT:
+    case BW::GLUE_SCORE_T_VICTORY:
+    case BW::GLUE_SCORE_P_DEFEAT:
+    case BW::GLUE_SCORE_P_VICTORY:
+      actCreate = false;
+      if ( !actEnd )
       {
-        switch ( menu )
+        actEnd = true;
+        if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
         {
-//lan games lobby
-        case 10: 
-          actRegistry = false;
-          this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(13)->getHotkey() );
-          break;
-//multiplayer game ready screen
-        case 3: 
-          if ( !actRaceSel && BW::FindDialogGlobal("Chat") )
-          {
-            Race playerRace = Races::getRace(this->autoMenuRace);
-            if ( this->autoMenuRace == "RANDOMTP" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuRace == "RANDOMTZ" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuRace == "RANDOMPZ" )
-              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-            if ( playerRace != Races::Unknown && playerRace != Races::None )
-            {
-              this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
-
-              u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
-              if ( currentRace == playerRace ||
-                    (this->autoMenuRace == "RANDOMTP" &&
-                    ( currentRace == Races::Terran ||
-                      currentRace == Races::Protoss)) ||
-                    (this->autoMenuRace == "RANDOMTZ" &&
-                    ( currentRace == Races::Terran ||
-                      currentRace == Races::Zerg)) ||
-                    (this->autoMenuRace == "RANDOMPZ" &&
-                    ( currentRace == Races::Protoss ||
-                      currentRace == Races::Zerg))
-                   )
-                actRaceSel = true;
-            }
-          }
-          break;
+          if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
+            actEnd = false;
         }
       }
-    }
-    else if (autoMenuMode == "BATTLE_NET")
-    {
-      switch ( menu )
+      break;
+    case BW::GLUE_READY_T:  // Mission Briefing
+    case BW::GLUE_READY_Z:
+    case BW::GLUE_READY_P:
+      if ( !actBriefing )
       {
-//main menu
-      case 0: 
-        if ( !actMainMenu )
-        {
-          actMainMenu = true;
-          if ( !BW::FindDialogGlobal("MainMenu")->findIndex(4)->activate() )
-            actMainMenu = false;
-        }
-        tempDlg = BW::FindDialogGlobal("Delete");
-        if ( tempDlg )
-          tempDlg->findIndex(7)->activate();
-        actConnSel = false;
-        break;
-//multiplayer select connection screen
-      case 2: 
-        actMainMenu = false;
-        this->pressKey( BW::FindDialogGlobal("ConnSel")->findIndex(9)->getHotkey() );
-        break;
+        actBriefing = true;
+        if ( !BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate() &&
+             !BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate() )
+         actBriefing = false;
       }
-    }
-
-
-// Common
-    if ( autoMenuMode != "" && autoMenuMode != "OFF" )
-    {
-      switch ( menu )
-      {
-//registry screen
-      case 5: 
-        actMainMenu = false;
-        tempDlg = BW::FindDialogGlobal("gluPEdit");
-        if ( tempDlg )
-        {
-          tempDlg->findIndex(4)->setText("BWAPI");
-          tempDlg->findIndex(1)->activate();
-        }
-        else if ( !actRegistry )
-        {
-          actRegistry = true;
-          if ( !BW::FindDialogGlobal("Login")->findIndex(4)->activate() )
-            actRegistry = false;
-        }
-        actRaceSel = false;
-        break;
-// Score screen
-      case 14: 
-      case 15:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-        actCreate = false;
-        if ( !actEnd )
-        {
-          actEnd = true;
-          if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
-          {
-            if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
-              actEnd = false;
-          }
-        }
-        break;
-// Mission Briefings
-      case 7:
-      case 8:
-      case 9:
-        if ( !actBriefing )
-        {
-          actBriefing = true;
-          if ( !BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate() &&
-               !BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate() )
-           actBriefing = false;
-        }
-        break;
-      }
-    }
+      break;
+    } // menu switch
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()

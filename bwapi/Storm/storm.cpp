@@ -26,7 +26,7 @@ BOOL STORMAPI SNetLeaveGame(int type) rBool;
 BOOL STORMAPI SNetPerformUpgrade(DWORD *upgradestatus) rBool;
 BOOL STORMAPI SNetReceiveMessage(int *senderplayerid, char **data, int *databytes) rBool;
 BOOL STORMAPI SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus) rBool;
-HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(s_evt *evt)) rPVoid;
+HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(PS_EVT)) rPVoid;
 
 int STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid) rInt;
 
@@ -121,7 +121,7 @@ BOOL STORMAPI SDrawRealizePalette() rBool;
 BOOL STORMAPI SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect) rBool;
 BOOL STORMAPI SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4) rBool;
 
-BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent) rBool;
+BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, PS_EVT pEvent) rBool;
 
 BOOL STORMAPI SGdiDeleteObject(HANDLE handle) rBool;
 

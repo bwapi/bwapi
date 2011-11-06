@@ -237,49 +237,8 @@ namespace BW
 
   static u8             *BWDATA_GameState      = (u8*)  0x006D11EC;
   static u16            *BWDATA_gwNextGameMode = (u16*) 0x0051CE90;
-  static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904;
-  /*
-    GAME_INTRO          = 0,  // guessed
-    GAME_RUNINIT        = 1,  // guessed; seems to be set between menu and game
-    GAME_EXIT           = 2,  // guessed; exit starcraft
-    GAME_RUN            = 3,  // official -- begins game
-    GAME_GLUES          = 4,  // official -- uses glGluesMode
-    GAME_RESTART        = 5,  // guessed
-    GAME_WIN?           = 6,  // guessed
-    GAME_LOSE?          = 7,  // guessed
-    GAME_CREDITS        = 8,  // guessed
-    GAME_EPILOG         = 9,  // guessed
-    GAME_CINEMATIC      = 10  // guessed
-  */
-  static u32            *BWDATA_glGluesMode    = (u32*) 0x006D11BC;
-  /*
-    GLUE_MAIN_MENU,         // guess
-    GLUE_SIMULATE,          // guess
-    GLUE_CONNECT,           // guess
-    GLUE_CHAT,              // official
-    GLUE_BATTLE,            // guess
-    GLUE_LOGIN,             // guess
-    GLUE_CAMPAIGN,          // guess
-    GLUE_READY_T,           // guess
-    GLUE_READY_Z,           // guess
-    GLUE_READY_P,           // guess
-    GLUE_GAME_SELECT,       // guess
-    GLUE_CREATE,            // guess
-    GLUE_CREATE_MULTI,      // guess
-    GLUE_LOAD,              // guess
-    GLUE_SCORE_Z_DEFEAT,    // guess
-    GLUE_SCORE_Z_VICTORY,   // guess
-    GLUE_SCORE_T_DEFEAT,    // guess
-    GLUE_SCORE_T_VICTORY,   // guess
-    GLUE_SCORE_P_DEFEAT,    // guess
-    GLUE_SCORE_P_VICTORY,   // guess
-    GLUE_MODEM,             // guess
-    GLUE_DIRECT,            // guess
-    GLUE_EX_CAMPAIGN,       // guess
-    GLUE_GAME_MODE,         // guess
-    GLUE_EX_GAME_MODE,      // guess
-    GLUE_GENERIC            // guess
-  */
+  static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904; // BW::GamePosition
+  static u32            *BWDATA_glGluesMode    = (u32*) 0x006D11BC; // BW::MenuPosition
 
   static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
 
