@@ -90,6 +90,10 @@ SNetGetGameInfo(
     __in  size_t length,
     __out size_t *byteswritten = NULL);
 
+#ifndef SNGetGameInfo
+#define SNGetGameInfo(typ,dst) SNetGetGameInfo(typ, &dst, sizeof(dst));
+#endif
+
 #ifndef GAMEINFO_NAME
 
 #define GAMEINFO_NAME           1
@@ -342,11 +346,11 @@ typedef struct _s_evt
   int   dwPlayerId;
   void  *pData;
   DWORD dwSize;
-} s_evt;
+} S_EVT, *PS_EVT;
 #endif
 
 /* @TODO: "type" is unknown. */
-HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(s_evt *evt));
+HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(PS_EVT));
 
 int  STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
 
@@ -397,8 +401,33 @@ SNetSendTurn(
       __in  void    *data,
       __in  size_t  databytes);
 
+/*  SNetSetGameMode @ 130
+ * 
+ *  Set's the game's mode flags, notifying the network
+ *  provider that the state of the game has changed.
+ *  For example: notifies Battle.net when the game is
+ *  full.
+ *  
+ *  You should first call SNetGetGameInfo to retrieve
+ *  the existing mode flags.
+ *
+ *  modeFlags:  The new flags for the game mode.
+ *                  GAMESTATE_PRIVATE     | The game is passworded.
+ *                  GAMESTATE_FULL        | The game is full.
+ *                  GAMESTATE_ACTIVE      | The game is available.
+ *                  GAMESTATE_STARTED     | The game is in progress.
+ *                  GAMESTATE_REPLAY      | The game is a replay.
+ *  a2:         The purpose of this parameter is not known
+ *              or not used.
+ *
+ *  Returns TRUE if the function was called successfully and FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SNetSetGameMode(
+      __in DWORD modeFlags,
+      char a2 = 0);
 
-BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2 = 0);
 
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
 BOOL STORMAPI SNetSendServerChatCommand(const char *command);
@@ -709,7 +738,7 @@ BOOL STORMAPI SDrawRealizePalette();
 BOOL STORMAPI SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
 BOOL STORMAPI SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
 
-BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, s_evt *pEvent);
+BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, PS_EVT pEvent);
 
 BOOL STORMAPI SGdiDeleteObject(HANDLE handle);
 

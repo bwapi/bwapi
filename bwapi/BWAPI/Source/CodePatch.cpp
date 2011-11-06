@@ -2,6 +2,7 @@
 #include "NewHackUtil.h"
 
 #include "BW/Offsets.h"
+#include "BW/MenuPosition.h"
 #include "BWAPI/GameImpl.h"
 #include "Detours.h"
 #include "Resolution.h"
@@ -87,7 +88,7 @@ void _SelectReturnMenu()
   switch ( *BW::BWDATA_NetMode )
   {
   case 'BNET':
-    *BW::BWDATA_glGluesMode = 4;  // battle.net
+    *BW::BWDATA_glGluesMode = BW::GLUE_BATTLE;  // battle.net
     break;
   case 'IPXN':
   case 'ATLK':
@@ -97,17 +98,17 @@ void _SelectReturnMenu()
   case 'LPIP':
   case 'DRIP':
   case 'SMEM':
-    *BW::BWDATA_glGluesMode = 10; // game select
+    *BW::BWDATA_glGluesMode = BW::GLUE_GAME_SELECT; // game select
     break;
   case 'MDMX':
   case 'MODM':
-    *BW::BWDATA_glGluesMode = 20; // modem
+    *BW::BWDATA_glGluesMode = BW::GLUE_MODEM; // modem
     break;
   case 'SCBL':
-    *BW::BWDATA_glGluesMode = 21; // direct connect
+    *BW::BWDATA_glGluesMode = BW::GLUE_DIRECT; // direct connect
     break;
   default:
-    *BW::BWDATA_glGluesMode = 0;  // main menu
+    *BW::BWDATA_glGluesMode = BW::GLUE_MAIN_MENU;  // main menu
     break;
   }
 }

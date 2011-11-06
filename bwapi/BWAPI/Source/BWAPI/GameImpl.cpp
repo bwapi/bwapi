@@ -466,7 +466,7 @@ namespace BWAPI
       return;
     }
 
-    s_evt evt = { 4, -1, buffer, strlen(buffer) + 1 };
+    S_EVT evt = { 4, -1, buffer, strlen(buffer) + 1 };
     SEvtDispatch('SNET', 1, 4, &evt);
     free(buffer);
   }
