@@ -309,6 +309,7 @@ namespace BWAPI
       std::string autoMenuMode;
       std::string autoMenuMapPath;
       std::string autoMenuGameName;
+      bool isHost;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
       std::string autoMapIteration;
