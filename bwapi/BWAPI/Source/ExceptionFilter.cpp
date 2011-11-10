@@ -10,6 +10,17 @@
 #include <BWAPI/GameImpl.h>
 
 #include "DLLMain.h"
+#include "NewHackUtil.h"
+
+BOOL  (WINAPI *_SymInitialize)(HANDLE hProcess,PCSTR UserSearchPath,BOOL fInvadeProcess);
+DWORD (WINAPI *_SymSetOptions)(DWORD SymOptions);
+DWORD (WINAPI *_SymLoadModule)(HANDLE hProcess,HANDLE hFile,PCSTR ImageName,PCSTR ModuleName,DWORD BaseOfDll,DWORD SizeOfDll);
+BOOL  (WINAPI *_StackWalk)(DWORD MachineType,HANDLE hProcess,HANDLE hThread,LPSTACKFRAME StackFrame,PVOID ContextRecord,PREAD_PROCESS_MEMORY_ROUTINE ReadMemoryRoutine,PFUNCTION_TABLE_ACCESS_ROUTINE FunctionTableAccessRoutine,PGET_MODULE_BASE_ROUTINE GetModuleBaseRoutine,PTRANSLATE_ADDRESS_ROUTINE TranslateAddress);
+PVOID (WINAPI *_SymFunctionTableAccess)(HANDLE hProcess,DWORD AddrBase);
+DWORD (WINAPI *_SymGetModuleBase)(HANDLE hProcess,DWORD dwAddr);
+BOOL  (WINAPI *_SymGetSymFromAddr)(HANDLE hProcess,DWORD dwAddr,PDWORD pdwDisplacement,PIMAGEHLP_SYMBOL Symbol);
+BOOL  (WINAPI *_SymGetLineFromAddr)(HANDLE hProcess,DWORD dwAddr,PDWORD pdwDisplacement,PIMAGEHLP_LINE Line);
+BOOL  (WINAPI *_SymCleanup)(HANDLE hProcess);
 
 // Declare the exception filter, which will be registered before DLLMain is called
 TopLevelExceptionFilter TopExceptionFilter(&BWAPIExceptionFilter);
@@ -151,25 +162,32 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     HANDLE hThread  = GetCurrentThread();
 
     // Initialize symbols and stuff
-    SymInitialize(hProcess, NULL, FALSE);
-    SymSetOptions(SYMOPT_ALLOW_ABSOLUTE_SYMBOLS | SYMOPT_AUTO_PUBLICS |
-                  SYMOPT_DEFERRED_LOADS | SYMOPT_FAVOR_COMPRESSED |
-                  SYMOPT_INCLUDE_32BIT_MODULES | SYMOPT_LOAD_ANYTHING |
-                  SYMOPT_LOAD_LINES);
-
-    // Load all module symbols
-    MODULEENTRY32 me32;
-    me32.dwSize = sizeof(MODULEENTRY32);
-
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
-    if ( Module32First(hSnapshot, &me32) )
+    if ( _SymInitialize )
     {
-      do
+      _SymInitialize(hProcess, NULL, FALSE);
+      if ( _SymSetOptions )
+        _SymSetOptions(SYMOPT_ALLOW_ABSOLUTE_SYMBOLS | SYMOPT_AUTO_PUBLICS |
+                        SYMOPT_DEFERRED_LOADS | SYMOPT_FAVOR_COMPRESSED |
+                        SYMOPT_INCLUDE_32BIT_MODULES | SYMOPT_LOAD_ANYTHING |
+                        SYMOPT_LOAD_LINES);
+
+      // Load all module symbols
+      if ( _SymLoadModule )
       {
-        SymLoadModule(hProcess, NULL, me32.szExePath, me32.szModule, (DWORD)me32.modBaseAddr, me32.modBaseSize);
-      } while( Module32Next(hSnapshot, &me32) );
+        MODULEENTRY32 me32;
+        me32.dwSize = sizeof(MODULEENTRY32);
+
+        HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+        if ( Module32First(hSnapshot, &me32) )
+        {
+          do
+          {
+            _SymLoadModule(hProcess, NULL, me32.szExePath, me32.szModule, (DWORD)me32.modBaseAddr, me32.modBaseSize);
+          } while( Module32Next(hSnapshot, &me32) );
+        }
+        CloseHandle(hSnapshot);
+      } // if _SymLoadModule is valid
     }
-    CloseHandle(hSnapshot);
 
     // Load custom symbols for Broodwar, etc
     std::vector<_customSymbolStore> customSymbols;
@@ -191,66 +209,70 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     }
 
     // Walk, don't run
-    while ( StackWalk(IMAGE_FILE_MACHINE_I386, 
-                        hProcess, 
-                        hThread, 
-                        &sf, 
-                        &c, 
-                        NULL, 
-                        &SymFunctionTableAccess, 
-                        &SymGetModuleBase, 
-                        NULL) )
+    if ( _StackWalk && _SymFunctionTableAccess && _SymGetModuleBase )
     {
-      DWORD dwOffset = sf.AddrPC.Offset;
-      fprintf(hFile, "  %-16s  0x%p    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
-      bool foundSomething = false;
-      if ( dwOffset )
+      while ( _StackWalk(IMAGE_FILE_MACHINE_I386, 
+                          hProcess, 
+                          hThread, 
+                          &sf, 
+                          &c, 
+                          NULL, 
+                          _SymFunctionTableAccess,
+                          _SymGetModuleBase,
+                          NULL) )
       {
-        // Get the symbol name
-        IMAGEHLP_SYMBOL_PACKAGE sip = { 0 };
-        sip.sym.SizeOfStruct  = sizeof(IMAGEHLP_SYMBOL);
-        sip.sym.MaxNameLength = MAX_SYM_NAME;
-        
-        DWORD dwJunk = 0;
-        if ( SymGetSymFromAddr(hProcess, dwOffset, &dwJunk, &sip.sym) )
+        DWORD dwOffset = sf.AddrPC.Offset;
+        fprintf(hFile, "  %-16s  0x%p    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
+        bool foundSomething = false;
+        if ( dwOffset )
         {
-          fprintf(hFile, "%s", sip.sym.Name);
-          foundSomething = true;
-        }
+          // Get the symbol name
+          IMAGEHLP_SYMBOL_PACKAGE sip = { 0 };
+          sip.sym.SizeOfStruct  = sizeof(IMAGEHLP_SYMBOL);
+          sip.sym.MaxNameLength = MAX_SYM_NAME;
 
-        // Get the file name + line
-        IMAGEHLP_LINE il = { 0 };
-        il.SizeOfStruct = sizeof(IMAGEHLP_LINE);
-        dwJunk = 0;
-        if ( SymGetLineFromAddr(hProcess, dwOffset, &dwJunk, &il) )
-        {
-          fprintf(hFile, "\n                                     %s:%u", il.FileName, il.LineNumber);
-          foundSomething = true;
-        }
-
-        if ( !foundSomething )
-        {
-          for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin();
-                i != customSymbols.end();
-                ++i )
+          DWORD dwJunk = 0;
+          if ( _SymInitialize && _SymGetSymFromAddr && _SymGetSymFromAddr(hProcess, dwOffset, &dwJunk, &sip.sym) )
           {
-            if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
+            fprintf(hFile, "%s", sip.sym.Name);
+            foundSomething = true;
+          }
+
+          // Get the file name + line
+          IMAGEHLP_LINE il = { 0 };
+          il.SizeOfStruct = sizeof(IMAGEHLP_LINE);
+          dwJunk = 0;
+          if ( _SymInitialize && _SymGetLineFromAddr && _SymGetLineFromAddr(hProcess, dwOffset, &dwJunk, &il) )
+          {
+            fprintf(hFile, "\n                                     %s:%u", il.FileName, il.LineNumber);
+            foundSomething = true;
+          }
+
+          if ( !foundSomething )
+          {
+            for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin();
+                  i != customSymbols.end();
+                  ++i )
             {
-              fprintf(hFile, "%s", i->name.c_str());
-              foundSomething = true;
-              break;
+              if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
+              {
+                fprintf(hFile, "%s", i->name.c_str());
+                foundSomething = true;
+                break;
+              }
             }
           }
         }
+        if ( !foundSomething )
+        {
+          fprintf(hFile, "  ----");
+        }
+        fprintf(hFile, "\n");
       }
-      if ( !foundSomething )
-      {
-        fprintf(hFile, "  ----");
-      }
-      fprintf(hFile, "\n");
     }
     // Clean up
-    SymCleanup(hProcess);
+    if ( _SymInitialize && _SymCleanup )
+      _SymCleanup(hProcess);
     fclose(hFile);
   } // ^if hFile
 
@@ -320,15 +342,35 @@ const char *GetExceptionName(DWORD dwExceptionCode)
   return "UNKNOWN";
 }
 
+void InitializeSymFunctions()
+{
+  HMODULE hDbgHlp = LoadLibrary("DbgHelp");
+  if ( !hDbgHlp )
+    return;
+
+  *(FARPROC*)&_SymInitialize          = GetProcAddress(hDbgHlp, "SymInitialize");
+  *(FARPROC*)&_SymSetOptions          = GetProcAddress(hDbgHlp, "SymSetOptions");
+  *(FARPROC*)&_SymLoadModule          = GetProcAddress(hDbgHlp, "SymLoadModule");
+  *(FARPROC*)&_StackWalk              = GetProcAddress(hDbgHlp, "StackWalk");
+  *(FARPROC*)&_SymFunctionTableAccess = GetProcAddress(hDbgHlp, "SymFunctionTableAccess");
+  *(FARPROC*)&_SymGetModuleBase       = GetProcAddress(hDbgHlp, "SymGetModuleBase");
+  *(FARPROC*)&_SymGetSymFromAddr      = GetProcAddress(hDbgHlp, "SymGetSymFromAddr");
+  *(FARPROC*)&_SymGetLineFromAddr     = GetProcAddress(hDbgHlp, "SymGetLineFromAddr");
+  *(FARPROC*)&_SymCleanup             = GetProcAddress(hDbgHlp, "SymCleanup");
+}
+
 TopLevelExceptionFilter::TopLevelExceptionFilter()
 : pOldExceptionFilter(NULL)
-{}
+{
+  InitializeSymFunctions();
+}
 
 TopLevelExceptionFilter::TopLevelExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpNewExceptionFilter)
 : pOldExceptionFilter(NULL)
 {
   if ( lpNewExceptionFilter )
     pOldExceptionFilter = SetUnhandledExceptionFilter(lpNewExceptionFilter);
+  InitializeSymFunctions();
 }
 
 TopLevelExceptionFilter::~TopLevelExceptionFilter()
