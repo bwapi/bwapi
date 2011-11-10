@@ -1011,6 +1011,7 @@ namespace BWAPI
     // Get some autoMenu properties
     bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
     bool isCreating   = autoMenuMapPath.length() > 0;
+    bool isJoining    = autoMenuGameName.length() > 0;
 
     // Iterate through the menus
     switch ( menu )
@@ -1164,15 +1165,20 @@ namespace BWAPI
       actRegistry = false;
       break;
     case BW::GLUE_GAME_SELECT:  // Games listing
-      actRegistry = false;
-      if ( isCreating )
       {
-        this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(15)->getHotkey() );
-      }
-      else // is joining
-      {
-        // @TODO: Join by name
-        this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(13)->getHotkey() );
+        actRegistry = false;
+        tempDlg = BW::FindDialogGlobal("GameSel");
+
+        isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()));
+
+        if ( isCreating && isHost )
+        {
+          this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(15)->getHotkey() );
+        }
+        else // is joining
+        {
+          this->pressKey( tempDlg->findIndex(13)->getHotkey() );
+        }
       }
       break;
     case BW::GLUE_CHAT:
@@ -1210,7 +1216,7 @@ namespace BWAPI
       }
 
       // Start the game if creating and auto-menu requirements are met
-      if ( isCreating && !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
+      if ( isCreating && isHost && !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
         if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
