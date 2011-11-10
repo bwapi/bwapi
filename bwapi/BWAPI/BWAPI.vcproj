@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="Vfw32.lib Version.lib DbgHelp.lib"
+				AdditionalDependencies="Vfw32.lib Version.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -157,7 +157,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				UseUnicodeResponseFiles="false"
-				AdditionalDependencies="Vfw32.lib Version.lib DbgHelp.lib"
+				AdditionalDependencies="Vfw32.lib Version.lib"
 				OutputFile="$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll"
 				LinkIncremental="1"
 				AddModuleNamesToAssembly=""

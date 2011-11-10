@@ -996,9 +996,12 @@ namespace BWAPI
     if ( autoMenuMode == "" || autoMenuMode == "OFF" )
       return;
 
-    // Wait for a debugger if autoMenuPause is enabled, and in DEBUG
 #ifdef _DEBUG
-    if ( autoMenuPause != "OFF" && !IsDebuggerPresent() )
+    // Wait for a debugger if autoMenuPause is enabled, and in DEBUG
+    BOOL (*_IsDebuggerPresent)();
+    *(FARPROC*)&_IsDebuggerPresent = HackUtil::GetImport("Kernel32", "IsDebuggerPresent");
+
+    if ( autoMenuPause != "OFF" && _IsDebuggerPresent && !_IsDebuggerPresent() )
       return;
 #endif
 
