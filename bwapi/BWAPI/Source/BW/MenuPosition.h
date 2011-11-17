@@ -14,7 +14,8 @@ namespace BW
     GAME_LOSE,
     GAME_CREDITS,
     GAME_EPILOG,
-    GAME_CINEMATIC
+    GAME_CINEMATIC,
+    GAME_MAX
   };
 
 
@@ -45,7 +46,8 @@ namespace BW
     GLUE_EX_CAMPAIGN,
     GLUE_GAME_MODE,
     GLUE_EX_GAME_MODE,
-    GLUE_GENERIC
+    GLUE_GENERIC,
+    GLUE_MAX
   };
 }
 
