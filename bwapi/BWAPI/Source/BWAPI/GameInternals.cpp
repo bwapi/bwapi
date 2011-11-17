@@ -1016,38 +1016,32 @@ namespace BWAPI
     bool isCreating   = autoMenuMapPath.length() > 0;
     bool isJoining    = autoMenuGameName.length() > 0;
 
+    // Reset raceSel flag
+    if ( menu != BW::GLUE_CHAT )
+    {
+      actRaceSel = false;
+      actStartedGame = false;
+    }
+
     // Iterate through the menus
     switch ( menu )
     {
     case BW::GLUE_MAIN_MENU:    // Main menu
-      if ( !actMainMenu )
-      {
-        actMainMenu = true;
-        if ( !BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4)->activate() )
-          actMainMenu = false;
-      }
-      // Skip to campaign menu
-      BW::FindDialogGlobal("Delete")->findIndex(7)->activate();
+      // Choose single or multi
+      this->pressKey(BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4)->getHotkey() );
 
-      actRegistry = false;
-      actConnSel  = false;
+      // choose original or expansion (we always choose expansion)
+      if ( BW::FindDialogGlobal("Delete") )
+        this->pressKey( BW::FindDialogGlobal("Delete")->findIndex(7)->getHotkey() );
       break;
     case BW::GLUE_EX_CAMPAIGN:  // Campaign selection menu
     case BW::GLUE_CAMPAIGN:
-      actRegistry = false;
-      if ( !actRaceSel )
-      {
-        actRaceSel = true;
-        if ( !BW::FindDialogGlobal("RaceSelection")->findIndex(10)->activate() )
-          actRaceSel = false;
-      }
-      actCreate = false;
+      // Choose "Custom"
+      this->pressKey( BW::FindDialogGlobal("RaceSelection")->findIndex(10)->getHotkey() );
       break;
     case BW::GLUE_CREATE:       // Game creation menu
     case BW::GLUE_CREATE_MULTI:
-      actGameSel    = false;
-      actCreate     = false;
-      actRaceSel    = false;
+      // Store the tick count while in this menu, and refer to it in the next
       createdTimer  = GetTickCount();
       tempDlg = BW::FindDialogGlobal("Create");
 
@@ -1055,11 +1049,15 @@ namespace BWAPI
       {
         if ( getFileType(this->lastMapGen.c_str()) == 1 )
         {
+          // convert to game type
           GameType gt = GameTypes::getGameType(this->autoMenuGameType);
+
+          // retrieve gametype dropdown
           BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
           if ( gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt )
             gameTypeDropdown->setSelectedByValue(gt);
 
+          // if this is single player
           if ( isAutoSingle )
           {
             // get race
@@ -1155,7 +1153,6 @@ namespace BWAPI
       } // if lastmapgen
       break;
     case BW::GLUE_CONNECT:
-      actMainMenu = false;
       tempDlg = BW::FindDialogGlobal("ConnSel");
 
       // Press hotkey if trying to get to BNET
@@ -1165,23 +1162,17 @@ namespace BWAPI
            tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )  )
         pressKey( tempDlg->findIndex(9)->getHotkey() );
 
-      actRegistry = false;
       break;
     case BW::GLUE_GAME_SELECT:  // Games listing
       {
-        actRegistry = false;
         tempDlg = BW::FindDialogGlobal("GameSel");
 
         isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()));
 
         if ( isCreating && isHost )
-        {
-          this->pressKey( BW::FindDialogGlobal("GameSel")->findIndex(15)->getHotkey() );
-        }
+          this->pressKey( tempDlg->findIndex(15)->getHotkey() );  // Create Game
         else // is joining
-        {
-          this->pressKey( tempDlg->findIndex(13)->getHotkey() );
-        }
+          this->pressKey( tempDlg->findIndex(13)->getHotkey() );  // OK
       }
       break;
     case BW::GLUE_CHAT:
@@ -1198,12 +1189,9 @@ namespace BWAPI
 
         if ( playerRace != Races::Unknown && playerRace != Races::None )
         {
-          // Set the race
-          this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
-
           // Check if the race was selected correctly, and prevent further changing afterwords
           u8 currentRace = BW::BWDATA_Players[*BW::BWDATA_g_LocalHumanID].nRace;
-          if ( currentRace == playerRace ||
+          if ( (currentRace == playerRace ||
                 (this->autoMenuRace == "RANDOMTP" &&
                 ( currentRace == Races::Terran ||
                   currentRace == Races::Protoss)) ||
@@ -1213,13 +1201,21 @@ namespace BWAPI
                 (this->autoMenuRace == "RANDOMPZ" &&
                 ( currentRace == Races::Protoss ||
                   currentRace == Races::Zerg))
-               )
+               ) )
             actRaceSel = true;
-        }
-      }
+
+          // Set the race
+          if ( !actRaceSel )
+            this->_changeRace(*BW::BWDATA_g_LocalHumanID, playerRace);
+        }// if player race is valid
+      } // if dialog "chat" exists
 
       // Start the game if creating and auto-menu requirements are met
-      if ( isCreating && isHost && !actCreate && getLobbyPlayerCount() > 0 && (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
+      if ( isCreating && 
+            !actStartedGame && 
+            isHost && 
+            getLobbyPlayerCount() > 0 && 
+            (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
         if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
@@ -1227,30 +1223,25 @@ namespace BWAPI
           SNGetGameInfo(GAMEINFO_MODEFLAG, dwMode);
           if ( !(dwMode & GAMESTATE_STARTED) )
           {
-            actCreate = true;
+            actStartedGame = true;
             SNetSetGameMode(dwMode | GAMESTATE_STARTED);
             QUEUE_COMMAND(BW::Orders::StartGame);
-          }
-        }
-      }
+          } // if game not started
+        } // if lobbyPlayerCount etc
+      } // if isCreating etc
       break;
     case BW::GLUE_LOGIN:  // Registry/Character screen
-      actMainMenu = false;
-
       // Type in "BWAPI" if no characters available
       tempDlg = BW::FindDialogGlobal("gluPEdit");
       if ( tempDlg )
       {
         tempDlg->findIndex(4)->setText("BWAPI");
-        tempDlg->findIndex(1)->activate();
+        this->pressKey( tempDlg->findIndex(1)->getHotkey() );
       }
-      else if ( !actRegistry )
+      else
       {
-        actRegistry = true;
-        if ( !BW::FindDialogGlobal("Login")->findIndex(4)->activate() )
-          actRegistry = false;
+        this->pressKey( BW::FindDialogGlobal("Login")->findIndex(4)->getHotkey() );
       }
-      actRaceSel = false;
       break;
     case BW::GLUE_SCORE_Z_DEFEAT: 
     case BW::GLUE_SCORE_Z_VICTORY:
@@ -1258,27 +1249,13 @@ namespace BWAPI
     case BW::GLUE_SCORE_T_VICTORY:
     case BW::GLUE_SCORE_P_DEFEAT:
     case BW::GLUE_SCORE_P_VICTORY:
-      actCreate = false;
-      if ( !actEnd )
-      {
-        actEnd = true;
-        if (autoMenuRestartGame != "" && autoMenuRestartGame != "OFF")
-        {
-          if ( !BW::FindDialogGlobal("End")->findIndex(7)->activate() )
-            actEnd = false;
-        }
-      }
+      if ( autoMenuRestartGame != "" && autoMenuRestartGame != "OFF" )
+        this->pressKey( BW::FindDialogGlobal("End")->findIndex(7)->getHotkey() );
       break;
     case BW::GLUE_READY_T:  // Mission Briefing
     case BW::GLUE_READY_Z:
     case BW::GLUE_READY_P:
-      if ( !actBriefing )
-      {
-        actBriefing = true;
-        if ( !BW::FindDialogGlobal("TerranRR")->findIndex(13)->activate() &&
-             !BW::FindDialogGlobal("ReadyZ")->findIndex(13)->activate() )
-         actBriefing = false;
-      }
+      this->pressKey( BW::FindDialogGlobal(menu == BW::GLUE_READY_Z ? "ReadyZ" : "TerranRR")->findIndex(13)->getHotkey() );
       break;
     } // menu switch
   }
@@ -1472,15 +1449,9 @@ namespace BWAPI
     gszDesiredReplayName[0] = 0;
 
     // Reset our auto-menu booleans
-    outOfGame   = false;
-    actMainMenu = false;
-    actRegistry = false;
-    actCreate   = false;
-    actConnSel  = false;
-    actGameSel  = false;
-    actRaceSel  = false;
-    actEnd      = false;
-    actBriefing = false;
+    outOfGame       = false;
+    actRaceSel      = false;
+    actStartedGame  = false;
 
     /* initialize the variables */
     frameCount      = 0;
@@ -2229,14 +2200,8 @@ namespace BWAPI
     this->sentMessages.clear();
 
     // Reset menu activation variables
-    actMainMenu = false;
-    actRegistry = false;
-    actCreate   = false;
-    actConnSel  = false;
-    actGameSel  = false;
-    actRaceSel  = false;
-    actEnd      = false;
-    actBriefing = false;
+    actRaceSel      = false;
+    actStartedGame  = false;
 
     setGUI();
     commandOptimizerLevel = 0;

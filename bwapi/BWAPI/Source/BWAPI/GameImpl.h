@@ -28,6 +28,7 @@ namespace BWAPI { class  AIModule; }
 #include <BWAPI/Latency.h>
 #include <BW/Latency.h>
 #include <BW/Position.h>
+#include <BW/MenuPosition.h>
 
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>
@@ -415,15 +416,8 @@ namespace BWAPI
       std::set<Player*> _observers;
 
       bool inGame;
-
-      bool actMainMenu;
-      bool actRegistry;
-      bool actCreate;
-      bool actConnSel;
-      bool actGameSel;
+      bool actStartedGame;
       bool actRaceSel;
-      bool actEnd;
-      bool actBriefing;
 
       DWORD  startTickCount;
       DWORD  lastTickCount;
