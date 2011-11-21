@@ -19,3 +19,6 @@ extern char logPath[MAX_PATH];
 extern DWORD gdwProcNum;
 extern char szInstallPath[MAX_PATH];
 extern char szConfigPath[MAX_PATH];
+
+extern bool isCorrectVersion;
+

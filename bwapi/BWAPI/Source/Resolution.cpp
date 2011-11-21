@@ -23,6 +23,9 @@ void SetBitmap(BW::bitmap *Bitmap, int width, int height, void *data)
 
 void SetResolution(int width, int height)
 {
+  if ( !isCorrectVersion )
+    return;
+
   // Resize game screen data buffer
   void *newBuf = SMAlloc(width * height);
   void *oldBuf = BW::BWDATA_GameScreenBuffer->data;

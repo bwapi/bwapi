@@ -49,11 +49,14 @@ void InitializeWModeBitmap(int width, int height)
   bmp.bmiHeader.biCompression   = BI_RGB;
   bmp.bmiHeader.biSizeImage     = width * height;
 
-  for ( int i = 0; i < 256; ++i )
+  if ( isCorrectVersion )
   {
-    bmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
-    bmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
-    bmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
+    for ( int i = 0; i < 256; ++i )
+    {
+      bmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
+      bmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
+      bmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
+    }
   }
   HDC     hdc   = GetDC(ghMainWnd);
   HBITMAP hBmp  = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
@@ -92,14 +95,18 @@ void GetBorderSize(HWND hWnd, LPSIZE lpSize)
 
 LPARAM FixPoints(LPARAM lParam)
 {
-  RECT clientRct;
-  GetClientRect(ghMainWnd, &clientRct);
-
   POINTS pt = MAKEPOINTS(lParam);
-  if ( clientRct.right != BW::BWDATA_GameScreenBuffer->wid )
-    pt.x = (SHORT)((float)pt.x * ((float)BW::BWDATA_GameScreenBuffer->wid / (float)clientRct.right));
-  if ( clientRct.bottom != BW::BWDATA_GameScreenBuffer->ht )
-    pt.y = (SHORT)((float)pt.y * ((float)BW::BWDATA_GameScreenBuffer->ht  / (float)clientRct.bottom));
+
+  if ( isCorrectVersion )
+  {
+    RECT clientRct;
+    GetClientRect(ghMainWnd, &clientRct);
+
+    if ( clientRct.right != BW::BWDATA_GameScreenBuffer->wid )
+      pt.x = (SHORT)((float)pt.x * ((float)BW::BWDATA_GameScreenBuffer->wid / (float)clientRct.right));
+    if ( clientRct.bottom != BW::BWDATA_GameScreenBuffer->ht )
+      pt.y = (SHORT)((float)pt.y * ((float)BW::BWDATA_GameScreenBuffer->ht  / (float)clientRct.bottom));
+  }
   return MAKELPARAM(pt.x, pt.y);
 }
 
@@ -244,17 +251,20 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           }
         }
 
-        if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - WMODE_SNAP_RANGE &&
-             ws.cx <= BW::BWDATA_GameScreenBuffer->wid + WMODE_SNAP_RANGE )
+        if ( isCorrectVersion ) // must be correct version to reference BWDATA
         {
-          ws.cx = BW::BWDATA_GameScreenBuffer->wid;
-          CorrectWindowWidth( (wParam == WMSZ_TOP || wParam == WMSZ_BOTTOM) ? WMSZ_RIGHT : wParam, &ws, rct, &border);
-        }
-        if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - WMODE_SNAP_RANGE &&
-             ws.cy <= BW::BWDATA_GameScreenBuffer->ht + WMODE_SNAP_RANGE )
-        {
-          ws.cy = BW::BWDATA_GameScreenBuffer->ht;
-          CorrectWindowHeight( (wParam == WMSZ_RIGHT || wParam == WMSZ_LEFT) ? WMSZ_BOTTOM : wParam, &ws, rct, &border);
+          if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - WMODE_SNAP_RANGE &&
+               ws.cx <= BW::BWDATA_GameScreenBuffer->wid + WMODE_SNAP_RANGE )
+          {
+            ws.cx = BW::BWDATA_GameScreenBuffer->wid;
+            CorrectWindowWidth( (wParam == WMSZ_TOP || wParam == WMSZ_BOTTOM) ? WMSZ_RIGHT : wParam, &ws, rct, &border);
+          }
+          if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - WMODE_SNAP_RANGE &&
+               ws.cy <= BW::BWDATA_GameScreenBuffer->ht + WMODE_SNAP_RANGE )
+          {
+            ws.cy = BW::BWDATA_GameScreenBuffer->ht;
+            CorrectWindowHeight( (wParam == WMSZ_RIGHT || wParam == WMSZ_LEFT) ? WMSZ_BOTTOM : wParam, &ws, rct, &border);
+          }
         }
         break;
       } // case WM_SIZING
@@ -303,17 +313,20 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(hWnd, &paint);
 
-        // Blit to the screen
-        RECT cRect;
-        GetClientRect(hWnd, &cRect);        
-        if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
+        if ( isCorrectVersion ) // must be correct version, @todo: make independent
         {
-          BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
-        }
-        else
-        {
-          SetStretchBltMode(hdc, HALFTONE);
-          StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+          // Blit to the screen
+          RECT cRect;
+          GetClientRect(hWnd, &cRect);        
+          if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
+          {
+            BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
+          }
+          else
+          {
+            SetStretchBltMode(hdc, HALFTONE);
+            StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+          }
         }
 
         // end paint
@@ -380,48 +393,51 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     } // switch
   } // if wmode
 
-  // Perform BWAPI-added functionality
-  switch ( uMsg )
+  if ( isCorrectVersion )
   {
-  case WM_SYSKEYDOWN:
-    if ( wParam == VK_RETURN && (lParam & 0x20000000) && !(lParam & 0x40000000) )
+    // Perform BWAPI-added functionality
+    switch ( uMsg )
     {
-      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
-      return TRUE;
+    case WM_SYSKEYDOWN:
+      if ( wParam == VK_RETURN && (lParam & 0x20000000) && !(lParam & 0x40000000) )
+      {
+        SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
+        return TRUE;
+      }
+      break;
+    case WM_MOUSEMOVE:
+      if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
+      {
+        (*BW::BWDATA_InputFlags) |= 1;
+        POINTS pt = MAKEPOINTS(lParam);
+        BW::BWDATA_Mouse->x = pt.x;
+        BW::BWDATA_Mouse->y = pt.y;
+        return TRUE;
+      }
+      break;
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDBLCLK:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+    case WM_RBUTTONDBLCLK:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONUP:
+    case WM_MBUTTONDBLCLK:
+      if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
+      {
+        ButtonEvent(uMsg - WM_MOUSEFIRST + BW_EVN_MOUSEFIRST, lParam);
+        return TRUE;
+      }
+      break;
+    case WM_SYSCOMMAND:
+      if ( wParam == SC_MAXIMIZE )
+      {
+        SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, false);
+        return TRUE;
+      }
+      break;
     }
-    break;
-  case WM_MOUSEMOVE:
-    if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
-    {
-      (*BW::BWDATA_InputFlags) |= 1;
-      POINTS pt = MAKEPOINTS(lParam);
-      BW::BWDATA_Mouse->x = pt.x;
-      BW::BWDATA_Mouse->y = pt.y;
-      return TRUE;
-    }
-    break;
-  case WM_LBUTTONDOWN:
-  case WM_LBUTTONUP:
-  case WM_LBUTTONDBLCLK:
-  case WM_RBUTTONDOWN:
-  case WM_RBUTTONUP:
-  case WM_RBUTTONDBLCLK:
-  case WM_MBUTTONDOWN:
-  case WM_MBUTTONUP:
-  case WM_MBUTTONDBLCLK:
-    if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
-    {
-      ButtonEvent(uMsg - WM_MOUSEFIRST + BW_EVN_MOUSEFIRST, lParam);
-      return TRUE;
-    }
-    break;
-  case WM_SYSCOMMAND:
-    if ( wParam == SC_MAXIMIZE )
-    {
-      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, false);
-      return TRUE;
-    }
-    break;
   }
 
   // Call the original WndProc
@@ -573,6 +589,9 @@ void SetWMode(int width, int height, bool state)
 {
   // Compatibility for Xen W-Mode
   if ( ghMainWnd && !(GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU) )
+    return;
+
+  if ( !isCorrectVersion )
     return;
 
   if ( state )
