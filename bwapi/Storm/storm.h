@@ -1060,9 +1060,52 @@ STORMAPI
 SStrLen(
       __in  const char *string);
 
-int   STORMAPI SStrCmp(const char *string1, const char *string2, size_t size);
-int   STORMAPI SStrCmpI(const char *string1, const char *string2, size_t size);
-char* STORMAPI SStrUpper(char* string);
+/*  SStrCmp @ 508
+ *  
+ *  Compares two strings case sensitive.
+ *
+ *  string1:  The first string.
+ *  string2:  The second string.
+ *  size:     The maximum amount of characters to compare.
+ *
+ *  Returns 0 if strings are equal. See strcmp documentation for more details.
+ */
+int
+STORMAPI
+SStrCmp(
+      __in  const char *string1, 
+      __in  const char *string2, 
+      __in  size_t size);
+
+/*  SStrCmpI @ 509
+ *  
+ *  Compares two strings case insensitive.
+ *
+ *  string1:  The first string.
+ *  string2:  The second string.
+ *  size:     The maximum amount of characters to compare.
+ *
+ *  Returns 0 if strings are equal. See strcmpi documentation for more details.
+ */
+int
+STORMAPI
+SStrCmpI(
+      __in  const char *string1, 
+      __in  const char *string2, 
+      __in  size_t size);
+
+/*  SStrUpper @ 510
+ *  
+ *  Converts all lower-case alpha characters of a string to upper-case.
+ *
+ *  string:   The string to convert.
+ *  
+ *  Returns the same pointer given in the input.
+ */
+char*
+STORMAPI
+SStrUpper(
+      __inout char* string);
 
 void  STORMAPI SRgn523(HANDLE hRgn, RECT *pRect, int a3, int a4);
 void  STORMAPI SRgnCreateRegion(HANDLE *hRgn, int a2);
@@ -1070,8 +1113,24 @@ void  STORMAPI SRgnDeleteRegion(HANDLE hRgn);
 
 void  STORMAPI SRgn529i(int handle, int a2, int a3);
 
-char* STORMAPI SStrChr(const char *string, char c);
-char* STORMAPI SStrChrR(const char *string, char c);
+/*  SStrChr @ 571
+ *  
+ *  Searches a string for the given character. See 
+ *  strchr documentation for more details.
+ *
+ *  string:   The string to search.
+ *  c:        The character to search for.
+ *  
+ *  Returns a pointer to the first occurance of the character.
+ */
+char*
+STORMAPI
+SStrChr(
+    __in  const char *string, 
+    __in  char c);
+
+
+char *STORMAPI SStrChrR(const char *string, char c);
 
 
 /*  SStrVPrintf @ 578

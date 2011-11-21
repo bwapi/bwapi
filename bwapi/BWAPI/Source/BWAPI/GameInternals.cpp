@@ -1300,6 +1300,11 @@ namespace BWAPI
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
   {
+    // Don't do anything if key is 0
+    // used when auto-menu dialogs are not found, performance
+    if ( !key )
+      return;
+
     // Press and release the key
     PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
     PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);

@@ -11,6 +11,7 @@
 #include "BW/Offsets.h"
 #include "BWAPI/GameImpl.h"
 #include "DLLMain.h"
+#include "ExceptionFilter.h"
 
 #include "Detours.h"
 #include "WMode.h"
@@ -23,6 +24,7 @@ char szConfigPath[MAX_PATH];
 char szInstallPath[MAX_PATH];
 
 DWORD gdwProcNum = 0;
+bool isCorrectVersion = true;
 
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
@@ -59,7 +61,7 @@ DWORD getProcessCount(const char *pszProcName)
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, DWORD dwLength)
 {
-  if ( !pBuffer || !dwLength )
+  if ( !pBuffer || !dwLength || !isCorrectVersion )
     return;
 
   CAPS caps;
@@ -233,25 +235,43 @@ DWORD WINAPI CTRT_Thread(LPVOID)
   return 0;
 }
 
+void CheckVersion()
+{
+  WORD w1, w2, w3, w4;
+  GetCurrentProductVersion(w1, w2, w3, w4);
+  if (  w1 != SC_VER_1 ||
+        w2 != SC_VER_2 ||
+        w3 != SC_VER_3 ||
+        w4 != SC_VER_4 )
+  {
+    isCorrectVersion = false;
+    MessageBox(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
+  }
+}
+
 DWORD WINAPI PersistentPatch(LPVOID)
 {
   for ever
   {
     Sleep(300);
 
-    // dialog/menu layer
-    if ( BW::BWDATA_ScreenLayers[2].pUpdate != DrawDialogHook && 
-         BW::BWDATA_ScreenLayers[2].pUpdate != NULL )
+    // If version is correct
+    if ( isCorrectVersion )
     {
-      BW::pOldDrawDialogProc = BW::BWDATA_ScreenLayers[2].pUpdate;
-      BW::BWDATA_ScreenLayers[2].pUpdate = DrawDialogHook;
-    }
+      // dialog/menu layer
+      if ( BW::BWDATA_ScreenLayers[2].pUpdate != DrawDialogHook && 
+           BW::BWDATA_ScreenLayers[2].pUpdate != NULL )
+      {
+        BW::pOldDrawDialogProc = BW::BWDATA_ScreenLayers[2].pUpdate;
+        BW::BWDATA_ScreenLayers[2].pUpdate = DrawDialogHook;
+      }
 
-    // game layer
-    if ( BW::BWDATA_ScreenLayers[5].pUpdate != DrawHook && BW::BWDATA_ScreenLayers[5].pUpdate != NULL )
-    {
-      BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
-      BW::BWDATA_ScreenLayers[5].pUpdate = DrawHook;
+      // game layer
+      if ( BW::BWDATA_ScreenLayers[5].pUpdate != DrawHook && BW::BWDATA_ScreenLayers[5].pUpdate != NULL )
+      {
+        BW::pOldDrawGameProc = BW::BWDATA_ScreenLayers[5].pUpdate;
+        BW::BWDATA_ScreenLayers[5].pUpdate = DrawHook;
+      }
     }
 
     // Only grab this info if we are not currently detouring the CreateWindowEx procedure
@@ -478,6 +498,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             gdwHoliday = 1;
         }
 
+        CheckVersion();
         CTRT_Thread(NULL);
         BWAPI::BWAPI_init();
         CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);

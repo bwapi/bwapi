@@ -42,6 +42,46 @@ std::string getModuleNameFrom(LPCVOID pExcptAddr)
   return std::string(pszLast ? pszLast + 1 : szOffender);
 }
 
+void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
+{
+  // Initialize values
+  w1 = 0;
+  w2 = 0;
+  w3 = 0;
+  w4 = 0;
+
+  // Get path to Starcraft.exe
+  char szExecutableName[MAX_PATH];
+  if ( GetModuleFileName(NULL, szExecutableName, MAX_PATH) )
+  {
+    // Get the File Version information
+    DWORD dwUnused, dwVersionSize;
+    dwVersionSize = GetFileVersionInfoSize(szExecutableName, &dwUnused);
+    if ( dwVersionSize )
+    {
+      // Version Variables
+      VS_FIXEDFILEINFO *pFileInfo;
+      UINT dwFileInfoSize;
+      void *pVersionData;
+      
+      // allocate version info
+      pVersionData = malloc(dwVersionSize);
+
+      // get version data
+      if ( GetFileVersionInfo(szExecutableName, NULL, dwVersionSize, pVersionData) &&
+           VerQueryValue(pVersionData, "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize) )
+      {
+        w1 = HIWORD(pFileInfo->dwProductVersionMS);
+        w2 = LOWORD(pFileInfo->dwProductVersionMS);
+        w3 = HIWORD(pFileInfo->dwProductVersionLS);
+        w4 = LOWORD(pFileInfo->dwProductVersionLS);
+
+      }
+      free(pVersionData);
+    } // ^if dwVerSize
+  } // ^if GetModuleFileName
+}
+
 #define NULLCHECK(x) if ( !(x) ) fprintf(hFile, "%s is NULL.\n", #x);
 
 // The primary exception filter
@@ -65,33 +105,10 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     time_t _t = time(NULL);
     fprintf(hFile, "TIME: %s\n", ctime(&_t));
 
-    // Get path to Starcraft.exe
-    char szExecutableName[MAX_PATH];
-    if ( GetModuleFileName(NULL, szExecutableName, MAX_PATH) )
-    {
-      // Get the File Version information
-      DWORD dwUnused, dwVersionSize;
-      dwVersionSize = GetFileVersionInfoSize(szExecutableName, &dwUnused);
-      if ( dwVersionSize )
-      {
-        // Version Variables
-        VS_FIXEDFILEINFO *pFileInfo;
-        UINT dwFileInfoSize;
-        void *pVersionData;
-        
-        pVersionData = malloc(dwVersionSize);
-        if ( GetFileVersionInfo(szExecutableName, NULL, dwVersionSize, pVersionData) &&
-             VerQueryValue(pVersionData, "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize) )
-        {
-          // Print version data
-          fprintf(hFile, "VERSION: %d.%d.%d.%d\n", HIWORD(pFileInfo->dwProductVersionMS), 
-                                                   LOWORD(pFileInfo->dwProductVersionMS),
-                                                   HIWORD(pFileInfo->dwProductVersionLS), 
-                                                   LOWORD(pFileInfo->dwProductVersionLS) );
-        }
-        free(pVersionData);
-      } // ^if dwVerSize
-    } // ^if GetModuleFileName
+    // Print version data
+    WORD w1,w2,w3,w4;
+    GetCurrentProductVersion(w1, w2, w3, w4);
+    fprintf(hFile, "VERSION: %hu.%hu.%hu.%hu\n", w1, w2, w3, w4);
 
     // BWAPI/Broodwar specific
     fprintf(hFile, "BWAPI:\n");

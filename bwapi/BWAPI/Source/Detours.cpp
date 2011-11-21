@@ -244,7 +244,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
     ++ext;
     strncpy(ext, gszScreenshotFormat, 3);
   }
-  if ( wmode && pBits )
+  if ( wmode && pBits && isCorrectVersion )
   {
     // Create compatible palette
     PALETTEENTRY pal[256];
@@ -282,7 +282,7 @@ int __cdecl _nextFrameHook()
 //------------------------------------------------- SEND TEXT ------------------------------------------------
 int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
 {
-  if ( strlen(source) > 0 )
+  if ( strlen(source) > 0 && isCorrectVersion )
   {
     if ( size == 0x7FFFFFFF && *BW::BWDATA_gwGameMode == 3 )
     {
@@ -450,27 +450,30 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
   else
     rval = SMemAlloc(amount, logfilename, logline, defaultValue);
 
-  if ( lastFile == "dlgs\\protoss.grp" || 
-       lastFile == "dlgs\\terran.grp"  ||
-       lastFile == "dlgs\\zerg.grp" )
+  if ( isCorrectVersion )
   {
-    if ( strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
+    if ( lastFile == "dlgs\\protoss.grp" || 
+         lastFile == "dlgs\\terran.grp"  ||
+         lastFile == "dlgs\\zerg.grp" )
     {
-      if ( leakUIClassLoc )
-        SMFree(leakUIClassLoc);
-      leakUIClassLoc = rval;
-      BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
-      BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+      if ( strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
+      {
+        if ( leakUIClassLoc )
+          SMFree(leakUIClassLoc);
+        leakUIClassLoc = rval;
+        BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+      }
+      else if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
+      {
+        if ( leakUIGrpLoc )
+          SMFree(leakUIGrpLoc);
+        leakUIGrpLoc = rval;
+        BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+      }
     }
-    else if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
-    {
-      if ( leakUIGrpLoc )
-        SMFree(leakUIGrpLoc);
-      leakUIGrpLoc = rval;
-      BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
-      BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
-    }
-  }
+  } // isCorrectVer
 
   /* Save the allocated string table pointer */
   if ( lastFile == "rez\\stat_txt.tbl" )
