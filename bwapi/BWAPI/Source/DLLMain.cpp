@@ -1,7 +1,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdio.h>
-#include <tlhelp32.h>
 
 #include <Util/Gnu.h>
 #include <Util/Foreach.h>
@@ -14,49 +13,11 @@
 #include "ExceptionFilter.h"
 
 #include "Detours.h"
-#include "WMode.h"
-#include "Holiday/Holiday.h"
 #include "CodePatch.h"
+#include "Config.h"
+#include "WMode.h"
 
 #include "../../Debug.h"
-
-char szConfigPath[MAX_PATH];
-char szInstallPath[MAX_PATH];
-
-DWORD gdwProcNum = 0;
-bool isCorrectVersion = true;
-
-std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
-{
-  char buffer[MAX_PATH];
-  GetPrivateProfileString(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, szConfigPath);
-  return std::string(strupr(buffer));
-}
-int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
-{
-  return GetPrivateProfileInt(pszKey, pszItem, iDefault, szConfigPath);
-}
-
-//--------------------------------------------- GET PROC COUNT -----------------------------------------------
-// Found/modified this from some random help board
-DWORD getProcessCount(const char *pszProcName)
-{
-  PROCESSENTRY32 pe32;
-  pe32.dwSize = sizeof(PROCESSENTRY32);
-
-  DWORD dwCount = 0;
-  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-  if ( Process32First(hSnapshot, &pe32) )
-  {
-    do
-    {
-      if( strcmpi(pe32.szExeFile, pszProcName) == 0 )
-        ++dwCount;
-    } while( Process32Next(hSnapshot, &pe32) );
-  }
-  CloseHandle(hSnapshot);
-  return dwCount;
-}
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, DWORD dwLength)
@@ -149,13 +110,9 @@ void BWAPIError(const char *format, ...)
 
   BWAPI::BroodwarImpl.printf( "\x06" "ERROR: %s", buffer);
 
-  char path[MAX_PATH];
-  SStrCopy(path, logPath, MAX_PATH);
-  SStrNCat(path, "\\bwapi-error.txt", MAX_PATH);
-
   SYSTEMTIME time;
   GetSystemTime(&time);
-  FILE* f = fopen(path, "a+");
+  FILE* f = fopen((sLogPath + "\\bwapi-error.txt").c_str(), "a+");
   if ( f )
   {
     fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
@@ -175,66 +132,6 @@ void BWAPIError(DWORD dwErrCode, const char *format, ...)
   free(buffer);
 }
 
-char logPath[MAX_PATH];
-//--------------------------------------------- CTRT THREAD MAIN ---------------------------------------------
-DWORD WINAPI CTRT_Thread(LPVOID)
-{
-  /* Initialize logging options */
-  GetPrivateProfileString("paths", "log_path", "bwapi-data\\logs", logPath, MAX_PATH, szConfigPath);
-
-  windowRect.left   = LoadConfigInt("window", "left");
-  windowRect.top    = LoadConfigInt("window", "top");
-  windowRect.right  = LoadConfigInt("window", "width");
-  windowRect.bottom = LoadConfigInt("window", "height");
-  switchToWMode     = LoadConfigString("window", "windowed", "OFF") == "ON";
-
-  if ( windowRect.right < WMODE_MIN_WIDTH )
-    windowRect.right = WMODE_MIN_WIDTH;
-  if ( windowRect.bottom < WMODE_MIN_HEIGHT )
-    windowRect.bottom = WMODE_MIN_HEIGHT;
-
-  /* Shift the position of w-mode */
-  if ( gdwProcNum > 0 )
-  {
-    char szWModeConfig[MAX_PATH];
-    sprintf(szWModeConfig, "%s\\wmode.ini", szInstallPath);
-
-    DWORD dwWmodeConfigExists = GetFileAttributes(szWModeConfig);
-    if ( dwWmodeConfigExists != INVALID_FILE_ATTRIBUTES && !(dwWmodeConfigExists & FILE_ATTRIBUTE_DIRECTORY) )
-    {
-      // Get window location and screen dimensions
-      int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, szWModeConfig);
-      int wy = GetPrivateProfileInt("W-MODE", "WindowClientY", 0, szWModeConfig);
-      int cx = GetSystemMetrics(SM_CXSCREEN);
-      int cy = GetSystemMetrics(SM_CYSCREEN);
-
-      // Shift window location
-      wx += 40;
-      wy += 40;
-      if ( wx + 640 >= cx )
-        wx -= cx - 640;
-      if ( wy + 480 >= cy )
-        wy -= cy - 480;
-
-      if ( wx < 0 )
-        wx = 0;
-      if ( wy < 0 )
-        wy = 0;
-
-      // Write new window location
-      char szScrOutput[16];
-      sprintf(szScrOutput, "%u", wx);
-      WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, szWModeConfig);
-      sprintf(szScrOutput, "%u", wy);
-      WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, szWModeConfig);
-    } // file exists
-  } // is multi-instance
-
-  BWAPI::BroodwarImpl.loadAutoMenuData();
-  ApplyCodePatches();
-  return 0;
-}
-
 void CheckVersion()
 {
   WORD w1, w2, w3, w4;
@@ -245,7 +142,7 @@ void CheckVersion()
         w4 != SC_VER_4 )
   {
     isCorrectVersion = false;
-    MessageBox(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
+    MessageBox(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will attempt to continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
   }
 }
 
@@ -303,36 +200,19 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 #ifdef _DEBUG
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-        /* Retrieve the Starcraft path */
-        if ( SRegLoadString("Starcraft", "InstallPath", SREG_NONE, szInstallPath, MAX_PATH) )
-          SStrNCat(szInstallPath, "\\", MAX_PATH);
+        // Retrieve the initial configuration stuff if not already
+        InitPrimaryConfig();
 
-        /* Create the config path */
-        SStrCopy(szConfigPath, szInstallPath, MAX_PATH);
-        SStrNCat(szConfigPath, "bwapi-data\\bwapi.ini", MAX_PATH);
-
-        /* Get screenshot format */
-        GetPrivateProfileString("Starcraft", "screenshots", "gif", gszScreenshotFormat, 4, szConfigPath);
-
-        /* Get process count */
-        gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
-
-        /* Get display warnings */
-        bool showWarn  = LoadConfigString("Config", "show_warnings", "YES") == "YES";
-
-        /* Get revision/build automatically */
+        // Get revision/build automatically
         char szDllPath[MAX_PATH];
-        char szKeyName[MAX_PATH];
 
-        SStrCopy(szKeyName, "ai", MAX_PATH);
-#ifdef _DEBUG
-        SStrNCat(szKeyName, "_dbg", MAX_PATH);
-#endif
         DWORD dwDesiredRevision = 0;
-        GetPrivateProfileString("ai", szKeyName, "NULL", szDllPath, MAX_PATH, szConfigPath);
-        if ( strcmpi(szDllPath, "NULL") == 0)
+        std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL");
+        strncpy(szDllPath, aicfg.c_str(), MAX_PATH);
+
+        if ( aicfg == "_NULL" )
         {
-            BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", szKeyName, szConfigPath);
+            BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", BUILD_DEBUG ? "ai_dbg" : "ai", sConfigPath.c_str());
         }
         else
         {
@@ -427,7 +307,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             if ( dwDesiredBuild == 0 )
               dwDesiredBuild = BUILD_DEBUG + 1;
             char szRevModule[MAX_PATH];
-            sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", szInstallPath, dwDesiredRevision, dwDesiredBuild == 2 ? "d" : "");
+            sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", sInstallPath.c_str(), dwDesiredRevision, dwDesiredBuild == 2 ? "d" : "");
             HMODULE hLib = LoadLibrary(szRevModule);
             if ( hLib )
             {
@@ -487,21 +367,21 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
           }
         } // module str was found
 
-        /* Check if it's time for a holiday */
-        gdwHoliday = 0;
-        if ( LoadConfigString("config", "holiday", "ON") != "OFF" )
-        {
-          SYSTEMTIME sysTime;
-          GetSystemTime(&sysTime);
-          // Christmas
-          if ( sysTime.wMonth == 12 && sysTime.wDay >= 18 && sysTime.wDay <= 28 )
-            gdwHoliday = 1;
-        }
-
+        // Do version checking
         CheckVersion();
-        CTRT_Thread(NULL);
+
+        // Load the auto-menu config
+        BWAPI::BroodwarImpl.loadAutoMenuData();
+
+        // Apply all hacks and patches to the game
+        ApplyCodePatches();
+
+        // Initialize BWAPI
         BWAPI::BWAPI_init();
+
+        // Create our thread that persistently applies hacks
         CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
+
         return TRUE;
       }
   }

@@ -13,6 +13,7 @@
 #include <math.h>
 #include <fstream>
 #include <ddraw.h>
+#include <storm.h>
 
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -52,6 +53,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "Config.h"
 #include "WMode.h"
 #include "Resolution.h"
 #include "NewHackUtil.h"
@@ -59,8 +61,6 @@
 #include "BWtoBWAPI.h"
 #include "../Detours.h"
 #include "../Recording.h"
-
-#include "../Storm/storm.h"
 
 #include "../../Debug.h"
 
@@ -375,7 +375,8 @@ namespace BWAPI
         char szDllPath[MAX_PATH];
         hAIModule         = NULL;
 
-        GetPrivateProfileString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "NULL", szDllPath, MAX_PATH, szConfigPath);
+        std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL");
+        strncpy(szDllPath, aicfg.c_str(), MAX_PATH);
 
         // Tokenize and retrieve correct path for the instance number
         char *pszDll = strtok(szDllPath, ",");
@@ -397,9 +398,9 @@ namespace BWAPI
           ++pszDll;
 
         // Check if string was loaded
-        if ( strcmpi(szDllPath, "NULL") == 0 )
+        if ( aicfg == "_NULL" )
         {
-          BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", szConfigPath);
+          BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", sConfigPath.c_str());
         }
         else
         {
@@ -837,7 +838,9 @@ namespace BWAPI
     this->autoMenuGameName    = LoadConfigString("auto_menu", "game");
 
     char buffer[MAX_PATH];
-    GetPrivateProfileString("auto_menu", "map", "", buffer, MAX_PATH, szConfigPath);
+    std::string cfgMap = LoadConfigString("auto_menu", "map", "");
+    strncpy(buffer, cfgMap.c_str(), MAX_PATH);
+
     for ( int i = strlen(buffer); i; --i )
     {
       if ( buffer[i] == '/' )
@@ -1098,8 +1101,7 @@ namespace BWAPI
 
         // get the full map path
         char mapName[MAX_PATH] = { 0 };
-        SStrCopy(mapName, szInstallPath, MAX_PATH);
-        SStrNCat(mapName, lastMapGen.c_str(), MAX_PATH);
+        SStrCopy(mapName, (sInstallPath + lastMapGen).c_str(), MAX_PATH);
 
         // get the filename
         char *pszFile = mapName;

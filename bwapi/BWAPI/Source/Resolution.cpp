@@ -1,5 +1,6 @@
 #include "Resolution.h"
 #include "WMode.h"
+#include "Config.h"
 #include "DLLMain.h"
 
 #include <BWAPI/CoordinateType.h>

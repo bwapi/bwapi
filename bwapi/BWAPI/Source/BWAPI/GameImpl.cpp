@@ -39,6 +39,7 @@
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"
+#include "Config.h"
 #include "Detours.h"
 #include "../NewHackUtil.h"
 #include "BWtoBWAPI.h"

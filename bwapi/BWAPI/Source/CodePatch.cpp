@@ -9,7 +9,7 @@
 #include "WMode.h"
 #include "Assembly.h"
 
-#include "DLLMain.h"
+#include "Config.h"
 
 #include "../../starcraftver.h"
 #include "../../Debug.h"
