@@ -813,14 +813,14 @@ SMemFree(
 
 #endif
 
-BOOL STORMAPI SRegLoadData(char *keyname, char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
-BOOL STORMAPI SRegLoadString(char *keyname, char *valuename, BYTE flags, char *buffer, size_t buffersize);
-BOOL STORMAPI SRegLoadValue(char *keyname, char *valuename, BYTE flags, int *value);
-BOOL STORMAPI SRegSaveData(char *keyname, char *valuename, int size, BYTE *lpData, DWORD cbData);
-BOOL STORMAPI SRegSaveString(char *keyname, char *valuename, BYTE flags, char *string);
-BOOL STORMAPI SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD result);
+BOOL STORMAPI SRegLoadData(const char *keyname, const char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
+BOOL STORMAPI SRegLoadString(const char *keyname, const char *valuename, BYTE flags, char *buffer, size_t buffersize);
+BOOL STORMAPI SRegLoadValue(const char *keyname, const char *valuename, BYTE flags, int *value);
+BOOL STORMAPI SRegSaveData(const char *keyname, const char *valuename, int size, BYTE *lpData, DWORD cbData);
+BOOL STORMAPI SRegSaveString(const char *keyname, const char *valuename, BYTE flags, char *string);
+BOOL STORMAPI SRegSaveValue(const char *keyname, const char *valuename, BYTE flags, DWORD result);
 
-BOOL STORMAPI SRegDeleteValue(char *keyname, char *valuename, BYTE flags);
+BOOL STORMAPI SRegDeleteValue(const char *keyname, const char *valuename, BYTE flags);
 
 #ifndef SREG_NONE
 // Flags for SReg functions

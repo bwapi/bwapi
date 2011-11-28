@@ -1,4 +1,61 @@
 =====================================
+Changes from BWAPI 3.6.1 to BWAPI 3.7
+=====================================
+Changes:
+  * Unload, Unload_All?, and Unload_All_Position? now return false when the location specified is unwalkable.
+  * Renamed Player::cumulativeMinerals to Player::gatheredMinerals.
+  * Renamed Player::cumulativeGas to Player::gatheredGas.
+  * Users are now restricted from deleting interface classes.
+  * The performance of BWAPI has been vastly improved in several places.
+  * Multiple instances now display the instance number in the window title.
+  * BWAPI Client-Server setup is now compatible with multiple instances.
+  * BWAPI now contains a top level exception filter, which will log more detailed information about a crash. 
+
+Additions:
+  * Added Unit::getReplayID.
+  * Added the onUnitComplete callback (UnitComplete? event).
+  * Added Player::refundedMinerals - returns the cumulative amount of minerals refunded from canceled units, canceled upgrades, and canceled research.
+  * Added Player::refundedGas - returns the cumulative amount of gas refunded from canceled units, canceled upgrades, and canceled research.
+  * Added Player::repairedMinerals - returns the cumulative amount of minerals spent on repairs.
+  * Added Player::repairedGas - returns the cumulative amount of gas spent on repairs.
+  * Added Player::spentMinerals - returns the cumulative amount of minerals spent, not including repairs.
+  * Added Player::spentGas - returns the cumulative amount of gas spent, not including repairs.
+  * Added Player::isUnitAvailable. (for Use Map Settings)
+  * Added Player::isResearchAvailable. (for Use Map Settings)
+  * Added Player::getMaxUpgradeLevel. (for Use Map Settings)
+  * Added Game::getCountdownTimer. (for a few game modes)
+  * Gave all types a <type>::c_str() member to reduce the redundancy of retrieving names (such as type.getName().c_str(), which can now be type.c_str()).
+  * Added the Region class with several member functions.
+  * Added Game::getRegion, Game::getAllRegions, and Game::getRegionAt.
+  * Added encapsulation to Event.
+  * Added Game::getLastEventTime for tournaments.
+  * Added BulletTypes::Ensnare.
+  * Added Unit::getRegion.
+  * Added the configuration option show_warnings under config to disable BWAPI launch warnings.
+  * Added UnitTypes::maxUnitWidth and UnitTypes::maxUnitHeight.
+  * Added Unit::getLeft, Unit::getTop, Unit::getRight, and Unit::getBottom.
+  * Added UnitType::canBuildAddon.
+  * Added Game::setReplayVision and Game::setRevealAll.
+  * There is now /record and /stoprecord Commands that perform native video recording. It is not fully supported and does not record sound.
+  * BWAPI now has the ability to join a LAN game by name, specified by the game parameter in the configuration file, under auto_menu.
+  * Added a new configuration option called shared_memory under config, which can disable BWAPI's Server functionality. 
+
+Bug Fixes:
+  * Fixed several memory leaks in BWAPI.
+  * Fixed a bug where some Zerg upgrades would return false when a Hatchery or Spire was morphing.
+  * Fixed a bug where cheat codes were treated as case sensitive.
+  * Fixed a regression where Game::hasCreep returned false incorrectly for some locations.
+  * Fixed a regression where Nuclear Strike did not execute correctly.
+  * Fixed an issue where the frame counter and isPaused would be incorrect or could stop working completely.
+  * Fixed a regression where auto_menu could not set the bot's race in multiplayer.
+  * Fixed a bug where auto_menu could not correctly set the bot's race if it was not specifically in slot 0 or slot 1.
+  * Fixed a bug where getUnitsIn functions could not find large units in a small location.
+  * Fixed an issue where Position and TilePosition?'s isValid member always returned false if the Broodwar pointer was not initialized.
+  * Fixed an issue where the Zerg's Spore Colony and Sunken Colony unit types did not contain the correct requirements.
+  * BWAPI should no longer crash when the Starcraft version is incorrect. Instead it will display a message box and attempt to remain functional.
+  * Partially restored WINE compatibility through a workaround that disables BWAPI's Server functionality using the new config option shared_memory. 
+
+=====================================
 Changes from BWAPI 3.6 to BWAPI 3.6.1
 =====================================
 
