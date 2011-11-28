@@ -10,7 +10,7 @@
 #include "RegionImpl.h"
 #include <BWAPI/Client/GameData.h>
 
-#include "DLLMain.h"
+#include "Config.h"
 #include "../../svnrev.h"
 
 #include "../../Debug.h"
@@ -28,76 +28,93 @@ namespace BWAPI
     connected = false;
     localOnly = false;
     data      = NULL;
-    int size  = sizeof(GameData);
     gameTable = NULL;
-    gameTableIndex = -1;
+    gameTableIndex  = -1;
+    mapFileHandle   = NULL;
+
+    // Init primary config if not already done so
+    InitPrimaryConfig();
+
+    // Local variables
+    int size  = sizeof(GameData);
     DWORD processID = GetCurrentProcessId();
 
-    // Try to open the game table
-    gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory_game_list" );
-    DWORD dwFileMapErr = GetLastError();
-    if ( gameTableFileHandle )
+    if ( serverEnabled )
     {
-      gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
-
-      if ( gameTable )
+      // Try to open the game table
+      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory_game_list" );
+      DWORD dwFileMapErr = GetLastError();
+      if ( gameTableFileHandle )
       {
-        if ( dwFileMapErr != ERROR_ALREADY_EXISTS )
-        {
-          // If we created it, initialize it
-          for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
-            gameTable->gameInstances[i] = GameInstance_None;
-        } // If does not already exist
+        gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
 
-        // Check to see if we are already in the table
-        for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
+        if ( gameTable )
         {
-          if (gameTable->gameInstances[i].serverProcessID == processID)
+          if ( dwFileMapErr != ERROR_ALREADY_EXISTS )
           {
-            gameTableIndex = i;
-            break;
-          }
-        }
-        // If not, try to find an empty row
-        if (gameTableIndex == -1)
-        {
+            // If we created it, initialize it
+            for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
+              gameTable->gameInstances[i] = GameInstance_None;
+          } // If does not already exist
+
+          // Check to see if we are already in the table
           for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
           {
-            if (gameTable->gameInstances[i].serverProcessID == 0xFFFFFFFF)
+            if (gameTable->gameInstances[i].serverProcessID == processID)
             {
               gameTableIndex = i;
               break;
             }
           }
-        }
-        // If we can't find an empty row, take over the row with the oldest keep alive time
-        if (gameTableIndex == -1)
-        {
-          DWORD oldest = gameTable->gameInstances[0].lastKeepAliveTime;
-          gameTableIndex = 0;
-          for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; ++i)
+          // If not, try to find an empty row
+          if (gameTableIndex == -1)
           {
-            if (gameTable->gameInstances[i].lastKeepAliveTime < oldest)
+            for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
             {
-              oldest = gameTable->gameInstances[i].lastKeepAliveTime;
-              gameTableIndex = i;
+              if (gameTable->gameInstances[i].serverProcessID == 0xFFFFFFFF)
+              {
+                gameTableIndex = i;
+                break;
+              }
             }
           }
-        }
-        //We have a game table index now, initialize our row
-        gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
-        gameTable->gameInstances[gameTableIndex].isConnected = false;
-        gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
-      } // if gameTable
-    } // if gameTableFileHandle
+          // If we can't find an empty row, take over the row with the oldest keep alive time
+          if (gameTableIndex == -1)
+          {
+            DWORD oldest = gameTable->gameInstances[0].lastKeepAliveTime;
+            gameTableIndex = 0;
+            for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; ++i)
+            {
+              if (gameTable->gameInstances[i].lastKeepAliveTime < oldest)
+              {
+                oldest = gameTable->gameInstances[i].lastKeepAliveTime;
+                gameTableIndex = i;
+              }
+            }
+          }
+          //We have a game table index now, initialize our row
+          gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
+          gameTable->gameInstances[gameTableIndex].isConnected = false;
+          gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
+        } // if gameTable
+      } // if gameTableFileHandle
 
-    std::stringstream sharedMemoryName;
-    sharedMemoryName << "Global\\bwapi_shared_memory_";
-    sharedMemoryName << processID;
+      // Create the share name
+      static char szShareName[MAX_PATH] = { 0 };
+      sprintf(szShareName, "Global\\bwapi_shared_memory_%u", processID);
 
-    mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, sharedMemoryName.str().c_str() );
-    if ( mapFileHandle )
-      data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
+      /*
+      // DEBUG            @TODO: REMOVE
+      char testmsg[512];
+      sprintf(testmsg, "%d %s", size, szShareName);
+      MessageBox(NULL, testmsg, NULL, 0);
+      */
+      
+      // Create the file mapping and shared memory
+      mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, szShareName );
+      if ( mapFileHandle )
+        data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
+    } // if serverEnabled
 
     // check if memory was created or if we should create it locally
     if ( !data )
@@ -107,18 +124,21 @@ namespace BWAPI
     }
     initializeSharedMemory();
 
-    std::stringstream communicationPipe;
-    communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
-    communicationPipe << processID;
+    if ( serverEnabled )
+    {
+      std::stringstream communicationPipe;
+      communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
+      communicationPipe << processID;
 
-    pipeObjectHandle = CreateNamedPipe(communicationPipe.str().c_str(),
-                                       PIPE_ACCESS_DUPLEX,
-                                       PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
-                                       PIPE_UNLIMITED_INSTANCES,
-                                       PIPE_SYSTEM_BUFFER_SIZE,
-                                       PIPE_SYSTEM_BUFFER_SIZE,
-                                       PIPE_TIMEOUT,
-                                       NULL);
+      pipeObjectHandle = CreateNamedPipe(communicationPipe.str().c_str(),
+                                         PIPE_ACCESS_DUPLEX,
+                                         PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
+                                         PIPE_UNLIMITED_INSTANCES,
+                                         PIPE_SYSTEM_BUFFER_SIZE,
+                                         PIPE_SYSTEM_BUFFER_SIZE,
+                                         PIPE_TIMEOUT,
+                                         NULL);
+    }
   }
   Server::~Server()
   {

@@ -34,7 +34,6 @@ extern DWORD lastTurnFrame;
 extern double botAPM_noSelect;
 extern double botAPM_select;
 extern bool wantRefresh;
-extern char gszScreenshotFormat[4];
 extern char gszDesiredReplayName[MAX_PATH];
 extern bool detourCreateWindow;
 

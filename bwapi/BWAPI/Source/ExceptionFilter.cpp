@@ -9,7 +9,7 @@
 
 #include <BWAPI/GameImpl.h>
 
-#include "DLLMain.h"
+#include "Config.h"
 #include "NewHackUtil.h"
 
 BOOL  (WINAPI *_SymInitialize)(HANDLE hProcess,PCSTR UserSearchPath,BOOL fInvadeProcess);
@@ -96,7 +96,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
   GetSystemTime(&st);
   sprintf(szFilename, "\\bwapi-data\\logs\\Exceptions\\%u_%02u_%02u.txt", st.wYear, st.wMonth, st.wDay);
 
-  FILE *hFile = fopen( (std::string(szInstallPath) + szFilename).c_str(), "a+");
+  FILE *hFile = fopen( (sInstallPath + szFilename).c_str(), "a+");
   if ( hFile )
   {
     fprintf(hFile, "\n//////////////////////////////////////////////////\n");
@@ -208,7 +208,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Load custom symbols for Broodwar, etc
     std::vector<_customSymbolStore> customSymbols;
-    FILE *hBWSymbols = fopen((std::string(szInstallPath) + "\\bwapi-data\\data\\Broodwar.map").c_str(), "r");
+    FILE *hBWSymbols = fopen((sInstallPath + "\\bwapi-data\\data\\Broodwar.map").c_str(), "r");
     if ( hBWSymbols )
     {
       char szSymbolName[512];
@@ -294,12 +294,6 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
   } // ^if hFile
 
   ShowCursor(FALSE);
-  /* // Uncomment this block to "fix" integer divisions by 0
-  if ( ep->ExceptionRecord->ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO )
-  {
-    ep->ContextRecord->Ecx = 1;
-    return EXCEPTION_CONTINUE_EXECUTION;
-  }*/
 
   // Call the previous exception filter
   return TopExceptionFilter.DefFilterProc(ep);
@@ -379,12 +373,15 @@ void InitializeSymFunctions()
 TopLevelExceptionFilter::TopLevelExceptionFilter()
 : pOldExceptionFilter(NULL)
 {
+  InitPrimaryConfig();
   InitializeSymFunctions();
 }
 
 TopLevelExceptionFilter::TopLevelExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpNewExceptionFilter)
 : pOldExceptionFilter(NULL)
 {
+  InitPrimaryConfig();
+
   if ( lpNewExceptionFilter )
     pOldExceptionFilter = SetUnhandledExceptionFilter(lpNewExceptionFilter);
   InitializeSymFunctions();

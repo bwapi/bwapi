@@ -6,6 +6,7 @@
 #include "../Storm/storm.h"
 
 #include "WMode.h"
+#include "DLLMain.h"
 #include "Resolution.h"
 #include "Holiday/Holiday.h"
 
@@ -13,14 +14,13 @@
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
 #include "BW/Offsets.h"
-#include "DLLMain.h"
+#include "Config.h"
 #include "NewHackUtil.h"
 #include "BW/TriggerEngine.h"
 
 #include "../../Debug.h"
 
 bool hideHUD;
-char gszScreenshotFormat[4];
 char gszDesiredReplayName[MAX_PATH];
 
 void *leakUIClassLoc;
@@ -182,7 +182,7 @@ BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
   if ( dbg )
   {
     fprintf(dbg, "DeleteFile(%s)\n", szNewFileName);
@@ -202,7 +202,7 @@ DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
   if ( dbg )
   {
     fprintf(dbg, "GetFileAttributes(%s)\n", szNewFileName);
@@ -222,7 +222,7 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (std::string(szInstallPath) + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
+  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
   if ( dbg )
   {
     fprintf(dbg, "CreateFile(%s)\n", szNewFileName);
@@ -238,12 +238,23 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
 {
-  char *ext = strrchr((char*)pszOutput, '.');
-  if ( ext && strlen(gszScreenshotFormat) == 3 )
+  if ( !pszOutput )
+    return FALSE;
+
+  char szNewScreenshotFilename[MAX_PATH] = { 0 };
+  strncpy(szNewScreenshotFilename, pszOutput, MAX_PATH);
+
+  // Change screenshot extension
+  if ( !sScreenshotFormat.empty() )
   {
-    ++ext;
-    strncpy(ext, gszScreenshotFormat, 3);
+    char *ext = strrchr(szNewScreenshotFilename, '.');
+    if ( ext )
+      *(++ext) = 0;
+    else
+      SStrNCat(szNewScreenshotFilename, ".", MAX_PATH);
+    SStrNCat(szNewScreenshotFilename, sScreenshotFormat.c_str(), MAX_PATH);
   }
+  // Save the screenshot in w-mode
   if ( wmode && pBits && isCorrectVersion )
   {
     // Create compatible palette
@@ -255,11 +266,12 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
       pal[i].peBlue   = bmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
-    return SBmpSaveImage(pszOutput, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+    return SBmpSaveImage(szNewScreenshotFilename, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
   }
+  // Call the old fxn
   if ( _SDrawCaptureScreenOld )
-    return _SDrawCaptureScreenOld(pszOutput);
-  return SDrawCaptureScreen(pszOutput);
+    return _SDrawCaptureScreenOld(szNewScreenshotFilename);
+  return SDrawCaptureScreen(szNewScreenshotFilename);
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------

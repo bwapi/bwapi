@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
-				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include"
+				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include;../../Storm"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -134,7 +134,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include"
+				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include;../Storm"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_SECURE_SCL 0"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -706,6 +706,14 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\Source\Config.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Source\Config.h"
+			>
+		</File>
 		<File
 			RelativePath=".\source\DLLMain.cpp"
 			>
