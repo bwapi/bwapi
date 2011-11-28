@@ -137,14 +137,14 @@ void* STORMAPI SMemAlloc(int amount, char *logfilename, int logline, char defaul
 
 BOOL STORMAPI SMemFree(void *location, char *logfilename, int logline, char defaultValue) rBool;
 
-BOOL STORMAPI SRegLoadData(char *keyname, char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData) rBool;
-BOOL STORMAPI SRegLoadString(char *keyname, char *valuename, BYTE flags, char *buffer, size_t buffersize) rBool;
-BOOL STORMAPI SRegLoadValue(char *keyname, char *valuename, BYTE flags, int *value) rBool;
-BOOL STORMAPI SRegSaveData(char *keyname, char *valuename, int size, BYTE *lpData, DWORD cbData) rBool;
-BOOL STORMAPI SRegSaveString(char *keyname, char *valuename, BYTE flags, char *string) rBool;
-BOOL STORMAPI SRegSaveValue(char *keyname, char *valuename, BYTE flags, DWORD result) rBool;
+BOOL STORMAPI SRegLoadData(const char *keyname, const char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData) rBool;
+BOOL STORMAPI SRegLoadString(const char *keyname, const char *valuename, BYTE flags, char *buffer, size_t buffersize) rBool;
+BOOL STORMAPI SRegLoadValue(const char *keyname, const char *valuename, BYTE flags, int *value) rBool;
+BOOL STORMAPI SRegSaveData(const char *keyname, const char *valuename, int size, BYTE *lpData, DWORD cbData) rBool;
+BOOL STORMAPI SRegSaveString(const char *keyname, const char *valuename, BYTE flags, char *string) rBool;
+BOOL STORMAPI SRegSaveValue(const char *keyname, const char *valuename, BYTE flags, DWORD result) rBool;
 
-BOOL STORMAPI SRegDeleteValue(char *keyname, char *valuename, BYTE flags) rBool;
+BOOL STORMAPI SRegDeleteValue(const char *keyname, const char *valuename, BYTE flags) rBool;
 
 BOOL STORMAPI STransBlt(void *lpSurface, int x, int y, int width, HANDLE hTrans) rBool;
 BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *lpSource, int pitch, int width, HANDLE hTrans) rBool;

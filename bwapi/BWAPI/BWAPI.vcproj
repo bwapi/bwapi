@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				UseUnicodeResponseFiles="false"
 				Optimization="0"
-				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include;../../Storm"
+				AdditionalIncludeDirectories="../Shared;Source/BWAPI;../Util/Source;Source;../include;../Storm"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
