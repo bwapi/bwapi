@@ -2558,6 +2558,16 @@ namespace BWAPI
         pylons.erase(u);
       }
     }
+
+    for ( int x = 0; x < Map::getWidth(); ++x )
+    {
+      for ( int y = 0; y < Map::getHeight(); ++y )
+      {
+        unitsOnTileData[x][y].clear();
+        unitsOnTileData[x][y].reserve(32);
+      }
+    }
+
     foreach(UnitImpl* i, accessibleUnits)
     {
       if ( i->getType().isBuilding() && !i->isLifted() )
@@ -2568,8 +2578,6 @@ namespace BWAPI
         {
           for(int y = ty; y < ty + i->getType().tileHeight() && y < Map::getHeight(); ++y)
           {
-            unitsOnTileData[x][y].clear();
-            unitsOnTileData[x][y].reserve(32);
             unitsOnTileData[x][y].push_back(i);
           }
         }
