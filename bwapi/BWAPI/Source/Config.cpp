@@ -8,10 +8,10 @@
 #include "Holiday/Holiday.h"
 #include "WMode.h"
 
-std::string sConfigPath;
-std::string sInstallPath;
-std::string sLogPath;
-std::string sScreenshotFormat;
+char szConfigPath[MAX_PATH];
+char szInstallPath[MAX_PATH];
+char szLogPath[MAX_PATH];
+char szScreenshotFormat[8];
 
 bool isCorrectVersion = true;
 bool showWarn         = true;
@@ -44,12 +44,12 @@ DWORD getProcessCount(const char *pszProcName)
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
   char buffer[MAX_PATH];
-  GetPrivateProfileString(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, sConfigPath.c_str());
+  GetPrivateProfileString(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, szConfigPath);
   return std::string(strupr(buffer));
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
-  return GetPrivateProfileInt(pszKey, pszItem, iDefault, sConfigPath.c_str());
+  return GetPrivateProfileInt(pszKey, pszItem, iDefault, szConfigPath);
 }
 std::string LoadRegString(const char *pszKeyName, const char *pszValueName, BYTE bSRegFlags)
 {
@@ -68,12 +68,17 @@ void InitPrimaryConfig()
 
   // ------------------------- GENERAL/GLOBAL CONFIG OPTIONS ----------------------------------
   // Get install, config, and log paths
-  sInstallPath  = LoadRegString("starcraft", "InstallPath") + "\\";
-  sConfigPath   = sInstallPath + "bwapi-data\\bwapi.ini";
-  sLogPath      = LoadConfigString("paths", "log_path", "bwapi-data\\logs");
+  strncpy(szInstallPath, LoadRegString("starcraft", "InstallPath").c_str(), MAX_PATH);
+
+  char cLast = szInstallPath[strlen(szInstallPath)-1];
+  if ( cLast != '\\' && cLast != '/' )
+    strcat(szInstallPath, "\\");
+
+  sprintf_s(szConfigPath, MAX_PATH, "%sbwapi-data\\bwapi.ini", szInstallPath);
+  strncpy(szLogPath, LoadConfigString("paths", "log_path", "bwapi-data\\logs").c_str(), MAX_PATH);
 
   // Get screenshot format
-  sScreenshotFormat = LoadConfigString("starcraft", "screenshots", "gif");
+  strncpy(szScreenshotFormat, LoadConfigString("starcraft", "screenshots", "gif").c_str(), 8);
 
   // Check if warning dialogs should be shown
   showWarn = LoadConfigString("config", "show_warnings", "YES") == "YES";
@@ -112,15 +117,16 @@ void InitPrimaryConfig()
   // Shift the position of w-mode
   if ( gdwProcNum > 0 )
   {
-    std::string wmodeCfg(sInstallPath + "%s\\wmode.ini");
+    char szWmodeCfg[MAX_PATH];
+    sprintf_s(szWmodeCfg, MAX_PATH, "wmode.ini", szInstallPath);
 
-    DWORD dwWmodeConfigExists = GetFileAttributes(wmodeCfg.c_str());
+    DWORD dwWmodeConfigExists = GetFileAttributes(szWmodeCfg);
     if ( dwWmodeConfigExists != INVALID_FILE_ATTRIBUTES && 
          !(dwWmodeConfigExists & FILE_ATTRIBUTE_DIRECTORY) )
     {
       // Get window location and screen dimensions
-      int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, wmodeCfg.c_str());
-      int wy = GetPrivateProfileInt("W-MODE", "WindowClientY", 0, wmodeCfg.c_str());
+      int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, szWmodeCfg);
+      int wy = GetPrivateProfileInt("W-MODE", "WindowClientY", 0, szWmodeCfg);
       int cx = GetSystemMetrics(SM_CXSCREEN);
       int cy = GetSystemMetrics(SM_CYSCREEN);
 
@@ -140,9 +146,9 @@ void InitPrimaryConfig()
       // Write new window location
       char szScrOutput[16];
       sprintf(szScrOutput, "%u", wx);
-      WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, wmodeCfg.c_str());
+      WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, szWmodeCfg);
       sprintf(szScrOutput, "%u", wy);
-      WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, wmodeCfg.c_str());
+      WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, szWmodeCfg);
     } // file exists
   } // is multi-instance
 

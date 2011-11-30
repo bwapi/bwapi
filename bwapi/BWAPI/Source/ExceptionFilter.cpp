@@ -94,9 +94,9 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
   // Create the file
   GetSystemTime(&st);
-  sprintf(szFilename, "\\bwapi-data\\logs\\Exceptions\\%u_%02u_%02u.txt", st.wYear, st.wMonth, st.wDay);
+  sprintf_s(szFilename, MAX_PATH, "%sbwapi-data\\logs\\Exceptions\\%u_%02u_%02u.txt", szInstallPath, st.wYear, st.wMonth, st.wDay);
 
-  FILE *hFile = fopen( (sInstallPath + szFilename).c_str(), "a+");
+  FILE *hFile = fopen( szFilename, "a+");
   if ( hFile )
   {
     fprintf(hFile, "\n//////////////////////////////////////////////////\n");
@@ -208,7 +208,9 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Load custom symbols for Broodwar, etc
     std::vector<_customSymbolStore> customSymbols;
-    FILE *hBWSymbols = fopen((sInstallPath + "\\bwapi-data\\data\\Broodwar.map").c_str(), "r");
+    char szSymbolMap[MAX_PATH];
+    sprintf_s(szSymbolMap, MAX_PATH, "%sbwapi-data\\data\\Broodwar.map", szInstallPath);
+    FILE *hBWSymbols = fopen(szSymbolMap, "r");
     if ( hBWSymbols )
     {
       char szSymbolName[512];
