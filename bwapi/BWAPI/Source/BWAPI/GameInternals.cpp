@@ -1819,6 +1819,10 @@ namespace BWAPI
     }
 
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+    for ( int x = 0; x < Map::getWidth(); ++x )
+      for ( int y = 0; y < Map::getHeight(); ++y )
+        this->unitsOnTileData[x][y].reserve(32);
+
     if ( !this->isReplay() )
     {
       if ( BWAPIPlayer )
@@ -2511,10 +2515,7 @@ namespace BWAPI
   {
     // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
     // Also generates the UnitMorph and UnitRenegade callbacks
-/*    for (int y = 0; y < Map::getHeight(); ++y)
-      for (int x = 0; x < Map::getWidth(); ++x)
-        this->unitsOnTileData[x][y].clear();
-*/
+
     foreach(PlayerImpl *p, players)
     {
       for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
@@ -2559,32 +2560,26 @@ namespace BWAPI
       }
     }
 
+    // Clear the units on tile data
     for ( int x = 0; x < Map::getWidth(); ++x )
-    {
       for ( int y = 0; y < Map::getHeight(); ++y )
-      {
         unitsOnTileData[x][y].clear();
-        unitsOnTileData[x][y].reserve(32);
-      }
-    }
 
     foreach(UnitImpl* i, accessibleUnits)
     {
       if ( i->getType().isBuilding() && !i->isLifted() )
       {
+        // Retrieve the buildings on tile
         int tx = i->getTilePosition().x();
         int ty = i->getTilePosition().y();
         for(int x = tx; x < tx + i->getType().tileWidth() && x < Map::getWidth(); ++x)
-        {
           for(int y = ty; y < ty + i->getType().tileHeight() && y < Map::getHeight(); ++y)
-          {
             unitsOnTileData[x][y].push_back(i);
-          }
-        }
       }
       else
       {
-        /* @TODO: Assign using getUnitsInRectangle */
+        // @TODO: Assign using getUnitsInRectangle
+        // Retrieve the units on tile
         int startX = i->getLeft() / TILE_SIZE;
         int endX   = (i->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
         int startY = i->getTop() / TILE_SIZE;
@@ -2618,41 +2613,43 @@ namespace BWAPI
       int buildings = UnitTypes::Buildings;
       int factories = UnitTypes::Factories;
       int thisUnit  = i->_getType;
+      
       // Increment specific unit count
-      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[thisUnit]++;
+      BWAPI::PlayerData *pSelf = ((PlayerImpl*)i->_getPlayer)->self;
+      pSelf->allUnitCount[thisUnit]++;
       if (i->isVisible())
-        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[thisUnit]++;
+        pSelf->visibleUnitCount[thisUnit]++;
       if (i->isCompleted())
-        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[thisUnit]++;
+        pSelf->completedUnitCount[thisUnit]++;
       // increment all unit count
-      ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[allUnits]++;
+      pSelf->allUnitCount[allUnits]++;
       if (i->isVisible())
-        ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[allUnits]++;
+        pSelf->visibleUnitCount[allUnits]++;
       if (i->isCompleted())
-        ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[allUnits]++;
+        pSelf->completedUnitCount[allUnits]++;
       if ( i->_getType.isBuilding() )
       { // increment buildings unit count
-        ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[buildings]++;
+        pSelf->allUnitCount[buildings]++;
         if (i->isVisible())
-          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[buildings]++;
+          pSelf->visibleUnitCount[buildings]++;
         if (i->isCompleted())
-          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[buildings]++;
+          pSelf->completedUnitCount[buildings]++;
         if ( (i->_getType.canProduce() || i->_getType.producesLarva()) ) // increment factories unit count
         {
-          ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[factories]++;
+          pSelf->allUnitCount[factories]++;
         if (i->isVisible())
-          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[factories]++;
+          pSelf->visibleUnitCount[factories]++;
         if (i->isCompleted())
-          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[factories]++;
+          pSelf->completedUnitCount[factories]++;
         }
       }
       else
       { // increment men unit count
-        ((PlayerImpl*)i->_getPlayer)->self->allUnitCount[men]++;
-        if (i->isVisible())
-          ((PlayerImpl*)i->_getPlayer)->self->visibleUnitCount[men]++;
-        if (i->isCompleted())
-          ((PlayerImpl*)i->_getPlayer)->self->completedUnitCount[men]++;
+        pSelf->allUnitCount[men]++;
+        if ( i->isVisible() )
+          pSelf->visibleUnitCount[men]++;
+        if ( i->isCompleted() )
+          pSelf->completedUnitCount[men]++;
       }
       i->lastPlayer = i->_getPlayer;
       i->lastType   = i->_getType;
