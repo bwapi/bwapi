@@ -2511,10 +2511,10 @@ namespace BWAPI
   {
     // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
     // Also generates the UnitMorph and UnitRenegade callbacks
-    for (int y = 0; y < Map::getHeight(); ++y)
+/*    for (int y = 0; y < Map::getHeight(); ++y)
       for (int x = 0; x < Map::getWidth(); ++x)
         this->unitsOnTileData[x][y].clear();
-
+*/
     foreach(PlayerImpl *p, players)
     {
       for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
@@ -2565,8 +2565,14 @@ namespace BWAPI
         int tx = i->getTilePosition().x();
         int ty = i->getTilePosition().y();
         for(int x = tx; x < tx + i->getType().tileWidth() && x < Map::getWidth(); ++x)
+        {
           for(int y = ty; y < ty + i->getType().tileHeight() && y < Map::getHeight(); ++y)
-            unitsOnTileData[x][y].insert(i);
+          {
+            unitsOnTileData[x][y].clear();
+            unitsOnTileData[x][y].reserve(32);
+            unitsOnTileData[x][y].push_back(i);
+          }
+        }
       }
       else
       {
@@ -2577,7 +2583,7 @@ namespace BWAPI
         int endY   = (i->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
         for (int x = startX; x < endX && x < Map::getWidth(); ++x)
           for (int y = startY; y < endY && y < Map::getHeight(); ++y)
-            unitsOnTileData[x][y].insert(i);
+            unitsOnTileData[x][y].push_back(i);
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {

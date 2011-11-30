@@ -298,7 +298,7 @@ namespace BWAPI
       int endY   = (u->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
       for (int x = startX; x < endX && x < mapWidth(); x++)
         for (int y = startY; y < endY && y < mapHeight(); y++)
-          unitsOnTileData[x][y].insert(u);
+          unitsOnTileData[x][y].push_back(u);
       if ( u->getType() == UnitTypes::Zerg_Larva && u->getHatchery() )
         ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
       if ( u->getType() == UnitTypes::Protoss_Interceptor && u->getCarrier() )
@@ -461,7 +461,7 @@ namespace BWAPI
       addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
   }
   //----------------------------------------------- GET UNITS ON TILE ----------------------------------------
-  std::set<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
+  std::vector<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
   {
     return unitsOnTileData[x][y];
   }
