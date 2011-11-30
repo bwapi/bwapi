@@ -400,7 +400,7 @@ namespace BWAPI
         // Check if string was loaded
         if ( aicfg == "_NULL" )
         {
-          BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", sConfigPath.c_str());
+          BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", szConfigPath);
         }
         else
         {
@@ -1101,7 +1101,7 @@ namespace BWAPI
 
         // get the full map path
         char mapName[MAX_PATH] = { 0 };
-        SStrCopy(mapName, (sInstallPath + lastMapGen).c_str(), MAX_PATH);
+        sprintf_s(mapName, MAX_PATH, "%s%s", szInstallPath, lastMapGen.c_str());
 
         // get the filename
         char *pszFile = mapName;

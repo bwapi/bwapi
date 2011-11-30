@@ -112,7 +112,9 @@ void BWAPIError(const char *format, ...)
 
   SYSTEMTIME time;
   GetSystemTime(&time);
-  FILE* f = fopen((sLogPath + "\\bwapi-error.txt").c_str(), "a+");
+  char szLogFile[MAX_PATH];
+  sprintf_s(szLogFile, MAX_PATH, "%s\\bwapi-error.txt", szLogPath);
+  FILE* f = fopen(szLogFile, "a+");
   if ( f )
   {
     fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s\n", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, buffer);
@@ -212,7 +214,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 
         if ( aicfg == "_NULL" )
         {
-            BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", BUILD_DEBUG ? "ai_dbg" : "ai", sConfigPath.c_str());
+            BWAPIError("Could not find %s under ai in \"%s\" for revision identification.", BUILD_DEBUG ? "ai_dbg" : "ai", szConfigPath);
         }
         else
         {
@@ -307,7 +309,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
             if ( dwDesiredBuild == 0 )
               dwDesiredBuild = BUILD_DEBUG + 1;
             char szRevModule[MAX_PATH];
-            sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", sInstallPath.c_str(), dwDesiredRevision, dwDesiredBuild == 2 ? "d" : "");
+            sprintf_s(szRevModule, MAX_PATH, "%sbwapi-data\\revisions\\%u%s.dll", szInstallPath, dwDesiredRevision, dwDesiredBuild == 2 ? "d" : "");
             HMODULE hLib = LoadLibrary(szRevModule);
             if ( hLib )
             {

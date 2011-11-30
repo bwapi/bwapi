@@ -175,6 +175,19 @@ void setReplayName(char *pOutFilename, const char *pInFileName)
   else
     strcpy(pOutFilename, pInFileName);
 }
+void DebugHookLog(const char *pszFxn, const char *pszFile)
+{
+  // DEBUG
+  char szHookLog[MAX_PATH];
+  sprintf_s(szHookLog, MAX_PATH, "%s\\bwapi-data\\logs\\hookdebug.log", szInstallPath);
+  FILE *dbg = fopen( szHookLog, "a+");
+  if ( dbg )
+  {
+    fprintf(dbg, "%s(%s)\n", pszFxn, pszFile);
+    fclose(dbg);
+  }
+  ////
+}
 BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
 {
   // Obtain the alternative replay name
@@ -182,13 +195,7 @@ BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
-  if ( dbg )
-  {
-    fprintf(dbg, "DeleteFile(%s)\n", szNewFileName);
-    fclose(dbg);
-  }
-  ////
+  DebugHookLog("DeleteFile", lpFileName);
 
   // call the original function
   if ( _DeleteFileOld )
@@ -202,13 +209,7 @@ DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
-  if ( dbg )
-  {
-    fprintf(dbg, "GetFileAttributes(%s)\n", szNewFileName);
-    fclose(dbg);
-  }
-  ////
+  DebugHookLog("GetFileAttributes", lpFileName);
 
   // call the original function
   if ( _GetFileAttributesOld )
@@ -222,13 +223,7 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
   setReplayName(szNewFileName, lpFileName);
 
   // DEBUG
-  FILE *dbg = fopen( (sInstallPath + "\\bwapi-data\\logs\\hookdebug.log").c_str(), "a+");
-  if ( dbg )
-  {
-    fprintf(dbg, "CreateFile(%s)\n", szNewFileName);
-    fclose(dbg);
-  }
-  ////
+  DebugHookLog("CreateFile", lpFileName);
 
   // call the original function
   if ( _CreateFileOld )
@@ -245,14 +240,14 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
   strncpy(szNewScreenshotFilename, pszOutput, MAX_PATH);
 
   // Change screenshot extension
-  if ( !sScreenshotFormat.empty() )
+  if ( szScreenshotFormat[0] )
   {
     char *ext = strrchr(szNewScreenshotFilename, '.');
     if ( ext )
       *(++ext) = 0;
     else
       SStrNCat(szNewScreenshotFilename, ".", MAX_PATH);
-    SStrNCat(szNewScreenshotFilename, sScreenshotFormat.c_str(), MAX_PATH);
+    SStrNCat(szNewScreenshotFilename, szScreenshotFormat, MAX_PATH);
   }
   // Save the screenshot in w-mode
   if ( wmode && pBits && isCorrectVersion )
