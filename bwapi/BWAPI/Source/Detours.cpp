@@ -157,7 +157,7 @@ HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData
 }
 void setReplayName(char *pOutFilename, const char *pInFileName)
 {
-  if ( !BWAPI::BroodwarImpl.outOfGame && strstr(pInFileName, "LastReplay.rep") )
+  if ( /*!BWAPI::BroodwarImpl.outOfGame &&*/ strstr(pInFileName, "LastReplay.rep") )
   {
     if ( gszDesiredReplayName[0] )
       strcpy(pOutFilename, gszDesiredReplayName);
@@ -167,13 +167,15 @@ void setReplayName(char *pOutFilename, const char *pInFileName)
     if ( gdwProcNum )
     {
       char tmp[16];
-      sprintf(tmp, " (%u).rep", gdwProcNum);
+      sprintf(tmp, "[%u].rep", gdwProcNum);
       char *ext = strrchr(pOutFilename, '.');
       strcpy_s(ext, MAX_PATH - (ext ? ext - pOutFilename : 0), tmp);
     }
   }
   else
+  {
     strcpy(pOutFilename, pInFileName);
+  }
 }
 void DebugHookLog(const char *pszFxn, const char *pszFile)
 {
