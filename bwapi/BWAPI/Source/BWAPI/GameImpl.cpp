@@ -202,10 +202,11 @@ namespace BWAPI
       x = 0;
     if (y < 0)
       y = 0;
-    if (x > Map::getWidth()  * 32 - scrLimit.right)
-      x = Map::getWidth() * 32 - scrLimit.right;
-    if (y > Map::getHeight() * 32 - (scrLimit.bottom + 80))
-      y = Map::getHeight() * 32 - (scrLimit.bottom + 80);
+    SIZE mapTileSize = { Map::getWidth()*32, Map::getHeight()*32 };
+    if (x > mapTileSize.cx - scrLimit.right)
+      x = mapTileSize.cx - scrLimit.right;
+    if (y > mapTileSize.cy - (scrLimit.bottom + 80))
+      y = mapTileSize.cy - (scrLimit.bottom + 80);
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;

@@ -17,6 +17,22 @@
 #define arrsize(x) (sizeof(x)/sizeof(x[0]))   // Official name
 #define countof(x) arrsize(x)                 // Personal name
 
+#ifndef SMAX
+#define SMAX(x,y) (x < y ? y : x)
+#endif
+
+#ifndef SSIZEMAX
+#define SSIZEMAX(x,y) (SMAX(sizeof(x),sizeof(y)))
+#endif
+
+#ifndef SMIN
+#define SMIN(x,y) (x < y ? x : y)
+#endif
+
+#ifndef SSIZEMIN
+#define SSIZEMIN(x,y) (SMAX(sizeof(x),sizeof(y)))
+#endif
+
 #ifndef BLIZZ_STRUCTS
 #define BLIZZ_STRUCTS
 typedef struct _WRECT
@@ -954,8 +970,8 @@ void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
  *  of memcpy for more details.
  *
  *  dest:   The destination buffer.
- *  source: The size of the destination buffer.
- *  size:   The format to use.
+ *  source: The source buffer.
+ *  size:   The number of bytes to copy.
  */
 void
 STORMAPI
@@ -964,6 +980,9 @@ SMemCopy(
     __in  const void *source, 
     __in  size_t size);
 
+#ifndef SMCopy
+#define SMCopy(d,s) ( SMemCopy(d, s, SSIZEMIN(s,d)) )
+#endif
 
 /*  SMemFill @ 492
  *  
@@ -982,6 +1001,9 @@ SMemFill(
     __in  size_t length,
     __in  char fillWith = 0);
 
+#ifndef SMFill
+#define SMFill(l,f) (SMemFill(l, sizeof(l), f))
+#endif
 
 /*  SMemZero @ 494
  *  
@@ -996,8 +1018,15 @@ SMemZero(
     __in  void *location,
     __in  size_t length);
 
+#ifndef SMZero
+#define SMZero(l) (SMemZero(l, sizeof(l)))
+#endif
 
 int   STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
+
+#ifndef SMCmp
+#define SMCmp(l,x) ( SMemCmp(l, x, SSIZEMIN(x,l)) )
+#endif
 
 /*  SStrCopy @ 501
  *  
@@ -1017,6 +1046,9 @@ SStrCopy(
     __in  const char *src,
     __in  int max_length = 0x7FFFFFFF);
 
+#ifndef SSCopy
+#define SSCopy(d,s) (SStrCopy(d, s, sizeof(d)))
+#endif
 
 #ifndef STORM_HASH_ABSOLUTE
 #define STORM_HASH_ABSOLUTE 1
@@ -1077,6 +1109,10 @@ SStrCmp(
       __in  const char *string2, 
       __in  size_t size);
 
+#ifndef SSCmp
+#define SSCmp(s,x) ( SStrCmp(s,x,SSIZEMIN(s,x)) )
+#endif
+
 /*  SStrCmpI @ 509
  *  
  *  Compares two strings case insensitive.
@@ -1093,6 +1129,10 @@ SStrCmpI(
       __in  const char *string1, 
       __in  const char *string2, 
       __in  size_t size);
+
+#ifndef SSCmpI
+#define SSCmpI(s,x) ( SStrCmpI(s,x,SSIZEMIN(s,x)) )
+#endif
 
 /*  SStrUpper @ 510
  *  

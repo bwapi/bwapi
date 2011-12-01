@@ -287,17 +287,14 @@ namespace BWAPI
     data->isReplay      = Broodwar->isReplay();
 
     //load static map data
-    for(int x = 0; x < Broodwar->mapWidth()*4; ++x)
-    {
-      for(int y = 0; y < Broodwar->mapHeight()*4; ++y)
-      {
+    SIZE mapSize = { Broodwar->mapWidth(), Broodwar->mapHeight() };
+    for(int x = 0; x < mapSize.cx*4; ++x)
+      for(int y = 0; y < mapSize.cy*4; ++y)
         data->isWalkable[x][y] = Broodwar->isWalkable(x, y);
-      }
-    }
 
-    for(int x = 0; x < Broodwar->mapWidth(); ++x)
+    for(int x = 0; x < mapSize.cx; ++x)
     {
-      for(int y = 0; y < Broodwar->mapHeight(); ++y)
+      for(int y = 0; y < mapSize.cy; ++y)
       {
         data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
         data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
@@ -316,6 +313,7 @@ namespace BWAPI
         data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
         data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
+        // Region hack using a possibly unused variable
         if ( BW::BWDATA_SAIPathing->regions[i].unk_28 )
           data->regions[i] = *((RegionImpl*)BW::BWDATA_SAIPathing->regions[i].unk_28)->getData();
         else
