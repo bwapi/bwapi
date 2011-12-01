@@ -1819,11 +1819,12 @@ namespace BWAPI
     }
 
     // Resize unitsOnTileData
-    this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+    SIZE mapSize = { Map::getWidth(), Map::getHeight() };
+    this->unitsOnTileData.resize(mapSize.cx, mapSize.cy);
 
     // Reserve vector space for performance
-    for ( int x = 0; x < Map::getWidth(); ++x )
-      for ( int y = 0; y < Map::getHeight(); ++y )
+    for ( int x = 0; x < mapSize.cx; ++x )
+      for ( int y = 0; y < mapSize.cy; ++y )
         this->unitsOnTileData[x][y].reserve(32);
 
     this->commandBuffer.reserve(16);
@@ -2565,8 +2566,9 @@ namespace BWAPI
     }
 
     // Clear the units on tile data
-    for ( unsigned int x = 0, w = Map::getWidth(); x < w; ++x )
-      for ( unsigned int y = 0, h = Map::getHeight(); y < h; ++y )
+    SIZE mapSize = { Map::getWidth(), Map::getHeight() };
+    for ( unsigned int x = 0; x < (unsigned int)mapSize.cx; ++x )
+      for ( unsigned int y = 0; y < (unsigned int)mapSize.cy; ++y )
         unitsOnTileData[x][y].clear();
 
     foreach(UnitImpl* i, accessibleUnits)
@@ -2576,8 +2578,9 @@ namespace BWAPI
         // Retrieve the buildings on tile
         int tx = i->getTilePosition().x();
         int ty = i->getTilePosition().y();
-        for(int x = tx; x < tx + i->getType().tileWidth() && x < Map::getWidth(); ++x)
-          for(int y = ty; y < ty + i->getType().tileHeight() && y < Map::getHeight(); ++y)
+        SIZE typeTileSize = { i->getType().tileWidth(), i->getType().tileHeight() };
+        for(int x = tx; x < tx + typeTileSize.cx && x < mapSize.cx; ++x)
+          for(int y = ty; y < ty + typeTileSize.cy && y < mapSize.cy; ++y)
             unitsOnTileData[x][y].push_back(i);
       }
       else
@@ -2588,8 +2591,8 @@ namespace BWAPI
         int endX   = (i->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
         int startY = i->getTop() / TILE_SIZE;
         int endY   = (i->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
-        for (int x = startX; x < endX && x < Map::getWidth(); ++x)
-          for (int y = startY; y < endY && y < Map::getHeight(); ++y)
+        for (int x = startX; x < endX && x < mapSize.cx; ++x)
+          for (int y = startY; y < endY && y < mapSize.cy; ++y)
             unitsOnTileData[x][y].push_back(i);
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
