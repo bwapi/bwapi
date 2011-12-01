@@ -2524,12 +2524,10 @@ namespace BWAPI
 
     foreach(PlayerImpl *p, players)
     {
-      for(int i = 0; i < BWAPI_UNIT_TYPE_MAX_COUNT; ++i)
-      {
-        p->self->allUnitCount[i]       = 0;
-        p->self->visibleUnitCount[i]   = 0;
-        p->self->completedUnitCount[i] = 0;
-      }
+      PlayerData *pd = p->self;
+      MemZero(pd->allUnitCount);
+      MemZero(pd->visibleUnitCount);
+      MemZero(pd->completedUnitCount);
     }
 
     foreach(UnitImpl* u, discoverUnits)
@@ -2567,8 +2565,8 @@ namespace BWAPI
     }
 
     // Clear the units on tile data
-    for ( int x = 0; x < Map::getWidth(); ++x )
-      for ( int y = 0; y < Map::getHeight(); ++y )
+    for ( unsigned int x = 0, w = Map::getWidth(); x < w; ++x )
+      for ( unsigned int y = 0, h = Map::getHeight(); y < h; ++y )
         unitsOnTileData[x][y].clear();
 
     foreach(UnitImpl* i, accessibleUnits)
