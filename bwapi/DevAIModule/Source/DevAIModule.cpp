@@ -7,6 +7,7 @@ bool enabled;
 int mapH, mapW;
 
 DWORD dwCount = 0;
+int bestFPS;
 
 void DevAIModule::onStart()
 {
@@ -39,21 +40,10 @@ void DevAIModule::onFrame()
   if ( !enabled )
     return;
 
-  if ( bw->getFrameCount() < 3 )
-    bw->printf("%u", bw->getBullets().size());
-
-  std::set<Unit*> tanks;
-  for each ( Unit *u in bw->getAllUnits() )
-  {
-    if ( u->getType() == UnitTypes::Terran_Siege_Tank_Siege_Mode )
-      tanks.insert(u);
-  }
-
-  for each ( Unit *u in self->getUnits() )
-  {    
-    for each ( Unit *t in tanks )
-      bw->drawLineMap(u->getPosition().x(), u->getPosition().y(), t->getPosition().x(), t->getPosition().y(), t->isInWeaponRange(u) ? Colors::Green : Colors::Red);
-  }
+  int tFPS = bw->getFPS();
+  if ( tFPS > bestFPS )
+    bestFPS = tFPS;
+  bw->printf("Best: %d FPS", bestFPS);
 }
 
 void DevAIModule::onSendText(std::string text)

@@ -1818,10 +1818,16 @@ namespace BWAPI
       }
     }
 
+    // Resize unitsOnTileData
     this->unitsOnTileData.resize(Map::getWidth(), Map::getHeight());
+
+    // Reserve vector space for performance
     for ( int x = 0; x < Map::getWidth(); ++x )
       for ( int y = 0; y < Map::getHeight(); ++y )
         this->unitsOnTileData[x][y].reserve(32);
+
+    this->commandBuffer.reserve(16);
+
 
     if ( !this->isReplay() )
     {
@@ -2502,8 +2508,8 @@ namespace BWAPI
     //apply latency compensation
     while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
     {
-      for (unsigned int i = 0; i < this->commandBuffer[0].size(); ++i)
-        delete this->commandBuffer[0][i];
+      for (unsigned int i = 0; i < this->commandBuffer.front().size(); ++i)
+        delete this->commandBuffer.front()[i];
       this->commandBuffer.erase(this->commandBuffer.begin());
     }
     this->commandBuffer.push_back(std::vector<Command *>());
