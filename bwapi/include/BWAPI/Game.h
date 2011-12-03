@@ -155,7 +155,7 @@ namespace BWAPI
     virtual void enableFlag(int flag) = 0;
 
     /** Returns the set of accessible units that are on the given build tile. */
-    virtual std::vector<Unit*>& getUnitsOnTile(int tileX, int tileY) = 0;
+    virtual std::set<Unit*>& getUnitsOnTile(int tileX, int tileY) = 0;
 
     /** Returns the set of accessible units that are in or overlapping the given rectangle. */
     virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) const = 0;

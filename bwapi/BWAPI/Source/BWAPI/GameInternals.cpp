@@ -1821,14 +1821,13 @@ namespace BWAPI
     // Resize unitsOnTileData
     SIZE mapSize = { Map::getWidth(), Map::getHeight() };
     this->unitsOnTileData.resize(mapSize.cx, mapSize.cy);
-
+/*
     // Reserve vector space for performance
     for ( int x = 0; x < mapSize.cx; ++x )
       for ( int y = 0; y < mapSize.cy; ++y )
         this->unitsOnTileData[x][y].reserve(32);
-
+*/
     this->commandBuffer.reserve(16);
-
 
     if ( !this->isReplay() )
     {
@@ -2581,7 +2580,7 @@ namespace BWAPI
         SIZE typeTileSize = { i->getType().tileWidth(), i->getType().tileHeight() };
         for(int x = tx; x < tx + typeTileSize.cx && x < mapSize.cx; ++x)
           for(int y = ty; y < ty + typeTileSize.cy && y < mapSize.cy; ++y)
-            unitsOnTileData[x][y].push_back(i);
+            unitsOnTileData[x][y].insert(i);
       }
       else
       {
@@ -2593,7 +2592,7 @@ namespace BWAPI
         int endY   = (i->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
         for (int x = startX; x < endX && x < mapSize.cx; ++x)
           for (int y = startY; y < endY && y < mapSize.cy; ++y)
-            unitsOnTileData[x][y].push_back(i);
+            unitsOnTileData[x][y].insert(i);
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {

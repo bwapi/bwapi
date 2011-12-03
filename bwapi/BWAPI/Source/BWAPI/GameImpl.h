@@ -94,7 +94,7 @@ namespace BWAPI
       virtual bool     isFlagEnabled(int flag);
       virtual void     enableFlag(int flag);
 
-      virtual std::vector<Unit*>& getUnitsOnTile(int x, int y);
+      virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
       virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) const;
       virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const;
       virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius) const;
@@ -348,7 +348,6 @@ namespace BWAPI
 
       std::set<BWAPI::Unit*>  selectedUnitSet;
       std::set<BWAPI::Unit*>  emptySet;
-      std::vector<BWAPI::Unit*> emptyVector;
       std::set<TilePosition>  startLocations;
 
       std::set<BWAPI::Force*>  forces;
@@ -360,7 +359,7 @@ namespace BWAPI
       std::set<BWAPI::Bullet*> bullets;
       std::set<Position>       nukeDots;
       std::set<BWAPI::UnitImpl*> pylons;
-      Util::RectangleArray<std::vector<Unit*> > unitsOnTileData;
+      Util::RectangleArray<std::set<Unit*> > unitsOnTileData;
 
       std::set<BWAPI::Unit*> staticMinerals;
       std::set<BWAPI::Unit*> staticGeysers;
