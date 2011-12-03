@@ -277,14 +277,14 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET UNITS ON TILE ------------------------------------------
-  std::vector<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
+  std::set<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
   {
     /* Retrieves a set of units that are on the specified tile */
     if (x < 0 || y < 0 || x >= this->mapWidth() || y >= this->mapHeight())
-      return this->emptyVector;
+      return this->emptySet;
     
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !isVisible(x,y))
-      return this->emptyVector;
+      return this->emptySet;
     return unitsOnTileData[x][y];
   }
   //--------------------------------------------- GET UNITS IN RECTANGLE -------------------------------------
