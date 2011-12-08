@@ -189,8 +189,8 @@ namespace BWAPI
         d += 256;
 
       self->angle     = (double)d * 3.14159265358979323846 / 128.0;
-      self->velocityX = (double)o->current_speedX / 256.0; //getVelocityX
-      self->velocityY = (double)o->current_speedY / 256.0; //getVelocityY
+      self->velocityX = (double)o->current_speed.x / 256.0; //getVelocityX
+      self->velocityY = (double)o->current_speed.y / 256.0; //getVelocityY
       //------------------------------------------------------------------------------------------------------
       //getGroundWeaponCooldown
       if ( _getType == UnitTypes::Protoss_Reaver || _getType == UnitTypes::Hero_Warbringer )
@@ -577,8 +577,8 @@ namespace BWAPI
       //getRallyPosition
       if (this->_getType.canProduce())
       {
-        self->rallyPositionX = o->rally.x;
-        self->rallyPositionY = o->rally.y;
+        self->rallyPositionX = o->rally.position.x;
+        self->rallyPositionY = o->rally.position.y;
       }
       else
       {
