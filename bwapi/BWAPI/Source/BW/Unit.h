@@ -29,6 +29,7 @@ namespace BW
     bool movementFlag(u8 flags) const;
     bool statusFlag(u32 flags) const;
 
+// v-- POSSIBLE SHARED BULLET/UNIT STRUCTURE BEGIN
     /*0x000*/ BW::Unit                            *prev;
     /*0x004*/ BW::Unit                            *next;                 /**< Pointer to next unit in the unit linked list, we use
                                                                           *   it to iterate units.
@@ -56,13 +57,11 @@ namespace BW
     /*0x026*/ u8                                  _unknown_0x026;
     /*0x027*/ u8                                  flingyMovementType;
     /*0x028*/ BW::Position                        position;             /**< Current position of the unit */
-    /*0x02C*/ u32                                 xHalt;                /**< @todo Unknown */
-    /*0x030*/ u32                                 yHalt;                /**< @todo Unknown */
+    /*0x02C*/ POINT                               halt;                /**< @todo Unknown */
     /*0x034*/ u32                                 flingyTopSpeed;
     /*0x038*/ s32                                 current_speed1;
     /*0x03C*/ s32                                 current_speed2;
-    /*0x040*/ s32                                 current_speedX;
-    /*0x044*/ s32                                 current_speedY;
+    /*0x040*/ POINT                               current_speed;
 
     /*0x048*/ u16                                 flingyAcceleration;
     /*0x04A*/ u8                                  currentDirection2;
@@ -91,9 +90,11 @@ namespace BW
     /*0x057*/ u8                                  spellCooldown;
     /*0x058*/ BW::Position                        orderTargetPos;
     /*0x05C*/ BW::Unit                            *orderTargetUnit;
+// ^-- POSSIBLE SHARED BULLET/UNIT STRUCTURE END
+
     /*0x060*/ u32                                 shieldPoints;         /**< Bw shows this value/256 */
     /*0x064*/ u16                                 unitType;             /**< Specifies the type of unit. */
-    /*0x066*/ u16                                 _unused_0x066; // possible alignment
+    /*0x066*/ u16                                 _padding_0x066;
     /*0x068*/ BW::Unit                            *previousPlayerUnit;
     /*0x06C*/ BW::Unit                            *nextPlayerUnit;
     /*0x070*/ BW::Unit                            *subUnit;
@@ -195,19 +196,14 @@ namespace BW
                       u16 _unknown_14;    // 14
                       u16 harvestValue3;
                     } hatchery; // wtf???
-                    struct
-                    {
-                      s16 originX;
-                      s16 originY;
-                    } powerup;
+                    struct { POINTS origin; } powerup;
                   };
                 } building;
                 
                 struct 
                 {
                   BW::Unit      *powerup;                // 0
-                  u16           targetResourceX;         // 4
-                  u16           targetResourceY;         // 6
+                  POINTS        targetResource;          // 4
                   BW::Unit      *targetResourceUnit;     // 8
                   u16           repairResourceLossTimer; // C
                   u8            isCarryingSomething;     // E
@@ -231,7 +227,7 @@ namespace BW
     /*0x0F4*/ BW::Unit                          *nextBurrowedUnit;
     /*0x0F8*/ union
               { struct
-                { u16      x, y;
+                { POINTS    position;
                   BW::Unit *unit;
                 } rally;                /** If the unit is rally type */
 
@@ -270,7 +266,7 @@ namespace BW
     } status;
     /*0x130*/ u16                                 bulletBehaviour3by3AttackSequence; // Counts up for the number of bullets shot by a unit using
                                                                                      // this weapon behaviour and resets after it reaches 12
-    /*0x132*/ u16                                 _unused_0x132;   // possible alignment
+    /*0x132*/ u16                                 _padding_0x132;
     /*0x134*/ void                                *CAIControl;        // pointer to AI class, we're not using this though
     /*0x138*/ u16                                 airStrength;        /**< verified */
     /*0x13A*/ u16                                 groundStrength;     /**< verified */

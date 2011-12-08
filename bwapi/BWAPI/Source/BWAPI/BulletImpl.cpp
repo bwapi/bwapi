@@ -107,8 +107,8 @@ namespace BWAPI
       if (d < 0)
         d += 256;
       self->angle     = (double)d * 3.14159265358979323846 / 128.0;
-      self->velocityX = (double)(bwOriginalBullet->current_speedX / 256.0);
-      self->velocityY = (double)(bwOriginalBullet->current_speedY / 256.0);
+      self->velocityX = (double)(bwOriginalBullet->current_speed.x / 256.0);
+      self->velocityY = (double)(bwOriginalBullet->current_speed.y / 256.0);
 
       Unit* target = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
       if ( !target || !target->exists())
