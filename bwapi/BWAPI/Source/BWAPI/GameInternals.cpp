@@ -536,7 +536,7 @@ namespace BWAPI
           // Iterate all commands, and only process those that are equal
           while ( c != commandOptimizer[i].end() )
           {
-            if ( groupOf12.empty() )
+            if ( groupOf12.empty() ) // If we are starting a new command grouping
             {
               // Assign our comparison variables to determine which commands should be grouped
               // Note: Using individual variables instead of comparing UnitCommand operator== because
@@ -558,7 +558,7 @@ namespace BWAPI
               groupOf12.push_back((UnitImpl*)c->unit);
               BroodwarImpl.addToCommandBuffer(new Command(*c));
               c = commandOptimizer[i].erase(c);
-            }
+            } // otherwise if this command is the same as the first, the units can be grouped
             else if ( e == c->extra && t == c->target && x == c->x && y == c->y )
             {
               bool oTmp;
@@ -580,7 +580,7 @@ namespace BWAPI
               }
               else
                 ++c;
-            }
+            } // otherwise skip this command for now
             else
             {
               ++c;
@@ -608,7 +608,9 @@ namespace BWAPI
             } // groupOf12 max execute
           } // second while
 
-          if ( groupOf12.empty() )
+          // If we iterated the entire command list and don't have an empty group, then give a command
+          // to the remaining units in the group
+          if ( !groupOf12.empty() )
           {
             // Select the group
             BW::Orders::Select sel(groupOf12);
