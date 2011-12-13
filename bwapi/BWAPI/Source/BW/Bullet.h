@@ -62,5 +62,7 @@ namespace BW
     /*0x68*/ BW::Unit*    nextBounceUnit;     // Next unit for bounce, temporary
     /*0x6C*/ u32          unknown_0x6C;       // some sort of cyclic burst counter (used by valkyries, goliath air attack)
   };
+
+  CTASSERT( sizeof(Bullet) == 112 );
 #pragma pack()
 };

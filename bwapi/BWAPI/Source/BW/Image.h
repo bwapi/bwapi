@@ -72,6 +72,9 @@ namespace BW
     /* 0x38 */ void (__fastcall *updateFunction)(Image*);
     /* 0x3C */ Sprite       *spriteOwner;
   };
+
+  CTASSERT( sizeof(Image) == 64 );
+
   namespace Anims
   {
     enum Enum

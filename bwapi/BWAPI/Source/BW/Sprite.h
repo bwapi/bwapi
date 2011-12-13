@@ -34,5 +34,7 @@ namespace BW
     /*0x1C*/ Image     *underlay;
     /*0x20*/ Image     *overlay;
   };
+
+  CTASSERT( sizeof(Sprite) == 36 );
 };
 #pragma pack()
