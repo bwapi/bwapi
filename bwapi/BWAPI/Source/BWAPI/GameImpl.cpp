@@ -237,6 +237,15 @@ namespace BWAPI
   //--------------------------------------------- IS FLAG ENABLED --------------------------------------------
   bool  GameImpl::isFlagEnabled(int flag)
   {
+    // Check if index is valid
+    if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
+      return false;
+
+    // Make completeMapInfo appear true if the match has ended
+    if ( flag == Flag::CompleteMapInformation && this->calledMatchEnd )
+      return true;
+
+    // Return the state of the flag
     return this->flags[flag];
   }
   //----------------------------------------------- ENABLE FLAG ----------------------------------------------
@@ -252,12 +261,14 @@ namespace BWAPI
       return;
     }
 
-    if ( flag >= BWAPI::Flag::Max )
+    // check if index is valid
+    if ( flag < 0 || flag >= BWAPI::Flag::Max )
     {
       this->setLastError(Errors::Invalid_Parameter);
       return;
     }
     
+    // check if tournament will allow the call
     if ( !this->tournamentCheck(Tournament::EnableFlag, &flag) )
       return;
 

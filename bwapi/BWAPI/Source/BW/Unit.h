@@ -280,5 +280,7 @@ namespace BW
     /*0x14F*/ u8                                  driftPosY;          /**< (mapsizex/1.5 max) */
   };
 #pragma pack()
+
+  CTASSERT( sizeof(Unit) == 336 );
 };
 

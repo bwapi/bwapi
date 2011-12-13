@@ -508,8 +508,8 @@ namespace BWAPI
         data->keyState[i]     = Broodwar->getKeyState(i);
       data->screenX           = Broodwar->getScreenPosition().x();
       data->screenY           = Broodwar->getScreenPosition().y();
-      data->flags[0]          = Broodwar->isFlagEnabled(0);
-      data->flags[1]          = Broodwar->isFlagEnabled(1);
+      for ( int i = 0; i < BWAPI::Flag::Max; ++i )
+        data->flags[i] = Broodwar->isFlagEnabled(i);
       data->isPaused          = Broodwar->isPaused();
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
       int i = 0;
