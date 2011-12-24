@@ -523,6 +523,8 @@ namespace BWAPI
       {
         // Declare our temporary variables
         std::vector<UnitImpl*> groupOf12;
+        groupOf12.reserve(12);
+
         int e = 0, x = 0, y = 0;
         Unit      *t = NULL;
         UnitType  ut;
@@ -805,7 +807,7 @@ namespace BWAPI
         
         std::vector<BWAPI::Position> poly = ((BWAPI::RegionImpl*)r)->getSimplePolygon();
         BWAPI::Position prev = Positions::None;
-        for ( std::vector<BWAPI::Position>::iterator j = poly.begin(); j != poly.end(); ++j )
+        for ( std::vector<BWAPI::Position>::iterator j = poly.begin(), jend = poly.end(); j != jend; ++j )
         {
           if ( prev != Positions::None )
             drawLineMap(prev.x(), prev.y(), j->x(), j->y(), Colors::Yellow);
@@ -2928,7 +2930,9 @@ namespace BWAPI
   bool GameImpl::addToCommandOptimizer(UnitCommand command)
   {
     // ignore queued and invalid commands, or return if optimizer is disabled
-    if ( commandOptimizerLevel == 0 || command.isQueued() || command.getType() >= UnitCommandTypes::None )
+    if (  commandOptimizerLevel == 0 || 
+          command.isQueued() || 
+          command.getType() >= UnitCommandTypes::None )
       return false;
 
     // Store some commonly accessed variables

@@ -269,8 +269,9 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
           if ( !foundSomething )
           {
-            for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin();
-                  i != customSymbols.end();
+            for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin(),
+                  iend = customSymbols.end();
+                  i != iend;
                   ++i )
             {
               if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
@@ -282,10 +283,10 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
             }
           }
         }
+
         if ( !foundSomething )
-        {
           fprintf(hFile, "  ----");
-        }
+
         fprintf(hFile, "\n");
       }
     }

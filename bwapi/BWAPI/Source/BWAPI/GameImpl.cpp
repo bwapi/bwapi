@@ -730,52 +730,73 @@ namespace BWAPI
   //------------------------------------------ ISSUE COMMAND -------------------------------------------------
   bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
   {
-    std::list< std::set<UnitImpl*> > groupsOf12;
-    std::set<UnitImpl* > nextGroup;
+    std::vector< std::vector<UnitImpl*> > groupsOf12;
+    std::vector<UnitImpl* > nextGroup;
+    nextGroup.reserve(12);
+
+    // Iterate the set of units
     foreach(Unit* u, units)
     {
-      if (u && u->exists() && u->canIssueCommand(command))
+      // If the unit exists and can issue the command
+      if ( u && u->exists() && u->canIssueCommand(command) )
       {
-        if (command.type == UnitCommandTypes::Train ||
-            command.type == UnitCommandTypes::Morph)
-          if (u->getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
-            u = *u->getLarva().begin();
-        nextGroup.insert((UnitImpl*)u);
-        if (nextGroup.size()>=12)
+        // Get the first available larva if the unit is a Hatchery/Lair/Hive
+        if ( (command.type == UnitCommandTypes::Train ||
+              command.type == UnitCommandTypes::Morph) &&
+              u->getType().producesLarva() && 
+              command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
+          u = *u->getLarva().begin();
+
+        // Insert the unit into the next group
+        nextGroup.push_back((UnitImpl*)u);
+
+        // Create a new group of 12
+        if ( nextGroup.size() >= 12 )
         {
           groupsOf12.push_back(nextGroup);
           nextGroup.clear();
         }
       }
     }
-    if (nextGroup.empty()==false)
-    {
-      groupsOf12.push_back(nextGroup);
-      nextGroup.clear();
-    }
-    if (groupsOf12.empty())
-      return false;
-    UnitImpl* selected[13];
-    for(std::list< std::set<UnitImpl*> >::iterator i = groupsOf12.begin(); i != groupsOf12.end(); ++i)
-    {
-      int k = 0;
-      for(std::set<UnitImpl*>::iterator j = i->begin(); j != i->end(); ++j )
-        selected[k++] = *j;
 
-      command.unit  = selected[0];
-      selected[k]   = NULL;
-      if ( command.type != BWAPI::UnitCommandTypes::Unload )
+    // Insert the last group into the groups of 12, if it is an incomplete group
+    if ( !nextGroup.empty() )
+      groupsOf12.push_back(nextGroup);
+
+    // Return if no units to command
+    if ( groupsOf12.empty() )
+      return false;
+
+    // Iterate our groups of 12
+    for ( std::vector< std::vector<UnitImpl*> >::iterator i = groupsOf12.begin(), 
+          iend = groupsOf12.end(); 
+          i != iend; 
+          ++i)
+    {
+      // Get the first unit available
+      command.unit  = i->front();
+
+      // Command optimization (no select) for unit unloading, but only if optimizer level >= 2
+      if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizerLevel < 2 )
       {
-        BW::Orders::Select sel = BW::Orders::Select((u8)(*i).size(), selected);
+        // Select the unit group
+        BW::Orders::Select sel(*i);
         botAPM_select++;
         QueueGameCommand(&sel, sel.size);
       }
 
+      // Execute the command
       BroodwarImpl.executeCommand( command, false );
-      foreach(UnitImpl* j, *i)
+
+      // Iterate each unit in the group
+      foreach(UnitImpl *j, *i)
       {
+        // Set the last unit command info
         j->lastCommandFrame = BroodwarImpl.frameCount;
         j->lastCommand      = command;
+
+        // Add the unit command to the latency compensation buffer 
+        // for each unit individually
         command.unit        = (Unit*)j;
         BroodwarImpl.addToCommandBuffer(new Command(command));
       }
