@@ -1820,6 +1820,13 @@ namespace BWAPI
       }
     }
 
+    // Assign neutral force to players that do not have one
+    for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
+    {
+      if ( this->players[p] && !this->players[p]->force )
+        this->players[p]->force = pNeutralForce;
+    }
+
     // Resize unitsOnTileData
     SIZE mapSize = { Map::getWidth(), Map::getHeight() };
     this->unitsOnTileData.resize(mapSize.cx, mapSize.cy);
