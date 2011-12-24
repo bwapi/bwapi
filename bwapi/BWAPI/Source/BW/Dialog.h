@@ -291,7 +291,7 @@ namespace BW
         dialog  *pDlg;          // 0x32   // official
         rect    responseRct;    // 0x36
         WORD    wHighlight;     // 0x3E
-        WORD    wUnknown_0x40;
+        WORD    wUnknown_0x40;    // padding?
         void    *pSmk;          // 0x42
         rect    textRct;        // 0x46
         WORD    wAlignment;    // 0x4E
@@ -322,12 +322,12 @@ namespace BW
         WORD  nCurPos;    // 0x3A
         WORD  nMin;       // 0x3C   // official
         WORD  nMax;       // 0x3E   // official
-        WORD  wUnk_0x40;
-        DWORD dwUnk_0x42;
-        BYTE  bSliderSkip;    // 0x46
-        BYTE  bUnk_0x47;
+        WORD  wUnk_0x40;    
+        DWORD dwScrollFlags;    // 0x42
+        BYTE  bSliderSkip;      // 0x46
+        BYTE  bUpdateCounter;   // 0x47
         BYTE  bSliderGraphic;   // 0x48
-        BYTE  bSliderSpacing;     // 0x49
+        BYTE  bSliderSpacing;   // 0x49
         WORD  wUnk_0x4A;
         DWORD dwUnk_0x4C;
       } scroll;
@@ -355,7 +355,7 @@ namespace BW
         BYTE    bDirection;       // 0x4C
         BYTE    bOffset;          // 0x4D
         BYTE    bSelectedIndex;   // 0x4E
-        BYTE    bUnknown_0x4F;
+        BYTE    bUnknown_0x4F;    // padding?
         WORD    wVerticalOffset;  // 0x4A
         void    *pDrawItemFcn;    // 0x4C
       } list;
