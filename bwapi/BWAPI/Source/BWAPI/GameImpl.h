@@ -334,6 +334,8 @@ namespace BWAPI
       int drawShapes();
       void processEvents();
       Unit *_unitFromIndex(int index);
+
+      int  commandOptimizerLevel;
     private :
       HMODULE hAIModule;
       HMODULE hTournamentModule;
@@ -438,7 +440,6 @@ namespace BWAPI
       bool externalModuleConnected;
       bool calledMatchEnd;
       bool tournamentCheck(int type, void *parameter = NULL);
-      int  commandOptimizerLevel;
       std::vector<UnitCommand> commandOptimizer[BWAPI_UNIT_COMMAND_TYPE_COUNT];
 
       int lastEventTime;
