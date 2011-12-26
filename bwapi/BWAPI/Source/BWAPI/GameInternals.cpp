@@ -514,6 +514,15 @@ namespace BWAPI
     if ( *BW::BWDATA_isGamePaused == 0 )
       this->frameCount++;
 
+    // Check if the window is iconic, if so, go super fast!
+    static bool bLastIconic = false;
+    if ( !!IsIconic(SDrawGetFrameWindow()) != bLastIconic && !this->isMultiplayer() )
+    {
+      this->setLocalSpeed(bLastIconic ? -1 : 0);
+      this->setFrameSkip(bLastIconic ? 1 : 16);
+      bLastIconic = !bLastIconic;
+    }
+
     // If we should process our commands just before sending them
     // @TODO: Only process on the frame before commands are sent
     //if ( *BW::BWDATA_FramesUntilNextTurn == 1 )
@@ -659,6 +668,7 @@ namespace BWAPI
       setTextSize();
     } // grid
 #ifdef _DEBUG
+    ////////////////////////////////////////////// Ignore rest if GUI disabled
     if ( !data->hasGUI )
       return;
 
@@ -822,7 +832,7 @@ namespace BWAPI
           recordingUpdated )
     {
       recordingUpdated = false;
-      RecordFrame(pVidBuffer);
+      RecordFrame(wmode ? pVidBuffer : BW::BWDATA_GameScreenBuffer->data);
     }
     setTextSize(); // Reset text size
 

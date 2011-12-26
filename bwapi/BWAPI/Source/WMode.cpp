@@ -18,7 +18,6 @@ bool gbWantUpdate     = false;
 bool gbIsCursorHidden = true;
 bool gbHoldingAlt     = false;
 
-void *pVidBuffer;
 bool recordingUpdated;
 
 bool switchToWMode = false;
@@ -32,7 +31,8 @@ BOOL (STORMAPI *_SDrawUnlockSurfaceOld)(int surfacenumber, void *lpSurface, int 
 BOOL (STORMAPI *_SDrawUpdatePaletteOld)(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
 BOOL (STORMAPI *_SDrawRealizePaletteOld)();
 
-BITMAPINFO256 bmp;
+BITMAPINFO256 wmodebmp;
+HBITMAP hwmodeBmp;
 void InitializeWModeBitmap(int width, int height)
 {
   if ( hdcMem )
@@ -40,29 +40,29 @@ void InitializeWModeBitmap(int width, int height)
   hdcMem = NULL;
   
   // Create Bitmap HDC
-  MemZero(bmp);
-  bmp.bmiHeader.biSize          = sizeof(BITMAPINFOHEADER);
-  bmp.bmiHeader.biWidth         = width;
-  bmp.bmiHeader.biHeight        = -(height);
-  bmp.bmiHeader.biPlanes        = 1;
-  bmp.bmiHeader.biBitCount      = 8;
-  bmp.bmiHeader.biCompression   = BI_RGB;
-  bmp.bmiHeader.biSizeImage     = width * height;
+  MemZero(wmodebmp);
+  wmodebmp.bmiHeader.biSize          = sizeof(BITMAPINFOHEADER);
+  wmodebmp.bmiHeader.biWidth         = width;
+  wmodebmp.bmiHeader.biHeight        = -(height);
+  wmodebmp.bmiHeader.biPlanes        = 1;
+  wmodebmp.bmiHeader.biBitCount      = 8;
+  wmodebmp.bmiHeader.biCompression   = BI_RGB;
+  wmodebmp.bmiHeader.biSizeImage     = width * height;
 
   if ( isCorrectVersion )
   {
     for ( int i = 0; i < 256; ++i )
     {
-      bmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
-      bmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
-      bmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
+      wmodebmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
+      wmodebmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
+      wmodebmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
     }
   }
   HDC     hdc   = GetDC(ghMainWnd);
-  HBITMAP hBmp  = CreateDIBSection(hdc, (BITMAPINFO*)&bmp, DIB_RGB_COLORS, &pBits, NULL, 0);
+  hwmodeBmp     = CreateDIBSection(hdc, (BITMAPINFO*)&wmodebmp, DIB_RGB_COLORS, &pBits, NULL, 0);
   hdcMem        = CreateCompatibleDC(hdc);
   ReleaseDC(ghMainWnd, hdc);
-  SelectObject(hdcMem, hBmp);
+  SelectObject(hdcMem, hwmodeBmp);
 }
 
 void GetBorderRect(HWND hWnd, LPRECT lpRect)
@@ -212,6 +212,7 @@ void CorrectWindowHeight(int type, SIZE *ws, RECT *rct, SIZE *border)
       break;
   }
 }
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   if ( wmode )
@@ -305,8 +306,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
       } // case WM_MOVE
     case WM_PAINT:
-      if ( gbWantUpdate && pBits )
+      if ( gbWantUpdate && pBits)
       {
+        static DWORD dwLastUpdate = 0;
+        DWORD dwNewTick = GetTickCount();
+        if ( dwLastUpdate + (IsIconic(hWnd) ? 200 : 20) > dwNewTick )
+          break;
+        dwLastUpdate = dwNewTick;
         gbWantUpdate = false;
 
         // begin paint
@@ -325,7 +331,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           else
           {
             SetStretchBltMode(hdc, HALFTONE);
-            StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+            //StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
+            StretchDIBits(hdc, 0, 0, cRect.right, cRect.bottom, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, pBits, (BITMAPINFO*)&wmodebmp, DIB_RGB_COLORS, SRCCOPY);
           }
         }
 
@@ -522,17 +529,18 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
 {
   // Recording code to copy data over to a standard buffer,
   // and also to hide the "Recording" message from the video.
-  if ( recordingStarted && !lpRect && lpSurface )
+  if ( recordingStarted && pVidBuffer && lpSurface )
   {
-    // Create the buffer if it does not exist
-    if ( !pVidBuffer )
-      pVidBuffer = malloc(640*480);
-    // Copy the buffer data
-    memcpy(pVidBuffer, lpSurface, 640*480);
     recordingUpdated = true;
+    if ( !lpRect && wmode )
+    {
+      // Copy the buffer data
+      memcpy(pVidBuffer, lpSurface, 640*480);
 
-    BW::bitmap tmpBmp = { 640, 480, (u8*)lpSurface };
-    BW::BlitText("\x07" "Recording", &tmpBmp, 406, 346, 0);
+      // Notify that it is recording
+      BW::bitmap tmpBmp = { 640, 480, (u8*)lpSurface };
+      BW::BlitText("\x07" "Recording", &tmpBmp, 406, 346, 0);
+    }
   }
 
   if ( !wmode )
@@ -554,9 +562,9 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
 {
   for ( unsigned int i = firstentry; i < firstentry + numentries; ++i )
   {
-    bmp.bmiColors[i].rgbRed   = pPalEntries[i].peRed;
-    bmp.bmiColors[i].rgbGreen = pPalEntries[i].peGreen;
-    bmp.bmiColors[i].rgbBlue  = pPalEntries[i].peBlue;
+    wmodebmp.bmiColors[i].rgbRed   = pPalEntries[i].peRed;
+    wmodebmp.bmiColors[i].rgbGreen = pPalEntries[i].peGreen;
+    wmodebmp.bmiColors[i].rgbBlue  = pPalEntries[i].peBlue;
   }
   if ( !wmode || !ghMainWnd )
   {
@@ -566,7 +574,7 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
   }
 
   if ( !IsIconic(ghMainWnd) )
-    SetDIBColorTable(hdcMem, firstentry, numentries, bmp.bmiColors);
+    SetDIBColorTable(hdcMem, firstentry, numentries, wmodebmp.bmiColors);
   return TRUE;
 }
 
@@ -642,7 +650,7 @@ void SetWMode(int width, int height, bool state)
     SetCursor(NULL);
     SetCursorShowState(false);
 
-    SetDIBColorTable(hdcMem, 0, 256, bmp.bmiColors);
+    SetDIBColorTable(hdcMem, 0, 256, wmodebmp.bmiColors);
     WritePrivateProfileString("window", "windowed", "ON", szConfigPath);
   }
   else

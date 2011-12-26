@@ -16,6 +16,7 @@ AVICOMPRESSOPTIONS  aviOptions;
 DWORD dwFrames;
 
 void *pFlipped;
+void *pVidBuffer;
 
 SIZE gVidSize;
 
@@ -61,7 +62,7 @@ bool StartVideoRecording(int width, int height)
   }
 
   // Initialize new bitmap info header
-  BITMAPINFOHEADER vidBmpInfo = bmp.bmiHeader;
+  BITMAPINFOHEADER vidBmpInfo = wmodebmp.bmiHeader;
   vidBmpInfo.biBitCount       = 32;
   vidBmpInfo.biHeight         = abs(vidBmpInfo.biHeight);
   vidBmpInfo.biSizeImage      = vidBmpInfo.biWidth*vidBmpInfo.biHeight*4;
@@ -112,12 +113,17 @@ bool StartVideoRecording(int width, int height)
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
+
+  // Allocate memory for temp
+  pVidBuffer = malloc(width*height);
+
   // Allocate memory for flipped video surface
   pFlipped = malloc(width*height*4);
 
   // Hide the cursor again
   ShowCursor(FALSE);
   recordingStarted = true;
+
   return true;
 }
 
@@ -143,6 +149,10 @@ bool StopVideoRecording()
     free(pFlipped);
   pFlipped = NULL;
 
+  if ( pVidBuffer )
+    free(pVidBuffer);
+  pVidBuffer = NULL;
+
   AVIFileExit();
   return false;
 }
@@ -158,7 +168,7 @@ void RecordFrame(void *pBuffer)
   do
   {
     for ( unsigned int i = 0; i < (unsigned int)gVidSize.cx; ++i )
-      pbFlipped[i] = *(DWORD*)&bmp.bmiColors[pbSrc[i]];
+      pbFlipped[i] = *(DWORD*)&wmodebmp.bmiColors[pbSrc[i]];
     pbFlipped -= gVidSize.cx;
     pbSrc += gVidSize.cx;
   } while ( (DWORD)pbSrc < dwEnd );

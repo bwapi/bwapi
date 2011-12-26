@@ -13,7 +13,6 @@ void DevAIModule::onStart()
 {
   // enable stuff
   bw->enableFlag(Flag::UserInput);
-  enabled = true;
 
   // save player info
   self = bw->self();
@@ -37,27 +36,33 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() )
     return;
 
-  if ( !enabled )
-    return;
-
   int tFPS = bw->getFPS();
   if ( tFPS > bestFPS )
     bestFPS = tFPS;
-  bw->printf("Best: %d FPS", bestFPS);
+  //bw->printf("Best: %d FPS", bestFPS);
 }
 
 void DevAIModule::onSendText(std::string text)
 {
-  if ( text == "/t" )
-  {
-    enabled = !enabled;
-    Broodwar->printf("DevAITest %s", enabled ? "ENABLED" : "DISABLED");
-  }
-  else if ( text == "/wiki" )
+  if ( text == "/wiki" )
   {
     writeUnitWiki();
     writeWeaponWiki();
     Broodwar->printf("Generated wiki pages!");
+  }
+  else if ( text == "/best" )
+  {
+    bw->printf("Best: %d FPS", bestFPS);
+  }
+  else if ( text == "/races" )
+  {
+    for ( std::set<Player*>::const_iterator p = bw->getPlayers().begin(),
+          pend = bw->getPlayers().end();
+          p != pend;
+          ++p )
+    {
+      bw->printf("%s is %s", (*p)->getName().c_str(), (*p)->getRace().c_str());
+    }
   }
   else
   {

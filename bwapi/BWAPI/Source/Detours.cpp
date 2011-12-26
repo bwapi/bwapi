@@ -17,6 +17,7 @@
 #include "Config.h"
 #include "NewHackUtil.h"
 #include "BW/TriggerEngine.h"
+#include "BW/MenuPosition.h"
 
 #include "../../Debug.h"
 
@@ -258,9 +259,9 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
     PALETTEENTRY pal[256];
     for ( int i = 0; i < 256; ++i )
     {
-      pal[i].peRed    = bmp.bmiColors[i].rgbRed;
-      pal[i].peGreen  = bmp.bmiColors[i].rgbGreen;
-      pal[i].peBlue   = bmp.bmiColors[i].rgbBlue;
+      pal[i].peRed    = wmodebmp.bmiColors[i].rgbRed;
+      pal[i].peGreen  = wmodebmp.bmiColors[i].rgbGreen;
+      pal[i].peBlue   = wmodebmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
     return SBmpSaveImage(szNewScreenshotFilename, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
@@ -380,7 +381,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
-  if ( *BW::BWDATA_gwGameMode == 4 )
+  if ( *BW::BWDATA_gwGameMode == BW::GAME_RUN )
     BWAPI::BroodwarImpl.onMenuFrame();
 
   // NOSOUND config option
