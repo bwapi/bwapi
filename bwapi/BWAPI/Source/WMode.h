@@ -12,7 +12,7 @@ struct BITMAPINFO256 {
     RGBQUAD             bmiColors[256];
 };
 
-extern BITMAPINFO256 bmp;
+extern BITMAPINFO256 wmodebmp;
 
 BOOL WINAPI   _GetCursorPos(LPPOINT lpPoint);
 BOOL WINAPI   _SetCursorPos(int X, int Y);
@@ -44,7 +44,6 @@ extern void*    pBits;
 extern RGBQUAD  palette[256];
 extern bool     wmode;
 
-extern void *pVidBuffer;
 extern bool recordingUpdated;
 
 extern bool switchToWMode;
