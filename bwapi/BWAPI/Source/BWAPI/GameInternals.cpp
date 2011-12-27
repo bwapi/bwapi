@@ -2899,27 +2899,29 @@ namespace BWAPI
     } // foreach event
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
-  std::set<Bullet*> lastBullets;
   void GameImpl::updateBullets()
   {
-    //update bullet information
+    // Reset bullets information
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
       this->bulletArray[i]->setExists(false);
-    lastBullets = bullets;
     bullets.clear();
-    for(BW::Bullet* curritem = *BW::BWDATA_BulletNodeTable_FirstElement; curritem; curritem = curritem->next)
+
+    // Repopulate bullets set
+    for ( BW::Bullet *curritem = *BW::BWDATA_BulletNodeTable_FirstElement; 
+          curritem; 
+          curritem = curritem->next )
     {
-      BulletImpl* b = BulletImpl::BWBulletToBWAPIBullet(curritem);
+      BulletImpl *b = BulletImpl::BWBulletToBWAPIBullet(curritem);
       b->setExists(true);
-      b->updateData();
-      if (b->exists())
-        this->bullets.insert(b);
-      lastBullets.erase(b);
+      this->bullets.insert(b);
     }
-    foreach(BulletImpl* b, lastBullets)
-      b->updateData();
+
+    // Update all bullets info
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+    {
       this->bulletArray[i]->saveExists();
+      this->bulletArray[i]->updateData();
+    }
   }
 //--------------------------------------------------- ON SAVE ------------------------------------------------
   void GameImpl::onSaveGame(char *name)

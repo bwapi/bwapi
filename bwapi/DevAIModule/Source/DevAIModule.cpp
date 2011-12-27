@@ -40,6 +40,7 @@ void DevAIModule::onFrame()
   if ( tFPS > bestFPS )
     bestFPS = tFPS;
   //bw->printf("Best: %d FPS", bestFPS);
+    bw->printf("%u", bw->getBullets().size());
 }
 
 void DevAIModule::onSendText(std::string text)

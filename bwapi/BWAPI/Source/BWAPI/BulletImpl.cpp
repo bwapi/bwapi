@@ -53,16 +53,8 @@ namespace BWAPI
   }
   void BulletImpl::updateData()
   {
-    UnitImpl* _getSource = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->sourceUnit);
-    Player*   _getPlayer = NULL;
-    if ( _getSource )
-      _getPlayer = _getSource->_getPlayer;
-
-    bool _exists = __exists;
-    if ( !bwOriginalBullet )
-      _exists = false;
-
-    if (_exists)
+    bool _exists = __exists && bwOriginalBullet;
+    if ( _exists )
     {
       for(int i = 0; i < 9; ++i)
       {
@@ -86,42 +78,41 @@ namespace BWAPI
           BroodwarImpl._isReplay() || 
           isVisible()) )
     {
-      self->exists = true;
-      self->id = id;
-      UnitImpl* source  = _getSource;
-      if ( !source || !source->isAlive)
-        self->player = -1;
-      else
-        self->player = source->_getPlayer->getID();
-      self->type = bwOriginalBullet->type;
+      UnitImpl *_getSource = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->sourceUnit);
+      UnitImpl *_getTarget = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
+      Player   *_getPlayer = _getSource ? _getSource->_getPlayer : NULL;
 
-      if ( !source || !source->exists())
-        self->source = -1;
-      else
-        self->source = source->getID();
+      // id, player, type, source
+      self->id      = id;
+      self->player  = (_getSource && _getSource->isAlive && _getPlayer) ? _getPlayer->getID() : -1;
+      self->type    = bwOriginalBullet->type;
+      self->source  = (_getSource && _getSource->exists()) ? _getSource->getID() : -1;
 
+      // position
       self->positionX = bwOriginalBullet->position.x;
       self->positionY = bwOriginalBullet->position.y;
-      int d = bwOriginalBullet->currentDirection;
-      d -= 64;
-      if (d < 0)
+
+      // angle, velocity
+      int d = (int)bwOriginalBullet->currentDirection - 64;
+      if ( d < 0 )
         d += 256;
       self->angle     = (double)d * 3.14159265358979323846 / 128.0;
       self->velocityX = (double)(bwOriginalBullet->current_speed.x / 256.0);
       self->velocityY = (double)(bwOriginalBullet->current_speed.y / 256.0);
 
-      Unit* target = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
-      if ( !target || !target->exists())
-        self->target = -1;
-      else
-        self->target = target->getID();
+      // target, targetPosition
+      self->target          = (_getTarget && _getTarget->exists()) ? _getTarget->getID() : -1;
       self->targetPositionX = bwOriginalBullet->targetPosition.x;
       self->targetPositionY = bwOriginalBullet->targetPosition.y;
-      self->removeTimer     = bwOriginalBullet->time_remaining;
+
+      // removeTimer
+      self->removeTimer = bwOriginalBullet->time_remaining;
+
+      // exists
+      self->exists  = true;
     }
     else
     {
-      self->exists          = false;
       self->id              = -1;
       self->player          = -1;
       self->type            = BulletTypes::None;
@@ -135,6 +126,7 @@ namespace BWAPI
       self->targetPositionX = 0;
       self->targetPositionY = 0;
       self->removeTimer     = 0;
+      self->exists          = false;
     }
 
   }
