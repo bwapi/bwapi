@@ -42,6 +42,7 @@ namespace BWAPI
     const Race Zerg(0);
     const Race Terran(1);
     const Race Protoss(2);
+    //@TODO INCORRECT, Random = 6, None = 7, Other = 3?
     const Race Random(3);
     const Race Other(4);
     const Race None(5);

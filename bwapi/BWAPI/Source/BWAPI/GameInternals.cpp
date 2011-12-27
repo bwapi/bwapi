@@ -1002,6 +1002,28 @@ namespace BWAPI
     this->inGame        = false;
     this->outOfGame     = true;
 
+    // Get races so we can catch random
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      Race r = Races::None;
+      int _r = _getLobbyRace(i);
+      switch ( _r )
+      {
+      case BW::Race::Zerg:
+      case BW::Race::Terran:
+      case BW::Race::Protoss:
+        r = Race(_r);
+        break;
+      case BW::Race::Random:
+        r = Races::Random;
+        break;
+      default:
+        r = Races::Unknown;
+        break;
+      }
+      lastKnownRaceBeforeStart[i] = r;
+    }
+
     events.push_back(Event::MenuFrame());
     this->server.update();
 
@@ -1373,6 +1395,20 @@ namespace BWAPI
     
     // Send the change race command for multi-player
     QUEUE_COMMAND(BW::Orders::RequestChangeRace, race, slot);
+  }
+  int GameImpl::_getLobbyRace(int slot)
+  {
+    BW::dialog *custom = BW::FindDialogGlobal("Create");
+    if ( custom )
+    {
+      // Get single player race
+      BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
+      if ( slotCtrl )
+        return slotCtrl->getSelectedValue();
+    }
+    else
+      return BW::BWDATA_Players[slot].nRace;
+    return BW::Race::None;
   }
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
   void GameImpl::addToCommandBuffer(Command* command)
@@ -2553,33 +2589,44 @@ namespace BWAPI
 
     foreach(UnitImpl* u, discoverUnits)
     {
-      ((PlayerImpl*)u->getPlayer())->units.insert(u);
-      if (u->getPlayer()->isNeutral())
+      PlayerImpl *unitPlayer = ((PlayerImpl*)u->getPlayer());
+      if ( !unitPlayer )
+        continue;
+
+      unitPlayer->units.insert(u);
+      if ( u->getType().getRace() != Races::Unknown )
+        unitPlayer->wasSeenByBWAPIPlayer = true;
+
+      if ( unitPlayer->isNeutral() )
       {
         neutralUnits.insert(u);
         if ( u->getType().isMineralField() )
           minerals.insert(u);
-        else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+        else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
           geysers.insert(u);
       }
       else
       {
-        if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
+        if ( unitPlayer == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon )
           pylons.insert(u);
       }
     }
     foreach(UnitImpl* u, evadeUnits)
     {
-      ((PlayerImpl*)u->getPlayer())->units.erase(u);
-      if (u->getPlayer()->isNeutral())
+      PlayerImpl *unitPlayer = ((PlayerImpl*)u->getPlayer());
+      if ( !unitPlayer )
+        continue;
+
+      unitPlayer->units.erase(u);
+      if ( unitPlayer->isNeutral() )
       {
         neutralUnits.erase(u);
         if ( u->getType().isMineralField() )
           minerals.erase(u);
-        else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+        else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
           geysers.erase(u);
       }
-      else if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
+      else if ( unitPlayer == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon )
       {        
         pylons.erase(u);
       }
