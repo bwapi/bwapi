@@ -381,7 +381,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
-  if ( *BW::BWDATA_gwGameMode == BW::GAME_RUN )
+  if ( *BW::BWDATA_gwGameMode == BW::GAME_GLUES )
     BWAPI::BroodwarImpl.onMenuFrame();
 
   // NOSOUND config option

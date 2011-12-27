@@ -136,6 +136,8 @@ namespace BWAPI
 
       void setParticipating(bool isParticipating = true);
       void resetResources();
+
+      bool wasSeenByBWAPIPlayer;
     private :
       int id;
       u8 index;  /**< Order of the player, is used to load player's information from the memory */

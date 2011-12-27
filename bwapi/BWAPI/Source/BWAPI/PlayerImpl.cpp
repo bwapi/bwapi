@@ -20,6 +20,7 @@ namespace BWAPI
       , id(-1)
       , self(&data)
       , force(NULL)
+      , wasSeenByBWAPIPlayer(false)
   {
     MemZero(data);
     resetResources();
@@ -99,6 +100,18 @@ namespace BWAPI
   //--------------------------------------------- GET RACE ---------------------------------------------------
   BWAPI::Race PlayerImpl::getRace() const
   {
+    BroodwarImpl.setLastError(Errors::None);
+    Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
+    if (  rlast != Races::Zerg    &&
+          rlast != Races::Terran  &&
+          rlast != Races::Protoss &&
+          !wasSeenByBWAPIPlayer   && 
+          !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
+    {
+      BroodwarImpl.setLastError(Errors::Access_Denied);
+      return Races::Unknown;
+    }
+    //@TODO INCORRECT with our Race type values
     return BWAPI::Race((int)(BW::BWDATA_Players[index].nRace));
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
@@ -267,6 +280,8 @@ namespace BWAPI
     }
     else
     {
+      this->wasSeenByBWAPIPlayer = true;
+
       // set resources
       self->minerals           = BW::BWDATA_PlayerResources->minerals[index];
       self->gas                = BW::BWDATA_PlayerResources->gas[index];
@@ -392,6 +407,7 @@ namespace BWAPI
   {
     this->units.clear();
     self->leftGame = false;
+    this->wasSeenByBWAPIPlayer = false;
   }
   void PlayerImpl::setParticipating(bool isParticipating)
   {
