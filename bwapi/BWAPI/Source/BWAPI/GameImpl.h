@@ -253,7 +253,7 @@ namespace BWAPI
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void loadAutoMenuData();
       void onMenuFrame();
-      PlayerImpl* players[12];
+      PlayerImpl *_getPlayer(int id);
       void pressKey(int key);
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
@@ -329,7 +329,6 @@ namespace BWAPI
 
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
       bool isTournamentCall;
-      AIModule *tournamentAI;
       const GameData* getGameData() const;
       GameData* data;
       
@@ -338,10 +337,16 @@ namespace BWAPI
       Unit *_unitFromIndex(int index);
 
       int  commandOptimizerLevel;
-    private :
+
       HMODULE hAIModule;
+      AIModule *client;
+
       HMODULE hTournamentModule;
+      AIModule *tournamentAI;
+    private :
       Map map;
+
+      PlayerImpl *players[PLAYER_COUNT];
 
       std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
       std::set<BWAPI::UnitImpl*> dyingUnits; //units leaving aliveUnits set on current frame
@@ -388,7 +393,6 @@ namespace BWAPI
        */
       std::string savedMapHash;
       bool flags[BWAPI::Flag::Max];
-      AIModule          *client;
       TournamentModule  *tournamentController;
       bool              bTournamentMessageAppeared;
       BWAPI::Error lastError;
