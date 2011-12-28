@@ -469,7 +469,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\GameBullets.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\GameCommands.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Source\BWAPI\GameDrawing.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\GameEvents.cpp"
 					>
 				</File>
 				<File
@@ -481,7 +493,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Source\BWAPI\GameMenu.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\Shared\GameShared.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Source\BWAPI\GameUnits.cpp"
 					>
 				</File>
 				<File

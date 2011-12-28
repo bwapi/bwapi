@@ -33,16 +33,12 @@ namespace BWAPI
     RegionImpl(int id);
     ~RegionImpl();
     void UpdateRegionRelations();
-    void AddPoint(int x, int y);
-    std::vector<BWAPI::Position> &getSimplePolygon();
-    void SimplifyPolygon();
     RegionData *getData();
   private:
     RegionData data;
     RegionData *self;
     
     std::set<BWAPI::Region*> neighbors;
-    std::vector<BWAPI::Position> polygon;
     BWAPI::Region *closestAccessibleRgn;
     BWAPI::Region *closestInaccessibleRgn;
   };

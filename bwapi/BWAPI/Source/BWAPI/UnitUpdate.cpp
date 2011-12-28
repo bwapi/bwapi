@@ -214,7 +214,12 @@ namespace BWAPI
       self->isAttackFrame = false;
       if ( o->sprite && o->sprite->mainGraphic )
       { 
-        self->isAttackFrame = startingAttack || (self->isAttacking && AttackAnimationRestFrame[_getType]!=10000 && (o->sprite->mainGraphic->frameSet!=AttackAnimationRestFrame[_getType] || lastFrameSet != AttackAnimationRestFrame[_getType]));
+        int restFrame = (_getType >= 0 && _getType < BW::UnitID::MAX) ? AttackAnimationRestFrame[_getType] : -1;
+        self->isAttackFrame = startingAttack || 
+                             (self->isAttacking && 
+                              restFrame != -1 && 
+                              (o->sprite->mainGraphic->frameSet != restFrame || 
+                              lastFrameSet != restFrame) );
         lastFrameSet = o->sprite->mainGraphic->frameSet;
       }
 
@@ -615,9 +620,9 @@ namespace BWAPI
       self->hasNuke               = false;                //hasNuke
       self->isHallucination       = false;                //isHallucination
     }
-    if (self->order >= 0)
+    if ( self->order >= 0 && self->order < BW::OrderID::MAX )
       self->order = BWtoBWAPI_Order[self->order];
-    if (self->secondaryOrder >= 0)
+    if ( self->secondaryOrder >= 0 && self->secondaryOrder < BW::OrderID::MAX )
       self->secondaryOrder = BWtoBWAPI_Order[self->secondaryOrder];
   }
 }

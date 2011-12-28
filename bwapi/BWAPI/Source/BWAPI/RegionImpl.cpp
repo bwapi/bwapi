@@ -36,7 +36,6 @@ namespace BWAPI
     self->id  = id;
     r->unk_28 = (u32)this;
     
-    this->polygon.clear();
     this->closestAccessibleRgn    = NULL;
     this->closestInaccessibleRgn  = NULL;
   }
@@ -85,53 +84,6 @@ namespace BWAPI
   }
   RegionImpl::~RegionImpl()
   {
-  }
-  void RegionImpl::AddPoint(int x, int y)
-  {
-    this->polygon.push_back(BWAPI::Position(x,y));
-  }
-  std::vector<BWAPI::Position> &RegionImpl::getSimplePolygon()
-  {
-    return this->polygon;
-  }
-  void RegionImpl::SimplifyPolygon()
-  {
-    BWAPI::Position first;
-    if ( this->polygon.size() < 3 )
-      return;
-
-    int type = 0;
-    std::vector<BWAPI::Position>::iterator i = this->polygon.begin();
-    while ( i != this->polygon.end() )
-    {
-      if ( i == this->polygon.begin() )
-      {
-        first = *i;
-        ++i;
-        continue;
-      }
-      if ( i + 1 != this->polygon.end() )
-      {
-        if ( (type == 0 || type == 1) && first.x() == (i+1)->x() && first.x() == i->x() )
-        {
-          i = this->polygon.erase(i);
-          type = 1;
-        }
-        else if ( (type == 0 || type == 2) && first.y() == (i+1)->y() && first.y() == i->y() )
-        {
-          i = this->polygon.erase(i);
-          type = 2;
-        }
-        else
-        {
-          type = 0;
-          first = *i;
-          ++i;
-        }
-      }
-      else
-        break;
-    }
   }
   RegionData *RegionImpl::getData()
   {
