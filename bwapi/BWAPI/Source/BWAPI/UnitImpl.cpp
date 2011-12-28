@@ -161,11 +161,11 @@ namespace BWAPI
     if (this->isVisible())
       return true;
     //if we get here, the unit exists but is not visible
-    if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
+    if ( BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
       return true;
     /* neutral units visible during AIModule::onStart */
-    if (Broodwar->getFrameCount() == 0)
-      if (this->_getType.isNeutral() || this->_getPlayer->isNeutral())
+    if ( Broodwar->getFrameCount() == 0 )
+      if (this->_getType.isNeutral() || (this->_getPlayer && this->_getPlayer->isNeutral()) )
         return true;
     return false;
   }

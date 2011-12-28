@@ -31,8 +31,8 @@ void __declspec(naked) _repairHook()
 {
   SAVE_REGISTERS();
 
-  BWAPI::BroodwarImpl.players[d_eaxSave]->_repairedMinerals += d_ebxSave;
-  BWAPI::BroodwarImpl.players[d_eaxSave]->_repairedGas      += d_ediSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave)->_repairedMinerals += d_ebxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave)->_repairedGas      += d_ediSave;
 
   LOAD_REGISTERS();
   __asm
@@ -46,7 +46,7 @@ void __declspec(naked) _repairHook()
 void __declspec(naked) _refundMineralsHook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_ecxSave/4]->_refundedMinerals += d_eaxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_ecxSave/4)->_refundedMinerals += d_eaxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -61,7 +61,7 @@ void __declspec(naked) _refundMineralsHook()
 void __declspec(naked) _refundGasHook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_ecxSave/4]->_refundedGas += d_eaxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_ecxSave/4)->_refundedGas += d_eaxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -76,8 +76,8 @@ void __declspec(naked) _refundGasHook()
 void __declspec(naked) _refundMinAndGas2Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_eaxSave/4]->_refundedMinerals += d_edxSave;
-  BWAPI::BroodwarImpl.players[d_eaxSave/4]->_refundedGas += d_ecxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave/4)->_refundedMinerals += d_edxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave/4)->_refundedGas += d_ecxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -93,7 +93,7 @@ void __declspec(naked) _refundMinAndGas2Hook()
 void __declspec(naked) _refundMin3Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_ecxSave/4]->_refundedMinerals += d_eaxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_ecxSave/4)->_refundedMinerals += d_eaxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -108,7 +108,7 @@ void __declspec(naked) _refundMin3Hook()
 void __declspec(naked) _refundGas3Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_ecxSave/4]->_refundedGas += d_eaxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_ecxSave/4)->_refundedGas += d_eaxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -123,7 +123,7 @@ void __declspec(naked) _refundGas3Hook()
 void __declspec(naked) _refundMin4Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_esiSave]->_refundedMinerals += d_edxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_esiSave)->_refundedMinerals += d_edxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -139,7 +139,7 @@ void __declspec(naked) _refundMin4Hook()
 void __declspec(naked) _refundGas4Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_esiSave]->_refundedGas += d_edxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_esiSave)->_refundedGas += d_edxSave;
 
   LOAD_REGISTERS();
   __asm
@@ -153,8 +153,8 @@ void __declspec(naked) _refundGas4Hook()
 void __declspec(naked) _refundMinAndGas5Hook()
 {
   SAVE_REGISTERS();
-  BWAPI::BroodwarImpl.players[d_eaxSave/4]->_refundedMinerals += d_esiSave;
-  BWAPI::BroodwarImpl.players[d_eaxSave/4]->_refundedGas += d_ecxSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave/4)->_refundedMinerals += d_esiSave;
+  BWAPI::BroodwarImpl._getPlayer(d_eaxSave/4)->_refundedGas += d_ecxSave;
 
   LOAD_REGISTERS();
   __asm

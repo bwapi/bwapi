@@ -1727,10 +1727,10 @@ namespace BWAPI
     else
     {
       /* Get the current player */
-      if ( !this->players[*BW::BWDATA_g_LocalHumanID] )
+      if ( !this->_getPlayer(*BW::BWDATA_g_LocalHumanID) )
         return;
 
-      this->BWAPIPlayer = this->players[*BW::BWDATA_g_LocalHumanID];
+      this->BWAPIPlayer = this->_getPlayer(*BW::BWDATA_g_LocalHumanID);
       /* find the opponent player */
       for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
       {
@@ -2744,6 +2744,13 @@ namespace BWAPI
         }
       }
     }
+  }
+  //------------------------------------------- GET PLAYER INTERNAL ------------------------------------------
+  PlayerImpl *GameImpl::_getPlayer(int id)
+  {
+    if ( id < 0 || id >= PLAYER_COUNT )
+      return players[PLAYER_COUNT - 1];
+    return players[id];
   }
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   std::set<Unit*> selectedU;
