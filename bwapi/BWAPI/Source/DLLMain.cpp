@@ -5,6 +5,8 @@
 #include <Util/Gnu.h>
 #include <Util/Foreach.h>
 
+#include <BWAPI.h>
+
 #include "../../svnrev.h"
 
 #include "BW/Offsets.h"

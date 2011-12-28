@@ -1,4 +1,6 @@
 #pragma once
+#include "BWtoBWAPI.h"
+
 #include <BW/OrderID.h>
 #include <BW/UnitID.h>
 
@@ -6,11 +8,11 @@
 
 namespace BWAPI
 {
-  int BWtoBWAPI_Order[191];
-  int AttackAnimationRestFrame[234];
+  int BWtoBWAPI_Order[BW::OrderID::MAX];
+  int AttackAnimationRestFrame[BW::UnitID::MAX];
   void BWtoBWAPI_init()
   {
-    for(int i = 0; i < 191; ++i)
+    for(int i = 0; i < BW::OrderID::MAX; ++i)
       BWtoBWAPI_Order[i] = i;
 
     BWtoBWAPI_Order[BW::OrderID::ReaverStop]  = BW::OrderID::Stop;
@@ -54,7 +56,7 @@ namespace BWAPI
     BWtoBWAPI_Order[BW::OrderID::ResetCollision2] = BW::OrderID::ResetCollision1;
     BWtoBWAPI_Order[BW::OrderID::NukePaint]       = BW::OrderID::NukeGround;
 
-    for(int i = 0; i < 234; ++i)
+    for(int i = 0; i < BW::UnitID::MAX; ++i)
       AttackAnimationRestFrame[i] = 10000;
 
     AttackAnimationRestFrame[BW::UnitID::Terran_Marine]             = 34;

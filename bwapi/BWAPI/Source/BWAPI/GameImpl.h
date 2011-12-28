@@ -11,33 +11,15 @@ namespace BWAPI { class  BulletImpl; }
 namespace BWAPI { class  Command; }
 namespace BWAPI { class  AIModule; }
 
-#include "BWAPI/Game.h"
-
-#include <vector>
-#include <list>
-#include <map>
-#include <set>
-#include <windows.h>
-#include <winuser.h>
-
-#include <Util/RectangleArray.h>
-#include <Util/Types.h>
-
-#include <BW/OrderTypes.h>
-#include <BW/Offsets.h>
-#include <BWAPI/Latency.h>
-#include <BW/Latency.h>
-#include <BW/Position.h>
-#include <BW/MenuPosition.h>
-
+#include <BWAPI/AIModule.h>
+#include <BWAPI/Game.h>
+#include <BWAPI/Server.h>
 #include <BWAPI/Map.h>
-#include <BWAPI/Flag.h>
-#include <BWAPI/Race.h>
-#include <BWAPI/Region.h>
-#include <BWAPI/Order.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/UpgradeType.h>
-#include "Server.h"
+#include <BWAPI/Client/Shape.h>
+#include <BWAPI/Client/GameData.h>
+
+#include <BW/Dialog.h>
+#include <BW/OrderTypes.h>
 
 /**
  * Everything in the BWAPI library that doesn't map or work directly with the bw
@@ -254,6 +236,7 @@ namespace BWAPI
       void loadAutoMenuData();
       void onMenuFrame();
       PlayerImpl *_getPlayer(int id);
+      int _currentPlayerId();
       void pressKey(int key);
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
@@ -286,7 +269,7 @@ namespace BWAPI
 
       void loadSelected();
       void copyMapToSharedMemory();
-      void moveToSelected();
+      void moveToSelectedUnits();
       void executeCommand(UnitCommand command, bool addCommandToLatComBuffer = true);
       bool addToCommandOptimizer(UnitCommand command);
 

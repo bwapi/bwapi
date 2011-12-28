@@ -576,7 +576,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
         if ( lastHotkey == buffer[2] && (thisHotkeyTime - lastHotkeyTime) < 800 )
         {
           // do center view here
-          BWAPI::BroodwarImpl.moveToSelected();
+          BWAPI::BroodwarImpl.moveToSelectedUnits();
           lastHotkeyTime = 0;
           lastHotkey     = -1;
         }
