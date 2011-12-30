@@ -3,7 +3,6 @@
 #include "BWScriptEmulator.h"
 
 #include "Controller.h"
-#include "Starcraft.h"
 
 #include <BWAPI.h>
 
@@ -575,7 +574,7 @@ void aithread::execute()
         WORD wJmpOffset = this->read<WORD>();
         
         this->saveDebug("\x07", bOpcode, "%3u p_%X", bRandChance, wJmpOffset);
-        if ( LOBYTE(Random()) <= bRandChance )
+        if ( LOBYTE(rand()) <= bRandChance )
           this->dwScriptOffset = wJmpOffset;
         continue;
       }
@@ -1167,9 +1166,12 @@ void aithread::execute()
       this->saveDebug("\x06", bOpcode);
       continue;
     case AISCRIPT::SET_RANDOMSEED:  // COMPLETED
-      dwRandomSeed = this->read<DWORD>();
-      this->saveDebug("\x07", bOpcode, "%X", dwRandomSeed);
-      continue;
+      {
+        DWORD dwRandomSeed = this->read<DWORD>();
+        srand(dwRandomSeed);
+        this->saveDebug("\x07", bOpcode, "%X", dwRandomSeed);
+        continue;
+      }
     case AISCRIPT::IF_OWNED:  // COMPLETED
       {
         UnitType wType = UnitType(this->read<WORD>());

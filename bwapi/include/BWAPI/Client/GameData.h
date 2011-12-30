@@ -27,7 +27,6 @@ namespace BWAPI
   };
   struct GameData
   {
-    GameData() {}
     //revision and debug will stay at the top of struct so they don't move in memory from revision to revision.
     int revision;
     bool isDebug;

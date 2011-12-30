@@ -42,7 +42,7 @@ namespace BWAPI
     if ( serverEnabled )
     {
       // Try to open the game table
-      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, "Global\\bwapi_shared_memory_game_list" );
+      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Global\\bwapi_shared_memory_game_list" );
       DWORD dwFileMapErr = GetLastError();
       if ( gameTableFileHandle )
       {
