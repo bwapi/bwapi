@@ -2,12 +2,11 @@
 #include "BWScriptEmulator.h"
 #include "UType.h"
 #include "OrderID.h"
-#include "Starcraft.h"
 #include "UnitID.h"
 
 UnitProc *getUnitProc(BWAPI::Unit *pUnit)
 {
-  if ( pUnit->getPlayer() != self )
+  if ( !pUnit || pUnit->getPlayer() != self )
     return NULL;
 
   switch ( pUnit->getType() )
@@ -20,29 +19,15 @@ UnitProc *getUnitProc(BWAPI::Unit *pUnit)
   return new UnitProc(pUnit);
 }
 
-UnitProc::UnitProc()
-{ this->Init(); }
-
 UnitProc::UnitProc(Unit *pUnit)
-{ this->Init(pUnit); }
-
-void UnitProc::Init()
-{
-  this->thisUnit        = NULL;
-  this->guardLocation   = Positions::None;
-  this->destLocation    = Positions::None;
-  this->initialized     = false;
-  this->dwState         = 0;
-  this->iEmulatedOrder  = Orders::Guard;
-}
-void UnitProc::Init(Unit *pUnit)
-{
-  this->thisUnit      = pUnit;
-  this->guardLocation = pUnit ? pUnit->getPosition() : Positions::None;
-  this->destLocation  = Positions::None;
-  this->initialized   = false;
-  this->dwState       = 0;
-}
+: thisUnit(pUnit)
+, guardLocation(pUnit ? pUnit->getPosition() : Positions::None)
+, destLocation(Positions::None)
+, initialized(false)
+, dwState(0)
+, iEmulatedOrder(pUnit ? UType(pUnit->getType()).aiIdle() : Orders::Guard)
+, aiCaptain(0)
+{ }
 
 UnitProc::~UnitProc()
 {}
@@ -56,24 +41,35 @@ void UnitProc::EmulateIdleOrder()
   switch ( this->iEmulatedOrder )
   {
   case OrderID::AIPatrol:
-    if ( !thisUnit->isIdle() )
+    if ( thisUnit->isIdle() )
     {
+      // Get the region
       BWAPI::Region *r = thisUnit->getRegion();
       std::vector<BWAPI::Region*> movetoRgnList;
+
+      // iterate all regions neighboring this unit
       for ( std::set<BWAPI::Region*>::const_iterator i = r->getNeighbors().begin(); i != r->getNeighbors().end(); ++i )
       {
-        std::set<BWAPI::Unit*> units = BWAPI::Broodwar->getUnitsInRectangle((*i)->getBoundsLeft(), (*i)->getBoundsTop(), (*i)->getBoundsRight(), (*i)->getBoundsBottom() );
-        for ( std::set<BWAPI::Unit*>::const_iterator u = units.begin(); u != units.end(); ++u )
+        // iterate all our units
+        for ( std::set<BWAPI::Unit*>::const_iterator u = self->getUnits().begin(), 
+              uend = self->getUnits().end(); 
+              u != uend; 
+              ++u )
         {
-          if ( (*u)->getPlayer() != self )
+          UnitType ut = (*u)->getType();
+          if ( !ut.isBuilding() || !(*u)->exists() )  // Ignore non-buildings
             continue;
 
-          movetoRgnList.push_back(*i);
-          break;
-        }
-      }
+          // Save the region if its center is within sight range of the building
+          if ( (*u)->getDistance( (*i)->getCenter() ) <= ut.sightRange() )
+          {
+            movetoRgnList.push_back(*i);
+            break;
+          }
+        }// iterate self units
+      }// iterate regions
       if ( !movetoRgnList.empty() )
-        thisUnit->move(movetoRgnList[Random(0, movetoRgnList.size())]->getCenter());
+        thisUnit->move(movetoRgnList[rand() % movetoRgnList.size()]->getCenter());
     }
     break;
   default:
@@ -81,7 +77,17 @@ void UnitProc::EmulateIdleOrder()
   }
 }
 
+void UnitProc::StandardUnitProc()
+{
+  this->EmulateIdleOrder();
+}
+
 void UnitProc::execute()
 {
-  
+  switch ( this->aiCaptain )
+  {
+  case 0:
+    this->StandardUnitProc();
+    break;
+  }
 }

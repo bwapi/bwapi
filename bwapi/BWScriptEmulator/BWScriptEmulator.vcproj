@@ -197,10 +197,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Starcraft.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\UnitProc.cpp"
 				>
 			</File>
@@ -232,10 +228,6 @@
 			</File>
 			<File
 				RelativePath=".\ScriptThread.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Starcraft.h"
 				>
 			</File>
 			<File

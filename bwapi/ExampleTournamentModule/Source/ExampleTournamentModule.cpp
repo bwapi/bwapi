@@ -164,7 +164,6 @@ bool ExampleTournamentModule::onAction(int actionType, void *parameter)
     }
     // Allow other flags if we add more that don't affect gameplay specifically
     return true;
-  case Tournament::LeaveGame:
   case Tournament::PauseGame:
   case Tournament::RestartGame:
   case Tournament::ResumeGame:
@@ -173,6 +172,7 @@ bool ExampleTournamentModule::onAction(int actionType, void *parameter)
   case Tournament::SetLocalSpeed:
   case Tournament::SetMap:
     return false; // Disallow these actions
+  case Tournament::LeaveGame:
   case Tournament::ChangeRace:
   case Tournament::SetLatCom:
   case Tournament::SetTextSize:

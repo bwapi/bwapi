@@ -4,7 +4,6 @@
 
 #include "ScriptThread.h"
 #include "Controller.h"
-#include "Starcraft.h"
 #include "UnitProc.h"
 
 using namespace BWAPI;
@@ -37,7 +36,6 @@ void BWScriptEmulator::onStart()
   if ( !bw->isMultiplayer() )
     bw->sendText("black sheep wall");
 
-  dwRandomSeed = GetTickCount();
   if ( !self )
     return;
 
@@ -56,8 +54,7 @@ void BWScriptEmulator::onStart()
   else // ( selfRace == Races::Terran )
     AICreateThread("TMCx", sLoc );
 
-  srand(dwRandomSeed);
-  dwLastRandom = dwRandomSeed;
+  srand(GetTickCount());
 }
 
 void BWScriptEmulator::onEnd(bool isWinner)
@@ -80,7 +77,8 @@ void BWScriptEmulator::onFrame()
     if ( !u || !u->exists() )
       continue;
     UnitProc *proc = (UnitProc*)u->getClientInfo();
-    proc->execute();
+    if ( proc )
+      proc->execute();
   }
 /*
   for ( std::vector<spell>::iterator i = spellsCast.begin(); i != spellsCast.end(); ++i )
