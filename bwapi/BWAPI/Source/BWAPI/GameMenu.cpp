@@ -165,11 +165,14 @@ namespace BWAPI
       case BW::Race::Random:
         r = Races::Random;
         break;
+      case BW::Race::None:
+        break;
       default:
         r = Races::Unknown;
         break;
       }
-      lastKnownRaceBeforeStart[i] = r;
+      if ( _r != BW::Race::None )
+        lastKnownRaceBeforeStart[i] = r;
     }
 
     events.push_back(Event::MenuFrame());
@@ -486,16 +489,21 @@ namespace BWAPI
   //-------------------------------------------- GET LOBBY RACE ----------------------------------------------
   int GameImpl::_getLobbyRace(int slot)
   {
-    BW::dialog *custom = BW::FindDialogGlobal("Create");
-    if ( custom )
+    if ( !this->isMultiplayer() )
     {
-      // Get single player race
-      BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
-      if ( slotCtrl )
-        return slotCtrl->getSelectedValue();
+      BW::dialog *custom = BW::FindDialogGlobal("Create");
+      if ( custom )
+      {
+        // Get single player race
+        BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
+        if ( slotCtrl )
+          return slotCtrl->getSelectedValue();
+      }
     }
-    else
+    else if ( *BW::BWDATA_glGluesMode == BW::GLUE_CHAT )
+    {
       return BW::BWDATA_Players[slot].nRace;
+    }
     return BW::Race::None;
   }
 }
