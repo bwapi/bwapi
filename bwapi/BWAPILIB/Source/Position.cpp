@@ -117,7 +117,7 @@ namespace BWAPI
     unsigned int min = abs(_x - position.x());
     unsigned int max = abs(_y - position.y());
     if ( max < min )
-      std::swap<unsigned int>(min,max);
+      std::swap(min,max);
 
     if ( min < (max >> 2) )
       return max;
