@@ -101,7 +101,7 @@ namespace BWAPI
   BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
+    /*Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
     if (  rlast != Races::Zerg    &&
           rlast != Races::Terran  &&
           rlast != Races::Protoss &&
@@ -110,7 +110,7 @@ namespace BWAPI
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
       return Races::Unknown;
-    }
+    }*/
     //@TODO INCORRECT with our Race type values
     return BWAPI::Race((int)(BW::BWDATA_Players[index].nRace));
   }

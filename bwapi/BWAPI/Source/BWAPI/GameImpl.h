@@ -326,10 +326,10 @@ namespace BWAPI
 
       HMODULE hTournamentModule;
       AIModule *tournamentAI;
-    private :
-      Map map;
 
       PlayerImpl *players[PLAYER_COUNT];
+    private :
+      Map map;
 
       std::set<BWAPI::UnitImpl*> aliveUnits; //units alive on current frame
       std::set<BWAPI::UnitImpl*> dyingUnits; //units leaving aliveUnits set on current frame
