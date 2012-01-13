@@ -384,6 +384,14 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   if ( *BW::BWDATA_gwGameMode == BW::GAME_GLUES )
     BWAPI::BroodwarImpl.onMenuFrame();
 
+  BW::dialog *timeout = BW::FindDialogGlobal("TimeOut");
+  if ( timeout )
+  {
+    BW::dialog *dropbtn = timeout->findIndex(2);
+    if ( !dropbtn->isDisabled() )
+      BWAPI::BroodwarImpl.dropPlayers();
+  }
+
   // NOSOUND config option
   if ( !nosound )
   {

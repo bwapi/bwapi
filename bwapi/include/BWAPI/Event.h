@@ -22,6 +22,7 @@ namespace BWAPI
       static Event SendText(const char* text = NULL);
       static Event ReceiveText(Player* player, const char* text = NULL);
       static Event PlayerLeft(Player* player);
+      static Event PlayerDropped(Player* player);
       static Event NukeDetect(Position target);
       static Event UnitDiscover(Unit* unit);
       static Event UnitEvade(Unit* unit);

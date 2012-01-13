@@ -144,6 +144,7 @@ namespace BWAPI
 
     /* Clear our sets */
     this->startLocations.clear();
+    this->droppedPlayers.clear();
     this->playerSet.clear();
     foreach(Force* f, forces)
       delete ((ForceImpl*)f);
@@ -440,6 +441,17 @@ namespace BWAPI
         if (!prevLeftGame && this->players[i]->leftGame())
           events.push_back(Event::PlayerLeft((Player*)this->players[i]));
       }
+
+      // Run through dropped players
+      for ( std::vector<PlayerImpl*>::iterator i = this->droppedPlayers.begin(),
+            iend = this->droppedPlayers.end();
+            i != iend;
+            ++i )
+      {
+        events.push_back(Event::PlayerDropped((Player*)(*i)));
+      }
+      this->droppedPlayers.clear();
+
       //update properties of Unit and Bullet objects
       this->updateUnits();
       this->updateBullets();
@@ -1151,6 +1163,7 @@ namespace BWAPI
     foreach(Force* f, forces)
       delete ((ForceImpl*)f);
     forces.clear();
+    droppedPlayers.clear();
     playerSet.clear();
     minerals.clear();
     geysers.clear();
@@ -1315,6 +1328,10 @@ namespace BWAPI
       break;
     case EventType::UnitComplete:
       module->onUnitComplete(e.getUnit());
+      break;
+    case EventType::PlayerDropped:
+      if ( BroodwarImpl.isTournamentCall )
+        module->onPlayerDropped(e.getPlayer());
       break;
     default:
       break;

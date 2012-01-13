@@ -42,6 +42,8 @@ namespace BWAPI
   { }
   void AIModule::onUnitComplete(BWAPI::Unit *unit)
   { }
+  void AIModule::onPlayerDropped(Player *player)
+  { }
 
   TournamentModule::TournamentModule()
   { }

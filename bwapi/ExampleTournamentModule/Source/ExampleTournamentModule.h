@@ -1,8 +1,8 @@
 #pragma once
 #include <BWAPI.h>
 
-#define TOURNAMENT_NAME "AIIDE 2011"
-#define SPONSORS "the BWAPI Project Team"
+#define TOURNAMENT_NAME "the BWAPI 2012 Winter Tournament"
+#define SPONSORS "Blizzard Entertainment and Heinermann"
 #define MINIMUM_COMMAND_OPTIMIZATION 1
 
 class ExampleTournamentModule : public BWAPI::TournamentModule
@@ -30,4 +30,6 @@ public:
   virtual void onUnitMorph(BWAPI::Unit* unit);
   virtual void onUnitRenegade(BWAPI::Unit* unit);
   virtual void onSaveGame(std::string gameName);
+  virtual void onUnitComplete(BWAPI::Unit *unit);
+  virtual void onPlayerDropped(BWAPI::Player* player);
 };
