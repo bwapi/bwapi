@@ -47,7 +47,7 @@ namespace BWAPI
     void swapIfLarger(_T &smaller, _T &larger)
     {
       if ( smaller > larger )
-        std::swap<_T>(smaller, larger);
+        std::swap(smaller, larger);
     }
     //-------------------------------------------- UNIT FINDER -----------------------------------------------
     template <class finder>

@@ -17,6 +17,7 @@
 #include <BWAPI/BulletImpl.h>
 
 #include <BW/Bullet.h>
+#include <BW/Offsets.h>
 
 #include "../../Debug.h"
 
@@ -128,6 +129,21 @@ namespace BWAPI
         BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i]);
         u->setSelected(true);
         selectedUnitSet.insert(u);
+      }
+    }
+  }
+  void GameImpl::dropPlayers()
+  {
+    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      if ( BW::BWDATA_playerStatusArray[i] & 0x10000 )
+      {
+        int iplr = this->stormIdToPlayerId(i);
+        if ( iplr != -1 && iplr != (int)*BW::BWDATA_g_LocalHumanID )
+        {
+          this->droppedPlayers.push_back(this->players[iplr]);
+          SNetDropPlayer(i, 0x40000006);
+        }
       }
     }
   }

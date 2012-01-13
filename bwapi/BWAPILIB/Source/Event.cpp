@@ -103,6 +103,13 @@ namespace BWAPI
     e.player = player;
     return e;
   }
+  Event Event::PlayerDropped(Player* player)
+  {
+    Event e;
+    e.type   = EventType::PlayerDropped;
+    e.player = player;
+    return e;
+  }
   Event Event::NukeDetect(Position target)
   {
     Event e;

@@ -133,6 +133,7 @@ namespace BW
   static swishTimer *BWDATA_gluChatSwishController  = (swishTimer*)0x0051A490;   // count: 5
 
 
+  static u32    *BWDATA_playerStatusArray   = (u32*)      0x0057F0B8;
   /** QueueGameCommand data */
   static u32    *BWDATA_sgdwBytesInCmdQueue = (u32*)      0x00654AA0;
   static u8     *BWDATA_TurnBuffer          = (u8*)       0x00654880;

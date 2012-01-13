@@ -473,6 +473,9 @@ namespace BWAPI
       case EventType::UnitComplete:
         BroodwarImpl.tournamentAI->onUnitComplete(e.getUnit());
         break;
+      case EventType::PlayerDropped:
+        BroodwarImpl.tournamentAI->onPlayerDropped(e.getPlayer());
+        break;
       default:
         break;
       }

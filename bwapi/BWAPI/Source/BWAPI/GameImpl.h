@@ -328,6 +328,9 @@ namespace BWAPI
       AIModule *tournamentAI;
 
       PlayerImpl *players[PLAYER_COUNT];
+
+      void dropPlayers();
+      std::vector<PlayerImpl*> droppedPlayers;
     private :
       Map map;
 

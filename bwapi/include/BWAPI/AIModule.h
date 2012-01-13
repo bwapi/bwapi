@@ -89,6 +89,8 @@ namespace BWAPI
 
       /** */
       virtual void onUnitComplete(Unit *unit);
+
+      virtual void onPlayerDropped(Player *player);
   };
   class TournamentModule
   {
