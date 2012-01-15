@@ -1,3 +1,19 @@
+=======================================
+Changes from BWAPI 3.7.1 to BWAPI 3.7.2
+=======================================
+Changes:
+  * The exception filter now informs of NULL Broodwar pointers when the game crashes, making it more informative.
+  * The exception filter now destroys the direct draw window (if the game crashes in full screen) to make debugging easier.
+  * BWAPI will drop players from the game when the countdown timer reaches 0.
+  * The random race implementation was disabled because it was not working correctly.
+
+Additions:
+  * Added an onPlayerDropped event which is currently only called for the tournament module.
+
+Bug Fixes:
+  * Fixed a bug that caused a crash in a map where extended players were being used.
+  * Fixed an issue where BWAPI would allocate a huge amount of unused shared memory.
+
 =====================================
 Changes from BWAPI 3.7 to BWAPI 3.7.1
 =====================================

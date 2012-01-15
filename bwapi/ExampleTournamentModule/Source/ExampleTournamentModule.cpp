@@ -89,6 +89,14 @@ void ExampleTournamentAI::onSaveGame(std::string gameName)
 {
 }
 
+void ExampleTournamentAI::onUnitComplete(BWAPI::Unit *unit)
+{
+}
+
+void ExampleTournamentAI::onPlayerDropped(BWAPI::Player* player)
+{
+}
+
 // Use some existing Battle.net filters
 const char *pszBadWords[] =
 { 
