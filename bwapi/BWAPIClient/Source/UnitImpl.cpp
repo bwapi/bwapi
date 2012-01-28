@@ -5,7 +5,7 @@
 #include "UnitImpl.h"
 #include "TemplatesImpl.h"
 #include "Command.h"
-#include <Util\Foreach.h>
+#include <Util/Foreach.h>
 
 #include <limits>
 #include <string>

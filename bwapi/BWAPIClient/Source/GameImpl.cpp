@@ -7,8 +7,8 @@
 #include "TemplatesImpl.h"
 #include "BulletImpl.h"
 
-#include <Util\Foreach.h>
-#include <Util\Types.h>
+#include <Util/Foreach.h>
+#include <Util/Types.h>
 #include <string>
 #include <cassert>
 
