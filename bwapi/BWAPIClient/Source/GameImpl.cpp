@@ -141,7 +141,7 @@ namespace BWAPI
     inGame = true;
 
     //load forces, players, and initial units from shared memory
-    for(int i = 0; i < data->forceCount; ++i)
+    for(int i = 1; i < data->forceCount; ++i)
       forces.insert(&forceVector[i]);
     for(int i = 0; i < data->playerCount; ++i)
       playerSet.insert(&playerVector[i]);
