@@ -33,12 +33,31 @@ DWORD dwLastTickCount;
 bool testunload;
 void DevAIModule::onFrame()
 {
-  if ( bw->isReplay() )
-    return;
+	if ( bw->isReplay() )
+		return;
 
-  int tFPS = bw->getFPS();
-  if ( tFPS > bestFPS )
-    bestFPS = tFPS;
+	int tFPS = bw->getFPS();
+	if ( tFPS > bestFPS )
+		bestFPS = tFPS;
+
+	for ( std::set<Unit*>::const_iterator i = self->getUnits().begin(); i != self->getUnits().end(); ++i )
+	{
+		UnitType utype = (*i)->getType();
+		if ( utype.isBuilding() )
+		{
+			// draw radius
+			Position pos = (*i)->getPosition();
+			bw->drawEllipseMap(pos.x(), pos.y(), 320 + (utype.dimensionLeft() + 1 + utype.dimensionRight()) / 2, 320 + (utype.dimensionUp() + 1 + utype.dimensionDown()) / 2, Colors::Green);
+			
+			// draw line to each in radius
+			std::set<Unit*> radiusSet = (*i)->getUnitsInRadius(320);
+			for ( std::set<Unit*>::iterator u = radiusSet.begin(); u != radiusSet.end(); ++u )
+			{
+				Position targPos = (*u)->getPosition();
+				bw->drawLineMap(pos.x(), pos.y(), targPos.x(), targPos.y(), Colors::Yellow);
+			}
+		}
+	}
 }
 
 void DevAIModule::onSendText(std::string text)

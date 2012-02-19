@@ -341,6 +341,7 @@ namespace BWAPI
       i++;
     }
     //static force data
+	data->forces[0].name[0] = 0;
     foreach(Force *i, Broodwar->getForces())
     {
       int id = getForceID(i);
