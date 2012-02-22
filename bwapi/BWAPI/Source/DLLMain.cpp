@@ -142,8 +142,7 @@ void CheckVersion()
   GetCurrentProductVersion(w1, w2, w3, w4);
   if (  w1 != SC_VER_1 ||
         w2 != SC_VER_2 ||
-        w3 != SC_VER_3 ||
-        w4 != SC_VER_4 )
+        w3 != SC_VER_3 )
   {
     isCorrectVersion = false;
     MessageBox(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will attempt to continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
