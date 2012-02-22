@@ -241,7 +241,7 @@ namespace BW
   static u16            *BWDATA_gwGameMode     = (u16*) 0x00596904; // BW::GamePosition
   static u32            *BWDATA_glGluesMode    = (u32*) 0x006D11BC; // BW::MenuPosition
 
-  static u32 *BWDATA_g_LocalHumanID = (u32*) 0x00512688;
+  static int *BWDATA_g_LocalHumanID = (int*) 0x00512688;
 
   static void **BWDATA_customList_UIDlgData = (void**)0x0051A350;
 
