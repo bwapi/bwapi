@@ -290,7 +290,7 @@ namespace BWAPI
     {
       if ( BWAPIPlayer )
       {
-        rn_BWAPIName = BWAPIPlayer->getName().substr(0, 6);
+        rn_BWAPIName = BWAPIPlayer->getName();
         rn_BWAPIRace = BWAPIPlayer->getRace().getName().substr(0, 1);
       }
       rn_MapName   = mapName().substr(0, 16);
@@ -1102,6 +1102,7 @@ namespace BWAPI
       SetEnvironmentVariable("MILLISECOND", szBuf);
 
       SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
+	  SetEnvironmentVariable("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
       SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
       SetEnvironmentVariable("MAP",        rn_MapName.c_str());
       SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
