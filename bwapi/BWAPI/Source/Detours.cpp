@@ -42,6 +42,12 @@ HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWO
 HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
 
+//------------------------------------------------ TRIGGERS --------------------------------------------------
+void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
+{
+  dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[*BW::BWDATA_GameSpeed];
+  BW::BWFXN_ExecuteGameTriggers(dwMillisecondsPerFrame);
+}
 bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 {
@@ -158,7 +164,7 @@ HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData
 }
 void setReplayName(char *pOutFilename, const char *pInFileName)
 {
-  if ( /*!BWAPI::BroodwarImpl.outOfGame &&*/ strstr(pInFileName, "LastReplay.rep") )
+  if ( strstr(pInFileName, "LastReplay.rep") )
   {
     if ( gszDesiredReplayName[0] )
       strcpy(pOutFilename, gszDesiredReplayName);

@@ -1261,7 +1261,7 @@ namespace BWAPI
   }
   int UnitTypes::maxUnitHeight()
   {
-    return maxWidth;
+    return maxHeight;
   }
 
 }

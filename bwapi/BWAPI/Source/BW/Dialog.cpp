@@ -306,7 +306,7 @@ namespace BW
         bool rval = dlg->defaultInteract(evt);
         //delete dlg;
         //if ( strcmpi(dlg->getText(), "Test Dialog") == 0)
-        BWAPI::BroodwarImpl.myDlg = NULL;
+        //BWAPI::BroodwarImpl.myDlg = NULL;
         return rval;
         }
       }

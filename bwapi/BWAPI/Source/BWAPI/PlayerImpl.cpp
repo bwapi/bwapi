@@ -148,8 +148,9 @@ namespace BWAPI
   {
     /* error checking */
     BroodwarImpl.setLastError(Errors::None);
-    if ( this->isNeutral() )
+    if ( BW::BWDATA_startPositions[index] == BW::Position(0,0) )
       return TilePositions::None;
+
     if ( !BroodwarImpl._isReplay() &&
          BroodwarImpl.self()->isEnemy((Player*)this) &&
          !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )

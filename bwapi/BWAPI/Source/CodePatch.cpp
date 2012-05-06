@@ -23,6 +23,7 @@ void ApplyCodePatches()
   {
     // Create function-level hooks
     HackUtil::CallPatch(BW::BWFXN_P_IsGamePaused, &_nextFrameHook);
+    HackUtil::CallPatch(BW::BWDATA_ExecuteGameTrigsCallPatch, &ExecuteGameTriggers);
     HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
     HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_repairHook);
     HackUtil::JmpPatch(BW::BWFXN_RefundMinerals, &_refundMineralsHook);
