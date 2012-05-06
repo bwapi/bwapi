@@ -148,7 +148,6 @@ namespace BWAPI
   {
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame        = false;
-    this->outOfGame     = true;
 
     // Get races so we can catch random
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )

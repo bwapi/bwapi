@@ -132,7 +132,8 @@ namespace BWAPI
   int GameImpl::addString(const char* text)
   {
     assert(data->stringCount < GameData::MAX_STRINGS);
-    strncpy(data->strings[data->stringCount], text, 256);
+    strncpy(data->strings[data->stringCount], text, 255);
+    data->strings[data->stringCount][255] = '\0';
     return data->stringCount++;
   }
   int GameImpl::addText(BWAPIC::Shape &s, const char* text)

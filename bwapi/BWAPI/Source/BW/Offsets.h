@@ -447,6 +447,9 @@ namespace BW
 
   static bool (__fastcall **BWDATA_TriggerActionFxnTable)(BW::Triggers::Action*) = (bool(__fastcall**)(BW::Triggers::Action*))0x00512800;
 
+  static void (__stdcall *BWFXN_ExecuteGameTriggers)(DWORD dwMillisecondsPerFrame) = (void(__stdcall*)(DWORD))0x0048A460;
+  static u32 BWDATA_ExecuteGameTrigsCallPatch = 0x004D9798;
+
   const char            *GetStatString(int index);
   extern char           *BWDATA_StringTableOff;
 

@@ -15,6 +15,8 @@
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/BulletImpl.h>
+#include <BWAPI/RegionImpl.h>
+#include <BWAPI/Command.h>
 
 #include <BW/Bullet.h>
 #include <BW/Offsets.h>
@@ -34,48 +36,27 @@ namespace BWAPI
   GameImpl::GameImpl()
       : onStartCalled(false)
       , unitsOnTileData(0, 0)
-      , enabled(true)
       , client(NULL)
-      , startedClient(false)
       , inGame(false)
-      , frameCount(-1)
       , endTick(0)
       , pathDebug(false)
       , unitDebug(false)
       , grid(false)
-      , wantSelectionUpdate(false)
       , calledMatchEnd(false)
-      , autoMapTryCount(0)
-      , outOfGame(true)
       , lastAutoMapEntry(0)
       , tournamentAI(NULL)
       , tournamentController(NULL)
       , isTournamentCall(false)
-      , commandOptimizerLevel(0)
       , lastEventTime(0)
       , data(server.data)
-      , BWAPIPlayer(NULL)
-      , enemyPlayer(NULL)
-      , bulletCount(0)
-      , myDlg(NULL)
       , bTournamentMessageAppeared(false)
       , autoMenuEnemyCount(0)
       , autoMenuMinPlayerCount(0)
       , autoMenuMaxPlayerCount(0)
       , autoMenuWaitPlayerTime(0)
-      , accumulatedFrames(0)
-      , fps(0)
-      , averageFPS(0)
-      , botAPM_selects(0)
-      , botAPM_noselects(0)
-      , botAPMCounter_selects(0)
-      , botAPMCounter_noselects(0)
-      , textSize(1)
       , externalModuleConnected(false)
+      , isHost(false)
   {
-    MemZero(savedUnitSelection);
-    MemZero(flags);
-
     BWAPI::Broodwar = static_cast<Game*>(this);
 
     BWtoBWAPI_init();
@@ -97,8 +78,7 @@ namespace BWAPI
     {
       BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
     }
-    srand(GetTickCount());
-    gszDesiredReplayName[0] = 0;
+    this->initializeData();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
@@ -284,40 +264,6 @@ namespace BWAPI
       printf("latency: %d", getLatency());
       printf("New latency: %u frames; %ums", getLatencyFrames(), getLatencyTime());
     }
-    else if (parsed[0] == "/dlgdebug")
-    {
-      if ( !myDlg )
-      {
-        // Create the dialog window
-        myDlg = BW::CreateDialogWindow("Test Dialog", 100, 100, 300, 200);
-
-        // Add additional controls to the window
-        BW::dialog *test = new BW::dialog(BW::ctrls::cLIST, 1, "testing123", 12, 16, myDlg->width() - 24, myDlg->height() - 56);
-        myDlg->addControl(test);
-        test->setFlags(CTRL_PLAIN | CTRL_FONT_SMALLEST | CTRL_BTN_NO_SOUND);
-        myDlg->setFlags(CTRL_UPDATE | CTRL_DLG_ACTIVE);
-
-        // Initialize the dialog
-        myDlg->initialize();
-    
-        // Add entries to the combo/list box
-        test->addListEntry("Test");
-        test->addListEntry("Test2");
-        test->addListEntry("Test3");
-        test->addListEntry("Test4");
-        test->addListEntry("Test5");
-        test->addListEntry("Test6");
-        test->addListEntry("Test7");
-        test->addListEntry("Test8");
-        test->addListEntry("Test9");
-        test->addListEntry("Test10");
-        test->addListEntry("Test11");
-        test->addListEntry("Test12");
-        test->addListEntry("Test13");
-        test->addListEntry("Test14");
-        test->setSelectedIndex(test->getListCount()-1);
-      }
-    }
 // The following commands are knockoffs of Starcraft Beta's developer mode
     else if (parsed[0] == "/pathdebug")
     {
@@ -383,6 +329,159 @@ namespace BWAPI
       return allow;
     }
     return true;
+  }
+  void GameImpl::initializeData()
+  {
+    // Set desired replay name to null
+    gszDesiredReplayName[0] = '\0';
+
+    // Destroy the AI Module client
+    if ( this->client )
+      delete this->client;
+    this->client = NULL;
+
+    // Unload the AI Module library
+    if ( hAIModule )
+      FreeLibrary(hAIModule);
+    hAIModule = NULL;
+    
+    this->startedClient = false;
+
+    // Destroy the Tournament Module controller
+    if ( this->tournamentController )
+      delete this->tournamentController;
+    this->tournamentController = NULL;
+
+    // Destroy the Tournament Module AI
+    if ( this->tournamentAI )
+      delete this->tournamentAI;
+    this->tournamentAI         = NULL;
+    
+    // Destroy the Tournament Module Library
+    if ( hTournamentModule )
+      FreeLibrary(hTournamentModule);
+    hTournamentModule = NULL;
+
+    this->bTournamentMessageAppeared = false;
+
+    // Delete forces
+    for ( std::set<Force*>::iterator f = this->forces.begin(); f != this->forces.end(); ++f)
+      delete ((ForceImpl*)(*f));
+    this->forces.clear();
+
+    // Remove player references
+    this->BWAPIPlayer = NULL;
+    this->enemyPlayer = NULL;
+
+    // Set random seed
+    srand(GetTickCount());
+
+    // clear all sets
+    this->aliveUnits.clear();
+    this->dyingUnits.clear();
+    this->discoverUnits.clear();
+    this->accessibleUnits.clear();
+    this->evadeUnits.clear();
+    this->lastEvadedUnits.clear();
+    this->selectedUnitSet.clear();
+    this->startLocations.clear();
+    this->playerSet.clear();
+    this->minerals.clear();
+    this->geysers.clear();
+    this->neutralUnits.clear();
+    this->bullets.clear();
+    this->pylons.clear();
+    this->staticMinerals.clear();
+    this->staticGeysers.clear();
+    this->staticNeutralUnits.clear();
+    this->_allies.clear();
+    this->_enemies.clear();
+    this->_observers.clear();
+    this->invalidIndices.clear();
+
+    // Reset saved selection
+    MemZero(this->savedUnitSelection);
+    this->wantSelectionUpdate = false;
+
+    // Disable all game flags
+    MemZero(flags);
+
+    // Clear the latency buffer
+    for(unsigned int j = 0; j < this->commandBuffer.size(); ++j)
+      for (unsigned int i = 0; i < this->commandBuffer[j].size(); ++i)
+        delete this->commandBuffer[j][i];
+    this->commandBuffer.clear();
+    this->commandBuffer.reserve(16);
+
+    // Clear the command optimization buffer
+    for ( int i = 0; i < UnitCommandTypes::None; ++i )
+      commandOptimizer[i].clear();
+
+    // Delete all dead units
+    for ( std::list<UnitImpl*>::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
+      delete (UnitImpl*)(*d);
+    this->deadUnits.clear();
+
+    // Delete all regions
+    for ( std::set<Region*>::iterator r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
+      delete (RegionImpl*)(*r);
+    this->regionsList.clear();
+
+    // Reset game speeds and text size
+    this->setLocalSpeed();
+    this->setFrameSkip();
+    this->setTextSize();
+    this->setGUI();
+    this->setCommandOptimizationLevel();
+
+    // Reset all Unit objects in the unit array
+    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+    {
+      if ( !unitArray[i] )
+        continue;
+      unitArray[i]->userSelected      = false;
+      unitArray[i]->isAlive           = false;
+      unitArray[i]->wasAlive          = false;
+      unitArray[i]->wasCompleted      = false;
+      unitArray[i]->wasAccessible     = false;
+      unitArray[i]->wasVisible        = false;
+      unitArray[i]->staticInformation = false;
+      unitArray[i]->nukeDetected      = false;
+      unitArray[i]->lastType          = UnitTypes::Unknown;
+      unitArray[i]->lastPlayer        = NULL;
+      unitArray[i]->lastCommandFrame  = 0;
+      unitArray[i]->lastCommand       = UnitCommand();
+      unitArray[i]->clientInfo        = NULL;
+
+      unitArray[i]->setID(-1);
+    }
+    this->cheatFlags  = 0;
+    this->bulletCount = 0;
+    //this->frameCount  = -1;
+    this->frameCount = 0;
+
+    //reload auto menu data (in case the AI set the location of the next map/replay)
+    this->loadAutoMenuData();
+
+    //clear everything in the server
+    this->server.clearAll();
+
+    // clear messages so they are not stored until the next match
+    this->sentMessages.clear();
+
+    // Reset menu activation variables
+    this->actRaceSel      = false;
+    this->actStartedGame  = false;
+    this->autoMapTryCount = 0;
+
+    // Some other variables
+    this->botAPMCounter_selects   = 0;
+    this->botAPMCounter_noselects = 0;
+    this->botAPM_selects = 0;
+    this->botAPM_noselects = 0;
+    this->fps = 0;
+    this->averageFPS = 0;
+    this->accumulatedFrames = 0;
   }
 
 };

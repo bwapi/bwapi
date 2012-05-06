@@ -25,38 +25,17 @@ namespace BWAPI
   //--------------------------------------------- ON GAME START ----------------------------------------------
   void GameImpl::onGameStart()
   {
-    /** This function is called at the start of every match */
-    gszDesiredReplayName[0] = 0;
-
-    // Reset our auto-menu booleans
-    outOfGame       = false;
-    actRaceSel      = false;
-    actStartedGame  = false;
+    this->initializeData();
 
     /* initialize the variables */
-    frameCount      = 0;
-    startTickCount  = GetTickCount();
-    textSize        = 1;
-    onStartCalled   = true;
-    bulletCount     = 0;
-    calledMatchEnd  = false;
-    BWAPIPlayer     = NULL;
-    enemyPlayer     = NULL;
-
-    srand(GetTickCount());
-
-    /* set all the flags to the default of disabled */
-    for (int i = 0; i < Flag::Max; ++i)
-      this->flags[i] = false;
+    this->frameCount      = 0;
+    this->startTickCount  = GetTickCount();
+    this->onStartCalled = true;
+    this->calledMatchEnd = false;
 
     /* load the map data */
     map.load();
     this->savedMapHash = Map::getMapHash();
-
-    // Clear existing regions
-    foreach( BWAPI::Region *r, this->regionsList )
-      delete ((RegionImpl*)r);
-    this->regionsList.clear();
 
     // Obtain Broodwar Regions
     if ( BW::BWDATA_SAIPathing )
@@ -142,14 +121,9 @@ namespace BWAPI
       }
     }
 
-    /* Clear our sets */
-    this->startLocations.clear();
+    // Clear our sets ????
     this->droppedPlayers.clear();
-    this->playerSet.clear();
-    foreach(Force* f, forces)
-      delete ((ForceImpl*)f);
-    this->forces.clear();
-
+    
     /* get pre-race info */
     BYTE bRaceInfo[12] = { 0 };
     BYTE bOwnerInfo[12] = { 0 };
@@ -215,7 +189,6 @@ namespace BWAPI
     }
 
     // Get Player Objects
-    this->server.clearAll();
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
       if ( this->players[i] && 
@@ -226,10 +199,8 @@ namespace BWAPI
         this->playerSet.insert(this->players[i]);
       }
     }
-    _allies.clear();
-    _enemies.clear();
-    _observers.clear();
-    if (BWAPIPlayer)
+
+    if ( this->BWAPIPlayer )
     {
       foreach(Player* p, players)
       {
@@ -278,12 +249,7 @@ namespace BWAPI
     // Resize unitsOnTileData
     SIZE mapSize = { Map::getWidth(), Map::getHeight() };
     this->unitsOnTileData.resize(mapSize.cx, mapSize.cy);
-/*
-    // Reserve vector space for performance
-    for ( int x = 0; x < mapSize.cx; ++x )
-      for ( int y = 0; y < mapSize.cy; ++y )
-        this->unitsOnTileData[x][y].reserve(32);
-*/
+
     this->commandBuffer.reserve(16);
 
     if ( !this->isReplay() )
@@ -315,23 +281,12 @@ namespace BWAPI
         }
       }
     } // !isReplay
-    botAPMCounter_selects   = 0;
-    botAPMCounter_noselects = 0;
   }
   //------------------------------------------------- UPDATE -------------------------------------------------
   void GameImpl::update()
   {
     //this function is called every frame from a hook attached in DllMain.cpp
     this->inGame = true;
-
-#ifdef _DEBUG
-    if ( data->hasGUI )
-    {
-      // menu dialog test update code
-      if ( myDlg )
-        myDlg->update();
-    }
-#endif
 
     // Compute frame rate
     accumulatedFrames++;
@@ -361,9 +316,6 @@ namespace BWAPI
       if ( !onStartCalled )
         this->onGameStart();
       
-      if ( !this->enabled )
-        return;
-
       if ( !this->calledMatchEnd && frameCount > 1 )
       {
         bool win     = false;
@@ -475,11 +427,6 @@ namespace BWAPI
       // Declare typedefs for function pointers
       typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
       typedef TournamentModule* (*PFNCreateTournament)();
-
-      // Initialize Tournament Variables
-      hTournamentModule           = NULL;
-      this->tournamentAI          = NULL;
-      this->tournamentController  = NULL;
 
 #ifndef _DEBUG
       // Load tournament string and module if string exists
@@ -1080,7 +1027,6 @@ namespace BWAPI
     if ( !this->onStartCalled )
       return;
 
-    outOfGame = false;
     if ( autoMenuSaveReplay != "" && !this->isReplay() )
     {
       SYSTEMTIME systemTime;
@@ -1102,7 +1048,7 @@ namespace BWAPI
       SetEnvironmentVariable("MILLISECOND", szBuf);
 
       SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
-	  SetEnvironmentVariable("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
+      SetEnvironmentVariable("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
       SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
       SetEnvironmentVariable("MAP",        rn_MapName.c_str());
       SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
@@ -1131,12 +1077,6 @@ namespace BWAPI
         CreateDirectory(szDirectory, NULL);
     }
 
-#ifdef _DEBUG
-    if ( myDlg )
-      delete myDlg;
-    myDlg = NULL;
-#endif
-
     if ( !this->calledMatchEnd )
     {
       this->calledMatchEnd = true;
@@ -1148,128 +1088,14 @@ namespace BWAPI
       server.update();
     }
 
-    if ( this->client )
-      delete this->client;
-    this->client = NULL;
-    //clear all sets
-    aliveUnits.clear();
-    dyingUnits.clear();
-    discoverUnits.clear();
-    accessibleUnits.clear();
-    evadeUnits.clear();
-    lastEvadedUnits.clear();
-    selectedUnitSet.clear();
-    emptySet.clear();
-    startLocations.clear();
-    foreach(Force* f, forces)
-      delete ((ForceImpl*)f);
-    forces.clear();
-    droppedPlayers.clear();
-    playerSet.clear();
-    minerals.clear();
-    geysers.clear();
-    neutralUnits.clear();
-    bullets.clear();
-    pylons.clear();
-    staticMinerals.clear();
-    staticGeysers.clear();
-    staticNeutralUnits.clear();
-    _allies.clear();
-    _enemies.clear();
-    _observers.clear();
-
-    MemZero(savedUnitSelection);
-    wantSelectionUpdate = false;
-
-    //clear latency buffer
-    for(unsigned int j = 0; j < this->commandBuffer.size(); ++j)
-      for (unsigned int i = 0; i < this->commandBuffer[j].size(); ++i)
-        delete this->commandBuffer[j][i];
-    this->commandBuffer.clear();
-
-    // clear command optimization buffer
-    for ( int i = 0; i < UnitCommandTypes::None; ++i )
-      commandOptimizer[i].clear();
-
-    //remove AI Module from memory (object was already deleted)
-    if ( hAIModule )
-      FreeLibrary(hAIModule);
-    hAIModule = NULL;
-
-    // Unload tournament module
-    this->tournamentController = NULL;
-    this->tournamentAI         = NULL;
-    if ( hTournamentModule )
-      FreeLibrary(hTournamentModule);
-    hTournamentModule = NULL;
-    this->bTournamentMessageAppeared = false;
-
-    this->invalidIndices.clear();
-    this->startedClient = false;
-
-    //delete all dead units
-    foreach (UnitImpl* d, this->deadUnits)
-      delete d;
-    this->deadUnits.clear();
-
-    // delete all regions
-    foreach( BWAPI::Region *r, this->regionsList )
-      delete ((RegionImpl*)r);
-    this->regionsList.clear();
-
     // player-specific game end
     for (int i = 0 ; i < PLAYER_COUNT; ++i)
       if ( this->players[i] )
         this->players[i]->onGameEnd();
-
-    //reset game speeds and text size
-    this->setLocalSpeed();
-    this->setFrameSkip();
-    this->setTextSize();
-
-    //reset all Unit objects in the unit array
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-    {
-      if ( !unitArray[i] )
-        continue;
-      unitArray[i]->userSelected      = false;
-      unitArray[i]->isAlive           = false;
-      unitArray[i]->wasAlive          = false;
-      unitArray[i]->wasCompleted      = false;
-      unitArray[i]->wasAccessible     = false;
-      unitArray[i]->wasVisible        = false;
-      unitArray[i]->staticInformation = false;
-      unitArray[i]->nukeDetected      = false;
-      unitArray[i]->lastType          = UnitTypes::Unknown;
-      unitArray[i]->lastPlayer        = NULL;
-      unitArray[i]->lastCommandFrame  = 0;
-      unitArray[i]->lastCommand       = UnitCommand();
-      unitArray[i]->clientInfo        = NULL;
-
-      unitArray[i]->setID(-1);
-    }
-    this->cheatFlags  = 0;
-    this->bulletCount = 0;
-    this->frameCount  = -1;
-    this->endTick     = GetTickCount();
-
-    //reload auto menu data (in case the AI set the location of the next map/replay)
-    this->loadAutoMenuData();
-
-    //clear everything in the server
-    this->server.clearAll();
-
-    // clear messages so they are not stored until the next match
-    this->sentMessages.clear();
-
-    // Reset menu activation variables
-    actRaceSel      = false;
-    actStartedGame  = false;
-
-    setGUI();
-    commandOptimizerLevel = 0;
-    onStartCalled         = false;
-    autoMapTryCount       = 0;
+    
+    this->endTick = GetTickCount();
+    this->onStartCalled = false;
+    this->initializeData();
   }
   //---------------------------------------------- SEND EVENTS TO CLIENT
   void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)

@@ -33,7 +33,7 @@ namespace BWAPI
     int serverProcID = -1;
     int gameTableIndex = -1;
     gameTable = NULL;
-    gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Global\\bwapi_shared_memory_game_list" );
+    gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Local\\bwapi_shared_memory_game_list" );
     if ( !gameTableFileHandle )
       return false;
     gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
@@ -62,7 +62,7 @@ namespace BWAPI
       return false;
     
     std::stringstream sharedMemoryName;
-    sharedMemoryName << "Global\\bwapi_shared_memory_";
+    sharedMemoryName << "Local\\bwapi_shared_memory_";
     sharedMemoryName << serverProcID;
 
     std::stringstream communicationPipe;

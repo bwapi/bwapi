@@ -42,7 +42,7 @@ namespace BWAPI
     if ( serverEnabled )
     {
       // Try to open the game table
-      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Global\\bwapi_shared_memory_game_list" );
+      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Local\\bwapi_shared_memory_game_list" );
       DWORD dwFileMapErr = GetLastError();
       if ( gameTableFileHandle )
       {
@@ -101,7 +101,7 @@ namespace BWAPI
 
       // Create the share name
       static char szShareName[MAX_PATH] = { 0 };
-      sprintf(szShareName, "Global\\bwapi_shared_memory_%u", processID);
+      sprintf(szShareName, "Local\\bwapi_shared_memory_%u", processID);
 
       /*
       // DEBUG            @TODO: REMOVE

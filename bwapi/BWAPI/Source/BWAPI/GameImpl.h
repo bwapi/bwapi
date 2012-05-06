@@ -232,6 +232,7 @@ namespace BWAPI
       GameImpl();
       ~GameImpl();
 
+      void initializeData();
       void update(); /**< Updates unitArrayCopy according to bw memory */
       void loadAutoMenuData();
       void onMenuFrame();
@@ -258,7 +259,6 @@ namespace BWAPI
       bool inScreen(int ctype, int x1, int y1, int x2, int y2);
       bool inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3);
       void lockFlags();
-      bool enabled;
       bool _isInGame() const;
       bool _isSinglePlayer() const;
       bool _isBattleNet();
@@ -286,12 +286,10 @@ namespace BWAPI
       void onSaveGame(char *name);
       std::list<Event> events;
       int bulletCount;
-      BW::dialog *myDlg;
       Server server;
       std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
       std::string lastMapGen;
-      bool outOfGame;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
       std::string autoMenuGameName;
