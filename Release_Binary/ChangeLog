@@ -1,4 +1,19 @@
 =======================================
+Changes from BWAPI 3.7.1 to BWAPI 3.7.3
+=======================================
+Bug Fixes:
+  * Fixed a bug where UnitTypes::maxUnitHeight was returning the max unit width instead.
+  * Fixed a regression where getUnitsIn functions did not function for non-client AI.
+  * Fixed the client's Game::getForces which included the null force.
+  * Fixed a client bug where Force::getName could return an invalid string.
+  * Fixed an auto_menu bug which prevented Zerg from being selected as a race.
+  * Fixed a bug where BWAPI's version checking was too strict.
+  * Fixed a bug that allowed bots to tell if an opponent had constructed a structure in the fog of war using Game::canBuildHere and Game::isBuildable.
+  * Fixed a bug where drawText with a string over 255 characters could cause an overflow.
+  * Fixed a bug involving some uninitialized game data causing an inconsistency during the first game.
+  * Fixed an issue where shared memory would require high level permissions such as administrator. The permission requirement should now be reduced.
+
+=======================================
 Changes from BWAPI 3.7.1 to BWAPI 3.7.2
 =======================================
 Changes:

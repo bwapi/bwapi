@@ -114,7 +114,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // BWAPI/Broodwar specific
     fprintf(hFile, "BWAPI:\n");
-    fprintf(hFile, "  REVISION: %u\n", BWAPI::BroodwarImpl.getRevision());
+    fprintf(hFile, "  REVISION: %d\n", BWAPI::BroodwarImpl.getRevision());
     fprintf(hFile, "  BUILD: %s\n", BWAPI::BroodwarImpl.isDebug() ? "DEBUG" : "RELEASE");
     fprintf(hFile, "  ERROR: %s\n", BWAPI::BroodwarImpl.getLastError().c_str());
     fprintf(hFile, "  LOCATION: %s %s\n", BWAPI::BroodwarImpl.isMultiplayer() ? (BWAPI::BroodwarImpl.isBattleNet() ? "Battle.net" : "Multiplayer") : "Single Player", BWAPI::BroodwarImpl.isReplay() ? "Replay" : "");
@@ -133,7 +133,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Print the exception info
     DWORD dwExceptionCode = ep->ExceptionRecord->ExceptionCode;
-    fprintf(hFile, "\nEXCEPTION: 0x%p    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
+    fprintf(hFile, "\nEXCEPTION: 0x%08X    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
 
     // Store exception address
     PVOID pExceptionAddr = ep->ExceptionRecord->ExceptionAddress;
@@ -247,7 +247,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
                           NULL) )
       {
         DWORD dwOffset = sf.AddrPC.Offset;
-        fprintf(hFile, "  %-16s  0x%p    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
+        fprintf(hFile, "  %-16s  0x%08X    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
         bool foundSomething = false;
         if ( dwOffset )
         {

@@ -118,7 +118,7 @@ void InitPrimaryConfig()
   if ( gdwProcNum > 0 )
   {
     char szWmodeCfg[MAX_PATH];
-    sprintf_s(szWmodeCfg, MAX_PATH, "wmode.ini", szInstallPath);
+    sprintf_s(szWmodeCfg, MAX_PATH, "%swmode.ini", szInstallPath);
 
     DWORD dwWmodeConfigExists = GetFileAttributes(szWmodeCfg);
     if ( dwWmodeConfigExists != INVALID_FILE_ATTRIBUTES && 
@@ -145,9 +145,9 @@ void InitPrimaryConfig()
 
       // Write new window location
       char szScrOutput[16];
-      sprintf(szScrOutput, "%u", wx);
+      sprintf(szScrOutput, "%d", wx);
       WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, szWmodeCfg);
-      sprintf(szScrOutput, "%u", wy);
+      sprintf(szScrOutput, "%d", wy);
       WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, szWmodeCfg);
     } // file exists
   } // is multi-instance
