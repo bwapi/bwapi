@@ -506,9 +506,9 @@ namespace BWAPI
     {
       data->gameType          = Broodwar->getGameType();
       data->latency           = Broodwar->getLatency();
-      for(int i = 0; i < 3; ++i)
+      for(int i = 0; i < M_MAX; ++i)
         data->mouseState[i]   = Broodwar->getMouseState(i);
-      for(int i = 0; i < 256; ++i)
+      for(int i = 0; i < K_MAX; ++i)
         data->keyState[i]     = Broodwar->getKeyState(i);
       data->screenX           = Broodwar->getScreenPosition().x();
       data->screenY           = Broodwar->getScreenPosition().y();

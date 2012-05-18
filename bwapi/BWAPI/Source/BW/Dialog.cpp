@@ -157,7 +157,7 @@ namespace BW
       case 16: // Scroll down
         break;
       default:
-        sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
+        sprintf_s(out, 512, "Event: %d\nUser: 0x08X", evt->wNo, evt->dwUser);
         MessageBoxA(NULL, out, "!", MB_OK);
         break;
       }
@@ -171,7 +171,7 @@ namespace BW
     case 18: // Mouse wheel Scroll down
       break;
     default:
-      sprintf_s(out, 512, "Unknown Event: %d\nUser: 0x%p", evt->wNo, evt->dwUser);
+      sprintf_s(out, 512, "Unknown Event: %d\nUser: 0x08X", evt->wNo, evt->dwUser);
       MessageBoxA(NULL, out, "!", MB_OK);
       break;
     }
