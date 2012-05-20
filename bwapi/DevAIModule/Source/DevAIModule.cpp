@@ -21,7 +21,6 @@ void DevAIModule::onStart()
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();
 
-  bw->printf("%u", bw->getBullets().size());
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -40,24 +39,14 @@ void DevAIModule::onFrame()
 	if ( tFPS > bestFPS )
 		bestFPS = tFPS;
 
-	for ( std::set<Unit*>::const_iterator i = self->getUnits().begin(); i != self->getUnits().end(); ++i )
-	{
-		UnitType utype = (*i)->getType();
-		if ( utype.isBuilding() )
-		{
-			// draw radius
-			Position pos = (*i)->getPosition();
-			bw->drawEllipseMap(pos.x(), pos.y(), 320 + (utype.dimensionLeft() + 1 + utype.dimensionRight()) / 2, 320 + (utype.dimensionUp() + 1 + utype.dimensionDown()) / 2, Colors::Green);
-			
-			// draw line to each in radius
-			std::set<Unit*> radiusSet = (*i)->getUnitsInRadius(320);
-			for ( std::set<Unit*>::iterator u = radiusSet.begin(); u != radiusSet.end(); ++u )
-			{
-				Position targPos = (*u)->getPosition();
-				bw->drawLineMap(pos.x(), pos.y(), targPos.x(), targPos.y(), Colors::Yellow);
-			}
-		}
-	}
+
+  std::set<Player*> plyrs( bw->getPlayers() );
+  int iPos = 8;
+	for each ( Player *p in plyrs )
+  {
+    Broodwar->drawTextScreen(10, iPos, "%c%s -- %s", p->getTextColor(), p->getName().c_str(), p->getRace().c_str() );
+    iPos += 10;
+  }
 }
 
 void DevAIModule::onSendText(std::string text)
