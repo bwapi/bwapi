@@ -1029,6 +1029,10 @@ namespace BWAPI
 
     if ( autoMenuSaveReplay != "" && !this->isReplay() )
     {
+      // Set desired replay name to null
+      gszDesiredReplayName[0] = '\0';
+
+      // Set environment variables
       SYSTEMTIME systemTime;
       GetSystemTime(&systemTime);
       char szBuf[64];
@@ -1064,6 +1068,7 @@ namespace BWAPI
       char szDirectory[MAX_PATH] = { 0 };
       strncpy(szDirectory, gszDesiredReplayName, last ? last - gszDesiredReplayName : 0);
 
+      // create the directory tree
       char *current = strchr(szDirectory, '\\');
       while ( current )
       {
