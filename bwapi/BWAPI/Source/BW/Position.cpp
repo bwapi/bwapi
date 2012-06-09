@@ -4,6 +4,7 @@
 #include <math.h>
 #include <algorithm>
 #include <BWAPI/Constants.h>
+#include <BW/Pathing.h>
 
 #include "Offsets.h"
 

@@ -55,3 +55,6 @@ extern VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
 
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
 extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
+
+void _RandomizePlayerRaces();
+void _InitializePlayerConsole();

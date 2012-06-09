@@ -264,7 +264,6 @@ namespace BWAPI
       bool _isBattleNet();
       bool _isReplay() const;
       void _changeRace(int slot, BWAPI::Race race);
-      int _getLobbyRace(int slot);
       Race lastKnownRaceBeforeStart[8];
 
       void loadSelected();

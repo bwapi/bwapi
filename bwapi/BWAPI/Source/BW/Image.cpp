@@ -1,4 +1,5 @@
 #include "Image.h"
+#include <BW/Dialog.h>
 
 namespace BW
 {

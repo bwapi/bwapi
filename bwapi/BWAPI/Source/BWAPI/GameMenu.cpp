@@ -149,31 +149,6 @@ namespace BWAPI
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame        = false;
 
-    // Get races so we can catch random
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
-    {
-      Race r = Races::None;
-      int _r = _getLobbyRace(i);
-      switch ( _r )
-      {
-      case BW::Race::Zerg:
-      case BW::Race::Terran:
-      case BW::Race::Protoss:
-        r = Race(_r);
-        break;
-      case BW::Race::Random:
-        r = Races::Random;
-        break;
-      case BW::Race::None:
-        break;
-      default:
-        r = Races::Unknown;
-        break;
-      }
-      if ( _r != BW::Race::None )
-        lastKnownRaceBeforeStart[i] = r;
-    }
-
     events.push_back(Event::MenuFrame());
     this->server.update();
 
@@ -484,26 +459,6 @@ namespace BWAPI
     
     // Send the change race command for multi-player
     QUEUE_COMMAND(BW::Orders::RequestChangeRace, race, slot);
-  }
-  //-------------------------------------------- GET LOBBY RACE ----------------------------------------------
-  int GameImpl::_getLobbyRace(int slot)
-  {
-    if ( !this->isMultiplayer() )
-    {
-      BW::dialog *custom = BW::FindDialogGlobal("Create");
-      if ( custom )
-      {
-        // Get single player race
-        BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
-        if ( slotCtrl )
-          return slotCtrl->getSelectedValue();
-      }
-    }
-    else if ( *BW::BWDATA_glGluesMode == BW::GLUE_CHAT )
-    {
-      return BW::BWDATA_Players[slot].nRace;
-    }
-    return BW::Race::None;
   }
 }
 

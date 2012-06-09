@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include "BW/Offsets.h"
+#include <BW/Dialog.h>
 
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Color.h>

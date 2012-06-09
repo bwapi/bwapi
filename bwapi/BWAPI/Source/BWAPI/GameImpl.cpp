@@ -36,6 +36,7 @@
 #include <BW/GameType.h>
 #include <BW/CheatType.h>
 #include <BW/Dialog.h>
+#include <BW/Pathing.h>
 
 #include "BWAPI/AIModule.h"
 #include "DLLMain.h"

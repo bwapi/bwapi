@@ -10,6 +10,8 @@
 #include "RegionImpl.h"
 #include <BWAPI/Client/GameData.h>
 
+#include <BW/Pathing.h>
+
 #include "Config.h"
 #include "../../svnrev.h"
 

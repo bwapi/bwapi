@@ -10,6 +10,8 @@
 #include "Race.h"
 #include <BW/TilePosition.h>
 
+#include <vector>
+
 namespace BWAPI { class UnitImpl; }
 #pragma pack(1)
 namespace BW
