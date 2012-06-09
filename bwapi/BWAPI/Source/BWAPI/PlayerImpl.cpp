@@ -101,17 +101,20 @@ namespace BWAPI
   BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError(Errors::None);
-    /*Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
-    if (  rlast != Races::Zerg    &&
-          rlast != Races::Terran  &&
-          rlast != Races::Protoss &&
-          !wasSeenByBWAPIPlayer   && 
-          !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
+    if ( this->index >= 0 && this->index < PLAYABLE_PLAYER_COUNT )
     {
-      BroodwarImpl.setLastError(Errors::Access_Denied);
-      return Races::Unknown;
-    }*/
-    //@TODO INCORRECT with our Race type values
+      Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
+      if (  rlast != Races::Zerg    &&
+            rlast != Races::Terran  &&
+            rlast != Races::Protoss &&
+            !this->wasSeenByBWAPIPlayer   && 
+            !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
+      {
+        BroodwarImpl.setLastError(Errors::Access_Denied);
+        return Races::Unknown;
+      }
+    }
+    //@TODO INCORRECT with our Race type values (solved in BWAPI4)
     return BWAPI::Race((int)(BW::BWDATA_Players[index].nRace));
   }
   //--------------------------------------------- GET TYPE ---------------------------------------------------
