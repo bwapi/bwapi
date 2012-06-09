@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <BW/Offsets.h>
+#include <BW/Pathing.h>
 #include <Util/Foreach.h>
 
 #include "../../Debug.h"

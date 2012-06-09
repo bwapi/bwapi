@@ -7,6 +7,7 @@
 
 #include <BWAPI/Color.h>
 #include <BW/Offsets.h>
+#include <BW/Dialog.h>
 
 #include "../../Debug.h"
 

@@ -14,6 +14,7 @@
 
 #include <BW/PlayerType.h>
 #include <BW/UnitID.h>
+#include <BW/Pathing.h>
 
 #include "../../svnrev.h"
 #include "../../Debug.h"
