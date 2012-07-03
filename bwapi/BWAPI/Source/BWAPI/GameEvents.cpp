@@ -633,6 +633,9 @@ namespace BWAPI
     if ( *BW::BWDATA_isGamePaused == 0 )
       this->frameCount++;
 
+    // Set the replay time, this is a workaround to fixing the replay DIVIDE_BY_ZERO exception bug
+    *BW::BWDATA_ReplayFrames = this->getFrameCount()+20;
+
     // Check if the window is iconic, if so, go super fast!
     static bool bLastIconic = false;
     if ( !!IsIconic(SDrawGetFrameWindow()) != bLastIconic && !this->isMultiplayer() )
