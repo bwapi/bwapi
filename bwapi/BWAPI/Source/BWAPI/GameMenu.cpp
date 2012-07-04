@@ -143,6 +143,9 @@ namespace BWAPI
     return rval;
   }
   DWORD createdTimer;
+  DWORD waitJoinTimer;
+  DWORD waitSelRaceTimer;
+  DWORD waitRestartTimer;
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
@@ -325,11 +328,23 @@ namespace BWAPI
            tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )  )
         pressKey( tempDlg->findIndex(9)->getHotkey() );
 
+      waitJoinTimer = 0;
       break;
     case BW::GLUE_GAME_SELECT:  // Games listing
       {
-        tempDlg = BW::FindDialogGlobal("GameSel");
+        if ( waitJoinTimer == 0 )
+          waitJoinTimer = GetTickCount();
 
+        tempDlg = BW::FindDialogGlobal("GameSel");
+        if ( !tempDlg )
+          break;
+
+        if ( isJoining &&
+             !tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()) && 
+             waitJoinTimer + 3000 > GetTickCount() )
+          break;
+
+        waitJoinTimer = GetTickCount();
         isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()));
 
         if ( isCreating && isHost )
@@ -339,8 +354,15 @@ namespace BWAPI
       }
       break;
     case BW::GLUE_CHAT:
-      if ( !actRaceSel && BW::FindDialogGlobal("Chat") && _currentPlayerId() >= 0 && _currentPlayerId() < 8 )
+      waitJoinTimer = 0;
+      
+      if ( !actRaceSel && 
+            BW::FindDialogGlobal("Chat") && 
+            _currentPlayerId() >= 0 && 
+            _currentPlayerId() < 8 &&
+            waitSelRaceTimer + 300 < GetTickCount() )
       {
+        waitSelRaceTimer = GetTickCount();
         // Determine the current player's race
         Race playerRace = Races::getRace(this->autoMenuRace);
         if ( this->autoMenuRace == "RANDOMTP" )
@@ -373,8 +395,16 @@ namespace BWAPI
         }// if player race is valid
       } // if dialog "chat" exists
 
+      if ( BW::FindDialogGlobal("gluPOk") )
+      {
+        this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+        actStartedGame = false;
+        waitRestartTimer = GetTickCount();
+      }
+
       // Start the game if creating and auto-menu requirements are met
-      if ( isCreating && 
+      if ( isCreating &&
+           waitRestartTimer + 2000 < GetTickCount() &&
             !actStartedGame && 
             isHost && 
             getLobbyPlayerCount() > 0 && 
@@ -382,7 +412,13 @@ namespace BWAPI
       {
         if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
-          DWORD dwMode = 0;
+          if ( !BW::FindDialogGlobal("Chat")->findIndex(7)->isDisabled() )
+          {
+            actStartedGame = true;
+            BW::FindDialogGlobal("Chat")->findIndex(7)->activate();
+          }
+          //this->pressKey( BW::FindDialogGlobal("Chat")->findIndex(7)->getHotkey() );  // OK
+          /*DWORD dwMode = 0;
           SNGetGameInfo(GAMEINFO_MODEFLAG, dwMode);
           if ( !(dwMode & GAMESTATE_STARTED) )
           {
@@ -390,6 +426,7 @@ namespace BWAPI
             SNetSetGameMode(dwMode | GAMESTATE_STARTED);
             QUEUE_COMMAND(BW::Orders::StartGame);
           } // if game not started
+          */
         } // if lobbyPlayerCount etc
       } // if isCreating etc
       break;
@@ -435,6 +472,9 @@ namespace BWAPI
     BW::dialog *custom = BW::FindDialogGlobal("Create");
     if ( custom )
     {
+      if ( slot < 0 || slot >= 8 ) // set the single player slot
+        slot = 0;
+
       // Apply the single player change
       BW::dialog *slotCtrl = custom->findIndex((short)(28 + slot));  // 28 is the CtrlID of the first slot
       if ( slotCtrl && (int)slotCtrl->getSelectedValue() != race )

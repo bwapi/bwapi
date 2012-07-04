@@ -33,7 +33,7 @@ int STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playeri
 BOOL STORMAPI SNetSendMessage(int playerID, void *data, size_t databytes) rBool;
 BOOL STORMAPI SNetSendTurn(void *data, size_t databytes) rBool;
 
-BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, char a2) rBool;
+BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, bool makePublic) rBool;
 
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall) rBool;
 BOOL STORMAPI SNetSendServerChatCommand(const char *command) rBool;

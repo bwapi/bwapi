@@ -900,7 +900,10 @@ namespace BW
   bool dialog::activate()
   {
     if ( this )
+    {
+      //*BW::BWDATA_LastControlID = this->getIndex();
       return this->doEvent(14, 2);
+    }
     return false;
   }
   // --------------------- UPDATE --------------------
@@ -1201,7 +1204,7 @@ namespace BW
     return false;
   }
 // -------------- SET SELECTED BY STRING -------------
-  bool dialog::setSelectedByString(const char *pszString)
+  bool dialog::setSelectedByString(const char *pszString, bool noctrl)
   {
     // verify that this is the correct control
     if ( this && this->isList() && this->u.list.ppStrs )
@@ -1210,8 +1213,26 @@ namespace BW
       for ( int i = 0; i < this->u.list.bStrs; ++i )
       {
         // compare the string to the one we're looking for
-        if ( this->u.list.ppStrs[i] && strcmpi(this->u.list.ppStrs[i], pszString) == 0 )
+        if ( this->u.list.ppStrs[i] )
         {
+          int si = 0; // string index
+
+          // Ignore first control characters
+          while ( noctrl && this->u.list.ppStrs[i][si] < ' ' )
+            ++si;
+          
+          // Iterate the string(s) until the first difference
+          while ( this->u.list.ppStrs[i][si] > (noctrl ? ' '-1 : '\0')  && 
+                  pszString[si] > (noctrl ? ' '-1 : '\0')               &&
+                  toupper(this->u.list.ppStrs[i][si]) == toupper(pszString[si]) )
+            ++si;
+
+          // Skip if the character differs
+          if (  (this->u.list.ppStrs[i][si] > (noctrl ? ' '-1 : '\0')  ||
+                 pszString[si] > (noctrl ? ' '-1 : '\0'))               &&
+                toupper(this->u.list.ppStrs[i][si]) != toupper(pszString[si]) )
+            continue;
+
           // set the selected entry
           this->doEvent(14, 11, (WORD)i);
           if ( this->u.list.pScrlBar )

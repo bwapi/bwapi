@@ -161,6 +161,7 @@ namespace BW
   static bool (__fastcall ** const BWDATA_GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
   static void (__fastcall ** const BWDATA_GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
 
+  BWDATA(DWORD*, LastControlID, 0x006D051C, 0);
   BWDATA(dialog**, DialogList, 0x006D5E34, 0);
   BWDATA(fntHead**, FontBase, 0x006CE0F4, 0);
   BWDATA(bitmap*, GameScreenBuffer, 0x006CEFF0, 0);
