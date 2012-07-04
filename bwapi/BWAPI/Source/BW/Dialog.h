@@ -209,7 +209,7 @@ namespace BW
 
     bool  setSelectedIndex(BYTE bIndex);              // Sets the selected index
     bool  setSelectedByValue(DWORD dwValue);          // Sets the selected index based on the given value
-    bool  setSelectedByString(const char *pszString); // Sets the selected index based on its name
+    bool  setSelectedByString(const char *pszString, bool noctrl = true); // Sets the selected index based on its name, noctrl = ignore control characters
 
     bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);  // Adds an entry to a listbox or combobox
     bool  removeListEntry(BYTE bIndex = 0);   // Removes an entry from a listbox or combobox
@@ -357,7 +357,8 @@ namespace BW
         BYTE    bSelectedIndex;   // 0x4E
         BYTE    bUnknown_0x4F;    // padding?
         WORD    wVerticalOffset;  // 0x4A
-        void    *pDrawItemFcn;    // 0x4C
+        void    (__fastcall *pDrawItemFcn)(dialog*,BYTE,rect*,int,int);    // 0x4C
+        // void __fastcall pDrawItemFcn(dialog *dlg, BYTE selectedIndex, rect *dstRect, int x, int y)
       } list;
     } u;
   };

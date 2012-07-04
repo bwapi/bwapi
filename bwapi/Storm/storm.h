@@ -107,7 +107,7 @@ SNetGetGameInfo(
     __out size_t *byteswritten = NULL);
 
 #ifndef SNGetGameInfo
-#define SNGetGameInfo(typ,dst) SNetGetGameInfo(typ, &dst, sizeof(dst));
+#define SNGetGameInfo(typ,dst) SNetGetGameInfo(typ, &dst, sizeof(dst))
 #endif
 
 #ifndef GAMEINFO_NAME
@@ -433,8 +433,7 @@ SNetSendTurn(
  *                  GAMESTATE_ACTIVE      | The game is available.
  *                  GAMESTATE_STARTED     | The game is in progress.
  *                  GAMESTATE_REPLAY      | The game is a replay.
- *  a2:         The purpose of this parameter is not known
- *              or not used.
+ *  makePublic: Used to make the game a public game, removing the GAMESTATE_PRIVATE flag.
  *
  *  Returns TRUE if the function was called successfully and FALSE otherwise.
  */
@@ -442,13 +441,14 @@ BOOL
 STORMAPI
 SNetSetGameMode(
       __in DWORD modeFlags,
-      char a2 = 0);
+      bool makePublic = false);
 
+#define SNMakeGamePublic() SNetSetGameMode( (DWORD mode, SNetGetGameInfo(GAMEINFO_MODEFLAGS, &mode, 4), mode), true)
 
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
 BOOL STORMAPI SNetSendServerChatCommand(const char *command);
 
-BOOL STORMAPI SNetGetPlayerNames(DWORD flags);
+BOOL STORMAPI SNetGetPlayerNames(DWORD flags); // Is actually SetPlayerFlags or something
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 BOOL STORMAPI SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
 
@@ -521,6 +521,18 @@ BOOL STORMAPI SFileGetFileName(HANDLE hFile, char *buffer, int length);
 BOOL STORMAPI SFileLoadFile(char *filename, void *buffer, int buffersize, int a4, int a5);
 BOOL STORMAPI SFileUnloadFile(HANDLE hFile);
 BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, int a5, DWORD searchScope, struct _OVERLAPPED *lpOverlapped);
+
+// Options are DWORD except for #6
+// 1: [TRUE|FALSE] - If true, reports resource leaks (SErrReportResourceLeak/SErrReportNamedResourceLeak) to the attached debugger instead of a message box.
+// 2: This option is unused.
+// 3: [TRUE|FALSE] - If true, reports general memory leaks to the attached debugger instead of a message box.
+// 4: This option is unused.
+// 5: [TRUE|FALSE] - If true, reports log messages and log dumps to the attached debugger.
+// 6: { DWORD blocks_allocated; DWORD blocks_freed; } Used to determine the amount of memory/heap blocks that have been allocated and freed by storm.
+//    Can also be used for custom allocations outside of storm.
+//
+//BOOL STORMAPI StormGetOption(int type, void *pValue, size_t *pSize);
+//BOOL STORMAPI StormSetOption(int type, void *pValue, size_t size);
 
 BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
 BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
@@ -826,6 +838,7 @@ SMemFree(
 #define SLOG_OBJECT       -2
 #define SLOG_HANDLE       -3
 #define SLOG_FILE         -4
+#define SLOG_EXCEPTION    -5
 
 #endif
 
@@ -876,6 +889,14 @@ BOOL STORMAPI SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, in
 BOOL STORMAPI SVidPlayContinueSingle(HANDLE video, int a2, int a3);
 BOOL STORMAPI SVidPlayEnd(HANDLE video);
 
+// dwErrMessage - Message from GetLastError
+// logfile/logline - Same as SMemAlloc/SMemFree
+// message - additional message/info
+// allowOption - Gives user the option to attempt to continue execution instead of immediate exit.
+// exitCode - the exit code to pass to TerminateProcess
+//BOOL STORMAPI SErrDisplayError(DWORD dwErrMsg, const char *logfilename, int logline, const char *message, BOOL allowOption, int exitCode);
+// Instead of const char *message, has formatting.
+//BOOL SErrDisplayErrorFmt(DWORD dwErrMsg, const char *logfilename, int logline, BOOL allowOption, int exitCode, const char *format, ...);
 
 /*  SErrGetErrorStr @ 462
  *  
@@ -895,6 +916,7 @@ SErrGetErrorStr(
     __out char *buffer,
     __in  size_t bufferchars);
 
+#define SEGetErrorStr(e,b) SErrGetErrorStr(e,b,sizeof(b))
 
 /*  SErrGetLastError @ 463
  *  
@@ -908,6 +930,11 @@ STORMAPI
 SErrGetLastError();
 
 
+// Registers a module as a message source for SErrGetErrorStr, always returns TRUE
+// groupID is a group in a MessageTable entry for example in STORM_ERROR_BAD_ARGUMENT 0x85100065, 0x510 is the group.
+// BOOL STORMAPI SErrRegisterMessageSource(WORD groupID, HMODULE hSourceModule, int a3)
+
+
 /*  SErrSetLastError @ 465
  *  
  *  Sets the last error for the Storm library and the Kernel32 library.
@@ -919,6 +946,9 @@ STORMAPI
 SErrSetLastError(
     __in DWORD dwErrCode = NO_ERROR);
 
+// 
+// void STORMAPI SErrReportNamedResourceLeak(const char *pszMsg, const char *pszSubMsg = nullptr)
+// void STORMAPI SErrReportResourceLeak(const char *pszMsg)
 
 void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 
