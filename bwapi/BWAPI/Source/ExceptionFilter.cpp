@@ -96,7 +96,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
   // Create the file
   GetSystemTime(&st);
-  sprintf_s(szFilename, MAX_PATH, "%sbwapi-data\\logs\\Exceptions\\%u_%02u_%02u.txt", szInstallPath, st.wYear, st.wMonth, st.wDay);
+  sprintf_s(szFilename, MAX_PATH, "%sErrors\\%u_%02u_%02u.txt", szInstallPath, st.wYear, st.wMonth, st.wDay);
 
   FILE *hFile = fopen( szFilename, "a+");
   if ( hFile )
