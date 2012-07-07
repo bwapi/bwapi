@@ -9,6 +9,7 @@
 
 #include "../../Debug.h"
 
+#define TIME_TO_DOWNLOAD_DATA 14000
 namespace BWAPI
 {
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -180,7 +181,7 @@ namespace BWAPI
 
     // Get some autoMenu properties
     bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
-    bool isCreating   = autoMenuMapPath.length() > 0;
+    bool isCreating   = (autoMenuMapPath.length() > 0)&&(getInstanceNumber() == 1);
     bool isJoining    = autoMenuGameName.length() > 0;
 
     // Reset raceSel flag
@@ -410,15 +411,17 @@ namespace BWAPI
             getLobbyPlayerCount() > 0 && 
             (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
-        if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
+        if (( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0) && GetTickCount() > createdTimer + TIME_TO_DOWNLOAD_DATA )
         {
+		  /*
           if ( !BW::FindDialogGlobal("Chat")->findIndex(7)->isDisabled() )
           {
             actStartedGame = true;
             BW::FindDialogGlobal("Chat")->findIndex(7)->activate();
           }
+		  */
           //this->pressKey( BW::FindDialogGlobal("Chat")->findIndex(7)->getHotkey() );  // OK
-          /*DWORD dwMode = 0;
+          DWORD dwMode = 0;
           SNGetGameInfo(GAMEINFO_MODEFLAG, dwMode);
           if ( !(dwMode & GAMESTATE_STARTED) )
           {
@@ -426,7 +429,7 @@ namespace BWAPI
             SNetSetGameMode(dwMode | GAMESTATE_STARTED);
             QUEUE_COMMAND(BW::Orders::StartGame);
           } // if game not started
-          */
+          
         } // if lobbyPlayerCount etc
       } // if isCreating etc
       break;
