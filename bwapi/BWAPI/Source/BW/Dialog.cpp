@@ -1207,7 +1207,7 @@ namespace BW
   bool dialog::setSelectedByString(const char *pszString, bool noctrl)
   {
     // verify that this is the correct control
-    if ( this && this->isList() && this->u.list.ppStrs )
+    if ( this && this->isList() && this->u.list.ppStrs && !this->isDisabled() && this->isVisible() )
     {
       // Iterate through each entry
       for ( int i = 0; i < this->u.list.bStrs; ++i )
