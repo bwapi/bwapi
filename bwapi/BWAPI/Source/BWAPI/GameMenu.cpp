@@ -143,6 +143,16 @@ namespace BWAPI
     }
     return rval;
   }
+  BWAPI::Race getAutoMenuRace(const std::string &raceName)
+  {
+    if ( raceName == "RANDOMTP" )
+      return rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+    else if ( raceName == "RANDOMTZ" )
+      return rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+    else if ( raceName == "RANDOMPZ" )
+      return rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+    return Races::getRace(raceName);
+  }
   DWORD createdTimer;
   DWORD waitJoinTimer;
   DWORD waitSelRaceTimer;
@@ -181,7 +191,7 @@ namespace BWAPI
 
     // Get some autoMenu properties
     bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
-    bool isCreating   = (autoMenuMapPath.length() > 0)&&(getInstanceNumber() == 1);
+    bool isCreating   = autoMenuMapPath.length() > 0;// &&(getInstanceNumber() == 1);
     bool isJoining    = autoMenuGameName.length() > 0;
 
     // Reset raceSel flag
@@ -229,27 +239,16 @@ namespace BWAPI
           if ( isAutoSingle )
           {
             // get race
-            Race playerRace = Races::getRace(this->autoMenuRace);
-            if ( this->autoMenuRace == "RANDOMTP" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuRace == "RANDOMTZ" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuRace == "RANDOMPZ" )
-              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+            Race playerRace = getAutoMenuRace(this->autoMenuRace);
 
             // set race dropdown
             if ( playerRace != Races::Unknown && playerRace != Races::None )
               this->_changeRace(0, playerRace);
 
+            // set enemy races
             for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
             {
-              Race enemyRace = Races::getRace(this->autoMenuEnemyRace[i]);
-              if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
-                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-              else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
-                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-              else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
-                enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+              Race enemyRace = getAutoMenuRace(this->autoMenuEnemyRace[i]);
 
               if ( enemyRace != Races::Unknown && enemyRace != Races::None )
                 this->_changeRace(i, enemyRace);
@@ -342,7 +341,7 @@ namespace BWAPI
 
         if ( isJoining &&
              !tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()) && 
-             waitJoinTimer + 3000 > GetTickCount() )
+             waitJoinTimer + 3000*(getInstanceNumber()+1) > GetTickCount() )
           break;
 
         waitJoinTimer = GetTickCount();
@@ -365,14 +364,7 @@ namespace BWAPI
       {
         waitSelRaceTimer = GetTickCount();
         // Determine the current player's race
-        Race playerRace = Races::getRace(this->autoMenuRace);
-        if ( this->autoMenuRace == "RANDOMTP" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-        else if ( this->autoMenuRace == "RANDOMTZ" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-        else if ( this->autoMenuRace == "RANDOMPZ" )
-          playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
+        Race playerRace = getAutoMenuRace(this->autoMenuRace);
         if ( playerRace != Races::Unknown && playerRace != Races::None )
         {
           // Check if the race was selected correctly, and prevent further changing afterwords
@@ -396,6 +388,7 @@ namespace BWAPI
         }// if player race is valid
       } // if dialog "chat" exists
 
+      // If there is an error dialog, press OK and wait a little before trying to start again
       if ( BW::FindDialogGlobal("gluPOk") )
       {
         this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
@@ -411,25 +404,19 @@ namespace BWAPI
             getLobbyPlayerCount() > 0 && 
             (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
-        if (( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0) && GetTickCount() > createdTimer + TIME_TO_DOWNLOAD_DATA )
+        if ( ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || 
+               getLobbyOpenCount() == 0 || 
+               GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime
+              ) && GetTickCount() > createdTimer + TIME_TO_DOWNLOAD_DATA )
         {
-		  /*
-          if ( !BW::FindDialogGlobal("Chat")->findIndex(7)->isDisabled() )
+          // Get the OK button
+          BW::dialog *pChatOKBtn = BW::FindDialogGlobal("Chat")->findIndex(7);
+          if ( pChatOKBtn && !pChatOKBtn->isDisabled() && pChatOKBtn->isVisible() ) // If the OK button is enabled and visible
           {
             actStartedGame = true;
-            BW::FindDialogGlobal("Chat")->findIndex(7)->activate();
+            pChatOKBtn->activate(); // Press the button
           }
-		  */
-          //this->pressKey( BW::FindDialogGlobal("Chat")->findIndex(7)->getHotkey() );  // OK
-          DWORD dwMode = 0;
-          SNGetGameInfo(GAMEINFO_MODEFLAG, dwMode);
-          if ( !(dwMode & GAMESTATE_STARTED) )
-          {
-            actStartedGame = true;
-            SNetSetGameMode(dwMode | GAMESTATE_STARTED);
-            QUEUE_COMMAND(BW::Orders::StartGame);
-          } // if game not started
-          
+
         } // if lobbyPlayerCount etc
       } // if isCreating etc
       break;
