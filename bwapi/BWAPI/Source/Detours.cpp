@@ -453,10 +453,16 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 }
 //------------------------------------------------- MENU HOOK ------------------------------------------------
 bool nosound = false;
+bool doubleDraw = false;
 void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
   if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
+
+  if ( doubleDraw )  // prevents stack overflow and recursive calls which can cause bugs
+    return;
+
+  doubleDraw = true;
 
   if ( *BW::BWDATA_gwGameMode == BW::GAME_GLUES )
     BWAPI::BroodwarImpl.onMenuFrame();
@@ -490,6 +496,8 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     endDialog = BW::FindDialogGlobal("WMission");
   if ( endDialog )
     endDialog->findIndex(-2)->activate();
+
+  doubleDraw = false;
 }
 
 //------------------------------------------- AUTH ARCHIVE HOOK ----------------------------------------------

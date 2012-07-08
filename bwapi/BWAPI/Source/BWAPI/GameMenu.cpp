@@ -323,9 +323,7 @@ namespace BWAPI
 
       // Press hotkey if trying to get to BNET
       // or press it after the LAN mode has been selected
-      if ( autoMenuMode == "BATTLE_NET" ||
-           (tempDlg->findIndex(5)->isVisible() && 
-           tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )  )
+      if ( autoMenuMode == "BATTLE_NET" || tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )
         pressKey( tempDlg->findIndex(9)->getHotkey() );
 
       waitJoinTimer = 0;
