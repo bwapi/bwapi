@@ -191,7 +191,7 @@ namespace BWAPI
 
     // Get some autoMenu properties
     bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
-    bool isCreating   = autoMenuMapPath.length() > 0;// &&(getInstanceNumber() == 1);
+    bool isCreating   = autoMenuMapPath.length() > 0 && getInstanceNumber() <= 1;
     bool isJoining    = autoMenuGameName.length() > 0;
 
     // Reset raceSel flag
