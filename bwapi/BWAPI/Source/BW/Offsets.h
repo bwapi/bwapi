@@ -354,7 +354,9 @@ namespace BW
     DWORD dwListEntryIndex;       // 596
     DWORD dwUnknown_258;          // 600  Computer slots?
     DWORD dwUnknown_25C;          // 604
-    DWORD dwUnknown_260;          // 608
+    BYTE  bGameState;             // 608
+    BYTE  bUnk_609;
+    WORD  wUnk_610;
     DWORD dwUnknown_264;          // 612
     BYTE  bEntryFlags;            // 616
     char  szFullPath[MAX_PATH];   // 617
