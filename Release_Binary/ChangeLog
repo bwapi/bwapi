@@ -1,5 +1,21 @@
 =======================================
-Changes from BWAPI 3.7.1 to BWAPI 3.7.3
+Changes from BWAPI 3.7.3 to BWAPI 3.7.4
+=======================================
+Changes/Additions:
+  * The Random race feature has been corrected and re-enabled. Players who chose Random will have their race displayed as Unknown until they are scouted.
+  * MPQDraft and Chaoslauncher with its plugins are now included in the release.
+  * The exception filter now writes to Starcraft/Errors/.
+  * An Install script is now included. Simply run Install.exe to automatically copy the folders to their desired locations.
+
+Bug Fixes:
+  * Fixed a regression that involved save_replay not working correctly.
+  * Fixed a bug where getUnitsIn_ functions were unable to properly retrieve unit data on the edge of the map.
+  * Fixed several minor buffer overflows.
+  * Fixed a bug that caused some replays to save with 0 frame time (causing a division by 0 exception on loading).
+  * Fixed a bug that prevented auto-menu "join game by name" from functioning.
+
+=======================================
+Changes from BWAPI 3.7.2 to BWAPI 3.7.3
 =======================================
 Bug Fixes:
   * Fixed a bug where UnitTypes::maxUnitHeight was returning the max unit width instead.
