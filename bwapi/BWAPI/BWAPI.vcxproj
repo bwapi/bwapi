@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{001204EC-33B7-427D-AF9B-68F222C97349}</ProjectGuid>
+    <RootNamespace>BW</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Message>Updating revision information</Message>
+      <Command>cd "$(SolutionDir)"
+$(SolutionDir)\revisionUpdate.bat
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../Shared;Source/BWAPI;../Util/Source;Source;../include;../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4238; 4100; 4996; 4740;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying BWAPId.dll to ChaosDir</Message>
+      <Command>COPY /Y "$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName)d.dll" "$(ChaosDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Message>Updating revision information</Message>
+      <Command>cd "$(SolutionDir)"
+$(SolutionDir)\revisionUpdate.bat
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>../Shared;Source/BWAPI;../Util/Source;Source;../include;../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4238; 4100; 4996; 4740;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll</OutputFile>
+      <AddModuleNamesToAssembly>%(AddModuleNamesToAssembly)</AddModuleNamesToAssembly>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copying BWAPI.dll to ChaosDir</Message>
+      <Command>COPY /Y "$(SolutionDir)..\Release_Binary\Chaoslauncher\$(ProjectName).dll" "$(ChaosDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\BW\Bullet.h" />
+    <ClInclude Include="Source\BW\CheatType.h" />
+    <ClInclude Include="Source\BW\Dialog.h" />
+    <ClInclude Include="source\BW\GroupFlags.h" />
+    <ClInclude Include="Source\BW\Image.h" />
+    <ClInclude Include="source\BW\Offsets.h" />
+    <ClInclude Include="source\BW\Order.h" />
+    <ClInclude Include="source\BW\OrderTypes.h" />
+    <ClInclude Include="Source\BW\Path.h" />
+    <ClInclude Include="Source\BW\Pathing.h" />
+    <ClInclude Include="source\BW\Position.h" />
+    <ClInclude Include="source\BW\PositionUnitTarget.h" />
+    <ClInclude Include="source\BW\Sprite.h" />
+    <ClInclude Include="source\BW\TilePosition.h" />
+    <ClInclude Include="source\BW\TileSet.h" />
+    <ClInclude Include="source\BW\TileType.h" />
+    <ClInclude Include="Source\BW\TriggerEngine.h" />
+    <ClInclude Include="source\BW\Unit.h" />
+    <ClInclude Include="source\BW\UnitTarget.h" />
+    <ClInclude Include="Source\BW\BNETCommands.h" />
+    <ClInclude Include="Source\BW\CheatFlags.h" />
+    <ClInclude Include="Source\BW\DamageID.h" />
+    <ClInclude Include="Source\BW\ExplosionID.h" />
+    <ClInclude Include="Source\BW\FlingyID.h" />
+    <ClInclude Include="Source\BW\GameType.h" />
+    <ClInclude Include="source\BW\Latency.h" />
+    <ClInclude Include="Source\BW\MenuPosition.h" />
+    <ClInclude Include="Source\BW\MiniTileFlags.h" />
+    <ClInclude Include="source\BW\MovementFlags.h" />
+    <ClInclude Include="source\BW\OrderFlags.h" />
+    <ClInclude Include="source\BW\OrderID.h" />
+    <ClInclude Include="Source\BW\PlayerType.h" />
+    <ClInclude Include="Source\BW\Race.h" />
+    <ClInclude Include="Source\BW\TechID.h" />
+    <ClInclude Include="Source\BW\Triggers.h" />
+    <ClInclude Include="source\BW\UnitID.h" />
+    <ClInclude Include="source\BW\UnitPrototypeFlags.h" />
+    <ClInclude Include="Source\BW\UnitSizeType.h" />
+    <ClInclude Include="source\BW\UnitStatusFlags.h" />
+    <ClInclude Include="Source\BW\UpgradeID.h" />
+    <ClInclude Include="Source\BW\WeaponID.h" />
+    <ClInclude Include="Source\BW\WeaponTargetFlags.h" />
+    <ClInclude Include="Source\BWAPI\BulletImpl.h" />
+    <ClInclude Include="Source\BWAPI\BWtoBWAPI.h" />
+    <ClInclude Include="Source\BWAPI\Command.h" />
+    <ClInclude Include="Source\BWAPI\CommandTemp.h" />
+    <ClInclude Include="Source\BWAPI\ForceImpl.h" />
+    <ClInclude Include="Source\BWAPI\GameImpl.h" />
+    <ClInclude Include="source\BWAPI\Map.h" />
+    <ClInclude Include="source\BWAPI\PlayerImpl.h" />
+    <ClInclude Include="Source\BWAPI\RegionImpl.h" />
+    <ClInclude Include="Source\BWAPI\Server.h" />
+    <ClInclude Include="..\Shared\Templates.h" />
+    <ClInclude Include="..\Shared\TemplatesImpl.h" />
+    <ClInclude Include="Source\BWAPI\UnitImpl.h" />
+    <ClInclude Include="..\include\BWAPI\Bullet.h" />
+    <ClInclude Include="..\include\BWAPI.h" />
+    <ClInclude Include="..\include\BWAPI\Constants.h" />
+    <ClInclude Include="..\include\BWAPI\CoordinateType.h" />
+    <ClInclude Include="..\include\BWAPI\Force.h" />
+    <ClInclude Include="..\include\BWAPI\Game.h" />
+    <ClInclude Include="..\include\BWAPI\Latency.h" />
+    <ClInclude Include="..\include\BWAPI\Player.h" />
+    <ClInclude Include="..\include\BWAPI\Region.h" />
+    <ClInclude Include="..\include\BWAPI\Unit.h" />
+    <ClInclude Include="Source\Assembly.h" />
+    <ClInclude Include="Source\CodePatch.h" />
+    <ClInclude Include="Source\Detours.h" />
+    <ClInclude Include="Source\Graphics.h" />
+    <ClInclude Include="Source\Holiday\Holiday.h" />
+    <ClInclude Include="Source\NewHackUtil.h" />
+    <ClInclude Include="Source\Recording.h" />
+    <ClInclude Include="Source\Resolution.h" />
+    <ClInclude Include="Source\WMode.h" />
+    <ClInclude Include="Source\Config.h" />
+    <ClInclude Include="Source\DLLMain.h" />
+    <ClInclude Include="Source\ExceptionFilter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\BW\CheatType.cpp" />
+    <ClCompile Include="Source\BW\Dialog.cpp" />
+    <ClCompile Include="Source\BW\Image.cpp" />
+    <ClCompile Include="Source\BW\Internal.cpp" />
+    <ClCompile Include="source\BW\OrderTypes.cpp" />
+    <ClCompile Include="Source\BW\Path.cpp" />
+    <ClCompile Include="Source\BW\Pathing.cpp" />
+    <ClCompile Include="source\BW\Position.cpp" />
+    <ClCompile Include="source\BW\PositionUnitTarget.cpp" />
+    <ClCompile Include="Source\BW\Race.cpp" />
+    <ClCompile Include="source\BW\TilePosition.cpp" />
+    <ClCompile Include="source\BW\TileSet.cpp" />
+    <ClCompile Include="Source\BW\TriggerEngine.cpp" />
+    <ClCompile Include="Source\BW\Unit.cpp" />
+    <ClCompile Include="source\BW\UnitTarget.cpp" />
+    <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />
+    <ClCompile Include="..\Shared\BulletShared.cpp" />
+    <ClCompile Include="Source\BWAPI\BWtoBWAPI.cpp" />
+    <ClCompile Include="Source\BWAPI\ForceImpl.cpp" />
+    <ClCompile Include="..\Shared\ForceShared.cpp" />
+    <ClCompile Include="Source\BWAPI\GameBullets.cpp" />
+    <ClCompile Include="Source\BWAPI\GameCommands.cpp" />
+    <ClCompile Include="Source\BWAPI\GameDrawing.cpp" />
+    <ClCompile Include="Source\BWAPI\GameEvents.cpp" />
+    <ClCompile Include="Source\BWAPI\GameImpl.cpp" />
+    <ClCompile Include="Source\BWAPI\GameInternals.cpp" />
+    <ClCompile Include="Source\BWAPI\GameMenu.cpp" />
+    <ClCompile Include="..\Shared\GameShared.cpp" />
+    <ClCompile Include="Source\BWAPI\GameUnits.cpp" />
+    <ClCompile Include="source\BWAPI\Map.cpp" />
+    <ClCompile Include="source\BWAPI\PlayerImpl.cpp" />
+    <ClCompile Include="..\Shared\PlayerShared.cpp" />
+    <ClCompile Include="Source\BWAPI\RegionImpl.cpp" />
+    <ClCompile Include="..\Shared\RegionShared.cpp" />
+    <ClCompile Include="Source\BWAPI\Server.cpp" />
+    <ClCompile Include="Source\BWAPI\UnitImpl.cpp" />
+    <ClCompile Include="..\Shared\UnitShared.cpp" />
+    <ClCompile Include="Source\BWAPI\UnitUpdate.cpp" />
+    <ClCompile Include="Source\Assembly.cpp" />
+    <ClCompile Include="Source\CodePatch.cpp" />
+    <ClCompile Include="Source\Detours.cpp" />
+    <ClCompile Include="Source\Graphics.cpp" />
+    <ClCompile Include="Source\Holiday\Holiday.cpp" />
+    <ClCompile Include="Source\NewHackUtil.cpp" />
+    <ClCompile Include="Source\Recording.cpp" />
+    <ClCompile Include="Source\Resolution.cpp" />
+    <ClCompile Include="Source\WMode.cpp" />
+    <ClCompile Include="Source\Config.cpp" />
+    <ClCompile Include="source\DLLMain.cpp" />
+    <ClCompile Include="Source\ExceptionFilter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Storm\Storm.vcxproj">
+      <Project>{08c0c784-f586-4caa-8951-8adf1586c0e9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\Util.vcxproj">
+      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
