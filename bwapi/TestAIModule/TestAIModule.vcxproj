@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{982561B2-A7D0-44E9-BD3D-0FD117E3F882}</ProjectGuid>
+    <RootNamespace>ExampleAIModule</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../include; ../Util/Source/Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EXAMPLEAIMODULE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../include;../Util/Source/Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;EXAMPLEAIMODULE_EXPORTS;_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AttackMoveTest.cpp" />
+    <ClCompile Include="Source\AttackUnitTest.cpp" />
+    <ClCompile Include="Source\BuildingPlacer.cpp" />
+    <ClCompile Include="Source\BuildTest.cpp" />
+    <ClCompile Include="Source\BurrowTest.cpp" />
+    <ClCompile Include="Source\BWAssert.cpp" />
+    <ClCompile Include="Source\CancelConstructionTest.cpp" />
+    <ClCompile Include="Source\CancelMorphTest.cpp" />
+    <ClCompile Include="Source\CancelResearchTest.cpp" />
+    <ClCompile Include="Source\CancelTrainTest.cpp" />
+    <ClCompile Include="Source\CancelUpgradeTest.cpp" />
+    <ClCompile Include="Source\CloakTest.cpp" />
+    <ClCompile Include="Source\DefaultTestModule.cpp" />
+    <ClCompile Include="Source\Dll.cpp" />
+    <ClCompile Include="Source\EventTest.cpp" />
+    <ClCompile Include="Source\ExistenceTest.cpp" />
+    <ClCompile Include="Source\FollowTest.cpp" />
+    <ClCompile Include="Source\GatherTest.cpp" />
+    <ClCompile Include="Source\InterceptorTest.cpp" />
+    <ClCompile Include="Source\LiftTest.cpp" />
+    <ClCompile Include="Source\MapTest.cpp" />
+    <ClCompile Include="Source\MicroTest.cpp" />
+    <ClCompile Include="Source\MorphTest.cpp" />
+    <ClCompile Include="Source\MPHSTest.cpp" />
+    <ClCompile Include="Source\ProtossTest.cpp" />
+    <ClCompile Include="Source\RallyTest.cpp" />
+    <ClCompile Include="Source\RepairTest.cpp" />
+    <ClCompile Include="Source\ResearchTest.cpp" />
+    <ClCompile Include="Source\RightClickTest.cpp" />
+    <ClCompile Include="Source\SiegeTest.cpp" />
+    <ClCompile Include="Source\TerranTest.cpp" />
+    <ClCompile Include="Source\TestMap1.cpp" />
+    <ClCompile Include="Source\TestModule.cpp" />
+    <ClCompile Include="Source\TrainTest.cpp" />
+    <ClCompile Include="Source\TransportTest.cpp" />
+    <ClCompile Include="Source\UpgradeTest.cpp" />
+    <ClCompile Include="Source\UseTechTest.cpp" />
+    <ClCompile Include="Source\ZergTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AttackMoveTest.h" />
+    <ClInclude Include="Source\AttackUnitTest.h" />
+    <ClInclude Include="Source\BuildingPlacer.h" />
+    <ClInclude Include="Source\BuildTest.h" />
+    <ClInclude Include="Source\BurrowTest.h" />
+    <ClInclude Include="Source\BWAssert.h" />
+    <ClInclude Include="Source\CancelConstructionTest.h" />
+    <ClInclude Include="Source\CancelMorphTest.h" />
+    <ClInclude Include="Source\CancelResearchTest.h" />
+    <ClInclude Include="Source\CancelTrainTest.h" />
+    <ClInclude Include="Source\CancelUpgradeTest.h" />
+    <ClInclude Include="Source\CloakTest.h" />
+    <ClInclude Include="Source\DefaultTestModule.h" />
+    <ClInclude Include="Source\EventTest.h" />
+    <ClInclude Include="Source\ExistenceTest.h" />
+    <ClInclude Include="Source\FollowTest.h" />
+    <ClInclude Include="Source\GatherTest.h" />
+    <ClInclude Include="Source\InterceptorTest.h" />
+    <ClInclude Include="Source\LiftTest.h" />
+    <ClInclude Include="Source\MapTest.h" />
+    <ClInclude Include="Source\MicroTest.h" />
+    <ClInclude Include="Source\MorphTest.h" />
+    <ClInclude Include="Source\MPHSTest.h" />
+    <ClInclude Include="Source\ProtossTest.h" />
+    <ClInclude Include="Source\RallyTest.h" />
+    <ClInclude Include="Source\RepairTest.h" />
+    <ClInclude Include="Source\ResearchTest.h" />
+    <ClInclude Include="Source\RightClickTest.h" />
+    <ClInclude Include="Source\SiegeTest.h" />
+    <ClInclude Include="Source\TerranTest.h" />
+    <ClInclude Include="Source\TestCase.h" />
+    <ClInclude Include="Source\TestMap1.h" />
+    <ClInclude Include="Source\TestModule.h" />
+    <ClInclude Include="Source\TrainTest.h" />
+    <ClInclude Include="Source\TransportTest.h" />
+    <ClInclude Include="Source\UpgradeTest.h" />
+    <ClInclude Include="Source\UseTechTest.h" />
+    <ClInclude Include="Source\ZergTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\Util.vcxproj">
+      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

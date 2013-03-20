@@ -59,7 +59,7 @@ namespace BW
     unsigned int min = abs(x - position.x);
     unsigned int max = abs(y - position.y);
     if ( max < min )
-      std::swap<unsigned int>(min,max);
+      std::swap(min,max);
 
     if ( min < (max >> 2) )
       return max;

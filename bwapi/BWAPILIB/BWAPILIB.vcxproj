@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{843656FD-9BFD-47BF-8460-7BFE9710EA2C}</ProjectGuid>
+    <RootNamespace>BWAPILIB</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>../include;../Util/Source;../BWAPI/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Copying include files to final release</Message>
+      <Command>XCOPY "$(SolutionDir)include\*.h" "$(SolutionDir)..\Release_Binary\include" /S /C /I /R /Y
+</Command>
+    </PreLinkEvent>
+    <Lib>
+      <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
+      <OutputFile>$(OutDir)BWAPI.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Message>Copying BWAPI library to Developer folder</Message>
+      <Command>COPY /y "$(OutDir)BWAPI.lib" "$(SolutionDir)..\Release_Binary\lib\BWAPI.lib"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../include;../Util/Source;../BWAPI/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <ProgramDataBaseFileName>$(OutDir)BWAPId.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <PreLinkEvent>
+      <Message>Copying include files to final release</Message>
+      <Command>XCOPY "$(SolutionDir)include\*.h" "$(SolutionDir)..\Release_Binary\include" /S /C /I /R /Y
+</Command>
+    </PreLinkEvent>
+    <Lib>
+      <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
+      <OutputFile>$(OutDir)BWAPId.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Message>Copying BWAPI library to Developer folder</Message>
+      <Command>COPY /y "$(OutDir)BWAPId.lib" "$(SolutionDir)..\Release_Binary\lib\BWAPId.lib"
+COPY /y "$(OutDir)BWAPId.pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AIModule.cpp" />
+    <ClCompile Include="Source\BulletType.cpp" />
+    <ClCompile Include="Source\BWAPI.cpp" />
+    <ClCompile Include="Source\Color.cpp" />
+    <ClCompile Include="Source\Common.cpp" />
+    <ClCompile Include="Source\DamageType.cpp" />
+    <ClCompile Include="Source\Error.cpp" />
+    <ClCompile Include="Source\Event.cpp" />
+    <ClCompile Include="Source\ExplosionType.cpp" />
+    <ClCompile Include="Source\GameType.cpp" />
+    <ClCompile Include="Source\Order.cpp" />
+    <ClCompile Include="Source\PlayerType.cpp" />
+    <ClCompile Include="Source\Position.cpp" />
+    <ClCompile Include="Source\Race.cpp" />
+    <ClCompile Include="Source\TechType.cpp" />
+    <ClCompile Include="Source\TilePosition.cpp" />
+    <ClCompile Include="Source\Type.cpp" />
+    <ClCompile Include="UnitCommand.cpp" />
+    <ClCompile Include="Source\UnitCommandType.cpp" />
+    <ClCompile Include="Source\UnitSizeType.cpp" />
+    <ClCompile Include="Source\UnitType.cpp" />
+    <ClCompile Include="Source\UpgradeType.cpp" />
+    <ClCompile Include="Source\WeaponType.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\BWAPI\AIModule.h" />
+    <ClInclude Include="..\include\BWAPI\BulletType.h" />
+    <ClInclude Include="..\include\BWAPI\Color.h" />
+    <ClInclude Include="Source\Common.h" />
+    <ClInclude Include="..\include\BWAPI\DamageType.h" />
+    <ClInclude Include="..\include\BWAPI\Error.h" />
+    <ClInclude Include="..\include\BWAPI\Event.h" />
+    <ClInclude Include="..\include\BWAPI\EventType.h" />
+    <ClInclude Include="..\include\BWAPI\ExplosionType.h" />
+    <ClInclude Include="..\include\BWAPI\Flag.h" />
+    <ClInclude Include="..\include\BWAPI\GameType.h" />
+    <ClInclude Include="..\include\BWAPI\Input.h" />
+    <ClInclude Include="..\include\BWAPI\Order.h" />
+    <ClInclude Include="..\include\BWAPI\PlayerType.h" />
+    <ClInclude Include="..\include\BWAPI\Position.h" />
+    <ClInclude Include="..\include\BWAPI\Race.h" />
+    <ClInclude Include="..\include\BWAPI\TechType.h" />
+    <ClInclude Include="..\include\BWAPI\TilePosition.h" />
+    <ClInclude Include="..\include\BWAPI\TournamentAction.h" />
+    <ClInclude Include="..\include\BWAPI\Type.h" />
+    <ClInclude Include="..\include\BWAPI\UnitCommand.h" />
+    <ClInclude Include="..\include\BWAPI\UnitCommandType.h" />
+    <ClInclude Include="..\include\BWAPI\UnitSizeType.h" />
+    <ClInclude Include="..\include\BWAPI\UnitType.h" />
+    <ClInclude Include="..\include\BWAPI\UpgradeType.h" />
+    <ClInclude Include="..\include\BWAPI\WeaponType.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Util\Util.vcxproj">
+      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

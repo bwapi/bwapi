@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="BW">
+      <UniqueIdentifier>{b58ad4db-e96c-4635-8675-cdea7608bcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BW\Header Files">
+      <UniqueIdentifier>{5d66832f-728b-4145-8eef-cce8ce34a295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BW\Source Files">
+      <UniqueIdentifier>{bdaf1b30-e76c-455b-88c7-a7dcb7b6614a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BW\Enumerations">
+      <UniqueIdentifier>{8a6c91c2-d90b-4d26-991b-aee72de7ed8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BWAPI">
+      <UniqueIdentifier>{4dc938a1-45ca-4ba9-894f-a1d1424181de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BWAPI\Source Files">
+      <UniqueIdentifier>{29a5dd67-b8fe-45e5-8c29-a442777cf134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BWAPI\Header Files">
+      <UniqueIdentifier>{06d2a929-7ecf-47cd-91f3-a0421893e29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{e3bed6c7-73ac-4e00-8644-be5d54e590b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hacks">
+      <UniqueIdentifier>{dc7fd0a6-c669-4069-96d6-b55677f0f94b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hacks\Header Files">
+      <UniqueIdentifier>{a9f3dc43-c4f4-43d6-ab42-09827161d982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hacks\Source Files">
+      <UniqueIdentifier>{43762c27-66fa-41c6-b5ec-0500b695b728}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\BW\Bullet.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\CheatType.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Dialog.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\GroupFlags.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Image.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Offsets.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Order.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\OrderTypes.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Path.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Pathing.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Position.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\PositionUnitTarget.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Sprite.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\TilePosition.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\TileSet.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\TileType.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\TriggerEngine.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Unit.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\UnitTarget.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\BNETCommands.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\CheatFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\DamageID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\ExplosionID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\FlingyID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\GameType.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\Latency.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\MenuPosition.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\MiniTileFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\MovementFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\OrderFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\OrderID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\PlayerType.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Race.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\TechID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\Triggers.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\UnitID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\UnitPrototypeFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\UnitSizeType.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BW\UnitStatusFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\UpgradeID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\WeaponID.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BW\WeaponTargetFlags.h">
+      <Filter>BW\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\BulletImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\BWtoBWAPI.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\Command.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\CommandTemp.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\ForceImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\GameImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BWAPI\Map.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BWAPI\PlayerImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\RegionImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\Server.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\Templates.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\TemplatesImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BWAPI\UnitImpl.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Bullet.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Constants.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\CoordinateType.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Force.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Game.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Latency.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Player.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Region.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Unit.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Assembly.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CodePatch.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Detours.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Holiday\Holiday.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NewHackUtil.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Recording.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Resolution.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WMode.h">
+      <Filter>Hacks\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Config.h" />
+    <ClInclude Include="Source\DLLMain.h" />
+    <ClInclude Include="Source\ExceptionFilter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\BW\CheatType.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Dialog.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Image.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Internal.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\OrderTypes.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Path.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Pathing.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\Position.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\PositionUnitTarget.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Race.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\TilePosition.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\TileSet.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\TriggerEngine.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BW\Unit.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BW\UnitTarget.cpp">
+      <Filter>BW\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\BulletImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\BulletShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\BWtoBWAPI.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\ForceImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\ForceShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameBullets.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameCommands.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameDrawing.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameEvents.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameInternals.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameMenu.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\GameShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\GameUnits.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BWAPI\Map.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BWAPI\PlayerImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\PlayerShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\RegionImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\RegionShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\Server.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\UnitImpl.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\UnitShared.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\UnitUpdate.cpp">
+      <Filter>BWAPI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Assembly.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CodePatch.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Detours.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Holiday\Holiday.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NewHackUtil.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Recording.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Resolution.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WMode.cpp">
+      <Filter>Hacks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Config.cpp" />
+    <ClCompile Include="source\DLLMain.cpp" />
+    <ClCompile Include="Source\ExceptionFilter.cpp" />
+  </ItemGroup>
+</Project>
