@@ -1,0 +1,26 @@
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group G\G7R@Cameleon@FM_Gerich.rep -- Fixed replay with 30055 frames. Desired: 4161289492 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group G\G7R@gL_Zelias@aspeak_fr.rep -- Fixed replay with 51506 frames. Desired: 3961882665 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group G\G7R@TC)Carls@SKTB.rep -- Fixed replay with 53375 frames. Desired: 3976268033 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H1R@nephDestroyer@Advokate[S2].rep -- Fixed replay with 16950 frames. Desired: 4094033939 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H1R@starhunter_au@allgames_Ra.rep -- Fixed replay with 42816 frames. Desired: 4026762260 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H3R@Advokate[S2]@Sephiroth_CL.rep -- Fixed replay with 40078 frames. Desired: 2468937728 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H3R@nephDestroyer@allgames_Ra.rep -- Fixed replay with 17359 frames. Desired: 636627200 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H5R@Advokate[S2]@rett_nl.rep -- Fixed replay with 15813 frames. Desired: 4077767188 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H5R@allgames_Ra@OgerDaniel.rep -- Fixed replay with 40072 frames. Desired: 4043391252 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H5R@nephDestroyer@Sephiroth_CL.rep -- Fixed replay with 31210 frames. Desired: 4194304228 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H6R@Advokate[S2]@allgames_Ra.rep -- Fixed replay with 13089 frames. Desired: 4144219156 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Full League\Group H\H7R@nephDestroyer@OgerDaniel.rep -- Fixed replay with 64793 frames. Desired: 3826078217 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\National Tournament\32R\32R@Brazil@Malaysia.rep -- Fixed replay with 36345 frames. Desired: 4211268373 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\National Tournament\32R\32R@China@Russia.rep -- Fixed replay with 27832 frames. Desired: 358354186 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\National Tournament\32R\32R@Poland@Bulgaria.rep -- Fixed replay with 22790 frames. Desired: 3607743764 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\16R\16R1@kdk4321_kr@HellGhost_br.rep -- Fixed replay with 21153 frames. Desired: 1210191366 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\16R\16R1@Phellan[S2]@elky.rep -- Fixed replay with 17864 frames. Desired: 3573615104 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\16R\16R2@gL_Zelias@SuKeR_es.rep -- Fixed replay with 42785 frames. Desired: 3825205252 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\16R\16R2@Grrrr_ca@FM_Gerich.rep -- Fixed replay with 33284 frames. Desired: 4144170261 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\16R\16R3@[pG]FisheYe_de@OgerDaniel.rep -- Fixed replay with 40426 frames. Desired: 3825205259 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\4R\4R3@[pG]FisheYe_de@Grrrr_ca.rep -- Fixed replay with 28158 frames. Desired: 3875604737 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\8R\8R1@wyw@skehgus_kr.rep -- Fixed replay with 39362 frames. Desired: 363530506 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\8R\8R1@[pG]FisheYe_de@elky.rep -- Fixed replay with 11381 frames. Desired: 3472951553 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\8R\8R2@SuKeR_es@ogogo.rep -- Fixed replay with 23716 frames. Desired: 4094493204 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\Final\34R1@skehgus_kr@grrrr_ca.rep -- Fixed replay with 23282 frames. Desired: 4145283328 frames.
+C:\Fili\Development\GP\RtsAiResearch\bwapi\bwapi\libReplayToolTest\TestData\Replays\Single Elimination Tournament\Final\F1@[pG]FisheYe_de@ogogo.rep -- Fixed replay with 20763 frames. Desired: 2785083667 frames.

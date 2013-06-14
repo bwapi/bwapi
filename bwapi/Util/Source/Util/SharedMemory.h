@@ -49,7 +49,7 @@ namespace Util
     {
         friend class SharedMemory;    // structure is part of SharedMemory
     private:
-	    int offset;
+      int offset;
     };
     //----------------------- FUNCTIONS --------------------------------
     SharedMemory();

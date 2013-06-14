@@ -1,5 +1,5 @@
 #pragma once
-#include "GameImpl.h"
-#include "PlayerImpl.h"
-#include "UnitImpl.h"
+#include <BWAPI/Client/GameImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
+#include <BWAPI/Client/UnitImpl.h>
 #include <Templates.h>

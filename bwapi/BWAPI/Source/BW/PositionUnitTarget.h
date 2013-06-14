@@ -13,6 +13,7 @@ namespace BW
   {
     public :
       PositionUnitTarget(const Position& position);
+      PositionUnitTarget(int x, int y);
       PositionUnitTarget(const UnitTarget& target);
       BW::Position   position;
       BW::UnitTarget target;

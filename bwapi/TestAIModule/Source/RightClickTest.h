@@ -12,9 +12,9 @@ class RightClickTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* unit;
-    BWAPI::Unit* enemyUnit;
-    BWAPI::Unit* friendUnit;
+    BWAPI::Unit unit;
+    BWAPI::Unit enemyUnit;
+    BWAPI::Unit friendUnit;
     BWAPI::UnitType unitType;
     BWAPI::UnitType enemyType;
     BWAPI::UnitType friendlyType;

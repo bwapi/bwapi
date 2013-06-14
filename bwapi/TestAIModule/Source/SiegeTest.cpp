@@ -17,7 +17,7 @@ void SiegeTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(UnitTypes::Terran_Siege_Tank_Tank_Mode);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode)
       unit = u;
 
@@ -41,7 +41,7 @@ void SiegeTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
   if (completedSiege==false)
   {
     if (unit->getOrder()!=Orders::Sieging)

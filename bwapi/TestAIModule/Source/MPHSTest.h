@@ -12,7 +12,7 @@ class MPHSTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* unit;
+    BWAPI::Unit unit;
     BWAPI::UnitType unitType;
     BWAPI::Position targetPosition;
 };

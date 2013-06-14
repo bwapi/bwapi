@@ -1,12 +1,11 @@
 #pragma once
-#pragma pack(1)
 #include "Position.h"
 #include <Util/Types.h>
-#include <set>
-#include <list>
 #include <vector>
 
-#define getRegionFromId(x) (&(BW::BWDATA_SAIPathing->regions[(x)&0x1FFF]))
+#pragma pack(1)
+
+#define getRegionFromId(x) (&((*BW::BWDATA::SAIPathing)->regions[(x)&0x1FFF]))
 
 namespace BW
 {
@@ -35,39 +34,43 @@ namespace BW
   class region
   {
   public:
-    bool                  isConnectedTo(region *target);
-    bool                  isConnectedTo(u16 index);
-    std::vector<region*>  &getAccessibleNeighbours();
-    int                   getAirDistance(region *dst);
-    region                *getNeighbor(u8 index);
-    Position              getCenter();
-    u16                   getIndex();
+    bool                  isConnectedTo(region *target) const;
+    bool                  isConnectedTo(u16 index) const;
+    std::vector<region*>  &getAccessibleNeighbours() const;
+    int                   getAirDistance(region *dst) const;
+    region                *getNeighbor(u8 index) const;
+    Position              getCenter() const;
+    u16                   getIndex() const;
 
     /*0x00*/u16       accessabilityFlags;
-                      // 0x1FF9 = High ground    1001
-                      // 0x1FFB = Low ground     1011
-                      // 0x1FFD = Inaccessible   1101
+                // 0x1FF9 = High ground    1001
+                // 0x1FFB = Low ground     1011
+                // 0x1FFD = Inaccessible   1101
     /*0x02*/u16       groupIndex; // Identifies connected regions
     /*0x04*/u16       tileCount;
     /*0x06*/u8        pathCount;
     /*0x07*/u8        neighborCount;
-    /*0x08*/u32       unk_8;
+    /*0x08*/union
+            {
+              void  *node;      // pointer to associated path node structure in path generation
+              int   relation;   // used in string-pulling/area-fixup routines
+            } user;             // Data in user is cleared after its use in a subroutine
     /*0x0C*/u16       *neighbors; // allocated array of IDs for neighbors
     /*0x10*/u32       rgnCenterX; // must >> 8; in pixels
     /*0x14*/u32       rgnCenterY; // must >> 8; in pixels
     /*0x18*/pathRect  rgnBox; // in pixels
-    /*0x20*/u32       properties; // flags
-                      /*
-                        0x001 = Key Point
-                        0x002 = Choke Point/Corridor
-                        0x100 = Map Bottom
-                      */
+    /*0x20*/u8        defencePriority;    /*
+                                            0x001 = Key Point
+                                            0x002 = Choke Point/Corridor
+                                          */
+    /*0x21*/u8        neighborProperty; // 0x01 for map bottom, subtracted from neighborCount in some place
+    /*0x22*/u16       unk_22;
     /*0x24*/u32       unk_24;
     /*0x28*/u32       unk_28;
     /*0x2C*/u16       localBuffer[10]; // local array of IDs for neighbors
   };
 
-  CTASSERT( sizeof(region) == 64 );
+  static_assert( sizeof(region) == 64, "BW::Region is incorrect." );
 
   /* Contour IDs and values:
      0: BOTTOM: y1, x1, x2
@@ -112,17 +115,18 @@ namespace BW
 
   struct SAI_Paths
   {
-    u32        regionCount;
-    void       *globalBuffer_ptr;
-    void       *splitTiles_end;
-    u16        mapTileRegionId[256][256];   // rgnId is &0x1FFF; split = &0x2000, 
-    split      splitTiles[25000];     // 0x2000C
-    region     regions[5000];         // 0x449FC
-    u16        globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
-    contourHub *contours;             // 0x97A1C
+    u32         regionCount;
+    void        *globalBuffer_ptr;
+    void        *splitTiles_end;
+    u16         mapTileRegionId[256][256];   // rgnId is &0x1FFF; split = &0x2000, 
+    split       splitTiles[25000];     // 0x2000C
+    region      regions[5000];         // 0x449FC
+    u16         globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays
+    contourHub  *contours;             // 0x97A1C
   };
 
   bool isCollidingWithContour(contourHub *hub, int x, int y, int left, int top, int right, int bottom);
+  BW::region *getRegionAt(int x, int y);
+  BW::region *getRegionAt(Position pos);
 }
-
 #pragma pack()

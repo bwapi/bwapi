@@ -11,15 +11,21 @@
 #include "UnitImpl.h"
 #include "BulletImpl.h"
 #include <list>
-#include <map>
-#include <set>
 #include <vector>
+
+#include <BWAPI/Unitset.h>
+#include <BWAPI/Bulletset.h>
+#include <BWAPI/Playerset.h>
+#include <BWAPI/Forceset.h>
+#include <BWAPI/Regionset.h>
 
 namespace BWAPI
 {
-  class Force;
-  class Player;
-  class Unit;
+  class ForceInterface;
+  typedef ForceInterface *Force;
+  class PlayerInterface;
+  typedef PlayerInterface *Player;
+
   class GameImpl : public Game
   {
     private :
@@ -27,6 +33,7 @@ namespace BWAPI
       int addString(const char* text);
       int addText(BWAPIC::Shape &s, const char* text);
       int addCommand(const BWAPIC::Command &c);
+      void processInterfaceEvents();
       void clearAll();
 
       GameData* data;
@@ -36,33 +43,32 @@ namespace BWAPI
       std::vector<BulletImpl> bulletVector;
       RegionImpl *regionArray[5000];
 
-      std::set<Force*> forces;
-      std::set<Player*> playerSet;
-      std::set<Unit*> accessibleUnits;//all units that are accessible (and definitely alive)
+      Forceset forces;
+      Playerset playerSet;
+      Unitset accessibleUnits;//all units that are accessible (and definitely alive)
       //notDestroyedUnits - accessibleUnits = all units that may or may not be alive (status unknown)
-      std::set<Unit*> minerals;
-      std::set<Unit*> geysers;
-      std::set<Unit*> neutralUnits;
-      std::set<Unit*> staticMinerals;
-      std::set<Unit*> staticGeysers;
-      std::set<Unit*> staticNeutralUnits;
-      std::set<Bullet*> bullets;
-      std::set<Position> nukeDots;
-      std::set<Unit*> selectedUnits;
-      std::set<Unit*> pylons;
-      std::set<Unit*> unitsOnTileData[256][256];
-      std::set<Region*> regionsList;
+      Unitset minerals;
+      Unitset geysers;
+      Unitset neutralUnits;
+      Unitset staticMinerals;
+      Unitset staticGeysers;
+      Unitset staticNeutralUnits;
+      Bulletset bullets;
+      Position::set nukeDots;
+      Unitset selectedUnits;
+      Unitset pylons;
+      Regionset regionsList;
 
-      std::set< TilePosition > startLocations;
+      TilePosition::set startLocations;
       std::list< Event > events;
       bool flagEnabled[2];
-      Player* thePlayer;
-      Player* theEnemy;
-      Player* theNeutral;
-      std::set<Player*> _allies;
-      std::set<Player*> _enemies;
-      std::set<Player*> _observers;
-      Error lastError;
+      Player thePlayer;
+      Player theEnemy;
+      Player theNeutral;
+      Playerset _allies;
+      Playerset _enemies;
+      Playerset _observers;
+      mutable Error lastError;
       int textSize;
 
     public :
@@ -74,174 +80,126 @@ namespace BWAPI
       void onMatchEnd();
       void onMatchFrame();
       const GameData* getGameData() const;
-      Unit *_unitFromIndex(int index);
+      Unit _unitFromIndex(int index);
 
-      virtual std::set< Force* >& getForces();
-      virtual std::set< Player* >& getPlayers();
-      virtual std::set< Unit* >& getAllUnits();
-      virtual std::set< Unit* >& getMinerals();
-      virtual std::set< Unit* >& getGeysers();
-      virtual std::set< Unit* >& getNeutralUnits();
+      virtual const Forceset& getForces() const override;
+      virtual const Playerset& getPlayers() const override;
+      virtual const Unitset& getAllUnits() const override;
+      virtual const Unitset& getMinerals() const override;
+      virtual const Unitset& getGeysers() const override;
+      virtual const Unitset& getNeutralUnits() const override;
 
-      virtual std::set< Unit* >& getStaticMinerals();
-      virtual std::set< Unit* >& getStaticGeysers();
-      virtual std::set< Unit* >& getStaticNeutralUnits();
+      virtual const Unitset& getStaticMinerals() const override;
+      virtual const Unitset& getStaticGeysers() const override;
+      virtual const Unitset& getStaticNeutralUnits() const override;
 
-      virtual std::set< Bullet* >& getBullets();
-      virtual std::set< Position >& getNukeDots();
-      virtual std::list< Event>& getEvents();
+      virtual const Bulletset& getBullets() const override;
+      virtual const Position::set& getNukeDots() const override;
+      virtual const std::list< Event>& getEvents() const override;
 
-      virtual Force* getForce(int forceID);
-      virtual Player* getPlayer(int playerID);
-      virtual Unit* getUnit(int unitID);
-      virtual Unit* indexToUnit(int unitIndex);
-      virtual Region* getRegion(int regionID);
+      virtual Force   getForce(int forceID) const override;
+      virtual Player  getPlayer(int playerID) const override;
+      virtual Unit    getUnit(int unitID) const override;
+      virtual Unit    indexToUnit(int unitIndex) const override;
+      virtual Region  getRegion(int regionID) const override;
 
-      virtual GameType getGameType();
-      virtual int getLatency();
-      virtual int getFrameCount();
-      virtual int getReplayFrameCount();
-      virtual int getFPS();
-      virtual double getAverageFPS();
-      virtual BWAPI::Position getMousePosition();
-      virtual bool getMouseState(MouseButton button);
-      virtual bool getMouseState(int button);
-      virtual bool getKeyState(Key key);
-      virtual bool getKeyState(int key);
-      virtual BWAPI::Position getScreenPosition();
-      virtual void setScreenPosition(int x, int y);
-      virtual void setScreenPosition(BWAPI::Position p);
-      virtual void pingMinimap(int x, int y);
-      virtual void pingMinimap(BWAPI::Position p);
+      virtual GameType getGameType() const override;
+      virtual int getLatency() const override;
+      virtual int getFrameCount() const override;
+      virtual int getReplayFrameCount() const override;
+      virtual int getFPS() const override;
+      virtual double getAverageFPS() const override;
+      virtual BWAPI::Position getMousePosition() const override;
+      virtual bool getMouseState(MouseButton button) const override;
+      virtual bool getKeyState(Key key) const override;
+      virtual BWAPI::Position getScreenPosition() const override;
+      virtual void setScreenPosition(int x, int y) override;
+      virtual void pingMinimap(int x, int y) override;
 
-      virtual bool  isFlagEnabled(int flag);
-      virtual void  enableFlag(int flag);
-      virtual std::set<Unit*>& getUnitsOnTile(int x, int y);
-      virtual std::set<Unit*>& getUnitsInRectangle(int left, int top, int right, int bottom) const;
-      virtual std::set<Unit*>& getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const;
-      virtual std::set<Unit*>& getUnitsInRadius(BWAPI::Position center, int radius) const;
-      virtual Error getLastError() const;
-      virtual bool  setLastError(BWAPI::Error e);
+      virtual bool      isFlagEnabled(int flag) const override;
+      virtual void      enableFlag(int flag) override;
+      virtual Unitset   getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const override;
+      virtual Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const override;
+      virtual Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::None, int radius = 999999) const override;
+      virtual Error     getLastError() const override;
+      virtual bool      setLastError(BWAPI::Error e = Errors::None) const override;
 
-      virtual int         mapWidth();
-      virtual int         mapHeight();
-      virtual std::string mapFileName();
-      virtual std::string mapPathName();
-      virtual std::string mapName();
-      virtual std::string mapHash();
+      virtual int         mapWidth() const override;
+      virtual int         mapHeight() const override;
+      virtual std::string mapFileName() const override;
+      virtual std::string mapPathName() const override;
+      virtual std::string mapName() const override;
+      virtual std::string mapHash() const override;
 
-      virtual bool isWalkable(int x, int y);
-      virtual int  getGroundHeight(int x, int y);
-      virtual int  getGroundHeight(TilePosition position);
-      virtual bool isBuildable(int x, int y, bool includeBuildings = false);
-      virtual bool isBuildable(TilePosition position, bool includeBuildings = false);
-      virtual bool isVisible(int x, int y);
-      virtual bool isVisible(TilePosition position);
-      virtual bool isExplored(int x, int y);
-      virtual bool isExplored(TilePosition position);
-      virtual bool hasCreep(int x, int y);
-      virtual bool hasCreep(TilePosition position);
-      virtual bool hasPower(int tileX, int tileY, UnitType unitType = UnitTypes::None) const;
-      virtual bool hasPower(TilePosition position, UnitType unitType = UnitTypes::None) const;
-      virtual bool hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const;
-      virtual bool hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType = UnitTypes::None) const;
-      virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const;
-      virtual bool hasPowerPrecise(Position position, UnitType unitType = UnitTypes::None) const;
+      virtual bool isWalkable(int x, int y) const override;
+      virtual int  getGroundHeight(int x, int y) const override;
+      virtual bool isBuildable(int x, int y, bool includeBuildings = false) const override;
+      virtual bool isVisible(int x, int y) const override;
+      virtual bool isExplored(int x, int y) const override;
+      virtual bool hasCreep(int x, int y) const override;
+      virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const override;
 
-      virtual bool canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored = false);
-      virtual bool canMake(const Unit* builder, UnitType type);
-      virtual bool canResearch(const Unit* unit, TechType type);
-      virtual bool canUpgrade(const Unit* unit, UpgradeType type);
-      virtual std::set< TilePosition >& getStartLocations();
+      virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) override;
+      virtual bool canMake(UnitType type, Unit builder = nullptr) const override;
+      virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
+      virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
+      virtual const TilePosition::set& getStartLocations() const override;
 
-      virtual void printf(const char* format, ...);
-      virtual void sendText(const char* format, ...);
-      virtual void sendTextEx(bool toAllies, const char *format, ...);
+      virtual void vPrintf(const char* format, va_list arg) override;
+      virtual void vSendTextEx(bool toAllies, const char *format, va_list arg) override;
 
-      virtual void changeRace(BWAPI::Race race);
-      virtual bool isInGame();
-      virtual bool isMultiplayer();
-      virtual bool isBattleNet();
-      virtual bool isPaused();
-      virtual bool isReplay();
+      virtual bool isInGame() const override;
+      virtual bool isMultiplayer() const override;
+      virtual bool isBattleNet() const override;
+      virtual bool isPaused() const override;
+      virtual bool isReplay() const override;
 
-      virtual void startGame();
-      virtual void pauseGame();
-      virtual void resumeGame();
-      virtual void leaveGame();
-      virtual void restartGame();
-      virtual void setLocalSpeed(int speed = -1);
-      virtual bool issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command);
-      virtual std::set<BWAPI::Unit*>& getSelectedUnits();
-      virtual Player* self();
-      virtual Player* enemy();
-      virtual Player* neutral();
-      virtual std::set<BWAPI::Player*>& allies();
-      virtual std::set<BWAPI::Player*>& enemies();
-      virtual std::set<BWAPI::Player*>& observers();
+      virtual void pauseGame() override;
+      virtual void resumeGame() override;
+      virtual void leaveGame() override;
+      virtual void restartGame() override;
+      virtual void setLocalSpeed(int speed = -1) override;
+      virtual bool issueCommand(const Unitset& units, UnitCommand command) override;
+      virtual const Unitset& getSelectedUnits() const override;
+      virtual Player self() const override;
+      virtual Player enemy() const override;
+      virtual Player neutral() const override;
+      virtual Playerset& allies() override;
+      virtual Playerset& enemies() override;
+      virtual Playerset& observers() override;
 
-      virtual void setTextSize(int size = 1);
-      virtual void drawText(int ctype, int x, int y, const char *format, ...);
-      virtual void drawTextMap(int x, int y, const char *format, ...);
-      virtual void drawTextMouse(int x, int y, const char *format, ...);
-      virtual void drawTextScreen(int x, int y, const char *format, ...);
+      virtual void setTextSize(int size = 1) override;
+      virtual void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg) override;
+      virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) override;
+      virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) override;
+      virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false) override;
+      virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) override;
+      virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color) override;
+      virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color) override;
 
-      virtual void drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
-      virtual void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
-      virtual void drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid = false);
-      virtual void drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid = false);
-
-      virtual void drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-      virtual void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-      virtual void drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-      virtual void drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
-
-      virtual void drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid = false);
-      virtual void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
-      virtual void drawCircleMouse(int x, int y, int radius, Color color, bool isSolid = false);
-      virtual void drawCircleScreen(int x, int y, int radius, Color color, bool isSolid = false);
-
-      virtual void drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-      virtual void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-      virtual void drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-      virtual void drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
-
-      virtual void drawDot(int ctype, int x, int y, Color color);
-      virtual void drawDotMap(int x, int y, Color color);
-      virtual void drawDotMouse(int x, int y, Color color);
-      virtual void drawDotScreen(int x, int y, Color color);
-
-      virtual void drawLine(int ctype, int x1, int y1, int x2, int y2, Color color);
-      virtual void drawLineMap(int x1, int y1, int x2, int y2, Color color);
-      virtual void drawLineMouse(int x1, int y1, int x2, int y2, Color color);
-      virtual void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
-
-      virtual void *getScreenBuffer();
-      virtual int  getLatencyFrames();
-      virtual int  getLatencyTime();
-      virtual int  getRemainingLatencyFrames();
-      virtual int  getRemainingLatencyTime();
-      virtual int  getRevision();
-      virtual bool isDebug();
-      virtual bool isLatComEnabled();
-      virtual void setLatCom(bool isEnabled);
-      virtual bool isGUIEnabled();
-      virtual void setGUI(bool enabled = true);
-      virtual int  getInstanceNumber();
-      virtual int  getAPM(bool includeSelects = false);
-      virtual bool setMap(const char *mapFileName);
-      virtual void setFrameSkip(int frameSkip = 1);
-      virtual bool hasPath(Position source, Position destination) const;
-      virtual bool setAlliance(BWAPI::Player *player, bool allied = true, bool alliedVictory = true);
-      virtual bool setVision(BWAPI::Player *player, bool enabled = true);
-      virtual int  elapsedTime() const;
-      virtual void setCommandOptimizationLevel(int level = 2);
-      virtual int  countdownTimer() const;
-      virtual const std::set<BWAPI::Region*> &getAllRegions() const;
-      virtual BWAPI::Region *getRegionAt(int x, int y) const;
-      virtual BWAPI::Region *getRegionAt(BWAPI::Position position) const;
-      virtual int getLastEventTime() const;
-      virtual bool setReplayVision(BWAPI::Player *player, bool enabled = true);
-      virtual bool setRevealAll(bool reveal = true);
+      virtual int  getLatencyFrames() const override;
+      virtual int  getLatencyTime() const override;
+      virtual int  getRemainingLatencyFrames() const override;
+      virtual int  getRemainingLatencyTime() const override;
+      virtual int  getRevision() const override;
+      virtual bool isDebug() const override;
+      virtual bool isLatComEnabled() const override;
+      virtual void setLatCom(bool isEnabled) override;
+      virtual bool isGUIEnabled() const override;
+      virtual void setGUI(bool enabled) override;
+      virtual int  getInstanceNumber() const override;
+      virtual int  getAPM(bool includeSelects = false) const override;
+      virtual bool setMap(const char *mapFileName) override;
+      virtual void setFrameSkip(int frameSkip) override;
+      virtual bool hasPath(Position source, Position destination) const override;
+      virtual bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true) override;
+      virtual bool setVision(BWAPI::Player player, bool enabled = true) override;
+      virtual int  elapsedTime() const override;
+      virtual void setCommandOptimizationLevel(int level) override;
+      virtual int  countdownTimer() const override;
+      virtual const Regionset &getAllRegions() const override;
+      virtual BWAPI::Region getRegionAt(int x, int y) const override;
+      virtual int getLastEventTime() const override;
+      virtual bool setRevealAll(bool reveal = true) override;
   };
 }

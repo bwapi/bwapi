@@ -5,17 +5,18 @@ bool lastIsAttackFrame;
 void MicroTest::onStart()
 {
   Broodwar->enableFlag(Flag::UserInput);
+  Broodwar->setCommandOptimizationLevel(4);
 }
 void MicroTest::onFrame()
 {
   Position goal=Broodwar->getMousePosition()+Broodwar->getScreenPosition();
-  std::map<Unit*, int> targetAdjustedHP;
-  std::map<Unit*, std::set<Unit*> > targetsInRange;
-  std::map<Unit*, std::set<Unit*> > targetGetAttackers;
-  for each(Unit* e in Broodwar->enemy()->getUnits())
+  std::map<Unit , int> targetAdjustedHP;
+  std::map<Unit , Unitset > targetsInRange;
+  std::map<Unit , Unitset > targetGetAttackers;
+  for each(Unit e in Broodwar->enemy()->getUnits())
   {
     targetAdjustedHP[e]=e->getHitPoints();
-    for each(Unit* s in Broodwar->self()->getUnits())
+    for each(Unit s in Broodwar->self()->getUnits())
     {
       if (s->isInWeaponRange(e))
       {
@@ -24,11 +25,11 @@ void MicroTest::onFrame()
       }
     }
   }
-  for each(Unit* s in Broodwar->self()->getUnits())
+  for each(Unit s in Broodwar->self()->getUnits())
   {
     int minAdjHP=100000;
-    Unit* localTarget = NULL;
-    for each(Unit* e in targetsInRange[s])
+    Unit localTarget = NULL;
+    for each(Unit e in targetsInRange[s])
     {
       if (localTarget == NULL || targetAdjustedHP[e]<minAdjHP)
       {
@@ -40,48 +41,48 @@ void MicroTest::onFrame()
   }
   bool isAttackFrame = false;
   int maxCoolDown = 0;
-  for each(Unit* s in Broodwar->self()->getUnits())
+  for each(Unit s in Broodwar->self()->getUnits())
   {
     isAttackFrame = isAttackFrame || s->isAttackFrame();
-    if (s->getGroundWeaponCooldown()>maxCoolDown)
+    if (s->getGroundWeaponCooldown() > maxCoolDown)
       maxCoolDown = s->getGroundWeaponCooldown();
   }
   if (lastIsAttackFrame && !isAttackFrame)
   {
     Broodwar->issueCommand(Broodwar->self()->getUnits(),UnitCommand::rightClick(NULL,goal));
-    for each(Unit* s in Broodwar->self()->getUnits())
+    for each(Unit s in Broodwar->self()->getUnits())
     {
-      Broodwar->drawLineMap(s->getPosition().x(),s->getPosition().y(),goal.x(),goal.y(),Colors::Green);
+      Broodwar->drawLineMap(s->getPosition(), goal, Colors::Green);
     }
   }
   else
   {
     if (maxCoolDown == 0)
     {
-      for each(std::pair<Unit*,std::set<Unit*> > p in targetGetAttackers)
+      for each(std::pair<Unit ,Unitset > p in targetGetAttackers)
       {
-        Unit* e = p.first;
-        for each(Unit* s in p.second)
+        Unit e = p.first;
+        for each(Unit s in p.second)
         {
-          if (Broodwar->getFrameCount()-s->getLastCommandFrame()>4)
+          if (Broodwar->getFrameCount() - s->getLastCommandFrame() > 4)
           {
             if (e)
             {
               s->attack(e);
-              Broodwar->drawLineMap(s->getPosition().x(),s->getPosition().y(),e->getPosition().x(),e->getPosition().y(),Colors::Red);
+              Broodwar->drawLineMap(s->getPosition(), e->getPosition(), Colors::Red);
             }
             else
             {
               s->rightClick(goal);
-              Broodwar->drawLineMap(s->getPosition().x(),s->getPosition().y(),goal.x(),goal.y(),Colors::Green);
+              Broodwar->drawLineMap(s->getPosition(), goal, Colors::Green);
             }
           }
         }
       }
     }
-    for each(Unit* s in Broodwar->self()->getUnits())
+    for each(Unit s in Broodwar->self()->getUnits())
     {
-      Broodwar->drawTextMap(s->getPosition().x(),s->getPosition().y(),"CD: %d",s->getGroundWeaponCooldown());
+      Broodwar->drawTextMap(s->getPosition(),"CD: %d",s->getGroundWeaponCooldown());
     }
 
   }

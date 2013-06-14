@@ -1,46 +1,51 @@
 #include <windows.h>
 #include <string>
 #include <vector>
-#include <math.h>
+#include <fstream>
+#include <cmath>
 #include <Util/Exceptions.h>
 #include "../Storm/storm.h"
 
 #include "WMode.h"
 #include "DLLMain.h"
 #include "Resolution.h"
-#include "Holiday/Holiday.h"
-
-#include "Detours.h"
-#include "BWAPI/GameImpl.h"
-#include "BWAPI/PlayerImpl.h"
-#include "BW/Offsets.h"
+#include "Thread.h"
 #include "Config.h"
 #include "NewHackUtil.h"
-#include "BW/TriggerEngine.h"
-#include "BW/MenuPosition.h"
+#include "Detours.h"
+#include "GameDrawing.h"
+#include "BWAPI/GameImpl.h"
+#include "BWAPI/PlayerImpl.h"
+
+#include <BW/Offsets.h>
+#include <BW/TriggerEngine.h>
+#include <BW/MenuPosition.h>
+#include <BW/Dialog.h>
+#include <BW/OrderTypes.h>
 
 #include "../../Debug.h"
 
 bool hideHUD;
-char gszDesiredReplayName[MAX_PATH];
+std::string gDesiredReplayName;
 
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
-BOOL   (STORMAPI *_SNetLeaveGameOld)(int type);
-int    (STORMAPI *_SStrCopyOld)(char *dest, const char *source, size_t size);
-BOOL   (STORMAPI *_SNetReceiveMessageOld)(int *senderplayerid, u8 **data, int *databytes);
-BOOL   (STORMAPI *_SFileOpenFileExOld)(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
-BOOL   (STORMAPI *_SFileOpenFileOld)(const char *filename, HANDLE *phFile);
-void*  (STORMAPI *_SMemAllocOld)(int amount, char *logfilename, int logline, char defaultValue);
-BOOL   (STORMAPI *_SNetSendTurnOld)(char *data, unsigned int databytes);
-BOOL   (STORMAPI *_SDrawCaptureScreenOld)(const char *pszOutput);
-HANDLE (WINAPI   *_FindFirstFileOld)(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData);
-BOOL   (WINAPI   *_DeleteFileOld)(LPCTSTR lpFileName);
-DWORD  (WINAPI   *_GetFileAttributesOld)(LPCTSTR lpFileName);
-HANDLE (WINAPI   *_CreateFileOld)(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
-HWND   (WINAPI   *_CreateWindowExAOld)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
-VOID   (WINAPI   *_SleepOld)(DWORD dwMilliseconds);
+DECL_OLDFXN(SNetLeaveGame);
+DECL_OLDFXN(SStrCopy);
+DECL_OLDFXN(SNetReceiveMessage);
+DECL_OLDFXN(SFileOpenFileEx);
+DECL_OLDFXN(SFileOpenFile);
+DECL_OLDFXN(SMemAlloc);
+DECL_OLDFXN(SNetSendTurn);
+DECL_OLDFXN(SDrawCaptureScreen);
+DECL_OLDFXN(FindFirstFile);
+DECL_OLDFXN(DeleteFile);
+DECL_OLDFXN(GetFileAttributes);
+DECL_OLDFXN(CreateFile);
+DECL_OLDFXN(CreateWindowEx);
+DECL_OLDFXN(Sleep);
+DECL_OLDFXN(CreateThread);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
 u8 savedRace[PLAYABLE_PLAYER_COUNT];
@@ -51,14 +56,14 @@ void _RandomizePlayerRaces()    // before
   for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
   {
     // Save the player's initial race
-    savedRace[i] = BW::BWDATA_Players[i].nRace;
+    savedRace[i] = BW::BWDATA::Players[i].nRace;
 
     // Give computer players a unique storm id
-    if ( BW::BWDATA_Players[i].dwStormId == -1 )
-      BW::BWDATA_Players[i].dwStormId -= i;
+    if ( BW::BWDATA::Players[i].dwStormId == -1 )
+      BW::BWDATA::Players[i].dwStormId -= i;
 
     // Save the ID so that we can map the saved race later
-    mappedIndex[i] = BW::BWDATA_Players[i].dwStormId;
+    mappedIndex[i] = BW::BWDATA::Players[i].dwStormId;
   }
 
   // Call original fxn
@@ -80,33 +85,12 @@ void _InitializePlayerConsole()   // after
   for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
   {
     // Retrieve the original race value before randomization occurred from the mapped index
-    int mapID = getMappedIndex(BW::BWDATA_Players[i].dwStormId);
-    BWAPI::Race r = BWAPI::Races::None;
-    if ( mapID != -1 )
-    {
-      int _r = savedRace[mapID];
-      switch ( _r )
-      {
-      case BW::Race::Zerg:
-      case BW::Race::Terran:
-      case BW::Race::Protoss:
-        r = BWAPI::Race(_r);
-        break;
-      case BW::Race::Random:
-        r = BWAPI::Races::Random;
-        break;
-      case BW::Race::None:
-        break;
-      default:
-        r = BWAPI::Races::Unknown;
-        break;
-      }
-    }
-    BWAPI::BroodwarImpl.lastKnownRaceBeforeStart[i] = r;
+    int mapID = getMappedIndex(BW::BWDATA::Players[i].dwStormId);
+    BWAPI::BroodwarImpl.lastKnownRaceBeforeStart[i] = (mapID == -1) ? BWAPI::Races::None : BWAPI::Race( savedRace[mapID] );
 
     // Reset the computer player's storm ID
-    if ( BW::BWDATA_Players[i].dwStormId < 0 )
-      BW::BWDATA_Players[i].dwStormId = -1;
+    if ( BW::BWDATA::Players[i].dwStormId < 0 )
+      BW::BWDATA::Players[i].dwStormId = -1;
   }
 
   // Call original fxn
@@ -116,9 +100,10 @@ void _InitializePlayerConsole()   // after
 //------------------------------------------------ TRIGGERS --------------------------------------------------
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
 {
-  dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[*BW::BWDATA_GameSpeed];
+  dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[*BW::BWDATA::GameSpeed];
   BW::BWFXN_ExecuteGameTriggers(dwMillisecondsPerFrame);
 }
+
 bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 {
@@ -133,14 +118,33 @@ bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
   return rval;
 }
 
+//--------------------------------------------- CREATE THREAD ------------------------------------------------
+HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId)
+{
+  auto CreateThreadProc = _CreateThreadOld ? _CreateThreadOld : &CreateThread;
+  
+  DWORD dwThreadId = 0;   // Local thread ID for thread labelling
+  HANDLE rval = CreateThreadProc(lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, &dwThreadId);
+
+  // Register the created thread
+  if ( rval != nullptr )
+    RegisterThreadName("Starcraft Broodwar", dwThreadId );
+
+  // Perform the expected behaviour if lpThreadId was provided
+  if ( lpThreadId )
+    *lpThreadId = dwThreadId;
+
+  return rval;
+}
+
 //------------------------------------------------ SLEEP ----------------------------------------------------
 VOID WINAPI _Sleep(DWORD dwMilliseconds)
 {
   if ( dwMilliseconds == 1500 ) // Main menu timer
     return;
 
-  if ( _SleepOld )
-    _SleepOld(dwMilliseconds);
+  auto SleepProc = _SleepOld ? _SleepOld : &Sleep;
+  SleepProc(dwMilliseconds);
 }
 
 //------------------------------------------- DIRECT DRAW INIT -----------------------------------------------
@@ -150,57 +154,39 @@ void DDInit()
 }
 //--------------------------------------------- CREATE WINDOW ------------------------------------------------
 bool detourCreateWindow = false;
-HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
+HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
 {
+  auto CreateWindowExProc = _CreateWindowExOld ? _CreateWindowExOld : &CreateWindowEx;
+
   HWND hWndReturn = NULL;
   if ( strcmp(lpClassName, "SWarClass") == 0 )
   {
-    char szNewWindowName[256];
-    strcpy(szNewWindowName, lpWindowName);
-
-    size_t pos = strlen(szNewWindowName);
+    std::stringstream newWindowName(lpWindowName);
     if ( gdwProcNum )
-      sprintf_s(&szNewWindowName[pos], 256 - pos, " Instance %u", gdwProcNum);
+      newWindowName << "Instance " << gdwProcNum;
 
     detourCreateWindow = true;
     if ( switchToWMode )
     {
-      HackUtil::CallPatch(BW::BWDATA_DDrawInitCallPatch, &DDInit);
-      if ( _CreateWindowExAOld )
-        hWndReturn = _CreateWindowExAOld(dwExStyle, 
-                                          lpClassName, 
-                                          szNewWindowName,
-                                          dwStyle | WS_OVERLAPPEDWINDOW, 
-                                          windowRect.left, 
-                                          windowRect.top, 
-                                          windowRect.right, 
-                                          windowRect.bottom, 
-                                          hWndParent, 
-                                          hMenu, 
-                                          hInstance, 
-                                          lpParam);
-      else
-        hWndReturn = CreateWindowEx(dwExStyle, 
-                                    lpClassName, 
-                                    szNewWindowName,
-                                    dwStyle | WS_OVERLAPPEDWINDOW, 
-                                    windowRect.left, 
-                                    windowRect.top, 
-                                    windowRect.right, 
-                                    windowRect.bottom, 
-                                    hWndParent, 
-                                    hMenu, 
-                                    hInstance, 
-                                    lpParam);
+      HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
+      hWndReturn = CreateWindowExProc(dwExStyle, 
+                                        lpClassName, 
+                                        newWindowName.str().c_str(),
+                                        dwStyle | WS_OVERLAPPEDWINDOW, 
+                                        windowRect.left, 
+                                        windowRect.top, 
+                                        windowRect.right, 
+                                        windowRect.bottom, 
+                                        hWndParent, 
+                                        hMenu, 
+                                        hInstance, 
+                                        lpParam);
       ghMainWnd = hWndReturn;
       SetWMode(windowRect.right, windowRect.bottom, true);
     }
     else
     {
-      if ( _CreateWindowExAOld )
-        hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, szNewWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-      else
-        hWndReturn = CreateWindowEx(dwExStyle, lpClassName, szNewWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+      hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.str().c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
       ghMainWnd = hWndReturn;
     }
     switchToWMode = false;
@@ -210,10 +196,7 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
   }
   else
   {
-    if ( _CreateWindowExAOld )
-      hWndReturn = _CreateWindowExAOld(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-    else
-      hWndReturn = CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+    hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
   }
   return hWndReturn;
 }
@@ -222,93 +205,61 @@ HWND WINAPI _CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindo
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
 {
   const char *pszFile = lpFileName;
-  if ( BWAPI::BroodwarImpl.autoMenuMapPath.size() > 0 && 
+  if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() && 
        BWAPI::BroodwarImpl.autoMenuMode != ""         &&
        BWAPI::BroodwarImpl.autoMenuMode != "OFF"      &&
        BWAPI::BroodwarImpl.lastMapGen.size() > 0      &&
        strstr(lpFileName, "*.*")  )
     pszFile = BWAPI::BroodwarImpl.lastMapGen.c_str();
 
-  if ( _FindFirstFileOld )
-    return _FindFirstFileOld(pszFile, lpFindFileData);
-  return FindFirstFile(pszFile, lpFindFileData);
+  auto FindFirstFileProc = _FindFirstFileOld ? _FindFirstFileOld : &FindFirstFile;
+  return FindFirstFileProc(pszFile, lpFindFileData);
 }
-void setReplayName(char *pOutFilename, const char *pInFileName)
+std::string &getReplayName(std::string &sInFilename)
 {
-  if ( strstr(pInFileName, "LastReplay.rep") )
+  // If it's an automatic replay save
+  if ( sInFilename.find("LastReplay.rep") != std::string::npos )
   {
-    if ( gszDesiredReplayName[0] )
-      strcpy(pOutFilename, gszDesiredReplayName);
-    else
-      strcpy(pOutFilename, pInFileName);
-
+    // If we're replacing the name
+    if ( !gDesiredReplayName.empty() )
+      sInFilename = gDesiredReplayName;
+    
+    // If we have multiple instances, so no write conflicts
     if ( gdwProcNum )
     {
-      char tmp[16];
-      sprintf(tmp, "[%u].rep", gdwProcNum);
-      char *ext = strrchr(pOutFilename, '.');
-      strcpy_s(ext, MAX_PATH - (ext ? ext - pOutFilename : 0), tmp);
+      // Add the instance number before .rep
+      std::stringstream ss( sInFilename.substr(0,sInFilename.find(".rep")) );
+      ss << '[' << gdwProcNum << ']' << ".rep";
+      sInFilename = ss.str();
     }
   }
-  else
-  {
-    strcpy(pOutFilename, pInFileName);
-  }
+  return sInFilename;
 }
-void DebugHookLog(const char *pszFxn, const char *pszFile)
-{
-  // DEBUG
-  char szHookLog[MAX_PATH];
-  sprintf_s(szHookLog, MAX_PATH, "%s\\bwapi-data\\logs\\hookdebug.log", szInstallPath);
-  FILE *dbg = fopen( szHookLog, "a+");
-  if ( dbg )
-  {
-    fprintf(dbg, "%s(%s)\n", pszFxn, pszFile);
-    fclose(dbg);
-  }
-  ////
-}
+
 BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
 {
-  // Obtain the alternative replay name
-  char szNewFileName[MAX_PATH];
-  setReplayName(szNewFileName, lpFileName);
-
-  // DEBUG
-  DebugHookLog("DeleteFile", lpFileName);
+  std::string fileName(lpFileName);
 
   // call the original function
-  if ( _DeleteFileOld )
-    return _DeleteFileOld(szNewFileName);
-  return DeleteFile(szNewFileName);
+  auto DeleteFileProc = _DeleteFileOld ? _DeleteFileOld : &DeleteFile;
+  return DeleteFileProc( getReplayName(fileName).c_str() );
 }
 DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
 {
-  // obtain the alternative replay name
-  char szNewFileName[MAX_PATH];
-  setReplayName(szNewFileName, lpFileName);
-
-  // DEBUG
-  DebugHookLog("GetFileAttributes", lpFileName);
+  std::string fileName(lpFileName);
 
   // call the original function
-  if ( _GetFileAttributesOld )
-    return _GetFileAttributesOld(szNewFileName);
-  return GetFileAttributes(szNewFileName);
+  auto GetFileAttributesProc = _GetFileAttributesOld ? _GetFileAttributesOld : GetFileAttributes;
+  return GetFileAttributesProc( getReplayName(fileName).c_str() );
 }
 HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
 {
-  // obtain the alternative replay name
-  char szNewFileName[MAX_PATH];
-  setReplayName(szNewFileName, lpFileName);
-
-  // DEBUG
-  DebugHookLog("CreateFile", lpFileName);
+  std::string fileName(lpFileName);
+  // @TODO: Check for read/write attributes
 
   // call the original function
-  if ( _CreateFileOld )
-    return _CreateFileOld(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-  return CreateFile(szNewFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+  auto CreateFileProc = _CreateFileOld ? _CreateFileOld : &CreateFile;
+  return CreateFileProc( getReplayName(fileName).c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
@@ -316,19 +267,18 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
   if ( !pszOutput )
     return FALSE;
 
-  char szNewScreenshotFilename[MAX_PATH] = { 0 };
-  strncpy(szNewScreenshotFilename, pszOutput, MAX_PATH);
+  std::string newScreenFilename(pszOutput);
 
   // Change screenshot extension
-  if ( szScreenshotFormat[0] )
+  if ( !screenshotFmt.empty() ) // If an extension replacement was specified
   {
-    char *ext = strrchr(szNewScreenshotFilename, '.');
-    if ( ext )
-      *(++ext) = 0;
+    size_t tmp = newScreenFilename.find_last_of("./\\");
+    if ( tmp != std::string::npos && newScreenFilename[tmp] == '.' )  // If extension is found
+      newScreenFilename.replace(tmp, std::string::npos, screenshotFmt);
     else
-      SStrNCat(szNewScreenshotFilename, ".", MAX_PATH);
-    SStrNCat(szNewScreenshotFilename, szScreenshotFormat, MAX_PATH);
+      newScreenFilename.append(screenshotFmt);
   }
+
   // Save the screenshot in w-mode
   if ( wmode && pBits && isCorrectVersion )
   {
@@ -341,21 +291,19 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
       pal[i].peBlue   = wmodebmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
-    return SBmpSaveImage(szNewScreenshotFilename, pal, pBits, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+    return SBmpSaveImage(newScreenFilename.c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height());
   }
   // Call the old fxn
-  if ( _SDrawCaptureScreenOld )
-    return _SDrawCaptureScreenOld(szNewScreenshotFilename);
-  return SDrawCaptureScreen(szNewScreenshotFilename);
+  auto SDrawCaptureScreenProc = _SDrawCaptureScreenOld ? _SDrawCaptureScreenOld : &SDrawCaptureScreen;
+  return SDrawCaptureScreenProc(newScreenFilename.c_str());
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
   BWAPI::BroodwarImpl.onGameEnd();
-  if ( _SNetLeaveGameOld )
-    return _SNetLeaveGameOld(type);
-  return SNetLeaveGame(type);
+  auto SNetLeaveGameProc = _SNetLeaveGameOld ? _SNetLeaveGameOld : &SNetLeaveGame;
+  return SNetLeaveGameProc(type);
 }
 
 //--------------------------------------------- NEXT FRAME HOOK ----------------------------------------------
@@ -363,47 +311,43 @@ BOOL __stdcall _SNetLeaveGame(int type)
 int __cdecl _nextFrameHook()
 {
   BWAPI::BroodwarImpl.update();
-  return *BW::BWDATA_isGamePaused;
+  return *BW::BWDATA::isGamePaused;
 }
 
 //------------------------------------------------- SEND TEXT ------------------------------------------------
-int __stdcall _SStrCopy(char *dest, const char *source, size_t size)
+int __stdcall _SStrCopy(char *dest, const char *source, int size)
 {
-  if ( strlen(source) > 0 && isCorrectVersion )
+  if ( source[0] && isCorrectVersion )
   {
-    if ( size == 0x7FFFFFFF && *BW::BWDATA_gwGameMode == 3 )
+    if ( size == 0x7FFFFFFF && *BW::BWDATA::gwGameMode == 3 )
     {
-      if ( dest == BW::BWDATA_SaveGameFile )
+      if ( dest == BW::BWDATA::SaveGameFile )
       {
-        /* onSaveGame */
+        // onSaveGame
         BWAPI::BroodwarImpl.onSaveGame((char*)source);
       }
       else
       {
-        /* onSend Game */
+        // onSend Game
         BWAPI::BroodwarImpl.sentMessages.push_back(std::string(source));
         dest[0] = 0;
         return 0;
       }
     }
-    else if ( size == 120 && *BW::BWDATA_gwGameMode != 3 )
+    else if ( size == 120 && *BW::BWDATA::gwGameMode != 3 )
     {
-      /* onSend Lobby */
+      // onSend Lobby
     }
   }
-  if ( _SStrCopyOld )
-    return _SStrCopyOld(dest, source, size);
-  return SStrCopy(dest, source, size);
+  auto SStrCopyProc = _SStrCopyOld ? _SStrCopyOld : &SStrCopy;
+  return SStrCopyProc(dest, source, size);
 }
 
 //----------------------------------------------- RECEIVE TEXT -----------------------------------------------
-BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databytes)
+BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, char **data, int *databytes)
 {
-  BOOL rval;
-  if ( _SNetReceiveMessageOld )
-    rval = _SNetReceiveMessageOld(senderplayerid, data, databytes);
-  else
-    rval = SNetReceiveMessage(senderplayerid, (char**)data, databytes);
+  auto SNetReceiveMessageProc = _SNetReceiveMessageOld ? _SNetReceiveMessageOld : &SNetReceiveMessage;
+  BOOL rval = SNetReceiveMessageProc(senderplayerid, data, databytes);
 
   if ( rval && *databytes > 2 && (*data)[0] == 0)
     BWAPI::BroodwarImpl.onReceiveText(*senderplayerid, std::string((char*)&(*data)[2]) );
@@ -416,22 +360,22 @@ bool wantRefresh = false;
 DWORD dwLastAPMCount;
 double botAPM_noSelect;
 double botAPM_select;
-void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
+void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
   if ( wantRefresh )
   {
     wantRefresh = false;
-    memset(BW::BWDATA_RefreshRegions, 1, 1200);
+    memset(BW::BWDATA::RefreshRegions, 1, 1200);
   }
 
   //GameUpdate(pSurface, pBounds);
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
-  if ( BW::BWDATA_GameScreenBuffer->data )
+  if ( BW::BWDATA::GameScreenBuffer->isValid() )
   {
-    if ( gdwHoliday )
-      DrawHoliday();
+    //if ( gdwHoliday )
+      //DrawHoliday();
 
     if ( !BWAPI::BroodwarImpl.isPaused() )
     {
@@ -453,18 +397,12 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 }
 //------------------------------------------------- MENU HOOK ------------------------------------------------
 bool nosound = false;
-bool doubleDraw = false;
-void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
+void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
   if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
-  if ( doubleDraw )  // prevents stack overflow and recursive calls which can cause bugs
-    return;
-
-  doubleDraw = true;
-
-  if ( *BW::BWDATA_gwGameMode == BW::GAME_GLUES )
+  if ( *BW::BWDATA::gwGameMode == BW::GAME_GLUES )
     BWAPI::BroodwarImpl.onMenuFrame();
 
   BW::dialog *timeout = BW::FindDialogGlobal("TimeOut");
@@ -480,7 +418,7 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
   {
     nosound = true;
     if ( LoadConfigString("starcraft", "sound", "ON") == "OFF" )
-      BW::BWDATA_DSoundDestroy();
+      BW::BWFXN_DSoundDestroy();
   }
 
   // WMODE config option
@@ -496,12 +434,10 @@ void __stdcall DrawDialogHook(BW::bitmap *pSurface, BW::bounds *pBounds)
     endDialog = BW::FindDialogGlobal("WMission");
   if ( endDialog )
     endDialog->findIndex(-2)->activate();
-
-  doubleDraw = false;
 }
 
 //------------------------------------------- AUTH ARCHIVE HOOK ----------------------------------------------
-BOOL __stdcall _SFileAuthenticateArchive(HANDLE hArchive, DWORD *dwReturnVal)
+BOOL __stdcall _SFileAuthenticateArchive(HANDLE /*hArchive*/, DWORD *dwReturnVal)
 {
   /* Always return a successful check to bypass our custom SNP module authentication */
   if ( dwReturnVal )
@@ -521,9 +457,8 @@ BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSea
 
   if ( !SFileOpenFileEx(NULL, szFileName, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
   {
-    if ( _SFileOpenFileExOld )
-      return _SFileOpenFileExOld(hMpq, szFileName, dwSearchScope, phFile);
-    return SFileOpenFileEx(hMpq, szFileName, dwSearchScope, phFile);
+    auto SFileOpenFileExProc = _SFileOpenFileExOld ? _SFileOpenFileExOld : &SFileOpenFileEx;
+    return SFileOpenFileExProc(hMpq, szFileName, dwSearchScope, phFile);
   }
   return TRUE;
 }
@@ -536,22 +471,18 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 
   if ( !SFileOpenFileEx(NULL, filename, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
   {
-    if ( _SFileOpenFileOld )
-      return _SFileOpenFileOld(filename, phFile);
-    return SFileOpenFile(filename, phFile);
+    auto SFileOpenFileProc = _SFileOpenFileOld ? _SFileOpenFileOld : &SFileOpenFile;
+    return SFileOpenFileProc(filename, phFile);
   }
   return TRUE;
 }
 
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
-void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defaultValue)
+void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue)
 {
   /* Call the original function */
-  void *rval = NULL;
-  if ( _SMemAllocOld )
-    rval = _SMemAllocOld(amount, logfilename, logline, defaultValue);
-  else
-    rval = SMemAlloc(amount, logfilename, logline, defaultValue);
+  auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;
+  void *rval = SMemAllocProc(amount, logfilename, logline, defaultValue);
 
   if ( isCorrectVersion )
   {
@@ -559,70 +490,25 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
          lastFile == "dlgs\\terran.grp"  ||
          lastFile == "dlgs\\zerg.grp" )
     {
-      if ( strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
+      if ( _strcmpi(logfilename, ".?AU_DLGGRP@@") == 0 )
       {
         if ( leakUIClassLoc )
           SMFree(leakUIClassLoc);
         leakUIClassLoc = rval;
-        BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
-        BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+        BW::BWDATA::customList_UIDlgData[0] = BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA::customList_UIDlgData;
       }
-      else if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
+      else if ( _strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
       {
         if ( leakUIGrpLoc )
           SMFree(leakUIGrpLoc);
         leakUIGrpLoc = rval;
-        BW::BWDATA_customList_UIDlgData[0] = BW::BWDATA_customList_UIDlgData;  // list with custom allocator?
-        BW::BWDATA_customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA_customList_UIDlgData;
+        BW::BWDATA::customList_UIDlgData[0] = BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA::customList_UIDlgData;
       }
     }
   } // isCorrectVer
-
-  /* Save the allocated string table pointer */
-  if ( lastFile == "rez\\stat_txt.tbl" )
-  {
-    BW::BWDATA_StringTableOff = (char*)rval;
-    lastFile = "";
-    //MessageBox(0, "BWDATA_StringTableOff", "", 0);
-  }
-
-  /* Save the allocated fog of war pointer */
-  if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
-  {
-    BW::BWDATA_ActiveTileArray = (BW::activeTile*)rval;
-    //MessageBox(0, "BWDATA_ActiveTileArray", "", 0);
-  }
-
-  /* Save the allocated mini-tile flags pointer */
-  if ( lastFile.find(".vf4") != std::string::npos )
-  {
-    BW::BWDATA_MiniTileFlags = (BW::MiniTileMaps_type*)rval;
-    lastFile = "";
-    //MessageBox(0, "BWDATA_MiniTileFlags", "", 0);
-  }
-
-  /* Save the allocated SAI_Paths pointer */
-  if ( strcmpi(logfilename, "Starcraft\\SWAR\\lang\\sai_PathCreate.cpp") == 0 && logline == 210 )
-  {
-    BW::BWDATA_SAIPathing = (BW::SAI_Paths*)rval;
-    //MessageBox(0, "BWDATA_SAIPathing", "", 0);
-  }
-
-  /* Save the allocated tileset pointer */
-  if ( lastFile.find(".cv5") != std::string::npos )
-  {
-    BW::BWDATA_TileSet    = (BW::TileType*)rval;
-    lastFile = "";
-    //MessageBox(0, "BWDATA_TileSet", "", 0);
-  }
-
-  /* Save the allocated map tile array pointer */
-  if ( amount == 0x20000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 603 )
-  {
-    BW::BWDATA_MapTileArray = (u16*)rval;
-    //MessageBox(0, "BWDATA_MapTileArray", "", 0);
-  }
-
+  
   return rval;
 }
 
@@ -634,9 +520,8 @@ BOOL __stdcall _SNetSendTurn(char *data, unsigned int databytes)
   /* Save tick/frame counts for getRemainingLatency*  */
   lastTurnTime  = GetTickCount();
   lastTurnFrame = BWAPI::BroodwarImpl.getFrameCount();
-  if ( _SNetSendTurnOld )
-    return _SNetSendTurnOld(data, databytes);
-  return SNetSendTurn(data, databytes);
+  auto SNetSendTurnProc = _SNetSendTurnOld ? _SNetSendTurnOld : &SNetSendTurn;
+  return SNetSendTurnProc(data, databytes);
 }
 
 //---------------------------------------- USER ISSUE COMMAND HOOK -------------------------------------------
@@ -691,7 +576,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
          buffer[0] == 0x5A )
     {
       //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
-      BW::Orders::Select sel = BW::Orders::Select(*BW::BWDATA_ClientSelectionCount, BW::BWDATA_ClientSelectionGroup);
+      BW::Orders::Select sel = BW::Orders::Select(*BW::BWDATA::ClientSelectionCount, BW::BWDATA::ClientSelectionGroup);
       QueueGameCommand(&sel, sel.size);
     } // user select
     QueueGameCommand(buffer, length);

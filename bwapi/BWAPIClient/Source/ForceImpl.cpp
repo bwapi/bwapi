@@ -1,9 +1,9 @@
 #include <BWAPI.h>
-#include "Client.h"
-#include "GameImpl.h"
-#include "ForceImpl.h"
-#include "PlayerImpl.h"
-#include "UnitImpl.h"
+#include <BWAPI/Client/Client.h>
+#include <BWAPI/Client/GameImpl.h>
+#include <BWAPI/Client/ForceImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
+#include <BWAPI/Client/UnitImpl.h>
 namespace BWAPI
 {
   ForceImpl::ForceImpl(int _id)
@@ -15,12 +15,12 @@ namespace BWAPI
   {
     return std::string(this->self->name);
   }
-  std::set<Player*> ForceImpl::getPlayers() const
+  Playerset ForceImpl::getPlayers() const
   {
-    std::set<Player*> players;
+    Playerset players;
     for( int i = 0; i < 12; ++i )
       if ( BWAPI::BWAPIClient.data->players[i].force == id )
-        players.insert( ((GameImpl*)Broodwar)->getPlayer(i) );
+        players.insert( Broodwar->getPlayer(i) );
     return players;
   }
 }

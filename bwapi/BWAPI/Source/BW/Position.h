@@ -1,25 +1,14 @@
 #pragma once
 
+#include <BWAPI/Position.h>
 #include <Util/Types.h>
-namespace BW { class TilePosition; class region; }
 
+#pragma pack(1)
 namespace BW
 {
   /** Direct mapping of bw representation of map position. */
-  class Position
-  {
-    public :
-      Position();
-      Position(const BW::TilePosition& position);
-      Position(u16 x, u16 y);
-      bool operator == (const BW::Position& position) const;
-      bool operator != (const BW::Position& position) const;
-      bool operator  < (const BW::Position& position) const;
-      u16 getDistance(const Position& position) const;
-      int getApproxDistance(const Position& position) const;
-      region *getRegion() const;
-      u16 x;
-      u16 y;
-  };
+  _MAKE_POSITION_TEMPLATE(Position,short,1)
+  _MAKE_POSITION_TEMPLATE(TilePosition,short,32)
 };
+#pragma pack()
 

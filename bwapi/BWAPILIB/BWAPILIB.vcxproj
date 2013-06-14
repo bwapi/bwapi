@@ -17,13 +17,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -38,27 +35,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Message>Updating revision information</Message>
+      <Command>pushd "$(SolutionDir)"
+"$(SolutionDir)\revisionUpdate.bat"
+popd</Command>
+    </PreBuildEvent>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../include;../Util/Source;../BWAPI/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <WarningLevel>Level4</WarningLevel>
-      <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4480</DisableSpecificWarnings>
     </ClCompile>
     <PreLinkEvent>
       <Message>Copying include files to final release</Message>
@@ -67,14 +66,20 @@
     </PreLinkEvent>
     <Lib>
       <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
-      <OutputFile>$(OutDir)BWAPI.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
       <Message>Copying BWAPI library to Developer folder</Message>
-      <Command>COPY /y "$(OutDir)BWAPI.lib" "$(SolutionDir)..\Release_Binary\lib\BWAPI.lib"</Command>
+      <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPI.lib"
+COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPI.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Message>Updating revision information</Message>
+      <Command>pushd "$(SolutionDir)"
+"$(SolutionDir)\revisionUpdate.bat"
+popd</Command>
+    </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
@@ -86,7 +91,8 @@
       <ProgramDataBaseFileName>$(OutDir)BWAPId.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4480</DisableSpecificWarnings>
     </ClCompile>
     <PreLinkEvent>
       <Message>Copying include files to final release</Message>
@@ -95,33 +101,40 @@
     </PreLinkEvent>
     <Lib>
       <UseUnicodeResponseFiles>false</UseUnicodeResponseFiles>
-      <OutputFile>$(OutDir)BWAPId.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
       <Message>Copying BWAPI library to Developer folder</Message>
-      <Command>COPY /y "$(OutDir)BWAPId.lib" "$(SolutionDir)..\Release_Binary\lib\BWAPId.lib"
-COPY /y "$(OutDir)BWAPId.pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb"
-</Command>
+      <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPId.lib"
+COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModule.cpp" />
+    <ClCompile Include="Source\Bulletset.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
     <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Common.cpp" />
     <ClCompile Include="Source\DamageType.cpp" />
     <ClCompile Include="Source\Error.cpp" />
     <ClCompile Include="Source\Event.cpp" />
     <ClCompile Include="Source\ExplosionType.cpp" />
+    <ClCompile Include="Source\Filters.cpp" />
+    <ClCompile Include="Source\Forceset.cpp" />
+    <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameType.cpp" />
     <ClCompile Include="Source\Order.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Playerset.cpp" />
     <ClCompile Include="Source\PlayerType.cpp" />
     <ClCompile Include="Source\Position.cpp" />
+    <ClCompile Include="Source\PositionUnit.cpp" />
     <ClCompile Include="Source\Race.cpp" />
+    <ClCompile Include="Source\Region.cpp" />
+    <ClCompile Include="Source\Regionset.cpp" />
     <ClCompile Include="Source\TechType.cpp" />
-    <ClCompile Include="Source\TilePosition.cpp" />
-    <ClCompile Include="Source\Type.cpp" />
+    <ClCompile Include="Source\Unit.cpp" />
+    <ClCompile Include="Source\Unitset.cpp" />
+    <ClCompile Include="Source\Vectorset.cpp" />
     <ClCompile Include="UnitCommand.cpp" />
     <ClCompile Include="Source\UnitCommandType.cpp" />
     <ClCompile Include="Source\UnitSizeType.cpp" />
@@ -131,8 +144,24 @@ COPY /y "$(OutDir)BWAPId.pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb"
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BWAPI\AIModule.h" />
+    <ClInclude Include="..\include\BWAPI\BestFilter.h" />
+    <ClInclude Include="..\include\BWAPI\Bulletset.h" />
     <ClInclude Include="..\include\BWAPI\BulletType.h" />
     <ClInclude Include="..\include\BWAPI\Color.h" />
+    <ClInclude Include="..\include\BWAPI\ComparisonFilter.h" />
+    <ClInclude Include="..\include\BWAPI\ConstVectorset.h" />
+    <ClInclude Include="..\include\BWAPI\CoordinateType.h" />
+    <ClInclude Include="..\include\BWAPI\Filters.h" />
+    <ClInclude Include="..\include\BWAPI\Forceset.h" />
+    <ClInclude Include="..\include\BWAPI\InterfaceEvent.h" />
+    <ClInclude Include="..\include\BWAPI\Latency.h" />
+    <ClInclude Include="..\include\BWAPI\Playerset.h" />
+    <ClInclude Include="..\include\BWAPI\PositionUnit.h" />
+    <ClInclude Include="..\include\BWAPI\Regionset.h" />
+    <ClInclude Include="..\include\BWAPI\UnaryFilter.h" />
+    <ClInclude Include="..\include\BWAPI\Unitset.h" />
+    <ClInclude Include="..\include\BWAPI\Vectorset.h" />
+    <ClInclude Include="..\include\BWAPI\Vectorset_iterator.h" />
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="..\include\BWAPI\DamageType.h" />
     <ClInclude Include="..\include\BWAPI\Error.h" />
@@ -147,7 +176,6 @@ COPY /y "$(OutDir)BWAPId.pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb"
     <ClInclude Include="..\include\BWAPI\Position.h" />
     <ClInclude Include="..\include\BWAPI\Race.h" />
     <ClInclude Include="..\include\BWAPI\TechType.h" />
-    <ClInclude Include="..\include\BWAPI\TilePosition.h" />
     <ClInclude Include="..\include\BWAPI\TournamentAction.h" />
     <ClInclude Include="..\include\BWAPI\Type.h" />
     <ClInclude Include="..\include\BWAPI\UnitCommand.h" />

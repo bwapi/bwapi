@@ -1,83 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Util">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Util\Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Util\Header Files">
-      <UniqueIdentifier>{5bb1e290-2646-4883-9112-f476cff4a819}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Source\Util\Exceptions.cpp">
-      <Filter>Util\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\MemoryFrame.cpp">
-      <Filter>Util\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\Mutex.cpp">
-      <Filter>Util\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\RemoteProcess.cpp">
-      <Filter>Util\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\sha1.cpp">
-      <Filter>Util\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\SharedMemory.cpp">
-      <Filter>Util\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util\Strings.cpp">
-      <Filter>Util\Source Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\MemoryFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\Mutex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\RemoteProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\sha1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\SharedMemory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Util\Exceptions.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\Foreach.h">
-      <Filter>Util\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Util\Gnu.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\MemoryFrame.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\Mutex.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\RectangleArray.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\RegionQuadTree.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\RemoteProcess.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\RemoteProcessID.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\sha1.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\SharedMemory.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\SharedStructure.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\Strings.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\Types.h">
-      <Filter>Util\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Util\clamp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Util\Convenience.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{36739171-9516-4825-a924-1fbe3e39e13c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{910802fb-1274-4870-a12a-a8420a8b20fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

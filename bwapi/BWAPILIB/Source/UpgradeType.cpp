@@ -1,10 +1,7 @@
 #include <string>
-#include <map>
-#include <set>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
-#include <Util/Foreach.h>
 
 #include "Common.h"
 
@@ -12,404 +9,364 @@
 
 namespace BWAPI
 {
-  bool initializingUpgradeType = true;
-  class UpgradeTypeInternal
+  const std::string UpgradeType::typeNames[UpgradeTypes::Enum::MAX] =
   {
-    public:
-      UpgradeTypeInternal() {valid = false;}
-      void set(const char* name, int mineralPriceBase, int mineralPriceFactor, int gasPriceBase, int gasPriceFactor, int upgradeTimeBase, int upgradeTimeFactor, BWAPI::UnitType whatUpgrades, Race race, BWAPI::UnitType whatUses, int maxRepeats = 1, BWAPI::UnitType reqLv1 = UnitTypes::None, BWAPI::UnitType reqLv2 = UnitTypes::None, BWAPI::UnitType reqLv3 = UnitTypes::None)
-      {
-        if (initializingUpgradeType)
-        {
-          this->name               = name;
-          this->mineralPriceBase   = mineralPriceBase;
-          this->mineralPriceFactor = mineralPriceFactor;
-          this->gasPriceBase       = gasPriceBase;
-          this->gasPriceFactor     = gasPriceFactor;
-          this->upgradeTimeBase    = upgradeTimeBase;
-          this->upgradeTimeFactor  = upgradeTimeFactor;
-          this->whatUpgrades       = whatUpgrades;
-          this->race               = race;
-          if (whatUses != UnitTypes::None)
-            this->whatUses.insert(whatUses);
-
-          this->maxRepeats = maxRepeats;
-          this->valid      = true;
-          
-          this->requirement[0] = reqLv1;
-          this->requirement[1] = reqLv2;
-          this->requirement[2] = reqLv3;
-        }
-      }
-      std::string name;
-      int mineralPriceBase;
-      int mineralPriceFactor;
-      int gasPriceBase;
-      int gasPriceFactor;
-      int upgradeTimeBase;
-      int upgradeTimeFactor;
-      BWAPI::UnitType whatUpgrades;
-      Race race;
-      int maxRepeats;
-      std::set<BWAPI::UnitType> whatUses;
-      BWAPI::UnitType requirement[3];
-      bool valid;
+    "Terran_Infantry_Armor",
+    "Terran_Vehicle_Plating",
+    "Terran_Ship_Plating",
+    "Zerg_Carapace",
+    "Zerg_Flyer_Carapace",
+    "Protoss_Ground_Armor",
+    "Protoss_Air_Armor",
+    "Terran_Infantry_Weapons",
+    "Terran_Vehicle_Weapons",
+    "Terran_Ship_Weapons",
+    "Zerg_Melee_Attacks",
+    "Zerg_Missile_Attacks",
+    "Zerg_Flyer_Attacks",
+    "Protoss_Ground_Weapons",
+    "Protoss_Air_Weapons",
+    "Protoss_Plasma_Shields",
+    "U_238_Shells",
+    "Ion_Thrusters",
+    "",
+    "Titan_Reactor",
+    "Ocular_Implants",
+    "Moebius_Reactor",
+    "Apollo_Reactor",
+    "Colossus_Reactor",
+    "Ventral_Sacs",
+    "Antennae",
+    "Pneumatized_Carapace",
+    "Metabolic_Boost",
+    "Adrenal_Glands",
+    "Muscular_Augments",
+    "Grooved_Spines",
+    "Gamete_Meiosis",
+    "Metasynaptic_Node",
+    "Singularity_Charge",
+    "Leg_Enhancements",
+    "Scarab_Damage",
+    "Reaver_Capacity",
+    "Gravitic_Drive",
+    "Sensor_Array",
+    "Gravitic_Boosters",
+    "Khaydarin_Amulet",
+    "Apial_Sensors",
+    "Gravitic_Thrusters",
+    "Carrier_Capacity",
+    "Khaydarin_Core",
+    "",
+    "",
+    "Argus_Jewel",
+    "",
+    "Argus_Talisman",
+    "",
+    "Caduceus_Reactor",
+    "Chitinous_Plating",
+    "Anabolic_Synthesis",
+    "Charon_Boosters",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "None",
+    "Unknown"
   };
-  UpgradeTypeInternal upgradeTypeData[63];
-  std::map<std::string, UpgradeType> upgradeTypeMap;
-  std::set< UpgradeType > upgradeTypeSet;
+
+  // LOCALIZATION
+  std::string upgradeLocalNames[UpgradeTypes::Enum::MAX];
+
+  // DEFAULTS
+  static const int defaultOreCostBase[UpgradeTypes::Enum::MAX] =    // same as default gas cost base
+  { 
+    100, 100, 150, 150, 150, 100, 150, 100, 100, 100, 100, 100, 100, 100, 100, 200, 150, 100, 200, 150, 100, 150, 200, 150, 200, 150, 150, 100, 200,
+    150, 150, 150, 150, 150, 150, 200, 200, 200, 150, 150, 150, 100, 200, 100, 150, 0, 0, 100, 100, 150, 150, 150, 150, 200, 100, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+  static const int defaultOreCostFactor[UpgradeTypes::Enum::MAX] =    // same as default gas cost factor
+  { 
+    75, 75, 75, 75, 75, 75, 75, 75, 75, 50, 50, 50, 75, 50, 75, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+  static const int defaultTimeCostBase[UpgradeTypes::Enum::MAX] =
+  { 
+    4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 4000, 1500, 1500, 0, 2500,
+    2500, 2500, 2500, 2500, 2400, 2000, 2000, 1500, 1500, 1500, 1500, 2500, 2500, 2500, 2000, 2500, 2500, 2500, 2000,
+    2000, 2500, 2500, 2500, 1500, 2500, 0, 0, 2500, 2500, 2500, 2500, 2500, 2000, 2000, 2000, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+  static const int defaultTimeCostFactor[UpgradeTypes::Enum::MAX] =
+  { 
+    480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 480, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+  static const int defaultMaxRepeats[UpgradeTypes::Enum::MAX] = 
+  {
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+  // ACTUAL
+  int oreCostBase[UpgradeTypes::Enum::MAX], gasCostBase[UpgradeTypes::Enum::MAX], timeCostBase[UpgradeTypes::Enum::MAX];
+  int oreCostFactor[UpgradeTypes::Enum::MAX], gasCostFactor[UpgradeTypes::Enum::MAX], timeCostFactor[UpgradeTypes::Enum::MAX];
+  int maxRepeats[UpgradeTypes::Enum::MAX];
+
+  namespace upgradeInternalWhat
+  {
+    using namespace UnitTypes::Enum;
+    static const int whatUpgrades[UpgradeTypes::Enum::MAX] =
+    {
+      Terran_Engineering_Bay, Terran_Armory, Terran_Armory, Zerg_Evolution_Chamber, Zerg_Spire, Protoss_Forge, Protoss_Cybernetics_Core, Terran_Engineering_Bay,
+      Terran_Armory, Terran_Armory, Zerg_Evolution_Chamber, Zerg_Evolution_Chamber, Zerg_Spire, Protoss_Forge, Protoss_Cybernetics_Core, Protoss_Forge, Terran_Academy,
+      Terran_Machine_Shop, None, Terran_Science_Facility, Terran_Covert_Ops, Terran_Covert_Ops, Terran_Control_Tower, Terran_Physics_Lab, Zerg_Lair, Zerg_Lair, Zerg_Lair,
+      Zerg_Spawning_Pool, Zerg_Spawning_Pool, Zerg_Hydralisk_Den, Zerg_Hydralisk_Den, Zerg_Queens_Nest, Zerg_Defiler_Mound, Protoss_Cybernetics_Core, Protoss_Citadel_of_Adun,
+      Protoss_Robotics_Support_Bay, Protoss_Robotics_Support_Bay, Protoss_Robotics_Support_Bay, Protoss_Observatory, Protoss_Observatory, Protoss_Templar_Archives, 
+      Protoss_Fleet_Beacon, Protoss_Fleet_Beacon, Protoss_Fleet_Beacon, Protoss_Arbiter_Tribunal, None, None, Protoss_Fleet_Beacon, None, Protoss_Templar_Archives,
+      None, Terran_Academy, Zerg_Ultralisk_Cavern, Zerg_Ultralisk_Cavern, Terran_Machine_Shop, None, None, None, None, None, None, None, None
+    };
+  }
+  namespace upgradeInternalReqs
+  {
+    using namespace UnitTypes::Enum;
+    static const int requirements[3][UpgradeTypes::Enum::MAX] =
+    {
+      // Level 1
+      { None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 
+        None, None, None, None, None, Zerg_Hive, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+        None, None, None, None, None, None, None, None, Terran_Armory, None, None, None, None, None, None, None, None },
+      // Level 2
+      { Terran_Science_Facility, Terran_Science_Facility, Terran_Science_Facility, Zerg_Lair, Zerg_Lair, Protoss_Templar_Archives, Protoss_Fleet_Beacon,
+        Terran_Science_Facility, Terran_Science_Facility, Terran_Science_Facility, Zerg_Lair, Zerg_Lair, Zerg_Lair, Protoss_Templar_Archives,
+        Protoss_Fleet_Beacon, Protoss_Cybernetics_Core, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+        None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+        None, None, None, None, None, None, None, None, None },
+      // Level 3
+      { Terran_Science_Facility, Terran_Science_Facility, Terran_Science_Facility, Zerg_Hive, Zerg_Hive, Protoss_Templar_Archives, Protoss_Fleet_Beacon,
+        Terran_Science_Facility, Terran_Science_Facility, Terran_Science_Facility, Zerg_Hive, Zerg_Hive, Zerg_Hive, Protoss_Templar_Archives,
+        Protoss_Fleet_Beacon, Protoss_Cybernetics_Core, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+        None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+        None, None, None, None, None, None, None, None, None },
+    };
+  }
+  namespace upgradeInternalUsage
+  {
+    using namespace UnitTypes::Enum;
+
+    static const int Infantry_Armor[] = { Terran_Marine, Terran_Ghost, Terran_SCV, Hero_Gui_Montag, Terran_Civilian, Hero_Sarah_Kerrigan,
+                                          Hero_Jim_Raynor_Marine, Terran_Firebat, Terran_Medic, Hero_Samir_Duran, Hero_Alexei_Stukov };
+    static const int Vehicle_Plating[] = { Terran_Vulture, Terran_Goliath, Terran_Siege_Tank_Tank_Mode, Hero_Alan_Schezar, Hero_Jim_Raynor_Vulture,
+                                            Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Terran_Siege_Tank_Siege_Mode };
+    static const int Ship_Plating[] = { Terran_Wraith, Terran_Science_Vessel, Terran_Dropship, Terran_Battlecruiser, Hero_Tom_Kazansky, Hero_Magellan,
+                                        Hero_Arcturus_Mengsk, Hero_Hyperion, Hero_Norad_II, Terran_Valkyrie, Hero_Gerard_DuGalle };
+    static const int Carapace[] = { Zerg_Larva, Zerg_Egg, Zerg_Zergling, Zerg_Hydralisk, Zerg_Ultralisk, Zerg_Broodling, Zerg_Drone, Zerg_Defiler, 
+                                    Hero_Torrasque, Zerg_Infested_Terran, Hero_Infested_Kerrigan, Hero_Unclean_One, Hero_Hunter_Killer, Hero_Devouring_One,
+                                    Zerg_Cocoon, Zerg_Lurker_Egg, Zerg_Lurker, Hero_Infested_Duran };
+    static const int Flyer_Carapace[] = { Zerg_Overlord, Zerg_Mutalisk, Zerg_Guardian, Zerg_Queen, Zerg_Scourge, Hero_Matriarch, Hero_Kukulza_Mutalisk,
+                                          Hero_Kukulza_Guardian, Hero_Yggdrasill, Zerg_Devourer };
+    static const int Protoss_Armor[] = { Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
+                                          Protoss_Archon, Hero_Dark_Templar, Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon,
+                                          Hero_Tassadar, Hero_Warbringer, Protoss_Reaver, Hero_Aldaris };
+    static const int Protoss_Plating[] = { Protoss_Corsair, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, Protoss_Interceptor, Hero_Mojo,
+                                            Hero_Gantrithor, Protoss_Observer, Hero_Danimoth, Hero_Artanis, Hero_Raszagal };
+    static const int Infantry_Weapons[] = { Terran_Marine, Hero_Jim_Raynor_Marine, Terran_Ghost, Hero_Sarah_Kerrigan, Terran_Firebat, Hero_Gui_Montag,
+                                            Special_Wall_Flame_Trap, Special_Right_Wall_Flame_Trap, Hero_Samir_Duran, Hero_Alexei_Stukov, Hero_Infested_Duran };
+    static const int Vehicle_Weapons[] = { Terran_Vulture, Hero_Jim_Raynor_Vulture, Terran_Goliath, Hero_Alan_Schezar, Terran_Siege_Tank_Tank_Mode,
+                                            Terran_Siege_Tank_Siege_Mode, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Special_Floor_Missile_Trap,
+                                            Special_Floor_Gun_Trap, Special_Wall_Missile_Trap, Special_Right_Wall_Missile_Trap };
+    static const int Ship_Weapons[] = { Terran_Wraith, Hero_Tom_Kazansky, Terran_Battlecruiser, Hero_Hyperion, Hero_Norad_II, Hero_Arcturus_Mengsk,
+                                        Hero_Gerard_DuGalle, Terran_Valkyrie };
+    static const int Zerg_MeleeAtk[] = { Zerg_Zergling, Hero_Devouring_One, Hero_Infested_Kerrigan, Zerg_Ultralisk, Hero_Torrasque, Zerg_Broodling };
+    static const int Zerg_RangeAtk[] = { Zerg_Hydralisk, Hero_Hunter_Killer, Zerg_Lurker };
+    static const int Zerg_FlyerAtk[] = { Zerg_Mutalisk, Hero_Kukulza_Mutalisk, Hero_Kukulza_Guardian, Zerg_Guardian, Zerg_Devourer };
+    static const int Protoss_GrndWpn[] = { Protoss_Zealot, Hero_Fenix_Zealot, Protoss_Dragoon, Hero_Fenix_Dragoon, Hero_Tassadar, Hero_Aldaris, Protoss_Archon,
+                                            Hero_Tassadar_Zeratul_Archon, Hero_Dark_Templar, Hero_Zeratul, Protoss_Dark_Templar };
+    static const int Protoss_AirWpn[] = { Protoss_Scout, Hero_Mojo, Protoss_Arbiter, Hero_Danimoth, Protoss_Interceptor, Protoss_Carrier, Protoss_Corsair, Hero_Artanis };
+    static const int Shields[] = { Protoss_Corsair, Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
+                                    Protoss_Archon, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, Protoss_Interceptor, Hero_Dark_Templar,
+                                    Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon, Hero_Tassadar, Hero_Mojo, Hero_Warbringer,
+                                    Hero_Gantrithor, Protoss_Reaver, Protoss_Observer, Hero_Danimoth, Hero_Aldaris, Hero_Artanis, Hero_Raszagal };
+    static const int Shells[] = { Terran_Marine };
+    static const int Ion_Thrusters[] = { Terran_Vulture };
+    static const int Titan_Reactor[] = { Terran_Science_Vessel };
+    static const int Ghost_Upgrades[] = { Terran_Ghost };
+    static const int Apollo_Reactor[] = { Terran_Wraith };
+    static const int Colossus_Reactor[] = { Terran_Battlecruiser };
+    static const int Overlord_Upgrades[] = { Zerg_Overlord };
+    static const int Zergling_Upgrades[] = { Zerg_Zergling };
+    static const int Hydralisk_Upgrades[] = { Zerg_Hydralisk };
+    static const int Gamete_Meiosis[] = { Zerg_Queen };
+    static const int Metasynaptic_Node[] = { Zerg_Defiler };
+    static const int Singularity_Charge[] = { Protoss_Dragoon };
+    static const int Leg_Enhancements[] = { Protoss_Zealot };
+    static const int Reaver_Upgrades[] = { Protoss_Reaver };
+    static const int Gravitic_Drive[] = { Protoss_Shuttle };
+    static const int Observer_Upgrades[] = { Protoss_Observer };
+    static const int Khaydarin_Amulet[] = { Protoss_High_Templar };
+    static const int Scout_Upgrades[] = { Protoss_Scout };
+    static const int Carrier_Capacity[] = { Protoss_Carrier };
+    static const int Khaydarin_Core[] = { Protoss_Arbiter };
+    static const int Argus_Jewel[] = { Protoss_Corsair };
+    static const int Argus_Talisman[] = { Protoss_Dark_Archon };
+    static const int Caduceus_Reactor[] = { Terran_Medic };
+    static const int Ultralisk_Upgrades[] = { Zerg_Ultralisk };
+    static const int Charon_Boosters[] = { Terran_Goliath };
+
+    static const int Upgrade60[] = { Terran_Vulture_Spider_Mine, Critter_Ursadon, Critter_Scantid, Critter_Rhynadon, Critter_Ragnasaur, Critter_Kakaru, Critter_Bengalaas,
+                                      Special_Cargo_Ship, Special_Mercenary_Gunship, Terran_SCV, Protoss_Probe, Zerg_Drone, Zerg_Infested_Terran, Zerg_Scourge };
+
+#define TSET(x) UnitType::const_set(x, countof(x))
+#define TSETEMPTY UnitType::const_set(&UnitTypes::None)
+    static const UnitType::const_set upgradeWhatUses[UpgradeTypes::Enum::MAX] =
+    {
+      TSET(Infantry_Armor), TSET(Vehicle_Plating), TSET(Ship_Plating), TSET(Carapace), TSET(Flyer_Carapace), TSET(Protoss_Armor), TSET(Protoss_Plating),
+      TSET(Infantry_Weapons), TSET(Vehicle_Weapons), TSET(Ship_Weapons), TSET(Zerg_MeleeAtk), TSET(Zerg_RangeAtk), TSET(Zerg_FlyerAtk), TSET(Protoss_GrndWpn),
+      TSET(Protoss_AirWpn), TSET(Shields), TSET(Shells), TSET(Ion_Thrusters), TSETEMPTY, TSET(Titan_Reactor), TSET(Ghost_Upgrades), TSET(Ghost_Upgrades),
+      TSET(Apollo_Reactor), TSET(Colossus_Reactor), TSET(Overlord_Upgrades), TSET(Overlord_Upgrades), TSET(Overlord_Upgrades), TSET(Zergling_Upgrades),
+      TSET(Zergling_Upgrades), TSET(Hydralisk_Upgrades), TSET(Hydralisk_Upgrades), TSET(Gamete_Meiosis), TSET(Metasynaptic_Node), TSET(Singularity_Charge),
+      TSET(Leg_Enhancements), TSET(Reaver_Upgrades), TSET(Reaver_Upgrades), TSET(Gravitic_Drive), TSET(Observer_Upgrades), TSET(Observer_Upgrades),
+      TSET(Khaydarin_Amulet), TSET(Scout_Upgrades), TSET(Scout_Upgrades), TSET(Carrier_Capacity), TSET(Khaydarin_Core), TSETEMPTY, TSETEMPTY,
+      TSET(Argus_Jewel), TSETEMPTY, TSET(Argus_Talisman), TSETEMPTY, TSET(Caduceus_Reactor), TSET(Ultralisk_Upgrades), TSET(Ultralisk_Upgrades),
+      TSET(Charon_Boosters), TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSET(Upgrade60), TSETEMPTY, TSETEMPTY
+    };
+  }
+
+  namespace upgradeInternalRace
+  {
+    using namespace Races::Enum;
+    static const int upgradeRaces[UpgradeTypes::Enum::MAX] =
+    {
+      Terran, Terran, Terran, Zerg, Zerg, Protoss, Protoss, Terran, Terran, Terran, Zerg, Zerg, Zerg, Protoss, Protoss, Protoss, Terran, Terran, Terran, Terran, Terran, 
+      Terran, Terran, Terran, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, 
+      Protoss, Protoss, Protoss, None, None, Protoss, None, Protoss, None, Terran, Zerg, Zerg, Terran, None, None, None, None, None, None, None, Unknown
+    };
+  }
+
+  namespace UpgradeTypeSet
+  {
+    using namespace UpgradeTypes::Enum;
+    BWAPI_TYPESET(upgradeTypeSet, UpgradeType, Terran_Infantry_Armor, Terran_Vehicle_Plating, Terran_Ship_Plating,
+                                                Zerg_Carapace, Zerg_Flyer_Carapace, Protoss_Ground_Armor, Protoss_Air_Armor,
+                                                Terran_Infantry_Weapons, Terran_Vehicle_Weapons, Terran_Ship_Weapons,
+                                                Zerg_Melee_Attacks, Zerg_Missile_Attacks, Zerg_Flyer_Attacks, 
+                                                Protoss_Ground_Weapons, Protoss_Air_Weapons, Protoss_Plasma_Shields, 
+                                                U_238_Shells, Ion_Thrusters, Titan_Reactor, Ocular_Implants, 
+                                                Moebius_Reactor, Apollo_Reactor, Colossus_Reactor, Ventral_Sacs, 
+                                                Antennae, Pneumatized_Carapace, Metabolic_Boost, Adrenal_Glands, 
+                                                Muscular_Augments, Grooved_Spines, Gamete_Meiosis, Metasynaptic_Node, 
+                                                Singularity_Charge, Leg_Enhancements, Scarab_Damage, Reaver_Capacity, 
+                                                Gravitic_Drive, Sensor_Array, Gravitic_Boosters, Khaydarin_Amulet, 
+                                                Apial_Sensors, Gravitic_Thrusters, Carrier_Capacity, Khaydarin_Core, 
+                                                Argus_Jewel, Argus_Talisman, Caduceus_Reactor, Chitinous_Plating, 
+                                                Anabolic_Synthesis, Charon_Boosters, None, Unknown );
+  }
   namespace UpgradeTypes
   {
-    const UpgradeType Terran_Infantry_Armor(0);
-    const UpgradeType Terran_Vehicle_Plating(1);
-    const UpgradeType Terran_Ship_Plating(2);
-    const UpgradeType Zerg_Carapace(3);
-    const UpgradeType Zerg_Flyer_Carapace(4);
-    const UpgradeType Protoss_Ground_Armor(5);
-    const UpgradeType Protoss_Air_Armor(6);
-    const UpgradeType Terran_Infantry_Weapons(7);
-    const UpgradeType Terran_Vehicle_Weapons(8);
-    const UpgradeType Terran_Ship_Weapons(9);
-    const UpgradeType Zerg_Melee_Attacks(10);
-    const UpgradeType Zerg_Missile_Attacks(11);
-    const UpgradeType Zerg_Flyer_Attacks(12);
-    const UpgradeType Protoss_Ground_Weapons(13);
-    const UpgradeType Protoss_Air_Weapons(14);
-    const UpgradeType Protoss_Plasma_Shields(15);
-    const UpgradeType U_238_Shells(16);
-    const UpgradeType Ion_Thrusters(17);
-    const UpgradeType Titan_Reactor(19);
-    const UpgradeType Ocular_Implants(20);
-    const UpgradeType Moebius_Reactor(21);
-    const UpgradeType Apollo_Reactor(22);
-    const UpgradeType Colossus_Reactor(23);
-    const UpgradeType Ventral_Sacs(24);
-    const UpgradeType Antennae(25);
-    const UpgradeType Pneumatized_Carapace(26);
-    const UpgradeType Metabolic_Boost(27);
-    const UpgradeType Adrenal_Glands(28);
-    const UpgradeType Muscular_Augments(29);
-    const UpgradeType Grooved_Spines(30);
-    const UpgradeType Gamete_Meiosis(31);
-    const UpgradeType Metasynaptic_Node(32);
-    const UpgradeType Singularity_Charge(33);
-    const UpgradeType Leg_Enhancements(34);
-    const UpgradeType Scarab_Damage(35);
-    const UpgradeType Reaver_Capacity(36);
-    const UpgradeType Gravitic_Drive(37);
-    const UpgradeType Sensor_Array(38);
-    const UpgradeType Gravitic_Boosters(39);
-    const UpgradeType Khaydarin_Amulet(40);
-    const UpgradeType Apial_Sensors(41);
-    const UpgradeType Gravitic_Thrusters(42);
-    const UpgradeType Carrier_Capacity(43);
-    const UpgradeType Khaydarin_Core(44);
-    const UpgradeType Argus_Jewel(47);
-    const UpgradeType Argus_Talisman(49);
-    const UpgradeType Caduceus_Reactor(51);
-    const UpgradeType Chitinous_Plating(52);
-    const UpgradeType Anabolic_Synthesis(53);
-    const UpgradeType Charon_Boosters(54);
-    const UpgradeType None(61);
-    const UpgradeType Unknown(62);
-
-    void init()
-    {
-      upgradeTypeData[Terran_Infantry_Armor].set("Terran Infantry Armor"    , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Terran_Engineering_Bay      , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Terran_Vehicle_Plating].set("Terran Vehicle Plating"  , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Terran_Armory               , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Terran_Ship_Plating].set("Terran Ship Plating"        , 150, 75 , 150, 75 , 4000, 480, UnitTypes::Terran_Armory               , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Zerg_Carapace].set("Zerg Carapace"                    , 150, 75 , 150, 75 , 4000, 480, UnitTypes::Zerg_Evolution_Chamber      , Races::Zerg   , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Zerg_Lair, UnitTypes::Zerg_Hive);
-      upgradeTypeData[Zerg_Flyer_Carapace].set("Zerg Flyer Carapace"        , 150, 75 , 150, 75 , 4000, 480, UnitTypes::Zerg_Spire                  , Races::Zerg   , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Zerg_Lair, UnitTypes::Zerg_Hive);
-      upgradeTypeData[Protoss_Ground_Armor].set("Protoss Ground Armor"      , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Protoss_Forge               , Races::Protoss, UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Protoss_Templar_Archives, UnitTypes::Protoss_Templar_Archives);
-      upgradeTypeData[Protoss_Air_Armor].set("Protoss Air Armor"            , 150, 75 , 150, 75 , 4000, 480, UnitTypes::Protoss_Cybernetics_Core    , Races::Protoss, UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Protoss_Fleet_Beacon, UnitTypes::Protoss_Fleet_Beacon);
-      upgradeTypeData[Terran_Infantry_Weapons].set("Terran Infantry Weapons", 100, 75 , 100, 75 , 4000, 480, UnitTypes::Terran_Engineering_Bay      , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Terran_Vehicle_Weapons].set("Terran Vehicle Weapons"  , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Terran_Armory               , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Terran_Ship_Weapons].set("Terran Ship Weapons"        , 100, 50 , 100, 50 , 4000, 480, UnitTypes::Terran_Armory               , Races::Terran , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Terran_Science_Facility, UnitTypes::Terran_Science_Facility);
-      upgradeTypeData[Zerg_Melee_Attacks].set("Zerg Melee Attacks"          , 100, 50 , 100, 50 , 4000, 480, UnitTypes::Zerg_Evolution_Chamber      , Races::Zerg   , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Zerg_Lair, UnitTypes::Zerg_Hive);
-      upgradeTypeData[Zerg_Missile_Attacks].set("Zerg Missile Attacks"      , 100, 50 , 100, 50 , 4000, 480, UnitTypes::Zerg_Evolution_Chamber      , Races::Zerg   , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Zerg_Lair, UnitTypes::Zerg_Hive);
-      upgradeTypeData[Zerg_Flyer_Attacks].set("Zerg Flyer Attacks"          , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Zerg_Spire                  , Races::Zerg   , UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Zerg_Lair, UnitTypes::Zerg_Hive);
-      upgradeTypeData[Protoss_Ground_Weapons].set("Protoss Ground Weapons"  , 100, 50 , 100, 50 , 4000, 480, UnitTypes::Protoss_Forge               , Races::Protoss, UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Protoss_Templar_Archives, UnitTypes::Protoss_Templar_Archives);
-      upgradeTypeData[Protoss_Air_Weapons].set("Protoss Air Weapons"        , 100, 75 , 100, 75 , 4000, 480, UnitTypes::Protoss_Cybernetics_Core    , Races::Protoss, UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Protoss_Fleet_Beacon, UnitTypes::Protoss_Fleet_Beacon);
-      upgradeTypeData[Protoss_Plasma_Shields].set("Protoss Plasma Shields"  , 200, 100, 200, 100, 4000, 480, UnitTypes::Protoss_Forge               , Races::Protoss, UnitTypes::None                 , 3, UnitTypes::None, UnitTypes::Protoss_Cybernetics_Core, UnitTypes::Protoss_Cybernetics_Core);
-      upgradeTypeData[U_238_Shells].set("U-238 Shells"                      , 150, 0  , 150, 0  , 1500, 0  , UnitTypes::Terran_Academy              , Races::Terran , UnitTypes::Terran_Marine);
-      upgradeTypeData[Ion_Thrusters].set("Ion Thrusters"                    , 100, 0  , 100, 0  , 1500, 0  , UnitTypes::Terran_Machine_Shop         , Races::Terran , UnitTypes::Terran_Vulture);
-      upgradeTypeData[Titan_Reactor].set("Titan Reactor"                    , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Terran_Science_Facility     , Races::Terran , UnitTypes::Terran_Science_Vessel);
-      upgradeTypeData[Ocular_Implants].set("Ocular Implants"                , 100, 0  , 100, 0  , 2500, 0  , UnitTypes::Terran_Covert_Ops           , Races::Terran , UnitTypes::Terran_Ghost);
-      upgradeTypeData[Moebius_Reactor].set("Moebius Reactor"                , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Terran_Covert_Ops           , Races::Terran , UnitTypes::Terran_Ghost);
-      upgradeTypeData[Apollo_Reactor].set("Apollo Reactor"                  , 200, 0  , 200, 0  , 2500, 0  , UnitTypes::Terran_Control_Tower        , Races::Terran , UnitTypes::Terran_Wraith);
-      upgradeTypeData[Colossus_Reactor].set("Colossus Reactor"              , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Terran_Physics_Lab          , Races::Terran , UnitTypes::Terran_Battlecruiser);
-      upgradeTypeData[Ventral_Sacs].set("Ventral Sacs"                      , 200, 0  , 200, 0  , 2400, 0  , UnitTypes::Zerg_Lair                   , Races::Zerg   , UnitTypes::Zerg_Overlord);
-      upgradeTypeData[Antennae].set("Antennae"                              , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Zerg_Lair                   , Races::Zerg   , UnitTypes::Zerg_Overlord);
-      upgradeTypeData[Pneumatized_Carapace].set("Pneumatized Carapace"      , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Zerg_Lair                   , Races::Zerg   , UnitTypes::Zerg_Overlord);
-      upgradeTypeData[Metabolic_Boost].set("Metabolic Boost"                , 100, 0  , 100, 0  , 1500, 0  , UnitTypes::Zerg_Spawning_Pool          , Races::Zerg   , UnitTypes::Zerg_Zergling);
-      upgradeTypeData[Adrenal_Glands].set("Adrenal Glands"                  , 200, 0  , 200, 0  , 1500, 0  , UnitTypes::Zerg_Spawning_Pool          , Races::Zerg   , UnitTypes::Zerg_Zergling);
-      upgradeTypeData[Muscular_Augments].set("Muscular Augments"            , 150, 0  , 150, 0  , 1500, 0  , UnitTypes::Zerg_Hydralisk_Den          , Races::Zerg   , UnitTypes::Zerg_Hydralisk);
-      upgradeTypeData[Grooved_Spines].set("Grooved Spines"                  , 150, 0  , 150, 0  , 1500, 0  , UnitTypes::Zerg_Hydralisk_Den          , Races::Zerg   , UnitTypes::Zerg_Hydralisk);
-      upgradeTypeData[Gamete_Meiosis].set("Gamete Meiosis"                  , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Zerg_Queens_Nest            , Races::Zerg   , UnitTypes::Zerg_Queen);
-      upgradeTypeData[Metasynaptic_Node].set("Metasynaptic Node"            , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Zerg_Defiler_Mound          , Races::Zerg   , UnitTypes::Zerg_Defiler);
-      upgradeTypeData[Singularity_Charge].set("Singularity Charge"          , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Protoss_Cybernetics_Core    , Races::Protoss, UnitTypes::Protoss_Dragoon);
-      upgradeTypeData[Leg_Enhancements].set("Leg Enhancements"              , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Protoss_Citadel_of_Adun     , Races::Protoss, UnitTypes::Protoss_Zealot);
-      upgradeTypeData[Scarab_Damage].set("Scarab Damage"                    , 200, 0  , 200, 0  , 2500, 0  , UnitTypes::Protoss_Robotics_Support_Bay, Races::Protoss, UnitTypes::Protoss_Scarab);
-      upgradeTypeData[Reaver_Capacity].set("Reaver Capacity"                , 200, 0  , 200, 0  , 2500, 0  , UnitTypes::Protoss_Robotics_Support_Bay, Races::Protoss, UnitTypes::Protoss_Reaver);
-      upgradeTypeData[Gravitic_Drive].set("Gravitic Drive"                  , 200, 0  , 200, 0  , 2500, 0  , UnitTypes::Protoss_Robotics_Support_Bay, Races::Protoss, UnitTypes::Protoss_Shuttle);
-      upgradeTypeData[Sensor_Array].set("Sensor Array"                      , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Protoss_Observatory         , Races::Protoss, UnitTypes::Protoss_Observer);
-      upgradeTypeData[Gravitic_Boosters].set("Gravitic Boosters"            , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Protoss_Observatory         , Races::Protoss, UnitTypes::Protoss_Observer);
-      upgradeTypeData[Khaydarin_Amulet].set("Khaydarin Amulet"              , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Protoss_Templar_Archives    , Races::Protoss, UnitTypes::Protoss_High_Templar);
-      upgradeTypeData[Apial_Sensors].set("Apial Sensors"                    , 100, 0  , 100, 0  , 2500, 0  , UnitTypes::Protoss_Fleet_Beacon        , Races::Protoss, UnitTypes::Protoss_Scout);
-      upgradeTypeData[Gravitic_Thrusters].set("Gravitic Thrusters"          , 200, 0  , 200, 0  , 2500, 0  , UnitTypes::Protoss_Fleet_Beacon        , Races::Protoss, UnitTypes::Protoss_Scout);
-      upgradeTypeData[Carrier_Capacity].set("Carrier Capacity"              , 100, 0  , 100, 0  , 1500, 0  , UnitTypes::Protoss_Fleet_Beacon        , Races::Protoss, UnitTypes::Protoss_Carrier);
-      upgradeTypeData[Khaydarin_Core].set("Khaydarin Core"                  , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Protoss_Arbiter_Tribunal    , Races::Protoss, UnitTypes::Protoss_Arbiter);
-      upgradeTypeData[Argus_Jewel].set("Argus Jewel"                        , 100, 0  , 100, 0  , 2500, 0  , UnitTypes::Protoss_Fleet_Beacon        , Races::Protoss, UnitTypes::Protoss_Corsair);
-      upgradeTypeData[Argus_Talisman].set("Argus Talisman"                  , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Protoss_Templar_Archives    , Races::Protoss, UnitTypes::Protoss_Dark_Archon );
-      upgradeTypeData[Caduceus_Reactor].set("Caduceus Reactor"              , 150, 0  , 150, 0  , 2500, 0  , UnitTypes::Terran_Academy              , Races::Terran , UnitTypes::Terran_Medic);
-      upgradeTypeData[Chitinous_Plating].set("Chitinous Plating"            , 150, 0  , 150, 0  , 2000, 0  , UnitTypes::Zerg_Ultralisk_Cavern       , Races::Zerg   , UnitTypes::Zerg_Ultralisk);
-      upgradeTypeData[Anabolic_Synthesis].set("Anabolic Synthesis"          , 200, 0  , 200, 0  , 2000, 0  , UnitTypes::Zerg_Ultralisk_Cavern       , Races::Zerg   , UnitTypes::Zerg_Ultralisk);
-      upgradeTypeData[Charon_Boosters].set("Charon Boosters"                , 100, 0  , 100, 0  , 2000, 0  , UnitTypes::Terran_Machine_Shop         , Races::Terran , UnitTypes::Terran_Goliath, 1, UnitTypes::Terran_Armory);
-      upgradeTypeData[None].set("None"                                      , 0  , 0  , 0  , 0  , 0   , 0  , UnitTypes::None                        , Races::None   , UnitTypes::None, 0);
-      upgradeTypeData[Unknown].set("Unknown"                                , 0  , 0  , 0  , 0  , 0   , 0  , UnitTypes::None                        , Races::Unknown, UnitTypes::None, 0);
-
-      upgradeTypeData[Terran_Infantry_Armor].whatUses.insert(UnitTypes::Terran_Firebat);
-      upgradeTypeData[Terran_Infantry_Armor].whatUses.insert(UnitTypes::Terran_Ghost);
-      upgradeTypeData[Terran_Infantry_Armor].whatUses.insert(UnitTypes::Terran_Marine);
-      upgradeTypeData[Terran_Infantry_Armor].whatUses.insert(UnitTypes::Terran_Medic);
-      upgradeTypeData[Terran_Infantry_Armor].whatUses.insert(UnitTypes::Terran_SCV);
-      upgradeTypeData[Terran_Vehicle_Plating].whatUses.insert(UnitTypes::Terran_Goliath);
-      upgradeTypeData[Terran_Vehicle_Plating].whatUses.insert(UnitTypes::Terran_Siege_Tank_Siege_Mode);
-      upgradeTypeData[Terran_Vehicle_Plating].whatUses.insert(UnitTypes::Terran_Siege_Tank_Tank_Mode);
-      upgradeTypeData[Terran_Vehicle_Plating].whatUses.insert(UnitTypes::Terran_Vulture);
-      upgradeTypeData[Terran_Ship_Plating].whatUses.insert(UnitTypes::Terran_Battlecruiser);
-      upgradeTypeData[Terran_Ship_Plating].whatUses.insert(UnitTypes::Terran_Dropship);
-      upgradeTypeData[Terran_Ship_Plating].whatUses.insert(UnitTypes::Terran_Science_Vessel);
-      upgradeTypeData[Terran_Ship_Plating].whatUses.insert(UnitTypes::Terran_Valkyrie);
-      upgradeTypeData[Terran_Ship_Plating].whatUses.insert(UnitTypes::Terran_Wraith);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Broodling);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Defiler);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Drone);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Hydralisk);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Infested_Terran);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Larva);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Lurker);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Ultralisk);
-      upgradeTypeData[Zerg_Carapace].whatUses.insert(UnitTypes::Zerg_Zergling);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Devourer);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Guardian);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Mutalisk);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Overlord);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Queen);
-      upgradeTypeData[Zerg_Flyer_Carapace].whatUses.insert(UnitTypes::Zerg_Scourge);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Archon);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Dark_Archon);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Dark_Templar);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Dragoon);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_High_Templar);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Probe);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Reaver);
-      upgradeTypeData[Protoss_Ground_Armor].whatUses.insert(UnitTypes::Protoss_Zealot);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Arbiter);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Carrier);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Corsair);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Interceptor);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Observer);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Scout);
-      upgradeTypeData[Protoss_Air_Armor].whatUses.insert(UnitTypes::Protoss_Shuttle);
-      upgradeTypeData[Terran_Infantry_Weapons].whatUses.insert(UnitTypes::Terran_Firebat);
-      upgradeTypeData[Terran_Infantry_Weapons].whatUses.insert(UnitTypes::Terran_Ghost);
-      upgradeTypeData[Terran_Infantry_Weapons].whatUses.insert(UnitTypes::Terran_Marine);
-      upgradeTypeData[Terran_Vehicle_Weapons].whatUses.insert(UnitTypes::Terran_Goliath);
-      upgradeTypeData[Terran_Vehicle_Weapons].whatUses.insert(UnitTypes::Terran_Siege_Tank_Siege_Mode);
-      upgradeTypeData[Terran_Vehicle_Weapons].whatUses.insert(UnitTypes::Terran_Siege_Tank_Tank_Mode);
-      upgradeTypeData[Terran_Vehicle_Weapons].whatUses.insert(UnitTypes::Terran_Vulture);
-      upgradeTypeData[Terran_Ship_Weapons].whatUses.insert(UnitTypes::Terran_Battlecruiser);
-      upgradeTypeData[Terran_Ship_Weapons].whatUses.insert(UnitTypes::Terran_Valkyrie);
-      upgradeTypeData[Terran_Ship_Weapons].whatUses.insert(UnitTypes::Terran_Wraith);
-      upgradeTypeData[Zerg_Melee_Attacks].whatUses.insert(UnitTypes::Zerg_Broodling);
-      upgradeTypeData[Zerg_Melee_Attacks].whatUses.insert(UnitTypes::Zerg_Ultralisk);
-      upgradeTypeData[Zerg_Melee_Attacks].whatUses.insert(UnitTypes::Zerg_Zergling);
-      upgradeTypeData[Zerg_Missile_Attacks].whatUses.insert(UnitTypes::Zerg_Hydralisk);
-      upgradeTypeData[Zerg_Missile_Attacks].whatUses.insert(UnitTypes::Zerg_Lurker);
-      upgradeTypeData[Zerg_Flyer_Attacks].whatUses.insert(UnitTypes::Zerg_Devourer);
-      upgradeTypeData[Zerg_Flyer_Attacks].whatUses.insert(UnitTypes::Zerg_Guardian);
-      upgradeTypeData[Zerg_Flyer_Attacks].whatUses.insert(UnitTypes::Zerg_Mutalisk);
-      upgradeTypeData[Protoss_Ground_Weapons].whatUses.insert(UnitTypes::Protoss_Dark_Templar);
-      upgradeTypeData[Protoss_Ground_Weapons].whatUses.insert(UnitTypes::Protoss_Dragoon);
-      upgradeTypeData[Protoss_Ground_Weapons].whatUses.insert(UnitTypes::Protoss_Zealot);
-      upgradeTypeData[Protoss_Air_Weapons].whatUses.insert(UnitTypes::Protoss_Arbiter);
-      upgradeTypeData[Protoss_Air_Weapons].whatUses.insert(UnitTypes::Protoss_Corsair);
-      upgradeTypeData[Protoss_Air_Weapons].whatUses.insert(UnitTypes::Protoss_Interceptor);
-      upgradeTypeData[Protoss_Air_Weapons].whatUses.insert(UnitTypes::Protoss_Scout);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Arbiter);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Arbiter_Tribunal);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Archon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Assimilator);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Carrier);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Citadel_of_Adun);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Corsair);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Cybernetics_Core);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Dark_Archon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Dark_Templar);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Dragoon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Fleet_Beacon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Forge);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Gateway);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_High_Templar);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Interceptor);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Nexus);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Observatory);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Observer);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Photon_Cannon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Probe);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Pylon);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Reaver);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Robotics_Facility);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Robotics_Support_Bay);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Scarab);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Scout);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Shield_Battery);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Shuttle);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Stargate);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Templar_Archives);
-      upgradeTypeData[Protoss_Plasma_Shields].whatUses.insert(UnitTypes::Protoss_Zealot);
-
-      upgradeTypeSet.insert(Terran_Infantry_Armor);
-      upgradeTypeSet.insert(Terran_Vehicle_Plating);
-      upgradeTypeSet.insert(Terran_Ship_Plating);
-      upgradeTypeSet.insert(Zerg_Carapace);
-      upgradeTypeSet.insert(Zerg_Flyer_Carapace);
-      upgradeTypeSet.insert(Protoss_Ground_Armor);
-      upgradeTypeSet.insert(Protoss_Air_Armor);
-      upgradeTypeSet.insert(Terran_Infantry_Weapons);
-      upgradeTypeSet.insert(Terran_Vehicle_Weapons);
-      upgradeTypeSet.insert(Terran_Ship_Weapons);
-      upgradeTypeSet.insert(Zerg_Melee_Attacks);
-      upgradeTypeSet.insert(Zerg_Missile_Attacks);
-      upgradeTypeSet.insert(Zerg_Flyer_Attacks);
-      upgradeTypeSet.insert(Protoss_Ground_Weapons);
-      upgradeTypeSet.insert(Protoss_Air_Weapons);
-      upgradeTypeSet.insert(Protoss_Plasma_Shields);
-      upgradeTypeSet.insert(U_238_Shells);
-      upgradeTypeSet.insert(Ion_Thrusters);
-      upgradeTypeSet.insert(Titan_Reactor);
-      upgradeTypeSet.insert(Ocular_Implants);
-      upgradeTypeSet.insert(Moebius_Reactor);
-      upgradeTypeSet.insert(Apollo_Reactor);
-      upgradeTypeSet.insert(Colossus_Reactor);
-      upgradeTypeSet.insert(Ventral_Sacs);
-      upgradeTypeSet.insert(Antennae);
-      upgradeTypeSet.insert(Pneumatized_Carapace);
-      upgradeTypeSet.insert(Metabolic_Boost);
-      upgradeTypeSet.insert(Adrenal_Glands);
-      upgradeTypeSet.insert(Muscular_Augments);
-      upgradeTypeSet.insert(Grooved_Spines);
-      upgradeTypeSet.insert(Gamete_Meiosis);
-      upgradeTypeSet.insert(Metasynaptic_Node);
-      upgradeTypeSet.insert(Singularity_Charge);
-      upgradeTypeSet.insert(Leg_Enhancements);
-      upgradeTypeSet.insert(Scarab_Damage);
-      upgradeTypeSet.insert(Reaver_Capacity);
-      upgradeTypeSet.insert(Gravitic_Drive);
-      upgradeTypeSet.insert(Sensor_Array);
-      upgradeTypeSet.insert(Gravitic_Boosters);
-      upgradeTypeSet.insert(Khaydarin_Amulet);
-      upgradeTypeSet.insert(Apial_Sensors);
-      upgradeTypeSet.insert(Gravitic_Thrusters);
-      upgradeTypeSet.insert(Carrier_Capacity);
-      upgradeTypeSet.insert(Khaydarin_Core);
-      upgradeTypeSet.insert(Argus_Jewel);
-      upgradeTypeSet.insert(Argus_Talisman);
-      upgradeTypeSet.insert(Caduceus_Reactor);
-      upgradeTypeSet.insert(Chitinous_Plating);
-      upgradeTypeSet.insert(Anabolic_Synthesis);
-      upgradeTypeSet.insert(Charon_Boosters);
-      upgradeTypeSet.insert(None);
-      upgradeTypeSet.insert(Unknown);
-
-      foreach(UpgradeType i, upgradeTypeSet)
-      {
-        std::string name(i.getName());
-        fixName(&name);
-        upgradeTypeMap.insert(std::make_pair(name, i));
-      }
-      initializingUpgradeType = false;
-    }
+    BWAPI_TYPEDEF(UpgradeType,Terran_Infantry_Armor);
+    BWAPI_TYPEDEF(UpgradeType,Terran_Vehicle_Plating);
+    BWAPI_TYPEDEF(UpgradeType,Terran_Ship_Plating);
+    BWAPI_TYPEDEF(UpgradeType,Zerg_Carapace);
+    BWAPI_TYPEDEF(UpgradeType,Zerg_Flyer_Carapace);
+    BWAPI_TYPEDEF(UpgradeType,Protoss_Ground_Armor);
+    BWAPI_TYPEDEF(UpgradeType,Protoss_Air_Armor);
+    BWAPI_TYPEDEF(UpgradeType,Terran_Infantry_Weapons);
+    BWAPI_TYPEDEF(UpgradeType,Terran_Vehicle_Weapons);
+    BWAPI_TYPEDEF(UpgradeType,Terran_Ship_Weapons);
+    BWAPI_TYPEDEF(UpgradeType,Zerg_Melee_Attacks);
+    BWAPI_TYPEDEF(UpgradeType,Zerg_Missile_Attacks);
+    BWAPI_TYPEDEF(UpgradeType,Zerg_Flyer_Attacks);
+    BWAPI_TYPEDEF(UpgradeType,Protoss_Ground_Weapons);
+    BWAPI_TYPEDEF(UpgradeType,Protoss_Air_Weapons);
+    BWAPI_TYPEDEF(UpgradeType,Protoss_Plasma_Shields);
+    BWAPI_TYPEDEF(UpgradeType,U_238_Shells);
+    BWAPI_TYPEDEF(UpgradeType,Ion_Thrusters);
+    BWAPI_TYPEDEF(UpgradeType,Titan_Reactor);
+    BWAPI_TYPEDEF(UpgradeType,Ocular_Implants);
+    BWAPI_TYPEDEF(UpgradeType,Moebius_Reactor);
+    BWAPI_TYPEDEF(UpgradeType,Apollo_Reactor);
+    BWAPI_TYPEDEF(UpgradeType,Colossus_Reactor);
+    BWAPI_TYPEDEF(UpgradeType,Ventral_Sacs);
+    BWAPI_TYPEDEF(UpgradeType,Antennae);
+    BWAPI_TYPEDEF(UpgradeType,Pneumatized_Carapace);
+    BWAPI_TYPEDEF(UpgradeType,Metabolic_Boost);
+    BWAPI_TYPEDEF(UpgradeType,Adrenal_Glands);
+    BWAPI_TYPEDEF(UpgradeType,Muscular_Augments);
+    BWAPI_TYPEDEF(UpgradeType,Grooved_Spines);
+    BWAPI_TYPEDEF(UpgradeType,Gamete_Meiosis);
+    BWAPI_TYPEDEF(UpgradeType,Metasynaptic_Node);
+    BWAPI_TYPEDEF(UpgradeType,Singularity_Charge);
+    BWAPI_TYPEDEF(UpgradeType,Leg_Enhancements);
+    BWAPI_TYPEDEF(UpgradeType,Scarab_Damage);
+    BWAPI_TYPEDEF(UpgradeType,Reaver_Capacity);
+    BWAPI_TYPEDEF(UpgradeType,Gravitic_Drive);
+    BWAPI_TYPEDEF(UpgradeType,Sensor_Array);
+    BWAPI_TYPEDEF(UpgradeType,Gravitic_Boosters);
+    BWAPI_TYPEDEF(UpgradeType,Khaydarin_Amulet);
+    BWAPI_TYPEDEF(UpgradeType,Apial_Sensors);
+    BWAPI_TYPEDEF(UpgradeType,Gravitic_Thrusters);
+    BWAPI_TYPEDEF(UpgradeType,Carrier_Capacity);
+    BWAPI_TYPEDEF(UpgradeType,Khaydarin_Core);
+    BWAPI_TYPEDEF(UpgradeType,Argus_Jewel);
+    BWAPI_TYPEDEF(UpgradeType,Argus_Talisman);
+    BWAPI_TYPEDEF(UpgradeType,Caduceus_Reactor);
+    BWAPI_TYPEDEF(UpgradeType,Chitinous_Plating);
+    BWAPI_TYPEDEF(UpgradeType,Anabolic_Synthesis);
+    BWAPI_TYPEDEF(UpgradeType,Charon_Boosters);
+    BWAPI_TYPEDEF(UpgradeType,None);
+    BWAPI_TYPEDEF(UpgradeType,Unknown);
   }
-  UpgradeType::UpgradeType() : Type(UpgradeTypes::None)
-  {
-  }
-  int getValidUpgradeTypeID(int id)
-  {
-    if ( !initializingUpgradeType && (id < 0 || id >= 63 || !upgradeTypeData[id].valid) )
-      return UpgradeTypes::Unknown;
-    return id;
-  }
-  UpgradeType::UpgradeType(int id) : Type( getValidUpgradeTypeID(id) )
-  {
-  }
-  const std::string &UpgradeType::getName() const
-  {
-    return upgradeTypeData[this->getID()].name;
-  }
-  const char *UpgradeType::c_str() const
-  {
-    return upgradeTypeData[this->getID()].name.c_str();
-  }
+  UpgradeType::UpgradeType(int id) : Type( id )
+  {}
   Race UpgradeType::getRace() const
   {
-    return upgradeTypeData[this->getID()].race;
+    return upgradeInternalRace::upgradeRaces[this->getID()];
   }
   int UpgradeType::mineralPrice(int level) const
   {
-    return upgradeTypeData[this->getID()].mineralPriceBase + 
-           (level > 0 ? level - 1 : 0) * this->mineralPriceFactor();
+    return defaultOreCostBase[this->getID()] + 
+           std::max(0, level-1) * this->mineralPriceFactor();
   }
   int UpgradeType::mineralPriceFactor() const
   {
-    return upgradeTypeData[this->getID()].mineralPriceFactor;
+    return defaultOreCostFactor[this->getID()];
   }
   int UpgradeType::gasPrice(int level) const
   {
-    return upgradeTypeData[this->getID()].gasPriceBase + 
-           (level > 0 ? level - 1 : 0) * this->gasPriceFactor();
+    return defaultOreCostBase[this->getID()] + 
+           std::max(0, level-1) * this->gasPriceFactor();
   }
   int UpgradeType::gasPriceFactor() const
   {
-    return upgradeTypeData[this->getID()].gasPriceFactor;
+    return defaultOreCostFactor[this->getID()];
   }
   int UpgradeType::upgradeTime(int level) const
   {
-    return upgradeTypeData[this->getID()].upgradeTimeBase + (level > 0 ? level - 1 : 0) * this->upgradeTimeFactor();
+    return defaultTimeCostBase[this->getID()] + 
+            std::max(0, level-1) * this->upgradeTimeFactor();
   }
   int UpgradeType::upgradeTimeFactor() const
   {
-    return upgradeTypeData[this->getID()].upgradeTimeFactor;
+    return defaultTimeCostFactor[this->getID()];
   }
   UnitType UpgradeType::whatUpgrades() const
   {
-    return upgradeTypeData[this->getID()].whatUpgrades;
+    return upgradeInternalWhat::whatUpgrades[this->getID()];
   }
-  const std::set<UnitType>& UpgradeType::whatUses() const
+  const UnitType::const_set& UpgradeType::whatUses() const
   {
-    return upgradeTypeData[this->getID()].whatUses;
+    return upgradeInternalUsage::upgradeWhatUses[this->getID()];
   }
   int UpgradeType::maxRepeats() const
   {
-    return upgradeTypeData[this->getID()].maxRepeats;
+    return defaultMaxRepeats[this->getID()];
   }
   UnitType UpgradeType::whatsRequired(int level) const
   {
     if ( level >= 1 && level <= 3)
-      return upgradeTypeData[this->getID()].requirement[level - 1];
+      return upgradeInternalReqs::requirements[level-1][this->getID()];
     return UnitTypes::None;
   }
-  UpgradeType UpgradeTypes::getUpgradeType(std::string name)
+  const UpgradeType::const_set& UpgradeTypes::allUpgradeTypes()
   {
-    fixName(&name);
-    std::map<std::string, UpgradeType>::iterator i = upgradeTypeMap.find(name);
-    if (i == upgradeTypeMap.end())
-      return UpgradeTypes::Unknown;
-    return (*i).second;
-  }
-  const std::set<UpgradeType>& UpgradeTypes::allUpgradeTypes()
-  {
-    return upgradeTypeSet;
+    return UpgradeTypeSet::upgradeTypeSet;
   }
 }

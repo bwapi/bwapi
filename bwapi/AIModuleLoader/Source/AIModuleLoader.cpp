@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <iostream>
+#include <cassert>
 
 #include <BWAPI/Client.h>
 #include <BWAPI.h>
@@ -11,56 +12,77 @@ using namespace BWAPI;
 
 void reconnect()
 {
-  while(!BWAPIClient.connect())
-  {
+  while ( !BWAPIClient.connect() )
     Sleep(1000);
-  }
 }
+
 int main(int argc, const char* argv[])
 {
-  const char* szDllPath = "";
-  char buffer[1024] = { 0 };
-  if (argc>=2)
-    szDllPath = argv[1];
+  std::string dllPath;
+
+  if ( argc >= 2 )
+  {
+    dllPath = argv[1];
+  }
   else
   {
-    printf("Enter path name to AI DLL:");
-    scanf("%1024s", buffer);
-    szDllPath = buffer;
+    std::cout << "Enter path name to AI DLL: " << std::endl;
+    std::getline(std::cin, dllPath);
   }
-  BWAPI::BWAPI_init();
-  printf("Connecting...");
+  
+  std::cout << "Connecting..." << std::endl;
+
+  assert(BWAPIClient.isConnected() == false);
   reconnect();
-  while(true)
+  assert(BroodwarPtr != nullptr);
+
+  while( true )
   {
-    printf("waiting to enter match\n");
-    while (!Broodwar->isInGame())
+    std::cout << "waiting to enter match" << std::endl;
+    while ( !Broodwar->isInGame() )
     {
+      std::cout << "attempting update" << std::endl;
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {
-        printf("Reconnecting...\n");
+        std::cout << "Reconnecting..." << std::endl;
         reconnect();
       }
     }
+    std::cout << "entered match" << std::endl;
+
     AIModule* client = NULL;
-    HMODULE hMod = LoadLibraryA(szDllPath);
+    HMODULE hMod = LoadLibraryA(dllPath.c_str());
     if (hMod == NULL)
     {
-      printf("ERROR: Failed to load the AI Module\n");
+      std::cerr << "ERROR: Failed to load the AI Module" << std::endl;
       client = new AIModule();
       Broodwar->sendText("Error: Failed to load the AI Module");
     }
     else
     {
-      typedef AIModule* (*PFNCreateA1)(BWAPI::Game*);
+      typedef AIModule* (*PFNCreateA1)();
+      typedef void (*PFNGameInit)(Game *);
+
+      PFNGameInit newGame = (PFNGameInit)GetProcAddress(hMod, LPCSTR("newGame"));
       PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, LPCSTR("newAIModule"));
-      client = newAIModule(Broodwar);
+
+      if ( !newGame || !newAIModule )
+      {
+        std::cerr << "ERROR: Failed to find AI Module exports" << std::endl;
+        client = new AIModule();
+        Broodwar->sendText("Error: Failed to find AI Module exports");
+      }
+      else
+      {
+        newGame(BroodwarPtr);
+        client = newAIModule();
+      }
     }
-    printf("starting match!\n");
+    std::cout << "starting match!" << std::endl;
     while ( Broodwar->isInGame() )
     {
-      for ( std::list<Event>::iterator e = Broodwar->getEvents().begin(); e != Broodwar->getEvents().end(); ++e )
+      for ( std::list<Event>::const_iterator e = Broodwar->getEvents().begin(); e != Broodwar->getEvents().end(); ++e )
       {
         EventType::Enum et=e->getType();
         switch (et)
@@ -125,15 +147,16 @@ int main(int argc, const char* argv[])
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {
-        printf("Reconnecting...\n");
+        std::cout << "Reconnecting..." << std::endl;
         reconnect();
       }
     }
     delete client;
     FreeLibrary(hMod);
-    printf("Game ended\n");
+    std::cout << "Game ended" << std::endl;
   }
-  system("pause");
+  std::cout << "Press ENTER to continue..." << std::endl;
+  std::cin.ignore();
   return 0;
 }
 

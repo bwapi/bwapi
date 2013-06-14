@@ -1,5 +1,10 @@
 @echo off
-SubWCRev.exe . svnrev_template.h svnrev.h
+for %%X in (SubWCRev.exe) do (set SUBWCREVEXE=%%~$PATH:X)
+if defined SUBWCREVEXE (
+"%SUBWCREVEXE%" . svnrev_template.h svnrev.h
+) else (
+SubWCRev.fromSVN.exe . svnrev_template.h svnrev.h
+)
 if ERRORLEVEL 1 (
 rem failure
 echo ----------------------------

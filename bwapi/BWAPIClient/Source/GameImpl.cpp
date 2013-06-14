@@ -1,23 +1,27 @@
 #include <BWAPI.h>
-#include "GameImpl.h"
-#include "ForceImpl.h"
-#include "PlayerImpl.h"
-#include "RegionImpl.h"
-#include "UnitImpl.h"
+#include <BWAPI/Client/GameImpl.h>
+#include <BWAPI/Client/ForceImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
+#include <BWAPI/Client/RegionImpl.h>
+#include <BWAPI/Client/UnitImpl.h>
+#include <BWAPI/Client/BulletImpl.h>
+
 #include "TemplatesImpl.h"
-#include "BulletImpl.h"
 
 #include <Util/Foreach.h>
 #include <Util/Types.h>
+#include <Util/Convenience.h>
 #include <string>
 #include <cassert>
 
+#include <BWAPI/Unitset.h>
+
 namespace BWAPI
 {
-  Game* Broodwar = NULL;
-  GameImpl::GameImpl(GameData* data)
+  GameImpl::GameImpl(GameData* _data)
+    : data(_data)
   {
-    this->data = data;
+    this->clearAll();
     for(int i = 0; i < 5; ++i)
       forceVector.push_back(ForceImpl(i));
     for(int i = 0; i < 12; ++i)
@@ -26,6 +30,7 @@ namespace BWAPI
       unitVector.push_back(UnitImpl(i));
     for(int i = 0; i < 100; ++i)
       bulletVector.push_back(BulletImpl(i));
+    
     inGame = false;
   }
   int GameImpl::addShape(const BWAPIC::Shape &s)
@@ -37,8 +42,7 @@ namespace BWAPI
   int GameImpl::addString(const char* text)
   {
     assert(data->stringCount < GameData::MAX_STRINGS);
-    strncpy(data->strings[data->stringCount], text, 255);
-    data->strings[data->stringCount][255] = '\0';
+    StrCopy(data->strings[data->stringCount], text);
     return data->stringCount++;
   }
   int GameImpl::addText(BWAPIC::Shape &s, const char* text)
@@ -58,7 +62,7 @@ namespace BWAPI
     data->unitCommands[data->unitCommandCount] = c;
     return data->unitCommandCount++;
   }
-  Unit *GameImpl::_unitFromIndex(int index)
+  Unit GameImpl::_unitFromIndex(int index)
   {
     return this->getUnit(index);
   }
@@ -117,23 +121,49 @@ namespace BWAPI
     _enemies.clear();
     _observers.clear();
 
-    //clear unitsOnTileData
-    for(int x = 0; x < 256; ++x)
-      for(int y = 0; y < 256; ++y)
-        unitsOnTileData[x][y].clear();
-
     //clear unit data
-    for(int i = 0; i < 10000; ++i)
+    for ( size_t i = 0; i < unitVector.size(); ++i )
       unitVector[i].clear();
 
     //clear player data
-    for(int i = 0; i < 12; ++i)
+    for(size_t i = 0; i < playerVector.size(); ++i)
       playerVector[i].units.clear();
 
-    foreach( Region *r, regionsList )
-      delete ((RegionImpl*)r);
+    foreach( RegionImpl *r, regionsList )
+      delete r;
     regionsList.clear();
     memset(this->regionArray, 0, sizeof(this->regionArray));
+  }
+
+  //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------
+  void GameImpl::processInterfaceEvents()
+  {
+    // GameImpl events
+    this->updateEvents();
+    
+    // UnitImpl events
+    foreach(UnitImpl* u, this->accessibleUnits)
+    {
+      u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
+    }
+    
+    // ForceImpl events
+    foreach(ForceImpl* f,this->forces)
+      f->updateEvents();
+
+    // BulletImpl events
+    foreach(BulletImpl* b, this->bullets)
+    {
+      b->exists() ? b->updateEvents() : b->interfaceEvents.clear();
+    }
+
+    // RegionImpl events
+    foreach(RegionImpl *r,this->regionsList)
+      r->updateEvents();
+
+    // PlayerImpl events
+    foreach(PlayerImpl *p, this->playerSet)
+      p->updateEvents();
   }
   //------------------------------------------------- ON MATCH START -----------------------------------------
   void GameImpl::onMatchStart()
@@ -155,7 +185,7 @@ namespace BWAPI
 
     //load start locations from shared memory
     for(int i = 0; i < data->startLocationCount; ++i)
-      startLocations.insert(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
+      startLocations.push_back(BWAPI::TilePosition(data->startLocations[i].x,data->startLocations[i].y));
 
     for ( int i = 0; i < data->regionCount; ++i )
     {
@@ -175,7 +205,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player* p, playerSet)
+      foreach(Player p, playerSet)
       {
         // check if the player should not be updated
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -216,18 +246,15 @@ namespace BWAPI
     for(int i = 0; i < data->nukeDotCount; ++i)
       nukeDots.insert(Position(data->nukeDots[i].x,data->nukeDots[i].y));
 
-    for (int y = 0; y < data->mapHeight; ++y)
-      for (int x = 0; x < data->mapWidth; ++x)
-        unitsOnTileData[x][y].clear();
     for(int e = 0; e < data->eventCount; ++e)
     {
       events.push_back(this->makeEvent(data->events[e]));
       int id = data->events[e].v1;
       if (data->events[e].type == EventType::UnitDiscover)
       {
-        Unit* u = &unitVector[id];
+        Unit u = &unitVector[id];
         accessibleUnits.insert(u);
-        ((PlayerImpl*)u->getPlayer())->units.insert(u);
+        static_cast<PlayerImpl*>(u->getPlayer())->units.insert(u);
         if (u->getPlayer()->isNeutral())
         {
           neutralUnits.insert(u);
@@ -238,15 +265,15 @@ namespace BWAPI
         }
         else
         {
-          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
+          if (u->getPlayer() == this->self() && u->getType() == UnitTypes::Protoss_Pylon)
             pylons.insert(u);
         }
       }
       else if (data->events[e].type == EventType::UnitEvade)
       {
-        Unit* u = &unitVector[id];
+        Unit u = &unitVector[id];
         accessibleUnits.erase(u);
-        ((PlayerImpl*)u->getPlayer())->units.erase(u);
+        static_cast<PlayerImpl*>(u->getPlayer())->units.erase(u);
         if (u->getPlayer()->isNeutral())
         {
           neutralUnits.erase(u);
@@ -257,20 +284,20 @@ namespace BWAPI
         }
         else
         {
-          if (u->getPlayer() == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon)
+          if (u->getPlayer() == this->self() && u->getType() == UnitTypes::Protoss_Pylon)
             pylons.erase(u);
         }
       }
       else if (data->events[e].type==EventType::UnitRenegade)
       {
-        Unit* u = &unitVector[id];
-        for (std::set<Player*>::iterator p = playerSet.begin(); p != playerSet.end(); ++p )
-          ((PlayerImpl*)*p)->units.erase(u);
-        ((PlayerImpl*)u->getPlayer())->units.insert(u);
+        Unit u = &unitVector[id];
+        for (auto p = playerSet.begin(); p != playerSet.end(); ++p )
+          static_cast<PlayerImpl*>(*p)->units.erase(u);
+        static_cast<PlayerImpl*>(u->getPlayer())->units.insert(u);
       }
       else if (data->events[e].type == EventType::UnitMorph)
       {
-        Unit* u = &unitVector[id];
+        Unit u = &unitVector[id];
         if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
         {
           geysers.insert(u);
@@ -283,34 +310,24 @@ namespace BWAPI
         }
       }
     }
-    foreach(Unit* u_, accessibleUnits)
+    foreach(UnitImpl* u, accessibleUnits)
     {
-	  UnitImpl* u = static_cast<UnitImpl*>(u_);
       u->connectedUnits.clear();
       u->loadedUnits.clear();
     }
-    foreach(Unit* u_, accessibleUnits)
+    foreach(Unit u, accessibleUnits)
     {
-	  UnitImpl* u = static_cast<UnitImpl*>(u_);
-      /* @TODO: Assign using getUnitsInRectangle */
-      int startX = u->getLeft() / TILE_SIZE;
-      int endX   = (u->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-      int startY = u->getTop() / TILE_SIZE;
-      int endY   = (u->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
-      for (int x = startX; x < endX && x < mapWidth(); x++)
-        for (int y = startY; y < endY && y < mapHeight(); y++)
-          unitsOnTileData[x][y].insert(u);
       if ( u->getType() == UnitTypes::Zerg_Larva && u->getHatchery() )
-        ((UnitImpl*)u->getHatchery())->connectedUnits.insert(u);
+        static_cast<UnitImpl*>(u->getHatchery())->connectedUnits.insert(u);
       if ( u->getType() == UnitTypes::Protoss_Interceptor && u->getCarrier() )
-        ((UnitImpl*)u->getCarrier())->connectedUnits.insert(u);
+        static_cast<UnitImpl*>(u->getCarrier())->connectedUnits.insert(u);
       if ( u->getTransport() )
-        ((UnitImpl*)u->getTransport())->loadedUnits.insert(u);
+        static_cast<UnitImpl*>(u->getTransport())->loadedUnits.insert(u);
     }
     selectedUnits.clear();
     for ( int i = 0; i < data->selectedUnitCount; ++i )
     {
-      Unit* u = getUnit(data->selectedUnits[i]);
+      Unit u = getUnit(data->selectedUnits[i]);
       if ( u )
         selectedUnits.insert(u);
     }
@@ -321,7 +338,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player* p, playerSet)
+      foreach(Player p, playerSet)
       {
         // check if player should be skipped
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -337,92 +354,93 @@ namespace BWAPI
           _observers.insert(p);
       }
     }
+    this->processInterfaceEvents(); // Note sure if this should go here?
   }
   //----------------------------------------------- GET FORCE ------------------------------------------------
-  Force* GameImpl::getForce(int forceId)
+  Force GameImpl::getForce(int forceId) const
   {
     if (forceId < 0 || forceId >= (int)forceVector.size())
-      return NULL;
-    return &forceVector[forceId];
+      return nullptr;
+    return (Force)(&forceVector[forceId]);
   }
-  Region *GameImpl::getRegion(int regionID)
+  Region GameImpl::getRegion(int regionID) const
   {
     if ( regionID < 0 || regionID >= data->regionCount )
-      return NULL;
+      return nullptr;
     return regionArray[regionID];
   }
   //----------------------------------------------- GET PLAYER -----------------------------------------------
-  Player* GameImpl::getPlayer(int playerId)
+  Player GameImpl::getPlayer(int playerId) const
   {
     if (playerId < 0 || playerId >= (int)playerVector.size())
-      return NULL;
-    return &playerVector[playerId];
+      return nullptr;
+    return (Player)(&playerVector[playerId]);
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
-  Unit* GameImpl::getUnit(int unitId)
+  Unit GameImpl::getUnit(int unitId) const
   {
     if (unitId < 0 || unitId >= (int)unitVector.size())
-      return NULL;
-    return &unitVector[unitId];
+      return nullptr;
+    return (Unit )(&unitVector[unitId]);
   }
   //----------------------------------------------- INDEX TO UNIT --------------------------------------------
-  Unit* GameImpl::indexToUnit(int unitIndex)
+  Unit GameImpl::indexToUnit(int unitIndex) const
   {
     if ( unitIndex < 0 || unitIndex >= 1700 )
-      return NULL;
+      return nullptr;
     return getUnit(data->unitArray[unitIndex]);
   }
   //--------------------------------------------- GET GAME TYPE ----------------------------------------------
-  GameType GameImpl::getGameType()
+  GameType GameImpl::getGameType() const
   {
     return GameType(data->gameType);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
-  int GameImpl::getLatency()
+  int GameImpl::getLatency() const
   {
     return data->latency;
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
-  int GameImpl::getFrameCount()
+  int GameImpl::getFrameCount() const
   {
     return data->frameCount;
   }
   //--------------------------------------------- GET REPLAY FRAME COUNT -------------------------------------
-  int GameImpl::getReplayFrameCount()
+  int GameImpl::getReplayFrameCount() const
   {
     return data->replayFrameCount;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
-  int GameImpl::getFPS()
+  int GameImpl::getFPS() const
   {
     return data->fps;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
-  double GameImpl::getAverageFPS()
+  double GameImpl::getAverageFPS() const
   {
     return data->averageFPS;
   }
   //-------------------------------------------- GET MOUSE POSITION ------------------------------------------
-  Position GameImpl::getMousePosition()
+  Position GameImpl::getMousePosition() const
   {
     return Position(data->mouseX,data->mouseY);
   }
   //---------------------------------------------- GET MOUSE STATE -------------------------------------------
-  bool GameImpl::getMouseState(int button)
+  bool GameImpl::getMouseState(MouseButton button) const
   {
     if ( button < 0 || button >= M_MAX )
       return false;
     return data->mouseState[button];
   }
   //----------------------------------------------- GET KEY STATE --------------------------------------------
-  bool GameImpl::getKeyState(int key)
+  bool GameImpl::getKeyState(Key key) const
   {
     if ( key < 0 || key >= K_MAX )
       return false;
     return data->keyState[key];
   }
   //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
-  Position GameImpl::getScreenPosition()
+  Position GameImpl::getScreenPosition() const
   {
     return Position(data->screenX,data->screenY);
   }
@@ -431,23 +449,13 @@ namespace BWAPI
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetScreenPosition,x,y));
   }
-  //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
-  void GameImpl::setScreenPosition(Position p)
-  {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetScreenPosition,p.x(),p.y()));
-  }
   //----------------------------------------------- PING MINIMAP ---------------------------------------------
   void GameImpl::pingMinimap(int x, int y)
   {
     addCommand(BWAPIC::Command(BWAPIC::CommandType::PingMinimap,x,y));
   }
-  //----------------------------------------------- PING MINIMAP ---------------------------------------------
-  void GameImpl::pingMinimap(Position p)
-  {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::PingMinimap,p.x(),p.y()));
-  }
   //----------------------------------------------- IS FLAG ENABLED ------------------------------------------
-  bool GameImpl::isFlagEnabled(int flag)
+  bool GameImpl::isFlagEnabled(int flag) const
   {
     if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
       return false;
@@ -461,235 +469,189 @@ namespace BWAPI
     if ( data->flags[flag] == false )
       addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
   }
-  //----------------------------------------------- GET UNITS ON TILE ----------------------------------------
-  std::set<Unit*>& GameImpl::getUnitsOnTile(int x, int y)
-  {
-    return unitsOnTileData[x][y];
-  }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
-  bool __fastcall Client_squareIterator_callback(Unit *uIterator)
+  Unitset GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const
   {
-    return true;
+    Unitset unitFinderResults;
+
+    // Have the unit finder do its stuff
+    Templates::iterateUnitFinder<unitFinder>(data->xUnitSearch,
+                                             data->yUnitSearch,
+                                             data->unitSearchSize,
+                                             left,
+                                             top,
+                                             right,
+                                             bottom,
+                                             [&](Unit u){ if ( !pred.isValid() || pred(u) )
+                                                             unitFinderResults.push_back(u); });
+    // Return results
+    return unitFinderResults;
   }
-  std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
+  Unit GameImpl::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
   {
-    static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
-    static int lastLeft   = -1;
-    static int lastRight  = -1;
-    static int lastTop    = -1;
-    static int lastBottom = -1;
-    static int lastFrame  = -1;
-    if ( lastFrame == data->frameCount && lastLeft == left && lastTop == top && lastRight == right && lastBottom == bottom )
-      return unitFinderResults;
+    int bestDistance = 99999999;
+    Unit pBestUnit = nullptr;
+
+    Templates::iterateUnitFinder<unitFinder>(data->xUnitSearch,
+                                             data->yUnitSearch,
+                                             data->unitSearchSize,
+                                             left,
+                                             top,
+                                             right,
+                                             bottom,
+                                             [&](Unit u){ if ( !pred.isValid() || pred(u) )
+                                                           {
+                                                              int newDistance = u->getDistance(center);
+                                                              if ( newDistance < bestDistance )
+                                                              {
+                                                                pBestUnit = u;
+                                                                bestDistance = newDistance;
+                                                              }
+                                                           } } );
+    return pBestUnit;
+  }
+  Unit GameImpl::getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center, int radius) const
+  {
+    Unit pBestUnit = nullptr;
+    Position rad(radius,radius);
     
-    lastLeft    = left;
-    lastTop     = top;
-    lastRight   = right;
-    lastBottom  = bottom;
-    lastFrame   = data->frameCount;
+    Position topLeft(center - rad);
+    Position botRight(center + rad);
 
-    // Have the unit finder do its stuff
-    Templates::manageUnitFinder<unitFinder>(data->xUnitSearch, 
-                                            data->yUnitSearch, 
-                                            g_dwFinderFlags, 
-                                            left, 
-                                            top, 
-                                            right, 
-                                            bottom,
-                                            &Client_squareIterator_callback,
-                                            unitFinderResults);
-    // Return results
-    return unitFinderResults;
-  }
-  //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
-  std::set<Unit*>& GameImpl::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight) const
-  {
-    return getUnitsInRectangle(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
-  }
-  //----------------------------------------------- GET UNITS IN RADIUS --------------------------------------
-  BWAPI::Position unitsInRadius_compare;
-  int             unitsInRadius_radius;
-  bool __fastcall Client_radiusIterator_callback(Unit *uIterator)
-  {
-    return uIterator->getDistance(unitsInRadius_compare) <= unitsInRadius_radius;
-  }
-  std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius) const
-  {
-    static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
-    static Position lastPosition = Positions::Invalid;
-    static int lastRadius        = -1;
-    static int lastFrame         = -1;
-    if ( lastFrame == data->frameCount && lastRadius == radius && lastPosition == center )
-      return unitFinderResults;
+    topLeft.makeValid();
+    botRight.makeValid();
 
-    lastPosition  = center;
-    lastRadius    = radius;
-    lastFrame     = data->frameCount;
+    Templates::iterateUnitFinder<unitFinder>(data->xUnitSearch,
+                                             data->yUnitSearch,
+                                             data->unitSearchSize,
+                                             topLeft.x,
+                                             topLeft.y,
+                                             botRight.x,
+                                             botRight.y,
+                                             [&](Unit u){ if ( !pred.isValid() || pred(u) )
+                                                           {
+                                                             if ( pBestUnit == nullptr )
+                                                               pBestUnit = u;
+                                                             else
+                                                               pBestUnit = best(pBestUnit,u); 
+                                                           } } );
 
-    // Set rectangular values
-    int left    = center.x() - radius;
-    int top     = center.y() - radius;
-    int right   = center.x() + radius;
-    int bottom  = center.y() + radius;
-
-    // Store the data we are comparing found units to
-    unitsInRadius_compare = center;
-    unitsInRadius_radius  = radius;
-
-    // Have the unit finder do its stuff
-    Templates::manageUnitFinder<unitFinder>(data->xUnitSearch, 
-                                            data->yUnitSearch, 
-                                            g_dwFinderFlags, 
-                                            left, 
-                                            top, 
-                                            right, 
-                                            bottom,
-                                            &Client_radiusIterator_callback,
-                                            unitFinderResults);
-    // Return results
-    return unitFinderResults;
+    return pBestUnit;
   }
   //----------------------------------------------- MAP WIDTH ------------------------------------------------
-  int GameImpl::mapWidth()
+  int GameImpl::mapWidth() const
   {
     return data->mapWidth;
   }
   //----------------------------------------------- MAP HEIGHT -----------------------------------------------
-  int GameImpl::mapHeight()
+  int GameImpl::mapHeight() const
   {
     return data->mapHeight;
   }
   //---------------------------------------------- MAP FILE NAME ---------------------------------------------
-  std::string GameImpl::mapFileName()
+  std::string GameImpl::mapFileName() const
   {
     return std::string(data->mapFileName);
   }
   //---------------------------------------------- MAP PATH NAME ---------------------------------------------
-  std::string GameImpl::mapPathName()
+  std::string GameImpl::mapPathName() const
   {
     return std::string(data->mapPathName);
   }
   //------------------------------------------------ MAP NAME ------------------------------------------------
-  std::string GameImpl::mapName()
+  std::string GameImpl::mapName() const
   {
     return std::string(data->mapName);
   }
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
-  std::string GameImpl::mapHash()
+  std::string GameImpl::mapHash() const
   {
     return std::string(data->mapHash);
   }
   //--------------------------------------------- IS WALKABLE ------------------------------------------------
-  bool GameImpl::isWalkable(int x, int y)
+  bool GameImpl::isWalkable(int x, int y) const
   {
-    if ( x < 0 || y < 0 || x >= data->mapWidth*4 || y >= data->mapHeight*4 )
+    if ( !WalkPosition(x, y) )
       return 0;
     return data->isWalkable[x][y];
   }
   //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
-  int GameImpl::getGroundHeight(int x, int y)
+  int GameImpl::getGroundHeight(int x, int y) const
   {
-    if ( x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight )
+    if ( !TilePosition(x, y) )
       return 0;
     return data->getGroundHeight[x][y];
   }
-  //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
-  int GameImpl::getGroundHeight(TilePosition position)
-  {
-    return getGroundHeight(position.x(),position.y());
-  }
   //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(int x, int y, bool includeBuildings)
+  bool GameImpl::isBuildable(int x, int y, bool includeBuildings) const
   {
-    if ( x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight )
+    if ( !TilePosition(x, y) )
       return 0;
     return data->isBuildable[x][y] && ( includeBuildings ? !data->isOccupied[x][y] : true );
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool GameImpl::isVisible(int x, int y)
+  bool GameImpl::isVisible(int x, int y) const
   {
-    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
+    if ( !TilePosition(x, y) )
       return 0;
     return data->isVisible[x][y];
   }
   //--------------------------------------------- IS EXPLORED ------------------------------------------------
-  bool GameImpl::isExplored(int x, int y)
+  bool GameImpl::isExplored(int x, int y) const
   {
-    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
+    if ( !TilePosition(x, y) )
       return 0;
     return data->isExplored[x][y];
   }
   //--------------------------------------------- HAS CREEP --------------------------------------------------
-  bool GameImpl::hasCreep(int x, int y)
+  bool GameImpl::hasCreep(int x, int y) const
   {
-    if (x < 0 || y < 0 || x >= data->mapWidth || y >= data->mapHeight)
+    if ( !TilePosition(x, y) )
       return 0;
     return data->hasCreep[x][y];
   }
   //--------------------------------------------- HAS POWER --------------------------------------------------
   bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
   {
-    return Templates::hasPower<Unit>(x, y, unitType, pylons);
+    return Templates::hasPower(x, y, unitType, pylons);
   }
   //------------------------------------------------ PRINTF --------------------------------------------------
-  void GameImpl::printf(const char *format, ...)
+  void GameImpl::vPrintf(const char *format, va_list arg)
   {
-    char *buffer;
-    vstretchyprintf(buffer, format);
+    char buffer[256];
+    VSNPrintf(buffer, format, arg);
     addCommand(BWAPIC::Command(BWAPIC::CommandType::Printf,addString(buffer)));
-    free(buffer);
-    return;
-  }
-  //--------------------------------------------- SEND TEXT --------------------------------------------------
-  void GameImpl::sendText(const char *format, ...)
-  {
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText,addString(buffer)));
-    free(buffer);
     return;
   }
   //--------------------------------------------- SEND TEXT EX -----------------------------------------------
-  void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
+  void GameImpl::vSendTextEx(bool toAllies, const char *format, va_list arg)
   {
     return; //todo: implement
   }
-  //---------------------------------------------- CHANGE RACE -----------------------------------------------
-  void GameImpl::changeRace(Race race)
-  {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::ChangeRace));
-  }
   //----------------------------------------------- IS IN GAME -----------------------------------------------
-  bool GameImpl::isInGame()
+  bool GameImpl::isInGame() const
   {
     return data->isInGame;
   }
   //--------------------------------------------- IS MULTIPLAYER ---------------------------------------------
-  bool GameImpl::isMultiplayer()
+  bool GameImpl::isMultiplayer() const
   {
     return data->isMultiplayer;
   }  
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
-  bool GameImpl::isBattleNet()
+  bool GameImpl::isBattleNet() const
   {
     return data->isBattleNet;
   }
   //----------------------------------------------- IS PAUSED ------------------------------------------------
-  bool GameImpl::isPaused()
+  bool GameImpl::isPaused() const
   {
     return data->isPaused;
   }
   //----------------------------------------------- IS REPLAY ------------------------------------------------
-  bool GameImpl::isReplay()
+  bool GameImpl::isReplay() const
   {
     return data->isReplay;
-  }
-  //----------------------------------------------- START GAME -----------------------------------------------
-  void GameImpl::startGame()
-  {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::StartGame));
   }
   //----------------------------------------------- PAUSE GAME -----------------------------------------------
   void GameImpl::pauseGame()
@@ -712,7 +674,7 @@ namespace BWAPI
     addCommand(BWAPIC::Command(BWAPIC::CommandType::RestartGame));
   }
   //--------------------------------------------- SET ALLIANCE -----------------------------------------------
-  bool GameImpl::setAlliance(BWAPI::Player *player, bool allied, bool alliedVictory)
+  bool GameImpl::setAlliance(BWAPI::Player player, bool allied, bool alliedVictory)
   {
     /* Set the current player's alliance status */
     if ( !self() || isReplay() || !player || player == self() )
@@ -726,18 +688,17 @@ namespace BWAPI
     return true;
   }
   //----------------------------------------------- SET VISION -----------------------------------------------
-  bool GameImpl::setVision(BWAPI::Player *player, bool enabled)
+  bool GameImpl::setVision(BWAPI::Player player, bool enabled)
   {
-    /* Set the current player's vision status */
-    if ( !self() || isReplay() || !player || player == self() )
-    {
-      lastError = Errors::Invalid_Parameter;
-      return false;
-    }
+    // Param check
+    if ( !player )
+      return setLastError(Errors::Invalid_Parameter);
 
+    if ( !isReplay() && (!self() || player == self()) )
+      return setLastError(Errors::Invalid_Parameter);
+    
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetVision, player->getID(), enabled ? 1 : 0));
-    lastError = Errors::None;
-    return true;
+    return setLastError();
   }
   //---------------------------------------------- SET GAME SPEED --------------------------------------------
   void GameImpl::setLocalSpeed(int speed)
@@ -755,59 +716,50 @@ namespace BWAPI
     lastError = Errors::Invalid_Parameter;
   }
   //------------------------------------------- ISSUE COMMAND ------------------------------------------------
-  bool GameImpl::issueCommand(const std::set<BWAPI::Unit*>& units, UnitCommand command)
+  bool GameImpl::issueCommand(const Unitset& units, UnitCommand command)
   {
     bool success = false;
     //FIX FIX FIX naive implementation
-    foreach(Unit* u, units)
+    foreach(Unit u, units)
     {
       success |= u->issueCommand(command);
     }
     return success;
   }
   //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-  std::set<Unit*>& GameImpl::getSelectedUnits()
+  const Unitset& GameImpl::getSelectedUnits() const
   {
     lastError = Errors::None;
     return selectedUnits;
   }
   //--------------------------------------------- SELF -------------------------------------------------------
-  Player* GameImpl::self()
+  Player GameImpl::self() const
   {
-    lastError = Errors::None;
     return thePlayer;
   }
   //--------------------------------------------- ENEMY ------------------------------------------------------
-  Player* GameImpl::enemy()
+  Player GameImpl::enemy() const
   {
-    lastError = Errors::None;
     return theEnemy;
   }
   //--------------------------------------------- ENEMY ------------------------------------------------------
-  Player* GameImpl::neutral()
+  Player GameImpl::neutral() const
   {
-    lastError = Errors::None;
     return theNeutral;
   }
   //--------------------------------------------- ALLIES -----------------------------------------------------
-  std::set<Player*>& GameImpl::allies()
+  Playerset& GameImpl::allies()
   {
-    /* Returns a set of all the ally players that have not left or been defeated. Does not include self. */
-    lastError = Errors::None;
     return _allies;
   }
   //--------------------------------------------- ENEMIES ----------------------------------------------------
-  std::set<Player*>& GameImpl::enemies()
+  Playerset& GameImpl::enemies()
   {
-    /* Returns a set of all the enemy players that have not left or been defeated. */
-    lastError = Errors::None;
     return _enemies;
   }
   //-------------------------------------------- OBSERVERS ---------------------------------------------------
-  std::set<Player*>& GameImpl::observers()
+  Playerset& GameImpl::observers()
   {
-    /* Returns a set of all the enemy players that have not left or been defeated. */
-    lastError = Errors::None;
     return _observers;
   }
 
@@ -821,197 +773,75 @@ namespace BWAPI
     textSize = size;
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
-  void GameImpl::drawText(int ctype, int x, int y, const char *format, ...)
+  void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
   {
     if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
+    char buffer[512];
+    VSNPrintf(buffer, format, arg);
     BWAPIC::Shape s(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,textSize,0,false);
     addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextMap(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextMouse(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextScreen(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
-  void GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
+  void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
   }
-  void GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Map,left,top,right,bottom,0,0,color,isSolid));
-  }
-  void GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Mouse,left,top,right,bottom,0,0,color,isSolid));
-  }
-  void GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Screen,left,top,right,bottom,0,0,color,isSolid));
-  }
   //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
-  void GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color,isSolid));
   }
-  void GameImpl::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
-  void GameImpl::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
-  void GameImpl::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
   //------------------------------------------------- DRAW CIRCLE --------------------------------------------
-  void GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
+  void GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,ctype,x,y,0,0,radius,0,color,isSolid));
   }
-  void GameImpl::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Map,x,y,0,0,radius,0,color,isSolid));
-  }
-  void GameImpl::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,radius,0,color,isSolid));
-  }
-  void GameImpl::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Screen,x,y,0,0,radius,0,color,isSolid));
-  }
   //------------------------------------------------- DRAW ELIPSE --------------------------------------------
-  void GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  void GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color,isSolid));
   }
-  void GameImpl::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Map,x,y,0,0,xrad,yrad,color,isSolid));
-  }
-  void GameImpl::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,xrad,yrad,color,isSolid));
-  }
-  void GameImpl::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Screen,x,y,0,0,xrad,yrad,color,isSolid));
-  }
 
-  void GameImpl::drawDot(int ctype, int x, int y, Color color)
+  void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,ctype,x,y,0,0,0,0,color,false));
   }
-  void GameImpl::drawDotMap(int x, int y, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,color,false));
-  }
-  void GameImpl::drawDotMouse(int x, int y, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,color,false));
-  }
-  void GameImpl::drawDotScreen(int x, int y, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,color,false));
-  }
   //-------------------------------------------------- DRAW LINE ---------------------------------------------
-  void GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
+  void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if ( !data->hasGUI ) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color,false));
   }
-  void GameImpl::drawLineMap(int x1, int y1, int x2, int y2, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Map,x1,y1,x2,y2,0,0,color,false));
-  }
-  void GameImpl::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Mouse,x1,y1,x2,y2,0,0,color,false));
-  }
-  void GameImpl::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
-  {
-    if ( !data->hasGUI ) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color,false));
-  }
-  void* GameImpl::getScreenBuffer()
-  {
-    return (void*)NULL;
-  }
-  int GameImpl::getLatencyFrames()
+  int GameImpl::getLatencyFrames() const
   {
     return data->latencyFrames;
   }
-  int GameImpl::getLatencyTime()
+  int GameImpl::getLatencyTime() const
   {
     return data->latencyTime;
   }
-  int GameImpl::getRemainingLatencyFrames()
+  int GameImpl::getRemainingLatencyFrames() const
   {
     return data->remainingLatencyFrames;
   }
-  int GameImpl::getRemainingLatencyTime()
+  int GameImpl::getRemainingLatencyTime() const
   {
     return data->remainingLatencyTime;
   }
-  int GameImpl::getRevision()
+  int GameImpl::getRevision() const
   {
     return data->revision;
   }
-  bool GameImpl::isDebug()
+  bool GameImpl::isDebug() const
   {
     return data->isDebug;
   }
-  bool GameImpl::isLatComEnabled()
+  bool GameImpl::isLatComEnabled() const
   {
     return data->hasLatCom;
   }
@@ -1024,7 +854,7 @@ namespace BWAPI
     //queue up command for server so it also applies the change
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetLatCom, e));
   }
-  bool GameImpl::isGUIEnabled()
+  bool GameImpl::isGUIEnabled() const
   {
     return data->hasGUI;
   }
@@ -1036,11 +866,11 @@ namespace BWAPI
     //queue up command for server so it also applies the change
     addCommand(BWAPIC::Command(BWAPIC::CommandType::SetGui, e));
   }
-  int GameImpl::getInstanceNumber()
+  int GameImpl::getInstanceNumber() const
   {
     return data->instanceID;
   }
-  int GameImpl::getAPM(bool includeSelects)
+  int GameImpl::getAPM(bool includeSelects) const
   {
     if ( includeSelects )
       return data->botAPM_selects;
@@ -1055,25 +885,25 @@ namespace BWAPI
       return setLastError(Errors::File_Not_Found);
 
     addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );
-    return setLastError(Errors::None);
+    return setLastError();
   }
   bool GameImpl::hasPath(Position source, Position destination) const
   {
-    Broodwar->setLastError(Errors::None);
+    this->setLastError();
     if ( !source.isValid() || !destination.isValid() )
-      return Broodwar->setLastError(Errors::Unreachable_Location);
+      return this->setLastError(Errors::Unreachable_Location);
 
     if ( data )
     {
-      unsigned short srcIdx = data->mapTileRegionId[source.x()/32][source.y()/32];
-      unsigned short dstIdx = data->mapTileRegionId[destination.x()/32][destination.y()/32];
+      unsigned short srcIdx = data->mapTileRegionId[source.x/32][source.y/32];
+      unsigned short dstIdx = data->mapTileRegionId[destination.x/32][destination.y/32];
 
       unsigned short srcGroup = 0;
       unsigned short dstGroup = 0;
       if ( srcIdx & 0x2000 )
       {
-        int minitilePosX = (source.x()&0x1F)/8;
-        int minitilePosY = (source.y()&0x1F)/8;
+        int minitilePosX = (source.x&0x1F)/8;
+        int minitilePosY = (source.y&0x1F)/8;
         int minitileShift = minitilePosX + minitilePosY * 4;
         unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[srcIdx&0x1FFF];
         unsigned short rgn1         = data->mapSplitTilesRegion1[srcIdx&0x1FFF];
@@ -1090,8 +920,8 @@ namespace BWAPI
 
       if ( dstIdx & 0x2000 )
       {
-        int minitilePosX = (destination.x()&0x1F)/8;
-        int minitilePosY = (destination.y()&0x1F)/8;
+        int minitilePosX = (destination.x&0x1F)/8;
+        int minitilePosY = (destination.y&0x1F)/8;
         int minitileShift = minitilePosX + minitilePosY * 4;
 
         unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[dstIdx&0x1FFF];
@@ -1111,7 +941,7 @@ namespace BWAPI
       if ( srcGroup == dstGroup )
         return true;
     }
-    return Broodwar->setLastError(Errors::Unreachable_Location);
+    return this->setLastError(Errors::Unreachable_Location);
   }
   int GameImpl::elapsedTime() const
   {
@@ -1127,12 +957,12 @@ namespace BWAPI
     return data->countdownTimer;
   }
   //------------------------------------------------- GET REGION AT ------------------------------------------
-  BWAPI::Region *GameImpl::getRegionAt(int x, int y) const
+  BWAPI::Region GameImpl::getRegionAt(int x, int y) const
   {
-    if ( x < 0 || y < 0 || x >= Broodwar->mapWidth()*32 || y >= Broodwar->mapHeight()*32 )
+    if ( !Position(x,y) )
     {
-      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
-      return NULL;
+      this->setLastError(BWAPI::Errors::Invalid_Parameter);
+      return nullptr;
     }
     unsigned short idx = data->mapTileRegionId[x/32][y/32];
     if ( idx & 0x2000 )
@@ -1144,26 +974,15 @@ namespace BWAPI
       unsigned short rgn1         = data->mapSplitTilesRegion1[idx&0x1FFF];
       unsigned short rgn2         = data->mapSplitTilesRegion2[idx&0x1FFF];
       if ( (miniTileMask >> minitileShift) & 1 )
-        return Broodwar->getRegion(rgn2);
+        return this->getRegion(rgn2);
       else
-        return Broodwar->getRegion(rgn1);
+        return this->getRegion(rgn1);
     }
-    return Broodwar->getRegion(idx);
+    return this->getRegion(idx);
   }
   int GameImpl::getLastEventTime() const
   {
     return 0;
-  }
-  bool GameImpl::setReplayVision(Player *player, bool enabled)
-  {
-    if ( !player || !isReplay() )
-    {
-      lastError = Errors::Invalid_Parameter;
-      return false;
-    }
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetReplayVision, player->getID(), enabled ? 1 : 0));
-    lastError = Errors::None;
-    return true;
   }
   bool GameImpl::setRevealAll(bool reveal)
   {

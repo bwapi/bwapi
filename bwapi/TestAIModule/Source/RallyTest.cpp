@@ -7,7 +7,7 @@ using namespace BWAPI;
 {\
   if (!(C))\
   {\
-  log("Assert failed @%s:%u %s[%s:%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().getName().c_str() : "NULL", unitType.getName().c_str(), unit ? unit->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+  log("Assert failed @%s:%u %s[%s:%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().c_str() : "NULL", unitType.c_str(), unit ? unit->getOrder().c_str() : "null", Broodwar->getLastError().c_str());\
     assert_fail_count++;\
     fail = true;\
     return;\
@@ -34,7 +34,7 @@ void RallyTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   FAILTEST(userCount>=1);
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==unitType)
     {
@@ -69,7 +69,7 @@ void RallyTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
 
   if (thisFrame<startFrame+100)
   {

@@ -1,12 +1,16 @@
 #include "WMode.h"
 #include "Resolution.h"
 #include "BW/Offsets.h"
+#include "BW/Dialog.h"
+#include "BW/Bitmap.h"
 
 #include "BWAPI/GameImpl.h"
 
 #include "Config.h"
 #include "Recording.h"
+#include "Thread.h"
 
+#include <Util/Convenience.h>
 #include "../../Debug.h"
 
 WNDPROC wOriginalProc;
@@ -53,9 +57,9 @@ void InitializeWModeBitmap(int width, int height)
   {
     for ( int i = 0; i < 256; ++i )
     {
-      wmodebmp.bmiColors[i].rgbRed   = BW::BWDATA_GamePalette[i].peRed;
-      wmodebmp.bmiColors[i].rgbGreen = BW::BWDATA_GamePalette[i].peGreen;
-      wmodebmp.bmiColors[i].rgbBlue  = BW::BWDATA_GamePalette[i].peBlue;
+      wmodebmp.bmiColors[i].rgbRed   = BW::BWDATA::GamePalette[i].peRed;
+      wmodebmp.bmiColors[i].rgbGreen = BW::BWDATA::GamePalette[i].peGreen;
+      wmodebmp.bmiColors[i].rgbBlue  = BW::BWDATA::GamePalette[i].peBlue;
     }
   }
   HDC     hdc   = GetDC(ghMainWnd);
@@ -102,21 +106,21 @@ LPARAM FixPoints(LPARAM lParam)
     RECT clientRct;
     GetClientRect(ghMainWnd, &clientRct);
 
-    if ( clientRct.right != BW::BWDATA_GameScreenBuffer->wid )
-      pt.x = (SHORT)((float)pt.x * ((float)BW::BWDATA_GameScreenBuffer->wid / (float)clientRct.right));
-    if ( clientRct.bottom != BW::BWDATA_GameScreenBuffer->ht )
-      pt.y = (SHORT)((float)pt.y * ((float)BW::BWDATA_GameScreenBuffer->ht  / (float)clientRct.bottom));
+    if ( clientRct.right != BW::BWDATA::GameScreenBuffer->width() )
+      pt.x = (SHORT)((float)pt.x * ((float)BW::BWDATA::GameScreenBuffer->width() / (float)clientRct.right));
+    if ( clientRct.bottom != BW::BWDATA::GameScreenBuffer->height() )
+      pt.y = (SHORT)((float)pt.y * ((float)BW::BWDATA::GameScreenBuffer->height()  / (float)clientRct.bottom));
   }
   return MAKELPARAM(pt.x, pt.y);
 }
 
 bool SendHotkey(BW::dlgEvent *pEvent)
 {
-  BW::dialog *dlg = BW::BWDATA_EventDialogs[pEvent->wNo];
+  BW::dialog *dlg = BW::BWDATA::EventDialogs[pEvent->wNo];
   if ( dlg && dlg->pfcnInteract(dlg, pEvent) )
     return true;
 
-  dlg = (*BW::BWDATA_DialogList);
+  dlg = (*BW::BWDATA::DialogList);
   while ( dlg )
   {
     if ( dlg->pfcnInteract(dlg, pEvent) )
@@ -147,7 +151,7 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     bFlag = 0x20;
     break;
   }
-  if ( !( (*BW::BWDATA_InputFlags) & ~bFlag & 0x2A) )
+  if ( !( (*BW::BWDATA::InputFlags) & ~bFlag & 0x2A) )
   {
     switch( dwEvent )
     {
@@ -157,13 +161,13 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     case BW_EVN_LBUTTONDBLCLK:
     case BW_EVN_RBUTTONDBLCLK:
     case BW_EVN_MBUTTONDBLCLK:
-      *BW::BWDATA_InputFlags |= bFlag;
+      *BW::BWDATA::InputFlags |= bFlag;
       SetCapture(ghMainWnd);
       break;
     case BW_EVN_LBUTTONUP:
     case BW_EVN_RBUTTONUP:
     case BW_EVN_MBUTTONUP:
-      *BW::BWDATA_InputFlags &= ~bFlag;
+      *BW::BWDATA::InputFlags &= ~bFlag;
       ReleaseCapture();
       break;
     }
@@ -173,10 +177,10 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     evt.wNo = (WORD)dwEvent;
     evt.cursor.x = pt.x;
     evt.cursor.y = pt.y;
-    BW::BWDATA_Mouse->x = pt.x;
-    BW::BWDATA_Mouse->y = pt.y;
-    if ( !SendHotkey(&evt) && BW::BWDATA_InputProcs[dwEvent] )
-      BW::BWDATA_InputProcs[dwEvent](&evt);
+    BW::BWDATA::Mouse->x = pt.x;
+    BW::BWDATA::Mouse->y = pt.y;
+    if ( !SendHotkey(&evt) && BW::InputProcedures[dwEvent] )
+      BW::InputProcedures[dwEvent](&evt);
   }
 }
 
@@ -254,16 +258,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         if ( isCorrectVersion ) // must be correct version to reference BWDATA
         {
-          if ( ws.cx >= BW::BWDATA_GameScreenBuffer->wid - WMODE_SNAP_RANGE &&
-               ws.cx <= BW::BWDATA_GameScreenBuffer->wid + WMODE_SNAP_RANGE )
+          if ( ws.cx >= BW::BWDATA::GameScreenBuffer->width() - WMODE_SNAP_RANGE &&
+               ws.cx <= BW::BWDATA::GameScreenBuffer->width() + WMODE_SNAP_RANGE )
           {
-            ws.cx = BW::BWDATA_GameScreenBuffer->wid;
+            ws.cx = BW::BWDATA::GameScreenBuffer->width();
             CorrectWindowWidth( (wParam == WMSZ_TOP || wParam == WMSZ_BOTTOM) ? WMSZ_RIGHT : wParam, &ws, rct, &border);
           }
-          if ( ws.cy >= BW::BWDATA_GameScreenBuffer->ht - WMODE_SNAP_RANGE &&
-               ws.cy <= BW::BWDATA_GameScreenBuffer->ht + WMODE_SNAP_RANGE )
+          if ( ws.cy >= BW::BWDATA::GameScreenBuffer->height() - WMODE_SNAP_RANGE &&
+               ws.cy <= BW::BWDATA::GameScreenBuffer->height() + WMODE_SNAP_RANGE )
           {
-            ws.cy = BW::BWDATA_GameScreenBuffer->ht;
+            ws.cy = BW::BWDATA::GameScreenBuffer->height();
             CorrectWindowHeight( (wParam == WMSZ_RIGHT || wParam == WMSZ_LEFT) ? WMSZ_BOTTOM : wParam, &ws, rct, &border);
           }
         }
@@ -280,8 +284,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             GetClientRect(hWnd, &tempRect);
             windowRect.right  = tempRect.right;
             windowRect.bottom = tempRect.bottom;
-            WritePrivateProfileString("window", "width",  itoa(tempRect.right,  szTemp, 10), szConfigPath);
-            WritePrivateProfileString("window", "height", itoa(tempRect.bottom, szTemp, 10), szConfigPath);
+            WritePrivateProfileString("window", "width",  _itoa(tempRect.right,  szTemp, 10), configPath.c_str());
+            WritePrivateProfileString("window", "height", _itoa(tempRect.bottom, szTemp, 10), configPath.c_str());
             break;
           }
         }// wParam switch
@@ -300,8 +304,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           windowRect.top  = tempRect.top;
 
           char szTemp[32];
-          WritePrivateProfileString("window", "left", itoa(tempRect.left, szTemp, 10), szConfigPath);
-          WritePrivateProfileString("window", "top",  itoa(tempRect.top, szTemp, 10), szConfigPath);
+          WritePrivateProfileString("window", "left", _itoa(tempRect.left, szTemp, 10), configPath.c_str());
+          WritePrivateProfileString("window", "top",  _itoa(tempRect.top, szTemp, 10), configPath.c_str());
         }
         break;
       } // case WM_MOVE
@@ -324,15 +328,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
           // Blit to the screen
           RECT cRect;
           GetClientRect(hWnd, &cRect);        
-          if ( cRect.right == BW::BWDATA_GameScreenBuffer->wid && cRect.bottom == BW::BWDATA_GameScreenBuffer->ht )
+          if ( cRect.right == BW::BWDATA::GameScreenBuffer->width() && cRect.bottom == BW::BWDATA::GameScreenBuffer->height() )
           {
-            BitBlt(hdc, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, hdcMem, 0, 0, SRCCOPY);
+            BitBlt(hdc, 0, 0, BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), hdcMem, 0, 0, SRCCOPY);
           }
           else
           {
             SetStretchBltMode(hdc, HALFTONE);
-            //StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, SRCCOPY);
-            StretchDIBits(hdc, 0, 0, cRect.right, cRect.bottom, 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, pBits, (BITMAPINFO*)&wmodebmp, DIB_RGB_COLORS, SRCCOPY);
+            //StretchBlt(hdc, 0, 0, cRect.right, cRect.bottom, hdcMem, 0, 0, BW::BWDATA::GameScreenBuffer->wid, BW::BWDATA::GameScreenBuffer->ht, SRCCOPY);
+            StretchDIBits(hdc, 0, 0, cRect.right, cRect.bottom, 0, 0, BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), pBits, (BITMAPINFO*)&wmodebmp, DIB_RGB_COLORS, SRCCOPY);
           }
         }
 
@@ -408,17 +412,17 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_SYSKEYDOWN:
       if ( wParam == VK_RETURN && (lParam & 0x20000000) && !(lParam & 0x40000000) )
       {
-        SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
+        SetWMode(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), !wmode);
         return TRUE;
       }
       break;
     case WM_MOUSEMOVE:
       if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
       {
-        (*BW::BWDATA_InputFlags) |= 1;
+        (*BW::BWDATA::InputFlags) |= 1;
         POINTS pt = MAKEPOINTS(lParam);
-        BW::BWDATA_Mouse->x = pt.x;
-        BW::BWDATA_Mouse->y = pt.y;
+        BW::BWDATA::Mouse->x = pt.x;
+        BW::BWDATA::Mouse->y = pt.y;
         return TRUE;
       }
       break;
@@ -440,12 +444,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_SYSCOMMAND:
       if ( wParam == SC_MAXIMIZE )
       {
-        SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, false);
+        SetWMode(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), false);
         return TRUE;
       }
       break;
     }
   }
+
+  // Register Broodwar thread name
+  RegisterThreadName("Broodwar Main");
 
   // Call the original WndProc
   if ( wOriginalProc )
@@ -538,8 +545,8 @@ BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, R
       memcpy(pVidBuffer, lpSurface, 640*480);
 
       // Notify that it is recording
-      BW::bitmap tmpBmp = { 640, 480, (u8*)lpSurface };
-      BW::BlitText("\x07" "Recording", &tmpBmp, 406, 346, 0);
+      BW::Bitmap tmpBmp(640, 480, lpSurface);
+      tmpBmp.blitString("\x07" "Recording", 406, 346, 0);
     }
   }
 
@@ -610,10 +617,10 @@ void SetWMode(int width, int height, bool state)
 
     // Call the DirectDraw destructor
     DDrawDestroy();
-    InitializeWModeBitmap(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht);
+    InitializeWModeBitmap(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height());
 
     // Hack to enable drawing in Broodwar
-    *BW::BWDATA_PrimarySurface = (LPDIRECTDRAWSURFACE)1;
+    *BW::BWDATA::PrimarySurface = (LPDIRECTDRAWSURFACE)1;
 
     POINT pos = { windowRect.left + (gdwProcNum ? 32 : 0), windowRect.top + (gdwProcNum ? 32 : 0) };
     // Change the window settings
@@ -651,12 +658,12 @@ void SetWMode(int width, int height, bool state)
     SetCursorShowState(false);
 
     SetDIBColorTable(hdcMem, 0, 256, wmodebmp.bmiColors);
-    WritePrivateProfileString("window", "windowed", "ON", szConfigPath);
+    WritePrivateProfileString("window", "windowed", "ON", configPath.c_str());
   }
   else
   {
     wmode = false;
-    *BW::BWDATA_PrimarySurface = NULL;
+    *BW::BWDATA::PrimarySurface = NULL;
     if ( hdcMem )
       DeleteDC(hdcMem);
     hdcMem = NULL;
@@ -669,7 +676,7 @@ void SetWMode(int width, int height, bool state)
 
     DDrawDestroy();
     DDrawInitialize(width, height);
-    WritePrivateProfileString("window", "windowed", "OFF", szConfigPath);
+    WritePrivateProfileString("window", "windowed", "OFF", configPath.c_str());
   }
 }
 

@@ -1,26 +1,23 @@
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN    // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
-#include <stdio.h>
+#include <cstdio>
 
 #include <BWAPI.h>
 
 #include "DevAIModule.h"
 
-namespace BWAPI { Game* Broodwar; }
-
+extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
 BOOL APIENTRY DllMain( HANDLE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
   switch ( dwReason )
   {
   case DLL_PROCESS_ATTACH:
-    BWAPI::BWAPI_init();
     break;
   }
   return TRUE;
 }
 
- extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule(BWAPI::Game* game)
+extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
-  BWAPI::Broodwar = game;
   return new DevAIModule();
 }

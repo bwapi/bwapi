@@ -1,44 +1,36 @@
 #pragma once
 #include "CheatType.h"
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <cctype>
+
 namespace BW
 {
-  CheatFlags::Enum getCheatFlag(const char* name)
+  CheatFlags::Enum getCheatFlag(const std::string &str)
   {
-    if ( strcmpi(name, "black sheep wall") == 0 )
-      return CheatFlags::BlackSheepWall;
-    else if ( strcmpi(name, "breathe deep") == 0 )
-      return CheatFlags::BreatheDeep;
-    else if ( strcmpi(name, "food for thought") == 0 )
-      return CheatFlags::FoodForThought;
-    else if ( strcmpi(name, "game over man") == 0 )
-      return CheatFlags::GameOverMan;
-    else if ( strcmpi(name, "medieval man") == 0 )
-      return CheatFlags::MedievalMan;
-    else if ( strcmpi(name, "modify the phase variance") == 0 )
-      return CheatFlags::ModifyThePhaseVariance;
-    else if ( strcmpi(name, "noglues") == 0 )
-      return CheatFlags::NoGlues;
-    else if ( strcmpi(name, "operation cwal") == 0 )
-      return CheatFlags::OperationCwal;
-    else if ( strcmpi(name, "ophelia") == 0 )
-      return CheatFlags::Ophelia;
-    else if ( strcmpi(name, "power overwhelming") == 0 )
-      return CheatFlags::PowerOverwelming;
-    else if ( strcmpi(name, "show me the money") == 0 )
-      return CheatFlags::ShowMeTheMoney;
-    else if ( strcmpi(name, "something for nothing") == 0 )
-      return CheatFlags::SomethingForNothing;
-    else if ( strcmpi(name, "staying alive") == 0 )
-      return CheatFlags::StayingAlive;
-    else if ( strcmpi(name, "the gathering") == 0 )
-      return CheatFlags::TheGathering;
-    else if ( strcmpi(name, "there is no cow level") == 0 )
-      return CheatFlags::ThereIsNoCowLevel;
-    else if ( strcmpi(name, "war aint what it used to be") == 0 )
-      return CheatFlags::WarAintWhatItUsedToBe;
-    else if ( strcmpi(name, "whats mine is mine") == 0 )
-      return CheatFlags::WhatsMineIsMine;
-    return CheatFlags::None;
+    // Convert to lowercase in a new string
+    std::string name;
+    std::transform(str.begin(), str.end(), std::back_inserter(name), &::tolower);
+
+    // Get the cheat flag
+    if      ( name == "black sheep wall" )            return CheatFlags::BlackSheepWall;
+    else if ( name == "breathe deep" )                return CheatFlags::BreatheDeep;
+    else if ( name == "food for thought" )            return CheatFlags::FoodForThought;
+    else if ( name == "game over man" )               return CheatFlags::GameOverMan;
+    else if ( name == "medieval man" )                return CheatFlags::MedievalMan;
+    else if ( name == "modify the phase variance" )   return CheatFlags::ModifyThePhaseVariance;
+    else if ( name == "noglues" )                     return CheatFlags::NoGlues;
+    else if ( name == "operation cwal" )              return CheatFlags::OperationCwal;
+    else if ( name == "ophelia" )                     return CheatFlags::Ophelia;
+    else if ( name == "power overwhelming" )          return CheatFlags::PowerOverwelming;
+    else if ( name == "show me the money" )           return CheatFlags::ShowMeTheMoney;
+    else if ( name == "something for nothing" )       return CheatFlags::SomethingForNothing;
+    else if ( name == "staying alive" )               return CheatFlags::StayingAlive;
+    else if ( name == "the gathering" )               return CheatFlags::TheGathering;
+    else if ( name == "there is no cow level" )       return CheatFlags::ThereIsNoCowLevel;
+    else if ( name == "war aint what it used to be" ) return CheatFlags::WarAintWhatItUsedToBe;
+    else if ( name == "whats mine is mine" )          return CheatFlags::WhatsMineIsMine;
+    else return CheatFlags::None;
   }
 }

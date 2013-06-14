@@ -1,0 +1,1890 @@
+(P1) Select: 1, 1608:00
+(P0) Select: 1, 1613:00
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Select: 4, 1604:00, 1605:00, 1606:00, 1607:00
+(P0) Select: 4, 1609:00, 1610:00, 1611:00, 1612:00
+(P1) Right Click: (142, 278), 1697:00, None
+(P0) Right Click: (2904, 3903), 0:00, None
+(P0) Right Click: (2954, 3880), 1615:00, None
+(P1) Shift Deselect: 1, 1605:00
+(P0) Shift Deselect: 1, 1610:00
+(P1) Right Click: (110, 233), 1698:00, None
+(P0) Right Click: (3034, 3794), 0:00, None
+(P0) Right Click: (2971, 3821), 1622:00, None
+(P1) Shift Deselect: 1, 1604:00
+(P1) Right Click: (136, 182), 1700:00, None
+(P0) Right Click: (3017, 3736), 0:00, None
+(P0) Right Click: (2987, 3742), 1625:00, None
+(P1) Select: 1, 1606:00
+(P0) Shift Deselect: 1, 1609:00
+(P1) Right Click: (81, 200), 1699:00, None
+(P0) Right Click: (2924, 3734), 1628:00, None
+(P0) Right Click: (2921, 3725), 1628:00, None
+(P1) Select: 1, 1608:00
+(P0) Select: 1, 1611:00
+(P0) Right Click: (2965, 3831), 1619:00, None
+(P0) Select: 1, 1613:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2868, 3846), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2869, 3851), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2868, 3857), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Group Units: Save, 3
+(P0) Target Click: (2876, 3830), 0:00, None, RallyPointTile
+(P1) Target Click: (97, 296), 1695:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P0) Target Click: (2876, 3835), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Target Click: (97, 295), 1695:00, None, RallyPointUnit
+(P0) Target Click: (2879, 3850), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 3
+(P0) Train: Terran_SCV
+(P0) Train: Terran_SCV
+(P1) Target Click: (97, 295), 1695:00, None, RallyPointUnit
+(P0) Target Click: (2875, 3875), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2873, 3837), 0:00, None, RallyPointTile
+(P1) Target Click: (97, 295), 1695:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P1) Group Units: Save, 3
+(P0) Train: Terran_SCV
+(P0) Target Click: (2887, 3854), 0:00, None, RallyPointTile
+(P1) Target Click: (97, 295), 1695:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2887, 3854), 0:00, None, RallyPointTile
+(P1) Target Click: (97, 295), 1695:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P0) Train: Terran_SCV
+(P0) Target Click: (2887, 3855), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2887, 3855), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Target Click: (2879, 3863), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1602:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2879, 3863), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Right Click: (84, 305), 1695:00, None
+(P0) Train: Terran_SCV
+(P0) Select: 1, 1603:00
+(P1) Group Units: Recall, 3
+(P0) Right Click: (2957, 3851), 1619:00, None
+(P0) Right Click: (2957, 3851), 1619:00, None
+(P1) Target Click: (97, 351), 1688:00, None, RallyPointUnit
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2857, 3787), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Select: 1, 1603:00
+(P1) Train: Protoss_Probe
+(P0) Right Click: (2958, 3807), 1622:00, None
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2865, 3810), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (2869, 3824), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P0) Train: Terran_SCV
+(P1) Group Units: Save, 3
+(P0) Train: Terran_SCV
+(P0) Train: Terran_SCV
+(P0) Train: Terran_SCV
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Target Click: (2869, 3818), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2869, 3815), 0:00, None, RallyPointTile
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (2868, 3806), 0:00, None, RallyPointTile
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2886, 3790), 0:00, None, RallyPointTile
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Target Click: (2886, 3790), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Target Click: (2885, 3793), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P1) Target Click: (86, 354), 1688:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Target Click: (2884, 3792), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Target Click: (105, 355), 1688:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P0) Target Click: (2906, 3790), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2906, 3790), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2906, 3790), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Target Click: (2906, 3790), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2873, 3794), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2882, 3790), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2882, 3790), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P1) Select: 1, 1601:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P1) Right Click: (90, 339), 1688:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P1) Select: 1, 1608:00
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (2882, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Target Click: (125, 381), 1685:00, None, RallyPointUnit
+(P1) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Target Click: (125, 382), 1685:00, None, RallyPointUnit
+(P0) Target Click: (2920, 3796), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 3
+(P0) Select: 1, 1600:00
+(P1) Target Click: (125, 382), 1685:00, None, RallyPointUnit
+(P0) Right Click: (2957, 3695), 1630:00, None
+(P0) Right Click: (2957, 3690), 1630:00, None
+(P0) Right Click: (2960, 3683), 1630:00, None
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 3
+(P1) Target Click: (125, 382), 1685:00, None, RallyPointUnit
+(P0) Target Click: (2907, 3776), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2909, 3782), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2915, 3791), 0:00, None, RallyPointTile
+(P1) Select: 1, 1605:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2916, 3792), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2917, 3785), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2866, 3788), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2876, 3788), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (291, 435), 0:00, None
+(P1) Right Click: (292, 438), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2885, 3790), 0:00, None, RallyPointTile
+(P1) Right Click: (292, 435), 0:00, None
+(P0) Train: Terran_SCV
+(P1) Group Units: Save, 4
+(P0) Target Click: (2885, 3790), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (1664, 2976), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (2496, 3648), 0:00, None
+(P0) Target Click: (2878, 3796), 0:00, None, RallyPointTile
+(P1) Right Click: (2592, 3680), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2885, 3791), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Target Click: (164, 427), 1682:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P0) Target Click: (2885, 3791), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Target Click: (130, 385), 1685:00, None, RallyPointUnit
+(P0) Target Click: (2885, 3791), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2885, 3791), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Target Click: (2885, 3791), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2888, 3788), 0:00, None, RallyPointTile
+(P1) Target Click: (128, 386), 1685:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Target Click: (129, 386), 1685:00, None, RallyPointUnit
+(P0) Target Click: (2909, 3790), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Target Click: (129, 386), 1685:00, None, RallyPointUnit
+(P0) Target Click: (2908, 3789), 0:00, None, RallyPointTile
+(P1) Target Click: (129, 386), 1685:00, None, RallyPointUnit
+(P0) Train: Terran_SCV
+(P1) Select: 1, 1685:00
+(P0) Target Click: (2908, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2905, 3788), 0:00, None, RallyPointTile
+(P1) Right Click: (2752, 3808), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2905, 3792), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2906, 3794), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1599:00
+(P0) Target Click: (2881, 3800), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (117, 384), 1685:00, None
+(P1) Select: 1, 1685:00
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2885, 3789), 0:00, None, RallyPointTile
+(P1) Target Click: (172, 427), 1682:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P1) Target Click: (173, 430), 1682:00, None, RallyPointUnit
+(P0) Target Click: (2885, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Target Click: (173, 430), 1682:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P1) Target Click: (173, 429), 1682:00, None, RallyPointUnit
+(P0) Target Click: (2885, 3786), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2883, 3786), 0:00, None, RallyPointTile
+(P0) Select: 1, 1598:00
+(P0) Right Click: (2887, 3673), 0:00, None
+(P1) Right Click: (2752, 3808), 0:00, None
+(P0) Right Click: (2887, 3663), 0:00, None
+(P0) Right Click: (2911, 3635), 1635:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Target Click: (2879, 3789), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2891, 3793), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2909, 3798), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2896, 3792), 0:00, None, RallyPointTile
+(P1) Select: 1, 1604:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2896, 3792), 0:00, None, RallyPointTile
+(P1) Select: 1, 1599:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2896, 3792), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (368, 371), 0:00, None
+(P0) Target Click: (2882, 3784), 0:00, None, RallyPointTile
+(P1) Right Click: (380, 367), 0:00, None
+(P0) Select: 1, 1600:00
+(P1) Right Click: (384, 360), 0:00, None
+(P0) Right Click: (2783, 3738), 0:00, None
+(P0) Group Units: Save, 2
+(P0) Group Units: Save, 2
+(P0) Right Click: (2429, 3450), 0:00, None
+(P1) Right Click: (406, 357), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (419, 352), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2833, 3851), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Right Click: (1600, 1760), 0:00, None
+(P0) Right Click: (1472, 1664), 0:00, None
+(P1) Placebox: , (12, 10), Protoss_Pylon
+(P0) Group Units: Recall, 3
+(P1) Right Click: (261, 393), 0:00, None, Queued
+(P0) Group Units: Save, 3
+(P0) Target Click: (2860, 3855), 0:00, None, RallyPointTile
+(P1) Right Click: (145, 421), 1682:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2858, 3858), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P1) Target Click: (115, 383), 1685:00, None, RallyPointUnit
+(P0) Group Units: Recall, 3
+(P1) Target Click: (131, 389), 1685:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2874, 3854), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P1) Select: 1, 1597:00
+(P1) Right Click: (122, 389), 1685:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2866, 3878), 0:00, None, RallyPointTile
+(P1) Select: 1, 1608:00
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Target Click: (2862, 3874), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 2
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Right Click: (352, 160), 0:00, None, Queued
+(P1) Train: Protoss_Probe
+(P0) Right Click: (352, 160), 0:00, None
+(P1) Train: Protoss_Probe
+(P0) Select: 1, 1611:00
+(P1) Train: Protoss_Probe
+(P0) Select: 1, 1596:00
+(P1) Train: Protoss_Probe
+(P0) Right Click: (2999, 3838), 1622:00, None
+(P1) Train: Protoss_Probe
+(P0) Right Click: (2995, 3842), 1622:00, None
+(P1) Train: Protoss_Probe
+(P0) Right Click: (2942, 3850), 1619:00, None
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 4
+(P0) Target Click: (2839, 3867), 0:00, None, RallyPointTile
+(P0) Select: 1, 1598:00
+(P1) Right Click: (2816, 3840), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (2463, 3552), 0:00, None
+(P1) Target Click: (134, 383), 1685:00, None, RallyPointUnit
+(P0) Right Click: (2507, 3398), 0:00, None
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Placebox: PlaceBuilding, (61, 101), Terran_Supply_Depot
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P0) Right Click: (2915, 3665), 1632:00, None, Queued
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Train: Protoss_Probe
+(P1) Target Click: (113, 372), 1685:00, None, RallyPointUnit
+(P0) Placebox: PlaceBuilding, (59, 99), Terran_Supply_Depot
+(P0) Right Click: (2969, 3828), 1619:00, None, Queued
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P1) Target Click: (121, 255), 1697:00, None, RallyPointUnit
+(P0) Group Units: Save, 3
+(P0) Target Click: (2834, 3902), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2845, 3904), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2844, 3902), 0:00, None, RallyPointTile
+(P0) Select: 1, 1594:00
+(P0) Right Click: (2961, 3877), 1615:00, None
+(P0) Right Click: (2961, 3877), 1615:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2820, 3926), 0:00, None, RallyPointTile
+(P1) Select: 1, 1593:00
+(P0) Right Click: (416, 416), 0:00, None
+(P1) Right Click: (119, 256), 1697:00, None
+(P0) Right Click: (320, 256), 0:00, None
+(P1) Select: 1, 1697:00
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 1
+(P0) Group Units: Save, 1
+(P0) Select: 1, 1600:00
+(P0) Group Units: Save, 1
+(P0) Group Units: Save, 1
+(P0) Right Click: (448, 704), 0:00, None
+(P0) Right Click: (384, 448), 0:00, None
+(P0) Right Click: (160, 256), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1598:00
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2809, 3867), 0:00, None, RallyPointTile
+(P1) Right Click: (1952, 3248), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1929, 3178), 1598:00, None
+(P1) Select: 1, 1598:00
+(P1) Select: 1, 1591:00
+(P1) Group Units: Recall, 4
+(P1) Right Click: (2027, 3308), 0:00, None
+(P1) Right Click: (2054, 3311), 0:00, None
+(P0) Select: 1, 1598:00
+(P0) Group Units: Save, 2
+(P1) Right Click: (2238, 3482), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2843, 3893), 0:00, None, RallyPointTile
+(P1) Right Click: (2816, 3648), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2849, 3893), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2854, 3890), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Target Click: (108, 205), 1699:00, None, RallyPointUnit
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Target Click: (2853, 3893), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Right Click: (2730, 3762), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (2747, 3761), 0:00, None
+(P0) Target Click: (2852, 3887), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Right Click: (2756, 3760), 0:00, None
+(P0) Right Click: (640, 320), 0:00, None
+(P0) Right Click: (448, 224), 0:00, None
+(P0) Right Click: (384, 224), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Target Click: (2837, 3865), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (2778, 3776), 0:00, None
+(P0) Target Click: (2863, 3874), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2863, 3874), 0:00, None, RallyPointTile
+(P1) Right Click: (2710, 3917), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Right Click: (2743, 3943), 0:00, None
+(P0) Target Click: (2863, 3874), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1592:00
+(P0) Right Click: (2889, 3882), 0:00, None
+(P0) Right Click: (2906, 3882), 0:00, None
+(P0) Right Click: (2941, 3878), 1615:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (2861, 3988), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Cancel Train: (254, 0x00)
+(P0) Select: 1, 1592:00
+(P0) Right Click: (2789, 3887), 0:00, None
+(P1) Group Units: Recall, 4
+(P0) Placebox: PlaceBuilding, (84, 123), Terran_Refinery
+(P0) Group Units: Recall, 3
+(P1) Placebox: , (84, 123), Protoss_Assimilator
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2808, 3908), 0:00, None, RallyPointTile
+(P1) Right Click: (2575, 3871), 0:00, None
+(P1) Right Click: (2542, 3867), 0:00, None
+(P0) Select: 1, 1592:00
+(P1) Group Units: Recall, 3
+(P0) Right Click: (2679, 3938), 1605:00, None
+(P0) Right Click: (2669, 3925), 1605:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2828, 3895), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Select: 1, 1590:00
+(P0) Group Units: Save, 3
+(P1) Right Click: (130, 249), 1697:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2840, 3863), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 2
+(P1) Right Click: (2385, 3737), 0:00, None
+(P0) Select: 1, 1591:00
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2833, 3891), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1801, 3154), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P1) Target Click: (120, 377), 1685:00, None, RallyPointUnit
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2855, 3885), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2839, 3891), 0:00, None, RallyPointTile
+(P1) Right Click: (1726, 3148), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1736, 3149), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1752, 3072), 0:00, None
+(P1) Right Click: (1760, 3089), 0:00, None
+(P1) Right Click: (1773, 3098), 0:00, None
+(P0) Right Click: (309, 118), 0:00, None
+(P0) Right Click: (319, 109), 0:00, None
+(P0) Right Click: (354, 96), 1:00, None
+(P1) Right Click: (1942, 3210), 1598:00, None
+(P0) Group Units: Recall, 3
+(P0) Select: 1, 1600:00
+(P0) Placebox: PlaceBuilding, (8, 2), Terran_Refinery
+(P1) Right Click: (1729, 3181), 0:00, None
+(P1) Right Click: (1729, 3181), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P1) Right Click: (416, 160), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2852, 3888), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1589:00
+(P0) Right Click: (1977, 3315), 0:00, None
+(P0) Right Click: (1980, 3314), 0:00, None
+(P1) Right Click: (312, 122), 1:00, None
+(P0) Right Click: (1980, 3312), 0:00, None
+(P1) Right Click: (359, 117), 1600:00, None
+(P0) Right Click: (1932, 3260), 0:00, None
+(P0) Right Click: (1874, 3235), 0:00, None
+(P0) Right Click: (1905, 3293), 0:00, None
+(P1) Shift Select: 1, 1602:00
+(P0) Right Click: (1906, 3292), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (349, 139), 0:00, None
+(P0) Cancel Train: (254, 0x00)
+(P1) Right Click: (367, 117), 1600:00, None
+(P0) Select: 1, 1598:00
+(P1) Right Click: (143, 157), 1700:00, None, Queued
+(P0) Right Click: (1898, 3261), 0:00, None
+(P0) Right Click: (1907, 3269), 0:00, None
+(P0) Right Click: (1920, 3267), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Select: 1, 1590:00
+(P1) Right Click: (303, 387), 0:00, None
+(P0) Placebox: PlaceBuilding, (58, 101), Terran_Barracks
+(P1) Right Click: (321, 382), 0:00, None
+(P1) Placebox: , (13, 12), Protoss_Gateway
+(P1) Right Click: (137, 261), 1697:00, None, Queued
+(P1) Group Units: Recall, 4
+(P1) Right Click: (2528, 3776), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (2752, 3712), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2843, 3895), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1600:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2861, 3882), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2860, 3889), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P1) Target Click: (300, 407), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (300, 406), 0:00, None, RallyPointTile
+(P0) Stop: 
+(P1) Group Units: Recall, 4
+(P0) Right Click: (477, 60), 0:00, None
+(P0) Right Click: (480, 53), 0:00, None
+(P0) Right Click: (482, 47), 0:00, None
+(P0) Right Click: (483, 46), 0:00, None
+(P0) Right Click: (486, 45), 0:00, None
+(P0) Right Click: (489, 44), 0:00, None
+(P1) Right Click: (2720, 3616), 0:00, None
+(P0) Right Click: (496, 44), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P1) Select: 1, 1587:00
+(P0) Group Units: Recall, 1
+(P0) Right Click: (594, 111), 0:00, None
+(P0) Right Click: (593, 114), 0:00, None
+(P1) Right Click: (79, 280), 1695:00, None
+(P0) Right Click: (593, 114), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Recall, 1
+(P0) Right Click: (613, 228), 0:00, None
+(P0) Right Click: (612, 228), 0:00, None
+(P1) Select: 1, 1600:00
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1589:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2839, 3903), 0:00, None, RallyPointTile
+(P1) Right Click: (155, 160), 1700:00, None
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2850, 3893), 0:00, None, RallyPointTile
+(P1) Select: 1, 1602:00
+(P0) Group Units: Recall, 2
+(P1) Right Click: (566, 192), 1600:00, None
+(P0) Select: 1, 1586:00
+(P1) Right Click: (129, 148), 1700:00, None, Queued
+(P0) Group Units: Save, 4
+(P0) Select: 1, 1592:00
+(P1) Select: 1, 1588:01
+(P0) Right Click: (1776, 3186), 0:00, None
+(P1) Group Units: Save, 1
+(P0) Right Click: (1808, 3178), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Right Click: (1759, 3069), 0:00, None
+(P0) Right Click: (1871, 3272), 0:00, None
+(P0) Right Click: (1866, 3271), 0:00, None
+(P0) Select: 1, 1598:00
+(P1) Right Click: (1736, 3162), 0:00, None
+(P0) Stop: 
+(P1) Right Click: (1842, 3160), 1592:00, None
+(P0) Select: 1, 1592:00
+(P0) Right Click: (1862, 3247), 0:00, None
+(P0) Right Click: (1907, 3277), 1586:00, None
+(P0) Right Click: (1912, 3282), 1586:00, None
+(P1) Right Click: (1783, 3153), 0:00, None
+(P0) Select: 1, 1598:00
+(P0) Right Click: (1998, 3292), 0:00, None
+(P1) Right Click: (1809, 3156), 0:00, None
+(P0) Right Click: (2025, 3301), 0:00, None
+(P1) Right Click: (1815, 3157), 0:00, None
+(P1) Right Click: (1820, 3159), 0:00, None
+(P0) Right Click: (2509, 3569), 0:00, None
+(P1) Right Click: (1832, 3170), 0:00, Terran_Barracks
+(P0) Right Click: (2520, 3589), 0:00, None
+(P0) Right Click: (2964, 3897), 1615:00, None
+(P0) Right Click: (2954, 3896), 1615:00, None
+(P1) Right Click: (1890, 3257), 1586:00, None
+(P0) Right Click: (2954, 3896), 1615:00, None
+(P0) Right Click: (2955, 3896), 1615:00, None
+(P0) Right Click: (2957, 3897), 1615:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1893, 3267), 1586:00, None
+(P0) Train: Terran_SCV
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1586:00
+(P0) Right Click: (963, 375), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (963, 375), 0:00, None
+(P0) Right Click: (963, 374), 0:00, None
+(P1) Train: Protoss_Probe
+(P0) Right Click: (692, 596), 0:00, None
+(P0) Right Click: (678, 613), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (419, 558), 0:00, None
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2868, 3889), 0:00, None, RallyPointTile
+(P1) Select: 1, 1585:00
+(P1) Right Click: (301, 434), 0:00, None
+(P1) Right Click: (300, 455), 0:00, None
+(P1) Right Click: (182, 472), 0:00, None
+(P0) Select: 1, 1592:00
+(P1) Right Click: (31, 420), 0:00, None
+(P1) Placebox: , (0, 10), Protoss_Pylon
+(P0) Stop: 
+(P1) Right Click: (93, 364), 1688:00, None, Queued
+(P1) Select: 1, 1688:00
+(P1) Group Units: Recall, 3
+(P0) Right Click: (1893, 3230), 1605:00, None
+(P0) Right Click: (1893, 3230), 1605:00, None
+(P0) Right Click: (1892, 3229), 1605:00, None
+(P1) Target Click: (248, 369), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2851, 3897), 0:00, None, RallyPointTile
+(P0) Select: 1, 1584:00
+(P1) Right Click: (1842, 3169), 0:00, None
+(P0) Shift Select: 1, 1598:00
+(P1) Right Click: (1850, 3137), 0:00, None
+(P0) Right Click: (2815, 3944), 0:00, None
+(P1) Right Click: (1781, 3100), 0:00, None
+(P0) Right Click: (2776, 3947), 1614:00, None
+(P0) Group Units: Recall, 1
+(P0) Right Click: (498, 561), 0:00, None
+(P1) Select: 1, 1586:00
+(P0) Right Click: (527, 563), 0:00, None
+(P0) Right Click: (538, 564), 0:00, None
+(P1) Select: 1, 1592:00
+(P0) Right Click: (28, 427), 0:00, None
+(P0) Right Click: (100, 492), 0:00, None
+(P1) Group Units: Recall, 4
+(P0) Right Click: (99, 493), 0:00, None
+(P1) Right Click: (1471, 2835), 0:00, None
+(P0) Right Click: (90, 488), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (90, 488), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2874, 3913), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Select: 1, 1602:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2881, 3899), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2861, 3901), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1:00
+(P0) Group Units: Save, 2
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2852, 3898), 0:00, None, RallyPointTile
+(P1) Right Click: (448, 293), 0:00, None
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1614:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2630, 3849), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P0) Target Click: (1487, 2805), 0:00, None, RallyPointTile
+(P0) Select: 1, 1592:00
+(P0) Right Click: (1339, 2852), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1583:00
+(P0) Right Click: (1929, 3233), 1591:00, None
+(P1) Right Click: (115, 276), 1697:00, None
+(P0) Right Click: (1916, 3270), 1586:00, None
+(P1) Select: 1, 1697:00
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Group Units: Save, 3
+(P0) Target Click: (2852, 3877), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Select: 1, 1582:00
+(P0) Right Click: (2483, 3852), 0:00, None
+(P1) Right Click: (1395, 2123), 0:00, None
+(P0) Right Click: (2563, 3755), 0:00, None
+(P0) Right Click: (2774, 3994), 1614:00, None
+(P0) Right Click: (2767, 3989), 1614:00, None
+(P1) Right Click: (1238, 2209), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2838, 3893), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2844, 3870), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 1
+(P0) Target Click: (2863, 3870), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1:00
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2885, 3878), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2885, 3879), 1603:00, None, RallyPointUnit
+(P1) Target Click: (275, 393), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Target Click: (275, 393), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2859, 3880), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2856, 3872), 0:00, None, RallyPointTile
+(P0) Select: 1, 1603:00
+(P0) Right Click: (2779, 3988), 1614:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2815, 3879), 0:00, None, RallyPointTile
+(P1) Select: 1, 1580:00
+(P0) Group Units: Save, 3
+(P1) Right Click: (107, 278), 1697:00, None
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1697:00
+(P0) Target Click: (2862, 3864), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2856, 3868), 0:00, None, RallyPointTile
+(P0) Select: 1, 1600:01
+(P0) Right Click: (2928, 3889), 1615:00, None
+(P0) Right Click: (2930, 3890), 1615:00, None
+(P1) Right Click: (1651, 3150), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Save, 3
+(P0) Target Click: (2866, 3892), 0:00, None, RallyPointTile
+(P1) Target Click: (1810, 3193), 0:00, Terran_Barracks, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P1) Right Click: (1591, 3182), 0:00, None
+(P1) Right Click: (1594, 3183), 0:00, None
+(P0) Target Click: (2856, 3878), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2855, 3877), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2855, 3877), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1601:00
+(P0) Target Click: (2855, 3885), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P1) Right Click: (167, 477), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2852, 3883), 0:00, None, RallyPointTile
+(P1) Right Click: (164, 482), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Placebox: , (0, 14), Protoss_Forge
+(P0) Group Units: Recall, 3
+(P1) Right Click: (155, 433), 1682:00, None, Queued
+(P0) Target Click: (2862, 3879), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Select: 1, 1685:00
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 4
+(P0) Target Click: (2860, 3872), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Select: 1, 1610:00
+(P0) Right Click: (2813, 3744), 1611:00, None
+(P1) Right Click: (1322, 2867), 0:00, None
+(P0) Right Click: (2698, 3540), 0:00, None
+(P0) Right Click: (2602, 3451), 0:00, None
+(P1) Right Click: (1491, 3111), 0:00, None
+(P0) Right Click: (2494, 3334), 0:00, None
+(P0) Right Click: (2576, 3394), 0:00, None
+(P1) Right Click: (1879, 3278), 0:00, Terran_Barracks
+(P0) Right Click: (2708, 3482), 0:00, None
+(P1) Right Click: (1838, 3215), 0:00, Terran_Barracks
+(P0) Right Click: (2426, 3447), 0:00, None
+(P1) Right Click: (1827, 3199), 0:00, Terran_Barracks
+(P0) Right Click: (2631, 3483), 0:00, None
+(P1) Right Click: (1684, 3064), 0:00, None
+(P0) Right Click: (2959, 3725), 1628:00, None
+(P1) Right Click: (1679, 3058), 0:00, None
+(P0) Right Click: (2951, 3687), 1630:00, None
+(P0) Right Click: (2927, 3646), 1632:00, None
+(P1) Right Click: (1668, 3056), 0:00, None
+(P0) Right Click: (2920, 3640), 1632:00, None
+(P1) Right Click: (1673, 3046), 0:00, None
+(P1) Right Click: (1721, 3059), 0:00, None
+(P0) Right Click: (2882, 3612), 1635:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2866, 3860), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Right Click: (1837, 3086), 0:00, None
+(P0) Target Click: (2866, 3860), 0:00, None, RallyPointTile
+(P0) Select: 1, 1614:00
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1667, 3052), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (1640, 3021), 0:00, None
+(P0) Target Click: (2840, 3854), 0:00, None, RallyPointTile
+(P0) Select: 1, 1578:00
+(P0) Right Click: (2961, 3884), 1615:00, None
+(P0) Right Click: (2958, 3879), 1615:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2847, 3882), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1614:00
+(P1) Placebox: , (52, 92), Protoss_Pylon
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2860, 3865), 0:00, None, RallyPointTile
+(P1) Right Click: (1792, 3147), 0:00, None
+(P0) Select: 1, 1600:01
+(P1) Right Click: (1791, 3149), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Target Click: (1814, 3159), 0:00, None, RallyPointTile
+(P0) Right Click: (2780, 3994), 1614:00, None
+(P0) Right Click: (2780, 3994), 1614:00, None
+(P0) Right Click: (2780, 3994), 1614:00, None
+(P1) Group Units: Recall, 4
+(P0) Right Click: (2780, 3994), 1614:00, None
+(P1) Right Click: (1810, 3255), 0:00, None
+(P1) Right Click: (1828, 3239), 0:00, None
+(P1) Right Click: (1842, 3243), 0:00, None
+(P0) Select: 1, 1578:00
+(P0) Right Click: (2819, 3959), 0:00, None
+(P0) Right Click: (2792, 3962), 1614:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P1) Right Click: (1891, 3275), 1586:00, None
+(P0) Target Click: (2846, 3899), 0:00, None, RallyPointTile
+(P0) Select: 1, 1614:00
+(P1) Select: 1, 1586:00
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Train: Terran_SCV
+(P1) Target Click: (1869, 3185), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2870, 3887), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P1) Train: Protoss_Probe
+(P1) Select: 1, 1579:00
+(P1) Right Click: (240, 152), 0:00, None
+(P1) Right Click: (303, 91), 1:00, None
+(P0) Select: 1, 1592:00
+(P1) Right Click: (140, 156), 1700:00, None, Queued
+(P0) Select: 1, 1586:00
+(P1) Select: 1, 1606:00
+(P0) Group Units: Recall, 3
+(P1) Right Click: (321, 105), 1:00, None
+(P1) Right Click: (140, 176), 1700:00, None, Queued
+(P0) Group Units: Save, 3
+(P0) Target Click: (2877, 3892), 0:00, None, RallyPointTile
+(P0) Select: 4, 1584:00, 1603:00, 1598:00, 1600:01
+(P0) Right Click: (2925, 3886), 1615:00, None
+(P0) Right Click: (2943, 3873), 1615:00, None
+(P1) Group Units: Recall, 1
+(P1) Train: Protoss_Zealot
+(P1) Train: Protoss_Zealot
+(P0) Select: 1, 1582:00
+(P1) Train: Protoss_Zealot
+(P1) Train: Protoss_Zealot
+(P1) Train: Protoss_Zealot
+(P0) Placebox: PlaceBuilding, (84, 123), Terran_Refinery
+(P1) Train: Protoss_Zealot
+(P0) Select: 1, 1578:00
+(P0) Right Click: (2918, 3885), 1615:00, None
+(P0) Right Click: (2956, 3869), 1615:00, None
+(P1) Target Click: (1858, 3193), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Zealot
+(P0) Target Click: (2823, 3907), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1874, 3224), 1592:00, None
+(P1) Select: 1, 1592:00
+(P1) Group Units: Recall, 1
+(P1) Train: Protoss_Zealot
+(P1) Train: Protoss_Zealot
+(P1) Target Click: (1867, 3188), 0:00, None, RallyPointTile
+(P1) Select: 1, 1592:00
+(P0) Select: 1, 1592:00
+(P0) Select: 1, 1586:00
+(P0) Train: Terran_Marine
+(P0) Select: 1, 1592:00
+(P0) Right Click: (1851, 3227), 0:00, None
+(P0) Right Click: (1859, 3229), 1605:00, None
+(P0) Right Click: (1877, 3230), 1605:00, None
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P0) Target Click: (2852, 3927), 0:00, None, RallyPointTile
+(P0) Select: 1, 1575:00
+(P0) Right Click: (2924, 3892), 1615:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (127, 423), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2850, 3920), 0:00, None, RallyPointTile
+(P1) Right Click: (131, 415), 1682:00, None
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P1) Target Click: (1770, 3084), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2833, 3905), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P1) Train: Protoss_Probe
+(P1) Target Click: (297, 368), 0:00, None, RallyPointTile
+(P0) Select: 1, 1592:00
+(P1) Select: 1, 1573:00
+(P1) Right Click: (100, 266), 1697:00, None
+(P0) Right Click: (1696, 3006), 1574:00, None
+(P1) Select: 1, 1:00
+(P0) Right Click: (1610, 2994), 0:00, None
+(P0) Right Click: (1587, 2979), 1605:00, None
+(P0) Right Click: (1553, 2967), 0:00, None
+(P1) Group Units: Recall, 4
+(P0) Right Click: (1555, 2951), 1605:00, None
+(P0) Right Click: (1534, 2926), 1605:00, None
+(P0) Group Units: Recall, 4
+(P1) Right Click: (1394, 2953), 0:00, None
+(P1) Right Click: (1394, 2952), 0:00, None
+(P1) Right Click: (1394, 2955), 0:00, None
+(P0) Train: Terran_Marine
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1421, 3029), 0:00, None
+(P1) Right Click: (1442, 3039), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2851, 3904), 0:00, None, RallyPointTile
+(P1) Right Click: (1558, 3118), 0:00, None
+(P1) Right Click: (1566, 3107), 0:00, None
+(P0) Select: 3, 1603:00, 1584:00, 1575:00
+(P1) Group Units: Recall, 1
+(P0) Shift Select: 2, 1578:00, 1612:00
+(P0) Right Click: (2738, 3743), 1613:00, None, Queued
+(P1) Group Units: Recall, 3
+(P0) Right Click: (1814, 3039), 0:00, None
+(P1) Cancel Train: (254, 0x00)
+(P1) Group Units: Recall, 4
+(P0) Right Click: (1834, 3199), 0:00, None
+(P1) Right Click: (1771, 3123), 0:00, None
+(P0) Right Click: (1834, 3199), 0:00, None
+(P1) Right Click: (1776, 3116), 0:00, None
+(P0) Right Click: (1831, 3194), 0:00, None
+(P0) Right Click: (1826, 3189), 0:00, None
+(P0) Right Click: (1826, 3189), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2864, 3905), 0:00, None, RallyPointTile
+(P0) Select: 1, 1572:00
+(P0) Right Click: (2954, 3863), 1615:00, None
+(P1) Placebox: , (54, 93), Protoss_Photon_Cannon
+(P0) Right Click: (2956, 3868), 1615:00, None
+(P0) Select: 2, 1575:00, 1584:00
+(P0) Shift Select: 1, 1611:00
+(P1) Right Click: (1629, 3076), 0:00, None
+(P1) Right Click: (1615, 3066), 0:00, None
+(P1) Right Click: (1606, 3061), 0:00, None
+(P0) Shift Select: 2, 1578:00, 1612:00
+(P1) Group Units: Recall, 1
+(P1) Target Click: (1752, 3131), 0:00, None, RallyPointTile
+(P0) Shift Select: 1, 1603:00
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1634, 3100), 0:00, None
+(P0) Right Click: (1734, 3093), 0:00, None
+(P1) Right Click: (1647, 3098), 0:00, None
+(P0) Right Click: (1736, 3108), 0:00, None
+(P1) Right Click: (1721, 3048), 1592:00, None
+(P0) Right Click: (1729, 3143), 0:00, None
+(P1) Select: 1, 1592:00
+(P0) Right Click: (1753, 3141), 0:00, None
+(P0) Right Click: (1753, 3139), 0:00, None
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1556, 3139), 0:00, None
+(P1) Right Click: (1554, 3142), 0:00, None
+(P1) Right Click: (1555, 3142), 0:00, None
+(P0) Select: 1, 1586:00
+(P1) Right Click: (1557, 3142), 0:00, None
+(P1) Right Click: (1592, 3052), 0:00, None
+(P1) Right Click: (1566, 3042), 0:00, None
+(P0) Cancel Train: (254, 0x00)
+(P0) Lift Off: (1920, 3280)
+(P0) Lift Off: (1920, 3280)
+(P1) Group Units: Recall, 1
+(P1) Target Click: (1729, 3126), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Zealot
+(P1) Group Units: Recall, 4
+(P0) Select: 4, 1603:00, 1612:00, 1578:00, 1570:00
+(P1) Right Click: (1501, 2992), 0:00, None
+(P1) Right Click: (1512, 2986), 0:00, None
+(P0) Right Click: (1759, 3121), 0:00, None
+(P1) Right Click: (1548, 2980), 0:00, None
+(P1) Right Click: (1594, 3065), 1592:00, None
+(P0) Shift Select: 1, 1592:00
+(P1) Select: 1, 1592:00
+(P0) Right Click: (1702, 2997), 1574:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (1715, 3005), 1574:00, None
+(P1) Train: Protoss_Zealot
+(P0) Right Click: (1724, 3005), 0:00, None
+(P1) Target Click: (1788, 3121), 0:00, None, RallyPointTile
+(P0) Shift Select: 3, 1584:00, 1575:00, 1611:00
+(P1) Select: 1, 1567:00
+(P0) Right Click: (1729, 2997), 1592:00, None
+(P0) Right Click: (1763, 3015), 1567:00, None
+(P0) Right Click: (1763, 3015), 1567:00, None
+(P0) Select: 1, 1592:00
+(P0) Right Click: (1685, 3019), 1605:00, None
+(P0) Select: 1, 1570:00
+(P1) Group Units: Recall, 4
+(P0) Target Click: (1684, 3018), 1605:00, None, 
+(P1) Right Click: (1514, 3003), 0:00, None
+(P0) Group Units: Recall, 4
+(P1) Select: 1, 1567:00
+(P0) Group Units: Recall, 3
+(P1) Cancel Construction: 
+(P0) Train: Terran_SCV
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Save, 3
+(P1) Right Click: (1354, 2988), 0:00, None
+(P0) Target Click: (2835, 3893), 0:00, None, RallyPointTile
+(P1) Right Click: (1352, 2994), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1568:00
+(P0) Right Click: (2776, 3931), 1614:00, None
+(P1) Train: Protoss_Probe
+(P0) Select: 1, 1572:00
+(P0) Right Click: (2766, 3921), 1614:00, None
+(P0) Right Click: (2749, 3937), 1614:00, None
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1579:00
+(P1) Right Click: (482, 226), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2851, 3870), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P1) Placebox: , (9, 12), Protoss_Gateway
+(P0) Select: 2, 1598:00, 1600:01
+(P0) Select: 1, 1600:01
+(P1) Right Click: (143, 417), 1682:00, None, Queued
+(P1) Group Units: Recall, 4
+(P0) Placebox: PlaceBuilding, (85, 115), Terran_Supply_Depot
+(P1) Right Click: (1147, 2981), 0:00, None
+(P0) Right Click: (3001, 3704), 1630:00, None, Queued
+(P1) Right Click: (1168, 2979), 0:00, None
+(P1) Right Click: (1134, 2952), 0:00, None
+(P1) Right Click: (1096, 2865), 0:00, None
+(P1) Right Click: (1060, 2796), 0:00, None
+(P1) Right Click: (989, 2665), 0:00, None
+(P0) Select: 2, 1570:00, 1592:00
+(P0) Right Click: (1457, 3014), 0:00, None
+(P0) Right Click: (1480, 3025), 0:00, None
+(P0) Right Click: (1647, 2992), 0:00, None
+(P1) Select: 1, 1577:00
+(P0) Right Click: (1684, 2993), 1574:00, None
+(P1) Group Units: Save, 5
+(P0) Shift Select: 4, 1603:00, 1578:00, 1584:00, 1612:00
+(P0) Right Click: (1700, 2980), 1574:00, None
+(P0) Right Click: (1710, 2978), 1574:00, None
+(P1) Right Click: (1469, 3031), 0:00, None
+(P1) Right Click: (1725, 3161), 0:00, None
+(P1) Right Click: (1682, 3093), 0:00, None
+(P0) Select: 1, 1592:00
+(P1) Right Click: (1571, 3035), 1570:00, None
+(P1) Right Click: (1629, 2976), 1592:00, None, Queued
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1149, 3039), 0:00, None
+(P1) Right Click: (1168, 3049), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2846, 3882), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P0) Target Click: (2852, 3873), 0:00, None, RallyPointTile
+(P1) Select: 1, 1:00
+(P0) Group Units: Recall, 4
+(P1) Select: 1, 1606:00
+(P1) Right Click: (318, 111), 1:00, None
+(P1) Right Click: (137, 156), 1700:00, None, Queued
+(P1) Group Units: Recall, 3
+(P0) Select: 2, 1611:00, 1575:00
+(P0) Right Click: (2030, 3300), 0:00, None
+(P1) Target Click: (363, 371), 0:00, None, RallyPointTile
+(P0) Right Click: (2832, 3900), 0:00, None
+(P0) Right Click: (2929, 3864), 1615:00, None
+(P0) Right Click: (2946, 3865), 1615:00, None
+(P1) Train: Protoss_Probe
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2853, 3879), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Select: 1, 1569:01
+(P0) Right Click: (2929, 3881), 1615:00, None
+(P0) Right Click: (2929, 3889), 1615:00, None
+(P1) Right Click: (1535, 3117), 0:00, None
+(P1) Right Click: (1594, 3113), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2861, 3885), 0:00, None, Move
+(P1) Shift Select: 1, 1577:00
+(P0) Group Units: Recall, 4
+(P1) Target Click: (1783, 3026), 0:00, None, AttackMove
+(P1) Target Click: (1783, 3010), 0:00, None, AttackMove
+(P0) Select: 5, 1612:00, 1578:00, 1603:00, 1584:00, 1592:00
+(P0) Right Click: (1740, 3026), 0:00, None
+(P1) Select: 1, 1605:00
+(P1) Right Click: (1672, 3096), 0:00, None
+(P1) Right Click: (1753, 3111), 0:00, None
+(P0) Right Click: (2041, 3285), 0:00, None
+(P1) Right Click: (1770, 3095), 0:00, None
+(P0) Select: 1, 1586:00
+(P1) Right Click: (1847, 3106), 0:00, None
+(P0) Placebox: BuildingLand, (58, 101), Terran_Barracks
+(P1) Placebox: , (54, 93), Protoss_Photon_Cannon
+(P1) Select: 1, 1577:00
+(P0) Select: 5, 1603:00, 1612:00, 1578:00, 1584:00, 1592:00
+(P1) Right Click: (1869, 3282), 1586:00, None
+(P1) Right Click: (1878, 3278), 1586:00, None
+(P1) Right Click: (2023, 3334), 0:00, None
+(P1) Right Click: (2032, 3322), 0:00, None
+(P0) Right Click: (2927, 3879), 1615:00, None
+(P1) Target Click: (2043, 3298), 0:00, None, AttackMove
+(P0) Right Click: (2929, 3881), 1615:00, None
+(P0) Select: 1, 1569:01
+(P0) Right Click: (2926, 3894), 1615:00, None
+(P0) Group Units: Recall, 3
+(P0) Stop: 
+(P1) Right Click: (1919, 3188), 1591:00, None
+(P1) Select: 1, 1591:00
+(P1) Group Units: Recall, 1
+(P0) Right Click: (2974, 3870), 1615:00, None
+(P0) Right Click: (2945, 3876), 1615:00, None
+(P1) Target Click: (1815, 3146), 0:00, None, RallyPointTile
+(P0) Select: 1, 1613:00
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Save, 3
+(P0) Train: Terran_SCV
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Save, 3
+(P1) Train: Protoss_Zealot
+(P0) Target Click: (2821, 3866), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P0) Train: Terran_Marine
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1565:00
+(P1) Right Click: (114, 308), 1695:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2854, 3870), 0:00, None, RallyPointTile
+(P1) Target Click: (260, 383), 0:00, None, RallyPointTile
+(P0) Select: 1, 1578:00
+(P1) Select: 1, 1:00
+(P0) Right Click: (2406, 3568), 0:00, None
+(P0) Right Click: (2406, 3568), 0:00, None
+(P1) Select: 1, 1608:00
+(P1) Select: 1, 1563:00
+(P0) Right Click: (2478, 3514), 0:00, None
+(P1) Right Click: (329, 131), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (307, 114), 1:00, None
+(P0) Cancel Train: (254, 0x00)
+(P0) Select: 1, 1578:00
+(P1) Right Click: (128, 144), 0:00, None, Queued
+(P0) Placebox: PlaceBuilding, (74, 109), Terran_Factory
+(P0) Right Click: (2896, 3611), 1635:00, None, Queued
+(P1) Right Click: (301, 101), 1:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (128, 174), 1700:00, None, Queued
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2866, 3862), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe
+(P0) Select: 2, 1569:01, 1611:00
+(P1) Select: 1, 1:00
+(P0) Shift Select: 1, 1594:00
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1591:00
+(P1) Target Click: (1847, 3138), 0:00, None, RallyPointTile
+(P0) Select: 1, 1577:00
+(P1) Target Click: (1846, 3197), 0:00, None, RallyPointTile
+(P0) Select: 1, 1591:00
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2883, 3887), 0:00, None, RallyPointTile
+(P1) Select: 1, 1562:00
+(P0) Train: Terran_SCV
+(P0) Select: 1, 1598:00
+(P0) Shift Select: 3, 1609:00, 1584:00, 1612:00
+(P0) Right Click: (1968, 3184), 1591:00, None
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Cancel Construction: 
+(P1) Select: 1, 1:00
+(P0) Group Units: Recall, 3
+(P1) Select: 2, 1563:00, 1606:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (2844, 3897), 0:00, None, RallyPointTile
+(P1) Right Click: (142, 167), 1700:00, None
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P1) Target Click: (285, 444), 0:00, None, RallyPointTile
+(P0) Train: Terran_Marine
+(P0) Select: 1, 1591:00
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2851, 3881), 0:00, None, RallyPointTile
+(P1) Select: 1, 1605:00
+(P1) Right Click: (1816, 3068), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2851, 3881), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Select: 1, 1596:00
+(P0) Group Units: Recall, 4
+(P1) Placebox: , (56, 95), Protoss_Photon_Cannon
+(P0) Select: 1, 1561:00
+(P1) Right Click: (1771, 3195), 0:00, None
+(P1) Right Click: (1771, 3195), 0:00, None
+(P1) Select: 1, 1577:00
+(P1) Shift Select: 1, 1571:00
+(P1) Right Click: (1677, 3151), 0:00, None
+(P0) Select: 1, 1598:00
+(P1) Select: 1, 1591:00
+(P0) Right Click: (1930, 3188), 1591:00, None
+(P0) Right Click: (1921, 3195), 1591:00, None
+(P1) Select: 1, 1605:00
+(P1) Right Click: (1815, 3125), 0:00, None
+(P0) Select: 1, 1586:00
+(P0) Select: 1, 1561:00
+(P0) Hold Position: 
+(P0) Hold Position: 
+(P1) Placebox: , (56, 95), Protoss_Photon_Cannon
+(P0) Hold Position: 
+(P0) Select: 1, 1609:00
+(P1) Select: 1, 1577:00
+(P0) Right Click: (1922, 3202), 1591:00, None
+(P0) Right Click: (1920, 3190), 1591:00, None
+(P0) Group Units: Recall, 3
+(P1) Shift Select: 1, 1571:00
+(P0) Train: Terran_SCV
+(P1) Right Click: (1739, 3139), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Save, 3
+(P1) Target Click: (1750, 3142), 0:00, None, RallyPointTile
+(P1) Target Click: (1751, 3142), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 4
+(P1) Train: Protoss_Probe
+(P1) Select: 1, 1589:00
+(P1) Right Click: (509, 269), 0:00, None
+(P0) Select: 3, 1612:00, 1584:00, 1609:00
+(P0) Right Click: (1952, 3166), 1591:00, None
+(P0) Right Click: (1953, 3180), 1591:00, None
+(P0) Right Click: (1946, 3187), 1591:00, None
+(P0) Right Click: (1945, 3186), 1591:00, None
+(P1) Right Click: (1335, 66), 0:00, None
+(P0) Right Click: (1918, 3184), 1591:00, None
+(P0) Right Click: (1918, 3184), 1591:00, None
+(P0) Select: 1, 1591:00
+(P1) Right Click: (1568, 160), 0:00, None
+(P0) Select: 2, 1609:00, 1612:00
+(P0) Right Click: (2001, 3355), 0:00, None
+(P0) Right Click: (2001, 3348), 0:00, None
+(P1) Right Click: (1856, 1056), 0:00, None, Queued
+(P0) Right Click: (2020, 3314), 0:00, None
+(P1) Right Click: (480, 1088), 0:00, None, Queued
+(P0) Right Click: (2014, 3309), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1586:00
+(P0) Select: 1, 1609:00
+(P0) Shift Select: 2, 1612:00, 1584:00
+(P0) Right Click: (2020, 3313), 0:00, None, Queued
+(P0) Right Click: (2020, 3309), 0:00, None
+(P0) Right Click: (1987, 3217), 1598:00, None
+(P1) Select: 1, 1570:01
+(P1) Right Click: (163, 392), 1601:00, None
+(P1) Right Click: (145, 409), 1682:00, None
+(P0) Right Click: (1959, 3192), 1591:00, None
+(P1) Group Units: Recall, 3
+(P1) Target Click: (348, 350), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Right Click: (2044, 3264), 1612:00, None
+(P0) Right Click: (2044, 3280), 0:00, None
+(P0) Right Click: (2044, 3286), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (2849, 3818), 0:00, None
+(P0) Right Click: (2906, 3857), 0:00, None
+(P0) Right Click: (2912, 3875), 1569:01, None
+(P0) Right Click: (3065, 3883), 0:00, None
+(P0) Right Click: (2993, 3883), 0:00, None
+(P0) Right Click: (2978, 3883), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P1) Select: 2, 1577:00, 1571:00
+(P0) Select: 1, 1559:00
+(P0) Right Click: (2930, 3886), 1615:00, None
+(P1) Group Units: Save, 4
+(P1) Right Click: (1861, 3126), 0:00, None
+(P0) Select: 1, 1609:00
+(P0) Right Click: (2144, 3419), 0:00, None
+(P1) Right Click: (1877, 3128), 0:00, None
+(P1) Right Click: (1882, 3128), 0:00, None
+(P1) Right Click: (1883, 3126), 0:00, None
+(P0) Right Click: (2033, 3355), 0:00, None
+(P0) Right Click: (2033, 3347), 0:00, None
+(P1) Right Click: (1885, 3125), 0:00, None
+(P1) Right Click: (1890, 3125), 0:00, None
+(P0) Right Click: (2018, 3263), 0:00, None
+(P1) Right Click: (1900, 3125), 0:00, None
+(P0) Right Click: (2016, 3261), 0:00, None
+(P0) Right Click: (2015, 3260), 0:00, None
+(P1) Right Click: (1908, 3122), 0:00, None
+(P1) Right Click: (1908, 3122), 0:00, None
+(P1) Right Click: (1911, 3121), 0:00, None
+(P0) Right Click: (1951, 3194), 1591:00, None
+(P1) Right Click: (1916, 3119), 0:00, None
+(P1) Right Click: (2051, 3259), 0:00, None
+(P0) Right Click: (2018, 3254), 0:00, None
+(P0) Right Click: (2017, 3253), 0:00, None
+(P0) Right Click: (2014, 3252), 0:00, None
+(P0) Group Units: Recall, 4
+(P1) Right Click: (1751, 3136), 0:00, None
+(P0) Train: Terran_Marine
+(P1) Right Click: (1765, 3137), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P0) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2871, 3909), 0:00, None, RallyPointTile
+(P0) Cancel Train: (254, 0x00)
+(P0) Select: 1, 1556:00
+(P0) Right Click: (2947, 3885), 1615:00, None
+(P0) Group Units: Recall, 4
+(P1) Select: 1, 1589:00
+(P1) Right Click: (1519, 513), 0:00, None
+(P0) Select: 1, 1560:00
+(P0) Group Units: Save, 4
+(P0) Group Units: Save, 4
+(P1) Right Click: (1892, 41), 0:00, None, Queued
+(P1) Group Units: Recall, 3
+(P0) Select: 2, 1558:00, 1561:00
+(P0) Hold Position: 
+(P1) Train: Protoss_Probe
+(P0) Hold Position: 
+(P0) Hold Position: 
+(P1) Select: 1, 1555:00
+(P1) Right Click: (454, 259), 0:00, None
+(P0) Right Click: (1893, 3328), 0:00, None
+(P0) Right Click: (1894, 3329), 0:00, None
+(P0) Hold Position: 
+(P1) Placebox: , (8, 2), Protoss_Assimilator
+(P0) Hold Position: 
+(P0) Right Click: (1921, 3289), 1586:00, None
+(P1) Right Click: (149, 137), 0:00, None, Queued
+(P0) Select: 2, 1609:00, 1598:00
+(P0) Select: 1, 1598:00
+(P1) Select: 1, 1608:00
+(P0) Right Click: (1952, 3194), 1591:00, None
+(P0) Select: 1, 1591:00
+(P1) Select: 1, 1585:00
+(P1) Right Click: (275, 341), 0:00, None
+(P0) Select: 1, 1609:00
+(P1) Placebox: , (8, 10), Protoss_Photon_Cannon
+(P1) Right Click: (118, 231), 1698:00, None, Queued
+(P0) Right Click: (1919, 3180), 1591:00, None
+(P1) Select: 1, 1555:00
+(P0) Select: 1, 1586:00
+(P1) Right Click: (132, 159), 1700:00, None
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Target Click: (2861, 3904), 0:00, None, RallyPointTile
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 4
+(P0) Target Click: (2861, 3904), 0:00, None, RallyPointTile
+(P0) Select: 1, 1584:00
+(P0) Right Click: (2975, 3890), 0:00, None
+(P1) Right Click: (1664, 3110), 0:00, None
+(P0) Select: 1, 1612:00
+(P1) Shift Select: 1, 1566:00
+(P0) Right Click: (2941, 3848), 1619:00, None
+(P1) Group Units: Save, 4
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1689, 3089), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (1675, 3102), 0:00, None
+(P0) Target Click: (2860, 3875), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Select: 1, 1554:00
+(P1) Right Click: (1611, 3147), 0:00, None
+(P0) Right Click: (2929, 3870), 1615:00, None
+(P0) Right Click: (2938, 3869), 1615:00, None
+(P0) Group Units: Recall, 4
+(P1) Select: 1, 1591:00
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1719, 3092), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2850, 3865), 0:00, None, RallyPointTile
+(P1) Select: 1, 1605:00
+(P1) Right Click: (1683, 3077), 0:00, None
+(P0) Select: 2, 1575:00, 1611:00
+(P1) Right Click: (111, 402), 1685:00, None
+(P1) Group Units: Recall, 3
+(P1) Target Click: (221, 479), 0:00, None, RallyPointTile
+(P0) Select: 1, 1611:00
+(P1) Train: Protoss_Probe
+(P0) Select: 1, 1609:00
+(P0) Right Click: (2446, 3660), 0:00, None
+(P0) Right Click: (2454, 3659), 0:00, None
+(P1) Target Click: (219, 435), 0:00, None, RallyPointTile
+(P0) Right Click: (2454, 3659), 0:00, None
+(P0) Right Click: (2447, 3706), 0:00, None
+(P0) Right Click: (2448, 3706), 0:00, None
+(P0) Right Click: (2450, 3674), 0:00, None
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1504, 2848), 0:00, None
+(P0) Select: 3, 1553:00, 1558:00, 1561:00
+(P0) Hold Position: 
+(P1) Right Click: (1654, 3143), 0:00, None
+(P0) Hold Position: 
+(P0) Right Click: (1924, 3273), 1586:00, None
+(P0) Right Click: (1923, 3273), 1586:00, None
+(P1) Right Click: (1790, 3165), 0:00, None
+(P0) Hold Position: 
+(P0) Hold Position: 
+(P0) Select: 1, 1591:00
+(P1) Right Click: (1879, 3096), 0:00, None
+(P1) Right Click: (1881, 3096), 0:00, None
+(P1) Right Click: (1883, 3097), 0:00, None
+(P0) Select: 1, 1609:00
+(P1) Right Click: (1883, 3097), 0:00, None
+(P1) Right Click: (1885, 3098), 0:00, None
+(P0) Placebox: PlaceBuilding, (73, 112), Terran_Factory
+(P1) Right Click: (1887, 3098), 0:00, None
+(P0) Select: 1, 1560:00
+(P1) Group Units: Recall, 1
+(P1) Target Click: (1815, 3178), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Zealot
+(P0) Placebox: PlaceAddon, (78, 110), Terran_Machine_Shop
+(P0) Select: 1, 1578:00
+(P0) Right Click: (2508, 3546), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1564:00
+(P1) Group Units: Save, 2
+(P0) Right Click: (1972, 3195), 1591:00, None
+(P0) Right Click: (1986, 3209), 0:00, None
+(P1) Train: Protoss_Zealot
+(P0) Right Click: (1983, 3208), 0:00, None
+(P1) Train: Protoss_Zealot
+(P0) Right Click: (1934, 3185), 1591:00, None
+(P1) Train: Protoss_Zealot
+(P0) Group Units: Recall, 3
+(P0) Train: Terran_SCV
+(P1) Select: 1, 1552:00
+(P1) Right Click: (119, 396), 1685:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Target Click: (2854, 3897), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 4
+(P0) Select: 1, 1584:00
+(P1) Select: 1, 1583:00
+(P1) Right Click: (241, 191), 0:00, None
+(P0) Select: 1, 1578:00
+(P1) Placebox: , (3, 0), Protoss_Pylon
+(P0) Select: 1, 1591:00
+(P1) Right Click: (127, 163), 1700:00, None, Queued
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Select: 3, 1558:00, 1553:00, 1561:00
+(P0) Right Click: (2023, 3365), 0:00, None
+(P1) Select: 1, 1591:00
+(P0) Right Click: (2024, 3364), 0:00, None
+(P1) Group Units: Recall, 4
+(P0) Right Click: (2268, 3489), 0:00, None
+(P1) Right Click: (1912, 3127), 0:00, None
+(P0) Right Click: (2263, 3482), 0:00, None
+(P1) Right Click: (1914, 3115), 0:00, None
+(P0) Target Click: (1922, 3152), 0:00, None, AttackMove
+(P1) Right Click: (2068, 3264), 1578:00, None
+(P1) Right Click: (2094, 3281), 0:00, None
+(P1) Right Click: (2014, 3247), 0:00, None
+(P0) Right Click: (2165, 3340), 0:00, None
+(P0) Right Click: (2165, 3340), 0:00, None
+(P0) Right Click: (2161, 3330), 0:00, None
+(P0) Right Click: (2161, 3329), 0:00, None
+(P1) Right Click: (1826, 3136), 0:00, None
+(P0) Right Click: (2161, 3327), 0:00, None
+(P1) Right Click: (1807, 3147), 0:00, None
+(P0) Right Click: (2194, 3408), 0:00, None
+(P1) Right Click: (2007, 3255), 0:00, None
+(P0) Right Click: (2194, 3408), 0:00, None
+(P1) Right Click: (2018, 3247), 0:00, None
+(P0) Select: 1, 1578:00
+(P1) Right Click: (2025, 3283), 0:00, None
+(P1) Right Click: (2012, 3318), 0:00, None
+(P0) Placebox: PlaceBuilding, (62, 102), Terran_Supply_Depot
+(P0) Select: 3, 1558:00, 1553:00, 1561:00
+(P1) Shift Select: 1, 1592:01
+(P0) Right Click: (2114, 3456), 0:00, None
+(P0) Right Click: (2114, 3451), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Target Click: (2122, 3407), 0:00, None, AttackMove
+(P1) Target Click: (2094, 3312), 0:00, None, AttackMove
+(P0) Target Click: (2121, 3404), 0:00, None, AttackMove
+(P0) Target Click: (2010, 3283), 1566:00, None, 
+(P1) Right Click: (2252, 3366), 0:00, None
+(P0) Target Click: (2015, 3301), 1578:00, None, , Queued
+(P1) Right Click: (2253, 3366), 0:00, None
+(P1) Right Click: (2254, 3367), 0:00, None
+(P1) Right Click: (2263, 3377), 0:00, None
+(P0) Select: 1, 1558:00
+(P1) Right Click: (2257, 3394), 0:00, None
+(P0) Right Click: (2127, 3417), 0:00, None
+(P1) Right Click: (2253, 3396), 0:00, None
+(P0) Right Click: (2127, 3417), 0:00, None
+(P1) Right Click: (2253, 3396), 0:00, None
+(P0) Shift Select: 2, 1561:00, 1553:00
+(P1) Right Click: (2253, 3397), 0:00, None
+(P0) Right Click: (2126, 3460), 0:00, None
+(P1) Right Click: (2239, 3399), 0:00, None
+(P1) Right Click: (2233, 3403), 0:00, None
+(P0) Right Click: (2443, 3545), 1560:00, None
+(P0) Group Units: Recall, 4
+(P1) Right Click: (2233, 3410), 0:00, None
+(P1) Right Click: (2236, 3559), 0:00, None
+(P0) Select: 1, 1609:00
+(P1) Right Click: (2271, 3542), 0:00, None
+(P1) Target Click: (2274, 3542), 0:00, None, AttackMove
+(P0) Placebox: PlaceBuilding, (74, 112), Terran_Factory
+(P0) Group Units: Recall, 3
+(P1) Select: 2, 1566:00, 1577:00
+(P1) Right Click: (2327, 3393), 0:00, None
+(P0) Train: Terran_SCV
+(P1) Right Click: (2438, 3473), 0:00, None
+(P1) Right Click: (2422, 3487), 1560:00, None
+(P0) Select: 1, 1612:00
+(P1) Right Click: (2440, 3461), 0:00, None
+(P1) Right Click: (2585, 3472), 0:00, None
+(P1) Right Click: (2602, 3484), 0:00, None
+(P1) Group Units: Recall, 4
+(P1) Right Click: (2626, 3499), 0:00, None
+(P1) Right Click: (2615, 3495), 0:00, None
+(P1) Right Click: (2617, 3495), 0:00, None
+(P1) Target Click: (2566, 3448), 0:00, None, AttackMove
+(P0) Select: 3, 1558:00, 1561:00, 1578:00
+(P0) Right Click: (2405, 3399), 0:00, None
+(P1) Select: 1, 1592:01
+(P0) Right Click: (2414, 3408), 0:00, None
+(P0) Right Click: (2422, 3420), 0:00, None
+(P0) Right Click: (2588, 3468), 0:00, None
+(P0) Right Click: (2619, 3471), 0:00, None
+(P0) Shift Select: 1, 1553:00
+(P0) Right Click: (2548, 3483), 0:00, None, Queued
+(P0) Right Click: (2771, 3662), 0:00, None
+(P0) Group Units: Save, 1
+(P0) Group Units: Save, 1
+(P1) Group Units: Recall, 4
+(P0) Select: 11, 1569:01, 1612:00, 1610:00, 1575:00, 1559:00, 1600:01, 1556:00, 1611:00, 1596:00, 1546:00, 1550:00
+(P0) Group Units: Save, 2
+(P0) Group Units: Save, 2
+(P0) Group Units: Save, 2
+(P1) Right Click: (2554, 3670), 0:00, None
+(P1) Right Click: (2577, 3671), 0:00, None
+(P0) Shift Select: 1, 1568:00
+(P1) Right Click: (2591, 3663), 0:00, None
+(P0) Group Units: Save, 2
+(P0) Group Units: Save, 2
+(P0) Group Units: Save, 2
+(P1) Right Click: (2375, 3543), 1609:00, None
+(P0) Right Click: (2319, 3264), 0:00, None
+(P0) Right Click: (2351, 3228), 1639:00, None
+(P1) Select: 1, 1609:00
+(P0) Right Click: (2365, 3219), 1639:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 4
+(P0) Right Click: (2774, 3658), 0:00, None
+(P0) Right Click: (2774, 3658), 0:00, None
+(P0) Right Click: (2774, 3658), 0:00, None
+(P0) Right Click: (2774, 3658), 0:00, None
+(P1) Right Click: (2451, 3649), 1591:01, None
+(P1) Select: 1, 1591:01
+(P0) Group Units: Recall, 2
+(P0) Target Click: (2393, 3713), 0:00, None, AttackMove
+(P0) Target Click: (2387, 3709), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Target Click: (2373, 3709), 0:00, None, AttackMove
+(P0) Group Units: Recall, 2
+(P0) Target Click: (2363, 3710), 0:00, None, AttackMove
+(P0) Target Click: (2354, 3713), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Target Click: (2233, 3636), 0:00, None, AttackMove
+(P0) Group Units: Recall, 2
+(P0) Target Click: (2248, 3635), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Target Click: (2254, 3628), 0:00, None, AttackMove
+(P0) Group Units: Recall, 2
+(P0) Target Click: (2257, 3636), 0:00, None, AttackMove
+(P0) Right Click: (2409, 3649), 1591:01, None
+(P1) Group Units: Recall, 4
+(P0) Target Click: (2281, 3584), 0:00, None, AttackMove
+(P0) Target Click: (2292, 3578), 0:00, None, AttackMove
+(P0) Select: 1, 1560:00
+(P0) Train: Terran_Siege_Tank_Tank_Mode
+(P1) Right Click: (2522, 3725), 0:00, None
+(P1) Right Click: (2531, 3722), 0:00, None
+(P0) Select: 1, 1600:01
+(P1) Right Click: (2608, 3640), 0:00, None
+(P1) Right Click: (2612, 3637), 0:00, None
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 2
+(P1) Target Click: (2602, 3643), 0:00, None, AttackMove
+(P0) Target Click: (2466, 3676), 0:00, None, AttackMove
+(P0) Target Click: (2473, 3678), 0:00, None, AttackMove
+(P0) Target Click: (2474, 3679), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1592:01
+(P0) Right Click: (2547, 3701), 0:00, None
+(P0) Right Click: (2547, 3701), 0:00, None
+(P0) Group Units: Recall, 2
+(P0) Target Click: (2472, 3706), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P0) Target Click: (2478, 3705), 0:00, None, AttackMove
+(P0) Target Click: (2492, 3702), 1578:00, None, 
+(P1) Target Click: (2653, 3584), 0:00, None, AttackMove
+(P0) Target Click: (2425, 3591), 0:00, None, AttackMove
+(P0) Target Click: (2420, 3593), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P0) Train: Terran_Vulture
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P1) Train: Protoss_Probe
+(P0) Train: Terran_SCV
+(P0) Group Units: Save, 3
+(P0) Target Click: (2860, 3904), 0:00, None, RallyPointTile
+(P1) Select: 3, 1597:00, 1590:00, 1579:00
+(P0) Select: 1, 1584:00
+(P1) Right Click: (326, 90), 1:00, None
+(P0) Placebox: PlaceBuilding, (91, 122), Terran_Supply_Depot
+(P0) Right Click: (2937, 3911), 0:00, None, Queued
+(P1) Select: 1, 1601:00
+(P0) Group Units: Recall, 3
+(P1) Right Click: (232, 90), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Target Click: (2870, 3888), 0:00, None, RallyPointTile
+(P0) Cancel Train: (254, 0x00)
+(P1) Placebox: , (5, 0), Protoss_Cybernetics_Core
+(P0) Cancel Train: (254, 0x00)
+(P0) Group Units: Recall, 2
+(P1) Right Click: (131, 155), 1700:00, None, Queued
+(P1) Group Units: Recall, 1
+(P0) Right Click: (2483, 3620), 0:00, None
+(P0) Right Click: (2464, 3629), 1577:00, None
+(P1) Train: Protoss_Zealot
+(P0) Right Click: (2463, 3631), 1577:00, None
+(P1) Group Units: Recall, 2
+(P1) Train: Protoss_Zealot
+(P0) Select: 1, 1577:00
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1577:00
+(P1) Target Click: (2624, 3712), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (2656, 3680), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 4
+(P1) Target Click: (2582, 3785), 0:00, None, AttackMove
+(P1) Select: 1, 1589:00
+(P1) Right Click: (1807, 204), 0:00, None
+(P0) Leave Game: Defeat
+(P1) Right Click: (130, 179), 1700:00, None
+(P1) Select: 1, 1608:00
+(P1) Select: 1, 1549:00
+(P1) Right Click: (247, 537), 0:00, None
+(P1) Placebox: , (6, 15), Protoss_Pylon
+(P1) Right Click: (157, 423), 1682:00, None, Queued
+(P1) Select: 1, 1608:00
+(P1) Target Click: (494, 206), 0:00, None, RallyPointTile
+(P1) Train: Protoss_Probe

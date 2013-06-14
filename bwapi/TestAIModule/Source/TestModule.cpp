@@ -7,7 +7,7 @@ TestModule::TestModule() : currentTestCase(NULL), lastEndFrame(-10)
 
 TestModule::~TestModule()
 {
-  for(std::list<TestCase*>::iterator i=testCases.begin();i!=testCases.end();i++)
+  for(std::list<TestCase*>::iterator i=testCases.begin();i!=testCases.end();++i)
   {
     delete *i;
   }
@@ -24,24 +24,24 @@ void TestModule::onFrame()
     Broodwar->drawTextScreen(0,40,"Assert failed count: %d",assert_fail_count);
   else
     Broodwar->drawTextScreen(0,40,"\x08 Assert failed count: %d",assert_fail_count);
-  for each(Unit* u in Broodwar->getAllUnits())
+  for each(Unit u in Broodwar->getAllUnits())
   {
-    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y()-16,"%s",u->getType().getName().c_str());
-    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%s",u->getOrder().getName().c_str());
+    Broodwar->drawTextMap(u->getPosition().x,u->getPosition().y-16,"%s",u->getType().c_str());
+    Broodwar->drawTextMap(u->getPosition(),"%s",u->getOrder().c_str());
   }
   runTestCases();
 }
-void TestModule::onUnitCreate(Unit* unit)
+void TestModule::onUnitCreate(Unit unit)
 {
   if (unit!=NULL)
-    Broodwar->printf("A %s [%x] has been created",unit->getType().getName().c_str(),unit);
+    Broodwar->printf("A %s [%x] has been created",unit->getType().c_str(),unit);
   else
     Broodwar->printf("A %x has been created",unit);
 }
-void TestModule::onUnitDestroy(Unit* unit)
+void TestModule::onUnitDestroy(Unit unit)
 {
   if (unit!=NULL)
-    Broodwar->printf("A %s [%x] has been destroyed",unit->getType().getName().c_str(),unit);
+    Broodwar->printf("A %s [%x] has been destroyed",unit->getType().c_str(),unit);
   else
     Broodwar->printf("A %x has been destroyed",unit);
 }

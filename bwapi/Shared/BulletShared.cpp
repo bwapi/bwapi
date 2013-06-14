@@ -9,7 +9,7 @@ namespace BWAPI
     return self->id;
   }
   //------------------------------------------------ GET PLAYER ----------------------------------------------
-  Player* BulletImpl::getPlayer() const
+  Player BulletImpl::getPlayer() const
   {
     return Broodwar->getPlayer(self->player);
   }
@@ -19,7 +19,7 @@ namespace BWAPI
     return BulletType(self->type);
   }
   //------------------------------------------------ GET SOURCE ----------------------------------------------
-  Unit* BulletImpl::getSource() const
+  Unit BulletImpl::getSource() const
   {
     return Broodwar->getUnit(self->source);
   }
@@ -44,7 +44,7 @@ namespace BWAPI
     return self->velocityY;
   }
   //------------------------------------------------ GET TARGET ----------------------------------------------
-  Unit* BulletImpl::getTarget() const
+  Unit BulletImpl::getTarget() const
   {
     return Broodwar->getUnit(self->target);
   }
@@ -64,25 +64,26 @@ namespace BWAPI
     return self->exists;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
-  bool BulletImpl::isVisible() const
+  bool BulletImpl::isVisible(BWAPI::Player player) const
   {
-    if ( !Broodwar->self())
+    if ( player == nullptr )  // Default to self
+      player = Broodwar->self();
+
+    if ( player != nullptr ) // Only if player is valid
     {
-      for(int i = 0; i < 9; ++i)
+      int id = player->getID();
+      if ( id >= 0 && id < 9 ) // Check if ID is valid
+        return self->isVisible[id]; // return visibility
+    }
+    else  // fallback for self also being null
+    {
+      for(int i = 0; i < 9; ++i) // check if the bullet is visible by ANY player
       {
-        if (self->isVisible[i])
+        if ( self->isVisible[i] )
           return true;
       }
-      return false;
     }
-    return self->isVisible[Broodwar->self()->getID()];
-  }
-  //----------------------------------------------- IS VISIBLE -----------------------------------------------
-  bool BulletImpl::isVisible(BWAPI::Player* player) const
-  {
-    if ( !player )
-      return false;
-    return self->isVisible[player->getID()];
+    return false;
   }
 }
 

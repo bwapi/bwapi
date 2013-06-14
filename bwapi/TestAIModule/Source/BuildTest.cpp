@@ -9,7 +9,7 @@ BuildingPlacer* placer=NULL;
 {\
   if (!(C))\
   {\
-    log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, builder ? builder->getType().getName().c_str() : "NULL", unitType.getName().c_str(), builder ? builder->getOrder().getName().c_str() : "null", building ? building->getType().getName().c_str() : "NULL", building ? building->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+    log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, builder ? builder->getType().c_str() : "NULL", unitType.c_str(), builder ? builder->getOrder().c_str() : "null", building ? building->getType().c_str() : "NULL", building ? building->getOrder().c_str() : "null", Broodwar->getLastError().c_str());\
     assert_fail_count++;\
     fail = true;\
     return;\
@@ -42,7 +42,7 @@ void BuildTest::start()
 
   int builderCount = Broodwar->self()->completedUnitCount(builderType);
   FAILTEST(builderCount>=1);
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==builderType && u->getAddon()==NULL)
     {
@@ -69,13 +69,13 @@ void BuildTest::start()
     {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
     }
-    FAILTEST(builder->build(buildLocation,unitType));
+    FAILTEST(builder->build(unitType, buildLocation));
   }
   FAILTEST( !builder->isIdle() );
   FAILTEST( builder->isConstructing() );
   BWAssertF(builder->getBuildType()==unitType,
   {
-    log("Error: %s != %s",builder->getBuildType().getName().c_str(),unitType.getName().c_str());
+    log("Error: %s != %s",builder->getBuildType().c_str(),unitType.c_str());
     fail=true;
     return;
   });
@@ -98,31 +98,23 @@ void BuildTest::update()
   nextFrame++;
   if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
   {
-    std::set<Unit*> buildingsOnTile;
-    std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
-    for each(Unit* u in unitsOnTile)
-    {
-      if (u->getType()==unitType)
-      {
-        buildingsOnTile.insert(u);
-      }
-    }
-    if (buildingsOnTile.empty()==false)
+    Unitset buildingsOnTile( Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y, BWAPI::Filter::GetType == unitType ) );
+    if ( !buildingsOnTile.empty() )
     {
       if (unitType==UnitTypes::Zerg_Extractor)
       {
-        builder=*buildingsOnTile.begin();
+        builder = buildingsOnTile.front();
       }
     }
     FAILTEST(builder!=NULL);
   }
   FAILTEST(builder->exists());
-  Broodwar->setScreenPosition(builder->getPosition().x()-320,builder->getPosition().y()-240);
+  Broodwar->setScreenPosition(builder->getPosition() - Position(320,240));
 
   if (finishingBuilding==true)
   {
     FAILTEST(builder!=NULL);
-    if (builder->isIdle()==false && unitType.isRefinery())
+    if (builder->isIdle()==false && unitType.isRefinery() && builder->getType().getRace()!=Races::Zerg)
     {
       FAILTEST(builder->isIdle()==false);
       builder->stop();
@@ -138,14 +130,7 @@ void BuildTest::update()
       {
         if (thisFrame<finishFrame+8 && builder->getType().getRace()==Races::Zerg)
         {
-          if (unitType == UnitTypes::Zerg_Extractor)
-          {
-            FAILTEST(builder->isIdle()==true);
-          }
-          else
-          {
-            FAILTEST(builder->isIdle()==false);
-          }
+          FAILTEST(builder->isIdle()==false);
         }
         else
         {
@@ -183,18 +168,10 @@ void BuildTest::update()
     building = builder->getAddon();
   }
 
-  std::set<Unit*> buildingsOnTile;
-  std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
-  for each(Unit* u in unitsOnTile)
+  Unitset buildingsOnTile( Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y, BWAPI::Filter::GetType == unitType) );
+  if (building==NULL && !buildingsOnTile.empty() )
   {
-    if (u->getType()==unitType)
-    {
-      buildingsOnTile.insert(u);
-    }
-  }
-  if (building==NULL && buildingsOnTile.empty()==false)
-  {
-    building = *buildingsOnTile.begin();
+    building = buildingsOnTile.front();
     if (unitType==UnitTypes::Zerg_Extractor)
     {
       builder=building;
@@ -217,7 +194,7 @@ void BuildTest::update()
   int correctRemainingBuildTime = 0;
   if (building!=NULL)
   {
-    correctRemainingBuildTime = startFrame+unitType.buildTime()-thisFrame+1;
+    correctRemainingBuildTime = startFrame + unitType.buildTime()/10 - thisFrame + 1;
     if (builder->getType().getRace() == Races::Protoss)
       correctRemainingBuildTime--;
     if (builder->getType().getRace() == Races::Zerg)
@@ -225,7 +202,7 @@ void BuildTest::update()
     if (builder->getType() == UnitTypes::Zerg_Extractor)
       correctRemainingBuildTime--;
     if (correctRemainingBuildTime < 0) correctRemainingBuildTime = 0;
-    if (correctRemainingBuildTime > unitType.buildTime()) correctRemainingBuildTime = unitType.buildTime();
+    if (correctRemainingBuildTime > unitType.buildTime()/10) correctRemainingBuildTime = unitType.buildTime()/10;
   }
   bool correctIsConstructing = false;
       
@@ -263,7 +240,7 @@ void BuildTest::update()
     FAILTEST(building->isBeingConstructed() == true);
     if (building->getType().getRace() == Races::Protoss)
     {
-      if (thisFrame>startFrame + Broodwar->getLatency() + unitType.buildTime() + 67)
+      if (thisFrame>startFrame + Broodwar->getLatency() + unitType.buildTime()/10 + 67)
       {
         finishingBuilding = true;
         finishFrame = thisFrame;

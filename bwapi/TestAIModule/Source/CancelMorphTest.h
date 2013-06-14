@@ -14,7 +14,7 @@ class CancelMorphTest : public TestCase
     BWAPI::UnitType producerType;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* producer;
+    BWAPI::Unit producer;
     int correctMineralCount;
     int correctGasCount;
     int correctSupplyUsedCount;

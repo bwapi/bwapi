@@ -13,7 +13,7 @@ class AttackMoveTest : public TestCase
     int startFrame;
     int nextFrame;
     int doneFrame;
-    BWAPI::Unit* unit;
+    BWAPI::Unit unit;
     BWAPI::UnitType unitType;
     BWAPI::Position targetPosition;
 };

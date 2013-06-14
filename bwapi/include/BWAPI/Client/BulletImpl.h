@@ -1,14 +1,14 @@
 #pragma once
 #include <BWAPI.h>
 #include "BulletData.h"
-#include <set>
 #include <string>
 
 namespace BWAPI
 {
-  class Player;
-  class Unit;
-  class BulletImpl : public Bullet
+  class PlayerInterface;
+  typedef PlayerInterface *Player;
+
+  class BulletImpl : public BulletInterface
   {
     private:
       const BulletData* self;
@@ -16,19 +16,18 @@ namespace BWAPI
     public:
 
       BulletImpl(int index);
-      virtual int getID() const;
-      virtual Player* getPlayer() const;
-      virtual BulletType getType() const;
-      virtual Unit* getSource() const;
-      virtual Position getPosition() const;
-      virtual double getAngle() const;
-      virtual double getVelocityX() const;
-      virtual double getVelocityY() const;
-      virtual Unit* getTarget() const;
-      virtual Position getTargetPosition() const;
-      virtual int getRemoveTimer() const;
-      virtual bool exists() const;
-      virtual bool isVisible() const;
-      virtual bool isVisible(Player* player) const;
+      virtual int getID() const override;
+      virtual bool exists() const override;
+      virtual Player getPlayer() const override;
+      virtual BulletType getType() const override;
+      virtual Unit getSource() const override;
+      virtual Position getPosition() const override;
+      virtual double getAngle() const override;
+      virtual double getVelocityX() const override;
+      virtual double getVelocityY() const override;
+      virtual Unit getTarget() const override;
+      virtual Position getTargetPosition() const override;
+      virtual int getRemoveTimer() const override;
+      virtual bool isVisible(Player player = nullptr) const override;
   };
 }

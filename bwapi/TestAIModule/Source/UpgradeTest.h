@@ -15,7 +15,7 @@ class UpgradeTest : public TestCase
     int previousUpgradeLevel;
     int startUpgradeFrame;
     int nextUpdateFrame;
-    BWAPI::Unit* upgrader;
+    BWAPI::Unit upgrader;
     int correctMineralCount;
     int correctGasCount;
 };

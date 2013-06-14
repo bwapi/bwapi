@@ -45,8 +45,8 @@ namespace Util
       {
         return this->isMultipleOf(sizeof(T));
       }
-    bool operator == (const MemoryFrame &);           // compares the frame addresses
-    bool compareBytes(const MemoryFrame &);
+    bool operator == (const MemoryFrame &) const;           // compares the frame addresses
+    bool compareBytes(const MemoryFrame &) const;
 
     void skip(unsigned int bytes);
     template<typename T>
@@ -133,6 +133,6 @@ namespace Util
     void *frameBase;
     unsigned int frameSize;
 
-    int _limit(int a, int low, int hi);
+    int _limit(int a, int low, int hi) const;
   };
 }

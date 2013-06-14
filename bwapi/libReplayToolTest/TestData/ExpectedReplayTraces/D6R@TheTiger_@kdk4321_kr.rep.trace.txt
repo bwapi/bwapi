@@ -1,0 +1,2750 @@
+(P1) Select: 1, 1583:00
+(P1) Select: 3, 1582:00, 1581:00, 1566:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P1) Shift Deselect: 1, 1582:00
+(P1) Shift Select: 4, 1579:00, 1578:00, 1577:00, 1576:00
+(P1) Right Click: (3974, 250), 1689:00, None
+(P0) Select: 1, 1575:00
+(P0) Target Click: (335, 198), 0:00, None, RallyPointTile
+(P0) Select: 8, 1572:00, 1568:00, 1569:00, 1570:00, 1567:00, 1573:00, 1574:00, 1571:00
+(P1) Select: 1, 1576:00
+(P0) Right Click: (391, 107), 1697:00, None
+(P1) Right Click: (3968, 194), 1690:00, None
+(P0) Select: 1, 1575:00
+(P0) Group Units: Save, 1
+(P1) Select: 1, 1577:00
+(P1) Right Click: (4004, 340), 1685:00, None
+(P0) Target Click: (330, 215), 0:00, None, RallyPointTile
+(P0) Select: 3, 1573:00, 1567:00, 1574:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P0) Select: 1, 1571:00
+(P1) Select: 1, 1579:00
+(P0) Right Click: (303, 121), 1696:00, None
+(P1) Right Click: (3994, 272), 0:00, None
+(P1) Select: 1, 1583:00
+(P0) Select: 1, 1569:00
+(P1) Select: 1, 1579:00
+(P0) Right Click: (333, 82), 1699:00, None
+(P1) Right Click: (3996, 294), 1687:00, None
+(P0) Select: 1, 1572:00
+(P1) Select: 1, 1583:00
+(P1) Target Click: (3924, 298), 0:00, None, RallyPointTile
+(P1) Target Click: (3934, 294), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Right Click: (4000, 544), 0:00, None
+(P0) Right Click: (3904, 480), 0:00, None
+(P1) Select: 1, 1580:00
+(P1) Group Units: Save, 5
+(P0) Right Click: (3904, 480), 0:00, None
+(P1) Group Units: Save, 5
+(P1) Right Click: (3682, 3930), 0:00, None
+(P1) Right Click: (286, 3882), 0:00, None, Queued
+(P1) Group Units: Save, 5
+(P1) Group Units: Save, 5
+(P0) Right Click: (3712, 192), 0:00, None
+(P0) Right Click: (3904, 256), 0:00, None
+(P1) Group Units: Save, 5
+(P1) Group Units: Save, 5
+(P1) Select: 1, 1583:00
+(P0) Select: 1, 1575:00
+(P1) Group Units: Save, 1
+(P0) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Target Click: (3854, 357), 0:00, None, RallyPointTile
+(P0) Target Click: (447, 177), 0:00, None, RallyPointTile
+(P0) Select: 2, 1567:00, 1574:00
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3856, 367), 0:00, None, RallyPointTile
+(P0) Target Click: (472, 165), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (470, 126), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Select: 2, 1567:00, 1574:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Group Units: Recall, 1
+(P0) Target Click: (469, 140), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P0) Target Click: (463, 143), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P0) Target Click: (464, 153), 0:00, None, RallyPointTile
+(P0) Select: 1, 1572:00
+(P0) Group Units: Save, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 1
+(P0) Target Click: (470, 165), 0:00, None, RallyPointTile
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (472, 169), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P0) Target Click: (474, 163), 0:00, None, RallyPointTile
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 1
+(P0) Target Click: (473, 145), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Target Click: (3850, 389), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3844, 383), 0:00, None, RallyPointTile
+(P1) Select: 3, 1581:00, 1565:00, 1566:00
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P1) Shift Deselect: 1, 1566:00
+(P1) Shift Select: 1, 1582:00
+(P1) Right Click: (3828, 409), 0:00, None
+(P0) Target Click: (464, 155), 0:00, None, RallyPointTile
+(P1) Right Click: (3850, 415), 1682:00, None
+(P0) Target Click: (464, 155), 0:00, None, RallyPointTile
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1581:00
+(P0) Target Click: (465, 160), 0:00, None, RallyPointTile
+(P0) Target Click: (465, 160), 0:00, None, RallyPointTile
+(P0) Target Click: (466, 157), 0:00, None, RallyPointTile
+(P0) Select: 2, 1567:00, 1574:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (478, 143), 0:00, None, RallyPointTile
+(P0) Select: 3, 1567:00, 1564:00, 1574:00
+(P0) Select: 2, 1573:00, 1564:00
+(P0) Right Click: (477, 69), 1:00, None
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Group Units: Recall, 1
+(P0) Target Click: (473, 145), 0:00, None, RallyPointTile
+(P0) Select: 3, 1567:00, 1564:00, 1574:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (498, 149), 0:00, None, RallyPointTile
+(P0) Select: 3, 1567:00, 1564:00, 1574:00
+(P1) Select: 1, 1577:00
+(P1) Right Click: (3964, 331), 1686:00, None
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3910, 387), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3914, 383), 0:00, None, RallyPointTile
+(P1) Target Click: (3908, 383), 0:00, None, RallyPointTile
+(P0) Select: 2, 1564:00, 1574:00
+(P1) Target Click: (3908, 383), 0:00, None, RallyPointTile
+(P1) Target Click: (3908, 383), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 1
+(P0) Target Click: (453, 176), 0:00, None, RallyPointTile
+(P0) Select: 2, 1564:00, 1574:00
+(P1) Select: 1, 1566:00
+(P0) Group Units: Recall, 1
+(P0) Select: 2, 1574:00, 1564:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (481, 152), 0:00, None, RallyPointTile
+(P0) Target Click: (482, 152), 0:00, None, RallyPointTile
+(P0) Select: 2, 1574:00, 1564:00
+(P0) Select: 1, 1575:00
+(P0) Group Units: Save, 1
+(P0) Target Click: (437, 182), 0:00, None, RallyPointTile
+(P0) Target Click: (465, 171), 0:00, None, RallyPointTile
+(P0) Target Click: (477, 161), 0:00, None, RallyPointTile
+(P0) Select: 2, 1574:00, 1564:00
+(P0) Group Units: Recall, 1
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Target Click: (482, 155), 0:00, None, RallyPointTile
+(P0) Select: 2, 1574:00, 1564:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (484, 150), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3892, 383), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3910, 393), 0:00, None, RallyPointTile
+(P0) Target Click: (489, 147), 0:00, None, RallyPointTile
+(P1) Target Click: (3912, 391), 0:00, None, RallyPointTile
+(P0) Select: 2, 1574:00, 1564:00
+(P1) Target Click: (3912, 391), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3912, 389), 0:00, None, RallyPointTile
+(P0) Target Click: (497, 153), 0:00, None, RallyPointTile
+(P0) Select: 2, 1574:00, 1564:00
+(P1) Target Click: (3916, 385), 0:00, None, RallyPointTile
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Target Click: (3910, 389), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 1
+(P0) Target Click: (488, 170), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1564:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (496, 159), 0:00, None, RallyPointTile
+(P0) Target Click: (496, 158), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1564:00
+(P1) Group Units: Save, 1
+(P0) Select: 5, 1573:00, 1568:00, 1570:00, 1569:00, 1571:00
+(P1) Group Units: Save, 1
+(P0) Shift Select: 1, 1564:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1568:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Shift Select: 5, 1571:00, 1569:00, 1564:00, 1570:00, 1573:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1568:00
+(P1) Select: 1, 1581:00
+(P1) Right Click: (3926, 437), 1683:00, None
+(P0) Select: 1, 1567:00
+(P1) Right Click: (3926, 437), 1683:00, None
+(P0) Select: 1, 1574:00
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3926, 437), 1683:00, None
+(P0) Target Click: (476, 198), 0:00, None, RallyPointTile
+(P0) Target Click: (482, 183), 0:00, None, RallyPointTile
+(P0) Target Click: (484, 176), 0:00, None, RallyPointTile
+(P0) Target Click: (490, 174), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1564:00
+(P0) Select: 1, 1567:00
+(P0) Right Click: (529, 177), 1692:00, None
+(P1) Select: 1, 1565:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (265, 205), 0:00, None, RallyPointTile
+(P0) Select: 2, 1562:00, 1564:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (250, 165), 0:00, None, RallyPointTile
+(P0) Target Click: (245, 156), 0:00, None, RallyPointTile
+(P0) Select: 2, 1562:00, 1564:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (241, 155), 0:00, None, RallyPointTile
+(P0) Select: 2, 1562:00, 1564:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Group Units: Recall, 1
+(P0) Target Click: (235, 148), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 3
+(P0) Target Click: (233, 147), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 3
+(P0) Select: 1, 1564:00
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1566:00
+(P0) Target Click: (228, 149), 0:00, None, RallyPointTile
+(P0) Target Click: (225, 149), 0:00, None, RallyPointTile
+(P0) Select: 1, 1564:00
+(P0) Select: 6, 1567:00, 1573:00, 1568:00, 1570:00, 1569:00, 1571:00
+(P0) Shift Select: 1, 1564:00
+(P0) Select: 1, 1567:00
+(P0) Shift Select: 6, 1569:00, 1571:00, 1564:00, 1570:00, 1568:00, 1573:00
+(P1) Right Click: (3946, 405), 1684:00, None
+(P0) Select: 1, 1567:00
+(P1) Right Click: (3958, 399), 1684:00, None
+(P1) Right Click: (3964, 397), 1684:00, None
+(P1) Right Click: (3972, 395), 1684:00, None
+(P1) Right Click: (3972, 391), 1684:00, None
+(P0) Shift Select: 4, 1571:00, 1564:00, 1568:00, 1573:00
+(P0) Shift Select: 2, 1569:00, 1570:00
+(P0) Select: 1, 1567:00
+(P0) Select: 2, 1564:00, 1574:00
+(P0) Right Click: (161, 122), 0:00, None
+(P0) Right Click: (203, 118), 1695:00, None
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1575:00
+(P0) Group Units: Save, 1
+(P1) Target Click: (214, 246), 0:00, None, RallyPointTile
+(P0) Target Click: (250, 209), 0:00, None, RallyPointTile
+(P1) Target Click: (214, 246), 0:00, None, RallyPointTile
+(P0) Select: 1, 1564:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Target Click: (214, 246), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Target Click: (269, 173), 0:00, None, RallyPointTile
+(P1) Select: 1, 1563:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (335, 165), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 6
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 6
+(P0) Target Click: (342, 148), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 5
+(P0) Target Click: (341, 147), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 6
+(P0) Select: 6, 1573:00, 1568:00, 1570:00, 1569:00, 1571:00, 1574:00
+(P0) Select: 1, 1568:00
+(P0) Shift Select: 5, 1569:00, 1571:00, 1570:00, 1573:00, 1567:00
+(P0) Shift Deselect: 1, 1567:00
+(P0) Shift Select: 1, 1574:00
+(P0) Select: 1, 1568:00
+(P0) Shift Select: 7, 1574:00, 1569:00, 1571:00, 1560:00, 1570:00, 1573:00, 1567:00
+(P0) Shift Deselect: 1, 1574:00
+(P0) Select: 1, 1567:00
+(P0) Select: 2, 1562:00, 1560:00
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P0) Right Click: (526, 148), 1692:00, None
+(P1) Group Units: Recall, 3
+(P1) Right Click: (152, 140), 0:00, None
+(P0) Right Click: (510, 157), 0:00, None
+(P1) Right Click: (134, 132), 0:00, None
+(P0) Right Click: (531, 144), 1693:00, None
+(P0) Select: 1, 1575:00
+(P1) Right Click: (250, 3884), 0:00, None, Queued
+(P0) Group Units: Save, 1
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Target Click: (448, 188), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1561:00
+(P0) Target Click: (462, 183), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P1) Target Click: (3930, 346), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1561:00
+(P0) Target Click: (456, 175), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P0) Shift Select: 7, 1574:00, 1569:00, 1571:00, 1570:00, 1568:00, 1573:00, 1567:00
+(P0) Select: 1, 1573:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Group Units: Recall, 1
+(P0) Target Click: (461, 231), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (485, 213), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P0) Select: 1, 1564:00
+(P0) Shift Select: 1, 1560:00
+(P0) Right Click: (514, 95), 1698:00, None
+(P0) Right Click: (532, 130), 1693:00, None
+(P0) Group Units: Recall, 1
+(P0) Target Click: (479, 241), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1575:00
+(P1) Target Click: (3926, 164), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 1
+(P1) Target Click: (3922, 164), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 6
+(P0) Target Click: (276, 315), 0:00, None, RallyPointTile
+(P0) Target Click: (269, 315), 0:00, None, RallyPointTile
+(P0) Target Click: (258, 314), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 5
+(P0) Select: 1, 1560:00
+(P1) Group Units: Recall, 6
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 6
+(P1) Group Units: Recall, 5
+(P0) Group Units: Recall, 1
+(P0) Target Click: (502, 298), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 6
+(P0) Select: 1, 1560:00
+(P1) Group Units: Recall, 5
+(P0) Morph Unit: 
+(P42) Public Chat: 
+(P0) Morph Unit: 
+(P42) Public Chat: 
+(P1) Group Units: Recall, 6
+(P0) Select: 1, 1564:00
+(P1) Group Units: Recall, 1
+(P0) Select: 8, 1567:00, 1573:00, 1568:00, 1562:00, 1570:00, 1571:00, 1569:00, 1574:00
+(P1) Group Units: Save, 1
+(P0) Shift Select: 1, 1558:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Recall, 5
+(P0) Select: 1, 1562:00
+(P1) Group Units: Recall, 6
+(P1) Group Units: Recall, 1
+(P0) Shift Select: 9, 1574:00, 1571:00, 1569:00, 1558:00, 1570:00, 1573:00, 1568:00, 1567:00, 1564:00
+(P0) Shift Deselect: 1, 1574:00
+(P0) Select: 1, 1564:00
+(P0) Shift Select: 9, 1574:00, 1571:00, 1569:00, 1558:00, 1570:00, 1568:00, 1573:00, 1562:00, 1567:00
+(P0) Shift Deselect: 2, 1567:00, 1564:00
+(P0) Select: 1, 1573:00
+(P0) Shift Select: 9, 1574:00, 1571:00, 1558:00, 1569:00, 1570:00, 1568:00, 1562:00, 1567:00, 1564:00
+(P0) Shift Deselect: 2, 1574:00, 1573:00
+(P0) Select: 1, 1564:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Shift Select: 6, 1574:00, 1571:00, 1558:00, 1568:00, 1567:00, 1562:00
+(P1) Target Click: (3910, 174), 0:00, None, RallyPointTile
+(P0) Shift Select: 3, 1569:00, 1570:00, 1573:00
+(P1) Target Click: (3902, 172), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 5
+(P0) Select: 1, 1567:00
+(P1) Group Units: Recall, 6
+(P1) Select: 2, 1561:00, 1559:00
+(P0) Shift Select: 9, 1574:00, 1569:00, 1558:00, 1571:00, 1570:00, 1568:00, 1564:00, 1573:00, 1562:00
+(P1) Right Click: (3980, 160), 1691:00, None
+(P1) Right Click: (3978, 160), 1691:00, None
+(P1) Right Click: (3976, 160), 1691:00, None
+(P1) Right Click: (3974, 160), 1691:00, None
+(P0) Select: 1, 1573:00
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 6
+(P0) Shift Select: 9, 1574:00, 1571:00, 1569:00, 1558:00, 1570:00, 1568:00, 1562:00, 1564:00, 1567:00
+(P1) Group Units: Recall, 1
+(P1) Target Click: (238, 180), 0:00, None, RallyPointTile
+(P1) Target Click: (238, 178), 0:00, None, RallyPointTile
+(P0) Select: 1, 1564:00
+(P1) Target Click: (238, 174), 0:00, None, RallyPointTile
+(P1) Set Allies: 
+(P4) Public Chat: 
+(P64) Public Chat: 
+(P1) Set Fog: 
+(P2) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Shift Select: 9, 1574:00, 1571:00, 1569:00, 1558:00, 1570:00, 1573:00, 1568:00, 1562:00, 1567:00
+(P1) Group Units: Save, 1
+(P0) Select: 3, 1567:00, 1573:00, 1558:00
+(P1) Group Units: Save, 1
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1567:00
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 1
+(P0) Target Click: (420, 342), 0:00, None, RallyPointTile
+(P0) Target Click: (420, 342), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1558:00
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1560:00
+(P1) Group Units: Recall, 5
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 6
+(P0) Target Click: (416, 371), 0:00, None, RallyPointTile
+(P0) Select: 1, 1558:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (429, 372), 0:00, None, RallyPointTile
+(P0) Select: 1, 1558:00
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (410, 381), 0:00, None, RallyPointTile
+(P0) Target Click: (406, 379), 0:00, None, RallyPointTile
+(P0) Target Click: (406, 379), 0:00, None, RallyPointTile
+(P0) Select: 1, 1558:00
+(P1) Group Units: Recall, 1
+(P1) Select: 2, 1557:00, 1559:00
+(P0) Select: 10, 1562:00, 1573:00, 1564:00, 1567:00, 1568:00, 1570:00, 1556:00, 1571:00, 1569:00, 1574:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Shift Select: 1, 1558:00
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 6
+(P0) Select: 1, 1562:00
+(P1) Right Click: (832, 832), 0:00, None
+(P1) Right Click: (172, 184), 0:00, None
+(P1) Right Click: (154, 190), 0:00, None
+(P1) Right Click: (144, 194), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (411, 375), 0:00, None, RallyPointTile
+(P0) Target Click: (411, 375), 0:00, None, RallyPointTile
+(P1) Right Click: (684, 842), 0:00, None
+(P0) Target Click: (405, 369), 0:00, None, RallyPointTile
+(P0) Select: 2, 1556:00, 1558:00
+(P1) Right Click: (678, 848), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (674, 850), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (393, 343), 0:00, None, RallyPointTile
+(P0) Select: 2, 1556:00, 1558:00
+(P0) Select: 1, 1570:00
+(P1) Target Click: (3910, 306), 0:00, None, RallyPointTile
+(P0) Right Click: (453, 334), 0:00, None
+(P1) Target Click: (3910, 302), 0:00, None, RallyPointTile
+(P0) Right Click: (461, 320), 0:00, None
+(P1) Target Click: (3912, 300), 0:00, None, RallyPointTile
+(P1) Group Units: Save, 1
+(P1) Group Units: Save, 1
+(P0) Placebox: , (14, 10), Zerg_Spawning_Pool
+(P1) Group Units: Save, 1
+(P0) Select: 1, 1575:00
+(P1) Target Click: (3906, 310), 0:00, None, RallyPointTile
+(P0) Group Units: Save, 1
+(P1) Target Click: (3910, 296), 0:00, None, RallyPointTile
+(P0) Target Click: (412, 380), 0:00, None, RallyPointTile
+(P0) Target Click: (408, 373), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P1) Target Click: (3904, 288), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3902, 282), 0:00, None, RallyPointTile
+(P0) Target Click: (399, 351), 0:00, None, RallyPointTile
+(P0) Target Click: (397, 359), 0:00, None, RallyPointTile
+(P1) Target Click: (3894, 286), 0:00, None, RallyPointTile
+(P0) Target Click: (388, 358), 0:00, None, RallyPointTile
+(P1) Target Click: (3896, 286), 0:00, None, RallyPointTile
+(P0) Target Click: (391, 357), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Select: 2, 1556:00, 1558:00
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3886, 304), 0:00, None, RallyPointTile
+(P0) Target Click: (399, 370), 0:00, None, RallyPointTile
+(P1) Target Click: (3886, 304), 0:00, None, RallyPointTile
+(P0) Target Click: (395, 369), 0:00, None, RallyPointTile
+(P0) Target Click: (396, 367), 0:00, None, RallyPointTile
+(P0) Target Click: (396, 367), 0:00, None, RallyPointTile
+(P0) Target Click: (394, 364), 0:00, None, RallyPointTile
+(P0) Select: 2, 1558:00, 1556:00
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (397, 366), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Select: 2, 1558:00, 1556:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Target Click: (403, 357), 0:00, None, RallyPointTile
+(P0) Select: 1, 1556:00
+(P0) Select: 1, 1560:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (410, 356), 0:00, None, RallyPointTile
+(P0) Target Click: (407, 347), 0:00, None, RallyPointTile
+(P0) Select: 1, 1556:00
+(P1) Target Click: (3906, 282), 0:00, None, RallyPointTile
+(P1) Target Click: (3904, 278), 0:00, None, RallyPointTile
+(P0) Select: 1, 1560:00
+(P0) Right Click: (2432, 2304), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (1984, 3072), 0:00, None
+(P0) Right Click: (608, 3520), 0:00, None
+(P0) Right Click: (256, 3936), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1556:00
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1555:00
+(P0) Target Click: (414, 371), 0:00, None, RallyPointTile
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Select: 1, 1556:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Group Units: Recall, 1
+(P0) Target Click: (437, 377), 0:00, None, RallyPointTile
+(P0) Select: 1, 1556:00
+(P1) Select: 2, 1559:00, 1557:00
+(P1) Right Click: (3968, 220), 1690:00, None
+(P0) Group Units: Recall, 1
+(P0) Target Click: (438, 376), 0:00, None, RallyPointTile
+(P0) Target Click: (436, 388), 0:00, None, RallyPointTile
+(P0) Target Click: (437, 386), 0:00, None, RallyPointTile
+(P1) Select: 1, 1559:00
+(P0) Select: 2, 1554:00, 1556:00
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3862, 420), 1682:00, None
+(P0) Target Click: (463, 387), 0:00, None, RallyPointTile
+(P0) Select: 2, 1554:00, 1556:00
+(P0) Select: 1, 1570:00
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P0) Target Click: (496, 419), 0:00, None, RallyPointTile
+(P0) Target Click: (496, 422), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Target Click: (480, 415), 0:00, None, RallyPointTile
+(P0) Select: 2, 1554:00, 1556:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3610, 152), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3608, 148), 0:00, None
+(P0) Target Click: (469, 407), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Select: 2, 1554:00, 1556:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Group Units: Recall, 3
+(P1) Right Click: (286, 356), 0:00, None
+(P0) Select: 9, 1564:00, 1573:00, 1562:00, 1567:00, 1568:00, 1569:00, 1556:00, 1571:00, 1574:00
+(P1) Right Click: (286, 358), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Shift Select: 1, 1560:00
+(P1) Group Units: Recall, 3
+(P1) Select: 1, 1570:00
+(P0) Select: 1, 1573:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (180, 292), 0:00, None
+(P0) Shift Select: 8, 1574:00, 1571:00, 1556:00, 1569:00, 1564:00, 1568:00, 1562:00, 1567:00
+(P1) Right Click: (266, 196), 0:00, None
+(P0) Shift Deselect: 1, 1567:00
+(P0) Select: 1, 1573:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (250, 170), 0:00, None
+(P1) Right Click: (186, 116), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Target Click: (410, 374), 0:00, None, RallyPointTile
+(P1) Right Click: (202, 50), 0:00, None
+(P0) Select: 1, 1556:00
+(P1) Right Click: (206, 50), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Target Click: (376, 357), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (228, 30), 0:00, None
+(P0) Target Click: (367, 360), 0:00, None, RallyPointTile
+(P1) Right Click: (230, 36), 0:00, None
+(P0) Target Click: (368, 354), 0:00, None, RallyPointTile
+(P1) Right Click: (232, 42), 0:00, None
+(P1) Right Click: (230, 44), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (230, 44), 0:00, None
+(P0) Target Click: (381, 343), 0:00, None, RallyPointTile
+(P1) Right Click: (232, 50), 0:00, None
+(P0) Select: 1, 1556:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Right Click: (232, 54), 0:00, None
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Right Click: (246, 104), 1695:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1695:00
+(P0) Target Click: (246, 245), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Target Click: (238, 256), 0:00, None, RallyPointTile
+(P0) Target Click: (236, 255), 0:00, None, RallyPointTile
+(P0) Select: 1, 1558:00
+(P1) Group Units: Recall, 1
+(P0) Right Click: (291, 191), 0:00, None
+(P0) Right Click: (3424, 2112), 0:00, None
+(P1) Target Click: (3876, 273), 0:00, None, RallyPointTile
+(P0) Right Click: (3072, 2496), 0:00, None
+(P0) Right Click: (1088, 3392), 0:00, None
+(P1) Select: 1, 1557:00
+(P1) Right Click: (4012, 303), 1687:00, None
+(P0) Group Units: Save, 3
+(P0) Right Click: (446, 3896), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Save, 3
+(P0) Right Click: (461, 4013), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Target Click: (340, 353), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Target Click: (311, 373), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1553:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Target Click: (383, 363), 0:00, None, RallyPointTile
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1555:00
+(P0) Target Click: (391, 336), 0:00, None, RallyPointTile
+(P0) Select: 1, 1552:00
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Right Click: (3856, 118), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Target Click: (381, 348), 0:00, None, RallyPointTile
+(P1) Placebox: , (119, 3), Zerg_Spawning_Pool
+(P0) Target Click: (392, 348), 0:00, None, RallyPointTile
+(P0) Target Click: (389, 346), 0:00, None, RallyPointTile
+(P1) Select: 1, 1576:00
+(P0) Group Units: Recall, 1
+(P0) Target Click: (263, 343), 0:00, None, RallyPointTile
+(P0) Target Click: (263, 337), 0:00, None, RallyPointTile
+(P0) Target Click: (266, 331), 0:00, None, RallyPointTile
+(P0) Select: 1, 1554:00
+(P1) Placebox: , (115, 2), Zerg_Extractor
+(P0) Right Click: (212, 88), 1695:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P0) Target Click: (260, 350), 0:00, None, RallyPointTile
+(P0) Target Click: (256, 353), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P0) Target Click: (393, 407), 0:00, None, RallyPointTile
+(P0) Select: 1, 1570:00
+(P0) Group Units: Recall, 1
+(P1) Right Click: (234, 289), 0:00, None
+(P0) Target Click: (336, 380), 0:00, None, RallyPointTile
+(P1) Right Click: (234, 283), 0:00, None
+(P0) Target Click: (334, 380), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (248, 267), 0:00, None
+(P0) Select: 9, 1564:00, 1562:00, 1573:00, 1567:00, 1568:00, 1574:00, 1569:00, 1571:00, 1554:00
+(P1) Right Click: (262, 255), 0:00, None
+(P1) Right Click: (262, 251), 0:00, None
+(P0) Select: 1, 1564:00
+(P1) Right Click: (276, 200), 0:00, None
+(P1) Right Click: (272, 202), 0:00, None
+(P1) Right Click: (258, 204), 0:00, None
+(P1) Right Click: (236, 184), 0:00, None
+(P1) Target Click: (224, 118), 1695:00, None, 
+(P1) Target Click: (222, 132), 1571:00, None, 
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1556:00
+(P0) Right Click: (383, 89), 1700:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1571:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (124, 185), 0:00, None
+(P1) Right Click: (114, 167), 0:00, None
+(P0) Right Click: (460, 72), 1:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (278, 355), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Target Click: (386, 359), 0:00, None, RallyPointTile
+(P0) Target Click: (382, 353), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (254, 369), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Target Click: (362, 383), 0:00, None, RallyPointTile
+(P0) Target Click: (362, 378), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1570:00
+(P0) Group Units: Recall, 1
+(P1) Right Click: (264, 225), 0:00, None
+(P0) Target Click: (372, 381), 0:00, None, RallyPointTile
+(P1) Right Click: (258, 213), 0:00, None
+(P0) Target Click: (374, 374), 0:00, None, RallyPointTile
+(P1) Target Click: (256, 216), 0:00, None, AttackMove
+(P0) Target Click: (372, 372), 0:00, None, RallyPointTile
+(P1) Target Click: (262, 210), 0:00, None, AttackMove
+(P1) Target Click: (294, 196), 0:00, None, AttackMove
+(P1) Target Click: (308, 180), 1554:00, None, 
+(P1) Group Units: Recall, 1
+(P0) Select: 2, 1552:00, 1576:01
+(P1) Select: 1, 1551:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Right Click: (375, 386), 0:00, None
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P1) Select: 1, 1553:00
+(P1) Right Click: (3988, 320), 1686:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (396, 109), 1697:00, None
+(P1) Right Click: (3978, 322), 1686:00, None
+(P1) Right Click: (248, 277), 0:00, None
+(P1) Right Click: (246, 279), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Right Click: (672, 3296), 0:00, None
+(P1) Right Click: (266, 181), 0:00, None
+(P0) Right Click: (672, 3200), 0:00, None
+(P1) Right Click: (280, 177), 0:00, None
+(P1) Right Click: (286, 175), 0:00, None
+(P0) Select: 1, 1573:00
+(P1) Target Click: (336, 131), 1556:00, None, 
+(P0) Group Units: Recall, 1
+(P1) Target Click: (336, 159), 1556:00, None, 
+(P0) Target Click: (353, 358), 0:00, None, RallyPointTile
+(P1) Select: 1, 1556:00
+(P0) Select: 1, 1556:00
+(P0) Right Click: (311, 156), 1565:00, None
+(P0) Select: 1, 1565:00
+(P1) Group Units: Recall, 6
+(P1) Right Click: (360, 259), 1575:00, None
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1556:00
+(P1) Right Click: (174, 285), 1688:00, None
+(P0) Select: 1, 1565:00
+(P1) Return Cargo: 
+(P0) Select: 1, 1556:00
+(P0) Select: 1, 1565:00
+(P0) Select: 1, 1556:00
+(P1) Group Units: Recall, 1
+(P0) Right Click: (333, 76), 1699:00, None
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3888, 265), 1578:00, None, RallyPointUnit
+(P0) Target Click: (362, 456), 0:00, None, RallyPointTile
+(P0) Target Click: (372, 443), 0:00, None, RallyPointTile
+(P0) Select: 1, 1570:00
+(P1) Target Click: (3890, 283), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1555:00
+(P0) Target Click: (338, 414), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Right Click: (550, 381), 0:00, None
+(P0) Target Click: (330, 398), 0:00, None, RallyPointTile
+(P1) Right Click: (544, 375), 1570:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (532, 262), 0:00, None
+(P0) Select: 1, 1567:00
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (322, 348), 0:00, None
+(P0) Group Units: Save, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (356, 312), 0:00, None
+(P0) Right Click: (1177, 1146), 0:00, None
+(P1) Right Click: (312, 346), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (1173, 1145), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (470, 270), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (450, 254), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (450, 254), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Target Click: (464, 238), 1571:00, None, 
+(P0) Select: 1, 1575:00
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1570:00
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1555:00
+(P0) Select: 1, 1571:00
+(P1) Group Units: Recall, 1
+(P0) Right Click: (434, 289), 1565:00, None
+(P1) Target Click: (3874, 280), 0:00, None, RallyPointTile
+(P0) Select: 1, 1565:00
+(P1) Select: 2, 1551:00, 1550:00
+(P1) Right Click: (3954, 280), 0:00, None
+(P1) Right Click: (4000, 302), 1687:00, None
+(P0) Select: 1, 1571:00
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1565:00
+(P1) Return Cargo: 
+(P0) Select: 1, 1571:00
+(P0) Right Click: (423, 97), 1697:00, None
+(P0) Group Units: Recall, 1
+(P0) Select: 2, 1576:01, 1549:00
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1575:00
+(P0) Group Units: Recall, 1
+(P0) Select: 2, 1576:01, 1549:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1567:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Right Click: (533, 591), 1565:00, None
+(P0) Select: 1, 1565:00
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1559:00
+(P1) Select: 1, 1557:00
+(P0) Right Click: (576, 3712), 0:00, None
+(P1) Right Click: (3741, 107), 1694:00, None
+(P0) Right Click: (288, 4032), 0:00, None
+(P1) Shift Select: 1, 1561:00
+(P0) Right Click: (224, 3840), 0:00, None
+(P1) Right Click: (3761, 77), 1694:00, None
+(P0) Right Click: (192, 3872), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Target Click: (709, 731), 1567:00, None, 
+(P1) Right Click: (995, 967), 0:00, None
+(P0) Right Click: (320, 3912), 0:00, None
+(P0) Right Click: (320, 3912), 0:00, None
+(P1) Right Click: (1033, 985), 0:00, None
+(P1) Right Click: (1037, 985), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1041, 983), 0:00, None
+(P1) Target Click: (1063, 993), 0:00, None, AttackMove
+(P1) Right Click: (1145, 999), 0:00, None
+(P1) Right Click: (1143, 1003), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1565:00
+(P0) Select: 1, 1567:00
+(P1) Select: 1, 1577:00
+(P1) Right Click: (3771, 335), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Placebox: , (112, 10), Zerg_Hatchery
+(P1) Right Click: (3675, 345), 0:00, None
+(P1) Placebox: , (112, 10), Zerg_Hatchery
+(P1) Select: 1, 1559:00
+(P1) Right Click: (3777, 131), 0:00, None
+(P1) Right Click: (3761, 105), 1694:00, None
+(P1) Group Units: Recall, 3
+(P1) Right Click: (1241, 1053), 1680:00, None
+(P1) Right Click: (1145, 1057), 0:00, None
+(P1) Right Click: (1139, 1095), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (1045, 1107), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1577:00
+(P1) Group Units: Save, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (855, 1081), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (873, 923), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (873, 880), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Placebox: , (31, 34), Zerg_Hatchery
+(P1) Group Units: Recall, 3
+(P1) Right Click: (808, 836), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (754, 794), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Select: 1, 1565:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (738, 792), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (1050, 1097), 0:00, None
+(P1) Right Click: (956, 1063), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1127, 1147), 0:00, None
+(P1) Right Click: (1111, 1131), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1167, 1079), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (728, 752), 0:00, None
+(P0) Select: 1, 1547:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1564:00
+(P0) Right Click: (211, 230), 0:00, None
+(P0) Right Click: (196, 222), 0:00, None
+(P0) Right Click: (190, 222), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (198, 551), 0:00, None
+(P0) Right Click: (109, 233), 0:00, None
+(P1) Right Click: (236, 679), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Placebox: , (2, 8), Zerg_Extractor
+(P1) Select: 2, 1561:00, 1559:00
+(P0) Select: 4, 1545:00, 1576:01, 1549:00, 1546:00
+(P1) Select: 1, 1555:00
+(P1) Group Units: Recall, 3
+(P0) Group Units: Save, 3
+(P0) Right Click: (927, 803), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Target Click: (1064, 1094), 0:00, None, AttackMove
+(P1) Right Click: (354, 717), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Target Click: (999, 1089), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (356, 663), 0:00, None
+(P0) Right Click: (3392, 3456), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Right Click: (3488, 3584), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Right Click: (314, 526), 0:00, None
+(P0) Right Click: (3520, 3488), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (294, 570), 0:00, None
+(P0) Target Click: (3584, 832), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3481, 600), 0:00, None, AttackMove
+(P1) Right Click: (258, 514), 0:00, None
+(P0) Target Click: (3479, 584), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3419, 540), 0:00, None, RallyPointTile
+(P1) Right Click: (184, 394), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (234, 382), 0:00, None
+(P0) Select: 1, 1577:00
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Select: 1, 1572:00
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3746, 363), 0:00, None
+(P0) Right Click: (3748, 358), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (230, 286), 0:00, None
+(P0) Select: 1, 1564:01
+(P1) Right Click: (232, 280), 0:00, None
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 3, 1548:00, 1544:00, 1550:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3306, 765), 0:00, None, RallyPointTile
+(P1) Target Click: (3294, 757), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (324, 156), 0:00, None
+(P0) Select: 1, 1584:00
+(P1) Right Click: (318, 164), 1569:00, None
+(P0) Select: 1, 1558:00
+(P0) Right Click: (800, 2208), 0:00, None
+(P1) Return Cargo: 
+(P0) Right Click: (608, 576), 0:00, None
+(P1) Target Click: (320, 128), 1554:00, None, 
+(P1) Select: 1, 1554:00
+(P1) Group Units: Recall, 3
+(P1) Target Click: (342, 200), 1554:00, None, 
+(P1) Select: 1, 1554:00
+(P0) Right Click: (413, 95), 1697:00, None
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1564:01
+(P0) Select: 1, 1547:00
+(P0) Group Units: Recall, 3
+(P1) Return Cargo: 
+(P0) Select: 2, 1554:00, 1569:00
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1547:00
+(P0) Select: 1, 1575:00
+(P0) Select: 1, 1564:01
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (256, 481), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (246, 483), 0:00, None
+(P1) Right Click: (246, 485), 0:00, None
+(P1) Right Click: (254, 495), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3651, 471), 0:00, None, AttackMove
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3651, 468), 0:00, None, AttackMove
+(P1) Right Click: (471, 395), 0:00, None
+(P0) Select: 1, 1572:00
+(P1) Right Click: (481, 357), 1570:00, None
+(P0) Right Click: (3793, 316), 0:00, None
+(P1) Right Click: (585, 409), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (585, 407), 0:00, None
+(P1) Right Click: (509, 467), 0:00, None
+(P1) Right Click: (379, 517), 0:00, None
+(P1) Right Click: (311, 531), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1560:00
+(P0) Right Click: (2624, 2720), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (3552, 1568), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (135, 405), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1555:00
+(P1) Upgrade: Metabolic_Boost
+(P0) Select: 2, 1547:00, 1543:00
+(P1) Select: 2, 1561:00, 1559:00
+(P1) Right Click: (4003, 187), 0:00, None
+(P1) Return Cargo: 
+(P1) Group Units: Recall, 3
+(P1) Right Click: (167, 425), 0:00, None
+(P0) Right Click: (817, 945), 0:00, None
+(P0) Right Click: (813, 944), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Target Click: (544, 288), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Target Click: (181, 403), 0:00, None, AttackMove
+(P0) Target Click: (172, 428), 1565:00, None, 
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1557:00
+(P1) Right Click: (3989, 191), 1690:00, None
+(P0) Select: 1, 1542:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1541:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Target Click: (957, 968), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 3
+(P1) Target Click: (3391, 623), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Right Click: (453, 383), 0:00, Zerg_Spawning_Pool
+(P1) Right Click: (447, 389), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (509, 268), 0:00, Zerg_Spawning_Pool
+(P1) Right Click: (497, 262), 0:00, Zerg_Spawning_Pool
+(P0) Group Units: Recall, 3
+(P1) Right Click: (277, 194), 0:00, None
+(P0) Target Click: (3737, 427), 0:00, None, AttackMove
+(P1) Right Click: (269, 164), 0:00, None
+(P1) Right Click: (221, 188), 0:00, None
+(P0) Right Click: (2400, 1760), 0:00, None
+(P1) Right Click: (221, 158), 0:00, None
+(P0) Right Click: (960, 800), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (855, 924), 0:00, None, AttackMove
+(P0) Target Click: (878, 935), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P1) Right Click: (553, 164), 0:00, Resource_Mineral_Field_Type_3
+(P1) Right Click: (537, 176), 1692:00, None
+(P0) Select: 1, 1572:00
+(P1) Right Click: (551, 164), 1692:00, None
+(P1) Return Cargo: 
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3786, 244), 1583:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 6, 1537:00, 1550:00, 1548:00, 1538:00, 1539:00, 1544:00
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Select: 3, 1556:00, 1547:00, 1569:00
+(P1) Target Click: (842, 1207), 0:00, None, AttackMove
+(P1) Target Click: (840, 1207), 0:00, None, AttackMove
+(P0) Right Click: (164, 260), 1688:00, None
+(P0) Right Click: (160, 265), 1688:00, None
+(P1) Target Click: (840, 1207), 0:00, None, AttackMove
+(P0) Right Click: (154, 270), 1688:00, None
+(P0) Select: 1, 1552:00
+(P0) Right Click: (106, 298), 1688:00, None
+(P0) Right Click: (118, 288), 1688:00, None
+(P0) Group Units: Recall, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (813, 642), 0:00, None, AttackMove
+(P0) Target Click: (771, 651), 0:00, None, AttackMove
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 3
+(P1) Group Units: Save, 3
+(P0) Shift Select: 1, 1543:00
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Shift Select: 3, 1569:00, 1547:00, 1552:00
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Shift Deselect: 2, 1569:00, 1552:00
+(P1) Group Units: Recall, 1
+(P0) Group Units: Save, 3
+(P0) Target Click: (906, 786), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1536:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1561:00
+(P0) Target Click: (1032, 948), 0:00, None, AttackMove
+(P1) Right Click: (3976, 205), 1690:00, None
+(P0) Target Click: (1032, 940), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P0) Shift Select: 2, 1564:01, 1540:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (1002, 780), 1565:00, None, 
+(P0) Select: 1, 1565:00
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P1) Morph Building: 
+(P132) Public Chat: 
+(P1) Morph Building: 
+(P132) Public Chat: 
+(P0) Select: 1, 1570:00
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1565:00
+(P0) Shift Select: 2, 1534:00, 1542:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (1000, 835), 0:00, None, AttackMove
+(P1) Right Click: (3956, 423), 1683:00, None
+(P0) Target Click: (1000, 835), 0:00, None, AttackMove
+(P1) Return Cargo: 
+(P0) Target Click: (1000, 831), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3952, 423), 1683:00, None
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P0) Right Click: (1256, 749), 0:00, None
+(P1) Select: 1, 1535:00
+(P0) Right Click: (1247, 740), 0:00, None
+(P0) Right Click: (1240, 748), 0:00, None
+(P0) Right Click: (1035, 823), 0:00, None
+(P0) Target Click: (979, 841), 0:00, None, AttackMove
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3338, 745), 0:00, None, RallyPointTile
+(P1) Target Click: (3334, 743), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3326, 741), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3296, 765), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (3298, 765), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 2, 1541:00, 1533:00
+(P1) Target Click: (3342, 708), 0:00, None, AttackMove
+(P1) Target Click: (3342, 706), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3338, 708), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Target Click: (923, 889), 0:00, None, AttackMove
+(P0) Target Click: (894, 888), 0:00, None, AttackMove
+(P1) Select: 1, 1580:00
+(P0) Target Click: (876, 882), 0:00, None, AttackMove
+(P1) Right Click: (1024, 1126), 1567:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1567:00
+(P1) Group Units: Recall, 2
+(P0) Select: 1, 1531:00
+(P0) Morph Unit: 
+(P42) Public Chat: 
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1536:00
+(P1) Select: 1, 1532:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1578:00
+(P0) Target Click: (923, 835), 0:00, None, RallyPointTile
+(P1) Right Click: (3745, 98), 1694:00, None
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1577:00
+(P1) Stop: 
+(P1) Select: 1, 1544:00
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3248, 695), 0:00, None
+(P1) Right Click: (3248, 695), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P1) Stop: 
+(P1) Select: 2, 1541:00, 1533:00
+(P1) Right Click: (3322, 733), 0:00, None
+(P0) Select: 1, 1560:00
+(P1) Right Click: (3314, 757), 0:00, None
+(P0) Right Click: (2912, 1760), 0:00, None
+(P1) Right Click: (3300, 761), 0:00, None
+(P0) Right Click: (3296, 800), 0:00, None
+(P1) Right Click: (3286, 759), 0:00, None
+(P0) Right Click: (3232, 640), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1533:00
+(P1) Right Click: (3282, 759), 0:00, None
+(P1) Right Click: (3282, 759), 0:00, None
+(P0) Select: 1, 1572:00
+(P1) Shift Select: 1, 1541:00
+(P0) Right Click: (3328, 544), 0:00, None
+(P1) Right Click: (3264, 779), 0:00, None
+(P0) Right Click: (2976, 896), 0:00, None
+(P0) Right Click: (2784, 832), 0:00, None
+(P1) Shift Select: 3, 1539:00, 1538:00, 1548:00
+(P0) Right Click: (2784, 768), 0:00, None
+(P1) Right Click: (3226, 829), 0:00, None
+(P0) Right Click: (2944, 768), 0:00, None
+(P1) Right Click: (3226, 829), 0:00, None
+(P0) Right Click: (3040, 800), 0:00, None
+(P1) Stop: 
+(P0) Right Click: (2944, 1056), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1548:00
+(P1) Right Click: (3308, 803), 1537:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (3306, 803), 1537:00, None
+(P1) Right Click: (3282, 781), 0:00, None
+(P1) Right Click: (3290, 781), 0:00, None
+(P1) Stop: 
+(P1) Select: 4, 1538:00, 1541:00, 1533:00, 1539:00
+(P0) Shift Select: 2, 1536:00, 1530:00
+(P1) Right Click: (2688, 2080), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (1856, 1952), 0:00, None
+(P1) Group Units: Save, 3
+(P0) Target Click: (989, 890), 0:00, None, AttackMove
+(P1) Right Click: (1472, 1376), 0:00, None
+(P0) Target Click: (956, 816), 0:00, None, AttackMove
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Target Click: (951, 804), 0:00, None, AttackMove
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 1
+(P1) Right Click: (2368, 2592), 0:00, None
+(P1) Right Click: (2688, 2208), 0:00, None
+(P1) Right Click: (2752, 2016), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (2752, 1888), 0:00, None
+(P1) Right Click: (2560, 1888), 0:00, None
+(P1) Right Click: (2432, 1824), 0:00, None
+(P1) Right Click: (2624, 1824), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (2688, 2016), 0:00, None
+(P1) Right Click: (2048, 2016), 0:00, None
+(P1) Right Click: (1792, 2144), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1664, 2144), 0:00, None
+(P1) Right Click: (1408, 2144), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1344, 2144), 0:00, None
+(P1) Right Click: (1152, 2144), 0:00, None
+(P0) Select: 2, 1528:00, 1556:00
+(P1) Right Click: (960, 1952), 0:00, None
+(P0) Right Click: (397, 96), 1697:00, None
+(P1) Right Click: (848, 1943), 0:00, None
+(P1) Right Click: (848, 1949), 0:00, None
+(P0) Select: 1, 1570:00
+(P0) Upgrade: Metabolic_Boost
+(P1) Right Click: (844, 1951), 0:00, None
+(P0) Upgrade: Metabolic_Boost
+(P1) Group Units: Save, 3
+(P1) Right Click: (844, 1947), 0:00, None
+(P0) Select: 1, 1575:00
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 1
+(P1) Right Click: (838, 1947), 0:00, None
+(P1) Group Units: Save, 3
+(P1) Right Click: (844, 1945), 0:00, None
+(P0) Select: 1, 1528:00
+(P1) Group Units: Save, 3
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (842, 1945), 0:00, None
+(P1) Group Units: Save, 3
+(P1) Right Click: (842, 1945), 0:00, None
+(P0) Select: 1, 1552:00
+(P1) Right Click: (858, 1969), 0:00, None
+(P1) Group Units: Save, 3
+(P1) Right Click: (854, 1967), 0:00, None
+(P0) Right Click: (330, 69), 1699:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 2, 1552:00, 1569:00
+(P1) Select: 1, 1529:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 2
+(P0) Right Click: (266, 114), 1696:00, None
+(P1) Select: 1, 1526:00
+(P0) Right Click: (266, 114), 1696:00, None
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3320, 653), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3322, 653), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P1) Select: 2, 1535:00, 1527:00
+(P1) Right Click: (3248, 727), 0:00, None
+(P1) Target Click: (3268, 733), 0:00, None, AttackMove
+(P0) Select: 1, 1583:00
+(P1) Target Click: (3274, 737), 0:00, None, AttackMove
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3278, 737), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1524:00
+(P1) Target Click: (3350, 677), 0:00, None, RallyPointTile
+(P0) Morph Unit: 
+(P41) Public Chat: 
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3346, 679), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1580:00
+(P1) Right Click: (896, 927), 0:00, None
+(P1) Right Click: (962, 966), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (992, 966), 0:00, None
+(P1) Right Click: (988, 964), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 6
+(P0) Target Click: (1037, 797), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1580:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 6
+(P0) Target Click: (1111, 914), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1563:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 5
+(P1) Right Click: (368, 254), 1575:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P0) Target Click: (985, 923), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1522:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Select: 2, 1532:00, 1525:00
+(P0) Select: 1, 1531:00
+(P1) Right Click: (3230, 679), 0:00, None
+(P0) Right Click: (96, 2688), 0:00, None
+(P1) Right Click: (3238, 659), 0:00, None
+(P0) Right Click: (896, 2080), 0:00, None
+(P1) Right Click: (3240, 657), 0:00, None
+(P0) Right Click: (768, 1568), 0:00, None
+(P1) Stop: 
+(P0) Right Click: (768, 1792), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3340, 729), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3338, 725), 0:00, None, RallyPointTile
+(P0) Right Click: (486, 1796), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Right Click: (837, 1859), 0:00, None
+(P1) Group Units: Recall, 2
+(P0) Right Click: (905, 1941), 0:00, None
+(P1) Group Units: Recall, 3
+(P1) Right Click: (2048, 2336), 0:00, None
+(P0) Right Click: (912, 1933), 0:00, None
+(P1) Right Click: (1728, 2400), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (1600, 2464), 0:00, None
+(P1) Right Click: (1280, 2464), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1216, 2400), 0:00, None
+(P1) Right Click: (1216, 2400), 0:00, None
+(P1) Right Click: (1216, 2272), 0:00, None
+(P1) Right Click: (1216, 2272), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P1) Right Click: (866, 2101), 0:00, None
+(P1) Right Click: (866, 2099), 0:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (866, 2099), 0:00, None
+(P1) Right Click: (866, 2099), 0:00, None
+(P1) Right Click: (868, 2097), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 3
+(P0) Select: 1, 1572:00
+(P0) Right Click: (3193, 739), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Target Click: (3152, 831), 0:00, None, AttackMove
+(P0) Target Click: (3158, 817), 0:00, None, AttackMove
+(P0) Target Click: (3153, 814), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1572:00
+(P0) Right Click: (3210, 776), 0:00, None
+(P0) Right Click: (3174, 808), 0:00, None
+(P0) Right Click: (3174, 809), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1524:00
+(P0) Right Click: (995, 1149), 0:00, None
+(P0) Right Click: (965, 1095), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3360, 717), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P0) Right Click: (942, 995), 0:00, None
+(P1) Target Click: (3370, 715), 0:00, None, RallyPointTile
+(P0) Right Click: (943, 996), 0:00, None
+(P1) Select: 1, 1532:00
+(P1) Right Click: (3232, 647), 0:00, None
+(P0) Right Click: (939, 1031), 0:00, None
+(P1) Right Click: (3230, 655), 0:00, None
+(P0) Right Click: (939, 1027), 0:00, None
+(P1) Stop: 
+(P1) Select: 2, 1518:00, 1529:00
+(P0) Placebox: , (29, 30), Zerg_Hatchery
+(P1) Right Click: (3286, 679), 0:00, None
+(P1) Right Click: (3286, 693), 1572:00, None
+(P0) Group Units: Recall, 3
+(P1) Right Click: (3286, 691), 1572:00, None
+(P0) Select: 2, 1528:00, 1520:00
+(P1) Shift Select: 8, 1532:00, 1525:00, 1544:00, 1527:00, 1535:00, 1548:00, 1537:00, 1550:00
+(P0) Target Click: (2848, 832), 0:00, None, AttackMove
+(P1) Group Units: Save, 3
+(P0) Target Click: (3264, 704), 0:00, None, AttackMove
+(P0) Target Click: (3104, 544), 0:00, None, AttackMove
+(P1) Group Units: Save, 3
+(P0) Right Click: (953, 1106), 0:00, None
+(P1) Select: 4, 1533:00, 1539:00, 1541:00, 1538:00
+(P0) Right Click: (953, 1105), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Right Click: (946, 1116), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Right Click: (950, 1107), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Target Click: (934, 1093), 0:00, None, AttackMove
+(P1) Group Units: Save, 4
+(P0) Group Units: Recall, 3
+(P1) Group Units: Save, 4
+(P1) Right Click: (500, 1523), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 1
+(P0) Target Click: (913, 1063), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1524:00
+(P0) Target Click: (919, 1060), 0:00, None, RallyPointTile
+(P0) Select: 1, 1519:00
+(P1) Group Units: Recall, 4
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Right Click: (448, 2176), 0:00, None
+(P0) Select: 1, 1516:00
+(P1) Right Click: (448, 2112), 0:00, None
+(P0) Select: 2, 1520:00, 1528:00
+(P1) Group Units: Recall, 1
+(P0) Target Click: (919, 1027), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Select: 2, 1523:00, 1517:00
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P0) Target Click: (887, 967), 0:00, None, RallyPointTile
+(P1) Morph Unit: 
+(P41) Public Chat: 
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 2
+(P1) Select: 2, 1521:00, 1515:00
+(P0) Target Click: (891, 948), 0:00, None, RallyPointTile
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Select: 1, 1516:00
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1553:00
+(P0) Right Click: (1248, 672), 0:00, None
+(P0) Right Click: (1344, 576), 0:00, None
+(P1) Right Click: (3760, 0), 0:00, None
+(P0) Right Click: (1344, 576), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (3758, 44), 1694:00, None
+(P0) Right Click: (1280, 1088), 0:00, None
+(P0) Target Click: (879, 961), 0:00, None, AttackMove
+(P0) Target Click: (883, 955), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3350, 707), 0:00, None, RallyPointTile
+(P0) Select: 1, 1516:00
+(P1) Group Units: Recall, 2
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Target Click: (3354, 705), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1513:00
+(P0) Group Units: Recall, 3
+(P0) Target Click: (1008, 855), 0:00, None, AttackMove
+(P1) Select: 1, 1535:00
+(P1) Right Click: (3294, 759), 0:00, None
+(P0) Target Click: (1043, 848), 0:00, None, AttackMove
+(P1) Right Click: (3294, 759), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P1) Hold Position: 
+(P0) Target Click: (1236, 606), 0:00, None, AttackMove
+(P1) Hold Position: 
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Target Click: (1247, 620), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Right Click: (200, 2129), 0:00, None
+(P1) Right Click: (260, 2073), 0:00, None
+(P1) Right Click: (268, 2061), 0:00, None
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1513:00
+(P1) Right Click: (296, 1973), 0:00, None
+(P0) Select: 4, 1514:00, 1528:00, 1522:00, 1520:00
+(P0) Right Click: (896, 977), 0:00, None
+(P1) Stop: 
+(P0) Target Click: (882, 972), 0:00, None, AttackMove
+(P0) Target Click: (875, 957), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1511:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1513:00
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1513:00
+(P1) Select: 1, 1512:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 2
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Target Click: (1192, 909), 0:00, None, AttackMove
+(P1) Target Click: (3348, 685), 0:00, None, RallyPointTile
+(P0) Target Click: (1245, 876), 0:00, None, AttackMove
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3350, 685), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1513:00
+(P1) Target Click: (3338, 689), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Target Click: (3340, 689), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Hold Position: 
+(P0) Group Units: Recall, 3
+(P1) Hold Position: 
+(P0) Right Click: (1274, 833), 0:00, None
+(P1) Select: 1, 1526:00
+(P0) Right Click: (1274, 828), 0:00, None
+(P0) Right Click: (1273, 830), 0:00, None
+(P1) Right Click: (2980, 901), 0:00, None
+(P1) Right Click: (2982, 889), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 2
+(P1) Select: 1, 1510:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 2, 1517:00, 1523:00
+(P1) Right Click: (3850, 409), 1682:00, None
+(P0) Target Click: (2496, 1120), 0:00, None, AttackMove
+(P0) Target Click: (3360, 704), 0:00, None, AttackMove
+(P0) Target Click: (3296, 704), 0:00, None, AttackMove
+(P1) Right Click: (3985, 347), 1685:00, None
+(P0) Target Click: (2432, 1280), 0:00, None, AttackMove
+(P1) Select: 1, 1523:00
+(P1) Right Click: (3895, 417), 1682:00, None
+(P0) Target Click: (2900, 1115), 0:00, None, AttackMove
+(P0) Target Click: (2895, 1107), 0:00, None, AttackMove
+(P0) Target Click: (2893, 1101), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1509:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1557:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Right Click: (4029, 180), 0:00, None
+(P1) Right Click: (4029, 192), 0:00, None
+(P1) Right Click: (4025, 192), 0:00, None
+(P1) Right Click: (4023, 192), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (4023, 190), 0:00, None
+(P1) Right Click: (4023, 186), 0:00, None
+(P1) Right Click: (4027, 186), 0:00, None
+(P1) Right Click: (4027, 184), 0:00, None
+(P1) Right Click: (4025, 182), 0:00, None
+(P0) Select: 6, 1519:00, 1507:00, 1520:00, 1528:00, 1522:00, 1514:00
+(P0) Group Units: Recall, 1
+(P1) Placebox: , (125, 5), Zerg_Spire
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Target Click: (2997, 896), 0:00, None, AttackMove
+(P1) Shift Select: 2, 1521:00, 1515:00
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1504:00
+(P1) Group Units: Save, 3
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Select: 1, 1505:00
+(P1) Shift Select: 1, 1506:00
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 4
+(P0) Group Units: Recall, 2
+(P1) Shift Select: 2, 1521:00, 1515:00
+(P1) Right Click: (3307, 724), 0:00, None
+(P1) Hold Position: Queued
+(P0) Group Units: Recall, 1
+(P1) Select: 4, 1538:00, 1533:00, 1539:00, 1541:00
+(P0) Group Units: Recall, 2
+(P1) Group Units: Save, 5
+(P1) Group Units: Save, 5
+(P1) Group Units: Save, 5
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1580:00
+(P0) Group Units: Recall, 2
+(P1) Target Click: (1055, 1116), 1567:00, None, Patrol
+(P0) Select: 8, 1507:00, 1519:00, 1520:00, 1528:00, 1522:00, 1516:00, 1503:00, 1514:00
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1508:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 2
+(P1) Select: 1, 1502:00
+(P0) Shift Select: 3, 1499:00, 1498:00, 1513:00
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3336, 687), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3334, 687), 0:00, None, RallyPointTile
+(P0) Shift Deselect: 1, 1499:00
+(P1) Select: 1, 1502:00
+(P0) Right Click: (844, 1106), 0:00, None
+(P0) Group Units: Save, 4
+(P0) Right Click: (817, 1114), 0:00, None
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1499:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P0) Right Click: (365, 1275), 0:00, None
+(P0) Right Click: (365, 1275), 0:00, None
+(P0) Right Click: (243, 1271), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3072, 800), 0:00, None, AttackMove
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Target Click: (2720, 384), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P1) Select: 1, 1566:00
+(P0) Target Click: (2899, 215), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 4
+(P0) Right Click: (545, 1317), 0:00, None
+(P0) Right Click: (538, 1311), 0:00, None
+(P0) Shift Select: 2, 1511:00, 1501:00
+(P0) Group Units: Save, 4
+(P0) Right Click: (311, 1405), 0:00, None
+(P0) Target Click: (358, 1522), 0:00, None, AttackMove
+(P0) Target Click: (343, 1531), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1495:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 5
+(P0) Group Units: Recall, 4
+(P0) Right Click: (479, 1671), 0:00, None
+(P0) Right Click: (479, 1671), 0:00, None
+(P0) Right Click: (481, 1670), 0:00, None
+(P0) Right Click: (480, 1706), 0:00, None
+(P0) Right Click: (483, 1718), 0:00, None
+(P0) Right Click: (483, 1719), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (362, 2037), 0:00, None, AttackMove
+(P0) Target Click: (356, 2047), 0:00, None, AttackMove
+(P0) Target Click: (356, 2075), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1497:00
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1553:00
+(P0) Group Units: Recall, 2
+(P1) Right Click: (3958, 195), 1690:00, None
+(P0) Group Units: Recall, 4
+(P0) Target Click: (544, 2112), 0:00, None, AttackMove
+(P1) Select: 1, 1566:00
+(P1) Right Click: (3754, 355), 0:00, None
+(P0) Target Click: (252, 2187), 0:00, None, AttackMove
+(P0) Target Click: (284, 2183), 0:00, None, AttackMove
+(P0) Target Click: (288, 2145), 0:00, None, AttackMove
+(P1) Select: 1, 1559:00
+(P0) Target Click: (333, 2137), 0:00, None, AttackMove
+(P1) Right Click: (3974, 201), 1690:00, None
+(P0) Target Click: (323, 2133), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 5
+(P1) Right Click: (1280, 3104), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (1472, 3424), 0:00, None
+(P0) Select: 1, 1491:00
+(P1) Right Click: (1088, 3616), 0:00, None
+(P0) Group Units: Recall, 4
+(P1) Right Click: (220, 3934), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Right Click: (423, 2093), 0:00, None
+(P0) Right Click: (424, 2101), 0:00, None
+(P0) Right Click: (456, 2263), 0:00, None
+(P0) Right Click: (457, 2259), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (551, 2356), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Right Click: (523, 2373), 0:00, None
+(P0) Right Click: (501, 2395), 0:00, None
+(P1) Select: 1, 1566:00
+(P0) Target Click: (491, 2400), 0:00, None, AttackMove
+(P0) Target Click: (503, 2405), 0:00, None, AttackMove
+(P1) Placebox: , (116, 10), Zerg_Creep_Colony
+(P0) Target Click: (515, 2406), 0:00, None, AttackMove
+(P0) Right Click: (793, 2498), 0:00, None
+(P0) Right Click: (789, 2510), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1691:00
+(P1) Select: 1, 1557:00
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1491:00
+(P1) Select: 1, 1583:00
+(P1) Select: 1, 1490:00
+(P0) Morph Unit: 
+(P42) Public Chat: 
+(P0) Morph Unit: 
+(P42) Public Chat: 
+(P0) Group Units: Recall, 3
+(P0) Right Click: (588, 2732), 0:00, None
+(P0) Right Click: (590, 2772), 0:00, None
+(P0) Group Units: Recall, 4
+(P0) Target Click: (598, 2760), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P0) Target Click: (3040, 352), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P0) Right Click: (578, 2857), 0:00, None
+(P0) Right Click: (624, 2847), 0:00, None
+(P0) Right Click: (624, 2849), 0:00, None
+(P0) Right Click: (387, 2839), 0:00, None
+(P0) Right Click: (133, 2753), 0:00, None
+(P0) Right Click: (136, 2752), 0:00, None
+(P0) Right Click: (49, 2748), 0:00, None
+(P0) Right Click: (31, 2755), 0:00, None
+(P0) Right Click: (29, 2762), 0:00, None
+(P0) Right Click: (82, 2807), 0:00, None
+(P0) Right Click: (108, 2834), 0:00, None
+(P0) Right Click: (142, 2857), 0:00, None
+(P0) Right Click: (149, 2841), 0:00, None
+(P0) Target Click: (3136, 896), 0:00, None, AttackMove
+(P0) Target Click: (3135, 903), 0:00, None, AttackMove
+(P0) Target Click: (3120, 919), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P0) Target Click: (3009, 795), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P0) Target Click: (3101, 913), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 5
+(P1) Right Click: (784, 3180), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (800, 3168), 0:00, None
+(P1) Right Click: (806, 3172), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1489:00
+(P1) Select: 1, 1490:00
+(P0) Group Units: Recall, 2
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Select: 1, 1484:00
+(P1) Select: 1, 1577:00
+(P1) Select: 2, 1486:00, 1493:00
+(P0) Group Units: Recall, 1
+(P0) Select: 6, 1499:00, 1509:00, 1488:00, 1494:00, 1492:00, 1504:00
+(P0) Shift Select: 1, 1485:00
+(P0) Shift Select: 1, 1495:00
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P1) Shift Select: 7, 1503:01, 1500:00, 1496:00, 1510:00, 1512:00, 1487:00, 1502:00
+(P1) Shift Select: 1, 1508:00
+(P0) Group Units: Save, 5
+(P1) Group Units: Save, 4
+(P0) Right Click: (2144, 1376), 0:00, None
+(P1) Group Units: Save, 4
+(P1) Select: 1, 1566:00
+(P0) Target Click: (2724, 938), 0:00, None, AttackMove
+(P1) Morph Building: 
+(P146) Public Chat: 
+(P1) Morph Building: 
+(P146) Public Chat: 
+(P0) Target Click: (2741, 935), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P1) Shift Select: 2, 1483:00, 1497:00
+(P0) Right Click: (2879, 700), 0:00, None
+(P0) Right Click: (2881, 700), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Right Click: (3149, 852), 0:00, None
+(P1) Group Units: Save, 4
+(P0) Right Click: (3143, 865), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1572:00
+(P1) Hold Position: 
+(P0) Right Click: (3405, 755), 0:00, None
+(P1) Group Units: Recall, 4
+(P1) Hold Position: 
+(P0) Right Click: (3355, 761), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Select: 1, 1560:00
+(P0) Right Click: (2894, 861), 0:00, None
+(P1) Right Click: (128, 112), 0:00, None
+(P0) Right Click: (2901, 861), 0:00, None
+(P1) Target Click: (268, 144), 1554:00, None, 
+(P1) Target Click: (294, 140), 1552:00, None, , Queued
+(P0) Select: 1, 1572:00
+(P1) Target Click: (318, 100), 1574:00, None, , Queued
+(P0) Right Click: (3639, 441), 0:00, None
+(P1) Target Click: (326, 152), 0:00, None, AttackMove, Queued
+(P0) Right Click: (3614, 462), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Right Click: (3049, 800), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (3055, 792), 0:00, None
+(P1) Group Units: Recall, 4
+(P0) Right Click: (3183, 759), 0:00, None
+(P0) Right Click: (3201, 741), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3203, 733), 0:00, None
+(P1) Target Click: (3420, 755), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P0) Right Click: (3167, 953), 0:00, None
+(P1) Target Click: (3418, 757), 0:00, None, RallyPointTile
+(P0) Right Click: (3148, 936), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Right Click: (3142, 933), 0:00, None
+(P0) Right Click: (3111, 914), 0:00, None
+(P0) Right Click: (3079, 887), 0:00, None
+(P0) Right Click: (3063, 837), 0:00, None
+(P0) Right Click: (3020, 806), 0:00, None
+(P0) Right Click: (3035, 801), 0:00, None
+(P0) Right Click: (3045, 796), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Select: 4, 1543:00, 1549:00, 1534:00, 1564:01
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3199, 844), 0:00, None
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3258, 834), 0:00, None
+(P1) Select: 1, 1566:00
+(P1) Group Units: Recall, 2
+(P0) Right Click: (3271, 835), 0:00, None
+(P0) Right Click: (3271, 832), 0:00, None
+(P0) Right Click: (3274, 831), 0:00, None
+(P1) Select: 1, 1517:00
+(P0) Right Click: (3129, 915), 0:00, None
+(P0) Right Click: (3124, 919), 0:00, None
+(P0) Right Click: (3114, 909), 0:00, None
+(P1) Select: 1, 1578:00
+(P0) Right Click: (3109, 908), 0:00, None
+(P1) Right Click: (3856, 165), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Select: 2, 1481:00, 1489:00
+(P1) Placebox: , (118, 5), Zerg_Creep_Colony
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P0) Select: 2, 1478:00, 1484:00
+(P0) Select: 1, 1524:00
+(P0) Select: 1, 1479:00
+(P0) Select: 1, 1524:00
+(P0) Target Click: (905, 948), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P0) Select: 1, 1479:00
+(P1) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Select: 1, 1524:00
+(P0) Select: 1, 1479:00
+(P1) Group Units: Recall, 1
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1489:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Recall, 2
+(P0) Select: 1, 1567:00
+(P1) Group Units: Recall, 1
+(P0) Select: 2, 1478:00, 1484:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1561:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (3776, 94), 1694:00, None
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 5
+(P1) Select: 2, 1477:00, 1482:00
+(P0) Right Click: (3122, 1060), 0:00, None
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1577:00
+(P0) Right Click: (3119, 1053), 0:00, None
+(P1) Select: 3, 1486:00, 1493:00, 1480:00
+(P0) Group Units: Recall, 3
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P1) Morph Unit: 
+(P42) Public Chat: 
+(P0) Right Click: (3036, 904), 1564:01, None
+(P0) Right Click: (3036, 905), 1564:01, None
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Right Click: (3495, 848), 0:00, None
+(P0) Right Click: (3479, 845), 0:00, None
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3482, 784), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P0) Target Click: (3474, 730), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P0) Group Units: Recall, 5
+(P0) Target Click: (3485, 724), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P1) Group Units: Save, 4
+(P0) Target Click: (3463, 760), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3048, 709), 0:00, None, AttackMove
+(P0) Target Click: (3467, 760), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P1) Target Click: (3038, 731), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3012, 753), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P1) Target Click: (3016, 749), 0:00, None, AttackMove
+(P0) Target Click: (3391, 694), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3018, 745), 0:00, None, AttackMove
+(P0) Target Click: (3432, 688), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P1) Target Click: (3018, 745), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3425, 671), 0:00, None, AttackMove
+(P1) Select: 1, 1482:00
+(P0) Group Units: Recall, 4
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Target Click: (3432, 696), 0:00, None, AttackMove
+(P1) Group Units: Recall, 2
+(P1) Select: 2, 1493:00, 1480:00
+(P0) Target Click: (3428, 695), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 4
+(P0) Group Units: Recall, 3
+(P0) Target Click: (3397, 669), 0:00, None, AttackMove
+(P0) Group Units: Recall, 5
+(P1) Select: 1, 1476:00
+(P0) Target Click: (3403, 660), 0:00, None, AttackMove
+(P1) Target Click: (3418, 701), 0:00, None, AttackMove
+(P0) Target Click: (3412, 656), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Shift Select: 1, 1490:00
+(P1) Target Click: (3078, 725), 0:00, None, AttackMove
+(P1) Target Click: (3092, 751), 0:00, None, AttackMove
+(P0) Select: 1, 1475:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3186, 839), 0:00, None, AttackMove
+(P0) Select: 1, 1527:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Target Click: (3152, 843), 0:00, None, AttackMove
+(P1) Group Units: Save, 4
+(P0) Select: 1, 1524:00
+(P0) Select: 1, 1474:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 1
+(P1) Shift Select: 10, 1483:00, 1497:00, 1508:00, 1515:00, 1503:01, 1502:00, 1496:00, 1535:00, 1487:00, 1512:00
+(P0) Target Click: (381, 189), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Target Click: (379, 175), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 5
+(P1) Shift Select: 1, 1510:00
+(P1) Group Units: Save, 3
+(P0) Select: 10, 1568:00, 1562:00, 1558:00, 1571:00, 1573:00, 1569:00, 1556:00, 1574:00, 1552:00, 1554:00
+(P1) Group Units: Save, 3
+(P0) Right Click: (465, 126), 1571:00, None
+(P1) Target Click: (3068, 817), 0:00, None, AttackMove
+(P0) Right Click: (415, 108), 1697:00, None
+(P1) Group Units: Recall, 1
+(P0) Right Click: (411, 103), 1697:00, None
+(P0) Right Click: (410, 102), 1697:00, None
+(P1) Select: 1, 1529:01
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Right Click: (409, 99), 1697:00, None
+(P1) Group Units: Recall, 2
+(P0) Right Click: (409, 99), 1697:00, None
+(P1) Select: 2, 1480:00, 1493:00
+(P0) Right Click: (411, 98), 1697:00, None
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1578:00
+(P0) Right Click: (411, 98), 1697:00, None
+(P0) Target Click: (423, 208), 0:00, None, AttackMove
+(P0) Target Click: (427, 208), 0:00, None, AttackMove
+(P0) Select: 2, 1481:00, 1520:01
+(P0) Target Click: (344, 191), 1541:00, None, 
+(P0) Target Click: (331, 185), 0:00, None, AttackMove
+(P0) Target Click: (316, 177), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 4
+(P1) Target Click: (3154, 837), 0:00, None, AttackMove
+(P0) Shift Select: 3, 1485:00, 1492:00, 1504:00
+(P0) Right Click: (576, 1152), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Right Click: (576, 1152), 0:00, None
+(P0) Right Click: (160, 1600), 0:00, None
+(P0) Right Click: (2496, 1696), 0:00, None
+(P1) Right Click: (146, 191), 0:00, None
+(P0) Right Click: (1280, 1888), 0:00, None
+(P1) Right Click: (128, 139), 0:00, None
+(P0) Right Click: (1984, 1696), 0:00, None
+(P1) Right Click: (120, 127), 0:00, None
+(P1) Right Click: (114, 115), 0:00, None
+(P1) Right Click: (90, 109), 0:00, None
+(P0) Shift Select: 1, 1494:00
+(P1) Right Click: (94, 161), 0:00, None
+(P0) Right Click: (672, 1152), 0:00, None
+(P1) Right Click: (264, 353), 0:00, None
+(P0) Right Click: (768, 1120), 0:00, None
+(P1) Right Click: (264, 383), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (256, 385), 0:00, None
+(P0) Select: 1, 1513:01
+(P1) Right Click: (3136, 1120), 0:00, None
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (3392, 736), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (3330, 727), 0:00, None
+(P0) Select: 1, 1573:00
+(P0) Right Click: (408, 105), 1697:00, None
+(P1) Shift Select: 4, 1508:00, 1496:00, 1512:00, 1490:00
+(P1) Right Click: (3340, 763), 0:00, None, Queued
+(P0) Shift Select: 6, 1569:00, 1571:00, 1556:00, 1562:00, 1558:00, 1568:00
+(P0) Right Click: (424, 125), 1697:00, None
+(P1) Right Click: (3829, 438), 0:00, None
+(P1) Right Click: (3841, 444), 1682:00, None
+(P1) Group Units: Recall, 5
+(P0) Select: 8, 1478:00, 1507:01, 1484:00, 1552:01, 1481:00, 1489:00, 1520:01, 1510:01
+(P0) Target Click: (535, 576), 0:00, None, AttackMove
+(P0) Target Click: (516, 557), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Target Click: (856, 771), 0:00, None, AttackMove
+(P1) Group Units: Recall, 5
+(P1) Right Click: (1249, 941), 0:00, None
+(P1) Right Click: (1255, 941), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (1098, 891), 0:00, None, AttackMove
+(P0) Target Click: (1074, 886), 0:00, None, AttackMove
+(P0) Target Click: (1066, 885), 0:00, None, AttackMove
+(P1) Select: 1, 1578:00
+(P0) Group Units: Recall, 1
+(P1) Select: 1, 1583:00
+(P0) Select: 1, 1524:00
+(P1) Select: 1, 1494:01
+(P0) Select: 1, 1538:01
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P1) Group Units: Recall, 5
+(P0) Select: 7, 1479:00, 1478:00, 1481:00, 1507:01, 1484:00, 1552:01, 1501:01
+(P1) Right Click: (1315, 738), 0:00, None
+(P1) Right Click: (1305, 740), 0:00, None
+(P0) Target Click: (3904, 928), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Target Click: (3488, 672), 0:00, None, AttackMove
+(P0) Target Click: (3424, 576), 0:00, None, AttackMove
+(P1) Group Units: Recall, 6
+(P1) Group Units: Recall, 5
+(P0) Target Click: (3616, 512), 0:00, None, AttackMove
+(P0) Target Click: (3488, 480), 0:00, None, AttackMove
+(P1) Right Click: (1377, 518), 0:00, None
+(P1) Right Click: (1391, 514), 0:00, None
+(P1) Group Units: Recall, 2
+(P0) Shift Select: 1, 1510:01
+(P1) Select: 3, 1493:00, 1497:01, 1533:01
+(P1) Group Units: Recall, 5
+(P1) Group Units: Recall, 4
+(P1) Right Click: (1567, 354), 0:00, None
+(P1) Right Click: (1403, 300), 0:00, None
+(P0) Shift Select: 3, 1491:00, 1489:00, 1520:01
+(P1) Right Click: (1393, 290), 0:00, None
+(P1) Group Units: Recall, 5
+(P1) Right Click: (1379, 270), 0:00, None
+(P1) Right Click: (1375, 270), 0:00, None
+(P0) Shift Deselect: 1, 1491:00
+(P0) Group Units: Save, 3
+(P0) Target Click: (3840, 704), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 4
+(P0) Target Click: (3328, 576), 0:00, None, AttackMove
+(P1) Right Click: (3872, 384), 0:00, None
+(P1) Group Units: Recall, 5
+(P1) Right Click: (1277, 116), 0:00, None
+(P1) Right Click: (1249, 156), 0:00, None
+(P1) Right Click: (1217, 204), 0:00, None
+(P0) Shift Select: 2, 1519:00, 1504:00
+(P1) Right Click: (1302, 451), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Right Click: (1302, 457), 0:00, None
+(P1) Right Click: (1284, 469), 0:00, None
+(P0) Target Click: (4000, 352), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Right Click: (1262, 533), 0:00, None
+(P1) Right Click: (1254, 551), 0:00, None
+(P0) Select: 1, 1535:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P1) Right Click: (1160, 641), 0:00, None
+(P0) Select: 1, 1492:01
+(P1) Right Click: (1152, 641), 0:00, None
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (1146, 655), 0:00, None
+(P1) Group Units: Save, 3
+(P1) Group Units: Save, 3
+(P0) Select: 4, 1527:01, 1476:01, 1574:01, 1475:00
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P0) Target Click: (416, 165), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3424, 640), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3552, 480), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Right Click: (576, 2176), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (190, 2762), 0:00, None
+(P1) Right Click: (188, 2772), 0:00, None
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3135, 916), 0:00, None, RallyPointTile
+(P0) Group Units: Recall, 2
+(P0) Target Click: (3095, 927), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 1
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1503:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1577:00
+(P0) Select: 1, 1524:00
+(P1) Select: 1, 1578:00
+(P1) Morph Building: 
+(P146) Public Chat: 
+(P1) Morph Building: 
+(P146) Public Chat: 
+(P1) Select: 3, 1493:00, 1497:01, 1533:01
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Target Click: (2526, 1085), 0:00, None, RallyPointTile
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Target Click: (2969, 1057), 0:00, None, RallyPointTile
+(P1) Select: 8, 1482:00, 1477:00, 1480:00, 1487:01, 1536:01, 1529:01, 1515:01, 1541:01
+(P1) Target Click: (3328, 703), 0:00, None, AttackMove
+(P0) Select: 1, 1499:01
+(P1) Target Click: (3332, 703), 0:00, None, AttackMove
+(P1) Target Click: (3320, 701), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Target Click: (3795, 380), 0:00, None, AttackMove
+(P0) Group Units: Recall, 2
+(P1) Shift Select: 4, 1508:00, 1496:00, 1490:00, 1512:00
+(P1) Group Units: Save, 3
+(P0) Select: 3, 1554:01, 1485:00, 1474:00
+(P1) Group Units: Save, 3
+(P1) Target Click: (3671, 232), 0:00, None, AttackMove
+(P0) Target Click: (3520, 1152), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3552, 768), 0:00, None, AttackMove
+(P1) Target Click: (3763, 402), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3753, 396), 0:00, None, RallyPointTile
+(P0) Target Click: (3507, 739), 0:00, None, AttackMove
+(P1) Select: 2, 1497:01, 1533:01
+(P0) Target Click: (3501, 736), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1539:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Select: 1, 1583:00
+(P1) Group Units: Recall, 4
+(P1) Right Click: (3669, 128), 0:00, None
+(P0) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3697, 158), 0:00, None
+(P0) Select: 1, 1578:00
+(P1) Right Click: (3699, 156), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1572:00
+(P1) Target Click: (3793, 372), 0:00, None, RallyPointTile
+(P0) Right Click: (3772, 342), 1566:00, None
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3785, 370), 0:00, None, RallyPointTile
+(P0) Right Click: (3792, 290), 1583:00, None
+(P1) Select: 2, 1497:01, 1533:01
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3833, 247), 1583:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (3837, 253), 1583:00, None
+(P1) Stop: 
+(P1) Stop: 
+(P0) Select: 1, 1524:00
+(P0) Select: 2, 1483:01, 1499:01
+(P1) Right Click: (3873, 185), 0:00, None
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Save, 3
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Group Units: Save, 3
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3881, 283), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3885, 283), 0:00, None, RallyPointTile
+(P0) Right Click: (3386, 508), 0:00, None
+(P0) Right Click: (3385, 503), 0:00, None
+(P1) Select: 2, 1497:01, 1533:01
+(P0) Right Click: (3334, 493), 0:00, None
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Right Click: (3315, 466), 0:00, None
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Right Click: (3299, 448), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 3
+(P0) Right Click: (3247, 306), 0:00, None
+(P0) Right Click: (3248, 284), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Right Click: (3235, 206), 0:00, None
+(P1) Target Click: (3788, 459), 0:00, None, AttackMove
+(P0) Right Click: (3225, 206), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3215, 220), 0:00, None
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Right Click: (3210, 209), 0:00, None
+(P1) Right Click: (3904, 382), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3892, 420), 1682:00, None
+(P1) Right Click: (3886, 428), 1682:00, None
+(P1) Right Click: (3886, 436), 1682:00, None
+(P0) Group Units: Recall, 2
+(P1) Right Click: (3904, 316), 0:00, None
+(P0) Select: 1, 1502:01
+(P0) Select: 1, 1578:00
+(P1) Right Click: (3822, 344), 1480:00, None
+(P0) Group Units: Recall, 3
+(P0) Right Click: (3406, 48), 0:00, None
+(P0) Right Click: (3408, 46), 0:00, None
+(P1) Hold Position: 
+(P0) Group Units: Save, 3
+(P1) Hold Position: 
+(P0) Right Click: (3397, 62), 0:00, None
+(P1) Select: 1, 1494:01
+(P0) Right Click: (3189, 43), 0:00, None
+(P1) Right Click: (3630, 302), 0:00, None
+(P0) Right Click: (3240, 27), 0:00, None
+(P1) Right Click: (3628, 280), 0:00, None
+(P0) Group Units: Save, 3
+(P0) Right Click: (3253, 0), 0:00, None
+(P1) Group Units: Save, 5
+(P0) Group Units: Save, 3
+(P1) Group Units: Save, 5
+(P0) Right Click: (3280, 1), 0:00, None
+(P0) Right Click: (3229, 17), 0:00, None
+(P0) Right Click: (3162, 59), 0:00, None
+(P1) Right Click: (200, 214), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 5
+(P0) Group Units: Recall, 2
+(P1) Target Click: (472, 160), 1558:00, None, 
+(P0) Select: 1, 1502:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Target Click: (466, 116), 1556:00, None, , Queued
+(P1) Target Click: (410, 234), 1562:00, None, , Queued
+(P0) Group Units: Recall, 3
+(P1) Target Click: (380, 140), 1573:00, None, , Queued
+(P0) Select: 3, 1527:01, 1476:01, 1475:00
+(P1) Target Click: (368, 108), 1569:00, None, , Queued
+(P0) Shift Select: 1, 1574:01
+(P1) Target Click: (326, 118), 1568:00, None, , Queued
+(P1) Target Click: (318, 196), 1571:00, None, , Queued
+(P0) Shift Select: 3, 1513:01, 1474:00, 1554:01
+(P1) Target Click: (270, 178), 0:00, None, AttackMove, Queued
+(P0) Group Units: Recall, 3
+(P0) Right Click: (3335, 92), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Target Click: (3316, 73), 0:00, None, AttackMove
+(P1) Select: 2, 1564:01, 1509:01
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 3
+(P1) Group Units: Recall, 2
+(P1) Select: 2, 1533:01, 1576:01
+(P0) Target Click: (3221, 143), 0:00, None, AttackMove
+(P0) Right Click: (3220, 117), 0:00, None
+(P0) Right Click: (3220, 108), 0:00, None
+(P1) Group Units: Recall, 1
+(P1) Target Click: (3817, 364), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3799, 362), 0:00, None, RallyPointTile
+(P1) Select: 2, 1533:01, 1576:01
+(P0) Select: 3, 1476:01, 1475:00, 1574:01
+(P0) Shift Select: 1, 1527:01
+(P0) Right Click: (3308, 778), 0:00, None, Queued
+(P0) Right Click: (3295, 773), 0:00, None
+(P0) Shift Select: 4, 1489:00, 1552:01, 1474:00, 1554:01
+(P0) Right Click: (3005, 703), 0:00, None
+(P0) Shift Select: 4, 1520:01, 1485:00, 1488:01, 1513:01
+(P0) Group Units: Recall, 4
+(P0) Right Click: (3518, 780), 0:00, None
+(P0) Group Units: Recall, 4
+(P0) Right Click: (3737, 593), 0:00, None
+(P0) Right Click: (3747, 585), 0:00, None
+(P0) Right Click: (3754, 574), 0:00, None
+(P0) Group Units: Recall, 4
+(P0) Right Click: (3701, 607), 0:00, None
+(P0) Right Click: (3310, 735), 0:00, None
+(P0) Right Click: (3308, 741), 0:00, None
+(P0) Right Click: (3134, 724), 0:00, None
+(P0) Select: 12, 1476:01, 1485:00, 1488:01, 1527:01, 1475:00, 1510:01, 1554:01, 1495:01, 1552:01, 1474:00, 1574:01, 1538:01
+(P0) Right Click: (3279, 804), 0:00, None
+(P0) Group Units: Save, 4
+(P0) Right Click: (3613, 781), 0:00, None
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1528:01
+(P1) Select: 1, 1493:00
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1534:01
+(P1) Target Click: (3771, 268), 1572:00, None, 
+(P0) Group Units: Recall, 4
+(P0) Right Click: (3867, 741), 0:00, None
+(P0) Right Click: (3879, 740), 0:00, None
+(P0) Group Units: Recall, 3
+(P0) Target Click: (3894, 214), 0:00, None, AttackMove
+(P0) Group Units: Recall, 4
+(P0) Target Click: (3877, 211), 0:00, None, AttackMove
+(P0) Target Click: (3865, 213), 0:00, None, AttackMove
+(P0) Group Units: Recall, 3
+(P1) Select: 1, 1577:00
+(P0) Target Click: (3870, 213), 0:00, None, AttackMove
+(P1) Select: 3, 1576:01, 1533:01, 1500:01
+(P0) Group Units: Recall, 4
+(P0) Target Click: (3864, 215), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P0) Group Units: Recall, 2
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Select: 1, 1534:01
+(P1) Morph Unit: 
+(P43) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Select: 1, 1493:00
+(P1) Target Click: (3751, 441), 1485:00, None, 
+(P0) Select: 1, 1560:00
+(P1) Target Click: (3751, 439), 0:00, None, AttackMove
+(P1) Target Click: (3771, 443), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3633, 235), 0:00, None, AttackMove
+(P1) Group Units: Recall, 4
+(P1) Target Click: (3629, 239), 0:00, None, AttackMove
+(P0) Select: 2, 1492:01, 1511:01
+(P1) Select: 9, 1517:00, 1551:00, 1565:00, 1579:00, 1523:00, 1559:00, 1582:00, 1553:00, 1581:00
+(P0) Target Click: (3744, 128), 0:00, None, AttackMove
+(P1) Right Click: (3803, 102), 0:00, None
+(P1) Right Click: (3759, 76), 1694:00, None
+(P0) Select: 4, 1498:01, 1535:01, 1503:01, 1521:01
+(P0) Target Click: (3872, 416), 0:00, None, AttackMove
+(P1) Right Click: (3861, 439), 1682:00, None
+(P0) Target Click: (3847, 205), 0:00, None, AttackMove
+(P1) Return Cargo: 
+(P0) Target Click: (3875, 204), 0:00, None, AttackMove
+(P0) Target Click: (3881, 201), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P0) Target Click: (3876, 209), 0:00, None, AttackMove
+(P1) Right Click: (3869, 257), 0:00, None
+(P0) Group Units: Recall, 1
+(P1) Right Click: (3865, 205), 0:00, None
+(P0) Select: 1, 1506:01
+(P1) Right Click: (3879, 266), 0:00, None
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (3877, 256), 0:00, None
+(P0) Group Units: Recall, 2
+(P0) Select: 1, 1566:00
+(P1) Select: 2, 1493:00, 1497:01
+(P1) Target Click: (3747, 450), 0:00, None, AttackMove
+(P0) Group Units: Recall, 1
+(P1) Group Units: Save, 5
+(P0) Group Units: Recall, 2
+(P1) Select: 12, 1490:00, 1536:01, 1480:00, 1487:01, 1512:00, 1477:00, 1529:01, 1564:01, 1520:01, 1509:01, 1489:01, 1541:01
+(P1) Group Units: Save, 3
+(P0) Select: 1, 1524:00
+(P0) Select: 3, 1499:01, 1574:01, 1522:01
+(P1) Target Click: (3777, 452), 0:00, None, AttackMove
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3741, 428), 0:00, None, AttackMove
+(P1) Group Units: Recall, 5
+(P0) Select: 6, 1556:00, 1562:00, 1573:00, 1569:00, 1568:00, 1571:00
+(P1) Group Units: Recall, 3
+(P1) Target Click: (3731, 438), 0:00, None, AttackMove
+(P0) Right Click: (300, 102), 1696:00, None
+(P1) Group Units: Recall, 5
+(P1) Target Click: (3727, 450), 0:00, None, AttackMove
+(P0) Right Click: (291, 106), 1696:00, None
+(P0) Group Units: Recall, 1
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 2
+(P1) Target Click: (3899, 254), 0:00, None, AttackMove
+(P0) Select: 1, 1488:01
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Right Click: (3915, 280), 0:00, None
+(P1) Right Click: (3919, 300), 0:00, None
+(P1) Right Click: (3913, 294), 0:00, None
+(P1) Right Click: (3911, 290), 0:00, None
+(P0) Select: 1, 1577:00
+(P1) Group Units: Recall, 5
+(P1) Target Click: (3779, 442), 0:00, None, AttackMove
+(P0) Select: 1, 1583:00
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3909, 236), 0:00, None
+(P0) Select: 1, 1578:00
+(P1) Right Click: (3905, 234), 0:00, None
+(P0) Select: 1, 1583:00
+(P1) Right Click: (3909, 228), 0:00, None
+(P1) Right Click: (3909, 194), 0:00, None
+(P1) Right Click: (3909, 182), 0:00, None
+(P0) Select: 4, 1539:01, 1483:01, 1516:01, 1507:01
+(P1) Target Click: (3803, 445), 0:00, None, AttackMove
+(P1) Group Units: Recall, 5
+(P1) Target Click: (3803, 447), 0:00, None, AttackMove
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3211, 899), 0:00, None
+(P1) Select: 2, 1501:01, 1505:01
+(P0) Right Click: (3176, 896), 0:00, None
+(P0) Shift Select: 1, 1513:01
+(P0) Right Click: (3161, 865), 0:00, None, Queued
+(P1) Select: 2, 1517:00, 1581:00
+(P0) Group Units: Save, 3
+(P0) Right Click: (3348, 716), 0:00, None
+(P1) Right Click: (3751, 120), 1572:00, None
+(P0) Group Units: Save, 3
+(P0) Right Click: (3667, 453), 0:00, None
+(P1) Right Click: (3797, 74), 1694:00, None
+(P0) Right Click: (3666, 453), 0:00, None
+(P1) Group Units: Recall, 5
+(P0) Group Units: Save, 3
+(P1) Target Click: (3735, 82), 1572:00, None, 
+(P1) Group Units: Recall, 1
+(P0) Select: 1, 1583:00
+(P0) Group Units: Recall, 3
+(P0) Right Click: (3466, 309), 0:00, None
+(P1) Select: 2, 1505:01, 1501:01
+(P0) Right Click: (3462, 300), 0:00, None
+(P1) Group Units: Recall, 2
+(P0) Group Units: Save, 3
+(P0) Right Click: (3308, 262), 0:00, None
+(P1) Select: 3, 1533:01, 1500:01, 1477:01
+(P1) Morph Unit: 
+(P37) Public Chat: 
+(P0) Right Click: (3308, 262), 0:00, None
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 1
+(P0) Right Click: (3279, 273), 0:00, None
+(P1) Target Click: (3791, 381), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 2
+(P1) Target Click: (3785, 373), 0:00, None, RallyPointTile
+(P1) Group Units: Recall, 3
+(P1) Right Click: (3933, 219), 0:00, None
+(P1) Right Click: (3923, 217), 0:00, None
+(P1) Group Units: Recall, 1
+(P0) Shift Select: 2, 1502:01, 1514:01
+(P1) Select: 2, 1505:01, 1501:01
+(P0) Group Units: Save, 3
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 1
+(P0) Group Units: Save, 3
+(P1) Select: 2, 1501:01, 1505:01
+(P0) Right Click: (3400, 78), 0:00, None
+(P0) Right Click: (3404, 85), 0:00, None
+(P1) Select: 1, 1578:00
+(P0) Group Units: Recall, 1
+(P0) Select: 1, 1479:01
+(P1) Group Units: Recall, 3
+(P0) Morph Unit: 
+(P37) Public Chat: 
+(P1) Target Click: (3679, 176), 0:00, None, AttackMove
+(P1) Target Click: (3679, 176), 0:00, None, AttackMove
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P1) Group Units: Recall, 1
+(P1) Group Units: Recall, 2
+(P1) Group Units: Recall, 3
+(P0) Group Units: Recall, 1
+(P0) Leave Game: Defeat

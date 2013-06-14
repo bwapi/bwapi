@@ -17,8 +17,8 @@ class CancelConstructionTest : public TestCase
     int nextFrame;
     int finishFrame;
     BWAPI::TilePosition buildLocation;
-    BWAPI::Unit* builder;
-    BWAPI::Unit* building;
+    BWAPI::Unit builder;
+    BWAPI::Unit building;
     int correctMineralCount;
     int correctGasCount;
     int correctSupplyUsedCount;

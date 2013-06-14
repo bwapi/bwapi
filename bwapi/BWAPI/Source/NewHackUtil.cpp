@@ -1,20 +1,3 @@
-/*  HackUtil is a set of functions that make import detours and code patching easier.
-    Copyright (C) 2010  Adam Heinermann
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "NewHackUtil.h"
 
 #include "../../Debug.h"
@@ -84,7 +67,7 @@ namespace HackUtil
     return NULL;
   }
 
-  FARPROC PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
+  FARPROC PatchImportOld(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction)
   {
     if ( !name )
       return NULL;
@@ -114,7 +97,7 @@ namespace HackUtil
       }
       else
       {
-        if (strcmpi(name, (const char*)((PIMAGE_IMPORT_BY_NAME)((u32)importOrigin[i].u1.AddressOfData + (u32)tempModule))->Name) == 0)
+        if (_strcmpi(name, (const char*)((PIMAGE_IMPORT_BY_NAME)((u32)importOrigin[i].u1.AddressOfData + (u32)tempModule))->Name) == 0)
         {
           FARPROC oldFxn = (FARPROC)importFunction[i];
           WriteMem(&importFunction[i], &patchFunction, 4);
@@ -123,21 +106,6 @@ namespace HackUtil
       }
     }
     return NULL;
-  }
-
-  FARPROC PatchImport(char* importModule, LPCSTR name, void* patchFunction)
-  {
-    return PatchImport(NULL, importModule, name, patchFunction);
-  }
-
-  FARPROC PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction)
-  {
-    return PatchImport(sourceModule, importModule, (LPCSTR)ordinal, patchFunction);
-  }
-  
-  FARPROC PatchImport(char* importModule, int ordinal, void* patchFunction)
-  {
-    return PatchImport(NULL, importModule, (LPCSTR)ordinal, patchFunction);
   }
 
   FARPROC GetImport(char* importModule, LPCSTR name)
@@ -254,8 +222,8 @@ namespace HackUtil
 
   void Revert()
   {
-    for each (memPatch i in changes)
-      WriteMemRaw(i.location, i.patch, i.patchSize);
+    for ( std::vector<memPatch>::iterator i = changes.begin(), iend = changes.end(); i != iend; ++i )
+      WriteMemRaw(i->location, i->patch, i->patchSize);
     changes.clear();
     return;
   }

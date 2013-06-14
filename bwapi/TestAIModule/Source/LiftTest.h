@@ -12,7 +12,7 @@ class LiftTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* unit;
+    BWAPI::Unit unit;
     BWAPI::UnitType unitType;
     bool completedLift;
     BWAPI::TilePosition originalTilePosition;

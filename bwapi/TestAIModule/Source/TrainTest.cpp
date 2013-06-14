@@ -20,7 +20,7 @@ void TrainTest::start()
 
   int producerCount = Broodwar->self()->completedUnitCount(producerType);
   BWAssertF(producerCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==producerType)
     {
@@ -34,7 +34,7 @@ void TrainTest::start()
   BWAssertF(producer->isConstructing()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==true,{fail=true;return;});
   BWAssertF(producer->isLifted()==false,{fail=true;return;});
-  BWAssertF(producer->getTrainingQueue().empty()==true,{fail=true;return;});
+  BWAssertF(producer->getTrainingQueue().empty()==true,{log("%s", producer->getTrainingQueue().front().c_str());fail=true;return;});
   BWAssertF(producer->getRemainingTrainTime() == 0,{fail=true;return;});
   correctMineralCount = Broodwar->self()->minerals() - unitType.mineralPrice();
   correctGasCount = Broodwar->self()->gas() - unitType.gasPrice();
@@ -48,7 +48,7 @@ void TrainTest::start()
   BWAssertF(producer->isLifted()==false,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().size()==1,{fail=true;return;});
   BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
-  BWAssertF(producer->getRemainingTrainTime() == unitType.buildTime(),{fail=true;return;});
+  BWAssertF(producer->getRemainingTrainTime() == unitType.buildTime(),{fail=true; log("%d == %d (%s)", producer->getRemainingTrainTime(), unitType.buildTime()/10, unitType.c_str()); return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{fail=true;return;});
@@ -70,16 +70,26 @@ void TrainTest::update()
   BWAssert(thisFrame==nextFrame);
   BWAssertF(producer!=NULL,{fail=true;return;});
   nextFrame++;
-  Broodwar->setScreenPosition(producer->getPosition().x()-320,producer->getPosition().y()-240);
-  int correctRemainingTrainTime = startFrame+Broodwar->getLatency()+unitType.buildTime()-thisFrame+1;
+  Broodwar->setScreenPosition(producer->getPosition() - Position(320,240));
+  int correctRemainingTrainTime = startFrame + Broodwar->getLatency() + unitType.buildTime()/10 - thisFrame + 1;
   if (Broodwar->getLatency()==5)
     correctRemainingTrainTime += 1;
-  if (correctRemainingTrainTime > unitType.buildTime())
-    correctRemainingTrainTime = unitType.buildTime();
+  if (correctRemainingTrainTime > unitType.buildTime()/10)
+    correctRemainingTrainTime = unitType.buildTime()/10;
   if (correctRemainingTrainTime < 0)
     correctRemainingTrainTime = 0;
-  BWAssertF(producer->getRemainingTrainTime() == correctRemainingTrainTime,{log("%d Error %d != %d",thisFrame-startFrame,producer->getRemainingTrainTime(), correctRemainingTrainTime);});
-  int lastFrame = startFrame + Broodwar->getLatency() + unitType.buildTime();
+
+  // @TODO: Workaround
+  if ( thisFrame <= startFrame + Broodwar->getLatency() )
+  {
+    BWAssertF(producer->getRemainingTrainTime()/10 == correctRemainingTrainTime,{log("%d Error %d != %d",thisFrame-startFrame,producer->getRemainingTrainTime()/10, correctRemainingTrainTime);});
+  }
+  else
+  {
+    BWAssertF(producer->getRemainingTrainTime() == correctRemainingTrainTime,{log("%d Error %d != %d %s",thisFrame-startFrame,producer->getRemainingTrainTime(), correctRemainingTrainTime, producer->getType().c_str());});
+  }
+
+  int lastFrame = startFrame + Broodwar->getLatency() + unitType.buildTime()/10;
   if (Broodwar->getLatency()==5)
     lastFrame++;
   if (unitType==UnitTypes::Terran_Nuclear_Missile)
@@ -89,12 +99,12 @@ void TrainTest::update()
     running = false;
     return;
   }
-  BWAssertF(producer->isTraining()==true,{Broodwar->printf("%d",thisFrame-startFrame);fail=true;return;});
+  BWAssertF(producer->isTraining()==true,{log("%s: %s, %s", producer->getType().c_str(), producer->getOrder().c_str(), producer->getSecondaryOrder().c_str());Broodwar->printf("%d",thisFrame-startFrame);fail=true;return;});
   BWAssertF(producer->isConstructing()==false,{fail=true;return;});
   BWAssertF(producer->isIdle()==false,{fail=true;return;});
   BWAssertF(producer->isLifted()==false,{fail=true;return;});
   BWAssertF(producer->getTrainingQueue().size()==1,{log("%d tq size = %d",thisFrame-startFrame,producer->getTrainingQueue().size());fail=true;return;});
-  BWAssertF(*producer->getTrainingQueue().begin()==unitType,{fail=true;return;});
+  BWAssertF(producer->getTrainingQueue().front()==unitType,{fail=true;return;});
   BWAssertF(Broodwar->self()->minerals() == correctMineralCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->gas() == correctGasCount,{fail=true;return;});
   BWAssertF(Broodwar->self()->supplyUsed() == correctSupplyUsedCount,{Broodwar->printf("%d: %d!=%d",thisFrame-startFrame,Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});

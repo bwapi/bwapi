@@ -28,6 +28,7 @@ void TerranTest::onStart()
   Broodwar->enableFlag(Flag::CompleteMapInformation);
 
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(512);
   this->addTestCase(new LiftTest(UnitTypes::Terran_Command_Center));
   this->addTestCase(new TrainTest(UnitTypes::Terran_SCV));
   this->addTestCase(new RightClickTest(UnitTypes::Terran_SCV,UnitTypes::Terran_Command_Center,UnitTypes::Terran_Command_Center));

@@ -15,7 +15,7 @@ class CancelTrainTest : public TestCase
     BWAPI::UnitType unitType2;
     BWAPI::UnitType unitType3;
     BWAPI::UnitType producerType;
-    BWAPI::Unit* producer;
+    BWAPI::Unit producer;
     int startFrame;
     int nextFrame;
     int correctMineralCount;
@@ -27,7 +27,7 @@ class CancelTrainTest : public TestCase
     int originalAllUnit1Count;
     int originalAllUnit2Count;
     int originalAllUnit3Count;
-    std::list<BWAPI::UnitType> correctTrainingQueue;
+    BWAPI::UnitType::set correctTrainingQueue;
     enum State
     {
       Start,

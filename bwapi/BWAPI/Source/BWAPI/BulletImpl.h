@@ -4,49 +4,50 @@
 
 #include <Util/Types.h>
 #include <BWAPI/Position.h>
-#include <BWAPI/BulletType.h>
 #include <BWAPI/Client/BulletData.h>
-namespace BW    { struct Bullet; };
+namespace BW    { class CBullet; };
 
 namespace BWAPI
 {
+  // forwards
+  class UnitImpl;
+  class BulletType;
+
   /**
    * Interface for broodwar bullets, can be used to obtain any information
    * about bullets and spells
    */
-  class UnitImpl;
-  class BulletImpl : public Bullet
+  class BulletImpl : public BulletInterface
   {
     public:
-      virtual int        getID() const;
-      virtual Player*    getPlayer() const;
-      virtual BulletType getType() const;
-      virtual Unit*      getSource() const;
-      virtual Position   getPosition() const;
-      virtual double     getAngle() const;
-      virtual double     getVelocityX() const;
-      virtual double     getVelocityY() const;
-      virtual Unit*      getTarget() const;
-      virtual Position   getTargetPosition() const;
-      virtual int        getRemoveTimer() const;
-      virtual bool       exists() const;
-      virtual bool       isVisible() const;
-      virtual bool       isVisible(Player* player) const;
+      virtual int        getID() const override;
+      virtual bool       exists() const override;
+      virtual Player     getPlayer() const override;
+      virtual BulletType getType() const override;
+      virtual Unit       getSource() const override;
+      virtual Position   getPosition() const override;
+      virtual double     getAngle() const override;
+      virtual double     getVelocityX() const override;
+      virtual double     getVelocityY() const override;
+      virtual Unit       getTarget() const override;
+      virtual Position   getTargetPosition() const override;
+      virtual int        getRemoveTimer() const override;
+      virtual bool       isVisible(Player player = nullptr) const override;
 
-      BulletImpl(BW::Bullet* originalBullet, u16 index);
+      BulletImpl(BW::CBullet* originalBullet, u16 index);
       ~BulletImpl();
 
       void        setExists(bool exists);
-      BW::Bullet* getRawData() const;
+      BW::CBullet* getRawData() const;
       void        saveExists();
 
       BulletData* self;
       BulletData  data;
       void        updateData();
 
-      static BulletImpl* BWBulletToBWAPIBullet(BW::Bullet* bullet);
+      static BulletImpl* BWBulletToBWAPIBullet(BW::CBullet* bullet);
     private:
-      BW::Bullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
+      BW::CBullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
       u16 index;
       int id;
       bool __exists;

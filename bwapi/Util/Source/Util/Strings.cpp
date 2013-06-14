@@ -1,11 +1,10 @@
 #include "Strings.h"
 
-#include <math.h>
-#include <stdarg.h>
+#include <cmath>
+#include <cstdarg>
 #include <cstdlib>
 
 #include "Exceptions.h"
-#include "Gnu.h"
 
 namespace Util
 {
@@ -112,10 +111,9 @@ namespace Util
   {
     char* buffer = (char*)malloc(bufferSize);
     FILE* f = fopen(fileName.c_str(),"rt");
-    size_t fileSize;
     if (f)
     {
-      fileSize = fread(buffer,1,bufferSize,f);
+      size_t fileSize = fread(buffer,1,bufferSize,f);
       fclose(f);
       buffer[fileSize] = 0;
       target = buffer;
@@ -165,7 +163,7 @@ namespace Util
     readNextBlock:
     int position = 0;
     fread(buffer, sizeof(char), 1, f);
-    while (buffer[position] != 13 && buffer[position] != 10 && position < STRING_UTIL_BUFFER_SIZE - 1 && !feof(f))
+    while (position < STRING_UTIL_BUFFER_SIZE - 1 && buffer[position] != 13 && buffer[position] != 10 && !feof(f))
     {
       position++;
       fread(&buffer[position], 1, 1,f);

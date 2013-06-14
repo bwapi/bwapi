@@ -1,28 +1,31 @@
 #include "BulletImpl.h"
-#include <BW/Bullet.h>
+#include <BW/CBullet.h>
+#include <BW/CSprite.h>
 #include <BW/Offsets.h>
-#include "BWAPI/GameImpl.h"
-#include "BWAPI/PlayerImpl.h"
-#include "BWAPI/UnitImpl.h"
+#include <BWAPI/Client/BulletData.h>
+#include <Util/Convenience.h>
 
-#include "../../Debug.h"
+#include "GameImpl.h"
+#include "PlayerImpl.h"
+#include "UnitImpl.h"
+
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  BulletImpl::BulletImpl(BW::Bullet* originalBullet, u16 index)
-      : bwOriginalBullet(originalBullet)
-      , index(index)
+  BulletImpl::BulletImpl(BW::CBullet* originalBullet, u16 _index)
+      : self( &data )
+      , bwOriginalBullet(originalBullet)
+      , index(_index)
+      , id(-1)
       , __exists(false)
       , lastExists(false)
-      , self(&data)
-      , id(-1)
   {
     MemZero(data);
   }
   BulletImpl::~BulletImpl()
-  {
-  }
+  { }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
   void BulletImpl::setExists(bool exists)
   {
@@ -36,19 +39,19 @@ namespace BWAPI
     lastExists = __exists;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------
-  BW::Bullet* BulletImpl::getRawData() const
+  BW::CBullet* BulletImpl::getRawData() const
   {
     return this->bwOriginalBullet;
   }
   //---------------------------------------- BW BULLET TO BWAPI BULLET ---------------------------------------
-  BulletImpl* BulletImpl::BWBulletToBWAPIBullet(BW::Bullet* bullet)
+  BulletImpl* BulletImpl::BWBulletToBWAPIBullet(BW::CBullet* bullet)
   {
     if ( !bullet )
-      return NULL;
+      return nullptr;
 
-    u16 index = (u16)( ((u32)bullet - (u32)BW::BWDATA_BulletNodeTable) / 112) & 0x7F;
+    u16 index = (u16)( ((u32)bullet - (u32)BW::BWDATA::BulletNodeTable) / sizeof(BW::CBullet) ) & 0x7F;
     if ( index > BULLET_ARRAY_MAX_LENGTH )
-      return NULL;
+      return nullptr;
     return BroodwarImpl.getBulletFromIndex(index);
   }
   void BulletImpl::updateData()
@@ -58,14 +61,14 @@ namespace BWAPI
     {
       for(int i = 0; i < 9; ++i)
       {
-        PlayerImpl* player = (PlayerImpl*)Broodwar->getPlayer(i);
+        PlayerImpl* player = static_cast<PlayerImpl*>(Broodwar->getPlayer(i));
 
         if ( !bwOriginalBullet->sprite || !player )
           self->isVisible[i] = false;
         else if ( BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
           self->isVisible[i] = true;
         else
-          self->isVisible[i] = BroodwarImpl.isVisible(bwOriginalBullet->sprite->position.x/32, bwOriginalBullet->sprite->position.y/32);
+          self->isVisible[i] = Broodwar->isVisible( TilePosition(bwOriginalBullet->sprite->position) );
       }
     }
     else
@@ -75,12 +78,12 @@ namespace BWAPI
 
     if ( _exists && 
          (BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ||
-          BroodwarImpl._isReplay() || 
+          BroodwarImpl.isReplay() || 
           isVisible()) )
     {
       UnitImpl *_getSource = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->sourceUnit);
-      UnitImpl *_getTarget = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->targetUnit);
-      Player   *_getPlayer = _getSource ? _getSource->_getPlayer : NULL;
+      UnitImpl *_getTarget = UnitImpl::BWUnitToBWAPIUnit(bwOriginalBullet->attackTarget.pUnit);
+      Player   _getPlayer = _getSource ? _getSource->_getPlayer : nullptr;
 
       // id, player, type, source
       self->id      = id;
@@ -115,16 +118,16 @@ namespace BWAPI
     {
       self->id              = -1;
       self->player          = -1;
-      self->type            = BulletTypes::None;
+      self->type            = BulletTypes::Unknown;
       self->source          = -1;
-      self->positionX       = Positions::None.x();
-      self->positionY       = Positions::None.y();
+      self->positionX       = Positions::Unknown.x;
+      self->positionY       = Positions::Unknown.y;
       self->angle           = 0;
       self->velocityX       = 0;
       self->velocityY       = 0;
       self->target          = -1;
-      self->targetPositionX = 0;
-      self->targetPositionY = 0;
+      self->targetPositionX = Positions::Unknown.x;
+      self->targetPositionY = Positions::Unknown.y;
       self->removeTimer     = 0;
       self->exists          = false;
     }

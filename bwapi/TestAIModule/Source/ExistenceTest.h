@@ -6,6 +6,6 @@ class ExistenceTest : public TestModule
   public:
   virtual void onStart();
   virtual void onFrame();
-  virtual void onUnitCreate(BWAPI::Unit* unit);
-  virtual void onUnitDestroy(BWAPI::Unit* unit);
+  virtual void onUnitCreate(BWAPI::Unit unit);
+  virtual void onUnitDestroy(BWAPI::Unit unit);
 };

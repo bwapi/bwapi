@@ -1,14 +1,10 @@
 #pragma once
 #include <windows.h>
-#include <WinUser.h>
-#include <Winsock.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <winuser.h>
+#include <winsock.h>
 #include <ddraw.h>
 
-/* Note to self: If you get a linker error then you were retarded
- *               and forgot to return a value in the cpp.
- */
+// Note to self: Linker error => forgot a return value in cpp
 
 #ifndef STORMAPI
 #define STORMAPI __stdcall
@@ -31,6 +27,22 @@
 
 #ifndef SSIZEMIN
 #define SSIZEMIN(x,y) (SMAX(sizeof(x),sizeof(y)))
+#endif
+
+#ifndef __in_opt
+#define __in_opt
+#endif
+#ifndef __in
+#define __in
+#endif
+#ifndef __out
+#define __out
+#endif
+#ifndef __inout
+#define __inout
+#endif
+#ifndef __out_opt
+#define __out_opt
 #endif
 
 #ifndef BLIZZ_STRUCTS
@@ -414,7 +426,7 @@ SNetSendMessage(
 BOOL
 STORMAPI
 SNetSendTurn(
-      __in  void    *data,
+      __in  char    *data,
       __in  size_t  databytes);
 
 /*  SNetSetGameMode @ 130
@@ -455,7 +467,7 @@ BOOL STORMAPI SNetReportGameResult(unsigned int a1, int size, int a3, int a4, in
 int  STORMAPI SNetSendLeagueCommand(char *cmd, char *callback);
 int  STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath);
 int  STORMAPI SNetGetLeagueName(int leagueID);
-BOOL STORMAPI SNet144(char *buffer);
+BOOL STORMAPI SNet144(char *buffer); // get player something (void **data[8])
 int  STORMAPI SNetLeagueLogout(char *bnetName);
 int  STORMAPI SNetGetLeaguePlayerName(char *curPlayerLeageName, size_t nameSize);
 
@@ -466,6 +478,11 @@ HANDLE STORMAPI SDlgDialogBoxIndirectParam(HMODULE hModule, LPCSTR lpName, HWND 
 BOOL STORMAPI SDlgEndDialog(HWND hDlg, HANDLE nResult);
 
 BOOL STORMAPI SDlgSetControlBitmaps(HWND parentwindow, int *id, int a3, char *buffer2, char *buffer, int flags, int mask);
+
+/*
+// lpCursorName can only be IDC_ARROW 
+BOOL STORMAPI SDlgSetSystemCursor(void *lpSrcBuffer, void *p_a2, LPSIZE lpSize, LPCSTR lpCursorName);
+*/
 
 BOOL STORMAPI SDlgBltToWindowE(HWND hWnd, HRGN a2, char *a3, int a4, void *buffer, RECT *rct, SIZE *size, int a8, int a9, DWORD rop);
 BOOL STORMAPI SDlgSetBitmapE(HWND hWnd, int a2, char *src, int mask1, int flags, int a6, int a7, int width, int a9, int mask2);
@@ -506,7 +523,7 @@ BOOL STORMAPI SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearc
 #define SFILE_FROM_MPQ        0x00000000
 #define SFILE_FROM_ABSOLUTE   0x00000001
 #define SFILE_FROM_RELATIVE   0x00000002
-#define SFILE_UNKNOWN_04      0x00000004
+#define SFILE_FROM_DISK       0x00000004
 
 #endif
 
@@ -514,7 +531,12 @@ BOOL STORMAPI SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRe
 
 void STORMAPI SFileSetLocale(LCID lcLocale);
 
-BOOL STORMAPI SFileSetIoErrorMode(int mode, BOOL (STORMAPI *callback)(char*,int,int) );
+// mode:    0 - Silent (callback is NULL)
+//          1 - Application Defined
+//          2 - Handled by storm (callback is NULL)
+// BOOL STORMAPI callback(const char *pszFilename, DWORD dwErrCode, DWORD dwErrCount)
+BOOL STORMAPI SFileSetIoErrorMode(DWORD mode, BOOL (STORMAPI *callback)(const char*,DWORD,DWORD) );
+
 BOOL STORMAPI SFileGetArchiveName(HANDLE hArchive, char *name, int length);
 BOOL STORMAPI SFileGetFileName(HANDLE hFile, char *buffer, int length);
 
@@ -770,13 +792,13 @@ BOOL STORMAPI SEvtDispatch(DWORD dwMessageID, DWORD dwFlags, int type, PS_EVT pE
 
 BOOL STORMAPI SGdiDeleteObject(HANDLE handle);
 
-BOOL STORMAPI SGdiExtTextOut(int a1, int a2, int a3, int a4, unsigned int a8, signed int a6, signed int a7, const char *string, unsigned int arg20);
+BOOL STORMAPI SGdiExtTextOut(int a1, int a2, int a3, int a4, unsigned int a8, signed int a6, signed int a7, const char *pszString, unsigned int arg20);
 BOOL STORMAPI SGdiImportFont(HGDIOBJ handle, int windowsfont);
 
 BOOL STORMAPI SGdiSelectObject(int handle);
 BOOL STORMAPI SGdiSetPitch(int pitch);
 
-BOOL STORMAPI Ordinal393(char *string, int, int);
+BOOL STORMAPI Ordinal393(char *pszString, int, int);
 
 
 /*  SMemAlloc @ 401
@@ -796,7 +818,7 @@ BOOL STORMAPI Ordinal393(char *string, int, int);
 void*
 STORMAPI
 SMemAlloc(
-    __in  int   amount,
+    __in  size_t amount,
     __in  char  *logfilename,
     __in  int   logline,
     __in  char  defaultValue = 0);
@@ -828,6 +850,34 @@ SMemFree(
 
 #ifndef SMFree
 #define SMFree(loc) SMemFree((loc), __FILE__, __LINE__)
+#endif
+
+/*  SMemReAlloc @ 405
+ *  
+ *  Reallocates a block of memory that was created using SMemAlloc, 
+ *  includes the log file and line for debugging purposes.
+ *
+ *  location:     The memory location to be re-allocated. If this parameter
+ *                is NULL, then SMemAlloc is called with the remaining parameters.
+ *  amount:       The amount of memory to re-allocate.
+ *  logfilename:  The name of the file or object that this call belongs to.
+ *  logline:      The line in the file or one of the SLOG_ macros.
+ *  defaultValue: 
+ *
+ *  Returns a pointer to the re-allocated memory. This pointer does NOT include
+ *  the additional storm header.
+ */
+void*
+STORMAPI
+SMemReAlloc(
+    __in  void    *location,
+    __in  size_t  amount,
+    __in  char    *logfilename,
+    __in  int     logline,
+    __in  char    defaultValue = 0);
+
+#ifndef SMReAlloc
+#define SMReAlloc(loc,s) SMemReAlloc((loc),(s), __FILE__, __LINE__)
 #endif
 
 
@@ -889,14 +939,34 @@ BOOL STORMAPI SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, in
 BOOL STORMAPI SVidPlayContinueSingle(HANDLE video, int a2, int a3);
 BOOL STORMAPI SVidPlayEnd(HANDLE video);
 
-// dwErrMessage - Message from GetLastError
-// logfile/logline - Same as SMemAlloc/SMemFree
-// message - additional message/info
-// allowOption - Gives user the option to attempt to continue execution instead of immediate exit.
-// exitCode - the exit code to pass to TerminateProcess
-//BOOL STORMAPI SErrDisplayError(DWORD dwErrMsg, const char *logfilename, int logline, const char *message, BOOL allowOption, int exitCode);
-// Instead of const char *message, has formatting.
-//BOOL SErrDisplayErrorFmt(DWORD dwErrMsg, const char *logfilename, int logline, BOOL allowOption, int exitCode, const char *format, ...);
+/* SErrDisplayError @ 461
+ *
+ * Displays a formatted error message. The message is detailed and flexible for many applications.
+ * The message will be different if there is a debugger attached. Will typically terminate the application
+ * unless the option to continue is given.
+ *
+ *  dwErrMessage:   The error code. See SErrGetLastError and GetLastError.
+ *  logfilename:    The name of the file or object that this call belongs to.
+ *  logline:        The line in the file or one of the SLOG_ macros.
+ *  message:        A message or expression with additional information.
+ *  allowOption:    If TRUE, allows the user the option to continue execution, otherwise the program will terminate.
+ *  exitCode:       The exit code used for program termination.
+ *
+ *  Returns TRUE if the user chose to continue execution, FALSE otherwise.
+ */
+BOOL
+STORMAPI
+SErrDisplayError(
+    __in DWORD dwErrMsg,
+    __in const char *logfilename,
+    __in int logline,
+    __in const char *message = NULL,
+    __in BOOL allowOption = FALSE,
+    __in int exitCode = 1);
+
+#define SAssert(x) { if ( !(x) ) SErrDisplayError(STORM_ERROR_ASSERTION, __FILE__, __LINE__, #x) }
+
+#define SEDisplayError(err) SErrDisplayError(e, __FILE__, __LINE__)
 
 /*  SErrGetErrorStr @ 462
  *  
@@ -917,6 +987,7 @@ SErrGetErrorStr(
     __in  size_t bufferchars);
 
 #define SEGetErrorStr(e,b) SErrGetErrorStr(e,b,sizeof(b))
+
 
 /*  SErrGetLastError @ 463
  *  
@@ -1182,6 +1253,44 @@ void  STORMAPI SRgnCreateRegion(HANDLE *hRgn, int a2);
 void  STORMAPI SRgnDeleteRegion(HANDLE hRgn);
 
 void  STORMAPI SRgn529i(int handle, int a2, int a3);
+
+
+/* SErrDisplayErrorFmt @ 562
+ *
+ * Displays a formatted error message. The message is detailed and flexible for many applications.
+ * The message will be different if there is a debugger attached. Will typically terminate the application
+ * unless the option to continue is given.
+ *
+ *  dwErrMessage:   The error code. See SErrGetLastError and GetLastError.
+ *  logfilename:    The name of the file or object that this call belongs to.
+ *  logline:        The line in the file or one of the SLOG_ macros.
+ *  allowOption:    If TRUE, allows the user the option to continue execution, otherwise the program will terminate.
+ *  exitCode:       The exit code used for program termination.
+ *  format:         Additional message formatting. See printf.
+ *
+ *  Returns TRUE if the user chose to continue execution, FALSE otherwise.
+ */
+BOOL
+SErrDisplayErrorFmt(
+    __in DWORD dwErrMsg,
+    __in const char *logfilename,
+    __in int logline,
+    __in BOOL allowOption,
+    __in int exitCode,
+    __in const char *format,
+    ...);
+
+#define SEDisplayErrorFmt(err,...) SErrDisplayErrorFmt(err, __FILE__, __LINE__, FALSE, 1, __VA_ARGS__)
+
+/*  SErrCatchUnhandledExceptions @ 567
+ *  
+ *  Registers a top-level exception filter managed entirely by Storm.
+ *  The registered filter will display formatted exception information by calling SErrDisplayError.
+ */
+void
+STORMAPI
+SErrCatchUnhandledExceptions();
+
 
 /*  SStrChr @ 571
  *  

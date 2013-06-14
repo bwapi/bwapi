@@ -1,21 +1,4 @@
-/*  HackUtil is a set of functions that make import detours and code patching easier.
-    Copyright (C) 2010  Adam Heinermann
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <windows.h>
 #include <vector>
@@ -44,10 +27,29 @@ namespace HackUtil
   DWORD*                   _GetFunctionsList(char* sourceModule, char* importModule);
   /* These functions are not specifically made for public use */
 
-  FARPROC PatchImport(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction);
-  FARPROC PatchImport(char* importModule, LPCSTR name, void* patchFunction);
-  FARPROC PatchImport(char* sourceModule, char* importModule, int ordinal, void* patchFunction);
-  FARPROC PatchImport(char* importModule, int ordinal, void* patchFunction);
+  FARPROC PatchImportOld(char* sourceModule, char* importModule, LPCSTR name, void* patchFunction);
+
+  template <typename T>
+  auto PatchImport(char* sourceModule, char* importModule, LPCSTR name, T patchFxn) -> T
+  {
+    return (T)PatchImportOld(sourceModule, importModule, name, patchFxn);
+  }
+  template <typename T>
+  auto PatchImport(char *importModule, LPCSTR name, T patchFxn) -> T
+  {
+    return (T)PatchImportOld(nullptr, importModule, name, patchFxn);
+  }
+  template <typename T>
+  auto PatchImport(char* sourceModule, char *importModule, int ordinal, T patchFxn) -> T
+  {
+    return (T)PatchImportOld(sourceModule, importModule, (LPCSTR)ordinal, patchFxn);
+  }
+  template <typename T>
+  auto PatchImport(char *importModule, int ordinal, T patchFxn) -> T
+  {
+    return (T)PatchImportOld(nullptr, importModule, (LPCSTR)ordinal, patchFxn);
+  }
+
   /* Creates a detour for the specified import function in any loaded module */
 
   FARPROC GetImport(char* importModule, LPCSTR name);

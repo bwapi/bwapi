@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="84" failures="1" disabled="0" errors="0" time="124.016" name="AllTests">
+  <testsuite name="AbstractActionFactoryTest" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="create" status="run" time="0" classname="AbstractActionFactoryTest" />
+    <testcase name="instance" status="run" time="0" classname="AbstractActionFactoryTest" />
+  </testsuite>
+  <testsuite name="AbstractActionTest" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="toString" status="run" time="0" classname="AbstractActionTest" />
+    <testcase name="create" status="run" time="0" classname="AbstractActionTest" />
+  </testsuite>
+  <testsuite name="BuildActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.002">
+    <testcase name="BuildAction" status="run" time="0" classname="BuildActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="BuildActionTest" />
+    <testcase name="toString" status="run" time="0" classname="BuildActionTest" />
+  </testsuite>
+  <testsuite name="CancelTrainActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="CancelTrainAction" status="run" time="0" classname="CancelTrainActionTest" />
+    <testcase name="read" status="run" time="0" classname="CancelTrainActionTest" />
+    <testcase name="toString" status="run" time="0" classname="CancelTrainActionTest" />
+  </testsuite>
+  <testsuite name="ChatReplayActionTest" tests="2" failures="0" disabled="0" errors="0" time="0.036">
+    <testcase name="Ctor" status="run" time="0" classname="ChatReplayActionTest" />
+    <testcase name="read" status="run" time="0.034" classname="ChatReplayActionTest" />
+  </testsuite>
+  <testsuite name="ExitTransportActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.002">
+    <testcase name="ExitTransportAction" status="run" time="0" classname="ExitTransportActionTest" />
+    <testcase name="read" status="run" time="0" classname="ExitTransportActionTest" />
+    <testcase name="toString" status="run" time="0" classname="ExitTransportActionTest" />
+  </testsuite>
+  <testsuite name="GroupUnitsActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.073">
+    <testcase name="GroupUnitsAction" status="run" time="0" classname="GroupUnitsActionTest" />
+    <testcase name="read" status="run" time="0" classname="GroupUnitsActionTest" />
+    <testcase name="toString" status="run" time="0" classname="GroupUnitsActionTest" />
+  </testsuite>
+  <testsuite name="MorphActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.07">
+    <testcase name="MorphAction" status="run" time="0" classname="MorphActionTest" />
+    <testcase name="read" status="run" time="0" classname="MorphActionTest" />
+    <testcase name="toString" status="run" time="0" classname="MorphActionTest" />
+  </testsuite>
+  <testsuite name="BurrowActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.046">
+    <testcase name="BurrowAction" status="run" time="0" classname="BurrowActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="BurrowActionTest" />
+    <testcase name="toString" status="run" time="0" classname="BurrowActionTest" />
+  </testsuite>
+  <testsuite name="CloakActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.044">
+    <testcase name="CloakAction" status="run" time="0" classname="CloakActionTest" />
+    <testcase name="read" status="run" time="0" classname="CloakActionTest" />
+    <testcase name="toString" status="run" time="0" classname="CloakActionTest" />
+  </testsuite>
+  <testsuite name="LatencyActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.041">
+    <testcase name="LatencyAction" status="run" time="0" classname="LatencyActionTest" />
+    <testcase name="read" status="run" time="0" classname="LatencyActionTest" />
+    <testcase name="toString" status="run" time="0" classname="LatencyActionTest" />
+  </testsuite>
+  <testsuite name="LeaveGameActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.044">
+    <testcase name="LeaveGameAction" status="run" time="0" classname="LeaveGameActionTest" />
+    <testcase name="read" status="run" time="0" classname="LeaveGameActionTest" />
+    <testcase name="toString" status="run" time="0" classname="LeaveGameActionTest" />
+  </testsuite>
+  <testsuite name="LiftOffActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.044">
+    <testcase name="LiftOffAction" status="run" time="0" classname="LiftOffActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="LiftOffActionTest" />
+    <testcase name="toString" status="run" time="0" classname="LiftOffActionTest" />
+  </testsuite>
+  <testsuite name="ParseActionsTest" tests="1" failures="1" disabled="0" errors="0" time="122.813">
+    <testcase name="WholeTest" status="run" time="122.803" classname="ParseActionsTest" Inconclusive="TestData\ExpectedReplayTraces\H7R@starhunter_au@rett_nl.rep.trace.txt">
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P45) Chat: 69, &#x0D;&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P45) Chat: 69, t&quot;&#x0A;Failed in replay:A1R@[pG]FisheYe_de@piceyyuz_tr.rep.trace.txt @4022" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P45) Chat: 69, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P45) Chat: 69, t"
+Failed in replay:A1R@[pG]FisheYe_de@piceyyuz_tr.rep.trace.txt @4022]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 0, |&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 0, &quot;&#x0A;Failed in replay:A2R@[pG]FisheYe_de@skehgus_kr.rep.trace.txt @8011" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 0, |"
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 0, "
+Failed in replay:A2R@[pG]FisheYe_de@skehgus_kr.rep.trace.txt @8011]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 12, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 12, \&quot;&#x0A;Failed in replay:A6R@[pG]FisheYe_de@Iam_CCC.rep.trace.txt @5447" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 12, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 12, \"
+Failed in replay:A6R@[pG]FisheYe_de@Iam_CCC.rep.trace.txt @5447]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P4) Chat: 4, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P4) Chat: 4, &quot;&#x0A;Failed in replay:B1R@SuKeR_es@Slash_co.rep.trace.txt @12426" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P4) Chat: 4, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P4) Chat: 4, "
+Failed in replay:B1R@SuKeR_es@Slash_co.rep.trace.txt @12426]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P21) Chat: 65, $&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P21) Chat: 65, t&quot;&#x0A;Failed in replay:B7R@SuKeR_es@Enjoy_bg.rep.trace.txt @5071" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P21) Chat: 65, $"
+Expected: expectedReplayLine.c_str()
+Which is: "(P21) Chat: 65, t"
+Failed in replay:B7R@SuKeR_es@Enjoy_bg.rep.trace.txt @5071]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P21) Chat: 60, Q&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P21) Chat: 60, &quot;&#x0A;Failed in replay:C5R@SaFT@wyw.rep.trace.txt @4539" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P21) Chat: 60, Q"
+Expected: expectedReplayLine.c_str()
+Which is: "(P21) Chat: 60, "
+Failed in replay:C5R@SaFT@wyw.rep.trace.txt @4539]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P29) Chat: 21, X7&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P29) Chat: 21, X&quot;&#x0A;Failed in replay:C5R@SaFT@wyw.rep.trace.txt @9071" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P29) Chat: 21, X7"
+Expected: expectedReplayLine.c_str()
+Which is: "(P29) Chat: 21, X"
+Failed in replay:C5R@SaFT@wyw.rep.trace.txt @9071]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 115, Y7&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 115, &lt;Y&quot;&#x0A;Failed in replay:C5R@SaFT@wyw.rep.trace.txt @9161" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 115, Y7"
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 115, <Y"
+Failed in replay:C5R@SaFT@wyw.rep.trace.txt @9161]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P5) Chat: 60, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P5) Chat: 60, ^&quot;&#x0A;Failed in replay:D1R@Assem@potto_ph.rep.trace.txt @4959" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P5) Chat: 60, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P5) Chat: 60, ^"
+Failed in replay:D1R@Assem@potto_ph.rep.trace.txt @4959]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 14, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 14, t@&quot;&#x0A;Failed in replay:D1R@LinYu)Pj_cn@kdk4321_kr.rep.trace.txt @3510" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 14, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 14, t@"
+Failed in replay:D1R@LinYu)Pj_cn@kdk4321_kr.rep.trace.txt @3510]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P4) Chat: 12, |&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P4) Chat: 12, ,;&quot;&#x0A;Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @8108" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P4) Chat: 12, |"
+Expected: expectedReplayLine.c_str()
+Which is: "(P4) Chat: 12, ,;"
+Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @8108]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 90, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 90, D&quot;&#x0A;Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @8440" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 90, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 90, D"
+Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @8440]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P21) Chat: 100, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P21) Chat: 100, L&quot;&#x0A;Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @9567" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P21) Chat: 100, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P21) Chat: 100, L"
+Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @9567]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 101, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 101, &quot;&#x0A;Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @9822" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 101, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 101, "
+Failed in replay:D7R@LinYu)Pj_cn@Assem.rep.trace.txt @9822]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 53, $a&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 53, $a&#x0D;&quot;&#x0A;Failed in replay:E6R@Shanhai@comon_cz.rep.trace.txt @3588" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 53, $a"
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 53, $a"
+Failed in replay:E6R@Shanhai@comon_cz.rep.trace.txt @3588]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P12) Chat: 8, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P12) Chat: 8, V&quot;&#x0A;Failed in replay:E7R@comon_cz@mty.rep.trace.txt @5226" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P12) Chat: 8, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P12) Chat: 8, V"
+Failed in replay:E7R@comon_cz@mty.rep.trace.txt @5226]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P13) Chat: 63, J&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P13) Chat: 63, &quot;&#x0A;Failed in replay:F1R@LiquidNazgul_nl@macm20.rep.trace.txt @3267" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P13) Chat: 63, J"
+Expected: expectedReplayLine.c_str()
+Which is: "(P13) Chat: 63, "
+Failed in replay:F1R@LiquidNazgul_nl@macm20.rep.trace.txt @3267]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P3) Chat: 4, t&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P3) Chat: 4, &quot;&#x0A;Failed in replay:F5R@LiquidNazgul_nl@Phellan[S2].rep.trace.txt @11249" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P3) Chat: 4, t"
+Expected: expectedReplayLine.c_str()
+Which is: "(P3) Chat: 4, "
+Failed in replay:F5R@LiquidNazgul_nl@Phellan[S2].rep.trace.txt @11249]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 128, $I&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 128, &quot;&#x0A;Failed in replay:F5R@sys@L_Clan_Chakra.rep.trace.txt @8451" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 128, $I"
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 128, "
+Failed in replay:F5R@sys@L_Clan_Chakra.rep.trace.txt @8451]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 93, &lt;&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 93, Z&quot;&#x0A;Failed in replay:F7R@LiquidNazgul_nl@L_Clan_Chakra.rep.trace.txt @5260" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 93, <"
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 93, Z"
+Failed in replay:F7R@LiquidNazgul_nl@L_Clan_Chakra.rep.trace.txt @5260]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 3, $i&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 3, X&quot;&#x0A;Failed in replay:G1R@aspeak_fr@SKTB.rep.trace.txt @6005" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 3, $i"
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 3, X"
+Failed in replay:G1R@aspeak_fr@SKTB.rep.trace.txt @6005]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 14, &lt;&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 14, )&quot;&#x0A;Failed in replay:G1R@Cameleon@Cafone_it.rep.trace.txt @5779" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 14, <"
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 14, )"
+Failed in replay:G1R@Cameleon@Cafone_it.rep.trace.txt @5779]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P0) Chat: 104, @&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P0) Chat: 104, :&quot;&#x0A;Failed in replay:G1R@gL_Zelias@TC)Carls.rep.trace.txt @7842" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P0) Chat: 104, @"
+Expected: expectedReplayLine.c_str()
+Which is: "(P0) Chat: 104, :"
+Failed in replay:G1R@gL_Zelias@TC)Carls.rep.trace.txt @7842]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P4) Chat: 3, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P4) Chat: 3, &quot;&#x0A;Failed in replay:G4R@Cameleon@aspeak_fr.rep.trace.txt @7348" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P4) Chat: 3, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P4) Chat: 3, "
+Failed in replay:G4R@Cameleon@aspeak_fr.rep.trace.txt @7348]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P21) Chat: 2, |&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P21) Chat: 2, |&quot;&#x0A;Failed in replay:G5R@Cameleon@SKTB.rep.trace.txt @3881" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P21) Chat: 2, |"
+Expected: expectedReplayLine.c_str()
+Which is: "(P21) Chat: 2, |"
+Failed in replay:G5R@Cameleon@SKTB.rep.trace.txt @3881]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 14, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 14, t`&quot;&#x0A;Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @2496" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 14, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 14, t`"
+Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @2496]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P72) Chat: 0, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P72) Chat: 0, \&quot;&#x0A;Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5435" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P72) Chat: 0, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P72) Chat: 0, \"
+Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5435]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P104) Chat: 0, 4&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P104) Chat: 0, &quot;&#x0A;Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5437" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P104) Chat: 0, 4"
+Expected: expectedReplayLine.c_str()
+Which is: "(P104) Chat: 0, "
+Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5437]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P156) Chat: 0, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P156) Chat: 0, &quot;&#x0A;Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5438" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P156) Chat: 0, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P156) Chat: 0, "
+Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5438]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P198) Chat: 0, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P198) Chat: 0, d&quot;&#x0A;Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5439" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P198) Chat: 0, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P198) Chat: 0, d"
+Failed in replay:G5R@TC)Carls@FM_Gerich.rep.trace.txt @5439]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P5) Chat: 8, &quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P5) Chat: 8, t&quot;&#x0A;Failed in replay:G6R@Cafone_it@TC)Caris.rep.trace.txt @5308" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P5) Chat: 8, "
+Expected: expectedReplayLine.c_str()
+Which is: "(P5) Chat: 8, t"
+Failed in replay:G6R@Cafone_it@TC)Caris.rep.trace.txt @5308]]></failure>
+      <failure message="Value of: actualReplayLine.c_str()&#x0A;  Actual: &quot;(P20) Chat: 5, `&quot;&#x0A;Expected: expectedReplayLine.c_str()&#x0A;Which is: &quot;(P20) Chat: 5, $&quot;&#x0A;Failed in replay:G6R@Cafone_it@TC)Caris.rep.trace.txt @5397" type=""><![CDATA[c:\fili\development\gp\rtsairesearch\bwapi\bwapi\libreplaytooltest\parseactions_unittest.cpp:97
+Value of: actualReplayLine.c_str()
+  Actual: "(P20) Chat: 5, `"
+Expected: expectedReplayLine.c_str()
+Which is: "(P20) Chat: 5, $"
+Failed in replay:G6R@Cafone_it@TC)Caris.rep.trace.txt @5397]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="PingMinimapActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.031">
+    <testcase name="PingMinimapAction" status="run" time="0" classname="PingMinimapActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="PingMinimapActionTest" />
+    <testcase name="toString" status="run" time="0" classname="PingMinimapActionTest" />
+  </testsuite>
+  <testsuite name="ResearchActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="ResearchAction" status="run" time="0" classname="ResearchActionTest" />
+    <testcase name="read" status="run" time="0" classname="ResearchActionTest" />
+    <testcase name="toString" status="run" time="0" classname="ResearchActionTest" />
+  </testsuite>
+  <testsuite name="RightClickActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="RightClickAction" status="run" time="0" classname="RightClickActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="RightClickActionTest" />
+    <testcase name="toString" status="run" time="0" classname="RightClickActionTest" />
+  </testsuite>
+  <testsuite name="SaveActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.031">
+    <testcase name="SaveAction" status="run" time="0" classname="SaveActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="SaveActionTest" />
+    <testcase name="toString" status="run" time="0" classname="SaveActionTest" />
+  </testsuite>
+  <testsuite name="SelectActionTest" tests="5" failures="0" disabled="0" errors="0" time="0.048">
+    <testcase name="Ctor" status="run" time="0" classname="SelectActionTest" />
+    <testcase name="Read1Unit" status="run" time="0.001" classname="SelectActionTest" />
+    <testcase name="Read4Units" status="run" time="0.001" classname="SelectActionTest" />
+    <testcase name="toString1Unit" status="run" time="0.001" classname="SelectActionTest" />
+    <testcase name="toString4Units" status="run" time="0" classname="SelectActionTest" />
+  </testsuite>
+  <testsuite name="SetAlliesActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.03">
+    <testcase name="SetAlliesAction" status="run" time="0" classname="SetAlliesActionTest" />
+    <testcase name="read" status="run" time="0" classname="SetAlliesActionTest" />
+    <testcase name="toString" status="run" time="0" classname="SetAlliesActionTest" />
+  </testsuite>
+  <testsuite name="SetFogActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.039">
+    <testcase name="SetFogAction" status="run" time="0" classname="SetFogActionTest" />
+    <testcase name="read" status="run" time="0" classname="SetFogActionTest" />
+    <testcase name="toString" status="run" time="0" classname="SetFogActionTest" />
+  </testsuite>
+  <testsuite name="TrainActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="TrainAction" status="run" time="0" classname="TrainActionTest" />
+    <testcase name="read" status="run" time="0" classname="TrainActionTest" />
+    <testcase name="toString" status="run" time="0.001" classname="TrainActionTest" />
+  </testsuite>
+  <testsuite name="SetReplaySpeedActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.03">
+    <testcase name="SetReplaySpeedAction" status="run" time="0" classname="SetReplaySpeedActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="SetReplaySpeedActionTest" />
+    <testcase name="toString" status="run" time="0" classname="SetReplaySpeedActionTest" />
+  </testsuite>
+  <testsuite name="SetSpeedActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="SetSpeedAction" status="run" time="0" classname="SetSpeedActionTest" />
+    <testcase name="read" status="run" time="0" classname="SetSpeedActionTest" />
+    <testcase name="toString" status="run" time="0" classname="SetSpeedActionTest" />
+  </testsuite>
+  <testsuite name="StopActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="StopAction" status="run" time="0" classname="StopActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="StopActionTest" />
+    <testcase name="toString" status="run" time="0" classname="StopActionTest" />
+  </testsuite>
+  <testsuite name="TankSiegeActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="TankSiegeAction" status="run" time="0" classname="TankSiegeActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="TankSiegeActionTest" />
+    <testcase name="toString" status="run" time="0" classname="TankSiegeActionTest" />
+  </testsuite>
+  <testsuite name="TargetClickActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="TargetClickAction" status="run" time="0" classname="TargetClickActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="TargetClickActionTest" />
+    <testcase name="toString" status="run" time="0" classname="TargetClickActionTest" />
+  </testsuite>
+  <testsuite name="UnloadAllActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.03">
+    <testcase name="UnloadAllAction" status="run" time="0" classname="UnloadAllActionTest" />
+    <testcase name="read" status="run" time="0" classname="UnloadAllActionTest" />
+    <testcase name="toString" status="run" time="0" classname="UnloadAllActionTest" />
+  </testsuite>
+  <testsuite name="UpgradeActionTest" tests="3" failures="0" disabled="0" errors="0" time="0.029">
+    <testcase name="UpgradeAction" status="run" time="0" classname="UpgradeActionTest" />
+    <testcase name="read" status="run" time="0.001" classname="UpgradeActionTest" />
+    <testcase name="toString" status="run" time="0" classname="UpgradeActionTest" />
+  </testsuite>
+</testsuites>

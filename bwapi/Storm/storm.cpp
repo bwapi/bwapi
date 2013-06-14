@@ -31,7 +31,7 @@ HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(PS_EV
 int STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid) rInt;
 
 BOOL STORMAPI SNetSendMessage(int playerID, void *data, size_t databytes) rBool;
-BOOL STORMAPI SNetSendTurn(void *data, size_t databytes) rBool;
+BOOL STORMAPI SNetSendTurn(char *data, size_t databytes) rBool;
 
 BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, bool makePublic) rBool;
 
@@ -133,9 +133,11 @@ BOOL STORMAPI SGdiSetPitch(int pitch) rBool;
 
 BOOL STORMAPI Ordinal393(char *string, int, int) rBool;
 
-void* STORMAPI SMemAlloc(int amount, char *logfilename, int logline, char defaultValue) rPVoid;
+void* STORMAPI SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue) rPVoid;
 
 BOOL STORMAPI SMemFree(void *location, char *logfilename, int logline, char defaultValue) rBool;
+
+void* STORMAPI SMemReAlloc(void *location, size_t amount, char *logfilename, int logline, char defaultValue) rPVoid;
 
 BOOL STORMAPI SRegLoadData(const char *keyname, const char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData) rBool;
 BOOL STORMAPI SRegLoadString(const char *keyname, const char *valuename, BYTE flags, char *buffer, size_t buffersize) rBool;
@@ -170,6 +172,7 @@ BOOL STORMAPI SVidPlayBegin(char *filename, int arg4, int a3, int a4, int a5, in
 BOOL STORMAPI SVidPlayContinueSingle(HANDLE video, int a2, int a3) rBool;
 BOOL STORMAPI SVidPlayEnd(HANDLE video) rBool;
 
+BOOL STORMAPI SErrDisplayError(DWORD dwErrMsg, const char *logfilename, int logline, const char *message, BOOL allowOption, int exitCode) rBool;
 BOOL STORMAPI SErrGetErrorStr(DWORD dwErrCode, char *buffer, size_t bufferchars) rBool;
 DWORD STORMAPI SErrGetLastError() rInt;
 
@@ -198,6 +201,10 @@ void STORMAPI SRgnCreateRegion(HANDLE *hRgn, int a2) rVoid;
 void STORMAPI SRgnDeleteRegion(HANDLE hRgn) rVoid;
 
 void STORMAPI SRgn529i(int handle, int a2, int a3) rVoid;
+
+BOOL SErrDisplayErrorFmt(DWORD dwErrMsg, const char *logfilename, int logline, BOOL allowOption, int exitCode, const char *format, ...) rBool;
+
+void STORMAPI SErrCatchUnhandledExceptions() rVoid;
 
 char* STORMAPI SStrChr(const char *string, char c) rPVoid;
 char* STORMAPI SStrChrR(const char *string, char c) rPVoid;

@@ -448,7 +448,7 @@ static void WriteCmpData(TCmpStruct * pWork)
         bytes_required = 0x1000;
 
         do {
-            int loaded = pWork->read_buf(&pWork->work_buff[UNCMP_OFFSET + total_loaded], &bytes_required, pWork->param);
+            int loaded = pWork->read_buf((char*)&pWork->work_buff[UNCMP_OFFSET + total_loaded], &bytes_required, pWork->param);
 
             if (loaded == 0) {
                 if (total_loaded == 0 && esp20 == 0) {

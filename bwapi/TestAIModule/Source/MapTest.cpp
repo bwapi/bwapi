@@ -6,6 +6,7 @@ void MapTest::onStart()
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::CompleteMapInformation);
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(512);
   BWAssert(Broodwar->mapWidth()==192);
   BWAssert(Broodwar->mapHeight()==128);
   BWAssert(Broodwar->mapFileName()=="MapTest.scx");
@@ -16,26 +17,18 @@ void MapTest::onStart()
   //Update this whenever the map is modified
   BWAssert(Broodwar->mapHash()=="b1458acae03d6bbacd223ba8c96830b28a6035fb");
 
-  for(int x=0;x<40;x++)
-  {
-    for(int y=0;y<40;y++)
+  for ( int x = 0; x < 10; ++x )
+    for ( int y = 0; y < 10; ++y )
     {
-      BWAssert(Broodwar->isWalkable(x,y));
-    }
-  }
-  for(int x=0;x<10;x++)
-  {
-    for(int y=0;y<10;y++)
-    {
+      BWAssert(Broodwar->isWalkable( WalkPosition(x,y) ));
       BWAssert(Broodwar->getGroundHeight(x,y)==2);
       BWAssert(Broodwar->isBuildable(x,y));
       BWAssert(Broodwar->isVisible(x,y));
       BWAssert(Broodwar->isExplored(x,y));
     }
-  }
+
   for(int x=5;x<14;x++)
   {
-    // @TODO: Investigate
     BWAssertF(Broodwar->hasCreep(x,0), { log("  hasCreep(%u,0)", x); });
   }
   for(int x=14;x<40;x++)
@@ -62,30 +55,30 @@ void MapTest::onStart()
   }
 
   //briefly check some of these functions. Can add more test cases later if needed
-  BWAssert(Broodwar->canBuildHere(NULL,TilePosition(18,12),UnitTypes::Protoss_Pylon));
-  BWAssert(Broodwar->canBuildHere(NULL,TilePosition(18,12),UnitTypes::Protoss_Gateway));
-  BWAssert(Broodwar->canMake(NULL,UnitTypes::Protoss_Gateway)==false);
-  BWAssert(Broodwar->canResearch(NULL,TechTypes::Psionic_Storm)==false);
-  BWAssert(Broodwar->canUpgrade(NULL,UpgradeTypes::Gravitic_Thrusters)==false);
+  BWAssert(Broodwar->canBuildHere(TilePosition(18,12),UnitTypes::Protoss_Pylon));
+  BWAssert(Broodwar->canBuildHere(TilePosition(18,12),UnitTypes::Protoss_Gateway));
+  BWAssert(Broodwar->canMake(UnitTypes::Protoss_Gateway)==false);
+  BWAssert(Broodwar->canResearch(TechTypes::Psionic_Storm)==false);
+  BWAssert(Broodwar->canUpgrade(UpgradeTypes::Gravitic_Thrusters)==false);
 
   //check start locations
-  set<TilePosition> startLocations = Broodwar->getStartLocations();
+  TilePosition::set startLocations = Broodwar->getStartLocations();
   BWAssert(startLocations.size()==4);
-  BWAssert((*startLocations.begin()).x()==0);
-  BWAssert((*startLocations.begin()).y()==0);
-  startLocations.erase(startLocations.begin());
+  BWAssert(startLocations.front().x==0);
+  BWAssert(startLocations.front().y==0);
+  startLocations.pop_front();
   BWAssert(startLocations.size()==3);
-  BWAssert((*startLocations.begin()).x()==4);
-  BWAssert((*startLocations.begin()).y()==3);
-  startLocations.erase(startLocations.begin());
+  BWAssert(startLocations.front().x==4);
+  BWAssert(startLocations.front().y==3);
+  startLocations.pop_front();
   BWAssert(startLocations.size()==2);
-  BWAssert((*startLocations.begin()).x()==8);
-  BWAssert((*startLocations.begin()).y()==6);
-  startLocations.erase(startLocations.begin());
+  BWAssert(startLocations.front().x==8);
+  BWAssert(startLocations.front().y==6);
+  startLocations.pop_front();
   BWAssert(startLocations.size()==1);
-  BWAssert((*startLocations.begin()).x()==12);
-  BWAssert((*startLocations.begin()).y()==9);
-  startLocations.erase(startLocations.begin());
+  BWAssert(startLocations.front().x==12);
+  BWAssert(startLocations.front().y==9);
+  startLocations.pop_front();
   BWAssert(startLocations.empty());
   Broodwar->printf("Completed all asserts");
 }

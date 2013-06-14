@@ -2,7 +2,7 @@
 #include <windows.h>
 
 LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep);
-const char *GetExceptionName(DWORD dwExceptionCode);
+const char * const GetExceptionName(DWORD dwExceptionCode);
 void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4);
 
 class TopLevelExceptionFilter

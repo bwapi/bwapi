@@ -1,189 +1,391 @@
 #pragma once
-#include <string>
-#include <set>
-#include "Type.h"
+#include <BWAPI/Type.h>
+
 namespace BWAPI
 {
-  /** To get detailed information about what a unit is doing, you can use the Unit::getOrder method, which
-   * will return an Order object. Note that a single command, like gather minerals, can consist of several
-   * orders ( MoveToMinerals, HarvestMinerals2, MiningMinerals, ReturnMinerals, etc) which will indicate what
-   * state the unit is in while executing the command. For information about how to issue commands to units,
-   * go to Unit. */
-  class Order : public Type
-  {
-    public:
-      Order();
-      Order(int id);
-
-      /** Returns the name of this order. */
-      const std::string &getName() const;
-      const char *c_str() const;
-  };
   namespace Orders
   {
-    /** Given the name of an order, getOrder() will return the corresponding order object. */
-    Order getOrder(std::string name);
+    /// Enumeration of unit orders
+    namespace Enum
+    {
+      /// Enumeration of unit orders
+      enum Enum
+      {
+        Die,
+        Stop,
+        Guard,
+        PlayerGuard,
+        TurretGuard,
+        BunkerGuard,
+        Move,
+        ReaverStop,
+        Attack1,
+        Attack2,
+        AttackUnit,
+        AttackFixedRange,
+        AttackTile,
+        Hover,
+        AttackMove,
+        InfestedCommandCenter,
+        UnusedNothing,
+        UnusedPowerup,
+        TowerGuard,
+        TowerAttack,
+        VultureMine,
+        StayInRange,
+        TurretAttack,
+        Nothing,
+        Unused_24,
+        DroneStartBuild,
+        DroneBuild,
+        CastInfestation,
+        MoveToInfest,
+        InfestingCommandCenter,
+        PlaceBuilding,
+        PlaceProtossBuilding,
+        CreateProtossBuilding,
+        ConstructingBuilding,
+        Repair,
+        MoveToRepair,
+        PlaceAddon,
+        BuildAddon,
+        Train,
+        RallyPointUnit,
+        RallyPointTile,
+        ZergBirth,
+        ZergUnitMorph,
+        ZergBuildingMorph,
+        IncompleteBuilding,
+        IncompleteMorphing,
+        BuildNydusExit,
+        EnterNydusCanal,
+        IncompleteWarping,
+        Follow,
+        Carrier,
+        ReaverCarrierMove,
+        CarrierStop,
+        CarrierAttack,
+        CarrierMoveToAttack,
+        CarrierIgnore2,
+        CarrierFight,
+        CarrierHoldPosition,
+        Reaver,
+        ReaverAttack,
+        ReaverMoveToAttack,
+        ReaverFight,
+        ReaverHoldPosition,
+        TrainFighter,
+        InterceptorAttack,
+        ScarabAttack,
+        RechargeShieldsUnit,
+        RechargeShieldsBattery,
+        ShieldBattery,
+        InterceptorReturn,
+        DroneLand,
+        BuildingLand,
+        BuildingLiftOff,
+        DroneLiftOff,
+        LiftingOff,
+        ResearchTech,
+        Upgrade,
+        Larva,
+        SpawningLarva,
+        Harvest1,
+        Harvest2,
+        MoveToGas,
+        WaitForGas,
+        HarvestGas,
+        ReturnGas,
+        MoveToMinerals,
+        WaitForMinerals,
+        MiningMinerals,
+        Harvest3,
+        Harvest4,
+        ReturnMinerals,
+        Interrupted,
+        EnterTransport,
+        PickupIdle,
+        PickupTransport,
+        PickupBunker,
+        Pickup4,
+        PowerupIdle,
+        Sieging,
+        Unsieging,
+        WatchTarget,
+        InitCreepGrowth,
+        SpreadCreep,
+        StoppingCreepGrowth,
+        GuardianAspect,
+        ArchonWarp,
+        CompletingArchonSummon,
+        HoldPosition,
+        QueenHoldPosition,
+        Cloak,
+        Decloak,
+        Unload,
+        MoveUnload,
+        FireYamatoGun,
+        MoveToFireYamatoGun,
+        CastLockdown,
+        Burrowing,
+        Burrowed,
+        Unburrowing,
+        CastDarkSwarm,
+        CastParasite,
+        CastSpawnBroodlings,
+        CastEMPShockwave,
+        NukeWait,
+        NukeTrain,
+        NukeLaunch,
+        NukePaint,
+        NukeUnit,
+        CastNuclearStrike,
+        NukeTrack,
+        InitializeArbiter,
+        CloakNearbyUnits,
+        PlaceMine,
+        RightClickAction,
+        SuicideUnit,
+        SuicideLocation,
+        SuicideHoldPosition,
+        CastRecall,
+        Teleport,
+        CastScannerSweep,
+        Scanner,
+        CastDefensiveMatrix,
+        CastPsionicStorm,
+        CastIrradiate,
+        CastPlague,
+        CastConsume,
+        CastEnsnare,
+        CastStasisField,
+        CastHallucination,
+        Hallucination2,
+        ResetCollision,
+        ResetHarvestCollision,
+        Patrol,
+        CTFCOPInit,
+        CTFCOPStarted,
+        CTFCOP2,
+        ComputerAI,
+        AtkMoveEP,
+        HarassMove,
+        AIPatrol,
+        GuardPost,
+        RescuePassive,
+        Neutral,
+        ComputerReturn,
+        InitializePsiProvider,
+        SelfDestructing,
+        Critter,
+        HiddenGun,
+        OpenDoor,
+        CloseDoor,
+        HideTrap,
+        RevealTrap,
+        EnableDoodad,
+        DisableDoodad,
+        WarpIn,
+        Medic,
+        MedicHeal,
+        HealMove,
+        MedicHoldPosition,
+        MedicHealToIdle,
+        CastRestoration,
+        CastDisruptionWeb,
+        CastMindControl,
+        DarkArchonMeld,
+        CastFeedback,
+        CastOpticalFlare,
+        CastMaelstrom,
+        JunkYardDog,
+        Fatal,
+        None,
+        Unknown,
+        MAX
+      };
+    }
+  }
+  /// An Order (Order type) represents a Unit's current action and can be retrieved with
+  /// UnitInterface::getOrder. It can also be used to identify the current state of the unit during
+  /// command execution (gathering minerals can consist of Orders::MoveToMinerals,
+  /// Orders::WaitForMinerals, Orders::MiningMinerals, etc.).
+  ///
+  /// @see UnitInterface::getOrder
+  class Order : public Type<Order, Orders::Enum::Unknown>
+  {
+    public:
+      /// @copydoc Type::Type(int)
+      Order(int id = Orders::Enum::None);
+  };
+  /// Namespace containing unit orders
+  namespace Orders
+  {
+    /// Retrieves the set of all the Orders.
+    ///
+    /// @returns Set of all Order types.
+    const Order::const_set& allOrders();
 
-    /** Returns the set of all the Orders. */
-    const std::set<Order>& allOrders();
-
-    void init();
-    extern const Order Die;
-    extern const Order Stop;
-    extern const Order Guard;
-    extern const Order PlayerGuard;
-    extern const Order TurretGuard;
-    extern const Order BunkerGuard;
-    extern const Order Move;
-    extern const Order AttackUnit;
-    extern const Order AttackTile;
-    extern const Order Hover;
-    extern const Order AttackMove;
-    extern const Order InfestedCommandCenter;
-    extern const Order UnusedNothing;
-    extern const Order UnusedPowerup;
-    extern const Order TowerGuard;
-    extern const Order VultureMine;
-    extern const Order Nothing;
-    extern const Order Nothing3;
-    extern const Order CastInfestation;
-    extern const Order InfestingCommandCenter;
-    extern const Order PlaceBuilding;
-    extern const Order BuildProtoss2;
-    extern const Order ConstructingBuilding;
-    extern const Order Repair;
-    extern const Order PlaceAddon;
-    extern const Order BuildAddon;
-    extern const Order Train;
-    extern const Order RallyPointUnit;
-    extern const Order RallyPointTile;
-    extern const Order ZergBirth;
-    extern const Order ZergUnitMorph;
-    extern const Order ZergBuildingMorph;
-    extern const Order IncompleteBuilding;
-    extern const Order BuildNydusExit;
-    extern const Order EnterNydusCanal;
-    extern const Order Follow;
-    extern const Order Carrier;
-    extern const Order ReaverCarrierMove;
-    extern const Order CarrierIgnore2;
-    extern const Order Reaver;
-    extern const Order TrainFighter;
-    extern const Order InterceptorAttack;
-    extern const Order ScarabAttack;
-    extern const Order RechargeShieldsUnit;
-    extern const Order RechargeShieldsBattery;
-    extern const Order ShieldBattery;
-    extern const Order InterceptorReturn;
-    extern const Order BuildingLand;
-    extern const Order BuildingLiftOff;
-    extern const Order DroneLiftOff;
-    extern const Order LiftingOff;
-    extern const Order ResearchTech;
-    extern const Order Upgrade;
-    extern const Order Larva;
-    extern const Order SpawningLarva;
-    extern const Order Harvest1;
-    extern const Order Harvest2;
-    extern const Order MoveToGas;
-    extern const Order WaitForGas;
-    extern const Order HarvestGas;
-    extern const Order ReturnGas;
-    extern const Order MoveToMinerals;
-    extern const Order WaitForMinerals;
-    extern const Order MiningMinerals;
-    extern const Order Harvest3;
-    extern const Order Harvest4;
-    extern const Order ReturnMinerals;
-    extern const Order Interrupted;
-    extern const Order EnterTransport;
-    extern const Order PickupIdle;
-    extern const Order PickupTransport;
-    extern const Order PickupBunker;
-    extern const Order Pickup4;
-    extern const Order PowerupIdle;
-    extern const Order Sieging;
-    extern const Order Unsieging;
-    extern const Order InitCreepGrowth;
-    extern const Order SpreadCreep;
-    extern const Order StoppingCreepGrowth;
-    extern const Order GuardianAspect;
-    extern const Order ArchonWarp;
-    extern const Order CompletingArchonsummon;
-    extern const Order HoldPosition;
-    extern const Order Cloak;
-    extern const Order Decloak;
-    extern const Order Unload;
-    extern const Order MoveUnload;
-    extern const Order FireYamatoGun;
-    extern const Order CastLockdown;
-    extern const Order Burrowing;
-    extern const Order Burrowed;
-    extern const Order Unburrowing;
-    extern const Order CastDarkSwarm;
-    extern const Order CastParasite;
-    extern const Order CastSpawnBroodlings;
-    extern const Order CastEMPShockwave;
-    extern const Order NukeWait;
-    extern const Order NukeTrain;
-    extern const Order NukeLaunch;
-    extern const Order NukePaint;
-    extern const Order NukeUnit;
-    extern const Order CastNuclearStrike;
-    extern const Order NukeTrack;
-    extern const Order CloakNearbyUnits;
-    extern const Order PlaceMine;
-    extern const Order RightClickAction;
-    extern const Order CastRecall;
-    extern const Order TeleporttoLocation;
-    extern const Order CastScannerSweep;
-    extern const Order Scanner;
-    extern const Order CastDefensiveMatrix;
-    extern const Order CastPsionicStorm;
-    extern const Order CastIrradiate;
-    extern const Order CastPlague;
-    extern const Order CastConsume;
-    extern const Order CastEnsnare;
-    extern const Order CastStasisField;
-    extern const Order CastHallucination;
-    extern const Order Hallucination2;
-    extern const Order ResetCollision;
-    extern const Order Patrol;
-    extern const Order CTFCOPInit;
-    extern const Order CTFCOPStarted;
-    extern const Order CTFCOP2;
-    extern const Order ComputerAI;
-    extern const Order AtkMoveEP;
-    extern const Order HarassMove;
-    extern const Order AIPatrol;
-    extern const Order GuardPost;
-    extern const Order RescuePassive;
-    extern const Order Neutral;
-    extern const Order ComputerReturn;
-    extern const Order SelfDestrucing;
-    extern const Order Critter;
-    extern const Order HiddenGun;
-    extern const Order OpenDoor;
-    extern const Order CloseDoor;
-    extern const Order HideTrap;
-    extern const Order RevealTrap;
-    extern const Order Enabledoodad;
-    extern const Order Disabledoodad;
-    extern const Order Warpin;
-    extern const Order Medic;
-    extern const Order MedicHeal1;
-    extern const Order HealMove;
-    extern const Order MedicHeal2;
-    extern const Order CastRestoration;
-    extern const Order CastDisruptionWeb;
-    extern const Order CastMindControl;
-    extern const Order DarkArchonMeld;
-    extern const Order CastFeedback;
-    extern const Order CastOpticalFlare;
-    extern const Order CastMaelstrom;
-    extern const Order JunkYardDog;
-    extern const Order Fatal;
-    extern const Order None;
-    extern const Order Unknown;
+#ifdef BWAPI_DECL
+#undef BWAPI_DECL
+#endif
+#define BWAPI_DECL(x) /** x */ extern const Order x
+    BWAPI_DECL(Die);
+    BWAPI_DECL(Stop);
+    BWAPI_DECL(Guard);
+    BWAPI_DECL(PlayerGuard);
+    BWAPI_DECL(TurretGuard);
+    BWAPI_DECL(BunkerGuard);
+    BWAPI_DECL(Move);
+    BWAPI_DECL(AttackUnit);
+    BWAPI_DECL(AttackTile);
+    BWAPI_DECL(Hover);
+    BWAPI_DECL(AttackMove);
+    BWAPI_DECL(InfestedCommandCenter);
+    BWAPI_DECL(UnusedNothing);
+    BWAPI_DECL(UnusedPowerup);
+    BWAPI_DECL(TowerGuard);
+    BWAPI_DECL(VultureMine);
+    BWAPI_DECL(Nothing);
+    BWAPI_DECL(CastInfestation);
+    BWAPI_DECL(InfestingCommandCenter);
+    BWAPI_DECL(PlaceBuilding);
+    BWAPI_DECL(CreateProtossBuilding);
+    BWAPI_DECL(ConstructingBuilding);
+    BWAPI_DECL(Repair);
+    BWAPI_DECL(PlaceAddon);
+    BWAPI_DECL(BuildAddon);
+    BWAPI_DECL(Train);
+    BWAPI_DECL(RallyPointUnit);
+    BWAPI_DECL(RallyPointTile);
+    BWAPI_DECL(ZergBirth);
+    BWAPI_DECL(ZergUnitMorph);
+    BWAPI_DECL(ZergBuildingMorph);
+    BWAPI_DECL(IncompleteBuilding);
+    BWAPI_DECL(BuildNydusExit);
+    BWAPI_DECL(EnterNydusCanal);
+    BWAPI_DECL(Follow);
+    BWAPI_DECL(Carrier);
+    BWAPI_DECL(ReaverCarrierMove);
+    BWAPI_DECL(CarrierIgnore2);
+    BWAPI_DECL(Reaver);
+    BWAPI_DECL(TrainFighter);
+    BWAPI_DECL(InterceptorAttack);
+    BWAPI_DECL(ScarabAttack);
+    BWAPI_DECL(RechargeShieldsUnit);
+    BWAPI_DECL(RechargeShieldsBattery);
+    BWAPI_DECL(ShieldBattery);
+    BWAPI_DECL(InterceptorReturn);
+    BWAPI_DECL(BuildingLand);
+    BWAPI_DECL(BuildingLiftOff);
+    BWAPI_DECL(DroneLiftOff);
+    BWAPI_DECL(LiftingOff);
+    BWAPI_DECL(ResearchTech);
+    BWAPI_DECL(Upgrade);
+    BWAPI_DECL(Larva);
+    BWAPI_DECL(SpawningLarva);
+    BWAPI_DECL(Harvest1);
+    BWAPI_DECL(Harvest2);
+    BWAPI_DECL(MoveToGas);
+    BWAPI_DECL(WaitForGas);
+    BWAPI_DECL(HarvestGas);
+    BWAPI_DECL(ReturnGas);
+    BWAPI_DECL(MoveToMinerals);
+    BWAPI_DECL(WaitForMinerals);
+    BWAPI_DECL(MiningMinerals);
+    BWAPI_DECL(Harvest3);
+    BWAPI_DECL(Harvest4);
+    BWAPI_DECL(ReturnMinerals);
+    BWAPI_DECL(Interrupted);
+    BWAPI_DECL(EnterTransport);
+    BWAPI_DECL(PickupIdle);
+    BWAPI_DECL(PickupTransport);
+    BWAPI_DECL(PickupBunker);
+    BWAPI_DECL(Pickup4);
+    BWAPI_DECL(PowerupIdle);
+    BWAPI_DECL(Sieging);
+    BWAPI_DECL(Unsieging);
+    BWAPI_DECL(InitCreepGrowth);
+    BWAPI_DECL(SpreadCreep);
+    BWAPI_DECL(StoppingCreepGrowth);
+    BWAPI_DECL(GuardianAspect);
+    BWAPI_DECL(ArchonWarp);
+    BWAPI_DECL(CompletingArchonSummon);
+    BWAPI_DECL(HoldPosition);
+    BWAPI_DECL(Cloak);
+    BWAPI_DECL(Decloak);
+    BWAPI_DECL(Unload);
+    BWAPI_DECL(MoveUnload);
+    BWAPI_DECL(FireYamatoGun);
+    BWAPI_DECL(CastLockdown);
+    BWAPI_DECL(Burrowing);
+    BWAPI_DECL(Burrowed);
+    BWAPI_DECL(Unburrowing);
+    BWAPI_DECL(CastDarkSwarm);
+    BWAPI_DECL(CastParasite);
+    BWAPI_DECL(CastSpawnBroodlings);
+    BWAPI_DECL(CastEMPShockwave);
+    BWAPI_DECL(NukeWait);
+    BWAPI_DECL(NukeTrain);
+    BWAPI_DECL(NukeLaunch);
+    BWAPI_DECL(NukePaint);
+    BWAPI_DECL(NukeUnit);
+    BWAPI_DECL(CastNuclearStrike);
+    BWAPI_DECL(NukeTrack);
+    BWAPI_DECL(CloakNearbyUnits);
+    BWAPI_DECL(PlaceMine);
+    BWAPI_DECL(RightClickAction);
+    BWAPI_DECL(CastRecall);
+    BWAPI_DECL(Teleport);
+    BWAPI_DECL(CastScannerSweep);
+    BWAPI_DECL(Scanner);
+    BWAPI_DECL(CastDefensiveMatrix);
+    BWAPI_DECL(CastPsionicStorm);
+    BWAPI_DECL(CastIrradiate);
+    BWAPI_DECL(CastPlague);
+    BWAPI_DECL(CastConsume);
+    BWAPI_DECL(CastEnsnare);
+    BWAPI_DECL(CastStasisField);
+    BWAPI_DECL(CastHallucination);
+    BWAPI_DECL(Hallucination2);
+    BWAPI_DECL(ResetCollision);
+    BWAPI_DECL(Patrol);
+    BWAPI_DECL(CTFCOPInit);
+    BWAPI_DECL(CTFCOPStarted);
+    BWAPI_DECL(CTFCOP2);
+    BWAPI_DECL(ComputerAI);
+    BWAPI_DECL(AtkMoveEP);
+    BWAPI_DECL(HarassMove);
+    BWAPI_DECL(AIPatrol);
+    BWAPI_DECL(GuardPost);
+    BWAPI_DECL(RescuePassive);
+    BWAPI_DECL(Neutral);
+    BWAPI_DECL(ComputerReturn);
+    BWAPI_DECL(SelfDestructing);
+    BWAPI_DECL(Critter);
+    BWAPI_DECL(HiddenGun);
+    BWAPI_DECL(OpenDoor);
+    BWAPI_DECL(CloseDoor);
+    BWAPI_DECL(HideTrap);
+    BWAPI_DECL(RevealTrap);
+    BWAPI_DECL(EnableDoodad);
+    BWAPI_DECL(DisableDoodad);
+    BWAPI_DECL(WarpIn);
+    BWAPI_DECL(Medic);
+    BWAPI_DECL(MedicHeal);
+    BWAPI_DECL(HealMove);
+    BWAPI_DECL(MedicHealToIdle);
+    BWAPI_DECL(CastRestoration);
+    BWAPI_DECL(CastDisruptionWeb);
+    BWAPI_DECL(CastMindControl);
+    BWAPI_DECL(DarkArchonMeld);
+    BWAPI_DECL(CastFeedback);
+    BWAPI_DECL(CastOpticalFlare);
+    BWAPI_DECL(CastMaelstrom);
+    BWAPI_DECL(JunkYardDog);
+    BWAPI_DECL(Fatal);
+    BWAPI_DECL(None);
+    BWAPI_DECL(Unknown);
+#undef BWAPI_DECL
   };
 }

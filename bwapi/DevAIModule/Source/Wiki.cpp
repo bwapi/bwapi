@@ -57,35 +57,35 @@ void printUnitData(FILE *outWiki, UnitType u)
     if ( u.maxShields() )
       fprintf(outWiki, "  * *Max Shields*: %d\n", u.maxShields());
     if ( u.maxEnergy() )
-      fprintf(outWiki, "  * *Max Energy*: %d\n", u.maxEnergy());
-    fprintf(outWiki, "  * *Armor*: %d\n", u.armor());
+      fprintf(outWiki, "  * *Max Energy*: %u\n", u.maxEnergy());
+    fprintf(outWiki, "  * *Armor*: %u\n", u.armor());
     fprintf(outWiki, "  * *Unit Size*: %s\n", u.size().c_str());
   }
   if ( u.whatBuilds().second > 0 )
   {
     if ( u.whatBuilds().second == 1 )
     {
-      fprintf(outWiki, "  * *Mineral Cost*: %d\n", u.mineralPrice());
-      fprintf(outWiki, "  * *Gas Cost*: %d\n", u.gasPrice());
+      fprintf(outWiki, "  * *Mineral Cost*: %u\n", u.mineralPrice());
+      fprintf(outWiki, "  * *Gas Cost*: %u\n", u.gasPrice());
     }
-    fprintf(outWiki, "  * *Build Time*: %d\n", u.buildTime());
+    fprintf(outWiki, "  * *Build Time*: %u\n", u.buildTime());
   }
   if ( u.supplyProvided() )
-    fprintf(outWiki, "  * *Supply Provided*: %d\n", u.supplyProvided());
+    fprintf(outWiki, "  * *Supply Provided*: %u\n", u.supplyProvided());
   if ( u.supplyRequired() )
-    fprintf(outWiki, "  * *Supply Required*: %d\n", u.supplyRequired());
+    fprintf(outWiki, "  * *Supply Required*: %u\n", u.supplyRequired());
   if ( u.spaceProvided() )
-    fprintf(outWiki, "  * *Space Provided*: %d\n", u.spaceProvided());
+    fprintf(outWiki, "  * *Space Provided*: %u\n", u.spaceProvided());
   if ( u.spaceRequired() != 255 )
-    fprintf(outWiki, "  * *Space Required*: %d\n", u.spaceRequired());
+    fprintf(outWiki, "  * *Space Required*: %u\n", u.spaceRequired());
   if ( u.isBuilding() )
-    fprintf(outWiki, "  * *Tile Size*: %u x %d\n", u.tileWidth(), u.tileHeight());
-  fprintf(outWiki, "  * *Unit Dimensions*: %d x %d\n", u.dimensionLeft() + u.dimensionRight() + 1, u.dimensionUp() + u.dimensionDown() + 1);
-  fprintf(outWiki, "  * *Sight Range*: %d (%d)\n", u.sightRange(), u.sightRange()/32);
+    fprintf(outWiki, "  * *Tile Size*: %u x %u\n", u.tileWidth(), u.tileHeight());
+  fprintf(outWiki, "  * *Unit Dimensions*: %u x %u\n", u.dimensionLeft() + u.dimensionRight() + 1, u.dimensionUp() + u.dimensionDown() + 1);
+  fprintf(outWiki, "  * *Sight Range*: %u (%u)\n", u.sightRange(), u.sightRange()/32);
   if ( u.buildScore() && u.whatBuilds().second > 0 )
-    fprintf(outWiki, "  * *Build Score*: %d\n", u.buildScore());
+    fprintf(outWiki, "  * *Build Score*: %u\n", u.buildScore());
   if ( u.destroyScore() && !u.isInvincible() )
-    fprintf(outWiki, "  * *Destroy Score*: %d\n", u.destroyScore());
+    fprintf(outWiki, "  * *Destroy Score*: %u\n", u.destroyScore());
   if ( u.topSpeed() > 0 )
     fprintf(outWiki, "  * *Top Speed*: %Lf\n", u.topSpeed());
   if ( u.groundWeapon() == u.airWeapon() )
@@ -347,19 +347,19 @@ void printWeaponData(FILE *outWiki, WeaponType w)
     if ( w.damageAmount() || w.damageBonus() )
     {
       fprintf(outWiki, "  * *Damage Type*: %s\n", w.damageType().c_str());
-      fprintf(outWiki, "  * *Damage*: %d\n", w.damageAmount());
+      fprintf(outWiki, "  * *Damage*: %u\n", w.damageAmount());
       if ( w.damageBonus() )
-        fprintf(outWiki, "  * *Bonus*: %d\n", w.damageBonus());
+        fprintf(outWiki, "  * *Bonus*: %u\n", w.damageBonus());
       if ( w.explosionType() != ExplosionTypes::Yamato_Gun )
-        fprintf(outWiki, "  * *Factor*: %d\n", w.damageFactor());
+        fprintf(outWiki, "  * *Factor*: %u\n", w.damageFactor());
     }
-    fprintf(outWiki, "  * *Cooldown*: %d\n", w.damageCooldown());
+    fprintf(outWiki, "  * *Cooldown*: %u\n", w.damageCooldown());
   }
   if ( w.explosionType() == ExplosionTypes::Enemy_Splash ||
        w.explosionType() == ExplosionTypes::Air_Splash ||
        w.explosionType() == ExplosionTypes::Radial_Splash )
-    fprintf(outWiki, "  * *Splash Radius*: %d - %d - %d\n", w.innerSplashRadius(), w.medianSplashRadius(), w.outerSplashRadius());
-  fprintf(outWiki, "  * *Range*: %d - %d\n", w.minRange(), w.maxRange());
+    fprintf(outWiki, "  * *Splash Radius*: %u - %u - %u\n", w.innerSplashRadius(), w.medianSplashRadius(), w.outerSplashRadius());
+  fprintf(outWiki, "  * *Range*: %u - %u\n", w.minRange(), w.maxRange());
 
   if ( w.getTech() != TechTypes::None )
     fprintf(outWiki, "  * *Technology*: [TechTypes#%s %s]\n", makelink(w.getTech()));

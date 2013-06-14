@@ -32,7 +32,7 @@ Several members in the gamedev.se forum.
 */
  
 #include "sha1.h"
-#include <string.h>
+#include <cstring>
 
 namespace sha1
 {

@@ -117,6 +117,8 @@ namespace Util
   //----------------------- CONSTRUCTION -------------------------------
   SharedMemory::Export::Export()
     : targetProcessMappingObjectHandle(INVALID_HANDLE_VALUE)
+  ,bufferSize(0)
+  ,readOnly(true)
   {
   }
   //----------------------- --------------------------------------------

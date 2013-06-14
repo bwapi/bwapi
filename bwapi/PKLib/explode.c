@@ -442,7 +442,7 @@ static unsigned long Expand(TDcmpStruct * pWork)
         }
     }
 
-	copyBytes = pWork->outputPos - 0x1000;
+  copyBytes = pWork->outputPos - 0x1000;
     pWork->write_buf((char *)&pWork->out_buff[0x1000], &copyBytes, pWork->param);
     return dwResult;
 }

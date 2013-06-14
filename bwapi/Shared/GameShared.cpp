@@ -4,172 +4,110 @@
 
 namespace BWAPI
 {
-  //--------------------------------------------- GET MOUSE STATE --------------------------------------------
-  bool GameImpl::getMouseState(MouseButton button)
-  {
-    return getMouseState((int)button);
-  }
-  //---------------------------------------------- GET KEY STATE ---------------------------------------------
-  bool GameImpl::getKeyState(Key key)
-  {
-    return getKeyState((int)key);
-  }
   //----------------------------------------------- GET FORCES -----------------------------------------------
-  std::set< Force* >& GameImpl::getForces()
+  const Forceset& GameImpl::getForces() const
   {
     return forces;
   }
   //----------------------------------------------- GET PLAYERS ----------------------------------------------
-  std::set< Player* >& GameImpl::getPlayers()
+  const Playerset& GameImpl::getPlayers() const
   {
     return playerSet;
   }
   //------------------------------------------------- GET UNITS ----------------------------------------------
-  std::set< Unit* >& GameImpl::getAllUnits()
+  const Unitset& GameImpl::getAllUnits() const
   {
     return accessibleUnits;
   }
   //------------------------------------------------- GET MINERALS -------------------------------------------
-  std::set< Unit* >& GameImpl::getMinerals()
+  const Unitset& GameImpl::getMinerals() const
   {
     return minerals;
   }
   //------------------------------------------------- GET GEYSERS --------------------------------------------
-  std::set< Unit* >& GameImpl::getGeysers()
+  const Unitset& GameImpl::getGeysers() const
   {
     return geysers;
   }
   //------------------------------------------------- GET NEUTRAL UNITS --------------------------------------
-  std::set< Unit* >& GameImpl::getNeutralUnits()
+  const Unitset& GameImpl::getNeutralUnits() const
   {
     return neutralUnits;
   }
   //------------------------------------------------- GET STATIC MINERALS ------------------------------------
-  std::set< Unit* >& GameImpl::getStaticMinerals()
+  const Unitset& GameImpl::getStaticMinerals() const
   {
     return staticMinerals;
   }
   //------------------------------------------------- GET STATIC GEYSERS -------------------------------------
-  std::set< Unit* >& GameImpl::getStaticGeysers()
+  const Unitset& GameImpl::getStaticGeysers() const
   {
     return staticGeysers;
   }
   //------------------------------------------------- GET STATIC NEUTRAL UNITS -------------------------------
-  std::set< Unit* >& GameImpl::getStaticNeutralUnits()
+  const Unitset& GameImpl::getStaticNeutralUnits() const
   {
     return staticNeutralUnits;
   }
   //------------------------------------------------ GET BULLETS ---------------------------------------------
-  std::set< Bullet* >& GameImpl::getBullets()
+  const Bulletset& GameImpl::getBullets() const
   {
     return bullets;
   }
   //------------------------------------------------ GET NUKE DOTS -------------------------------------------
-  std::set< Position >& GameImpl::getNukeDots()
+  const Position::set& GameImpl::getNukeDots() const
   {
     return nukeDots;
   }
   //------------------------------------------------ GET EVENTS ----------------------------------------------
-  std::list< Event >& GameImpl::getEvents()
+  const std::list< Event >& GameImpl::getEvents() const
   {
     return events;
   }
   //----------------------------------------------- GET LAST ERROR -------------------------------------------
   Error GameImpl::getLastError() const
   {
-    /* returns the last error encountered in BWAPI */
+    // returns the last error encountered in BWAPI
     return lastError;
   }
   //--------------------------------------------- SET LAST ERROR ---------------------------------------------
-  bool GameImpl::setLastError(BWAPI::Error e)
+  bool GameImpl::setLastError(BWAPI::Error e) const
   {
-    /* implies that an error has occured */
+    // implies that an error has occured
     lastError = e;
     return e == Errors::None;
   }
-  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
-  bool GameImpl::isBuildable(TilePosition position, bool includeBuildings)
-  {
-    return isBuildable(position.x(), position.y(), includeBuildings);
-  }
-  //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool GameImpl::isVisible(TilePosition position)
-  {
-    return isVisible(position.x(),position.y());
-  }
-  //--------------------------------------------- IS EXPLORED ------------------------------------------------
-  bool GameImpl::isExplored(TilePosition position)
-  {
-    return isExplored(position.x(),position.y());
-  }
-  //--------------------------------------------- HAS CREEP --------------------------------------------------
-  bool GameImpl::hasCreep(TilePosition position)
-  {
-    return hasCreep(position.x(), position.y());
-  }
-  //--------------------------------------------- HAS POWER --------------------------------------------------
-  bool GameImpl::hasPower(int tileX, int tileY, UnitType unitType) const
-  {
-    if ( unitType >= 0 && unitType < UnitTypes::None )
-      return hasPowerPrecise( tileX*32 + unitType.tileWidth()*16, tileY*32 + unitType.tileHeight()*16, unitType);
-    return hasPowerPrecise( tileX*32, tileY*32, UnitTypes::None);
-  }
-  bool GameImpl::hasPower(TilePosition position, UnitType unitType) const
-  {
-    return hasPower(position.x(), position.y(), unitType);
-  }
-  bool GameImpl::hasPower(int tileX, int tileY, int tileWidth, int tileHeight, UnitType unitType) const
-  {
-    return hasPowerPrecise( tileX*32 + tileWidth*16, tileY*32 + tileHeight*16, unitType);
-  }
-  bool GameImpl::hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType) const
-  {
-    return hasPower(position.x(), position.y(), tileWidth, tileHeight, unitType);
-  }
-  bool GameImpl::hasPowerPrecise(Position position, UnitType unitType) const
-  {
-    return hasPowerPrecise(position.x(), position.y(), unitType);
-  }
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
-  bool GameImpl::canBuildHere(const Unit* builder, TilePosition position, UnitType type, bool checkExplored)
+  bool GameImpl::canBuildHere(TilePosition position, UnitType type, Unit builder, bool checkExplored)
   {
     return Templates::canBuildHere(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
-  bool GameImpl::canMake(const Unit* builder, UnitType type)
+  bool GameImpl::canMake(UnitType type, Unit builder) const
   {
     return Templates::canMake(builder,type);
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
-  bool GameImpl::canResearch(const Unit* unit, TechType type)
+  bool GameImpl::canResearch(TechType type, Unit unit, bool checkCanIssueCommandType)
   {
-    return Templates::canResearch(unit,type);
+    return Templates::canResearch(unit,type,checkCanIssueCommandType);
   }
   //--------------------------------------------- CAN UPGRADE ------------------------------------------------
-  bool GameImpl::canUpgrade(const Unit* unit, UpgradeType type)
+  bool GameImpl::canUpgrade(UpgradeType type, Unit unit, bool checkCanIssueCommandType)
   {
-    return Templates::canUpgrade(unit,type);
+    return Templates::canUpgrade(unit,type,checkCanIssueCommandType);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
-  std::set< TilePosition >& GameImpl::getStartLocations()
+  const TilePosition::set& GameImpl::getStartLocations() const
   {
     return startLocations;
   }
-  BWAPI::Region *GameImpl::getRegionAt(BWAPI::Position position) const
-  {
-    if ( !position )
-    {
-      Broodwar->setLastError(BWAPI::Errors::Invalid_Parameter);
-      return NULL;
-    }
-    return getRegionAt(position.x(), position.y());
-  }
   //----------------------------------------------- GET ALL REGIONS ------------------------------------------
-  const std::set<BWAPI::Region*> &GameImpl::getAllRegions() const
+  const Regionset &GameImpl::getAllRegions() const
   {
     return this->regionsList;
   }
-
+  //------------------------------------------------- GAME DATA ----------------------------------------------
   const GameData* GameImpl::getGameData() const
   {
     return data;

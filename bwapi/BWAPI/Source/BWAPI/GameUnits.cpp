@@ -1,16 +1,19 @@
 #include "GameImpl.h"
 #include <Util/Foreach.h>
+#include <Util/Convenience.h>
 
-#include <BW/Unit.h>
-#include <BW/UnitID.h>
+#include <BW/CUnit.h>
+#include <BW/Dialog.h>
 
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
+#include <BWAPI/Order.h>
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
+  using namespace Filter;
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
@@ -25,20 +28,20 @@ namespace BWAPI
 
     if ( !i ) return false;
 
-    BW::Unit *u = i->getOriginalRawData;
+    BW::CUnit *u = i->getOriginalRawData;
     if ( !u ) return false;
 
     UnitType _getType = BWAPI::UnitType(u->unitType);
 
-    // Replica of official Unit::IsDead function
-    if ( !u->sprite || (u->orderID == BW::OrderID::Die && u->orderState == 1) )
+    // Replica of official UnitInterface::IsDead function
+    if ( !u->sprite || (u->orderID == Orders::Die && u->orderState == 1) )
     {
       //Broodwar->printf("%s has met a true death", _getType.getName().c_str());
       return false;
     }
     // The rest is garbage?
 
-    if ( u->orderID == BW::OrderID::Die && u->orderState != 1)
+    if ( u->orderID == Orders::Die && u->orderState != 1)
     { // Starcraft will keep a unit alive when order state is not 1
       // if for some reason the "die" order was interrupted, the unit will remain alive with 0 hp
       //Broodwar->printf("Bad logic, %s would not die with order state %u", _getType.getName().c_str(), u->orderState);
@@ -80,42 +83,57 @@ namespace BWAPI
     //fill dyingUnits set with all aliveUnits and then clear the aliveUnits set.
     dyingUnits = aliveUnits;
     aliveUnits.clear();
-    //Now we will add alive units to the aliveUnits set and remove them from the dyingUnits set based on the Broodwar unit lists:
 
-    //compute alive and dying units
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_VisibleUnit_First); u; u = u->getNext() )
+    // (We assume isAlive is false for all dyingUnits currently)
+    // Now we will add alive units to the aliveUnits set and set their isAlive flag to true
+
+    //compute alive units
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_VisibleUnit_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u) )
       {
         u->isAlive = true;
-        aliveUnits.insert(u);
-        dyingUnits.erase(u);
+        aliveUnits.push_back(u);
         u->updateInternalData();
       }
     }
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_HiddenUnit_First); u; u = u->getNext() )
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_HiddenUnit_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u, true) )
       {
         u->isAlive = true;
-        aliveUnits.insert(u);
-        dyingUnits.erase(u);
+        aliveUnits.push_back(u);
         u->updateInternalData();
       }
     }
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA_UnitNodeList_ScannerSweep_First); u; u = u->getNext() )
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_ScannerSweep_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u) )
       {
         u->isAlive = true;
-        aliveUnits.insert(u);
-        dyingUnits.erase(u);
+        aliveUnits.push_back(u);
         u->updateInternalData();
       }
     }
-    //set the exists field to false for all dying units (though we don't update/clear their data yet)
-    foreach(UnitImpl* u, dyingUnits)
-      u->self->exists = false;
+    
+    // Since we know isAlive is false for the dying units, but true for the alive units,
+    // then we can remove the alive ones from the dyingUnits set in linear fashion
+    auto it = dyingUnits.begin();
+    while ( it != dyingUnits.end() )
+    {
+      if ( static_cast<UnitImpl*>(*it)->isAlive )
+      {
+        // Remove from the set if it's not dead
+        dyingUnits.erase(it);
+      }
+      else
+      {
+        // We can also set exists to false for units that will remain dying
+        static_cast<UnitImpl*>(*it)->self->exists = false;
+        it++;
+      }
+    }
+    
   }
   //------------------------------------------ Compute Client Sets -------------------------------------------
   void GameImpl::computePrimaryUnitSets()
@@ -158,7 +176,7 @@ namespace BWAPI
             events.push_back(Event::UnitHide(u));
           u->wasVisible = false;
         }
-        accessibleUnits.insert(u);
+        accessibleUnits.push_back(u);
       }
       else
       {
@@ -183,7 +201,7 @@ namespace BWAPI
           u->wasVisible = false;
           events.push_back(Event::UnitHide(u));
         }
-        evadeUnits.push_back(u);
+        evadeUnits.insert(u);
         events.push_back(Event::UnitEvade(u));
         events.push_back(Event::UnitDestroy(u));
       }
@@ -204,7 +222,7 @@ namespace BWAPI
       int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
       if ( i->getOriginalRawData->subUnit )
         groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if ( i->getOriginalRawData->unitType == BW::UnitID::Protoss_Reaver || i->getOriginalRawData->unitType == BW::UnitID::Protoss_Hero_Warbringer )
+      if ( i->getOriginalRawData->unitType == UnitTypes::Protoss_Reaver || i->getOriginalRawData->unitType == UnitTypes::Hero_Warbringer )
         groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
 
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
@@ -216,21 +234,21 @@ namespace BWAPI
           i->setID(server.getUnitID(i));
         i->updateData();
       }
-      if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_Ghost)
+      if ( i->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
       {
-        if (i->getOriginalRawData->orderID == BW::OrderID::NukePaint)
-          i->nukePosition = Position(i->getOriginalRawData->orderTargetPos.x, i->getOriginalRawData->orderTargetPos.y);
-        if (i->getOriginalRawData->orderID != BW::OrderID::NukeTrack)
+        if (i->getOriginalRawData->orderID == Orders::NukePaint)
+          i->nukePosition = BWAPI::Position(i->getOriginalRawData->orderTarget.pt);
+        if (i->getOriginalRawData->orderID != Orders::NukeTrack)
           i->nukeDetected = false;
         else
         {
           Position target=i->nukePosition;
-          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x/32,target.y/32))
             nukeDots.insert(target);
           if ( !i->nukeDetected )
           {
             i->nukeDetected = true;
-            if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x()/32,target.y()/32))
+            if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x/32,target.y/32))
               events.push_back(Event::NukeDetect(target));
             else
               events.push_back(Event::NukeDetect(Positions::Unknown));
@@ -244,43 +262,43 @@ namespace BWAPI
     //this function modifies the extracted unit data for build unit, loaded units, larva, and interceptors
     foreach(UnitImpl* i, accessibleUnits)
     {
-      UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTargetUnit);
+      UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTarget.pUnit);
       if ( orderTargetUnit && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding )
       {
         UnitImpl* j             = orderTargetUnit;
-        i->self->buildUnit      = server.getUnitID((Unit*)j);
+        i->self->buildUnit      = server.getUnitID((Unit )j);
         i->self->isConstructing = true;
         i->self->isIdle         = false;
         i->self->buildType      = j->self->type;
-        j->self->buildUnit      = server.getUnitID((Unit*)i);
+        j->self->buildUnit      = server.getUnitID((Unit )i);
         j->self->isConstructing = true;
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
       else if ( i->getAddon() && !i->getAddon()->isCompleted() )
       {
-        UnitImpl* j             = (UnitImpl*)i->getAddon();
-        i->self->buildUnit      = server.getUnitID((Unit*)j);
+        UnitImpl* j             = static_cast<UnitImpl*>(i->getAddon());
+        i->self->buildUnit      = server.getUnitID((Unit )j);
         i->self->isConstructing = true;
         i->self->isIdle         = false;
         i->self->buildType      = j->self->type;
-        j->self->buildUnit      = server.getUnitID((Unit*)i);
+        j->self->buildUnit      = server.getUnitID(i);
         j->self->isConstructing = true;
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
       if ( i->getTransport() )
-        ((UnitImpl*)i->getTransport())->loadedUnits.insert(i);
+        static_cast<UnitImpl*>(i->getTransport())->loadedUnits.push_back(i);
 
       if ( i->getHatchery() )
       {
-        UnitImpl* hatchery = (UnitImpl*)i->getHatchery();
-        hatchery->connectedUnits.insert((Unit*)i);
+        UnitImpl* hatchery = static_cast<UnitImpl*>(i->getHatchery());
+        hatchery->connectedUnits.insert(i);
         if (hatchery->connectedUnits.size() >= 3)
           hatchery->self->remainingTrainTime = 0;
       }
       if ( i->getCarrier() )
-        ((UnitImpl*)i->getCarrier())->connectedUnits.insert(i);
+        static_cast<UnitImpl*>(i->getCarrier())->connectedUnits.insert(i);
 
     }
   }
@@ -299,79 +317,59 @@ namespace BWAPI
 
     foreach(UnitImpl* u, discoverUnits)
     {
-      PlayerImpl *unitPlayer = ((PlayerImpl*)u->getPlayer());
+      PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
       if ( !unitPlayer )
         continue;
-
+    
       unitPlayer->units.insert(u);
-      if ( u->getType().getRace() != Races::Unknown )
+
+      // Create a local copy of the unit type
+      UnitType type = u->getType();
+
+      if ( type.getRace() != Races::Unknown )
         unitPlayer->wasSeenByBWAPIPlayer = true;
 
       if ( unitPlayer->isNeutral() )
       {
         neutralUnits.insert(u);
-        if ( u->getType().isMineralField() )
+        if ( type.isMineralField() )
           minerals.insert(u);
-        else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
+        else if ( type == UnitTypes::Resource_Vespene_Geyser )
           geysers.insert(u);
       }
       else
       {
-        if ( unitPlayer == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon )
+        if ( unitPlayer == Broodwar->self() && type == UnitTypes::Protoss_Pylon )
           pylons.insert(u);
       }
     }
     foreach(UnitImpl* u, evadeUnits)
     {
-      PlayerImpl *unitPlayer = ((PlayerImpl*)u->getPlayer());
+      PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
       if ( !unitPlayer )
         continue;
 
       unitPlayer->units.erase(u);
+
+      // Create a local copy of the unit type
+      UnitType type = u->getType();
+
       if ( unitPlayer->isNeutral() )
       {
         neutralUnits.erase(u);
-        if ( u->getType().isMineralField() )
+        if ( type.isMineralField() )
           minerals.erase(u);
-        else if ( u->getType() == UnitTypes::Resource_Vespene_Geyser )
+        else if ( type == UnitTypes::Resource_Vespene_Geyser )
           geysers.erase(u);
       }
-      else if ( unitPlayer == Broodwar->self() && u->getType() == UnitTypes::Protoss_Pylon )
-      {        
+      else if ( unitPlayer == Broodwar->self() && type == UnitTypes::Protoss_Pylon )
+      {
         pylons.erase(u);
       }
     }
 
-    // Clear the units on tile data
-    SIZE mapSize = { Map::getWidth(), Map::getHeight() };
-    for ( unsigned int x = 0; x < (unsigned int)mapSize.cx; ++x )
-      for ( unsigned int y = 0; y < (unsigned int)mapSize.cy; ++y )
-        unitsOnTileData[x][y].clear();
-
     foreach(UnitImpl* i, accessibleUnits)
     {
-      if ( i->getType().isBuilding() && !i->isLifted() )
-      {
-        // Retrieve the buildings on tile
-        int tx = i->getTilePosition().x();
-        int ty = i->getTilePosition().y();
-        SIZE typeTileSize = { i->getType().tileWidth(), i->getType().tileHeight() };
-        for(int x = tx; x < tx + typeTileSize.cx && x < mapSize.cx; ++x)
-          for(int y = ty; y < ty + typeTileSize.cy && y < mapSize.cy; ++y)
-            unitsOnTileData[x][y].insert(i);
-      }
-      else
-      {
-        // @TODO: Assign using getUnitsInRectangle
-        // Retrieve the units on tile
-        int startX = i->getLeft() / TILE_SIZE;
-        int endX   = (i->getRight() + TILE_SIZE - 1) / TILE_SIZE; // Division - round up
-        int startY = i->getTop() / TILE_SIZE;
-        int endY   = (i->getBottom() + TILE_SIZE - 1) / TILE_SIZE;
-        for (int x = startX; x < endX && x < mapSize.cx; ++x)
-          for (int y = startY; y < endY && y < mapSize.cy; ++y)
-            unitsOnTileData[x][y].insert(i);
-      }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {
         events.push_back(Event::UnitMorph(i));
@@ -380,26 +378,26 @@ namespace BWAPI
           neutralUnits.erase(i);
           geysers.erase(i);
         }
-        if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
+        else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
         {
-          neutralUnits.insert(i);
-          geysers.insert(i);
+          neutralUnits.push_back(i);
+          geysers.push_back(i);
         }
       }
       if (i->lastPlayer != i->_getPlayer && i->lastPlayer && i->_getPlayer )
       {
         events.push_back(Event::UnitRenegade(i));
-        ((PlayerImpl*)i->lastPlayer)->units.erase(i);
-        ((PlayerImpl*)i->_getPlayer)->units.insert(i);
+        static_cast<PlayerImpl*>(i->lastPlayer)->units.erase(i);
+        static_cast<PlayerImpl*>(i->_getPlayer)->units.push_back(i);
       }
       int allUnits  = UnitTypes::AllUnits;
-      int men       = UnitTypes::Men;
-      int buildings = UnitTypes::Buildings;
-      int factories = UnitTypes::Factories;
+      int men      = UnitTypes::Men;
+      int buildings  = UnitTypes::Buildings;
+      int factories  = UnitTypes::Factories;
       int thisUnit  = i->_getType;
       
       // Increment specific unit count
-      BWAPI::PlayerData *pSelf = ((PlayerImpl*)i->_getPlayer)->self;
+      BWAPI::PlayerData *pSelf = static_cast<PlayerImpl*>(i->_getPlayer)->self;
       pSelf->allUnitCount[thisUnit]++;
       if (i->isVisible())
         pSelf->visibleUnitCount[thisUnit]++;
@@ -441,16 +439,16 @@ namespace BWAPI
 
     if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
     {
-      foreach (UnitImpl* i, accessibleUnits)
+      foreach (UnitImpl* i, aliveUnits)
       {
         if (i->_getPlayer->isNeutral())
         {
           i->saveInitialState();
-          this->staticNeutralUnits.insert(i);
+          this->staticNeutralUnits.push_back(i);
           if ( i->_getType.isMineralField() )
-            this->staticMinerals.insert(i);
+            this->staticMinerals.push_back(i);
           else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-            this->staticGeysers.insert(i);
+            this->staticGeysers.push_back(i);
         }
       }
     }
@@ -458,7 +456,7 @@ namespace BWAPI
   //---------------------------------------------- UPDATE UNITS ----------------------------------------------
   void GameImpl::updateUnits()
   {
-    static std::set<Unit*> selectedU;
+    static Unitset selectedU;
 
     // Update all unit data
     computeUnitExistence();
@@ -476,7 +474,7 @@ namespace BWAPI
       if ( u )
       {
         if ( u->exists() )
-          selectedUnitSet.insert(u);
+          selectedUnitSet.push_back(u);
         else
         {
           u->setSelected(false);
@@ -487,23 +485,25 @@ namespace BWAPI
     } // for each in selectedU
 
     // Get all units under disruption web and dark swarm
-    foreach ( UnitImpl *_u, this->neutralUnits )
+    foreach ( UnitImpl *u, this->neutralUnits )
     {
-      BWAPI::UnitType ut = _u->getType();
+      BWAPI::UnitType ut = u->getType();
       if ( ut != UnitTypes::Spell_Dark_Swarm &&
            ut != UnitTypes::Spell_Disruption_Web )
         continue;
 
-      int r = _u->getRight()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      int b = _u->getBottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
-      foreach ( UnitImpl *uInside, this->getUnitsInRectangle(_u->getLeft(), _u->getTop(), r, b) )
+      int r = u->getRight()  - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+      int b = u->getBottom() - (ut == UnitTypes::Spell_Disruption_Web ? 1 : 0);
+
+      // Get units under the ability that are affected
+      Unitset unitsInside( this->getUnitsInRectangle(u->getLeft(), u->getTop(), r, b, !IsSpell && !IsFlyer && !IsLifted ) );
+      foreach ( UnitImpl *uInside, unitsInside )
       {
-        if ( uInside->getType().isSpell() || uInside->getType().isFlyer() )
-          continue;
+        // Assign the boolean for whatever spell the unit is under
         if ( ut == UnitTypes::Spell_Dark_Swarm )
           uInside->self->isUnderDarkSwarm = true;
         else if ( ut == UnitTypes::Spell_Disruption_Web )
-          uInside->self->isUnderDWeb      = true;
+          uInside->self->isUnderDWeb    = true;
       }
     } // for each neutral units
   } // updateUnits
@@ -511,23 +511,17 @@ namespace BWAPI
   //------------------------------------------- CENTER ON SELECTED -------------------------------------------
   void GameImpl::moveToSelectedUnits()
   {
-    int count = this->selectedUnitSet.size();
-    int x = 0;
-    int y = 0;
-    foreach(BWAPI::UnitImpl *u, this->selectedUnitSet)
-    {
-      x += u->getPosition().x();
-      y += u->getPosition().y();
-    }
-    x /= count;
-    y /= count;
-    x -= BW::BWDATA_GameScreenBuffer->wid / 2;
-    y -= BW::BWDATA_GameScreenBuffer->ht  / 2 - 40;
-    if ( x < 0 )
-      x = 0;
-    if ( y < 0 )
-      y = 0;
-    this->setScreenPosition(x, y);
+    // Retrieve the average position of the entire unit set
+    Position pos( this->selectedUnitSet.getPosition() );
+
+    // Move the position to the center of the screen
+    pos -= Position(BW::BWDATA::GameScreenBuffer->width() / 2, BW::BWDATA::GameScreenBuffer->height() / 2 - 40);
+
+    // Make this position a valid position
+    pos.makeValid();
+
+    // Move to the screen position
+    this->setScreenPosition(pos.x, pos.y);
   }
 
 }

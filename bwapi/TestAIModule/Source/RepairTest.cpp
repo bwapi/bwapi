@@ -19,7 +19,7 @@ void RepairTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
   BWAssertF(unit!=NULL,{fail=true;return;});
@@ -27,14 +27,14 @@ void RepairTest::start()
 
   int targetCount = Broodwar->self()->completedUnitCount(targetType);
   BWAssertF(targetCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==targetType && u->getHitPoints()<targetType.maxHitPoints())
       target = u;
   BWAssertF(target!=NULL,{fail=true;return;});
   BWAssertF(target->exists(),{fail=true;return;});
   BWAssertF(unit->isIdle()==true,{fail=true;return;});
-  BWAssertF(unit->repair(target),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
-  BWAssertF(unit->getOrder()==Orders::Repair,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+  BWAssertF(unit->repair(target),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
+  BWAssertF(unit->getOrder()==Orders::Repair,{Broodwar->printf("%s",unit->getOrder().c_str());fail=true;return;});
   BWAssertF(unit->getTarget()==target,{fail=true;return;});
   startFrame = Broodwar->getFrameCount();
   nextFrame = Broodwar->getFrameCount();
@@ -51,7 +51,7 @@ void RepairTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
 
   if (target->getHitPoints()==targetType.maxHitPoints() && !stopped)
   {
@@ -60,7 +60,7 @@ void RepairTest::update()
   }
   if (!stopped)
   {
-    BWAssertF(unit->getOrder()==Orders::Repair,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+    BWAssertF(unit->getOrder()==Orders::Repair,{Broodwar->printf("%s",unit->getOrder().c_str());fail=true;return;});
     BWAssertF(unit->getTarget()==target || unit->getOrderTarget()==target,{fail=true;return;});
   }
   else

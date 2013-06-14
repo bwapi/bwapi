@@ -1,34 +1,36 @@
 #include "UnitImpl.h"
+#include "GameImpl.h"
 
-#include <math.h>
+#include <cmath>
 #include <limits>
 #include <sstream>
 
 #include <Util/Foreach.h>
-#include <Util/Gnu.h>
+#include <Util/Convenience.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
-#include "BWAPI/GameImpl.h"
 #include <BWAPI/WeaponType.h>
+
 #include "Command.h"
-#include "DLLMain.h"
-#include "Detours.h"
+#include "../DLLMain.h"
+#include "../Detours.h"
 #include "TemplatesImpl.h"
 
-#include <BW/Unit.h>
-#include <BW/Order.h>
+#include <BW/CUnit.h>
+#include <BW/COrder.h>
 #include <BW/Offsets.h>
-#include <BW/UnitID.h>
+#include <BW/OrderTypes.h>
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
-  UnitImpl::UnitImpl(BW::Unit* originalUnit,
+  UnitImpl::UnitImpl(BW::CUnit* originalUnit,
                      u16 index)
       : getOriginalRawData(originalUnit)
+      , self(&data)
       , index(index)
       , userSelected(false)
       , isAlive(false)
@@ -38,17 +40,18 @@ namespace BWAPI
       , wasVisible(false)
       , staticInformation(false)
       , lastType(UnitTypes::Unknown)
-      , lastPlayer(NULL)
+      , lastPlayer(nullptr)
       , nukeDetected(false)
       , lastGroundWeaponCooldown(0)
       , lastAirWeaponCooldown(0)
       , startingAttack(false)
       , lastCommandFrame(0)
+      , lastImmediateCommandFrame(0)
       , lastCommand()
+      , lastImmediateCommand()
       , id(-1)
-      , clientInfo(NULL)
   {
-    self = &data;
+    MemZero(data);
     clear();
   }
   //--------------------------------------------- DESTRUCTOR -------------------------------------------------
@@ -61,45 +64,83 @@ namespace BWAPI
     id = newID;
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------
+  void UnitImpl::setLastImmediateCommand(const UnitCommand &command)
+  {
+    // Set last immediate command and immediate command frame
+    if ( command.type != UnitCommandTypes::Cloak && 
+         command.type != UnitCommandTypes::Decloak && 
+         command.type != UnitCommandTypes::Unload &&
+         !command.isQueued() )
+    {
+      static_cast<UnitImpl*>(command.unit)->lastImmediateCommand = command;
+      static_cast<UnitImpl*>(command.unit)->lastImmediateCommandFrame = BroodwarImpl.frameCount;
+    }
+  }
+  bool UnitImpl::prepareIssueCommand(UnitCommand &command)
+  {
+    command.unit = this;
+
+    // If using train or morph on a hatchery, automatically switch selection to larva
+    // (assuming canIssueCommand ensures that there is a larva)
+    if ( (command.type == UnitCommandTypes::Train ||
+          command.type == UnitCommandTypes::Morph) &&
+         getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
+    {
+      Unitset larvae( this->getLarva() );
+      foreach (Unit larva, larvae)
+      {
+        if ( !larva->isConstructing() && larva->isCompleted() && larva->canCommand() )
+        {
+          command.unit = larva;
+          break;
+        }
+      }
+      if ( command.unit == this )
+        return false;
+    }
+
+    // Set last command and command frames
+    static_cast<UnitImpl*>(command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
+    static_cast<UnitImpl*>(command.unit)->lastCommand      = command;
+    static_cast<UnitImpl*>(command.unit)->setLastImmediateCommand(command);
+    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target && 
+       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
+    {
+      static_cast<UnitImpl*>(command.target)->lastCommandFrame = BroodwarImpl.frameCount;
+      static_cast<UnitImpl*>(command.target)->lastCommand      = command;
+      static_cast<UnitImpl*>(command.target)->setLastImmediateCommand(command);
+    }
+
+    // Add to command optimizer if possible, as well as the latency compensation buffer
+    BroodwarImpl.addToCommandBuffer(new Command(command));
+    return BroodwarImpl.addToCommandOptimizer(command);
+  }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
     if ( !canIssueCommand(command) )
       return false;
-
-    command.unit = this;
-
-    if ( (command.type == UnitCommandTypes::Train ||
-          command.type == UnitCommandTypes::Morph) &&
-         getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
-      command.unit = *getLarva().begin();
-
-    ((UnitImpl*)command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
-    ((UnitImpl*)command.unit)->lastCommand      = command;
-    if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target && 
-       (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
-    {
-      ((UnitImpl*)command.target)->lastCommandFrame = BroodwarImpl.frameCount;
-      ((UnitImpl*)command.target)->lastCommand      = command;
-    }
-
-    if ( BroodwarImpl.addToCommandOptimizer(command) )
+    
+    // If the command optimizer has decided to take over
+    if ( this->prepareIssueCommand(command) )
       return true;
 
+    // Select High templar for morphing
     if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target &&
        (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
       UnitImpl *sel2[2];
-      sel2[0] = (UnitImpl*)command.unit;
-      sel2[1] = (UnitImpl*)command.target;
+      sel2[0] = static_cast<UnitImpl*>(command.unit);
+      sel2[1] = static_cast<UnitImpl*>(command.target);
       BW::Orders::Select sel(2, sel2);
       botAPM_select++;
       QueueGameCommand(&sel, sel.size);
     }
     else if ( command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizerLevel < 2 )
-      ((UnitImpl*)command.unit)->orderSelect();
+      static_cast<UnitImpl*>(command.unit)->orderSelect();   // Unload optimization (no select)
 
-    BroodwarImpl.executeCommand( command, true);
+    // Immediately execute the command
+    BroodwarImpl.executeCommand( command );
     return true;
   }
   //--------------------------------------------- SET SELECTED -----------------------------------------------
@@ -116,17 +157,17 @@ namespace BWAPI
     QueueGameCommand(&sel, sel.size);
   }
   //----------------------------------------------------------------------------------------------------------
-  UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::Unit* unit)
+  UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::CUnit* unit)
   {
     if ( !unit )
-      return NULL;
+      return nullptr;
 
-    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA_UnitNodeTable) / 336) & 0x7FF;
+    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA::UnitNodeTable) / 336) & 0x7FF;
     if (index > UNIT_ARRAY_MAX_LENGTH)
     {
       if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
         BroodwarImpl.invalidIndices.insert(index);
-      return NULL;
+      return nullptr;
     }
     return BroodwarImpl.getUnitFromIndex(index);
   }
@@ -134,7 +175,7 @@ namespace BWAPI
   void UnitImpl::die()
   {
     //set pointers to null so we don't read information from unit table anymore
-    getOriginalRawData = NULL;
+    getOriginalRawData = nullptr;
     index              = 0xFFFF;
     userSelected       = false;
     isAlive            = false;
@@ -144,8 +185,10 @@ namespace BWAPI
     wasVisible         = false;
     nukeDetected       = false;
     lastType           = UnitTypes::Unknown;
-    lastPlayer         = NULL;
-    clientInfo         = NULL;
+    lastPlayer         = nullptr;
+    this->clientInfo.clear();
+    this->interfaceEvents.clear();
+
     updateData();
   }
 
@@ -160,10 +203,12 @@ namespace BWAPI
       return false;
     if (this->isVisible())
       return true;
+
     //if we get here, the unit exists but is not visible
     if ( BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
       return true;
-    /* neutral units visible during AIModule::onStart */
+
+    // neutral units visible during AIModule::onStart
     if ( Broodwar->getFrameCount() == 0 )
       if (this->_getType.isNeutral() || (this->_getPlayer && this->_getPlayer->isNeutral()) )
         return true;
@@ -177,12 +222,13 @@ namespace BWAPI
       return true;
     if (BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
       return true;
-    /* neutral units visible during AIModule::onStart */
+
+    // neutral units visible during AIModule::onStart
     if (Broodwar->getFrameCount() == 0)
       if (this->_getType.isNeutral())
         return true;
-    return self->isDetected;
 
+    return self->isDetected;
   }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)
@@ -207,112 +253,5 @@ namespace BWAPI
   u16 UnitImpl::getIndex() const
   {
     return this->index;
-  }
-  //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
-  const Unit *unitsInRadius_Unit;
-  int unitsInRadius_Radius;
-  bool __fastcall Shared_unitRadiusIterator_callback(Unit *uIterator)
-  {
-    return unitsInRadius_Unit != uIterator && unitsInRadius_Unit->getDistance(uIterator) <= unitsInRadius_Radius;
-  }
-  std::set<Unit*>& UnitImpl::getUnitsInRadius(int radius) const
-  {
-    // Initialize static variables
-    static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
-    unitFinderResults.clear();
-
-    // Return if this unit does not exist
-    if ( !exists() )
-      return unitFinderResults;
-
-    // Declare some variables
-    int left    = this->getLeft()    - radius;
-    int top     = this->getTop()     - radius;
-    int right   = this->getRight()   + radius;
-    int bottom  = this->getBottom()  + radius;
-
-    // Store the data we are comparing found units to
-    unitsInRadius_Unit    = this;
-    unitsInRadius_Radius  = radius;
-
-    // Have the unit finder do its stuff
-    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
-                                                BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
-                                                left, 
-                                                top, 
-                                                right, 
-                                                bottom,
-                                                &Shared_unitRadiusIterator_callback,
-                                                unitFinderResults);
-    // Return results
-    return unitFinderResults;
-  }
-  //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  const Unit *unitsInWpnRange_Unit;
-  WeaponType unitsInWpnRange_Wpn;
-  int unitsInWpnRange_Max;
-  bool __fastcall Shared_unitInWpnRange_callback(Unit *uIterator)
-  {
-    // Unit check and unit status
-    if ( uIterator == unitsInWpnRange_Unit || uIterator->isInvincible() )
-      return false;
-
-    // Weapon distance check
-    int dist = unitsInWpnRange_Unit->getDistance(uIterator);
-    if ( (unitsInWpnRange_Wpn.minRange() && dist < unitsInWpnRange_Wpn.minRange()) || dist > unitsInWpnRange_Max )
-      return false;
-
-    // Weapon behavioural checks
-    UnitType ut = uIterator->getType();
-    if ( (( unitsInWpnRange_Wpn.targetsOwn()          && uIterator->getPlayer() != unitsInWpnRange_Unit->getPlayer() ) ||
-          ( !unitsInWpnRange_Wpn.targetsAir()         && (!uIterator->isLifted() && !ut.isFlyer()) ) ||
-          ( !unitsInWpnRange_Wpn.targetsGround()      && (uIterator->isLifted() || ut.isFlyer())   ) ||
-          ( unitsInWpnRange_Wpn.targetsMechanical()   && ut.isMechanical()                 ) ||
-          ( unitsInWpnRange_Wpn.targetsOrganic()      && ut.isOrganic()                    ) ||
-          ( unitsInWpnRange_Wpn.targetsNonBuilding()  && !ut.isBuilding()                  ) ||
-          ( unitsInWpnRange_Wpn.targetsNonRobotic()   && !ut.isRobotic()                   ) ||
-          ( unitsInWpnRange_Wpn.targetsOrgOrMech()    && (ut.isOrganic() || ut.isMechanical()) ))  )
-      return false;
-
-    return true;
-  }
-  std::set<Unit*>& UnitImpl::getUnitsInWeaponRange(WeaponType weapon) const
-  {
-    // Initialize static variables
-    static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
-    unitFinderResults.clear();
-
-    // Return if this unit does not exist
-    if ( !exists() )
-      return unitFinderResults;
-
-    int max = getPlayer()->weaponMaxRange(weapon);
-
-    // Declare some variables
-    int left    = this->getLeft()    - max;
-    int top     = this->getTop()     - max;
-    int right   = this->getRight()   + max;
-    int bottom  = this->getBottom()  + max;
-
-    // Store the data we are comparing found units to
-    unitsInWpnRange_Unit = this;
-    unitsInWpnRange_Max  = max;
-    unitsInWpnRange_Wpn  = weapon;
-
-    // Have the unit finder do its stuff
-    Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
-                                                BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
-                                                left, 
-                                                top, 
-                                                right, 
-                                                bottom,
-                                                &Shared_unitInWpnRange_callback,
-                                                unitFinderResults);
-    // Return results
-    return unitFinderResults;
   }
 };

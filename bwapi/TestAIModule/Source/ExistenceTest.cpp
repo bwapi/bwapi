@@ -10,16 +10,16 @@ void ExistenceTest::onStart()
 }
 void ExistenceTest::onFrame()
 {
-  for each(Unit* u in Broodwar->getAllUnits())
+  for each(Unit u in Broodwar->getAllUnits())
   {
-    Broodwar->drawTextMap(u->getPosition().x(),u->getPosition().y(),"%x",u->getID());
+    Broodwar->drawTextMap(u->getPosition(),"%x",u->getID());
   }
 }
-void ExistenceTest::onUnitCreate(Unit* unit)
+void ExistenceTest::onUnitCreate(Unit unit)
 {
-  Broodwar->printf("Unit %d [%s] has been created",unit->getID(), unit->getType().getName().c_str());
+  Broodwar << "Unit " << unit->getID() << " [" << unit->getType() << "] has been created" << std::endl;
 }
-void ExistenceTest::onUnitDestroy(Unit* unit)
+void ExistenceTest::onUnitDestroy(Unit unit)
 {
-  Broodwar->printf("Unit %d [%s] has been destroyed",unit->getID(), unit->getType().getName().c_str());
+  Broodwar << "Unit " << unit->getID() << " [" << unit->getType() << "] has been destroyed" << std::endl;
 }

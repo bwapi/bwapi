@@ -2,11 +2,6 @@
 #include <BWAPI/Client/UnitData.h>
 #include <TemplatesImpl.h>
 
-#ifndef MAXINT
-#include <limits>
-#define MAXINT std::numeric_limits<int>::max()
-#endif
-
 namespace BWAPI
 {
   //--------------------------------------------- CLEAR ------------------------------------------------------
@@ -18,7 +13,9 @@ namespace BWAPI
     initialPosition  = Positions::None;
     lastCommandFrame = 0;
     lastCommand      = UnitCommand();
-    clientInfo       = NULL;
+    this->clientInfo.clear();
+    this->interfaceEvents.clear();
+
     connectedUnits.clear();
   }
   //------------------------------------- INITIAL INFORMATION FUNCTIONS --------------------------------------
@@ -40,7 +37,7 @@ namespace BWAPI
     return self->replayID;
   }
   //--------------------------------------------- GET PLAYER -------------------------------------------------
-  Player* UnitImpl::getPlayer() const
+  Player UnitImpl::getPlayer() const
   {
     return Broodwar->getPlayer(self->player);
   }
@@ -53,12 +50,6 @@ namespace BWAPI
   Position UnitImpl::getPosition() const
   {
     return Position(self->positionX, self->positionY);
-  }
-  //--------------------------------------------- GET TILE POSITION ------------------------------------------
-  TilePosition UnitImpl::getTilePosition() const
-  {
-    return TilePosition(Position(abs(self->positionX - getType().tileWidth()  * TILE_SIZE / 2),
-                                 abs(self->positionY - getType().tileHeight() * TILE_SIZE / 2)) );
   }
   //--------------------------------------------- GET ANGLE --------------------------------------------------
   double UnitImpl::getAngle() const
@@ -74,31 +65,6 @@ namespace BWAPI
   double UnitImpl::getVelocityY() const
   {
     return self->velocityY;
-  }
-  //--------------------------------------------- GET REGION -------------------------------------------------
-  BWAPI::Region *UnitImpl::getRegion() const
-  {
-    return Broodwar->getRegionAt(getPosition());
-  }
-  //--------------------------------------------- GET LEFT ---------------------------------------------------
-  int UnitImpl::getLeft() const
-  {
-    return self->positionX - UnitType(self->type).dimensionLeft();
-  }
-  //--------------------------------------------- GET TOP ----------------------------------------------------
-  int UnitImpl::getTop() const
-  {
-    return self->positionY - UnitType(self->type).dimensionUp();
-  }
-  //--------------------------------------------- GET RIGHT --------------------------------------------------
-  int UnitImpl::getRight() const
-  {
-    return self->positionX + UnitType(self->type).dimensionRight();
-  }
-  //--------------------------------------------- GET BOTTOM -------------------------------------------------
-  int UnitImpl::getBottom() const
-  {
-    return self->positionY + UnitType(self->type).dimensionDown();
   }
   //--------------------------------------------- GET HIT POINTS ---------------------------------------------
   int UnitImpl::getHitPoints() const
@@ -125,50 +91,6 @@ namespace BWAPI
   {
     return self->resourceGroup;
   }
-  //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitImpl::getDistance(Unit* target) const
-  {
-    if ( !exists() || !target || !target->exists() )
-      return MAXINT;
-
-    if (this == target)
-      return 0;
-    
-    return computeDistance(this, target);
-  }
-  //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitImpl::getDistance(Position target) const
-  {
-    if ( !exists() )
-      return MAXINT;
-    return computeDistance(this, target);
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Unit* target) const
-  {
-    Broodwar->setLastError(Errors::None);
-    if ( !target )
-      return Broodwar->setLastError(Errors::Invalid_Parameter);
-    if ( !target->exists() || !exists() )
-      return Broodwar->setLastError(Errors::Unit_Not_Visible);
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target->getPosition());
-  }
-  //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitImpl::hasPath(Position target) const
-  {
-    Broodwar->setLastError(Errors::None);
-    if (!exists())
-      return Broodwar->setLastError(Errors::Unit_Not_Visible);
-
-    if ( this->getType().isFlyer() || this->isLifted() )
-      return true;
-
-    return Broodwar->hasPath(this->getPosition(), target);
-  }
   //--------------------------------------------- GET LAST COMMAND FRAME -------------------------------------
   int UnitImpl::getLastCommandFrame() const
   {
@@ -180,18 +102,9 @@ namespace BWAPI
     return lastCommand;
   }
   //--------------------------------------------- GET LAST ATTACKING PLAYER ----------------------------------
-  BWAPI::Player *UnitImpl::getLastAttackingPlayer() const
+  BWAPI::Player UnitImpl::getLastAttackingPlayer() const
   {
     return Broodwar->getPlayer(self->lastAttackerPlayer);
-  }
-  //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
-  int UnitImpl::getUpgradeLevel(UpgradeType upgrade) const
-  {
-    if ( !getPlayer() ||
-          getPlayer()->getUpgradeLevel(upgrade) == 0 ||
-          upgrade.whatUses().find(getType()) == upgrade.whatUses().end())
-      return 0;
-    return getPlayer()->getUpgradeLevel(upgrade);
   }
   //--------------------------------------------- GET INITIAL TYPE -------------------------------------------
   UnitType UnitImpl::getInitialType() const
@@ -206,12 +119,9 @@ namespace BWAPI
   //--------------------------------------------- GET INITIAL TILE POSITION ----------------------------------
   TilePosition UnitImpl::getInitialTilePosition() const
   {
-    if (initialPosition == Positions::None)
-    {
+    if ( initialPosition == Positions::None )
       return TilePositions::None;
-    }
-    return TilePosition(Position(initialPosition.x() - initialType.tileWidth() * TILE_SIZE / 2,
-                                 initialPosition.y() - initialType.tileHeight() * TILE_SIZE / 2));
+    return TilePosition(initialPosition - Position(initialType.tileSize())/2);
   }
   //--------------------------------------------- GET INITIAL HIT POINTS -------------------------------------
   int UnitImpl::getInitialHitPoints() const
@@ -326,12 +236,9 @@ namespace BWAPI
     return UnitType(self->buildType);
   }
   //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
-  std::list<UnitType> UnitImpl::getTrainingQueue() const
+  UnitType::set UnitImpl::getTrainingQueue() const
   {
-    std::list<UnitType> trainingQueue;
-    for (int i = 0; i < self->trainingQueueCount; ++i)
-      trainingQueue.push_back(self->trainingQueue[i]);
-    return trainingQueue;
+    return UnitType::set(self->trainingQueue, self->trainingQueueCount);
   }
   //--------------------------------------------- GET TECH ---------------------------------------------------
   TechType UnitImpl::getTech() const
@@ -364,12 +271,12 @@ namespace BWAPI
     return self->remainingUpgradeTime;
   }
   //--------------------------------------------- GET BUILD UNIT ---------------------------------------------
-  Unit* UnitImpl::getBuildUnit() const
+  Unit UnitImpl::getBuildUnit() const
   {
     return Broodwar->getUnit(self->buildUnit);
   }
   //--------------------------------------------- GET TARGET -------------------------------------------------
-  Unit* UnitImpl::getTarget() const
+  Unit UnitImpl::getTarget() const
   {
     return Broodwar->getUnit(self->target);
   }
@@ -384,14 +291,14 @@ namespace BWAPI
     return Order(self->order);
   }
   //--------------------------------------------- GET ORDER TARGET -------------------------------------------
-  Unit* UnitImpl::getOrderTarget() const
+  Unit UnitImpl::getOrderTarget() const
   {
     return Broodwar->getUnit(self->orderTarget);
   }
   //--------------------------------------------- GET ORDER TARGET POSITION ----------------------------------
   Position UnitImpl::getOrderTargetPosition() const
   {
-	  return Position(self->orderTargetPositionX,self->orderTargetPositionY);
+    return Position(self->orderTargetPositionX,self->orderTargetPositionY);
   }
   //--------------------------------------------- GET SECONDARY ORDER ID -------------------------------------
   Order UnitImpl::getSecondaryOrder() const
@@ -404,70 +311,60 @@ namespace BWAPI
     return Position(self->rallyPositionX,self->rallyPositionY);
   }
   //--------------------------------------------- GET RALLY UNIT ---------------------------------------------
-  Unit* UnitImpl::getRallyUnit() const
+  Unit UnitImpl::getRallyUnit() const
   {
     return Broodwar->getUnit(self->rallyUnit);
   }
   //--------------------------------------------- GET ADDON --------------------------------------------------
-  Unit* UnitImpl::getAddon() const
+  Unit UnitImpl::getAddon() const
   {
     return Broodwar->getUnit(self->addon);
   }
   //--------------------------------------------- GET NYDUS EXIT ---------------------------------------------
-  Unit* UnitImpl::getNydusExit() const
+  Unit UnitImpl::getNydusExit() const
   {
     return Broodwar->getUnit(self->nydusExit);
   }
   //--------------------------------------------- GET POWER UP -----------------------------------------------
-  Unit* UnitImpl::getPowerUp() const
+  Unit UnitImpl::getPowerUp() const
   {
     return Broodwar->getUnit(self->powerUp);
   }
   //--------------------------------------------- GET TRANSPORT ----------------------------------------------
-  Unit* UnitImpl::getTransport() const
+  Unit UnitImpl::getTransport() const
   {
     return Broodwar->getUnit(self->transport);
   }
   //--------------------------------------------- GET LOADED UNITS -------------------------------------------
-  std::set<Unit*> UnitImpl::getLoadedUnits() const
+  Unitset UnitImpl::getLoadedUnits() const
   {
     return loadedUnits;
   }
   //--------------------------------------------- GET CARRIER ------------------------------------------------
-  Unit* UnitImpl::getCarrier() const
+  Unit UnitImpl::getCarrier() const
   {
     return Broodwar->getUnit(self->carrier);
   }
   //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
-  std::set<Unit*> UnitImpl::getInterceptors() const
+  Unitset UnitImpl::getInterceptors() const
   {
-    std::set<Unit*> nothing;
+    Unitset nothing;
     if (getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor)
       return nothing;
     return connectedUnits;
   }
   //--------------------------------------------- GET HATCHERY -----------------------------------------------
-  Unit* UnitImpl::getHatchery() const
+  Unit UnitImpl::getHatchery() const
   {
     return Broodwar->getUnit(self->hatchery);
   }
   //--------------------------------------------- GET LARVA --------------------------------------------------
-  std::set<Unit*> UnitImpl::getLarva() const
+  Unitset UnitImpl::getLarva() const
   {
-    std::set<Unit*> nothing;
+    Unitset nothing;
     if (!getType().producesLarva())
         return nothing;
     return connectedUnits;
-  }
-  //--------------------------------------------- GET CLIENT INFO --------------------------------------------
-  void* UnitImpl::getClientInfo() const
-  {
-    return clientInfo;
-  }
-  //--------------------------------------------- SET CLIENT INFO --------------------------------------------
-  void UnitImpl::setClientInfo(void* clientinfo)
-  {
-    clientInfo = clientinfo;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
   bool UnitImpl::exists() const
@@ -493,17 +390,6 @@ namespace BWAPI
   bool UnitImpl::isAttackFrame() const
   {
     return self->isAttackFrame;
-  }
-  //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
-  bool UnitImpl::isBeingConstructed() const
-  {
-    if (self->isMorphing)
-      return true;
-    if (self->isCompleted)
-      return false;
-    if (getType().getRace() != Races::Terran)
-      return true;
-    return self->buildUnit != -1;
   }
   //--------------------------------------------- IS BEING GATHERED ------------------------------------------
   bool UnitImpl::isBeingGathered() const
@@ -557,25 +443,10 @@ namespace BWAPI
   {
     return self->isConstructing;
   }
-  //--------------------------------------------- IS DEFENSE MATRIXED ----------------------------------------
-  bool UnitImpl::isDefenseMatrixed() const
-  {
-    return self->defenseMatrixTimer > 0;
-  }
   //--------------------------------------------- IS DETECTED ------------------------------------------------
   bool UnitImpl::isDetected() const
   {
     return self->isDetected;
-  }
-  //--------------------------------------------- IS ENSNARED ------------------------------------------------
-  bool UnitImpl::isEnsnared() const
-  {
-    return self->ensnareTimer > 0;
-  }
-  //--------------------------------------------- IS FOLLOWING -----------------------------------------------
-  bool UnitImpl::isFollowing() const
-  {
-    return self->order == Orders::Follow;
   }
   //--------------------------------------------- IS GATHERING GAS -------------------------------------------
   bool UnitImpl::isGatheringGas() const
@@ -602,19 +473,21 @@ namespace BWAPI
       return true;
 
     //if BWOrder is MoveToGas, Harvest1, or Harvest2 we need to do some additional checks to make sure the unit is really gathering
-    if (getTarget() &&
-        getTarget()->exists() && 
-        getTarget()->isCompleted() &&
-        getTarget()->getPlayer() == getPlayer() &&
-        getTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
-        (getTarget()->getType().isRefinery() || getTarget()->getType().isResourceDepot()))
+    Unit targ = getTarget();
+    if ( targ &&
+        targ->exists() && 
+        targ->isCompleted() &&
+        targ->getPlayer() == getPlayer() &&
+        targ->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (targ->getType().isRefinery() || targ->getType().isResourceDepot()) )
       return true;
-    if (getOrderTarget() &&
-        getOrderTarget()->exists() && 
-        getOrderTarget()->isCompleted() &&
-        getOrderTarget()->getPlayer() == getPlayer() &&
-        getOrderTarget()->getType() != UnitTypes::Resource_Vespene_Geyser &&
-        (getOrderTarget()->getType().isRefinery() || getOrderTarget()->getType().isResourceDepot()))
+    targ = getOrderTarget();
+    if ( targ &&
+        targ->exists() && 
+        targ->isCompleted() &&
+        targ->getPlayer() == getPlayer() &&
+        targ->getType() != UnitTypes::Resource_Vespene_Geyser &&
+        (targ->getType().isRefinery() || targ->getType().isResourceDepot()))
       return true;
     return false;
   }
@@ -664,11 +537,6 @@ namespace BWAPI
   {
     return self->isHallucination;
   }
-  //--------------------------------------------- IS HOLDING POSITION ----------------------------------------
-  bool UnitImpl::isHoldingPosition() const
-  {
-    return self->order == Orders::HoldPosition;
-  }
   //--------------------------------------------- IS IDLE ----------------------------------------------------
   bool UnitImpl::isIdle() const
   {
@@ -684,58 +552,10 @@ namespace BWAPI
   {
     return self->isInvincible;
   }
-  //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
-  bool UnitImpl::isInWeaponRange(Unit *target) const
-  {
-    // Preliminary checks
-    if ( !exists() || !target || !target->exists() || this == target )
-      return false;
-
-    // Store the types as locals
-    UnitType thisType = getType();
-    UnitType targType = target->getType();
-
-    // Obtain the weapon type
-    WeaponType wpn = thisType.groundWeapon();
-    if ( targType.isFlyer() || target->isLifted() )
-      wpn = thisType.airWeapon();
-
-    // Return if there is no weapon type
-    if ( wpn == WeaponTypes::None || wpn == WeaponTypes::Unknown )
-      return false;
-
-    // Retrieve the min and max weapon ranges
-    int minRange = wpn.minRange();
-    int maxRange = getPlayer()->weaponMaxRange(wpn);
-
-    // Check if the distance to the unit is within the weapon range
-    int distance = computeDistance(this, target);
-    return (minRange ? minRange < distance : true) && maxRange >= distance;
-  }
-  //--------------------------------------------- IS IRRADIATED ----------------------------------------------
-  bool UnitImpl::isIrradiated() const
-  {
-    return self->irradiateTimer > 0;
-  }
   //--------------------------------------------- IS LIFTED --------------------------------------------------
   bool UnitImpl::isLifted() const
   {
     return self->isLifted;
-  }
-  //--------------------------------------------- IS LOADED --------------------------------------------------
-  bool UnitImpl::isLoaded() const
-  {
-    return self->transport != -1;
-  }
-  //--------------------------------------------- IS LOCKED DOWN ---------------------------------------------
-  bool UnitImpl::isLockedDown() const
-  {
-    return self->lockdownTimer > 0;
-  }
-  //--------------------------------------------- IS MAELSTROMMED --------------------------------------------
-  bool UnitImpl::isMaelstrommed() const
-  {
-    return self->maelstromTimer > 0;
   }
   //--------------------------------------------- IS MORPHING ------------------------------------------------
   bool UnitImpl::isMorphing() const
@@ -752,51 +572,15 @@ namespace BWAPI
   {
     return self->isParasited;
   }
-  //--------------------------------------------- IS PATROLLING ----------------------------------------------
-  bool UnitImpl::isPatrolling() const
-  {
-    return self->order == Orders::Patrol;
-  }
-  //--------------------------------------------- IS PLAGUED -------------------------------------------------
-  bool UnitImpl::isPlagued() const
-  {
-    return self->plagueTimer > 0;
-  }
-  //--------------------------------------------- IS REPAIRING -----------------------------------------------
-  bool UnitImpl::isRepairing() const
-  {
-    return self->order == Orders::Repair;
-  }
-  //--------------------------------------------- IS RESEARCHING ---------------------------------------------
-  bool UnitImpl::isResearching() const
-  {
-    return self->order == Orders::ResearchTech;
-  }
   //--------------------------------------------- IS SELECTED ------------------------------------------------
   bool UnitImpl::isSelected() const
   {
     return self->isSelected;
   }
-  //--------------------------------------------- IS SELECTED ------------------------------------------------
-  bool UnitImpl::isSieged() const
-  {
-    return self->type == UnitTypes::Terran_Siege_Tank_Siege_Mode ||
-           self->type == UnitTypes::Hero_Edmund_Duke_Siege_Mode;
-  }
   //--------------------------------------------- IS STARTING ATTACK -----------------------------------------
   bool UnitImpl::isStartingAttack() const
   {
     return self->isStartingAttack;
-  }
-  //--------------------------------------------- IS STASISED ------------------------------------------------
-  bool UnitImpl::isStasised() const
-  {
-    return self->stasisTimer > 0;
-  }
-  //--------------------------------------------- IS STIMMED -------------------------------------------------
-  bool UnitImpl::isStimmed() const
-  {
-    return self->stimTimer > 0;
   }
   //--------------------------------------------- IS STUCK ---------------------------------------------------
   bool UnitImpl::isStuck() const
@@ -833,250 +617,456 @@ namespace BWAPI
   {
     return self->isUnpowered;
   }
-  //--------------------------------------------- IS UPGRADING -----------------------------------------------
-  bool UnitImpl::isUpgrading() const
-  {
-    return self->order == Orders::Upgrade;
-  }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool UnitImpl::isVisible() const
+  bool UnitImpl::isVisible(Player player) const
   {
-    if (!Broodwar->self())
+    if ( player )
+      return self->isVisible[player->getID()];
+
+    if ( Broodwar->self() )     // isVisible for current player
+      return self->isVisible[Broodwar->self()->getID()];
+
+    for(int i = 0; i < 9; ++i)
     {
-      for(int i = 0; i < 9; ++i)
-      {
-        if (self->isVisible[i])
-          return true;
-      }
-      return false;
+      if (self->isVisible[i])
+        return true;
     }
-    return self->isVisible[Broodwar->self()->getID()];
+    return false;
   }
-  //--------------------------------------------- IS VISIBLE -------------------------------------------------
-  bool UnitImpl::isVisible(Player* player) const
+  //--------------------------------------------- IS TARGETABLE ----------------------------------------------
+  bool UnitImpl::isTargetable() const
   {
-    if ( !player )
-      return false;
-    return self->isVisible[player->getID()];
+    return Templates::canTargetUnit(const_cast<UnitImpl*>(this));
+  }
+  //--------------------------------------------- CAN COMMAND ------------------------------------------------
+  bool UnitImpl::canCommand() const
+  {
+    return Templates::canCommand(const_cast<UnitImpl*>(this));
+  }
+  bool UnitImpl::canCommandGrouped(bool checkCommandibility) const
+  {
+    return Templates::canCommandGrouped(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN TARGET UNIT --------------------------------------------
+  bool UnitImpl::canTargetUnit(Unit targetUnit, bool checkCommandibility) const
+  {
+    return Templates::canTargetUnit(const_cast<UnitImpl*>(this), targetUnit, checkCommandibility);
+  }
+  //--------------------------------------------- CAN ATTACK -------------------------------------------------
+  bool UnitImpl::canAttack(bool checkCommandibility) const
+  {
+    return Templates::canAttack(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canAttack(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canAttack(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canAttackGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canAttackGrouped(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN ATTACK MOVE --------------------------------------------
+  bool UnitImpl::canAttackMove(bool checkCommandibility) const
+  {
+    return Templates::canAttackMove(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canAttackMoveGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackMoveGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN ATTACK UNIT --------------------------------------------
+  bool UnitImpl::canAttackUnit(bool checkCommandibility) const
+  {
+    return Templates::canAttackUnit(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canAttackUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canAttackUnit(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canAttackUnitGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackUnitGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canAttackUnitGrouped(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackUnitGrouped(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN BUILD --------------------------------------------------
+  bool UnitImpl::canBuild(bool checkCommandibility) const
+  {
+    return Templates::canBuild(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canBuild(UnitType uType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canBuild(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canBuild(UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canBuild(const_cast<UnitImpl*>(this), uType, tilePos, checkTargetUnitType, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN BUILD ADDON --------------------------------------------
+  bool UnitImpl::canBuildAddon(bool checkCommandibility) const
+  {
+    return Templates::canBuildAddon(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canBuildAddon(UnitType uType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canBuildAddon(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN TRAIN --------------------------------------------------
+  bool UnitImpl::canTrain(bool checkCommandibility) const
+  {
+    return Templates::canTrain(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canTrain(UnitType uType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canTrain(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN MORPH --------------------------------------------------
+  bool UnitImpl::canMorph(bool checkCommandibility) const
+  {
+    return Templates::canMorph(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canMorph(UnitType uType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canMorph(const_cast<UnitImpl*>(this), uType, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN RESEARCH -----------------------------------------------
+  bool UnitImpl::canResearch(bool checkCommandibility) const
+  {
+    return Templates::canResearch(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canResearch(TechType type, bool checkCanIssueCommandType) const
+  {
+    return Templates::canResearch(const_cast<UnitImpl*>(this), type, checkCanIssueCommandType);
+  }
+  //--------------------------------------------- CAN UPGRADE ------------------------------------------------
+  bool UnitImpl::canUpgrade(bool checkCommandibility) const
+  {
+    return Templates::canUpgrade(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canUpgrade(UpgradeType type, bool checkCanIssueCommandType) const
+  {
+    return Templates::canUpgrade(const_cast<UnitImpl*>(this), type, checkCanIssueCommandType);
+  }
+  //--------------------------------------------- CAN SET RALLY POINT ----------------------------------------
+  bool UnitImpl::canSetRallyPoint(bool checkCommandibility) const
+  {
+    return Templates::canSetRallyPoint(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canSetRallyPoint(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canSetRallyPoint(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN SET RALLY POSITION -------------------------------------
+  bool UnitImpl::canSetRallyPosition(bool checkCommandibility) const
+  {
+    return Templates::canSetRallyPosition(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN SET RALLY UNIT -----------------------------------------
+  bool UnitImpl::canSetRallyUnit(bool checkCommandibility) const
+  {
+    return Templates::canSetRallyUnit(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canSetRallyUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canSetRallyUnit(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN MOVE ---------------------------------------------------
+  bool UnitImpl::canMove(bool checkCommandibility) const
+  {
+    return Templates::canMove(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canMoveGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canMoveGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN PATROL -------------------------------------------------
+  bool UnitImpl::canPatrol(bool checkCommandibility) const
+  {
+    return Templates::canPatrol(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canPatrolGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canPatrolGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN FOLLOW -------------------------------------------------
+  bool UnitImpl::canFollow(bool checkCommandibility) const
+  {
+    return Templates::canFollow(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canFollow(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canFollow(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN GATHER -------------------------------------------------
+  bool UnitImpl::canGather(bool checkCommandibility) const
+  {
+    return Templates::canGather(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canGather(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canGather(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN RETURN CARGO -------------------------------------------
+  bool UnitImpl::canReturnCargo(bool checkCommandibility) const
+  {
+    return Templates::canReturnCargo(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN HOLD POSITION ------------------------------------------
+  bool UnitImpl::canHoldPosition(bool checkCommandibility) const
+  {
+    return Templates::canHoldPosition(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN STOP ---------------------------------------------------
+  bool UnitImpl::canStop(bool checkCommandibility) const
+  {
+    return Templates::canStop(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN REPAIR -------------------------------------------------
+  bool UnitImpl::canRepair(bool checkCommandibility) const
+  {
+    return Templates::canRepair(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canRepair(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canRepair(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN BURROW -------------------------------------------------
+  bool UnitImpl::canBurrow(bool checkCommandibility) const
+  {
+    return Templates::canBurrow(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN UNBURROW -----------------------------------------------
+  bool UnitImpl::canUnburrow(bool checkCommandibility) const
+  {
+    return Templates::canUnburrow(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CLOAK --------------------------------------------------
+  bool UnitImpl::canCloak(bool checkCommandibility) const
+  {
+    return Templates::canCloak(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN DECLOAK ------------------------------------------------
+  bool UnitImpl::canDecloak(bool checkCommandibility) const
+  {
+    return Templates::canDecloak(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN SIEGE --------------------------------------------------
+  bool UnitImpl::canSiege(bool checkCommandibility) const
+  {
+    return Templates::canSiege(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN UNSIEGE ------------------------------------------------
+  bool UnitImpl::canUnsiege(bool checkCommandibility) const
+  {
+    return Templates::canUnsiege(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN LIFT ---------------------------------------------------
+  bool UnitImpl::canLift(bool checkCommandibility) const
+  {
+    return Templates::canLift(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN LAND ---------------------------------------------------
+  bool UnitImpl::canLand(bool checkCommandibility) const
+  {
+    return Templates::canLand(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canLand(TilePosition target, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canLand(const_cast<UnitImpl*>(this), target, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN LOAD ---------------------------------------------------
+  bool UnitImpl::canLoad(bool checkCommandibility) const
+  {
+    return Templates::canLoad(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canLoad(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canLoad(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN UNLOAD -------------------------------------------------
+  bool UnitImpl::canUnloadWithOrWithoutTarget(bool checkCommandibility) const
+  {
+    return Templates::canUnloadWithOrWithoutTarget(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canUnloadAtPosition(Position targDropPos, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUnloadAtPosition(const_cast<UnitImpl*>(this), targDropPos, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUnload(bool checkCommandibility) const
+  {
+    return Templates::canUnload(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canUnload(Unit targetUnit, bool checkCanTargetUnit, bool checkPosition, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUnload(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkPosition, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN UNLOAD ALL ---------------------------------------------
+  bool UnitImpl::canUnloadAll(bool checkCommandibility) const
+  {
+    return Templates::canUnloadAll(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN UNLOAD ALL POSITION ------------------------------------
+  bool UnitImpl::canUnloadAllPosition(bool checkCommandibility) const
+  {
+    return Templates::canUnloadAllPosition(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canUnloadAllPosition(Position targDropPos, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUnloadAllPosition(const_cast<UnitImpl*>(this), targDropPos, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN RIGHT CLICK --------------------------------------------
+  bool UnitImpl::canRightClick(bool checkCommandibility) const
+  {
+    return Templates::canRightClick(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canRightClick(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canRightClick(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canRightClickGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canRightClickGrouped(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN RIGHT CLICK POSITION -----------------------------------
+  bool UnitImpl::canRightClickPosition(bool checkCommandibility) const
+  {
+    return Templates::canRightClickPosition(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canRightClickPositionGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickPositionGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN RIGHT CLICK UNIT ---------------------------------------
+  bool UnitImpl::canRightClickUnit(bool checkCommandibility) const
+  {
+    return Templates::canRightClickUnit(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canRightClickUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canRightClickUnit(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canRightClickUnitGrouped(bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickUnitGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canRightClickUnitGrouped(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickUnitGrouped(const_cast<UnitImpl*>(this), targetUnit, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  //--------------------------------------------- CAN HALT CONSTRUCTION --------------------------------------
+  bool UnitImpl::canHaltConstruction(bool checkCommandibility) const
+  {
+    return Templates::canHaltConstruction(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL CONSTRUCTION ------------------------------------
+  bool UnitImpl::canCancelConstruction(bool checkCommandibility) const
+  {
+    return Templates::canCancelConstruction(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL ADDON -------------------------------------------
+  bool UnitImpl::canCancelAddon(bool checkCommandibility) const
+  {
+    return Templates::canCancelAddon(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL TRAIN -------------------------------------------
+  bool UnitImpl::canCancelTrain(bool checkCommandibility) const
+  {
+    return Templates::canCancelTrain(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL TRAIN SLOT --------------------------------------
+  bool UnitImpl::canCancelTrainSlot(bool checkCommandibility) const
+  {
+    return Templates::canCancelTrainSlot(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canCancelTrainSlot(int slot, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canCancelTrainSlot(const_cast<UnitImpl*>(this), slot, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL MORPH -------------------------------------------
+  bool UnitImpl::canCancelMorph(bool checkCommandibility) const
+  {
+    return Templates::canCancelMorph(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL RESEARCH ----------------------------------------
+  bool UnitImpl::canCancelResearch(bool checkCommandibility) const
+  {
+    return Templates::canCancelResearch(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN CANCEL UPGRADE -----------------------------------------
+  bool UnitImpl::canCancelUpgrade(bool checkCommandibility) const
+  {
+    return Templates::canCancelUpgrade(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  //--------------------------------------------- CAN USE TECH -----------------------------------------------
+  bool UnitImpl::canUseTechWithOrWithoutTarget(bool checkCommandibility) const
+  {
+    return Templates::canUseTechWithOrWithoutTarget(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canUseTechWithOrWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechWithOrWithoutTarget(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUseTech(BWAPI::TechType tech, PositionOrUnit target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTech(const_cast<UnitImpl*>(this), tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUseTechWithoutTarget(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechWithoutTarget(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN USE TECH UNIT ------------------------------------------
+  bool UnitImpl::canUseTechUnit(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechUnit(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUseTechUnit(BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechUnit(const_cast<UnitImpl*>(this), tech, targetUnit, checkCanTargetUnit, checkTargetsUnits, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN USE TECH POSITION --------------------------------------
+  bool UnitImpl::canUseTechPosition(BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechPosition(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUseTechPosition(BWAPI::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTechPosition(const_cast<UnitImpl*>(this), tech, target, checkTargetsPositions, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN PLACE COP ----------------------------------------------
+  bool UnitImpl::canPlaceCOP(bool checkCommandibility) const
+  {
+    return Templates::canPlaceCOP(const_cast<UnitImpl*>(this), checkCommandibility);
+  }
+  bool UnitImpl::canPlaceCOP(TilePosition target, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canPlaceCOP(const_cast<UnitImpl*>(this), target, checkCanIssueCommandType, checkCommandibility);
+  }
+  //--------------------------------------------- CAN ISSUE COMMAND TYPE -------------------------------------
+  bool UnitImpl::canIssueCommandType(BWAPI::UnitCommandType ct, bool checkCommandibility) const
+  {
+    return Templates::canIssueCommandType(const_cast<UnitImpl*>(this), ct, checkCommandibility);
+  }
+  bool UnitImpl::canIssueCommandTypeGrouped(BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canIssueCommandTypeGrouped(const_cast<UnitImpl*>(this), ct, checkCommandibilityGrouped, checkCommandibility);
   }
   //--------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
-  bool UnitImpl::canIssueCommand(UnitCommand command) const
+  bool UnitImpl::canIssueCommand(UnitCommand command, bool checkCanUseTechPositionOnPositions, bool checkCanUseTechUnitOnUnits, bool checkCanBuildUnitType, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
-    return Templates::canIssueCommand(this,command);
+    return Templates::canIssueCommand(const_cast<UnitImpl*>(this), command, checkCanUseTechPositionOnPositions, checkCanUseTechUnitOnUnits, checkCanBuildUnitType, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
   }
-  //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitImpl::attack(Position target, bool shiftQueueCommand)
+  bool UnitImpl::canIssueCommandGrouped(UnitCommand command, bool checkCanUseTechPositionOnPositions, bool checkCanUseTechUnitOnUnits, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
   {
-    return issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
-  }
-  //--------------------------------------------- ATTACK UNIT ------------------------------------------------
-  bool UnitImpl::attack(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
-  }
-  //--------------------------------------------- BUILD ------------------------------------------------------
-  bool UnitImpl::build(TilePosition target, UnitType type)
-  {
-    return issueCommand(UnitCommand::build(this, target, type));
-  }
-  //--------------------------------------------- BUILD ADDON ------------------------------------------------
-  bool UnitImpl::buildAddon(UnitType type)
-  {
-    return issueCommand(UnitCommand::buildAddon(this,type));
-  }
-  //--------------------------------------------- TRAIN ------------------------------------------------------
-  bool UnitImpl::train(UnitType type)
-  {
-    return issueCommand(UnitCommand::train(this,type));
-  }
-  //--------------------------------------------- MORPH ------------------------------------------------------
-  bool UnitImpl::morph(UnitType type)
-  {
-    return issueCommand(UnitCommand::morph(this,type));
-  }
-  //--------------------------------------------- RESEARCH ---------------------------------------------------
-  bool UnitImpl::research(TechType tech)
-  {
-    return issueCommand(UnitCommand::research(this,tech));
-  }
-  //--------------------------------------------- UPGRADE ----------------------------------------------------
-  bool UnitImpl::upgrade(UpgradeType upgrade)
-  {
-    return issueCommand(UnitCommand::upgrade(this,upgrade));
-  }
-  //--------------------------------------------- SET RALLY POSITION -----------------------------------------
-  bool UnitImpl::setRallyPoint(Position target)
-  {
-    return issueCommand(UnitCommand::setRallyPoint(this,target));
-  }
-  //--------------------------------------------- SET RALLY UNIT ---------------------------------------------
-  bool UnitImpl::setRallyPoint(Unit* target)
-  {
-    return issueCommand(UnitCommand::setRallyPoint(this,target));
-  }
-  //--------------------------------------------- MOVE -------------------------------------------------------
-  bool UnitImpl::move(Position target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::move(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- PATROL -----------------------------------------------------
-  bool UnitImpl::patrol(Position target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::patrol(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- HOLD POSITION ----------------------------------------------
-  bool UnitImpl::holdPosition(bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::holdPosition(this, shiftQueueCommand));
-  }
-  //--------------------------------------------- STOP -------------------------------------------------------
-  bool UnitImpl::stop(bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::stop(this, shiftQueueCommand));
-  }
-  //--------------------------------------------- FOLLOW -----------------------------------------------------
-  bool UnitImpl::follow(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::follow(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- GATHER -----------------------------------------------------
-  bool UnitImpl::gather(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::gather(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- RETURN CARGO -----------------------------------------------
-  bool UnitImpl::returnCargo(bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::returnCargo(this, shiftQueueCommand));
-  }
-  //--------------------------------------------- REPAIR -----------------------------------------------------
-  bool UnitImpl::repair(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::repair(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- BURROW -----------------------------------------------------
-  bool UnitImpl::burrow()
-  {
-    return issueCommand(UnitCommand::burrow(this));
-  }
-  //--------------------------------------------- UNBURROW ---------------------------------------------------
-  bool UnitImpl::unburrow()
-  {
-    return issueCommand(UnitCommand::unburrow(this));
-  }
-  //--------------------------------------------- CLOAK ------------------------------------------------------
-  bool UnitImpl::cloak()
-  {
-    return issueCommand(UnitCommand::cloak(this));
-  }
-  //--------------------------------------------- DECLOAK ----------------------------------------------------
-  bool UnitImpl::decloak()
-  {
-    return issueCommand(UnitCommand::decloak(this));
-  }
-  //--------------------------------------------- SIEGE ------------------------------------------------------
-  bool UnitImpl::siege()
-  {
-    return issueCommand(UnitCommand::siege(this));
-  }
-  //--------------------------------------------- UNSIEGE ----------------------------------------------------
-  bool UnitImpl::unsiege()
-  {
-    return issueCommand(UnitCommand::unsiege(this));
-  }
-  //--------------------------------------------- LIFT -------------------------------------------------------
-  bool UnitImpl::lift()
-  {
-    return issueCommand(UnitCommand::lift(this));
-  }
-  //--------------------------------------------- LAND -------------------------------------------------------
-  bool UnitImpl::land(TilePosition target)
-  {
-    return issueCommand(UnitCommand::land(this,target));
-  }
-  //--------------------------------------------- LOAD -------------------------------------------------------
-  bool UnitImpl::load(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::load(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- UNLOAD -----------------------------------------------------
-  bool UnitImpl::unload(Unit* target)
-  {
-    return issueCommand(UnitCommand::unload(this,target));
-  }
-  //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitImpl::unloadAll(bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::unloadAll(this, shiftQueueCommand));
-  }
-  //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitImpl::unloadAll(Position target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::unloadAll(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitImpl::rightClick(Position target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitImpl::rightClick(Unit* target, bool shiftQueueCommand)
-  {
-    return issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
-  }
-  //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
-  bool UnitImpl::haltConstruction()
-  {
-    return issueCommand(UnitCommand::haltConstruction(this));
-  }
-  //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
-  bool UnitImpl::cancelConstruction()
-  {
-    return issueCommand(UnitCommand::cancelConstruction(this));
-  }
-  //--------------------------------------------- CANCEL ADDON -----------------------------------------------
-  bool UnitImpl::cancelAddon()
-  {
-    return issueCommand(UnitCommand::cancelAddon(this));
-  }
-  //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
-  bool UnitImpl::cancelTrain(int slot)
-  {
-    return issueCommand(UnitCommand::cancelTrain(this, slot));
-  }
-  //--------------------------------------------- CANCEL MORPH -----------------------------------------------
-  bool UnitImpl::cancelMorph()
-  {
-    return issueCommand(UnitCommand::cancelMorph(this));
-  }
-  //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
-  bool UnitImpl::cancelResearch()
-  {
-    return issueCommand(UnitCommand::cancelResearch(this));
-  }
-  //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
-  bool UnitImpl::cancelUpgrade()
-  {
-    return issueCommand(UnitCommand::cancelUpgrade(this));
-  }
-  //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitImpl::useTech(TechType tech)
-  {
-    return issueCommand(UnitCommand::useTech(this,tech));
-  }
-  //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitImpl::useTech(TechType tech, Position target)
-  {
-    return issueCommand(UnitCommand::useTech(this,tech,target));
-  }
-  //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitImpl::useTech(TechType tech, Unit* target)
-  {
-    return issueCommand(UnitCommand::useTech(this,tech,target));
-  }
-  //--------------------------------------------- PLACE COP --------------------------------------------------
-  bool UnitImpl::placeCOP(TilePosition target)
-  {
-    return issueCommand(UnitCommand::placeCOP(this, target));
+    return Templates::canIssueCommandGrouped(const_cast<UnitImpl*>(this), command, checkCanUseTechPositionOnPositions, checkCanUseTechUnitOnUnits, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
   }
 }

@@ -21,19 +21,19 @@ void RightClickTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
   int enemyCount = Broodwar->self()->completedUnitCount(enemyType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->getAllUnits())
+  for each(Unit u in Broodwar->getAllUnits())
     if (u->getType()==enemyType && u->getPlayer()->isEnemy(Broodwar->self()))
       enemyUnit = u;
 
   int friendCount = Broodwar->self()->completedUnitCount(friendlyType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->getAllUnits())
+  for each(Unit u in Broodwar->getAllUnits())
     if (u->getType()==friendlyType && u->getPlayer()->isAlly(Broodwar->self()))
       friendUnit = u;
   BWAssertF(unit!=NULL,{fail=true;return;});
@@ -43,7 +43,7 @@ void RightClickTest::start()
   BWAssertF(friendUnit!=NULL,{fail=true;return;});
   BWAssertF(friendUnit->exists(),{fail=true;return;});
   targetPosition = unit->getPosition();
-  targetPosition.y()-=30*32;
+  targetPosition.y-=30*32;
   targetPosition.makeValid();
   unit->rightClick(targetPosition);
   BWAssertF(unit->getOrder()==Orders::Move,{fail=true;return;});
@@ -62,7 +62,7 @@ void RightClickTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
 
   if (thisFrame < startFrame + 200)
   {

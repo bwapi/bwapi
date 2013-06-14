@@ -1,14 +1,9 @@
-#include <set>
-#include <list>
-#include <bitset>
 #include <vector>
-
-#include "util/foreach.h"
 
 #include "Pathing.h"
 #include "Offsets.h"
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 #define BOTTOM 0
 #define LEFT 1
@@ -17,21 +12,21 @@
 
 namespace BW
 {
-  bool region::isConnectedTo(region *target)
+  bool region::isConnectedTo(region *target) const
   {
     if ( target )
       return this->groupIndex == target->groupIndex;
     return false;
   }
 
-  bool region::isConnectedTo(u16 index)
+  bool region::isConnectedTo(u16 index) const
   {
-    if ( index < BW::BWDATA_SAIPathing->regionCount )
+    if ( index < (*BW::BWDATA::SAIPathing)->regionCount )
       return this->groupIndex == getRegionFromId(index)->groupIndex;
     return false;
   }
 
-  std::vector<region*> &region::getAccessibleNeighbours()
+  std::vector<region*> &region::getAccessibleNeighbours() const
   {
     static std::vector<region*> neighbors;
     neighbors.clear();
@@ -44,26 +39,26 @@ namespace BW
     return neighbors;
   }
 
-  int region::getAirDistance(region *dst)
+  int region::getAirDistance(region *dst) const
   {
     return dst->getCenter().getApproxDistance(this->getCenter());
   }
 
-  region *region::getNeighbor(u8 index)
+  region *region::getNeighbor(u8 index) const
   {
     if ( index <= this->neighborCount )
       return getRegionFromId(this->neighbors[index]);
     return NULL;
   }
 
-  Position region::getCenter()
+  Position region::getCenter() const
   {
     return BW::Position((u16)(this->rgnCenterX >> 8), (u16)(this->rgnCenterY >> 8));
   }
 
-  u16 region::getIndex()
+  u16 region::getIndex() const
   {
-    return (u16)( ((u32)this - (u32)(&BW::BWDATA_SAIPathing->regions)) / sizeof(BW::region) );
+    return (u16)( ((u32)this - (u32)((*BW::BWDATA::SAIPathing)->regions)) / sizeof(BW::region) );
   }
 
 // searchInner: 0 = top
@@ -172,6 +167,32 @@ namespace BW
     return true;
   }
 
+  BW::region *getRegionAt(int x, int y)
+  {
+    BWAPI::TilePosition tp(x/32, y/32);
+    if ( tp.x >= 256 && tp.y >= 256 )
+      return NULL;
 
+    // Obtain the region IDs from the positions
+    u16 id = (*BW::BWDATA::SAIPathing)->mapTileRegionId[tp.y][tp.x];
+
+    if ( id & 0x2000 )
+    {
+      // Get source region from split-tile based on walk tile
+      int minitilePosX = (x&0x1F)/8;
+      int minitilePosY = (y&0x1F)/8;
+      int minitileShift = minitilePosX + minitilePosY * 4;
+      BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[id&0x1FFF];
+      if ( (t->minitileMask >> minitileShift) & 1 )
+        return &(*BW::BWDATA::SAIPathing)->regions[t->rgn2];
+      return &(*BW::BWDATA::SAIPathing)->regions[t->rgn1];
+    }
+    // Get source region from tile
+    return &(*BW::BWDATA::SAIPathing)->regions[id];
+  }
+  BW::region *getRegionAt(Position pos)
+  {
+    return getRegionAt(pos.x, pos.y);
+  }
 };
 

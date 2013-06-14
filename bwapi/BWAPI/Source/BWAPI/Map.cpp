@@ -1,6 +1,6 @@
 #include "Map.h"
-#include "DLLMain.h"
-#include "Config.h"
+#include "../DLLMain.h"
+#include "../Config.h"
 
 #include <BW/TileSet.h>
 #include <BW/TileType.h>
@@ -8,17 +8,16 @@
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include <fstream>
-#include <sys/stat.h>
 #include <Util/sha1.h>
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 using namespace std;
 namespace BWAPI
 {
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   Map::Map()
-      : activeTiles(NULL)
+      : activeTiles(nullptr)
   {
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -27,41 +26,46 @@ namespace BWAPI
     if ( activeTiles )
     {
       delete activeTiles;
-      activeTiles = NULL;
+      activeTiles = nullptr;
     }
   }
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
-    return BW::BWDATA_MapSize->x;
+    return BW::BWDATA::MapSize->x;
   }
   //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
-    return BW::BWDATA_MapSize->y;
+    return BW::BWDATA::MapSize->y;
   }
   //---------------------------------------------- GET PATH NAME ---------------------------------------------
   std::string Map::getPathName()
   {
-    char *map = BW::BWDATA_CurrentMapFileName;
-    if ( szInstallPath[0] && !strnicmp(map, szInstallPath, strlen(szInstallPath)) )
-      map = &map[strlen(szInstallPath)];
-    std::string mapPathName(map);
-    return mapPathName;
+    std::string mapPath( BW::BWDATA::CurrentMapFileName );
+    
+    // If the install path is included in the map path, remove it, creating a relative path
+    if ( !installPath.empty() && mapPath.compare(0, installPath.length(), installPath) == 0 )
+      mapPath.erase(0, installPath.length() );
+    
+    return mapPath;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    char *pszMapName = strrchr(BW::BWDATA_CurrentMapFileName, '\\');
-    if ( !pszMapName )
-      pszMapName = strrchr(BW::BWDATA_CurrentMapFileName, '/');
-    std::string mapNameAbsolute(pszMapName ? &pszMapName[1] : BW::BWDATA_CurrentMapFileName);
-    return mapNameAbsolute;
+    std::string mapFileName( BW::BWDATA::CurrentMapFileName );
+    
+    // Remove the path
+    size_t tmp = mapFileName.find_last_of("/\\");
+    if ( tmp != std::string::npos )
+      mapFileName.erase(0, tmp+1);
+
+    return mapFileName;
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
   {
-    std::string mapName(BW::BWDATA_CurrentMapName);
+    std::string mapName( BW::BWDATA::CurrentMapName );
     return mapName;
   }
   void Map::copyToSharedMemory()
@@ -70,7 +74,7 @@ namespace BWAPI
     int h = buildability.getHeight();
     GameData* data = BroodwarImpl.server.data;
     bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
-    if (BroodwarImpl._isReplay())
+    if ( BroodwarImpl.isReplay() )
     {
       for(int x = 0; x < w; ++x)
       {
@@ -121,7 +125,7 @@ namespace BWAPI
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     BW::activeTile value = (*this->activeTiles)[y][x];
-    if (BroodwarImpl._isReplay())
+    if ( BroodwarImpl.isReplay() )
       return value.bVisibilityFlags != 255;
     return !(value.bVisibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
@@ -131,7 +135,7 @@ namespace BWAPI
     if ((unsigned int)x >= buildability.getWidth() || (unsigned int)y >= buildability.getHeight())
       return false;
     BW::activeTile value = (*this->activeTiles)[y][x];
-    if (BroodwarImpl._isReplay())
+    if ( BroodwarImpl.isReplay() )
       return value.bExploredFlags != 255;
     return !(value.bExploredFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex()));
   }
@@ -162,19 +166,19 @@ namespace BWAPI
     if ( activeTiles )
     {
       delete activeTiles;
-      activeTiles = NULL;
+      activeTiles = nullptr;
     }
     buildability.resize(Map::getWidth(), Map::getHeight());
     walkability.resize(Map::getWidth()*4, Map::getHeight()*4);
-    activeTiles = new Util::RectangleArray<BW::activeTile>(Map::getHeight(), Map::getWidth(), BW::BWDATA_ActiveTileArray);
+    activeTiles = new Util::RectangleArray<BW::activeTile>(Map::getHeight(), Map::getWidth(), *BW::BWDATA::ActiveTileArray);
     setBuildability();
     setWalkability();
   }
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    if ( BW::BWDATA_MapTileArray )
-      return *(BW::BWDATA_MapTileArray + x + y * Map::getWidth());
+    if ( *BW::BWDATA::MapTileArray )
+      return *((*BW::BWDATA::MapTileArray) + x + y * Map::getWidth());
     return 0;
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
@@ -229,8 +233,8 @@ namespace BWAPI
     int my = y % 4;
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
-    if ( tile && BW::BWDATA_MiniTileFlags )
-      return BW::BWDATA_MiniTileFlags->tile[tile->miniTile[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+    if ( tile && BW::BWDATA::MiniTileFlags )
+      return (*BW::BWDATA::MiniTileFlags)->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
     return 0;
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------
@@ -241,13 +245,11 @@ namespace BWAPI
     std::string filename = Map::getPathName();
 
     // Open File
-    HANDLE hFile = NULL;
-    if ( !SFileOpenFileEx(NULL, filename.c_str(), SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
+    HANDLE hFile = nullptr;
+    if ( !SFileOpenFileEx(nullptr, filename.c_str(), SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
     {
-      char szPath[MAX_PATH];
-      SStrCopy(szPath, filename.c_str(), MAX_PATH);
-      SStrNCat(szPath, "\\staredit\\scenario.chk", MAX_PATH);
-      if ( !SFileOpenFileEx(NULL, szPath, SFILE_FROM_MPQ, &hFile) || !hFile)
+      filename += "\\staredit\\scenario.chk";
+      if ( !SFileOpenFileEx(nullptr, filename.c_str(), SFILE_FROM_MPQ, &hFile) || !hFile)
         return std::string("Error_map_cannot_be_opened");
     }
 
