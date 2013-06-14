@@ -18,7 +18,7 @@ void CloakTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
@@ -29,9 +29,9 @@ void CloakTest::start()
   currentEnergy = unit->getEnergy();
   unit->cloak();
   if (unitType==UnitTypes::Terran_Ghost)
-    currentEnergy-=TechTypes::Personnel_Cloaking.energyUsed();
+    currentEnergy-=TechTypes::Personnel_Cloaking.energyCost();
   else
-    currentEnergy-=TechTypes::Cloaking_Field.energyUsed();
+    currentEnergy-=TechTypes::Cloaking_Field.energyCost();
   BWAssertF(unit->getEnergy()==currentEnergy,{fail=true;return;});
   BWAssertF(unit->getOrder()==Orders::Cloak,{fail=true;return;});
   startFrame = Broodwar->getFrameCount();
@@ -49,7 +49,7 @@ void CloakTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
   if (unit->getEnergy()!=currentEnergy)
   {
     currentEnergy++;

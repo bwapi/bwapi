@@ -24,7 +24,6 @@ namespace BWAPI
       SaveGame,
       UnitComplete,
       //TriggerAction,
-      PlayerDropped,
       None
     };
   }

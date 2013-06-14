@@ -2,7 +2,9 @@
 
 #include <string>
 #include <vector>
-#include <time.h>
+#include <cstring>
+#include <ctime>
+#include <fstream>
 
 #include <Dbghelp.h>
 #include <tlhelp32.h>
@@ -53,7 +55,7 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
 
   // Get path to Starcraft.exe
   char szExecutableName[MAX_PATH];
-  if ( GetModuleFileName(NULL, szExecutableName, MAX_PATH) )
+  if ( GetModuleFileName(nullptr, szExecutableName, MAX_PATH) )
   {
     // Get the File Version information
     DWORD dwUnused, dwVersionSize;
@@ -76,7 +78,6 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
         w2 = LOWORD(pFileInfo->dwProductVersionMS);
         w3 = HIWORD(pFileInfo->dwProductVersionLS);
         w4 = LOWORD(pFileInfo->dwProductVersionLS);
-
       }
       free(pVersionData);
     } // ^if dwVerSize
@@ -88,24 +89,23 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
 // The primary exception filter
 LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 {
+  // Destroy fullscreen mode and show the cursor (something the original doesn't do!)
   DDrawDestroy();
   ShowCursor(TRUE);
 
-  SYSTEMTIME st;
-  char szFilename[MAX_PATH];
-
+  // Create the log file path
+  char szLogFilename[MAX_PATH];
+  time_t myTime = time(nullptr);
+  strftime(szLogFilename, sizeof(szLogFilename), "Errors\\%Y %b %d.txt", localtime(&myTime));
+  
   // Create the file
-  GetSystemTime(&st);
-  sprintf_s(szFilename, MAX_PATH, "%sErrors\\%u_%02u_%02u.txt", szInstallPath, st.wYear, st.wMonth, st.wDay);
-
-  FILE *hFile = fopen( szFilename, "a+");
+  FILE *hFile = fopen( (installPath + szLogFilename).c_str(), "a+");
   if ( hFile )
   {
     fprintf(hFile, "\n//////////////////////////////////////////////////\n");
 
     // Print the time
-    time_t _t = time(NULL);
-    fprintf(hFile, "TIME: %s\n", ctime(&_t));
+    fprintf(hFile, "TIME: %s\n", ctime(&myTime));
 
     // Print version data
     WORD w1,w2,w3,w4;
@@ -145,33 +145,33 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
     fprintf(hFile, "REGISTERS:\n");
     DWORD dwCntxtFlags = ep->ContextRecord->ContextFlags;
     if ( dwCntxtFlags & CONTEXT_INTEGER )
-      fprintf(hFile, "  EDI: %08X\n"
-                     "  ESI: %08X\n"
-                     "  EBX: %08X\n"
-                     "  EDX: %08X\n"
-                     "  ECX: %08X\n"
-                     "  EAX: %08X\n",
-                     ep->ContextRecord->Edi,
-                     ep->ContextRecord->Esi,
-                     ep->ContextRecord->Ebx,
-                     ep->ContextRecord->Edx,
-                     ep->ContextRecord->Ecx,
-                     ep->ContextRecord->Eax);
+      fprintf(hFile,  "  EDI: %08X\n"
+              "  ESI: %08X\n"
+              "  EBX: %08X\n"
+              "  EDX: %08X\n"
+              "  ECX: %08X\n"
+              "  EAX: %08X\n",
+              ep->ContextRecord->Edi,
+              ep->ContextRecord->Esi,
+              ep->ContextRecord->Ebx,
+              ep->ContextRecord->Edx,
+              ep->ContextRecord->Ecx,
+              ep->ContextRecord->Eax);
     if ( dwCntxtFlags & CONTEXT_CONTROL )
-      fprintf(hFile, "  EBP: %08X\n"
-                     "  EIP: %08X\n"
-                     "  ESP: %08X\n",
-                     ep->ContextRecord->Ebp,
-                     ep->ContextRecord->Eip,
-                     ep->ContextRecord->Esp);
+      fprintf(hFile,  "  EBP: %08X\n"
+              "  EIP: %08X\n"
+              "  ESP: %08X\n",
+              ep->ContextRecord->Ebp,
+              ep->ContextRecord->Eip,
+              ep->ContextRecord->Esp);
 
     // Get the stack frame
     STACKFRAME sf = { 0 };
-    sf.AddrPC.Mode      = AddrModeFlat;
-    sf.AddrPC.Offset    = ep->ContextRecord->Eip;
-    sf.AddrFrame.Mode   = AddrModeFlat;
+    sf.AddrPC.Mode    = AddrModeFlat;
+    sf.AddrPC.Offset  = ep->ContextRecord->Eip;
+    sf.AddrFrame.Mode  = AddrModeFlat;
     sf.AddrFrame.Offset = ep->ContextRecord->Ebp;
-    sf.AddrStack.Mode   = AddrModeFlat;
+    sf.AddrStack.Mode  = AddrModeFlat;
     sf.AddrStack.Offset = ep->ContextRecord->Esp;
 
     // Create a context record copy
@@ -190,9 +190,9 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       _SymInitialize(hProcess, NULL, FALSE);
       if ( _SymSetOptions )
         _SymSetOptions(SYMOPT_ALLOW_ABSOLUTE_SYMBOLS | SYMOPT_AUTO_PUBLICS |
-                        SYMOPT_DEFERRED_LOADS | SYMOPT_FAVOR_COMPRESSED |
-                        SYMOPT_INCLUDE_32BIT_MODULES | SYMOPT_LOAD_ANYTHING |
-                        SYMOPT_LOAD_LINES);
+                SYMOPT_DEFERRED_LOADS | SYMOPT_FAVOR_COMPRESSED |
+                SYMOPT_INCLUDE_32BIT_MODULES | SYMOPT_LOAD_ANYTHING |
+                SYMOPT_LOAD_LINES);
 
       // Load all module symbols
       if ( _SymLoadModule )
@@ -214,9 +214,8 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Load custom symbols for Broodwar, etc
     std::vector<_customSymbolStore> customSymbols;
-    char szSymbolMap[MAX_PATH];
-    sprintf_s(szSymbolMap, MAX_PATH, "%sbwapi-data\\data\\Broodwar.map", szInstallPath);
-    FILE *hBWSymbols = fopen(szSymbolMap, "r");
+    std::string symbolMapPath = installPath + "bwapi-data\\data\\Broodwar.map";
+    FILE *hBWSymbols = fopen(symbolMapPath.c_str(), "r");
     if ( hBWSymbols )
     {
       char szSymbolName[512];
@@ -224,7 +223,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       DWORD dwSize = 0;
       for (;;)
       {
-        int iResult = fscanf(hBWSymbols, "%512s %x %x", szSymbolName, &dwAddress, &dwSize);
+        int iResult = fscanf(hBWSymbols, "%511s %8x %8x", szSymbolName, &dwAddress, &dwSize);
         if ( iResult == EOF || iResult == 0 )
           break;
         _customSymbolStore sym = { szSymbolName, dwAddress, dwAddress + dwSize };
@@ -232,7 +231,19 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       }
       fclose(hBWSymbols);
     }
-
+    /*std::ifstream bwSymbols( installPath + "bwapi-data\\data\\Broodwar.map");
+    if ( bwSymbols )
+    {
+      DWORD dwAddr = 0, dwSize = 0;
+      std::string symName("");
+      while ( bwSymbols >> symName >> std::hex >> dwAddr >> dwSize )
+      {
+        _customSymbolStore sym = { symName, dwAddr, dwAddr + dwSize };
+        customSymbols.push_back(sym);
+      }
+      bwSymbols.close();
+    }*/
+    
     // Walk, don't run
     if ( _StackWalk && _SymFunctionTableAccess && _SymGetModuleBase )
     {
@@ -241,10 +252,10 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
                           hThread, 
                           &sf, 
                           &c, 
-                          NULL, 
+                          nullptr, 
                           _SymFunctionTableAccess,
                           _SymGetModuleBase,
-                          NULL) )
+                          nullptr) )
       {
         DWORD dwOffset = sf.AddrPC.Offset;
         fprintf(hFile, "  %-16s  0x%08X    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
@@ -275,10 +286,8 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
           if ( !foundSomething )
           {
-            for ( std::vector<_customSymbolStore>::const_iterator i = customSymbols.begin(),
-                  iend = customSymbols.end();
-                  i != iend;
-                  ++i )
+            // Iterate custom symbols, @TODO: make this a map?
+            for ( auto i = customSymbols.cbegin(); i != customSymbols.end(); ++i )
             {
               if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
               {
@@ -308,54 +317,33 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
   return TopExceptionFilter.DefFilterProc(ep);
 }
 
-const char *GetExceptionName(DWORD dwExceptionCode)
+#define CASENAME(x) case x: return #x
+const char * const GetExceptionName(DWORD dwExceptionCode)
 {
   switch ( dwExceptionCode )
   {
-  case EXCEPTION_ACCESS_VIOLATION:
-    return "EXCEPTION_ACCESS_VIOLATION";
-  case EXCEPTION_DATATYPE_MISALIGNMENT:
-    return "EXCEPTION_DATATYPE_MISALIGNMENT";
-  case EXCEPTION_BREAKPOINT:
-    return "EXCEPTION_BREAKPOINT";
-  case EXCEPTION_SINGLE_STEP:
-    return "EXCEPTION_SINGLE_STEP";
-  case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-    return "EXCEPTION_ARRAY_BOUNDS_EXCEEDED";
-  case EXCEPTION_FLT_DENORMAL_OPERAND:
-    return "EXCEPTION_FLT_DENORMAL_OPERAND";
-  case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-    return "EXCEPTION_FLT_DIVIDE_BY_ZERO";
-  case EXCEPTION_FLT_INEXACT_RESULT:
-    return "EXCEPTION_FLT_INEXACT_RESULT";
-  case EXCEPTION_FLT_INVALID_OPERATION:
-    return "EXCEPTION_FLT_INVALID_OPERATION";
-  case EXCEPTION_FLT_OVERFLOW:
-    return "EXCEPTION_FLT_OVERFLOW";
-  case EXCEPTION_FLT_STACK_CHECK:
-    return "EXCEPTION_FLT_STACK_CHECK";
-  case EXCEPTION_FLT_UNDERFLOW:
-    return "EXCEPTION_FLT_UNDERFLOW";
-  case EXCEPTION_INT_DIVIDE_BY_ZERO:
-    return "EXCEPTION_INT_DIVIDE_BY_ZERO";
-  case EXCEPTION_INT_OVERFLOW:
-    return "EXCEPTION_INT_OVERFLOW";
-  case EXCEPTION_PRIV_INSTRUCTION:
-    return "EXCEPTION_PRIV_INSTRUCTION";
-  case EXCEPTION_IN_PAGE_ERROR:
-    return "EXCEPTION_IN_PAGE_ERROR";
-  case EXCEPTION_ILLEGAL_INSTRUCTION:
-    return "EXCEPTION_ILLEGAL_INSTRUCTION";
-  case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-    return "EXCEPTION_NONCONTINUABLE_EXCEPTION";
-  case EXCEPTION_STACK_OVERFLOW:
-    return "EXCEPTION_STACK_OVERFLOW";
-  case EXCEPTION_INVALID_DISPOSITION:
-    return "EXCEPTION_INVALID_DISPOSITION";
-  case EXCEPTION_GUARD_PAGE:
-    return "EXCEPTION_GUARD_PAGE";
-  case EXCEPTION_INVALID_HANDLE:
-    return "EXCEPTION_INVALID_HANDLE";
+  CASENAME(EXCEPTION_ACCESS_VIOLATION);
+  CASENAME(EXCEPTION_DATATYPE_MISALIGNMENT);
+  CASENAME(EXCEPTION_BREAKPOINT);
+  CASENAME(EXCEPTION_SINGLE_STEP);
+  CASENAME(EXCEPTION_ARRAY_BOUNDS_EXCEEDED);
+  CASENAME(EXCEPTION_FLT_DENORMAL_OPERAND);
+  CASENAME(EXCEPTION_FLT_DIVIDE_BY_ZERO);
+  CASENAME(EXCEPTION_FLT_INEXACT_RESULT);
+  CASENAME(EXCEPTION_FLT_INVALID_OPERATION);
+  CASENAME(EXCEPTION_FLT_OVERFLOW);
+  CASENAME(EXCEPTION_FLT_STACK_CHECK);
+  CASENAME(EXCEPTION_FLT_UNDERFLOW);
+  CASENAME(EXCEPTION_INT_DIVIDE_BY_ZERO);
+  CASENAME(EXCEPTION_INT_OVERFLOW);
+  CASENAME(EXCEPTION_PRIV_INSTRUCTION);
+  CASENAME(EXCEPTION_IN_PAGE_ERROR);
+  CASENAME(EXCEPTION_ILLEGAL_INSTRUCTION);
+  CASENAME(EXCEPTION_NONCONTINUABLE_EXCEPTION);
+  CASENAME(EXCEPTION_STACK_OVERFLOW);
+  CASENAME(EXCEPTION_INVALID_DISPOSITION);
+  CASENAME(EXCEPTION_GUARD_PAGE);
+  CASENAME(EXCEPTION_INVALID_HANDLE);
   default:
     break;
   }
@@ -368,29 +356,26 @@ void InitializeSymFunctions()
   if ( !hDbgHlp )
     return;
 
-  *(FARPROC*)&_SymInitialize          = GetProcAddress(hDbgHlp, "SymInitialize");
-  *(FARPROC*)&_SymSetOptions          = GetProcAddress(hDbgHlp, "SymSetOptions");
-  *(FARPROC*)&_SymLoadModule          = GetProcAddress(hDbgHlp, "SymLoadModule");
-  *(FARPROC*)&_StackWalk              = GetProcAddress(hDbgHlp, "StackWalk");
-  *(FARPROC*)&_SymFunctionTableAccess = GetProcAddress(hDbgHlp, "SymFunctionTableAccess");
-  *(FARPROC*)&_SymGetModuleBase       = GetProcAddress(hDbgHlp, "SymGetModuleBase");
-  *(FARPROC*)&_SymGetSymFromAddr      = GetProcAddress(hDbgHlp, "SymGetSymFromAddr");
-  *(FARPROC*)&_SymGetLineFromAddr     = GetProcAddress(hDbgHlp, "SymGetLineFromAddr");
-  *(FARPROC*)&_SymCleanup             = GetProcAddress(hDbgHlp, "SymCleanup");
+  (FARPROC&)_SymInitialize          = GetProcAddress(hDbgHlp, "SymInitialize");
+  (FARPROC&)_SymSetOptions          = GetProcAddress(hDbgHlp, "SymSetOptions");
+  (FARPROC&)_SymLoadModule          = GetProcAddress(hDbgHlp, "SymLoadModule");
+  (FARPROC&)_StackWalk              = GetProcAddress(hDbgHlp, "StackWalk");
+  (FARPROC&)_SymFunctionTableAccess = GetProcAddress(hDbgHlp, "SymFunctionTableAccess");
+  (FARPROC&)_SymGetModuleBase       = GetProcAddress(hDbgHlp, "SymGetModuleBase");
+  (FARPROC&)_SymGetSymFromAddr      = GetProcAddress(hDbgHlp, "SymGetSymFromAddr");
+  (FARPROC&)_SymGetLineFromAddr     = GetProcAddress(hDbgHlp, "SymGetLineFromAddr");
+  (FARPROC&)_SymCleanup             = GetProcAddress(hDbgHlp, "SymCleanup");
 }
 
 TopLevelExceptionFilter::TopLevelExceptionFilter()
 : pOldExceptionFilter(NULL)
 {
-  InitPrimaryConfig();
   InitializeSymFunctions();
 }
 
 TopLevelExceptionFilter::TopLevelExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpNewExceptionFilter)
 : pOldExceptionFilter(NULL)
 {
-  InitPrimaryConfig();
-
   if ( lpNewExceptionFilter )
     pOldExceptionFilter = SetUnhandledExceptionFilter(lpNewExceptionFilter);
   InitializeSymFunctions();

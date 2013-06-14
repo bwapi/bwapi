@@ -1,7 +1,7 @@
 #include "PositionUnitTarget.h"
-#include "Unit.h"
+#include "CUnit.h"
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 namespace BW
 {
@@ -10,12 +10,16 @@ namespace BW
       : position(position)
   {
   }
+  PositionUnitTarget::PositionUnitTarget(int x, int y)
+      : position((u16)x,(u16)y)
+  {
+  }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   PositionUnitTarget::PositionUnitTarget(const UnitTarget& target)
       : target(target)
   {
     int index = 336 * ((target.getTarget() & 0x7FF) - 1);
-    Unit* unit = (Unit*)((int)BWDATA_UnitNodeTable + index);
+    CUnit* unit = (CUnit*)((int)BWDATA::UnitNodeTable + index);
     this->position = unit->position;
   }
   //----------------------------------------------------------------------------------------------------------

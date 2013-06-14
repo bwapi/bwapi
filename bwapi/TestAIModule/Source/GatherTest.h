@@ -12,9 +12,9 @@ class GatherTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* worker;
-    BWAPI::Unit* mineral;
-    BWAPI::Unit* refinery;
+    BWAPI::Unit worker;
+    BWAPI::Unit mineral;
+    BWAPI::Unit refinery;
     int initialMinerals;
     int initialGas;
     int state;

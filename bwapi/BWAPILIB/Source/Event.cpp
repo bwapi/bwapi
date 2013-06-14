@@ -1,4 +1,6 @@
 #include <BWAPI/Event.h>
+#include <BWAPI/EventType.h>
+#include <tuple>
 
 #include "../../Debug.h"
 
@@ -6,40 +8,67 @@ namespace BWAPI
 {
   std::string emptyString;
   Event::Event()
-    :type(EventType::None)
-    ,position(Positions::None)
-    ,text(NULL)
-    ,unit(NULL)
-    ,player(NULL)
+    :position(Positions::None)
+    ,text(nullptr)
+    ,unit(nullptr)
+    ,player(nullptr)
+    ,type(EventType::None)
     ,winner(false)
   {
   }
   Event::Event(const Event& other)
+    : type(other.type)
+    , position(other.position)
+    , text( other.text != nullptr ? new std::string(*other.text) : nullptr )
+    , unit( other.unit )
+    , player( other.player )
+    , winner( other.winner )
   {
-    type = other.type;
-    position = other.position;
-    if (other.text!=NULL)
-      text = new std::string(*other.text);
-    else
-      text = NULL;
-    unit = other.unit;
-    player = other.player;
-    winner = other.winner;
+  }
+  Event::Event(Event &&other)
+    : type(other.type)
+    , position(other.position)
+    , text( other.text )
+    , unit( other.unit )
+    , player( other.player )
+    , winner( other.winner )
+  {
+    other.text = nullptr;
   }
   Event::~Event()
   {
-    if (text!=NULL)
+    if ( text != nullptr )
+    {
       delete text;
-    text=NULL;
+      text = nullptr;
+    }
   }
   Event& Event::operator=(const Event& other)
   {
     type = other.type;
     position = other.position;
-    if (other.text!=NULL)
+    if ( text != nullptr )
+    {
+      delete text;
+      text = nullptr;
+    }
+    
+    if ( other.text != nullptr )
       text = new std::string(*other.text);
-    else
-      text = NULL;
+      
+    unit    = other.unit;
+    player  = other.player;
+    winner  = other.winner;
+    return *this;
+  }
+  Event& Event::operator=(Event &&other)
+  {
+    type = other.type;
+    position = other.position;
+
+    text = other.text;
+    other.text = nullptr;
+
     unit = other.unit;
     player = other.player;
     winner = other.winner;
@@ -47,12 +76,8 @@ namespace BWAPI
   }
   bool Event::operator==(const Event& other) const
   {
-    return (type     == other.type &&
-            position == other.position &&
-            ((text==NULL && other.text==NULL) || (text!=NULL && other.text!=NULL &&*text == *other.text)) &&
-            unit     == other.unit &&
-            player   == other.player &&
-            winner == other.winner);
+    return std::tie(type, position, unit, player, winner) == std::tie(other.type, other.position, other.unit, other.player, other.winner)
+           && ((text==nullptr && other.text==nullptr) || (text!=nullptr && other.text!=nullptr && *text == *other.text));
   }
   Event Event::MatchStart()
   {
@@ -83,30 +108,23 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SendText;
-    if (text!=NULL)
+    if (text != nullptr)
       e.text = new std::string(text);
     return e;
   }
-  Event Event::ReceiveText(Player* player, const char* text)
+  Event Event::ReceiveText(Player player, const char* text)
   {
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    if (text!=NULL)
+    if (text != nullptr)
       e.text   = new std::string(text);
     return e;
   }
-  Event Event::PlayerLeft(Player* player)
+  Event Event::PlayerLeft(Player player)
   {
     Event e;
     e.type   = EventType::PlayerLeft;
-    e.player = player;
-    return e;
-  }
-  Event Event::PlayerDropped(Player* player)
-  {
-    Event e;
-    e.type   = EventType::PlayerDropped;
     e.player = player;
     return e;
   }
@@ -117,56 +135,56 @@ namespace BWAPI
     e.position = target;
     return e;
   }
-  Event Event::UnitDiscover(Unit* unit)
+  Event Event::UnitDiscover(Unit unit)
   {
     Event e;
     e.type = EventType::UnitDiscover;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitEvade(Unit* unit)
+  Event Event::UnitEvade(Unit unit)
   {
     Event e;
     e.type = EventType::UnitEvade;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitShow(Unit* unit)
+  Event Event::UnitShow(Unit unit)
   {
     Event e;
     e.type = EventType::UnitShow;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitHide(Unit* unit)
+  Event Event::UnitHide(Unit unit)
   {
     Event e;
     e.type = EventType::UnitHide;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitCreate(Unit* unit)
+  Event Event::UnitCreate(Unit unit)
   {
     Event e;
     e.type = EventType::UnitCreate;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitDestroy(Unit* unit)
+  Event Event::UnitDestroy(Unit unit)
   {
     Event e;
     e.type = EventType::UnitDestroy;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitMorph(Unit* unit)
+  Event Event::UnitMorph(Unit unit)
   {
     Event e;
     e.type = EventType::UnitMorph;
     e.unit = unit;
     return e;
   }
-  Event Event::UnitRenegade(Unit* unit)
+  Event Event::UnitRenegade(Unit unit)
   {
     Event e;
     e.type = EventType::UnitRenegade;
@@ -177,11 +195,11 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SaveGame;
-    if (gameName!=NULL)
+    if (gameName != nullptr)
       e.text = new std::string(gameName);
     return e;
   }
-  Event Event::UnitComplete(Unit *unit)
+  Event Event::UnitComplete(Unit unit)
   {
     Event e;
     e.type = EventType::UnitComplete;
@@ -198,15 +216,15 @@ namespace BWAPI
   }
   const std::string& Event::getText() const
   {
-    if (text==NULL)
+    if (text == nullptr)
       return emptyString;
     return *text;
   }
-  Unit* Event::getUnit() const
+  Unit Event::getUnit() const
   {
     return unit;
   }
-  Player* Event::getPlayer() const
+  Player Event::getPlayer() const
   {
     return player;
   }
@@ -226,33 +244,33 @@ namespace BWAPI
   }
   Event& Event::setText(const char* text)
   {
-    if (this->text!=NULL)
+    if (this->text != nullptr)
     {
-      if (text!=NULL)
+      if (text != nullptr)
       {
         this->text->assign(text);
       }
       else
       {
         delete this->text;
-        this->text = NULL;
+        this->text = nullptr;
       }
     }
     else
     {
-      if (text!=NULL)
+      if (text != nullptr)
       {
         this->text = new std::string(text);
       }
     }
     return *this;
   }
-  Event& Event::setUnit(Unit* unit)
+  Event& Event::setUnit(Unit unit)
   {
     this->unit = unit;
     return *this;
   }
-  Event& Event::setPlayer(Player* player)
+  Event& Event::setPlayer(Player player)
   {
     this->player = player;
     return *this;

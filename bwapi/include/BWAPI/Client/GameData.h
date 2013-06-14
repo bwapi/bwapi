@@ -156,6 +156,7 @@ namespace BWAPI
     int unitCommandCount;
     BWAPIC::UnitCommand unitCommands[MAX_UNIT_COMMANDS];
 
+    int unitSearchSize;
     unitFinder xUnitSearch[1700*2];
     unitFinder yUnitSearch[1700*2];
   };

@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header FIles">
+      <UniqueIdentifier>{a75fa662-ed75-4471-b839-dcc70769255b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ccc46a50-e9b9-4886-9983-ba1a5fe35d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ActionsTest">
+      <UniqueIdentifier>{c5a8d0b3-c7ad-4c54-a2cb-64139e7c830d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatReplayAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ResearchAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CancelTrainAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupUnitsAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SetFogAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SetAlliesAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitTransportAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="BurrowAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CloakAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="LatencyAction_UniTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="LeaveGameAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="LiftOffAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="PingMinimap_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="RightClickAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SetReplaySpeedAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="SetSpeedAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="StopAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="TankSiegeAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetClickAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="UnloadAllAction_UnitTest.cpp">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ParseActions_UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MockReplayReader.h">
+      <Filter>Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractActionTest.h">
+      <Filter>Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="CheatAction_UnitTest.h">
+      <Filter>Source Files\ActionsTest</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

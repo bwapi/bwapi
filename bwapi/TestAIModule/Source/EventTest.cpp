@@ -23,6 +23,7 @@ void EventTest::onStart()
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::UserInput);
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(512);
   Broodwar->sendText("show me the money");
   onStartCalled = true;
 }
@@ -76,8 +77,8 @@ void EventTest::onFrame()
   {
     state = TrainingSCV;
 
-    Unit* cc = NULL;
-    for each(Unit* u in Broodwar->self()->getUnits())
+    Unit cc = NULL;
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Command_Center)
         cc = u;
     BWAssert(cc!=NULL);
@@ -93,16 +94,16 @@ void EventTest::onFrame()
     {
       state = BuildingRefinery;
 
-      Unit* scv = NULL;
-      for each(Unit* u in Broodwar->self()->getUnits())
+      Unit scv = NULL;
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv = u;
       BWAssert(scv!=NULL);
 
       TilePosition tilePosition=TilePositions::None;
-      for each(Unit* u in Broodwar->getGeysers())
+      for each(Unit u in Broodwar->getGeysers())
         tilePosition=u->getTilePosition();
-      scv->build(tilePosition,UnitTypes::Terran_Refinery);
+      scv->build(UnitTypes::Terran_Refinery,tilePosition);
       expectedEvents.push_back(Event::UnitMorph(NULL));
       expectedEvents.push_back(Event::UnitRenegade(NULL));
     }
@@ -113,13 +114,13 @@ void EventTest::onFrame()
     {
       state = KillingSCV;
 
-      Unit* scv = NULL;
-      for each(Unit* u in Broodwar->self()->getUnits())
+      Unit scv = NULL;
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv=u;
       BWAssert(scv!=NULL);
 
-      for each(Unit* u in Broodwar->self()->getUnits())
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
           u->attack(scv);
       expectedEvents.push_back(Event::UnitHide(NULL));
@@ -133,8 +134,8 @@ void EventTest::onFrame()
     {
       state = TrainingNuke;
 
-      Unit* nukeSilo = NULL;
-      for each(Unit* u in Broodwar->self()->getUnits())
+      Unit nukeSilo = NULL;
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
           nukeSilo=u;
       BWAssert(nukeSilo!=NULL);
@@ -148,8 +149,8 @@ void EventTest::onFrame()
   else if (state == TrainingNuke)
   {
 
-    Unit* nukeSilo = NULL;
-    for each(Unit* u in Broodwar->self()->getUnits())
+    Unit nukeSilo = NULL;
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
         nukeSilo=u;
     BWAssert(nukeSilo!=NULL);
@@ -157,8 +158,8 @@ void EventTest::onFrame()
     if (nukeSilo->isIdle() && nukeSilo->hasNuke())
     {
       state = UsingNuke;
-      Unit* ghost = NULL;
-      for each(Unit* u in Broodwar->self()->getUnits())
+      Unit ghost = NULL;
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Ghost)
           ghost=u;
       BWAssert(ghost!=NULL);
@@ -178,7 +179,7 @@ void EventTest::onFrame()
     if (expectedEvents.empty())
     {
       state = DestroyingEnemy;
-      for each(Unit* u in Broodwar->self()->getUnits())
+      for each(Unit u in Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
           u->attack(Position(Broodwar->mapWidth()*16,0));
       expectedEvents.push_back(Event::UnitDiscover(NULL));
@@ -201,7 +202,7 @@ void EventTest::onSendText(std::string text)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onReceiveText(Player* player, std::string text)
+void EventTest::onReceiveText(Player player, std::string text)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -212,7 +213,7 @@ void EventTest::onReceiveText(Player* player, std::string text)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onPlayerLeft(Player* player)
+void EventTest::onPlayerLeft(Player player)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -234,7 +235,7 @@ void EventTest::onNukeDetect(Position target)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitDiscover(Unit* unit)
+void EventTest::onUnitDiscover(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -245,7 +246,7 @@ void EventTest::onUnitDiscover(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitEvade(Unit* unit)
+void EventTest::onUnitEvade(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -256,7 +257,7 @@ void EventTest::onUnitEvade(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitShow(Unit* unit)
+void EventTest::onUnitShow(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -267,7 +268,7 @@ void EventTest::onUnitShow(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitHide(Unit* unit)
+void EventTest::onUnitHide(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -278,7 +279,7 @@ void EventTest::onUnitHide(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitCreate(Unit* unit)
+void EventTest::onUnitCreate(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -289,7 +290,7 @@ void EventTest::onUnitCreate(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitDestroy(Unit* unit)
+void EventTest::onUnitDestroy(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -300,7 +301,7 @@ void EventTest::onUnitDestroy(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitMorph(Unit* unit)
+void EventTest::onUnitMorph(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);
@@ -311,7 +312,7 @@ void EventTest::onUnitMorph(Unit* unit)
       expectedEvents.pop_front();
   }
 }
-void EventTest::onUnitRenegade(Unit* unit)
+void EventTest::onUnitRenegade(Unit unit)
 {
   BWAssert(onStartCalled==true);
   BWAssert(onEndCalled==false);

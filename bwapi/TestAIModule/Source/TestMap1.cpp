@@ -4,14 +4,14 @@ using namespace BWAPI;
 int assert_success_count;
 int assert_fail_count;
 
-#define findAndRemove(T,S,V)\
+#define findAndRemove(S,V)\
 {\
-  bool found=false;\
-  for(std::set<T*>::iterator i=S.begin();i!=S.end();i++)\
+  bool found = false;\
+  for(auto i = S.begin(); i != S.end(); ++i)\
   {\
-    if (*i==V)\
+    if (*i == V)\
     {\
-      found=true;\
+      found = true;\
       S.erase(i);\
       break;\
     }\
@@ -19,14 +19,14 @@ int assert_fail_count;
   if (!found)\
     BWAssert(false);\
 }
-#define findAndRemoveType(T,S,V)\
+#define findAndRemoveType(S,V)\
 {\
-  bool found=false;\
-  for(std::set<T*>::iterator i=S.begin();i!=S.end();i++)\
+  bool found = false;\
+  for(auto i = S.begin(); i != S.end(); ++i)\
   {\
-    if ((*i)->getType()==V)\
+    if (i->getType() == V)\
     {\
-      found=true;\
+      found = true;\
       S.erase(i);\
       break;\
     }\
@@ -35,6 +35,7 @@ int assert_fail_count;
     BWAssert(false);\
 }
 
+
 void TestMap1::onStart()
 {
   assert_success_count=0;
@@ -42,11 +43,11 @@ void TestMap1::onStart()
   BWAssert(Broodwar->mapFileName()=="testmap1.scm");
   BWAssert(Broodwar->mapWidth()==128);
   BWAssert(Broodwar->mapHeight()==128);
-  for(int x=0;x<128;x++)
+  for(int x=0;x<128;++x)
   {
     BWAssert(Broodwar->isBuildable(x,0)==true);
   }
-  for(int x=0;x<512;x++)
+  for(int x=0;x<512;++x)
   {
     BWAssert(Broodwar->isWalkable(x,0)==true);
   }
@@ -64,16 +65,16 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()!=Broodwar->enemy());
 
   BWAssert(Broodwar->getPlayers().size()==3);
-  std::set<Player*> players = Broodwar->getPlayers();
-  findAndRemove(Player,players,Broodwar->self());
-  findAndRemove(Player,players,Broodwar->enemy());
+  Playerset players = Broodwar->getPlayers();
+  findAndRemove(players,Broodwar->self());
+  findAndRemove(players,Broodwar->enemy());
   BWAssert(players.size()==1);
-  Player* neutral = *players.begin();
+  Player neutral = *players.begin();
   BWAssert(neutral->isNeutral()==true);
 
   BWAssert(Broodwar->self()->getUnits().size()==24);
-  std::set<Unit*> units = Broodwar->self()->getUnits();
-  for each(Unit* unit in units)
+  Unitset units = Broodwar->self()->getUnits();
+  for each(Unit unit in units)
   {
     BWAssert(unit->exists()==true);
     BWAssert(unit->isAccelerating()==false);
@@ -119,30 +120,30 @@ void TestMap1::onStart()
     BWAssert(unit->isUpgrading()==false);
     BWAssert(unit->isVisible()==true);
   }
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Command_Center);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Comsat_Station);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Command_Center);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Nuclear_Silo);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Supply_Depot);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Supply_Depot);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Supply_Depot);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Supply_Depot);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Supply_Depot);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Refinery);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Barracks);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Academy);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Factory);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Machine_Shop);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Starport);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Control_Tower);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Science_Facility);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Physics_Lab);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Science_Facility);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Covert_Ops);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Engineering_Bay);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Armory);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Missile_Turret);
-  findAndRemoveType(Unit,units,UnitTypes::Terran_Bunker);
+  findAndRemoveType(units,UnitTypes::Terran_Command_Center);
+  findAndRemoveType(units,UnitTypes::Terran_Comsat_Station);
+  findAndRemoveType(units,UnitTypes::Terran_Command_Center);
+  findAndRemoveType(units,UnitTypes::Terran_Nuclear_Silo);
+  findAndRemoveType(units,UnitTypes::Terran_Supply_Depot);
+  findAndRemoveType(units,UnitTypes::Terran_Supply_Depot);
+  findAndRemoveType(units,UnitTypes::Terran_Supply_Depot);
+  findAndRemoveType(units,UnitTypes::Terran_Supply_Depot);
+  findAndRemoveType(units,UnitTypes::Terran_Supply_Depot);
+  findAndRemoveType(units,UnitTypes::Terran_Refinery);
+  findAndRemoveType(units,UnitTypes::Terran_Barracks);
+  findAndRemoveType(units,UnitTypes::Terran_Academy);
+  findAndRemoveType(units,UnitTypes::Terran_Factory);
+  findAndRemoveType(units,UnitTypes::Terran_Machine_Shop);
+  findAndRemoveType(units,UnitTypes::Terran_Starport);
+  findAndRemoveType(units,UnitTypes::Terran_Control_Tower);
+  findAndRemoveType(units,UnitTypes::Terran_Science_Facility);
+  findAndRemoveType(units,UnitTypes::Terran_Physics_Lab);
+  findAndRemoveType(units,UnitTypes::Terran_Science_Facility);
+  findAndRemoveType(units,UnitTypes::Terran_Covert_Ops);
+  findAndRemoveType(units,UnitTypes::Terran_Engineering_Bay);
+  findAndRemoveType(units,UnitTypes::Terran_Armory);
+  findAndRemoveType(units,UnitTypes::Terran_Missile_Turret);
+  findAndRemoveType(units,UnitTypes::Terran_Bunker);
   BWAssert(units.size()==0);
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Command_Center)==2);
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Comsat_Station)==1);
@@ -166,11 +167,11 @@ void TestMap1::onStart()
   {
     if (t.isBuilding() && t.getRace() == Races::Terran && !t.isSpecialBuilding() )
     {
-      BWAssertF(Broodwar->self()->completedUnitCount(t)>0, { log("  No %s owned.", t.getName().c_str()); });
+      BWAssertF(Broodwar->self()->completedUnitCount(t)>0, { log("  No %s owned.", t.c_str()); });
     }
     else
     {
-      BWAssertF(Broodwar->self()->completedUnitCount(t)==0, { log("  Extra %s owned.", t.getName().c_str()); });
+      BWAssertF(Broodwar->self()->completedUnitCount(t)==0, { log("  Extra %s owned.", t.c_str()); });
     }
     BWAssert(Broodwar->self()->incompleteUnitCount(t)==0);
     BWAssert(Broodwar->self()->deadUnitCount(t)==0);
@@ -193,13 +194,13 @@ void TestMap1::onStart()
     BWAssert(neutral->isResearching(t)==false);
     BWAssert(Broodwar->enemy()->hasResearched(t)==false);
     BWAssert(neutral->hasResearched(t)==false);
-    if (t.whatResearches()==UnitTypes::None)
+    if (t.whatResearches()==UnitTypes::None && t != TechTypes::None )
     {
-      BWAssert(Broodwar->self()->hasResearched(t)==true);
+      BWAssertErr(Broodwar->self()->hasResearched(t)==true, t.c_str());
     }
     else
     {
-      BWAssert(Broodwar->self()->hasResearched(t)==false);
+      BWAssertErr(Broodwar->self()->hasResearched(t)==false, t.c_str());
     }
   }
   for each(UpgradeType u in UpgradeTypes::allUpgradeTypes())
@@ -260,6 +261,7 @@ void TestMap1::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->sendText("operation cwal");
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(512);
 }
 void TestMap1::onEnd(bool isWinner)
 {
@@ -279,7 +281,7 @@ void TestMap1::onFrame()
     BWAssert(Broodwar->self()->gas()==10000);
     BWAssert(Broodwar->self()->gatheredMinerals()==50);
     BWAssert(Broodwar->self()->gatheredGas()==0);
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
     {
       if (u->getType().isFlyingBuilding())
       {
@@ -289,7 +291,7 @@ void TestMap1::onFrame()
   }
   else if (frame==200)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
     {
       if (u->getType()==UnitTypes::Terran_Command_Center ||
           u->getType()==UnitTypes::Terran_Barracks ||
@@ -299,7 +301,7 @@ void TestMap1::onFrame()
           u->getType()==UnitTypes::Terran_Science_Facility)
       {
         BWAssert(u->isLifted()==true);
-        u->land(TilePosition(u->getTilePosition().x(),u->getTilePosition().y()+2));
+        u->land(TilePosition(u->getTilePosition().x,u->getTilePosition().y+2));
       }
       else
       {
@@ -309,7 +311,7 @@ void TestMap1::onFrame()
   }
   else if (frame==300)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
     {
       BWAssert(u->isLifted()==false);
       BWAssert(u->isTraining()==false);
@@ -325,7 +327,7 @@ void TestMap1::onFrame()
   }
   else if (frame==320)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
     {
       BWAssert(u->isLifted()==false);
       if (u->getType()==UnitTypes::Terran_Command_Center ||
@@ -347,7 +349,7 @@ void TestMap1::onFrame()
   }
   else if (frame==400)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
     {
       BWAssert(u->isTraining()==false);
       BWAssert(u->isIdle()==true);
@@ -369,28 +371,28 @@ void TestMap1::onFrame()
 void TestMap1::onSendText(std::string text)
 {
 }
-void TestMap1::onPlayerLeft(BWAPI::Player* player)
+void TestMap1::onPlayerLeft(BWAPI::Player player)
 {
 }
 void TestMap1::onNukeDetect(BWAPI::Position target)
 {
 }
-void TestMap1::onUnitCreate(BWAPI::Unit* unit)
+void TestMap1::onUnitCreate(BWAPI::Unit unit)
 {
 }
-void TestMap1::onUnitDestroy(BWAPI::Unit* unit)
+void TestMap1::onUnitDestroy(BWAPI::Unit unit)
 {
 }
-void TestMap1::onUnitMorph(BWAPI::Unit* unit)
+void TestMap1::onUnitMorph(BWAPI::Unit unit)
 {
 }
-void TestMap1::onUnitShow(BWAPI::Unit* unit)
+void TestMap1::onUnitShow(BWAPI::Unit unit)
 {
 }
-void TestMap1::onUnitHide(BWAPI::Unit* unit)
+void TestMap1::onUnitHide(BWAPI::Unit unit)
 {
 }
-void TestMap1::onUnitRenegade(BWAPI::Unit* unit)
+void TestMap1::onUnitRenegade(BWAPI::Unit unit)
 {
 }
 void TestMap1::onSaveGame(std::string gameName)

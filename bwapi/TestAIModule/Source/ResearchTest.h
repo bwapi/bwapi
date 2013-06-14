@@ -14,7 +14,7 @@ class ResearchTest : public TestCase
     BWAPI::UnitType researcherType;
     int startResearchFrame;
     int nextUpdateFrame;
-    BWAPI::Unit* researcher;
+    BWAPI::Unit researcher;
     int correctMineralCount;
     int correctGasCount;
 };

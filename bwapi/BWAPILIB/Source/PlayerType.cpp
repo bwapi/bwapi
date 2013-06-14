@@ -1,8 +1,5 @@
 #include <string>
-#include <map>
-#include <set>
 #include <BWAPI/PlayerType.h>
-#include <Util/Foreach.h>
 
 #include "Common.h"
 
@@ -10,91 +7,67 @@
 
 namespace BWAPI
 {
-  bool initializingPlayerType = true;
-  std::string playerTypeName[13];
-  std::map<std::string, PlayerType> playerTypeMap;
-  std::set< PlayerType > playerTypeSet;
+  const std::string PlayerType::typeNames[PlayerTypes::Enum::MAX] =
+  {
+    "None",
+    "Computer",
+    "Player",
+    "RescuePassive",
+    "RescueActive",
+    "EitherPreferComputer",
+    "EitherPreferHuman",
+    "Neutral",
+    "Closed",
+    "Observer",
+    "PlayerLeft",
+    "ComputerLeft",
+    "Unknown"
+  };
+  namespace PlayerTypeSet
+  {
+    using namespace PlayerTypes::Enum;
+    BWAPI_TYPESET(playerTypeSet, PlayerType, None, Computer, Player, RescuePassive, EitherPreferComputer, EitherPreferHuman,
+                          Neutral, Closed, PlayerLeft, ComputerLeft, Unknown );
+  }
   namespace PlayerTypes
   {
-    const PlayerType None(0);
-    const PlayerType Computer(1);
-    const PlayerType Player(2);
-    const PlayerType RescuePassive(3);
+    BWAPI_TYPEDEF(PlayerType,None);
+    BWAPI_TYPEDEF(PlayerType,Computer);
+    BWAPI_TYPEDEF(PlayerType,Player);
+    BWAPI_TYPEDEF(PlayerType,RescuePassive);
     // Rescue Active
-    const PlayerType EitherPreferComputer(5);
-    const PlayerType EitherPreferHuman(6);
-    const PlayerType Neutral(7);
-    const PlayerType Closed(8);
+    
+    BWAPI_TYPEDEF(PlayerType,EitherPreferComputer);
+    BWAPI_TYPEDEF(PlayerType,EitherPreferHuman);
+    BWAPI_TYPEDEF(PlayerType,Neutral);
+    BWAPI_TYPEDEF(PlayerType,Closed);
     // Observer
-    const PlayerType PlayerLeft(10);
-    const PlayerType ComputerLeft(11);
-    const PlayerType Unknown(12);
+    BWAPI_TYPEDEF(PlayerType,PlayerLeft);
+    BWAPI_TYPEDEF(PlayerType,ComputerLeft);
+    BWAPI_TYPEDEF(PlayerType,Unknown);
 
-    void init()
-    {
-      playerTypeName[None]                 = "None";
-      playerTypeName[Computer]             = "Computer";
-      playerTypeName[Player]               = "Player";
-      playerTypeName[RescuePassive]        = "RescuePassive";
-      playerTypeName[EitherPreferComputer] = "EitherPreferComputer";
-      playerTypeName[EitherPreferHuman]    = "EitherPreferHuman";
-      playerTypeName[Neutral]              = "Neutral";
-      playerTypeName[Closed]               = "Closed";
-      playerTypeName[PlayerLeft]           = "PlayerLeft";
-      playerTypeName[ComputerLeft]         = "ComputerLeft";
-      playerTypeName[Unknown]              = "Unknown";
-
-      playerTypeSet.insert(None);
-      playerTypeSet.insert(Computer);
-      playerTypeSet.insert(Player);
-      playerTypeSet.insert(RescuePassive);
-      playerTypeSet.insert(EitherPreferComputer);
-      playerTypeSet.insert(EitherPreferHuman);
-      playerTypeSet.insert(Neutral);
-      playerTypeSet.insert(Closed);
-      playerTypeSet.insert(PlayerLeft);
-      playerTypeSet.insert(ComputerLeft);
-      playerTypeSet.insert(Unknown);
-
-      foreach(PlayerType i, playerTypeSet)
-      {
-        std::string name(i.getName());
-        fixName(&name);
-        playerTypeMap.insert(std::make_pair(name, i));
-      }
-      initializingPlayerType = false;
-    }
   }
-  PlayerType::PlayerType() : Type(PlayerTypes::None)
+  PlayerType::PlayerType(int id) : Type( id )
   {
   }
-  int getValidPlayerTypeID(int id)
+  bool PlayerType::isLobbyType() const
   {
-    if ( !initializingPlayerType && (id < 0 || id >= 13 || playerTypeName[id].length() == 0) )
-      return PlayerTypes::Unknown;
-    return id;
+    return this->getID() == PlayerTypes::Enum::EitherPreferComputer ||
+           this->getID() == PlayerTypes::Enum::EitherPreferHuman    ||
+           this->getID() == PlayerTypes::Enum::RescuePassive        ||
+           this->getID() == PlayerTypes::Enum::RescueActive         ||
+           this->getID() == PlayerTypes::Enum::Neutral;
   }
-  PlayerType::PlayerType(int id) : Type( getValidPlayerTypeID(id) )
+  bool PlayerType::isGameType() const
   {
+    return this->getID() == PlayerTypes::Enum::Player         ||
+           this->getID() == PlayerTypes::Enum::Computer       ||
+           this->getID() == PlayerTypes::Enum::RescuePassive  ||
+           this->getID() == PlayerTypes::Enum::RescueActive   ||
+           this->getID() == PlayerTypes::Enum::Neutral;
   }
-  const std::string &PlayerType::getName() const
+  const PlayerType::const_set& PlayerTypes::allPlayerTypes()
   {
-    return playerTypeName[this->getID()];
-  }
-  const char *PlayerType::c_str() const
-  {
-    return playerTypeName[this->getID()].c_str();
-  }
-  PlayerType PlayerTypes::getPlayerType(std::string name)
-  {
-    fixName(&name);
-    std::map<std::string, PlayerType>::iterator i = playerTypeMap.find(name);
-    if (i == playerTypeMap.end())
-      return PlayerTypes::Unknown;
-    return (*i).second;
-  }
-  const std::set<PlayerType>& PlayerTypes::allPlayerTypes()
-  {
-    return playerTypeSet;
+    return PlayerTypeSet::playerTypeSet;
   }
 }

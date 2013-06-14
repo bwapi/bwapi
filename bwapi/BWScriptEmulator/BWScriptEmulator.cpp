@@ -1,16 +1,14 @@
 #include "BWScriptEmulator.h"
 #include <vector>
-#include <set>
 
 #include "ScriptThread.h"
 #include "Controller.h"
-#include "UnitProc.h"
+#include "UnitInfo.h"
 
 using namespace BWAPI;
 
-bool enabled;
 int mapH, mapW;
-Player *self;
+Player self;
 
 bool isResourceClaimed[256];
 
@@ -23,44 +21,46 @@ void BWScriptEmulator::onStart()
   // enable stuff
   bw->enableFlag(Flag::UserInput);
   bw->enableFlag(Flag::CompleteMapInformation);
-  enabled    = true;
   farcasting = true;
 
-  // save player info
+  // Save some BW info locally for easier access
   self = bw->self();
-
-  // save map info
-  mapH = bw->mapHeight();
   mapW = bw->mapWidth();
+  mapH = bw->mapHeight();
 
+  // Access full map just like the normal AI
   if ( !bw->isMultiplayer() )
     bw->sendText("black sheep wall");
 
   if ( !self )
     return;
-
+  
   if ( !LoadAIBinary("bwapi-data\\AISCRIPT.BIN") )
-    Broodwar->printf("%cFailed to load AISCRIPT binary!", 6);
+    Broodwar << Text::Red << "Failed to load AISCRIPT binary!" << std::endl;
 
   Race      selfRace(self->getRace());
   Position  sLoc(self->getStartLocation());
 
-  MainController = new AIController();
+  srand(GetTickCount());
 
+  /*
+  // Run default melee script
   if      ( selfRace == Races::Zerg )
     AICreateThread("ZMCx", sLoc );
   else if ( selfRace == Races::Protoss )
     AICreateThread("PMCx", sLoc );
   else // ( selfRace == Races::Terran )
     AICreateThread("TMCx", sLoc );
+    */
 
-  srand(GetTickCount());
+  // Run map test script if it has a 4-letter title
+  std::string title = Broodwar->mapName();
+  if ( title.size() == 4 )
+    AICreateThread(title.c_str(), sLoc);
 }
 
 void BWScriptEmulator::onEnd(bool isWinner)
 {
-  if ( MainController )
-    delete MainController;
 }
 
 void BWScriptEmulator::onFrame()
@@ -68,62 +68,42 @@ void BWScriptEmulator::onFrame()
   if ( bw->isReplay() )
     return;
 
-  if ( !enabled )
-    return;
-
   UpdateScripts();
-  for each ( Unit *u in self->getUnits() )
+
+  Unitset myUnits( self->getUnits() );
+  for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
   {
-    if ( !u || !u->exists() )
-      continue;
-    UnitProc *proc = (UnitProc*)u->getClientInfo();
-    if ( proc )
-      proc->execute();
+    if ( !u->exists() ) continue;
+
+    UnitWrap uw = *u;
+    uw.EmulateOrder();
+
+    Broodwar->drawTextMap(u->getPosition(), "    %s", Order(uw.GetUnitOrder()).c_str() );
   }
-/*
-  for ( std::vector<spell>::iterator i = spellsCast.begin(); i != spellsCast.end(); ++i )
-  {
-    if (  !i->pUnit || !i->pUnit->exists() || i->pUnit->isInvincible() ||
-          ( i->tech == TechTypes::Defensive_Matrix  && i->pUnit->getDefenseMatrixPoints() > 20 )       ||
-          ( i->tech == TechTypes::EMP_Shockwave     && i->pUnit->getShields() + i->pUnit->getEnergy() < 40 )  ||
-          ( i->tech == TechTypes::Ensnare           && i->pUnit->getEnsnareTimer() > 5 )               ||
-          ( i->tech == TechTypes::Feedback          && i->pUnit->getEnergy() < 30 )                    ||
-          ( i->tech == TechTypes::Irradiate         && i->pUnit->getIrradiateTimer() > 5 )             ||
-          ( i->tech == TechTypes::Lockdown          && i->pUnit->getLockdownTimer() > 5 )              ||
-          ( i->tech == TechTypes::Maelstrom         && i->pUnit->getMaelstromTimer() > 5 )             ||
-          ( i->tech == TechTypes::Mind_Control      && i->pUnit->getPlayer() == self )                 ||
-          ( i->tech == TechTypes::Optical_Flare     && i->pUnit->isBlind() )                           ||
-          ( i->tech == TechTypes::Parasite          && i->pUnit->isParasited() )                       ||
-          ( i->tech == TechTypes::Plague            && i->pUnit->getPlagueTimer() > 5 )                ||
-          ( i->tech == TechTypes::Psionic_Storm     && i->pUnit->isUnderStorm() )                      ||
-          ( i->tech == TechTypes::Restoration       && !i->pUnit->isParasited()
-                                                    && !i->pUnit->isBlind()
-                                                    && !i->pUnit->isEnsnared()
-                                                    && !i->pUnit->isIrradiated()
-                                                    && !i->pUnit->isMaelstrommed()
-                                                    && !i->pUnit->isPlagued()
-                                                    && !i->pUnit->getAcidSporeCount() )         ||
-          ( i->tech == TechTypes::Stasis_Field      && !i->pUnit->isStasised() )                ||
-          ( i->tech == TechTypes::Disruption_Web    && i->pUnit->isUnderDisruptionWeb() )       ||
-          ( i->tech == TechTypes::Dark_Swarm        && i->pUnit->isUnderDarkSwarm() )   )
-      i = spellsCast.erase(i);
-    if ( i == spellsCast.end() )
-      break;
-  }
-  */
+  
+  Unitset allUnits( Broodwar->getAllUnits() );
+  for ( auto u = allUnits.begin(); u != allUnits.end(); ++u )
+    Broodwar->drawTextMap(u->getPosition(), "\n    %s", u->getOrder().c_str());
+  
 }
 
 void BWScriptEmulator::onSendText(std::string text)
 {
-  if ( text == "/t" || text == "/toggle" )
-  {
-    enabled = !enabled;
-    Broodwar->printf("AI %s", enabled ? "ENABLED" : "DISABLED");
-  }
-  if ( text == "/fc" || text == "/farcast" )
+  std::stringstream ss(text);
+  std::string cmd;
+  ss >> cmd;
+
+  if ( cmd == "/fc" || cmd == "/farcast" )
   {
     farcasting = !farcasting;
-    Broodwar->printf("Farcasting %s", farcasting ? "ENABLED" : "DISABLED");
+    Broodwar << "Farcasting " << (farcasting ? "ENABLED" : "DISABLED") << std::endl;
+  }
+  else if ( cmd == "/r" || cmd == "/run" || cmd == "/script" )
+  {
+    std::string script;
+    ss >> script;
+
+    AICreateThread(script.c_str(), Broodwar->getScreenPosition() + Broodwar->getMousePosition() );
   }
   else
   {
@@ -131,58 +111,60 @@ void BWScriptEmulator::onSendText(std::string text)
   }
 }
 
-void BWScriptEmulator::onReceiveText(BWAPI::Player* player, std::string text)
-{
-}
+void BWScriptEmulator::onReceiveText(BWAPI::Player player, std::string text)
+{}
 
-void BWScriptEmulator::onPlayerLeft(BWAPI::Player* player)
-{
-}
+void BWScriptEmulator::onPlayerLeft(BWAPI::Player player)
+{}
 
 void BWScriptEmulator::onNukeDetect(BWAPI::Position target)
-{
-}
+{}
 
-void BWScriptEmulator::onUnitDiscover(BWAPI::Unit* unit)
-{
-}
+void BWScriptEmulator::onUnitDiscover(BWAPI::Unit unit)
+{}
 
-void BWScriptEmulator::onUnitEvade(BWAPI::Unit* unit)
-{
-}
+void BWScriptEmulator::onUnitEvade(BWAPI::Unit unit)
+{}
 
-void BWScriptEmulator::onUnitShow(BWAPI::Unit* unit)
-{
-}
+void BWScriptEmulator::onUnitShow(BWAPI::Unit unit)
+{}
 
-void BWScriptEmulator::onUnitHide(BWAPI::Unit* unit)
-{
-}
+void BWScriptEmulator::onUnitHide(BWAPI::Unit unit)
+{}
 
-void BWScriptEmulator::onUnitCreate(BWAPI::Unit* unit)
+void BWScriptEmulator::onUnitCreate(BWAPI::Unit unit)
 {
-  if ( unit && unit->exists() && unit->getPlayer() == self )
-    unit->setClientInfo(getUnitProc(unit));
-}
-
-void BWScriptEmulator::onUnitDestroy(BWAPI::Unit* unit)
-{
-  if ( unit->getPlayer() == self )
+  if ( unit->getPlayer() == self )  // If we own it
   {
-    UnitProc *p = (UnitProc*)unit->getClientInfo();
-    if ( p )
-      delete p;
+    UnitWrap u(unit);
+
+    // Run computer idle order
+    u.AssignComputerIdleOrder();
+
+    // Assign control types
+    if ( u->getType().isWorker() )
+      u.SetControlType(ControlTypes::Worker);
+    else
+    {
+      u.SetControlType(ControlTypes::Guard);
+      u.SetGuardReturnPosition(u->getPosition());
+    }
   }
 }
 
-void BWScriptEmulator::onUnitMorph(BWAPI::Unit* unit)
+void BWScriptEmulator::onUnitDestroy(BWAPI::Unit unit)
 {
+  if ( unit->getPlayer() == self )  // If we own it
+  {
+
+  }
 }
 
-void BWScriptEmulator::onUnitRenegade(BWAPI::Unit* unit)
-{
-}
+void BWScriptEmulator::onUnitMorph(BWAPI::Unit unit)
+{}
+
+void BWScriptEmulator::onUnitRenegade(BWAPI::Unit unit)
+{}
 
 void BWScriptEmulator::onSaveGame(std::string gameName)
-{
-}
+{}

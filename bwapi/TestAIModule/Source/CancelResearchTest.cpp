@@ -20,7 +20,7 @@ void CancelResearchTest::start()
 
   int researcherCount = Broodwar->self()->completedUnitCount(researcherType);
   BWAssertF(researcherCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==researcherType)
     {
@@ -48,9 +48,9 @@ void CancelResearchTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(researcher->getPosition().x()-320,researcher->getPosition().y()-240);
+  Broodwar->setScreenPosition(researcher->getPosition() - Position(320,240));
   BWAssertF(researcher!=NULL,{fail=true;return;});
-  if (thisFrame<startFrame+200)
+  if (thisFrame<startFrame+20)
   {
     BWAssertF(researcher->getBuildType()==UnitTypes::None,{fail=true;return;});
     BWAssertF(researcher->isMorphing()==false,{fail=true;return;});
@@ -62,11 +62,11 @@ void CancelResearchTest::update()
     BWAssertF(researcher->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
     BWAssertF(researcher->isIdle()==false,{fail=true;return;});
   }
-  if (thisFrame==startFrame+200)
+  if (thisFrame==startFrame+20)
   {
     researcher->cancelResearch();
   }
-  if (thisFrame>=startFrame+200)
+  if (thisFrame>=startFrame+20)
   {
     BWAssertF(researcher->getBuildType()==UnitTypes::None,{fail=true;return;});
     BWAssertF(researcher->isMorphing()==false,{fail=true;return;});
@@ -85,7 +85,7 @@ void CancelResearchTest::update()
     BWAssertF(Broodwar->self()->gas()==correctGasCount,{fail=true;return;});
     BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{fail=true;return;});
   }
-  if (thisFrame>=startFrame+400)
+  if (thisFrame>=startFrame+40)
   {
     running = false;
   }

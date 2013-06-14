@@ -1,7 +1,7 @@
 #include "ForceImpl.h"
 #include "GameImpl.h"
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
@@ -18,7 +18,7 @@ namespace BWAPI
   {
     return this->name;
   }
-  std::set<Player*> ForceImpl::getPlayers() const
+  Playerset ForceImpl::getPlayers() const
   {
     return this->players;
   }

@@ -2,7 +2,7 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
-#define LOGTYPE log("UpgradeType: %s", upgradeType.getName().c_str())
+#define LOGTYPE log("UpgradeType: %s", upgradeType.c_str())
 UpgradeTest::UpgradeTest(BWAPI::UpgradeType upgradeType) : upgradeType(upgradeType),
                                                            upgrader(NULL),
                                                            startUpgradeFrame(-1),
@@ -21,7 +21,7 @@ void UpgradeTest::start()
 
   int upgraderCount = Broodwar->self()->completedUnitCount(upgraderType);
   BWAssertF(upgraderCount>=1,{fail=true;LOGTYPE;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==upgraderType)
     {
@@ -75,14 +75,28 @@ void UpgradeTest::update()
   BWAssert(thisFrame==nextUpdateFrame);
   BWAssertF(upgrader!=NULL,{fail=true;LOGTYPE;return;});
   nextUpdateFrame++;
-  Broodwar->setScreenPosition(upgrader->getPosition().x()-320,upgrader->getPosition().y()-240);
-  int correctRemainingUpgradeTime = startUpgradeFrame+Broodwar->getLatency()+upgradeType.upgradeTime(previousUpgradeLevel + 1) - thisFrame;
-  if (correctRemainingUpgradeTime>upgradeType.upgradeTime(previousUpgradeLevel + 1))
-    correctRemainingUpgradeTime=upgradeType.upgradeTime(previousUpgradeLevel + 1);
-  if (correctRemainingUpgradeTime<0)
-    correctRemainingUpgradeTime=0;
-  BWAssertF(upgrader->getRemainingUpgradeTime() == correctRemainingUpgradeTime,{Broodwar->printf("%d %d",upgrader->getRemainingUpgradeTime(), correctRemainingUpgradeTime);});
-  int lastFrame = startUpgradeFrame+Broodwar->getLatency() + upgradeType.upgradeTime(previousUpgradeLevel + 1);
+  Broodwar->setScreenPosition(upgrader->getPosition() - Position(320,240));
+  
+  // NOTE: /15*15 is to account for the editor not displaying the real times
+  int expectedUpgradeTime = (upgradeType.upgradeTime()/15/10*15) + (upgradeType.upgradeTimeFactor()/15/10*15) * (std::max(0,previousUpgradeLevel+1-1));
+
+  int correctRemainingUpgradeTime = startUpgradeFrame + Broodwar->getLatency() + expectedUpgradeTime - thisFrame;
+  if (correctRemainingUpgradeTime > expectedUpgradeTime)
+    correctRemainingUpgradeTime = expectedUpgradeTime;
+  if (correctRemainingUpgradeTime < 0)
+    correctRemainingUpgradeTime = 0;
+
+  // @TODO: Workaround
+  if ( thisFrame <= startUpgradeFrame + Broodwar->getLatency() )
+  {
+    BWAssertF(upgrader->getRemainingUpgradeTime() == upgradeType.upgradeTime(previousUpgradeLevel+1),{log("%d %d",upgrader->getRemainingUpgradeTime(), upgradeType.upgradeTime(previousUpgradeLevel+1));});
+  }
+  else
+  {
+    BWAssertF(upgrader->getRemainingUpgradeTime() == correctRemainingUpgradeTime,{log("%d %d",upgrader->getRemainingUpgradeTime(), correctRemainingUpgradeTime);});
+  }
+
+  int lastFrame = startUpgradeFrame+Broodwar->getLatency() + expectedUpgradeTime;
   if (thisFrame>lastFrame) //terminate condition
   {
     running = false;

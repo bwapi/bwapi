@@ -14,9 +14,9 @@ class AttackUnitTest : public TestCase
     int nextFrame;
     int startingAttackFrame;
     int reachedDamagePointFrame;
-    BWAPI::Unit* unit;
+    BWAPI::Unit unit;
     BWAPI::UnitType unitType;
-    BWAPI::Unit* target;
+    BWAPI::Unit target;
     BWAPI::UnitType targetType;
     int startingHPS;
     bool stopped;

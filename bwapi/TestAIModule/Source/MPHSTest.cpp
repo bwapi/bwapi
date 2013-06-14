@@ -17,13 +17,13 @@ void MPHSTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
   BWAssertF(unit!=NULL,{fail=true;return;});
   BWAssertF(unit->exists(),{fail=true;return;});
-  BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+  BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
   startFrame = Broodwar->getFrameCount()+100;
   nextFrame = Broodwar->getFrameCount();
 
@@ -39,7 +39,7 @@ void MPHSTest::update()
   int thisFrame = Broodwar->getFrameCount();
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
-  Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+  Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
   if (thisFrame<startFrame+30)
   {
   }
@@ -52,9 +52,9 @@ void MPHSTest::update()
     BWAssertF(unit->isHoldingPosition()==false,{fail=true;return;});
     BWAssertF(unit->isIdle()==true,{fail=true;return;});
     targetPosition=unit->getPosition();
-    targetPosition.y()+=32*30;
+    targetPosition.y+=32*30;
     targetPosition.makeValid();
-    BWAssertF(unit->move(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(unit->move(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
     BWAssertF(unit->getOrder()==Orders::Move,{fail=true;return;});
     BWAssertF(unit->isMoving()==true,{fail=true;return;});
     BWAssertF(unit->isPatrolling()==false,{fail=true;return;});
@@ -78,9 +78,9 @@ void MPHSTest::update()
   else if (thisFrame==startFrame+110)
   {
     targetPosition=unit->getPosition();
-    targetPosition.y()-=32*30;
+    targetPosition.y-=32*30;
     targetPosition.makeValid();
-    BWAssertF(unit->patrol(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(unit->patrol(targetPosition),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
     BWAssertF(unit->getOrder()==Orders::Patrol,{fail=true;return;});
     BWAssertF(unit->isMoving()==true,{fail=true;return;});
     BWAssertF(unit->isPatrolling()==true,{fail=true;return;});
@@ -89,7 +89,7 @@ void MPHSTest::update()
   }
   else if (thisFrame<startFrame+175)
   {
-    BWAssertF(unit->getOrder()==Orders::Patrol,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+    BWAssertF(unit->getOrder()==Orders::Patrol,{Broodwar->printf("%s",unit->getOrder().c_str());fail=true;return;});
     BWAssertF(unit->isPatrolling()==true,{fail=true;return;});
     BWAssertF(unit->isMoving()==true,{fail=true;return;});
     BWAssertF(unit->isIdle()==false,{fail=true;return;});
@@ -101,13 +101,13 @@ void MPHSTest::update()
   }
   else if (thisFrame==startFrame+175)
   {
-    BWAssertF(unit->getOrder()==Orders::Patrol,{Broodwar->printf("%s",unit->getOrder().getName().c_str());fail=true;return;});
+    BWAssertF(unit->getOrder()==Orders::Patrol,{Broodwar->printf("%s",unit->getOrder().c_str());fail=true;return;});
     BWAssertF(unit->isPatrolling()==true,{fail=true;return;});
     BWAssertF(unit->isMoving()==true,{fail=true;return;});
     BWAssertF(unit->isIdle()==false,{fail=true;return;});
     //sometimes fails
     //BWAssertF(unit->getTargetPosition()==targetPosition,{fail=true;return;});
-    BWAssertF(unit->holdPosition(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(unit->holdPosition(),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
     BWAssertF(unit->isHoldingPosition()==true,{fail=true;return;});
     BWAssertF(unit->isMoving()==false,{fail=true;return;});
     BWAssertF(unit->isPatrolling()==false,{fail=true;return;});
@@ -115,7 +115,7 @@ void MPHSTest::update()
   }
   else if (thisFrame<startFrame+300)
   {
-    BWAssertF(unit->isHoldingPosition()==true,{Broodwar->printf("order: %s, order2: %s",unit->getOrder().getName().c_str(),unit->getSecondaryOrder().getName().c_str());fail=true;return;});
+    BWAssertF(unit->isHoldingPosition()==true,{Broodwar->printf("order: %s, order2: %s",unit->getOrder().c_str(),unit->getSecondaryOrder().c_str());fail=true;return;});
     if (thisFrame>startFrame+250)
     {
       BWAssertF(unit->isMoving()==false,{fail=true;return;});
@@ -129,7 +129,7 @@ void MPHSTest::update()
     BWAssertF(unit->isMoving()==false,{fail=true;return;});
     BWAssertF(unit->isPatrolling()==false,{fail=true;return;});
     BWAssertF(unit->isIdle()==false,{fail=true;return;});
-    BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(unit->stop(),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
     BWAssertF(unit->getOrder()==Orders::Stop,{fail=true;return;});
     BWAssertF(unit->isHoldingPosition()==false,{fail=true;return;});
     BWAssertF(unit->isMoving()==false,{fail=true;return;});

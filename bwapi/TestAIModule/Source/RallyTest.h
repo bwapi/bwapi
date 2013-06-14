@@ -12,8 +12,8 @@ class RallyTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* unit;
-    BWAPI::Unit* rallyUnit;
+    BWAPI::Unit unit;
+    BWAPI::Unit rallyUnit;
     BWAPI::Position rallyPosition;
     BWAPI::UnitType unitType;
 };

@@ -1,108 +1,86 @@
 #pragma once
+#include <Util/Types.h>
+#include <string>
+#include <BW/Offsets.h>
 
-namespace BW { class Unit; };
-
-#include <BWAPI/Race.h>
 #include <BWAPI/Player.h>
-#include <BWAPI/PlayerType.h>
-#include <BWAPI/TechType.h>
-#include <BWAPI/WeaponType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI/Client/PlayerData.h>
+#include <BWAPI/Unitset.h>
+
 #include "UnitImpl.h"
 #include "ForceImpl.h"
-#include <BWAPI/Client/PlayerData.h>
-#include <list>
-#include <set>
-#include <string>
-#include <Util/Types.h>
-
-#include <BW/Offsets.h>
-#include <BW/Race.h>
-#include <BW/TilePosition.h>
 
 namespace BWAPI
 {
-  class Unit;
-  class Force;
+  // Forwards
+  class ForceInterface;
+  typedef ForceInterface *Force;
+  class UnitType;
+  class UpgradeType;
+  class TechType;
+  class PlayerType;
+  class Race;
+
   /** Represents one player in game. Note that there is always player 12 who owns resources. */
-  class PlayerImpl : public Player
+  class PlayerImpl : public PlayerInterface
   {
-    public :
+    public:
+      virtual int         getID() const override;
+      virtual std::string getName() const override;
+      virtual Race        getRace() const override;
+      virtual PlayerType  getType() const override;
+      virtual Force       getForce() const override;
 
-      /**
-       * Gets the name of the player
-       * @return Pointer directly to bw memory where the name is represented.
-       */
-      virtual int         getID() const;
-      virtual std::string getName() const;
-      virtual Race        getRace() const;
-      virtual PlayerType  getType() const;
-      virtual Force*      getForce() const;
+      virtual bool isAlly(Player player) const override;
+      virtual bool isEnemy(Player player) const override;
+      virtual bool isNeutral() const override;
 
-      virtual bool isAlly(Player* player) const;
-      virtual bool isEnemy(Player* player) const;
-      virtual bool isNeutral() const;
+      virtual bool isVictorious() const override;
+      virtual bool isDefeated() const override;
+      virtual bool leftGame() const override;
 
-      virtual bool isVictorious() const;
-      virtual bool isDefeated() const;
-      virtual bool leftGame() const;
+      virtual const Unitset &getUnits() const override;
+      virtual TilePosition  getStartLocation() const override;
 
-      virtual const std::set<Unit*>& getUnits() const;
-      virtual TilePosition  getStartLocation() const;
+      virtual int  minerals() const override;
+      virtual int  gas() const override;
 
-      virtual int  minerals() const;
-      virtual int  gas() const;
+      virtual int  gatheredMinerals() const override;
+      virtual int  gatheredGas() const override;
+      virtual int  repairedMinerals() const override;
+      virtual int  repairedGas() const override;
+      virtual int  refundedMinerals() const override;
+      virtual int  refundedGas() const override;
+      virtual int  spentMinerals() const override;
+      virtual int  spentGas() const override;
 
-      virtual int  gatheredMinerals() const;
-      virtual int  gatheredGas() const;
-      virtual int  repairedMinerals() const;
-      virtual int  repairedGas() const;
-      virtual int  refundedMinerals() const;
-      virtual int  refundedGas() const;
-      virtual int  spentMinerals() const;
-      virtual int  spentGas() const;
+      virtual int  supplyTotal(Race race = Races::None) const override;
+      virtual int  supplyUsed(Race race = Races::None) const override;
 
-      virtual int  supplyTotal() const;
-      virtual int  supplyUsed() const;
-      virtual int  supplyTotal(Race race) const;
-      virtual int  supplyUsed(Race race) const;
+      virtual int  allUnitCount(UnitType unit) const override;
+      virtual int  visibleUnitCount(UnitType unit) const override;
+      virtual int  completedUnitCount(UnitType unit) const override;
+      virtual int  deadUnitCount(UnitType unit) const override;
+      virtual int  killedUnitCount(UnitType unit) const override;
 
-      virtual int  allUnitCount(UnitType unit) const;
-      virtual int  visibleUnitCount(UnitType unit) const;
-      virtual int  completedUnitCount(UnitType unit) const;
-      virtual int  incompleteUnitCount(UnitType unit) const;
-      virtual int  deadUnitCount(UnitType unit) const;
-      virtual int  killedUnitCount(UnitType unit) const;
+      virtual int  getUpgradeLevel(UpgradeType upgrade) const override;
+      virtual bool hasResearched(TechType tech) const override;
+      virtual bool isResearching(TechType tech) const override;
+      virtual bool isUpgrading(UpgradeType upgrade) const override;
 
-      virtual int  getUpgradeLevel(UpgradeType upgrade) const;
-      virtual bool hasResearched(TechType tech) const;
-      virtual bool isResearching(TechType tech) const;
-      virtual bool isUpgrading(UpgradeType upgrade) const;
+      virtual BWAPI::Color getColor() const override;
 
-      virtual BWAPI::Color getColor() const;
-      virtual int getTextColor() const;
+      virtual int getUnitScore() const override;
+      virtual int getKillScore() const override;
+      virtual int getBuildingScore() const override;
+      virtual int getRazingScore() const override;
+      virtual int getCustomScore() const override;
 
-      virtual int maxEnergy(UnitType unit) const;
-      virtual double topSpeed(UnitType unit) const;
-      virtual int groundWeaponMaxRange(UnitType unit) const;
-      virtual int airWeaponMaxRange(UnitType unit) const;
-      virtual int weaponMaxRange(WeaponType weapon) const;
-      virtual int sightRange(UnitType unit) const;
-      virtual int groundWeaponDamageCooldown(UnitType unit) const;
-      virtual int armor(UnitType unit) const;
+      virtual bool isObserver() const override;
 
-      virtual int getUnitScore() const;
-      virtual int getKillScore() const;
-      virtual int getBuildingScore() const;
-      virtual int getRazingScore() const;
-      virtual int getCustomScore() const;
-
-      virtual bool isObserver() const;
-
-      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const;
-      virtual bool isResearchAvailable(TechType tech) const;
-      virtual bool isUnitAvailable(UnitType unit) const;
+      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const override;
+      virtual bool isResearchAvailable(TechType tech) const override;
+      virtual bool isUnitAvailable(UnitType unit) const override;
 
       //Internal BWAPI commands:
       /**
@@ -115,27 +93,29 @@ namespace BWAPI
       /** Gets 0-based index of the player. (11 for neutral) */
       char* getForceName() const;
       void setID(int newID);
-      ForceImpl* force;
 
       /** Gets the bw mapping of synchronised version of selected unit for current player */
-      BW::Unit** selectedUnit();
+      BW::CUnit** selectedUnit();
       /**
        * Updates localData according to bw values. (Should be called every frame before local data updates are
        * performed
        */
       void updateData();
-      PlayerData data;
-      PlayerData* self;
       void onGameEnd();
-      std::set<Unit*> units;
+
+      void setParticipating(bool isParticipating = true);
+      void resetResources();
+      
+    // data members
+      ForceImpl   *force;
+      PlayerData  data;
+      PlayerData  *self;
+      Unitset     units;
 
       s32 _repairedMinerals;
       s32 _repairedGas;
       s32 _refundedMinerals;
       s32 _refundedGas;
-
-      void setParticipating(bool isParticipating = true);
-      void resetResources();
 
       bool wasSeenByBWAPIPlayer;
     private :

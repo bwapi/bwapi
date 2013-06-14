@@ -1,38 +1,65 @@
 #pragma once
-#include <string>
-#include <set>
-#include "Type.h"
+#include <BWAPI/Type.h>
+
 namespace BWAPI
 {
-  class PlayerType : public Type
-  {
-    public:
-      PlayerType();
-      PlayerType(int id);
-      /** Returns the name of the player type. For example PlayerTypes::Computer.getName() will return an
-       * std::string object containing "Computer". */
-      const std::string &getName() const;
-      const char *c_str() const;
-  };
   namespace PlayerTypes
   {
-    /** Given the name of a player type, this function will return the playertype. For example:
-     *  PlayerTypes::getPlayerType("Human") will return PlayerTypes::Human. */
-    PlayerType getPlayerType(std::string name);
+    /// Enumeration of player types (player controllers)
+    namespace Enum
+    {
+      /// Enumeration of player types (player controllers)
+      enum Enum
+      {
+        None = 0,
+        Computer,
+        Player,
+        RescuePassive,
+        RescueActive,
+        EitherPreferComputer,
+        EitherPreferHuman,
+        Neutral,
+        Closed,
+        Observer,
+        PlayerLeft,
+        ComputerLeft,
+        Unknown,
+        MAX
+      };
+    };
+  };
+  class PlayerType : public Type<PlayerType, PlayerTypes::Enum::Unknown>
+  {
+    public:
+      /// @copydoc Type::Type(int)
+      PlayerType(int id = PlayerTypes::Enum::None);
 
-    /** Returns the set of all the PlayerTypes. */
-    const std::set<PlayerType>& allPlayerTypes();
-    void init();
-    extern const PlayerType None;
-    extern const PlayerType Computer;
-    extern const PlayerType Player;
-    extern const PlayerType RescuePassive;
-    extern const PlayerType EitherPreferComputer;
-    extern const PlayerType EitherPreferHuman;
-    extern const PlayerType Neutral;
-    extern const PlayerType Closed;
-    extern const PlayerType PlayerLeft;
-    extern const PlayerType ComputerLeft;
-    extern const PlayerType Unknown;
+      bool isLobbyType() const;
+      bool isGameType() const;
+  };
+  /// Namespace containing player types (player controllers)
+  namespace PlayerTypes
+  {
+    /// Retrieves the set of all the PlayerTypes.
+    ///
+    /// @returns Set consisting of all valid PlayerTypes.
+    const PlayerType::const_set& allPlayerTypes();
+    
+#ifdef BWAPI_DECL
+#undef BWAPI_DECL
+#endif
+#define BWAPI_DECL(x) /** x */ extern const PlayerType x
+    BWAPI_DECL(None);
+    BWAPI_DECL(Computer);
+    BWAPI_DECL(Player);
+    BWAPI_DECL(RescuePassive);
+    BWAPI_DECL(EitherPreferComputer);
+    BWAPI_DECL(EitherPreferHuman);
+    BWAPI_DECL(Neutral);
+    BWAPI_DECL(Closed);
+    BWAPI_DECL(PlayerLeft);
+    BWAPI_DECL(ComputerLeft);
+    BWAPI_DECL(Unknown);
+#undef BWAPI_DECL
   }
 }

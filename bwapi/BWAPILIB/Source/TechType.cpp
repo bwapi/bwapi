@@ -1,11 +1,9 @@
 #include <string>
-#include <map>
-#include <set>
 #include <BWAPI/TechType.h>
 #include <BWAPI/Race.h>
+#include <BWAPI/Order.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
-#include <Util/Foreach.h>
 
 #include "Common.h"
 
@@ -13,263 +11,278 @@
 
 namespace BWAPI
 {
-  bool initializingTechType = true;
-  class TechTypeInternal
+  // NAMES
+  const std::string TechType::typeNames[TechTypes::Enum::MAX] =
   {
-    public:
-      TechTypeInternal() {valid = false;}
-      void set(const char* name, int mineralPrice, int gasPrice, int researchTime, int energyUsed, UnitType whatResearches, Race race, WeaponType weapon, bool targetsUnit, bool targetsPosition, Order orderType, UnitType whatUses1, UnitType whatUses2=UnitTypes::None, UnitType whatUses3=UnitTypes::None, UnitType whatUses4=UnitTypes::None, UnitType whatUses5=UnitTypes::None, UnitType whatUses6=UnitTypes::None)
-      {
-        this->name           = name;
-        this->mineralPrice   = mineralPrice;
-        this->gasPrice       = gasPrice;
-        this->researchTime   = researchTime;
-        this->energyUsed     = energyUsed;
-        this->whatResearches = whatResearches;
-        this->race           = race;
-        this->weapon         = weapon;
-
-        this->targetsUnit     = targetsUnit;
-        this->targetsPosition = targetsPosition;
-        this->orderType       = orderType;
-
-        if (whatUses1 != UnitTypes::None)
-          this->whatUses.insert(whatUses1);
-
-        if (whatUses2 != UnitTypes::None)
-          this->whatUses.insert(whatUses2);
-
-        if (whatUses3 != UnitTypes::None)
-          this->whatUses.insert(whatUses3);
-
-        if (whatUses4 != UnitTypes::None)
-          this->whatUses.insert(whatUses4);
-
-        if (whatUses5 != UnitTypes::None)
-          this->whatUses.insert(whatUses5);
-
-        if (whatUses6 != UnitTypes::None)
-          this->whatUses.insert(whatUses6);
-
-        this->valid = true;
-      }
-      std::string name;
-      int mineralPrice;
-      int gasPrice;
-      int researchTime;
-      int energyUsed;
-      UnitType whatResearches;
-      Race race;
-      WeaponType weapon;
-      bool targetsUnit;
-      bool targetsPosition;
-      std::set<UnitType> whatUses;
-      Order orderType;
-
-      bool valid;
+    "Stim_Packs",
+    "Lockdown",
+    "EMP_Shockwave",
+    "Spider_Mines",
+    "Scanner_Sweep",
+    "Tank_Siege_Mode",
+    "Defensive_Matrix",
+    "Irradiate",
+    "Yamato_Gun",
+    "Cloaking_Field",
+    "Personnel_Cloaking",
+    "Burrowing",
+    "Infestation",
+    "Spawn_Broodlings",
+    "Dark_Swarm",
+    "Plague",
+    "Consume",
+    "Ensnare",
+    "Parasite",
+    "Psionic_Storm",
+    "Hallucination",
+    "Recall",
+    "Stasis_Field",
+    "Archon_Warp",
+    "Restoration",
+    "Disruption_Web",
+    "",
+    "Mind_Control",
+    "Dark_Archon_Meld",
+    "Feedback",
+    "Optical_Flare",
+    "Maelstrom",
+    "Lurker_Aspect",
+    "",
+    "Healing",
+    "", "", "", "", "", "", "", "", "",
+    "None",
+    "Nuclear_Strike",
+    "Unknown"
   };
-  TechTypeInternal techTypeData[47];
-  std::map<std::string, TechType> techTypeMap;
-  std::set< TechType > techTypeSet;
+
+  // LOCALIZATION
+  std::string techLocalNames[TechTypes::Enum::MAX];
+
+  // DEFAULTS
+  static const int defaultOreCost[TechTypes::Enum::MAX] =         // Same as default gas cost
+  { 100, 200, 200, 100, 0, 150, 0, 200, 100, 150, 100, 100, 0, 100, 0, 200, 100, 100, 0, 200, 150, 150, 150, 0, 100, 200, 0, 200, 0, 100, 100, 100, 200 };
+  static const int defaultTimeCost[TechTypes::Enum::MAX] =
+  { 1200, 1500, 1800, 1200, 0, 1200, 0, 1200, 1800, 1500, 1200, 1200, 0, 1200, 0, 1500, 1500, 1200, 0, 1800, 1200, 1800, 1500, 0, 1200, 1200, 0, 1800, 0, 1800, 1800, 1500, 1800 };
+  static const int defaultEnergyCost[TechTypes::Enum::MAX] =
+  { 0, 100, 100, 0, 50, 0, 100, 75, 150, 25, 25, 0, 0, 150, 100, 150, 0, 75, 75, 75, 100, 150, 100, 0, 50, 125, 0, 150, 0, 50, 75, 100, 0, 0, 1 };
+  
+  // ACTUAL
+  int oreCost[TechTypes::Enum::MAX], gasCost[TechTypes::Enum::MAX], timeCost[TechTypes::Enum::MAX], energyCost[TechTypes::Enum::MAX];
+
+  namespace techInternalResearches
+  {
+    using namespace UnitTypes::Enum;
+    static const int whatResearches[TechTypes::Enum::MAX] =
+    { Terran_Academy, Terran_Covert_Ops, Terran_Science_Facility, Terran_Machine_Shop,
+    None, Terran_Machine_Shop, None, Terran_Science_Facility, Terran_Physics_Lab, 
+    Terran_Control_Tower, Terran_Covert_Ops, Zerg_Hatchery, None, Zerg_Queens_Nest,
+    None, Zerg_Defiler_Mound, Zerg_Defiler_Mound, Zerg_Queens_Nest, None,
+    Protoss_Templar_Archives, Protoss_Templar_Archives, Protoss_Arbiter_Tribunal,
+    Protoss_Arbiter_Tribunal, None, Terran_Academy, Protoss_Fleet_Beacon, None,
+    Protoss_Templar_Archives, None, None, Terran_Academy, Protoss_Templar_Archives,
+    Zerg_Hydralisk_Den, None, None, None, None, None, None, None, None, None, None, None,
+    None, None, Unknown
+    };
+  }
+  namespace techInternalRaces
+  {
+    using namespace Races::Enum;
+    static const int techRaces[TechTypes::Enum::MAX] =
+    { Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran,
+    Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg,
+    Protoss, Protoss, Protoss, Protoss, Protoss, 
+    Terran, Protoss, None, Protoss, Protoss, Protoss, Terran, Protoss, Zerg, None, Terran,
+    None, None, None, None, None, None, None, None, None, None, Terran, Unknown
+    };
+  }
+  namespace techInternalWeapons
+  {
+    using namespace WeaponTypes::Enum;
+    static const int techWeapons[TechTypes::Enum::MAX] =
+    {
+      None, Lockdown, EMP_Shockwave, Spider_Mines, None, None, None, Irradiate, Yamato_Gun,
+      None, None, None, None, Spawn_Broodlings, Dark_Swarm, Plague, Consume, Ensnare, Parasite,
+      Psionic_Storm, None, None, Stasis_Field, None, Restoration, Disruption_Web, None, Mind_Control,
+      None, Feedback, Optical_Flare, Maelstrom, None, None, None, None, None, None, None, None, None, 
+      None, None, None, None, Nuclear_Strike, Unknown
+    };
+  }
+
+#define TARG_UNIT  1
+#define TARG_POS  2
+#define TARG_BOTH  3
+  static const int techTypeFlags[TechTypes::Enum::MAX] =
+  { 0, TARG_UNIT, TARG_BOTH, TARG_POS, TARG_BOTH, 0, TARG_UNIT, TARG_UNIT, TARG_UNIT, 0, 0, 0, 
+  TARG_UNIT, TARG_UNIT, TARG_BOTH, TARG_BOTH, TARG_UNIT, TARG_BOTH, TARG_UNIT, TARG_BOTH, TARG_UNIT,
+  TARG_BOTH, TARG_BOTH, TARG_UNIT, TARG_UNIT, TARG_BOTH, 0, TARG_UNIT, TARG_UNIT, TARG_UNIT, TARG_UNIT,
+  TARG_BOTH, 0, 0, TARG_BOTH, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TARG_BOTH };
+
+  namespace techInternalOrders
+  {
+    using namespace Orders::Enum;
+    static const int techOrders[TechTypes::Enum::MAX] =
+    {  None, CastLockdown, CastEMPShockwave, PlaceMine, CastScannerSweep, None, CastDefensiveMatrix,
+      CastIrradiate, FireYamatoGun, None, None, None, CastInfestation, CastSpawnBroodlings,
+      CastDarkSwarm, CastPlague, CastConsume, CastEnsnare, CastParasite, CastPsionicStorm,
+      CastHallucination, CastRecall, CastStasisField, None, CastRestoration, CastDisruptionWeb,
+      None, CastMindControl, None, CastFeedback, CastOpticalFlare, CastMaelstrom, None, None, MedicHeal,
+      None, None, None, None, None, None, None, None, None, None, NukePaint, Unknown
+    };
+  }
+  namespace techInternalUsage
+  {
+    using namespace UnitTypes::Enum;
+
+    static const int Stim[] = { Terran_Marine, Terran_Firebat, Hero_Jim_Raynor_Marine, Hero_Gui_Montag };
+    static const int Lockdown[] = { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan };
+    static const int EMP[] = { Terran_Science_Vessel, Hero_Magellan };
+    static const int Spider_Mine[] = { Terran_Vulture, Hero_Jim_Raynor_Vulture };
+    static const int Scanner[] = { Terran_Comsat_Station };
+    static const int Siege_Mode[] = { Terran_Siege_Tank_Tank_Mode, Terran_Siege_Tank_Siege_Mode, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode };
+    static const int Matrix[] = { Terran_Science_Vessel, Hero_Magellan };
+    static const int Irradiate[] = { Terran_Science_Vessel, Hero_Magellan };
+    static const int Yamato[] = { Terran_Battlecruiser, Hero_Gerard_DuGalle, Hero_Hyperion, Hero_Norad_II };
+    static const int Cloaking_Field[] = { Terran_Wraith, Hero_Tom_Kazansky };
+    static const int Personnel_Cloaking[] = { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan, Hero_Infested_Kerrigan };
+    static const int Burrow[] = { Zerg_Zergling, Zerg_Hydralisk, Zerg_Drone, Zerg_Defiler, Zerg_Infested_Terran, Hero_Unclean_One, Hero_Hunter_Killer, Hero_Devouring_One, Zerg_Lurker };
+    static const int Infest[] = { Zerg_Queen, Hero_Matriarch };
+    static const int Broodlings[] = { Zerg_Queen, Hero_Matriarch };
+    static const int Dark_Swarm[] = { Zerg_Defiler, Hero_Unclean_One };
+    static const int Plague[] = { Zerg_Defiler, Hero_Unclean_One };
+    static const int Consume[] = { Zerg_Defiler, Hero_Unclean_One, Hero_Infested_Kerrigan, Hero_Infested_Duran };
+    static const int Ensnare[] = { Zerg_Queen, Hero_Matriarch, Hero_Infested_Kerrigan };
+    static const int Parasite[] = { Zerg_Queen, Hero_Matriarch };
+    static const int Psi_Storm[] = { Protoss_High_Templar, Hero_Tassadar, Hero_Infested_Kerrigan };
+    static const int Hallucinate[] = { Protoss_High_Templar, Hero_Tassadar };
+    static const int Recall[] = { Protoss_Arbiter, Hero_Danimoth };
+    static const int Stasis[] = { Protoss_Arbiter, Hero_Danimoth };
+    static const int Archon_Warp[] = { Protoss_High_Templar };
+    static const int Restore[] = { Terran_Medic };
+    static const int Disruption_Web[] = { Protoss_Corsair, Hero_Raszagal };
+    static const int Mind_Control[] = { Protoss_Dark_Archon };
+    static const int Dark_Archon_Meld[] = { Protoss_Dark_Templar };
+    static const int Feedback[] = { Protoss_Dark_Archon };
+    static const int Optical_Flare[] = { Terran_Medic };
+    static const int Maelstrom[] = { Protoss_Dark_Archon };
+    static const int Lurker_Aspect[] = { Zerg_Hydralisk };
+    static const int Healing[] = { Terran_Medic };
+    static const int Nuke[] = { Terran_Ghost };
+
+#define TSET(x) UnitType::const_set(x, countof(x))
+#define TSETEMPTY UnitType::const_set(&UnitTypes::None)
+
+    static const UnitType::const_set techWhatUses[TechTypes::Enum::MAX] =
+    {
+      TSET(Stim), TSET(Lockdown), TSET(EMP), TSET(Spider_Mine), TSET(Scanner), TSET(Siege_Mode), TSET(Matrix), TSET(Irradiate), TSET(Yamato),
+      TSET(Cloaking_Field), TSET(Personnel_Cloaking), TSET(Burrow), TSET(Infest), TSET(Broodlings), TSET(Dark_Swarm),
+      TSET(Plague), TSET(Consume), TSET(Ensnare), TSET(Parasite), TSET(Psi_Storm), TSET(Hallucinate), TSET(Recall), TSET(Stasis),
+      TSET(Archon_Warp), TSET(Restore), TSET(Disruption_Web), TSETEMPTY, TSET(Mind_Control), TSET(Dark_Archon_Meld),
+      TSET(Feedback), TSET(Optical_Flare), TSET(Maelstrom), TSET(Lurker_Aspect), TSETEMPTY, TSET(Healing), TSETEMPTY,
+      TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSET(Nuke), TSETEMPTY
+    };
+  }
+
+  namespace TechTypeSet
+  {
+    using namespace TechTypes::Enum;
+    BWAPI_TYPESET(techTypeSet, TechType, Stim_Packs, Lockdown, EMP_Shockwave, Spider_Mines,
+                      Scanner_Sweep, Tank_Siege_Mode, Defensive_Matrix, Irradiate,
+                      Yamato_Gun, Cloaking_Field, Personnel_Cloaking, Burrowing,
+                      Infestation, Spawn_Broodlings, Dark_Swarm, Plague, Consume,
+                      Ensnare, Parasite, Psionic_Storm, Hallucination, Recall,
+                      Stasis_Field, Archon_Warp, Restoration, Disruption_Web, 
+                      Mind_Control, Dark_Archon_Meld, Feedback, Optical_Flare,
+                      Maelstrom, Lurker_Aspect, Healing, None, Nuclear_Strike, Unknown );
+  }
   namespace TechTypes
   {
-    const TechType Stim_Packs(0);
-    const TechType Lockdown(1);
-    const TechType EMP_Shockwave(2);
-    const TechType Spider_Mines(3);
-    const TechType Scanner_Sweep(4);
-    const TechType Tank_Siege_Mode(5);
-    const TechType Defensive_Matrix(6);
-    const TechType Irradiate(7);
-    const TechType Yamato_Gun(8);
-    const TechType Cloaking_Field(9);
-    const TechType Personnel_Cloaking(10);
-    const TechType Burrowing(11);
-    const TechType Infestation(12);
-    const TechType Spawn_Broodlings(13);
-    const TechType Dark_Swarm(14);
-    const TechType Plague(15);
-    const TechType Consume(16);
-    const TechType Ensnare(17);
-    const TechType Parasite(18);
-    const TechType Psionic_Storm(19);
-    const TechType Hallucination(20);
-    const TechType Recall(21);
-    const TechType Stasis_Field(22);
-    const TechType Archon_Warp(23);
-    const TechType Restoration(24);
-    const TechType Disruption_Web(25);
-    const TechType Mind_Control(27);
-    const TechType Dark_Archon_Meld(28);
-    const TechType Feedback(29);
-    const TechType Optical_Flare(30);
-    const TechType Maelstrom(31);
-    const TechType Lurker_Aspect(32);
-    const TechType Healing(34);
-    const TechType None(44);
-    const TechType Unknown(45);
-    const TechType Nuclear_Strike(46);
-
-    void init()
-    {
-      techTypeData[Stim_Packs].set("Stim Packs"                ,100,100,1200,0  ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Terran_Marine, UnitTypes::Terran_Firebat, UnitTypes::Hero_Jim_Raynor_Marine, UnitTypes::Hero_Gui_Montag);
-      techTypeData[Lockdown].set("Lockdown"                    ,200,200,1500,100,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::Lockdown        , true,  false, Orders::CastLockdown, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan);
-      techTypeData[EMP_Shockwave].set("EMP Shockwave"          ,200,200,1800,100,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::EMP_Shockwave   , true,  true,  Orders::CastEMPShockwave, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Spider_Mines].set("Spider Mines"            ,100,100,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::Spider_Mines    , false, true,  Orders::PlaceMine, UnitTypes::Terran_Vulture, UnitTypes::Hero_Jim_Raynor_Vulture);
-      techTypeData[Scanner_Sweep].set("Scanner Sweep"          ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  true,  Orders::CastScannerSweep, UnitTypes::Terran_Comsat_Station);
-      techTypeData[Tank_Siege_Mode].set("Tank Siege Mode"      ,150,150,1200,0  ,UnitTypes::Terran_Machine_Shop     ,Races::Terran ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Terran_Siege_Tank_Tank_Mode, UnitTypes::Terran_Siege_Tank_Siege_Mode, UnitTypes::Hero_Edmund_Duke_Tank_Mode, UnitTypes::Hero_Edmund_Duke_Siege_Mode);
-      techTypeData[Defensive_Matrix].set("Defensive Matrix"    ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  false, Orders::CastDefensiveMatrix, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Irradiate].set("Irradiate"                  ,200,200,1200,75 ,UnitTypes::Terran_Science_Facility ,Races::Terran ,WeaponTypes::Irradiate       , true,  false, Orders::CastIrradiate, UnitTypes::Terran_Science_Vessel, UnitTypes::Hero_Magellan);
-      techTypeData[Yamato_Gun].set("Yamato Gun"                ,100,100,1800,150,UnitTypes::Terran_Physics_Lab      ,Races::Terran ,WeaponTypes::Yamato_Gun      , true,  false, Orders::FireYamatoGun, UnitTypes::Terran_Battlecruiser, UnitTypes::Hero_Gerard_DuGalle, UnitTypes::Hero_Hyperion, UnitTypes::Hero_Norad_II);
-      techTypeData[Cloaking_Field].set("Cloaking Field"        ,150,150,1500,25 ,UnitTypes::Terran_Control_Tower    ,Races::Terran ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Terran_Wraith, UnitTypes::Hero_Tom_Kazansky);
-      techTypeData[Personnel_Cloaking].set("Personnel Cloaking",100,100,1200,25 ,UnitTypes::Terran_Covert_Ops       ,Races::Terran ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Terran_Ghost, UnitTypes::Hero_Alexei_Stukov, UnitTypes::Hero_Infested_Duran, UnitTypes::Hero_Samir_Duran, UnitTypes::Hero_Sarah_Kerrigan, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Burrowing].set("Burrowing"                  ,100,100,1200,0  ,UnitTypes::Zerg_Hatchery           ,Races::Zerg   ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Zerg_Drone, UnitTypes::Zerg_Zergling, UnitTypes::Zerg_Hydralisk, UnitTypes::Zerg_Defiler, UnitTypes::Zerg_Infested_Terran, UnitTypes::Zerg_Lurker);
-      techTypeData[Infestation].set("Infestation"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::None            , true,  false, Orders::CastInfestation, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Spawn_Broodlings].set("Spawn Broodlings"    ,100,100,1200,150,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Spawn_Broodlings, true,  false, Orders::CastSpawnBroodlings, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Dark_Swarm].set("Dark Swarm"                ,0  ,0  ,0   ,100,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Dark_Swarm      , true,  true,  Orders::CastDarkSwarm, UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
-      techTypeData[Plague].set("Plague"                        ,200,200,1500,150,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Plague          , true,  true,  Orders::CastPlague, UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One);
-      techTypeData[Consume].set("Consume"                      ,100,100,1500,0  ,UnitTypes::Zerg_Defiler_Mound      ,Races::Zerg   ,WeaponTypes::Consume         , true,  false, Orders::CastConsume, UnitTypes::Zerg_Defiler, UnitTypes::Hero_Unclean_One, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Ensnare].set("Ensnare"                      ,100,100,1200,75 ,UnitTypes::Zerg_Queens_Nest        ,Races::Zerg   ,WeaponTypes::Ensnare         , true,  true,  Orders::CastEnsnare, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Parasite].set("Parasite"                    ,0  ,0  ,0   ,75 ,UnitTypes::None                    ,Races::Zerg   ,WeaponTypes::Parasite        , true,  false, Orders::CastParasite, UnitTypes::Zerg_Queen, UnitTypes::Hero_Matriarch);
-      techTypeData[Psionic_Storm].set("Psionic Storm"          ,200,200,1800,75 ,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Psionic_Storm   , true,  true,  Orders::CastPsionicStorm, UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar, UnitTypes::Hero_Infested_Kerrigan);
-      techTypeData[Hallucination].set("Hallucination"          ,150,150,1200,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::None            , true,  false, Orders::CastHallucination, UnitTypes::Protoss_High_Templar, UnitTypes::Hero_Tassadar);
-      techTypeData[Recall].set("Recall"                        ,150,150,1800,150,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::None            , true,  true,  Orders::CastRecall, UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
-      techTypeData[Stasis_Field].set("Stasis Field"            ,150,150,1500,100,UnitTypes::Protoss_Arbiter_Tribunal,Races::Protoss,WeaponTypes::Stasis_Field    , true,  true,  Orders::CastStasisField, UnitTypes::Protoss_Arbiter, UnitTypes::Hero_Danimoth);
-      techTypeData[Archon_Warp].set("Archon Warp"              ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, Orders::None, UnitTypes::Protoss_High_Templar);
-      techTypeData[Restoration].set("Restoration"              ,100,100,1200,50 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Restoration     , true,  false, Orders::CastRestoration, UnitTypes::Terran_Medic);
-      techTypeData[Disruption_Web].set("Disruption Web"        ,200,200,1200,125,UnitTypes::Protoss_Fleet_Beacon    ,Races::Protoss,WeaponTypes::Disruption_Web  , true,  true,  Orders::CastDisruptionWeb, UnitTypes::Protoss_Corsair, UnitTypes::Hero_Raszagal);
-      techTypeData[Mind_Control].set("Mind Control"            ,200,200,1800,150,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Mind_Control    , true,  false, Orders::CastMindControl, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Dark_Archon_Meld].set("Dark Archon Meld"    ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::None            , true,  false, Orders::None, UnitTypes::Protoss_Dark_Templar);
-      techTypeData[Feedback].set("Feedback"                    ,0  ,0  ,0   ,50 ,UnitTypes::None                    ,Races::Protoss,WeaponTypes::Feedback        , true,  false, Orders::CastFeedback, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Optical_Flare].set("Optical Flare"          ,100,100,1800,75 ,UnitTypes::Terran_Academy          ,Races::Terran ,WeaponTypes::Optical_Flare   , true,  false, Orders::CastOpticalFlare, UnitTypes::Terran_Medic);
-      techTypeData[Maelstrom].set("Maelstrom"                  ,100,100,1500,100,UnitTypes::Protoss_Templar_Archives,Races::Protoss,WeaponTypes::Maelstrom       , true,  true,  Orders::CastMaelstrom, UnitTypes::Protoss_Dark_Archon);
-      techTypeData[Lurker_Aspect].set("Lurker Aspect"          ,200,200,1800,0  ,UnitTypes::Zerg_Hydralisk_Den      ,Races::Zerg   ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::Zerg_Lurker);
-      techTypeData[Healing].set("Healing"                      ,0  ,0  ,0   ,1  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::None            , true,  true,  Orders::MedicHeal1, UnitTypes::Terran_Medic);
-      techTypeData[None].set("None"                            ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::None   ,WeaponTypes::None            , false, false, Orders::None, UnitTypes::None);
-      techTypeData[Unknown].set("Unknown"                      ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Unknown,WeaponTypes::None            , false, false, Orders::None, UnitTypes::None);
-      techTypeData[Nuclear_Strike].set("Nuclear Strike"        ,0  ,0  ,0   ,0  ,UnitTypes::None                    ,Races::Terran ,WeaponTypes::Nuclear_Strike  , true,  true,  Orders::NukePaint, UnitTypes::Terran_Ghost);
-
-      techTypeSet.insert(Stim_Packs);
-      techTypeSet.insert(Lockdown);
-      techTypeSet.insert(EMP_Shockwave);
-      techTypeSet.insert(Spider_Mines);
-      techTypeSet.insert(Scanner_Sweep);
-      techTypeSet.insert(Tank_Siege_Mode);
-      techTypeSet.insert(Defensive_Matrix);
-      techTypeSet.insert(Irradiate);
-      techTypeSet.insert(Yamato_Gun);
-      techTypeSet.insert(Cloaking_Field);
-      techTypeSet.insert(Personnel_Cloaking);
-      techTypeSet.insert(Burrowing);
-      techTypeSet.insert(Infestation);
-      techTypeSet.insert(Spawn_Broodlings);
-      techTypeSet.insert(Dark_Swarm);
-      techTypeSet.insert(Plague);
-      techTypeSet.insert(Consume);
-      techTypeSet.insert(Ensnare);
-      techTypeSet.insert(Parasite);
-      techTypeSet.insert(Psionic_Storm);
-      techTypeSet.insert(Hallucination);
-      techTypeSet.insert(Recall);
-      techTypeSet.insert(Stasis_Field);
-      techTypeSet.insert(Archon_Warp);
-      techTypeSet.insert(Restoration);
-      techTypeSet.insert(Disruption_Web);
-      techTypeSet.insert(Mind_Control);
-      techTypeSet.insert(Dark_Archon_Meld);
-      techTypeSet.insert(Feedback);
-      techTypeSet.insert(Optical_Flare);
-      techTypeSet.insert(Maelstrom);
-      techTypeSet.insert(Lurker_Aspect);
-      techTypeSet.insert(Healing);
-      techTypeSet.insert(None);
-      techTypeSet.insert(Unknown);
-      techTypeSet.insert(Nuclear_Strike);
-
-      foreach(TechType i, techTypeSet)
-      {
-        std::string name(i.getName());
-        fixName(&name);
-        techTypeMap.insert(std::make_pair(name, i));
-      }
-      initializingTechType = false;
-    }
+    BWAPI_TYPEDEF(TechType,Stim_Packs);
+    BWAPI_TYPEDEF(TechType,Lockdown);
+    BWAPI_TYPEDEF(TechType,EMP_Shockwave);
+    BWAPI_TYPEDEF(TechType,Spider_Mines);
+    BWAPI_TYPEDEF(TechType,Scanner_Sweep);
+    BWAPI_TYPEDEF(TechType,Tank_Siege_Mode);
+    BWAPI_TYPEDEF(TechType,Defensive_Matrix);
+    BWAPI_TYPEDEF(TechType,Irradiate);
+    BWAPI_TYPEDEF(TechType,Yamato_Gun);
+    BWAPI_TYPEDEF(TechType,Cloaking_Field);
+    BWAPI_TYPEDEF(TechType,Personnel_Cloaking);
+    BWAPI_TYPEDEF(TechType,Burrowing);
+    BWAPI_TYPEDEF(TechType,Infestation);
+    BWAPI_TYPEDEF(TechType,Spawn_Broodlings);
+    BWAPI_TYPEDEF(TechType,Dark_Swarm);
+    BWAPI_TYPEDEF(TechType,Plague);
+    BWAPI_TYPEDEF(TechType,Consume);
+    BWAPI_TYPEDEF(TechType,Ensnare);
+    BWAPI_TYPEDEF(TechType,Parasite);
+    BWAPI_TYPEDEF(TechType,Psionic_Storm);
+    BWAPI_TYPEDEF(TechType,Hallucination);
+    BWAPI_TYPEDEF(TechType,Recall);
+    BWAPI_TYPEDEF(TechType,Stasis_Field);
+    BWAPI_TYPEDEF(TechType,Archon_Warp);
+    BWAPI_TYPEDEF(TechType,Restoration);
+    BWAPI_TYPEDEF(TechType,Disruption_Web);
+    BWAPI_TYPEDEF(TechType,Mind_Control);
+    BWAPI_TYPEDEF(TechType,Dark_Archon_Meld);
+    BWAPI_TYPEDEF(TechType,Feedback);
+    BWAPI_TYPEDEF(TechType,Optical_Flare);
+    BWAPI_TYPEDEF(TechType,Maelstrom);
+    BWAPI_TYPEDEF(TechType,Lurker_Aspect);
+    BWAPI_TYPEDEF(TechType,Healing);
+    BWAPI_TYPEDEF(TechType,None);
+    BWAPI_TYPEDEF(TechType,Nuclear_Strike);
+    BWAPI_TYPEDEF(TechType,Unknown);
   }
-  TechType::TechType() : Type(TechTypes::None)
+  TechType::TechType(int id) : Type( id )
   {
-  }
-  int getValidTechTypeID(int id)
-  {
-    if ( !initializingTechType && (id < 0 || id >= 47 || techTypeData[id].name.length() == 0) )
-      return TechTypes::Unknown;
-    return id;
-  }
-  TechType::TechType(int id) : Type( getValidTechTypeID(id) )
-  {
-  }
-  const std::string &TechType::getName() const
-  {
-    return techTypeData[this->getID()].name;
-  }
-  const char *TechType::c_str() const
-  {
-    return techTypeData[this->getID()].name.c_str();
   }
   Race TechType::getRace() const
   {
-    return techTypeData[this->getID()].race;
+    return techInternalRaces::techRaces[this->getID()];
   }
   int TechType::mineralPrice() const
   {
-    return techTypeData[this->getID()].mineralPrice;
+    return defaultOreCost[this->getID()];
   }
   int TechType::gasPrice() const
   {
-    return techTypeData[this->getID()].gasPrice;
+    return defaultOreCost[this->getID()];
   }
   int TechType::researchTime() const
   {
-    return techTypeData[this->getID()].researchTime;
+    return defaultTimeCost[this->getID()];
   }
-  int TechType::energyUsed() const
+  int TechType::energyCost() const
   {
-    return techTypeData[this->getID()].energyUsed;
+    return defaultEnergyCost[this->getID()];
   }
   UnitType TechType::whatResearches() const
   {
-    return techTypeData[this->getID()].whatResearches;
+    return techInternalResearches::whatResearches[this->getID()];
   }
   WeaponType TechType::getWeapon() const
   {
-    return techTypeData[this->getID()].weapon;
+    return techInternalWeapons::techWeapons[this->getID()];
   }
   bool TechType::targetsUnit() const
   {
-    return techTypeData[this->getID()].targetsUnit;
+    return !!(techTypeFlags[this->getID()] & TARG_UNIT);
   }
   bool TechType::targetsPosition() const
   {
-    return techTypeData[this->getID()].targetsPosition;
+    return !!(techTypeFlags[this->getID()] & TARG_POS);
   }
-  const std::set<UnitType>& TechType::whatUses() const
+  const UnitType::const_set& TechType::whatUses() const
   {
-    return techTypeData[this->getID()].whatUses;
+    return techInternalUsage::techWhatUses[this->getID()];
   }
   Order TechType::getOrder() const
   {
-    return techTypeData[this->getID()].orderType;
+    return techInternalOrders::techOrders[this->getID()];
   }
-  TechType TechTypes::getTechType(std::string name)
+  const TechType::const_set& TechTypes::allTechTypes()
   {
-    fixName(&name);
-    std::map<std::string, TechType>::iterator i = techTypeMap.find(name);
-    if (i == techTypeMap.end()) 
-      return TechTypes::Unknown;
-    return (*i).second;
-  }
-  const std::set<TechType>& TechTypes::allTechTypes()
-  {
-    return techTypeSet;
+    return TechTypeSet::techTypeSet;
   }
 }
 

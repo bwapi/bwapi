@@ -14,7 +14,7 @@ class CancelResearchTest : public TestCase
     BWAPI::UnitType researcherType;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* researcher;
+    BWAPI::Unit researcher;
     int correctMineralCount;
     int correctGasCount;
     int correctSupplyUsedCount;

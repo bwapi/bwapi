@@ -14,7 +14,7 @@ class CancelUpgradeTest : public TestCase
     BWAPI::UnitType upgraderType;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* upgrader;
+    BWAPI::Unit upgrader;
     int correctMineralCount;
     int correctGasCount;
     int correctSupplyUsedCount;

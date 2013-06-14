@@ -1,164 +1,55 @@
-#include <BWAPI/Constants.h>
-#include <BWAPI/TilePosition.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Game.h>
 
-#include <math.h>
-#include <algorithm>
-
-#include "../../Debug.h"
-
 namespace BWAPI
 {
-  namespace Positions
+  template<typename _T, int __Scale>
+  bool Point<_T,__Scale>::isValid() const
   {
-    const Position Invalid(32000, 32000);
-    const Position None(32000, 32032);
-    const Position Unknown(32000, 32064);
-  }
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Position::Position()
-      : _x(0)
-      , _y(0)
-  {
-  }
-  //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
-  Position::Position(const TilePosition& position)
-      : _x(position.x()*TILE_SIZE)
-      , _y(position.y()*TILE_SIZE)
-  {
-  }
-  //----------------------------------------------- DESTRUCTOR -----------------------------------------------
-  Position::Position(int x, int y)
-      : _x(x)
-      , _y(y)
-  {
-  }
-  //---------------------------------------------- OPERATOR == -----------------------------------------------
-  bool Position::operator == (const Position& position) const
-  {
-    return this->x() == position.x() &&
-           this->y() == position.y();
-  }
-  //---------------------------------------------- OPERATOR != -----------------------------------------------
-  bool Position::operator != (const Position& position) const
-  {
-    return this->x() != position.x() ||
-           this->y() != position.y();
-  }
-  //---------------------------------------------- OPERATOR < ------------------------------------------------
-  bool Position::operator  < (const Position& position) const
-  {
-    return this->x() < position.x() ||
-           (this->x() == position.x() && this->y() < position.y());
-  }
-  //---------------------------------------------- IS VALID --------------------------------------------------
-  bool Position::isValid() const
-  {
-    if ( _x < 0 || _y < 0 )
+    // Not valid if < 0
+    if ( this->x < 0 || this->y < 0 )
       return false;
-    if ( !Broodwar )
-      return true;
-    return _x < Broodwar->mapWidth()*32 && _y < Broodwar->mapHeight()*32;
-  }
-  Position::operator bool() const
-  {
-    return this->isValid();
-  }
-  //----------------------------------------------------------------------------------------------------------
-  Position Position::operator+(const Position& position) const
-  {
-    return Position(this->x() + position.x(), this->y() + position.y());
-  }
-  //----------------------------------------------------------------------------------------------------------
-  Position Position::operator-(const Position& position) const
-  {
-    return Position(this->x() - position.x(), this->y() - position.y());
-  }
-  //-------------------------------------------- MAKE VALID --------------------------------------------------
-  Position& Position::makeValid()
-  {
-    if (_x < 0)
-      _x = 0;
-    if (_y < 0)
-      _y = 0;
+    
+    // If Broodwar pointer is not initialized, just assume maximum map size
+    if ( !BroodwarPtr ) 
+      return this->x < (256 * 32)/__Scale &&
+              this->y < (256 * 32)/__Scale;
 
-    if ( !Broodwar )
+    // If BW ptr exists then compare with actual map size
+    return this->x < (Broodwar->mapWidth()  * 32)/__Scale && 
+           this->y < (Broodwar->mapHeight() * 32)/__Scale;
+  }
+
+  template<typename _T, int __Scale>
+  Point<_T,__Scale> &Point<_T,__Scale>::makeValid()
+  {
+    // Set x/y to 0 if less than 0
+    this->setMin(0, 0);
+    
+    if ( !BroodwarPtr )  // If broodwar ptr doesn't exist, set to below max size
+    {
+      _T max = (256*32)/__Scale - 1;
+      this->setMax(max, max);
       return *this;
+    }
 
-    if (_x > Broodwar->mapWidth()*32 - 1)
-      _x = Broodwar->mapWidth()*32 - 1;
-    if (_y > Broodwar->mapHeight()*32 - 1)
-      _y = Broodwar->mapHeight()*32 - 1;
+    // If BW ptr exists then set it to map width/height
+    _T wid = (_T)(Broodwar->mapWidth() * 32)/__Scale - 1;
+    _T hgt = (_T)(Broodwar->mapHeight() * 32)/__Scale - 1;
+    this->setMax(wid,hgt);
     return *this;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  Position& Position::operator+=(const Position& position)
-  {
-    this->x() += position.x();
-    this->y() += position.y();
-    return *this;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  Position& Position::operator-=(const Position& position)
-  {
-    this->x() -= position.x();
-    this->y() -= position.y();
-    return *this;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  double Position::getDistance(const Position& position) const
-  {
-    return ((*this) - position).getLength();
-  }
-  //----------------------------------------------------------------------------------------------------------
-  int Position::getApproxDistance(const Position& position) const
-  {
-    unsigned int min = abs(_x - position.x());
-    unsigned int max = abs(_y - position.y());
-    if ( max < min )
-      std::swap(min,max);
+  };
 
-    if ( min < (max >> 2) )
-      return max;
+  template Point<int,32> &Point<int,32>::makeValid();
+  template Point<int,8> &Point<int,8>::makeValid();
+  template Point<int,1> &Point<int,1>::makeValid();
+  template Point<short,32> &Point<short,32>::makeValid();
+  template Point<short,1> &Point<short,1>::makeValid();
+  
+  template bool Point<int,32>::isValid() const;
+  template bool Point<int,8>::isValid() const;
+  template bool Point<int,1>::isValid() const;
+  template bool Point<short,32>::isValid() const;
+  template bool Point<short,1>::isValid() const;
+}
 
-    unsigned int minCalc = (3*min) >> 3;
-    return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
-    // Simplifies to (99*min + 236*max)/256;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  double Position::getLength() const
-  {
-    double x = this->x();
-    double y = this->y();
-    return sqrt(x * x + y * y);
-  }
-  //----------------------------------------------------------------------------------------------------------
-  bool Position::hasPath(const Position& destination) const
-  {
-    if ( !Broodwar )
-      return false;
-    return Broodwar->hasPath(*this, destination);
-  }
-  //----------------------------------------------------------------------------------------------------------
-  int& Position::x()
-  {
-    return this->_x;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  int& Position::y()
-  {
-    return this->_y;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  int Position::x() const
-  {
-    return this->_x;
-  }
-  //----------------------------------------------------------------------------------------------------------
-  int Position::y() const
-  {
-    return this->_y;
-  }
-  //----------------------------------------------------------------------------------------------------------
-};

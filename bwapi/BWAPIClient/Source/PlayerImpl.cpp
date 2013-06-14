@@ -1,14 +1,14 @@
 #include <BWAPI.h>
-#include "GameImpl.h"
-#include "ForceImpl.h"
-#include "PlayerImpl.h"
-#include "UnitImpl.h"
+#include <BWAPI/Client/GameImpl.h>
+#include <BWAPI/Client/ForceImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
+#include <BWAPI/Client/UnitImpl.h>
 
 namespace BWAPI
 {
   PlayerImpl::PlayerImpl(int _id)
-    : self( &(BWAPI::BWAPIClient.data->players[id]) )
-    , id(_id)
+    : id(_id)
+    , self( &(BWAPI::BWAPIClient.data->players[id]) )
   {
     clear();
   }
@@ -28,17 +28,17 @@ namespace BWAPI
   {
     return PlayerType(self->type);
   }
-  Force* PlayerImpl::getForce() const
+  Force PlayerImpl::getForce() const
   {
-    return ((GameImpl*)Broodwar)->getForce(self->force);
+    return Broodwar->getForce(self->force);
   }
-  bool PlayerImpl::isAlly(Player* player) const
+  bool PlayerImpl::isAlly(Player player) const
   {
     if ( !player )
       return false;
     return self->isAlly[player->getID()];
   }
-  bool PlayerImpl::isEnemy(Player* player) const
+  bool PlayerImpl::isEnemy(Player player) const
   {
     if ( !player )
       return false;

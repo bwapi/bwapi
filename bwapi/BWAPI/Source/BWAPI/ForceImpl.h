@@ -1,18 +1,22 @@
 #pragma once
-#include <BWAPI/Force.h>
-#include <set>
 #include <string>
+#include <BWAPI/Force.h>
+#include <BWAPI/Playerset.h>
+
 namespace BWAPI
 {
-  class Player;
-  class ForceImpl : public Force
+  // Forwards
+  class PlayerInterface;
+  typedef PlayerInterface *Player;
+
+  class ForceImpl : public ForceInterface
   {
     public:
       ForceImpl(std::string name);
-      virtual int getID() const;
-      virtual std::string getName() const;
-      virtual std::set<Player*> getPlayers() const;
-      std::set<Player*> players;
+      virtual int getID() const override;
+      virtual std::string getName() const override;
+      virtual Playerset getPlayers() const override;
+      Playerset players;
       std::string name;
       void setID(int newID);
     private:

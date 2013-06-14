@@ -1,34 +1,31 @@
 #pragma once
-#include <set>
-#include <vector>
 #include <BWAPI/Region.h>
+#include <BWAPI/Regionset.h>
 #include <BWAPI/Position.h>
 
 #include <BWAPI/Client/RegionData.h>
 
 namespace BWAPI
 {
-  class RegionImpl : public Region
+  class RegionImpl : public RegionInterface
   {
   public:
-    virtual int getID() const;
-    virtual int getRegionGroupID() const;
-    virtual BWAPI::Position getCenter() const;
-    virtual bool isHigherGround() const;
-    virtual int getDefensePriority() const;
-    virtual bool isWalkable() const;
+    virtual int getID() const override;
+    virtual int getRegionGroupID() const override;
+    virtual BWAPI::Position getCenter() const override;
+    virtual bool  isHigherGround() const override;
+    virtual int   getDefensePriority() const override;
+    virtual bool  isAccessible() const override;
 
-    virtual const std::set<BWAPI::Region*> &getNeighbors() const;
+    virtual const Regionset &getNeighbors() const override;
 
-    virtual int getBoundsLeft() const;
-    virtual int getBoundsTop() const;
-    virtual int getBoundsRight() const;
-    virtual int getBoundsBottom() const;
+    virtual int getBoundsLeft() const override;
+    virtual int getBoundsTop() const override;
+    virtual int getBoundsRight() const override;
+    virtual int getBoundsBottom() const override;
 
-    virtual BWAPI::Region *getClosestAccessibleRegion() const;
-    virtual BWAPI::Region *getClosestInaccessibleRegion() const;
-
-    virtual int getDistance(BWAPI::Region *other) const;
+    virtual BWAPI::Region getClosestAccessibleRegion() const override;
+    virtual BWAPI::Region getClosestInaccessibleRegion() const override;
 
     RegionImpl(int id);
     ~RegionImpl();
@@ -38,9 +35,9 @@ namespace BWAPI
     RegionData data;
     RegionData *self;
     
-    std::set<BWAPI::Region*> neighbors;
-    BWAPI::Region *closestAccessibleRgn;
-    BWAPI::Region *closestInaccessibleRgn;
+    Regionset neighbors;
+    BWAPI::Region closestAccessibleRgn;
+    BWAPI::Region closestInaccessibleRgn;
   };
 
 };

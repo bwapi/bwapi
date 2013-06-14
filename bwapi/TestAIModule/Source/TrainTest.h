@@ -15,7 +15,7 @@ class TrainTest : public TestCase
     int previousUnitCount;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* producer;
+    BWAPI::Unit producer;
     int correctMineralCount;
     int correctGasCount;
     int correctSupplyUsedCount;

@@ -18,13 +18,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -38,25 +36,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -70,12 +63,11 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR;_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_WINDOWS;_USRDLL;BWSCRIPTEMULATOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -87,23 +79,200 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIControl.cpp" />
+    <ClCompile Include="Allies_Watch.cpp" />
+    <ClCompile Include="Attack_Add.cpp" />
+    <ClCompile Include="Attack_Clear.cpp" />
+    <ClCompile Include="Attack_Do.cpp" />
+    <ClCompile Include="Attack_Prepare.cpp" />
+    <ClCompile Include="Build.cpp" />
+    <ClCompile Include="Build_Bunkers.cpp" />
     <ClCompile Include="BWScriptEmulator.cpp" />
+    <ClCompile Include="Call.cpp" />
+    <ClCompile Include="Capt_Expand.cpp" />
+    <ClCompile Include="Check_Transports.cpp" />
+    <ClCompile Include="Clear_Combatdata.cpp" />
+    <ClCompile Include="ComputerAI.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Create_Unit.cpp" />
+    <ClCompile Include="Creep.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Default_Build.cpp" />
+    <ClCompile Include="Default_Min.cpp" />
+    <ClCompile Include="DefenseBuild.cpp" />
+    <ClCompile Include="DefenseClear.cpp" />
+    <ClCompile Include="DefenseUse.cpp" />
+    <ClCompile Include="Define_Max.cpp" />
     <ClCompile Include="Dll.cpp" />
+    <ClCompile Include="Enter_Transport.cpp" />
+    <ClCompile Include="Eval_Harass.cpp" />
+    <ClCompile Include="Expand.cpp" />
+    <ClCompile Include="Fake_Nuke.cpp" />
+    <ClCompile Include="Farms_Timing.cpp" />
+    <ClCompile Include="Get_OldPeons.cpp" />
+    <ClCompile Include="Give_Money.cpp" />
+    <ClCompile Include="Goto.cpp" />
+    <ClCompile Include="Groundmap_Jump.cpp" />
+    <ClCompile Include="Guard.cpp" />
+    <ClCompile Include="Guard_All.cpp" />
+    <ClCompile Include="Guard_Resources.cpp" />
+    <ClCompile Include="Harass_Factor.cpp" />
+    <ClCompile Include="Harass_Location.cpp" />
+    <ClCompile Include="Help_IfTrouble.cpp" />
+    <ClCompile Include="If_Dif.cpp" />
+    <ClCompile Include="If_Owned.cpp" />
+    <ClCompile Include="Implode.cpp" />
+    <ClCompile Include="JunkYardDog.cpp" />
+    <ClCompile Include="Killable.cpp" />
+    <ClCompile Include="Kill_Thread.cpp" />
+    <ClCompile Include="Location.cpp" />
+    <ClCompile Include="Nuke_Pos.cpp" />
+    <ClCompile Include="Order_Region.cpp" />
+    <ClCompile Include="Max_Force.cpp" />
+    <ClCompile Include="Military.cpp" />
+    <ClCompile Include="Move_DT.cpp" />
+    <ClCompile Include="Multirun.cpp" />
+    <ClCompile Include="Notowns_Jump.cpp" />
+    <ClCompile Include="Nuke_Rate.cpp" />
+    <ClCompile Include="Opcode.cpp" />
+    <ClCompile Include="OrderEmulate.cpp" />
+    <ClCompile Include="Panic.cpp" />
+    <ClCompile Include="Place_Guard.cpp" />
+    <ClCompile Include="Player_Ally.cpp" />
+    <ClCompile Include="Player_Need.cpp" />
+    <ClCompile Include="Prep_Down.cpp" />
+    <ClCompile Include="Race_Jump.cpp" />
+    <ClCompile Include="Random_Jump.cpp" />
+    <ClCompile Include="Region_Size.cpp" />
+    <ClCompile Include="ComputerReturn.cpp" />
+    <ClCompile Include="Resources_Jump.cpp" />
+    <ClCompile Include="Return.cpp" />
+    <ClCompile Include="Rush.cpp" />
+    <ClCompile Include="Scout_With.cpp" />
+    <ClCompile Include="Send_Suicide.cpp" />
+    <ClCompile Include="Set_Attacks.cpp" />
+    <ClCompile Include="Set_Gencmd.cpp" />
+    <ClCompile Include="Set_RandomSeed.cpp" />
+    <ClCompile Include="Sharedvision.cpp" />
+    <ClCompile Include="Start_Campaign.cpp" />
+    <ClCompile Include="Start_Town.cpp" />
+    <ClCompile Include="Stop.cpp" />
+    <ClCompile Include="Switch_Rescue.cpp" />
+    <ClCompile Include="Target_Expansion.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="Tech.cpp" />
+    <ClCompile Include="Time_Jump.cpp" />
+    <ClCompile Include="Town.cpp" />
+    <ClCompile Include="Train.cpp" />
+    <ClCompile Include="Try_Townpoint.cpp" />
+    <ClCompile Include="UnitInfo.cpp" />
+    <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="Use_Ability.cpp" />
+    <ClCompile Include="Value_Area.cpp" />
+    <ClCompile Include="Wait.cpp" />
+    <ClCompile Include="Wait_Build.cpp" />
+    <ClCompile Include="Wait_Bunkers.cpp" />
+    <ClCompile Include="Wait_FinishAttack.cpp" />
+    <ClCompile Include="Wait_Train.cpp" />
+    <ClCompile Include="Wait_Upgrades.cpp" />
+    <ClCompile Include="Worker.cpp" />
     <ClCompile Include="ScriptEnum.cpp" />
+    <ClCompile Include="ScriptOpcodes.cpp" />
     <ClCompile Include="ScriptThread.cpp" />
-    <ClCompile Include="UnitProc.cpp" />
     <ClCompile Include="UType.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Allies_Watch.h" />
+    <ClInclude Include="Attack_Add.h" />
+    <ClInclude Include="Attack_Clear.h" />
+    <ClInclude Include="Attack_Do.h" />
+    <ClInclude Include="Attack_Prepare.h" />
+    <ClInclude Include="Build.h" />
+    <ClInclude Include="Build_Bunkers.h" />
     <ClInclude Include="BWScriptEmulator.h" />
+    <ClInclude Include="Call.h" />
+    <ClInclude Include="Capt_Expand.h" />
+    <ClInclude Include="Check_Transports.h" />
+    <ClInclude Include="Clear_Combatdata.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="OrderID.h" />
+    <ClInclude Include="Create_Unit.h" />
+    <ClInclude Include="Creep.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Default_Build.h" />
+    <ClInclude Include="Default_Min.h" />
+    <ClInclude Include="DefenseBuild.h" />
+    <ClInclude Include="DefenseClear.h" />
+    <ClInclude Include="DefenseUse.h" />
+    <ClInclude Include="Define_Max.h" />
+    <ClInclude Include="Enter_Transport.h" />
+    <ClInclude Include="Eval_Harass.h" />
+    <ClInclude Include="Expand.h" />
+    <ClInclude Include="Fake_Nuke.h" />
+    <ClInclude Include="Farms_Timing.h" />
+    <ClInclude Include="Get_OldPeons.h" />
+    <ClInclude Include="Give_Money.h" />
+    <ClInclude Include="Groundmap_Jump.h" />
+    <ClInclude Include="Guard_All.h" />
+    <ClInclude Include="Guard_Resources.h" />
+    <ClInclude Include="Harass_Factor.h" />
+    <ClInclude Include="Harass_Location.h" />
+    <ClInclude Include="Help_IfTrouble.h" />
+    <ClInclude Include="If_Dif.h" />
+    <ClInclude Include="If_Owned.h" />
+    <ClInclude Include="Implode.h" />
+    <ClInclude Include="Killable.h" />
+    <ClInclude Include="Kill_Thread.h" />
+    <ClInclude Include="Location.h" />
+    <ClInclude Include="Nuke_Pos.h" />
+    <ClInclude Include="Order_Region.h" />
+    <ClInclude Include="Max_Force.h" />
+    <ClInclude Include="Move_DT.h" />
+    <ClInclude Include="Multirun.h" />
+    <ClInclude Include="Notowns_Jump.h" />
+    <ClInclude Include="Nuke_Rate.h" />
+    <ClInclude Include="Opcode.h" />
+    <ClInclude Include="Goto.h" />
+    <ClInclude Include="OrderEmulate.h" />
+    <ClInclude Include="Panic.h" />
+    <ClInclude Include="Place_Guard.h" />
+    <ClInclude Include="Player_Ally.h" />
+    <ClInclude Include="Player_Need.h" />
+    <ClInclude Include="Prep_Down.h" />
+    <ClInclude Include="Race_Jump.h" />
+    <ClInclude Include="Random_Jump.h" />
+    <ClInclude Include="Region_Size.h" />
+    <ClInclude Include="Resources_Jump.h" />
+    <ClInclude Include="Return.h" />
+    <ClInclude Include="Rush.h" />
+    <ClInclude Include="Scout_With.h" />
+    <ClInclude Include="Send_Suicide.h" />
+    <ClInclude Include="Set_Attacks.h" />
+    <ClInclude Include="Set_Gencmd.h" />
+    <ClInclude Include="Set_RandomSeed.h" />
+    <ClInclude Include="Sharedvision.h" />
+    <ClInclude Include="Start_Campaign.h" />
+    <ClInclude Include="Start_Town.h" />
+    <ClInclude Include="Stop.h" />
+    <ClInclude Include="Switch_Rescue.h" />
+    <ClInclude Include="Target_Expansion.h" />
+    <ClInclude Include="Tech.h" />
+    <ClInclude Include="Time_Jump.h" />
+    <ClInclude Include="Town.h" />
+    <ClInclude Include="Train.h" />
+    <ClInclude Include="Try_Townpoint.h" />
+    <ClInclude Include="UnitInfo.h" />
     <ClInclude Include="ScriptEnum.h" />
     <ClInclude Include="ScriptThread.h" />
-    <ClInclude Include="UnitID.h" />
-    <ClInclude Include="UnitProc.h" />
+    <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="Use_Ability.h" />
     <ClInclude Include="UType.h" />
+    <ClInclude Include="Value_Area.h" />
+    <ClInclude Include="Wait.h" />
+    <ClInclude Include="Wait_Build.h" />
+    <ClInclude Include="Wait_Bunkers.h" />
+    <ClInclude Include="Wait_FinishAttack.h" />
+    <ClInclude Include="Wait_Train.h" />
+    <ClInclude Include="Wait_Upgrades.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">

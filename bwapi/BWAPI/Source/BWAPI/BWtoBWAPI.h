@@ -1,10 +1,11 @@
 #pragma once
 
-#include <BW/OrderID.h>
-#include <BW/UnitID.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/UnitType.h>
+
 namespace BWAPI
 {
-  extern int BWtoBWAPI_Order[BW::OrderID::MAX];
-  extern int AttackAnimationRestFrame[BW::UnitID::MAX];
+  extern int BWtoBWAPI_Order[Orders::Enum::MAX];
+  extern int AttackAnimationRestFrame[UnitTypes::Enum::MAX];
   void BWtoBWAPI_init();
 }

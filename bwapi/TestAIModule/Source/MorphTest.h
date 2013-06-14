@@ -15,7 +15,7 @@ class MorphTest : public TestCase
     int previousUnitCount;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* producer;
+    BWAPI::Unit producer;
     bool finishingMorph;
     int finishFrame;
     int correctMineralCount;

@@ -6,7 +6,7 @@ using namespace BWAPI;
 {\
   if (!(C))\
   {\
-  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().getName().c_str() : "NULL", unitType.getName().c_str(), unit ? unit->getOrder().getName().c_str() : "null", target ? target->getType().getName().c_str() : "NULL", targetType.getName().c_str(), Broodwar->getLastError().toString().c_str());\
+  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, unit ? unit->getType().c_str() : "NULL", unitType.c_str(), unit ? unit->getOrder().getName().c_str() : "null", target ? target->getType().c_str() : "NULL", targetType.c_str(), Broodwar->getLastError().c_str());\
     assert_fail_count++;\
     fail = true;\
     return;\
@@ -34,7 +34,7 @@ void AttackUnitTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   FAILTEST(userCount>=1);
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
   FAILTEST(unit!=NULL);
@@ -42,7 +42,7 @@ void AttackUnitTest::start()
 
   int targetCount = Broodwar->self()->completedUnitCount(targetType);
   FAILTEST(targetCount>=1);
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==targetType)
       target = u;
   FAILTEST(target!=NULL);
@@ -72,11 +72,11 @@ void AttackUnitTest::update()
   nextFrame++;
   if (unit->exists())
   {
-    Broodwar->setScreenPosition(unit->getPosition().x()-320,unit->getPosition().y()-240);
+    Broodwar->setScreenPosition(unit->getPosition() - Position(320,240));
   }
   else
   {
-    Broodwar->setScreenPosition(target->getPosition().x()-320,target->getPosition().y()-240);
+    Broodwar->setScreenPosition(target->getPosition() - Position(320,240));
   }
 
   if (reachedDamagePointFrame==-1 &&

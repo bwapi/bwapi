@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{02027215-F122-4174-A0A8-248A28A43980}</ProjectGuid>
+    <RootNamespace>Replay_Tool</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AssemblerOutput>All</AssemblerOutput>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>User32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>User32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="GameAction.cpp" />
+    <ClCompile Include="ActionParser.cpp" />
+    <ClCompile Include="BuildAction.cpp" />
+    <ClCompile Include="ChatReplayAction.cpp" />
+    <ClCompile Include="SelectAction.cpp" />
+    <ClCompile Include="BurrowAction.cpp" />
+    <ClCompile Include="CloakAction.cpp" />
+    <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="FileWriter.cpp" />
+    <ClCompile Include="LatencyAction.cpp" />
+    <ClCompile Include="LeaveGameAction.cpp" />
+    <ClCompile Include="LiftOffAction.cpp" />
+    <ClCompile Include="PingMinimapAction.cpp" />
+    <ClCompile Include="ReplayTool.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="PKShared.cpp" />
+    <ClCompile Include="Replay.cpp" />
+    <ClCompile Include="ReplayReader.cpp" />
+    <ClCompile Include="RightClickAction.cpp" />
+    <ClCompile Include="SetReplaySpeedAction.cpp" />
+    <ClCompile Include="SetSpeedAction.cpp" />
+    <ClCompile Include="StopAction.cpp" />
+    <ClInclude Include="CancelTrainAction.h" />
+    <ClInclude Include="CheatAction.h" />
+    <ClInclude Include="ExitTransportAction.h" />
+    <ClInclude Include="GroupUnitsAction.h" />
+    <ClInclude Include="ParseReplayParams.h" />
+    <ClInclude Include="ParamTraits.h" />
+    <ClInclude Include="ChatReplayAction.h" />
+    <ClCompile Include="StrUtil.cpp" />
+    <ClCompile Include="TargetClickAction.cpp" />
+    <ClCompile Include="UnloadAllAction.cpp" />
+    <ClCompile Include="TankSiegeAction.cpp" />
+    <ClCompile Include="UpgradeAction.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameAction.h" />
+    <ClInclude Include="ActionParser.h" />
+    <ClInclude Include="BuildAction.h" />
+    <ClInclude Include="BurrowAction.h" />
+    <ClInclude Include="CloakAction.h" />
+    <ClInclude Include="DefaultActions.h" />
+    <ClInclude Include="FileReader.h" />
+    <ClInclude Include="FileWriter.h" />
+    <ClInclude Include="AbstractReplayReader.h" />
+    <ClInclude Include="GenericAction1P.h" />
+    <ClInclude Include="MorphAction.h" />
+    <ClInclude Include="ReplayReader.h" />
+    <ClInclude Include="LatencyAction.h" />
+    <ClInclude Include="LeaveGameAction.h" />
+    <ClInclude Include="LiftOffAction.h" />
+    <ClInclude Include="PingMinimapAction.h" />
+    <ClInclude Include="ReplayTool.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="PKShared.h" />
+    <ClInclude Include="RepHeader.h" />
+    <ClInclude Include="Replay.h" />
+    <ClInclude Include="ReplayToolDefs.h" />
+    <ClInclude Include="ResearchAction.h" />
+    <ClInclude Include="RightClickAction.h" />
+    <ClInclude Include="SaveGameAction.h" />
+    <ClInclude Include="SelectAction.h" />
+    <ClInclude Include="SetAlliesAction.h" />
+    <ClInclude Include="SetFogAction.h" />
+    <ClInclude Include="TrainAction.h" />
+    <ClInclude Include="SetReplaySpeedAction.h" />
+    <ClInclude Include="SetSpeedAction.h" />
+    <ClInclude Include="StopAction.h" />
+    <ClInclude Include="StrUtil.h" />
+    <ClInclude Include="TankSiegeAction.h" />
+    <ClInclude Include="TargetClickAction.h" />
+    <ClInclude Include="UnloadAllAction.h" />
+    <ClInclude Include="UpgradeAction.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\PKLib\PKLib.vcxproj">
+      <Project>{bb8b0bbc-2d1a-4976-a5e0-95d9b5757551}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

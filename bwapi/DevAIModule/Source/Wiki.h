@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #include "DevAIModule.h"
 
 #define makelink(x) wiki(x.getName()).c_str(), x.getName().c_str()

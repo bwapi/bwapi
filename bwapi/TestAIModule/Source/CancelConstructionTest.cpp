@@ -8,7 +8,7 @@ extern BuildingPlacer* placer;
 {\
   if (!(C))\
   {\
-  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, builder ? builder->getType().getName().c_str() : "NULL", unitType.getName().c_str(), builder ? builder->getOrder().getName().c_str() : "null", building ? building->getType().getName().c_str() : "NULL", building ? building->getOrder().getName().c_str() : "null", Broodwar->getLastError().toString().c_str());\
+  log("Assert failed @%s:%u %s[%s:%s]->%s[%s] (%s)",__FILE__,__LINE__, builder ? builder->getType().c_str() : "NULL", unitType.c_str(), builder ? builder->getOrder().c_str() : "null", building ? building->getType().c_str() : "NULL", building ? building->getOrder().c_str() : "null", Broodwar->getLastError().c_str());\
     assert_fail_count++;\
     fail = true;\
     return;\
@@ -40,7 +40,7 @@ void CancelConstructionTest::start()
 
   int builderCount = Broodwar->self()->completedUnitCount(builderType);
   FAILTEST(builderCount>=1);
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==builderType && u->getAddon()==NULL)
     {
@@ -74,13 +74,13 @@ void CancelConstructionTest::start()
     {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
     }
-    BWAssertF(builder->build(buildLocation,unitType),{Broodwar->printf("%s",Broodwar->getLastError().toString().c_str());fail=true;return;});
+    BWAssertF(builder->build(unitType,buildLocation),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
   }
   FAILTEST(builder->isIdle()==false);
   FAILTEST(builder->isConstructing()==true);
   BWAssertF(builder->getBuildType()==unitType,
   {
-    log("Error: %s != %s",builder->getBuildType().getName().c_str(),unitType.getName().c_str());
+    log("Error: %s != %s",builder->getBuildType().c_str(),unitType.c_str());
     fail=true;
     return;
   });
@@ -103,9 +103,9 @@ void CancelConstructionTest::update()
   nextFrame++;
   if (unitType==UnitTypes::Zerg_Extractor && builder->exists()==false)
   {
-    std::set<Unit*> buildingsOnTile;
-    std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
-    for each(Unit* u in unitsOnTile)
+    Unitset buildingsOnTile;
+    Unitset unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y);
+    for each(Unit u in unitsOnTile)
     {
       if (u->getType()==unitType)
       {
@@ -122,7 +122,7 @@ void CancelConstructionTest::update()
     FAILTEST(builder!=NULL);
   }
   FAILTEST(builder->exists());
-  Broodwar->setScreenPosition(builder->getPosition().x()-320,builder->getPosition().y()-240);
+  Broodwar->setScreenPosition(builder->getPosition() - Position(320,240));
 
   if (building==NULL && builder->getBuildUnit()!=NULL)
   {
@@ -133,9 +133,9 @@ void CancelConstructionTest::update()
     building = builder->getAddon();
   }
 
-  std::set<Unit*> buildingsOnTile;
-  std::set<Unit*> unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x(),buildLocation.y());
-  for each(Unit* u in unitsOnTile)
+  Unitset buildingsOnTile;
+  Unitset unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y);
+  for each(Unit u in unitsOnTile)
   {
     if (u->getType()==unitType)
     {
@@ -164,36 +164,36 @@ void CancelConstructionTest::update()
   {
     if (builderType.getRace()==Races::Terran && terranHalt)
     {
-      if (thisFrame==startFrame+Broodwar->getLatency()+200)
+      if (thisFrame==startFrame+Broodwar->getLatency()+20)
       {
         builder->haltConstruction();
         FAILTEST(builder->getBuildType()==UnitTypes::None);
         FAILTEST(builder->isConstructing()==false);
         FAILTEST(building->isBeingConstructed()==false);
       }
-      if (thisFrame>=startFrame+Broodwar->getLatency()+200 && thisFrame<startFrame+Broodwar->getLatency()+300)
+      if (thisFrame>=startFrame+Broodwar->getLatency()+20 && thisFrame<startFrame+Broodwar->getLatency()+30)
       {
         FAILTEST(builder->getBuildType()==UnitTypes::None);
         FAILTEST(builder->isConstructing()==false);
         FAILTEST(building->isBeingConstructed()==false);
       }
     }
-    if (thisFrame==startFrame+Broodwar->getLatency()+500)
+    if (thisFrame==startFrame+Broodwar->getLatency()+50)
     {
       if (unitType.isAddon())
         builder->cancelAddon();
       else
         building->cancelConstruction();
     }
-    if (thisFrame>=startFrame+Broodwar->getLatency()+500)
+    if (thisFrame>=startFrame+Broodwar->getLatency()+50)
     {
       FAILTEST(builder->getBuildType()==UnitTypes::None);
-      BWAssertF(builder->isConstructing()==false,{log("%d",thisFrame-(startFrame+Broodwar->getLatency()+500));});
-      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{log("%d: %d != %d",thisFrame-(startFrame+Broodwar->getLatency()+500),Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->gas()==correctGasCount,{log("%d: %d != %d, diff = %d",thisFrame-(startFrame+Broodwar->getLatency()+500), Broodwar->self()->gas(),correctGasCount,Broodwar->self()->gas()-correctGasCount);fail=true;return;});
-      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{log("%d: %d != %d",thisFrame-(startFrame+Broodwar->getLatency()+500),Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
+      BWAssertF(builder->isConstructing()==false,{log("%d, %s: %s,%s",thisFrame-(startFrame+Broodwar->getLatency()+50), builder->getType().c_str(), builder->getOrder().c_str(), builder->getSecondaryOrder().c_str());});
+      BWAssertF(Broodwar->self()->minerals()==correctMineralCount,{log("%d: %d != %d",thisFrame-(startFrame+Broodwar->getLatency()+50),Broodwar->self()->minerals(),correctMineralCount);fail=true;return;});
+      BWAssertF(Broodwar->self()->gas()==correctGasCount,{log("%d: %d != %d, diff = %d",thisFrame-(startFrame+Broodwar->getLatency()+50), Broodwar->self()->gas(),correctGasCount,Broodwar->self()->gas()-correctGasCount);fail=true;return;});
+      BWAssertF(Broodwar->self()->supplyUsed()==correctSupplyUsedCount,{log("%d: %d != %d",thisFrame-(startFrame+Broodwar->getLatency()+50),Broodwar->self()->supplyUsed(),correctSupplyUsedCount);fail=true;return;});
     }
-    if (thisFrame>startFrame+Broodwar->getLatency()+550)
+    if (thisFrame>startFrame+Broodwar->getLatency()+55)
     {
       if (unitType.getRace()!=Races::Zerg)
       {
@@ -204,7 +204,7 @@ void CancelConstructionTest::update()
         FAILTEST(building->getType()==UnitTypes::Zerg_Drone);
       }
     } 
-    if (thisFrame>startFrame+Broodwar->getLatency()+700)
+    if (thisFrame>startFrame+Broodwar->getLatency()+70)
     {
       running = false;
     }

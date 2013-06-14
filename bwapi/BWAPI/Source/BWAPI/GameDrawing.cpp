@@ -1,16 +1,19 @@
 #define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
 #include "GameImpl.h"
 
-#include <windows.h>
-#include "Graphics.h"
+#include "../Graphics.h"
 #include <cassert>
+#include <Util/clamp.h>
+#include <Util/Convenience.h>
 
-#include "../../Debug.h"
+#include <BW/Dialog.h>
+
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
   //-------------------------------------------------- IN SCREEN ---------------------------------------------
-  bool GameImpl::inScreen(int ctype, int x, int y)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x, int y)
   {
     if ( !data->hasGUI )
       return false;
@@ -19,23 +22,23 @@ namespace BWAPI
     switch ( ctype )
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      screen_x1 -= *(BW::BWDATA_ScreenX);
-      screen_y1 -= *(BW::BWDATA_ScreenY);
+      screen_x1 -= *(BW::BWDATA::ScreenX);
+      screen_y1 -= *(BW::BWDATA::ScreenY);
       break;
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
+      screen_x1 += BW::BWDATA::Mouse->x;
+      screen_y1 += BW::BWDATA::Mouse->y;
       break;
     }
     if (screen_x1 < 0 || 
         screen_y1 < 0 ||
-        screen_x1 > BW::BWDATA_GameScreenBuffer->wid || 
-        screen_y1 > BW::BWDATA_GameScreenBuffer->ht)
+        screen_x1 > BW::BWDATA::GameScreenBuffer->width() || 
+        screen_y1 > BW::BWDATA::GameScreenBuffer->height())
       return false;
     return true;
   }
 
-  bool GameImpl::inScreen(int ctype, int x1, int y1, int x2, int y2)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2)
   {
     if ( !data->hasGUI )
       return false;
@@ -55,20 +58,20 @@ namespace BWAPI
              (y1 >= maxH && y2 >= maxH) )
           return false;
 
-        screen_x1 -= *(BW::BWDATA_ScreenX);
-        screen_y1 -= *(BW::BWDATA_ScreenY);
-        screen_x2 -= *(BW::BWDATA_ScreenX);
-        screen_y2 -= *(BW::BWDATA_ScreenY);
+        screen_x1 -= *(BW::BWDATA::ScreenX);
+        screen_y1 -= *(BW::BWDATA::ScreenY);
+        screen_x2 -= *(BW::BWDATA::ScreenX);
+        screen_y2 -= *(BW::BWDATA::ScreenY);
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
-      screen_x2 += BW::BWDATA_Mouse->x;
-      screen_y2 += BW::BWDATA_Mouse->y;
+      screen_x1 += BW::BWDATA::Mouse->x;
+      screen_y1 += BW::BWDATA::Mouse->y;
+      screen_x2 += BW::BWDATA::Mouse->x;
+      screen_y2 += BW::BWDATA::Mouse->y;
       break;
     }
-    rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
     if ((screen_x1 < 0 && screen_x2 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0) ||
         (screen_x1 > scrLimit.right  && screen_x2 > scrLimit.right) ||
@@ -77,7 +80,7 @@ namespace BWAPI
     return true;
   }
 
-  bool GameImpl::inScreen(int ctype, int x1, int y1, int x2, int y2, int x3, int y3)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3)
   {
     if ( !data->hasGUI )
       return false;
@@ -98,24 +101,24 @@ namespace BWAPI
              (x1 >= maxW && x2 >= maxW && x3 >= maxW) ||
              (y1 >= maxH && y2 >= maxH && y3 >= maxH) )
           return false;
-        screen_x1 -= *(BW::BWDATA_ScreenX);
-        screen_y1 -= *(BW::BWDATA_ScreenY);
-        screen_x2 -= *(BW::BWDATA_ScreenX);
-        screen_y2 -= *(BW::BWDATA_ScreenY);
-        screen_x3 -= *(BW::BWDATA_ScreenX);
-        screen_y3 -= *(BW::BWDATA_ScreenY);
+        screen_x1 -= *(BW::BWDATA::ScreenX);
+        screen_y1 -= *(BW::BWDATA::ScreenY);
+        screen_x2 -= *(BW::BWDATA::ScreenX);
+        screen_y2 -= *(BW::BWDATA::ScreenY);
+        screen_x3 -= *(BW::BWDATA::ScreenX);
+        screen_y3 -= *(BW::BWDATA::ScreenY);
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA_Mouse->x;
-      screen_y1 += BW::BWDATA_Mouse->y;
-      screen_x2 += BW::BWDATA_Mouse->x;
-      screen_y2 += BW::BWDATA_Mouse->y;
-      screen_x3 += BW::BWDATA_Mouse->x;
-      screen_y3 += BW::BWDATA_Mouse->y;
+      screen_x1 += BW::BWDATA::Mouse->x;
+      screen_y1 += BW::BWDATA::Mouse->y;
+      screen_x2 += BW::BWDATA::Mouse->x;
+      screen_y2 += BW::BWDATA::Mouse->y;
+      screen_x3 += BW::BWDATA::Mouse->x;
+      screen_y3 += BW::BWDATA::Mouse->y;
       break;
     }
-    rect scrLimit = { 0, 0, BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht };
+    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
     if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
         (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
         (screen_x1 > scrLimit.right && screen_x2 > scrLimit.right && screen_x3 > scrLimit.right) ||
@@ -132,8 +135,7 @@ namespace BWAPI
   int GameImpl::addString(const char* text)
   {
     assert(data->stringCount < GameData::MAX_STRINGS);
-    strncpy(data->strings[data->stringCount], text, 255);
-    data->strings[data->stringCount][255] = '\0';
+    StrCopy(data->strings[data->stringCount], text);
     return data->stringCount++;
   }
   int GameImpl::addText(BWAPIC::Shape &s, const char* text)
@@ -144,187 +146,58 @@ namespace BWAPI
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
   void GameImpl::setTextSize(int size)
   {
-    if ( size < 0 )
-      size = 0;
-    if ( size > 3 )
-      size = 3;
+    size = clamp<int>(size, 0, 3);
     if ( !this->tournamentCheck(Tournament::SetTextSize, &size) )
       return;
-    textSize = size;
+    this->textSize = size;
   }
-  void GameImpl::drawText(int ctype, int x, int y, const char *format, ...)
+  void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
   {
     if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
+    char buffer[512];
+    VSNPrintf(buffer, format, arg);
     BWAPIC::Shape s(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,textSize,0,false);
     addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextMap(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextMouse(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
-  }
-  void GameImpl::drawTextScreen(int x, int y, const char *format, ...)
-  {
-    if ( !data->hasGUI ) return;
-    char *buffer;
-    vstretchyprintf(buffer, format);
-    BWAPIC::Shape s(BWAPIC::ShapeType::Text,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,textSize,0,false);
-    addText(s,buffer);
-    free(buffer);
   }
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
-  void GameImpl::drawBox(int ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
+  void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
     /* Draws a box */
     if (!inScreen(ctype,left,top,right,bottom)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
   }
-  void GameImpl::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    /* Draws a box in relation to the map */
-    if (!inScreen(BWAPI::CoordinateType::Map,left,top,right,bottom)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Map,left,top,right,bottom,0,0,color,isSolid));
-  }
-  void GameImpl::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    /* Draws a box in relation to the mouse */
-    if (!inScreen(BWAPI::CoordinateType::Mouse,left,top,right,bottom)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Mouse,left,top,right,bottom,0,0,color,isSolid));
-  }
-  void GameImpl::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
-  {
-    /* Draws a box in relation to the screen */
-    if (!inScreen(BWAPI::CoordinateType::Screen,left,top,right,bottom)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,(int)BWAPI::CoordinateType::Screen,left,top,right,bottom,0,0,color,isSolid));
-  }
   //------------------------------------------------ DRAW TRIANGLE -------------------------------------------
-  void GameImpl::drawTriangle(int ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+  void GameImpl::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
     if (!inScreen(ctype,ax,ay,bx,by,cx,cy)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,ctype,ax,ay,bx,by,cx,cy,color,isSolid));
   }
-  void GameImpl::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Map,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
-  void GameImpl::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Mouse,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
-  void GameImpl::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Triangle,(int)BWAPI::CoordinateType::Screen,ax,ay,bx,by,cx,cy,color,isSolid));
-  }
   //------------------------------------------------- DRAW CIRCLE --------------------------------------------
-  void  GameImpl::drawCircle(int ctype, int x, int y, int radius, Color color, bool isSolid)
+  void GameImpl::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-radius,y-radius,x+radius,y+radius)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,ctype,x,y,0,0,radius,0,color,isSolid));
   }
-  void GameImpl::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Map,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Map,x,y,0,0,radius,0,color,isSolid));
-  }
-  void GameImpl::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Mouse,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,radius,0,color,isSolid));
-  }
-  void GameImpl::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Screen,x-radius,y-radius,x+radius,y+radius)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Circle,(int)BWAPI::CoordinateType::Screen,x,y,0,0,radius,0,color,isSolid));
-  }
   //------------------------------------------------- DRAW ELIPSE --------------------------------------------
-  void GameImpl::drawEllipse(int ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
+  void GameImpl::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
     if (!inScreen(ctype,x-xrad,y-yrad,x+xrad,y+yrad)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,ctype,x,y,0,0,xrad,yrad,color,isSolid));
   }
-  void GameImpl::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Map,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Map,x,y,0,0,xrad,yrad,color,isSolid));
-  }
-  void GameImpl::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Mouse,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,xrad,yrad,color,isSolid));
-  }
-  void GameImpl::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Screen,x-xrad,y-yrad,x+xrad,y+yrad)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Ellipse,(int)BWAPI::CoordinateType::Screen,x,y,0,0,xrad,yrad,color,isSolid));
-  }
   //--------------------------------------------------- DRAW DOT ---------------------------------------------
-  void GameImpl::drawDot(int ctype, int x, int y, Color color)
+  void GameImpl::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
   {
     if (!inScreen(ctype,x,y)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,ctype,x,y,0,0,0,0,color,false));
   }
-  void GameImpl::drawDotMap(int x, int y, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Map,x,y)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Map,x,y,0,0,0,0,color,false));
-  }
-  void GameImpl::drawDotMouse(int x, int y, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Mouse,x,y)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Mouse,x,y,0,0,0,0,color,false));
-  }
-  void GameImpl::drawDotScreen(int x, int y, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Screen,x,y)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Dot,(int)BWAPI::CoordinateType::Screen,x,y,0,0,0,0,color,false));
-  }
   //-------------------------------------------------- DRAW LINE ---------------------------------------------
-  void GameImpl::drawLine(int ctype, int x1, int y1, int x2, int y2, Color color)
+  void GameImpl::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
   {
     if (!inScreen(ctype,x1,y1,x2,y2)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,ctype,x1,y1,x2,y2,0,0,color,false));
   }
-  void GameImpl::drawLineMap(int x1, int y1, int x2, int y2, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Map,x1,y1,x2,y2)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Map,x1,y1,x2,y2,0,0,color,false));
-  }
-  void GameImpl::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Mouse,x1,y1,x2,y2)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Mouse,x1,y1,x2,y2,0,0,color,false));
-  }
-  void GameImpl::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
-  {
-    if (!inScreen(BWAPI::CoordinateType::Screen,x1,y1,x2,y2)) return;
-    addShape(BWAPIC::Shape(BWAPIC::ShapeType::Line,(int)BWAPI::CoordinateType::Screen,x1,y1,x2,y2,0,0,color,false));
-  }
-  //------------------------------------------------ SCREEN BUFFER -------------------------------------------
-  void *GameImpl::getScreenBuffer()
-  {
-    return BW::BWDATA_GameScreenBuffer->data;
-  }
   //--------------------------------------------------- HAS GUI ----------------------------------------------
-  bool GameImpl::isGUIEnabled()
+  bool GameImpl::isGUIEnabled() const
   {
     return data->hasGUI;
   }
@@ -334,16 +207,7 @@ namespace BWAPI
     if ( !this->tournamentCheck(Tournament::SetGUI, &enabled) )
       return;
     data->hasGUI = enabled;
-    if ( enabled )
-      setFrameSkip();
-    else
-      setFrameSkip(999999); // IT'S OVER NINE THOUSAND!!11one11one111eleven21
-  }
-  inline void swap(int& a0, int& a1)
-  {
-    int tmpx = a0;
-    a0 = a1;
-    a1 = tmpx;
+    setFrameSkip(enabled ? -1 : 9999999);
   }
   // Fixed precision conversions
   // Uses * and / for compatibility with negative numbers
@@ -363,7 +227,7 @@ namespace BWAPI
       int x2, y2, x3, y3, ly, ry, w, h, lx, rx, dx1, dx2, dx3;
       int radius, f, ddF_x, ddF_y, xi, yi;
       int xrad, yrad, a2, b2, crit1, crit2, crit3, t, dxt, dyt, d2xt, d2yt, twoAsquare, twoBsquare, xchange, ychange, ellipseerror, stoppingX, stoppingY;
-      int ctype = data->shapes[i].ctype;
+      CoordinateType::Enum ctype = data->shapes[i].ctype;
       bool isSolid = data->shapes[i].isSolid;
       BWAPI::Color color = Color(data->shapes[i].color);
       switch ( s )
@@ -395,9 +259,9 @@ namespace BWAPI
           y3 = data->shapes[i].extra2;
           if(isSolid)
           {
-            if(y1 > y2) { swap(x1, x2); swap(y1, y2); }
-            if(y1 > y3) { swap(x1, x3); swap(y1, y3); }
-            if(y2 > y3) { swap(x2, x3); swap(y2, y3); }
+            if(y1 > y2) { std::swap(x1, x2); std::swap(y1, y2); }
+            if(y1 > y3) { std::swap(x1, x3); std::swap(y1, y3); }
+            if(y2 > y3) { std::swap(x2, x3); std::swap(y2, y3); }
 
             if (y2 - y1 > 0) dx1 = int2Fixed(x2 - x1) / (y2 - y1); else dx1 = int2Fixed(x2 - x1);
             if (y3 - y1 > 0) dx2 = int2Fixed(x3 - x1) / (y3 - y1); else dx2 = 0;

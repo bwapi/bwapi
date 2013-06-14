@@ -1,7 +1,7 @@
 #pragma once
-
 #include <string>
 #include <Util/RectangleArray.h>
+
 #include <BW/Offsets.h>
 
 namespace BWAPI

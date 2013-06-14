@@ -1,8 +1,5 @@
 #include <string>
-#include <map>
-#include <set>
 #include <BWAPI/BulletType.h>
-#include <Util/Foreach.h>
 
 #include "Common.h"
 
@@ -10,167 +7,87 @@
 
 namespace BWAPI
 {
-  bool initializingBulletType = true;
-  std::string bulletTypeName[211];
-  std::map<std::string, BulletType> bulletTypeMap;
-  std::set< BulletType > bulletTypeSet;
+  const std::string BulletType::typeNames[BulletTypes::Enum::MAX] =
+  {
+    "Melee", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "Fusion_Cutter_Hit",
+    "Gauss_Rifle_Hit", "C_10_Canister_Rifle_Hit", "Gemini_Missiles", "Fragmentation_Grenade",
+    "Longbolt_Missile", "", "ATS_ATA_Laser_Battery", "Burst_Lasers", "Arclite_Shock_Cannon_Hit",
+    "EMP_Missile", "Dual_Photon_Blasters_Hit", "Particle_Beam_Hit", "Anti_Matter_Missile", "Pulse_Cannon",
+    "Psionic_Shockwave_Hit", "Psionic_Storm", "Yamato_Gun", "Phase_Disruptor", "STA_STS_Cannon_Overlay",
+    "Sunken_Colony_Tentacle", "", "Acid_Spore", "", "Glave_Wurm", "Seeker_Spores", "Queen_Spell_Carrier",
+    "Plague_Cloud", "Consume", "Ensnare", "Needle_Spine_Hit", "Invisible", "", "", "", "", "", "", "",
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "Optical_Flare_Grenade",
+    "Halo_Rockets", "Subterranean_Spines", "Corrosive_Acid_Shot", "Corrosive_Acid_Hit", "Neutron_Flare", 
+    "", "", "None", "Unknown"
+  };
+  //const std::string (&BulletType::typeNames)[BulletTypes::Enum::MAX] = bulletTypeNames;
+
+  namespace BulletTypeSet
+  {
+    using namespace BulletTypes::Enum;
+    BWAPI_TYPESET(bulletTypeSet,BulletType, Melee, Fusion_Cutter_Hit, Gauss_Rifle_Hit, C_10_Canister_Rifle_Hit,
+                          Gemini_Missiles, Fragmentation_Grenade, Longbolt_Missile, ATS_ATA_Laser_Battery,
+                          Burst_Lasers, Arclite_Shock_Cannon_Hit, EMP_Missile, Dual_Photon_Blasters_Hit,
+                          Particle_Beam_Hit, Anti_Matter_Missile, Pulse_Cannon, Psionic_Shockwave_Hit, Psionic_Storm,
+                          Yamato_Gun, Phase_Disruptor, STA_STS_Cannon_Overlay, Sunken_Colony_Tentacle, Acid_Spore,
+                          Glave_Wurm, Seeker_Spores, Queen_Spell_Carrier, Plague_Cloud, Consume, Ensnare,
+                          Needle_Spine_Hit, Invisible, Optical_Flare_Grenade, Halo_Rockets, Subterranean_Spines,
+                          Corrosive_Acid_Shot, Neutron_Flare, None, Unknown);
+
+  }
   namespace BulletTypes
   {
-    const BulletType Melee(0);
-    const BulletType Fusion_Cutter_Hit(141);
-    const BulletType Gauss_Rifle_Hit(142);
-    const BulletType C_10_Canister_Rifle_Hit(143);
-    const BulletType Gemini_Missiles(144);
-    const BulletType Fragmentation_Grenade(145);
-    const BulletType Longbolt_Missile(146);
-    const BulletType ATS_ATA_Laser_Battery(148);
-    const BulletType Burst_Lasers(149);
-    const BulletType Arclite_Shock_Cannon_Hit(150);
-    const BulletType EMP_Missile(151);
-    const BulletType Dual_Photon_Blasters_Hit(152);
-    const BulletType Particle_Beam_Hit(153);
-    const BulletType Anti_Matter_Missile(154);
-    const BulletType Pulse_Cannon(155);
-    const BulletType Psionic_Shockwave_Hit(156);
-    const BulletType Psionic_Storm(157);
-    const BulletType Yamato_Gun(158);
-    const BulletType Phase_Disruptor(159);
-    const BulletType STA_STS_Cannon_Overlay(160);
-    const BulletType Sunken_Colony_Tentacle(161);
-    const BulletType Acid_Spore(163);
-    const BulletType Glave_Wurm(165);
-    const BulletType Seeker_Spores(166);
-    const BulletType Queen_Spell_Carrier(167);
-    const BulletType Plague_Cloud(168);
-    const BulletType Consume(169);
-    const BulletType Ensnare(170);
-    const BulletType Needle_Spine_Hit(171);
-    const BulletType Invisible(172);
-    const BulletType Optical_Flare_Grenade(201);
-    const BulletType Halo_Rockets(202);
-    const BulletType Subterranean_Spines(203);
-    const BulletType Corrosive_Acid_Shot(204);
-    const BulletType Neutron_Flare(206);
-    const BulletType None(209);
-    const BulletType Unknown(210);
-
-    void init()
-    {
-      bulletTypeName[Melee]                    = "Melee";
-      bulletTypeName[Fusion_Cutter_Hit]        = "Fusion Cutter Hit";
-      bulletTypeName[Gauss_Rifle_Hit]          = "Gauss Rifle Hit";
-      bulletTypeName[C_10_Canister_Rifle_Hit]  = "C-10 Canister Rifle Hit";
-      bulletTypeName[Gemini_Missiles]          = "Gemini Missiles";
-      bulletTypeName[Fragmentation_Grenade]    = "Fragmentation Grenade";
-      bulletTypeName[Longbolt_Missile]         = "Longbolt Missile";
-      bulletTypeName[ATS_ATA_Laser_Battery]    = "ATS ATA Laser Battery";
-      bulletTypeName[Burst_Lasers]             = "Burst Lasers";
-      bulletTypeName[Arclite_Shock_Cannon_Hit] = "Arclite Shock Cannon Hit";
-      bulletTypeName[EMP_Missile]              = "EMP Missile";
-      bulletTypeName[Dual_Photon_Blasters_Hit] = "Dual Photon Blasters Hit";
-      bulletTypeName[Particle_Beam_Hit]        = "Particle Beam Hit";
-      bulletTypeName[Anti_Matter_Missile]      = "Anti-Matter Missile";
-      bulletTypeName[Pulse_Cannon]             = "Pulse Cannon";
-      bulletTypeName[Psionic_Shockwave_Hit]    = "Psionic Shockwave Hit";
-      bulletTypeName[Psionic_Storm]            = "Psionic Storm";
-      bulletTypeName[Yamato_Gun]               = "Yamato Gun";
-      bulletTypeName[Phase_Disruptor]          = "Phase Disruptor";
-      bulletTypeName[STA_STS_Cannon_Overlay]   = "STA STS Cannon Overlay";
-      bulletTypeName[Sunken_Colony_Tentacle]   = "Sunken Colony Tentacle";
-      bulletTypeName[Acid_Spore]               = "Acid Spore";
-      bulletTypeName[Glave_Wurm]               = "Glave Wurm";
-      bulletTypeName[Seeker_Spores]            = "Seeker Spores";
-      bulletTypeName[Queen_Spell_Carrier]      = "Queen Spell Carrier";
-      bulletTypeName[Plague_Cloud]             = "Plague Cloud";
-      bulletTypeName[Consume]                  = "Consume";
-      bulletTypeName[Ensnare]                  = "Ensnare";
-      bulletTypeName[Needle_Spine_Hit]         = "Needle Spine Hit";
-      bulletTypeName[Invisible]                = "Invisible";
-      bulletTypeName[Optical_Flare_Grenade]    = "Optical Flare Grenade";
-      bulletTypeName[Halo_Rockets]             = "Halo Rockets";
-      bulletTypeName[Subterranean_Spines]      = "Subterranean Spines";
-      bulletTypeName[Corrosive_Acid_Shot]      = "Corrosive Acid Shot";
-      bulletTypeName[Neutron_Flare]            = "Neutron Flare";
-      bulletTypeName[None]                     = "None";
-      bulletTypeName[Unknown]                  = "Unknown";
-
-      bulletTypeSet.insert(Melee);
-      bulletTypeSet.insert(Fusion_Cutter_Hit);
-      bulletTypeSet.insert(Gauss_Rifle_Hit);
-      bulletTypeSet.insert(C_10_Canister_Rifle_Hit);
-      bulletTypeSet.insert(Gemini_Missiles);
-      bulletTypeSet.insert(Fragmentation_Grenade);
-      bulletTypeSet.insert(Longbolt_Missile);
-      bulletTypeSet.insert(ATS_ATA_Laser_Battery);
-      bulletTypeSet.insert(Burst_Lasers);
-      bulletTypeSet.insert(Arclite_Shock_Cannon_Hit);
-      bulletTypeSet.insert(EMP_Missile);
-      bulletTypeSet.insert(Dual_Photon_Blasters_Hit);
-      bulletTypeSet.insert(Particle_Beam_Hit);
-      bulletTypeSet.insert(Anti_Matter_Missile);
-      bulletTypeSet.insert(Pulse_Cannon);
-      bulletTypeSet.insert(Psionic_Shockwave_Hit);
-      bulletTypeSet.insert(Psionic_Storm);
-      bulletTypeSet.insert(Yamato_Gun);
-      bulletTypeSet.insert(Phase_Disruptor);
-      bulletTypeSet.insert(STA_STS_Cannon_Overlay);
-      bulletTypeSet.insert(Sunken_Colony_Tentacle);
-      bulletTypeSet.insert(Acid_Spore);
-      bulletTypeSet.insert(Glave_Wurm);
-      bulletTypeSet.insert(Seeker_Spores);
-      bulletTypeSet.insert(Queen_Spell_Carrier);
-      bulletTypeSet.insert(Plague_Cloud);
-      bulletTypeSet.insert(Consume);
-      bulletTypeSet.insert(Needle_Spine_Hit);
-      bulletTypeSet.insert(Invisible);
-      bulletTypeSet.insert(Optical_Flare_Grenade);
-      bulletTypeSet.insert(Halo_Rockets);
-      bulletTypeSet.insert(Subterranean_Spines);
-      bulletTypeSet.insert(Corrosive_Acid_Shot);
-      bulletTypeSet.insert(Neutron_Flare);
-      bulletTypeSet.insert(None);
-      bulletTypeSet.insert(Unknown);
-
-      foreach(BulletType i, bulletTypeSet)
-      {
-        std::string name = i.getName();
-        fixName(&name);
-        bulletTypeMap.insert(std::make_pair(name, i));
-      }
-      initializingBulletType = false;
-    }
+    BWAPI_TYPEDEF(BulletType,Melee);
+    BWAPI_TYPEDEF(BulletType,Fusion_Cutter_Hit);
+    BWAPI_TYPEDEF(BulletType,Gauss_Rifle_Hit);
+    BWAPI_TYPEDEF(BulletType,C_10_Canister_Rifle_Hit);
+    BWAPI_TYPEDEF(BulletType,Gemini_Missiles);
+    BWAPI_TYPEDEF(BulletType,Fragmentation_Grenade);
+    BWAPI_TYPEDEF(BulletType,Longbolt_Missile);
+    BWAPI_TYPEDEF(BulletType,ATS_ATA_Laser_Battery);
+    BWAPI_TYPEDEF(BulletType,Burst_Lasers);
+    BWAPI_TYPEDEF(BulletType,Arclite_Shock_Cannon_Hit);
+    BWAPI_TYPEDEF(BulletType,EMP_Missile);
+    BWAPI_TYPEDEF(BulletType,Dual_Photon_Blasters_Hit);
+    BWAPI_TYPEDEF(BulletType,Particle_Beam_Hit);
+    BWAPI_TYPEDEF(BulletType,Anti_Matter_Missile);
+    BWAPI_TYPEDEF(BulletType,Pulse_Cannon);
+    BWAPI_TYPEDEF(BulletType,Psionic_Shockwave_Hit);
+    BWAPI_TYPEDEF(BulletType,Psionic_Storm);
+    BWAPI_TYPEDEF(BulletType,Yamato_Gun);
+    BWAPI_TYPEDEF(BulletType,Phase_Disruptor);
+    BWAPI_TYPEDEF(BulletType,STA_STS_Cannon_Overlay);
+    BWAPI_TYPEDEF(BulletType,Sunken_Colony_Tentacle);
+    BWAPI_TYPEDEF(BulletType,Acid_Spore);
+    BWAPI_TYPEDEF(BulletType,Glave_Wurm);
+    BWAPI_TYPEDEF(BulletType,Seeker_Spores);
+    BWAPI_TYPEDEF(BulletType,Queen_Spell_Carrier);
+    BWAPI_TYPEDEF(BulletType,Plague_Cloud);
+    BWAPI_TYPEDEF(BulletType,Consume);
+    BWAPI_TYPEDEF(BulletType,Ensnare);
+    BWAPI_TYPEDEF(BulletType,Needle_Spine_Hit);
+    BWAPI_TYPEDEF(BulletType,Invisible);
+    BWAPI_TYPEDEF(BulletType,Optical_Flare_Grenade);
+    BWAPI_TYPEDEF(BulletType,Halo_Rockets);
+    BWAPI_TYPEDEF(BulletType,Subterranean_Spines);
+    BWAPI_TYPEDEF(BulletType,Corrosive_Acid_Shot);
+    BWAPI_TYPEDEF(BulletType,Neutron_Flare);
+    BWAPI_TYPEDEF(BulletType,None);
+    BWAPI_TYPEDEF(BulletType,Unknown);
   }
 
-  BulletType::BulletType() : Type(BulletTypes::None)
+  BulletType::BulletType(int id) : Type( id )
+  {}
+  const BulletType::const_set& BulletTypes::allBulletTypes()
   {
-  }
-  int getValidBulletTypeID(int id)
-  {
-    if ( !initializingBulletType && (id < 0 || id >= 211 || bulletTypeName[id].length() == 0) )
-      return BulletTypes::Unknown;
-    return id;
-  }
-  BulletType::BulletType(int id) : Type( getValidBulletTypeID(id) )
-  {
-  }
-  const std::string &BulletType::getName() const
-  {
-    return bulletTypeName[this->getID()];
-  }
-  const char *BulletType::c_str() const
-  {
-    return bulletTypeName[this->getID()].c_str();
-  }
-  BulletType BulletTypes::getBulletType(std::string name)
-  {
-    fixName(&name);
-    std::map<std::string, BulletType>::iterator i = bulletTypeMap.find(name);
-    if (i == bulletTypeMap.end())
-      return BulletTypes::Unknown;
-    return (*i).second;
-  }
-  const std::set<BulletType>& BulletTypes::allBulletTypes()
-  {
-    return bulletTypeSet;
+    return BulletTypeSet::bulletTypeSet;
   }
 }

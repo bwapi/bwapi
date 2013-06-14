@@ -23,9 +23,9 @@ namespace BWAPI
     return self->priority;
   }
   // ----------------------------------- WALKABLE ------------------------------------------------------------
-  bool RegionImpl::isWalkable() const
+  bool RegionImpl::isAccessible() const
   {
-    return self->isWalkable;
+    return self->isAccessible;
   }
   // ------------------------------------ GET ID -------------------------------------------------------------
   int RegionImpl::getID() const
@@ -50,20 +50,16 @@ namespace BWAPI
     return self->bottomMost;
   }
   // ---------------------------------- NEIGHBOURS -----------------------------------------------------------
-  const std::set<BWAPI::Region*> &RegionImpl::getNeighbors() const
+  const Regionset &RegionImpl::getNeighbors() const
   {
     return this->neighbors;
   }
-  BWAPI::Region *RegionImpl::getClosestAccessibleRegion() const
+  BWAPI::Region RegionImpl::getClosestAccessibleRegion() const
   {
     return this->closestAccessibleRgn;
   }
-  BWAPI::Region *RegionImpl::getClosestInaccessibleRegion() const
+  BWAPI::Region RegionImpl::getClosestInaccessibleRegion() const
   {
     return this->closestInaccessibleRgn;
-  }
-  int RegionImpl::getDistance(BWAPI::Region *other) const
-  {
-    return this->getCenter().getApproxDistance(other->getCenter());
   }
 }

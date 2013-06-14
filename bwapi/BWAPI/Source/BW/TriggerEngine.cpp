@@ -7,7 +7,7 @@ namespace BW
 {
   namespace Triggers
   {
-    bool Trigger::conditionsCanBeMet()
+    bool Trigger::conditionsCanBeMet() const
     {
       // iterate maximum number of conditions
       for ( int i = 0; i < 16; ++i )
@@ -22,7 +22,7 @@ namespace BW
       }
       return true;
     }
-    bool Trigger::actionsAllowGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer)
+    bool Trigger::actionsAllowGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer) const
     {
       // iterate maximum number of actions
       for ( int i = 0; i < 64; ++i )
@@ -64,12 +64,12 @@ namespace BW
       case PlayerGroups::Force2:
       case PlayerGroups::Force3:
       case PlayerGroups::Force4:
-        return BW::BWDATA_Players[dwCheckingPlayer].nTeam == (dwActionGroup - PlayerGroups::Force1 + 1);
+        return BW::BWDATA::Players[dwCheckingPlayer].nTeam == (dwActionGroup - PlayerGroups::Force1 + 1);
       default:
         return false;
       };
     }
-    bool Action::affectsGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer)
+    bool Action::affectsGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer) const
     {
       // Ignore disabled actions
       if ( this->bFlags & TriggerEntryFlags::IgnoreExecution )
@@ -88,7 +88,7 @@ namespace BW
       }
       return false;
     }
-    bool Condition::canBeTrue()
+    bool Condition::canBeTrue() const
     {
       // Return false only if the condition will always return false, preventing trigger execution
       return this->bConditionType != Conditions::Never && !(this->bFlags & TriggerEntryFlags::IgnoreExecution);

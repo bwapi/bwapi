@@ -12,6 +12,6 @@ class SiegeTest : public TestCase
   private:
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* unit;
+    BWAPI::Unit unit;
     bool completedSiege;
 };

@@ -1,30 +1,44 @@
 #pragma once
 #include <windows.h>
-#include <BWAPI/Client/GameData.h>
-#include <BWAPI/Client/GameTable.h>
-#include <BWAPI/Client/Event.h>
-#include <BWAPI.h>
+
 #include <vector>
 #include <map>
+
 namespace BWAPI
 {
+  // Forwards
+  struct GameData;
+  struct GameTable;
+  class Event;
+  class ForceInterface;
+  typedef ForceInterface *Force;
+  class PlayerInterface;
+  typedef PlayerInterface *Player;
+  class UnitInterface;
+  typedef UnitInterface *Unit;
+
   class Server
   {
   public:
     Server();
     ~Server();
-    void update();
-    bool isConnected();
-    int addEvent(BWAPI::Event e);
-    int addString(const char* text);
-    int getForceID(Force* force);
-    Force* getForce(int id);
-    int getPlayerID(Player* player);
-    Player* getPlayer(int id);
-    int getUnitID(Unit* unit);
-    Unit* getUnit(int id);
-    GameData* data;
-    void clearAll();
+    
+    void      update();
+    bool      isConnected();
+    int       addEvent(BWAPI::Event e);
+    int       addString(const char* text);
+    void      clearAll();
+
+    int       getForceID(Force force);
+    Force     getForce(int id) const;
+    
+    int       getPlayerID(Player player);
+    Player    getPlayer(int id) const;
+    
+    int       getUnitID(Unit unit);
+    Unit      getUnit(int id) const;
+
+    GameData  *data;
   private:
     void onMatchStart();
     void checkForConnections();
@@ -40,13 +54,13 @@ namespace BWAPI
     int gameTableIndex;
     bool connected;
     bool localOnly;
-    std::vector<Force*> forceVector;
-    std::map<Force*, int> forceLookup;
+    std::vector<Force> forceVector;
+    std::map<Force, int> forceLookup;
 
-    std::vector<Player*> playerVector;
-    std::map<Player*, int> playerLookup;
+    std::vector<Player> playerVector;
+    std::map<Player, int> playerLookup;
 
-    std::vector<Unit*> unitVector;
-    std::map<Unit*, int> unitLookup;
+    std::vector<Unit> unitVector;
+    std::map<Unit, int> unitLookup;
   };
 }

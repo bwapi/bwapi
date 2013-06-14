@@ -16,9 +16,9 @@ class UseTechTest : public TestCase
     BWAPI::UnitType userType;
     int startFrame;
     int nextFrame;
-    BWAPI::Unit* user;
+    BWAPI::Unit user;
     BWAPI::Position targetPosition;
-    BWAPI::Unit* targetUnit;
+    BWAPI::Unit targetUnit;
     bool isInPosition;
     bool usedTech;
     bool testSucceeded;

@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReader.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FileWriter.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Replay.cpp">
+      <Filter>Source Files\Replay</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplayReader.cpp">
+      <Filter>Source Files\Replay</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionParser.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="PKShared.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplayTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StrUtil.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="LiftOffAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="PingMinimapAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="SetSpeedAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="CloakAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="StopAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="BurrowAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="TankSiegeAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="UnloadAllAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="LatencyAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="LeaveGameAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="RightClickAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetClickAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="SetReplaySpeedAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatReplayAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAction.cpp">
+      <Filter>Source Files\Action</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DefaultActions.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header FIles\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWriter.h">
+      <Filter>Header FIles\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Header FIles\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionParser.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="PKShared.h">
+      <Filter>Header FIles\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="RepHeader.h">
+      <Filter>Header FIles\Replay</Filter>
+    </ClInclude>
+    <ClInclude Include="ResearchAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Replay.h">
+      <Filter>Header FIles\Replay</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplayTool.h">
+      <Filter>Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplayToolDefs.h">
+      <Filter>Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="StrUtil.h">
+      <Filter>Header FIles\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractReplayReader.h">
+      <Filter>Header FIles\Replay</Filter>
+    </ClInclude>
+    <ClInclude Include="LiftOffAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="PingMinimapAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SetSpeedAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="TankSiegeAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="CloakAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="StopAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="UnloadAllAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="BurrowAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="LatencyAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaveGameAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetClickAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SetReplaySpeedAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="CancelTrainAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatReplayAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="CheatAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitTransportAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericAction1P.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupUnitsAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamTraits.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplayReader.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SetAlliesAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SetFogAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveGameAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="RightClickAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAction.h">
+      <Filter>Header FIles\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ParseReplayParams.h">
+      <Filter>Header FIles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header FIles">
+      <UniqueIdentifier>{a75fa662-ed75-4471-b839-dcc70769255b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ccc46a50-e9b9-4886-9983-ba1a5fe35d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header FIles\Utilities">
+      <UniqueIdentifier>{18f0472a-def8-453d-b783-282e177c42f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{e924a267-d49a-4551-8de4-f96c8a572458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Replay">
+      <UniqueIdentifier>{b65f7d66-9ffe-49d5-86fe-b3fd5d90e9e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header FIles\Action">
+      <UniqueIdentifier>{620b41db-5cac-4e42-a326-05897d973887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Action">
+      <UniqueIdentifier>{763eeb9c-b0bd-4999-8b9b-a3262675684d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header FIles\Replay">
+      <UniqueIdentifier>{27d053c9-c01e-48a7-a22c-fc8fea0abed3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

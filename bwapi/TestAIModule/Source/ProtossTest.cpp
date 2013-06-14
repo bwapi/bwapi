@@ -20,10 +20,13 @@ using namespace std;
 using namespace BWAPI;
 void ProtossTest::onStart()
 {
+  //Broodwar->setCommandOptimizationLevel(2);
+
   BWAssert(Broodwar->isReplay()==false);
   Broodwar->enableFlag(Flag::CompleteMapInformation);
 
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(512);
   this->addTestCase(new TrainTest(UnitTypes::Protoss_Probe));
   this->addTestCase(new RightClickTest(UnitTypes::Protoss_Probe,UnitTypes::Protoss_Nexus,UnitTypes::Protoss_Nexus));
   this->addTestCase(new MPHSTest(UnitTypes::Protoss_Probe));

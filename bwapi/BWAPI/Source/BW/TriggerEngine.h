@@ -1,8 +1,9 @@
 #pragma once
-#include <windows.h>
-
 #include "Triggers.h"
 
+#include <util/types.h>
+
+#pragma pack(1)
 namespace BW
 {
   namespace Triggers
@@ -20,7 +21,7 @@ namespace BW
       BYTE  bFlags;
       BYTE  __bAlign[2];
 
-      bool canBeTrue();
+      bool canBeTrue() const;
     };
 
     class Action
@@ -38,7 +39,7 @@ namespace BW
       BYTE  bFlags;
       BYTE  __bAlign[3];
 
-      bool affectsGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer);
+      bool affectsGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer) const;
     };
 
     class Trigger
@@ -50,9 +51,10 @@ namespace BW
       BYTE      bExecuteFor[PlayerGroups::Max];
       BYTE      bCurrentActionIndex;
 
-      bool conditionsCanBeMet();
-      bool actionsAllowGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer);
+      bool conditionsCanBeMet() const;
+      bool actionsAllowGameplay(DWORD dwExecutionPlayer, DWORD dwCheckingPlayer) const;
     };
 
   };
 };
+#pragma pack()

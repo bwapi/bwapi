@@ -1,8 +1,5 @@
 #include <string>
-#include <map>
-#include <set>
 #include <BWAPI/ExplosionType.h>
-#include <Util/Foreach.h>
 
 #include "Common.h"
 
@@ -10,131 +7,77 @@
 
 namespace BWAPI
 {
-  bool initializingExplosionType = true;
-  std::string explosionTypeName[26];
-  std::map<std::string, ExplosionType> explosionTypeMap;
-  std::set< ExplosionType > explosionTypeSet;
+  const std::string ExplosionType::typeNames[ExplosionTypes::Enum::MAX] =
+  {
+    "None",
+    "Normal",
+    "Radial_Splash",
+    "Enemy_Splash",
+    "Lockdown",
+    "Nuclear_Missile",
+    "Parasite",
+    "Broodlings",
+    "EMP_Shockwave",
+    "Irradiate",
+    "Ensnare",
+    "Plague",
+    "Stasis_Field",
+    "Dark_Swarm",
+    "Consume",
+    "Yamato_Gun",
+    "Restoration",
+    "Disruption_Web",
+    "Corrosive_Acid",
+    "Mind_Control",
+    "Feedback",
+    "Optical_Flare",
+    "Maelstrom",
+    "Unused",
+    "Air_Splash",
+    "Unknown"
+  };
+
+  namespace ExplosionTypeSet
+  {
+    using namespace ExplosionTypes::Enum;
+    BWAPI_TYPESET(explosionTypeSet, ExplosionType, None, Normal, Radial_Splash, Enemy_Splash, Lockdown, Nuclear_Missile,
+                            Parasite, Broodlings, EMP_Shockwave, Irradiate, Ensnare, Plague, 
+                            Stasis_Field, Dark_Swarm, Consume, Yamato_Gun, Restoration, Disruption_Web,
+                            Corrosive_Acid, Mind_Control, Feedback, Optical_Flare, Maelstrom,
+                            Air_Splash, Unknown);
+  }
   namespace ExplosionTypes
   {
-    const ExplosionType None(0);
-    const ExplosionType Normal(1);
-    const ExplosionType Radial_Splash(2);
-    const ExplosionType Enemy_Splash(3);
-    const ExplosionType Lockdown(4);
-    const ExplosionType Nuclear_Missile(5);
-    const ExplosionType Parasite(6);
-    const ExplosionType Broodlings(7);
-    const ExplosionType EMP_Shockwave(8);
-    const ExplosionType Irradiate(9);
-    const ExplosionType Ensnare(10);
-    const ExplosionType Plague(11);
-    const ExplosionType Stasis_Field(12);
-    const ExplosionType Dark_Swarm(13);
-    const ExplosionType Consume(14);
-    const ExplosionType Yamato_Gun(15);
-    const ExplosionType Restoration(16);
-    const ExplosionType Disruption_Web(17);
-    const ExplosionType Corrosive_Acid(18);
-    const ExplosionType Mind_Control(19);
-    const ExplosionType Feedback(20);
-    const ExplosionType Optical_Flare(21);
-    const ExplosionType Maelstrom(22);
-    const ExplosionType Air_Splash(24);
-    const ExplosionType Unknown(25);
-
-    void init()
-    {
-      explosionTypeName[None]            = "None";
-      explosionTypeName[Normal]          = "Normal";
-      explosionTypeName[Radial_Splash]   = "Radial Splash";
-      explosionTypeName[Enemy_Splash]    = "Enemy Splash";
-      explosionTypeName[Lockdown]        = "Lockdown";
-      explosionTypeName[Nuclear_Missile] = "Nuclear Missile";
-      explosionTypeName[Parasite]        = "Parasite";
-      explosionTypeName[Broodlings]      = "Broodlings";
-      explosionTypeName[EMP_Shockwave]   = "EMP Shockwave";
-      explosionTypeName[Irradiate]       = "Irradiate";
-      explosionTypeName[Ensnare]         = "Ensnare";
-      explosionTypeName[Plague]          = "Plague";
-      explosionTypeName[Stasis_Field]    = "Stasis Field";
-      explosionTypeName[Dark_Swarm]      = "Dark Swarm";
-      explosionTypeName[Consume]         = "Consume";
-      explosionTypeName[Yamato_Gun]      = "Yamato Gun";
-      explosionTypeName[Restoration]     = "Restoration";
-      explosionTypeName[Disruption_Web]  = "Disruption Web";
-      explosionTypeName[Corrosive_Acid]  = "Corrosive Acid";
-      explosionTypeName[Mind_Control]    = "Mind Control";
-      explosionTypeName[Feedback]        = "Feedback";
-      explosionTypeName[Optical_Flare]   = "Optical Flare";
-      explosionTypeName[Maelstrom]       = "Maelstrom";
-      explosionTypeName[Air_Splash]      = "Air Splash";
-      explosionTypeName[Unknown]         = "Unknown";
-
-      explosionTypeSet.insert(None);
-      explosionTypeSet.insert(Normal);
-      explosionTypeSet.insert(Radial_Splash);
-      explosionTypeSet.insert(Enemy_Splash);
-      explosionTypeSet.insert(Lockdown);
-      explosionTypeSet.insert(Nuclear_Missile);
-      explosionTypeSet.insert(Parasite);
-      explosionTypeSet.insert(Broodlings);
-      explosionTypeSet.insert(EMP_Shockwave);
-      explosionTypeSet.insert(Irradiate);
-      explosionTypeSet.insert(Ensnare);
-      explosionTypeSet.insert(Plague);
-      explosionTypeSet.insert(Stasis_Field);
-      explosionTypeSet.insert(Dark_Swarm);
-      explosionTypeSet.insert(Consume);
-      explosionTypeSet.insert(Yamato_Gun);
-      explosionTypeSet.insert(Restoration);
-      explosionTypeSet.insert(Disruption_Web);
-      explosionTypeSet.insert(Corrosive_Acid);
-      explosionTypeSet.insert(Mind_Control);
-      explosionTypeSet.insert(Feedback);
-      explosionTypeSet.insert(Optical_Flare);
-      explosionTypeSet.insert(Maelstrom);
-      explosionTypeSet.insert(Air_Splash);
-      explosionTypeSet.insert(Unknown);
-
-      foreach(ExplosionType i, explosionTypeSet)
-      {
-        std::string name(i.getName());
-        fixName(&name);
-        explosionTypeMap.insert(std::make_pair(name, i));
-      }
-      initializingExplosionType = false;
-    }
+    BWAPI_TYPEDEF(ExplosionType,None);
+    BWAPI_TYPEDEF(ExplosionType,Normal);
+    BWAPI_TYPEDEF(ExplosionType,Radial_Splash);
+    BWAPI_TYPEDEF(ExplosionType,Enemy_Splash);
+    BWAPI_TYPEDEF(ExplosionType,Lockdown);
+    BWAPI_TYPEDEF(ExplosionType,Nuclear_Missile);
+    BWAPI_TYPEDEF(ExplosionType,Parasite);
+    BWAPI_TYPEDEF(ExplosionType,Broodlings);
+    BWAPI_TYPEDEF(ExplosionType,EMP_Shockwave);
+    BWAPI_TYPEDEF(ExplosionType,Irradiate);
+    BWAPI_TYPEDEF(ExplosionType,Ensnare);
+    BWAPI_TYPEDEF(ExplosionType,Plague);
+    BWAPI_TYPEDEF(ExplosionType,Stasis_Field);
+    BWAPI_TYPEDEF(ExplosionType,Dark_Swarm);
+    BWAPI_TYPEDEF(ExplosionType,Consume);
+    BWAPI_TYPEDEF(ExplosionType,Yamato_Gun);
+    BWAPI_TYPEDEF(ExplosionType,Restoration);
+    BWAPI_TYPEDEF(ExplosionType,Disruption_Web);
+    BWAPI_TYPEDEF(ExplosionType,Corrosive_Acid);
+    BWAPI_TYPEDEF(ExplosionType,Mind_Control);
+    BWAPI_TYPEDEF(ExplosionType,Feedback);
+    BWAPI_TYPEDEF(ExplosionType,Optical_Flare);
+    BWAPI_TYPEDEF(ExplosionType,Maelstrom);
+    BWAPI_TYPEDEF(ExplosionType,Air_Splash);
+    BWAPI_TYPEDEF(ExplosionType,Unknown);
   }
-  ExplosionType::ExplosionType() : Type(ExplosionTypes::None)
+  ExplosionType::ExplosionType(int id) : Type( id )
+  {}
+  const ExplosionType::const_set& ExplosionTypes::allExplosionTypes()
   {
-  }
-  int getValidExplosionTypeID(int id)
-  {
-    if ( !initializingExplosionType && (id < 0 || id >= 26) )
-      return ExplosionTypes::Unknown;
-    return id;
-  }
-  ExplosionType::ExplosionType(int id) : Type( getValidExplosionTypeID(id) )
-  {
-  }
-  const std::string &ExplosionType::getName() const
-  {
-    return explosionTypeName[this->getID()];
-  }
-  const char *ExplosionType::c_str() const
-  {
-    return explosionTypeName[this->getID()].c_str();
-  }
-  ExplosionType ExplosionTypes::getExplosionType(std::string name)
-  {
-    fixName(&name);
-    std::map<std::string, ExplosionType>::iterator i = explosionTypeMap.find(name);
-    if (i == explosionTypeMap.end())
-      return ExplosionTypes::Unknown;
-    return (*i).second;
-  }
-  const std::set<ExplosionType>& ExplosionTypes::allExplosionTypes()
-  {
-    return explosionTypeSet;
+    return ExplosionTypeSet::explosionTypeSet;
   }
 }

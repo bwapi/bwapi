@@ -1,13 +1,11 @@
 #include "RegionImpl.h"
 
-#include <set>
-#include <vector>
-
 #include <BW/Offsets.h>
 #include <BW/Pathing.h>
 #include <Util/Foreach.h>
+#include <Util/Convenience.h>
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 namespace BWAPI
 {
@@ -18,16 +16,16 @@ namespace BWAPI
     MemZero(this->data);
 
     // Assuming this is called via GameInternals, so no checks are made
-    BW::region *r         = &BW::BWDATA_SAIPathing->regions[id];
+    BW::region *r         = &(*BW::BWDATA::SAIPathing)->regions[id];
 
     // Assign common region properties
     self->islandID        = r->groupIndex;
     self->center_x        = r->getCenter().x;
     self->center_y        = r->getCenter().y;
 
-    self->isWalkable      = r->accessabilityFlags != 0x1FFD;
+    self->isAccessible      = r->accessabilityFlags != 0x1FFD;
     self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
-    self->priority        = r->properties & 0x7F;
+    self->priority        = r->defencePriority & 0x7F;
     self->leftMost        = r->rgnBox.left;
     self->rightMost       = r->rgnBox.right;
     self->topMost         = r->rgnBox.top;
@@ -37,13 +35,13 @@ namespace BWAPI
     self->id  = id;
     r->unk_28 = (u32)this;
     
-    this->closestAccessibleRgn    = NULL;
-    this->closestInaccessibleRgn  = NULL;
+    this->closestAccessibleRgn    = nullptr;
+    this->closestInaccessibleRgn  = nullptr;
   }
   void RegionImpl::UpdateRegionRelations()
   {
     // Assuming this is called via GameInternals, so no checks are made
-    BW::region *r = &BW::BWDATA_SAIPathing->regions[self->id];
+    BW::region *r = &(*BW::BWDATA::SAIPathing)->regions[self->id];
 
     // Assign region neighbors
     this->neighbors.clear();
@@ -53,7 +51,7 @@ namespace BWAPI
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor((unsigned char)n);
-      BWAPI::Region *bwapiNeighbor = (BWAPI::Region*)neighbor->unk_28;
+      BWAPI::Region bwapiNeighbor = (BWAPI::Region)neighbor->unk_28;
 
       // continue if this is null (but it shouldn't be)
       if ( !bwapiNeighbor )

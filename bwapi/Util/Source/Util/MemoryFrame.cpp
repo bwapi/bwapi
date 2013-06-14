@@ -1,5 +1,5 @@
 #include "MemoryFrame.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory.h>
 
 namespace Util
@@ -83,13 +83,13 @@ namespace Util
     return (this->frameSize % bytes) == 0;
   }
   //----------------------- OPERATOR == --------------------------------
-  bool MemoryFrame::operator == (const MemoryFrame &operand)
+  bool MemoryFrame::operator == (const MemoryFrame &operand) const
   {
     return this->frameBase == operand.frameBase &&
            this->frameSize == operand.frameSize;
   }
   //----------------------- COMPARE BYTES ------------------------------
-  bool MemoryFrame::compareBytes(const Util::MemoryFrame &that)
+  bool MemoryFrame::compareBytes(const Util::MemoryFrame &that) const
   {
     if(this->frameSize != that.frameSize)
       return false;
@@ -121,7 +121,7 @@ namespace Util
     this->skip(bytes);
   }
   //----------------------- LIMIT --------------------------------------
-  int MemoryFrame::_limit(int a, int low, int hi)
+  int MemoryFrame::_limit(int a, int low, int hi) const
   {
     if(a < low)
       return low;

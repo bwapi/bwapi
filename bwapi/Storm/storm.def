@@ -35,8 +35,8 @@ EXPORTS
 
   SNetEnumGamesEx               @133 NONAME
   SNetSendServerChatCommand     @134 NONAME
-  ;SNet135                       @135 NONAME
-  ;SNet136                       @136 NONAME
+  ;SNetSend135                  @135 NONAME
+  ;SNetReceive136               @136 NONAME
   SNetGetPlayerNames            @137 NONAME
   SNetCreateLadderGame          @138 NONAME
   SNetReportGameResult          @139 NONAME
@@ -197,7 +197,7 @@ EXPORTS
   ;SMemDestroy                   @402 NONAME
   SMemFree                      @403 NONAME
   ;SMemGetSize                   @404 NONAME
-  ;SMemReAlloc                   @405 NONAME
+  SMemReAlloc                   @405 NONAME
   ;Storm406                      @406 NONAME
 
   ;SMsgDispatchMessage           @412 NONAME
@@ -247,7 +247,7 @@ EXPORTS
   SVidPlayEnd                   @458 NONAME
   ;SVidSetVolume                 @459 NONAME
   ;Storm460                      @460 NONAME
-  ;SErrDisplayError              @461 NONAME
+  SErrDisplayError              @461 NONAME
   SErrGetErrorStr               @462 NONAME
   SErrGetLastError              @463 NONAME
   ;SErrRegisterMessageSource     @464 NONAME
@@ -301,12 +301,12 @@ EXPORTS
   ;SMsgUnregisterKeyDown         @513 NONAME
   ;SMsgUnregisterKeyUp           @514 NONAME
   ;SMsgUnregisterMessage         @515 NONAME
-  ;SMsg516                       @516 NONAME
+  ;SMsgGetDispatcher             @516 NONAME
   ;SMsgSetDefaultWindow          @517 NONAME
   ;SMsgGetDefaultWindow          @518 NONAME
   ;SMsg519                       @519 NONAME
 
-  ;Ordinal521                    @521 NONAME
+  ;SRgn521                     @521 NONAME
 
   SRgn523                       @523 NONAME
   SRgnCreateRegion              @524 NONAME
@@ -347,12 +347,12 @@ EXPORTS
   ;Ordinal559                    @559 NONAME
   ;Ordinal560                    @560 NONAME
   ;SErrCheckDebugSymbolLibrary   @561 NONAME
-  ;SErrDisplayErrorFmt           @562 NONAME
+  SErrDisplayErrorFmt           @562 NONAME
   ;SErrIsDisplayingError         @563 NONAME
   ;SErrPrepareAppFatal           @564 NONAME
   ;SErrSetLogTitleString         @565 NONAME
   ;SErrDisplayAppFatal           @566 NONAME
-  ;SErrCatchUnhandledExceptions  @567 NONAME
+  SErrCatchUnhandledExceptions  @567 NONAME
   ;Storm568                      @568 NONAME
   ;SStrChr                       @569 NONAME
   ;SStrChrR                      @570 NONAME
@@ -367,8 +367,8 @@ EXPORTS
   ;SStrLower                     @579 NONAME
   ;SStrHash64                    @580 NONAME
   ;SStrPrintf                    @581 NONAME
-  ;SStr582                       @582 NONAME
-  ;Ordinal583                    @583 NONAME
+  ;SDrawSetClientRect            @582 NONAME
+  ;SDrawGetClientRect            @583 NONAME
   ;SStrStrI                      @584 NONAME
   ;SStrStrI                      @585 NONAME
   ;SStrStr                       @586 NONAME

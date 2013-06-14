@@ -1,6 +1,6 @@
 #include <BWAPI.h>
-#include "GameImpl.h"
-#include "BulletImpl.h"
+#include <BWAPI/Client/GameImpl.h>
+#include <BWAPI/Client/BulletImpl.h>
 
 namespace BWAPI
 {

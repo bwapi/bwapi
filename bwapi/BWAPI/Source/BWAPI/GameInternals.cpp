@@ -4,24 +4,27 @@
 #include <vector>
 #include <string>
 #include <Util/Strings.h>
+#include <Util/Foreach.h>
+#include <Util/Convenience.h>
 
-#include "WMode.h"
-#include "Detours.h"
-#include "DLLMain.h"
-#include "Recording.h"
-#include "Resolution.h"
+#include "../WMode.h"
+#include "../Detours.h"
+#include "../DLLMain.h"
+#include "../Recording.h"
+#include "../Resolution.h"
 
 #include <BWAPI/BWtoBWAPI.h>
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/BulletImpl.h>
 #include <BWAPI/RegionImpl.h>
-#include <BWAPI/Command.h>
+#include "Command.h"
 
-#include <BW/Bullet.h>
-#include <BW/Offsets.h>
+#include <BW/CBullet.h>
+#include <BW/CUnit.h>
+#include <BW/Dialog.h>
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
@@ -29,23 +32,22 @@
 
 namespace BWAPI
 {
-  Game* Broodwar;
   GameImpl BroodwarImpl;
 
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   GameImpl::GameImpl()
       : onStartCalled(false)
-      , unitsOnTileData(0, 0)
-      , client(NULL)
+      , client(nullptr)
       , inGame(false)
       , endTick(0)
       , pathDebug(false)
+      , showfps(false)
       , unitDebug(false)
       , grid(false)
       , calledMatchEnd(false)
       , lastAutoMapEntry(0)
-      , tournamentAI(NULL)
-      , tournamentController(NULL)
+      , tournamentAI(nullptr)
+      , tournamentController(nullptr)
       , isTournamentCall(false)
       , lastEventTime(0)
       , data(server.data)
@@ -57,22 +59,22 @@ namespace BWAPI
       , externalModuleConnected(false)
       , isHost(false)
   {
-    BWAPI::Broodwar = static_cast<Game*>(this);
+    BWAPI::BroodwarPtr = static_cast<Game*>(this);
 
     BWtoBWAPI_init();
     try
     {
-      /* iterate through players and create PlayerImpl for each */
+      // iterate through players and create PlayerImpl for each
       for (int i = 0; i < PLAYER_COUNT; ++i)
         players[i] = new PlayerImpl((u8)i);
 
-      /* iterate through units and create UnitImpl for each */
+      // iterate through units and create UnitImpl for each
       for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-        unitArray[i] = new UnitImpl(&BW::BWDATA_UnitNodeTable[i], (u16)i);
+        unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], (u16)i);
 
-      /* iterate through bullets and create BulletImpl for each */
+      // iterate through bullets and create BulletImpl for each
       for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
-        bulletArray[i] = new BulletImpl(&BW::BWDATA_BulletNodeTable[i], (u16)i);
+        bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], (u16)i);
     }
     catch (GeneralException& exception)
     {
@@ -83,17 +85,35 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
   {
-    /* destroy all UnitImpl */
+    // destroy all UnitImpl
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-      delete unitArray[i];
+    {
+      if ( unitArray[i] != nullptr )
+      {
+        delete unitArray[i];
+        unitArray[i] = nullptr;
+      }
+    }
 
-    /* destroy all PlayerImpl */
+    // destroy all PlayerImpl
     for (int i = 0; i < PLAYER_COUNT; ++i)
-      delete players[i];
+    {
+      if ( players[i] != nullptr )
+      {
+        delete players[i];
+        players[i] = nullptr;
+      }
+    }
 
-    /* destroy all bullets */
+    // destroy all bullets
     for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
-      delete bulletArray[i];
+    {
+      if ( bulletArray[i] != nullptr )
+      {
+        delete bulletArray[i];
+        bulletArray[i] = nullptr;
+      }
+    }
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
@@ -102,13 +122,13 @@ namespace BWAPI
       this->unitArray[i]->setSelected(false);
 
     selectedUnitSet.clear();
-    for (int i = 0; i < *BW::BWDATA_ClientSelectionCount && i < 12; ++i)
+    for (int i = 0; i < *BW::BWDATA::ClientSelectionCount && i < 12; ++i)
     {
-      if ( BW::BWDATA_ClientSelectionGroup[i] )
+      if ( BW::BWDATA::ClientSelectionGroup[i] )
       {
-        BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA_ClientSelectionGroup[i]);
+        BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
         u->setSelected(true);
-        selectedUnitSet.insert(u);
+        selectedUnitSet.push_back(u);
       }
     }
   }
@@ -116,36 +136,16 @@ namespace BWAPI
   {
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( BW::BWDATA_playerStatusArray[i] & 0x10000 )
+      if ( BW::BWDATA::playerStatusArray[i] & 0x10000 )
       {
         int iplr = this->stormIdToPlayerId(i);
-        if ( iplr != -1 && iplr != (int)*BW::BWDATA_g_LocalHumanID )
+        if ( iplr != -1 && iplr != (int)*BW::BWDATA::g_LocalHumanID )
         {
           this->droppedPlayers.push_back(this->players[iplr]);
-          SNetDropPlayer(i, 0x40000006);
+          SNetDropPlayer(i, 0x40000006);  // The value used when dropping
         }
       }
     }
-  }
-  //--------------------------------------------- IS BATTLE NET ----------------------------------------------
-  bool GameImpl::_isBattleNet()
-  {
-    return *BW::BWDATA_NetMode == 'BNET';
-  }
-  //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
-  bool GameImpl::_isSinglePlayer() const
-  {
-    return *BW::BWDATA_NetMode == 0 || *BW::BWDATA_NetMode == -1;
-  }
-  //------------------------------------------------ IS IN GAME ----------------------------------------------
-  bool GameImpl::_isInGame() const
-  {
-    return *BW::BWDATA_InGame != 0;
-  }
-  //----------------------------------------------- IN REPLAY ------------------------------------------------
-  bool  GameImpl::_isReplay() const
-  {
-    return *BW::BWDATA_InReplay != 0;
   }
   //------------------------------------------------ MOUSE/KEY INPUT -----------------------------------------
   void GameImpl::pressKey(int key)
@@ -175,7 +175,7 @@ namespace BWAPI
     /* Translates a storm ID to a player Index */
     for (int i = 0; i < PLAYER_COUNT; ++i)
     {
-      if ( BW::BWDATA_Players[i].dwStormId == dwStormId )
+      if ( BW::BWDATA::Players[i].dwStormId == dwStormId )
         return i;
     }
     return -1;
@@ -183,36 +183,33 @@ namespace BWAPI
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
   bool GameImpl::parseText(const char* text)
   {
-    /* analyze the string */
-    std::string message = text;
-    std::vector<std::string> parsed = Util::Strings::splitString(message, " ");
+    // analyze the string
+    std::stringstream ss(text);
+    std::string cmd;
+    int n;
 
-    /* fix for bad referencing */
-    while (parsed.size() < 5)
-      parsed.push_back("");
+    ss >> cmd;
 
-    /* commands list */
-    if (parsed[0] == "/leave")
+    // commands list
+    if (cmd == "/leave")
     {
       this->leaveGame();
     }
-    else if (parsed[0] == "/speed")
+    else if (cmd == "/speed")
     {
-      if (parsed[1] != "")
-        setLocalSpeed(atoi(parsed[1].c_str()));
-      else
-        setLocalSpeed();
-      printf("Changed game speed");
+      n = -1;
+      ss >> n;
+      setLocalSpeed(n);
+      Broodwar << "Changed game speed" << std::endl;
     }
-    else if (parsed[0] == "/fs")
+    else if (cmd == "/fs")
     {
-      if (parsed[1] != "")
-        setFrameSkip(atoi(parsed[1].c_str()));
-      else
-        setFrameSkip();
-      printf("Altered frame skip");
+      n = 1;
+      ss >> n;
+      setFrameSkip(n);
+      Broodwar << "Altered frame skip" << std::endl;
     }
-    else if (parsed[0] == "/cheats")
+    else if (cmd == "/cheats")
     {
       sendText("power overwhelming");
       sendText("operation cwal");
@@ -230,71 +227,74 @@ namespace BWAPI
       sendText("show me the money");
       sendText("show me the money");
     }
-    else if (parsed[0] == "/restart")
+    else if (cmd == "/restart")
     {
       restartGame();
     }
-    else if (parsed[0] == "/nogui")
+    else if (cmd == "/nogui")
     {
       setGUI(!data->hasGUI);
-      printf("GUI: %s.", data->hasGUI ? "enabled" : "disabled");
+      Broodwar << "GUI: " << (data->hasGUI ? "enabled" : "disabled") << std::endl;
     }
-    else if (parsed[0] == "/wmode")
+    else if (cmd == "/wmode")
     {
-      SetWMode(BW::BWDATA_GameScreenBuffer->wid, BW::BWDATA_GameScreenBuffer->ht, !wmode);
-      printf("Toggled windowed mode.");
+      SetWMode(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), !wmode);
+      Broodwar << "Toggled windowed mode." << std::endl;
     }
-    else if (parsed[0] == "/grid")
+    else if (cmd == "/grid")
     {
       grid = !grid;
-      printf("Matrix grid %s.", grid ? "enabled" : "disabled");
+      Broodwar << "Matrix grid " << (grid ? "enabled" : "disabled") << std::endl;
     }
-    else if (parsed[0] == "/record")
+    else if (cmd == "/record")
     {
       if ( !StartVideoRecording(640, 480) )
-        MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
+        MessageBox(nullptr, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
     }
-    else if (parsed[0] == "/stoprecord")
+    else if (cmd == "/stoprecord")
     {
       StopVideoRecording();
     }
-#ifdef _DEBUG
-    else if (parsed[0] == "/latency")
+    else if ( cmd == "/fps" )
     {
-      printf("latency: %d", getLatency());
-      printf("New latency: %u frames; %ums", getLatencyFrames(), getLatencyTime());
+      this->showfps = !this->showfps;
+      Broodwar << "FPS display " << (showfps ? "enabled" : "disabled") << std::endl;
+    }
+#ifdef _DEBUG
+    else if (cmd == "/latency")
+    {
+      Broodwar << "Latency: " << getLatency() << std::endl;
+      Broodwar << "New latency: " << getLatencyFrames() << " frames (" << getLatencyTime() << "ms)" << std::endl;
     }
 // The following commands are knockoffs of Starcraft Beta's developer mode
-    else if (parsed[0] == "/pathdebug")
+    else if (cmd == "/pathdebug")
     {
       pathDebug = !pathDebug;
-      printf("pathdebug %s", pathDebug ? "ENABLED" : "DISABLED");
+      Broodwar << "pathdebug " << (pathDebug ? "ENABLED" : "DISABLED") << std::endl;
     }
-    else if (parsed[0] == "/unitdebug")
+    else if (cmd == "/unitdebug")
     {
       unitDebug = !unitDebug;
-      printf("unitdebug %s", unitDebug ? "ENABLED" : "DISABLED");
+      Broodwar << "unitdebug " << (unitDebug ? "ENABLED" : "DISABLED") << std::endl;
     }
 // end knockoffs
-    else if (parsed[0] == "/hud")
+    else if (cmd == "/hud")
     {
       hideHUD = !hideHUD;
-      printf("Now %s the HUD.", hideHUD ? "hiding" : "showing");
+      Broodwar << "Now " << (hideHUD ? "hiding" : "showing") << " the HUD." << std::endl;
     }
-    else if (parsed[0] == "/resize")
+    else if (cmd == "/resize")
     {
-      printf("Done");
-      SetResolution(1024, 768);
+      Broodwar << "Done" << std::endl;
+      SetResolution(1280, 720);
     }
-    else if (parsed[0] == "/test")
+    else if (cmd == "/test")
     {
       //SetResolution(640, 480);
-      //printf("%u", this->elapsedTime());
-      printf("Setting revealAll");
-      if ( !this->setRevealAll() )
-        printf("%s", this->getLastError().c_str());
-      //int blah = 0;
-      //printf("%u", 32/blah);
+      Unitset sel = this->getSelectedUnits();
+      for ( auto i = sel.begin(); i != sel.end(); ++i )
+        Broodwar << "Ground strength: " << static_cast<UnitImpl*>(*i)->getOriginalRawData->groundStrength
+                 << "; Air strength: " << static_cast<UnitImpl*>(*i)->getOriginalRawData->airStrength << std::endl;
     }
 #endif
     else
@@ -308,6 +308,37 @@ namespace BWAPI
   {
     map.copyToSharedMemory();
   }
+
+  //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------
+  void GameImpl::processInterfaceEvents()
+  {
+    // GameImpl events
+    this->updateEvents();
+    
+    // UnitImpl events
+    foreach(UnitImpl* u, this->accessibleUnits)
+    {
+      u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
+    }
+    
+    // ForceImpl events
+    foreach(ForceImpl* f,this->forces)
+      f->updateEvents();
+
+    // BulletImpl events
+    foreach(BulletImpl* b, this->bullets)
+    {
+      b->exists() ? b->updateEvents() : b->interfaceEvents.clear();
+    }
+
+    // RegionImpl events
+    foreach(RegionImpl *r,this->regionsList)
+      r->updateEvents();
+
+    // PlayerImpl events
+    foreach(PlayerImpl *p, this->playerSet)
+      p->updateEvents();
+  }
   //------------------------------------------- GET PLAYER INTERNAL ------------------------------------------
   PlayerImpl *GameImpl::_getPlayer(int id)
   {
@@ -317,9 +348,9 @@ namespace BWAPI
   }
   int GameImpl::_currentPlayerId()
   {
-    return (int)*BW::BWDATA_g_LocalHumanID;
+    return *BW::BWDATA::g_LocalHumanID;
   }
-  bool GameImpl::tournamentCheck(int type, void *parameter)
+  bool GameImpl::tournamentCheck(Tournament::ActionID type, void *parameter)
   {
     if ( this->tournamentController && !isTournamentCall )
     {
@@ -332,43 +363,14 @@ namespace BWAPI
   }
   void GameImpl::initializeData()
   {
-    // Destroy the AI Module client
-    if ( this->client )
-      delete this->client;
-    this->client = NULL;
-
-    // Unload the AI Module library
-    if ( hAIModule )
-      FreeLibrary(hAIModule);
-    hAIModule = NULL;
-    
-    this->startedClient = false;
-
-    // Destroy the Tournament Module controller
-    if ( this->tournamentController )
-      delete this->tournamentController;
-    this->tournamentController = NULL;
-
-    // Destroy the Tournament Module AI
-    if ( this->tournamentAI )
-      delete this->tournamentAI;
-    this->tournamentAI         = NULL;
-    
-    // Destroy the Tournament Module Library
-    if ( hTournamentModule )
-      FreeLibrary(hTournamentModule);
-    hTournamentModule = NULL;
-
-    this->bTournamentMessageAppeared = false;
-
     // Delete forces
-    for ( std::set<Force*>::iterator f = this->forces.begin(); f != this->forces.end(); ++f)
-      delete ((ForceImpl*)(*f));
+    for ( Forceset::iterator f = this->forces.begin(); f != this->forces.end(); ++f)
+      delete (static_cast<ForceImpl*>(*f));
     this->forces.clear();
 
     // Remove player references
-    this->BWAPIPlayer = NULL;
-    this->enemyPlayer = NULL;
+    this->BWAPIPlayer = nullptr;
+    this->enemyPlayer = nullptr;
 
     // Set random seed
     srand(GetTickCount());
@@ -415,27 +417,28 @@ namespace BWAPI
       commandOptimizer[i].clear();
 
     // Delete all dead units
-    for ( std::list<UnitImpl*>::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
-      delete (UnitImpl*)(*d);
+    for ( Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
+      delete static_cast<UnitImpl*>(*d);
     this->deadUnits.clear();
 
     // Delete all regions
-    for ( std::set<Region*>::iterator r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
-      delete (RegionImpl*)(*r);
+    for ( Regionset::iterator r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
+      delete static_cast<RegionImpl*>(*r);
     this->regionsList.clear();
 
     // Reset game speeds and text size
-    this->setLocalSpeed();
-    this->setFrameSkip();
+    this->setLocalSpeed(-1);
+    this->setFrameSkip(1);
     this->setTextSize();
-    this->setGUI();
-    this->setCommandOptimizationLevel();
+    this->setGUI(true);
+    this->setCommandOptimizationLevel(0);
 
     // Reset all Unit objects in the unit array
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
     {
       if ( !unitArray[i] )
         continue;
+      unitArray[i]->clear();
       unitArray[i]->userSelected      = false;
       unitArray[i]->isAlive           = false;
       unitArray[i]->wasAlive          = false;
@@ -445,10 +448,7 @@ namespace BWAPI
       unitArray[i]->staticInformation = false;
       unitArray[i]->nukeDetected      = false;
       unitArray[i]->lastType          = UnitTypes::Unknown;
-      unitArray[i]->lastPlayer        = NULL;
-      unitArray[i]->lastCommandFrame  = 0;
-      unitArray[i]->lastCommand       = UnitCommand();
-      unitArray[i]->clientInfo        = NULL;
+      unitArray[i]->lastPlayer        = nullptr;
 
       unitArray[i]->setID(-1);
     }
@@ -456,6 +456,9 @@ namespace BWAPI
     this->bulletCount = 0;
     //this->frameCount  = -1;
     this->frameCount = 0;
+
+    this->clientInfo.clear();
+    this->interfaceEvents.clear();
 
     //reload auto menu data (in case the AI set the location of the next map/replay)
     this->loadAutoMenuData();
@@ -479,6 +482,46 @@ namespace BWAPI
     this->fps = 0;
     this->averageFPS = 0;
     this->accumulatedFrames = 0;
-  }
 
+    // @NOTE: Freeing libraries comes after because of some destructors for functionals in Interface Events
+
+    // Destroy the AI Module client
+    if ( this->client )
+    {
+      delete this->client;
+      this->client = nullptr;
+    }
+
+    // Unload the AI Module library
+    if ( hAIModule )
+    {
+      FreeLibrary(hAIModule);
+      hAIModule = nullptr;
+    }
+    
+    this->startedClient = false;
+
+    // Destroy the Tournament Module controller
+    if ( this->tournamentController )
+    {
+      delete this->tournamentController;
+      this->tournamentController = nullptr;
+    }
+
+    // Destroy the Tournament Module AI
+    if ( this->tournamentAI )
+    {
+      delete this->tournamentAI;
+      this->tournamentAI = nullptr;
+    }
+    
+    // Destroy the Tournament Module Library
+    if ( hTournamentModule )
+    {
+      FreeLibrary(hTournamentModule);
+      hTournamentModule = nullptr;
+    }
+
+    this->bTournamentMessageAppeared = false;
+  }
 };

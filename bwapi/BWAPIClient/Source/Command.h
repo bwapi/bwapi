@@ -1,6 +1,7 @@
 #pragma once
-#include "UnitImpl.h"
-#include "PlayerImpl.h"
+#include <BWAPI/Client/UnitImpl.h>
+#include <BWAPI/Client/PlayerImpl.h>
+
 #include "../../BWAPI/Source/BWAPI/CommandTemp.h"
 
 namespace BWAPI

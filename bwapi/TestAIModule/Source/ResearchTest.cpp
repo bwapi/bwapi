@@ -20,7 +20,7 @@ void ResearchTest::start()
 
   int researcherCount = Broodwar->self()->completedUnitCount(researcherType);
   BWAssertF(researcherCount>=1,{fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  for each(Unit u in Broodwar->self()->getUnits())
   {
     if (u->getType()==researcherType)
     {
@@ -53,7 +53,7 @@ void ResearchTest::start()
   BWAssertF(researcher->getUpgrade()==UpgradeTypes::None,{fail=true;return;});
   BWAssertF(researcher->getRemainingResearchTime()==techType.researchTime(),
   {
-    Broodwar->printf("%d %d",researcher->getRemainingResearchTime(),techType.researchTime());
+    Broodwar->printf("%d %d",researcher->getRemainingResearchTime(),techType.researchTime()/10);
     fail=true;
     return;
   });
@@ -77,14 +77,24 @@ void ResearchTest::update()
   BWAssert(thisFrame==nextUpdateFrame);
   BWAssertF(researcher!=NULL,{fail=true;return;});
   nextUpdateFrame++;
-  Broodwar->setScreenPosition(researcher->getPosition().x()-320, researcher->getPosition().y()-240);
-  int correctRemainingResearchTime = startResearchFrame + Broodwar->getLatency() + techType.researchTime() - thisFrame;
-  if (correctRemainingResearchTime > techType.researchTime())
-    correctRemainingResearchTime = techType.researchTime();
+  Broodwar->setScreenPosition(researcher->getPosition() - Position(320,240));
+  int correctRemainingResearchTime = startResearchFrame + Broodwar->getLatency() + techType.researchTime()/10 - thisFrame;
+  if (correctRemainingResearchTime > techType.researchTime()/10)
+    correctRemainingResearchTime = techType.researchTime()/10;
   if (correctRemainingResearchTime < 0)
     correctRemainingResearchTime = 0;
-  BWAssertF(researcher->getRemainingResearchTime() == correctRemainingResearchTime,{Broodwar->printf("%d %d",researcher->getRemainingResearchTime(), correctRemainingResearchTime);});
-  int lastFrame = startResearchFrame + Broodwar->getLatency() + techType.researchTime();
+
+  // @TODO: Workaround
+  if ( thisFrame <= startResearchFrame + Broodwar->getLatency() )
+  {
+    BWAssertF(researcher->getRemainingResearchTime()/10 == correctRemainingResearchTime,{log("%d %d",researcher->getRemainingResearchTime()/10, correctRemainingResearchTime);});
+  }
+  else
+  {
+    BWAssertF(researcher->getRemainingResearchTime() == correctRemainingResearchTime,{log("%d %d",researcher->getRemainingResearchTime(), correctRemainingResearchTime);});
+  }
+
+  int lastFrame = startResearchFrame + Broodwar->getLatency() + techType.researchTime()/10;
   if (thisFrame > lastFrame) //terminate condition
   {
     running = false;

@@ -168,7 +168,7 @@ void RecordFrame(void *pBuffer)
   do
   {
     for ( unsigned int i = 0; i < (unsigned int)gVidSize.cx; ++i )
-      pbFlipped[i] = *(DWORD*)&wmodebmp.bmiColors[pbSrc[i]];
+      pbFlipped[i] = (DWORD&)wmodebmp.bmiColors[pbSrc[i]];
     pbFlipped -= gVidSize.cx;
     pbSrc += gVidSize.cx;
   } while ( (DWORD)pbSrc < dwEnd );

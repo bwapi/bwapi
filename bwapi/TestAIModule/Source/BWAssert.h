@@ -6,7 +6,7 @@ void log(const char* format, ...);
 {\
   if (!(C))\
   {\
-    log("Assert failed @%s:%u (%s)",__FILE__,__LINE__,Broodwar->getLastError().toString().c_str());\
+    log("Assert failed @%s:%u (%s)",__FILE__,__LINE__,Broodwar->getLastError().c_str());\
     assert_fail_count++;\
   }\
   else\
@@ -18,7 +18,7 @@ void log(const char* format, ...);
 {\
   if (!(C))\
   {\
-    log("Assert failed @%s:%u (%s)",__FILE__,__LINE__,Broodwar->getLastError().toString().c_str());\
+    log("Assert failed @%s:%u (%s)",__FILE__,__LINE__,Broodwar->getLastError().c_str());\
     assert_fail_count++;\
     {FailBlock}\
   }\

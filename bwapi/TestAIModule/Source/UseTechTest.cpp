@@ -28,18 +28,18 @@ void UseTechTest::start()
   running = true;
 
   int userCount = Broodwar->self()->completedUnitCount(userType);
-  BWAssertF(userCount>=1,{Broodwar->printf("Error: Cannot find any owned units of type %s for tech type %s!",userType.getName().c_str(),techType.getName().c_str());fail=true;return;});
-  for each(Unit* u in Broodwar->self()->getUnits())
+  BWAssertF(userCount>=1,{Broodwar->printf("Error: Cannot find any owned units of type %s for tech type %s!",userType.c_str(),techType.c_str());fail=true;return;});
+  for each(Unit u in Broodwar->self()->getUnits())
     if (u->getType()==userType)
       user = u;
 
   startPosition = user->getPosition();
-  Broodwar->printf("Testing %s...",techType.getName().c_str());
-  BWAssertF(user->getEnergy()>=techType.energyUsed(),{Broodwar->printf("Error: Not enough energy!");fail=true;return;});
+  Broodwar->printf("Testing %s...",techType.c_str());
+  BWAssertF(user->getEnergy()>=techType.energyCost(),{Broodwar->printf("Error: Not enough energy!");fail=true;return;});
 
   if (techType==TechTypes::Scanner_Sweep)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Hatchery)
       {
         targetUnit = u;
@@ -55,7 +55,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Optical_Flare)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Firebat)
       {
         targetUnit = u;
@@ -64,7 +64,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Restoration)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->isBlind())
       {
         targetUnit = u;
@@ -79,7 +79,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Defensive_Matrix)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Marine)
       {
         targetUnit = u;
@@ -88,7 +88,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::EMP_Shockwave)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Arbiter)
       {
         targetUnit = u;
@@ -100,7 +100,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Irradiate)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Mutalisk)
       {
         targetUnit = u;
@@ -109,14 +109,14 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Lockdown)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Carrier)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Yamato_Gun)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Hatchery)
       {
         targetUnit = u;
@@ -126,11 +126,11 @@ void UseTechTest::start()
   else if (techType==TechTypes::Nuclear_Strike)
   {
     bool hasNuke = false;
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Nuclear_Silo && u->hasNuke())
         hasNuke = true;
     BWAssertF(hasNuke == true,{log("Error: No nuke!");fail=true;return;});
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Nexus)
       {
         targetUnit = u;
@@ -142,21 +142,21 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Archon_Warp)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_High_Templar && u!=user)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Dark_Archon_Meld)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_Dark_Templar && u!=user)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Disruption_Web)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Hydralisk)
       {
         targetUnit = u;
@@ -168,7 +168,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Psionic_Storm)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Ultralisk)
       {
         targetUnit = u;
@@ -180,28 +180,28 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Hallucination)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_Zealot)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Mind_Control)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Marine)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Maelstrom)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Mutalisk)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Recall)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_Dragoon)
       {
         targetUnit = u;
@@ -214,7 +214,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Stasis_Field)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode)
       {
         targetUnit = u;
@@ -226,21 +226,21 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Feedback)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Ghost)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Consume)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Zerg_Zergling)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Dark_Swarm)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Nexus)
       {
         targetUnit = u;
@@ -252,7 +252,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Ensnare)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Ghost)
       {
         targetUnit = u;
@@ -264,21 +264,21 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Infestation)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Command_Center)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Parasite)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_SCV)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
   }
   else if (techType==TechTypes::Plague)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Marine)
       {
         targetUnit = u;
@@ -290,7 +290,7 @@ void UseTechTest::start()
   }
   else if (techType==TechTypes::Spawn_Broodlings)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Protoss_Dragoon)
         targetUnit = u;
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
@@ -335,7 +335,7 @@ void UseTechTest::useTech()
     used=user->useTech(techType);
   if (used==false)
   {
-    log("Error: %s",Broodwar->getLastError().toString().c_str());
+    log("Error: %s",Broodwar->getLastError().c_str());
   }
 
   usedTech = true;
@@ -353,9 +353,9 @@ void UseTechTest::update()
   BWAssert(thisFrame==nextFrame);
   nextFrame++;
   if (user->exists())
-    Broodwar->setScreenPosition(user->getPosition().x()-320,user->getPosition().y()-240);
+    Broodwar->setScreenPosition(user->getPosition() - Position(320,240));
   else
-    Broodwar->setScreenPosition(targetUnit->getPosition().x()-320,targetUnit->getPosition().y()-240);
+    Broodwar->setScreenPosition(targetUnit->getPosition() - Position(320,240));
 
   BWAssertF(user!=NULL,{fail=true;return;});
   if (!isInPosition)
@@ -366,7 +366,7 @@ void UseTechTest::update()
     if (user->getEnergy()!=currentEnergy)
     {
       if (user->getEnergy()<currentEnergy)
-        currentEnergy-=techType.energyUsed();
+        currentEnergy-=techType.energyCost();
       else
         currentEnergy++;
 
@@ -387,7 +387,7 @@ void UseTechTest::update()
 
   if (techType==TechTypes::Scanner_Sweep)
   {
-    if (Broodwar->isVisible(targetPosition.x()/32,targetPosition.y()/32))
+    if (Broodwar->isVisible( TilePosition(targetPosition) ))
       testSucceeded = true;
   }
   else if (techType==TechTypes::Stim_Packs)
@@ -412,7 +412,7 @@ void UseTechTest::update()
   else if (techType==TechTypes::Spider_Mines)
   {
     bool spiderMineFound = false;
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Terran_Vulture_Spider_Mine)
         spiderMineFound = true;
     if (spiderMineFound && user->getSpiderMineCount() == 2)
@@ -453,7 +453,7 @@ void UseTechTest::update()
   {
     BWAssertF(targetUnit!=NULL,{fail=true;return;});
     bool hasNuke = false;
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->hasNuke())
         hasNuke = true;
     if (hasNuke==false)
@@ -476,7 +476,7 @@ void UseTechTest::update()
   }
   else if (techType==TechTypes::Disruption_Web)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Spell_Disruption_Web)
         testSucceeded = true;
   }
@@ -487,7 +487,7 @@ void UseTechTest::update()
   }
   else if (techType==TechTypes::Hallucination)
   {
-    for each(Unit* u in Broodwar->self()->getUnits())
+    for each(Unit u in Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_Zealot && u->isHallucination())
         testSucceeded = true;
     
@@ -525,7 +525,7 @@ void UseTechTest::update()
   }
   else if (techType==TechTypes::Dark_Swarm)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Spell_Dark_Swarm)
         testSucceeded = true;
   }
@@ -551,17 +551,17 @@ void UseTechTest::update()
   }
   else if (techType==TechTypes::Spawn_Broodlings)
   {
-    for each(Unit* u in Broodwar->getAllUnits())
+    for each(Unit u in Broodwar->getAllUnits())
       if (u->getType()==UnitTypes::Zerg_Broodling)
         testSucceeded = true;
   }
   if (thisFrame == startFrame+900)
   {
     if (testSucceeded)
-      Broodwar->printf("Used tech %s",techType.getName().c_str());
+      Broodwar->printf("Used tech %s",techType.c_str());
     else
     {
-      log("Error: Unable to use tech %s",techType.getName().c_str());
+      log("Error: Unable to use tech %s",techType.c_str());
     }
   }
   int lastFrame = startFrame+1000;

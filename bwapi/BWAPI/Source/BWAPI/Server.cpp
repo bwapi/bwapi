@@ -1,42 +1,40 @@
 #include "Server.h"
-
+#include <cstdio>
+#include <ctime>
 #include <Util/Foreach.h>
-#include <assert.h>
+#include <Util/Convenience.h>
+#include <cassert>
 #include <sstream>
+
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 #include "BulletImpl.h"
 #include "RegionImpl.h"
 #include <BWAPI/Client/GameData.h>
+#include <BWAPI/Client/GameTable.h>
 
 #include <BW/Pathing.h>
 
-#include "Config.h"
-#include "../../svnrev.h"
+#include "../Config.h"
+#include "../../../svnrev.h"
 
-#include "../../Debug.h"
+#include "../../../Debug.h"
 
-#include <stdio.h>
-#include <time.h>
 namespace BWAPI
 {
   #define PIPE_TIMEOUT 3000
   #define PIPE_SYSTEM_BUFFER_SIZE 4096
 
-  const BWAPI::GameInstance GameInstance_None = { 0xFFFFFFFF, false, 0 };
+  const BWAPI::GameInstance GameInstance_None(0xFFFFFFFF, false, 0);
   Server::Server()
+    : connected(false)
+    , localOnly(false)
+    , data(nullptr)
+    , gameTable(nullptr)
+    , gameTableIndex(-1)
+    , mapFileHandle(nullptr)
   {
-    connected = false;
-    localOnly = false;
-    data      = NULL;
-    gameTable = NULL;
-    gameTableIndex  = -1;
-    mapFileHandle   = NULL;
-
-    // Init primary config if not already done so
-    InitPrimaryConfig();
-
     // Local variables
     int size  = sizeof(GameData);
     DWORD processID = GetCurrentProcessId();
@@ -102,18 +100,11 @@ namespace BWAPI
       } // if gameTableFileHandle
 
       // Create the share name
-      static char szShareName[MAX_PATH] = { 0 };
-      sprintf(szShareName, "Local\\bwapi_shared_memory_%u", processID);
+      std::stringstream ssShareName("Local\\bwapi_shared_memory_");
+      ssShareName << processID;
 
-      /*
-      // DEBUG            @TODO: REMOVE
-      char testmsg[512];
-      sprintf(testmsg, "%d %s", size, szShareName);
-      MessageBox(NULL, testmsg, NULL, 0);
-      */
-      
       // Create the file mapping and shared memory
-      mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, szShareName );
+      mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, ssShareName.str().c_str() );
       if ( mapFileHandle )
         data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
     } // if serverEnabled
@@ -149,7 +140,7 @@ namespace BWAPI
     if ( localOnly && data )
     {
       free(data);
-      data = NULL;
+      data = nullptr;
     }
   }
   void Server::update()
@@ -176,8 +167,8 @@ namespace BWAPI
       // Update BWAPI DLL
       BroodwarImpl.processEvents();
 
-      ((GameImpl*)Broodwar)->events.clear();
-      if (!((GameImpl*)Broodwar)->startedClient)
+      static_cast<GameImpl*>(BroodwarPtr)->events.clear();
+      if (!static_cast<GameImpl*>(BroodwarPtr)->startedClient)
         checkForConnections();
     }
     // Reset data going out to client
@@ -190,7 +181,7 @@ namespace BWAPI
   }
   int Server::addString(const char* text)
   {
-    strncpy(data->eventStrings[data->eventStringCount],text,256);
+    StrCopy(data->eventStrings[data->eventStringCount], text);
     return data->eventStringCount++;
   }
   int Server::addEvent(BWAPI::Event e)
@@ -218,8 +209,8 @@ namespace BWAPI
       e2->v2  = addString(e.getText().c_str());
       break;
     case BWAPI::EventType::NukeDetect:
-      e2->v1 = e.getPosition().x();
-      e2->v2 = e.getPosition().y();
+      e2->v1 = e.getPosition().x;
+      e2->v2 = e.getPosition().y;
       break;
     case BWAPI::EventType::UnitDiscover:
     case BWAPI::EventType::UnitEvade:
@@ -250,7 +241,7 @@ namespace BWAPI
   {
     if (connected || localOnly || !pipeObjectHandle || pipeObjectHandle == INVALID_HANDLE_VALUE )
       return;
-    BOOL success = ConnectNamedPipe(pipeObjectHandle, NULL);
+    BOOL success = ConnectNamedPipe(pipeObjectHandle, nullptr);
     if (!success && GetLastError() != ERROR_PIPE_CONNECTED)
       return;
     if (GetLastError() == ERROR_PIPE_CONNECTED)
@@ -288,102 +279,107 @@ namespace BWAPI
     data->isBattleNet   = Broodwar->isBattleNet();
     data->isReplay      = Broodwar->isReplay();
 
-    //load static map data
-    SIZE mapSize = { Broodwar->mapWidth(), Broodwar->mapHeight() };
-    for(int x = 0; x < mapSize.cx*4; ++x)
-      for(int y = 0; y < mapSize.cy*4; ++y)
-        data->isWalkable[x][y] = Broodwar->isWalkable(x, y);
+    // Locally store the map size
+    TilePosition mapSize( Broodwar->mapWidth(), Broodwar->mapHeight() );
+    WalkPosition mapWalkSize( mapSize );
 
-    for(int x = 0; x < mapSize.cx; ++x)
-    {
-      for(int y = 0; y < mapSize.cy; ++y)
+    // Load walkability
+    for ( int x = 0; x < mapWalkSize.x; ++x )
+      for ( int y = 0; y < mapWalkSize.y; ++y )
+      {
+        data->isWalkable[x][y] = Broodwar->isWalkable(x, y);
+      }
+
+    // Load buildability, ground height, tile region id
+    for ( int x = 0; x < mapSize.x; ++x )
+      for ( int y = 0; y < mapSize.y; ++y )
       {
         data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
         data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
-        if ( BW::BWDATA_SAIPathing )
-          data->mapTileRegionId[x][y] = BW::BWDATA_SAIPathing->mapTileRegionId[y][x];
+        if ( *BW::BWDATA::SAIPathing )
+          data->mapTileRegionId[x][y] = (*BW::BWDATA::SAIPathing)->mapTileRegionId[y][x];
         else
           data->mapTileRegionId[x][y] = 0;
       }
-    }
 
-    if ( BW::BWDATA_SAIPathing )
+    // Load pathing info
+    if ( BW::BWDATA::SAIPathing )
     {
-      data->regionCount = BW::BWDATA_SAIPathing->regionCount;
+      data->regionCount = (*BW::BWDATA::SAIPathing)->regionCount;
       for(int i = 0; i < 5000; ++i)
       {
-        data->mapSplitTilesMiniTileMask[i] = BW::BWDATA_SAIPathing->splitTiles[i].minitileMask;
-        data->mapSplitTilesRegion1[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn1;
-        data->mapSplitTilesRegion2[i]      = BW::BWDATA_SAIPathing->splitTiles[i].rgn2;
-        // Region hack using a possibly unused variable
-        if ( BW::BWDATA_SAIPathing->regions[i].unk_28 )
-          data->regions[i] = *((RegionImpl*)BW::BWDATA_SAIPathing->regions[i].unk_28)->getData();
+        data->mapSplitTilesMiniTileMask[i] = (*BW::BWDATA::SAIPathing)->splitTiles[i].minitileMask;
+        data->mapSplitTilesRegion1[i]      = (*BW::BWDATA::SAIPathing)->splitTiles[i].rgn1;
+        data->mapSplitTilesRegion2[i]      = (*BW::BWDATA::SAIPathing)->splitTiles[i].rgn2;
+        // Region hack using a possibly unused variable (feeling risky, babe :) )
+        if ( (*BW::BWDATA::SAIPathing)->regions[i].unk_28 )
+          data->regions[i] = *((RegionImpl*)(*BW::BWDATA::SAIPathing)->regions[i].unk_28)->getData();
         else
           MemZero(data->regions[i]);
       }
     }
 
-    data->mapWidth  = Broodwar->mapWidth();
-    data->mapHeight = Broodwar->mapHeight();
-    strncpy(data->mapFileName, Broodwar->mapFileName().c_str(), MAX_PATH);
-    strncpy(data->mapPathName, Broodwar->mapPathName().c_str(), MAX_PATH);
-    strncpy(data->mapName, Broodwar->mapName().c_str(), 32);
-    strncpy(data->mapHash, Broodwar->mapHash().c_str(), 40);
-    data->mapFileName[MAX_PATH] = 0;
-    data->mapPathName[MAX_PATH] = 0;
-    data->mapName[32]           = 0;
-    data->mapHash[40]           = 0;
+    // Store the map size
+    data->mapWidth  = mapSize.x;
+    data->mapHeight = mapSize.y;
+
+    // Retrieve map strings
+    StrCopy(data->mapFileName, Broodwar->mapFileName());
+    StrCopy(data->mapPathName, Broodwar->mapPathName());
+    StrCopy(data->mapName, Broodwar->mapName());
+    StrCopy(data->mapHash, Broodwar->mapHash());
 
     data->startLocationCount = Broodwar->getStartLocations().size();
     int i = 0;
     foreach(TilePosition t, Broodwar->getStartLocations())
     {
-      data->startLocations[i].x = t.x();
-      data->startLocations[i].y = t.y();
+      data->startLocations[i].x = t.x;
+      data->startLocations[i].y = t.y;
       i++;
     }
+
     //static force data
-	data->forces[0].name[0] = 0;
-    foreach(Force *i, Broodwar->getForces())
+    data->forces[0].name[0] = '\0';
+    foreach(Force i, Broodwar->getForces())
     {
       int id = getForceID(i);
-      strncpy(data->forces[id].name, i->getName().c_str(), 32);
+      StrCopy(data->forces[id].name, i->getName());
     }
+
     //static player data
-    foreach(Player *i, Broodwar->getPlayers())
+    foreach(PlayerImpl *i, Broodwar->getPlayers())
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
-      PlayerData* p2 = ((PlayerImpl*)i)->self;
+      PlayerData* p2 = i->self;
 
-      strncpy(p->name, i->getName().c_str(), 32);
+      StrCopy(p->name, i->getName());
       p->race  = i->getRace();
       p->type  = i->getType();
       p->force = getForceID(i->getForce());
       p->color = p2->color;
-      p->colorByte = p2->colorByte;
 
       for(int j = 0; j < 12; ++j)
       {
         p->isAlly[j]  = false;
         p->isEnemy[j] = false;
       }
-      foreach(Player *j, Broodwar->getPlayers())
+      foreach(Player j, Broodwar->getPlayers())
       {
         p->isAlly[getPlayerID(j)]  = i->isAlly(j);
-        p->isEnemy[getPlayerID(j)] = i->isEnemy(j);
+        p->isEnemy[getPlayerID(j)]  = i->isEnemy(j);
       }
-      p->isNeutral      = i->isNeutral();
-      p->startLocationX = i->getStartLocation().x();
-      p->startLocationY = i->getStartLocation().y();
+      p->isNeutral    = i->isNeutral();
+      p->startLocationX  = i->getStartLocation().x;
+      p->startLocationY  = i->getStartLocation().y;
     }
 
-    data->forceCount       = forceVector.size();
-    data->playerCount      = playerVector.size();
-    data->initialUnitCount = unitVector.size();
+    data->forceCount    = forceVector.size();
+    data->playerCount    = playerVector.size();
+    data->initialUnitCount  = unitVector.size();
 
-    data->botAPM_noselects = 0;
-    data->botAPM_selects   = 0;
+    data->botAPM_noselects  = 0;
+    data->botAPM_selects  = 0;
   }
   void Server::clearAll()
   {
@@ -476,9 +472,6 @@ namespace BWAPI
       case EventType::UnitComplete:
         BroodwarImpl.tournamentAI->onUnitComplete(e.getUnit());
         break;
-      case EventType::PlayerDropped:
-        BroodwarImpl.tournamentAI->onPlayerDropped(e.getPlayer());
-        break;
       default:
         break;
       }
@@ -487,39 +480,46 @@ namespace BWAPI
     foreach(UnitImpl* u, BroodwarImpl.lastEvadedUnits)
       data->units[u->getID()] = u->data;
 
-    ((GameImpl*)Broodwar)->events.clear();
+    static_cast<GameImpl*>(BroodwarPtr)->events.clear();
 
-    data->frameCount             = Broodwar->getFrameCount();
-    data->replayFrameCount       = Broodwar->getReplayFrameCount();
-    data->fps                    = Broodwar->getFPS();
-    data->botAPM_noselects       = Broodwar->getAPM();
-    data->botAPM_selects         = Broodwar->getAPM(true);
-    data->latencyFrames          = Broodwar->getLatencyFrames();
-    data->latencyTime            = Broodwar->getLatencyTime();
-    data->remainingLatencyFrames = Broodwar->getRemainingLatencyFrames();
-    data->remainingLatencyTime   = Broodwar->getRemainingLatencyTime();
-    data->elapsedTime            = Broodwar->elapsedTime();
-    data->countdownTimer         = Broodwar->countdownTimer();
-    data->averageFPS             = Broodwar->getAverageFPS();
-    data->mouseX                 = Broodwar->getMousePosition().x();
-    data->mouseY                 = Broodwar->getMousePosition().y();
-    data->isInGame               = Broodwar->isInGame();
+    data->frameCount              = Broodwar->getFrameCount();
+    data->replayFrameCount        = Broodwar->getReplayFrameCount();
+    data->fps                     = Broodwar->getFPS();
+    data->botAPM_noselects        = Broodwar->getAPM();
+    data->botAPM_selects          = Broodwar->getAPM(true);
+    data->latencyFrames           = Broodwar->getLatencyFrames();
+    data->latencyTime             = Broodwar->getLatencyTime();
+    data->remainingLatencyFrames  = Broodwar->getRemainingLatencyFrames();
+    data->remainingLatencyTime    = Broodwar->getRemainingLatencyTime();
+    data->elapsedTime             = Broodwar->elapsedTime();
+    data->countdownTimer          = Broodwar->countdownTimer();
+    data->averageFPS              = Broodwar->getAverageFPS();
+    data->mouseX                  = Broodwar->getMousePosition().x;
+    data->mouseY                  = Broodwar->getMousePosition().y;
+    data->isInGame                = Broodwar->isInGame();
     if (Broodwar->isInGame())
     {
-      data->gameType          = Broodwar->getGameType();
-      data->latency           = Broodwar->getLatency();
+      data->gameType  = Broodwar->getGameType();
+      data->latency   = Broodwar->getLatency();
+      
+      // Copy the mouse states
       for(int i = 0; i < M_MAX; ++i)
-        data->mouseState[i]   = Broodwar->getMouseState(i);
+        data->mouseState[i]  = Broodwar->getMouseState((MouseButton)i);
+      
+      // Copy the key states
       for(int i = 0; i < K_MAX; ++i)
-        data->keyState[i]     = Broodwar->getKeyState(i);
-      data->screenX           = Broodwar->getScreenPosition().x();
-      data->screenY           = Broodwar->getScreenPosition().y();
+        data->keyState[i]  = Broodwar->getKeyState((Key)i);
+
+      // Copy the screen position
+      data->screenX  = Broodwar->getScreenPosition().x;
+      data->screenY  = Broodwar->getScreenPosition().y;
+
       for ( int i = 0; i < BWAPI::Flag::Max; ++i )
         data->flags[i] = Broodwar->isFlagEnabled(i);
       data->isPaused          = Broodwar->isPaused();
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
       int i = 0;
-      foreach(Unit *t, Broodwar->getSelectedUnits())
+      foreach(Unit t, Broodwar->getSelectedUnits())
         data->selectedUnits[i++] = getUnitID(t);
 
       //dynamic map data
@@ -527,31 +527,31 @@ namespace BWAPI
       //(no dynamic force data)
 
       //dynamic player data
-      foreach(Player *i, Broodwar->getPlayers())
+      foreach(PlayerImpl *i, Broodwar->getPlayers())
       {
         int id         = getPlayerID(i);
         if ( id >= 12 )
           continue;
         PlayerData* p  = &(data->players[id]);
-        PlayerData* p2 = ((PlayerImpl*)i)->self;
+        PlayerData* p2 = i->self;
 
-        p->isVictorious       = i->isVictorious();
-        p->isDefeated         = i->isDefeated();
-        p->leftGame           = i->leftGame();
-        p->minerals           = p2->minerals;
-        p->gas                = p2->gas;
-        p->gatheredMinerals   = p2->gatheredMinerals;
-        p->gatheredGas        = p2->gatheredGas;
-        p->repairedMinerals   = p2->repairedMinerals;
-        p->repairedGas        = p2->repairedGas;
-        p->refundedMinerals   = p2->refundedMinerals;
-        p->refundedGas        = p2->refundedGas;
+        p->isVictorious     = i->isVictorious();
+        p->isDefeated       = i->isDefeated();
+        p->leftGame         = i->leftGame();
+        p->minerals         = p2->minerals;
+        p->gas              = p2->gas;
+        p->gatheredMinerals = p2->gatheredMinerals;
+        p->gatheredGas      = p2->gatheredGas;
+        p->repairedMinerals = p2->repairedMinerals;
+        p->repairedGas      = p2->repairedGas;
+        p->refundedMinerals = p2->refundedMinerals;
+        p->refundedGas      = p2->refundedGas;
         for(int j = 0; j < 3; ++j)
         {
-          p->supplyTotal[j]   = p2->supplyTotal[j];
-          p->supplyUsed[j]    = p2->supplyUsed[j];
+          p->supplyTotal[j]  = p2->supplyTotal[j];
+          p->supplyUsed[j]  = p2->supplyUsed[j];
         }
-        for(int j = 0; j < BWAPI_UNIT_TYPE_MAX_COUNT; ++j)
+        for(int j = 0; j < UnitTypes::Enum::MAX; ++j)
         {
           p->allUnitCount[j]        = p2->allUnitCount[j];
           p->visibleUnitCount[j]    = p2->visibleUnitCount[j];
@@ -559,16 +559,18 @@ namespace BWAPI
           p->deadUnitCount[j]       = p2->deadUnitCount[j];
           p->killedUnitCount[j]     = p2->killedUnitCount[j];
         }
-        p->totalUnitScore      = p2->totalUnitScore;
-        p->totalKillScore      = p2->totalKillScore;
-        p->totalBuildingScore  = p2->totalBuildingScore;
-        p->totalRazingScore    = p2->totalRazingScore;
-        p->customScore         = p2->customScore;
+        p->totalUnitScore     = p2->totalUnitScore;
+        p->totalKillScore     = p2->totalKillScore;
+        p->totalBuildingScore = p2->totalBuildingScore;
+        p->totalRazingScore   = p2->totalRazingScore;
+        p->customScore        = p2->customScore;
+
         for(int j = 0; j < 63; ++j)
         {
           p->upgradeLevel[j] = p2->upgradeLevel[j];
           p->isUpgrading[j]  = p2->isUpgrading[j];
         }
+
         for(int j = 0; j < 47; ++j)
         {
           p->hasResearched[j] = p2->hasResearched[j];
@@ -585,7 +587,7 @@ namespace BWAPI
 
       for(int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       {
-        Unit* u = Broodwar->indexToUnit(i);
+        Unit u = Broodwar->indexToUnit(i);
         int id = -1;
         if ( u )
           id = u->getID();
@@ -594,12 +596,13 @@ namespace BWAPI
 
       unitFinder     *xf   = data->xUnitSearch;
       unitFinder     *yf   = data->yUnitSearch;
-      const BW::unitFinder *bwxf = BW::BWDATA_UnitOrderingX;
-      const BW::unitFinder *bwyf = BW::BWDATA_UnitOrderingY;
+      const BW::unitFinder *bwxf = BW::BWDATA::UnitOrderingX;
+      const BW::unitFinder *bwyf = BW::BWDATA::UnitOrderingY;
+      int bwSearchSize = *BW::BWDATA::UnitOrderingCount;
 
-      for ( int i = 0; i < UNIT_ARRAY_MAX_LENGTH*2 && (bwxf->unitIndex > 0 || bwyf->unitIndex > 0); ++i, bwxf++, bwyf++ )
+      for ( int i = 0; i < bwSearchSize; ++i, bwxf++, bwyf++ )
       {
-        if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= 1700 )
+        if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
         {
           UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
           if ( u && u->canAccess() )
@@ -610,7 +613,7 @@ namespace BWAPI
           }
         } // x index
 
-        if ( bwyf->unitIndex > 0 && bwyf->unitIndex <= 1700 )
+        if ( bwyf->unitIndex > 0 && bwyf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
         {
           UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
           if ( u && u->canAccess() )
@@ -622,17 +625,10 @@ namespace BWAPI
         } // x index
 
       } // loop unit finder
-      // Set final values (prevent searching beyond this index)
-      if ( yf <= &data->yUnitSearch[UNIT_ARRAY_MAX_LENGTH*2-1] )
-      {
-        yf->searchValue = -1;
-        yf->unitIndex   = -1;
-      } // final y
-      if ( xf <= &data->xUnitSearch[UNIT_ARRAY_MAX_LENGTH*2-1] )
-      {
-        xf->searchValue = -1;
-        xf->unitIndex   = -1;
-      } // final x
+      
+      // Set size
+      data->unitSearchSize = xf - data->xUnitSearch; // we assume and equal number of y values was put into the array
+      
 
       //dynamic bullet data
       for(int id = 0; id < 100; ++id)
@@ -643,8 +639,8 @@ namespace BWAPI
       data->nukeDotCount = Broodwar->getNukeDots().size();
       foreach(Position nd, Broodwar->getNukeDots())
       {
-        data->nukeDots[j].x = nd.x();
-        data->nukeDots[j].y = nd.y();
+        data->nukeDots[j].x = nd.x;
+        data->nukeDots[j].y = nd.y;
         ++j;
       }
 
@@ -653,7 +649,7 @@ namespace BWAPI
       Server::onMatchStart();
   }
 
-  int Server::getForceID(Force* force)
+  int Server::getForceID(Force force)
   {
     if ( !force )
       return -1;
@@ -664,13 +660,13 @@ namespace BWAPI
     }
     return forceLookup[force];
   }
-  Force* Server::getForce(int id)
+  Force Server::getForce(int id) const
   {
     if ((int)forceVector.size() <= id || id < 0)
-      return NULL;
+      return nullptr;
     return forceVector[id];
   }
-  int Server::getPlayerID(Player* player)
+  int Server::getPlayerID(Player player)
   {
     if ( !player )
       return -1;
@@ -681,14 +677,14 @@ namespace BWAPI
     }
     return playerLookup[player];
   }
-  Player* Server::getPlayer(int id)
+  Player Server::getPlayer(int id) const
   {
     if ((int)playerVector.size() <= id || id < 0)
-      return NULL;
+      return nullptr;
     return playerVector[id];
   }
 
-  int Server::getUnitID(Unit* unit)
+  int Server::getUnitID(Unit unit)
   {
     if ( !unit )
       return -1;
@@ -699,10 +695,10 @@ namespace BWAPI
     }
     return unitLookup[unit];
   }
-  Unit* Server::getUnit(int id)
+  Unit Server::getUnit(int id) const
   {
     if ((int)unitVector.size() <= id || id < 0)
-      return NULL;
+      return nullptr;
     return unitVector[id];
   }
 
@@ -753,12 +749,6 @@ namespace BWAPI
         if (Broodwar->isInGame())
           Broodwar->sendText("%s", data->strings[v1]);
         break;
-      case BWAPIC::CommandType::ChangeRace:
-        Broodwar->changeRace(Race(v1));
-        break;
-      case BWAPIC::CommandType::StartGame:
-        Broodwar->startGame();
-        break;
       case BWAPIC::CommandType::PauseGame:
         if (Broodwar->isInGame())
           Broodwar->pauseGame();
@@ -804,10 +794,6 @@ namespace BWAPI
         if (Broodwar->isInGame())
           Broodwar->setCommandOptimizationLevel(v1);
         break;
-      case BWAPIC::CommandType::SetReplayVision:
-        if ( Broodwar->isInGame() )
-          Broodwar->setReplayVision(getPlayer(v1), v2 != 0);
-        break;
       case BWAPIC::CommandType::SetRevealAll:
         if ( Broodwar->isInGame() )
           Broodwar->setRevealAll(v1 != 0);
@@ -822,8 +808,8 @@ namespace BWAPI
       {
         if (data->unitCommands[i].unitIndex < 0 || data->unitCommands[i].unitIndex >= (int)unitVector.size())
           continue;
-        Unit* unit   = unitVector[data->unitCommands[i].unitIndex];
-        Unit* target = NULL;
+        Unit unit   = unitVector[data->unitCommands[i].unitIndex];
+        Unit target = nullptr;
         if (data->unitCommands[i].targetIndex >= 0 && data->unitCommands[i].targetIndex < (int)unitVector.size())
           target = unitVector[data->unitCommands[i].targetIndex];
 
