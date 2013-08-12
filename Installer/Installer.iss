@@ -96,8 +96,8 @@ Name: "full"; Description: "Full Installation"
 Name: "custom"; Description: "Custom Installation"; Flags: iscustom
 
 [Registry]
-Root: "HKCU"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|sc.theabyss.ru;+7;The Abyss (ICCUP);}"; Tasks: ICCUP
-Root: "HKCU"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|games.podolsk.ru;+8;Games Podolsk;}"; Tasks: Podolsk
+Root: "HKCU32"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|sc.theabyss.ru;+7;The Abyss (ICCUP);}"; Tasks: ICCUP
+Root: "HKCU32"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|games.podolsk.ru;+8;Games Podolsk;}"; Tasks: Podolsk
 
 [Tasks]
 Name: "ICCUP"; Description: "The Abyss (ICCUP)"; GroupDescription: "Install Additional Battle.net Gateways:"
@@ -106,32 +106,72 @@ Name: "Podolsk"; Description: "Games Podolsk"; GroupDescription: "Install Additi
 [Code]
 var sBroodwarPath : String;
 
+// Appends one string to another
+procedure StrCat(var dest: String; const src: String);
+begin
+  Insert(src, dest, Length(dest)+1);
+end;
+
+// A function that checks both HKCU and HKLM for 32-bit queries
+function StormRegQueryValue(const CompanyName, ProductName, ValueName: String; var ResultStr: String): Boolean;
+var
+  sSubkeyName : String;
+begin
+  // Workaround: Determine the correct 32-bit subkey name because of INNO setup bug
+  sSubkeyName := 'SOFTWARE\'
+  if ( IsWin64() ) then
+    StrCat(sSubkeyName, 'Wow6432Node\');
+
+  StrCat(sSubkeyName, CompanyName);
+  StrCat(sSubkeyName, '\');
+  StrCat(sSubkeyName, ProductName);
+
+  Result := True;
+  if ( not RegQueryStringValue( HKCU, sSubkeyName, ValueName, ResultStr ) ) then
+    Result := RegQueryStringValue( HKLM, sSubkeyName, ValueName, ResultStr );
+end;
+
+// Ask the user to find the Starcraft: Broodwar directory
+function PromptBroodwarPath() : Boolean;
+var
+  sSubkey : String;
+begin
+  Result := False;
+
+  if ( MsgBox('Setup was unable to locate the installation directory of Starcraft: Broodwar. This indicates that the game was not installed correctly. '#13#10#13#10'Important components of BWAPI will not function if the location is not correct. Do you wish to locate the Starcraft: Broodwar directory?', mbConfirmation, MB_YESNO) = IDYES ) then
+  begin
+    if ( BrowseForFolder('Please locate the Starcraft: Broodwar installation directory.', sBroodwarPath, False) ) then
+    begin
+      // Determine subkey due to a bug in INNO setup
+      sSubkey := 'SOFTWARE\Blizzard Entertainment\Starcraft';
+      if ( IsWin64() ) then
+        sSubkey := 'SOFTWARE\Wow6432Node\Blizzard Entertainment\Starcraft';
+
+      // Write the InstallPath, first try HKLM (because Chaoslaunch complains), then HKCU
+      Result := True;
+      if ( not RegWriteStringValue( HKLM, sSubkey, 'InstallPath', sBroodwarPath) ) then
+        Result := RegWriteStringValue( HKCU, sSubkey, 'InstallPath', sBroodwarPath);
+    end;
+  end;
+
+end;
+
 // Get the location of the Starcraft folder.
 function GetBroodwarPath(): Boolean;
-var
-  len:    Integer;
-
 begin
   sBroodwarPath := '';
+  Result := True;
 
-  // Search for InstallPath
-  RegQueryStringValue( HKCU, 'SOFTWARE\Blizzard Entertainment\Starcraft', 'InstallPath', sBroodwarPath );
-  len := Length(sBroodwarPath);
-
-  // Search in alternative location
-  if len = 0 then
+  // Search for path
+  if ( not StormRegQueryValue('Blizzard Entertainment', 'Starcraft', 'InstallPath', sBroodwarPath) ) then
   begin
-    RegQueryStringValue( HKLM, 'SOFTWARE\Blizzard Entertainment\Starcraft', 'InstallPath', sBroodwarPath );
-    len := Length(sBroodwarPath);
-  end
-
-  // If it was not found
-  if len = 0 then
-  begin
-    // @TODO: Ask user for the install path
-  end
-
-  Result := len > 0;
+    // Ask user for the install path if it wasn't found
+    if ( not PromptBroodwarPath() ) then
+    begin
+      MsgBox('Setup was unable to properly locate and/or store the location of the Starcraft: Broodwar installation directory. Key components of BWAPI may not be installed.', mbError, MB_OK);
+      Result := False;
+    end;
+  end;
 end;
 
 //  Returns the path
@@ -151,7 +191,7 @@ begin
   sCurrent := Copy(S, 1, Length(S));
 
   // algo
-  while N > 0 do
+  while ( N > 0 ) do
   begin
     N := N - 1;
     idx := Pos(#0,sCurrent);
@@ -163,8 +203,6 @@ begin
   idx := Pos(#0,sCurrent);
   Result := Copy(sCurrent, 1, idx);
 end;
-
-
 
 // Install the ICCUP gateway
 function InstallGateway(Param: String) : String;
@@ -181,7 +219,7 @@ begin
   sGateways := sDefaultGateways;
 
   // Retrieve the existing gateways string (if any)
-  RegQueryMultiStringValue( HKCU, 'SOFTWARE\Battle.net\Configuration', 'Battle.net gateways', sGateways );
+  RegQueryMultiStringValue( HKEY_CURRENT_USER_32, 'SOFTWARE\Battle.net\Configuration', 'Battle.net gateways', sGateways );
 
   // Check validity of first component
   sTmp := GetStringAt(sGateways, 0);
@@ -205,7 +243,7 @@ begin
   if ( Length(sTmp) = 0 ) then
   begin
     // Append it to the existing gateways
-    Insert(Param, sGateways, Length(sGateways)+1);
+    StrCat(sGateways, Param);
   end
 
   Result := sGateways;
