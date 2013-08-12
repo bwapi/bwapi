@@ -12,7 +12,7 @@ using namespace std;
 using namespace testing;
 
 #define STR_FORMAT      "(P%d) Leave Game: Defeat"
-#define DEFAULT_PLAYER	(1)
+#define DEFAULT_PLAYER  (1)
 #define LEAVE_TYPE      (1)
 
 ReplayTool::GameAction* CreateLeaveGameAction () { return new LeaveGameAction(DEFAULT_PLAYER, LEAVE_TYPE); }

@@ -12,7 +12,7 @@ using namespace std;
 using namespace testing;
 
 #define STR_FORMAT      "(P%d) Minimap Ping: (%d, %d)"
-#define DEFAULT_PLAYER	(1)
+#define DEFAULT_PLAYER  (1)
 #define X_POS           (123)
 #define Y_POS           (321)
 

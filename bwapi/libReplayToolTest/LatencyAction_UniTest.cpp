@@ -12,7 +12,7 @@ using namespace std;
 using namespace testing;
 
 #define STR_FORMAT      "(P%d) Set Latency: High"
-#define DEFAULT_PLAYER	(1)
+#define DEFAULT_PLAYER  (1)
 #define LATENCY         (1)
 
 ReplayTool::GameAction* CreateLatencyAction () { return new LatencyAction(DEFAULT_PLAYER, LATENCY); }

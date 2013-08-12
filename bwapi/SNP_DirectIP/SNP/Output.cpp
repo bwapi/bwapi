@@ -1,0 +1,88 @@
+#include "Output.h"
+#include "SNPModule.h"
+#include <windows.h>
+#include <stdio.h>
+
+int messageOffset = 0;
+
+void DropMessage(int errorlevel, const char *format, ...)
+{
+#ifndef _DEBUG
+  return;
+#endif
+  char szBuffer[512];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(szBuffer, 512, 512, format, ap);
+  va_end(ap);
+
+  HDC screen = GetDC(NULL);
+  int dropcolor[] = {0x000000, 0x008888, 0x0000FF};
+  SetTextColor(screen, dropcolor[errorlevel]);
+  TextOut(screen, 0, messageOffset*16, szBuffer, strlen(szBuffer));
+  messageOffset = (messageOffset+1)%40;
+  const char *szSpaces = "                                                                                       ";
+  TextOut(screen, 0, messageOffset*16, szSpaces, strlen(szSpaces));
+  ReleaseDC(NULL, screen);
+}
+
+void DropLastError(const char *format, ...)
+{
+  char szBuffer[256];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(szBuffer, 256, 256, format, ap);
+  va_end(ap);
+
+  DWORD dwErrCode = GetLastError();
+
+  char szErrStr[256];
+  SErrGetErrorStr(dwErrCode, szErrStr, 256);
+
+  char szFinalStr[512];
+  sprintf_s(szFinalStr, 512, "Error: 0x%x;%s;%s", dwErrCode, szBuffer, szErrStr);
+
+  /*
+  FILE *hLog = fopen(gszLogPath, "a+");
+  if ( hLog )
+  {
+    fprintf(hLog, "%s\n------------\n", szFinalStr);
+    fclose(hLog);
+  }
+  */
+  //errorMsg(szFinalStr);
+  DropMessage(2, szFinalStr);
+}
+
+char* sprintfBytes(void*bytes, int byteCount)
+{
+  char byteBuffer[16];
+  static char endBuffer[256];
+  char *p = endBuffer;
+
+  for(int i = 0; i < byteCount; i++)
+  {
+    sprintf(byteBuffer, " %02X", ((unsigned char*)bytes)[i]);
+    strcpy(p, byteBuffer);
+    p += strlen(byteBuffer);
+    if(p > endBuffer+250)
+      break;
+  }
+
+  return endBuffer+1; // remove leading space
+}
+
+void OutputStatus(const char *format, ...)
+{
+#ifdef _DEBUG
+  char szBuffer[512];
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_s(szBuffer, 512, 512, format, ap);
+  va_end(ap);
+
+  HDC screen = GetDC(NULL);
+  TextOut(screen, 0, 40*16, szBuffer, strlen(szBuffer));
+  ReleaseDC(NULL, screen);
+#endif
+}

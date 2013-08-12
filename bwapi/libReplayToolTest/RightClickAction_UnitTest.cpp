@@ -11,14 +11,14 @@ using namespace BWAPI;
 using namespace std;
 using namespace testing;
 
-#define STR_FORMAT			"(P%d) Right Click: (%d, %d), %d:00, %s, Queued"
-#define DEFAULT_PLAYER		(1)
-#define X_POS				(123)
-#define Y_POS				(321)
-#define TARGET_ID			(2)
-#define UNIT_TYPE_STRING	"Terran_Barracks"
-#define UNIT_TYPE			UnitTypes::Terran_Barracks
-#define HOW					(3)
+#define STR_FORMAT      "(P%d) Right Click: (%d, %d), %d:00, %s, Queued"
+#define DEFAULT_PLAYER    (1)
+#define X_POS        (123)
+#define Y_POS        (321)
+#define TARGET_ID      (2)
+#define UNIT_TYPE_STRING  "Terran_Barracks"
+#define UNIT_TYPE      UnitTypes::Terran_Barracks
+#define HOW          (3)
 
 ReplayTool::GameAction* CreateRightClickAction() { return new RightClickAction(DEFAULT_PLAYER, X_POS, Y_POS, TARGET_ID, UNIT_TYPE, HOW); }
 
@@ -42,10 +42,10 @@ protected:
       WillOnce(testing::Return(Y_POS)).
       WillOnce(testing::Return(TARGET_ID));
 
-	EXPECT_CALL(reader, readUnitType()).
+  EXPECT_CALL(reader, readUnitType()).
       WillOnce(testing::Return(UNIT_TYPE));
 
-	EXPECT_CALL(reader, readBYTE()).
+  EXPECT_CALL(reader, readBYTE()).
       WillOnce(testing::Return(HOW));
 
     action->read(reader);

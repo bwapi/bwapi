@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="SNP">
+      <UniqueIdentifier>{0f3f0512-ea7c-4e8d-a33b-42cacd5113d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectIP">
+      <UniqueIdentifier>{921f88d3-2e1a-4cd1-b25d-7a62b3357722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LocalPC">
+      <UniqueIdentifier>{eef107c6-54b1-438d-82b8-83d03c05cfd4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SNP\CriticalSection.cpp">
+      <Filter>SNP</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\SNPModule.cpp">
+      <Filter>SNP</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\DirectIP.cpp">
+      <Filter>DirectIP</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\SettingsDialog.cpp">
+      <Filter>DirectIP</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\UDPSocket.cpp">
+      <Filter>DirectIP</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\LocalPC.cpp">
+      <Filter>LocalPC</Filter>
+    </ClCompile>
+    <ClCompile Include="SNP\Output.cpp" />
+    <ClCompile Include="SNP\DLLMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SNP\CriticalSection.h">
+      <Filter>SNP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\SNPModule.h">
+      <Filter>SNP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\SNPNetwork.h">
+      <Filter>SNP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\DirectIP.h">
+      <Filter>DirectIP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\resource.h">
+      <Filter>DirectIP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\SettingsDialog.h">
+      <Filter>DirectIP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\UDPSocket.h">
+      <Filter>DirectIP</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\LocalPC.h">
+      <Filter>LocalPC</Filter>
+    </ClInclude>
+    <ClInclude Include="SNP\Output.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SNP\UI.rc">
+      <Filter>DirectIP</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SNP\SNPModule.def" />
+  </ItemGroup>
+</Project>
