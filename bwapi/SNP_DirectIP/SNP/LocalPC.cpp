@@ -3,9 +3,9 @@
 
 #include "Output.h"
 
-#include <Util\SharedMemory.h>
-#include <Util\SharedStructure.h>
-#include <Util\Mutex.h>
+#include <Util/SharedMemory.h>
+#include <Util/SharedStructure.h>
+#include <Util/Mutex.h>
 
 namespace SMEM
 {

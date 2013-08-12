@@ -2,7 +2,7 @@
 
 #include "SNPNetwork.h"
 
-#include <Util\Types.h>
+#include <Util/Types.h>
 #include "UDPSocket.h"
 
 namespace SMEM

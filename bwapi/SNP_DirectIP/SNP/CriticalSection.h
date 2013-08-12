@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-#include <Util\Exceptions.h>
+#include <Util/Exceptions.h>
 
 class CriticalSection
 {

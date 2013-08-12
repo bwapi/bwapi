@@ -2,7 +2,8 @@
 
 #include "CriticalSection.h"
 #include "Output.h"
-#include <Util\MemoryFrame.h>
+#include <Util/MemoryFrame.h>
+#include "../../Storm/storm.h"
 
 #include <queue>
 #include <list>
