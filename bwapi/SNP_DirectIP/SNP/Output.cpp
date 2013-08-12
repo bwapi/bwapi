@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <stdio.h>
 
+#include "../../Storm/storm.h"
+
 int messageOffset = 0;
 
 void DropMessage(int errorlevel, const char *format, ...)
@@ -37,7 +39,7 @@ void DropLastError(const char *format, ...)
   DWORD dwErrCode = GetLastError();
 
   char szErrStr[256];
-  SErrGetErrorStr(dwErrCode, szErrStr, 256);
+  SEGetErrorStr(dwErrCode, szErrStr);
 
   char szFinalStr[512];
   sprintf_s(szFinalStr, 512, "Error: 0x%x;%s;%s", dwErrCode, szBuffer, szErrStr);
