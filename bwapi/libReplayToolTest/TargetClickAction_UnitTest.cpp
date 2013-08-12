@@ -11,16 +11,16 @@ using namespace BWAPI;
 using namespace std;
 using namespace testing;
 
-#define STR_FORMAT			"(P%d) Target Click: (%d, %d), %d:00, %s, %s, Queued"
-#define DEFAULT_PLAYER		(1)
-#define X_POS				(123)
-#define Y_POS				(321)
-#define TARGET_ID			(2)
-#define UNIT_TYPE_STRING	"Terran_Barracks"
-#define UNIT_TYPE			UnitTypes::Terran_Barracks
-#define HOW					(3)
-#define ORDER_TYPE_STRING	"InfestedCommandCenter"
-#define ORDER_TYPE			Orders::InfestedCommandCenter
+#define STR_FORMAT      "(P%d) Target Click: (%d, %d), %d:00, %s, %s, Queued"
+#define DEFAULT_PLAYER    (1)
+#define X_POS        (123)
+#define Y_POS        (321)
+#define TARGET_ID      (2)
+#define UNIT_TYPE_STRING  "Terran_Barracks"
+#define UNIT_TYPE      UnitTypes::Terran_Barracks
+#define HOW          (3)
+#define ORDER_TYPE_STRING  "InfestedCommandCenter"
+#define ORDER_TYPE      Orders::InfestedCommandCenter
 
 
 ReplayTool::GameAction* CreateTargetClickAction() { return new TargetClickAction(DEFAULT_PLAYER, X_POS, Y_POS, TARGET_ID, UNIT_TYPE, HOW, ORDER_TYPE); }
@@ -45,13 +45,13 @@ protected:
       WillOnce(testing::Return(Y_POS)).
       WillOnce(testing::Return(TARGET_ID));
 
-	EXPECT_CALL(reader, readUnitType()).
+  EXPECT_CALL(reader, readUnitType()).
       WillOnce(testing::Return(UNIT_TYPE));
 
-	EXPECT_CALL(reader, readBYTE()).
+  EXPECT_CALL(reader, readBYTE()).
       WillOnce(testing::Return(HOW));
 
-	EXPECT_CALL(reader, readOrder()).
+  EXPECT_CALL(reader, readOrder()).
       WillOnce(testing::Return(ORDER_TYPE));
 
     action->read(reader);

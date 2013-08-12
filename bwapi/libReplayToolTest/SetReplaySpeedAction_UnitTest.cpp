@@ -12,10 +12,10 @@ using namespace std;
 using namespace testing;
 
 #define STR_FORMAT      "(P%d) Set Replay Speed: Faster, ×%u"
-#define DEFAULT_PLAYER	(1)
+#define DEFAULT_PLAYER  (1)
 #define PAUSED          (false)
-#define SPEED			(5)
-#define	MULTIPLIER		(3)
+#define SPEED      (5)
+#define  MULTIPLIER    (3)
 
 ReplayTool::GameAction* CreateSetReplaySpeedAction () { return new SetReplaySpeedAction(DEFAULT_PLAYER, PAUSED, SPEED, MULTIPLIER); }
 
@@ -36,7 +36,7 @@ protected:
 
     EXPECT_CALL(reader, readBYTE()).
       WillOnce(testing::Return(PAUSED));
-	EXPECT_CALL(reader, readDWORD()).
+  EXPECT_CALL(reader, readDWORD()).
       WillOnce(testing::Return(SPEED)).
       WillOnce(testing::Return(MULTIPLIER));
 

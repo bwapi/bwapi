@@ -48,6 +48,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libReplayToolTest", "libRep
 		{02027215-F122-4174-A0A8-248A28A43980} = {02027215-F122-4174-A0A8-248A28A43980}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SNP_DirectIP", "SNP_DirectIP\SNP_DirectIP.vcxproj", "{452BDDC2-D77B-45C3-991E-7D93DE3638B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C252CA4E-FFA0-404C-B5B4-614CF330C084} = {C252CA4E-FFA0-404C-B5B4-614CF330C084}
+		{08C0C784-F586-4CAA-8951-8ADF1586C0E9} = {08C0C784-F586-4CAA-8951-8ADF1586C0E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -126,6 +132,10 @@ Global
 		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Debug|Win32.Build.0 = Debug|Win32
 		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Release|Win32.ActiveCfg = Release|Win32
 		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Release|Win32.Build.0 = Release|Win32
+		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug|Win32.Build.0 = Debug|Win32
+		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Release|Win32.ActiveCfg = Release|Win32
+		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

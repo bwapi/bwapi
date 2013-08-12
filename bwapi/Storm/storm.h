@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef __BLIZZARD_STORM_HEADER
+#define __BLIZZARD_STORM_HEADER
+
 #include <windows.h>
 #include <winuser.h>
 #include <winsock.h>
@@ -6,29 +10,37 @@
 
 // Note to self: Linker error => forgot a return value in cpp
 
+// Storm API definition
 #ifndef STORMAPI
 #define STORMAPI __stdcall
 #endif
 
+// Array manipulation macros
+#ifndef arrsize
 #define arrsize(x) (sizeof(x)/sizeof(x[0]))   // Official name
+#endif
+
+#ifndef countof
 #define countof(x) arrsize(x)                 // Personal name
-
-#ifndef SMAX
-#define SMAX(x,y) (x < y ? y : x)
 #endif
 
-#ifndef SSIZEMAX
-#define SSIZEMAX(x,y) (SMAX(sizeof(x),sizeof(y)))
+#ifndef __STORM_SMAX
+#define __STORM_SMAX(x,y) (x < y ? y : x)
 #endif
 
-#ifndef SMIN
-#define SMIN(x,y) (x < y ? x : y)
+#ifndef __STORM_SSIZEMAX
+#define __STORM_SSIZEMAX(x,y) (__STORM_SMAX(sizeof(x),sizeof(y)))
 #endif
 
-#ifndef SSIZEMIN
-#define SSIZEMIN(x,y) (SMAX(sizeof(x),sizeof(y)))
+#ifndef __STORM_SMIN
+#define __STORM_SMIN(x,y) (x < y ? x : y)
 #endif
 
+#ifndef __STORM_SSIZEMIN
+#define __STORM_SSIZEMIN(x,y) (__STORM_SMIN(sizeof(x),sizeof(y)))
+#endif
+
+// Descriptors seen in windows
 #ifndef __in_opt
 #define __in_opt
 #endif
@@ -45,8 +57,7 @@
 #define __out_opt
 #endif
 
-#ifndef BLIZZ_STRUCTS
-#define BLIZZ_STRUCTS
+
 typedef struct _WRECT
 {
   WORD  left;
@@ -66,16 +77,16 @@ typedef struct _WSIZE
   WORD  cx;
   WORD  cy;
 } WSIZE, *PWSIZE;
-#endif
 
-#ifndef GAMESTATE_PRIVATE
 
+
+// Game states
 #define GAMESTATE_PRIVATE 0x01
 #define GAMESTATE_FULL    0x02
 #define GAMESTATE_ACTIVE  0x04
 #define GAMESTATE_STARTED 0x08
 #define GAMESTATE_REPLAY  0x80
-#endif
+
 
 BOOL STORMAPI SNetCreateGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 BOOL STORMAPI SNetDestroy();
@@ -118,12 +129,12 @@ SNetGetGameInfo(
     __in  size_t length,
     __out size_t *byteswritten = NULL);
 
-#ifndef SNGetGameInfo
+
 #define SNGetGameInfo(typ,dst) SNetGetGameInfo(typ, &dst, sizeof(dst))
-#endif
 
-#ifndef GAMEINFO_NAME
 
+
+// Game info fields
 #define GAMEINFO_NAME           1
 #define GAMEINFO_PASSWORD       2
 #define GAMEINFO_STATS          3
@@ -131,12 +142,10 @@ SNetGetGameInfo(
 #define GAMEINFO_GAMETEMPLATE   5
 #define GAMEINFO_PLAYERS        6
 
-#endif
 
 BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *activeplayers);
 
-#ifndef CAPS_STRUCT
-#define CAPS_STRUCT
+
 typedef struct _CAPS
 {
   DWORD dwSize;                 // Size of this structure  // sizeof(CAPS)
@@ -149,7 +158,7 @@ typedef struct _CAPS
   DWORD dwPlayerCount;          // the number of players that can participate, must be between 1 and 20
   DWORD dwCallDelay;            // the number of calls before data is sent over the network // between 2 and 8; single player is set to 1
 } CAPS, *PCAPS;
-#endif
+
 
 BOOL STORMAPI SNetGetPlayerCaps(char playerid, PCAPS playerCaps);
 
@@ -200,9 +209,8 @@ SNetGetTurnsInTransit(
 
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5);
 
-#ifndef PROVIDER_STRUCTS
-#define PROVIDER_STRUCTS
-typedef struct _clientInfo
+// Network provider structures
+typedef struct _client_info
 {
   DWORD dwSize; // 60
   char  *pszName;
@@ -219,17 +227,17 @@ typedef struct _clientInfo
   char  *pszCdOwner;
   DWORD dwIsShareware;
   DWORD dwLangId;
-} clientInfo;
+} client_info;
 
-typedef struct _userInfo
+typedef struct _user_info
 {
   DWORD dwSize; // 16
   char  *pszPlayerName;
   char  *pszUnknown;
   DWORD dwUnknown;
-} userInfo;
+} user_info;
 
-typedef struct _battleInfo
+typedef struct _battle_info
 {
   DWORD dwSize;   // 92
   DWORD dwUnkType;
@@ -254,36 +262,36 @@ typedef struct _battleInfo
   void  *pfnUnk_20;
   void  *pfnUnk_21;
   void  *pfnBattleSetLeagueName;
-} battleInfo;
+} battle_info;
 
-typedef struct _moduleInfo
+typedef struct _module_info
 {
   DWORD dwSize; // 20
   char  *pszVersionString;
   char  *pszModuleName;
   char  *pszMainArchive;
   char  *pszPatchArchive;
-} moduleInfo;
+} module_info;
 
-typedef struct _gameStruc
+typedef struct _game
 {
-  DWORD       dwIndex;
-  DWORD       dwGameState;
-  DWORD       dwUnk_08;
-  SOCKADDR    saHost;
-  DWORD       dwUnk_1C;
-  DWORD       dwTimer;
-  DWORD       dwUnk_24;
-  char        szGameName[128];
-  char        szGameStatString[128];
-  _gameStruc  *pNext;
-  void        *pExtra;
-  DWORD       dwExtraBytes;
-  DWORD       dwProduct;
-  DWORD       dwVersion;
-} gameStruc;
+  DWORD     dwIndex;
+  DWORD     dwGameState;
+  DWORD     dwUnk_08;
+  SOCKADDR  saHost;
+  DWORD     dwUnk_1C;
+  DWORD     dwTimer;
+  DWORD     dwUnk_24;
+  char      szGameName[128];
+  char      szGameStatString[128];
+  _game     *pNext;
+  void      *pExtra;
+  DWORD     dwExtraBytes;
+  DWORD     dwProduct;
+  DWORD     dwVersion;
+} game;
 
-typedef struct _stormHead
+typedef struct _storm_head
 {
   WORD wChecksum;
   WORD wLength;
@@ -293,18 +301,15 @@ typedef struct _stormHead
   BYTE bCommandType;
   BYTE bPlayerId;
   BYTE bFlags;
-} stormHead;
+} storm_head;
 
-#endif
 
-#ifndef STRAFFIC_NORMAL
-
+// Traffic flags
 #define STRAFFIC_NORMAL 0
 #define STRAFFIC_VERIFY 1
 #define STRAFFIC_RESEND 2
 #define STRAFFIC_REPLY  4
 
-#endif
 
 /*  SNetInitializeProvider @ 117
  * 
@@ -329,10 +334,10 @@ BOOL
 STORMAPI
 SNetInitializeProvider(
       __in  DWORD       providerName, 
-      __in  clientInfo  *gameClientInfo,
-      __in  userInfo    *userData,
-      __in  battleInfo  *bnCallbacks,
-      __in  moduleInfo  *moduleData);
+      __in  client_info  *gameClientInfo,
+      __in  user_info    *userData,
+      __in  battle_info  *bnCallbacks,
+      __in  module_info  *moduleData);
 
 
 BOOL STORMAPI SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid);
@@ -356,18 +361,13 @@ BOOL STORMAPI SNetReceiveMessage(int *senderplayerid, char **data, int *databyte
 BOOL STORMAPI SNetReceiveTurns(int a1, int arraysize, char **arraydata, unsigned int *arraydatabytes, DWORD *arrayplayerstatus);
 
 // Values for arrayplayerstatus
-#ifndef SNET_PS_OK
-
 #define SNET_PS_OK             0
 #define SNET_PS_WAITING        2
 #define SNET_PS_NOTRESPONDING  3
 #define SNET_PS_UNKNOWN        default
 
-#endif
 
-#ifndef STORM_EVENT
-#define STORM_EVENT
-
+// Event structure
 typedef struct _s_evt
 {
   DWORD dwFlags;
@@ -375,9 +375,9 @@ typedef struct _s_evt
   void  *pData;
   DWORD dwSize;
 } S_EVT, *PS_EVT;
-#endif
 
-/* @TODO: "type" is unknown. */
+
+// @TODO: "type" is unknown.
 HANDLE STORMAPI SNetRegisterEventHandler(int type, void (STORMAPI *sEvent)(PS_EVT));
 
 int  STORMAPI SNetSelectGame(int a1, int a2, int a3, int a4, int a5, int *playerid);
@@ -405,12 +405,10 @@ SNetSendMessage(
       __in size_t databytes);
 
 
-#ifndef SNPLAYER_ALL
-
+// Macro values to target specific players
 #define SNPLAYER_ALL    -1
 #define SNPLAYER_OTHERS -2
 
-#endif
 
 /*  SNetSendTurn @ 128
  * 
@@ -505,27 +503,19 @@ LONG STORMAPI SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh);
 BOOL STORMAPI SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
 
 // values for dwFlags
-#ifndef MPQ_NO_LISTFILE
-
 #define MPQ_NO_LISTFILE       0x0010
 #define MPQ_NO_ATTRIBUTES     0x0020
 #define MPQ_FORCE_V1          0x0040
 #define MPQ_CHECK_SECTOR_CRC  0x0080
 
-#endif
-
 BOOL STORMAPI SFileOpenFile(const char *filename, HANDLE *phFile);
 BOOL STORMAPI SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
 // values for dwSearchScope
-#ifndef SFILE_FROM_MPQ
-
 #define SFILE_FROM_MPQ        0x00000000
 #define SFILE_FROM_ABSOLUTE   0x00000001
 #define SFILE_FROM_RELATIVE   0x00000002
 #define SFILE_FROM_DISK       0x00000004
-
-#endif
 
 BOOL STORMAPI SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh);
 
@@ -559,14 +549,10 @@ BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, in
 BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
 BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
 
-#ifndef SBMP_DEFAULT
-
 #define SBMP_DEFAULT  0
 #define SBMP_BMP      1
 #define SBMP_PCX      2
 #define SBMP_TGA      3
-
-#endif
 
 
 /*  SBmpDecodeImage @ 321
@@ -823,9 +809,7 @@ SMemAlloc(
     __in  int   logline,
     __in  char  defaultValue = 0);
 
-#ifndef SMAlloc
 #define SMAlloc(amount) SMemAlloc((amount), __FILE__, __LINE__)
-#endif
 
 
 /*  SMemFree @ 403
@@ -848,9 +832,8 @@ SMemFree(
     __in  int  logline,
     __in  char defaultValue = 0);
 
-#ifndef SMFree
 #define SMFree(loc) SMemFree((loc), __FILE__, __LINE__)
-#endif
+
 
 /*  SMemReAlloc @ 405
  *  
@@ -876,13 +859,9 @@ SMemReAlloc(
     __in  int     logline,
     __in  char    defaultValue = 0);
 
-#ifndef SMReAlloc
 #define SMReAlloc(loc,s) SMemReAlloc((loc),(s), __FILE__, __LINE__)
-#endif
 
-
-#ifndef SLOG_EXPRESSION
-
+// Can be provided instead of logline/__LINE__ parameter to indicate different errors.
 #define SLOG_EXPRESSION    0
 #define SLOG_FUNCTION     -1
 #define SLOG_OBJECT       -2
@@ -890,7 +869,6 @@ SMemReAlloc(
 #define SLOG_FILE         -4
 #define SLOG_EXCEPTION    -5
 
-#endif
 
 BOOL STORMAPI SRegLoadData(const char *keyname, const char *valuename, int size, LPBYTE lpData, BYTE flags, LPDWORD lpcbData);
 BOOL STORMAPI SRegLoadString(const char *keyname, const char *valuename, BYTE flags, char *buffer, size_t buffersize);
@@ -901,19 +879,15 @@ BOOL STORMAPI SRegSaveValue(const char *keyname, const char *valuename, BYTE fla
 
 BOOL STORMAPI SRegDeleteValue(const char *keyname, const char *valuename, BYTE flags);
 
-#ifndef SREG_NONE
 // Flags for SReg functions
 
 // Default behaviour checks both HKEY_LOCAL_MACHINE and HKEY_CURRENT_USER
 // relative to the "Software\\Blizzard Entertainment\\" key in both hives.
-
 #define SREG_NONE                   0x00000000
 #define SREG_EXCLUDE_LOCAL_MACHINE  0x00000001  // excludes checking the HKEY_LOCAL_MACHINE hive
 #define SREG_BATTLE_NET             0x00000002  // sets the relative key to "Software\\Battle.net\\" instead
 #define SREG_EXCLUDE_CURRENT_USER   0x00000004  // excludes checking the HKEY_CURRENT_USER hive
 #define SREG_ABSOLUTE               0x00000010  // specifies that the key is not a relative key
-
-#endif
 
 BOOL STORMAPI STransBlt(void *lpSurface, int x, int y, int width, HANDLE hTrans);
 BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *lpSource, int pitch, int width, HANDLE hTrans);
@@ -1024,8 +998,6 @@ SErrSetLastError(
 void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 
 // Values for dwErrCode
-#ifndef STORM_ERROR_ASSERTION
-
 #define STORM_ERROR_ASSERTION                    0x85100000
 #define STORM_ERROR_BAD_ARGUMENT                 0x85100065
 #define STORM_ERROR_GAME_ALREADY_STARTED         0x85100066
@@ -1061,8 +1033,6 @@ void STORMAPI SErrSuppressErrors(BOOL suppressErrors);
 #define STORM_ERROR_FATAL                        0x85100084
 #define STORM_ERROR_GAMETYPE_UNAVAILABLE         0x85100085
 
-#endif
-
 
 /*  SMemCopy @ 491
  *  
@@ -1081,9 +1051,7 @@ SMemCopy(
     __in  const void *source, 
     __in  size_t size);
 
-#ifndef SMCopy
-#define SMCopy(d,s) ( SMemCopy(d, s, SSIZEMIN(s,d)) )
-#endif
+#define SMCopy(d,s) ( SMemCopy(d, s, __STORM_SSIZEMIN(s,d)) )
 
 /*  SMemFill @ 492
  *  
@@ -1102,9 +1070,7 @@ SMemFill(
     __in  size_t length,
     __in  char fillWith = 0);
 
-#ifndef SMFill
 #define SMFill(l,f) (SMemFill(l, sizeof(l), f))
-#endif
 
 /*  SMemZero @ 494
  *  
@@ -1119,15 +1085,12 @@ SMemZero(
     __in  void *location,
     __in  size_t length);
 
-#ifndef SMZero
 #define SMZero(l) (SMemZero(l, sizeof(l)))
-#endif
+
 
 int   STORMAPI SMemCmp(void *location1, void *location2, DWORD size);
 
-#ifndef SMCmp
-#define SMCmp(l,x) ( SMemCmp(l, x, SSIZEMIN(x,l)) )
-#endif
+#define SMCmp(l,x) ( SMemCmp(l, x, __STORM_SSIZEMIN(x,l)) )
 
 /*  SStrCopy @ 501
  *  
@@ -1147,13 +1110,9 @@ SStrCopy(
     __in  const char *src,
     __in  int max_length = 0x7FFFFFFF);
 
-#ifndef SSCopy
 #define SSCopy(d,s) (SStrCopy(d, s, sizeof(d)))
-#endif
 
-#ifndef STORM_HASH_ABSOLUTE
 #define STORM_HASH_ABSOLUTE 1
-#endif
 
 /*  SStrHash @ 502
  *  
@@ -1210,9 +1169,7 @@ SStrCmp(
       __in  const char *string2, 
       __in  size_t size);
 
-#ifndef SSCmp
-#define SSCmp(s,x) ( SStrCmp(s,x,SSIZEMIN(s,x)) )
-#endif
+#define SSCmp(s,x) ( SStrCmp(s,x,__STORM_SSIZEMIN(s,x)) )
 
 /*  SStrCmpI @ 509
  *  
@@ -1231,9 +1188,7 @@ SStrCmpI(
       __in  const char *string2, 
       __in  size_t size);
 
-#ifndef SSCmpI
-#define SSCmpI(s,x) ( SStrCmpI(s,x,SSIZEMIN(s,x)) )
-#endif
+#define SSCmpI(s,x) ( SStrCmpI(s,x,__STORM_SSIZEMIN(s,x)) )
 
 /*  SStrUpper @ 510
  *  
@@ -1340,3 +1295,6 @@ int STORMAPI SBigNew(void **buffer);
 int STORMAPI SBigPowMod(void *buffer1, void *buffer2, int a3, int a4);
 
 int STORMAPI SBigToBinaryBuffer(void *buffer, int length, int a3, int a4);
+
+
+#endif
