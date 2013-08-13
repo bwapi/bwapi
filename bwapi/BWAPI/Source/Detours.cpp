@@ -4,7 +4,7 @@
 #include <fstream>
 #include <cmath>
 #include <Util/Exceptions.h>
-#include "../Storm/storm.h"
+#include <storm.h>
 
 #include "WMode.h"
 #include "DLLMain.h"

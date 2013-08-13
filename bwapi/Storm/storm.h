@@ -149,9 +149,9 @@ BOOL STORMAPI SNetGetNumPlayers(int *firstplayerid, int *lastplayerid, int *acti
 typedef struct _CAPS
 {
   DWORD dwSize;                 // Size of this structure  // sizeof(CAPS)
-  DWORD dwUnk_0x04;
+  DWORD dwUnk_0x04;             // Some flags?
   DWORD maxmessagesize;         // Size of the packet buffer, must be beteen 128 and 512
-  DWORD dwUnk_0x0C;
+  DWORD dwUnk_0x0C;             // Unknown
   DWORD dwDisplayedPlayerCount; // Displayed player count in the mode selection list
   DWORD dwUnk_0x14;             // some kind of timeout or timer related
   DWORD dwPlayerLatency;        // ... latency?

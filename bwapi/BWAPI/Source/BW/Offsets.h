@@ -1,6 +1,6 @@
 #pragma once
 #include <Util/Types.h>
-#include "../Storm/storm.h"
+#include <storm.h>
 
 #include "TriggerEngine.h"
 #include "Position.h"
