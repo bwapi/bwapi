@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <stdio.h>
 
-#include "../../Storm/storm.h"
+#include <storm.h>
 
 int messageOffset = 0;
 

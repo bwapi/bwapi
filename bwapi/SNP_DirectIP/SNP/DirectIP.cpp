@@ -9,7 +9,7 @@ namespace DRIP
 {
   SNP::NetworkInfo networkInfo = {"Direct IP", 'DRIP', "",
     // CAPS:
-  {sizeof(CAPS), 0, SNP::PACKET_SIZE, 0, 0, 1000, 50, 8, 0}};
+  {sizeof(CAPS), 0x20000003, SNP::PACKET_SIZE, 16, 256, 1000, 50, 8, 2}};
 
   UDPSocket session;
 

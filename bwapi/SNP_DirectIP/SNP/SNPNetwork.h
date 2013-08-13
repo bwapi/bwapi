@@ -2,7 +2,7 @@
 
 #include <Util/MemoryFrame.h>
 #include <Util/Types.h>
-#include "../../Storm/storm.h"
+#include <storm.h>
 
 //
 // The Network interface separates the Storm stuff from pure networking
