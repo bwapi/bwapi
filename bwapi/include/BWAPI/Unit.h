@@ -610,21 +610,30 @@ namespace BWAPI
     /// @see getLoadedUnits
     int getSpaceRemaining() const;
 
-    /** For Protoss Interceptors, this returns the Carrier unit this Interceptor is controlled by. For all
-     * other unit types this function returns NULL. */
+    /// Retrieves the parent @Carrier that owns this @Interceptor.
+    ///
+    /// @returns The parent @Carrier unit that has ownership of this one.
+    /// @retval nullptr if the current unit is not an @Interceptor.
     virtual Unit getCarrier() const = 0;
 
-    /** Returns the set of interceptors controlled by this unit. If the unit has no interceptors, or is not
-     * a Carrier, this function returns an empty set. */
+    /// Retrieves the set of @Interceptors controlled by this unit. This is intended for @Carriers.
+    ///
+    /// @returns Unitset containing @Interceptor units owned by this one.
     virtual Unitset getInterceptors() const = 0;
 
-    /** For Zerg Larva, this returns the Hatchery, Lair, or Hive unit this Larva was spawned from. For all
-     * other unit types this function returns NULL. */
+    /// Retrieves the parent @Hatchery, @Lair, or @Hive that owns this particular unit. This is
+    /// intended for @Larvae.
+    ///
+    /// @returns Hatchery unit that has ownership of this larva.
+    /// @retval nullptr if the current unit is not a @Larva or has no parent.
     virtual Unit getHatchery() const = 0;
 
-    /** Returns the set of larva spawned by this unit. If the unit has no larva, or is not a Hatchery, Lair,
-     * or Hive, this function returns an empty set. Equivalent to clicking "Select Larva" from the Starcraft
-     * GUI. */
+    /// Retrieves the set of @Larvae that were spawned by this unit. Only @Hatcheries, @Lairs, and
+    /// @Hives are capable of spawning @Larvae. This is like clicking the "Select Larva" button
+    /// and getting the selection of @Larvae.
+    ///
+    /// @returns Unitset containing @Larva units owned by this unit. The set will be empty if
+    /// there are none.
     virtual Unitset getLarva() const = 0;
 
     /// Retrieves the set of all units in a given radius of the current unit.
@@ -640,16 +649,17 @@ namespace BWAPI
     ///
     /// @returns A Unitset containing the set of units that match the given criteria.
     ///
+    /// Example usage:
     /// @code
     ///   // Get main building closest to start location.
-    ///   Unit pMain = Broodwar->getClosestUnit( Broodwar->self()->getStartLocation(), IsResourceDepot );
-    ///   if ( pMain != nullptr ) // check if pMain is valid
+    ///   BWAPI::Unit pMain = BWAPI::Broodwar->getClosestUnit( BWAPI::Broodwar->self()->getStartLocation(), BWAPI::Filter::IsResourceDepot );
+    ///   if ( pMain ) // check if pMain is valid
     ///   {
     ///     // Get sets of resources and workers
-    ///     Unitset myResources = pMain->getUnitsInRadius(1024, IsMineralField);
+    ///     BWAPI::Unitset myResources = pMain->getUnitsInRadius(1024, BWAPI::Filter::IsMineralField);
     ///     if ( !myResources.empty() ) // check if we have resources nearby
     ///     {
-    ///       Unitset myWorkers = pMain->getUnitsInRadius(512, IsWorker && IsIdle && IsOwned );
+    ///       BWAPI::Unitset myWorkers = pMain->getUnitsInRadius(512, BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle && BWAPI::Filter::IsOwned );
     ///       while ( !myWorkers.empty() ) // make sure we command all nearby idle workers, if any
     ///       {
     ///         for ( auto u = myResources.begin(); u != myResources.end() && !myWorkers.empty(); ++u )
@@ -671,16 +681,29 @@ namespace BWAPI
     // @TODO
     Unit getClosestUnit(const UnitFilter &pred = nullptr, int radius = 999999) const;
 
-    /* Returns true if the Nuclear Missile Silo has a nuke */
+    /// Checks if the current unit is housing a @Nuke. This is only available for @Silos.
+    ///
+    /// @returns true if this unit has a @Nuke ready, and false if there is no @Nuke.
     virtual bool hasNuke() const = 0;
 
-    /** Returns true if the unit is currently accelerating. */
+    /// Checks if the current unit is accelerating.
+    ///
+    /// @returns true if this unit is accelerating, and false otherwise
     virtual bool isAccelerating() const = 0;
 
-    // @TODO: add doc
+    /// Checks if this unit is currently attacking something.
+    ///
+    /// @returns true if this unit is attacking another unit, and false if it is not.
     virtual bool isAttacking() const = 0;
 
-    // @TODO: add doc
+    /// Checks if this unit is currently playing an attack animation. Issuing commands while this
+    /// returns true may interrupt the unit's next attack sequence.
+    ///
+    /// @returns true if this unit is currently running an attack frame, and false if interrupting
+    /// the unit is feasible.
+    ///
+    /// @note This function is only available to some unit types, specifically those that play
+    /// special animations when they attack.
     virtual bool isAttackFrame() const = 0;
 
     /// Checks if the current unit is being constructed. This is mostly applicable to Terran
@@ -759,11 +782,16 @@ namespace BWAPI
     /// @see returnCargo, isGatheringMinerals, isCarryingMinerals
     virtual bool isCarryingMinerals() const = 0;
 
-    /** Returns true if the unit is cloaked.
-     * \see UnitInterface::cloak, UnitInterface::decloak. */
+    /// Checks if this unit is currently @cloaked.
+    ///
+    /// @returns true if this unit is cloaked, and false if it is visible.
+    /// @see cloak, decloak
     virtual bool isCloaked() const = 0;
 
-    /** Returns true if the unit has been completed. */
+    /// Checks if this unit has finished being constructed, trained, morphed, or warped in, and can
+    /// now receive orders.
+    ///
+    /// @returns true if this unit is completed, and false if it is under construction or inaccessible.
     virtual bool isCompleted() const = 0;
 
     /** Returns true when a unit has been issued an order to build a structure and is moving to the build
@@ -771,16 +799,23 @@ namespace BWAPI
      * \see UnitInterface::build, UnitInterface::cancelConstruction, UnitInterface::haltConstruction, UnitInterface::isBeingConstructed. */
     virtual bool isConstructing() const = 0;
 
-    /** Returns true if the unit has a defense matrix from a Terran Science Vessel. */
+    /// Checks if this unit has the @matrix effect.
+    ///
+    /// @returns true if the @matrix ability was used on this unit, and false otherwise.
     bool isDefenseMatrixed() const;
 
-    /** Returns true if the unit is detected. */
+    /// Checks if this unit is visible or revealed by a detector unit. If this is false and
+    /// #isVisible is true, then the unit is only partially visible and requires a detector in
+    /// order to be targetted.
+    ///
+    /// @returns true if this unit is detected, and false if it needs a detector unit nearby in
+    /// order to see it.
+    /// @implies isVisible
     virtual bool isDetected() const = 0;
 
     /// Checks if the @Queen ability @Ensnare has been used on this unit.
     ///
-    /// @retval true if the unit is ensnared
-    /// @retval false if the unit is not ensnared
+    /// @returns true if the unit is ensnared, and false if it is not
     bool isEnsnared() const;
 
     /// This macro function checks if this unit is in the air. That is, the unit is either a flyer
@@ -790,18 +825,30 @@ namespace BWAPI
     /// @see UnitType::isFlyer, UnitInterface::isLifted
     bool isFlying() const;
 
-    /** Returns true if the unit is following another unit.
-     * \see UnitInterface::follow, UnitInterface::getTarget. */
+    /// Checks if this unit is following another unit. When a unit is following another unit, it
+    /// simply moves where the other unit does, and does not attack enemies when it is following.
+    ///
+    /// @returns true if this unit is following another unit, and false if it is not
+    /// @implies isCompleted
+    /// @see follow, getTarget
     bool isFollowing() const;
 
-    /** Returns true if the unit is in one of the four states for gathering gas (MoveToGas, WaitForGas,
-     * HarvestGas, ReturnGas).
-     * \see UnitInterface::isCarryingGas. */
+    /// Checks if this unit is currently gathering gas. That is, the unit is either moving to a
+    /// refinery, waiting to enter a refinery, harvesting from the refinery, or returning gas to a
+    /// resource depot.
+    ///
+    /// @returns true if this unit is harvesting gas, and false if it is not
+    /// @implies isCompleted, getType().isWorker()
+    /// @see isCarryingGas
     virtual bool isGatheringGas() const = 0;
 
-    /** Returns true if the unit is in one of the four states for gathering minerals (MoveToMinerals,
-     * WaitForMinerals, MiningMinerals, ReturnMinerals).
-     * \see UnitInterface::isCarryingMinerals. */
+    /// Checks if this unit is currently harvesting minerals. That is, the unit is either moving
+    /// to a @mineral_field, waiting to mine, mining minerals, or returning minerals to a resource
+    /// depot.
+    ///
+    /// @returns true if this unit is gathering minerals, and false if it is not
+    /// @implies isCompleted, getType().isWorker()
+    /// @see isCarryingMinerals
     virtual bool isGatheringMinerals() const = 0;
 
     /// Checks if this unit is a hallucination. Hallucinations are created by the @High_Templar
@@ -840,10 +887,20 @@ namespace BWAPI
     /** Returns true if the unit can be interrupted. */
     virtual bool isInterruptible() const = 0;
 
-    /** Returns true if the unit is invincible. */
+    /// Checks the invincibility state for this unit.
+    ///
+    /// @returns true if this unit is currently invulnerable, and false if it is vulnerable
     virtual bool isInvincible() const = 0;
 
-    /** Returns true if the unit can attack a specified target from its current position. */
+    /// Checks if the target unit can immediately be attacked by this unit in the current frame.
+    ///
+    /// @param target
+    ///   The target unit to use in this check.
+    ///
+    /// @returns true if \p target is within weapon range of this unit's appropriate weapon, and 
+    /// false otherwise.
+    /// @retval false if \p target is invalid, inaccessible, too close, too far, or this unit does
+    /// not have a weapon that can attack \p target.
     bool isInWeaponRange(Unit target) const;
 
     /// Checks if this unit is irradiated by a @Science_Vessel 's @Irradiate ability.
@@ -875,17 +932,23 @@ namespace BWAPI
     /// @see isFlying
     virtual bool isLifted() const = 0;
 
-    /** Return true if the unit is loaded into a Terran Bunker, Terran Dropship, Protoss Shuttle, or Zerg
-     * Overlord.
-     * \see UnitInterface::load, UnitInterface::unload, UnitInterface::unloadAll. */
+    /// Checks if this unit is currently loaded into another unit such as a @Transport.
+    /// 
+    /// @returns true if this unit is loaded in another one, and false otherwise
+    /// @implies isCompleted
+    /// @see load, unload, unloadAll
     bool isLoaded() const;
 
-    /** Returns true if the unit is locked down by a Terran Ghost.
-     *  \see UnitInterface::getLockdownTimer. */
+    /// Checks if this unit is currently @locked by a @Ghost.
+    ///
+    /// @returns true if this unit is locked down, and false otherwise
+    /// @see getLockdownTimer
     bool isLockedDown() const;
 
-    /** Returns true if the unit is being maelstrommed.
-     * \see UnitInterface::getMaelstromTimer. */
+    /// Checks if this unit has been @Maelstrommed by a @Dark_Archon.
+    ///
+    /// @returns true if this unit is maelstrommed, and false otherwise
+    /// @see getMaelstromTimer
     bool isMaelstrommed() const;
 
     /// Finds out if the current unit is morphing or not. Zerg units and structures often have
@@ -898,22 +961,35 @@ namespace BWAPI
     /// @see UnitInterface::morph, UnitInterface::cancelMorph, UnitInterface::getBuildType, UnitInterface::getRemainingBuildTime
     virtual bool isMorphing() const = 0;
 
-    /** Returns true if the unit is moving.
-     * \see UnitInterface::attack, UnitInterface::stop. */
+    /// Checks if this unit is currently moving.
+    ///
+    /// @returns true if this unit is moving, and false if it is not
+    /// @see stop
     virtual bool isMoving() const = 0;
 
-    /** Returns true if the unit has been parasited by some other player. */
+    /// Checks if this unit has been parasited by some other player.
+    /// 
+    /// @returns true if this unit is inflicted with @parasite, and false if it is clean
     virtual bool isParasited() const = 0;
 
-    /** Returns true if the unit is patrolling between two positions.
-     * \see UnitInterface::patrol. */
+    /// Checks if this unit is patrolling between two positions.
+    /// 
+    /// @returns true if this unit is patrolling and false if it is not
+    /// @see patrol
     bool isPatrolling() const;
 
-    /** Returns true if the unit has been plagued by a Zerg Defiler.
-     * \see UnitInterface::getPlagueTimer. */
+    /// Checks if this unit has been been @plagued by a @defiler.
+    ///
+    /// @returns true if this unit is inflicted with @plague and is taking damage, and false if it
+    /// is clean
+    /// @see getPlagueTimer
     bool isPlagued() const;
 
-    /** Returns true if the unit is a Terran SCV that is repairing or moving to repair another unit. */
+    /// Checks if this unit is repairing or moving to @repair another unit. This is only applicable
+    /// to @SCVs.
+    ///
+    /// @returns true if this unit is currently repairing or moving to @repair another unit, and
+    /// false if it is not
     bool isRepairing() const;
 
     /** Returns true if the unit is a building that is researching tech. See TechTypes for the complete list
@@ -926,8 +1002,11 @@ namespace BWAPI
      * \see Game::getSelectedUnits. */
     virtual bool isSelected() const = 0;
 
-    /** Returns true if the unit is a Terran Siege Tank that is currently in Siege mode.
-     * \see UnitInterface::siege, UnitInterface::unsiege. */
+    /// Checks if this unit is currently @sieged. This is only applicable to @Siege_Tanks.
+    ///
+    /// @returns true if the unit is in siege mode, and false if it is either not in siege mode or
+    /// not a @Siege_Tank
+    /// @see siege, unsiege
     bool isSieged() const;
 
     /** Returns true if the unit is starting to attack.
@@ -936,13 +1015,25 @@ namespace BWAPI
 
     /** Returns true if the unit has been stasised by a Protoss Arbiter.
      * \see UnitInterface::getStasisTimer. */
+    /// Checks if this unit is inflicted with @Stasis by an @Arbiter.
+    ///
+    /// @returns true if this unit is locked in a @Stasis and is unable to move, and false if it
+    /// is free.
+    ///
+    /// @note This function does not necessarily imply that the unit is invincible, since there
+    /// is a feature in the @UMS game type that allows stasised units to be vulnerable.
+    ///
+    /// @see getStasisTimer
     bool isStasised() const;
 
     /** Returns true if the unit is currently stimmed.
      * \see UnitInterface::getStimTimer. */
     bool isStimmed() const;
 
-    /** Returns true if the unit is being pushed off of another unit */
+    /// Checks if this unit is currently trying to resolve a collision by randomly moving around.
+    ///
+    /// @returns true if this unit is currently stuck and trying to resolve a collision, and false
+    /// if this unit is free
     virtual bool isStuck() const = 0;
 
     /** Returns true if the unit is training units (i.e. a Barracks training Marines).
