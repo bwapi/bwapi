@@ -175,6 +175,26 @@ namespace BWAPI
       Turquoise    = 31
     };
 
+    /// Namespace containing text sizes.
+    namespace Size
+    {
+      /// Enumeration of available text sizes
+      enum Enum
+      {
+        /// The smallest text size in the game.
+        Small,
+
+        /// The standard text size, used for most things in the game such as chat messages.
+        Default,
+
+        /// A larger text size, commonly used for countdowns.
+        Large,
+
+        /// The largest text size in the game.
+        Huge
+      };
+    }
+
     /// Standard output stream operator for text formatting codes. This is used to correctly
     /// format the codes for output.
     ///

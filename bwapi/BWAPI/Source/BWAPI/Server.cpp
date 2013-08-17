@@ -303,7 +303,7 @@ namespace BWAPI
       }
 
     // Load pathing info
-    if ( BW::BWDATA::SAIPathing )
+    if ( *BW::BWDATA::SAIPathing )
     {
       data->regionCount = (*BW::BWDATA::SAIPathing)->regionCount;
       for(int i = 0; i < 5000; ++i)

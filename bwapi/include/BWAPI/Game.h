@@ -5,6 +5,7 @@
 #include <BWAPI/Interface.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Error.h>
+#include <BWAPI/Color.h>
 
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
@@ -885,10 +886,11 @@ namespace BWAPI
     /// Sets the size of the text for all calls to drawText following this one.
     ///
     /// @param size (optional)
-    ///   The size of the text. This value can be from 0 to 3 inclusive. A higher value indicates
-    ///   a larger text size. If this value is omitted or invalid, then it will use a default
-    ///   value of 1.
-    virtual void setTextSize(int size = 1) = 0;
+    ///   The size of the text. This value is one of Text::Size::Enum. If this value is omitted,
+    ///   then a default value of Text::Size::Default is used.
+    ///
+    /// @see Text::Size::Enum
+    virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) = 0;
 
     /// Draws text on the screen at the given coordinates. Text can be drawn in different colors
     /// or formatted using the Text::Enum members.

@@ -24,6 +24,7 @@ public:
   };
 
   GameAction(PlayerID player, ActionID AbstractAction);
+  virtual ~GameAction() {}
 
   virtual void read(AbstractReplayReader &reader) {}
   virtual GameAction* from(PlayerID player) { return new GameAction(player, action); }

@@ -50,12 +50,16 @@ void ApplyCodePatches()
                                                                   // single player
     // Write menu animation speed hack
     for ( int i = 0; i < 43; ++i )
+    {
       BW::BWDATA::commonSwishControllers[i].wType = 4;
+    }
+
     for ( int i = 0; i < 5; ++i )
     {
       BW::BWDATA::gluCustmSwishController[i].wType = 4;
       BW::BWDATA::gluChatSwishController[i].wType  = 4;
     }
+
     BW::BWDATA::gluCmpgnSwishController[0].wType = 4;
     BW::BWDATA::gluCmpgnSwishController[1].wType = 4;
     BW::BWDATA::gluScoreSwishController[0].wType = 4;

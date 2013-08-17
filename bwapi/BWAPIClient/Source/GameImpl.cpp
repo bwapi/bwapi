@@ -764,12 +764,11 @@ namespace BWAPI
   }
 
   //---------------------------------------------- SET TEXT SIZE ---------------------------------------------
-  void GameImpl::setTextSize(int size)
+  void GameImpl::setTextSize(Text::Size::Enum size)
   {
-    if ( size < 0 )
-      size = 0;
-    if ( size > 3 )
-      size = 3;
+    // Clamp to valid size
+    if ( size < Text::Size::Small ) size = Text::Size::Small;
+    if ( size > Text::Size::Huge ) size = Text::Size::Huge;
     textSize = size;
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------

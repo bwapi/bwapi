@@ -271,7 +271,7 @@ void GameImpl::updateOverlays()
         }
       }
     }
-    setTextSize(0);
+    setTextSize(Text::Size::Small);
     drawTextScreen(64, 288, "%c(%u, %u)", Text::White, (scrPos.x+this->getMousePosition().x)/32, (scrPos.y+this->getMousePosition().y)/32);
     setTextSize();
   } // grid
@@ -279,13 +279,13 @@ void GameImpl::updateOverlays()
   // fps display
   if ( showfps )
   {
-    setTextSize(0);
+    setTextSize(Text::Size::Small);
     drawTextScreen(1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
     setTextSize();
   } // fps
 
 #ifdef _DEBUG
-  setTextSize(0);
+  setTextSize(Text::Size::Small);
   // unitdebug
   if ( unitDebug && BWAPIPlayer )
   {

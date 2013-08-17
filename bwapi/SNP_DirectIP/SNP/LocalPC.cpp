@@ -25,7 +25,7 @@ namespace SMEM
   {
     uint lastOccupied; // timer
     char ad[512];
-    int isAdvertising;
+    bool isAdvertising;
     int incomingCount;
     Packet incoming[16];
 

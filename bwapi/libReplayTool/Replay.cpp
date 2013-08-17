@@ -74,7 +74,7 @@ void getActionsTraceFilepath(const ParseReplayParams& params, char actionsDbgFil
 
       actionsDbgFilepath[0] = '\0';
       ++nameCollisionID;
-      sprintf_s(actionsDbgFilepath, MAX_PATH, "%s\\%s.%d.trace.txt", params.getOutRepoPath(), replayFilename, nameCollisionID);
+      sprintf_s(actionsDbgFilepath, MAX_PATH, "%s\\%s.%u.trace.txt", params.getOutRepoPath(), replayFilename, nameCollisionID);
 
       actionsDbgFile.open(actionsDbgFilepath, ios::in | ios::out | ios::_Nocreate);
     }

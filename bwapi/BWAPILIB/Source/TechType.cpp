@@ -246,7 +246,8 @@ namespace BWAPI
   }
   int TechType::gasPrice() const
   {
-    return defaultOreCost[this->getID()];
+    // Gas price is exactly the same as mineral price
+    return mineralPrice();
   }
   int TechType::researchTime() const
   {
