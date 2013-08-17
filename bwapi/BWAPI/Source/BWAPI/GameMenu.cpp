@@ -9,7 +9,6 @@
 
 #include "../../Debug.h"
 
-#define TIME_TO_DOWNLOAD_DATA 14000
 namespace BWAPI
 {
   //------------------------------------------- LOAD AUTO MENU DATA ------------------------------------------
@@ -128,7 +127,17 @@ namespace BWAPI
     unsigned int rval = 0;
     for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( BW::BWDATA_Players[i].nType == BW::PlayerType::Player  && BW::BWDATA_PlayerDownloadStatus[i] >= 100 )
+      if ( BW::BWDATA_Players[i].nType == PlayerTypes::Player )
+        ++rval;
+    }
+    return rval;
+  }
+  unsigned int getLobbyPlayerReadyCount()
+  {
+    unsigned int rval = 0;
+    for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      if ( BW::BWDATA_Players[i].nType == PlayerTypes::Player && BW::BWDATA_PlayerDownloadStatus[i] >= 100 )
         ++rval;
     }
     return rval;
@@ -399,13 +408,11 @@ namespace BWAPI
            waitRestartTimer + 2000 < GetTickCount() &&
             !actStartedGame && 
             isHost && 
-            getLobbyPlayerCount() > 0 && 
-            (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
+            getLobbyPlayerReadyCount() > 0 && 
+            getLobbyPlayerReadyCount() == getLobbyPlayerCount() && 
+            (getLobbyPlayerReadyCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
-        if ( ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || 
-               getLobbyOpenCount() == 0 || 
-               GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime
-              ) && GetTickCount() > createdTimer + TIME_TO_DOWNLOAD_DATA )
+        if ( getLobbyPlayerReadyCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
           // Get the OK button
           BW::dialog *pChatOKBtn = BW::FindDialogGlobal("Chat")->findIndex(7);
