@@ -57,6 +57,10 @@ void DevAIModule::onFrame()
   if ( bw->getFrameCount() < 3 )
     Broodwar << Broodwar->getMinerals().size() << endl;
 
+  Broodwar->setTextSize(Text::Size::Large);
+  Broodwar->drawTextScreen(Positions::Origin, "%c%c%s", Text::Align_Center, Text::Green, Broodwar->self()->getName().c_str());
+  Broodwar->setTextSize();
+
   // Log and display the best logical FPS seen in the game
   static int bestFPS = 0;
   bestFPS = std::max(bestFPS, Broodwar->getFPS());

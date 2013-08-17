@@ -889,6 +889,19 @@ namespace BWAPI
     ///   The size of the text. This value is one of Text::Size::Enum. If this value is omitted,
     ///   then a default value of Text::Size::Default is used.
     ///
+    /// Example usage
+    /// @code
+    ///   void ExampleAIModule::onFrame()
+    ///   {
+    ///     // Centers the name of the player in the upper middle of the screen
+    ///     BWAPI::Broodwar->setTextSize(BWAPI::Text::Size::Large);
+    ///     BWAPI::Broodwar->drawTextScreen(BWAPI::Positions::Origin, "%c%c%s",
+    ///                                     BWAPI::Text::Align_Center,
+    ///                                     BWAPI::Text::Green,
+    ///                                     BWAPI::Broodwar->self()->getName().c_str() );
+    ///     BWAPI::Broodwar->setTextSize();   // Set text size back to default
+    ///   }
+    /// @endcode
     /// @see Text::Size::Enum
     virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) = 0;
 

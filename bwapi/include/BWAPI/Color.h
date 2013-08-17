@@ -187,7 +187,7 @@ namespace BWAPI
         /// The standard text size, used for most things in the game such as chat messages.
         Default,
 
-        /// A larger text size, commonly used for countdowns.
+        /// A larger text size. This size is used for the in-game countdown timer seen in @CTF and @UMS game types.
         Large,
 
         /// The largest text size in the game.
