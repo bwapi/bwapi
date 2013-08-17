@@ -326,74 +326,164 @@ namespace BWAPI
     /// the game.
     virtual TilePosition getInitialTilePosition() const = 0;
 
-    /** Returns the unit's initial amount of hit points, or 0 if it wasn't a neutral unit at the beginning
-     * of the game. */
+    /// Retrieves the amount of hit points that this unit started off with at the beginning of the
+    /// game. The unit must be neutral.
+    ///
+    /// @returns Number of hit points that this unit started with.
+    /// @retval 0 if this unit was not a neutral unit at the beginning of the game.
+    ///
+    /// @note: It is possible for the unit's initial hit points to differ from the maximum hit
+    /// points.
+    ///
+    /// @see Game::getStaticNeutralUnits
     virtual int getInitialHitPoints() const = 0;
 
-    /** Returns the unit's initial amount of containing resources, or 0 if the unit wasn't a neutral unit
-     * at the beginning of the game. */
+    /// Retrieves the amount of resources contained in the unit at the beginning of the game. The
+    /// unit must be a neutral resource container.
+    ///
+    /// @returns Amount of resources that this unit started with.
+    /// @retval 0 if this unit was not a neutral unit at the beginning of the game, or if this
+    /// unit does not contain resources. It is possible that the unit simply contains 0 resources.
+    ///
+    /// @see Game::getStaticNeutralUnits
     virtual int getInitialResources() const = 0;
 
     /// Retrieves the number of units that this unit has killed in total.
     ///
+    /// @note The maximum amount of recorded kills per unit is 255.
+    ///
     /// @returns integer indicating this unit's kill count.
     virtual int getKillCount() const = 0;
 
-    /** Returns the unit's acid spore count. */
+    /// Retrieves the number of acid spores that this unit is inflicted with.
+    ///
+    /// @returns Number of acid spores on this unit.
     virtual int getAcidSporeCount() const = 0;
 
-    /** Returns the number of interceptors the Protoss Carrier has. */
+    /// Retrieves the number of interceptors that this unit manages. This function is only for the
+    /// @Carrier.
+    ///
+    /// @returns Number of interceptors in this unit.
     virtual int getInterceptorCount() const = 0;
 
-    /** Returns the number of scarabs in the Protoss Reaver. */
+    /// Retrieves the number of scarabs that this unit has for use. This function is only for the
+    /// @Reaver.
+    ///
+    /// @returns Number of scarabs this unit has ready.
     virtual int getScarabCount() const = 0;
 
-    /** Returns the number of spider mines in the Terran Vulture. */
+    /// Retrieves the amount of @mines this unit has available. This function is only for the
+    /// @Vulture.
+    ///
+    /// @returns Number of spider mines available for placement.
     virtual int getSpiderMineCount() const = 0;
 
-    /** Returns unit's ground weapon cooldown. It is 0 if the unit is ready to attack. */
+    /// Retrieves the unit's ground weapon cooldown. This value decreases every frame, until it
+    /// reaches 0. When the value is 0, this indicates that the unit is capable of using its ground
+    /// weapon, otherwise it must wait until it reaches 0.
+    ///
+    /// @note This value will vary, because Starcraft adds an additional random value between
+    /// (-1) and (+2) to the unit's weapon cooldown.
+    ///
+    /// @returns Number of frames needed for the unit's ground weapon to become available again.
     virtual int getGroundWeaponCooldown() const = 0;
 
-    /** Returns unit's air weapon cooldown. It is 0 if the unit is ready to attack. */
+    /// Retrieves the unit's air weapon cooldown. This value decreases every frame, until it
+    /// reaches 0. When the value is 0, this indicates that the unit is capable of using its air
+    /// weapon, otherwise it must wait until it reaches 0.
+    ///
+    /// @note This value will vary, because Starcraft adds an additional random value between
+    /// (-1) and (+2) to the unit's weapon cooldown.
+    ///
+    /// @returns Number of frames needed for the unit's air weapon to become available again.
     virtual int getAirWeaponCooldown() const = 0;
 
-    /** Returns unit's ground weapon cooldown. It is 0 if the unit is ready cast a spell. */
+    /// Retrieves the unit's ability cooldown. This value decreases every frame, until it
+    /// reaches 0. When the value is 0, this indicates that the unit is capable of using one of
+    /// its special abilities, otherwise it must wait until it reaches 0.
+    ///
+    /// @note This value will vary, because Starcraft adds an additional random value between
+    /// (-1) and (+2) to the unit's ability cooldown.
+    ///
+    /// @returns Number of frames needed for the unit's abilities to become available again.
     virtual int getSpellCooldown() const = 0;
 
-    /** Returns the remaining hit points of the defense matrix. Initially a defense Matrix has 250 points.
-     * \see UnitInterface::getDefenseMatrixTimer, UnitInterface::isDefenseMatrixed. */
+    /// Retrieves the amount of hit points remaining on the @matrix created by a @Science_Vessel.
+    /// The @matrix ability starts with 250 hit points when it is used.
+    ///
+    /// @returns Number of hit points remaining on this unit's @matrix.
+    ///
+    /// @see getDefenseMatrixTimer, isDefenseMatrixed
     virtual int getDefenseMatrixPoints() const = 0;
 
-    /** Returns the time until the defense matrix wears off. 0 -> No defense Matrix present. */
+    /// Retrieves the time, in frames, that the @matrix will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see getDefenseMatrixPoints, isDefenseMatrixed
     virtual int getDefenseMatrixTimer() const = 0;
 
-    /** Returns the time until the ensnare effect wears off. 0 -> No ensnare effect present. */
+    /// Retrieves the time, in frames, that @ensnare will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isEnsnared
     virtual int getEnsnareTimer() const = 0;
 
-    /** Returns the time until the radiation wears off. 0 -> No radiation present. */
+    /// Retrieves the time, in frames, that @irradiate will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isIrradiated
     virtual int getIrradiateTimer() const = 0;
 
-    /** Returns the time until the lockdown wears off. 0 -> No lockdown present. */
+    /// Retrieves the time, in frames, that @lockdown will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isLockdowned
     virtual int getLockdownTimer() const = 0;
 
-    /** Returns the time until the maelstrom wears off. 0 -> No maelstrom present. */
+    /// Retrieves the time, in frames, that @maelstrom will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isMaelstrommed
     virtual int getMaelstromTimer() const = 0;
 
-    // TODO: add doc
+    // TODO: add doc (I think I forget what this is for exactly?)
     virtual int getOrderTimer() const = 0;
 
-    /** Returns the time until the plague wears off. 0 -> No plague present. */
+    /// Retrieves the time, in frames, that @plague will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isPlagued
     virtual int getPlagueTimer() const = 0;
 
-    /** Returns the amount of time until the unit is removed, or 0 if the unit does not have a remove timer.
-     * Used to determine how much time remains before hallucinated units, dark swarm, etc have until they
-     * are removed. */
+    /// Retrieves the time, in frames, until this temporary unit is destroyed or removed. This is
+    /// used to determine the remaining time for the following units that were created by abilities:
+    ///   - @hallucination
+    ///   - @broodling
+    ///   - @swarm
+    ///   - @dweb
+    ///   - @scanner
+    ///   .
+    /// Once this value reaches 0, the unit is destroyed.
     virtual int getRemoveTimer() const = 0;
 
-    /** Returns the time until the stasis field wears off. 0 -> No stasis field present. */
+    /// Retrieves the time, in frames, that @stasis will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isPlagued
     virtual int getStasisTimer() const = 0;
 
-    /** Returns the time until the stimpack wears off. 0 -> No stimpack boost present. */
+    /// Retrieves the time, in frames, that @stim will remain active on the current unit.
+    ///
+    /// @returns Number of frames remaining until the effect is removed.
+    ///
+    /// @see isPlagued
     virtual int getStimTimer() const = 0;
 
     /** Returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an
