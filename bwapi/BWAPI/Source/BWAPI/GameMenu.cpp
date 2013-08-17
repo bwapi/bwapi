@@ -42,7 +42,7 @@ namespace BWAPI
       size_t tmp = cfgMap.find_last_of("\\/\n");
       if ( tmp != std::string::npos )
         this->autoMenuMapPath = cfgMap.substr(0, tmp);
-      this->autoMenuMapPath += "/";
+      this->autoMenuMapPath += "\\";
       
       // Iterate files in directory
       WIN32_FIND_DATA finder = { 0 };
@@ -126,7 +126,17 @@ namespace BWAPI
     unsigned int rval = 0;
     for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( BW::BWDATA::Players[i].nType == PlayerTypes::Player  && BW::BWDATA::PlayerDownloadStatus[i] >= 100 )
+      if ( BW::BWDATA::Players[i].nType == PlayerTypes::Player )
+        ++rval;
+    }
+    return rval;
+  }
+  unsigned int getLobbyPlayerReadyCount()
+  {
+    unsigned int rval = 0;
+    for ( unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    {
+      if ( BW::BWDATA::Players[i].nType == PlayerTypes::Player && BW::BWDATA::PlayerDownloadStatus[i] >= 100 )
         ++rval;
     }
     return rval;
@@ -399,10 +409,11 @@ namespace BWAPI
             waitRestartTimer + 2000 < GetTickCount() &&
             !actStartedGame && 
             isHost && 
-            getLobbyPlayerCount() > 0 && 
-            (getLobbyPlayerCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
+            getLobbyPlayerReadyCount() > 0 && 
+            getLobbyPlayerReadyCount() == getLobbyPlayerCount() && 
+            (getLobbyPlayerReadyCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
-        if ( getLobbyPlayerCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
+        if ( getLobbyPlayerReadyCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
         {
           if ( !BW::FindDialogGlobal("Chat")->findIndex(7)->isDisabled() )
           {
