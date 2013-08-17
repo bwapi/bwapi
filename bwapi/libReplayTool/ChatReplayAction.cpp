@@ -37,9 +37,8 @@ void ChatReplayAction::read(AbstractReplayReader &reader)
 
 string ChatReplayAction::toString() const
 {
-  string str = GameAction::toString();
-  
-  str += StrUtil::format("%u, %s", otherPlayer, msg);
+  stringstream ss(GameAction::toString());
+  ss << " " << otherPlayer << ", " << msg;
 
-  return str;
+  return ss.str();
 }

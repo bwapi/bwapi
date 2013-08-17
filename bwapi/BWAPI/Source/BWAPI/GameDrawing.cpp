@@ -17,23 +17,23 @@ namespace BWAPI
   {
     if ( !data->hasGUI )
       return false;
-    int screen_x1 = x;
-    int screen_y1 = y;
+
+    Position p(x,y);
     switch ( ctype )
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      screen_x1 -= *(BW::BWDATA::ScreenX);
-      screen_y1 -= *(BW::BWDATA::ScreenY);
+      p.x -= *(BW::BWDATA::ScreenX);
+      p.y -= *(BW::BWDATA::ScreenY);
       break;
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA::Mouse->x;
-      screen_y1 += BW::BWDATA::Mouse->y;
+      p.x += BW::BWDATA::Mouse->x;
+      p.y += BW::BWDATA::Mouse->y;
       break;
     }
-    if (screen_x1 < 0 || 
-        screen_y1 < 0 ||
-        screen_x1 > BW::BWDATA::GameScreenBuffer->width() || 
-        screen_y1 > BW::BWDATA::GameScreenBuffer->height())
+    if (p.x < 0 || 
+        p.y < 0 ||
+        p.x > BW::BWDATA::GameScreenBuffer->width() || 
+        p.y > BW::BWDATA::GameScreenBuffer->height())
       return false;
     return true;
   }
@@ -42,10 +42,8 @@ namespace BWAPI
   {
     if ( !data->hasGUI )
       return false;
-    int screen_x1 = x1;
-    int screen_y1 = y1;
-    int screen_x2 = x2;
-    int screen_y2 = y2;
+
+    Position p1(x1,y1), p2(x2,y2);
     switch ( ctype )
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
@@ -58,24 +56,24 @@ namespace BWAPI
              (y1 >= maxH && y2 >= maxH) )
           return false;
 
-        screen_x1 -= *(BW::BWDATA::ScreenX);
-        screen_y1 -= *(BW::BWDATA::ScreenY);
-        screen_x2 -= *(BW::BWDATA::ScreenX);
-        screen_y2 -= *(BW::BWDATA::ScreenY);
+        p1.x -= *(BW::BWDATA::ScreenX);
+        p1.y -= *(BW::BWDATA::ScreenY);
+        p2.x -= *(BW::BWDATA::ScreenX);
+        p2.y -= *(BW::BWDATA::ScreenY);
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA::Mouse->x;
-      screen_y1 += BW::BWDATA::Mouse->y;
-      screen_x2 += BW::BWDATA::Mouse->x;
-      screen_y2 += BW::BWDATA::Mouse->y;
+      p1.x += BW::BWDATA::Mouse->x;
+      p1.y += BW::BWDATA::Mouse->y;
+      p2.x += BW::BWDATA::Mouse->x;
+      p2.y += BW::BWDATA::Mouse->y;
       break;
     }
     rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
-    if ((screen_x1 < 0 && screen_x2 < 0) ||
-        (screen_y1 < 0 && screen_y2 < 0) ||
-        (screen_x1 > scrLimit.right  && screen_x2 > scrLimit.right) ||
-        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom))
+    if ((p1.x < 0 && p2.x < 0) ||
+        (p1.y < 0 && p2.y < 0) ||
+        (p1.x > scrLimit.right  && p2.x > scrLimit.right) ||
+        (p1.y > scrLimit.bottom && p2.y > scrLimit.bottom))
       return false;
     return true;
   }
@@ -84,12 +82,8 @@ namespace BWAPI
   {
     if ( !data->hasGUI )
       return false;
-    int screen_x1 = x1;
-    int screen_y1 = y1;
-    int screen_x2 = x2;
-    int screen_y2 = y2;
-    int screen_x3 = x3;
-    int screen_y3 = y3;
+
+    Position p1(x1,y1), p2(x2,y2), p3(x3,y3);
     switch ( ctype )
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
@@ -101,28 +95,28 @@ namespace BWAPI
              (x1 >= maxW && x2 >= maxW && x3 >= maxW) ||
              (y1 >= maxH && y2 >= maxH && y3 >= maxH) )
           return false;
-        screen_x1 -= *(BW::BWDATA::ScreenX);
-        screen_y1 -= *(BW::BWDATA::ScreenY);
-        screen_x2 -= *(BW::BWDATA::ScreenX);
-        screen_y2 -= *(BW::BWDATA::ScreenY);
-        screen_x3 -= *(BW::BWDATA::ScreenX);
-        screen_y3 -= *(BW::BWDATA::ScreenY);
+        p1.x -= *(BW::BWDATA::ScreenX);
+        p1.y -= *(BW::BWDATA::ScreenY);
+        p2.x -= *(BW::BWDATA::ScreenX);
+        p2.y -= *(BW::BWDATA::ScreenY);
+        p3.x -= *(BW::BWDATA::ScreenX);
+        p3.y -= *(BW::BWDATA::ScreenY);
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      screen_x1 += BW::BWDATA::Mouse->x;
-      screen_y1 += BW::BWDATA::Mouse->y;
-      screen_x2 += BW::BWDATA::Mouse->x;
-      screen_y2 += BW::BWDATA::Mouse->y;
-      screen_x3 += BW::BWDATA::Mouse->x;
-      screen_y3 += BW::BWDATA::Mouse->y;
+      p1.x += BW::BWDATA::Mouse->x;
+      p1.y += BW::BWDATA::Mouse->y;
+      p2.x += BW::BWDATA::Mouse->x;
+      p2.y += BW::BWDATA::Mouse->y;
+      p3.x += BW::BWDATA::Mouse->x;
+      p3.y += BW::BWDATA::Mouse->y;
       break;
     }
     rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
-    if ((screen_x1 < 0 && screen_x2 < 0 && screen_x3 < 0) ||
-        (screen_y1 < 0 && screen_y2 < 0 && screen_y3 < 0) ||
-        (screen_x1 > scrLimit.right && screen_x2 > scrLimit.right && screen_x3 > scrLimit.right) ||
-        (screen_y1 > scrLimit.bottom && screen_y2 > scrLimit.bottom && screen_y3 > scrLimit.bottom))
+    if ((p1.x < 0 && p2.x < 0 && p3.x < 0) ||
+        (p1.y < 0 && p2.y < 0 && p3.y < 0) ||
+        (p1.x > scrLimit.right && p2.x > scrLimit.right && p3.x > scrLimit.right) ||
+        (p1.y > scrLimit.bottom && p2.y > scrLimit.bottom && p3.y > scrLimit.bottom))
       return false;
     return true;
   }
@@ -144,9 +138,12 @@ namespace BWAPI
     return addShape(s);
   }
   //-------------------------------------------------- DRAW TEXT ---------------------------------------------
-  void GameImpl::setTextSize(int size)
+  void GameImpl::setTextSize(Text::Size::Enum size)
   {
-    size = clamp<int>(size, 0, 3);
+    // Clamp to valid sizes
+    if ( size < Text::Size::Small ) size = Text::Size::Small;
+    if ( size > Text::Size::Huge ) size = Text::Size::Huge;
+
     if ( !this->tournamentCheck(Tournament::SetTextSize, &size) )
       return;
     this->textSize = size;
@@ -162,7 +159,6 @@ namespace BWAPI
   //--------------------------------------------------- DRAW BOX ---------------------------------------------
   void GameImpl::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    /* Draws a box */
     if (!inScreen(ctype,left,top,right,bottom)) return;
     addShape(BWAPIC::Shape(BWAPIC::ShapeType::Box,ctype,left,top,right,bottom,0,0,color,isSolid));
   }

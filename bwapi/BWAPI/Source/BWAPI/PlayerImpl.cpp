@@ -51,7 +51,7 @@ namespace BWAPI
   BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError();
-    if ( this->index >= 0 && this->index < PLAYABLE_PLAYER_COUNT )
+    if ( this->index < PLAYABLE_PLAYER_COUNT )
     {
       Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
       if (  rlast != Races::Zerg          &&

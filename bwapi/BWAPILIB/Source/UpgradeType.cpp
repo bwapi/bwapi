@@ -331,12 +331,13 @@ namespace BWAPI
   }
   int UpgradeType::gasPrice(int level) const
   {
-    return defaultOreCostBase[this->getID()] + 
-           std::max(0, level-1) * this->gasPriceFactor();
+    // Gas price is exactly the same as mineral price
+    return mineralPrice(level);
   }
   int UpgradeType::gasPriceFactor() const
   {
-    return defaultOreCostFactor[this->getID()];
+    // Gas price factor is the same as mineral price factor
+    return mineralPriceFactor();
   }
   int UpgradeType::upgradeTime(int level) const
   {

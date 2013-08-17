@@ -36,7 +36,7 @@ std::ostream &AssertTracker::Fail(const char * const file, unsigned line)
 
 void AssertTracker::updateDisplay() const
 {
-  Broodwar->setTextSize(0);
+  Broodwar->setTextSize(Text::Size::Small);
 
   int x = id * 100;
   int y = 2;

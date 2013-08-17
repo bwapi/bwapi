@@ -208,7 +208,7 @@ void aithread::showDebug(int x, int y)
 {
   int _y = y;
   int _x = x + this->threadId*200 + 4;
-  bw->setTextSize(0);
+  bw->setTextSize(Text::Size::Small);
   for each ( char *s in this->debugQueue )
   {
     char n[512];

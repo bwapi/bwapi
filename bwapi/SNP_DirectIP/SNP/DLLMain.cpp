@@ -54,8 +54,6 @@ BOOL WINAPI SnpBind(DWORD dwIndex, SNP::NetFunctions **ppFxns)
   return FALSE;
 }
 
-CRITICAL_SECTION globalCriticalSection;
-
 HINSTANCE hInstance;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -63,11 +61,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
   switch(fdwReason)
   {
   case DLL_PROCESS_ATTACH:
-    InitializeCriticalSection(&globalCriticalSection);
     hInstance = hinstDLL;
     break;
   case DLL_PROCESS_DETACH:
-    DeleteCriticalSection(&globalCriticalSection);
     break;
   default:
     break;

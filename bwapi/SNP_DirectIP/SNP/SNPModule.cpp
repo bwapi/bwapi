@@ -83,17 +83,14 @@ each second
     INTERLOCKED;
 
     // find if the list already has an ad from this host
-    AdFile *adFile = NULL;
+    AdFile *adFile = nullptr;
+    for(auto it = gameList.begin(); it != gameList.end(); ++it)
     {
-      std::list<AdFile>::iterator currAd = gameList.begin();
-      for(;currAd != gameList.end();currAd++)
+      // if peer IDs equal
+      if ( !memcmp(&it->gameInfo.saHost, &host, sizeof(SOCKADDR)) )
       {
-        // if peer IDs equal
-        if(!memcmp(&currAd->gameInfo.saHost, &host, sizeof(SOCKADDR)))
-        {
-          adFile = &(*currAd);
-          break;
-        }
+        adFile = &(*it);
+        break;
       }
     }
 
@@ -186,49 +183,42 @@ each second
 //    DropMessage(0, "spiLockGameList");
 
     // interlink gamelist entries (for storm)
+    AdFile *lastAd = nullptr;
+    for ( auto it = gameList.begin(); it != gameList.end(); ++it )
     {
-      AdFile *lastAd = NULL;
-
-      std::list<AdFile>::iterator currAd = gameList.begin();
-      for(;currAd != gameList.end();currAd++)
-      {
-        currAd->gameInfo.pExtra = currAd->extraBytes;
-        if(lastAd)
-        {
-          lastAd->gameInfo.pNext = &currAd->gameInfo;
-        }
-        lastAd = &(*currAd);
-      }
-      if(lastAd)
-      {
-        lastAd->gameInfo.pNext = NULL;
-      }
+      it->gameInfo.pExtra = it->extraBytes;
+      if ( lastAd )
+        lastAd->gameInfo.pNext = &it->gameInfo;
+        
+      lastAd = &(*it);
     }
 
-    // remove outdated entries
-    {
-      std::list<AdFile>::iterator nextAd = gameList.begin();
-      std::list<AdFile>::iterator currAd;
-      for(;nextAd != gameList.end();)
-      {
-        currAd = nextAd;
-        nextAd++;
+    if(lastAd)
+      lastAd->gameInfo.pNext = nullptr;
 
-        if(GetTickCount() > currAd->gameInfo.dwTimer + 2000)
-        {
-          // outdated, remove
-          gameList.erase(currAd);
-        }
+    // remove outdated entries
+    //std::list<AdFile>::iterator nextAd = gameList.begin();
+    //std::list<AdFile>::iterator currAd;
+    auto currAd = gameList.begin();
+    while ( currAd != gameList.end() )
+    {
+      if(GetTickCount() > currAd->gameInfo.dwTimer + 2000)
+      {
+        // outdated, remove
+        currAd = gameList.erase(currAd);
+      }
+      else  // otherwise continue
+      {
+        ++currAd;
       }
     }
 
     try
     {
       // return game list
-      if(!gameList.empty())
+      *ppGameList = nullptr;
+      if ( !gameList.empty() )
         *ppGameList = &gameList.begin()->gameInfo;
-      else
-        *ppGameList = NULL;
     }
     catch(GeneralException &e)
     {
@@ -392,15 +382,12 @@ each second
 //    DropMessage(0, "spiGetGameInfo");
 
     // search for the game based on the gamename or index
+    for ( auto it = gameList.begin(); it != gameList.end(); ++it )
     {
-      std::list<AdFile>::iterator currAd = gameList.begin();
-      for(;currAd != gameList.end();currAd++)
+      if ( it->gameInfo.dwIndex == dwFindIndex )
       {
-        if(currAd->gameInfo.dwIndex == dwFindIndex)
-        {
-          *pGameResult = currAd->gameInfo;
-          return true;
-        }
+        *pGameResult = it->gameInfo;
+        return true;
       }
     }
 
@@ -445,8 +432,8 @@ each second
 //    DropMessage(0, "spiReceive %d", GetCurrentThreadId());
     // Passes pointers from queued receive data to storm
 
-    *senderPeer = NULL;
-    *data       = NULL;
+    *senderPeer = nullptr;
+    *data       = nullptr;
     *databytes  = 0;
 
     try
@@ -516,7 +503,7 @@ each second
       return false;
     }
 
-    *dwResult = (0 == memcmp(&addr1, &addr2, sizeof(SOCKADDR)));
+    *dwResult = (0 == memcmp(addr1, addr2, sizeof(SOCKADDR)));
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------------

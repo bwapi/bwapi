@@ -168,7 +168,7 @@ namespace BWAPI
       virtual Playerset& enemies() override;
       virtual Playerset& observers() override;
 
-      virtual void setTextSize(int size = 1) override;
+      virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) override;
       virtual void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg) override;
       virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) override;
       virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) override;
