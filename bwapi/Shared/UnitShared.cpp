@@ -613,9 +613,9 @@ namespace BWAPI
     return self->isUnderStorm;
   }
   //--------------------------------------------- IS UNPOWERED -----------------------------------------------
-  bool UnitImpl::isUnpowered() const
+  bool UnitImpl::isPowered() const
   {
-    return self->isUnpowered;
+    return self->isPowered;
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool UnitImpl::isVisible(Player player) const

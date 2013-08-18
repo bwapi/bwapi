@@ -514,7 +514,7 @@ namespace BWAPI
     switch ( type )
     {
     case UnitTypes::Enum::Protoss_Pylon:
-      pSpecialUnitTarget = this->getClosestUnit(Position(desiredPosition), IsOwned && IsUnpowered);
+      pSpecialUnitTarget = this->getClosestUnit(Position(desiredPosition), IsOwned && IsPowered);
       if ( pSpecialUnitTarget )
       {
         desiredPosition = TilePosition(pSpecialUnitTarget->getPosition());

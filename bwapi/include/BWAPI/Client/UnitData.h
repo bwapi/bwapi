@@ -100,7 +100,7 @@ namespace BWAPI
     bool isUnderStorm;
     bool isUnderDarkSwarm;
     bool isUnderDWeb;
-    bool isUnpowered;
+    bool isPowered;
     bool isVisible[9];
     int  buttonset;
 

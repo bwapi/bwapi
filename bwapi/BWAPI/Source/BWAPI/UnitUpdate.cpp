@@ -381,7 +381,7 @@ namespace BWAPI
       self->isParasited     = o->status.parasiteFlags != 0; //isParasited
       self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
-      self->isUnpowered     = _getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing); //isUnpowered
+      self->isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
       self->isStuck         = o->movementState == UM_MoveToLegal;
       self->isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
       self->isInvincible    = o->statusFlag(BW::StatusFlags::Invincible); //isInvincible
@@ -436,7 +436,7 @@ namespace BWAPI
       self->isUnderStorm        = false;  //isUnderStorm
       self->isUnderDarkSwarm    = false;
       self->isUnderDWeb         = false;
-      self->isUnpowered         = false;  //isUnpowered
+      self->isPowered            = true;   //!isUnpowered
       self->isStuck             = false;  //isStuck
       self->isInterruptible     = false;  //isInterruptible
       self->buttonset           = UnitTypes::None;
