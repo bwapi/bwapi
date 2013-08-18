@@ -116,7 +116,7 @@ void TestMap1::onStart()
     BWAssert(unit->isStimmed()==false);
     BWAssert(unit->isTraining()==false);
     BWAssert(unit->isUnderStorm()==false);
-    BWAssert(unit->isUnpowered()==false);
+    BWAssert(unit->isPowered()==true);
     BWAssert(unit->isUpgrading()==false);
     BWAssert(unit->isVisible()==true);
   }

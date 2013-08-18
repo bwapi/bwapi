@@ -135,7 +135,7 @@ namespace BWAPI
       virtual bool isUnderDarkSwarm() const override;
       virtual bool isUnderDisruptionWeb() const override;
       virtual bool isUnderStorm() const override;
-      virtual bool isUnpowered() const override;
+      virtual bool isPowered() const override;
       virtual bool isVisible(Player player = nullptr) const override;
       virtual bool isTargetable() const override;
 

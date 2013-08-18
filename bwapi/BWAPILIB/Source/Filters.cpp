@@ -175,7 +175,7 @@ namespace BWAPI
     U_UFILTER(IsUnderDarkSwarm, u->isUnderDarkSwarm() );
     U_UFILTER(IsUnderDisruptionWeb, u->isUnderDisruptionWeb() );
     U_UFILTER(IsUnderStorm, u->isUnderStorm() );
-    U_UFILTER(IsUnpowered, u->isUnpowered() );
+    U_UFILTER(IsPowered, u->isPowered() );
     U_UFILTER(IsVisible, u->isVisible() );
 
     bool IsEnemyImpl(Unit u)

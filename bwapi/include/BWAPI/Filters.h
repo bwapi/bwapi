@@ -183,7 +183,7 @@ namespace BWAPI
     extern const PtrUnitFilter IsUnderDarkSwarm;
     extern const PtrUnitFilter IsUnderDisruptionWeb;
     extern const PtrUnitFilter IsUnderStorm;
-    extern const PtrUnitFilter IsUnpowered;
+    extern const PtrUnitFilter IsPowered;
     extern const PtrUnitFilter IsVisible;
   
     extern const PtrUnitFilter IsEnemy;

@@ -1040,20 +1040,34 @@ namespace BWAPI
      * \see UnitInterface::train, UnitInterface::getTrainingQueue, UnitInterface::cancelTrain, UnitInterface::getRemainingTrainTime. */
     virtual bool isTraining() const = 0;
 
-    /** Returns true if the unit was recently attacked. */
+    /// Checks if the current unit is being attacked. Has a small delay before this returns false
+    /// again when the unit is no longer being attacked.
+    ///
+    /// @returns true if this unit has been attacked within the past few frames, and false
+    /// if it has not
     virtual bool isUnderAttack() const = 0;
 
-    /** Returns true if the unit is under a Dark Swarm. */
+    /// Checks if this unit is under the cover of a @Dark_Swarm.
+    ///
+    /// @returns true if this unit is protected by a @Dark_Swarm, and false if it is not
     virtual bool isUnderDarkSwarm() const = 0;
 
-    /** Returns true if the unit is under a Disruption Web. */
+    /// Checks if this unit is currently being affected by a @Disruption_Web.
+    ///
+    /// @returns true if this unit is under the effects of @Disruption_Web.
     virtual bool isUnderDisruptionWeb() const = 0;
 
-    /** Returns true if the unit is under a Protoss Psionic Storm. */
+    /// Checks if this unit is currently taking damage from a @Psi_Storm.
+    ///
+    /// @returns true if this unit is losing hit points from a @Psi_Storm, and false otherwise.
     virtual bool isUnderStorm() const = 0;
 
-    /** Returns true if the unit is a Protoss building that is unpowered because no pylons are in range. */
-    virtual bool isUnpowered() const = 0;
+    /// Checks if this unit has power. Most structures are powered by default, but @Protoss
+    /// structures require a @Pylon to be powered and functional.
+    ///
+    /// @returns true if this unit has power or is inaccessible, and false if this unit is
+    /// unpowered.
+    virtual bool isPowered() const = 0;
 
     /** Returns true if the unit is a building that is upgrading. See UpgradeTypes for the complete list
      * of available upgrades in Broodwar.
@@ -1080,8 +1094,9 @@ namespace BWAPI
     /// @param command
     ///   A UnitCommand containing command parameters such as the type, position, target, etc.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommand
     virtual bool issueCommand(UnitCommand command) = 0;
@@ -1094,8 +1109,9 @@ namespace BWAPI
     /// @param shiftQueueCommand
     ///   If this value is true, then the order will be queued instead of immediately executed.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @note A @Medic will use Heal Move instead of attack.
     ///
@@ -1111,8 +1127,9 @@ namespace BWAPI
     ///   location. If the target is not specified, then the function call will be redirected to
     ///   the train command.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @note You must have sufficient resources and meet the necessary requirements in order to
     /// build a structure.
@@ -1125,8 +1142,9 @@ namespace BWAPI
     /// @param type
     ///   The add-on UnitType to construct.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @note You must have sufficient resources and meet the necessary requirements in order to
     /// build a structure.
@@ -1140,8 +1158,9 @@ namespace BWAPI
     /// @param type
     ///   The UnitType to train.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @note You must have sufficient resources, supply, and meet the necessary requirements in
     /// order to train a unit.
@@ -1158,8 +1177,9 @@ namespace BWAPI
     /// @param type
     ///   The UnitType to morph into.
     ///
-    /// @retval true if BWAPI determined that the command was valid and passed it to Starcraft.
-    /// @retval false if an error occured and the command could not be executed.
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @see Game::getLastError, UnitInterface::build, UnitInterface::morph, UnitInterface::canMorph
     bool morph(UnitType type);
@@ -1272,17 +1292,32 @@ namespace BWAPI
      * \see UnitInterface::canRightClick, UnitInterface::canRightClickPosition, UnitInterface::canRightClickUnit. */
     bool rightClick(PositionOrUnit target, bool shiftQueueCommand = false);
 
-    /** Orders the SCV to stop constructing the building, and the building is left in a partially complete
-     * state until it is canceled, destroyed, or completed.
-     * \see UnitInterface::isConstructing, UnitInterface::canHaltConstruction. */
+    /// Orders a @SCV to stop constructing a structure. This leaves the structure in an incomplete
+    /// state until it is either cancelled, razed, or completed by another @SCV.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see isConstructing, canHaltConstruction
     bool haltConstruction();
 
-    /** Orders the building to stop being constructed.
-     * \see UnitInterface::beingConstructed, UnitInterface::canCancelConstruction. */
+    /// Orders this unit to cancel and refund itself from begin constructed.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see isBeingConstructed, build, canCancelConstruction
     bool cancelConstruction();
 
-    /** Orders the unit to stop making the addon.
-     * \see UnitInterface::canCancelAddon. */
+    /// Orders this unit to cancel and refund an add-on that is being constructed.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see canCancelAddon, buildAddon
     bool cancelAddon();
 
     /** Orders the unit to remove the specified unit from its training queue.
@@ -1290,16 +1325,30 @@ namespace BWAPI
      * UnitInterface::canCancelTrain, UnitInterface::canCancelTrainSlot. */
     bool cancelTrain(int slot = -2);
 
-    /** Orders the unit to stop morphing.
-     * \see UnitInterface::morph, UnitInterface::isMorphing, UnitInterface::canCancelMorph. */
+    /// Orders this unit to cancel and refund a unit that is morphing.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see morph, isMorphing, canCancelMorph
     bool cancelMorph();
 
-    /** Orders the unit to cancel a research in progress.
-     * \see UnitInterface::research, UnitInterface::isResearching, UnitInterface::getTech, UnitInterface::canCancelResearch. */
+    /// Orders this unit to cancel and refund a research that is in progress.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see research, isResearching, getTech, canCancelResearch
     bool cancelResearch();
 
-    /** Orders the unit to cancel an upgrade in progress.
-     * \see UnitInterface::upgrade, UnitInterface::isUpgrading, UnitInterface::getUpgrade, UnitInterface::canCancelUpgrade. */
+    /// Orderes this unit to cancel and refund an upgrade that is in progress.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    /// @see upgrade, isUpgrading, getUpgrade, canCancelUpgrade
     bool cancelUpgrade();
     
     /** Orders the unit to use a tech. The target may be a position, or a (non-null) unit, or
@@ -1309,8 +1358,19 @@ namespace BWAPI
      * UnitInterface::canUseTechWithoutTarget, UnitInterface::canUseTechUnit, UnitInterface::canUseTechPosition. */
     bool useTech(TechType tech, PositionOrUnit target = nullptr);
 
-    /** Moves a Flag Beacon to the target location.
-     * \see UnitInterface::canPlaceCOP. */
+    /// Moves a @Flag_Beacon to a different location. This is only used for @CTF or @UMS game
+    /// types.
+    ///
+    /// @param target
+    ///   The target tile position to place the @Flag_Beacon.
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @note This command is only available for the first 10 minutes of the game, as in Broodwar.
+    ///
+    /// @see canPlaceCOP
     bool placeCOP(TilePosition target);
 
     /// Checks whether the unit is able to execute the given command. If you are calling this
