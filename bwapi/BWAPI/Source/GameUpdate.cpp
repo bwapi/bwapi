@@ -679,11 +679,6 @@ void GameImpl::initializeAIModule()
     for ( int i = 0; i < (int)gdwProcNum && aiList; ++i )
       std::getline(aiList, dll, ',');
 
-    // ignore the deprecated revision extension
-    size_t tmp = dll.find_first_of(':');
-    if ( tmp != std::string::npos )
-      dll.erase(tmp);
-
     // Trim leading and trailing spaces
     while ( isspace(dll.front()) )
       dll.erase(0);
