@@ -90,7 +90,7 @@ void ExampleAIModule::onFrame()
       continue;
 
     // Ignore the unit if it is in one of the following states
-    if ( u->isLoaded() || u->isPowered() || u->isStuck() )
+    if ( u->isLoaded() || !u->isPowered() || u->isStuck() )
       continue;
 
     // Ignore the unit if it is incomplete or busy constructing

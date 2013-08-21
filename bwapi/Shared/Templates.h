@@ -470,7 +470,7 @@ namespace BWAPI
       if ( thisUnit->isLockedDown() || 
            thisUnit->isMaelstrommed() || 
            thisUnit->isStasised()  || 
-           thisUnit->isPowered() ||
+           !thisUnit->isPowered() ||
            thisUnit->getOrder() == Orders::ZergBirth ||
            thisUnit->isLoaded() )
       {
