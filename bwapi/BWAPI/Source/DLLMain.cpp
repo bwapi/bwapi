@@ -64,7 +64,7 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   }
   // assume no error, would be fatal in Starcraft anyway
 }
-
+/*
 int getFileType(const char *szFileName)
 {
   if ( !szFileName )
@@ -98,6 +98,35 @@ int getFileType(const char *szFileName)
   }
   return rVal;
 }
+*/
+int getFileType(const std::string &sFileName)
+{
+  int rVal = 0;
+  Storm::CFile file;
+
+  if ( !sFileName.empty() )
+  {
+    // Open archive for map checking
+    Storm::CArchive archive(sFileName);
+    if ( archive )
+    {
+      // Open scenario.chk file
+      if ( archive.openFile("staredit\\scenario.chk") )
+        rVal = 1;
+    }
+    else if ( file.open(sFileName, SFILE_FROM_ABSOLUTE) )
+    {
+      char tbuff[16];
+      size_t read = sizeof(tbuff);
+
+      // Read file data to check if it's a replay
+      if ( file.size() > read && file.read(tbuff, &read) && read == sizeof(tbuff) && *(DWORD*)&tbuff[12] == 'SRer' )
+        rVal = 2;
+    }
+  }
+  return rVal;
+}
+
 //------------------------------------------------ BWAPI ERROR -----------------------------------------------
 void vBWAPIError(const char *format, va_list arg)
 {

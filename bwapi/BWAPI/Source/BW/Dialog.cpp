@@ -634,6 +634,10 @@ namespace BW
     return false;
   }
 // -------------- SET SELECTED BY STRING -------------
+  bool dialog::setSelectedByString(const std::string &s, bool noctrl)
+  {
+    return this->setSelectedByString(s.c_str(), noctrl);
+  }
   bool dialog::setSelectedByString(const char *pszString, bool noctrl)
   {
     // verify that this is the correct control

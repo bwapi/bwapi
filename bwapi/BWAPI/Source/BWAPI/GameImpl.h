@@ -194,6 +194,9 @@ namespace BWAPI
       PlayerImpl *_getPlayer(int id);
       int _currentPlayerId();
       void pressKey(int key);
+      // Presses the hotkey that belongs to the dialog control (like a button)
+      void pressDialogKey(BW::dialog *pDlg);
+
       void mouseDown(int x, int y);
       void mouseUp(int x, int y);
 

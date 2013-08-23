@@ -59,7 +59,7 @@ namespace BWAPI
           {
             // Convert to string and add to autoMapPool if the type is valid
             std::string finderStr = std::string(finder.cFileName);
-            if ( getFileType((this->autoMenuMapPath + finderStr).c_str()) )
+            if ( getFileType(this->autoMenuMapPath + finderStr) )
             {
               this->autoMapPool.push_back( finderStr );
             }
@@ -154,13 +154,15 @@ namespace BWAPI
     }
     return rval;
   }
-  DWORD createdTimer;
-  DWORD waitJoinTimer;
-  DWORD waitSelRaceTimer;
-  DWORD waitRestartTimer;
+  
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
+    static DWORD createdTimer;
+    static DWORD waitJoinTimer;
+    static DWORD waitSelRaceTimer;
+    static DWORD waitRestartTimer;
+
     //this function is called each frame while starcraft is in the main menu system (not in-game).
     this->inGame        = false;
 
@@ -210,16 +212,16 @@ namespace BWAPI
         break;
 
       // Choose single or multi
-      this->pressKey(BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4)->getHotkey() );
+      this->pressDialogKey( BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4) );
 
       // choose original or expansion (we always choose expansion)
       if ( BW::FindDialogGlobal("Delete") )
-        this->pressKey( BW::FindDialogGlobal("Delete")->findIndex(7)->getHotkey() );
+        this->pressDialogKey( BW::FindDialogGlobal("Delete")->findIndex(7) );
       break;
     case BW::GLUE_EX_CAMPAIGN:  // Campaign selection menu
     case BW::GLUE_CAMPAIGN:
       // Choose "Custom"
-      this->pressKey( BW::FindDialogGlobal("RaceSelection")->findIndex(10)->getHotkey() );
+      this->pressDialogKey( BW::FindDialogGlobal("RaceSelection")->findIndex(10) );
       break;
     case BW::GLUE_CREATE:       // Game creation menu
     case BW::GLUE_CREATE_MULTI:
@@ -232,7 +234,7 @@ namespace BWAPI
 
       if ( !this->lastMapGen.empty() )
       {
-        if ( getFileType(this->lastMapGen.c_str()) == 1 )
+        if ( getFileType(this->lastMapGen) == 1 )
         {
           // convert to game type
           GameType gt = GameType::getType(this->autoMenuGameType);
@@ -301,9 +303,11 @@ namespace BWAPI
           for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
             i->container.bPlayerSlotEnabled[p] = 1;
           i->container.bEntryFlags = 0x04;
-          SStrCopy(i->container.szEntryName, mapFileName.c_str(), sizeof(i->container.szEntryName));
-          SStrCopy(i->container.szFileName,  mapFileName.c_str(), sizeof(i->container.szFileName)); // @TODO verify
-          SStrCopy(i->container.szFullPath,  mapFilePath.c_str(), sizeof(i->container.szFullPath));
+
+          // Safe string copies
+          SSCopy(i->container.szEntryName, mapFileName.c_str());
+          SSCopy(i->container.szFileName,  mapFileName.c_str()); // @TODO verify
+          SSCopy(i->container.szFullPath,  mapFilePath.c_str());
         }
 
         // update map folder location
@@ -314,9 +318,9 @@ namespace BWAPI
         {
           this->chooseNewRandomMap();
           ++this->autoMapTryCount;
-          this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+          this->pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
         }
-        this->pressKey( tempDlg->findIndex(12)->getHotkey() );
+        this->pressDialogKey( tempDlg->findIndex(12) );
       } // if lastmapgen
       break;
     case BW::GLUE_CONNECT:
@@ -326,8 +330,8 @@ namespace BWAPI
       // or press it after the LAN mode has been selected
       if ( this->autoMenuMode == "BATTLE_NET" ||
            (tempDlg->findIndex(5)->isVisible() && 
-           tempDlg->findIndex(5)->setSelectedByString(this->autoMenuLanMode.c_str()) )  )
-        pressKey( tempDlg->findIndex(9)->getHotkey() );
+           tempDlg->findIndex(5)->setSelectedByString(this->autoMenuLanMode) )  )
+        pressDialogKey( tempDlg->findIndex(9) );
 
       waitJoinTimer = 0;
       break;
@@ -341,19 +345,19 @@ namespace BWAPI
           break;
 
         if ( isJoining &&
-             !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName.c_str()) && 
+             !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) && 
              waitJoinTimer + (3000 * (getInstanceNumber() + 1) ) > GetTickCount() )
           break;
 
         waitJoinTimer = GetTickCount();
-        isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName.c_str()));
+        isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName));
 
         if ( isCreating && isHost )
-          this->pressKey( tempDlg->findIndex(15)->getHotkey() );  // Create Game
+          this->pressDialogKey( tempDlg->findIndex(15) );  // Create Game
         else // is joining
         {
           this->lastMapGen.clear();
-          this->pressKey( tempDlg->findIndex(13)->getHotkey() );  // OK
+          this->pressDialogKey( tempDlg->findIndex(13) );  // OK
         }
       }
       break;
@@ -408,7 +412,7 @@ namespace BWAPI
 
       if ( BW::FindDialogGlobal("gluPOk") )
       {
-        this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
+        this->pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
         actStartedGame = false;
         waitRestartTimer = GetTickCount();
       }
@@ -438,11 +442,11 @@ namespace BWAPI
       if ( tempDlg )
       {
         tempDlg->findIndex(4)->setText("BWAPI");
-        this->pressKey( tempDlg->findIndex(1)->getHotkey() );
+        this->pressDialogKey( tempDlg->findIndex(1) );
       }
       else
       {
-        this->pressKey( BW::FindDialogGlobal("Login")->findIndex(4)->getHotkey() );
+        this->pressDialogKey( BW::FindDialogGlobal("Login")->findIndex(4) );
       }
       break;
     case BW::GLUE_SCORE_Z_DEFEAT: 
@@ -452,12 +456,12 @@ namespace BWAPI
     case BW::GLUE_SCORE_P_DEFEAT:
     case BW::GLUE_SCORE_P_VICTORY:
       if ( this->autoMenuRestartGame != "" && this->autoMenuRestartGame != "OFF" )
-        this->pressKey( BW::FindDialogGlobal("End")->findIndex(7)->getHotkey() );
+        this->pressDialogKey( BW::FindDialogGlobal("End")->findIndex(7) );
       break;
     case BW::GLUE_READY_T:  // Mission Briefing
     case BW::GLUE_READY_Z:
     case BW::GLUE_READY_P:
-      this->pressKey( BW::FindDialogGlobal(menu == BW::GLUE_READY_Z ? "ReadyZ" : "TerranRR")->findIndex(13)->getHotkey() );
+      this->pressDialogKey( BW::FindDialogGlobal(menu == BW::GLUE_READY_Z ? "ReadyZ" : "TerranRR")->findIndex(13) );
       break;
     } // menu switch
   }
