@@ -36,6 +36,9 @@ namespace BWAPI
     if ( this->lastAutoMapString != cfgMap )
     {
       this->lastAutoMapString = cfgMap;
+      this->lastAutoMapEntry = 0;
+      this->lastMapGen.clear();
+      this->autoMapPool.clear();
 
       // Get just the directory
       this->autoMenuMapPath.clear();
@@ -64,8 +67,6 @@ namespace BWAPI
         } while ( FindNextFile(hFind, &finder) );
         FindClose(hFind);
       } // handle exists
-      
-      this->lastAutoMapEntry = 0;
     } // if map was changed^
 
     // Get map iteration config
@@ -74,6 +75,7 @@ namespace BWAPI
     {
       this->autoMapIteration = newMapIteration;
       this->lastAutoMapEntry = 0;
+      this->lastMapGen.clear();
     }
 
     this->autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
@@ -96,7 +98,8 @@ namespace BWAPI
     this->autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
     this->autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
 
-    this->chooseNewRandomMap();
+    if ( !this->lastMapGen.empty() )
+      this->chooseNewRandomMap();
   }
   void GameImpl::chooseNewRandomMap()
   {
@@ -224,6 +227,9 @@ namespace BWAPI
       createdTimer  = GetTickCount();
       tempDlg = BW::FindDialogGlobal("Create");
 
+      if ( this->lastMapGen.empty() )
+        this->chooseNewRandomMap();
+
       if ( !this->lastMapGen.empty() )
       {
         if ( getFileType(this->lastMapGen.c_str()) == 1 )
@@ -336,7 +342,7 @@ namespace BWAPI
 
         if ( isJoining &&
              !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName.c_str()) && 
-             waitJoinTimer + 3000 > GetTickCount() )
+             waitJoinTimer + (3000 * (getInstanceNumber() + 1) ) > GetTickCount() )
           break;
 
         waitJoinTimer = GetTickCount();
@@ -345,7 +351,10 @@ namespace BWAPI
         if ( isCreating && isHost )
           this->pressKey( tempDlg->findIndex(15)->getHotkey() );  // Create Game
         else // is joining
+        {
+          this->lastMapGen.clear();
           this->pressKey( tempDlg->findIndex(13)->getHotkey() );  // OK
+        }
       }
       break;
     case BW::GLUE_CHAT:
