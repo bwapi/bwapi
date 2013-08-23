@@ -76,25 +76,25 @@ namespace BWAPI
       this->lastAutoMapEntry = 0;
     }
 
-    autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
-    autoMenuRace          = LoadConfigString("auto_menu", "race", "RANDOM");
-    autoMenuEnemyRace[0]  = LoadConfigString("auto_menu", "enemy_race", "RANDOM");
+    this->autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
+    this->autoMenuRace          = LoadConfigString("auto_menu", "race", "RANDOM");
+    this->autoMenuEnemyRace[0]  = LoadConfigString("auto_menu", "enemy_race", "RANDOM");
     for ( unsigned int i = 1; i < 8; ++i )
     {
       std::stringstream sskey;
       sskey << "enemy_race_" << i;
-      autoMenuEnemyRace[i] = LoadConfigString("auto_menu", sskey.str().c_str(), "DEFAULT");
-      if ( autoMenuEnemyRace[i] == "DEFAULT" )
-        autoMenuEnemyRace[i] = autoMenuEnemyRace[0];
+      this->autoMenuEnemyRace[i] = LoadConfigString("auto_menu", sskey.str().c_str(), "DEFAULT");
+      if ( this->autoMenuEnemyRace[i] == "DEFAULT" )
+        this->autoMenuEnemyRace[i] = this->autoMenuEnemyRace[0];
     }
 
-    autoMenuEnemyCount  = clamp<int>(LoadConfigInt("auto_menu", "enemy_count", 1), 0, 7);
-    autoMenuGameType    = LoadConfigString("auto_menu", "game_type", "MELEE");
-    autoMenuSaveReplay  = LoadConfigString("auto_menu", "save_replay");
+    this->autoMenuEnemyCount  = clamp<int>(LoadConfigInt("auto_menu", "enemy_count", 1), 0, 7);
+    this->autoMenuGameType    = LoadConfigString("auto_menu", "game_type", "MELEE");
+    this->autoMenuSaveReplay  = LoadConfigString("auto_menu", "save_replay");
 
-    autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
-    autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
-    autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
+    this->autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
+    this->autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
+    this->autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
 
     this->chooseNewRandomMap();
   }
@@ -318,9 +318,9 @@ namespace BWAPI
 
       // Press hotkey if trying to get to BNET
       // or press it after the LAN mode has been selected
-      if ( autoMenuMode == "BATTLE_NET" ||
+      if ( this->autoMenuMode == "BATTLE_NET" ||
            (tempDlg->findIndex(5)->isVisible() && 
-           tempDlg->findIndex(5)->setSelectedByString(autoMenuLanMode.c_str()) )  )
+           tempDlg->findIndex(5)->setSelectedByString(this->autoMenuLanMode.c_str()) )  )
         pressKey( tempDlg->findIndex(9)->getHotkey() );
 
       waitJoinTimer = 0;
@@ -335,12 +335,12 @@ namespace BWAPI
           break;
 
         if ( isJoining &&
-             !tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()) && 
+             !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName.c_str()) && 
              waitJoinTimer + 3000 > GetTickCount() )
           break;
 
         waitJoinTimer = GetTickCount();
-        isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(autoMenuGameName.c_str()));
+        isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName.c_str()));
 
         if ( isCreating && isHost )
           this->pressKey( tempDlg->findIndex(15)->getHotkey() );  // Create Game
@@ -442,7 +442,7 @@ namespace BWAPI
     case BW::GLUE_SCORE_T_VICTORY:
     case BW::GLUE_SCORE_P_DEFEAT:
     case BW::GLUE_SCORE_P_VICTORY:
-      if ( autoMenuRestartGame != "" && autoMenuRestartGame != "OFF" )
+      if ( this->autoMenuRestartGame != "" && this->autoMenuRestartGame != "OFF" )
         this->pressKey( BW::FindDialogGlobal("End")->findIndex(7)->getHotkey() );
       break;
     case BW::GLUE_READY_T:  // Mission Briefing
