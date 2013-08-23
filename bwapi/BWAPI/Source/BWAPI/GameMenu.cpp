@@ -155,6 +155,21 @@ namespace BWAPI
     return rval;
   }
   
+  Race getMenuRace(const std::string &sChosenRace)
+  {
+    // Determine the current player's race
+    Race race;
+    if ( sChosenRace == "RANDOMTP" )
+      race = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
+    else if ( sChosenRace == "RANDOMTZ" )
+      race = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
+    else if ( sChosenRace == "RANDOMPZ" )
+      race = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+    else
+      race = Race::getType(sChosenRace);
+    return race;
+  }
+
   //---------------------------------------------- ON MENU FRAME ---------------------------------------------
   void GameImpl::onMenuFrame()
   {
@@ -247,34 +262,13 @@ namespace BWAPI
           // if this is single player
           if ( isAutoSingle )
           {
-            // get race
-            Race playerRace;
-            if ( this->autoMenuRace == "RANDOMTP" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-            else if ( this->autoMenuRace == "RANDOMTZ" )
-              playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-            else if ( this->autoMenuRace == "RANDOMPZ" )
-              playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-            else
-              playerRace = Race::getType(this->autoMenuRace);
+            // Set player race
+            this->_changeRace(0, getMenuRace(this->autoMenuRace));
 
-            // set race dropdown
-            if ( playerRace != Races::Unknown && playerRace != Races::None )
-              this->_changeRace(0, playerRace);
-
+            // Set enemy races
             for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
-            {
-              Race enemyRace = Race::getType(this->autoMenuEnemyRace[i]);
-              if ( this->autoMenuEnemyRace[i] == "RANDOMTP" )
-                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-              else if ( this->autoMenuEnemyRace[i] == "RANDOMTZ" )
-                enemyRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-              else if ( this->autoMenuEnemyRace[i] == "RANDOMPZ" )
-                enemyRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-
-              if ( enemyRace != Races::Unknown && enemyRace != Races::None )
-                this->_changeRace(i, enemyRace);
-            }
+              this->_changeRace(i, getMenuRace(this->autoMenuEnemyRace[i]));
+            
             //close remaining slots
             for( int i = this->autoMenuEnemyCount; i < 7; ++i )
             {
@@ -353,7 +347,9 @@ namespace BWAPI
         isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName));
 
         if ( isCreating && isHost )
+        {
           this->pressDialogKey( tempDlg->findIndex(15) );  // Create Game
+        }
         else // is joining
         {
           this->lastMapGen.clear();
@@ -373,16 +369,7 @@ namespace BWAPI
         waitSelRaceTimer = GetTickCount();
 
         // Determine the current player's race
-        Race playerRace;
-        if ( this->autoMenuRace == "RANDOMTP" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Protoss;
-        else if ( this->autoMenuRace == "RANDOMTZ" )
-          playerRace = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
-        else if ( this->autoMenuRace == "RANDOMPZ" )
-          playerRace = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
-        else
-          playerRace = Race::getType(this->autoMenuRace);
-
+        Race playerRace = getMenuRace(this->autoMenuRace);
         if ( playerRace != Races::Unknown && playerRace != Races::None )
         {
           // Check if the race was selected correctly, and prevent further changing afterwords
@@ -468,6 +455,9 @@ namespace BWAPI
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::_changeRace(int slot, BWAPI::Race race)
   {
+    if ( race == Races::Unknown || race == Races::None )
+      return;
+
     // Obtain the single player dialog
     BW::dialog *custom = BW::FindDialogGlobal("Create");
     if ( custom )

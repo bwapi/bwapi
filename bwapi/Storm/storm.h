@@ -1353,14 +1353,12 @@ namespace Storm
       return SFileGetFileSize(hFile, nullptr);
     }
 
-    bool read(void *buffer, size_t *readBytes)
+    bool read(void *buffer, size_t buffSize)
     {
-      if ( !readBytes ) return false;
-
       DWORD read = 0;
-      BOOL result = SFileReadFile(hFile, buffer, *readBytes, &read, 0);
-      *readBytes = read;
-      return result != FALSE;
+      BOOL result = SFileReadFile(hFile, buffer, buffSize, &read, 0);
+      
+      return result != FALSE && read == buffSize;
     }
 
     bool isValid() { return valid && hFile; }

@@ -64,41 +64,6 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   }
   // assume no error, would be fatal in Starcraft anyway
 }
-/*
-int getFileType(const char *szFileName)
-{
-  if ( !szFileName )
-    return 0;
-
-  int rVal = 0;
-  HANDLE hMPQ;
-  HANDLE hFile;
-  // Open archive for map checking
-  if ( SFileOpenArchive(szFileName, 0, 0, &hMPQ) && hMPQ )
-  {
-    // Open scenario.chk file
-    if ( SFileOpenFileEx(hMPQ, "staredit\\scenario.chk", SFILE_FROM_MPQ, &hFile) && hFile )
-    {
-      rVal = 1;
-      SFileCloseFile(hFile);
-    }
-    // Close archive
-    SFileCloseArchive(hMPQ);
-  }
-  else if ( SFileOpenFileEx(NULL, szFileName, SFILE_FROM_ABSOLUTE, &hFile) && hFile )
-  {
-    DWORD dwRead = 0;
-    char tbuff[16];
-    DWORD dwSize = SFileGetFileSize(hFile, 0);
-    // Read file data to check if it's a replay
-    if ( dwSize > 16 && SFileReadFile(hFile, &tbuff, 16, &dwRead, 0) && dwRead == 16 && *(DWORD*)&tbuff[12] == 'SRer' )
-      rVal = 2;
-    // Close file
-    SFileCloseFile(hFile);
-  }
-  return rVal;
-}
-*/
 int getFileType(const std::string &sFileName)
 {
   int rVal = 0;
@@ -116,11 +81,9 @@ int getFileType(const std::string &sFileName)
     }
     else if ( file.open(sFileName, SFILE_FROM_ABSOLUTE) )
     {
-      char tbuff[16];
-      size_t read = sizeof(tbuff);
-
       // Read file data to check if it's a replay
-      if ( file.size() > read && file.read(tbuff, &read) && read == sizeof(tbuff) && *(DWORD*)&tbuff[12] == 'SRer' )
+      char tbuff[16];
+      if ( file.read(tbuff, sizeof(tbuff)) && *(DWORD*)&tbuff[12] == 'SRer' )
         rVal = 2;
     }
   }
