@@ -486,25 +486,41 @@ namespace BWAPI
     /// @see isPlagued
     virtual int getStimTimer() const = 0;
 
-    /** Returns the building type a worker is about to construct. If the unit is a morphing Zerg unit or an
-     * incomplete building, this returns the UnitType the unit is about to become upon completion.*/
+    /// Retrieves the building type that a @worker is about to construct. If the unit is morphing
+    /// or is an incomplete structure, then this returns the UnitType that it will become when
+    /// it has completed morphing/constructing.
+    ///
+    /// @returns UnitType indicating the type that a @worker is about to construct, or an
+    /// incomplete unit will be when completed.
     virtual UnitType getBuildType() const = 0;
 
-    /** Returns the list of units queued up to be trained.
-     * \see UnitInterface::train, UnitInterface::cancelTrain, UnitInterface::isTraining. */
+    /// Retrieves the list of units queued up to be trained.
+    ///
+    /// @returns a UnitType::set containing all the types that are in this factory's training
+    /// queue.
+    /// @see train, cancelTrain, isTraining
     virtual UnitType::set getTrainingQueue() const = 0;
 
-    /** Returns the tech that the unit is currently researching. If the unit is not researching anything,
-     * TechTypes::None is returned.
-     * \see UnitInterface::research, UnitInterface::cancelResearch, UnitInterface::isResearching, UnitInterface::getRemainingResearchTime. */
+    /// Retrieves the technology that this unit is currently researching.
+    ///
+    /// @returns TechType indicating the technology being researched by this unit.
+    /// @retval TechTypes::None if this unit is not researching anything.
+    ///
+    /// @see research, cancelResearch, isResearching, getRemainingResearchTime
     virtual TechType getTech() const = 0;
 
-    /** Returns the upgrade that the unit is currently upgrading. If the unit is not upgrading anything,
-     * UpgradeTypes::None is returned.
-     * \see UnitInterface::upgrade, UnitInterface::cancelUpgrade, UnitInterface::isUpgrading, UnitInterface::getRemainingUpgradeTime. */
+    /// Retrieves the upgrade that this unit is currently upgrading.
+    ///
+    /// @return UpgradeType indicating the upgrade in progress by this unit.
+    /// @retval UpgradeTypes::None if this unit is not upgrading anything.
+    ///
+    /// @see upgrade, cancelUpgrade, isUpgrading, getRemainingUpgradeTime
     virtual UpgradeType getUpgrade() const = 0;
 
-    /** Returns the remaining build time of a unit/building that is being constructed. */
+    /// Retrieves the remaining build time for a unit or structure that is being trained or
+    /// constructed.
+    ///
+    /// @returns Number of frames remaining until the unit's completion.
     virtual int getRemainingBuildTime() const = 0;
 
     /** Returns the remaining time of the unit that is currently being trained. If the unit is a Hatchery,
