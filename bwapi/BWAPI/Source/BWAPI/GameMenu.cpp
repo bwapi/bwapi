@@ -155,7 +155,7 @@ namespace BWAPI
     return rval;
   }
   
-  Race getMenuRace(const std::string &sChosenRace)
+  Race GameImpl::getMenuRace(const std::string &sChosenRace)
   {
     // Determine the current player's race
     Race race;

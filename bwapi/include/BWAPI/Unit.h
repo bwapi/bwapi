@@ -575,7 +575,10 @@ namespace BWAPI
      * \see UnitInterface::setRallyPoint, UnitInterface::getRallyPosition. */
     virtual Unit getRallyUnit() const = 0;
 
-    /** Returns the add-on of this unit, or NULL if the unit doesn't have an add-on. */
+    /// Retrieves the add-on that is attached to this unit.
+    ///
+    /// @returns Unit interface that represents the add-on that is attached to this unit.
+    /// @retval nullptr if this unit does not have an add-on.
     virtual Unit getAddon() const = 0;
 
     /// Retrieves the @Nydus_Canal that is attached to this one. Every @Nydus_Canal can place a
