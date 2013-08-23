@@ -187,6 +187,7 @@ namespace BW
     bool  setSelectedIndex(BYTE bIndex);              // Sets the selected index
     bool  setSelectedByValue(DWORD dwValue);          // Sets the selected index based on the given value
     bool  setSelectedByString(const char *pszString, bool noctrl = true); // Sets the selected index based on its name, noctrl = ignore control characters
+    bool  setSelectedByString(const std::string &s, bool noctrl = true); // Sets the selected index based on its name, noctrl = ignore control characters
 
     bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);  // Adds an entry to a listbox or combobox
     bool  removeListEntry(BYTE bIndex = 0);   // Removes an entry from a listbox or combobox

@@ -1296,5 +1296,130 @@ int STORMAPI SBigPowMod(void *buffer1, void *buffer2, int a3, int a4);
 
 int STORMAPI SBigToBinaryBuffer(void *buffer, int length, int a3, int a4);
 
+#ifdef __cplusplus
+/////////////////////////////////////////////////////////////////////////
+/// High Level wrappers
+#include <string>
+
+namespace Storm
+{
+  class CFile;
+  class CArchive;
+
+
+  class CFile
+  {
+  private:
+    HANDLE hFile;
+    bool valid;
+  public:
+    CFile()
+      : hFile(nullptr)
+      , valid(false)
+    {}
+
+    CFile(const std::string &sFileName, unsigned flags = SFILE_FROM_MPQ, HANDLE hMpq = nullptr)
+      : hFile(nullptr)
+      , valid( SFileOpenFileEx(hMpq, sFileName.c_str(), flags, &hFile) != FALSE )
+    { }
+
+    CFile(CFile &&other)
+      : hFile( other.hFile )
+      , valid( other.valid )
+    {
+      other.valid = false;
+      other.hFile = nullptr;
+    }
+
+    ~CFile()
+    {
+      if ( isValid() )
+        SFileCloseFile(hFile);
+    }
+
+    HANDLE handle()
+    {
+      return hFile;
+    }
+
+    bool open(const std::string &sFileName, unsigned flags = SFILE_FROM_MPQ, HANDLE hMpq = nullptr)
+    {
+      valid = SFileOpenFileEx(hMpq, sFileName.c_str(), flags, &hFile) != FALSE;
+      return isValid();
+    }
+
+    size_t size()
+    {
+      return SFileGetFileSize(hFile, nullptr);
+    }
+
+    bool read(void *buffer, size_t *readBytes)
+    {
+      if ( !readBytes ) return false;
+
+      DWORD read = 0;
+      BOOL result = SFileReadFile(hFile, buffer, *readBytes, &read, 0);
+      *readBytes = read;
+      return result != FALSE;
+    }
+
+    bool isValid() { return valid && hFile; }
+    operator bool() { return isValid(); }
+    bool operator !() { return !isValid(); }
+  };
+
+
+  class CArchive
+  {
+  private:
+    HANDLE hMpq;
+    bool valid;
+  public:
+    CArchive()
+      : hMpq(nullptr)
+      , valid(false)
+    {}
+
+    CArchive(const std::string &sArchiveFileName, unsigned flags = 0, unsigned priority = 0)
+      : hMpq(nullptr)
+      , valid( SFileOpenArchive(sArchiveFileName.c_str(), priority, flags, &hMpq) != FALSE )
+    { }
+
+    CArchive(CArchive &&other)
+      : hMpq(other.hMpq)
+      , valid(other.valid)
+    { }
+
+    ~CArchive()
+    {
+      if ( isValid() )
+        SFileCloseArchive(hMpq);
+    }
+
+    bool open(const std::string &sArchiveFileName, unsigned flags = 0, unsigned priority = 0)
+    {
+      valid = SFileOpenArchive(sArchiveFileName.c_str(), priority, flags, &hMpq) != FALSE;
+      return isValid();
+    }
+
+    HANDLE handle()
+    {
+      return hMpq;
+    }
+
+    bool isValid() { return valid && hMpq; }
+    operator bool() { return isValid(); }
+    bool operator !() { return !isValid(); }
+
+    CFile openFile( const std::string &sFileName )
+    {
+      return CFile(sFileName, SFILE_FROM_MPQ, hMpq);
+    }
+  };
+
+};
+
+#endif
+
 
 #endif

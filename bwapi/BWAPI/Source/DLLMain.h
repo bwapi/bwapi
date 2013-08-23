@@ -8,5 +8,6 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength);
 
 void BWAPIError(const char *format, ...);
 void BWAPIError(DWORD dwErrCode, const char *format, ...);
-int getFileType(const char *szFileName);
+//int getFileType(const char *szFileName);
+int getFileType(const std::string &sFileName);
 

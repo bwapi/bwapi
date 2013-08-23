@@ -159,6 +159,11 @@ namespace BWAPI
     PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
     PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);
   }
+  void GameImpl::pressDialogKey(BW::dialog *pDlg)
+  {
+    if ( pDlg )
+      this->pressKey( pDlg->getHotkey() );
+  }
   void GameImpl::mouseDown(int x, int y)
   {
     // Press the left mouse button
