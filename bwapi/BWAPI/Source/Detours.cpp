@@ -449,13 +449,13 @@ BOOL __stdcall _SFileAuthenticateArchive(HANDLE /*hArchive*/, DWORD *dwReturnVal
 std::string lastFile;
 BOOL __stdcall _SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile)
 {
-  /* Store the name of the last-opened file to retrieve the pointer once it's allocated */
+  // Store the name of the last-opened file to retrieve the pointer once it's allocated
   lastFile = szFileName;
 
   if ( !phFile )
     return FALSE;
 
-  if ( !SFileOpenFileEx(NULL, szFileName, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+  if ( !SFileOpenFileEx(nullptr, szFileName, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
   {
     auto SFileOpenFileExProc = _SFileOpenFileExOld ? _SFileOpenFileExOld : &SFileOpenFileEx;
     return SFileOpenFileExProc(hMpq, szFileName, dwSearchScope, phFile);
@@ -469,7 +469,7 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
   if ( !phFile )
     return FALSE;
 
-  if ( !SFileOpenFileEx(NULL, filename, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
+  if ( !SFileOpenFileEx(nullptr, filename, SFILE_FROM_ABSOLUTE | SFILE_FROM_RELATIVE, phFile) || !(*phFile) )
   {
     auto SFileOpenFileProc = _SFileOpenFileOld ? _SFileOpenFileOld : &SFileOpenFile;
     return SFileOpenFileProc(filename, phFile);

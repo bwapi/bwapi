@@ -121,15 +121,14 @@ namespace BWAPI
     BYTE bRaceInfo[12] = { 0 };
     BYTE bOwnerInfo[12] = { 0 };
 
-    HANDLE hFile = NULL;
-    if ( SFileOpenFileEx(nullptr, "staredit\\scenario.chk", SFILE_FROM_MPQ, &hFile) && hFile )
+    Storm::CFile file("staredit\\scenario.chk");
+    if ( file.isValid() )
     {
-      DWORD dwFilesize = SFileGetFileSize(hFile, nullptr);
-      void *pData = SMAlloc(dwFilesize);
+      size_t filesize = file.size();
+      void *pData = SMAlloc(filesize);
       if ( pData )
       {
-        DWORD dwRead = 0;
-        if ( SFileReadFile(hFile, pData, dwFilesize, &dwRead, 0) && dwRead == dwFilesize )
+        if ( file.read(pData, filesize) )
         {
           struct _mapchunk
           {
@@ -137,7 +136,7 @@ namespace BWAPI
             DWORD dwSize;
             BYTE  bData[1];
           } *mcptr;
-          for ( mcptr = (_mapchunk*)pData; (DWORD)mcptr < (DWORD)pData + dwFilesize; mcptr = (_mapchunk*)&mcptr->bData[mcptr->dwSize] )
+          for ( mcptr = (_mapchunk*)pData; (DWORD)mcptr < (DWORD)pData + filesize; mcptr = (_mapchunk*)&mcptr->bData[mcptr->dwSize] )
           {
             switch ( mcptr->dwId )
             {
@@ -154,7 +153,6 @@ namespace BWAPI
         }
         SMFree(pData);
       }
-      SFileCloseFile(hFile);
     }
 
     // get the set of start locations

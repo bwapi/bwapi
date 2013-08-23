@@ -245,36 +245,32 @@ namespace BWAPI
     std::string filename = Map::getPathName();
 
     // Open File
-    HANDLE hFile = nullptr;
-    if ( !SFileOpenFileEx(nullptr, filename.c_str(), SFILE_FROM_ABSOLUTE, &hFile) || !hFile)
+    Storm::CFile file;
+    if ( !file.open(filename, SFILE_FROM_ABSOLUTE) )
     {
       filename += "\\staredit\\scenario.chk";
-      if ( !SFileOpenFileEx(nullptr, filename.c_str(), SFILE_FROM_MPQ, &hFile) || !hFile)
+      if ( !file.open(filename, SFILE_FROM_MPQ) )
         return std::string("Error_map_cannot_be_opened");
     }
 
     // Obtain file size
-    DWORD dwFileSize = SFileGetFileSize(hFile, 0);
+    size_t fileSize = file.size();
 
     // Allocate memory
-    void *pBuffer = SMAlloc(dwFileSize);
+    void *pBuffer = SMAlloc(fileSize);
     if ( !pBuffer )
-    {
-      SFileCloseFile(hFile);
       return std::string("Error_could_not_allocate_memory");
-    }
 
     // Read file
-    DWORD dwBytesRead = 0;
-    SFileReadFile(hFile, pBuffer, dwFileSize, &dwBytesRead, 0);
+    if ( !file.read(pBuffer, fileSize) )
+      return std::string("Error_unable_to_read_file");
 
     // Calculate hash
-    sha1::calc(pBuffer, dwBytesRead, hash);
+    sha1::calc(pBuffer, fileSize, hash);
     sha1::toHexString(hash, hexstring);
 
     // Free memory and return
     SMFree(pBuffer);
-    SFileCloseFile(hFile);
     return string(hexstring);
   }
   //----------------------------------------------------------------------------------------------------------
