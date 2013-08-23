@@ -106,15 +106,15 @@ namespace BWAPI
       srand(GetTickCount());
 
       int chosenEntry = 0;
-      if ( autoMapIteration == "RANDOM" )
+      if ( this->autoMapIteration == "RANDOM" )
       {
         chosenEntry = rand() % this->autoMapPool.size();
       }
-      else if ( autoMapIteration == "SEQUENCE" )
+      else if ( this->autoMapIteration == "SEQUENCE" )
       {
-        if ( lastAutoMapEntry >= this->autoMapPool.size() )
-          lastAutoMapEntry = 0;
-        chosenEntry = lastAutoMapEntry++;
+        if ( this->lastAutoMapEntry >= this->autoMapPool.size() )
+          this->lastAutoMapEntry = 0;
+        chosenEntry = this->lastAutoMapEntry++;
       }
       std::string chosen = this->autoMapPool[chosenEntry];
       this->lastMapGen   = this->autoMenuMapPath + chosen;
@@ -165,11 +165,11 @@ namespace BWAPI
     this->server.update();
 
     // Don't attempt auto-menu if we run into 50 error message boxes
-    if ( autoMapTryCount > 50 )
+    if ( this->autoMapTryCount > 50 )
       return;
 
     // Return if autoMenu is not enabled
-    if ( autoMenuMode == "" || autoMenuMode == "OFF" )
+    if ( this->autoMenuMode == "" || this->autoMenuMode == "OFF" )
       return;
 
 #ifdef _DEBUG
@@ -177,7 +177,7 @@ namespace BWAPI
     decltype(&IsDebuggerPresent) _IsDebuggerPresent;
     (FARPROC&)_IsDebuggerPresent = HackUtil::GetImport("Kernel32", "IsDebuggerPresent");
 
-    if ( autoMenuPause != "OFF" && _IsDebuggerPresent && !_IsDebuggerPresent() )
+    if ( this->autoMenuPause != "OFF" && _IsDebuggerPresent && !_IsDebuggerPresent() )
       return;
 #endif
 
@@ -188,15 +188,15 @@ namespace BWAPI
     BW::dialog *tempDlg = nullptr;
 
     // Get some autoMenu properties
-    bool isAutoSingle = autoMenuMode == "SINGLE_PLAYER";
-    bool isCreating   = !autoMenuMapPath.empty();
-    bool isJoining    = !autoMenuGameName.empty();
+    bool isAutoSingle = this->autoMenuMode == "SINGLE_PLAYER";
+    bool isCreating   = !this->autoMenuMapPath.empty();
+    bool isJoining    = !this->autoMenuGameName.empty();
 
     // Reset raceSel flag
     if ( menu != BW::GLUE_CHAT )
     {
-      actRaceSel = false;
-      actStartedGame = false;
+      this->actRaceSel = false;
+      this->actStartedGame = false;
     }
 
     // Iterate through the menus
@@ -307,7 +307,7 @@ namespace BWAPI
         if ( BW::FindDialogGlobal("gluPOk") )
         {
           this->chooseNewRandomMap();
-          ++autoMapTryCount;
+          ++this->autoMapTryCount;
           this->pressKey(BW::FindDialogGlobal("gluPOk")->findIndex(1)->getHotkey());
         }
         this->pressKey( tempDlg->findIndex(12)->getHotkey() );
