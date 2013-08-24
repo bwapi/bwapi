@@ -80,9 +80,9 @@ namespace BWAPI
     communicationPipe << serverProcID;
 
     pipeObjectHandle = CreateFile(communicationPipe.str().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-    if ( !pipeObjectHandle || pipeObjectHandle == INVALID_HANDLE_VALUE )
+    if ( pipeObjectHandle == INVALID_HANDLE_VALUE )
     {
-      std::cerr << "Unable to open communications pipe" << std::endl;
+      std::cerr << "Unable to open communications pipe: " << communicationPipe.str() << std::endl;
       CloseHandle(gameTableFileHandle);
       return false;
     }
@@ -99,7 +99,7 @@ namespace BWAPI
     mapFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, sharedMemoryName.str().c_str());
     if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
     {
-      std::cerr << "Unable to open shared memory mapping" << std::endl;
+      std::cerr << "Unable to open shared memory mapping: " << sharedMemoryName.str() << std::endl;
       CloseHandle(pipeObjectHandle);
       CloseHandle(gameTableFileHandle);
       return false;

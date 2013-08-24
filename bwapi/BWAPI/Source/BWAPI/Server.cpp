@@ -100,7 +100,8 @@ namespace BWAPI
       } // if gameTableFileHandle
 
       // Create the share name
-      std::stringstream ssShareName("Local\\bwapi_shared_memory_");
+      std::stringstream ssShareName;
+      ssShareName << "Local\\bwapi_shared_memory_";
       ssShareName << processID;
 
       // Create the file mapping and shared memory
@@ -122,7 +123,7 @@ namespace BWAPI
       std::stringstream communicationPipe;
       communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
       communicationPipe << processID;
-
+      
       pipeObjectHandle = CreateNamedPipe(communicationPipe.str().c_str(),
                                          PIPE_ACCESS_DUPLEX,
                                          PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,

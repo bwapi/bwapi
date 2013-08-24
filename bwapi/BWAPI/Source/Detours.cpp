@@ -161,7 +161,8 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
   HWND hWndReturn = NULL;
   if ( strcmp(lpClassName, "SWarClass") == 0 )
   {
-    std::stringstream newWindowName(lpWindowName);
+    std::stringstream newWindowName;
+    newWindowName << lpWindowName;
     if ( gdwProcNum )
       newWindowName << "Instance " << gdwProcNum;
 
@@ -228,7 +229,8 @@ std::string &getReplayName(std::string &sInFilename)
     if ( gdwProcNum )
     {
       // Add the instance number before .rep
-      std::stringstream ss( sInFilename.substr(0,sInFilename.find(".rep")) );
+      std::stringstream ss;
+      ss << sInFilename.substr(0, sInFilename.find(".rep") );
       ss << '[' << gdwProcNum << ']' << ".rep";
       sInFilename = ss.str();
     }
