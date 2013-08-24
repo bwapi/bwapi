@@ -175,12 +175,12 @@ namespace BWAPI
     DWORD writtenByteCount;
     int code = 1;
     WriteFile(pipeObjectHandle, &code, sizeof(code), &writtenByteCount, NULL);
-    std::cout << "wrote to pipe" << std::endl;
+    //std::cout << "wrote to pipe" << std::endl;
 
     while (code != 2)
     {
       DWORD receivedByteCount;
-      std::cout << "reading pipe" << std::endl;
+      //std::cout << "reading pipe" << std::endl;
       BOOL success = ReadFile(pipeObjectHandle, &code, sizeof(code), &receivedByteCount, NULL);
       if ( !success )
       {
@@ -189,7 +189,8 @@ namespace BWAPI
         return;
       }
     }
-    std::cout << "about to enter event loop" << std::endl;
+    //std::cout << "about to enter event loop" << std::endl;
+
     for(int i = 0; i < data->eventCount; ++i)
     {
       EventType::Enum type(data->events[i].type);
