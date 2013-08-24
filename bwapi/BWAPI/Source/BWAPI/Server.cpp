@@ -1,10 +1,12 @@
 #include "Server.h"
+
 #include <cstdio>
 #include <ctime>
 #include <Util/Foreach.h>
 #include <Util/Convenience.h>
 #include <cassert>
 #include <sstream>
+#include <AclAPI.h>
 
 #include "GameImpl.h"
 #include "PlayerImpl.h"
@@ -34,6 +36,9 @@ namespace BWAPI
     , gameTable(nullptr)
     , gameTableIndex(-1)
     , mapFileHandle(nullptr)
+    , pEveryoneSID(NULL)
+    , pACL(NULL)
+    , pSD(NULL)
   {
     // Local variables
     int size  = sizeof(GameData);
@@ -120,6 +125,81 @@ namespace BWAPI
 
     if ( serverEnabled )
     {
+	    //--------------------------------------------------------------------------------------------------------
+	    // Security Structure hobbled together from this document:
+	    // http://msdn.microsoft.com/en-us/library/aa446595%28VS.85%29.aspx
+	    //
+
+	    this->pEveryoneSID = NULL;
+	    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
+	    
+      // Create a well-known SID for the Everyone group.
+      if( !AllocateAndInitializeSid( &SIDAuthWorld, 
+                                    1,
+                                    SECURITY_WORLD_RID,
+                                    0, 0, 0, 0, 0, 0, 0,
+                                    &this->pEveryoneSID) )
+      {
+        // AllocateAndInitializeSid failed
+        //Util::Logger::globalLog->log("Error: AllocateAndInitializeSid");
+		    //printf("AllocateAndInitializeSid Error %u\n", GetLastError());
+      }
+
+      // Initialize an EXPLICIT_ACCESS structure for an ACE.
+      // The ACE will allow Everyone access.
+      EXPLICIT_ACCESS ea = {};
+      ea.grfAccessPermissions  = GENERIC_ALL;
+	    ea.grfAccessMode         = GRANT_ACCESS;
+      ea.grfInheritance        = NO_INHERITANCE;
+      ea.Trustee.TrusteeForm   = TRUSTEE_IS_SID;
+      ea.Trustee.TrusteeType   = TRUSTEE_IS_WELL_KNOWN_GROUP;
+      ea.Trustee.ptstrName     = (LPTSTR)this->pEveryoneSID;
+
+	    this->pACL = NULL;  //a NULL DACL is assigned to the security descriptor, which allows all access to the object
+
+      // Create a new ACL that contains the new ACEs.
+      DWORD dwRes = SetEntriesInAcl(1, &ea, NULL, &this->pACL);
+      if (ERROR_SUCCESS != dwRes) 
+      {
+        // SetEntriesInAcl failed
+        //Util::Logger::globalLog->log("Error: SetEntriesInAcl");
+		    //printf("SetEntriesInAcl Error %u\n", GetLastError());
+      }
+
+      // Initialize a security descriptor.  
+      this->pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
+      if ( NULL == this->pSD ) 
+      { 
+        // LocalAlloc failed
+        //Util::Logger::globalLog->log("Error: LocalAlloc");
+		    //printf("LocalAlloc Error %u\n", GetLastError()); 
+      } 
+ 
+      if ( !InitializeSecurityDescriptor(this->pSD, SECURITY_DESCRIPTOR_REVISION) ) 
+      {
+        // InitializeSecurityDescriptor failed
+        //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
+		    //printf("InitializeSecurityDescriptor Error %u\n",GetLastError()); 
+      } 
+
+	    // Add the ACL to the security descriptor. 
+      if ( !SetSecurityDescriptorDacl(this->pSD, 
+									                    TRUE,     // bDaclPresent flag   
+									                    this->pACL, 
+									                    FALSE) )   // not a default DACL 
+      {
+        // SetSecurityDescriptorDacl failed
+		    //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
+		    //printf("SetSecurityDescriptorDacl Error %u\n",GetLastError());
+      } 
+
+      // Initialize a security attributes structure.
+      SECURITY_ATTRIBUTES sa = { 0 };
+	    sa.nLength = sizeof(sa);
+      sa.lpSecurityDescriptor = this->pSD;
+      sa.bInheritHandle = FALSE;
+	    //--------------------------------------------------------------------------------------------------------
+
       std::stringstream communicationPipe;
       communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
       communicationPipe << processID;
@@ -131,18 +211,26 @@ namespace BWAPI
                                          PIPE_SYSTEM_BUFFER_SIZE,
                                          PIPE_SYSTEM_BUFFER_SIZE,
                                          PIPE_TIMEOUT,
-                                         NULL);
+                                         &sa);
     }
   }
   Server::~Server()
   {
     if ( pipeObjectHandle && pipeObjectHandle != INVALID_HANDLE_VALUE )
       DisconnectNamedPipe(pipeObjectHandle);
+
     if ( localOnly && data )
     {
       free(data);
       data = nullptr;
     }
+
+    if ( this->pEveryoneSID )
+      FreeSid(this->pEveryoneSID);
+    if ( this->pACL )
+      LocalFree(this->pACL);
+    if ( this->pSD )
+      LocalFree(this->pSD);
   }
   void Server::update()
   {
