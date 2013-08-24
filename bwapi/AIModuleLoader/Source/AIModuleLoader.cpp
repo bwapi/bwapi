@@ -41,7 +41,7 @@ int main(int argc, const char* argv[])
     std::cout << "waiting to enter match" << std::endl;
     while ( !Broodwar->isInGame() )
     {
-      std::cout << "attempting update" << std::endl;
+      //std::cout << "attempting update" << std::endl;
       BWAPI::BWAPIClient.update();
       if (!BWAPI::BWAPIClient.isConnected())
       {
@@ -52,7 +52,7 @@ int main(int argc, const char* argv[])
     std::cout << "entered match" << std::endl;
 
     AIModule* client = NULL;
-    HMODULE hMod = LoadLibraryA(dllPath.c_str());
+    HMODULE hMod = LoadLibrary(dllPath.c_str());
     if (hMod == NULL)
     {
       std::cerr << "ERROR: Failed to load the AI Module" << std::endl;
@@ -64,8 +64,8 @@ int main(int argc, const char* argv[])
       typedef AIModule* (*PFNCreateA1)();
       typedef void (*PFNGameInit)(Game *);
 
-      PFNGameInit newGame = (PFNGameInit)GetProcAddress(hMod, LPCSTR("newGame"));
-      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, LPCSTR("newAIModule"));
+      PFNGameInit newGame = (PFNGameInit)GetProcAddress(hMod, "gameInit");
+      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hMod, "newAIModule");
 
       if ( !newGame || !newAIModule )
       {
