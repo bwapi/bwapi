@@ -48,5 +48,9 @@ namespace BWAPI
 
     std::vector<Unit*> unitVector;
     std::map<Unit*, int> unitLookup;
+
+    PSID pEveryoneSID;
+    PACL pACL;
+    PSECURITY_DESCRIPTOR pSD;
   };
 }
