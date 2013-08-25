@@ -51,8 +51,8 @@ namespace BWAPI
     DWORD latest = 0;
     for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
     {
-      std::cout << i << " | " << (int)gameTable->gameInstances[i].serverProcessID << " | " << gameTable->gameInstances[i].isConnected << " | " << gameTable->gameInstances[i].lastKeepAliveTime << std::endl;
-      if (gameTable->gameInstances[i].serverProcessID != 0xFFFFFFFF && !gameTable->gameInstances[i].isConnected)
+      std::cout << i << " | " << gameTable->gameInstances[i].serverProcessID << " | " << gameTable->gameInstances[i].isConnected << " | " << gameTable->gameInstances[i].lastKeepAliveTime << std::endl;
+      if (gameTable->gameInstances[i].serverProcessID != 0 && !gameTable->gameInstances[i].isConnected)
       {
         if ( gameTableIndex == -1 || latest == 0 || gameTable->gameInstances[i].lastKeepAliveTime < latest )
         {

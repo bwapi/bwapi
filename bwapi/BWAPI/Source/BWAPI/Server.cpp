@@ -28,7 +28,7 @@ namespace BWAPI
   #define PIPE_TIMEOUT 3000
   #define PIPE_SYSTEM_BUFFER_SIZE 4096
 
-  const BWAPI::GameInstance GameInstance_None(0xFFFFFFFF, false, 0);
+  const BWAPI::GameInstance GameInstance_None(0, false, 0);
   Server::Server()
     : connected(false)
     , localOnly(false)
@@ -76,7 +76,7 @@ namespace BWAPI
           {
             for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
             {
-              if (gameTable->gameInstances[i].serverProcessID == 0xFFFFFFFF)
+              if (gameTable->gameInstances[i].serverProcessID == 0)
               {
                 gameTableIndex = i;
                 break;
