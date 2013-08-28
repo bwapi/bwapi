@@ -32,7 +32,7 @@ PROJECT_NAME           = BWAPI
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = 4.0.0
+PROJECT_NUMBER         = 4.0.1
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description 
 # for a project that appears at the top of each page and should give viewer 
@@ -286,7 +286,50 @@ ALIASES                = "Dropships=@ref UnitTypes::Terran_Dropship \"Dropships\
                          "Ghost=@ref UnitTypes::Terran_Ghost \"Ghost\"" \
                          "minerals=@ref UnitTypes::Resource_Mineral_Field \"Mineral Fields\"" \
                          "geysers=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
-                         "critters=@ref UnitTypes::Critter_Bengalaas \"Critters\""
+                         "critters=@ref UnitTypes::Critter_Bengalaas \"Critters\"" \
+                         "mines=@ref UnitTypes::Terran_Vulture_Spider_Mine \"Spider Mines\"" \
+                         "matrix=@ref TechTypes::Defensive_Matrix \"Defensive Matrix\"" \
+                         "ensnare=@ref TechTypes::Ensnare \"Ensnare\"" \
+                         "irradiate=@ref TechTypes::Irradiate \"Irradiate\"" \
+                         "lockdown=@ref TechTypes::Lockdown \"Lockdown\"" \
+                         "maelstrom=@ref TechTypes::Maelstrom \"Maelstrom\"" \
+                         "plague=@ref TechTypes::Plague \"Plague\"" \
+                         "stasis=@ref TechTypes::Stasis_Field \"Stasis Field\"" \
+                         "stim=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "worker=worker (@ref UnitTypes::Terran_SCV \"SCV\", @ref UnitTypes::Protoss_Probe \"Probe\", @ref UnitTypes::Zerg_Drone \"Drone\")" \
+                         "Interceptor=@ref UnitTypes::Protoss_Interceptor \"Interceptor\"" \
+                         "cloaked=@ref TechTypes::Cloaking_Field \"cloaked\"" \
+                         "locked=@ref TechTypes::Lockdown \"locked\"" \
+                         "Maelstrommed=@ref TechTypes::Maelstrom \"maelstrommed\"" \
+                         "plagued=@ref TechTypes::Plague \"plagued\"" \
+                         "defiler=@ref UnitTypes::Zerg_Defiler \"Defiler\"" \
+                         "repair=@ref Orders::Repair \"repair\"" \
+                         "sieged=@ref TechTypes::Tank_Siege_Mode \"sieged\"" \
+                         "Dark_Swarm=@ref TechTypes::Dark_Swarm \"Dark Swarm\"" \
+                         "Disruption_Web=@ref TechTypes::Disruption_Web \"Disruption Web\"" \
+                         "Flag_Beacon=@ref UnitTypes::Special_Zerg_Flag_Beacon \"Flag Beacon\"" \
+                         "Dark_Archon=@ref UnitTypes::Protoss_Dark_Archon \"Dark Archon\"" \
+                         "Vulture=@ref UnitTypes::Terran_Vulture \"Vulture\"" \
+                         "hallucination=@ref TechTypes::Hallucination \"Hallucination\"" \
+                         "broodling=@ref TechTypes::Spawn_Broodlings \"broodling\"" \
+                         "swarm=@ref TechTypes::Dark_Swarm \"Dark Swarm\"" \
+                         "dweb=@ref TechTypes::Disruption_Web \"Disruption Web\"" \
+                         "scanner=@ref TechTypes::Scanner_Sweep \"Scanner Sweep\"" \
+                         "Silos=@ref UnitTypes::Terran_Nuclear_Silo \"Nuclear Silos\"" \
+                         "mineral_field=@ref UnitTypes::Resource_Mineral_Field \"Mineral Field\"" \
+                         "parasite=@ref TechTypes::Parasite \"Parasite\"" \
+                         "SCVs=@ref UnitTypes::Terran_SCV \"SCVs\"" \
+                         "Siege_Tank=@ref UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tank\"" \
+                         "Siege_Tanks=@ref UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tanks\"" \
+                         "Arbiter=@ref UnitTypes::Protoss_Arbiter \"Arbiter\"" \
+                         "probe=@ref UnitTypes::Protoss_Probe \"Probe\"" \
+                         "drone=@ref UnitTypes::Zerg_Drone \"Drone\"" \
+                         "assimilator=@ref UnitTypes::Protoss_Assimilator \"Assimilator\"" \
+                         "extractor=@ref UnitTypes::Zerg_Extractor \"Extractor\"" \
+                         "refinery=@ref UnitTypes::Terran_Refinery \"Refinery\"" \
+                         "geyser=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
+                         "Stim_Packs=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "Stasis=@ref TechTypes::Stasis_Field \"Stasis Field\""
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only). 
 # A mapping has the form "name=value". For example adding 

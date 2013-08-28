@@ -58,9 +58,6 @@
     <ClCompile Include="Source\Unitset.cpp">
       <Filter>Containers\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Vectorset.cpp">
-      <Filter>Containers\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Color.cpp">
       <Filter>Types\Source Files</Filter>
     </ClCompile>

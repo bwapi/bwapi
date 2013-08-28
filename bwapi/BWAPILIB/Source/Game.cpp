@@ -395,7 +395,7 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReservePlacement(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool creep)
+  void ReservePlacement(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
   {
     // Reset the array
     reserve.reset();
