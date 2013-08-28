@@ -86,7 +86,7 @@ void InitPrimaryConfig()
   }
   */
   // Get process count
-  gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe");
+  gdwProcNum = getProcessCount("StarCraft_MultiInstance.exe"); // + getProcessCount("StarCraft.exe") - 1;
 
   // ------------------------- WMODE CONFIG OPTIONS ----------------------------------
   // Load windowed mode position and fullscreen setting

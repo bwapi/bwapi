@@ -1,3 +1,23 @@
+=================================================
+Changes from BWAPI 4.0.0 Beta to BWAPI 4.0.1 Beta
+=================================================
+Changes:
+  * All interface pointers are now hidden. Instead of Unit* you will now just use Unit. This will require a "Replace in Files" operation to convert existing sources.
+  * The installer now prompts the user to locate the Starcraft installation directory if it is not found.
+  * Game::setTextSize now takes a BWAPI::Text::Size::Enum parameter instead of an integer.
+  * All instances of IsUnpowered were renamed to IsPowered.
+  * The AI module in the configuration now accepts absolute paths (Ex: C:/stuff).
+
+Bug Fixes:
+  * Fixed a regression that prevented auto-menu from functioning.
+  * Fixed an issue that caused Type::getType to be case sensitive.
+  * Fixed a regression where addons and the engineering bay returned incorrect tile sizes.
+  * Fixed a regression that prevented the construction of structures on the right and bottom edges of the map.
+  * Fixed a regression that prevented the example projects from building out-of-the-box.
+  * Fixed a bug where auto_menu caused a second multi-instance client to redownload a map that already existed.
+  * Fixed a bug where auto_menu attempted to start a game before map downloads could be processed.
+  * Fixed a regression that prevented the client/server setup from communicating.
+
 ============================================
 Changes from BWAPI 3.7.4 to BWAPI 4.0.0 Beta
 ============================================
