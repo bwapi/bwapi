@@ -134,7 +134,6 @@ COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"</Command>
     <ClCompile Include="Source\TechType.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\Unitset.cpp" />
-    <ClCompile Include="Source\Vectorset.cpp" />
     <ClCompile Include="UnitCommand.cpp" />
     <ClCompile Include="Source\UnitCommandType.cpp" />
     <ClCompile Include="Source\UnitSizeType.cpp" />
