@@ -1,5 +1,5 @@
 --------------------
-| BWAPI 4.0.0 Beta |
+| BWAPI 4.0.1 Beta |
 --------------------
 
 The BWAPI web site    http://code.google.com/p/bwapi/
@@ -19,7 +19,7 @@ IRC Channel           Freenode #BWAPI
   the doors for custom AIs with new micro and macro algorithms.
 
      The installer contains all the necessary include files, libs, and dlls
-  required to compile and run an AI module and also comes with three projects
+  required to compile and run an AI module and also comes with four projects
   to help get you started in AI development with BWAPI:
 
     - Example AI Module - This project shows how to build an AI module DLL which
@@ -51,27 +51,24 @@ IRC Channel           Freenode #BWAPI
   Build Instructions:
     1. Run the installer and go to the installation directory.
 
-    2. Open ExampleProjects.sln in Visual C++ 2010 and build the solution.
+    2. Open ExampleProjects.sln in Visual C++ 2010 Express and build the solution.
 
   All projects should now be built and can be found in the solution directory's Release or
-  Debug subdirectories.
+  Debug subdirectories. Make sure to run the corresponding version of BWAPI and set the
+  proper settings for Release and Debug binaries.
 
   To run the Example AI Module:
-    1. Copy Release/ExampleAIModule.dll to
-       <starcraft folder>/bwapi-data/AI/ExampleAIModule.dll
-
-    2. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai to
-       bwapi-data/AI/ExampleAIModule.dll if it isn't already.
+    1. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai to
+       the path to your newly built ExampleAIModule.dll.
        
-    3. Run Chaoslauncher with BWAPI Injector checked. You can also check W-MODE
-       to have Broodwar run in a window rather than full-screen (if not using BWAPI's windowed mode).
+    2. Run Chaoslauncher with BWAPI Injector checked.
 
-    4. Start Starcraft: Broodwar and create a match.
+    3. Start Starcraft: Broodwar and create a match.
 
+    Note: With BWAPI you can switch to windowed mode using the shortcut ALT+ENTER.
      
   To run the Example AI Client:
-    1. Open <starcraft folder>/bwapi-data/bwapi.ini and set ai to NULL (or some
-       other file name that doesn't exist).
+    1. Open <starcraft folder>/bwapi-data/bwapi.ini and comment out the ai field with a semicolon.
 
     2. Run Release/ExampleAIClient.exe
 
@@ -79,16 +76,7 @@ IRC Channel           Freenode #BWAPI
 
     4. Start Starcraft: Broodwar and create a match.
 
-2. Basic AI Module
-------------------
-   The Example AI Module mainly just shows how to set everything up to make an
-AI module for BWAPI. Once you understand how the Example AI Module works, you
-may be interested the Basic AI Module from the BWSAL project, which aims to
-develop several robust components which execute basic tasks, such as
-constructing buildings, training units, gathering resources, and build-order
-management. For more information, visit:  http://code.google.com/p/bwsal/
-
-3. Bug Reports
+2. Bug Reports
 --------------
    BWAPI is not perfect. As you write custom AI modules using BWAPI you may run
 into bugs or other problems. We cannot find all the bugs on our own so your
@@ -99,5 +87,3 @@ find a bug, please contact us on the IRC or file an issue at
 Additionally, if the program experienced an exception, then a log will be created in
    <starcraft folder>/Errors/
 which may be useful.
-   
-Thank you for using BWAPI.

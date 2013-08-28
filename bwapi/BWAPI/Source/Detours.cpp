@@ -46,6 +46,7 @@ DECL_OLDFXN(CreateFile);
 DECL_OLDFXN(CreateWindowEx);
 DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
+DECL_OLDFXN(CreateEvent);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
 u8 savedRace[PLAYABLE_PLAYER_COUNT];
@@ -116,6 +117,18 @@ bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
     // do stuff
   }
   return rval;
+}
+
+//--------------------------------------------- CREATE EVENT -------------------------------------------------
+HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCTSTR lpName)
+{
+  if ( std::string(lpName) == "Starcraft Check For Other Instances" )
+  {
+    SetLastError(ERROR_SUCCESS);
+    return 0;
+  }
+  auto CreateEventProc = _CreateEventOld ? _CreateEventOld : &CreateEvent;
+  return CreateEventProc(lpEventAttributes, bManualReset, bInitialState, lpName);
 }
 
 //--------------------------------------------- CREATE THREAD ------------------------------------------------

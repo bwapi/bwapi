@@ -100,6 +100,7 @@ void ApplyCodePatches()
   _FindFirstFileOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
   _SleepOld             = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
   _CreateThreadOld      = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
+  _CreateEventOld       = HackUtil::PatchImport("kernel32.dll", "CreateEvent", &_CreateEvent);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------

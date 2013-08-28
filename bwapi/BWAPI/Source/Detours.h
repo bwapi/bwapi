@@ -32,6 +32,7 @@ HANDLE WINAPI _CreateFile(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwSha
 HWND   WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 VOID   WINAPI _Sleep(DWORD dwMilliseconds);
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
+HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCTSTR lpName);
 
 extern bool hideHUD;
 extern DWORD lastTurnTime;
@@ -57,6 +58,7 @@ extern DECL_OLDFXN(CreateFile);
 extern DECL_OLDFXN(CreateWindowEx);
 extern DECL_OLDFXN(Sleep);
 extern DECL_OLDFXN(CreateThread);
+extern DECL_OLDFXN(CreateEvent);
 
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
 extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);

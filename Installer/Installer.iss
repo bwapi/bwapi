@@ -57,16 +57,16 @@ SolidCompression=True
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
 DisableProgramGroupPage=yes
-AppVersion=4.0.0
+AppVersion=4.0.1
 ShowLanguageDialog=no
 AlwaysShowComponentsList=False
 ShowComponentSizes=False
 PrivilegesRequired=poweruser
 LanguageDetectionMethod=locale
-VersionInfoVersion=4.0.0
-VersionInfoTextVersion=4.0.0
-VersionInfoProductVersion=4.0.0
-VersionInfoProductTextVersion=4.0.0
+VersionInfoVersion=4.0.1
+VersionInfoTextVersion=4.0.1
+VersionInfoProductVersion=4.0.1
+VersionInfoProductTextVersion=4.0.1
 OutputBaseFilename=BWAPI_Setup
 
 [Components]
