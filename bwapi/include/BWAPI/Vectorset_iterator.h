@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iterator>
 
 #define _ITER_COMPARE(op) friend bool operator op(const VSetIterator<T> &lhs, const VSetIterator<T> &rhs) \
@@ -16,6 +17,11 @@ namespace BWAPI
   class VSetIterator : public std::iterator<std::random_access_iterator_tag, T>
   {
   public:
+    typedef std::iterator<std::random_access_iterator_tag, T> host_type;
+    typedef typename host_type::pointer pointer;
+    typedef typename host_type::difference_type difference_type;
+    typedef typename host_type::reference reference;
+
     // constructors
     VSetIterator(pointer ptr = nullptr) : pVal(ptr) {};
     VSetIterator(const VSetIterator<T> &other) : pVal(&other) {};

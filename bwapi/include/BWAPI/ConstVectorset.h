@@ -27,11 +27,19 @@ namespace BWAPI
   class ConstVectorset
   {
 #ifndef SWIG
-    static_assert(std::has_trivial_copy<T>::value == true &&
-                  std::has_trivial_copy_constructor<T>::value == true &&
-                  std::has_trivial_destructor<T>::value == true,
-                  "Vectorset can only be used with classes that have a trivial destructor and trivial copy constructor.");
+    static_assert(
+#ifdef _MSC_VER
+      std::tr1::has_trivial_copy<T>::value &&
+      std::tr1::has_trivial_copy_constructor<T>::value &&
+      std::tr1::has_trivial_destructor<T>::value,
+#else
+      std::is_trivially_copyable<T>::value &&
+      std::is_trivially_constructible<T>::value &&
+      std::is_trivially_destructible<T>::value,
 #endif
+      "Vectorset can only be used with classes that have a trivial destructor and trivial copy constructor.");
+#endif
+
   private:
     ConstVectorset();
   public:
@@ -81,7 +89,7 @@ namespace BWAPI
     };
     Vectorset<T> operator +(const T &val) const
     {
-      Vectorset<T> vcopy(this->size() + other.size());
+      Vectorset<T> vcopy(this->size() + 1);
       vcopy.push_back(*this);
       vcopy.push_back(val);
       return vcopy;

@@ -24,6 +24,7 @@ namespace BWAPI
   class Vectorset : public ConstVectorset<_T>
   {
   public:
+      typedef typename ConstVectorset<_T>::iterator iterator;
   // ----------------------------------------------------------------- Constructors
     /// This is the default constructor. The Vectorset will allocate memory for the given number
     /// of elements (or 16 by default).
@@ -32,7 +33,7 @@ namespace BWAPI
     ///   The number of elements of type _T to allocate memory for.
     Vectorset(size_t initialSize = 16)
       : ConstVectorset<_T>( (_T*)malloc(initialSize*sizeof(_T)) )
-      , pEndAlloc( pStartArr + initialSize )
+      , pEndAlloc( ConstVectorset<_T>::pStartArr + initialSize )
     {};
     
     /// This is the copy constructor. The Vectorset will allocate only the necessary space to
@@ -44,14 +45,14 @@ namespace BWAPI
     /// @note Duplicate entries are not removed.
     Vectorset(const Vectorset<_T> &other)
       : ConstVectorset<_T>( (_T*)malloc( other.size()*sizeof(_T)), other.size() )
-      , pEndAlloc( pEndArr )
+      , pEndAlloc( ConstVectorset<_T>::pEndArr )
     { 
       memcpy(this->pStartArr, (void*)other, other.size()*sizeof(_T));
     };
     /// @overload
     Vectorset(const ConstVectorset<_T> &other)
       : ConstVectorset<_T>( (_T*)malloc( other.size()*sizeof(_T)), other.size() )
-      , pEndAlloc( pEndArr )
+      , pEndAlloc( ConstVectorset<_T>::pEndArr )
     { 
       memcpy(this->pStartArr, (void*)other, other.size()*sizeof(_T));
     };
@@ -81,7 +82,7 @@ namespace BWAPI
     /// @note Duplicate entries are not removed.
     Vectorset(const _T *pArray, size_t arrSize)
       : ConstVectorset<_T>( (_T*)malloc(arrSize*sizeof(_T)), arrSize )
-      , pEndAlloc( pEndArr )
+      , pEndAlloc( ConstVectorset<_T>::pEndArr )
     {
       memcpy(this->pStartArr, pArray, arrSize*sizeof(_T) );
     };
