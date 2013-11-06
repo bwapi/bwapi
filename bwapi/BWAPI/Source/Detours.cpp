@@ -218,16 +218,15 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
 {
-  const char *pszFile = lpFileName;
   if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() && 
        BWAPI::BroodwarImpl.autoMenuMode != ""         &&
        BWAPI::BroodwarImpl.autoMenuMode != "OFF"      &&
-       BWAPI::BroodwarImpl.lastMapGen.size() > 0      &&
+       !BWAPI::BroodwarImpl.lastMapGen.empty()        &&
        strstr(lpFileName, "*.*")  )
-    pszFile = BWAPI::BroodwarImpl.lastMapGen.c_str();
+    lpFileName = BWAPI::BroodwarImpl.lastMapGen.c_str();
 
   auto FindFirstFileProc = _FindFirstFileOld ? _FindFirstFileOld : &FindFirstFile;
-  return FindFirstFileProc(pszFile, lpFindFileData);
+  return FindFirstFileProc(lpFileName, lpFindFileData);
 }
 std::string &getReplayName(std::string &sInFilename)
 {

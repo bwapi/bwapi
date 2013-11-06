@@ -371,7 +371,7 @@ namespace BWAPI
       time_t tmpTime = time(nullptr);
       tm *timeInfo = localtime(&tmpTime);
       
-      // Expand time strings
+      // Expand time strings, add a handler for this specific task to ignore errors in the format string
       _invalid_parameter_handler old = _set_invalid_parameter_handler(&ignore_invalid_parameter);
         strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
       _set_invalid_parameter_handler(old);
@@ -410,6 +410,7 @@ namespace BWAPI
     this->onStartCalled = false;
 
     this->initializeData();
+    this->chooseNewRandomMap();
   }
   //---------------------------------------------- SEND EVENTS TO CLIENT
   void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)
