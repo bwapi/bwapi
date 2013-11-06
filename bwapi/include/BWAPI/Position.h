@@ -104,9 +104,18 @@ namespace BWAPI
     _OPERATOR_OP_VAL_CHK(/)
     _OPERATOR_OP_VAL_CHK(%)
     
-    friend std::ostream &operator << (std::ostream &out, const Point<_T,__Scale> &pt)
+    //friend std::ostream &operator << (std::ostream &out, const Point<_T,__Scale> &pt)
+    template<typename _Tp, typename _CharT, class _Traits>
+    friend 
+    std::basic_ostream<_CharT, _Traits>& operator << (std::basic_ostream<_CharT, _Traits> &out, const Point<_T,__Scale> &pt)
     {
-      return out << '(' << pt.x << ',' << pt.y << ')';
+      //return out << '(' << pt.x << ',' << pt.y << ')';
+         std::basic_ostream<_CharT, _Traits> __s;
+         __s.flags(out.flags());
+         __s.imbue(out.getloc());
+         __s.precision(out.precision());
+         __s << '(' << pt.x << ',' << pt.y << ')';
+         return out << __s.str();
     };
 
     friend std::istream &operator >> (std::istream &in, Point<_T,__Scale> &pt)
@@ -235,7 +244,7 @@ namespace BWAPI
     /// @overload
     Point &setMin(const Point<_T,__Scale> &min)
     {
-      this->setMin(max.x, max.y);
+      this->setMin(min.x, min.y);
       return *this;
     };
 

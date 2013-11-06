@@ -14,18 +14,18 @@ namespace BWAPI
   {
   public:
     // Constructors
-    Typeset() : Vectorset() {};
+    Typeset() : Vectorset<T>() {};
     // copy ctor
-    Typeset(const Typeset<T> &other) : Vectorset( other ) {};
-    Typeset(const ConstVectorset<T> &other) : Vectorset( other ) {};
+    Typeset(const Typeset<T> &other) : Vectorset<T>( other ) {};
+    Typeset(const ConstVectorset<T> &other) : Vectorset<T>( other ) {};
 
     // move ctor
-    Typeset(Typeset<T> &&other) : Vectorset( std::forward< Typeset<T> >(other) ) {};
+    Typeset(Typeset<T> &&other) : Vectorset<T>( std::forward< Typeset<T> >(other) ) {};
     // type ctor
-    Typeset(const T &val) : Vectorset() { this->push_back(val); };
+    Typeset(const T &val) : Vectorset<T>() { this->push_back(val); };
     // array ctor
-    Typeset(const T *pArray, size_t size) : Vectorset(pArray, size) {};
-    Typeset(const int *pArray, size_t size) : Vectorset((const T*)pArray, size) {};
+    Typeset(const T *pArray, size_t size) : Vectorset<T>(pArray, size) {};
+    Typeset(const int *pArray, size_t size) : Vectorset<T>((const T*)pArray, size) {};
 
     ~Typeset() {};
 

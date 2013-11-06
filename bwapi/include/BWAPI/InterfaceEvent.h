@@ -20,8 +20,8 @@ namespace BWAPI
     InterfaceEvent(const std::function<void(T*)> &action, const std::function<bool(T*)> &condition = nullptr, int timesToRun = -1, int framesToCheck = 0)
       : condProc( condition )
       , execProc( action )
-      , runCount( timesToRun )
       , runFreq( framesToCheck )
+      , runCount( timesToRun )
       , step( framesToCheck )
     {};
     // copy ctor
