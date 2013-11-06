@@ -32,10 +32,15 @@ namespace BWAPI
     std::string cfgMap = LoadConfigString("auto_menu", "map", "");
     std::replace(cfgMap.begin(), cfgMap.end(), '/', '\\');
 
+    // Used to check if map string was changed.
+    static std::string lastAutoMapString;
+    bool mapChanged = false;
+
     // If the auto-menu map field was changed
-    if ( this->lastAutoMapString != cfgMap )
+
+    if ( lastAutoMapString != cfgMap )
     {
-      this->lastAutoMapString = cfgMap;
+      lastAutoMapString = cfgMap;
       this->lastAutoMapEntry = 0;
       this->lastMapGen.clear();
       this->autoMapPool.clear();
@@ -67,6 +72,8 @@ namespace BWAPI
         } while ( FindNextFile(hFind, &finder) );
         FindClose(hFind);
       } // handle exists
+
+      mapChanged = true;
     } // if map was changed^
 
     // Get map iteration config
@@ -76,7 +83,12 @@ namespace BWAPI
       this->autoMapIteration = newMapIteration;
       this->lastAutoMapEntry = 0;
       this->lastMapGen.clear();
+
+      mapChanged = true;
     }
+
+    if ( mapChanged )
+      this->chooseNewRandomMap();
 
     this->autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
     this->autoMenuRace          = LoadConfigString("auto_menu", "race", "RANDOM");
@@ -97,20 +109,16 @@ namespace BWAPI
     this->autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
     this->autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
     this->autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
-
-    if ( !this->lastMapGen.empty() )
-      this->chooseNewRandomMap();
   }
   void GameImpl::chooseNewRandomMap()
   {
     if ( !this->autoMapPool.empty() )
     {
-      // Obtain a random map file
-      srand(GetTickCount());
-
       int chosenEntry = 0;
       if ( this->autoMapIteration == "RANDOM" )
       {
+        // Obtain a random map file
+        srand(GetTickCount());
         chosenEntry = rand() % this->autoMapPool.size();
       }
       else if ( this->autoMapIteration == "SEQUENCE" )
@@ -243,9 +251,6 @@ namespace BWAPI
       // Store the tick count while in this menu, and refer to it in the next
       createdTimer  = GetTickCount();
       tempDlg = BW::FindDialogGlobal("Create");
-
-      if ( this->lastMapGen.empty() )
-        this->chooseNewRandomMap();
 
       if ( !this->lastMapGen.empty() )
       {
