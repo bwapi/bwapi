@@ -104,27 +104,32 @@ namespace BWAPI
     _OPERATOR_OP_VAL_CHK(/)
     _OPERATOR_OP_VAL_CHK(%)
     
-    //friend std::ostream &operator << (std::ostream &out, const Point<_T,__Scale> &pt)
-    template<typename _Tp, typename _CharT, class _Traits>
-    friend 
-    std::basic_ostream<_CharT, _Traits>& operator << (std::basic_ostream<_CharT, _Traits> &out, const Point<_T,__Scale> &pt)
+    /// Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
+    /// quotations.
+    ///
+    /// @param out
+    ///   Output stream.
+    /// @param pt
+    ///   Point to output.
+    /// @returns Output stream \p out.
+    friend std::ostream &operator << (std::ostream &out, const Point<_T,__Scale> &pt)
     {
-      //return out << '(' << pt.x << ',' << pt.y << ')';
-         std::basic_ostream<_CharT, _Traits> __s;
-         __s.flags(out.flags());
-         __s.imbue(out.getloc());
-         __s.precision(out.precision());
-         __s << '(' << pt.x << ',' << pt.y << ')';
-         return out << __s.str();
+      return out << '(' << pt.x << ',' << pt.y << ')';
     };
 
+    /// Input stream operator overload. Reads the input in the form "x y" without quotations.
+    /// The x and y values are read as type T(typically int or float) and stored into pt.
+    ///
+    /// @param in
+    ///   The input stream.
+    /// @param pt
+    ///   The receiving variable.
+    /// @returns Input stream \p in.
     friend std::istream &operator >> (std::istream &in, Point<_T,__Scale> &pt)
     {
       return in >> pt.x >> pt.y;
     };
 
-    // Functions
-    
     /// Checks if this point is within the game's map bounds.
     ///
     /// @note If the Broodwar pointer is not initialized, this function will check validity

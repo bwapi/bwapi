@@ -1,4 +1,5 @@
 #include <vector>
+#include <sstream>
 
 #include "Pathing.h"
 #include "Offsets.h"
@@ -170,25 +171,36 @@ namespace BW
   BW::region *getRegionAt(int x, int y)
   {
     BWAPI::TilePosition tp(x/32, y/32);
-    if ( tp.x >= 256 && tp.y >= 256 )
-      return NULL;
+    if ( tp.x < 0 || tp.y < 0 || tp.x >= 256 || tp.y >= 256 )
+      return nullptr;
 
     // Obtain the region IDs from the positions
     u16 id = (*BW::BWDATA::SAIPathing)->mapTileRegionId[tp.y][tp.x];
 
-    if ( id & 0x2000 )
+    // Check if the id is splitting the tile between regions
+    if ( id & 0xE000 )
     {
+      // Correct the ID (convert higher bits)
+      id = (id & 0x1FFF) + ((id & 0xC000) >> 1);
+
       // Get source region from split-tile based on walk tile
       int minitilePosX = (x&0x1F)/8;
       int minitilePosY = (y&0x1F)/8;
       int minitileShift = minitilePosX + minitilePosY * 4;
-      BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[id&0x1FFF];
+      BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[id];
       if ( (t->minitileMask >> minitileShift) & 1 )
         return &(*BW::BWDATA::SAIPathing)->regions[t->rgn2];
       return &(*BW::BWDATA::SAIPathing)->regions[t->rgn1];
     }
-    // Get source region from tile
-    return &(*BW::BWDATA::SAIPathing)->regions[id];
+    else if ( id < 5000 )
+    {
+      // Get source region from tile
+      return &(*BW::BWDATA::SAIPathing)->regions[id];
+    }
+    else
+    {
+      return nullptr;
+    }
   }
   BW::region *getRegionAt(Position pos)
   {
