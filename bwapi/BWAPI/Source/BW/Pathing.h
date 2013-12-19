@@ -118,7 +118,7 @@ namespace BW
     u32         regionCount;
     void        *globalBuffer_ptr;
     void        *splitTiles_end;
-    u16         mapTileRegionId[256][256];   // rgnId is &0x1FFF; split = &0x2000, 
+    u16         mapTileRegionId[256][256];   // rgnId is &0x1FFF; split = &0xE000 >>1
     split       splitTiles[25000];     // 0x2000C
     region      regions[5000];         // 0x449FC
     u16         globalBuffer[10000];   // 0x92BFC; extra buffer used for large neighbor ID arrays

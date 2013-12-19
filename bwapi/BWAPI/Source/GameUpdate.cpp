@@ -254,36 +254,6 @@ void GameImpl::updateOverlays()
   if ( !data->hasGUI )
     return;
 
-  // grid
-  if ( grid )
-  {
-    BWAPI::Position scrPos = getScreenPosition();
-
-    // draw mtx grid
-    for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer->height())/32 + 1; ++y )
-    {
-      for ( int x = scrPos.x/32; x < (scrPos.x + BW::BWDATA::GameScreenBuffer->width())/32 + 1; ++x )
-      {
-        for ( int i = 0; i < 32; i += 4 )
-        {
-          drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
-          drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
-        }
-      }
-    }
-    setTextSize(Text::Size::Small);
-    drawTextScreen(64, 288, "%c(%u, %u)", Text::White, (scrPos.x+this->getMousePosition().x)/32, (scrPos.y+this->getMousePosition().y)/32);
-    setTextSize();
-  } // grid
-
-  // fps display
-  if ( showfps )
-  {
-    setTextSize(Text::Size::Small);
-    drawTextScreen(1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
-    setTextSize();
-  } // fps
-
 #ifdef _DEBUG
   setTextSize(Text::Size::Small);
   // unitdebug
@@ -321,58 +291,19 @@ void GameImpl::updateOverlays()
     BW::region *selectedRgn = BW::getRegionAt(mouse);
     int scrx = (getScreenPosition().x/32 - 1)*32;
     int scry = (getScreenPosition().y/32 - 1)*32;
-    for ( int x = (scrx > 0 ? scrx : 0); x < getScreenPosition().x + BW::BWDATA::ScreenLayers[5].width && x/32 < this->mapWidth(); x += 32 )
+    for ( int x = (scrx > 0 ? scrx : 0); x < getScreenPosition().x + BW::BWDATA::ScreenLayers[5].width && x/32 < this->mapWidth(); x += 8 )
     {
-      for ( int y = (scry > 0 ? scry : 0); y < getScreenPosition().y + BW::BWDATA::ScreenLayers[5].height && y/32 < this->mapHeight(); y += 32 )
+      for ( int y = (scry > 0 ? scry : 0); y < getScreenPosition().y + BW::BWDATA::ScreenLayers[5].height && y/32 < this->mapHeight(); y += 8 )
       {
         BW::TilePosition tp((u16)x/32, (u16)y/32);
+        BW::region *r = BW::getRegionAt(x,y);
+        
+        BWAPI::Color c = (selectedRgn == r) ? Colors::Brown : Colors::Grey;
+        if ( r->accessabilityFlags == 0x1FFD )
+          c = (selectedRgn == r) ? Colors::Yellow : Colors::Red;
 
-        u16 idx = (*BW::BWDATA::SAIPathing)->mapTileRegionId[tp.y][tp.x];
-        if ( idx & 0x2000 )
-        {
-          BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[idx & 0x1FFF];
-          for ( int mTileY = 0; mTileY < 4; ++mTileY )
-          {
-            for ( int mTileX = 0; mTileX < 4; ++mTileX )
-            {
-              BW::region *rgn1 = getRegionFromId(t->rgn1);
-              BWAPI::Color c = selectedRgn == rgn1 ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
-              if ( rgn1->accessabilityFlags == 0x1FFD )
-                c = selectedRgn == rgn1 ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
-              if ( ((t->minitileMask >> ( mTileX + mTileY * 4 )) & 1) )
-              {
-                BW::region *rgn2 = getRegionFromId(t->rgn2);
-                c = selectedRgn == rgn2 ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
-                if ( rgn2->accessabilityFlags == 0x1FFD )
-                  c = selectedRgn == rgn2 ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
-              }
-              drawLineMap(x + mTileX * 8,     y + mTileY * 8, x + mTileX * 8 + 8, y + mTileY * 8 + 8, c);
-              drawLineMap(x + mTileX * 8 + 8, y + mTileY * 8, x + mTileX * 8,     y + mTileY * 8 + 8, c);
-            } // minitile X
-          }// minitile Y
-        } // index & 0x2000
-        else
-        {
-          BW::region *r = getRegionFromId(idx);
-          BWAPI::Color c = selectedRgn == r ? BWAPI::Colors::Brown : BWAPI::Colors::Grey;
-          if ( r->accessabilityFlags == 0x1FFD )
-            c = selectedRgn == r ? BWAPI::Colors::Yellow : BWAPI::Colors::Red;
-          drawLineMap(x,    y,    x + 32,      y + 32,      c);
-          drawLineMap(x+8,  y,    x + 32,      y + 32 - 8,  c);
-          drawLineMap(x+16, y,    x + 32,      y + 32 - 16, c);
-          drawLineMap(x+24, y,    x + 32,      y + 32 - 24, c);
-          drawLineMap(x,    y+16, x + 32 - 16, y + 32,      c);
-          drawLineMap(x,    y+8,  x + 32 - 8,  y + 32,      c);
-          drawLineMap(x,    y+24, x + 32 - 24, y + 32,      c);
-            
-          drawLineMap(x,    y+32, x + 32,      y,           c);
-          drawLineMap(x,    y+16, x + 32 - 16, y,           c);
-          drawLineMap(x,    y+8,  x + 32 - 24, y,           c);
-          drawLineMap(x,    y+24, x + 32 - 8,  y,           c);
-          drawLineMap(x+16, y+32, x + 32,      y + 32 - 16, c);
-          drawLineMap(x+8,  y+32, x + 32,      y + 32 - 24, c);
-          drawLineMap(x+24, y+32, x + 32,      y + 32 - 8,  c);
-        }
+        drawLineMap(x, y, x+7, y+7, c);
+        drawLineMap(x+7, y, x, y+7, c);
       } // iterate y
     } // iterate x
     for ( unsigned int i = 0; i < (*BW::BWDATA::SAIPathing)->regionCount; ++i )
@@ -448,6 +379,37 @@ void GameImpl::updateOverlays()
     }*/
   } // pathdebug
 #endif
+
+
+  // grid
+  if ( grid )
+  {
+    BWAPI::Position scrPos = getScreenPosition();
+
+    // draw mtx grid
+    for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer->height())/32 + 1; ++y )
+    {
+      for ( int x = scrPos.x/32; x < (scrPos.x + BW::BWDATA::GameScreenBuffer->width())/32 + 1; ++x )
+      {
+        for ( int i = 0; i < 32; i += 4 )
+        {
+          drawLineMap(x*32 + 32, y*32 + i, x*32 + 32, y*32 + i + 2, BWAPI::Colors::Grey);
+          drawLineMap(x*32 + i, y*32 + 32, x*32 + i + 2, y*32 + 32, BWAPI::Colors::Grey);
+        }
+      }
+    }
+    setTextSize(Text::Size::Small);
+    drawTextScreen(64, 288, "%c(%u, %u)", Text::White, (scrPos.x+this->getMousePosition().x)/32, (scrPos.y+this->getMousePosition().y)/32);
+    setTextSize();
+  } // grid
+
+  // fps display
+  if ( showfps )
+  {
+    setTextSize(Text::Size::Small);
+    drawTextScreen(1,1, "%cFrame Rate (Logical Frames)\nLFPS: %d\nAvg LFPS:%.3lf", BWAPI::Text::Yellow, this->getFPS(), this->getAverageFPS());
+    setTextSize();
+  } // fps
 
 }
 
