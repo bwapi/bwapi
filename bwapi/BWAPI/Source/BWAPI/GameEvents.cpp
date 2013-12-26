@@ -378,7 +378,7 @@ namespace BWAPI
       pathStr = szTmpPath;
 
       // Remove illegal characters
-      pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(), [](char c){ return iscntrl(c) ||  c == '?' || c == '*' ||
+      pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(), [](char c){ return iscntrl( reinterpret_cast<unsigned char&>(c) ) ||  c == '?' || c == '*' ||
                                                                                 c == '<' ||  c == '|' || c == '>' || c == '"' ||
                                                                                 c == ':';}), pathStr.end());
       // Create the directory tree
