@@ -11,6 +11,7 @@ Release_Binary/AIModuleLoader/Source/
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*
 Release_Binary/ExampleAIClient/Source/
 Release_Binary/ExampleAIModule/Source/
+Release_Binary/ExampleTournamentModule/Source/
 Release_Binary/MPQdraft/BWAPI_*
 Release_Binary/Starcraft/SNP_DirectIP.snp
 Release_Binary/Starcraft/bwapi-data/BWAPI*.dll
