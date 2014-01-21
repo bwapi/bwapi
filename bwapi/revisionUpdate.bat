@@ -1,20 +1,18 @@
 @echo off
-for %%X in (SubWCRev.exe) do (set SUBWCREVEXE=%%~$PATH:X)
-if defined SUBWCREVEXE (
-"%SUBWCREVEXE%" . svnrev_template.h svnrev.h
-) else (
-SubWCRev.fromSVN.exe . svnrev_template.h svnrev.h
-)
-if ERRORLEVEL 1 (
-rem failure
-echo ----------------------------
-echo  SubWCRev.exe failed 
-if not exist svnrev.h (
-echo  creating a stub svnrev.h
-call generateStub
-) else (
-echo  leaving svnrev.h untouched
-)
-echo ----------------------------
-)
+
+set cmd="git rev-list HEAD --count"
+FOR /F %%i IN (' %cmd% ') DO SET X=%%i
+
+> svnrev.h echo static const int SVN_REV = (4462+%X%);
+>> svnrev.h echo.
+>> svnrev.h echo #ifdef _DEBUG
+>> svnrev.h echo   #define BUILD_STR "DEBUG"
+>> svnrev.h echo   #define BUILD_DEBUG 1
+>> svnrev.h echo #else
+>> svnrev.h echo   #define BUILD_STR "RELEASE"
+>> svnrev.h echo   #define BUILD_DEBUG 0
+>> svnrev.h echo #endif
+>> svnrev.h echo.
+>> svnrev.h echo #include "starcraftver.h"
+
 pause

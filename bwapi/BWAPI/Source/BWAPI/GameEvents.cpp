@@ -12,8 +12,6 @@
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
 
-#define TOURNAMENT_STR "BWAPI r" SVN_REV_STR " Tournament Mode Engaged!"
-
 namespace BWAPI
 {
   //--------------------------------------------- ON GAME START ----------------------------------------------
@@ -293,7 +291,7 @@ namespace BWAPI
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
   void GameImpl::onReceiveText(int playerId, std::string text)
   {
-    if ( !this->bTournamentMessageAppeared && hTournamentModule && text == TOURNAMENT_STR )
+    if ( !this->bTournamentMessageAppeared && hTournamentModule && text == getTournamentString() )
       this->bTournamentMessageAppeared = true;
 
     // Do onReceiveText

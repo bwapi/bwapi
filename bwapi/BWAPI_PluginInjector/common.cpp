@@ -1,10 +1,15 @@
 #include <Windows.h>
 #include <cstdio>
 #include <string>
-
+#include <sstream>
 #include "common.h"
 
-const char *pszPluginName = "BWAPI Injector (" STARCRAFT_VER ") r" SVN_REV_STR " (" BUILD_STR ")";
+std::string GetPluginName()
+{
+  std::stringstream ss_name;
+  ss_name << "BWAPI Injector (" << STARCRAFT_VER << ") " << BUILD_STR;
+  return ss_name.str();
+}
 
 std::string GetBWAPITarget()
 {

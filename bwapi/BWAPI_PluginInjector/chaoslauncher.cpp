@@ -1,5 +1,7 @@
 #include <Windows.h>
 #include <cstdio>
+#include <sstream>
+#include <string>
 
 #include "chaoslauncher.h"
 #include "common.h"
@@ -22,11 +24,15 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
-  char newDescription[512];
-  sprintf_s(newDescription, 512, "Injects " MODULE " into the Broodwar process.\r\n\r\nRevision %s.\r\nCheck for updates at http://bwapi.googlecode.com/ \r\n\r\nCreated by the BWAPI Project Team", SVN_REV_STR);
-  strcpy(name, "BWAPI Injector (" STARCRAFT_VER ") " BUILD_STR);
-  strcpy(description, newDescription);
-  strcpy(updateurl, "http://bwapi.googlecode.com/files/");
+  std::stringstream ss_desc;
+  ss_desc << "Injects " << MODULE << " into the Broodwar process.\r\n\r\n"
+     << "Revision " << SVN_REV << ".\r\n"
+     << "Check for updates at " << BWAPI_HOME_URL << " \r\n\r\n"
+     << "Created by the BWAPI Project Team";
+
+  strcpy(name, GetPluginName().substr(0, 64).c_str());
+  strcpy(description, ss_desc.str().substr(0, 512).c_str());
+  strcpy(updateurl, "");
 }
 
 // Functions called by BWLauncher
