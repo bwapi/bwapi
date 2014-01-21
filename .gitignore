@@ -17,3 +17,4 @@ Release_Binary/Starcraft/SNP_DirectIP.snp
 Release_Binary/Starcraft/bwapi-data/BWAPI*.dll
 bwapi/libReplayToolTest/TestData/Replay_Tool_Actual.exe
 bwapi/icph/
+Release_Binary/Chaoslauncher/__log.txt
