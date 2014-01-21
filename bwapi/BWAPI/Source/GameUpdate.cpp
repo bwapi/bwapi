@@ -17,9 +17,19 @@
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
 
-#define TOURNAMENT_STR "BWAPI r" SVN_REV_STR " Tournament Mode Engaged!"
-
 using namespace BWAPI;
+
+std::string GameImpl::getTournamentString()
+{
+  static std::string sMemo;
+  if ( sMemo.empty() )
+  {
+    std::stringstream ss;
+    ss << "BWAPI r" << SVN_REV << " Tournament Mode Engaged!";
+    sMemo = ss.str();
+  }
+  return sMemo;
+}
 
 //------------------------------------------------- UPDATE -------------------------------------------------
 void GameImpl::update()
@@ -140,7 +150,7 @@ void GameImpl::update()
   {
     this->bTournamentMessageAppeared = true;
     this->isTournamentCall = true;
-    sendText("%s", TOURNAMENT_STR);
+    sendText("%s", getTournamentString());
     if ( this->tournamentController )
       this->tournamentController->onFirstAdvertisement();
     this->isTournamentCall = false;
@@ -719,6 +729,6 @@ void GameImpl::initializeAIModule()
   }
 
   if ( !hTournamentModule ) // If tournament mode wasn't initialized
-    sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " is now live using \"%s\".", moduleName.c_str() );
+    sendText("BWAPI r%d %s is now live using \"%s\".", SVN_REV, BUILD_STR, moduleName.c_str() );
 }
 

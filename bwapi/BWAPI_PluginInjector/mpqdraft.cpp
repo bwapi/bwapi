@@ -23,8 +23,7 @@ BOOL WINAPI MPQDraftPluginInterface::GetPluginName(LPSTR pPluginName, DWORD name
     return FALSE;
 
   // Copy the plugin name to the target
-  strncpy(pPluginName, pszPluginName, namebufferlength-1);
-  pPluginName[namebufferlength-1] = '\0';
+  strcpy(pPluginName, ::GetPluginName().substr(0, namebufferlength-1).c_str());
   return TRUE;
 }
 

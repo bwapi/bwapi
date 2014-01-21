@@ -1,0 +1,9 @@
+*.user
+*.sdf
+*.opensdf
+*/svnrev.h
+*.suo
+*.log
+Debug
+Release
+ipch
