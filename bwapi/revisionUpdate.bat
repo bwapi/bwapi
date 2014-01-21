@@ -3,7 +3,7 @@
 set cmd="git rev-list HEAD --count"
 FOR /F %%i IN (' %cmd% ') DO SET X=%%i
 
-> svnrev.h echo static const int SVN_REV = (4462+%X%);
+> svnrev.h echo static const int SVN_REV = 2383 + %X%;
 >> svnrev.h echo.
 >> svnrev.h echo #ifdef _DEBUG
 >> svnrev.h echo   #define BUILD_STR "DEBUG"
