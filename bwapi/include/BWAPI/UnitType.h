@@ -760,12 +760,12 @@ namespace BWAPI
   {
     /// Retrieves the maximum unit width from the set of all units.
     ///
-    /// @returns The maximum width of any unit, in pixels.
+    /// @returns The maximum width of all units, in pixels.
     int maxUnitWidth();
     
     /// Retrieves the maximum unit height from the set of all units.
     ///
-    /// @returns The maximum height of any unit, in pixels.
+    /// @returns The maximum height of all units, in pixels.
     int maxUnitHeight();
 
     /// Retrieves the set of all unit types.
@@ -783,7 +783,8 @@ namespace BWAPI
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
 #endif
-#define BWAPI_DECL(x) /** x */ extern const UnitType x
+#define BWAPI_DECL(x) /** x.<br> @tl ## x @scc ## x @sen ## x @wik ## x */ extern const UnitType x
+
     BWAPI_DECL(Terran_Marine);
     BWAPI_DECL(Terran_Ghost);
     BWAPI_DECL(Terran_Vulture);
