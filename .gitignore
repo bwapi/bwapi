@@ -6,6 +6,8 @@
 *.log
 Debug
 Release
+*.swp
+*.bak
 
 Release_Binary/AIModuleLoader/Source/
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*

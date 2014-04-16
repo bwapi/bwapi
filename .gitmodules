@@ -1,0 +1,3 @@
+[submodule "Documentation/pages/wiki"]
+	path = Documentation/pages/wiki
+	url = git@github.com:bwapi/bwapi.wiki.git
