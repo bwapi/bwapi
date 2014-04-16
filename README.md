@@ -20,10 +20,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - Analyze replays frame-by-frame, and extract trends, build orders, and common strategies.
  - Get comprehensive information on the unit types, upgrades, technologies, weapons, and more.
  - Study and research real-time AI algorithms in a robust commercial RTS environment.
-
-
-[![Example of testing a Zerg bot](http://img.youtube.com/vi/FBam0jlIjeU/0.jpg)](http://www.youtube.com/watch?v=FBam0jlIjeU)
-
+ 
 ## Sample Projects ##
 
 
