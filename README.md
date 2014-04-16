@@ -32,7 +32,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  * **Documentation:**         http://bwapi.github.io/
  * **Repository:**            https://github.com/bwapi/bwapi
  * **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
- * **IRC Channel:**           [Freenode `#BWAPI`](http://webchat.freenode.net/?channels=BWAPI)
+ * **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
  * **Forums:**                http://www.broodwarai.com/forums/
  * **Facebook:**              https://www.facebook.com/groups/bwapi/
 
