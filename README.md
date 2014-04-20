@@ -6,8 +6,6 @@
 
 ## Overview {#overview}
 
-The Brood War Application Programming Interface (BWAPI) is a free and open source C++ framework that is 
-used to interact with the popular Real Time Strategy (RTS) game Starcraft: Broodwar. Using BWAPI, 
 The Brood War Application Programming Interface (BWAPI) is a free and open source C++ framework that is
 used to interact with the popular Real Time Strategy (RTS) game Starcraft: Broodwar. Using BWAPI,
 students, researchers, and hobbyists can create Artificial Intelligence (AI) agents that play the game.
@@ -49,6 +47,7 @@ Various venues host remote competitive AI competitions that allow developers fro
 * [IEEE Conference on Computational Intelligence and Games (CIG)](http://cilab.sejong.ac.kr/sc_competition/)
 * [Student StarCraft AI (SSCAI) Tournament](http://sscaitournament.com/)
 * [StarCraft Micro AI (SMAI) Tournament](http://scmai.hackcraft.sk/)
+* All bots ladder: [http://bots-stats.krasi0.com](http://bots-stats.krasi0.com)
 
 
 ## Issues {#issues}
