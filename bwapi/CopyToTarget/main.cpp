@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <string>
+#include <iostream>
 
 #ifdef _DEBUG
 #define MODULE "BWAPId.dll"
@@ -41,16 +42,26 @@ std::string GetRegString(const char *pszSubKey, const char *pszValueName)
   return std::string(szTemp);
 }
 
+std::string GetLastErrorMessage()
+{
+  LPSTR pszErrMsg;
+  FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, (LPSTR)&pszErrMsg, 0, nullptr);
+  std::string result(pszErrMsg);
+  LocalFree(pszErrMsg);
+  return result;
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
   std::string sInstallPath = GetRegString("SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath");
   sInstallPath += "\\bwapi-data\\" MODULE;
 
-  std::string from(lpCmdLine);
-  from += "BWAPI.dll";
-
-  if ( !CopyFile(from.c_str(), sInstallPath.c_str(), FALSE) )
+  std::cout << lpCmdLine << " --> " << sInstallPath << std::endl;
+  if ( !CopyFile(lpCmdLine, sInstallPath.c_str(), FALSE) )
+  {
+    std::cerr << GetLastErrorMessage() << std::endl;
     return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

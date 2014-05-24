@@ -65,7 +65,7 @@
     <PostBuildEvent>
       <Message>Copying BWAPId.dll to Release_Binary</Message>
       <Command>COPY /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\$(TargetName)d$(TargetExt)"
-"$(OutDir)CopyToTarget.exe" $(OutDir)</Command>
+"$(OutDir)CopyToTarget.exe" $(OutDir)$(TargetName)$(TargetExt)</Command>
     </PostBuildEvent>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -102,7 +102,7 @@
     <PostBuildEvent>
       <Message>Copying BWAPI.dll to Release_Binary</Message>
       <Command>COPY /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\Starcraft\bwapi-data\$(TargetName)$(TargetExt)"
-"$(OutDir)CopyToTarget.exe" $(OutDir)</Command>
+"$(OutDir)CopyToTarget.exe" $(OutDir)$(TargetName)$(TargetExt)</Command>
     </PostBuildEvent>
     <ProjectReference />
   </ItemDefinitionGroup>
