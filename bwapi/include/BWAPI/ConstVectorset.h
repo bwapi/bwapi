@@ -29,9 +29,9 @@ namespace BWAPI
 #ifndef SWIG
     static_assert(
 #ifdef _MSC_VER
-      std::tr1::has_trivial_copy<T>::value &&
-      std::tr1::has_trivial_copy_constructor<T>::value &&
-      std::tr1::has_trivial_destructor<T>::value,
+      std::has_trivial_copy<T>::value &&
+      std::has_trivial_copy_constructor<T>::value &&
+      std::has_trivial_destructor<T>::value,
 #else
       std::is_trivially_copyable<T>::value &&
       std::is_trivially_constructible<T>::value &&
