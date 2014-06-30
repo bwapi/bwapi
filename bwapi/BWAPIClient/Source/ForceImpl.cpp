@@ -7,7 +7,7 @@
 namespace BWAPI
 {
   ForceImpl::ForceImpl(int _id)
-    : self( &(BWAPI::BWAPIClient.data->forces[id]) )
+    : self( &(BWAPI::BWAPIClient.data->forces[_id]) )
     , id(_id)
   {
   }
