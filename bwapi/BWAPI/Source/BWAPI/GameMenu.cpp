@@ -301,7 +301,6 @@ namespace BWAPI
           i->container.bHumanSlots    = 8;
           for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
             i->container.bPlayerSlotEnabled[p] = 1;
-          i->container.bEntryFlags = 0x04;
 
           // Safe string copies
           SSCopy(i->container.szEntryName, mapFileName.c_str());
