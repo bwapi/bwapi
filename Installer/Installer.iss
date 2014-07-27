@@ -31,12 +31,12 @@ Source: "..\Release_Binary\documentation\*"; DestDir: "{app}\documentation\"; Fl
 [Setup]
 AppName=BWAPI
 AppId={{5025BB16-9672-4C23-979D-2DC1B276CC5E}
-LicenseFile=..\Release_Binary\COPYING
-InfoBeforeFile=..\Release_Binary\ChangeLog.txt
+LicenseFile=..\LICENSE
+InfoBeforeFile=..\CHANGELOG.md
 RestartIfNeededByRun=False
-AppPublisherURL=http://bwapi.googlecode.com
-AppSupportURL=http://bwapi.googlecode.com
-AppUpdatesURL=http://bwapi.googlecode.com
+AppPublisherURL=http://bwapi.github.io
+AppSupportURL=http://bwapi.github.io
+AppUpdatesURL=http://bwapi.github.io
 VersionInfoDescription=Brood War Application Programming Interface
 VersionInfoProductName=BWAPI
 MinVersion=0,5.01

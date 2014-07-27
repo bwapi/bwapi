@@ -39,7 +39,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 * **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
 * **Forums:**                http://www.broodwarai.com/forums/
 * **Facebook:**              https://www.facebook.com/groups/bwapi/
- * **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
+* **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
 
 ## Competitions {#competition}
 Various venues host remote competitive AI competitions that allow developers from around the world to participate. These venues are often held annually and will sometimes offer prizes to the winners. It is also a great way to test your bot's capabilities.
@@ -47,7 +47,7 @@ Various venues host remote competitive AI competitions that allow developers fro
 * [IEEE Conference on Computational Intelligence and Games (CIG)](http://cilab.sejong.ac.kr/sc_competition/)
 * [Student StarCraft AI (SSCAI) Tournament](http://sscaitournament.com/)
 * [StarCraft Micro AI (SMAI) Tournament](http://scmai.hackcraft.sk/)
-* All bots ladder: [http://bots-stats.krasi0.com](http://bots-stats.krasi0.com)
+* [BWAPI Bots Ladder](http://bots-stats.krasi0.com)
 
 
 ## Issues {#issues}
