@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdio>
 #include <string>
 #include <windows.h>
@@ -13,11 +14,6 @@ typedef signed   __int8  s8 ;
 typedef signed   __int16 s16;
 typedef signed   __int32 s32;
 typedef signed   __int64 s64;
-
-// Variables
-#define __TOSTRING(l) #l
-#define _TOSTRING(l) __TOSTRING(l)
-#define FILELINE __FILE__ ":" _TOSTRING(__LINE__)
 
 namespace HackUtil
 {

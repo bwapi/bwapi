@@ -31,7 +31,7 @@ std::ostream &AssertTracker::Fail(const char * const file, unsigned line)
 
   // Increment counter and return the file stream
   ++failCount;
-  return ofs << ss;
+  return ofs << ss.str();
 }
 
 void AssertTracker::updateDisplay() const

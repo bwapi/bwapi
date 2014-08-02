@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <string>
 #include <sstream>
+#include <fstream>
+#include <iomanip>
 #include "common.h"
 
 std::string GetPluginName()
@@ -28,12 +30,12 @@ DWORD GetSingleRegString(HKEY hBaseKey, const char *pszSubKey, const char *pszVa
   pszOutput[0] = '\0';
 
   // Open the key
-  DWORD dwErrCode = RegOpenKeyEx(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
+  DWORD dwErrCode = RegOpenKeyExA(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
   if ( dwErrCode != ERROR_SUCCESS )
     return dwErrCode;
 
   // Query the value
-  dwErrCode = RegQueryValueEx(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
+  dwErrCode = RegQueryValueExA(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
 
   // Close key and return error code
   RegCloseKey(hKey);
@@ -66,33 +68,24 @@ bool BWAPIError(const char *format, ...)
   va_end(ap);
 
   // Get the last error and error message
-  char szErrMsg[MAX_PATH];
+  wchar_t szErrMsg[MAX_PATH];
   DWORD dwLastError = GetLastError();
   FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwLastError, 0, szErrMsg, MAX_PATH, NULL);
 
-  // Retrieve the system time
-  SYSTEMTIME time;
-  GetSystemTime(&time);
+  std::wostringstream errorMessage;
+  errorMessage << buffer << '\n'
+    << "ID " << reinterpret_cast<void*>(dwLastError) << ": \n"
+    << szErrMsg << std::endl;
 
   // Open a log file and print to it
-  FILE* f = fopen("bwapi-error.txt", "a+");
-  if ( f )
+  std::wofstream log{ "bwapi-error.txt", std::ios::app };
+  if (log)
   {
-    fprintf(f, "[%u/%02u/%02u - %02u:%02u:%02u] %s - %08X: %s\n", time.wYear, 
-                                                            time.wMonth, 
-                                                            time.wDay, 
-                                                            time.wHour, 
-                                                            time.wMinute, 
-                                                            time.wSecond, 
-                                                            buffer,
-                                                            dwLastError,
-                                                            szErrMsg);
-    fclose(f);
+    const time_t now = std::time(nullptr);
+    log << '[' << std::put_time(std::localtime(&now), L"%F %T") << "] " << errorMessage.str();
   }
 
   // Create a message box with the message and the error message
-  char szBuffer[MAX_PATH*2];
-  sprintf(szBuffer, "%s\n%08X: %s", buffer, dwLastError, szErrMsg);
-  MessageBox(NULL, szBuffer, NULL, MB_OK | MB_ICONERROR );
+  MessageBox(NULL, errorMessage.str().c_str(), NULL, MB_OK | MB_ICONERROR);
   return false;
 }

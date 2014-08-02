@@ -55,11 +55,11 @@ extern "C" __declspec(dllexport) bool ApplyPatchSuspended(HANDLE hProcess, DWORD
   szTarget[MAX_PATH-1] = '\0';
 
   // Check if the file exists, INVALID_FILE_ATTRIBUTES will have this bit set too
-  if ( GetFileAttributes(szTarget) & FILE_ATTRIBUTE_DIRECTORY )
+  if ( GetFileAttributesA(GetBWAPITarget().c_str()) & FILE_ATTRIBUTE_DIRECTORY )
     return BWAPIError("Unable to find %s.", szTarget);
 
   // Get the address for the LoadLibrary procedure
-  HMODULE hKernalModule = GetModuleHandle("Kernel32");
+  HMODULE hKernalModule = GetModuleHandle(L"Kernel32");
   if ( !hKernalModule )
     return BWAPIError("Unable to get module handle for Kernel32.");
 
