@@ -7,12 +7,10 @@
 bool RunConfig()
 {
   // Get the bwapi-data directory
-  std::string sBWAPIDir(GetBWAPIDataDirectory());
+  const std::string sBWAPIConfig{ GetBWAPIDataDirectory() + "/bwapi.ini" };
 
   // Open the config file
-  if ( ShellExecute(NULL, "open", (sBWAPIDir + "\\bwapi.ini").c_str(), NULL, NULL, SW_SHOWNORMAL) <= (HINSTANCE)32 )
-    return BWAPIError("Unable to open BWAPI config file.");
-
+  std::system( ("start \"\" \"" + sBWAPIConfig + "\"").c_str() );
   return true;
 }
 
