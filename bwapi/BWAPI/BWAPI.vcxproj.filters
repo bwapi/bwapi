@@ -129,9 +129,6 @@
     <ClInclude Include="Source\NewHackUtil.h">
       <Filter>Hacks\Header FIles</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Recording.h">
-      <Filter>Hacks\Header FIles</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Resolution.h">
       <Filter>Hacks\Header FIles</Filter>
     </ClInclude>
@@ -352,9 +349,6 @@
       <Filter>Hacks\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\NewHackUtil.cpp">
-      <Filter>Hacks\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Recording.cpp">
       <Filter>Hacks\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Resolution.cpp">

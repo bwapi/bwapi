@@ -190,7 +190,6 @@
     <ClInclude Include="Source\GameDrawing.h" />
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\NewHackUtil.h" />
-    <ClInclude Include="Source\Recording.h" />
     <ClInclude Include="Source\Resolution.h" />
     <ClInclude Include="Source\Thread.h" />
     <ClInclude Include="Source\WMode.h" />
@@ -247,7 +246,6 @@
     <ClCompile Include="Source\GameUpdate.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\NewHackUtil.cpp" />
-    <ClCompile Include="Source\Recording.cpp" />
     <ClCompile Include="Source\Resolution.cpp" />
     <ClCompile Include="Source\Thread.cpp" />
     <ClCompile Include="Source\WMode.cpp" />

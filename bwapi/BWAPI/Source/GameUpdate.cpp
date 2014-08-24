@@ -5,7 +5,6 @@
 #include "DLLMain.h"
 #include "Config.h"
 #include "Detours.h"
-#include "Recording.h"
 
 #include <BW/Offsets.h>
 #include <BW/Bitmap.h>
@@ -217,17 +216,8 @@ void GameImpl::update()
 
   // Update any graphical/debug overlays
   updateOverlays();
-
-  // Record the current frame for video recording
-  if ( !this->isPaused()  && 
-        recordingStarted  && 
-        pVidBuffer        && 
-        recordingUpdated )
-  {
-    recordingUpdated = false;
-    RecordFrame(wmode ? pVidBuffer : BW::BWDATA::GameScreenBuffer->getData());
-  }
   setTextSize(); // Reset text size
+  Broodwar.flush(); // Flush the Broodwar text buffer
 
   //finally return control to starcraft
 }
