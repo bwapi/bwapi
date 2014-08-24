@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <storm.h>
+#include <cctype>
 
 #include "Config.h"
 
@@ -40,12 +41,12 @@ DWORD getProcessCount(const char *pszProcName)
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
   char buffer[MAX_PATH];
-  GetPrivateProfileString(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath.c_str());
+  GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath.c_str());
   return std::string(buffer);
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
-  return GetPrivateProfileInt(pszKey, pszItem, iDefault, configPath.c_str());
+  return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath.c_str());
 }
 std::string LoadRegString(const char *pszKeyName, const char *pszValueName)
 {
@@ -107,13 +108,13 @@ void InitPrimaryConfig()
   {
     std::string wmodeCfg = installPath + "wmode.ini";
 
-    DWORD dwWmodeConfigExists = GetFileAttributes(wmodeCfg.c_str());
+    DWORD dwWmodeConfigExists = GetFileAttributesA(wmodeCfg.c_str());
     if ( dwWmodeConfigExists != INVALID_FILE_ATTRIBUTES && 
          !(dwWmodeConfigExists & FILE_ATTRIBUTE_DIRECTORY) )
     {
       // Get window location and screen dimensions
-      int wx = GetPrivateProfileInt("W-MODE", "WindowClientX", 0, wmodeCfg.c_str());
-      int wy = GetPrivateProfileInt("W-MODE", "WindowClientY", 0, wmodeCfg.c_str());
+      int wx = GetPrivateProfileIntA("W-MODE", "WindowClientX", 0, wmodeCfg.c_str());
+      int wy = GetPrivateProfileIntA("W-MODE", "WindowClientY", 0, wmodeCfg.c_str());
       int cx = GetSystemMetrics(SM_CXSCREEN);
       int cy = GetSystemMetrics(SM_CYSCREEN);
 
@@ -133,9 +134,9 @@ void InitPrimaryConfig()
       // Write new window location
       char szScrOutput[16];
       sprintf(szScrOutput, "%d", wx);
-      WritePrivateProfileString("W-MODE", "WindowClientX", szScrOutput, wmodeCfg.c_str());
+      WritePrivateProfileStringA("W-MODE", "WindowClientX", szScrOutput, wmodeCfg.c_str());
       sprintf(szScrOutput, "%d", wy);
-      WritePrivateProfileString("W-MODE", "WindowClientY", szScrOutput, wmodeCfg.c_str());
+      WritePrivateProfileStringA("W-MODE", "WindowClientY", szScrOutput, wmodeCfg.c_str());
     } // file exists
   } // is multi-instance
 

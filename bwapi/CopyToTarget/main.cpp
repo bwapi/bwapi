@@ -14,12 +14,12 @@ DWORD GetSingleRegString(HKEY hBaseKey, const char *pszSubKey, const char *pszVa
   pszOutput[0] = '\0';
 
   // Open the key
-  DWORD dwErrCode = RegOpenKeyEx(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
+  DWORD dwErrCode = RegOpenKeyExA(hBaseKey, pszSubKey, 0, KEY_QUERY_VALUE, &hKey);
   if ( dwErrCode != ERROR_SUCCESS )
     return dwErrCode;
 
   // Query the value
-  dwErrCode = RegQueryValueEx(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
+  dwErrCode = RegQueryValueExA(hKey, pszValueName, NULL, NULL, (LPBYTE)pszOutput, dwOutSize);
 
   // Close key and return error code
   RegCloseKey(hKey);
@@ -45,7 +45,7 @@ std::string GetRegString(const char *pszSubKey, const char *pszValueName)
 std::string GetLastErrorMessage()
 {
   LPSTR pszErrMsg;
-  FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, (LPSTR)&pszErrMsg, 0, nullptr);
+  FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, (LPSTR)&pszErrMsg, 0, nullptr);
   std::string result(pszErrMsg);
   LocalFree(pszErrMsg);
   return result;
@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
   sInstallPath += "\\bwapi-data\\" MODULE;
 
   std::cout << lpCmdLine << " --> " << sInstallPath << std::endl;
-  if ( !CopyFile(lpCmdLine, sInstallPath.c_str(), FALSE) )
+  if ( !CopyFileA(lpCmdLine, sInstallPath.c_str(), FALSE) )
   {
     std::cerr << GetLastErrorMessage() << std::endl;
     return EXIT_FAILURE;

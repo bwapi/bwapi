@@ -47,7 +47,7 @@ namespace BWAPI
     if ( serverEnabled )
     {
       // Try to open the game table
-      gameTableFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Local\\bwapi_shared_memory_game_list" );
+      gameTableFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Local\\bwapi_shared_memory_game_list" );
       DWORD dwFileMapErr = GetLastError();
       if ( gameTableFileHandle )
       {
@@ -110,7 +110,7 @@ namespace BWAPI
       ssShareName << processID;
 
       // Create the file mapping and shared memory
-      mapFileHandle = CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, ssShareName.str().c_str() );
+      mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, ssShareName.str().c_str() );
       if ( mapFileHandle )
         data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
     } // if serverEnabled
@@ -204,7 +204,7 @@ namespace BWAPI
       communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
       communicationPipe << processID;
       
-      pipeObjectHandle = CreateNamedPipe(communicationPipe.str().c_str(),
+      pipeObjectHandle = CreateNamedPipeA(communicationPipe.str().c_str(),
                                          PIPE_ACCESS_DUPLEX,
                                          PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
                                          PIPE_UNLIMITED_INSTANCES,

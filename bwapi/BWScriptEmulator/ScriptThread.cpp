@@ -55,7 +55,7 @@ void UpdateScripts()
 
 bool LoadAIBinary(const char *pszFileName)
 {
-  HANDLE hFile = CreateFile(pszFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+  HANDLE hFile = CreateFileA(pszFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
   if ( hFile == INVALID_HANDLE_VALUE )
     return false;
 

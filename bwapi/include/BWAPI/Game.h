@@ -1511,7 +1511,7 @@ namespace BWAPI
     /// Output stream operator for printing text to Broodwar. Using this operator invokes
     /// Game::printf when a newline character is encountered.
     template < class T >
-    GameWrapper &operator <<(const T &in)
+    inline GameWrapper &operator <<(const T &in)
     {
       // Pass whatever into the stream
       ss << in;

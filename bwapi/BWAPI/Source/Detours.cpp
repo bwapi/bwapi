@@ -39,14 +39,14 @@ DECL_OLDFXN(SFileOpenFile);
 DECL_OLDFXN(SMemAlloc);
 DECL_OLDFXN(SNetSendTurn);
 DECL_OLDFXN(SDrawCaptureScreen);
-DECL_OLDFXN(FindFirstFile);
-DECL_OLDFXN(DeleteFile);
-DECL_OLDFXN(GetFileAttributes);
-DECL_OLDFXN(CreateFile);
-DECL_OLDFXN(CreateWindowEx);
+DECL_OLDFXN(FindFirstFileA);
+DECL_OLDFXN(DeleteFileA);
+DECL_OLDFXN(GetFileAttributesA);
+DECL_OLDFXN(CreateFileA);
+DECL_OLDFXN(CreateWindowExA);
 DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
-DECL_OLDFXN(CreateEvent);
+DECL_OLDFXN(CreateEventA);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
 u8 savedRace[PLAYABLE_PLAYER_COUNT];
@@ -120,14 +120,14 @@ bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 }
 
 //--------------------------------------------- CREATE EVENT -------------------------------------------------
-HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCTSTR lpName)
+HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName)
 {
   if ( std::string(lpName) == "Starcraft Check For Other Instances" )
   {
     SetLastError(ERROR_SUCCESS);
     return 0;
   }
-  auto CreateEventProc = _CreateEventOld ? _CreateEventOld : &CreateEvent;
+  auto CreateEventProc = _CreateEventAOld ? _CreateEventAOld : &CreateEventA;
   return CreateEventProc(lpEventAttributes, bManualReset, bInitialState, lpName);
 }
 
@@ -169,7 +169,7 @@ void DDInit()
 bool detourCreateWindow = false;
 HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
 {
-  auto CreateWindowExProc = _CreateWindowExOld ? _CreateWindowExOld : &CreateWindowEx;
+  auto CreateWindowExProc = _CreateWindowExAOld ? _CreateWindowExAOld : &CreateWindowExA;
 
   HWND hWndReturn = NULL;
   if ( strcmp(lpClassName, "SWarClass") == 0 )
@@ -216,7 +216,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 }
 
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
-HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)
+HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData)
 {
   if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() && 
        BWAPI::BroodwarImpl.autoMenuMode != ""         &&
@@ -225,7 +225,7 @@ HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData
        strstr(lpFileName, "*.*")  )
     lpFileName = BWAPI::BroodwarImpl.lastMapGen.c_str();
 
-  auto FindFirstFileProc = _FindFirstFileOld ? _FindFirstFileOld : &FindFirstFile;
+  auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);
 }
 std::string &getReplayName(std::string &sInFilename)
@@ -255,7 +255,7 @@ BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
   std::string fileName(lpFileName);
 
   // call the original function
-  auto DeleteFileProc = _DeleteFileOld ? _DeleteFileOld : &DeleteFile;
+  auto DeleteFileProc = _DeleteFileAOld ? _DeleteFileAOld : &DeleteFileA;
   return DeleteFileProc( getReplayName(fileName).c_str() );
 }
 DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
@@ -263,7 +263,7 @@ DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
   std::string fileName(lpFileName);
 
   // call the original function
-  auto GetFileAttributesProc = _GetFileAttributesOld ? _GetFileAttributesOld : GetFileAttributes;
+  auto GetFileAttributesProc = _GetFileAttributesAOld ? _GetFileAttributesAOld : GetFileAttributesA;
   return GetFileAttributesProc( getReplayName(fileName).c_str() );
 }
 HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
@@ -272,7 +272,7 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
   // @TODO: Check for read/write attributes
 
   // call the original function
-  auto CreateFileProc = _CreateFileOld ? _CreateFileOld : &CreateFile;
+  auto CreateFileProc = _CreateFileAOld ? _CreateFileAOld : &CreateFileA;
   return CreateFileProc( getReplayName(fileName).c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //--------------------------------------------- CAPTURE SCREEN -----------------------------------------------

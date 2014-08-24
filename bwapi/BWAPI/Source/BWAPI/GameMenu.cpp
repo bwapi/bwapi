@@ -53,8 +53,8 @@ namespace BWAPI
       this->autoMenuMapPath += "\\";
       
       // Iterate files in directory
-      WIN32_FIND_DATA finder = { 0 };
-      HANDLE hFind = FindFirstFile(cfgMap.c_str(), &finder);
+      WIN32_FIND_DATAA finder = { 0 };
+      HANDLE hFind = FindFirstFileA(cfgMap.c_str(), &finder);
       
       if ( hFind != INVALID_HANDLE_VALUE )
       {
@@ -69,7 +69,7 @@ namespace BWAPI
               this->autoMapPool.push_back( finderStr );
             }
           }
-        } while ( FindNextFile(hFind, &finder) );
+        } while ( FindNextFileA(hFind, &finder) );
         FindClose(hFind);
       } // handle exists
 

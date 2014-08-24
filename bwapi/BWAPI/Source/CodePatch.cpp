@@ -84,23 +84,23 @@ void ApplyCodePatches()
   _SStrCopyOld            = HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
 
   // wmode/drawing detours
-  _GetCursorPosOld        = HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
-  _SetCursorPosOld        = HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
-  _ClipCursorOld          = HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
-  _SDrawLockSurfaceOld    = HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
-  _SDrawRealizePaletteOld = HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
-  _SDrawUnlockSurfaceOld  = HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
-  _SDrawUpdatePaletteOld  = HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
-  _CreateWindowExOld      = HackUtil::PatchImport("user32.dll", "CreateWindowExA", &_CreateWindowEx);
+  _GetCursorPosOld         = HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
+  _SetCursorPosOld         = HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
+  _ClipCursorOld           = HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
+  _SDrawLockSurfaceOld     = HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
+  _SDrawRealizePaletteOld  = HackUtil::PatchImport("storm.dll", 354, &_SDrawRealizePalette);
+  _SDrawUnlockSurfaceOld   = HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
+  _SDrawUpdatePaletteOld   = HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
+  _CreateWindowExAOld      = HackUtil::PatchImport("user32.dll", "CreateWindowExA", &_CreateWindowEx);
   
   // Other Detours
-  _DeleteFileOld        = HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
-  _GetFileAttributesOld = HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
-  _CreateFileOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
-  _FindFirstFileOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
-  _SleepOld             = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
-  _CreateThreadOld      = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
-  _CreateEventOld       = HackUtil::PatchImport("kernel32.dll", "CreateEvent", &_CreateEvent);
+  _DeleteFileAOld        = HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
+  _GetFileAttributesAOld = HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
+  _CreateFileAOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
+  _FindFirstFileAOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
+  _SleepOld              = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
+  _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
+  _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEvent", &_CreateEvent);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------

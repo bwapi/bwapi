@@ -144,7 +144,7 @@ void CheckVersion()
       w3 != SC_VER_3 )
   {
     isCorrectVersion = false;
-    MessageBox(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will attempt to continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
+    MessageBoxA(NULL, "The version of Starcraft that you are using is not compatible with BWAPI. BWAPI is intended to run on Starcraft version " STARCRAFT_VER ". However, BWAPI will attempt to continue to run in a reduced functionality mode.", NULL, MB_ICONERROR | MB_OK);
   }
 }
 
@@ -215,7 +215,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
   case DLL_PROCESS_ATTACH:
 
     // Create a BWAPI event for this process
-    hEvent = CreateEvent(NULL, FALSE, FALSE, szEventName);
+    hEvent = CreateEventA(NULL, FALSE, FALSE, szEventName);
     if ( GetLastError() == ERROR_ALREADY_EXISTS ) // There is a BWAPI module already injected
       return FALSE; // Prevent the injection of this DLL
 

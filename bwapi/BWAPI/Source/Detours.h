@@ -25,14 +25,14 @@ void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);
 
 BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
 
-HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData);
-BOOL   WINAPI _DeleteFile(LPCTSTR lpFileName);
-DWORD  WINAPI _GetFileAttributes(LPCTSTR lpFileName);
-HANDLE WINAPI _CreateFile(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
+HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData);
+BOOL   WINAPI _DeleteFile(LPCSTR lpFileName);
+DWORD  WINAPI _GetFileAttributes(LPCSTR lpFileName);
+HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 VOID   WINAPI _Sleep(DWORD dwMilliseconds);
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
-HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCTSTR lpName);
+HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
 
 extern bool hideHUD;
 extern DWORD lastTurnTime;
@@ -51,14 +51,14 @@ extern DECL_OLDFXN(SFileOpenFile);
 extern DECL_OLDFXN(SMemAlloc);
 extern DECL_OLDFXN(SNetSendTurn);
 extern DECL_OLDFXN(SDrawCaptureScreen);
-extern DECL_OLDFXN(FindFirstFile);
-extern DECL_OLDFXN(DeleteFile);
-extern DECL_OLDFXN(GetFileAttributes);
-extern DECL_OLDFXN(CreateFile);
-extern DECL_OLDFXN(CreateWindowEx);
+extern DECL_OLDFXN(FindFirstFileA);
+extern DECL_OLDFXN(DeleteFileA);
+extern DECL_OLDFXN(GetFileAttributesA);
+extern DECL_OLDFXN(CreateFileA);
+extern DECL_OLDFXN(CreateWindowExA);
 extern DECL_OLDFXN(Sleep);
 extern DECL_OLDFXN(CreateThread);
-extern DECL_OLDFXN(CreateEvent);
+extern DECL_OLDFXN(CreateEventA);
 
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
 extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
