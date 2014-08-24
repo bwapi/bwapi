@@ -1243,6 +1243,8 @@ namespace BWAPI
     /// @param frameSkip
     ///   Number of graphical frames per logical frame. If this value is 0 or less, then it will
     ///   default to 1.
+    ///
+    /// @see setLocalSpeed
     virtual void setFrameSkip(int frameSkip) = 0;
 
     /// Checks if there is a path from source to destination. This only checks if the source
