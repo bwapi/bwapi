@@ -5,7 +5,7 @@
 
 #pragma pack(1)
 
-#define getRegionFromId(x) (&((*BW::BWDATA::SAIPathing)->regions[(x)&0x1FFF]))
+#define getRegionFromId(x) (&(BW::BWDATA_SAIPathing->regions[(x)&0x1FFF]))
 
 namespace BW
 {
@@ -69,8 +69,6 @@ namespace BW
     /*0x28*/u32       unk_28;
     /*0x2C*/u16       localBuffer[10]; // local array of IDs for neighbors
   };
-
-  static_assert( sizeof(region) == 64, "BW::Region is incorrect." );
 
   /* Contour IDs and values:
      0: BOTTOM: y1, x1, x2

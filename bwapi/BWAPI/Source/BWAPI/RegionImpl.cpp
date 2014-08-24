@@ -27,7 +27,7 @@ namespace BWAPI
 
     self->isWalkable      = r->accessabilityFlags != 0x1FFD;
     self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
-    self->priority        = r->properties & 0x7F;
+    self->priority        = r->defencePriority & 0x7F;
     self->leftMost        = r->rgnBox.left;
     self->rightMost       = r->rgnBox.right;
     self->topMost         = r->rgnBox.top;

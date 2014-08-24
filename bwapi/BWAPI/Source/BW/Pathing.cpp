@@ -22,7 +22,7 @@ namespace BW
 
   bool region::isConnectedTo(u16 index) const
   {
-    if ( index < (*BW::BWDATA::SAIPathing)->regionCount )
+    if ( index < BW::BWDATA_SAIPathing->regionCount )
       return this->groupIndex == getRegionFromId(index)->groupIndex;
     return false;
   }
@@ -59,7 +59,7 @@ namespace BW
 
   u16 region::getIndex() const
   {
-    return (u16)( ((u32)this - (u32)((*BW::BWDATA::SAIPathing)->regions)) / sizeof(BW::region) );
+    return (u16)( ((u32)this - (u32)(BW::BWDATA_SAIPathing->regions)) / sizeof(BW::region) );
   }
 
 // searchInner: 0 = top
@@ -170,12 +170,12 @@ namespace BW
 
   BW::region *getRegionAt(int x, int y)
   {
-    BWAPI::TilePosition tp(x/32, y/32);
-    if ( tp.x < 0 || tp.y < 0 || tp.x >= 256 || tp.y >= 256 )
-      return nullptr;
+    int tileX = x / 32, tileY = y / 32;
+    if ( tileX < 0 || tileY < 0 || tileX >= 256 || tileY >= 256 )
+      return NULL;
 
     // Obtain the region IDs from the positions
-    u16 id = (*BW::BWDATA::SAIPathing)->mapTileRegionId[tp.y][tp.x];
+    u16 id = BW::BWDATA_SAIPathing->mapTileRegionId[tileY][tileX];
 
     // Check if the id is splitting the tile between regions
     if ( id & 0xE000 )
@@ -187,19 +187,19 @@ namespace BW
       int minitilePosX = (x&0x1F)/8;
       int minitilePosY = (y&0x1F)/8;
       int minitileShift = minitilePosX + minitilePosY * 4;
-      BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[id];
+      BW::split *t = &BW::BWDATA_SAIPathing->splitTiles[id];
       if ( (t->minitileMask >> minitileShift) & 1 )
-        return &(*BW::BWDATA::SAIPathing)->regions[t->rgn2];
-      return &(*BW::BWDATA::SAIPathing)->regions[t->rgn1];
+        return &BW::BWDATA_SAIPathing->regions[t->rgn2];
+      return &BW::BWDATA_SAIPathing->regions[t->rgn1];
     }
     else if ( id < 5000 )
     {
       // Get source region from tile
-      return &(*BW::BWDATA::SAIPathing)->regions[id];
+      return &BW::BWDATA_SAIPathing->regions[id];
     }
     else
     {
-      return nullptr;
+      return NULL;
     }
   }
   BW::region *getRegionAt(Position pos)
