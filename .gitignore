@@ -6,6 +6,8 @@
 *.log
 Debug
 Release
+Release_Pipeline
+Debug_Pipeline
 *.swp
 *.bak
 
