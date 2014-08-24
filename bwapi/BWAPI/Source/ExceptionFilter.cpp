@@ -40,7 +40,7 @@ std::string getModuleNameFrom(LPCVOID pExcptAddr)
   MEMORY_BASIC_INFORMATION memInfo;
   char szOffender[MAX_PATH] = { "_unknown_" };
   if ( VirtualQuery(pExcptAddr, &memInfo, sizeof(memInfo)) )
-    GetModuleFileName(memInfo.AllocationBase ? (HMODULE)memInfo.AllocationBase : GetModuleHandle(NULL), szOffender, MAX_PATH);
+    GetModuleFileNameA(memInfo.AllocationBase ? (HMODULE)memInfo.AllocationBase : GetModuleHandle(NULL), szOffender, MAX_PATH);
   char *pszLast = strrchr(szOffender, '\\');
   return std::string(pszLast ? pszLast + 1 : szOffender);
 }
@@ -55,11 +55,11 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
 
   // Get path to Starcraft.exe
   char szExecutableName[MAX_PATH];
-  if ( GetModuleFileName(nullptr, szExecutableName, MAX_PATH) )
+  if ( GetModuleFileNameA(nullptr, szExecutableName, MAX_PATH) )
   {
     // Get the File Version information
     DWORD dwUnused, dwVersionSize;
-    dwVersionSize = GetFileVersionInfoSize(szExecutableName, &dwUnused);
+    dwVersionSize = GetFileVersionInfoSizeA(szExecutableName, &dwUnused);
     if ( dwVersionSize )
     {
       // Version Variables
@@ -71,8 +71,8 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
       pVersionData = malloc(dwVersionSize);
 
       // get version data
-      if ( GetFileVersionInfo(szExecutableName, NULL, dwVersionSize, pVersionData) &&
-           VerQueryValue(pVersionData, "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize) )
+      if ( GetFileVersionInfoA(szExecutableName, NULL, dwVersionSize, pVersionData) &&
+           VerQueryValueA(pVersionData, "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize) )
       {
         w1 = HIWORD(pFileInfo->dwProductVersionMS);
         w2 = LOWORD(pFileInfo->dwProductVersionMS);
@@ -198,7 +198,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       if ( _SymLoadModule )
       {
         MODULEENTRY32 me32;
-        me32.dwSize = sizeof(MODULEENTRY32);
+        me32.dwSize = sizeof(me32);
 
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
         if ( Module32First(hSnapshot, &me32) )
@@ -352,7 +352,7 @@ const char * const GetExceptionName(DWORD dwExceptionCode)
 
 void InitializeSymFunctions()
 {
-  HMODULE hDbgHlp = LoadLibrary("DbgHelp");
+  HMODULE hDbgHlp = LoadLibraryA("DbgHelp");
   if ( !hDbgHlp )
     return;
 

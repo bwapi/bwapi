@@ -52,7 +52,7 @@ int main(int argc, const char* argv[])
     std::cout << "entered match" << std::endl;
 
     AIModule* client = NULL;
-    HMODULE hMod = LoadLibrary(dllPath.c_str());
+    HMODULE hMod = LoadLibraryA(dllPath.c_str());
     if (hMod == NULL)
     {
       std::cerr << "ERROR: Failed to load the AI Module" << std::endl;

@@ -254,7 +254,7 @@ namespace BWAPI
     else if (cmd == "/record")
     {
       if ( !StartVideoRecording(640, 480) )
-        MessageBox(nullptr, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
+        MessageBoxA(nullptr, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
     }
     else if (cmd == "/stoprecord")
     {

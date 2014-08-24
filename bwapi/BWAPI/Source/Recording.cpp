@@ -38,8 +38,8 @@ bool StartVideoRecording(int width, int height)
   char szFileName[MAX_PATH] = { 0 };
 
   // Initialize OPENFILENAME struct
-  OPENFILENAME ofn = { 0 };
-  ofn.lStructSize = sizeof(OPENFILENAME);
+  OPENFILENAMEA ofn = { 0 };
+  ofn.lStructSize = sizeof(ofn);
   ofn.lpstrFilter = "Video Files (*.avi)\0*.AVI\0\0\0";
   ofn.Flags       = OFN_DONTADDTORECENT | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
   ofn.lpstrDefExt = "avi";
@@ -47,16 +47,16 @@ bool StartVideoRecording(int width, int height)
   ofn.nMaxFile    = MAX_PATH;
 
   // Obtain the file name for the video
-  if ( !GetSaveFileName(&ofn) )
+  if ( !GetSaveFileNameA(&ofn) )
   {
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
 
   // Create the AVI file
-  if ( AVIFileOpen(&pAviFile, szFileName, OF_WRITE | OF_CREATE, NULL) != AVIERR_OK )
+  if ( AVIFileOpenA(&pAviFile, szFileName, OF_WRITE | OF_CREATE, NULL) != AVIERR_OK )
   {
-    MessageBox(NULL, "AVIFileOpen failed!", "Recording failed!", MB_OK | MB_ICONHAND);
+    MessageBoxA(NULL, "AVIFileOpen failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
@@ -84,7 +84,7 @@ bool StartVideoRecording(int width, int height)
   // Create the uncompressed stream
   if ( AVIFileCreateStream(pAviFile, &pAviStream, &aisinfo) != AVIERR_OK )
   {
-    MessageBox(NULL, "AVIFileCreateStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
+    MessageBoxA(NULL, "AVIFileCreateStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
@@ -93,7 +93,7 @@ bool StartVideoRecording(int width, int height)
   AVICOMPRESSOPTIONS *pOptions = &aviOptions;
   if ( !AVISaveOptions(NULL, 0, 1, &pAviStream, &pOptions) )
   {
-    MessageBox(NULL, "AVISaveOptions failed!", "Recording failed!", MB_OK | MB_ICONHAND);
+    MessageBoxA(NULL, "AVISaveOptions failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
@@ -101,7 +101,7 @@ bool StartVideoRecording(int width, int height)
   // Create the compressed AVI stream
   if ( AVIMakeCompressedStream(&pAviStreamCompressed, pAviStream, pOptions, NULL) != AVIERR_OK )
   {
-    MessageBox(NULL, "AVIMakeCompressedStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
+    MessageBoxA(NULL, "AVIMakeCompressedStream failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }
@@ -109,7 +109,7 @@ bool StartVideoRecording(int width, int height)
   // Set the compressed stream format
   if ( AVIStreamSetFormat(pAviStreamCompressed, 0, &vidBmpInfo, sizeof(BITMAPINFOHEADER)) != AVIERR_OK )
   {
-    MessageBox(NULL, "AVIStreamSetFormat failed!", "Recording failed!", MB_OK | MB_ICONHAND);
+    MessageBoxA(NULL, "AVIStreamSetFormat failed!", "Recording failed!", MB_OK | MB_ICONHAND);
     ShowCursor(FALSE);
     return StopVideoRecording();
   }

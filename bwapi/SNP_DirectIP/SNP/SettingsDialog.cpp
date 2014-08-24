@@ -44,7 +44,7 @@ const char* getHostIPString()
   static char buffer[32];
   if(hDlg)
   {
-    GetDlgItemText(hDlg, IDC_EDITIP, buffer, 32);
+    GetDlgItemTextA(hDlg, IDC_EDITIP, buffer, 32);
   }
   return buffer;
 }
@@ -54,7 +54,7 @@ const char* getHostPortString()
   static char buffer[32];
   if(hDlg)
   {
-    GetDlgItemText(hDlg, IDC_EDITPORT, buffer, 32);
+    GetDlgItemTextA(hDlg, IDC_EDITPORT, buffer, 32);
   }
   return buffer;
 }
@@ -64,7 +64,7 @@ const char* getLocalPortString()
   static char buffer[32];
   if(hDlg)
   {
-    GetDlgItemText(hDlg, IDC_EDITLPORT, buffer, 32);
+    GetDlgItemTextA(hDlg, IDC_EDITLPORT, buffer, 32);
   }
   return buffer;
 }
@@ -73,7 +73,7 @@ void setStatusString(const char *statusText)
 {
   if(hDlg)
   {
-    SetDlgItemText(hDlg, IDC_STATUS, statusText);
+    SetDlgItemTextA(hDlg, IDC_STATUS, statusText);
   }
 }
 

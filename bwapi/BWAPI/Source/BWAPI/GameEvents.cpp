@@ -342,18 +342,18 @@ namespace BWAPI
     if ( autoMenuSaveReplay != "" && !this->isReplay() )
     {
       // Set replay envvars
-      SetEnvironmentVariable("BOTNAME",    rn_BWAPIName.c_str());
-      SetEnvironmentVariable("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
-      SetEnvironmentVariable("BOTRACE",    rn_BWAPIRace.c_str());
-      SetEnvironmentVariable("MAP",        rn_MapName.c_str());
-      SetEnvironmentVariable("ALLYNAMES",  rn_AlliesNames.c_str());
-      SetEnvironmentVariable("ALLYRACES",  rn_AlliesRaces.c_str());
-      SetEnvironmentVariable("ENEMYNAMES", rn_EnemiesNames.c_str());
-      SetEnvironmentVariable("ENEMYRACES", rn_EnemiesRaces.c_str());
+      SetEnvironmentVariableA("BOTNAME",    rn_BWAPIName.c_str());
+      SetEnvironmentVariableA("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
+      SetEnvironmentVariableA("BOTRACE",    rn_BWAPIRace.c_str());
+      SetEnvironmentVariableA("MAP",        rn_MapName.c_str());
+      SetEnvironmentVariableA("ALLYNAMES",  rn_AlliesNames.c_str());
+      SetEnvironmentVariableA("ALLYRACES",  rn_AlliesRaces.c_str());
+      SetEnvironmentVariableA("ENEMYNAMES", rn_EnemiesNames.c_str());
+      SetEnvironmentVariableA("ENEMYRACES", rn_EnemiesRaces.c_str());
 
       // Expand environment strings to szInterPath
       char szTmpPath[MAX_PATH] = { 0 };
-      ExpandEnvironmentStrings(autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
+      ExpandEnvironmentStringsA(autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
 
       std::string pathStr(szTmpPath);
 
@@ -382,7 +382,7 @@ namespace BWAPI
       // Create the directory tree
       size_t pos = 0;
       while ( pos = pathStr.find_first_of("/\\", pos+1), pos != std::string::npos )
-        CreateDirectory(pathStr.substr(0,pos).c_str(), nullptr);
+        CreateDirectoryA(pathStr.substr(0,pos).c_str(), nullptr);
 
       // Copy to global desired replay name
       gDesiredReplayName = pathStr;

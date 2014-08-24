@@ -661,7 +661,7 @@ void GameImpl::initializeAIModule()
     if ( aicfg == "_NULL" )
       BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", configPath.c_str());
     else  // Load DLL
-      hAIModule = LoadLibrary(dll.c_str());
+      hAIModule = LoadLibraryA(dll.c_str());
 
     if ( !hAIModule )
     {
@@ -679,8 +679,8 @@ void GameImpl::initializeAIModule()
     else
     {
       // Obtain the AI module function
-      PFNGameInit newGame     = (PFNGameInit)GetProcAddress(hAIModule, TEXT("gameInit"));
-      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hAIModule, TEXT("newAIModule"));
+      PFNGameInit newGame     = (PFNGameInit)GetProcAddress(hAIModule, "gameInit");
+      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hAIModule, "newAIModule");
       if ( newAIModule && newGame )
       {
         // Call the AI module function and assign the client variable

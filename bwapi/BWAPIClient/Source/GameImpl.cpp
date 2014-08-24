@@ -880,7 +880,7 @@ namespace BWAPI
     if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
       return setLastError(Errors::Invalid_Parameter);
 
-    if ( GetFileAttributes(mapFileName) == INVALID_FILE_ATTRIBUTES )
+    if ( GetFileAttributesA(mapFileName) == INVALID_FILE_ATTRIBUTES )
       return setLastError(Errors::File_Not_Found);
 
     addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );

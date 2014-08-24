@@ -34,7 +34,7 @@ namespace BWAPI
     int gameTableIndex  = -1;
 
     this->gameTable = NULL;
-    this->gameTableFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Local\\bwapi_shared_memory_game_list" );
+    this->gameTableFileHandle = OpenFileMappingA(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, "Local\\bwapi_shared_memory_game_list" );
     if ( !this->gameTableFileHandle )
     {
       std::cerr << "Game table mapping not found." << std::endl;
@@ -79,7 +79,7 @@ namespace BWAPI
     communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
     communicationPipe << serverProcID;
 
-    pipeObjectHandle = CreateFile(communicationPipe.str().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+    pipeObjectHandle = CreateFileA(communicationPipe.str().c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if ( pipeObjectHandle == INVALID_HANDLE_VALUE )
     {
       std::cerr << "Unable to open communications pipe: " << communicationPipe.str() << std::endl;
@@ -96,7 +96,7 @@ namespace BWAPI
     SetCommTimeouts(pipeObjectHandle,&c);
 
     std::cout << "Connected" << std::endl;
-    mapFileHandle = OpenFileMapping(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, sharedMemoryName.str().c_str());
+    mapFileHandle = OpenFileMappingA(FILE_MAP_WRITE | FILE_MAP_READ, FALSE, sharedMemoryName.str().c_str());
     if (mapFileHandle == INVALID_HANDLE_VALUE || mapFileHandle == NULL)
     {
       std::cerr << "Unable to open shared memory mapping: " << sharedMemoryName.str() << std::endl;

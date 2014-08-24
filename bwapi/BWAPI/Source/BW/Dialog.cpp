@@ -81,7 +81,7 @@ namespace BW
         break;
       default:
         sprintf_s(out, 512, "Event: %d\nUser: 0x%p", evt->wNo, (void*)evt->dwUser);
-        MessageBox(nullptr, out, "!", MB_OK);
+        MessageBoxA(nullptr, out, "!", MB_OK);
         break;
       }
       break;
@@ -95,7 +95,7 @@ namespace BW
       break;
     default:
       sprintf_s(out, 512, "Unknown Event: %d\nUser: 0x%p", evt->wNo, (void*)evt->dwUser);
-      MessageBox(nullptr, out, "!", MB_OK);
+      MessageBoxA(nullptr, out, "!", MB_OK);
       break;
     }
     return dlg->defaultInteract(evt);

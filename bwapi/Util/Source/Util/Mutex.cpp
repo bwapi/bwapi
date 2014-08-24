@@ -4,12 +4,12 @@ namespace Util
 {
   Mutex::Mutex()
   {
-    hMutex = CreateMutex(NULL, false, NULL);
+    hMutex = CreateMutexA(NULL, false, NULL);
   }
 
   Mutex::Mutex(const char* systemName)
   {
-    hMutex = CreateMutex(NULL, false, systemName);
+    hMutex = CreateMutexA(NULL, false, systemName);
   }
 
   Mutex::~Mutex()

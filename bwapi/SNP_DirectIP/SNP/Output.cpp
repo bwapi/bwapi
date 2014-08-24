@@ -21,10 +21,10 @@ void DropMessage(int errorlevel, const char *format, ...)
   HDC screen = GetDC(NULL);
   int dropcolor[] = {0x000000, 0x008888, 0x0000FF};
   SetTextColor(screen, dropcolor[errorlevel]);
-  TextOut(screen, 0, messageOffset*16, szBuffer, strlen(szBuffer));
+  TextOutA(screen, 0, messageOffset*16, szBuffer, strlen(szBuffer));
   messageOffset = (messageOffset+1)%40;
   const char *szSpaces = "                                                                                       ";
-  TextOut(screen, 0, messageOffset*16, szSpaces, strlen(szSpaces));
+  TextOutA(screen, 0, messageOffset*16, szSpaces, strlen(szSpaces));
   ReleaseDC(NULL, screen);
 }
 
@@ -84,7 +84,7 @@ void OutputStatus(const char *format, ...)
   va_end(ap);
 
   HDC screen = GetDC(NULL);
-  TextOut(screen, 0, 40*16, szBuffer, strlen(szBuffer));
+  TextOutA(screen, 0, 40*16, szBuffer, strlen(szBuffer));
   ReleaseDC(NULL, screen);
 #endif
 }

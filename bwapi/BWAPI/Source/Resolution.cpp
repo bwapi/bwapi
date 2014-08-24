@@ -89,7 +89,7 @@ void DDrawInitialize(int width, int height)
   ShowWindow(ghMainWnd, SW_NORMAL);
   if ( !ddLib )
   {
-    ddLib = LoadLibrary("ddraw.dll");
+    ddLib = LoadLibraryA("ddraw.dll");
     DDCHECK(ddLib);
   }
 
