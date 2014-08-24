@@ -10,7 +10,6 @@
 #include "../WMode.h"
 #include "../Detours.h"
 #include "../DLLMain.h"
-#include "../Recording.h"
 #include "../Resolution.h"
 
 #include <BWAPI/BWtoBWAPI.h>
@@ -250,15 +249,6 @@ namespace BWAPI
     {
       grid = !grid;
       Broodwar << "Matrix grid " << (grid ? "enabled" : "disabled") << std::endl;
-    }
-    else if (cmd == "/record")
-    {
-      if ( !StartVideoRecording(640, 480) )
-        MessageBoxA(nullptr, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
-    }
-    else if (cmd == "/stoprecord")
-    {
-      StopVideoRecording();
     }
     else if ( cmd == "/fps" )
     {
