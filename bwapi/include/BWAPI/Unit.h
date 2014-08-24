@@ -903,7 +903,9 @@ namespace BWAPI
     /// @see UnitInterface::stop
     virtual bool isIdle() const = 0;
 
-    /** Returns true if the unit can be interrupted. */
+    /// Checks if the unit can be interrupted.
+    ///
+    /// @returns true if this unit can be interrupted, or false if this unit is uninterruptable
     virtual bool isInterruptible() const = 0;
 
     /// Checks the invincibility state for this unit.
@@ -1011,14 +1013,19 @@ namespace BWAPI
     /// false if it is not
     bool isRepairing() const;
 
-    /** Returns true if the unit is a building that is researching tech. See TechTypes for the complete list
-     * of available techs in Broodwar.
-     * \see UnitInterface::research, UnitInterface::cancelResearch, UnitInterface::getTech, UnitInterface::getRemainingResearchTime. */
+    /// Checks if this unit is a structure that is currently researching a technology.
+    /// See TechTypes for a complete list of technologies in Broodwar.
+    ///
+    /// @returns true if this structure is researching a technology, false otherwise
+    /// @see research, cancelResearch, getTech, getRemainingResearchTime, 
+    /// @implies exists(), isCompleted(), getType().isBuilding()
     bool isResearching() const;
 
-    /** Returns true if the unit has been selected by the user via the starcraft GUI. Only available if you
-     * enable Flag::UserInput during AIModule::onStart.
-     * \see Game::getSelectedUnits. */
+    /// Checks if this unit has been selected in the user interface. This function is only available if
+    /// the flag Flag::UserInput is enabled.
+    ///
+    /// @returns true if this unit is currently selected, and false if this unit is not selected
+    /// @see Game::getSelectedUnits
     virtual bool isSelected() const = 0;
 
     /// Checks if this unit is currently @sieged. This is only applicable to @Siege_Tanks.
@@ -1032,8 +1039,6 @@ namespace BWAPI
      * \see UnitInterface::attack, UnitInterface::getGroundWeaponCooldown, UnitInterface::getAirWeaponCooldown. */
     virtual bool isStartingAttack() const = 0;
 
-    /** Returns true if the unit has been stasised by a Protoss Arbiter.
-     * \see UnitInterface::getStasisTimer. */
     /// Checks if this unit is inflicted with @Stasis by an @Arbiter.
     ///
     /// @returns true if this unit is locked in a @Stasis and is unable to move, and false if it
@@ -1045,8 +1050,10 @@ namespace BWAPI
     /// @see getStasisTimer
     bool isStasised() const;
 
-    /** Returns true if the unit is currently stimmed.
-     * \see UnitInterface::getStimTimer. */
+    /// Checks if this unit is currently under the influence of a @Stim_Pack.
+    ///
+    /// @returns true if this unit has used a stim pack, false otherwise
+    /// @see getStimTimer
     bool isStimmed() const;
 
     /// Checks if this unit is currently trying to resolve a collision by randomly moving around.
@@ -1088,9 +1095,12 @@ namespace BWAPI
     /// unpowered.
     virtual bool isPowered() const = 0;
 
-    /** Returns true if the unit is a building that is upgrading. See UpgradeTypes for the complete list
-     * of available upgrades in Broodwar.
-     * \see UnitInterface::upgrade, UnitInterface::cancelUpgrade, UnitInterface::getUpgrade, UnitInterface::getRemainingUpgradeTime. */
+    /// Checks if this unit is a structure that is currently upgrading an upgrade.
+    /// See UpgradeTypes for a full list of upgrades in Broodwar.
+    ///
+    /// @returns true if this structure is upgrading, false otherwise
+    /// @see upgrade, cancelUpgrade, getUpgrade, getRemainingUpgradeTime
+    /// @implies exists(), isCompleted(), getType().isBuilding()
     bool isUpgrading() const;
 
     /** Returns true if the unit is visible. If the CompleteMapInformation?  cheat flag is enabled, existing
