@@ -108,7 +108,7 @@ namespace BWAPI
     // Return unknown and set Access_Denied if the start location
     // should not be made available.
     if ( !BroodwarImpl.isReplay() &&
-       BroodwarImpl.self()->isEnemy((Player)this) &&
+       BroodwarImpl.self()->isEnemy(const_cast<PlayerImpl*>(this)) &&
        !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
     {
       BroodwarImpl.setLastError(Errors::Access_Denied);
