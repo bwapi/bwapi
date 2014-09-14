@@ -4,7 +4,6 @@
 #include <limits>
 #include <sstream>
 
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 
 #include <BWAPI/Player.h>

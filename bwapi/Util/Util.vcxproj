@@ -131,7 +131,6 @@
     <ClInclude Include="Source\Util\clamp.h" />
     <ClInclude Include="Source\Util\Convenience.h" />
     <ClInclude Include="Source\Util\Exceptions.h" />
-    <ClInclude Include="Source\Util\Foreach.h" />
     <ClInclude Include="Source\Util\MemoryFrame.h" />
     <ClInclude Include="Source\Util\Mutex.h" />
     <ClInclude Include="Source\Util\RectangleArray.h" />

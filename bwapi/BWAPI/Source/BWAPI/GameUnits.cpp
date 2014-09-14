@@ -1,5 +1,4 @@
 #include "GameImpl.h"
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 
 #include <BW/CUnit.h>
@@ -67,19 +66,23 @@ namespace BWAPI
   //------------------------------------------ Compute Unit Existence ----------------------------------------
   void GameImpl::computeUnitExistence()
   {
-    foreach(UnitImpl* u, aliveUnits) //all alive units are dying until proven alive
+    for(Unit ui : aliveUnits) //all alive units are dying until proven alive
     {
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
       u->wasAlive = true;
       u->isAlive  = false;
     }
     lastEvadedUnits = evadeUnits;//save last evaded units for updating shared memory (Server.cpp)
 
     //set the wasAccessible and wasVisible fields
-    foreach(UnitImpl* u, accessibleUnits)
-      u->wasAccessible = true;
-    foreach(UnitImpl* u, evadeUnits)
-      u->wasAccessible = false;
-
+    for (Unit u : accessibleUnits)
+    {
+      static_cast<UnitImpl*>(u)->wasAccessible = true;
+    }
+    for (Unit u : evadeUnits)
+    {
+      static_cast<UnitImpl*>(u)->wasAccessible = false;
+    }
     //fill dyingUnits set with all aliveUnits and then clear the aliveUnits set.
     dyingUnits = aliveUnits;
     aliveUnits.clear();
@@ -148,8 +151,9 @@ namespace BWAPI
     evadeUnits.clear();
 
     //computes sets, also generating UnitCreate, UnitDiscover, UnitShow, UnitDestroy, UnitEvade, and UnitHide callbacks
-    foreach(UnitImpl* u, aliveUnits)
+    for(Unit ui : aliveUnits)
     {
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
       if (u->canAccess())
       {
         if ( !u->wasAlive )
@@ -192,8 +196,9 @@ namespace BWAPI
         }
       }
     }
-    foreach(UnitImpl* u, dyingUnits)
+    for(Unit ui : dyingUnits)
     {
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
       if (u->wasAccessible)
       {
         if (u->wasVisible)
@@ -212,42 +217,45 @@ namespace BWAPI
     //this function extracts all current unit information from Broodwar memory for all the accessible units
     //and also generates the NukeDetect event when needed
     nukeDots.clear();
-    foreach (UnitImpl *i, aliveUnits)
+    for (Unit ui : aliveUnits)
     {
-      i->connectedUnits.clear();
-      i->loadedUnits.clear();
-      int airWeaponCooldown = i->getOriginalRawData->airWeaponCooldown;
-      if ( i->getOriginalRawData->subUnit )
-        airWeaponCooldown = i->getOriginalRawData->subUnit->airWeaponCooldown;
-      int groundWeaponCooldown = i->getOriginalRawData->groundWeaponCooldown;
-      if ( i->getOriginalRawData->subUnit )
-        groundWeaponCooldown = i->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if ( i->getOriginalRawData->unitType == UnitTypes::Protoss_Reaver || i->getOriginalRawData->unitType == UnitTypes::Hero_Warbringer )
-        groundWeaponCooldown = i->getOriginalRawData->mainOrderTimer;
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
+      u->connectedUnits.clear();
+      u->loadedUnits.clear();
+      int airWeaponCooldown = u->getOriginalRawData->airWeaponCooldown;
+      if ( u->getOriginalRawData->subUnit )
+        airWeaponCooldown = u->getOriginalRawData->subUnit->airWeaponCooldown;
+      int groundWeaponCooldown = u->getOriginalRawData->groundWeaponCooldown;
+      if ( u->getOriginalRawData->subUnit )
+        groundWeaponCooldown = u->getOriginalRawData->subUnit->groundWeaponCooldown;
+      if ( u->getOriginalRawData->unitType == UnitTypes::Protoss_Reaver || u->getOriginalRawData->unitType == UnitTypes::Hero_Warbringer )
+        groundWeaponCooldown = u->getOriginalRawData->mainOrderTimer;
 
-      i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
-      i->lastAirWeaponCooldown    = airWeaponCooldown;
-      i->lastGroundWeaponCooldown = groundWeaponCooldown;
-      if (i->canAccess())
+      u->startingAttack           = airWeaponCooldown > u->lastAirWeaponCooldown || groundWeaponCooldown > u->lastGroundWeaponCooldown;
+      u->lastAirWeaponCooldown    = airWeaponCooldown;
+      u->lastGroundWeaponCooldown = groundWeaponCooldown;
+      if (u->canAccess())
       {
-        if (i->getID() == -1)
-          i->setID(server.getUnitID(i));
-        i->updateData();
+        if (u->getID() == -1)
+          u->setID(server.getUnitID(u));
+        u->updateData();
       }
-      if ( i->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
+      if ( u->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
       {
-        if (i->getOriginalRawData->orderID == Orders::NukePaint)
-          i->nukePosition = BWAPI::Position(i->getOriginalRawData->orderTarget.pt);
-        if (i->getOriginalRawData->orderID != Orders::NukeTrack)
-          i->nukeDetected = false;
+        if (u->getOriginalRawData->orderID == Orders::NukePaint)
+          u->nukePosition = BWAPI::Position(u->getOriginalRawData->orderTarget.pt);
+        if (u->getOriginalRawData->orderID != Orders::NukeTrack)
+          u->nukeDetected = false;
         else
         {
-          Position target=i->nukePosition;
-          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x/32,target.y/32))
-            nukeDots.insert(target);
-          if ( !i->nukeDetected )
+          Position target=u->nukePosition;
+          if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x / 32, target.y / 32))
           {
-            i->nukeDetected = true;
+            nukeDots.insert(target);
+          }
+          if ( !u->nukeDetected )
+          {
+            u->nukeDetected = true;
             if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x/32,target.y/32))
               events.push_back(Event::NukeDetect(target));
             else
@@ -260,46 +268,50 @@ namespace BWAPI
   void GameImpl::augmentUnitData()
   {
     //this function modifies the extracted unit data for build unit, loaded units, larva, and interceptors
-    foreach(UnitImpl* i, accessibleUnits)
+    for(Unit ui : accessibleUnits)
     {
-      UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(i->getOriginalRawData->orderTarget.pUnit);
-      if ( orderTargetUnit && orderTargetUnit->exists() && i->getOrder() == Orders::ConstructingBuilding )
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
+      UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(u->getOriginalRawData->orderTarget.pUnit);
+      if ( orderTargetUnit && orderTargetUnit->exists() && u->getOrder() == Orders::ConstructingBuilding )
       {
         UnitImpl* j             = orderTargetUnit;
-        i->self->buildUnit      = server.getUnitID((Unit )j);
-        i->self->isConstructing = true;
-        i->self->isIdle         = false;
-        i->self->buildType      = j->self->type;
-        j->self->buildUnit      = server.getUnitID((Unit )i);
+        u->self->buildUnit      = server.getUnitID(j);
+        u->self->isConstructing = true;
+        u->self->isIdle         = false;
+        u->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID(u);
         j->self->isConstructing = true;
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
-      else if ( i->getAddon() && !i->getAddon()->isCompleted() )
+      else if ( u->getAddon() && !u->getAddon()->isCompleted() )
       {
-        UnitImpl* j             = static_cast<UnitImpl*>(i->getAddon());
-        i->self->buildUnit      = server.getUnitID((Unit )j);
-        i->self->isConstructing = true;
-        i->self->isIdle         = false;
-        i->self->buildType      = j->self->type;
-        j->self->buildUnit      = server.getUnitID(i);
+        UnitImpl* j             = static_cast<UnitImpl*>(u->getAddon());
+        u->self->buildUnit      = server.getUnitID(j);
+        u->self->isConstructing = true;
+        u->self->isIdle         = false;
+        u->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID(u);
         j->self->isConstructing = true;
         j->self->isIdle         = false;
         j->self->buildType      = j->self->type;
       }
-      if ( i->getTransport() )
-        static_cast<UnitImpl*>(i->getTransport())->loadedUnits.push_back(i);
+      if (u->getTransport())
+      {
+        static_cast<UnitImpl*>(u->getTransport())->loadedUnits.push_back(u);
+      }
 
-      if ( i->getHatchery() )
+      if ( u->getHatchery() )
       {
-        UnitImpl* hatchery = static_cast<UnitImpl*>(i->getHatchery());
-        hatchery->connectedUnits.insert(i);
+        UnitImpl* hatchery = static_cast<UnitImpl*>(u->getHatchery());
+        hatchery->connectedUnits.insert(u);
         if (hatchery->connectedUnits.size() >= 3)
           hatchery->self->remainingTrainTime = 0;
       }
-      if ( i->getCarrier() )
-        static_cast<UnitImpl*>(i->getCarrier())->connectedUnits.insert(i);
-
+      if (u->getCarrier())
+      {
+        static_cast<UnitImpl*>(u->getCarrier())->connectedUnits.insert(u);
+      }
     }
   }
   void GameImpl::computeSecondaryUnitSets()
@@ -307,15 +319,15 @@ namespace BWAPI
     // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
     // Also generates the UnitMorph and UnitRenegade callbacks
 
-    foreach(PlayerImpl *p, players)
+    for(Player p : players)
     {
-      PlayerData *pd = p->self;
+      PlayerData *pd = static_cast<PlayerImpl*>(p)->self;
       MemZero(pd->allUnitCount);
       MemZero(pd->visibleUnitCount);
       MemZero(pd->completedUnitCount);
     }
 
-    foreach(UnitImpl* u, discoverUnits)
+    for(Unit u : discoverUnits)
     {
       PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
       if ( !unitPlayer )
@@ -343,7 +355,7 @@ namespace BWAPI
           pylons.insert(u);
       }
     }
-    foreach(UnitImpl* u, evadeUnits)
+    for(Unit u : evadeUnits)
     {
       PlayerImpl *unitPlayer = static_cast<PlayerImpl*>(u->getPlayer());
       if ( !unitPlayer )
@@ -368,87 +380,89 @@ namespace BWAPI
       }
     }
 
-    foreach(UnitImpl* i, accessibleUnits)
+    for(Unit ui : accessibleUnits)
     {
-      if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
+      if (u->lastType != u->_getType && u->lastType != UnitTypes::Unknown && u->_getType != UnitTypes::Unknown)
       {
-        events.push_back(Event::UnitMorph(i));
-        if (i->lastType == UnitTypes::Resource_Vespene_Geyser)
+        events.push_back(Event::UnitMorph(u));
+        if (u->lastType == UnitTypes::Resource_Vespene_Geyser)
         {
-          neutralUnits.erase(i);
-          geysers.erase(i);
+          neutralUnits.erase(u);
+          geysers.erase(u);
         }
-        else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
+        else if (u->_getType == UnitTypes::Resource_Vespene_Geyser)
         {
-          neutralUnits.push_back(i);
-          geysers.push_back(i);
+          neutralUnits.push_back(u);
+          geysers.push_back(u);
         }
       }
-      if (i->lastPlayer != i->_getPlayer && i->lastPlayer && i->_getPlayer )
+      if (u->lastPlayer != u->_getPlayer && u->lastPlayer && u->_getPlayer )
       {
-        events.push_back(Event::UnitRenegade(i));
-        static_cast<PlayerImpl*>(i->lastPlayer)->units.erase(i);
-        static_cast<PlayerImpl*>(i->_getPlayer)->units.push_back(i);
+        events.push_back(Event::UnitRenegade(u));
+        static_cast<PlayerImpl*>(u->lastPlayer)->units.erase(u);
+        static_cast<PlayerImpl*>(u->_getPlayer)->units.push_back(u);
       }
       int allUnits  = UnitTypes::AllUnits;
-      int men      = UnitTypes::Men;
-      int buildings  = UnitTypes::Buildings;
-      int factories  = UnitTypes::Factories;
-      int thisUnit  = i->_getType;
+      int men       = UnitTypes::Men;
+      int buildings = UnitTypes::Buildings;
+      int factories = UnitTypes::Factories;
+      int thisUnit  = u->_getType;
       
       // Increment specific unit count
-      BWAPI::PlayerData *pSelf = static_cast<PlayerImpl*>(i->_getPlayer)->self;
+      BWAPI::PlayerData *pSelf = static_cast<PlayerImpl*>(u->_getPlayer)->self;
       pSelf->allUnitCount[thisUnit]++;
-      if (i->isVisible())
+      if (u->isVisible())
         pSelf->visibleUnitCount[thisUnit]++;
-      if (i->isCompleted())
+      if (u->isCompleted())
         pSelf->completedUnitCount[thisUnit]++;
       // increment all unit count
       pSelf->allUnitCount[allUnits]++;
-      if (i->isVisible())
+      if (u->isVisible())
         pSelf->visibleUnitCount[allUnits]++;
-      if (i->isCompleted())
+      if (u->isCompleted())
         pSelf->completedUnitCount[allUnits]++;
-      if ( i->_getType.isBuilding() )
+      if ( u->_getType.isBuilding() )
       { // increment buildings unit count
         pSelf->allUnitCount[buildings]++;
-        if (i->isVisible())
+        if (u->isVisible())
           pSelf->visibleUnitCount[buildings]++;
-        if (i->isCompleted())
+        if (u->isCompleted())
           pSelf->completedUnitCount[buildings]++;
-        if ( (i->_getType.canProduce() || i->_getType.producesLarva()) ) // increment factories unit count
+        if ( (u->_getType.canProduce() || u->_getType.producesLarva()) ) // increment factories unit count
         {
           pSelf->allUnitCount[factories]++;
-        if (i->isVisible())
+        if (u->isVisible())
           pSelf->visibleUnitCount[factories]++;
-        if (i->isCompleted())
+        if (u->isCompleted())
           pSelf->completedUnitCount[factories]++;
         }
       }
       else
       { // increment men unit count
         pSelf->allUnitCount[men]++;
-        if ( i->isVisible() )
+        if ( u->isVisible() )
           pSelf->visibleUnitCount[men]++;
-        if ( i->isCompleted() )
+        if ( u->isCompleted() )
           pSelf->completedUnitCount[men]++;
       }
-      i->lastPlayer = i->_getPlayer;
-      i->lastType   = i->_getType;
+      u->lastPlayer = u->_getPlayer;
+      u->lastType   = u->_getType;
     }
 
     if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
     {
-      foreach (UnitImpl* i, aliveUnits)
+      for (Unit ui : aliveUnits)
       {
-        if (i->_getPlayer->isNeutral())
+        UnitImpl *u = static_cast<UnitImpl*>(ui);
+        if (u->_getPlayer->isNeutral())
         {
-          i->saveInitialState();
-          this->staticNeutralUnits.push_back(i);
-          if ( i->_getType.isMineralField() )
-            this->staticMinerals.push_back(i);
-          else if (i->_getType == UnitTypes::Resource_Vespene_Geyser)
-            this->staticGeysers.push_back(i);
+          u->saveInitialState();
+          this->staticNeutralUnits.push_back(u);
+          if ( u->_getType.isMineralField() )
+            this->staticMinerals.push_back(u);
+          else if (u->_getType == UnitTypes::Resource_Vespene_Geyser)
+            this->staticGeysers.push_back(u);
         }
       }
     }
@@ -469,23 +483,21 @@ namespace BWAPI
     // Update selection data
     selectedU = selectedUnitSet;
     selectedUnitSet.clear();
-    foreach ( UnitImpl* u, selectedU )
+    for ( Unit ui : selectedU )
     {
-      if ( u )
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
+      if ( u->exists() )
+        selectedUnitSet.push_back(u);
+      else
       {
-        if ( u->exists() )
-          selectedUnitSet.push_back(u);
-        else
-        {
-          u->setSelected(false);
-          if ( u->self )
-            u->self->isSelected = false;
-        } // if exists
-      } // if u
+        u->setSelected(false);
+        if ( u->self )
+          u->self->isSelected = false;
+      } // if exists
     } // for each in selectedU
 
     // Get all units under disruption web and dark swarm
-    foreach ( UnitImpl *u, this->neutralUnits )
+    for ( Unit u : neutralUnits )
     {
       BWAPI::UnitType ut = u->getType();
       if ( ut != UnitTypes::Spell_Dark_Swarm &&
@@ -497,8 +509,9 @@ namespace BWAPI
 
       // Get units under the ability that are affected
       Unitset unitsInside( this->getUnitsInRectangle(u->getLeft(), u->getTop(), r, b, !IsSpell && !IsFlyer && !IsLifted ) );
-      foreach ( UnitImpl *uInside, unitsInside )
+      for ( Unit uInsidei : unitsInside )
       {
+        UnitImpl *uInside = static_cast<UnitImpl*>(uInsidei);
         // Assign the boolean for whatever spell the unit is under
         if ( ut == UnitTypes::Spell_Dark_Swarm )
           uInside->self->isUnderDarkSwarm = true;

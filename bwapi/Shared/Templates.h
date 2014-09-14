@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI.h>
-#include <Util/Foreach.h>
 #include <algorithm>
 
 namespace BWAPI
@@ -47,7 +46,7 @@ namespace BWAPI
         return true;
 
       // Loop through all pylons for the current player
-      foreach (Unit i, pylons)
+      for (Unit i : pylons)
       {
         if ( !i->exists() || !i->isCompleted() )
           continue;
@@ -166,7 +165,7 @@ namespace BWAPI
       //matches one of them (and the type is still vespene geyser)
       if ( type.isRefinery() )
       {
-        foreach (Unit g, Broodwar->getGeysers())
+        for (Unit g : Broodwar->getGeysers())
         {
           if (g->getTilePosition() == position)
           {
@@ -221,7 +220,7 @@ namespace BWAPI
                                                                                         GetTop    <= targPos.y + type.dimensionDown()   &&
                                                                                         GetRight  >= targPos.x - type.dimensionLeft()   &&
                                                                                         GetBottom >= targPos.y - type.dimensionUp() )    );
-        foreach(Unit u, unitsInRect)
+        for (Unit u : unitsInRect)
         {
           BWAPI::UnitType iterType = u->getType();
           if ( !type.isAddon() )
@@ -262,7 +261,7 @@ namespace BWAPI
       // Resource Check (CC, Nex, Hatch)
       if ( type.isResourceDepot() )
       {
-        foreach (BWAPI::Unit m, Broodwar->getStaticMinerals())
+        for (BWAPI::Unit m : Broodwar->getStaticMinerals())
         {
           TilePosition tp = m->getInitialTilePosition();
           if ( (Broodwar->isVisible(tp) || Broodwar->isVisible(tp.x + 1, tp.y)) && !m->isVisible() )
@@ -273,7 +272,7 @@ namespace BWAPI
               tp.y < lt.y + 6)
             return false;
         }
-        foreach (BWAPI::Unit g, Broodwar->getStaticGeysers())
+        for (BWAPI::Unit g : Broodwar->getStaticGeysers())
         {
           TilePosition tp = g->getInitialTilePosition();
           if (tp.x > lt.x - 7 &&
@@ -481,7 +480,7 @@ namespace BWAPI
         else
         {
           Unitset larvae( thisUnit->getLarva() );
-          foreach (Unit larva, larvae)
+          for (Unit larva : larvae)
           {
             if ( canCommand(larva) )
               return Broodwar->setLastError();
@@ -919,7 +918,7 @@ namespace BWAPI
         if ( !thisUnit->isConstructing() && thisUnit->isCompleted() )
           return Broodwar->setLastError();
         Unitset larvae( thisUnit->getLarva() );
-        foreach (Unit larva, larvae)
+        for (Unit larva : larvae)
         {
           if ( !larva->isConstructing() && larva->isCompleted() && canCommand(larva) )
             return Broodwar->setLastError();
@@ -960,7 +959,7 @@ namespace BWAPI
         {
           bool foundCommandableLarva = false;
           Unitset larvae( thisUnit->getLarva() );
-          foreach (Unit larva, larvae)
+          for (Unit larva : larvae)
           {
             if ( canTrain(larva, true) )
             {
@@ -1000,7 +999,7 @@ namespace BWAPI
         if ( !thisUnit->isConstructing() && thisUnit->isCompleted() && ( !thisUnit->getType().isBuilding() || thisUnit->isIdle() ) )
           return Broodwar->setLastError();
         Unitset larvae( thisUnit->getLarva() );
-        foreach (Unit larva, larvae)
+        for (Unit larva : larvae)
         {
           if ( !larva->isConstructing() && larva->isCompleted() && canCommand(larva) )
             return Broodwar->setLastError();
@@ -1042,7 +1041,7 @@ namespace BWAPI
         {
           bool foundCommandableLarva = false;
           Unitset larvae( thisUnit->getLarva() );
-          foreach (Unit larva, larvae)
+          for (Unit larva : larvae)
           {
             if ( canMorph(larva, true) )
             {
@@ -1768,7 +1767,7 @@ namespace BWAPI
       int freeSpace = ( thisUnitSpaceProvided > 0 ? thisUnitSpaceProvided : targetSpaceProvided );
       int requiredSpace;
       Unitset loadedUnits = unitThatLoads->getLoadedUnits();
-      foreach(Unit u, loadedUnits)
+      for (Unit u : loadedUnits)
       {
         requiredSpace = u->getType().spaceRequired();
         if ( requiredSpace > 0 && requiredSpace < 8 )

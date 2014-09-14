@@ -6,7 +6,6 @@
 
 #include "TemplatesImpl.h"
 #include "Command.h"
-#include <Util/Foreach.h>
 
 #include <limits>
 #include <string>
@@ -33,7 +32,7 @@ namespace BWAPI
          getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       Unitset larvae( this->getLarva() );
-      foreach (Unit larva, larvae)
+      for (Unit larva : larvae)
       {
         if ( !larva->isConstructing() && larva->isCompleted() && larva->canCommand() )
         {

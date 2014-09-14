@@ -11,7 +11,6 @@
 
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
-#include <Util/Foreach.h>
 #include <Util/clamp.h>
 #include <Util/Convenience.h>
 
@@ -677,10 +676,10 @@ namespace BWAPI
     BWAPI::Unitset nextGroup(12);
 
     // Iterate the set of units
-    foreach(UnitImpl* u, units)
+    for (Unit u : units)
     {
       // Skip on invalid units that can't issue commands
-      if ( !u || !u->exists() )
+      if ( !u->exists() )
         continue;
 
       // If unit can't issue the command while grouped (e.g. if it is a building) then try to issue
@@ -692,7 +691,7 @@ namespace BWAPI
       }
 
       // If the command optimizer has taken over the command, then don't add it to this group
-      if ( u->prepareIssueCommand(command) )
+      if ( static_cast<UnitImpl*>(u)->prepareIssueCommand(command) )
         continue;
 
       // Insert the unit into the next group

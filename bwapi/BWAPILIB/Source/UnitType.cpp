@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <Util/Foreach.h>
-
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/UnitSizeType.h>

@@ -2,7 +2,6 @@
 
 #include <cstdio>
 #include <ctime>
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 #include <cassert>
 #include <sstream>
@@ -419,7 +418,7 @@ namespace BWAPI
 
     data->startLocationCount = Broodwar->getStartLocations().size();
     int i = 0;
-    foreach(TilePosition t, Broodwar->getStartLocations())
+    for(TilePosition t : Broodwar->getStartLocations())
     {
       data->startLocations[i].x = t.x;
       data->startLocations[i].y = t.y;
@@ -428,18 +427,18 @@ namespace BWAPI
 
     //static force data
     data->forces[0].name[0] = '\0';
-    foreach(Force i, Broodwar->getForces())
+    for(Force i : Broodwar->getForces())
     {
       int id = getForceID(i);
       StrCopy(data->forces[id].name, i->getName());
     }
 
     //static player data
-    foreach(PlayerImpl *i, Broodwar->getPlayers())
+    for(Player i : Broodwar->getPlayers())
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
-      PlayerData* p2 = i->self;
+      PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
 
       StrCopy(p->name, i->getName());
       p->race  = i->getRace();
@@ -452,7 +451,7 @@ namespace BWAPI
         p->isAlly[j]  = false;
         p->isEnemy[j] = false;
       }
-      foreach(Player j, Broodwar->getPlayers())
+      for(Player j : Broodwar->getPlayers())
       {
         p->isAlly[getPlayerID(j)]  = i->isAlly(j);
         p->isEnemy[getPlayerID(j)]  = i->isEnemy(j);
@@ -492,7 +491,7 @@ namespace BWAPI
     bool matchStarting = false;
     
     // iterate events
-    foreach(Event e, BroodwarImpl.events)
+    for(Event e : BroodwarImpl.events)
     {
       // Add the event to the server queue
       addEvent(e);
@@ -565,8 +564,8 @@ namespace BWAPI
       }
       BroodwarImpl.isTournamentCall = false;
     }
-    foreach(UnitImpl* u, BroodwarImpl.lastEvadedUnits)
-      data->units[u->getID()] = u->data;
+    for(Unit u : BroodwarImpl.lastEvadedUnits)
+      data->units[u->getID()] = static_cast<UnitImpl*>(u)->data;
 
     static_cast<GameImpl*>(BroodwarPtr)->events.clear();
 
@@ -607,7 +606,7 @@ namespace BWAPI
       data->isPaused          = Broodwar->isPaused();
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
       int i = 0;
-      foreach(Unit t, Broodwar->getSelectedUnits())
+      for(Unit t : Broodwar->getSelectedUnits())
         data->selectedUnits[i++] = getUnitID(t);
 
       //dynamic map data
@@ -615,13 +614,13 @@ namespace BWAPI
       //(no dynamic force data)
 
       //dynamic player data
-      foreach(PlayerImpl *i, Broodwar->getPlayers())
+      for(Player i : Broodwar->getPlayers())
       {
         int id         = getPlayerID(i);
         if ( id >= 12 )
           continue;
         PlayerData* p  = &(data->players[id]);
-        PlayerData* p2 = i->self;
+        PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
 
         p->isVictorious     = i->isVictorious();
         p->isDefeated       = i->isDefeated();
@@ -670,8 +669,8 @@ namespace BWAPI
       }
 
       //dynamic unit data
-      foreach(UnitImpl *i, Broodwar->getAllUnits())
-        data->units[i->getID()] = i->data;
+      for(Unit i : Broodwar->getAllUnits())
+        data->units[i->getID()] = static_cast<UnitImpl*>(i)->data;
 
       for(int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
       {
@@ -725,7 +724,7 @@ namespace BWAPI
       //dynamic nuke dot data
       int j = 0;
       data->nukeDotCount = Broodwar->getNukeDots().size();
-      foreach(Position nd, Broodwar->getNukeDots())
+      for(Position nd : Broodwar->getNukeDots())
       {
         data->nukeDots[j].x = nd.x;
         data->nukeDots[j].y = nd.y;

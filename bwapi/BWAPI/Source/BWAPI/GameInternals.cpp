@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <Util/Strings.h>
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 
 #include "../WMode.h"
@@ -311,27 +310,27 @@ namespace BWAPI
     this->updateEvents();
     
     // UnitImpl events
-    foreach(UnitImpl* u, this->accessibleUnits)
+    for(Unit u : this->accessibleUnits)
     {
       u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
     }
     
     // ForceImpl events
-    foreach(ForceImpl* f,this->forces)
+    for (Force f : this->forces)
       f->updateEvents();
 
     // BulletImpl events
-    foreach(BulletImpl* b, this->bullets)
+    for (Bullet b : this->bullets)
     {
       b->exists() ? b->updateEvents() : b->interfaceEvents.clear();
     }
 
     // RegionImpl events
-    foreach(RegionImpl *r,this->regionsList)
+    for (Region r : this->regionsList)
       r->updateEvents();
 
     // PlayerImpl events
-    foreach(PlayerImpl *p, this->playerSet)
+    for (Player p : this->playerSet)
       p->updateEvents();
   }
   //------------------------------------------- GET PLAYER INTERNAL ------------------------------------------

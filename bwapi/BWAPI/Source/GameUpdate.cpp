@@ -12,7 +12,6 @@
 #include <BW/OrderTypes.h>
 #include <BW/Pathing.h>
 
-#include <Util/Foreach.h>
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
 
@@ -64,9 +63,9 @@ void GameImpl::update()
     else
     {
       allDone = true;
-      foreach(PlayerImpl *p, this->players)
+      for(Player p : this->players)
       {
-        if ( p->getIndex() >= 8 )
+        if ( static_cast<PlayerImpl*>(p)->getIndex() >= PLAYABLE_PLAYER_COUNT )
           continue;
         if ( !p->isDefeated() && !p->isVictorious() && !p->leftGame() )
           allDone = false;
@@ -101,7 +100,7 @@ void GameImpl::update()
   _observers.clear();
   if ( BWAPIPlayer )
   {
-    foreach(Player p, players)
+    for(Player p : players)
     {
       if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
         continue;
@@ -125,8 +124,8 @@ void GameImpl::update()
   this->updateBullets();
 
   //iterate through the list of intercepted messages
-  foreach(std::string i, sentMessages)
-    BroodwarImpl.onSendText(i.c_str());
+  for(std::string s : sentMessages)
+    BroodwarImpl.onSendText(s.c_str());
 
   //clear all intercepted messages
   this->sentMessages.clear();
@@ -166,14 +165,15 @@ void GameImpl::update()
   this->processInterfaceEvents();
 
   //Before returning control to starcraft, we clear the unit data for units that are no longer accessible
-  foreach(UnitImpl* u, evadeUnits)
-    u->updateData();
+  for(Unit u : evadeUnits)
+    static_cast<UnitImpl*>(u)->updateData();
 
   //We also kill the units that are dying on this frame.
   //We wait until after server.update() and processEvents() to do this so that the AI can
   //access the last frame of unit data during the onUnitDestroy callback.
-  foreach(UnitImpl* u, dyingUnits)
+  for(Unit ui : dyingUnits)
   {
+    UnitImpl *u = static_cast<UnitImpl*>(ui);
     deadUnits.push_back(u);
     int index = u->getIndex();
     unitArray[index] = new UnitImpl(&BW::BWDATA::UnitNodeTable[index], (u16)index);
@@ -184,8 +184,9 @@ void GameImpl::update()
   bool UnitPermanence = false;
   if ( !UnitPermanence )
   {
-    foreach(UnitImpl* u, evadeUnits)
+    for(Unit ui : evadeUnits)
     {
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
       deadUnits.push_back(u);
       int index = u->getIndex();
       unitArray[index] = new UnitImpl(&BW::BWDATA::UnitNodeTable->unit[index],(u16)index);
@@ -259,9 +260,9 @@ void GameImpl::updateOverlays()
   // unitdebug
   if ( unitDebug && BWAPIPlayer )
   {
-    foreach ( BWAPI::UnitImpl *u, this->getAllUnits() )
+    for ( Unit u : this->getAllUnits() )
     {
-      auto raw = u->getOriginalRawData;
+      auto raw = static_cast<UnitImpl*>(u)->getOriginalRawData;
       if ( raw->autoTargetUnit )
         this->drawLineMap(u->getPosition(), BWAPI::Position(raw->autoTargetUnit->position), Colors::Red);
     }
