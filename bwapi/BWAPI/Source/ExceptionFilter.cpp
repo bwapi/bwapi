@@ -133,7 +133,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Print the exception info
     DWORD dwExceptionCode = ep->ExceptionRecord->ExceptionCode;
-    fprintf(hFile, "\nEXCEPTION: 0x%08X    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
+    fprintf(hFile, "\nEXCEPTION: 0x%08lX    %s\n", dwExceptionCode, GetExceptionName(dwExceptionCode));
 
     // Store exception address
     PVOID pExceptionAddr = ep->ExceptionRecord->ExceptionAddress;
@@ -223,7 +223,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       DWORD dwSize = 0;
       for (;;)
       {
-        int iResult = fscanf(hBWSymbols, "%511s %8x %8x", szSymbolName, &dwAddress, &dwSize);
+        int iResult = fscanf(hBWSymbols, "%511s %8lx %8lx", szSymbolName, &dwAddress, &dwSize);
         if ( iResult == EOF || iResult == 0 )
           break;
         _customSymbolStore sym = { szSymbolName, dwAddress, dwAddress + dwSize };
@@ -258,7 +258,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
                           nullptr) )
       {
         DWORD dwOffset = sf.AddrPC.Offset;
-        fprintf(hFile, "  %-16s  0x%08X    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
+        fprintf(hFile, "  %-16s  0x%08lX    ", getModuleNameFrom((LPCVOID)dwOffset).c_str(), dwOffset);
         bool foundSomething = false;
         if ( dwOffset )
         {

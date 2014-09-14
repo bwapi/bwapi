@@ -218,7 +218,7 @@ namespace BWAPI
       BWAPIC::ShapeType::Enum s = data->shapes[i].type;
       int x1 = data->shapes[i].x1;
       int y1 = data->shapes[i].y1;
-      int x2, y2, x3, y3, w, h;
+      int x2, y2, w, h;
       int radius, f, ddF_x, ddF_y, xi, yi;
       int xrad, yrad;
       CoordinateType::Enum ctype = data->shapes[i].ctype;
@@ -248,13 +248,13 @@ namespace BWAPI
           break;
         case BWAPIC::ShapeType::Triangle:
         {
-          int ly, ry, lx, rx;
           x2 = data->shapes[i].x2;
           y2 = data->shapes[i].y2;
-          x3 = data->shapes[i].extra1;
-          y3 = data->shapes[i].extra2;
+          int x3 = data->shapes[i].extra1;
+          int y3 = data->shapes[i].extra2;
           if (isSolid)
           {
+            int ly, ry, lx, rx;
             if (y1 > y2) { std::swap(x1, x2); std::swap(y1, y2); }
             if (y1 > y3) { std::swap(x1, x3); std::swap(y1, y3); }
             if (y2 > y3) { std::swap(x2, x3); std::swap(y2, y3); }

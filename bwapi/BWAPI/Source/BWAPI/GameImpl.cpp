@@ -748,17 +748,17 @@ namespace BWAPI
   //----------------------------------------------------- SELF -----------------------------------------------
   Player GameImpl::self() const
   {
-    return (Player)this->BWAPIPlayer;
+    return this->BWAPIPlayer;
   }
   //----------------------------------------------------- ENEMY ----------------------------------------------
   Player GameImpl::enemy() const
   {
-    return (Player)this->enemyPlayer;
+    return this->enemyPlayer;
   }
   //----------------------------------------------------- NEUTRAL --------------------------------------------
   Player GameImpl::neutral() const
   {
-    return (Player)players[11];
+    return players[11];
   }
   //----------------------------------------------------- ALLIES ---------------------------------------------
   Playerset& GameImpl::allies()
@@ -900,7 +900,8 @@ namespace BWAPI
       this->setLastError(BWAPI::Errors::Invalid_Parameter);
       return nullptr;
     }
-    return (Region)rgn->unk_28;
+    /// @TODO Don't store data in a BW region
+    return reinterpret_cast<Region>(rgn->unk_28);
   }
   int GameImpl::getLastEventTime() const
   {
