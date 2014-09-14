@@ -8,7 +8,6 @@
 
 #include "TemplatesImpl.h"
 
-#include <Util/Foreach.h>
 #include <Util/Types.h>
 #include <Util/Convenience.h>
 #include <string>
@@ -129,8 +128,8 @@ namespace BWAPI
     for(size_t i = 0; i < playerVector.size(); ++i)
       playerVector[i].units.clear();
 
-    foreach( RegionImpl *r, regionsList )
-      delete r;
+    for( Region r : regionsList )
+      delete static_cast<RegionImpl*>(r);
     regionsList.clear();
     memset(this->regionArray, 0, sizeof(this->regionArray));
   }
@@ -142,27 +141,27 @@ namespace BWAPI
     this->updateEvents();
     
     // UnitImpl events
-    foreach(UnitImpl* u, this->accessibleUnits)
+    for(Unit u : this->accessibleUnits)
     {
       u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
     }
     
     // ForceImpl events
-    foreach(ForceImpl* f,this->forces)
+    for(Force f : this->forces)
       f->updateEvents();
 
     // BulletImpl events
-    foreach(BulletImpl* b, this->bullets)
+    for(Bullet b : this->bullets)
     {
       b->exists() ? b->updateEvents() : b->interfaceEvents.clear();
     }
 
     // RegionImpl events
-    foreach(RegionImpl *r,this->regionsList)
+    for(Region r : this->regionsList)
       r->updateEvents();
 
     // PlayerImpl events
-    foreach(PlayerImpl *p, this->playerSet)
+    for(Player p : this->playerSet)
       p->updateEvents();
   }
   //------------------------------------------------- ON MATCH START -----------------------------------------
@@ -205,7 +204,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player p, playerSet)
+      for(Player p : playerSet)
       {
         // check if the player should not be updated
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -310,12 +309,13 @@ namespace BWAPI
         }
       }
     }
-    foreach(UnitImpl* u, accessibleUnits)
+    for (Unit ui : accessibleUnits)
     {
+      UnitImpl *u = static_cast<UnitImpl*>(ui);
       u->connectedUnits.clear();
       u->loadedUnits.clear();
     }
-    foreach(Unit u, accessibleUnits)
+    for(Unit u : accessibleUnits)
     {
       if ( u->getType() == UnitTypes::Zerg_Larva && u->getHatchery() )
         static_cast<UnitImpl*>(u->getHatchery())->connectedUnits.insert(u);
@@ -338,7 +338,7 @@ namespace BWAPI
     if ( thePlayer )
     {
       // iterate each player
-      foreach(Player p, playerSet)
+      for(Player p : playerSet)
       {
         // check if player should be skipped
         if ( p->leftGame() || p->isDefeated() || p == thePlayer )
@@ -720,7 +720,7 @@ namespace BWAPI
   {
     bool success = false;
     //FIX FIX FIX naive implementation
-    foreach(Unit u, units)
+    for(Unit u : units)
     {
       success |= u->issueCommand(command);
     }

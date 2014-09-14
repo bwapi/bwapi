@@ -3,7 +3,6 @@
 #include <cstdio>
 #include "Thread.h"
 
-#include <Util/Foreach.h>
 #include <Util/clamp.h>
 #include <Util/Convenience.h>
 

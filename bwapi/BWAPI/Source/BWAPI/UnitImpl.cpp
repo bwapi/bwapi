@@ -5,7 +5,6 @@
 #include <limits>
 #include <sstream>
 
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 
 #include <BWAPI/Player.h>
@@ -86,7 +85,7 @@ namespace BWAPI
          getType().producesLarva() && command.getUnitType().whatBuilds().first == UnitTypes::Zerg_Larva )
     {
       Unitset larvae( this->getLarva() );
-      foreach (Unit larva, larvae)
+      for(Unit larva : larvae)
       {
         if ( !larva->isConstructing() && larva->isCompleted() && larva->canCommand() )
         {

@@ -1,5 +1,4 @@
 #include "GameImpl.h"
-#include <Util/Foreach.h>
 #include <ctime>
 
 #include "Detours.h"
@@ -39,8 +38,8 @@ namespace BWAPI
         this->regionsList.insert(new BWAPI::RegionImpl(i));
 
       // Iterate regions again and update neighbor lists
-      foreach ( BWAPI::RegionImpl *r, this->regionsList )
-        r->UpdateRegionRelations();
+      for ( BWAPI::Region r : this->regionsList )
+        static_cast<RegionImpl*>(r)->UpdateRegionRelations();
     } // if SAI_Pathing
 
     // roughly identify which players can possibly participate in this game
@@ -193,7 +192,7 @@ namespace BWAPI
 
     if ( this->BWAPIPlayer )
     {
-      foreach(Player p, players)
+      for (Player p : players)
       {
         if ( p->leftGame() || p->isDefeated() || p == BWAPIPlayer )
           continue;
@@ -250,7 +249,7 @@ namespace BWAPI
       rn_AlliesRaces.clear();
       rn_EnemiesNames.clear();
       rn_EnemiesRaces.clear();
-      foreach ( Player p, this->_allies )
+      for ( Player p : this->_allies )
       {
         if ( p )
         {
@@ -258,7 +257,7 @@ namespace BWAPI
           rn_AlliesRaces += p->getRace().getName().substr(0, 1);
         }
       }
-      foreach ( Player p, this->_enemies )
+      for ( Player p : this->_enemies )
       {
         if ( p )
         {
@@ -482,7 +481,7 @@ namespace BWAPI
     //This function translates events into AIModule callbacks
     if ( !client || server.isConnected() )
       return;
-    foreach(Event e, events)
+    for (Event e : events)
     {
       static DWORD dwLastEventTime = 0;
 

@@ -27,9 +27,6 @@
     <ClInclude Include="Source\Util\Exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Util\Foreach.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Util\MemoryFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>

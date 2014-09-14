@@ -3,7 +3,6 @@
 #include "UnitImpl.h"
 
 #include <string>
-#include <Util/Foreach.h>
 #include <Util/Convenience.h>
 
 #include <BW/Offsets.h>
@@ -169,7 +168,7 @@ namespace BWAPI
         // set upgrade level for visible enemy units
         for(int i = 0; i < 46; ++i)
         {
-          foreach(UnitType t, UpgradeType(i).whatUses())
+          for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
               self->upgradeLevel[i] = BW::BWDATA::UpgradeLevelSC->level[index][i];
@@ -177,7 +176,7 @@ namespace BWAPI
         }
         for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
         {
-          foreach(UnitType t, UpgradeType(i).whatUses())
+          for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
               self->upgradeLevel[i] = BW::BWDATA::UpgradeLevelBW->level[index][i - 46];
