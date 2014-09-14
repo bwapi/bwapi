@@ -93,13 +93,14 @@ namespace BWAPI
     return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
   }
   //-------------------------------------- BUILD LOCATION --------------------------------------------
-#define MAX_RANGE 64
+  const int MAX_RANGE = 64;
   class PlacementReserve
   {
   public:
     PlacementReserve(int maxRange) : maxSearch( std::min(std::max(0,maxRange),MAX_RANGE) )
     {
       this->reset();
+      this->backup();
     };
 
     void reset()
