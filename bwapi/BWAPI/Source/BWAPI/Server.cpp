@@ -41,8 +41,7 @@ namespace BWAPI
     , pSD(NULL)
   {
     // Local variables
-    int size  = sizeof(GameData);
-    DWORD processID = GetCurrentProcessId();
+    const DWORD processID = GetCurrentProcessId();
 
     if ( serverEnabled )
     {
@@ -51,7 +50,7 @@ namespace BWAPI
       DWORD dwFileMapErr = GetLastError();
       if ( gameTableFileHandle )
       {
-        gameTable = (GameTable*) MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
+        gameTable = static_cast<GameTable*>(MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable)));
 
         if ( gameTable )
         {
@@ -110,15 +109,15 @@ namespace BWAPI
       ssShareName << processID;
 
       // Create the file mapping and shared memory
-      mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, ssShareName.str().c_str() );
+      mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameData), ssShareName.str().c_str() );
       if ( mapFileHandle )
-        data = static_cast<GameData*>(MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size));
+        data = static_cast<GameData*>(MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData)));
     } // if serverEnabled
 
     // check if memory was created or if we should create it locally
     if ( !data )
     {
-      data      = (GameData*)malloc(size);
+      data = new GameData;
       localOnly = true;
     }
     initializeSharedMemory();
@@ -221,7 +220,7 @@ namespace BWAPI
 
     if ( localOnly && data )
     {
-      free(data);
+      delete data;
       data = nullptr;
     }
 

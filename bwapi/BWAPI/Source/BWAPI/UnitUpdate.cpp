@@ -452,7 +452,7 @@ namespace BWAPI
     else
     {
       self->exists = false;
-      self->player = BroodwarImpl.server.getPlayerID((Player)BroodwarImpl._getPlayer(11));
+      self->player = BroodwarImpl.server.getPlayerID(BroodwarImpl._getPlayer(11));
       self->type   = UnitTypes::Unknown;
     }
     if (canAccessInside())
