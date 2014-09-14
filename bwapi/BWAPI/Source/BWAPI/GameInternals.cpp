@@ -184,7 +184,7 @@ namespace BWAPI
     return -1;
   }
   //----------------------------------------------- PARSE TEXT -----------------------------------------------
-  bool GameImpl::parseText(const char* text)
+  bool GameImpl::parseText(const std::string &text)
   {
     // analyze the string
     std::stringstream ss(text);
@@ -521,6 +521,7 @@ namespace BWAPI
 
   void GameImpl::queueSentMessage(std::string const &message)
   {
-    this->sentMessages.emplace_back(message);
+    if (!message.empty())
+      this->sentMessages.emplace_back(message);
   }
 };

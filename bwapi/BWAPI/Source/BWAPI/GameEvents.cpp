@@ -274,24 +274,23 @@ namespace BWAPI
     events.push_back(Event::SaveGame(name));
   }
   //---------------------------------------------- ON SEND TEXT ----------------------------------------------
-  void GameImpl::onSendText(const char* text)
+  void GameImpl::onSendText(const std::string &text)
   {
-    if ( !text )
-      return;
+    if ( text.empty() ) return;
 
     if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
     {
       if ( externalModuleConnected )
       {
         events.push_back(Event::SendText());
-        events.back().setText(text);
+        events.back().setText(text.c_str());
       }
       else
-        sendText("%s", text);
+        sendText("%s", text.c_str());
     }
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
-  void GameImpl::onReceiveText(int playerId, std::string text)
+  void GameImpl::onReceiveText(int playerId, const std::string &text)
   {
     if ( !this->bTournamentMessageAppeared && hTournamentModule && text == getTournamentString() )
       this->bTournamentMessageAppeared = true;

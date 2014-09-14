@@ -40,8 +40,8 @@ namespace BWAPI
 
   void GameWrapper::flush()
   {
-    if ( !BroodwarPtr )
-      return;
+    if (!BroodwarPtr) return;
+    if (ss.str().empty()) return;
 
     BroodwarPtr->printf("%s", ss.str().c_str() );
     ss.str("");

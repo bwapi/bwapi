@@ -338,13 +338,14 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
       if ( dest == BW::BWDATA::SaveGameFile )
       {
         // onSaveGame
-        BWAPI::BroodwarImpl.onSaveGame((char*)source);
+        BWAPI::BroodwarImpl.onSaveGame(source);
       }
       else
       {
         // onSend Game
         BWAPI::BroodwarImpl.queueSentMessage(source);
-        dest[0] = 0;
+        if (size > 0) dest[0] = '\0';
+        if (size > 1) dest[1] = '\0';
         return 0;
       }
     }

@@ -205,9 +205,9 @@ namespace BWAPI
       void onGameStart();
       void onGameEnd();
       int  stormIdToPlayerId(int dwStormId);
-      void onSendText(const char* text);
-      void onReceiveText(int playerId, std::string text);
-      bool parseText(const char* text);
+      void onSendText(const std::string &text);
+      void onReceiveText(int playerId, const std::string &text);
+      bool parseText(const std::string &text);
       bool inScreen(CoordinateType::Enum ctype, int x, int y);
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2);
       bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3);

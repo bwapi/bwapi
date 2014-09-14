@@ -117,17 +117,15 @@ void GameImpl::update()
     bool prevLeftGame = this->players[i]->leftGame();
     this->players[i]->updateData();
     if (!prevLeftGame && this->players[i]->leftGame())
-      events.push_back(Event::PlayerLeft((Player)this->players[i]));
+      events.push_back(Event::PlayerLeft(this->players[i]));
   }
   //update properties of Unit and Bullet objects
   this->updateUnits();
   this->updateBullets();
 
   //iterate through the list of intercepted messages
-  for(std::string s : sentMessages)
-    BroodwarImpl.onSendText(s.c_str());
-
-  //clear all intercepted messages
+  for(std::string &s : sentMessages)
+    BroodwarImpl.onSendText(s);
   this->sentMessages.clear();
 
   //on the first frame we check to see if the client process has connected.
