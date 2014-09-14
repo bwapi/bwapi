@@ -30,12 +30,12 @@ namespace BWAPI
 
   const BWAPI::GameInstance GameInstance_None(0, false, 0);
   Server::Server()
-    : connected(false)
-    , localOnly(false)
-    , data(nullptr)
+    : data(nullptr)
+    , mapFileHandle(nullptr)
     , gameTable(nullptr)
     , gameTableIndex(-1)
-    , mapFileHandle(nullptr)
+    , connected(false)
+    , localOnly(false)
     , pEveryoneSID(NULL)
     , pACL(NULL)
     , pSD(NULL)
@@ -112,7 +112,7 @@ namespace BWAPI
       // Create the file mapping and shared memory
       mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, size, ssShareName.str().c_str() );
       if ( mapFileHandle )
-        data = (GameData*)MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size);
+        data = static_cast<GameData*>(MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, size));
     } // if serverEnabled
 
     // check if memory was created or if we should create it locally
@@ -264,7 +264,7 @@ namespace BWAPI
     data->eventCount = 0;
     data->eventStringCount = 0;
   }
-  bool Server::isConnected()
+  bool Server::isConnected() const
   {
     return connected;
   }

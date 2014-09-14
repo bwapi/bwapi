@@ -202,7 +202,7 @@ namespace BWAPI
     u16 w = BWAPI::Map::getWidth() * 4;
     for (unsigned int y = 0; y < h; ++y)
       for (unsigned int x = 0; x < w; ++x)
-        this->walkability[x][y] = (this->getMiniTile(x, y) & BW::MiniTileFlags::Walkable) != 0;
+        this->walkability[x][y] = (Map::getMiniTile(x, y) & BW::MiniTileFlags::Walkable) != 0;
     int y = h - 1;
     for(unsigned int x = 0; x < w; ++x)
     {
@@ -225,7 +225,7 @@ namespace BWAPI
     }
   }
   //--------------------------------------------- GET MINITILE -----------------------------------------------
-  u16 Map::getMiniTile(int x, int y) const
+  u16 Map::getMiniTile(int x, int y)
   {
     int tx = x / 4;
     int ty = y / 4;

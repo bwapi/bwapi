@@ -32,13 +32,13 @@ namespace BWAPI
   {
     return Broodwar->getForce(self->force);
   }
-  bool PlayerImpl::isAlly(Player player) const
+  bool PlayerImpl::isAlly(const Player player) const
   {
     if ( !player )
       return false;
     return self->isAlly[player->getID()];
   }
-  bool PlayerImpl::isEnemy(Player player) const
+  bool PlayerImpl::isEnemy(const Player player) const
   {
     if ( !player )
       return false;

@@ -158,11 +158,9 @@
   <ItemGroup>
     <ClCompile Include="Source\DevAIModule.cpp" />
     <ClCompile Include="Source\Dll.cpp" />
-    <ClCompile Include="Source\Wiki.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DevAIModule.h" />
-    <ClInclude Include="Source\Wiki.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">

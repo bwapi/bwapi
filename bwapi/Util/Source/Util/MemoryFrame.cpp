@@ -121,7 +121,7 @@ namespace Util
     this->skip(bytes);
   }
   //----------------------- LIMIT --------------------------------------
-  int MemoryFrame::_limit(int a, int low, int hi) const
+  int MemoryFrame::_limit(int a, int low, int hi)
   {
     if(a < low)
       return low;

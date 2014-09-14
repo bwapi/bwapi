@@ -9,9 +9,7 @@ int messageOffset = 0;
 
 void DropMessage(int errorlevel, const char *format, ...)
 {
-#ifndef _DEBUG
-  return;
-#endif
+#ifdef _DEBUG
   char szBuffer[512];
   va_list ap;
   va_start(ap, format);
@@ -26,6 +24,7 @@ void DropMessage(int errorlevel, const char *format, ...)
   const char *szSpaces = "                                                                                       ";
   TextOutA(screen, 0, messageOffset*16, szSpaces, strlen(szSpaces));
   ReleaseDC(NULL, screen);
+#endif
 }
 
 void DropLastError(const char *format, ...)
@@ -42,7 +41,7 @@ void DropLastError(const char *format, ...)
   SEGetErrorStr(dwErrCode, szErrStr);
 
   char szFinalStr[512];
-  sprintf_s(szFinalStr, 512, "Error: 0x%x;%s;%s", dwErrCode, szBuffer, szErrStr);
+  sprintf_s(szFinalStr, 512, "Error: 0x%lx;%s;%s", dwErrCode, szBuffer, szErrStr);
 
   /*
   FILE *hLog = fopen(gszLogPath, "a+");

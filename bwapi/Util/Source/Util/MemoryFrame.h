@@ -119,7 +119,7 @@ namespace Util
         return (T*)((int)frameBase+(frameSize/sizeof(T))*sizeof(T));
       }
     template<typename T>
-      unsigned int sizeAs()
+      unsigned int sizeAs() const
       {
         return frameSize/sizeof(T);
       }
@@ -133,6 +133,6 @@ namespace Util
     void *frameBase;
     unsigned int frameSize;
 
-    int _limit(int a, int low, int hi) const;
+    static int _limit(int a, int low, int hi);
   };
 }

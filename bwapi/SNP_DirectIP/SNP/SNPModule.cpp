@@ -392,7 +392,7 @@ each second
     }
 
     // found game
-    SetLastError(STORM_ERROR_GAME_NOT_FOUND);
+    SErrSetLastError(STORM_ERROR_GAME_NOT_FOUND);
     return false;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
@@ -443,9 +443,9 @@ each second
       while(true)
       {
         // check if packets available
-        if(!incomingGamePackets.size())
+        if(incomingGamePackets.empty())
         {
-          SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
+          SErrSetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
           return false;
         }
 
@@ -601,7 +601,7 @@ each second
       *data = NULL;
     if ( databytes )
       *databytes = 0;
-    SetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
+    SErrSetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
     return false;
   }
 

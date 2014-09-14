@@ -3,8 +3,6 @@
 #include <windows.h>
 #include <algorithm>
 
-#include "Wiki.h"
-
 #define bw BWAPI::Broodwar
 
 #define SEARCH_UNEXPLORED   0

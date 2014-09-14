@@ -35,28 +35,28 @@ namespace BWAPI
 
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   GameImpl::GameImpl()
-      : onStartCalled(false)
-      , client(nullptr)
-      , inGame(false)
-      , endTick(0)
-      , pathDebug(false)
-      , showfps(false)
-      , unitDebug(false)
-      , grid(false)
-      , calledMatchEnd(false)
-      , lastAutoMapEntry(0)
-      , tournamentAI(nullptr)
-      , tournamentController(nullptr)
-      , isTournamentCall(false)
-      , lastEventTime(0)
+      : onStartCalled(false)  // 257
+      , isHost(false)
+      , lastAutoMapEntry(0) // 267
+      , isTournamentCall(false) // 278
       , data(server.data)
+      , client(nullptr) // 285
+      , tournamentAI(nullptr) // 288
+      , tournamentController(nullptr) //341
       , bTournamentMessageAppeared(false)
       , autoMenuEnemyCount(0)
       , autoMenuMinPlayerCount(0)
       , autoMenuMaxPlayerCount(0)
       , autoMenuWaitPlayerTime(0)
+      , endTick(0)  // 366
+      , inGame(false) // 371
+      , pathDebug(false)  // 387
+      , unitDebug(false)
+      , grid(false)
+      , showfps(false)
       , externalModuleConnected(false)
-      , isHost(false)
+      , calledMatchEnd(false) // 393
+      , lastEventTime(0)  //
   {
     BWAPI::BroodwarPtr = static_cast<Game*>(this);
 
@@ -447,8 +447,8 @@ namespace BWAPI
 
       unitArray[i]->setID(-1);
     }
+    BulletImpl::nextId = 0;
     this->cheatFlags  = 0;
-    this->bulletCount = 0;
     //this->frameCount  = -1;
     this->frameCount = 0;
 
@@ -518,5 +518,10 @@ namespace BWAPI
     }
 
     this->bTournamentMessageAppeared = false;
+  }
+
+  void GameImpl::queueSentMessage(std::string const &message)
+  {
+    this->sentMessages.emplace_back(message);
   }
 };

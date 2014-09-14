@@ -343,7 +343,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
       else
       {
         // onSend Game
-        BWAPI::BroodwarImpl.sentMessages.push_back(std::string(source));
+        BWAPI::BroodwarImpl.queueSentMessage(source);
         dest[0] = 0;
         return 0;
       }
@@ -546,7 +546,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
   if ( !buffer || !length )
     return;
 
-  /* Filter commands using BWAPI rules */
+  // Filter commands using BWAPI rules
   if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) || 
        !BWAPI::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||

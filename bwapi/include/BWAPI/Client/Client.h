@@ -16,7 +16,7 @@ namespace BWAPI
     Client();
     ~Client();
 
-    bool isConnected();
+    bool isConnected() const;
     bool connect();
     void disconnect();
     void update();

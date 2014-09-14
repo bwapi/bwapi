@@ -214,7 +214,6 @@ namespace BWAPI
       void lockFlags();
       void _startGame();
       void _changeRace(int slot, BWAPI::Race race);
-      Race lastKnownRaceBeforeStart[8];
 
       void loadSelected();
       void copyMapToSharedMemory();
@@ -225,24 +224,41 @@ namespace BWAPI
       void chooseNewRandomMap();
       static void SendClientEvent(BWAPI::AIModule *module, Event &e);
 
+      void queueSentMessage(std::string const &message);
+
       void processInterfaceEvents();
 
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
+
+      void onSaveGame(const char *name);
+
+      void refreshSelectionStates();
+      const GameData* getGameData() const;
+      
+      void dropPlayers();
+
+      int drawShapes();
+      void processEvents();
+      Unit _unitFromIndex(int index);
+
+    public:
+      Race lastKnownRaceBeforeStart[PLAYABLE_PLAYER_COUNT];
       PlayerImpl *BWAPIPlayer;
       PlayerImpl *enemyPlayer;
-
-      Vectorset<int> invalidIndices;
-      std::list<std::string > sentMessages;
-      void onSaveGame(char *name);
-      std::list<Event> events;
-      int bulletCount;
       Server server;
+      Vectorset<int> invalidIndices;
+      std::list<Event> events;
+    private:
+      std::vector<std::string> sentMessages;
+
+    public:
       Unitset lastEvadedUnits;
       bool onStartCalled;
       std::string lastMapGen;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
+    private:
       std::string autoMenuGameName;
       bool isHost;
       int  autoMapTryCount;
@@ -252,21 +268,16 @@ namespace BWAPI
 
       /** Count of game-frames passed from game start. */
       int frameCount;
-      void refreshSelectionStates();
-      BW::CUnit *savedUnitSelection[12];
+      BW::CUnit *savedUnitSelection[PLAYER_COUNT];
+    public:
       bool wantSelectionUpdate;
-
       bool startedClient;
 
       UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
       bool isTournamentCall;
-      const GameData* getGameData() const;
+
       GameData* data;
       
-      int drawShapes();
-      void processEvents();
-      Unit _unitFromIndex(int index);
-
       int  commandOptimizerLevel;
 
       HMODULE hAIModule;
@@ -277,9 +288,9 @@ namespace BWAPI
 
       PlayerImpl *players[PLAYER_COUNT];
 
-      void dropPlayers();
+    private:
       std::vector<PlayerImpl*> droppedPlayers;
-    private :
+
       Map map;
 
       Unitset aliveUnits; //units alive on current frame
@@ -333,7 +344,7 @@ namespace BWAPI
       u32 cheatFlags;
       std::string autoMenuLanMode;
       std::string autoMenuRace;
-      std::string autoMenuEnemyRace[8];
+      std::string autoMenuEnemyRace[PLAYABLE_PLAYER_COUNT];
       unsigned int autoMenuEnemyCount;
       unsigned int autoMenuMinPlayerCount;
       unsigned int autoMenuMaxPlayerCount;
@@ -379,10 +390,14 @@ namespace BWAPI
 
       bool externalModuleConnected;
       bool calledMatchEnd;
-      bool tournamentCheck(Tournament::ActionID type, void *parameter = nullptr);
+
       std::list<UnitCommand> commandOptimizer[UnitCommandTypes::Enum::MAX];
 
       int lastEventTime;
+
+    private:
+      bool tournamentCheck(Tournament::ActionID type, void *parameter = nullptr);
+
       int addShape(const BWAPIC::Shape &s);
       int addString(const char* text);
       int addText(BWAPIC::Shape &s, const char* text);

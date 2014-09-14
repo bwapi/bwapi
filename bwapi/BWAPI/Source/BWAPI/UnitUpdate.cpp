@@ -131,10 +131,10 @@ namespace BWAPI
       {
         if (o->fighter.inHanger == false ||
             o->statusFlag(BW::StatusFlags::InTransport | BW::StatusFlags::InBuilding) )
-          _getTransport = (Unit )(UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent));
+          _getTransport = UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent);
       }
       else if (o->statusFlag(BW::StatusFlags::InTransport | BW::StatusFlags::InBuilding) )
-        _getTransport = (Unit )(UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit));
+        _getTransport = UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit);
 
       //------------------------------------------------------------------------------------------------------
       //_getPosition
@@ -330,7 +330,7 @@ namespace BWAPI
                        self->order == Orders::Burrowed     ||
                        self->order == Orders::NukeTrain    ||
                        self->order == Orders::Larva;
-      self->target               = BroodwarImpl.server.getUnitID((Unit )UnitImpl::BWUnitToBWAPIUnit(o->moveTarget.pUnit)); //getTarget
+      self->target               = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->moveTarget.pUnit)); //getTarget
       self->targetPositionX      = o->moveTarget.pt.x;  //getTargetPosition
       self->targetPositionY      = o->moveTarget.pt.y;  //getTargetPosition
       self->orderTargetPositionX = o->orderTarget.pt.x;
@@ -517,10 +517,10 @@ namespace BWAPI
           self->remainingTrainTime = o->building.larvaTimer * 9 + ((o->orderQueueTimer + 8) % 9);
         break;
       case UnitTypes::Enum::Protoss_Interceptor:
-        self->carrier = BroodwarImpl.server.getUnitID((Unit )(UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent)));
+        self->carrier = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent));
         break;
       case UnitTypes::Enum::Zerg_Larva:
-        self->hatchery = BroodwarImpl.server.getUnitID((Unit )(UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit)));
+        self->hatchery = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit));
         break;
       default:
         break;
@@ -586,7 +586,7 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //getRallyUnit
       if ( this->_getType.canProduce() )
-        self->rallyUnit = BroodwarImpl.server.getUnitID((Unit )UnitImpl::BWUnitToBWAPIUnit(o->rally.unit));
+        self->rallyUnit = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->rally.unit));
 
       self->transport       = BroodwarImpl.server.getUnitID(_getTransport);   //getTransport
       self->isHallucination = o->statusFlag(BW::StatusFlags::IsHallucination);  //isHallucination

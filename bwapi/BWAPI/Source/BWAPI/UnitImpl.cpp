@@ -27,29 +27,28 @@
 namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
-  UnitImpl::UnitImpl(BW::CUnit* originalUnit,
-                     u16 index)
-      : getOriginalRawData(originalUnit)
-      , self(&data)
-      , index(index)
-      , userSelected(false)
-      , isAlive(false)
-      , wasAlive(false)
+  UnitImpl::UnitImpl(BW::CUnit* originalUnit, u16 index)
+      : getOriginalRawData(originalUnit)  // 273
+      , self(&data) // 282
+      , userSelected(false) // 284
+      , nukeDetected(false) // 285
+      , lastGroundWeaponCooldown(0) // 287
+      , lastAirWeaponCooldown(0)
+      , lastType(UnitTypes::Unknown) // 290
+      , lastPlayer(nullptr)
+      , id(-1)  // 292
+      , isAlive(false)  // 293
+      , wasAlive(false) // 294
       , wasCompleted(false)
       , wasAccessible(false)
       , wasVisible(false)
-      , staticInformation(false)
-      , lastType(UnitTypes::Unknown)
-      , lastPlayer(nullptr)
-      , nukeDetected(false)
-      , lastGroundWeaponCooldown(0)
-      , lastAirWeaponCooldown(0)
-      , startingAttack(false)
+      , staticInformation(false)  // 299
+      , startingAttack(false) // 300
       , lastCommandFrame(0)
-      , lastImmediateCommandFrame(0)
       , lastCommand()
+      , lastImmediateCommandFrame(0)
       , lastImmediateCommand()
-      , id(-1)
+      , index(index)  // 319
   {
     MemZero(data);
     clear();
@@ -73,7 +72,7 @@ namespace BWAPI
          !command.isQueued() )
     {
       static_cast<UnitImpl*>(command.unit)->lastImmediateCommand = command;
-      static_cast<UnitImpl*>(command.unit)->lastImmediateCommandFrame = BroodwarImpl.frameCount;
+      static_cast<UnitImpl*>(command.unit)->lastImmediateCommandFrame = BroodwarImpl.getFrameCount();
     }
   }
   bool UnitImpl::prepareIssueCommand(UnitCommand &command)
@@ -100,13 +99,13 @@ namespace BWAPI
     }
 
     // Set last command and command frames
-    static_cast<UnitImpl*>(command.unit)->lastCommandFrame = BroodwarImpl.frameCount;
+    static_cast<UnitImpl*>(command.unit)->lastCommandFrame = BroodwarImpl.getFrameCount();
     static_cast<UnitImpl*>(command.unit)->lastCommand      = command;
     static_cast<UnitImpl*>(command.unit)->setLastImmediateCommand(command);
     if (command.type == UnitCommandTypes::Use_Tech_Unit && command.target && 
        (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
-      static_cast<UnitImpl*>(command.target)->lastCommandFrame = BroodwarImpl.frameCount;
+      static_cast<UnitImpl*>(command.target)->lastCommandFrame = BroodwarImpl.getFrameCount();
       static_cast<UnitImpl*>(command.target)->lastCommand      = command;
       static_cast<UnitImpl*>(command.target)->setLastImmediateCommand(command);
     }

@@ -16,7 +16,7 @@ class GeneralException
   public:
     /** Creates exception with the specified message */
     GeneralException(const std::string &messageKey);
-    const std::string getMessage(void);
+    const std::string getMessage(void) const;
 };
 
 /**

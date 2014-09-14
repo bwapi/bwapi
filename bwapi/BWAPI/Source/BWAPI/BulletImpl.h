@@ -46,6 +46,7 @@ namespace BWAPI
       void        updateData();
 
       static BulletImpl* BWBulletToBWAPIBullet(BW::CBullet* bullet);
+      static int nextId;
     private:
       BW::CBullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
       u16 index;

@@ -5,7 +5,7 @@ GeneralException::GeneralException(const std::string &message)
 {
 }
 //----------------------------------------------- GET MESSAGE ------------------------------------------------
-const std::string GeneralException::getMessage(void)
+const std::string GeneralException::getMessage(void) const
 {
   return this->message;
 }

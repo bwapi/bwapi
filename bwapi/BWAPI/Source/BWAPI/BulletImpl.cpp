@@ -13,6 +13,8 @@
 
 namespace BWAPI
 {
+  int BulletImpl::nextId = 0;
+
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   BulletImpl::BulletImpl(BW::CBullet* originalBullet, u16 _index)
       : self( &data )
@@ -35,7 +37,7 @@ namespace BWAPI
   void BulletImpl::saveExists()
   {
     if ( !lastExists && __exists)
-      id = BroodwarImpl.bulletCount++;
+      id = nextId++;
     lastExists = __exists;
   }
   //---------------------------------------------- GET RAW DATA ----------------------------------------------

@@ -110,11 +110,11 @@ namespace BW
   // ----------------- CONSTRUCTORS ------------------
   dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
     : pNext( nullptr )
-    , pszText( (char*)text )
+    , srcBits(width, height)
+    , pszText( const_cast<char*>(text) )
     , lFlags( CTRL_VISIBLE )
     , wIndex( index )
     , wCtrlType( ctrlType )
-    , srcBits(width,height)
   {
     if ( ctrlType > ctrls::max)
       ctrlType = ctrls::cLSTATIC;
@@ -363,7 +363,7 @@ namespace BW
     return false;
   }
   // ------------------- GET TEXT --------------------
-  char *dialog::getText() const
+  const char *dialog::getText() const
   {
     if ( this && this->pszText )
       return this->pszText;

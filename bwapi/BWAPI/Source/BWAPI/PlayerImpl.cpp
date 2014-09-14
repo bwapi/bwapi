@@ -74,17 +74,17 @@ namespace BWAPI
   //--------------------------------------------- GET FORCE --------------------------------------------------
   Force PlayerImpl::getForce() const
   {
-    return (Force)force;
+    return force;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
-  bool PlayerImpl::isAlly(Player player) const
+  bool PlayerImpl::isAlly(const Player player) const
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
     return BW::BWDATA::Alliance[index].player[ static_cast<PlayerImpl*>(player)->getIndex() ] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
-  bool PlayerImpl::isEnemy(Player player) const
+  bool PlayerImpl::isEnemy(const Player player) const
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
@@ -239,7 +239,7 @@ namespace BWAPI
 
     // Get Scores, supply
     if ( (!BroodwarImpl.isReplay() && 
-          BroodwarImpl.self()->isEnemy((Player)this) && 
+          BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) ||
           index >= 12 )
     {

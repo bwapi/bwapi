@@ -102,16 +102,7 @@ void DevAIModule::onFrame()
 
 void DevAIModule::onSendText(std::string text)
 {
-  if ( text == "/wiki" )
-  {
-    writeUnitWiki();
-    writeWeaponWiki();
-    Broodwar->printf("Generated wiki pages!");
-  }
-  else
-  {
-    Broodwar->sendText("%s", text.c_str());
-  }
+  Broodwar->sendText("%s", text.c_str());
 }
 
 void DevAIModule::onReceiveText(BWAPI::Player player, std::string text)

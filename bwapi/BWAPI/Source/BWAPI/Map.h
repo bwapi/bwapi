@@ -45,7 +45,7 @@ namespace BWAPI
     private :
       static BW::TileID getTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
-      u16 getMiniTile(int x, int y) const;
+      static u16 getMiniTile(int x, int y);
       Util::RectangleArray<BW::activeTile> *activeTiles;
       Util::RectangleArray<bool> buildability;
       Util::RectangleArray<bool> walkability;

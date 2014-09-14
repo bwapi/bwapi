@@ -40,6 +40,11 @@ namespace BW
     static int getTextWidth(const char *pszStr, int size);
     static int getTextHeight(const char *pszStr, int size);
   private:
+    Font() = delete;
+    Font(const Font &other) = delete;
+    Font(Font &&other) = delete;
+    ~Font() = delete;
+
     u32       magic;
     u8        low, high;
     u8        Xmax, Ymax;

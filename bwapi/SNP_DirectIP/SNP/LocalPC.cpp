@@ -29,7 +29,7 @@ namespace SMEM
     int incomingCount;
     Packet incoming[16];
 
-    bool inline isOccupied()
+    bool inline isOccupied() const
     {
       return lastOccupied > 0; // && GetTickCount() < lastOccupied + 3000;
     }
@@ -55,9 +55,9 @@ namespace SMEM
       shd->peer[self].lastOccupied = GetTickCount();
 
       // pass all packets to storm
-      int incomingCount = shd->peer[self].incomingCount;
+      /*int incomingCount = shd->peer[self].incomingCount;
       if(incomingCount > 16)
-        incomingCount = 16;
+        incomingCount = 16;*/
       for(int i = 0; i < shd->peer[self].incomingCount; i++)
       {
         Packet &packet = shd->peer[self].incoming[i];
