@@ -47,7 +47,9 @@ namespace Util
     };
     template <typename T> struct Pointer
     {
-        friend class SharedMemory;    // structure is part of SharedMemory
+      Pointer() = default;
+
+      friend class SharedMemory;    // structure is part of SharedMemory
     private:
       int offset;
     };

@@ -303,12 +303,12 @@ namespace Util
   template <class Type>
   std::string Strings::getBinary(Type value)
   {
-   std::string result;
+    std::string result;
     for (int i = 0; i < sizeof(Type)*8; i++)
       if (value  & (1 << (sizeof(Type)*8-1-i)))
-         result += "1";
+        result += "1";
       else
-         result += "0";
+        result += "0";
     return result;
   }
  //----------------------------------------------- SKIP SPACE ------------------------------------------------

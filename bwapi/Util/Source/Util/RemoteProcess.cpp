@@ -13,7 +13,7 @@ namespace Util
     release();
   }
   //----------------------- GET HANDLE ---------------------------------
-  HANDLE RemoteProcess::getHandle()
+  HANDLE RemoteProcess::getHandle() const
   {
     return this->processHandle;
   }
@@ -67,7 +67,7 @@ namespace Util
     this->processHandle = (HANDLE)handle;
   }
   //----------------------- IS VALID -----------------------------------
-  bool RemoteProcess::isValid()
+  bool RemoteProcess::isValid() const
   {
     return this->processHandle != INVALID_HANDLE_VALUE;
   }

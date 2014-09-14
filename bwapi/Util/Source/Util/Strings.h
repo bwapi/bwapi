@@ -74,7 +74,7 @@ namespace Util
        static std::vector<std::string> splitString(const std::string& input,
                                                    const std::string& delimiters = " \t");
        template <class Type>
-       std::string getBinary(Type value);
+       static std::string getBinary(Type value);
        static void skipSpace(const std::string& text, size_t& position);
        /** Reads words consting of alphaNumeric characters */
        static std::string readWord(const std::string& text, size_t& position);

@@ -7,15 +7,9 @@
     <ClCompile Include="Source\Dll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Wiki.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DevAIModule.h">
-      <Filter>Header FIles</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Wiki.h">
       <Filter>Header FIles</Filter>
     </ClInclude>
   </ItemGroup>

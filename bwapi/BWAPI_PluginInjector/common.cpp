@@ -51,8 +51,11 @@ std::string GetRegString(const char *pszSubKey, const char *pszValueName)
   // Retrieve the key and value from HKCU
   DWORD dwErrCode = GetSingleRegString(HKEY_CURRENT_USER, pszSubKey, pszValueName, szTemp, &dwSize);
   // If it's not found, then search HKLM
-  if ( dwErrCode != ERROR_SUCCESS )
-    dwErrCode = GetSingleRegString(HKEY_LOCAL_MACHINE, pszSubKey, pszValueName, szTemp, &dwSize);
+  if (dwErrCode != ERROR_SUCCESS)
+  {
+    /// @TODO: Check error
+    GetSingleRegString(HKEY_LOCAL_MACHINE, pszSubKey, pszValueName, szTemp, &dwSize);
+  }
 
   // Return the string
   return std::string(szTemp);

@@ -31,8 +31,8 @@ namespace BWAPI
       virtual PlayerType  getType() const override;
       virtual Force       getForce() const override;
 
-      virtual bool isAlly(Player player) const override;
-      virtual bool isEnemy(Player player) const override;
+      virtual bool isAlly(const Player player) const override;
+      virtual bool isEnemy(const Player player) const override;
       virtual bool isNeutral() const override;
 
       virtual bool isVictorious() const override;

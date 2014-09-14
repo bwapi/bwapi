@@ -13,7 +13,7 @@ namespace BW
     u8 ch = (u8)c;
     if (  this->isValid() &&
           this->low <= ch && ch <= this->high &&
-          this->chrs[ch - this->low] != (FontChar*)this )
+          this->chrs[ch - this->low] != reinterpret_cast<const FontChar*>(this) )
       return this->chrs[ch - this->low];
     return nullptr;
   }

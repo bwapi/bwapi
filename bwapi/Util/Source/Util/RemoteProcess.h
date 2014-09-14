@@ -22,8 +22,8 @@ namespace Util
     int exportOwnHandle();
     void importHandle(int handle);
     void release();
-    HANDLE getHandle();
-    bool isValid();
+    HANDLE getHandle() const;
+    bool isValid() const;
 
   private:
     HANDLE processHandle;

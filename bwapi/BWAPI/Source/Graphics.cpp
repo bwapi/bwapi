@@ -7,11 +7,6 @@
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Color.h>
 
-struct iRect
-{
-  int left, top, right, bottom;
-};
-
 static inline void bwPlot(const int &x, const int &y, const int &color)
 {
   BW::BWDATA::GameScreenBuffer->plot(x, y, (u8)color);

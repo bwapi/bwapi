@@ -1,8 +1,8 @@
 #include "valloc.h"
 
 VAlloc::VAlloc(HANDLE hProcess, SIZE_T dwSize)
-  : pAddress( VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT, PAGE_READWRITE) )
-  , hTargetProcess(hProcess)
+  : hTargetProcess(hProcess)
+  , pAddress( VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT, PAGE_READWRITE) )
 {}
 
 VAlloc::~VAlloc()

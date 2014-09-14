@@ -485,7 +485,7 @@ namespace BWAPI
       return;
 
     // Obtain the countdown control's text
-    char *txt = countdown->getText();
+    const char *txt = countdown->getText();
     if ( txt && txt[0] && txt[0] < '2' )
       return; // return if the countdown is less than 2
     

@@ -117,6 +117,8 @@ namespace BW
 
   void Bitmap::BlitGraphic(const grpHead *pGrp, int frame, int x, int y)
   {
+    if (pGrp == nullptr) return;
+
     if ( 0 <= frame && frame < pGrp->wFrames && pGrp && this->isValid() )
       this->BlitGrpFrame(&pGrp->frames[frame], x, y);
   }

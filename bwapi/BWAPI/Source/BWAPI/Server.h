@@ -22,9 +22,12 @@ namespace BWAPI
   public:
     Server();
     ~Server();
+
+    Server(const Server &other) = delete;
+    Server(Server &&other) = delete;
     
     void      update();
-    bool      isConnected();
+    bool      isConnected() const;
     int       addEvent(BWAPI::Event e);
     int       addString(const char* text);
     void      clearAll();

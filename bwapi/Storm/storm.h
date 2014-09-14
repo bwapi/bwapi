@@ -1306,7 +1306,6 @@ namespace Storm
   class CFile;
   class CArchive;
 
-
   class CFile
   {
   private:
@@ -1337,7 +1336,7 @@ namespace Storm
         SFileCloseFile(hFile);
     }
 
-    HANDLE handle()
+    HANDLE handle() const
     {
       return hFile;
     }
@@ -1348,12 +1347,12 @@ namespace Storm
       return isValid();
     }
 
-    size_t size()
+    size_t size() const
     {
       return SFileGetFileSize(hFile, nullptr);
     }
 
-    bool read(void *buffer, size_t buffSize)
+    bool read(void *buffer, size_t buffSize) const
     {
       DWORD read = 0;
       BOOL result = SFileReadFile(hFile, buffer, buffSize, &read, 0);
@@ -1361,9 +1360,9 @@ namespace Storm
       return result != FALSE && read == buffSize;
     }
 
-    bool isValid() { return valid && hFile; }
-    operator bool() { return isValid(); }
-    bool operator !() { return !isValid(); }
+    bool isValid() const { return valid && hFile; }
+    operator bool() const { return isValid(); }
+    bool operator !() const { return !isValid(); }
   };
 
 
@@ -1400,16 +1399,16 @@ namespace Storm
       return isValid();
     }
 
-    HANDLE handle()
+    HANDLE handle() const
     {
       return hMpq;
     }
 
-    bool isValid() { return valid && hMpq; }
-    operator bool() { return isValid(); }
-    bool operator !() { return !isValid(); }
+    bool isValid() const { return valid && hMpq; }
+    operator bool() const { return isValid(); }
+    bool operator !() const { return !isValid(); }
 
-    CFile openFile( const std::string &sFileName )
+    CFile openFile( const std::string &sFileName ) const
     {
       return CFile(sFileName, SFILE_FROM_MPQ, hMpq);
     }

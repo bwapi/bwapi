@@ -130,7 +130,7 @@ namespace BWAPI
     /// if \p player is neutral or an observer.
     ///
     /// @see isEnemy
-    virtual bool isAlly(Player player) const = 0;
+    virtual bool isAlly(const Player player) const = 0;
 
     /// Checks if this player is unallied to the specified player.
     ///
@@ -144,7 +144,7 @@ namespace BWAPI
     /// \p player is neutral or an observer.
     ///
     /// @see isAlly
-    virtual bool isEnemy(Player player) const = 0;
+    virtual bool isEnemy(const Player player) const = 0;
 
     /// Checks if this player is the neutral player.
     ///

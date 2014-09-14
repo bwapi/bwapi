@@ -18,7 +18,7 @@ namespace BWAPI
   {
     this->disconnect();
   }
-  bool Client::isConnected()
+  bool Client::isConnected() const
   {
     return this->connected;
   }

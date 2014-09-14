@@ -210,8 +210,6 @@ namespace BWAPI
   #define fixed2Int( x ) ( ((x) + (1 << 15)) / (1 << 16) )
   #define int2Fixed( x ) ( (x) * (1 << 16) )
   #define positive( x ) ( (x) > 1 ? (x) : 1 )
-  #define incx() x2++, dxt += d2xt, t += dxt
-  #define incy() y2--, dyt += d2yt, t += dyt
   //--------------------------------------------- DRAW SHAPES ------------------------------------------------
   int GameImpl::drawShapes()
   {
@@ -220,9 +218,9 @@ namespace BWAPI
       BWAPIC::ShapeType::Enum s = data->shapes[i].type;
       int x1 = data->shapes[i].x1;
       int y1 = data->shapes[i].y1;
-      int x2, y2, x3, y3, ly, ry, w, h, lx, rx, dx1, dx2, dx3;
+      int x2, y2, x3, y3, w, h;
       int radius, f, ddF_x, ddF_y, xi, yi;
-      int xrad, yrad, a2, b2, crit1, crit2, crit3, t, dxt, dyt, d2xt, d2yt, twoAsquare, twoBsquare, xchange, ychange, ellipseerror, stoppingX, stoppingY;
+      int xrad, yrad;
       CoordinateType::Enum ctype = data->shapes[i].ctype;
       bool isSolid = data->shapes[i].isSolid;
       BWAPI::Color color = Color(data->shapes[i].color);
@@ -249,36 +247,41 @@ namespace BWAPI
           }
           break;
         case BWAPIC::ShapeType::Triangle:
+        {
+          int ly, ry, lx, rx;
           x2 = data->shapes[i].x2;
           y2 = data->shapes[i].y2;
           x3 = data->shapes[i].extra1;
           y3 = data->shapes[i].extra2;
-          if(isSolid)
+          if (isSolid)
           {
-            if(y1 > y2) { std::swap(x1, x2); std::swap(y1, y2); }
-            if(y1 > y3) { std::swap(x1, x3); std::swap(y1, y3); }
-            if(y2 > y3) { std::swap(x2, x3); std::swap(y2, y3); }
+            if (y1 > y2) { std::swap(x1, x2); std::swap(y1, y2); }
+            if (y1 > y3) { std::swap(x1, x3); std::swap(y1, y3); }
+            if (y2 > y3) { std::swap(x2, x3); std::swap(y2, y3); }
 
-            if (y2 - y1 > 0) dx1 = int2Fixed(x2 - x1) / (y2 - y1); else dx1 = int2Fixed(x2 - x1);
-            if (y3 - y1 > 0) dx2 = int2Fixed(x3 - x1) / (y3 - y1); else dx2 = 0;
-            if (y3 - y2 > 0) dx3 = int2Fixed(x3 - x2) / (y3 - y2); else dx3 = 0;
+            int dx1 = int2Fixed(x2 - x1);
+            int dx2 = int2Fixed(x3 - x1);
+            int dx3 = int2Fixed(x3 - x2);
+            if (y2 - y1 > 0) dx1 /= (y2 - y1);
+            if (y3 - y1 > 0) dx2 /= (y3 - y1);
+            if (y3 - y2 > 0) dx3 /= (y3 - y2);
 
             rx = lx = int2Fixed(x1);
             ry = ly = y1;
-            if(dx1 > dx2)
+            if (dx1 > dx2)
             {
-              for(; ly <= y2; ly++, ry++, lx += dx2, rx += dx1)
+              for (; ly <= y2; ly++, ry++, lx += dx2, rx += dx1)
                 bwDrawBox(fixed2Int(lx), ly, positive(fixed2Int(rx) - fixed2Int(lx)), 1, color, ctype);
               rx = int2Fixed(x2); ry = y2;
-              for(; ly <= y3; ly++, ry++, lx += dx2, rx += dx3)
+              for (; ly <= y3; ly++, ry++, lx += dx2, rx += dx3)
                 bwDrawBox(fixed2Int(lx), ly, positive(fixed2Int(rx) - fixed2Int(lx)), 1, color, ctype);
             }
             else
             {
-              for(; ly <= y2; ly++, ry++, lx += dx1, rx += dx2)
+              for (; ly <= y2; ly++, ry++, lx += dx1, rx += dx2)
                 bwDrawBox(fixed2Int(lx), ly, positive(fixed2Int(rx) - fixed2Int(lx)), 1, color, ctype);
               lx = int2Fixed(x2); ly = y2;
-              for(; ly <= y3; ly++, ry++, lx += dx3, rx += dx2)
+              for (; ly <= y3; ly++, ry++, lx += dx3, rx += dx2)
                 bwDrawBox(fixed2Int(lx), ly, positive(fixed2Int(rx) - fixed2Int(lx)), 1, color, ctype);
             }
           }
@@ -289,6 +292,7 @@ namespace BWAPI
             bwDrawLine(x2, y2, x3, y3, color, ctype);
           }
           break;
+        }
         case BWAPIC::ShapeType::Circle:
           radius = data->shapes[i].extra1;
           if (isSolid)
@@ -364,16 +368,19 @@ namespace BWAPI
             {
               x2 = 0, y2 = yrad;
               w = 1;
-              a2 = xrad * xrad;
-              b2 = yrad * yrad;
-              crit1 = -(a2 / 4 + xrad % 2 + b2);
-              crit2 = -(b2 / 4 + yrad % 2 + a2);
-              crit3 = -(b2 / 4 + yrad % 2);
-              t = - a2 * y2;
-              dxt = 2 * b2 * x2;
-              dyt = -2 * a2 * y2;
-              d2xt = 2 * b2;
-              d2yt = 2 * a2;
+              int a2 = xrad * xrad;
+              int b2 = yrad * yrad;
+              int crit1 = -(a2 / 4 + xrad % 2 + b2);
+              int crit2 = -(b2 / 4 + yrad % 2 + a2);
+              int crit3 = -(b2 / 4 + yrad % 2);
+              int t = - a2 * y2;
+              int dxt = 2 * b2 * x2;
+              int dyt = -2 * a2 * y2;
+              int d2xt = 2 * b2;
+              int d2yt = 2 * a2;
+
+#define incx() x2++, dxt += d2xt, t += dxt
+#define incy() y2--, dyt += d2yt, t += dyt
 
               while (y2 >= 0 && x2 <= xrad)
               {
@@ -400,6 +407,8 @@ namespace BWAPI
                   w += 2;
                 }
               }
+#undef incx
+#undef incy
               if (yrad == 0)
                 bwDrawBox(x1 - xrad, y1, 2*xrad + 1, 1, color, ctype);
             }
@@ -407,13 +416,13 @@ namespace BWAPI
             {
               x2 = xrad;
               y2 = 0;
-              twoAsquare = 2 * xrad * xrad;
-              twoBsquare = 2 * yrad * yrad;
-              xchange = yrad * yrad * (1 - 2 * xrad);
-              ychange = xrad * xrad;
-              ellipseerror = 0;
-              stoppingX = twoBsquare * xrad;
-              stoppingY = 0;
+              int twoAsquare = 2 * xrad * xrad;
+              int twoBsquare = 2 * yrad * yrad;
+              int xchange = yrad * yrad * (1 - 2 * xrad);
+              int ychange = xrad * xrad;
+              int ellipseerror = 0;
+              int stoppingX = twoBsquare * xrad;
+              int stoppingY = 0;
 
               while (stoppingX >= stoppingY)
               {
@@ -497,4 +506,7 @@ namespace BWAPI
     }
     return data->shapeCount;
   }
+#undef fixed2Int
+#undef int2Fixed
+#undef positive
 };

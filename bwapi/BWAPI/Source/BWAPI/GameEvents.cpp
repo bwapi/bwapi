@@ -128,13 +128,16 @@ namespace BWAPI
       {
         if ( file.read(pData, filesize) )
         {
+          /// @TODO: This map chunk stuff should be done as an iterator of a map file
           struct _mapchunk
           {
             DWORD dwId;
             DWORD dwSize;
             BYTE  bData[1];
           } *mcptr;
-          for ( mcptr = (_mapchunk*)pData; (DWORD)mcptr < (DWORD)pData + filesize; mcptr = (_mapchunk*)&mcptr->bData[mcptr->dwSize] )
+          for ( mcptr = static_cast<_mapchunk*>(pData);
+            reinterpret_cast<DWORD>(mcptr) < reinterpret_cast<DWORD>(pData) + filesize;
+            mcptr = reinterpret_cast<_mapchunk*>(&mcptr->bData[mcptr->dwSize]) )
           {
             switch ( mcptr->dwId )
             {
@@ -266,7 +269,7 @@ namespace BWAPI
     } // !isReplay
   }
   //--------------------------------------------------- ON SAVE ------------------------------------------------
-  void GameImpl::onSaveGame(char *name)
+  void GameImpl::onSaveGame(const char *name)
   {
     // called when the game is being saved
     events.push_back(Event::SaveGame(name));
