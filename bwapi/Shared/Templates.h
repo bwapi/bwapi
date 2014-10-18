@@ -1293,27 +1293,29 @@ namespace BWAPI
       else if ( !canCommand(thisUnit) )
         return false;
 
-      if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+      if ( !thisUnit->getType().isBuilding() )
+      {
+        if ( !thisUnit->isInterruptible() )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+        if ( !thisUnit->getType().canMove() )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        if ( thisUnit->isBurrowed() )
+          return Broodwar->setLastError(Errors::Incompatible_State);
+        if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+        if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+      }
+      else
+      {
+        if ( !thisUnit->getType().isFlyingBuilding() )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        if ( !thisUnit->isLifted() )
+          return Broodwar->setLastError(Errors::Incompatible_State);
+      }
 
       if (!thisUnit->isCompleted())
         return Broodwar->setLastError(Errors::Incompatible_State);
-
-      // nothing can prevent a lifted building from moving
-      if ( thisUnit->getType().isBuilding() && thisUnit->isLifted() )
-        return true;
-
-      if ( !thisUnit->getType().canMove() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
-
-      if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
-
-      if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-
-      if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
@@ -1475,18 +1477,27 @@ namespace BWAPI
       else if ( !canCommand(thisUnit) )
         return false;
 
-      if ( thisUnit->getType().isBuilding() && !thisUnit->isLifted() )
+      if ( !thisUnit->getType().isBuilding() )
+      {
+        if ( !thisUnit->getType().canMove() )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        if ( thisUnit->isBurrowed() && thisUnit->getType() != UnitTypes::Zerg_Lurker )
+          return Broodwar->setLastError(Errors::Incompatible_State);
+        if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
+          return Broodwar->setLastError(Errors::Unit_Busy);
+        if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+      }
+      else
+      {
+        if ( !thisUnit->getType().isFlyingBuilding() )
+          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        if ( !thisUnit->isLifted() )
+          return Broodwar->setLastError(Errors::Incompatible_State);
+      }
+
+      if (!thisUnit->isCompleted())
         return Broodwar->setLastError(Errors::Incompatible_State);
-      if ( !thisUnit->getType().canMove() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
-      if ( thisUnit->isBurrowed() && thisUnit->getType() != UnitTypes::Zerg_Lurker )
-        return Broodwar->setLastError(Errors::Incompatible_State);
-      if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
-      if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
