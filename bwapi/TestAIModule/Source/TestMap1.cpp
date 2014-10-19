@@ -103,7 +103,8 @@ void TestMap1::onStart()
     BWAssert(unit->isLockedDown()==false);
     BWAssert(unit->isMaelstrommed()==false);
     BWAssert(unit->isMorphing()==false);
-    BWAssert(unit->isMoving()==false);
+    // It is normal for some units to initially have a move order.
+    //BWAssert(unit->isMoving()==false);
     BWAssert(unit->isParasited()==false);
     BWAssert(unit->isPatrolling()==false);
     BWAssert(unit->isPlagued()==false);
