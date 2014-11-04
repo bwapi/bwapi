@@ -208,6 +208,10 @@ namespace BWAPI
     if ( this->players[11] )
       this->playerSet.insert(this->players[11]);
 
+    for (int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p) {
+        if (this->players[p]) this->players[p]->force = nullptr;
+    }
+
     // Get Force Objects, assign Force<->Player relations
     ForceImpl *pNeutralForce = new ForceImpl(std::string(""));
     pNeutralForce->players.insert(this->players[11]);
