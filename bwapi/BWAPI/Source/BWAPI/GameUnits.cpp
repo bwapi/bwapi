@@ -210,12 +210,10 @@ namespace BWAPI
       i->startingAttack           = airWeaponCooldown > i->lastAirWeaponCooldown || groundWeaponCooldown > i->lastGroundWeaponCooldown;
       i->lastAirWeaponCooldown    = airWeaponCooldown;
       i->lastGroundWeaponCooldown = groundWeaponCooldown;
+      if (i->getID() == -1)
+        i->setID(server.getUnitID(u));
       if (i->canAccess())
-      {
-        if (i->getID() == -1)
-          i->setID(server.getUnitID(i));
         i->updateData();
-      }
       if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_Ghost)
       {
         if (i->getOriginalRawData->orderID == BW::OrderID::NukePaint)
