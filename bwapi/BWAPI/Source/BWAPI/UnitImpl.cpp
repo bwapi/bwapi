@@ -133,8 +133,6 @@ namespace BWAPI
 
   void UnitImpl::die()
   {
-    //set pointers to null so we don't read information from unit table anymore
-    getOriginalRawData = NULL;
     index              = 0xFFFF;
     userSelected       = false;
     isAlive            = false;
@@ -146,6 +144,12 @@ namespace BWAPI
     lastType           = UnitTypes::Unknown;
     lastPlayer         = NULL;
     clientInfo         = NULL;
+
+    updateInternalData();
+
+    //set pointers to null so we don't read information from unit table anymore
+    getOriginalRawData = NULL;
+
     updateData();
   }
 

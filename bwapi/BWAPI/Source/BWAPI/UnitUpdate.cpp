@@ -157,8 +157,8 @@ namespace BWAPI
     {
       //------------------------------------------------------------------------------------------------------
       //isVisible
-      for(int i = 0; i < 9; ++i)
-        self->isVisible[i] = false;
+      MemZero(self->isVisible);
+      self->isDetected = false;
 
       _getPlayer          = NULL;               //_getPlayer
       _getType            = UnitTypes::Unknown; //_getType
