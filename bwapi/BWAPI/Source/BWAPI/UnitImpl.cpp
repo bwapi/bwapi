@@ -172,8 +172,6 @@ namespace BWAPI
 
   void UnitImpl::die()
   {
-    //set pointers to null so we don't read information from unit table anymore
-    getOriginalRawData = nullptr;
     index              = 0xFFFF;
     userSelected       = false;
     isAlive            = false;
@@ -186,6 +184,11 @@ namespace BWAPI
     lastPlayer         = nullptr;
     this->clientInfo.clear();
     this->interfaceEvents.clear();
+
+    updateInternalData();
+
+    //set pointers to null so we don't read information from unit table anymore
+    getOriginalRawData = nullptr;
 
     updateData();
   }

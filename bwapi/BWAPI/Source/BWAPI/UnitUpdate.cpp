@@ -154,6 +154,7 @@ namespace BWAPI
       //------------------------------------------------------------------------------------------------------
       //isVisible
       MemZero(self->isVisible);
+      self->isDetected = false;
 
       _getPlayer          = nullptr;               //_getPlayer
       _getType            = UnitTypes::Unknown; //_getType
