@@ -212,11 +212,11 @@ namespace BWAPI
     static const int Charon_Boosters[] = { Terran_Goliath };
 
     static const int Upgrade60[] = { Terran_Vulture_Spider_Mine, Critter_Ursadon, Critter_Scantid, Critter_Rhynadon, Critter_Ragnasaur, Critter_Kakaru, Critter_Bengalaas,
-                                      Special_Cargo_Ship, Special_Mercenary_Gunship, Terran_SCV, Protoss_Probe, Zerg_Drone, Zerg_Infested_Terran, Zerg_Scourge };
+      Special_Cargo_Ship, Special_Mercenary_Gunship, Terran_SCV, Protoss_Probe, Zerg_Drone, Zerg_Infested_Terran, Zerg_Scourge };
 
-#define TSET(x) UnitType::const_set(x, countof(x))
-#define TSETEMPTY UnitType::const_set(&UnitTypes::None)
-    static const UnitType::const_set upgradeWhatUses[UpgradeTypes::Enum::MAX] =
+#define TSET(x) {std::begin(x), std::end(x)}
+#define TSETEMPTY {}
+    static const UnitType::set upgradeWhatUses[UpgradeTypes::Enum::MAX] =
     {
       TSET(Infantry_Armor), TSET(Vehicle_Plating), TSET(Ship_Plating), TSET(Carapace), TSET(Flyer_Carapace), TSET(Protoss_Armor), TSET(Protoss_Plating),
       TSET(Infantry_Weapons), TSET(Vehicle_Weapons), TSET(Ship_Weapons), TSET(Zerg_MeleeAtk), TSET(Zerg_RangeAtk), TSET(Zerg_FlyerAtk), TSET(Protoss_GrndWpn),
@@ -228,6 +228,8 @@ namespace BWAPI
       TSET(Argus_Jewel), TSETEMPTY, TSET(Argus_Talisman), TSETEMPTY, TSET(Caduceus_Reactor), TSET(Ultralisk_Upgrades), TSET(Ultralisk_Upgrades),
       TSET(Charon_Boosters), TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSET(Upgrade60), TSETEMPTY, TSETEMPTY
     };
+#undef TSETEMPTY
+#undef TSET
   }
 
   namespace upgradeInternalRace
@@ -244,20 +246,20 @@ namespace BWAPI
   namespace UpgradeTypeSet
   {
     using namespace UpgradeTypes::Enum;
-    BWAPI_TYPESET(upgradeTypeSet, UpgradeType, Terran_Infantry_Armor, Terran_Vehicle_Plating, Terran_Ship_Plating,
-                                                Zerg_Carapace, Zerg_Flyer_Carapace, Protoss_Ground_Armor, Protoss_Air_Armor,
-                                                Terran_Infantry_Weapons, Terran_Vehicle_Weapons, Terran_Ship_Weapons,
-                                                Zerg_Melee_Attacks, Zerg_Missile_Attacks, Zerg_Flyer_Attacks, 
-                                                Protoss_Ground_Weapons, Protoss_Air_Weapons, Protoss_Plasma_Shields, 
-                                                U_238_Shells, Ion_Thrusters, Titan_Reactor, Ocular_Implants, 
-                                                Moebius_Reactor, Apollo_Reactor, Colossus_Reactor, Ventral_Sacs, 
-                                                Antennae, Pneumatized_Carapace, Metabolic_Boost, Adrenal_Glands, 
-                                                Muscular_Augments, Grooved_Spines, Gamete_Meiosis, Metasynaptic_Node, 
-                                                Singularity_Charge, Leg_Enhancements, Scarab_Damage, Reaver_Capacity, 
-                                                Gravitic_Drive, Sensor_Array, Gravitic_Boosters, Khaydarin_Amulet, 
-                                                Apial_Sensors, Gravitic_Thrusters, Carrier_Capacity, Khaydarin_Core, 
-                                                Argus_Jewel, Argus_Talisman, Caduceus_Reactor, Chitinous_Plating, 
-                                                Anabolic_Synthesis, Charon_Boosters, None, Unknown );
+    const UpgradeType::set upgradeTypeSet = { Terran_Infantry_Armor, Terran_Vehicle_Plating, Terran_Ship_Plating,
+      Zerg_Carapace, Zerg_Flyer_Carapace, Protoss_Ground_Armor, Protoss_Air_Armor,
+      Terran_Infantry_Weapons, Terran_Vehicle_Weapons, Terran_Ship_Weapons,
+      Zerg_Melee_Attacks, Zerg_Missile_Attacks, Zerg_Flyer_Attacks,
+      Protoss_Ground_Weapons, Protoss_Air_Weapons, Protoss_Plasma_Shields,
+      U_238_Shells, Ion_Thrusters, Titan_Reactor, Ocular_Implants,
+      Moebius_Reactor, Apollo_Reactor, Colossus_Reactor, Ventral_Sacs,
+      Antennae, Pneumatized_Carapace, Metabolic_Boost, Adrenal_Glands,
+      Muscular_Augments, Grooved_Spines, Gamete_Meiosis, Metasynaptic_Node,
+      Singularity_Charge, Leg_Enhancements, Scarab_Damage, Reaver_Capacity,
+      Gravitic_Drive, Sensor_Array, Gravitic_Boosters, Khaydarin_Amulet,
+      Apial_Sensors, Gravitic_Thrusters, Carrier_Capacity, Khaydarin_Core,
+      Argus_Jewel, Argus_Talisman, Caduceus_Reactor, Chitinous_Plating,
+      Anabolic_Synthesis, Charon_Boosters, None, Unknown };
   }
   namespace UpgradeTypes
   {
@@ -352,7 +354,7 @@ namespace BWAPI
   {
     return upgradeInternalWhat::whatUpgrades[this->getID()];
   }
-  const UnitType::const_set& UpgradeType::whatUses() const
+  const UnitType::set& UpgradeType::whatUses() const
   {
     return upgradeInternalUsage::upgradeWhatUses[this->getID()];
   }
@@ -366,7 +368,7 @@ namespace BWAPI
       return upgradeInternalReqs::requirements[level-1][this->getID()];
     return UnitTypes::None;
   }
-  const UpgradeType::const_set& UpgradeTypes::allUpgradeTypes()
+  const UpgradeType::set& UpgradeTypes::allUpgradeTypes()
   {
     return UpgradeTypeSet::upgradeTypeSet;
   }

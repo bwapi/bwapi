@@ -1,4 +1,3 @@
-#include <BWAPI/Vectorset.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Position.h>
@@ -11,24 +10,19 @@
 namespace BWAPI
 {
   // initialize no-set
-  const Unitset Unitset::none(1);
-
-  ////////////////////////////////////////////////////////// ctors
-  Unitset::Unitset(size_t initialSize) : Vectorset(initialSize) { };
-  Unitset::Unitset(const Unitset &other) : Vectorset( other ) { };
-  Unitset::Unitset(Unitset &&other) : Vectorset( std::forward<Unitset>(other) ) { };
+  const Unitset Unitset::none;
 
   ////////////////////////////////////////////////////////// Position
   Position Unitset::getPosition() const
   {
     // Declare the local position
     Position retPosition(0,0);
-    unsigned int validPosCount = 0;
+    int validPosCount = 0;
 
     // Add up the positions for all units in the set
-    for ( Unitset::iterator i = this->begin(); i != this->end(); ++i )
+    for ( auto u : *this )
     {
-      Position pos(i->getPosition());
+      Position pos = u->getPosition();
       if ( pos.isValid() )
       {
         retPosition += pos;
@@ -36,33 +30,39 @@ namespace BWAPI
       }
     }
 
-    // Divides the position by the size of the set and returns it
-    retPosition /= validPosCount;
+    if (validPosCount > 0)
+      retPosition /= validPosCount;
     return retPosition;
   }
   ////////////////////////////////////////////////////////// sets
   Unitset Unitset::getLoadedUnits() const
   {
-    Unitset retSet;  // the return set
-    // Iterate all units in the set
-    for ( Unitset::iterator i = this->begin(); i != this->end(); ++i )
-      retSet += i->getLoadedUnits();
+    Unitset retSet;
+    for (auto u : *this)
+    {
+      auto units = u->getLoadedUnits();
+      retSet.insert(units.begin(), units.end());
+    }
     return retSet;
   }
   Unitset Unitset::getInterceptors() const
   {
-    Unitset retSet;  // the return set
-    // Iterate all units in the set
-    for ( Unitset::iterator i = this->begin(); i != this->end(); ++i )
-      retSet += i->getInterceptors();
+    Unitset retSet;
+    for (auto u : *this)
+    {
+      auto units = u->getInterceptors();
+      retSet.insert(units.begin(), units.end());
+    }
     return retSet;
   }
   Unitset Unitset::getLarva() const
   {
-    Unitset retSet;  // the return set
-    // Iterate all units in the set
-    for ( Unitset::iterator i = this->begin(); i != this->end(); ++i )
-      retSet += i->getLarva();
+    Unitset retSet;
+    for (auto u : *this)
+    {
+      auto units = u->getLarva();
+      retSet.insert(units.begin(), units.end());
+    }
     return retSet;
   }
   ////////////////////////////////////////////////////////// Misc
@@ -72,8 +72,10 @@ namespace BWAPI
       return;
 
     // Assign the client info to all units in the set
-    for ( Unitset::iterator i = this->begin(); i != this->end(); ++i )
-      i->setClientInfo(clientInfo, index);
+    for (auto u : *this)
+    {
+      u->setClientInfo(clientInfo, index);
+    }
   }
   void Unitset::setClientInfo(int clientInfo, int index) const
   {

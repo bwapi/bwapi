@@ -19,7 +19,7 @@ namespace BWAPI
   namespace UnitSizeTypeSet
   {
     using namespace UnitSizeTypes::Enum;
-    BWAPI_TYPESET(unitSizeTypeSet, UnitSizeType, Independent, Small, Medium, Large, None, Unknown );
+    const UnitSizeType::set unitSizeTypeSet = { Independent, Small, Medium, Large, None, Unknown };
   }
   namespace UnitSizeTypes
   {
@@ -33,7 +33,7 @@ namespace BWAPI
   }
   UnitSizeType::UnitSizeType(int id) : Type( id )
   {}
-  const UnitSizeType::const_set& UnitSizeTypes::allUnitSizeTypes()
+  const UnitSizeType::set& UnitSizeTypes::allUnitSizeTypes()
   {
     return UnitSizeTypeSet::unitSizeTypeSet;
   }

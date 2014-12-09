@@ -2,7 +2,7 @@
 #include <windows.h>
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 namespace BWAPI
 {
@@ -58,13 +58,13 @@ namespace BWAPI
     bool connected;
     bool localOnly;
     std::vector<Force> forceVector;
-    std::map<Force, int> forceLookup;
+    std::unordered_map<Force, int> forceLookup;
 
     std::vector<Player> playerVector;
-    std::map<Player, int> playerLookup;
+    std::unordered_map<Player, int> playerLookup;
 
     std::vector<Unit> unitVector;
-    std::map<Unit, int> unitLookup;
+    std::unordered_map<Unit, int> unitLookup;
 
     PSID pEveryoneSID;
     PACL pACL;

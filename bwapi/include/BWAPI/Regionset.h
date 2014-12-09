@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI/Vectorset.h>
+#include "SetContainer.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
 
@@ -11,12 +11,9 @@ namespace BWAPI
 
   class Unitset;
 
-  class Regionset : public Vectorset<BWAPI::Region>
+  class Regionset : public SetContainer<BWAPI::Region, std::hash<void*>>
   {
   public:
-    Regionset(size_t initialSize = 16);
-    Regionset(const Regionset &other);
-    Regionset(Regionset &&other);
 
     /// @copydoc RegionInterface::getCenter
     Position getCenter() const;

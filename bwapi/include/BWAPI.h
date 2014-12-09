@@ -40,7 +40,6 @@
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
-#include <BWAPI/Vectorset.h>
 #include <BWAPI/WeaponType.h>
 
 namespace BWAPI

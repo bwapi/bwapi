@@ -71,18 +71,18 @@ void BWScriptEmulator::onFrame()
   UpdateScripts();
 
   Unitset myUnits( self->getUnits() );
-  for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+  for ( auto u : myUnits)
   {
     if ( !u->exists() ) continue;
 
-    UnitWrap uw = *u;
+    UnitWrap uw = u;
     uw.EmulateOrder();
 
     Broodwar->drawTextMap(u->getPosition(), "    %s", Order(uw.GetUnitOrder()).c_str() );
   }
   
   Unitset allUnits( Broodwar->getAllUnits() );
-  for ( auto u = allUnits.begin(); u != allUnits.end(); ++u )
+  for ( auto u : allUnits)
     Broodwar->drawTextMap(u->getPosition(), "\n    %s", u->getOrder().c_str());
   
 }

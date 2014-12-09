@@ -73,7 +73,7 @@ void DevAIModule::onFrame()
   if ( BWAPI::Broodwar->self() )
   {
     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+    for ( auto u : myUnits )
     {
       if ( u->getType().isRefinery() )
       {
@@ -84,10 +84,10 @@ void DevAIModule::onFrame()
           if ( pClosestIdleWorker )
           {
             // gather from the refinery (and check if it was successful)
-            if ( pClosestIdleWorker->gather(*u) )
+            if ( pClosestIdleWorker->gather(u) )
             {
               // set a back reference for when the unit is killed or re-assigned (code not provided)
-              pClosestIdleWorker->setClientInfo(*u, 'ref');
+              pClosestIdleWorker->setClientInfo(u, 'ref');
   
               // Increment the number of workers assigned and associate it with the refinery
               ++nWorkersAssigned;

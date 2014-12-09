@@ -290,7 +290,7 @@ namespace BWAPI
                                                  right,
                                                  bottom,
                                                  [&](Unit u){ if ( !pred.isValid() || pred(u) )
-                                                                 unitFinderResults.push_back(u); });
+                                                                 unitFinderResults.insert(u); });
     // Return results
     return unitFinderResults;
   }
@@ -672,8 +672,8 @@ namespace BWAPI
   //------------------------------------------ ISSUE COMMAND -------------------------------------------------
   bool GameImpl::issueCommand(const Unitset& units, UnitCommand command)
   {
-    std::vector< BWAPI::Unitset > groupsOf12;
-    BWAPI::Unitset nextGroup(12);
+    std::vector< std::vector<Unit> > groupsOf12;
+    std::vector<Unit> nextGroup;
 
     // Iterate the set of units
     for (Unit u : units)

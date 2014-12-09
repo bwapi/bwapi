@@ -236,9 +236,9 @@ namespace BWAPI
     return UnitType(self->buildType);
   }
   //--------------------------------------------- GET TRAINING QUEUE -----------------------------------------
-  UnitType::set UnitImpl::getTrainingQueue() const
+  UnitType::list UnitImpl::getTrainingQueue() const
   {
-    return UnitType::set(self->trainingQueue, self->trainingQueueCount);
+    return UnitType::list(std::begin(self->trainingQueue), std::begin(self->trainingQueue) + self->trainingQueueCount);
   }
   //--------------------------------------------- GET TECH ---------------------------------------------------
   TechType UnitImpl::getTech() const

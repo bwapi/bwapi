@@ -19,22 +19,18 @@ int assert_fail_count;
   if (!found)\
     BWAssert(false);\
 }
-#define findAndRemoveType(S,V)\
-{\
-  bool found = false;\
-  for(auto i = S.begin(); i != S.end(); ++i)\
-  {\
-    if (i->getType() == V)\
-    {\
-      found = true;\
-      S.erase(i);\
-      break;\
-    }\
-  }\
-  if (!found)\
-    BWAssert(false);\
+void findAndRemoveType(Unitset &s, UnitType t)
+{
+  auto it = std::find_if(s.begin(), s.end(), BWAPI::Filter::GetType == t);
+  if (it != s.end())
+  {
+    s.erase(it);
+  }
+  else
+  {
+    BWAssert(false);
+  }
 }
-
 
 void TestMap1::onStart()
 {

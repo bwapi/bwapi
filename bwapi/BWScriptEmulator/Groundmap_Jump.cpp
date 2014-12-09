@@ -16,7 +16,7 @@ bool Groundmap_Jump::execute(aithread &thread) const
   enemyUnits.erase_if( !(Exists && IsBuilding && !IsLifted) );
 
   // Check if there is a path to at least one enemy structure, then jump
-  for ( auto u = enemyUnits.begin(); u != enemyUnits.end(); ++u )
+  for ( auto u : enemyUnits )
   {
     if ( u->hasPath(thread.getLocation().center()) )
     {

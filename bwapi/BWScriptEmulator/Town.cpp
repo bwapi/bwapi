@@ -41,7 +41,7 @@ void Town::AddUnit(BWAPI::Unit pUnit)
     }
     else if ( pUnit->getType().isRefinery() )
     {
-      this->gasGeysers.push_back(pUnit);
+      this->gasGeysers.insert(pUnit);
     }
   }
 }

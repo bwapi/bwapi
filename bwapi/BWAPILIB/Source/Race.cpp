@@ -68,7 +68,7 @@ namespace BWAPI
   namespace RaceSet
   {
     using namespace Races::Enum;
-    BWAPI_TYPESET(raceSet, Race, Zerg, Terran, Protoss, None, Unknown );
+    const Race::set raceSet = { Zerg, Terran, Protoss, None, Unknown };
   }
   namespace Races
   {
@@ -101,7 +101,7 @@ namespace BWAPI
   {
     return RaceInternal::supplyTypes[this->getID()];
   }
-  const Race::const_set& Races::allRaces()
+  const Race::set& Races::allRaces()
   {
     return RaceSet::raceSet;
   }

@@ -43,7 +43,7 @@ namespace BWAPI
     /// Retrieves the set of all the PlayerTypes.
     ///
     /// @returns Set consisting of all valid PlayerTypes.
-    const PlayerType::const_set& allPlayerTypes();
+    const PlayerType::set& allPlayerTypes();
     
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -62,4 +62,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(PlayerType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

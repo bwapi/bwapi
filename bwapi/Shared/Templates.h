@@ -2242,7 +2242,7 @@ namespace BWAPI
         return Broodwar->setLastError(Errors::Insufficient_Energy);
 
       // unit check
-      if ( tech != TechTypes::Burrowing && !tech.whatUses().exists(thisUnit->getType()) )
+      if ( tech != TechTypes::Burrowing && !tech.whatUses().contains(thisUnit->getType()) )
         return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
       switch (tech)

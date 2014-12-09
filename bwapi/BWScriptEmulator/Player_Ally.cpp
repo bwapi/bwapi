@@ -14,7 +14,7 @@ bool Player_Ally::execute(aithread &thread) const
                                         */
   // Set the alliance of all players who own units inside the thread's execution location
   Unitset units( Broodwar->getUnitsInRectangle(thread.getLocation().topLeft, thread.getLocation().bottomRight, GetPlayer != Broodwar->self()) );
-  for ( auto u = units.begin(); u != units.end(); ++u )
+  for ( auto u : units)
     Broodwar->setAlliance(u->getPlayer(), this->getOpcode() == AISCRIPT::Enum::PLAYER_ALLY);
 
   // Debug and return

@@ -75,6 +75,7 @@ namespace BW
         Select(int count, BWAPI::UnitImpl **units);
         Select(int count, BW::CUnit **units);
         Select(const BWAPI::Unitset &unitset);
+        Select(const std::vector<BWAPI::Unit> &units);
         // 0x09 = Select command-code in bw 
         u8         always0x09;
         u8         targCount;

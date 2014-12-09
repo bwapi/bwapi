@@ -21,7 +21,7 @@ CancelTrainTest::CancelTrainTest(BWAPI::UnitType unitType1, BWAPI::UnitType unit
 bool CancelTrainTest::verifyTrainingQueue()
 {
   BWAssertF(producer!=NULL,{fail=true;return false;});
-  UnitType::set actualList = producer->getTrainingQueue();
+  UnitType::list actualList = producer->getTrainingQueue();
   BWAssertF(correctTrainingQueue.size() == actualList.size(),{log("Error training queue size %d != %d",correctTrainingQueue.size(),actualList.size());fail=true;return false;});
   BWAssertF(correctTrainingQueue == actualList,{fail=true;return false;});
   return true;

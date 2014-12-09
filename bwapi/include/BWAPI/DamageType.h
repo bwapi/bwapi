@@ -34,7 +34,7 @@ namespace BWAPI
     /// Retrieves the set of all the DamageTypes.
     ///
     /// @returns Set of DamageTypes.
-    const DamageType::const_set& allDamageTypes();
+    const DamageType::set& allDamageTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -49,4 +49,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(DamageType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

@@ -126,7 +126,7 @@ namespace BWAPI
       {
         BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
         u->setSelected(true);
-        selectedUnitSet.push_back(u);
+        selectedUnitSet.insert(u);
       }
     }
   }

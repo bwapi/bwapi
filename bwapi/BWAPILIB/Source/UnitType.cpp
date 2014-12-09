@@ -1015,47 +1015,45 @@ namespace BWAPI
       None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, Unknown
     };
 
-    static const int macroSetArr[] = { Men, Buildings, Factories, AllUnits };
-    static const UnitType::const_set macroTypeSet(macroSetArr, countof(macroSetArr));
+    static const UnitType::set macroTypeSet = { Men, Buildings, Factories, AllUnits };
 
-    static const int unitSetArr[] = {
-      Terran_Marine, Terran_Ghost, Terran_Vulture, Terran_Goliath, Terran_Siege_Tank_Tank_Mode, Terran_SCV, Terran_Wraith, 
-      Terran_Science_Vessel, Hero_Gui_Montag, Terran_Dropship, Terran_Battlecruiser, Terran_Vulture_Spider_Mine, Terran_Nuclear_Missile, 
-      Terran_Civilian, Hero_Sarah_Kerrigan, Hero_Alan_Schezar, Hero_Jim_Raynor_Vulture, Hero_Jim_Raynor_Marine, Hero_Tom_Kazansky, 
-      Hero_Magellan, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Hero_Arcturus_Mengsk, Hero_Hyperion, Hero_Norad_II, 
-      Terran_Siege_Tank_Siege_Mode, Terran_Firebat, Spell_Scanner_Sweep, Terran_Medic, Zerg_Larva, Zerg_Egg, Zerg_Zergling, 
-      Zerg_Hydralisk, Zerg_Ultralisk, Zerg_Broodling, Zerg_Drone, Zerg_Overlord, Zerg_Mutalisk, Zerg_Guardian, Zerg_Queen, 
-      Zerg_Defiler, Zerg_Scourge, Hero_Torrasque, Hero_Matriarch, Zerg_Infested_Terran, Hero_Infested_Kerrigan, Hero_Unclean_One, 
-      Hero_Hunter_Killer, Hero_Devouring_One, Hero_Kukulza_Mutalisk, Hero_Kukulza_Guardian, Hero_Yggdrasill, Terran_Valkyrie, 
-      Zerg_Cocoon, Protoss_Corsair, Protoss_Dark_Templar, Zerg_Devourer, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, 
-      Protoss_Dragoon, Protoss_High_Templar, Protoss_Archon, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, 
-      Protoss_Interceptor, Hero_Dark_Templar, Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon, 
-      Hero_Tassadar, Hero_Mojo, Hero_Warbringer, Hero_Gantrithor, Protoss_Reaver, Protoss_Observer, Protoss_Scarab, Hero_Danimoth, 
-      Hero_Aldaris, Hero_Artanis, Critter_Rhynadon, Critter_Bengalaas, Special_Cargo_Ship, Special_Mercenary_Gunship, Critter_Scantid, 
-      Critter_Kakaru, Critter_Ragnasaur, Critter_Ursadon, Zerg_Lurker_Egg, Hero_Raszagal, Hero_Samir_Duran, Hero_Alexei_Stukov, 
-      Special_Map_Revealer, Hero_Gerard_DuGalle, Zerg_Lurker, Hero_Infested_Duran, Spell_Disruption_Web, Terran_Command_Center, 
-      Terran_Comsat_Station, Terran_Nuclear_Silo, Terran_Supply_Depot, Terran_Refinery, Terran_Barracks, Terran_Academy, 
-      Terran_Factory, Terran_Starport, Terran_Control_Tower, Terran_Science_Facility, Terran_Covert_Ops, Terran_Physics_Lab, 
-      Terran_Machine_Shop, Terran_Engineering_Bay, Terran_Armory, Terran_Missile_Turret, Terran_Bunker, Special_Crashed_Norad_II, 
-      Special_Ion_Cannon, Powerup_Uraj_Crystal, Powerup_Khalis_Crystal, Zerg_Infested_Command_Center, Zerg_Hatchery, Zerg_Lair, 
-      Zerg_Hive, Zerg_Nydus_Canal, Zerg_Hydralisk_Den, Zerg_Defiler_Mound, Zerg_Greater_Spire, Zerg_Queens_Nest, Zerg_Evolution_Chamber, 
-      Zerg_Ultralisk_Cavern, Zerg_Spire, Zerg_Spawning_Pool, Zerg_Creep_Colony, Zerg_Spore_Colony, Zerg_Sunken_Colony, 
-      Special_Overmind_With_Shell, Special_Overmind, Zerg_Extractor, Special_Mature_Chrysalis, Special_Cerebrate, 
-      Special_Cerebrate_Daggoth, Protoss_Nexus, Protoss_Robotics_Facility, Protoss_Pylon, Protoss_Assimilator, Protoss_Observatory, 
-      Protoss_Gateway, Protoss_Photon_Cannon, Protoss_Citadel_of_Adun, Protoss_Cybernetics_Core, Protoss_Templar_Archives, 
-      Protoss_Forge, Protoss_Stargate, Special_Stasis_Cell_Prison, Protoss_Fleet_Beacon, Protoss_Arbiter_Tribunal, 
-      Protoss_Robotics_Support_Bay, Protoss_Shield_Battery, Special_Khaydarin_Crystal_Form, Special_Protoss_Temple, 
+    static const UnitType::set unitTypeSet = {
+      Terran_Marine, Terran_Ghost, Terran_Vulture, Terran_Goliath, Terran_Siege_Tank_Tank_Mode, Terran_SCV, Terran_Wraith,
+      Terran_Science_Vessel, Hero_Gui_Montag, Terran_Dropship, Terran_Battlecruiser, Terran_Vulture_Spider_Mine, Terran_Nuclear_Missile,
+      Terran_Civilian, Hero_Sarah_Kerrigan, Hero_Alan_Schezar, Hero_Jim_Raynor_Vulture, Hero_Jim_Raynor_Marine, Hero_Tom_Kazansky,
+      Hero_Magellan, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Hero_Arcturus_Mengsk, Hero_Hyperion, Hero_Norad_II,
+      Terran_Siege_Tank_Siege_Mode, Terran_Firebat, Spell_Scanner_Sweep, Terran_Medic, Zerg_Larva, Zerg_Egg, Zerg_Zergling,
+      Zerg_Hydralisk, Zerg_Ultralisk, Zerg_Broodling, Zerg_Drone, Zerg_Overlord, Zerg_Mutalisk, Zerg_Guardian, Zerg_Queen,
+      Zerg_Defiler, Zerg_Scourge, Hero_Torrasque, Hero_Matriarch, Zerg_Infested_Terran, Hero_Infested_Kerrigan, Hero_Unclean_One,
+      Hero_Hunter_Killer, Hero_Devouring_One, Hero_Kukulza_Mutalisk, Hero_Kukulza_Guardian, Hero_Yggdrasill, Terran_Valkyrie,
+      Zerg_Cocoon, Protoss_Corsair, Protoss_Dark_Templar, Zerg_Devourer, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot,
+      Protoss_Dragoon, Protoss_High_Templar, Protoss_Archon, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier,
+      Protoss_Interceptor, Hero_Dark_Templar, Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon,
+      Hero_Tassadar, Hero_Mojo, Hero_Warbringer, Hero_Gantrithor, Protoss_Reaver, Protoss_Observer, Protoss_Scarab, Hero_Danimoth,
+      Hero_Aldaris, Hero_Artanis, Critter_Rhynadon, Critter_Bengalaas, Special_Cargo_Ship, Special_Mercenary_Gunship, Critter_Scantid,
+      Critter_Kakaru, Critter_Ragnasaur, Critter_Ursadon, Zerg_Lurker_Egg, Hero_Raszagal, Hero_Samir_Duran, Hero_Alexei_Stukov,
+      Special_Map_Revealer, Hero_Gerard_DuGalle, Zerg_Lurker, Hero_Infested_Duran, Spell_Disruption_Web, Terran_Command_Center,
+      Terran_Comsat_Station, Terran_Nuclear_Silo, Terran_Supply_Depot, Terran_Refinery, Terran_Barracks, Terran_Academy,
+      Terran_Factory, Terran_Starport, Terran_Control_Tower, Terran_Science_Facility, Terran_Covert_Ops, Terran_Physics_Lab,
+      Terran_Machine_Shop, Terran_Engineering_Bay, Terran_Armory, Terran_Missile_Turret, Terran_Bunker, Special_Crashed_Norad_II,
+      Special_Ion_Cannon, Powerup_Uraj_Crystal, Powerup_Khalis_Crystal, Zerg_Infested_Command_Center, Zerg_Hatchery, Zerg_Lair,
+      Zerg_Hive, Zerg_Nydus_Canal, Zerg_Hydralisk_Den, Zerg_Defiler_Mound, Zerg_Greater_Spire, Zerg_Queens_Nest, Zerg_Evolution_Chamber,
+      Zerg_Ultralisk_Cavern, Zerg_Spire, Zerg_Spawning_Pool, Zerg_Creep_Colony, Zerg_Spore_Colony, Zerg_Sunken_Colony,
+      Special_Overmind_With_Shell, Special_Overmind, Zerg_Extractor, Special_Mature_Chrysalis, Special_Cerebrate,
+      Special_Cerebrate_Daggoth, Protoss_Nexus, Protoss_Robotics_Facility, Protoss_Pylon, Protoss_Assimilator, Protoss_Observatory,
+      Protoss_Gateway, Protoss_Photon_Cannon, Protoss_Citadel_of_Adun, Protoss_Cybernetics_Core, Protoss_Templar_Archives,
+      Protoss_Forge, Protoss_Stargate, Special_Stasis_Cell_Prison, Protoss_Fleet_Beacon, Protoss_Arbiter_Tribunal,
+      Protoss_Robotics_Support_Bay, Protoss_Shield_Battery, Special_Khaydarin_Crystal_Form, Special_Protoss_Temple,
       Special_XelNaga_Temple, Resource_Mineral_Field, Resource_Mineral_Field_Type_2, Resource_Mineral_Field_Type_3,
-      Special_Independant_Starport, Resource_Vespene_Geyser, Special_Warp_Gate, Special_Psi_Disrupter, Special_Zerg_Beacon, 
-      Special_Terran_Beacon, Special_Protoss_Beacon, Special_Zerg_Flag_Beacon, Special_Terran_Flag_Beacon, Special_Protoss_Flag_Beacon, 
+      Special_Independant_Starport, Resource_Vespene_Geyser, Special_Warp_Gate, Special_Psi_Disrupter, Special_Zerg_Beacon,
+      Special_Terran_Beacon, Special_Protoss_Beacon, Special_Zerg_Flag_Beacon, Special_Terran_Flag_Beacon, Special_Protoss_Flag_Beacon,
       Special_Power_Generator, Special_Overmind_Cocoon, Spell_Dark_Swarm, Special_Floor_Missile_Trap, Special_Floor_Hatch,
-      Special_Upper_Level_Door, Special_Right_Upper_Level_Door, Special_Pit_Door, Special_Right_Pit_Door, Special_Floor_Gun_Trap, 
-      Special_Wall_Missile_Trap, Special_Wall_Flame_Trap, Special_Right_Wall_Missile_Trap, Special_Right_Wall_Flame_Trap, 
+      Special_Upper_Level_Door, Special_Right_Upper_Level_Door, Special_Pit_Door, Special_Right_Pit_Door, Special_Floor_Gun_Trap,
+      Special_Wall_Missile_Trap, Special_Wall_Flame_Trap, Special_Right_Wall_Missile_Trap, Special_Right_Wall_Flame_Trap,
       Special_Start_Location, Powerup_Flag, Powerup_Young_Chrysalis, Powerup_Psi_Emitter, Powerup_Data_Disk, Powerup_Khaydarin_Crystal,
       Powerup_Mineral_Cluster_Type_1, Powerup_Mineral_Cluster_Type_2, Powerup_Protoss_Gas_Orb_Type_1, Powerup_Protoss_Gas_Orb_Type_2,
       Powerup_Zerg_Gas_Sac_Type_1, Powerup_Zerg_Gas_Sac_Type_2, Powerup_Terran_Gas_Tank_Type_1, Powerup_Terran_Gas_Tank_Type_2, None, Unknown
     };
-    static const UnitType::const_set unitTypeSet(unitSetArr, countof(unitSetArr));
   }
 
   static const int seekRangeTiles[UnitTypes::Enum::MAX] = {
@@ -1258,12 +1256,12 @@ namespace BWAPI
 
     static const int infested_duran[]     = { Zerg_Carapace, Terran_Infantry_Weapons };
     static const int trap[]               = { Terran_Vehicle_Weapons };
-    static const int flame_trap[]         = { Terran_Infantry_Weapons };
+    static const int flame_trap[] = { Terran_Infantry_Weapons };
 
-#define USET(x) UpgradeType::const_set(x, countof(x))
-#define USETEMPTY UpgradeType::const_set(&UpgradeTypes::None)
+#define USET(x) {std::begin(x), std::end(x)}
+#define USETEMPTY {}
 
-    static const UpgradeType::const_set upgrades[UnitTypes::Enum::MAX] =
+    static const UpgradeType::set upgrades[UnitTypes::Enum::MAX] =
     {
       USET(marine), USET(ghost), USET(vulture), USET(goliath), USET(goliath), USET(mech), USET(mech), USET(infantry_no_wpn), 
       USET(wraith), USET(science_vessel), USET(infantry), USET(terran_air_no_wpn), USET(battlecruiser), USETEMPTY, USETEMPTY,
@@ -1293,6 +1291,8 @@ namespace BWAPI
       USET(trap), USET(flame_trap), USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, 
       USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY, USETEMPTY
     };
+#undef USETEMPTY
+#undef USET
   }
 
   namespace unitAbilities
@@ -1321,10 +1321,10 @@ namespace BWAPI
     static const int iduran[] = { Lockdown, Personnel_Cloaking, Consume };
     static const int comsat[] = { Scanner_Sweep };
 
-#define TSET(x) TechType::const_set(x, countof(x))
-#define TSETEMPTY TechType::const_set(&TechTypes::None)
+#define TSET(x) {std::begin(x), std::end(x)}
+#define TSETEMPTY {}
 
-    static const TechType::const_set unitTechs[UnitTypes::Enum::MAX] = {
+    static const TechType::set unitTechs[UnitTypes::Enum::MAX] = {
       TSET(stim), TSET(ghost_full), TSET(vulture), TSETEMPTY, TSETEMPTY, TSET(siege), TSETEMPTY, TSETEMPTY, TSET(wraith), TSET(vessel),
       TSET(stim), TSETEMPTY, TSET(cruiser), TSETEMPTY, TSETEMPTY, TSETEMPTY, TSET(ghost_hero), TSETEMPTY, TSETEMPTY, TSET(vulture),
       TSET(stim), TSET(wraith), TSET(vessel), TSET(siege), TSETEMPTY, TSET(siege), TSETEMPTY, TSETEMPTY, TSET(cruiser), TSET(cruiser),
@@ -1347,6 +1347,8 @@ namespace BWAPI
       TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, 
       TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY
     };
+#undef TSETEMPTY
+#undef TSET
   }
 
   namespace UnitTypes
@@ -1725,11 +1727,11 @@ namespace BWAPI
       return TechTypes::None;
     }
   }
-  const TechType::const_set& UnitType::abilities() const
+  const TechType::set& UnitType::abilities() const
   {
     return unitAbilities::unitTechs[this->getID()];
   }
-  const UpgradeType::const_set& UnitType::upgrades() const
+  const UpgradeType::set& UnitType::upgrades() const
   {
     return unitUpgrades::upgrades[this->getID()];
   }
@@ -2060,11 +2062,11 @@ namespace BWAPI
            this->getID() == UnitTypes::Terran_Starport        ||
            this->getID() == UnitTypes::Terran_Science_Facility;
   }
-  const UnitType::const_set& UnitTypes::allUnitTypes()
+  const UnitType::set& UnitTypes::allUnitTypes()
   {
     return unitInternal::unitTypeSet;
   }
-  const UnitType::const_set& UnitTypes::allMacroTypes()
+  const UnitType::set& UnitTypes::allMacroTypes()
   {
     return unitInternal::macroTypeSet;
   }

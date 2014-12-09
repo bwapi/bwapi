@@ -35,7 +35,7 @@ namespace BWAPI
     /// Retrieves the set of all UnitSizeTypes.
     ///
     /// @returns Set of all UnitSizeTypes.
-    const UnitSizeType::const_set& allUnitSizeTypes();
+    const UnitSizeType::set& allUnitSizeTypes();
     
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -49,4 +49,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(UnitSizeType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

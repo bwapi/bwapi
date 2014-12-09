@@ -114,13 +114,13 @@ namespace BWAPI
     UnitType whatsRequired(int level = 1) const;
 
     /** Returns the set of units that are affected by this upgrade. */
-    const UnitType::const_set& whatUses() const;
+    const UnitType::set& whatUses() const;
   };
   /// Namespace of upgrade types
   namespace UpgradeTypes
   {
     /** Returns the set of all the UpgradeTypes. */
-    const UpgradeType::const_set& allUpgradeTypes();
+    const UpgradeType::set& allUpgradeTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -180,4 +180,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(UpgradeType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

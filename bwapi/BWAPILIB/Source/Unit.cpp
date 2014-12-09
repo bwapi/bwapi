@@ -330,10 +330,10 @@ namespace BWAPI
     int space = this->getType().spaceProvided();
 
     // Obtain the set of loaded units
-    Unitset loaded(this->getLoadedUnits());
+    Unitset loaded = this->getLoadedUnits();
 
     // Decrease the space for each loaded unit
-    for ( auto u = loaded.begin(); u != loaded.end(); ++u )
+    for ( auto u : loaded )
       space -= u->getType().spaceRequired();
 
     // Return the space available

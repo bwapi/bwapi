@@ -32,7 +32,7 @@ void ExampleAIModule::onStart()
     
     // Iterate all the players in the game using a std:: iterator
     Playerset players = Broodwar->getPlayers();
-    for(auto p = players.begin(); p != players.end(); ++p)
+    for(auto p : players)
     {
       // Only print the player if they are not an observer
       if ( !p->isObserver() )
@@ -78,7 +78,7 @@ void ExampleAIModule::onFrame()
 
   // Iterate through all the units that we own
   Unitset myUnits = Broodwar->self()->getUnits();
-  for ( Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u )
+  for ( auto u : myUnits)
   {
     // Ignore the unit if it no longer exists
     // Make sure to include this block when handling any Unit pointer!

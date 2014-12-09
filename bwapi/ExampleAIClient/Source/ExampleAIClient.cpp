@@ -56,7 +56,7 @@ int main(int argc, const char* argv[])
     {
       Broodwar << "The following players are in this replay:" << std::endl;;
       Playerset players = Broodwar->getPlayers();
-      for(Playerset::iterator p = players.begin(); p != players.end(); ++p )
+      for(auto p : players)
       {
         if ( !p->getUnits().empty() && !p->isNeutral() )
           Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
@@ -69,24 +69,24 @@ int main(int argc, const char* argv[])
       //send each worker to the mineral field that is closest to it
       Unitset units    = Broodwar->self()->getUnits();
       Unitset minerals  = Broodwar->getMinerals();
-      for ( Unitset::iterator i = units.begin(); i != units.end(); ++i )
+      for ( auto u : units )
       {
-        if ( i->getType().isWorker() )
+        if ( u->getType().isWorker() )
         {
           Unit closestMineral = NULL;
 
           for( Unitset::iterator m = minerals.begin(); m != minerals.end(); ++m )
           {
-            if ( !closestMineral || i->getDistance(*m) < i->getDistance(closestMineral))
+            if ( !closestMineral || u->getDistance(*m) < u->getDistance(closestMineral))
               closestMineral = *m;
           }
           if ( closestMineral )
-            i->rightClick(closestMineral);
+            u->rightClick(closestMineral);
         }
-        else if ( i->getType().isResourceDepot() )
+        else if ( u->getType().isResourceDepot() )
         {
           //if this is a center, tell it to build the appropiate type of worker
-          i->train(Broodwar->self()->getRace().getWorker());
+          u->train(Broodwar->self()->getRace().getWorker());
         }
       }
     }
@@ -230,14 +230,13 @@ void drawStats()
 
 void drawBullets()
 {
-  Bulletset bullets = Broodwar->getBullets();
-  for(Bulletset::iterator i = bullets.begin(); i != bullets.end(); ++i)
+  for (auto b : Broodwar->getBullets())
   {
-    Position p = i->getPosition();
-    double velocityX = i->getVelocityX();
-    double velocityY = i->getVelocityY();
-    Broodwar->drawLineMap(p, p + Position((int)velocityX, (int)velocityY), i->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
-    Broodwar->drawTextMap(p, "%c%s", i->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, i->getType().c_str());
+    Position p = b->getPosition();
+    double velocityX = b->getVelocityX();
+    double velocityY = b->getVelocityY();
+    Broodwar->drawLineMap(p, p + Position((int)velocityX, (int)velocityY), b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
+    Broodwar->drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
   }
 }
 
@@ -257,18 +256,18 @@ void drawVisibilityData()
 void showPlayers()
 {
   Playerset players = Broodwar->getPlayers();
-  for(Playerset::iterator i = players.begin(); i != players.end(); ++i)
-    Broodwar << "Player [" << i->getID() << "]: " << i->getName() << " is in force: " << i->getForce()->getName() << std::endl;
+  for(auto p : players)
+    Broodwar << "Player [" << p->getID() << "]: " << p->getName() << " is in force: " << p->getForce()->getName() << std::endl;
 }
 
 void showForces()
 {
   Forceset forces=Broodwar->getForces();
-  for(Forceset::iterator i = forces.begin(); i != forces.end(); ++i)
+  for(auto f : forces)
   {
-    Playerset players = i->getPlayers();
-    Broodwar << "Force " << i->getName() << " has the following players:" << std::endl;
-    for(Playerset::iterator j = players.begin(); j != players.end(); ++j)
-      Broodwar << "  - Player [" << j->getID() << "]: " << j->getName() << std::endl;
+    Playerset players = f->getPlayers();
+    Broodwar << "Force " << f->getName() << " has the following players:" << std::endl;
+    for(auto p : players)
+      Broodwar << "  - Player [" << p->getID() << "]: " << p->getName() << std::endl;
   }
 }

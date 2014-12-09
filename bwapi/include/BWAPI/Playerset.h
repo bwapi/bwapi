@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI/Vectorset.h>
+#include "SetContainer.h"
 
 #include <BWAPI/Race.h>
 #include <BWAPI/Filters.h>
@@ -11,12 +11,9 @@ namespace BWAPI
   typedef PlayerInterface *Player;
   class Unitset;
 
-  class Playerset : public Vectorset<BWAPI::Player>
+  class Playerset : public SetContainer<BWAPI::Player, std::hash<void*>>
   {
   public:
-    Playerset(size_t initialSize = 16);
-    Playerset(const Playerset &other);
-    Playerset(Playerset &&other);
 
     /// Returns the set of all units that every
     /// player in this set owns.

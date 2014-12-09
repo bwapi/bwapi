@@ -3,8 +3,7 @@
 #include <algorithm>
 #include <iosfwd>
 #include <tuple>
-
-#include <BWAPI/Vectorset.h>
+#include <deque>
 
 #ifndef _MAKE_POSITION_TEMPLATE
 
@@ -59,7 +58,7 @@ namespace BWAPI
   class Point
   {
   public:
-    typedef Vectorset< Point<_T,__Scale> > set;
+    typedef std::deque< Point<_T,__Scale> > list;
 
     // Constructors
     Point(_T _x = 0, _T _y = 0) : x(_x), y(_y) {};

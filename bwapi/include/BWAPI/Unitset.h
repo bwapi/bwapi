@@ -1,5 +1,5 @@
 #pragma once
-#include <BWAPI/Vectorset.h>
+#include "SetContainer.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/PositionUnit.h>
 #include <BWAPI/Filters.h>
@@ -19,28 +19,13 @@ namespace BWAPI
   /// containers.
   ///
   /// @see Unit, UnitType, UnitSizeType
-  class Unitset : public Vectorset<BWAPI::Unit >
+  class Unitset : public SetContainer<BWAPI::Unit, std::hash<void*>>
   {
   public:
     /// A blank Unitset containing no elements. This is typically used as a return value for BWAPI
     /// interface functions that have encountered an error.
     static const Unitset none;
 
-    /// The Unitset constructor.
-    ///
-    /// @param initialSize The initial maximum size of the Unitset before expanding it is
-    /// necessary.
-    Unitset(size_t initialSize = 16);
-    
-    /// The copy constructor.
-    ///
-    /// @param other The Unitset to construct this one from.
-    Unitset(const Unitset &other);
-
-    /// The move constructor.
-    ///
-    /// @param other The Unitset to move its contents from.
-    Unitset(Unitset &&other);
 
     /// Calculates the average of all valid Unit positions in this set.
     ///

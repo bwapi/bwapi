@@ -243,7 +243,7 @@ namespace BWAPI
     }
     nukeDots.clear();
     for(int i = 0; i < data->nukeDotCount; ++i)
-      nukeDots.insert(Position(data->nukeDots[i].x,data->nukeDots[i].y));
+      nukeDots.push_back(Position(data->nukeDots[i].x,data->nukeDots[i].y));
 
     for(int e = 0; e < data->eventCount; ++e)
     {
@@ -483,7 +483,7 @@ namespace BWAPI
                                              right,
                                              bottom,
                                              [&](Unit u){ if ( !pred.isValid() || pred(u) )
-                                                             unitFinderResults.push_back(u); });
+                                                             unitFinderResults.insert(u); });
     // Return results
     return unitFinderResults;
   }

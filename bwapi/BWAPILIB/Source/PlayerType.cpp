@@ -26,8 +26,8 @@ namespace BWAPI
   namespace PlayerTypeSet
   {
     using namespace PlayerTypes::Enum;
-    BWAPI_TYPESET(playerTypeSet, PlayerType, None, Computer, Player, RescuePassive, EitherPreferComputer, EitherPreferHuman,
-                          Neutral, Closed, PlayerLeft, ComputerLeft, Unknown );
+    const PlayerType::set playerTypeSet = { None, Computer, Player, RescuePassive, EitherPreferComputer, EitherPreferHuman,
+      Neutral, Closed, PlayerLeft, ComputerLeft, Unknown };
   }
   namespace PlayerTypes
   {
@@ -66,7 +66,7 @@ namespace BWAPI
            this->getID() == PlayerTypes::Enum::RescueActive   ||
            this->getID() == PlayerTypes::Enum::Neutral;
   }
-  const PlayerType::const_set& PlayerTypes::allPlayerTypes()
+  const PlayerType::set& PlayerTypes::allPlayerTypes()
   {
     return PlayerTypeSet::playerTypeSet;
   }

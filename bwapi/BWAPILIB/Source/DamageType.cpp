@@ -20,10 +20,9 @@ namespace BWAPI
 
   namespace DamageTypes
   {
-    static const int setArr[DamageTypes::Enum::MAX]={ 
-        Enum::Independent, Enum::Explosive, Enum::Concussive, Enum::Normal, Enum::Ignore_Armor, Enum::None, Enum::Unknown
+    static const DamageType::set typeSet = {
+      Enum::Independent, Enum::Explosive, Enum::Concussive, Enum::Normal, Enum::Ignore_Armor, Enum::None, Enum::Unknown
     };
-    static const DamageType::const_set typeSet(setArr, countof(setArr));
 
     BWAPI_TYPEDEF(DamageType,Independent);
     BWAPI_TYPEDEF(DamageType,Explosive);
@@ -36,7 +35,7 @@ namespace BWAPI
   DamageType::DamageType(int id) : Type( id )
   {
   }
-  const DamageType::const_set& DamageTypes::allDamageTypes()
+  const DamageType::set& DamageTypes::allDamageTypes()
   {
     return DamageTypes::typeSet;
   }

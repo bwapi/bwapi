@@ -212,13 +212,13 @@ namespace BWAPI
     /// not used for abilities.
     ///
     /// @returns constant set consisting of all normal weapon types.
-    const WeaponType::const_set& normalWeaponTypes();
+    const WeaponType::set& normalWeaponTypes();
 
     /// Retrieves the set of all special weapon types. This set contains all weapons that are
     /// used exclusively for special unit abilities.
     ///
     /// @returns constant set consisting of all special weapon types.
-    const WeaponType::const_set& specialWeaponTypes();
+    const WeaponType::set& specialWeaponTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -330,4 +330,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(WeaponType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

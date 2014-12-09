@@ -172,7 +172,7 @@ void GameImpl::update()
   for(Unit ui : dyingUnits)
   {
     UnitImpl *u = static_cast<UnitImpl*>(ui);
-    deadUnits.push_back(u);
+    deadUnits.insert(u);
     int index = u->getIndex();
     unitArray[index] = new UnitImpl(&BW::BWDATA::UnitNodeTable[index], (u16)index);
     u->die();
@@ -422,7 +422,7 @@ void GameImpl::updateCommandOptimizer()
     for ( int i = 0; i < UnitCommandTypes::Enum::None; ++i )
     {
       // Declare our temporary variables
-      Unitset groupOf12;
+      std::vector<Unit> groupOf12;
 
       Position pos  = Positions::None;
       int       e   = 0;

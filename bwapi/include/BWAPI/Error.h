@@ -64,7 +64,7 @@ namespace BWAPI
     /// Retrieves the set of all the error codes.
     ///
     /// @returns Set of error types.
-    const Error::const_set& allErrors();
+    const Error::set& allErrors();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -100,4 +100,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(Error) == sizeof(int), "Expected type to resolve to primitive size.");
 }

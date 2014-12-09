@@ -96,7 +96,7 @@ namespace BWAPI
       if ( isUnitAlive(u) )
       {
         u->isAlive = true;
-        aliveUnits.push_back(u);
+        aliveUnits.insert(u);
         u->updateInternalData();
       }
     }
@@ -105,7 +105,7 @@ namespace BWAPI
       if ( isUnitAlive(u, true) )
       {
         u->isAlive = true;
-        aliveUnits.push_back(u);
+        aliveUnits.insert(u);
         u->updateInternalData();
       }
     }
@@ -114,7 +114,7 @@ namespace BWAPI
       if ( isUnitAlive(u) )
       {
         u->isAlive = true;
-        aliveUnits.push_back(u);
+        aliveUnits.insert(u);
         u->updateInternalData();
       }
     }
@@ -127,7 +127,7 @@ namespace BWAPI
       if ( static_cast<UnitImpl*>(*it)->isAlive )
       {
         // Remove from the set if it's not dead
-        dyingUnits.erase(it);
+        it = dyingUnits.erase(it);
       }
       else
       {
@@ -165,7 +165,7 @@ namespace BWAPI
         }
         if ( !u->wasAccessible )
         {
-          discoverUnits.push_back(u);
+          discoverUnits.insert(u);
           events.push_back(Event::UnitDiscover(u));
         }
         if ( u->isVisible() )
@@ -180,7 +180,7 @@ namespace BWAPI
             events.push_back(Event::UnitHide(u));
           u->wasVisible = false;
         }
-        accessibleUnits.push_back(u);
+        accessibleUnits.insert(u);
       }
       else
       {
@@ -191,7 +191,7 @@ namespace BWAPI
             u->wasVisible = false;
             events.push_back(Event::UnitHide(u));
           }
-          evadeUnits.push_back(u);
+          evadeUnits.insert(u);
           events.push_back(Event::UnitEvade(u));
         }
       }
@@ -249,7 +249,7 @@ namespace BWAPI
           Position target=u->nukePosition;
           if (isFlagEnabled(Flag::CompleteMapInformation) || isVisible(target.x / 32, target.y / 32))
           {
-            nukeDots.insert(target);
+            nukeDots.push_back(target);
           }
           if ( !u->nukeDetected )
           {
@@ -296,7 +296,7 @@ namespace BWAPI
       }
       if (u->getTransport())
       {
-        static_cast<UnitImpl*>(u->getTransport())->loadedUnits.push_back(u);
+        static_cast<UnitImpl*>(u->getTransport())->loadedUnits.insert(u);
       }
 
       if ( u->getHatchery() )
@@ -391,15 +391,15 @@ namespace BWAPI
         }
         else if (u->_getType == UnitTypes::Resource_Vespene_Geyser)
         {
-          neutralUnits.push_back(u);
-          geysers.push_back(u);
+          neutralUnits.insert(u);
+          geysers.insert(u);
         }
       }
       if (u->lastPlayer != u->_getPlayer && u->lastPlayer && u->_getPlayer )
       {
         events.push_back(Event::UnitRenegade(u));
         static_cast<PlayerImpl*>(u->lastPlayer)->units.erase(u);
-        static_cast<PlayerImpl*>(u->_getPlayer)->units.push_back(u);
+        static_cast<PlayerImpl*>(u->_getPlayer)->units.insert(u);
       }
       int allUnits  = UnitTypes::AllUnits;
       int men       = UnitTypes::Men;
@@ -456,11 +456,11 @@ namespace BWAPI
         if (u->_getPlayer->isNeutral())
         {
           u->saveInitialState();
-          this->staticNeutralUnits.push_back(u);
+          this->staticNeutralUnits.insert(u);
           if ( u->_getType.isMineralField() )
-            this->staticMinerals.push_back(u);
+            this->staticMinerals.insert(u);
           else if (u->_getType == UnitTypes::Resource_Vespene_Geyser)
-            this->staticGeysers.push_back(u);
+            this->staticGeysers.insert(u);
         }
       }
     }
@@ -485,7 +485,7 @@ namespace BWAPI
     {
       UnitImpl *u = static_cast<UnitImpl*>(ui);
       if ( u->exists() )
-        selectedUnitSet.push_back(u);
+        selectedUnitSet.insert(u);
       else
       {
         u->setSelected(false);

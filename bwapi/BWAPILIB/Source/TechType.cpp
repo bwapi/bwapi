@@ -133,66 +133,97 @@ namespace BWAPI
   {
     using namespace UnitTypes::Enum;
 
-    static const int Stim[] = { Terran_Marine, Terran_Firebat, Hero_Jim_Raynor_Marine, Hero_Gui_Montag };
-    static const int Lockdown[] = { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan };
-    static const int EMP[] = { Terran_Science_Vessel, Hero_Magellan };
-    static const int Spider_Mine[] = { Terran_Vulture, Hero_Jim_Raynor_Vulture };
-    static const int Scanner[] = { Terran_Comsat_Station };
-    static const int Siege_Mode[] = { Terran_Siege_Tank_Tank_Mode, Terran_Siege_Tank_Siege_Mode, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode };
-    static const int Matrix[] = { Terran_Science_Vessel, Hero_Magellan };
-    static const int Irradiate[] = { Terran_Science_Vessel, Hero_Magellan };
-    static const int Yamato[] = { Terran_Battlecruiser, Hero_Gerard_DuGalle, Hero_Hyperion, Hero_Norad_II };
-    static const int Cloaking_Field[] = { Terran_Wraith, Hero_Tom_Kazansky };
-    static const int Personnel_Cloaking[] = { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan, Hero_Infested_Kerrigan };
-    static const int Burrow[] = { Zerg_Zergling, Zerg_Hydralisk, Zerg_Drone, Zerg_Defiler, Zerg_Infested_Terran, Hero_Unclean_One, Hero_Hunter_Killer, Hero_Devouring_One, Zerg_Lurker };
-    static const int Infest[] = { Zerg_Queen, Hero_Matriarch };
-    static const int Broodlings[] = { Zerg_Queen, Hero_Matriarch };
-    static const int Dark_Swarm[] = { Zerg_Defiler, Hero_Unclean_One };
-    static const int Plague[] = { Zerg_Defiler, Hero_Unclean_One };
-    static const int Consume[] = { Zerg_Defiler, Hero_Unclean_One, Hero_Infested_Kerrigan, Hero_Infested_Duran };
-    static const int Ensnare[] = { Zerg_Queen, Hero_Matriarch, Hero_Infested_Kerrigan };
-    static const int Parasite[] = { Zerg_Queen, Hero_Matriarch };
-    static const int Psi_Storm[] = { Protoss_High_Templar, Hero_Tassadar, Hero_Infested_Kerrigan };
-    static const int Hallucinate[] = { Protoss_High_Templar, Hero_Tassadar };
-    static const int Recall[] = { Protoss_Arbiter, Hero_Danimoth };
-    static const int Stasis[] = { Protoss_Arbiter, Hero_Danimoth };
-    static const int Archon_Warp[] = { Protoss_High_Templar };
-    static const int Restore[] = { Terran_Medic };
-    static const int Disruption_Web[] = { Protoss_Corsair, Hero_Raszagal };
-    static const int Mind_Control[] = { Protoss_Dark_Archon };
-    static const int Dark_Archon_Meld[] = { Protoss_Dark_Templar };
-    static const int Feedback[] = { Protoss_Dark_Archon };
-    static const int Optical_Flare[] = { Terran_Medic };
-    static const int Maelstrom[] = { Protoss_Dark_Archon };
-    static const int Lurker_Aspect[] = { Zerg_Hydralisk };
-    static const int Healing[] = { Terran_Medic };
-    static const int Nuke[] = { Terran_Ghost };
-
-#define TSET(x) UnitType::const_set(x, countof(x))
-#define TSETEMPTY UnitType::const_set(&UnitTypes::None)
-
-    static const UnitType::const_set techWhatUses[TechTypes::Enum::MAX] =
+    static const UnitType::set techWhatUses[TechTypes::Enum::MAX] =
     {
-      TSET(Stim), TSET(Lockdown), TSET(EMP), TSET(Spider_Mine), TSET(Scanner), TSET(Siege_Mode), TSET(Matrix), TSET(Irradiate), TSET(Yamato),
-      TSET(Cloaking_Field), TSET(Personnel_Cloaking), TSET(Burrow), TSET(Infest), TSET(Broodlings), TSET(Dark_Swarm),
-      TSET(Plague), TSET(Consume), TSET(Ensnare), TSET(Parasite), TSET(Psi_Storm), TSET(Hallucinate), TSET(Recall), TSET(Stasis),
-      TSET(Archon_Warp), TSET(Restore), TSET(Disruption_Web), TSETEMPTY, TSET(Mind_Control), TSET(Dark_Archon_Meld),
-      TSET(Feedback), TSET(Optical_Flare), TSET(Maelstrom), TSET(Lurker_Aspect), TSETEMPTY, TSET(Healing), TSETEMPTY,
-      TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSETEMPTY, TSET(Nuke), TSETEMPTY
+      // Stimpacks
+      { Terran_Marine, Terran_Firebat, Hero_Jim_Raynor_Marine, Hero_Gui_Montag },
+      // Lockdown
+      { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan },
+      // EMP
+      { Terran_Science_Vessel, Hero_Magellan },
+      // Spider Mine
+      { Terran_Vulture, Hero_Jim_Raynor_Vulture },
+      // Scanner Sweep
+      { Terran_Comsat_Station },
+      // Siege Mode
+      { Terran_Siege_Tank_Tank_Mode, Terran_Siege_Tank_Siege_Mode, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode },
+      // Defensive Matrix
+      { Terran_Science_Vessel, Hero_Magellan },
+      // Irradiate
+      { Terran_Science_Vessel, Hero_Magellan },
+      // Yamato Cannon
+      { Terran_Battlecruiser, Hero_Gerard_DuGalle, Hero_Hyperion, Hero_Norad_II },
+      // Cloaking Field
+      { Terran_Wraith, Hero_Tom_Kazansky },
+      // Personnel Cloaking
+      { Terran_Ghost, Hero_Alexei_Stukov, Hero_Infested_Duran, Hero_Samir_Duran, Hero_Sarah_Kerrigan, Hero_Infested_Kerrigan },
+      // Burrow
+      { Zerg_Zergling, Zerg_Hydralisk, Zerg_Drone, Zerg_Defiler, Zerg_Infested_Terran, Hero_Unclean_One, Hero_Hunter_Killer, Hero_Devouring_One, Zerg_Lurker },
+      // Infestation
+      { Zerg_Queen, Hero_Matriarch },
+      // Spawn Broodlings
+      { Zerg_Queen, Hero_Matriarch },
+      // Dark Swarm
+      { Zerg_Defiler, Hero_Unclean_One },
+      // Plague
+      { Zerg_Defiler, Hero_Unclean_One },
+      // Consume
+      { Zerg_Defiler, Hero_Unclean_One, Hero_Infested_Kerrigan, Hero_Infested_Duran },
+      // Ensnare
+      { Zerg_Queen, Hero_Matriarch, Hero_Infested_Kerrigan },
+      // Parasite
+      { Zerg_Queen, Hero_Matriarch },
+      // Psi Storm
+      { Protoss_High_Templar, Hero_Tassadar, Hero_Infested_Kerrigan },
+      // Hallucination
+      { Protoss_High_Templar, Hero_Tassadar },
+      // Recall
+      { Protoss_Arbiter, Hero_Danimoth },
+      // Stasis Field
+      { Protoss_Arbiter, Hero_Danimoth },
+      // Archon Warp
+      { Protoss_High_Templar },
+      // Restoration
+      { Terran_Medic },
+      // Disruption Web
+      { Protoss_Corsair, Hero_Raszagal },
+      // Unused
+      {},
+      // Mind Control
+      { Protoss_Dark_Archon },
+      // Dark Archon Meld
+      { Protoss_Dark_Templar },
+      // Feedback
+      { Protoss_Dark_Archon },
+      // Optical Flare
+      { Terran_Medic },
+      // Maelstrom
+      { Protoss_Dark_Archon },
+      // Lurker Aspect
+      { Zerg_Hydralisk },
+      // Unused
+      {},
+      // Healing
+      { Terran_Medic },
+      // Unused
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      // Extra (Nuke)
+      { Terran_Ghost },
+      {}
     };
   }
 
   namespace TechTypeSet
   {
     using namespace TechTypes::Enum;
-    BWAPI_TYPESET(techTypeSet, TechType, Stim_Packs, Lockdown, EMP_Shockwave, Spider_Mines,
-                      Scanner_Sweep, Tank_Siege_Mode, Defensive_Matrix, Irradiate,
-                      Yamato_Gun, Cloaking_Field, Personnel_Cloaking, Burrowing,
-                      Infestation, Spawn_Broodlings, Dark_Swarm, Plague, Consume,
-                      Ensnare, Parasite, Psionic_Storm, Hallucination, Recall,
-                      Stasis_Field, Archon_Warp, Restoration, Disruption_Web, 
-                      Mind_Control, Dark_Archon_Meld, Feedback, Optical_Flare,
-                      Maelstrom, Lurker_Aspect, Healing, None, Nuclear_Strike, Unknown );
+    const TechType::set techTypeSet = { Stim_Packs, Lockdown, EMP_Shockwave, Spider_Mines,
+      Scanner_Sweep, Tank_Siege_Mode, Defensive_Matrix, Irradiate,
+      Yamato_Gun, Cloaking_Field, Personnel_Cloaking, Burrowing,
+      Infestation, Spawn_Broodlings, Dark_Swarm, Plague, Consume,
+      Ensnare, Parasite, Psionic_Storm, Hallucination, Recall,
+      Stasis_Field, Archon_Warp, Restoration, Disruption_Web,
+      Mind_Control, Dark_Archon_Meld, Feedback, Optical_Flare,
+      Maelstrom, Lurker_Aspect, Healing, None, Nuclear_Strike, Unknown };
   }
   namespace TechTypes
   {
@@ -273,7 +304,7 @@ namespace BWAPI
   {
     return !!(techTypeFlags[this->getID()] & TARG_POS);
   }
-  const UnitType::const_set& TechType::whatUses() const
+  const UnitType::set& TechType::whatUses() const
   {
     return techInternalUsage::techWhatUses[this->getID()];
   }
@@ -281,7 +312,7 @@ namespace BWAPI
   {
     return techInternalOrders::techOrders[this->getID()];
   }
-  const TechType::const_set& TechTypes::allTechTypes()
+  const TechType::set& TechTypes::allTechTypes()
   {
     return TechTypeSet::techTypeSet;
   }

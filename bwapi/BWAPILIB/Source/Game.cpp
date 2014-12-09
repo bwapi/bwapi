@@ -291,9 +291,9 @@ namespace BWAPI
     reserve.backup();
     Unitset myUnits = Broodwar->self()->getUnits();
     myUnits.erase_if( !(Exists && CanBuildAddon) );
-    for ( auto it = myUnits.begin(); it != myUnits.end(); ++it )
+    for ( auto u : myUnits )
     {
-      TilePosition addonPos = (it->getTilePosition() + TilePosition(4,1)) - start;
+      TilePosition addonPos = (u->getTilePosition() + TilePosition(4,1)) - start;
       reserve.setRange(addonPos, addonPos+TilePosition(2,2), 0);
     }
 
@@ -346,7 +346,7 @@ namespace BWAPI
 
     // Reserve some space around some specific units
     Unitset myUnits = Broodwar->self()->getUnits();
-    for ( auto it = myUnits.begin(); it != myUnits.end(); ++it )
+    for ( auto it : myUnits )
     {
       if ( !it->exists() )
         continue;
@@ -359,12 +359,12 @@ namespace BWAPI
       case UnitTypes::Enum::Protoss_Gateway:
       case UnitTypes::Enum::Protoss_Photon_Cannon:
       default:
-        ReserveStructure(reserve, *it, 2, type, desiredPosition);
+        ReserveStructure(reserve, it, 2, type, desiredPosition);
         break;
       case UnitTypes::Enum::Terran_Barracks:
       case UnitTypes::Enum::Terran_Bunker:
       case UnitTypes::Enum::Zerg_Creep_Colony:
-        ReserveStructure(reserve, *it, 1, type, desiredPosition);
+        ReserveStructure(reserve, it, 1, type, desiredPosition);
         break;
       }
     }

@@ -206,4 +206,6 @@ namespace BWAPI
     /// @returns Reference to the \p out parameter that was passed in.
     std::ostream &operator << (std::ostream &out, const Text::Enum &t);
   }
+
+  static_assert(sizeof(Color) == sizeof(int), "Expected type to resolve to primitive size.");
 }
