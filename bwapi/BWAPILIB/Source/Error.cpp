@@ -41,7 +41,7 @@ namespace BWAPI
 
   namespace Errors
   {
-    static const int setArr[Errors::Enum::MAX]={ 
+      static const Error::set typeSet = {
       Enum::Unit_Does_Not_Exist,
       Enum::Unit_Not_Visible,
       Enum::Unit_Not_Owned,
@@ -69,9 +69,8 @@ namespace BWAPI
       Enum::File_Not_Found,
       Enum::Invalid_Parameter,
       Enum::None,
-      Enum::Unknown  
+      Enum::Unknown
     };
-    static const Error::const_set typeSet(setArr, countof(setArr));
 
     BWAPI_TYPEDEF(Error,Unit_Does_Not_Exist);
     BWAPI_TYPEDEF(Error,Unit_Not_Visible);
@@ -103,7 +102,7 @@ namespace BWAPI
     BWAPI_TYPEDEF(Error,Unknown);
   }
   Error::Error(int id) : Type( id ) {}
-  const Error::const_set& Errors::allErrors()
+  const Error::set& Errors::allErrors()
   {
     return Errors::typeSet;
   }

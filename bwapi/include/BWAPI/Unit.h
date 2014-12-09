@@ -499,7 +499,7 @@ namespace BWAPI
     /// @returns a UnitType::set containing all the types that are in this factory's training
     /// queue.
     /// @see train, cancelTrain, isTraining
-    virtual UnitType::set getTrainingQueue() const = 0;
+    virtual UnitType::list getTrainingQueue() const = 0;
 
     /// Retrieves the technology that this unit is currently researching.
     ///

@@ -72,7 +72,7 @@ namespace BWAPI
     /// Retrieves the set of all the BulletTypes.
     ///
     /// @returns Set of BulletTypes.
-    const BulletType::const_set& allBulletTypes();
+    const BulletType::set& allBulletTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -117,4 +117,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   };
+
+  static_assert(sizeof(BulletType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

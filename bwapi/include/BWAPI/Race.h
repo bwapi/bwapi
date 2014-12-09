@@ -87,7 +87,7 @@ namespace BWAPI
     /// Retrieves the set of all races.
     ///
     /// @returns Race::set containing all the Race types.
-    const Race::const_set& allRaces();
+    const Race::set& allRaces();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -101,4 +101,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(Race) == sizeof(int), "Expected type to resolve to primitive size.");
 }

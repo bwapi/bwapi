@@ -10,10 +10,10 @@ Use_Ability recall_location_impl(AISCRIPT::Enum::RECALL_LOCATION);
 Unit GetSuitableCaster(int minEnergy, UnitType type)
 {
   Unitset myUnits( Broodwar->self()->getUnits() );
-  for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+  for ( auto u : myUnits )
   {
     if ( u->getType() == type && u->isIdle() && u->getEnergy() >= minEnergy )
-      return *u;
+      return u;
   }
   return nullptr;
 }

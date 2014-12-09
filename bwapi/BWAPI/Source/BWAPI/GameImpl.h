@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <list>
+#include <deque>
 
 #include <BW/Offsets.h>
 
@@ -53,7 +54,7 @@ namespace BWAPI
       virtual const Unitset&  getStaticNeutralUnits() const override;
 
       virtual const Bulletset&     getBullets() const override;
-      virtual const Position::set& getNukeDots() const override;
+      virtual const Position::list& getNukeDots() const override;
       virtual const std::list< Event >&   getEvents() const override;
 
       virtual Force     getForce(int forceID) const override;
@@ -108,7 +109,7 @@ namespace BWAPI
       virtual bool  canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
       virtual bool  canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
 
-      virtual const TilePosition::set& getStartLocations() const override;
+      virtual const TilePosition::list& getStartLocations() const override;
 
       virtual void vPrintf(const char *format, va_list arg) override;
       virtual void vSendTextEx(bool toAllies, const char *format, va_list arg) override;
@@ -247,7 +248,7 @@ namespace BWAPI
       PlayerImpl *BWAPIPlayer;
       PlayerImpl *enemyPlayer;
       Server server;
-      Vectorset<int> invalidIndices;
+      std::unordered_set<int> invalidIndices;
       std::list<Event> events;
     private:
       std::vector<std::string> sentMessages;
@@ -302,7 +303,7 @@ namespace BWAPI
 
       Unitset selectedUnitSet;
 
-      TilePosition::set startLocations;
+      TilePosition::list startLocations;
 
       Forceset  forces;
       Playerset playerSet;
@@ -311,7 +312,7 @@ namespace BWAPI
       Unitset       geysers;
       Unitset       neutralUnits;
       Bulletset     bullets;
-      Position::set nukeDots;
+      Position::list nukeDots;
       Unitset pylons;
 
       Unitset staticMinerals;
@@ -340,7 +341,7 @@ namespace BWAPI
       TournamentModule  *tournamentController;
       bool              bTournamentMessageAppeared;
       mutable BWAPI::Error lastError;
-      Unitset deadUnits;
+      Unitset deadUnits;    // Keeps track of units that were removed from the game, used only to deallocate them
       u32 cheatFlags;
       std::string autoMenuLanMode;
       std::string autoMenuRace;

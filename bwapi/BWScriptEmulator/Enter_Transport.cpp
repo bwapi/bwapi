@@ -25,7 +25,7 @@ bool Enter_Transport::execute(aithread &thread) const
                             this->getOpcode() == AISCRIPT::Enum::ENTER_BUNKER ? bunkerProc : transProc) );
   
     // Iterate the units that are to enter the bunkers
-    for ( auto u = unitsForTrans.begin(); u != unitsForTrans.end(); ++u )
+    for ( auto u : unitsForTrans )
     {
       // Find a bunker closest to the current unit that has space available
       Unit pClosest = u->getClosestUnit( (this->getOpcode() == AISCRIPT::Enum::ENTER_BUNKER ? GetType == UnitTypes::Terran_Bunker : GetType != UnitTypes::Terran_Bunker) &&

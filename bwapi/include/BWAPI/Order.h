@@ -224,7 +224,7 @@ namespace BWAPI
     /// Retrieves the set of all the Orders.
     ///
     /// @returns Set of all Order types.
-    const Order::const_set& allOrders();
+    const Order::set& allOrders();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -388,4 +388,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   };
+
+  static_assert(sizeof(Order) == sizeof(int), "Expected type to resolve to primitive size.");
 }

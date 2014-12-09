@@ -54,12 +54,12 @@ namespace BWAPI
       Unitset staticGeysers;
       Unitset staticNeutralUnits;
       Bulletset bullets;
-      Position::set nukeDots;
+      Position::list nukeDots;
       Unitset selectedUnits;
       Unitset pylons;
       Regionset regionsList;
 
-      TilePosition::set startLocations;
+      TilePosition::list startLocations;
       std::list< Event > events;
       bool flagEnabled[2];
       Player thePlayer;
@@ -94,7 +94,7 @@ namespace BWAPI
       virtual const Unitset& getStaticNeutralUnits() const override;
 
       virtual const Bulletset& getBullets() const override;
-      virtual const Position::set& getNukeDots() const override;
+      virtual const Position::list& getNukeDots() const override;
       virtual const std::list< Event>& getEvents() const override;
 
       virtual Force   getForce(int forceID) const override;
@@ -143,7 +143,7 @@ namespace BWAPI
       virtual bool canMake(UnitType type, Unit builder = nullptr) const override;
       virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
       virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
-      virtual const TilePosition::set& getStartLocations() const override;
+      virtual const TilePosition::list& getStartLocations() const override;
 
       virtual void vPrintf(const char* format, va_list arg) override;
       virtual void vSendTextEx(bool toAllies, const char *format, va_list arg) override;

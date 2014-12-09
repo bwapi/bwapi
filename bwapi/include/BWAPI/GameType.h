@@ -47,7 +47,7 @@ namespace BWAPI
     /// Retrieves the set of all the valid GameTypes.
     ///
     /// @returns Set of available GameTypes.
-    const GameType::const_set& allGameTypes();
+    const GameType::set& allGameTypes();
     
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -70,4 +70,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(GameType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

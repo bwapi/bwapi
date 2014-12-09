@@ -4,6 +4,7 @@
 
 namespace BWAPI
 {
+  class UnitType;
   class WeaponType;
   class Order;
   class Race;
@@ -125,7 +126,7 @@ namespace BWAPI
       /// Retrieves the set of all UnitTypes that are capable of using this ability.
       ///
       /// @returns Set of UnitTypes that can use this ability when researched.
-      const UnitType::const_set& whatUses() const;
+      const UnitType::set& whatUses() const;
 
       /// Retrieves the Order that a Unit uses when using this ability.
       ///
@@ -138,7 +139,7 @@ namespace BWAPI
     /// Retrieves the set of all the TechTypes.
     ///
     /// @returns Set of all available TechTypes.
-    const TechType::const_set& allTechTypes();
+    const TechType::set& allTechTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -182,4 +183,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   };
+
+  static_assert(sizeof(TechType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

@@ -312,12 +312,12 @@ namespace BWAPI
     /// the game.
     ///
     /// @returns Set of TechTypes containing ability information.
-    const ConstVectorset<TechType>& abilities() const;
+    const SetContainer<TechType>& abilities() const;
 
     /// Retrieves the set of upgrades that this unit can use to enhance its fighting ability.
     ///
     /// @return Set of UpgradeTypes containing upgrade types that will impact this unit type.
-    const ConstVectorset<UpgradeType>& upgrades() const;
+    const SetContainer<UpgradeType>& upgrades() const;
 
     /// Retrieves the upgrade type used to increase the armor of this unit type. For each upgrade,
     /// this unit type gains +1 additional armor.
@@ -771,14 +771,14 @@ namespace BWAPI
     /// Retrieves the set of all unit types.
     ///
     /// @returns A constant set of all available unit types.
-    const UnitType::const_set& allUnitTypes();
+    const UnitType::set& allUnitTypes();
 
     /// Retrieves the set of all macro unit types. A macro type is a fake unit type, used by some
     /// functions. These include #AllUnits, #Men, #Buildings, and #Factories. The purpose of these
     /// types are to match the same ones used in Broodwar, also seen in the StarEdit map editor.
     ///
     /// @returns A constant set of all macro unit types.
-    const UnitType::const_set& allMacroTypes();
+    const UnitType::set& allMacroTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -1022,4 +1022,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(UnitType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

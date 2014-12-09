@@ -53,7 +53,7 @@ namespace BWAPI
     /// Retrieves the set of all ExplosionTypes.
     ///
     /// @returns Set of ExplosionTypes.
-    const ExplosionType::const_set& allExplosionTypes();
+    const ExplosionType::set& allExplosionTypes();
 
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -86,4 +86,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(ExplosionType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

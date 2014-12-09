@@ -151,9 +151,6 @@
     <ClInclude Include="..\include\BWAPI\Unitset.h">
       <Filter>Containers\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Vectorset.h">
-      <Filter>Containers\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Color.h">
       <Filter>Types\Header Files</Filter>
     </ClInclude>
@@ -182,9 +179,6 @@
     <ClInclude Include="..\include\BWAPI\Latency.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Vectorset_iterator.h">
-      <Filter>Containers\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Filters.h">
       <Filter>Filters</Filter>
     </ClInclude>
@@ -197,10 +191,10 @@
     <ClInclude Include="..\include\BWAPI\BestFilter.h">
       <Filter>Filters</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\ConstVectorset.h">
+    <ClInclude Include="..\include\BWAPI\InterfaceEvent.h" />
+    <ClInclude Include="..\include\BWAPI\SetContainer.h">
       <Filter>Containers\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\InterfaceEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">

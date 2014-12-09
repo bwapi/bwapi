@@ -40,11 +40,11 @@ namespace BWAPI
   namespace ExplosionTypeSet
   {
     using namespace ExplosionTypes::Enum;
-    BWAPI_TYPESET(explosionTypeSet, ExplosionType, None, Normal, Radial_Splash, Enemy_Splash, Lockdown, Nuclear_Missile,
-                            Parasite, Broodlings, EMP_Shockwave, Irradiate, Ensnare, Plague, 
-                            Stasis_Field, Dark_Swarm, Consume, Yamato_Gun, Restoration, Disruption_Web,
-                            Corrosive_Acid, Mind_Control, Feedback, Optical_Flare, Maelstrom,
-                            Air_Splash, Unknown);
+    const ExplosionType::set explosionTypeSet = { None, Normal, Radial_Splash, Enemy_Splash, Lockdown, Nuclear_Missile,
+      Parasite, Broodlings, EMP_Shockwave, Irradiate, Ensnare, Plague,
+      Stasis_Field, Dark_Swarm, Consume, Yamato_Gun, Restoration, Disruption_Web,
+      Corrosive_Acid, Mind_Control, Feedback, Optical_Flare, Maelstrom,
+      Air_Splash, Unknown };
   }
   namespace ExplosionTypes
   {
@@ -76,7 +76,7 @@ namespace BWAPI
   }
   ExplosionType::ExplosionType(int id) : Type( id )
   {}
-  const ExplosionType::const_set& ExplosionTypes::allExplosionTypes()
+  const ExplosionType::set& ExplosionTypes::allExplosionTypes()
   {
     return ExplosionTypeSet::explosionTypeSet;
   }

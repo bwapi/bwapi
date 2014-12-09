@@ -125,16 +125,16 @@ namespace BW
       targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    Select::Select(const BWAPI::Unitset &unitset)
+    Select::Select(const std::vector<BWAPI::Unit> &units)
       : always0x09(0x09)
     {
       unsigned int finalCount = 0;
-      for ( unsigned int i = 0; i < unitset.size() && i < 12; ++i )
-        if ( unitset[i] != NULL )
-          targets[finalCount++] = UnitTarget((BWAPI::UnitImpl*)unitset[i]);
+      for (unsigned int i = 0; i < units.size() && i < 12; ++i)
+        if (units[i] != NULL)
+          targets[finalCount++] = UnitTarget((BWAPI::UnitImpl*)units[i]);
 
       targCount = (u8)finalCount;
-      size      = 2 + targCount * 2;
+      size = 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
     TrainUnit::TrainUnit(int type)

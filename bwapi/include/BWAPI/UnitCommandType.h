@@ -73,7 +73,7 @@ namespace BWAPI
     /// Retrieves the set of all UnitCommandTypes.
     ///
     /// @returns Set of UnitCommandTypes.
-    const UnitCommandType::const_set& allUnitCommandTypes();
+    const UnitCommandType::set& allUnitCommandTypes();
     
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
@@ -127,4 +127,6 @@ namespace BWAPI
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
   }
+
+  static_assert(sizeof(UnitCommandType) == sizeof(int), "Expected type to resolve to primitive size.");
 }

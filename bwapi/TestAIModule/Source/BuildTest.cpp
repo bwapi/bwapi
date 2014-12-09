@@ -103,7 +103,7 @@ void BuildTest::update()
     {
       if (unitType==UnitTypes::Zerg_Extractor)
       {
-        builder = buildingsOnTile.front();
+        builder = *buildingsOnTile.begin();
       }
     }
     FAILTEST(builder!=NULL);
@@ -171,7 +171,7 @@ void BuildTest::update()
   Unitset buildingsOnTile( Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y, BWAPI::Filter::GetType == unitType) );
   if (building==NULL && !buildingsOnTile.empty() )
   {
-    building = buildingsOnTile.front();
+    building = *buildingsOnTile.begin();
     if (unitType==UnitTypes::Zerg_Extractor)
     {
       builder=building;

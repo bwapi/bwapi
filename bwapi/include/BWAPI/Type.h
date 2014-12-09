@@ -1,52 +1,15 @@
 #pragma once
+#include <BWAPI/SetContainer.h>
+
 #include <string>
 #include <cctype>
+#include <deque>
 #include <unordered_map>
 #include <algorithm>
 
-#include <BWAPI/Vectorset.h>
-
 namespace BWAPI
 {
-  // @TODO Get rid of this eventually.
-  template<class T>
-  class Typeset : public Vectorset<T>
-  {
-  public:
-    // Constructors
-    Typeset() : Vectorset<T>() {};
-    // copy ctor
-    Typeset(const Typeset<T> &other) : Vectorset<T>( other ) {};
-    Typeset(const ConstVectorset<T> &other) : Vectorset<T>( other ) {};
-
-    // move ctor
-    Typeset(Typeset<T> &&other) : Vectorset<T>( std::forward< Typeset<T> >(other) ) {};
-    // type ctor
-    Typeset(const T &val) : Vectorset<T>() { this->push_back(val); };
-    // array ctor
-    Typeset(const T *pArray, size_t size) : Vectorset<T>(pArray, size) {};
-    Typeset(const int *pArray, size_t size) : Vectorset<T>((const T*)pArray, size) {};
-
-    ~Typeset() {};
-
-    // Operators (adding elements)
-    Typeset operator |(const T &val) const
-    {
-      Typeset newset(*this);
-      newset.insert(val);
-      return newset;
-    };
-    Typeset &operator |=(const T &val)
-    {
-      this->insert(val);
-      return *this;
-    };
-    Typeset &operator |=(const Typeset<T> &val)
-    {
-      this->insert(val);
-      return *this;
-    };
-  };
+  template<class T, int UnknownId> class Type;
 
   /// Base superclass for all BWAPI Types.
   template<class T, int UnknownId>
@@ -59,6 +22,7 @@ namespace BWAPI
     /// Array of strings containing the type names.
     static const std::string typeNames[UnknownId+1];
 
+    /// Type that maps names to their type values.
     typedef std::unordered_map<std::string,T> typeMapT;
 
   private:
@@ -79,7 +43,6 @@ namespace BWAPI
       }
       return result;
     }
-
   public:
     /// Expected type constructor. If the type is an invalid type, then it becomes Types::Unknown.
     /// A type is invalid if its value is less than 0 or greater than Types::Unknown.
@@ -90,11 +53,11 @@ namespace BWAPI
     ///   If it is omitted, then it becomes Types::None.
     explicit Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
     
-    /// The set that contains the current type.
-    typedef Typeset<T> set;
+    /// A set type that contains the current type.
+    typedef SetContainer<T> set;
 
-    /// The constant set that contains the current type.
-    typedef ConstVectorset<T> const_set;
+    /// A list type that contains the current type.
+    typedef std::deque<T> list;
 
     /// Conversion/convenience operator to convert this type to its primitive type.
     inline operator int() const { return this->tid; };

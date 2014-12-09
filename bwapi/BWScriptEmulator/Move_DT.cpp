@@ -13,8 +13,7 @@ bool Move_DT::execute(aithread &thread) const
 
   // NOTE: Not actual behaviour. Needs special AI Control & Captain assignment.
   // However this command is not important and serves little purpose.
-  myUnits.erase(std::remove_if( myUnits.begin(), myUnits.end(), 
-                  !((GetType == UnitTypes::Protoss_Dark_Templar || GetType == UnitTypes::Hero_Dark_Templar) && Exists && IsCompleted) ), myUnits.end());
+  myUnits.erase_if(!((GetType == UnitTypes::Protoss_Dark_Templar || GetType == UnitTypes::Hero_Dark_Templar) && Exists && IsCompleted));
   myUnits.move( thread.getLocation().center() );
 
   // Debug and return

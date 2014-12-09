@@ -27,7 +27,7 @@ class CancelTrainTest : public TestCase
     int originalAllUnit1Count;
     int originalAllUnit2Count;
     int originalAllUnit3Count;
-    BWAPI::UnitType::set correctTrainingQueue;
+    BWAPI::UnitType::list correctTrainingQueue;
     enum State
     {
       Start,

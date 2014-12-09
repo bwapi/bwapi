@@ -74,7 +74,7 @@ namespace BWAPI
       virtual int getStimTimer() const override;
 
       virtual UnitType      getBuildType() const override;
-      virtual UnitType::set getTrainingQueue() const override;
+      virtual UnitType::list getTrainingQueue() const override;
       virtual TechType      getTech() const override;
       virtual UpgradeType   getUpgrade() const override;
       virtual int           getRemainingBuildTime() const override;
