@@ -11,14 +11,17 @@ Debug_Pipeline
 *.swp
 *.bak
 
-Release_Binary/AIModuleLoader/Source/
+Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*
-Release_Binary/ExampleAIClient/Source/
-Release_Binary/ExampleAIModule/Source/
-Release_Binary/ExampleTournamentModule/Source/
+Release_Binary/ExampleAIClient
+Release_Binary/ExampleAIModule
+Release_Binary/ExampleTournamentModule
+Release_Binary/include
+Release_Binary/BWAPILIB
 Release_Binary/MPQdraft/BWAPI_*
 Release_Binary/Starcraft/SNP_DirectIP.snp
 Release_Binary/Starcraft/bwapi-data/BWAPI*.dll
 bwapi/libReplayToolTest/TestData/Replay_Tool_Actual.exe
 bwapi/ipch/
 Release_Binary/Chaoslauncher/__log.txt
+Release_Binary/ExampleAIClient/Source/

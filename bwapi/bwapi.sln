@@ -22,10 +22,21 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPIClient", "BWAPIClient\BWAPIClient.vcxproj", "{C99ABF61-6716-4FC0-AA77-9A136EA61680}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIClient", "ExampleAIClient\ExampleAIClient.vcxproj", "{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680} = {C99ABF61-6716-4FC0-AA77-9A136EA61680}
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIModuleLoader", "AIModuleLoader\AIModuleLoader.vcxproj", "{2E81042D-3CDC-45E0-9F3C-0AC5F435E126}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680} = {C99ABF61-6716-4FC0-AA77-9A136EA61680}
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIModule", "ExampleAIModule\ExampleAIModule.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestAIModule", "TestAIModule\TestAIModule.vcxproj", "{982561B2-A7D0-44E9-BD3D-0FD117E3F882}"
 EndProject
@@ -36,6 +47,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWScriptEmulator", "BWScriptEmulator\BWScriptEmulator.vcxproj", "{9568B84C-42BE-4068-8775-FAEFB2DBC770}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PKLib", "PKLib\PKLib.vcxproj", "{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}"
 EndProject

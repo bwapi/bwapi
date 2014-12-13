@@ -53,21 +53,19 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>XCOPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y
-XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>../lib/BWAPId.lib;../lib/BWAPIClientd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..;../include;../Util/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -76,30 +74,18 @@ XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>XCOPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y
-XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>../lib/BWAPI.lib;../lib/BWAPIClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\ExampleAIClient.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BWAPIClient\BWAPIClient.vcxproj">
-      <Project>{c99abf61-6716-4fc0-aa77-9a136ea61680}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
-      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

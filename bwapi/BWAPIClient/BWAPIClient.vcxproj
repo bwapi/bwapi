@@ -58,6 +58,8 @@
     <PostBuildEvent>
       <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.lib"
 COPY /y "$(IntDir)vc$(PlatformToolsetVersion).pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPIClientd.pdb"
+COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPIClientd.lib"
+COPY /y "$(IntDir)vc$(PlatformToolsetVersion).pdb" "..\lib\BWAPIClientd.pdb"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -81,7 +83,8 @@ COPY /y "$(IntDir)vc$(PlatformToolsetVersion).pdb" "$(SolutionDir)..\Release_Bin
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <PostBuildEvent>
-      <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPIClient.lib"</Command>
+      <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPIClient.lib"
+COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPIClient.lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

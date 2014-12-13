@@ -54,10 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>XCOPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y
-XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -79,10 +76,7 @@ XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>XCOPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y
-XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /C /I /R /Y</Command>
-    </PreLinkEvent>
+    <PreLinkEvent />
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -99,12 +93,6 @@ XCOPY "$(ProjectDir)*.cpp" "$(SolutionDir)..\Release_Binary\$(ProjectName)" /S /
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ExampleAIModule.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
-      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
