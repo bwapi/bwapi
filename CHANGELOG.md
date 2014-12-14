@@ -1,7 +1,7 @@
 # Changes {#changesTop}
 [TOC]
 
-Current (Sun 09/14/2014 02:14 PM) {#current}
+Current (11:24 AM Sunday, December 14, 2014) {#current}
 ==============================
 Changes:
  * BWAPI has migrated from Google Code to GitHub.
@@ -9,6 +9,7 @@ Changes:
  * The video commands have been removed.
  * Removed the underlying `Vectorset` container, replacing it with `std::unordered_set`.
  * Significantly improved the type documentation (now with statistics, visuals, and external links)
+ * Starcraft can now load BWAPI's custom network providers (Direct IP and Local PC) without using BWAPI.
   
 Bug Fixes:
  * Fixed a bug where some replays would be skipped when `auto_menu` iterated through them.
@@ -18,9 +19,10 @@ Bug Fixes:
  * Fixed a regression where replays would fail to load when `auto_menu` was set to `SINGLE_PLAYER`.
  * Fixed a bug that prevented lifted buildings from moving and holding position.
  * Fixed a bug that caused crashes when running consecutive games.
- * Fixed Goliath and Siege Tank weapons and max hit values.
+ * Fixed Goliath and Siege Tank's weapon types and max hit values.
  * Fixed issue where unit fields were not reset after its destruction.
  * Fixed Game::sendText in the BWAPI Client.
+ * Fixed a bug where the red and blue values of Color types were switched.
 
 
 BWAPI 4.0.1 Beta (r4453) {#changes_401b}
