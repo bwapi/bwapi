@@ -1520,7 +1520,7 @@ namespace BWAPI
       return *this;
     };
     /// @overload
-    GameWrapper &operator <<( const ostream_manipulator &fn );    
+    GameWrapper &operator <<(ostream_manipulator fn);
     
     /// Flushes the Broodwar stream, printing all text in the stream to the screen.
     void flush();
