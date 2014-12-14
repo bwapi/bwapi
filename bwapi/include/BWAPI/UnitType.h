@@ -553,10 +553,10 @@ namespace BWAPI
      * which can move once lifted. */
     bool canMove() const;
 
-    /// Checks if this unit type is a flying unit. Flying units ignore ground pathing and
-    /// collisions.
-    /// 
-    /// @returns true if this unit type is in the air by default, and false otherwise
+    /// <summary>Checks if this unit type is a flying unit. Flying units ignore ground pathing and
+    /// collisions.</summary>
+    ///
+    /// <returns>true if this unit type is in the air by default, and false otherwise</returns>
     bool isFlyer() const;
 
     /// Checks if this unit type can regenerate hit points. This generally applies to @Zerg units.
@@ -783,7 +783,7 @@ namespace BWAPI
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
 #endif
-#define BWAPI_DECL(x) /** @htmlinclude units/x ## .info <br> @tl ## x @scc ## x @sen ## x @wik ## x */ extern const UnitType x
+#define BWAPI_DECL(x) /** Corresponds to UnitTypes::Enum:: ## x ## . */ extern const UnitType x
 
     BWAPI_DECL(Terran_Marine);
     BWAPI_DECL(Terran_Ghost);

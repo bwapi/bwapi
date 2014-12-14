@@ -331,6 +331,7 @@ ALIASES                = "Dropships=@ref UnitTypes::Terran_Dropship \"Dropships\
                          "plague=@ref TechTypes::Plague \"Plague\"" \
                          "stasis=@ref TechTypes::Stasis_Field \"Stasis Field\"" \
                          "stim=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "Stim_Pack=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
                          "worker=worker (@ref UnitTypes::Terran_SCV \"SCV\", @ref UnitTypes::Protoss_Probe \"Probe\", @ref UnitTypes::Zerg_Drone \"Drone\")" \
                          "Interceptor=@ref UnitTypes::Protoss_Interceptor \"Interceptor\"" \
                          "cloaked=@ref TechTypes::Cloaking_Field \"cloaked\"" \
@@ -1834,7 +1835,8 @@ INPUT                  = ../bwapi/include/ \
                          ./bwapi.wiki/ \
 												 ../CHANGELOG.md \
 												 ../README.md \
-												 ../LICENSE.md
+												 ../LICENSE.md \
+                         ./unittypes.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1859,7 +1861,8 @@ FILE_PATTERNS          = *.h \
                          *.hxx \
                          *.hpp \
                          *.h++ \
-												 *.md
+												 *.md \
+                         *.dox
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1909,7 +1912,7 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           =
+EXAMPLE_PATH           = 
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -1930,7 +1933,8 @@ EXAMPLE_RECURSIVE      = NO
 # \image command).
 
 IMAGE_PATH             = ./ \
-                         ./bwapi.wiki/
+                         ./bwapi.wiki/ \
+                         ./graphics/
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -2177,7 +2181,14 @@ HTML_EXTRA_STYLESHEET  =
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       =
+HTML_EXTRA_FILES       = ./graphics/energy.png \
+                         ./graphics/gas0.png \
+                         ./graphics/gas1.png \
+                         ./graphics/gas2.png \
+                         ./graphics/ore.png \
+                         ./graphics/supply0.png \
+                         ./graphics/supply1.png \
+                         ./graphics/supply2.png
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to

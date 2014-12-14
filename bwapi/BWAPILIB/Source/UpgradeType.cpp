@@ -71,7 +71,7 @@ namespace BWAPI
     "",
     "",
     "",
-    "",
+    "Upgrade_60",
     "None",
     "Unknown"
   };
@@ -313,6 +313,7 @@ namespace BWAPI
     BWAPI_TYPEDEF(UpgradeType,Chitinous_Plating);
     BWAPI_TYPEDEF(UpgradeType,Anabolic_Synthesis);
     BWAPI_TYPEDEF(UpgradeType,Charon_Boosters);
+    BWAPI_TYPEDEF(UpgradeType,Upgrade_60);
     BWAPI_TYPEDEF(UpgradeType,None);
     BWAPI_TYPEDEF(UpgradeType,Unknown);
   }
