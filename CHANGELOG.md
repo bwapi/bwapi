@@ -7,7 +7,8 @@ Changes:
  * BWAPI has migrated from Google Code to GitHub.
  * BWAPI has been updated to use Visual C++ 2013.
  * The video commands have been removed.
- * The Broodwar text buffer is now flushed every frame so `\n` can be used.
+ * Removed the underlying `Vectorset` container, replacing it with `std::unordered_set`.
+ * Significantly improved the type documentation (now with statistics, visuals, and external links)
   
 Bug Fixes:
  * Fixed a bug where some replays would be skipped when `auto_menu` iterated through them.
@@ -15,7 +16,11 @@ Bug Fixes:
  * Fixed a crash when the `save_replay` configuration option contained extended ASCII characters.
  * Fixed a crash when retrieving the name of a force in BWAPIClient.
  * Fixed a regression where replays would fail to load when `auto_menu` was set to `SINGLE_PLAYER`.
- * Fixed a bug that prevented lifted buildings to move to a position.
+ * Fixed a bug that prevented lifted buildings from moving and holding position.
+ * Fixed a bug that caused crashes when running consecutive games.
+ * Fixed Goliath and Siege Tank weapons and max hit values.
+ * Fixed issue where unit fields were not reset after its destruction.
+ * Fixed Game::sendText in the BWAPI Client.
 
 
 BWAPI 4.0.1 Beta (r4453) {#changes_401b}
