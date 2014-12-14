@@ -654,7 +654,10 @@ namespace BWAPI
   //--------------------------------------------- SEND TEXT EX -----------------------------------------------
   void GameImpl::sendTextEx(bool toAllies, const char *format, ...)
   {
-    return; //todo: implement
+    char *buffer;
+    vstretchyprintf(buffer, format);
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText, addString(buffer), toAllies ? 1 : 0));
+    free(buffer);
   }
   //---------------------------------------------- CHANGE RACE -----------------------------------------------
   void GameImpl::changeRace(Race race)
