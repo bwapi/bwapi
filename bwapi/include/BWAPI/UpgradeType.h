@@ -176,6 +176,7 @@ namespace BWAPI
     BWAPI_DECL(Chitinous_Plating);
     BWAPI_DECL(Anabolic_Synthesis);
     BWAPI_DECL(Charon_Boosters);
+    BWAPI_DECL(Upgrade_60);
     BWAPI_DECL(None);
     BWAPI_DECL(Unknown);
 #undef BWAPI_DECL
