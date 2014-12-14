@@ -2306,7 +2306,7 @@ Value of 63  [0x3f]. See BWAPI::UnitTypes::Protoss_Dark_Archon.
 <tr><td><strong>Abilities</strong></td><td>@ref TechTypes::Mind_Control "Mind Control", @ref TechTypes::Feedback "Feedback", @ref TechTypes::Maelstrom "Maelstrom"</td></tr>
 <tr><td><strong>Upgrades</strong></td><td>@ref UpgradeTypes::Protoss_Plasma_Shields "Protoss Plasma Shields", @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons", @ref UpgradeTypes::Protoss_Air_Armor "Protoss Air Armor", @ref UpgradeTypes::Argus_Talisman "Argus Talisman"</td></tr>
 <tr><td><strong>Required Units</strong></td><td>@ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
-<tr><td><strong>Created By</strong></td><td>2x @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
+<tr><td><strong>Created By</strong></td><td>2 @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
 <tr><td><strong>Attributes</strong></td><td></td></tr>
 </table>
 @tlProtoss_Dark_Archon @sccProtoss_Dark_Archon @senProtoss_Dark_Archon @wikProtoss_Dark_Archon
@@ -2345,7 +2345,7 @@ Value of 68  [0x44]. See BWAPI::UnitTypes::Protoss_Archon.
 <tr><td><strong>Sight Range</strong></td><td>256</td></tr>
 <tr><td><strong>Upgrades</strong></td><td>@ref UpgradeTypes::Protoss_Plasma_Shields "Protoss Plasma Shields", @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons", @ref UpgradeTypes::Protoss_Ground_Armor "Protoss Ground Armor"</td></tr>
 <tr><td><strong>Required Units</strong></td><td>@ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
-<tr><td><strong>Created By</strong></td><td>2x @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
+<tr><td><strong>Created By</strong></td><td>2 @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
 <tr><td><strong>Attributes</strong></td><td></td></tr>
 </table>
 @tlProtoss_Archon @sccProtoss_Archon @senProtoss_Archon @wikProtoss_Archon

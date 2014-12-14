@@ -5,9 +5,9 @@
 
 typedef unsigned char BYTE;
 typedef struct tagRGBQUAD {
-  BYTE rgbBlue;
-  BYTE rgbGreen;
   BYTE rgbRed;
+  BYTE rgbGreen;
+  BYTE rgbBlue;
   BYTE rgbReserved;
 } RGBQUAD;
 
