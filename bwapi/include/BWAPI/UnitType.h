@@ -783,7 +783,7 @@ namespace BWAPI
 #ifdef BWAPI_DECL
 #undef BWAPI_DECL
 #endif
-#define BWAPI_DECL(x) /** x.<br> @tl ## x @scc ## x @sen ## x @wik ## x */ extern const UnitType x
+#define BWAPI_DECL(x) /** @htmlinclude units/x ## .info <br> @tl ## x @scc ## x @sen ## x @wik ## x */ extern const UnitType x
 
     BWAPI_DECL(Terran_Marine);
     BWAPI_DECL(Terran_Ghost);
