@@ -64,7 +64,8 @@ int main(int argc, const char* argv[])
     }
     else
     {
-      Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
+      if (Broodwar->enemy())
+        Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
 
       //send each worker to the mineral field that is closest to it
       Unitset units    = Broodwar->self()->getUnits();

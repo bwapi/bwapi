@@ -834,7 +834,7 @@ namespace BWAPI
         break;
       case BWAPIC::CommandType::SendText:
         if (Broodwar->isInGame())
-          Broodwar->sendText("%s", data->strings[v1]);
+          Broodwar->sendTextEx(v2 != 0, "%s", data->strings[v1]);
         break;
       case BWAPIC::CommandType::PauseGame:
         if (Broodwar->isInGame())
