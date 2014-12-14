@@ -626,7 +626,9 @@ namespace BWAPI
   //--------------------------------------------- SEND TEXT EX -----------------------------------------------
   void GameImpl::vSendTextEx(bool toAllies, const char *format, va_list arg)
   {
-    return; //todo: implement
+    char buffer[256];
+    VSNPrintf(buffer, format, arg);
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SendText, addString(buffer), toAllies ? 1 : 0));
   }
   //----------------------------------------------- IS IN GAME -----------------------------------------------
   bool GameImpl::isInGame() const
