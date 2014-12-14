@@ -27,14 +27,16 @@ namespace BWAPI
     return BroodwarPtr;
   };
 
-  GameWrapper &GameWrapper::operator <<( const GameWrapper::ostream_manipulator &fn )
+  GameWrapper &GameWrapper::operator <<(GameWrapper::ostream_manipulator fn)
   {
     // Pass manipulator into the stream
     ss << fn;
 
     // Flush to Broodwar's printf if we see endl or ends
-    if ( fn == (ostream_manipulator)std::endl || fn == (ostream_manipulator)std::ends )
+    if (fn == &std::endl<char, std::char_traits<char>> || fn == &std::ends<char, std::char_traits<char>>)
+    {
       this->flush();
+    }
     return *this;
   };
 
