@@ -36,18 +36,13 @@ namespace BWAPI
     /// @returns Set of DamageTypes.
     const DamageType::set& allDamageTypes();
 
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const DamageType x
-    BWAPI_DECL(Independent);
-    BWAPI_DECL(Explosive);
-    BWAPI_DECL(Concussive);
-    BWAPI_DECL(Normal);
-    BWAPI_DECL(Ignore_Armor);
-    BWAPI_DECL(None);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const DamageType Independent;
+    extern const DamageType Explosive;
+    extern const DamageType Concussive;
+    extern const DamageType Normal;
+    extern const DamageType Ignore_Armor;
+    extern const DamageType None;
+    extern const DamageType Unknown;
   }
 
   static_assert(sizeof(DamageType) == sizeof(int), "Expected type to resolve to primitive size.");

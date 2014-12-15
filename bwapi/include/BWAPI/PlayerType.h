@@ -45,22 +45,17 @@ namespace BWAPI
     /// @returns Set consisting of all valid PlayerTypes.
     const PlayerType::set& allPlayerTypes();
     
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const PlayerType x
-    BWAPI_DECL(None);
-    BWAPI_DECL(Computer);
-    BWAPI_DECL(Player);
-    BWAPI_DECL(RescuePassive);
-    BWAPI_DECL(EitherPreferComputer);
-    BWAPI_DECL(EitherPreferHuman);
-    BWAPI_DECL(Neutral);
-    BWAPI_DECL(Closed);
-    BWAPI_DECL(PlayerLeft);
-    BWAPI_DECL(ComputerLeft);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const PlayerType None;
+    extern const PlayerType Computer;
+    extern const PlayerType Player;
+    extern const PlayerType RescuePassive;
+    extern const PlayerType EitherPreferComputer;
+    extern const PlayerType EitherPreferHuman;
+    extern const PlayerType Neutral;
+    extern const PlayerType Closed;
+    extern const PlayerType PlayerLeft;
+    extern const PlayerType ComputerLeft;
+    extern const PlayerType Unknown;
   }
 
   static_assert(sizeof(PlayerType) == sizeof(int), "Expected type to resolve to primitive size.");

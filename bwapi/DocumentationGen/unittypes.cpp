@@ -7,17 +7,12 @@ void writeUnitInfo()
   for (auto t : UnitTypes::allUnitTypes())
   {
     if (t == UnitTypes::Unknown || t == UnitTypes::None) continue;
-    of << "/*!\n"
-      << "@var BWAPI::UnitTypes::Enum::" << t.getName() << "\n"
-      "Value of " << t.getID() << "  [0x" << std::hex << t.getID() << "]. " << std::dec
-      << "See BWAPI::UnitTypes::" << t.getName() << ".\n"
-      << "*/\n";
-
-    of << "/*!\n";
-    of << "@var BWAPI::UnitTypes::" << t.getName() << "\n";
+    of << docEnum(t);
+    of << docBegin(t);
 
     //int iconId = t.getID();
     //of << "<img src='icon" << iconId << ".png' style='float:right;'>";
+    of << icon(t) << " " << docIntro(t) << "\n";
 
     of << "<table border='0'>";
     //of << row("Identifier", t.getID());
@@ -32,11 +27,11 @@ void writeUnitInfo()
       of << row("Energy", t.maxEnergy());
     }
     of << row("Armor", t.armor());
-    of << row("Armor Upgrade", tref(t.armorUpgrade()));
+    of << row("Armor Upgrade", iconref(t.armorUpgrade()));
 
-    std::string oreCost = ore() + std::to_string(t.mineralPrice());
-    std::string gasCost = gas(t.getRace()) + std::to_string(t.gasPrice());
-    std::string supplyCost = supply(t.getRace()) + std::to_string(t.supplyRequired());
+    std::string oreCost = imgOre() + std::to_string(t.mineralPrice());
+    std::string gasCost = imgGas(t.getRace()) + std::to_string(t.gasPrice());
+    std::string supplyCost = imgSupply(t.getRace()) + std::to_string(t.supplyRequired());
     of << row("Cost", oreCost + " " + gasCost + " " + supplyCost);
     of << row("Build Time", std::to_string(t.buildTime()) + " frames");
 
@@ -58,22 +53,22 @@ void writeUnitInfo()
     {
       if (t.maxGroundHits() == 1)
       {
-        of << row("Ground Weapon", tref(t.groundWeapon()));
+        of << row("Ground Weapon", iconref(t.groundWeapon()));
       }
       else
       {
-        of << row("Ground Weapon", tref(t.groundWeapon()) + " x " + std::to_string(t.maxGroundHits()));
+        of << row("Ground Weapon", iconref(t.groundWeapon()) + " x " + std::to_string(t.maxGroundHits()));
       }
     }
     if (t.airWeapon() != WeaponTypes::None)
     {
       if (t.maxAirHits() == 1)
       {
-        of << row("Air Weapon", tref(t.airWeapon()));
+        of << row("Air Weapon", iconref(t.airWeapon()));
       }
       else
       {
-        of << row("Air Weapon", tref(t.airWeapon()) + " x " + std::to_string(t.maxAirHits()));
+        of << row("Air Weapon", iconref(t.airWeapon()) + " x " + std::to_string(t.maxAirHits()));
       }
     }
 
@@ -88,27 +83,26 @@ void writeUnitInfo()
     of << row("Seek Range", t.seekRange());
     of << row("Sight Range", t.sightRange());
 
-    if (!t.abilities().empty()) of << row("Abilities", separate(t.abilities()));
-    if (!t.upgrades().empty()) of << row("Upgrades", separate(t.upgrades()));
-    if (t.requiredTech() != TechTypes::None) of << row("Requires Technology", tref(t.requiredTech()));
+    if (!t.abilities().empty()) of << row("Abilities", makeiconlist(t.abilities()));
+    if (!t.upgrades().empty()) of << row("Upgrades", makeiconlist(t.upgrades()));
+    if (t.requiredTech() != TechTypes::None) of << row("Requires Technology", iconref(t.requiredTech()));
 
     if (!t.requiredUnits().empty())
     {
       UnitType::set reqUnits;
       for (auto i : t.requiredUnits()) reqUnits.insert(i.first);
-      of << row("Required Units", separate(reqUnits));
+      of << row("Required Units", makeiconlist(reqUnits));
     }
 
     if (t.whatBuilds().second == 1)
     {
-      of << row("Created By", tref(t.whatBuilds().first));
+      of << row("Created By", iconref(t.whatBuilds().first));
     }
     else if (t.whatBuilds().second > 1)
     {
-      of << row("Created By", std::to_string(t.whatBuilds().second) + " " + tref(t.whatBuilds().first));
+      of << row("Created By", std::to_string(t.whatBuilds().second) + " x " + iconref(t.whatBuilds().first));
     }
 
-    of << "<tr><td><strong>Attributes</strong></td><td>";
     std::vector<std::string> attributes;
 #define ATTRIB_TEST(x) if (t.is ## x()) attributes.push_back(#x);
     ATTRIB_TEST(Flyer);
@@ -140,14 +134,13 @@ void writeUnitInfo()
     if (t.producesLarva()) attributes.push_back("ProducesLarva");
     if (t.hasPermanentCloak()) attributes.push_back("PermanentCloak");
     if (t.regeneratesHP()) attributes.push_back("RegeneratesHP");
-    of << separate(attributes);
-    of << "</td></tr>\n";
+    of << row("Attributes", makelist(attributes));
 
     of << "</table>\n";
 
     // References
     std::string const & name = t.getName();
     of << "@tl" << name << " @scc" << name << " @sen" << name << " @wik" << name;
-    of << "\n*/\n";
+    of << docEnd();
   }
 }

@@ -55,36 +55,31 @@ namespace BWAPI
     /// @returns Set of ExplosionTypes.
     const ExplosionType::set& allExplosionTypes();
 
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const ExplosionType x
-    BWAPI_DECL(None);
-    BWAPI_DECL(Normal);
-    BWAPI_DECL(Radial_Splash);
-    BWAPI_DECL(Enemy_Splash);
-    BWAPI_DECL(Lockdown);
-    BWAPI_DECL(Nuclear_Missile);
-    BWAPI_DECL(Parasite);
-    BWAPI_DECL(Broodlings);
-    BWAPI_DECL(EMP_Shockwave);
-    BWAPI_DECL(Irradiate);
-    BWAPI_DECL(Ensnare);
-    BWAPI_DECL(Plague);
-    BWAPI_DECL(Stasis_Field);
-    BWAPI_DECL(Dark_Swarm);
-    BWAPI_DECL(Consume);
-    BWAPI_DECL(Yamato_Gun);
-    BWAPI_DECL(Restoration);
-    BWAPI_DECL(Disruption_Web);
-    BWAPI_DECL(Corrosive_Acid);
-    BWAPI_DECL(Mind_Control);
-    BWAPI_DECL(Feedback);
-    BWAPI_DECL(Optical_Flare);
-    BWAPI_DECL(Maelstrom);
-    BWAPI_DECL(Air_Splash);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const ExplosionType None;
+    extern const ExplosionType Normal;
+    extern const ExplosionType Radial_Splash;
+    extern const ExplosionType Enemy_Splash;
+    extern const ExplosionType Lockdown;
+    extern const ExplosionType Nuclear_Missile;
+    extern const ExplosionType Parasite;
+    extern const ExplosionType Broodlings;
+    extern const ExplosionType EMP_Shockwave;
+    extern const ExplosionType Irradiate;
+    extern const ExplosionType Ensnare;
+    extern const ExplosionType Plague;
+    extern const ExplosionType Stasis_Field;
+    extern const ExplosionType Dark_Swarm;
+    extern const ExplosionType Consume;
+    extern const ExplosionType Yamato_Gun;
+    extern const ExplosionType Restoration;
+    extern const ExplosionType Disruption_Web;
+    extern const ExplosionType Corrosive_Acid;
+    extern const ExplosionType Mind_Control;
+    extern const ExplosionType Feedback;
+    extern const ExplosionType Optical_Flare;
+    extern const ExplosionType Maelstrom;
+    extern const ExplosionType Air_Splash;
+    extern const ExplosionType Unknown;
   }
 
   static_assert(sizeof(ExplosionType) == sizeof(int), "Expected type to resolve to primitive size.");
