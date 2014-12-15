@@ -89,17 +89,12 @@ namespace BWAPI
     /// @returns Race::set containing all the Race types.
     const Race::set& allRaces();
 
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const Race x
-    BWAPI_DECL(Zerg);
-    BWAPI_DECL(Terran);
-    BWAPI_DECL(Protoss);
-    BWAPI_DECL(Random);
-    BWAPI_DECL(None);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const Race Zerg;
+    extern const Race Terran;
+    extern const Race Protoss;
+    extern const Race Random;
+    extern const Race None;
+    extern const Race Unknown;
   }
 
   static_assert(sizeof(Race) == sizeof(int), "Expected type to resolve to primitive size.");

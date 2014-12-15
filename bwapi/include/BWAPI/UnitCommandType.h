@@ -75,57 +75,52 @@ namespace BWAPI
     /// @returns Set of UnitCommandTypes.
     const UnitCommandType::set& allUnitCommandTypes();
     
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const UnitCommandType x
-    BWAPI_DECL(Attack_Move);
-    BWAPI_DECL(Attack_Unit);
-    BWAPI_DECL(Build);
-    BWAPI_DECL(Build_Addon);
-    BWAPI_DECL(Train);
-    BWAPI_DECL(Morph);
-    BWAPI_DECL(Research);
-    BWAPI_DECL(Upgrade);
-    BWAPI_DECL(Set_Rally_Position);
-    BWAPI_DECL(Set_Rally_Unit);
-    BWAPI_DECL(Move);
-    BWAPI_DECL(Patrol);
-    BWAPI_DECL(Hold_Position);
-    BWAPI_DECL(Stop);
-    BWAPI_DECL(Follow);
-    BWAPI_DECL(Gather);
-    BWAPI_DECL(Return_Cargo);
-    BWAPI_DECL(Repair);
-    BWAPI_DECL(Burrow);
-    BWAPI_DECL(Unburrow);
-    BWAPI_DECL(Cloak);
-    BWAPI_DECL(Decloak);
-    BWAPI_DECL(Siege);
-    BWAPI_DECL(Unsiege);
-    BWAPI_DECL(Lift);
-    BWAPI_DECL(Land);
-    BWAPI_DECL(Load);
-    BWAPI_DECL(Unload);
-    BWAPI_DECL(Unload_All);
-    BWAPI_DECL(Unload_All_Position);
-    BWAPI_DECL(Right_Click_Position);
-    BWAPI_DECL(Right_Click_Unit);
-    BWAPI_DECL(Halt_Construction);
-    BWAPI_DECL(Cancel_Construction);
-    BWAPI_DECL(Cancel_Addon);
-    BWAPI_DECL(Cancel_Train);
-    BWAPI_DECL(Cancel_Train_Slot);
-    BWAPI_DECL(Cancel_Morph);
-    BWAPI_DECL(Cancel_Research);
-    BWAPI_DECL(Cancel_Upgrade);
-    BWAPI_DECL(Use_Tech);
-    BWAPI_DECL(Use_Tech_Position);
-    BWAPI_DECL(Use_Tech_Unit);
-    BWAPI_DECL(Place_COP);
-    BWAPI_DECL(None);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const UnitCommandType Attack_Move;
+    extern const UnitCommandType Attack_Unit;
+    extern const UnitCommandType Build;
+    extern const UnitCommandType Build_Addon;
+    extern const UnitCommandType Train;
+    extern const UnitCommandType Morph;
+    extern const UnitCommandType Research;
+    extern const UnitCommandType Upgrade;
+    extern const UnitCommandType Set_Rally_Position;
+    extern const UnitCommandType Set_Rally_Unit;
+    extern const UnitCommandType Move;
+    extern const UnitCommandType Patrol;
+    extern const UnitCommandType Hold_Position;
+    extern const UnitCommandType Stop;
+    extern const UnitCommandType Follow;
+    extern const UnitCommandType Gather;
+    extern const UnitCommandType Return_Cargo;
+    extern const UnitCommandType Repair;
+    extern const UnitCommandType Burrow;
+    extern const UnitCommandType Unburrow;
+    extern const UnitCommandType Cloak;
+    extern const UnitCommandType Decloak;
+    extern const UnitCommandType Siege;
+    extern const UnitCommandType Unsiege;
+    extern const UnitCommandType Lift;
+    extern const UnitCommandType Land;
+    extern const UnitCommandType Load;
+    extern const UnitCommandType Unload;
+    extern const UnitCommandType Unload_All;
+    extern const UnitCommandType Unload_All_Position;
+    extern const UnitCommandType Right_Click_Position;
+    extern const UnitCommandType Right_Click_Unit;
+    extern const UnitCommandType Halt_Construction;
+    extern const UnitCommandType Cancel_Construction;
+    extern const UnitCommandType Cancel_Addon;
+    extern const UnitCommandType Cancel_Train;
+    extern const UnitCommandType Cancel_Train_Slot;
+    extern const UnitCommandType Cancel_Morph;
+    extern const UnitCommandType Cancel_Research;
+    extern const UnitCommandType Cancel_Upgrade;
+    extern const UnitCommandType Use_Tech;
+    extern const UnitCommandType Use_Tech_Position;
+    extern const UnitCommandType Use_Tech_Unit;
+    extern const UnitCommandType Place_COP;
+    extern const UnitCommandType None;
+    extern const UnitCommandType Unknown;
   }
 
   static_assert(sizeof(UnitCommandType) == sizeof(int), "Expected type to resolve to primitive size.");

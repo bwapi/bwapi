@@ -42,19 +42,44 @@ NAMESPACE_T(UpgradeType)
 NAMESPACE_T(WeaponType)
 #undef NAMESPACE_T
 
+std::string img(std::string const & src);
+std::string imgOre();
+std::string imgEnergy();
+std::string imgGas(Race race);
+std::string imgSupply(Race race);
+
+std::string icon(WeaponType const & t);
+std::string icon(UpgradeType const & t);
+std::string icon(TechType const & t);
+std::string icon(Order const & t);
+std::string icon(UnitType const & t);
+
+
+template <class T>
+std::string friendlyName(T const & t)
+{
+  std::string name = t.toString();
+  std::replace(name.begin(), name.end(), '_', ' ');
+  return name;
+}
+
 template <class T>
 std::string tref(T const & t)
 {
-  std::string friendlyName = t.toString();
-  std::replace(friendlyName.begin(), friendlyName.end(), '_', ' ');
-  return "@ref " + namespaceOf<T>::value + "::" + t.toString() + " \"" + friendlyName + "\"";
+  return "@ref " + namespaceOf<T>::value + "::" + t.toString() + " \"" + friendlyName(t) + "\"";
+}
+
+template <class T>
+std::string iconref(T const & t)
+{
+  return icon(t) + tref(t);
 }
 
 template <>
 std::string tref(std::string const &t);
 
 template <class T>
-std::string separate(T const & list, char delim = ',')
+std::string makelist(T const & list, char delim = ',')
 {
   std::ostringstream ss;
   for (auto a = list.begin(); a != list.end(); ++a)
@@ -65,8 +90,48 @@ std::string separate(T const & list, char delim = ',')
   return ss.str();
 }
 
-std::string img(std::string const & src);
-std::string ore();
-std::string energy();
-std::string gas(Race race);
-std::string supply(Race race);
+template <class T>
+std::string makeiconlist(T const & list)
+{
+  std::ostringstream ss;
+  for (auto a = list.begin(); a != list.end(); ++a)
+  {
+    if (a != list.begin()) ss << ' ';
+    ss << iconref(*a);
+  }
+  return ss.str();
+}
+
+template <class T>
+std::string docEnum(T const & t)
+{
+  std::ostringstream ss;
+  ss << "/*!\n"
+    << "@var BWAPI::" << namespaceOf<T>::value << "::Enum::" << t.getName() << "\n"
+    "Value of " << t.getID() << "  [0x" << std::hex << t.getID() << "]. " << std::dec
+    << "See BWAPI::" << namespaceOf<T>::value << "::" << t.getName() << ".\n"
+    << "*/\n";
+  return ss.str();
+}
+
+template <class T>
+std::string docBegin(T const & t)
+{
+  std::ostringstream ss;
+  ss << "/*!\n";
+  ss << "@var BWAPI::" << namespaceOf<T>::value << "::" << t.getName() << "\n";
+  return ss.str();
+}
+
+inline std::string docEnd()
+{
+  return "\n*/\n";
+}
+
+template <class T>
+std::string docIntro(T const & t)
+{
+  std::ostringstream ss;
+  ss << friendlyName(t) << ". Corresponds with " << namespaceOf<T>::value << "::Enum::" << t.getName() << ".\n";
+  return ss.str();
+}

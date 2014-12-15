@@ -4,4 +4,5 @@ int main()
 {
   writeUnitInfo();
   writeColorInfo();
+  writeWeaponInfo();
 }

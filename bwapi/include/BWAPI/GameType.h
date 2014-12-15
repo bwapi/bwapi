@@ -49,26 +49,21 @@ namespace BWAPI
     /// @returns Set of available GameTypes.
     const GameType::set& allGameTypes();
     
-#ifdef BWAPI_DECL
-#undef BWAPI_DECL
-#endif
-#define BWAPI_DECL(x) /** x */ extern const GameType x
-    BWAPI_DECL(Melee);
-    BWAPI_DECL(Free_For_All);
-    BWAPI_DECL(One_on_One);
-    BWAPI_DECL(Capture_The_Flag);
-    BWAPI_DECL(Greed);
-    BWAPI_DECL(Slaughter);
-    BWAPI_DECL(Sudden_Death);
-    BWAPI_DECL(Ladder);
-    BWAPI_DECL(Use_Map_Settings);
-    BWAPI_DECL(Team_Melee);
-    BWAPI_DECL(Team_Free_For_All);
-    BWAPI_DECL(Team_Capture_The_Flag);
-    BWAPI_DECL(Top_vs_Bottom);
-    BWAPI_DECL(None);
-    BWAPI_DECL(Unknown);
-#undef BWAPI_DECL
+    extern const GameType Melee;
+    extern const GameType Free_For_All;
+    extern const GameType One_on_One;
+    extern const GameType Capture_The_Flag;
+    extern const GameType Greed;
+    extern const GameType Slaughter;
+    extern const GameType Sudden_Death;
+    extern const GameType Ladder;
+    extern const GameType Use_Map_Settings;
+    extern const GameType Team_Melee;
+    extern const GameType Team_Free_For_All;
+    extern const GameType Team_Capture_The_Flag;
+    extern const GameType Top_vs_Bottom;
+    extern const GameType None;
+    extern const GameType Unknown;
   }
 
   static_assert(sizeof(GameType) == sizeof(int), "Expected type to resolve to primitive size.");
