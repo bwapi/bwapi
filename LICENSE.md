@@ -1,5 +1,5 @@
 # GNU Lesser General Public License {#LGPL}
-=================================
+[TOC]
 
 Version 3, 29 June 2007
 
