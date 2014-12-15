@@ -2,9 +2,9 @@
 [TOC]
 # Project Information {#project}
 
-[Go to the github page](https://github.com/bwapi/bwapi)  
-[Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)  
-[Go to the releases](https://github.com/bwapi/bwapi/releases)  
+* [Go to the github page](https://github.com/bwapi/bwapi)
+* [Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)
+* [Go to the releases](https://github.com/bwapi/bwapi/releases)
 
 ## Overview {#overview}
 
