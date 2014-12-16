@@ -261,14 +261,14 @@ Value of 80  [0x50]. See BWAPI::Orders::Harvest2.
 
 */
 /*!
-@var BWAPI::Orders::Enum::
-Value of 16  [0x10]. See BWAPI::Orders::.
+@var BWAPI::Orders::Enum::UnusedNothing
+Value of 16  [0x10]. See BWAPI::Orders::UnusedNothing.
 */
 /*!
-@var BWAPI::Orders::
+@var BWAPI::Orders::UnusedNothing
  @htmlonly
 <img src='icon229.png'>
-@endhtmlonly  . Corresponds with Orders::Enum::.
+@endhtmlonly  UnusedNothing. Corresponds with Orders::Enum::UnusedNothing.
 
 
 */
@@ -285,14 +285,14 @@ Value of 81  [0x51]. See BWAPI::Orders::MoveToGas.
 
 */
 /*!
-@var BWAPI::Orders::Enum::
-Value of 17  [0x11]. See BWAPI::Orders::.
+@var BWAPI::Orders::Enum::UnusedPowerup
+Value of 17  [0x11]. See BWAPI::Orders::UnusedPowerup.
 */
 /*!
-@var BWAPI::Orders::
+@var BWAPI::Orders::UnusedPowerup
  @htmlonly
 <img src='icon229.png'>
-@endhtmlonly  . Corresponds with Orders::Enum::.
+@endhtmlonly  UnusedPowerup. Corresponds with Orders::Enum::UnusedPowerup.
 
 
 */
@@ -401,12 +401,12 @@ Value of 30  [0x1e]. See BWAPI::Orders::PlaceBuilding.
 
 */
 /*!
-@var BWAPI::Orders::Enum::BuildProtoss2
-Value of 32  [0x20]. See BWAPI::Orders::BuildProtoss2.
+@var BWAPI::Orders::Enum::CreateProtossBuilding
+Value of 32  [0x20]. See BWAPI::Orders::CreateProtossBuilding.
 */
 /*!
-@var BWAPI::Orders::BuildProtoss2
- BuildProtoss2. Corresponds with Orders::Enum::BuildProtoss2.
+@var BWAPI::Orders::CreateProtossBuilding
+ CreateProtossBuilding. Corresponds with Orders::Enum::CreateProtossBuilding.
 
 
 */
@@ -1163,14 +1163,14 @@ Value of 132  [0x84]. See BWAPI::Orders::PlaceMine.
 
 */
 /*!
-@var BWAPI::Orders::Enum::RightClickActioni
-Value of 133  [0x85]. See BWAPI::Orders::RightClickActioni.
+@var BWAPI::Orders::Enum::RightClickAction
+Value of 133  [0x85]. See BWAPI::Orders::RightClickAction.
 */
 /*!
-@var BWAPI::Orders::RightClickActioni
+@var BWAPI::Orders::RightClickAction
  @htmlonly
 <img src='icon228.png'>
-@endhtmlonly  RightClickActioni. Corresponds with Orders::Enum::RightClickActioni.
+@endhtmlonly  RightClickAction. Corresponds with Orders::Enum::RightClickAction.
 
 
 */
@@ -1563,14 +1563,14 @@ Value of 175  [0xaf]. See BWAPI::Orders::Medic.
 
 */
 /*!
-@var BWAPI::Orders::Enum::MedicHeal1
-Value of 176  [0xb0]. See BWAPI::Orders::MedicHeal1.
+@var BWAPI::Orders::Enum::MedicHeal
+Value of 176  [0xb0]. See BWAPI::Orders::MedicHeal.
 */
 /*!
-@var BWAPI::Orders::MedicHeal1
+@var BWAPI::Orders::MedicHeal
  @htmlonly
 <img src='icon365.png'>
-@endhtmlonly  MedicHeal1. Corresponds with Orders::Enum::MedicHeal1.
+@endhtmlonly  MedicHeal. Corresponds with Orders::Enum::MedicHeal.
 
 
 */
@@ -1587,24 +1587,24 @@ Value of 177  [0xb1]. See BWAPI::Orders::HealMove.
 
 */
 /*!
-@var BWAPI::Orders::Enum::MedicHeal2
-Value of 179  [0xb3]. See BWAPI::Orders::MedicHeal2.
+@var BWAPI::Orders::Enum::MedicHealToIdle
+Value of 179  [0xb3]. See BWAPI::Orders::MedicHealToIdle.
 */
 /*!
-@var BWAPI::Orders::MedicHeal2
- MedicHeal2. Corresponds with Orders::Enum::MedicHeal2.
+@var BWAPI::Orders::MedicHealToIdle
+ MedicHealToIdle. Corresponds with Orders::Enum::MedicHealToIdle.
 
 
 */
 /*!
-@var BWAPI::Orders::Enum::CastRestoratioin
-Value of 180  [0xb4]. See BWAPI::Orders::CastRestoratioin.
+@var BWAPI::Orders::Enum::CastRestoration
+Value of 180  [0xb4]. See BWAPI::Orders::CastRestoration.
 */
 /*!
-@var BWAPI::Orders::CastRestoratioin
+@var BWAPI::Orders::CastRestoration
  @htmlonly
 <img src='icon277.png'>
-@endhtmlonly  CastRestoratioin. Corresponds with Orders::Enum::CastRestoratioin.
+@endhtmlonly  CastRestoration. Corresponds with Orders::Enum::CastRestoration.
 
 
 */
