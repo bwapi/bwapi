@@ -868,7 +868,7 @@ Value of 24  [0x18]. See BWAPI::TechTypes::Restoration.
 @endhtmlonly @ref WeaponTypes::Restoration "Restoration"</td></tr>
 <tr><td><strong>Order</strong></td><td> @htmlonly
 <img src='icon277.png'>
-@endhtmlonly @ref Orders::CastRestoratioin "CastRestoratioin"</td></tr>
+@endhtmlonly @ref Orders::CastRestoration "CastRestoration"</td></tr>
 <tr><td><strong>Used by</strong></td><td> @htmlonly
 <img src='icon34.png'>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
@@ -1127,7 +1127,7 @@ Value of 34  [0x22]. See BWAPI::TechTypes::Healing.
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
 <tr><td><strong>Order</strong></td><td> @htmlonly
 <img src='icon365.png'>
-@endhtmlonly @ref Orders::MedicHeal1 "MedicHeal1"</td></tr>
+@endhtmlonly @ref Orders::MedicHeal "MedicHeal"</td></tr>
 <tr><td><strong>Used by</strong></td><td> @htmlonly
 <img src='icon34.png'>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
