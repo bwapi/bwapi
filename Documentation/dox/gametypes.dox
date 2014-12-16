@@ -1,0 +1,130 @@
+/*!
+@var BWAPI::GameTypes::Enum::Use_Map_Settings
+Value of 10  [0xa]. See BWAPI::GameTypes::Use_Map_Settings.
+*/
+/*!
+@var BWAPI::GameTypes::Use_Map_Settings
+Use Map Settings. Corresponds with GameTypes::Enum::Use_Map_Settings.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Melee
+Value of 2  [0x2]. See BWAPI::GameTypes::Melee.
+*/
+/*!
+@var BWAPI::GameTypes::Melee
+Melee. Corresponds with GameTypes::Enum::Melee.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Free_For_All
+Value of 3  [0x3]. See BWAPI::GameTypes::Free_For_All.
+*/
+/*!
+@var BWAPI::GameTypes::Free_For_All
+Free For All. Corresponds with GameTypes::Enum::Free_For_All.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::One_on_One
+Value of 4  [0x4]. See BWAPI::GameTypes::One_on_One.
+*/
+/*!
+@var BWAPI::GameTypes::One_on_One
+One on One. Corresponds with GameTypes::Enum::One_on_One.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Capture_The_Flag
+Value of 5  [0x5]. See BWAPI::GameTypes::Capture_The_Flag.
+*/
+/*!
+@var BWAPI::GameTypes::Capture_The_Flag
+Capture The Flag. Corresponds with GameTypes::Enum::Capture_The_Flag.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Greed
+Value of 6  [0x6]. See BWAPI::GameTypes::Greed.
+*/
+/*!
+@var BWAPI::GameTypes::Greed
+Greed. Corresponds with GameTypes::Enum::Greed.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Slaughter
+Value of 7  [0x7]. See BWAPI::GameTypes::Slaughter.
+*/
+/*!
+@var BWAPI::GameTypes::Slaughter
+Slaughter. Corresponds with GameTypes::Enum::Slaughter.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Sudden_Death
+Value of 8  [0x8]. See BWAPI::GameTypes::Sudden_Death.
+*/
+/*!
+@var BWAPI::GameTypes::Sudden_Death
+Sudden Death. Corresponds with GameTypes::Enum::Sudden_Death.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Ladder
+Value of 9  [0x9]. See BWAPI::GameTypes::Ladder.
+*/
+/*!
+@var BWAPI::GameTypes::Ladder
+Ladder. Corresponds with GameTypes::Enum::Ladder.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Team_Melee
+Value of 11  [0xb]. See BWAPI::GameTypes::Team_Melee.
+*/
+/*!
+@var BWAPI::GameTypes::Team_Melee
+Team Melee. Corresponds with GameTypes::Enum::Team_Melee.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Team_Free_For_All
+Value of 12  [0xc]. See BWAPI::GameTypes::Team_Free_For_All.
+*/
+/*!
+@var BWAPI::GameTypes::Team_Free_For_All
+Team Free For All. Corresponds with GameTypes::Enum::Team_Free_For_All.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Team_Capture_The_Flag
+Value of 13  [0xd]. See BWAPI::GameTypes::Team_Capture_The_Flag.
+*/
+/*!
+@var BWAPI::GameTypes::Team_Capture_The_Flag
+Team Capture The Flag. Corresponds with GameTypes::Enum::Team_Capture_The_Flag.
+
+
+*/
+/*!
+@var BWAPI::GameTypes::Enum::Top_vs_Bottom
+Value of 15  [0xf]. See BWAPI::GameTypes::Top_vs_Bottom.
+*/
+/*!
+@var BWAPI::GameTypes::Top_vs_Bottom
+Top vs Bottom. Corresponds with GameTypes::Enum::Top_vs_Bottom.
+
+
+*/

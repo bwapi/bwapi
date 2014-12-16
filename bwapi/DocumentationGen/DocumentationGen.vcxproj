@@ -71,10 +71,22 @@
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bullettypes.cpp" />
     <ClCompile Include="colortypes.cpp" />
+    <ClCompile Include="damagetypes.cpp" />
+    <ClCompile Include="errors.cpp" />
+    <ClCompile Include="explosiontypes.cpp" />
+    <ClCompile Include="gametypes.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="orders.cpp" />
+    <ClCompile Include="playertypes.cpp" />
+    <ClCompile Include="races.cpp" />
+    <ClCompile Include="techtypes.cpp" />
+    <ClCompile Include="unitcommandtypes.cpp" />
+    <ClCompile Include="unitsizetypes.cpp" />
     <ClCompile Include="unittypes.cpp" />
+    <ClCompile Include="upgradetypes.cpp" />
     <ClCompile Include="weapontypes.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

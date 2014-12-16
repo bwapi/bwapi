@@ -1169,7 +1169,7 @@ ALIASES                = "Dropships=@ref UnitTypes::Terran_Dropship \"Dropships\
                          "wikCritter_Kakaru=@scwikia{Kakaru}" \
                          "wikCritter_Ragnasaur=@scwikia{Ragnasaur}" \
                          "wikCritter_Ursadon=@scwikia{Ursadon}" \
-                         "wikZerg_Lurker_Egg=@scwikia{Lurker_Egg}" \
+                         "wikZerg_Lurker_Egg=@scwikia{Lurker_egg}" \
                          "wikHero_Raszagal=@scwikia{Raszagal}" \
                          "wikHero_Samir_Duran=@scwikia{Samir_Duran}" \
                          "wikHero_Alexei_Stukov=@scwikia{Alexei_Stukov}" \
