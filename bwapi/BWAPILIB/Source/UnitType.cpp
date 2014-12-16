@@ -1102,7 +1102,7 @@ namespace BWAPI
     };
     static const WeaponType airWeapon[UnitTypes::Enum::MAX] = {
       Gauss_Rifle, C_10_Canister_Rifle, None, Hellfire_Missile_Pack, Hellfire_Missile_Pack, None, None, None, Gemini_Missiles, None, None, None, 
-      ATA_Laser_Battery, None, None, None, C_10_Canister_Rifle_Sarah_Kerrigan, None, Hellfire_Missile_Pack_Alan_Schezar, None, 
+      ATA_Laser_Battery, None, None, None, C_10_Canister_Rifle_Sarah_Kerrigan, Hellfire_Missile_Pack_Alan_Schezar, Hellfire_Missile_Pack_Alan_Schezar, None,
       Gauss_Rifle_Jim_Raynor, Gemini_Missiles_Tom_Kazansky, None, None, None, None, None, ATA_Laser_Battery_Hero, 
       ATA_Laser_Battery_Hyperion, ATA_Laser_Battery_Hero, None, None, None, None, None, None, None, None, Needle_Spines, None, 
       None, None, None, Glave_Wurm, None, None, None, Suicide_Scourge, None, None, None, None, None, Needle_Spines_Hunter_Killer, 
@@ -1122,7 +1122,7 @@ namespace BWAPI
   }
 
   static const int groundWeaponHits[UnitTypes::Enum::MAX] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 
     1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 2, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 0, 0, 0, 0, 1, 
     1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1130,7 +1130,7 @@ namespace BWAPI
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
   };
   static const int airWeaponHits[UnitTypes::Enum::MAX] = {
-    1, 1, 0, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
+    1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
     1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 4, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 
     1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 

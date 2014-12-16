@@ -634,7 +634,7 @@ Value of 3  [0x3]. See BWAPI::UnitTypes::Terran_Goliath.
 @endhtmlonly @ref WeaponTypes::Twin_Autocannons "Twin Autocannons"</td></tr>
 <tr><td><strong>Air Weapon</strong></td><td> @htmlonly
 <img src='icon327.png'>
-@endhtmlonly @ref WeaponTypes::Hellfire_Missile_Pack "Hellfire Missile Pack" x 2</td></tr>
+@endhtmlonly @ref WeaponTypes::Hellfire_Missile_Pack "Hellfire Missile Pack"</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Space Required</strong></td><td>2</td></tr>
@@ -1151,7 +1151,10 @@ Value of 17  [0x11]. See BWAPI::UnitTypes::Hero_Alan_Schezar.
 <tr><td><strong>Turn Radius</strong></td><td>17</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon326.png'>
-@endhtmlonly @ref WeaponTypes::Twin_Autocannons_Alan_Schezar "Twin Autocannons Alan Schezar" x 0</td></tr>
+@endhtmlonly @ref WeaponTypes::Twin_Autocannons_Alan_Schezar "Twin Autocannons Alan Schezar"</td></tr>
+<tr><td><strong>Air Weapon</strong></td><td> @htmlonly
+<img src='icon327.png'>
+@endhtmlonly @ref WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar "Hellfire Missile Pack Alan Schezar"</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Space Required</strong></td><td>2</td></tr>
@@ -1403,7 +1406,7 @@ Value of 23  [0x17]. See BWAPI::UnitTypes::Hero_Edmund_Duke_Tank_Mode.
 <tr><td><strong>Turn Radius</strong></td><td>13</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon328.png'>
-@endhtmlonly @ref WeaponTypes::Arclite_Cannon_Edmund_Duke "Arclite Cannon Edmund Duke" x 0</td></tr>
+@endhtmlonly @ref WeaponTypes::Arclite_Cannon_Edmund_Duke "Arclite Cannon Edmund Duke"</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Space Required</strong></td><td>4</td></tr>
@@ -1453,7 +1456,7 @@ Value of 25  [0x19]. See BWAPI::UnitTypes::Hero_Edmund_Duke_Siege_Mode.
 <tr><td><strong>Turn Radius</strong></td><td>40</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon336.png'>
-@endhtmlonly @ref WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke "Arclite Shock Cannon Edmund Duke" x 0</td></tr>
+@endhtmlonly @ref WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke "Arclite Shock Cannon Edmund Duke"</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
