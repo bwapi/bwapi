@@ -22,7 +22,7 @@ Zerg. Corresponds with Races::Enum::Zerg.
 <img src='icon42.png'>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
-
+@tlZerg @sccZerg @wikZerg
 */
 /*!
 @var BWAPI::Races::Enum::Terran
@@ -48,7 +48,7 @@ Terran. Corresponds with Races::Enum::Terran.
 <img src='icon109.png'>
 @endhtmlonly @ref UnitTypes::Terran_Supply_Depot "Terran Supply Depot"</td></tr>
 </table>
-
+@tlTerran @sccTerran @wikTerran
 */
 /*!
 @var BWAPI::Races::Enum::Protoss
@@ -74,5 +74,5 @@ Protoss. Corresponds with Races::Enum::Protoss.
 <img src='icon156.png'>
 @endhtmlonly @ref UnitTypes::Protoss_Pylon "Protoss Pylon"</td></tr>
 </table>
-
+@tlProtoss @sccProtoss @wikProtoss
 */

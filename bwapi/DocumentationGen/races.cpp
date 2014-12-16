@@ -21,6 +21,9 @@ void writeRaceInfo()
 
     of << "</table>\n";
 
+    // References
+    std::string const & name = t.getName();
+    of << "@tl" << name << " @scc" << name << " @wik" << name;
     of << docEnd();
   }
 }

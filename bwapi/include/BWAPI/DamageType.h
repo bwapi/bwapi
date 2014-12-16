@@ -28,7 +28,11 @@ namespace BWAPI
       /// @copydoc Type::Type(int)
       DamageType(int id = DamageTypes::Enum::None);
   };
-  /// Namespace containing damage types
+  /// Namespace containing damage types.
+  ///
+  /// [View on Liquipedia](http://wiki.teamliquid.net/starcraft/Damage_Type)<br>
+  /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
+  /// [View on Starcraft Wikia](http://starcraft.wikia.com/wiki/Damage_types)<br>
   namespace DamageTypes
   {
     /// Retrieves the set of all the DamageTypes.
