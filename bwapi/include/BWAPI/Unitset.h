@@ -58,8 +58,12 @@ namespace BWAPI
 
     /// Sets the client info for every unit in this set.
     ///
-    /// @param clientInfo A pointer to client information, managed by the AI module, or nullptr if
-    /// client information is to be cleared.
+    /// @param clientInfo [optional]
+    ///   A pointer to client information, managed by the AI module, or nullptr if client
+    ///   information is to be cleared.
+    /// @param index [optional]
+    ///   An key value for the client info mapping so that more than one piece of data can be
+    ///   mapped to the same unit.
     ///
     /// @see UnitInterface::setClientInfo
     void setClientInfo(void *clientInfo = nullptr, int index = 0) const;

@@ -8,21 +8,25 @@ Changes:
  * BWAPI has been updated to use Visual C++ 2013.
  * The video commands have been removed.
  * Removed the underlying `Vectorset` container, replacing it with `std::unordered_set`.
- * Significantly improved the type documentation (now with statistics, visuals, and external links)
  * Starcraft can now load BWAPI's custom network providers (Direct IP and Local PC) without using BWAPI.
-  
+ 
+Documentation:
+ * Types are now documented with information, visuals, and external references to Liquipedia, Staredit Network, Wikia, and Blizzard's Starcraft Compendium.
+ * C++ STL types are now directly linked to http://www.cppreference.com.
+
 Bug Fixes:
  * Fixed a bug where some replays would be skipped when `auto_menu` iterated through them.
- * Fixed a major bug that could cause crashes or produce undefined results on larger maps when using `hasPath` or `getRegion`.
+ * Fixed a major bug that could cause crashes or produce undefined results on larger maps when using `BWAPI::Game::hasPath` or `BWAPI::Game::getRegion`.
  * Fixed a crash when the `save_replay` configuration option contained extended ASCII characters.
  * Fixed a crash when retrieving the name of a force in BWAPIClient.
  * Fixed a regression where replays would fail to load when `auto_menu` was set to `SINGLE_PLAYER`.
  * Fixed a bug that prevented lifted buildings from moving and holding position.
  * Fixed a bug that caused crashes when running consecutive games.
- * Fixed Goliath and Siege Tank's weapon types and max hit values.
- * Fixed issue where unit fields were not reset after its destruction.
- * Fixed Game::sendText in the BWAPI Client.
- * Fixed a bug where the red and blue values of Color types were switched.
+ * Fixed @Goliath, @SiegeTank, and corresponding hero weapon types and max hit values.
+ * Fixed an issue where unit fields were not reset after its destruction.
+ * Fixed BWAPI::Game::sendText in the BWAPI Client.
+ * Fixed a bug where the red and blue values of BWAPI::Color types were switched.
+ * Fixed missing names and typos for various BWAPI::Orders.
 
 
 BWAPI 4.0.1 Beta (r4453) {#changes_401b}
@@ -226,7 +230,7 @@ Additions:
  * Added `Player::isResearchAvailable`. (for Use Map Settings)
  * Added `Player::getMaxUpgradeLevel`. (for Use Map Settings)
  * Added `Game::getCountdownTimer`. (for a few game modes)
- * Gave all types a `<type>::c_str()` member to reduce the redundancy of retrieving names (such as `type.getName().c_str()`, which can now be `type.c_str()`).
+ * Gave all types a `Type::c_str()` member to reduce the redundancy of retrieving names (such as `type.getName().c_str()`, which can now be `type.c_str()`).
  * Added the `Region` class with several member functions.
  * Added `Game::getRegion`, `Game::getAllRegions`, and `Game::getRegionAt`.
  * Added encapsulation to `Event`.
@@ -378,7 +382,7 @@ Changes:
  * The auto-menu map selection no longer loops back and forth with the previous menu in order to select the correct map.
  * The map entry under `auto_menu` in the config now accepts wildcards, and chooses a random map from the pool when starting the game.
  * BWAPI's custom network module has been marked deprecated and replaced by BWDI's module. (SNP file)
- * `Unit::attackMove` and `Unit::attackUnit` have been renamed to `Unit::attack` to conform with the other functions. Current users can perform a Find&Replace in all files(a function provided by Visual Studio and Notepad++), or use a `#define`.
+ * `Unit::attackMove` and `Unit::attackUnit` have been renamed to `Unit::attack` to conform with the other functions. Current users can perform a Find&Replace in all files(a function provided by Visual Studio and Notepad++), or use a `define`.
  * Ordering an Infested Terran to Attack a location (Attack Move) will now cause it to explode at that location. (Also known as "Sap Location")
  * Renamed `UpgradeType::mineralPriceBase` to `UpgradeType::mineralPriceBase`, `UpgradeType::gasPriceBase` to `UpgradeType::gasPrice`, and `UpgradeType::upgradeTimeBase` to `UpgradeType::upgradeTime`, as well as added the parameter that specifies the level. These functions now include the cost factors in calculations. To obtain the base value, use 1 as the parameter.
  * There is a new menu hack that causes menus to load immediately instead of the old one which quickly played the swish-in and swish-out animations.
@@ -611,7 +615,7 @@ Bug fixes:
  * Fix an issue where hasPath failed at cliff edges. 
     
 
-BWAPI Beta 3.1 (r2796) {#changes 310b}
+BWAPI Beta 3.1 (r2796) {#changes_310b}
 ==============================
 
 The following features have been altered:

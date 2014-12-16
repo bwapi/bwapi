@@ -238,134 +238,135 @@ TAB_SIZE               = 2
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES                = "Dropships=@ref UnitTypes::Terran_Dropship \"Dropships\"" \
-                         "Bunkers=@ref UnitTypes::Terran_Bunker \"Bunkers\"" \
-                         "Overlords=@ref UnitTypes::Zerg_Overlord \"Overlords\"" \
-                         "Shuttles=@ref UnitTypes::Protoss_Shuttle \"Shuttles\"" \
-                         "Refineries=@ref UnitTypes::Terran_Refinery \"Refineries\"" \
-                         "Assimilators=@ref UnitTypes::Protoss_Assimilator \"Assimilators\"" \
-                         "Extractors=@ref UnitTypes::Zerg_Extractor \"Extractors\"" \
-                         "Interceptors=@ref UnitTypes::Protoss_Interceptor \"Interceptors\"" \
-                         "Carriers=@ref UnitTypes::Protoss_Carrier \"Carriers\"" \
-                         "Hatcheries=@ref UnitTypes::Zerg_Hatchery \"Hatcheries\"" \
-                         "Lairs=@ref UnitTypes::Zerg_Lair \"Lairs\"" \
-                         "Hives=@ref UnitTypes::Zerg_Hive \"Hives\"" \
-                         "Larvae=@ref UnitTypes::Zerg_Larva \"Larvae\"" \
-                         "Medic=@ref UnitTypes::Terran_Medic \"Medic\"" \
-                         "Hatchery=@ref UnitTypes::Zerg_Hatchery \"Hatchery\"" \
-                         "Lair=@ref UnitTypes::Zerg_Lair \"Lair\"" \
-                         "Hive=@ref UnitTypes::Zerg_Hive \"Hive\"" \
-                         "Scarabs=@ref UnitTypes::Protoss_Scarab \"Scarabs\"" \
+ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dropships\"" \
+                         "Bunkers=@ref BWAPI::UnitTypes::Terran_Bunker \"Bunkers\"" \
+                         "Overlords=@ref BWAPI::UnitTypes::Zerg_Overlord \"Overlords\"" \
+                         "Shuttles=@ref BWAPI::UnitTypes::Protoss_Shuttle \"Shuttles\"" \
+                         "Refineries=@ref BWAPI::UnitTypes::Terran_Refinery \"Refineries\"" \
+                         "Assimilators=@ref BWAPI::UnitTypes::Protoss_Assimilator \"Assimilators\"" \
+                         "Extractors=@ref BWAPI::UnitTypes::Zerg_Extractor \"Extractors\"" \
+                         "Interceptors=@ref BWAPI::UnitTypes::Protoss_Interceptor \"Interceptors\"" \
+                         "Carriers=@ref BWAPI::UnitTypes::Protoss_Carrier \"Carriers\"" \
+                         "Hatcheries=@ref BWAPI::UnitTypes::Zerg_Hatchery \"Hatcheries\"" \
+                         "Lairs=@ref BWAPI::UnitTypes::Zerg_Lair \"Lairs\"" \
+                         "Hives=@ref BWAPI::UnitTypes::Zerg_Hive \"Hives\"" \
+                         "Larvae=@ref BWAPI::UnitTypes::Zerg_Larva \"Larvae\"" \
+                         "Medic=@ref BWAPI::UnitTypes::Terran_Medic \"Medic\"" \
+                         "Hatchery=@ref BWAPI::UnitTypes::Zerg_Hatchery \"Hatchery\"" \
+                         "Lair=@ref BWAPI::UnitTypes::Zerg_Lair \"Lair\"" \
+                         "Hive=@ref BWAPI::UnitTypes::Zerg_Hive \"Hive\"" \
+                         "Scarabs=@ref BWAPI::UnitTypes::Protoss_Scarab \"Scarabs\"" \
                          "Terran=@ref Races::Terran \"Terran\"" \
-                         "Command_Center=@ref UnitTypes::Terran_Command_Center \"Command Center\"" \
-                         "Factory=@ref UnitTypes::Terran_Factory \"Factory\"" \
-                         "Starport=@ref UnitTypes::Terran_Starport \"Starport\"" \
-                         "Starport=@ref UnitTypes::Terran_Starport \"Starport\"" \
-                         "Science_Facility=@ref UnitTypes::Terran_Science_Facility \"Science Facility\"" \
+                         "Command_Center=@ref BWAPI::UnitTypes::Terran_Command_Center \"Command Center\"" \
+                         "Factory=@ref BWAPI::UnitTypes::Terran_Factory \"Factory\"" \
+                         "Starport=@ref BWAPI::UnitTypes::Terran_Starport \"Starport\"" \
+                         "Starport=@ref BWAPI::UnitTypes::Terran_Starport \"Starport\"" \
+                         "Science_Facility=@ref BWAPI::UnitTypes::Terran_Science_Facility \"Science Facility\"" \
                          "Zerg=@ref Races::Zerg \"Zerg\"" \
-                         "Bunker=@ref UnitTypes::Terran_Bunker \"Bunker\"" \
-                         "Nydus_Canal=@ref UnitTypes::Zerg_Nydus_Canal \"Nydus Canal\"" \
-                         "Queen=@ref UnitTypes::Zerg_Queen \"Queen\"" \
-                         "Ensnare=@ref TechTypes::Ensnare \"Ensnare\"" \
-                         "Geyser=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
-                         "Geysers=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
+                         "Bunker=@ref BWAPI::UnitTypes::Terran_Bunker \"Bunker\"" \
+                         "Nydus_Canal=@ref BWAPI::UnitTypes::Zerg_Nydus_Canal \"Nydus Canal\"" \
+                         "Queen=@ref BWAPI::UnitTypes::Zerg_Queen \"Queen\"" \
+                         "Ensnare=@ref BWAPI::TechTypes::Ensnare \"Ensnare\"" \
+                         "Geyser=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
+                         "Geysers=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
                          "Protoss=@ref Races::Protoss \"Protoss\"" \
-                         "Marines=@ref UnitTypes::Terran_Marine \"Marines\"" \
-                         "Barracks=@ref UnitTypes::Terran_Barracks \"Barracks\"" \
-                         "Creep_Colony=@ref UnitTypes::Zerg_Creep_Colony \"Creep Colony\"" \
-                         "Archons=@ref UnitTypes::Protoss_Archon \"Archons\"" \
-                         "Dark_Templar=@ref UnitTypes::Protoss_Dark_Templar \"Dark Templar\"" \
-                         "High_Templar=@ref UnitTypes::Protoss_High_Templar \"High Templar\"" \
-                         "Sunkens=@ref UnitTypes::Zerg_Sunken_Colony \"Sunkens\"" \
-                         "Spores=@ref UnitTypes::Zerg_Spore_Colony \"Spores\"" \
-                         "Photon_Cannons=@ref UnitTypes::Protoss_Photon_Cannon \"Photon Cannons\"" \
-                         "Turrets=@ref UnitTypes::Terran_Missile_Turret \"Turrets\"" \
-                         "Reaver=@ref UnitTypes::Protoss_Reaver \"Reaver\"" \
-                         "Carrier=@ref UnitTypes::Protoss_Carrier \"Carrier\"" \
-                         "Larva=@ref UnitTypes::Zerg_Larva \"Larva\"" \
-                         "Zerglings=@ref UnitTypes::Zerg_Zergling \"Zerglings\"" \
-                         "Burrow=@ref TechTypes::Burrowing \"Burrow\"" \
-                         "UseMapSettings=@ref GameTypes::Use_Map_Settings \"Use Map Settings\"" \
-                         "MindControl=@ref TechTypes::Mind_Control \"Mind Control\"" \
-                         "Refinery=@ref UnitTypes::Terran_Refinery \"Refinery\"" \
-                         "SiegeMode=@ref TechTypes::Tank_Siege_Mode \"Siege Mode\"" \
-                         "SiegeTank=@ref UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tank\"" \
-                         "Drone=@ref UnitTypes::Zerg_Drone \"Drone\"" \
-                         "Extractor=@ref UnitTypes::Zerg_Extractor \"Extractor\"" \
-                         "Nuke=@ref UnitTypes::Terran_Nuclear_Missile \"Nuke\"" \
-                         "Protoss_Pylon=@ref UnitTypes::Protoss_Pylon \"Protoss Pylon\"" \
-                         "UMS=@ref GameTypes::Use_Map_Settings \"Use Map Settings\"" \
+                         "Marines=@ref BWAPI::UnitTypes::Terran_Marine \"Marines\"" \
+                         "Barracks=@ref BWAPI::UnitTypes::Terran_Barracks \"Barracks\"" \
+                         "Creep_Colony=@ref BWAPI::UnitTypes::Zerg_Creep_Colony \"Creep Colony\"" \
+                         "Archons=@ref BWAPI::UnitTypes::Protoss_Archon \"Archons\"" \
+                         "Dark_Templar=@ref BWAPI::UnitTypes::Protoss_Dark_Templar \"Dark Templar\"" \
+                         "High_Templar=@ref BWAPI::UnitTypes::Protoss_High_Templar \"High Templar\"" \
+                         "Sunkens=@ref BWAPI::UnitTypes::Zerg_Sunken_Colony \"Sunkens\"" \
+                         "Spores=@ref BWAPI::UnitTypes::Zerg_Spore_Colony \"Spores\"" \
+                         "Photon_Cannons=@ref BWAPI::UnitTypes::Protoss_Photon_Cannon \"Photon Cannons\"" \
+                         "Turrets=@ref BWAPI::UnitTypes::Terran_Missile_Turret \"Turrets\"" \
+                         "Reaver=@ref BWAPI::UnitTypes::Protoss_Reaver \"Reaver\"" \
+                         "Carrier=@ref BWAPI::UnitTypes::Protoss_Carrier \"Carrier\"" \
+                         "Larva=@ref BWAPI::UnitTypes::Zerg_Larva \"Larva\"" \
+                         "Zerglings=@ref BWAPI::UnitTypes::Zerg_Zergling \"Zerglings\"" \
+                         "Burrow=@ref BWAPI::TechTypes::Burrowing \"Burrow\"" \
+                         "UseMapSettings=@ref BWAPI::GameTypes::Use_Map_Settings \"Use Map Settings\"" \
+                         "MindControl=@ref BWAPI::TechTypes::Mind_Control \"Mind Control\"" \
+                         "Refinery=@ref BWAPI::UnitTypes::Terran_Refinery \"Refinery\"" \
+                         "SiegeMode=@ref BWAPI::TechTypes::Tank_Siege_Mode \"Siege Mode\"" \
+                         "SiegeTank=@ref BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tank\"" \
+                         "Goliath=@ref BWAPI::UnitTypes::Terran_Goliath \"Goliath\"" \
+                         "Drone=@ref BWAPI::UnitTypes::Zerg_Drone \"Drone\"" \
+                         "Extractor=@ref BWAPI::UnitTypes::Zerg_Extractor \"Extractor\"" \
+                         "Nuke=@ref BWAPI::UnitTypes::Terran_Nuclear_Missile \"Nuke\"" \
+                         "Protoss_Pylon=@ref BWAPI::UnitTypes::Protoss_Pylon \"Protoss Pylon\"" \
+                         "UMS=@ref BWAPI::GameTypes::Use_Map_Settings \"Use Map Settings\"" \
                          "CTF=@ref GameTypes::Capture_The_Flag \"Capture The Flag\"" \
-                         "Transport=Transport(@ref UnitTypes::Terran_Dropship \"Dropship\", @ref UnitTypes::Protoss_Shuttle \"Shuttle\", @ref UnitTypes::Zerg_Overlord \"Overlord\" )" \
+                         "Transport=Transport(@ref BWAPI::UnitTypes::Terran_Dropship \"Dropship\", @ref BWAPI::UnitTypes::Protoss_Shuttle \"Shuttle\", @ref BWAPI::UnitTypes::Zerg_Overlord \"Overlord\" )" \
                          TODO=@todo \
                          "threadsafe=@note This function is considered thread-safe." \
-                         "Infested_Kerrigan=@ref UnitTypes::Hero_Infested_Kerrigan \"Infested Kerrigan\"" \
-                         "Psi_Storm=@ref TechTypes::Psionic_Storm \"Psionic Storm\"" \
-                         "Lurker=@ref UnitTypes::Zerg_Lurker \"Lurker\"" \
-                         "Drones=@ref UnitTypes::Zerg_Drone \"Drones\"" \
-                         "Lurker_Aspect=@ref TechTypes::Lurker_Aspect \"Lurker Aspect\"" \
-                         "Heal=@ref TechTypes::Healing \"Heal\"" \
+                         "Infested_Kerrigan=@ref BWAPI::UnitTypes::Hero_Infested_Kerrigan \"Infested Kerrigan\"" \
+                         "Psi_Storm=@ref BWAPI::TechTypes::Psionic_Storm \"Psionic Storm\"" \
+                         "Lurker=@ref BWAPI::UnitTypes::Zerg_Lurker \"Lurker\"" \
+                         "Drones=@ref BWAPI::UnitTypes::Zerg_Drone \"Drones\"" \
+                         "Lurker_Aspect=@ref BWAPI::TechTypes::Lurker_Aspect \"Lurker Aspect\"" \
+                         "Heal=@ref BWAPI::TechTypes::Healing \"Heal\"" \
                          "Repair=@ref UnitCommandTypes::Repair \"Repair\"" \
                          "implies=@note If this function returns a successful state, then the following function calls will also return a successful state:" \
-                         "Irradiate=@ref TechTypes::Irradiate \"Irradiate\"" \
-                         "Science_Vessel=@ref UnitTypes::Terran_Science_Vessel \"Science Vessel\"" \
-                         "Hallucination=@ref TechTypes::Hallucination \"Hallucination\"" \
-                         "Spider_Mine=@ref UnitTypes::Terran_Vulture_Spider_Mine \"Spider Mine\"" \
-                         "Optical_Flare=@ref TechTypes::Optical_Flare \"Optical Flare\"" \
-                         "SCV=@ref UnitTypes::Terran_SCV \"SCV\"" \
-                         "Mineral_Field=@ref UnitTypes::Resource_Mineral_Field \"Mineral Field\"" \
-                         "Flag=@ref UnitTypes::Powerup_Flag \"Flag\"" \
-                         "Pylon=@ref UnitTypes::Protoss_Pylon \"Pylon\"" \
-                         "Overlord=@ref UnitTypes::Zerg_Overlord \"Overlord\"" \
+                         "Irradiate=@ref BWAPI::TechTypes::Irradiate \"Irradiate\"" \
+                         "Science_Vessel=@ref BWAPI::UnitTypes::Terran_Science_Vessel \"Science Vessel\"" \
+                         "Hallucination=@ref BWAPI::TechTypes::Hallucination \"Hallucination\"" \
+                         "Spider_Mine=@ref BWAPI::UnitTypes::Terran_Vulture_Spider_Mine \"Spider Mine\"" \
+                         "Optical_Flare=@ref BWAPI::TechTypes::Optical_Flare \"Optical Flare\"" \
+                         "SCV=@ref BWAPI::UnitTypes::Terran_SCV \"SCV\"" \
+                         "Mineral_Field=@ref BWAPI::UnitTypes::Resource_Mineral_Field \"Mineral Field\"" \
+                         "Flag=@ref BWAPI::UnitTypes::Powerup_Flag \"Flag\"" \
+                         "Pylon=@ref BWAPI::UnitTypes::Protoss_Pylon \"Pylon\"" \
+                         "Overlord=@ref BWAPI::UnitTypes::Zerg_Overlord \"Overlord\"" \
                          "TvB=@ref GameTypes::Top_vs_Bottom \"Top vs Bottom\"" \
-                         "Ghost=@ref UnitTypes::Terran_Ghost \"Ghost\"" \
-                         "minerals=@ref UnitTypes::Resource_Mineral_Field \"Mineral Fields\"" \
-                         "geysers=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
-                         "critters=@ref UnitTypes::Critter_Bengalaas \"Critters\"" \
-                         "mines=@ref UnitTypes::Terran_Vulture_Spider_Mine \"Spider Mines\"" \
-                         "matrix=@ref TechTypes::Defensive_Matrix \"Defensive Matrix\"" \
-                         "ensnare=@ref TechTypes::Ensnare \"Ensnare\"" \
-                         "irradiate=@ref TechTypes::Irradiate \"Irradiate\"" \
-                         "lockdown=@ref TechTypes::Lockdown \"Lockdown\"" \
-                         "maelstrom=@ref TechTypes::Maelstrom \"Maelstrom\"" \
-                         "plague=@ref TechTypes::Plague \"Plague\"" \
-                         "stasis=@ref TechTypes::Stasis_Field \"Stasis Field\"" \
-                         "stim=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
-                         "Stim_Pack=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
-                         "worker=worker (@ref UnitTypes::Terran_SCV \"SCV\", @ref UnitTypes::Protoss_Probe \"Probe\", @ref UnitTypes::Zerg_Drone \"Drone\")" \
-                         "Interceptor=@ref UnitTypes::Protoss_Interceptor \"Interceptor\"" \
-                         "cloaked=@ref TechTypes::Cloaking_Field \"cloaked\"" \
-                         "locked=@ref TechTypes::Lockdown \"locked\"" \
-                         "Maelstrommed=@ref TechTypes::Maelstrom \"maelstrommed\"" \
-                         "plagued=@ref TechTypes::Plague \"plagued\"" \
-                         "defiler=@ref UnitTypes::Zerg_Defiler \"Defiler\"" \
+                         "Ghost=@ref BWAPI::UnitTypes::Terran_Ghost \"Ghost\"" \
+                         "minerals=@ref BWAPI::UnitTypes::Resource_Mineral_Field \"Mineral Fields\"" \
+                         "geysers=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
+                         "critters=@ref BWAPI::UnitTypes::Critter_Bengalaas \"Critters\"" \
+                         "mines=@ref BWAPI::UnitTypes::Terran_Vulture_Spider_Mine \"Spider Mines\"" \
+                         "matrix=@ref BWAPI::TechTypes::Defensive_Matrix \"Defensive Matrix\"" \
+                         "ensnare=@ref BWAPI::TechTypes::Ensnare \"Ensnare\"" \
+                         "irradiate=@ref BWAPI::TechTypes::Irradiate \"Irradiate\"" \
+                         "lockdown=@ref BWAPI::TechTypes::Lockdown \"Lockdown\"" \
+                         "maelstrom=@ref BWAPI::TechTypes::Maelstrom \"Maelstrom\"" \
+                         "plague=@ref BWAPI::TechTypes::Plague \"Plague\"" \
+                         "stasis=@ref BWAPI::TechTypes::Stasis_Field \"Stasis Field\"" \
+                         "stim=@ref BWAPI::TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "Stim_Pack=@ref BWAPI::TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "worker=worker (@ref BWAPI::UnitTypes::Terran_SCV \"SCV\", @ref BWAPI::UnitTypes::Protoss_Probe \"Probe\", @ref BWAPI::UnitTypes::Zerg_Drone \"Drone\")" \
+                         "Interceptor=@ref BWAPI::UnitTypes::Protoss_Interceptor \"Interceptor\"" \
+                         "cloaked=@ref BWAPI::TechTypes::Cloaking_Field \"cloaked\"" \
+                         "locked=@ref BWAPI::TechTypes::Lockdown \"locked\"" \
+                         "Maelstrommed=@ref BWAPI::TechTypes::Maelstrom \"maelstrommed\"" \
+                         "plagued=@ref BWAPI::TechTypes::Plague \"plagued\"" \
+                         "defiler=@ref BWAPI::UnitTypes::Zerg_Defiler \"Defiler\"" \
                          "repair=@ref Orders::Repair \"repair\"" \
-                         "sieged=@ref TechTypes::Tank_Siege_Mode \"sieged\"" \
-                         "Dark_Swarm=@ref TechTypes::Dark_Swarm \"Dark Swarm\"" \
-                         "Disruption_Web=@ref TechTypes::Disruption_Web \"Disruption Web\"" \
-                         "Flag_Beacon=@ref UnitTypes::Special_Zerg_Flag_Beacon \"Flag Beacon\"" \
-                         "Dark_Archon=@ref UnitTypes::Protoss_Dark_Archon \"Dark Archon\"" \
-                         "Vulture=@ref UnitTypes::Terran_Vulture \"Vulture\"" \
-                         "hallucination=@ref TechTypes::Hallucination \"Hallucination\"" \
-                         "broodling=@ref TechTypes::Spawn_Broodlings \"broodling\"" \
-                         "swarm=@ref TechTypes::Dark_Swarm \"Dark Swarm\"" \
-                         "dweb=@ref TechTypes::Disruption_Web \"Disruption Web\"" \
-                         "scanner=@ref TechTypes::Scanner_Sweep \"Scanner Sweep\"" \
-                         "Silos=@ref UnitTypes::Terran_Nuclear_Silo \"Nuclear Silos\"" \
-                         "mineral_field=@ref UnitTypes::Resource_Mineral_Field \"Mineral Field\"" \
-                         "parasite=@ref TechTypes::Parasite \"Parasite\"" \
-                         "SCVs=@ref UnitTypes::Terran_SCV \"SCVs\"" \
-                         "Siege_Tank=@ref UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tank\"" \
-                         "Siege_Tanks=@ref UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tanks\"" \
-                         "Arbiter=@ref UnitTypes::Protoss_Arbiter \"Arbiter\"" \
-                         "probe=@ref UnitTypes::Protoss_Probe \"Probe\"" \
-                         "drone=@ref UnitTypes::Zerg_Drone \"Drone\"" \
-                         "assimilator=@ref UnitTypes::Protoss_Assimilator \"Assimilator\"" \
-                         "extractor=@ref UnitTypes::Zerg_Extractor \"Extractor\"" \
-                         "refinery=@ref UnitTypes::Terran_Refinery \"Refinery\"" \
-                         "geyser=@ref UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
-                         "Stim_Packs=@ref TechTypes::Stim_Packs \"Stim Packs\"" \
-                         "Stasis=@ref TechTypes::Stasis_Field \"Stasis Field\"" \
+                         "sieged=@ref BWAPI::TechTypes::Tank_Siege_Mode \"sieged\"" \
+                         "Dark_Swarm=@ref BWAPI::TechTypes::Dark_Swarm \"Dark Swarm\"" \
+                         "Disruption_Web=@ref BWAPI::TechTypes::Disruption_Web \"Disruption Web\"" \
+                         "Flag_Beacon=@ref BWAPI::UnitTypes::Special_Zerg_Flag_Beacon \"Flag Beacon\"" \
+                         "Dark_Archon=@ref BWAPI::UnitTypes::Protoss_Dark_Archon \"Dark Archon\"" \
+                         "Vulture=@ref BWAPI::UnitTypes::Terran_Vulture \"Vulture\"" \
+                         "hallucination=@ref BWAPI::TechTypes::Hallucination \"Hallucination\"" \
+                         "broodling=@ref BWAPI::TechTypes::Spawn_Broodlings \"broodling\"" \
+                         "swarm=@ref BWAPI::TechTypes::Dark_Swarm \"Dark Swarm\"" \
+                         "dweb=@ref BWAPI::TechTypes::Disruption_Web \"Disruption Web\"" \
+                         "scanner=@ref BWAPI::TechTypes::Scanner_Sweep \"Scanner Sweep\"" \
+                         "Silos=@ref BWAPI::UnitTypes::Terran_Nuclear_Silo \"Nuclear Silos\"" \
+                         "mineral_field=@ref BWAPI::UnitTypes::Resource_Mineral_Field \"Mineral Field\"" \
+                         "parasite=@ref BWAPI::TechTypes::Parasite \"Parasite\"" \
+                         "SCVs=@ref BWAPI::UnitTypes::Terran_SCV \"SCVs\"" \
+                         "Siege_Tank=@ref BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tank\"" \
+                         "Siege_Tanks=@ref BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode \"Siege Tanks\"" \
+                         "Arbiter=@ref BWAPI::UnitTypes::Protoss_Arbiter \"Arbiter\"" \
+                         "probe=@ref BWAPI::UnitTypes::Protoss_Probe \"Probe\"" \
+                         "drone=@ref BWAPI::UnitTypes::Zerg_Drone \"Drone\"" \
+                         "assimilator=@ref BWAPI::UnitTypes::Protoss_Assimilator \"Assimilator\"" \
+                         "extractor=@ref BWAPI::UnitTypes::Zerg_Extractor \"Extractor\"" \
+                         "refinery=@ref BWAPI::UnitTypes::Terran_Refinery \"Refinery\"" \
+                         "geyser=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
+                         "Stim_Packs=@ref BWAPI::TechTypes::Stim_Packs \"Stim Packs\"" \
+                         "Stasis=@ref BWAPI::TechTypes::Stasis_Field \"Stasis Field\"" \
                          "liquipedia{1}=[View on Liquipedia](http://wiki.teamliquid.net/starcraft/\1)<br>" \
                          "senwiki{1}=[View on Staredit Network](http://www.staredit.net/starcraft/\1)<br>" \
                          "sccofficial{1}=[View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/\1.shtml)<br>" \
@@ -1582,7 +1583,7 @@ CASE_SENSE_NAMES       = NO
 # scope will be hidden.
 # The default value is: NO.
 
-HIDE_SCOPE_NAMES       = NO
+HIDE_SCOPE_NAMES       = YES
 
 # If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of
 # the files that are included by a file in the documentation of that file.
@@ -1906,7 +1907,10 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        =
+EXCLUDE_SYMBOLS        = BWAPI::Point< _T, 0 > \
+                         BWAPI::Point< bool, __Scale > \
+                         BWAPI::Point< char, __Scale > \
+                         BWAPI::Point< unsigned char, __Scale >
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
@@ -2837,7 +2841,7 @@ ECLIPSE_DOC_ID         = org.doxygen.Project
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-DISABLE_INDEX          = YES
+DISABLE_INDEX          = NO
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information. If the tag
@@ -3470,7 +3474,7 @@ SKIP_FUNCTION_MACROS   = NO
 # the path). If a tag file is not located in the directory in which doxygen is
 # run, you must also specify the path to the tagfile here.
 
-TAGFILES               =
+TAGFILES               = "cppreference-doxygen-web.tag.xml=http://en.cppreference.com/w/"
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to
