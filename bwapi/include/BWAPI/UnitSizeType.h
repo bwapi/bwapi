@@ -30,6 +30,8 @@ namespace BWAPI
     UnitSizeType(int id = UnitSizeTypes::Enum::None);
   };
   /// Namespace containing unit size types
+  ///
+  /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
   namespace UnitSizeTypes
   {
     /// Retrieves the set of all UnitSizeTypes.
