@@ -1,0 +1,50 @@
+/*!
+@var BWAPI::DamageTypes::Enum::Independent
+Value of 0  [0x0]. See BWAPI::DamageTypes::Independent.
+*/
+/*!
+@var BWAPI::DamageTypes::Independent
+Independent. Corresponds with DamageTypes::Enum::Independent.
+
+
+*/
+/*!
+@var BWAPI::DamageTypes::Enum::Explosive
+Value of 1  [0x1]. See BWAPI::DamageTypes::Explosive.
+*/
+/*!
+@var BWAPI::DamageTypes::Explosive
+Explosive. Corresponds with DamageTypes::Enum::Explosive.
+
+
+*/
+/*!
+@var BWAPI::DamageTypes::Enum::Concussive
+Value of 2  [0x2]. See BWAPI::DamageTypes::Concussive.
+*/
+/*!
+@var BWAPI::DamageTypes::Concussive
+Concussive. Corresponds with DamageTypes::Enum::Concussive.
+
+
+*/
+/*!
+@var BWAPI::DamageTypes::Enum::Normal
+Value of 3  [0x3]. See BWAPI::DamageTypes::Normal.
+*/
+/*!
+@var BWAPI::DamageTypes::Normal
+Normal. Corresponds with DamageTypes::Enum::Normal.
+
+
+*/
+/*!
+@var BWAPI::DamageTypes::Enum::Ignore_Armor
+Value of 4  [0x4]. See BWAPI::DamageTypes::Ignore_Armor.
+*/
+/*!
+@var BWAPI::DamageTypes::Ignore_Armor
+Ignore Armor. Corresponds with DamageTypes::Enum::Ignore_Armor.
+
+
+*/

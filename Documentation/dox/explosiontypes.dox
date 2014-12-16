@@ -1,0 +1,230 @@
+/*!
+@var BWAPI::ExplosionTypes::Enum::EMP_Shockwave
+Value of 8  [0x8]. See BWAPI::ExplosionTypes::EMP_Shockwave.
+*/
+/*!
+@var BWAPI::ExplosionTypes::EMP_Shockwave
+EMP Shockwave. Corresponds with ExplosionTypes::Enum::EMP_Shockwave.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Normal
+Value of 1  [0x1]. See BWAPI::ExplosionTypes::Normal.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Normal
+Normal. Corresponds with ExplosionTypes::Enum::Normal.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Radial_Splash
+Value of 2  [0x2]. See BWAPI::ExplosionTypes::Radial_Splash.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Radial_Splash
+Radial Splash. Corresponds with ExplosionTypes::Enum::Radial_Splash.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Enemy_Splash
+Value of 3  [0x3]. See BWAPI::ExplosionTypes::Enemy_Splash.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enemy_Splash
+Enemy Splash. Corresponds with ExplosionTypes::Enum::Enemy_Splash.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Lockdown
+Value of 4  [0x4]. See BWAPI::ExplosionTypes::Lockdown.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Lockdown
+Lockdown. Corresponds with ExplosionTypes::Enum::Lockdown.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Nuclear_Missile
+Value of 5  [0x5]. See BWAPI::ExplosionTypes::Nuclear_Missile.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Nuclear_Missile
+Nuclear Missile. Corresponds with ExplosionTypes::Enum::Nuclear_Missile.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Parasite
+Value of 6  [0x6]. See BWAPI::ExplosionTypes::Parasite.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Parasite
+Parasite. Corresponds with ExplosionTypes::Enum::Parasite.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Broodlings
+Value of 7  [0x7]. See BWAPI::ExplosionTypes::Broodlings.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Broodlings
+Broodlings. Corresponds with ExplosionTypes::Enum::Broodlings.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Irradiate
+Value of 9  [0x9]. See BWAPI::ExplosionTypes::Irradiate.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Irradiate
+Irradiate. Corresponds with ExplosionTypes::Enum::Irradiate.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Ensnare
+Value of 10  [0xa]. See BWAPI::ExplosionTypes::Ensnare.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Ensnare
+Ensnare. Corresponds with ExplosionTypes::Enum::Ensnare.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Plague
+Value of 11  [0xb]. See BWAPI::ExplosionTypes::Plague.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Plague
+Plague. Corresponds with ExplosionTypes::Enum::Plague.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Stasis_Field
+Value of 12  [0xc]. See BWAPI::ExplosionTypes::Stasis_Field.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Stasis_Field
+Stasis Field. Corresponds with ExplosionTypes::Enum::Stasis_Field.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Dark_Swarm
+Value of 13  [0xd]. See BWAPI::ExplosionTypes::Dark_Swarm.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Dark_Swarm
+Dark Swarm. Corresponds with ExplosionTypes::Enum::Dark_Swarm.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Consume
+Value of 14  [0xe]. See BWAPI::ExplosionTypes::Consume.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Consume
+Consume. Corresponds with ExplosionTypes::Enum::Consume.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Yamato_Gun
+Value of 15  [0xf]. See BWAPI::ExplosionTypes::Yamato_Gun.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Yamato_Gun
+Yamato Gun. Corresponds with ExplosionTypes::Enum::Yamato_Gun.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Restoration
+Value of 16  [0x10]. See BWAPI::ExplosionTypes::Restoration.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Restoration
+Restoration. Corresponds with ExplosionTypes::Enum::Restoration.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Disruption_Web
+Value of 17  [0x11]. See BWAPI::ExplosionTypes::Disruption_Web.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Disruption_Web
+Disruption Web. Corresponds with ExplosionTypes::Enum::Disruption_Web.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Corrosive_Acid
+Value of 18  [0x12]. See BWAPI::ExplosionTypes::Corrosive_Acid.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Corrosive_Acid
+Corrosive Acid. Corresponds with ExplosionTypes::Enum::Corrosive_Acid.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Mind_Control
+Value of 19  [0x13]. See BWAPI::ExplosionTypes::Mind_Control.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Mind_Control
+Mind Control. Corresponds with ExplosionTypes::Enum::Mind_Control.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Feedback
+Value of 20  [0x14]. See BWAPI::ExplosionTypes::Feedback.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Feedback
+Feedback. Corresponds with ExplosionTypes::Enum::Feedback.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Optical_Flare
+Value of 21  [0x15]. See BWAPI::ExplosionTypes::Optical_Flare.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Optical_Flare
+Optical Flare. Corresponds with ExplosionTypes::Enum::Optical_Flare.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Maelstrom
+Value of 22  [0x16]. See BWAPI::ExplosionTypes::Maelstrom.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Maelstrom
+Maelstrom. Corresponds with ExplosionTypes::Enum::Maelstrom.
+
+
+*/
+/*!
+@var BWAPI::ExplosionTypes::Enum::Air_Splash
+Value of 24  [0x18]. See BWAPI::ExplosionTypes::Air_Splash.
+*/
+/*!
+@var BWAPI::ExplosionTypes::Air_Splash
+Air Splash. Corresponds with ExplosionTypes::Enum::Air_Splash.
+
+
+*/

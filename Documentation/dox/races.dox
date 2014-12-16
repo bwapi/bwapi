@@ -1,0 +1,78 @@
+/*!
+@var BWAPI::Races::Enum::Zerg
+Value of 0  [0x0]. See BWAPI::Races::Zerg.
+*/
+/*!
+@var BWAPI::Races::Zerg
+Zerg. Corresponds with Races::Enum::Zerg.
+
+<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
+<img src='icon41.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone"</td></tr>
+<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
+<img src='icon131.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Hatchery "Zerg Hatchery"</td></tr>
+<tr><td><strong>Refinery</strong></td><td> @htmlonly
+<img src='icon149.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Extractor "Zerg Extractor"</td></tr>
+<tr><td><strong>Transport</strong></td><td> @htmlonly
+<img src='icon42.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
+<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
+<img src='icon42.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::Races::Enum::Terran
+Value of 1  [0x1]. See BWAPI::Races::Terran.
+*/
+/*!
+@var BWAPI::Races::Terran
+Terran. Corresponds with Races::Enum::Terran.
+
+<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
+<img src='icon7.png'>
+@endhtmlonly @ref UnitTypes::Terran_SCV "Terran SCV"</td></tr>
+<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
+<img src='icon106.png'>
+@endhtmlonly @ref UnitTypes::Terran_Command_Center "Terran Command Center"</td></tr>
+<tr><td><strong>Refinery</strong></td><td> @htmlonly
+<img src='icon110.png'>
+@endhtmlonly @ref UnitTypes::Terran_Refinery "Terran Refinery"</td></tr>
+<tr><td><strong>Transport</strong></td><td> @htmlonly
+<img src='icon11.png'>
+@endhtmlonly @ref UnitTypes::Terran_Dropship "Terran Dropship"</td></tr>
+<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
+<img src='icon109.png'>
+@endhtmlonly @ref UnitTypes::Terran_Supply_Depot "Terran Supply Depot"</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::Races::Enum::Protoss
+Value of 2  [0x2]. See BWAPI::Races::Protoss.
+*/
+/*!
+@var BWAPI::Races::Protoss
+Protoss. Corresponds with Races::Enum::Protoss.
+
+<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
+<img src='icon64.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe"</td></tr>
+<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
+<img src='icon154.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Nexus "Protoss Nexus"</td></tr>
+<tr><td><strong>Refinery</strong></td><td> @htmlonly
+<img src='icon157.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Assimilator "Protoss Assimilator"</td></tr>
+<tr><td><strong>Transport</strong></td><td> @htmlonly
+<img src='icon69.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"</td></tr>
+<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
+<img src='icon156.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Pylon "Protoss Pylon"</td></tr>
+</table>
+
+*/

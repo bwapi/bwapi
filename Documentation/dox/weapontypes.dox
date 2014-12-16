@@ -21,7 +21,6 @@ Value of 0  [0x0]. See BWAPI::WeaponTypes::Gauss_Rifle.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -49,7 +48,6 @@ Value of 64  [0x40]. See BWAPI::WeaponTypes::Psi_Blades.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -77,7 +75,6 @@ Value of 48  [0x30]. See BWAPI::WeaponTypes::Glave_Wurm.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -105,7 +102,6 @@ Value of 112  [0x70]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -133,7 +129,6 @@ Value of 65  [0x41]. See BWAPI::WeaponTypes::Psi_Blades_Fenix.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -161,7 +156,6 @@ Value of 1  [0x1]. See BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -189,7 +183,6 @@ Value of 49  [0x31]. See BWAPI::WeaponTypes::Glave_Wurm_Kukulza.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -217,7 +210,6 @@ Value of 113  [0x71]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -245,7 +237,6 @@ Value of 2  [0x2]. See BWAPI::WeaponTypes::C_10_Canister_Rifle.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -273,7 +264,6 @@ Value of 66  [0x42]. See BWAPI::WeaponTypes::Phase_Disruptor.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -301,7 +291,6 @@ Value of 3  [0x3]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -329,7 +318,6 @@ Value of 67  [0x43]. See BWAPI::WeaponTypes::Phase_Disruptor_Fenix.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -357,7 +345,6 @@ Value of 4  [0x4]. See BWAPI::WeaponTypes::Fragmentation_Grenade.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -385,7 +372,6 @@ Value of 116  [0x74]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -413,7 +399,6 @@ Value of 52  [0x34]. See BWAPI::WeaponTypes::Seeker_Spores.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -441,7 +426,6 @@ Value of 5  [0x5]. See BWAPI::WeaponTypes::Fragmentation_Grenade_Jim_Raynor.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -469,7 +453,6 @@ Value of 69  [0x45]. See BWAPI::WeaponTypes::Psi_Assault.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -556,7 +539,6 @@ Value of 7  [0x7]. See BWAPI::WeaponTypes::Twin_Autocannons.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -612,7 +594,6 @@ Value of 9  [0x9]. See BWAPI::WeaponTypes::Twin_Autocannons_Alan_Schezar.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -640,7 +621,6 @@ Value of 73  [0x49]. See BWAPI::WeaponTypes::Dual_Photon_Blasters.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -668,7 +648,6 @@ Value of 8  [0x8]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -696,7 +675,6 @@ Value of 10  [0xa]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -724,7 +702,6 @@ Value of 74  [0x4a]. See BWAPI::WeaponTypes::Anti_Matter_Missiles.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -752,7 +729,6 @@ Value of 11  [0xb]. See BWAPI::WeaponTypes::Arclite_Cannon.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -780,7 +756,6 @@ Value of 75  [0x4b]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Mojo.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -808,7 +783,6 @@ Value of 12  [0xc]. See BWAPI::WeaponTypes::Arclite_Cannon_Edmund_Duke.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -836,7 +810,6 @@ Value of 76  [0x4c]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Mojo.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -864,7 +837,6 @@ Value of 13  [0xd]. See BWAPI::WeaponTypes::Fusion_Cutter.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>10</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -892,7 +864,6 @@ Value of 77  [0x4d]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -920,7 +891,6 @@ Value of 15  [0xf]. See BWAPI::WeaponTypes::Gemini_Missiles.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -948,7 +918,6 @@ Value of 17  [0x11]. See BWAPI::WeaponTypes::Gemini_Missiles_Tom_Kazansky.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -976,7 +945,6 @@ Value of 16  [0x10]. See BWAPI::WeaponTypes::Burst_Lasers.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1004,7 +972,6 @@ Value of 18  [0x12]. See BWAPI::WeaponTypes::Burst_Lasers_Tom_Kazansky.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1032,7 +999,6 @@ Value of 19  [0x13]. See BWAPI::WeaponTypes::ATS_Laser_Battery.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1060,7 +1026,6 @@ Value of 21  [0x15]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hero.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1088,7 +1053,6 @@ Value of 23  [0x17]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hyperion.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1116,7 +1080,6 @@ Value of 20  [0x14]. See BWAPI::WeaponTypes::ATA_Laser_Battery.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1144,7 +1107,6 @@ Value of 22  [0x16]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hero.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1172,7 +1134,6 @@ Value of 24  [0x18]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hyperion.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1314,7 +1275,6 @@ Value of 29  [0x1d]. See BWAPI::WeaponTypes::Longbolt_Missile.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1342,7 +1302,6 @@ Value of 35  [0x23]. See BWAPI::WeaponTypes::Claws.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1370,7 +1329,6 @@ Value of 36  [0x24]. See BWAPI::WeaponTypes::Claws_Devouring_One.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1398,7 +1356,6 @@ Value of 37  [0x25]. See BWAPI::WeaponTypes::Claws_Infested_Kerrigan.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1426,7 +1383,6 @@ Value of 38  [0x26]. See BWAPI::WeaponTypes::Needle_Spines.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -1454,7 +1410,6 @@ Value of 39  [0x27]. See BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -1482,7 +1437,6 @@ Value of 40  [0x28]. See BWAPI::WeaponTypes::Kaiser_Blades.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>25</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1510,7 +1464,6 @@ Value of 41  [0x29]. See BWAPI::WeaponTypes::Kaiser_Blades_Torrasque.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>25</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1538,7 +1491,6 @@ Value of 42  [0x2a]. See BWAPI::WeaponTypes::Toxic_Spores.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>2</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1566,7 +1518,6 @@ Value of 43  [0x2b]. See BWAPI::WeaponTypes::Spines.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>32</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1594,7 +1545,6 @@ Value of 46  [0x2e]. See BWAPI::WeaponTypes::Acid_Spore.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1622,7 +1572,6 @@ Value of 47  [0x2f]. See BWAPI::WeaponTypes::Acid_Spore_Kukulza.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1650,7 +1599,6 @@ Value of 53  [0x35]. See BWAPI::WeaponTypes::Subterranean_Tentacle.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1706,7 +1654,6 @@ Value of 55  [0x37]. See BWAPI::WeaponTypes::Suicide_Scourge.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>3</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1734,7 +1681,6 @@ Value of 62  [0x3e]. See BWAPI::WeaponTypes::Particle_Beam.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>32</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1762,7 +1708,6 @@ Value of 114  [0x72]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Artanis.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1790,7 +1735,6 @@ Value of 115  [0x73]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Artanis.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -1818,7 +1762,6 @@ Value of 78  [0x4e]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -1846,7 +1789,6 @@ Value of 79  [0x4f]. See BWAPI::WeaponTypes::Pulse_Cannon.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -1874,7 +1816,6 @@ Value of 80  [0x50]. See BWAPI::WeaponTypes::STS_Photon_Cannon.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -1902,7 +1843,6 @@ Value of 81  [0x51]. See BWAPI::WeaponTypes::STA_Photon_Cannon.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>224</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -2014,7 +1954,6 @@ Value of 104  [0x68]. See BWAPI::WeaponTypes::Corrosive_Acid.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Corrosive_Acid "Corrosive Acid"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -2070,7 +2009,6 @@ Value of 111  [0x6f]. See BWAPI::WeaponTypes::Warp_Blades.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2098,7 +2036,6 @@ Value of 86  [0x56]. See BWAPI::WeaponTypes::Warp_Blades_Hero.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2126,7 +2063,6 @@ Value of 85  [0x55]. See BWAPI::WeaponTypes::Warp_Blades_Zeratul.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2154,7 +2090,6 @@ Value of 93  [0x5d]. See BWAPI::WeaponTypes::Independant_Laser_Battery.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air</td></tr>
 </table>
 
@@ -2182,7 +2117,6 @@ Value of 96  [0x60]. See BWAPI::WeaponTypes::Twin_Autocannons_Floor_Trap.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2210,7 +2144,6 @@ Value of 97  [0x61]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2238,7 +2171,6 @@ Value of 99  [0x63]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Floor_Trap.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2297,7 +2229,6 @@ Value of 30  [0x1e]. See BWAPI::WeaponTypes::Yamato_Gun.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Yamato_Gun "Yamato Gun"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -2359,7 +2290,6 @@ Value of 56  [0x38]. See BWAPI::WeaponTypes::Parasite.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Parasite "Parasite"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>384</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, NonBuilding</td></tr>
 </table>
 
@@ -2390,7 +2320,6 @@ Value of 32  [0x20]. See BWAPI::WeaponTypes::Lockdown.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Lockdown "Lockdown"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Mechanical, NonBuilding</td></tr>
 </table>
 
@@ -2421,7 +2350,6 @@ Value of 57  [0x39]. See BWAPI::WeaponTypes::Spawn_Broodlings.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Broodlings "Broodlings"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground, NonBuilding, NonRobotic, OrgOrMech</td></tr>
 </table>
 
@@ -2483,7 +2411,6 @@ Value of 58  [0x3a]. See BWAPI::WeaponTypes::Ensnare.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Ensnare "Ensnare"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2514,7 +2441,6 @@ Value of 34  [0x22]. See BWAPI::WeaponTypes::Irradiate.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Irradiate "Irradiate"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2545,7 +2471,6 @@ Value of 59  [0x3b]. See BWAPI::WeaponTypes::Dark_Swarm.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Dark_Swarm "Dark Swarm"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
@@ -2576,7 +2501,6 @@ Value of 60  [0x3c]. See BWAPI::WeaponTypes::Plague.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Plague "Plague"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2607,7 +2531,6 @@ Value of 61  [0x3d]. See BWAPI::WeaponTypes::Consume.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Consume "Consume"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>16</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Organic, NonBuilding, Own</td></tr>
 </table>
 
@@ -2638,7 +2561,6 @@ Value of 83  [0x53]. See BWAPI::WeaponTypes::Stasis_Field.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Stasis_Field "Stasis Field"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2700,7 +2622,6 @@ Value of 101  [0x65]. See BWAPI::WeaponTypes::Disruption_Web.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Disruption_Web "Disruption Web"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2731,7 +2652,6 @@ Value of 102  [0x66]. See BWAPI::WeaponTypes::Restoration.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Restoration "Restoration"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2762,7 +2682,6 @@ Value of 105  [0x69]. See BWAPI::WeaponTypes::Mind_Control.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Mind_Control "Mind Control"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>256</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2793,7 +2712,6 @@ Value of 106  [0x6a]. See BWAPI::WeaponTypes::Feedback.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Feedback "Feedback"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 
@@ -2824,7 +2742,6 @@ Value of 107  [0x6b]. See BWAPI::WeaponTypes::Optical_Flare.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Optical_Flare "Optical Flare"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>288</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
 </table>
 
@@ -2855,7 +2772,6 @@ Value of 108  [0x6c]. See BWAPI::WeaponTypes::Maelstrom.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Maelstrom "Maelstrom"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>320</td></tr>
-<tr><td><strong>Splash Radii</strong></td><td>0, 0, 0</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground, Terrain</td></tr>
 </table>
 

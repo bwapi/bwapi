@@ -1,0 +1,260 @@
+/*!
+@var BWAPI::Errors::Enum::Fully_Upgraded
+Value of 8  [0x8]. See BWAPI::Errors::Fully_Upgraded.
+*/
+/*!
+@var BWAPI::Errors::Fully_Upgraded
+Fully Upgraded. Corresponds with Errors::Enum::Fully_Upgraded.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unit_Does_Not_Exist
+Value of 0  [0x0]. See BWAPI::Errors::Unit_Does_Not_Exist.
+*/
+/*!
+@var BWAPI::Errors::Unit_Does_Not_Exist
+Unit Does Not Exist. Corresponds with Errors::Enum::Unit_Does_Not_Exist.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unit_Not_Visible
+Value of 1  [0x1]. See BWAPI::Errors::Unit_Not_Visible.
+*/
+/*!
+@var BWAPI::Errors::Unit_Not_Visible
+Unit Not Visible. Corresponds with Errors::Enum::Unit_Not_Visible.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unit_Not_Owned
+Value of 2  [0x2]. See BWAPI::Errors::Unit_Not_Owned.
+*/
+/*!
+@var BWAPI::Errors::Unit_Not_Owned
+Unit Not Owned. Corresponds with Errors::Enum::Unit_Not_Owned.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unit_Busy
+Value of 3  [0x3]. See BWAPI::Errors::Unit_Busy.
+*/
+/*!
+@var BWAPI::Errors::Unit_Busy
+Unit Busy. Corresponds with Errors::Enum::Unit_Busy.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Incompatible_UnitType
+Value of 4  [0x4]. See BWAPI::Errors::Incompatible_UnitType.
+*/
+/*!
+@var BWAPI::Errors::Incompatible_UnitType
+Incompatible UnitType. Corresponds with Errors::Enum::Incompatible_UnitType.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Incompatible_TechType
+Value of 5  [0x5]. See BWAPI::Errors::Incompatible_TechType.
+*/
+/*!
+@var BWAPI::Errors::Incompatible_TechType
+Incompatible TechType. Corresponds with Errors::Enum::Incompatible_TechType.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Incompatible_State
+Value of 6  [0x6]. See BWAPI::Errors::Incompatible_State.
+*/
+/*!
+@var BWAPI::Errors::Incompatible_State
+Incompatible State. Corresponds with Errors::Enum::Incompatible_State.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Already_Researched
+Value of 7  [0x7]. See BWAPI::Errors::Already_Researched.
+*/
+/*!
+@var BWAPI::Errors::Already_Researched
+Already Researched. Corresponds with Errors::Enum::Already_Researched.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Currently_Researching
+Value of 9  [0x9]. See BWAPI::Errors::Currently_Researching.
+*/
+/*!
+@var BWAPI::Errors::Currently_Researching
+Currently Researching. Corresponds with Errors::Enum::Currently_Researching.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Currently_Upgrading
+Value of 10  [0xa]. See BWAPI::Errors::Currently_Upgrading.
+*/
+/*!
+@var BWAPI::Errors::Currently_Upgrading
+Currently Upgrading. Corresponds with Errors::Enum::Currently_Upgrading.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Minerals
+Value of 11  [0xb]. See BWAPI::Errors::Insufficient_Minerals.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Minerals
+Insufficient Minerals. Corresponds with Errors::Enum::Insufficient_Minerals.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Gas
+Value of 12  [0xc]. See BWAPI::Errors::Insufficient_Gas.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Gas
+Insufficient Gas. Corresponds with Errors::Enum::Insufficient_Gas.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Supply
+Value of 13  [0xd]. See BWAPI::Errors::Insufficient_Supply.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Supply
+Insufficient Supply. Corresponds with Errors::Enum::Insufficient_Supply.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Energy
+Value of 14  [0xe]. See BWAPI::Errors::Insufficient_Energy.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Energy
+Insufficient Energy. Corresponds with Errors::Enum::Insufficient_Energy.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Tech
+Value of 15  [0xf]. See BWAPI::Errors::Insufficient_Tech.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Tech
+Insufficient Tech. Corresponds with Errors::Enum::Insufficient_Tech.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Ammo
+Value of 16  [0x10]. See BWAPI::Errors::Insufficient_Ammo.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Ammo
+Insufficient Ammo. Corresponds with Errors::Enum::Insufficient_Ammo.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Insufficient_Space
+Value of 17  [0x11]. See BWAPI::Errors::Insufficient_Space.
+*/
+/*!
+@var BWAPI::Errors::Insufficient_Space
+Insufficient Space. Corresponds with Errors::Enum::Insufficient_Space.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Invalid_Tile_Position
+Value of 18  [0x12]. See BWAPI::Errors::Invalid_Tile_Position.
+*/
+/*!
+@var BWAPI::Errors::Invalid_Tile_Position
+Invalid Tile Position. Corresponds with Errors::Enum::Invalid_Tile_Position.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unbuildable_Location
+Value of 19  [0x13]. See BWAPI::Errors::Unbuildable_Location.
+*/
+/*!
+@var BWAPI::Errors::Unbuildable_Location
+Unbuildable Location. Corresponds with Errors::Enum::Unbuildable_Location.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unreachable_Location
+Value of 20  [0x14]. See BWAPI::Errors::Unreachable_Location.
+*/
+/*!
+@var BWAPI::Errors::Unreachable_Location
+Unreachable Location. Corresponds with Errors::Enum::Unreachable_Location.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Out_Of_Range
+Value of 21  [0x15]. See BWAPI::Errors::Out_Of_Range.
+*/
+/*!
+@var BWAPI::Errors::Out_Of_Range
+Out Of Range. Corresponds with Errors::Enum::Out_Of_Range.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Unable_To_Hit
+Value of 22  [0x16]. See BWAPI::Errors::Unable_To_Hit.
+*/
+/*!
+@var BWAPI::Errors::Unable_To_Hit
+Unable To Hit. Corresponds with Errors::Enum::Unable_To_Hit.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Access_Denied
+Value of 23  [0x17]. See BWAPI::Errors::Access_Denied.
+*/
+/*!
+@var BWAPI::Errors::Access_Denied
+Access Denied. Corresponds with Errors::Enum::Access_Denied.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::File_Not_Found
+Value of 24  [0x18]. See BWAPI::Errors::File_Not_Found.
+*/
+/*!
+@var BWAPI::Errors::File_Not_Found
+File Not Found. Corresponds with Errors::Enum::File_Not_Found.
+
+
+*/
+/*!
+@var BWAPI::Errors::Enum::Invalid_Parameter
+Value of 25  [0x19]. See BWAPI::Errors::Invalid_Parameter.
+*/
+/*!
+@var BWAPI::Errors::Invalid_Parameter
+Invalid Parameter. Corresponds with Errors::Enum::Invalid_Parameter.
+
+
+*/

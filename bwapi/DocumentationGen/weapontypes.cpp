@@ -23,9 +23,13 @@ void writeWeaponInfo()
     of << row("ExplosionType", tref(t.explosionType()));
     if (t.minRange() != 0) of << row("Minimum Range", t.minRange());
     of << row("Maximum Range", t.maxRange());
-    std::ostringstream ssSplash;
-    ssSplash << t.innerSplashRadius() << ", " << t.medianSplashRadius() << ", " << t.outerSplashRadius();
-    of << row("Splash Radii", ssSplash.str());
+
+    if (t.innerSplashRadius() != 0 || t.medianSplashRadius() != 0 || t.outerSplashRadius() != 0)
+    {
+      std::ostringstream ssSplash;
+      ssSplash << t.innerSplashRadius() << ", " << t.medianSplashRadius() << ", " << t.outerSplashRadius();
+      of << row("Splash Radii", ssSplash.str());
+    }
 
     std::vector<std::string> attributes;
 #define ATTRIB_TEST(x) if (t.targets ## x()) attributes.push_back(#x);
