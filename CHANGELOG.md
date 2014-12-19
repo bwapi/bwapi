@@ -27,6 +27,7 @@ Bug Fixes:
  * Fixed BWAPI::Game::sendText in the BWAPI Client.
  * Fixed a bug where the red and blue values of BWAPI::Color types were switched.
  * Fixed missing names and typos for various BWAPI::Orders.
+ * Fixed a bug where `BWAPI::Player::isObserver` would return `true` in some @UMS maps.
 
 
 BWAPI 4.0.1 Beta (r4453) {#changes_401b}

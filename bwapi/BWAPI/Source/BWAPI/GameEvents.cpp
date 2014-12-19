@@ -44,26 +44,29 @@ namespace BWAPI
 
     // roughly identify which players can possibly participate in this game
     // iterate triggers for each player
-    for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
     {
       // reset participation and resources
-      if ( this->players[i] )
+      if (this->players[i])
       {
         this->players[i]->setParticipating(false);
         this->players[i]->resetResources();
       }
 
       // First check if player owns a unit at start
-      for ( int u = 0; u < UnitTypes::None; ++u )
+      for (int u = 0; u < UnitTypes::None; ++u)
       {
-        if ( BW::BWDATA::AllScores->unitCounts.all[u][i] )
+        if (BW::BWDATA::AllScores->unitCounts.all[u][i])
         {
-          if ( this->players[i] )
+          if (this->players[i])
             this->players[i]->setParticipating();
           break;
         }
       }
+    }
 
+    for (int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+    {
       // Then iterate each trigger
       // checking if a unit can be created or given to the player later in the game
       for ( BW::BlizzVectorEntry<BW::Triggers::Trigger> *t = BW::BWDATA::TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA::TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA::TriggerVectors[i].begin; t = t->next )
