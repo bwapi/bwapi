@@ -16,7 +16,7 @@ void writePlayerTypeInfo()
     std::set<std::string> locations;
     if (t.isGameType()) locations.insert("Game");
     if (t.isLobbyType()) locations.insert("Lobby");
-    of << row("Game Locations", makelist(locations));
+    if (!locations.empty()) of << row("Game Locations", makelist(locations));
 
     of << "</table>\n";
 
