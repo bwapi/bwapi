@@ -47,6 +47,7 @@ DECL_OLDFXN(CreateWindowExA);
 DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
 DECL_OLDFXN(CreateEventA);
+DECL_OLDFXN(GetSystemTimeAsFileTime);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
 u8 savedRace[PLAYABLE_PLAYER_COUNT];
@@ -117,6 +118,22 @@ bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
     // do stuff
   }
   return rval;
+}
+
+//--------------------------------------- GetSystemTimeAsFileTime --------------------------------------------
+void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
+{
+  auto replacementSeed = BWAPI::BroodwarImpl.seedOverride;
+  if (lpSystemTimeAsFileTime != nullptr && replacementSeed != std::numeric_limits<decltype(replacementSeed)>::max())
+  {
+    // https://support.microsoft.com/kb/167296
+    auto ll = Int32x32To64(replacementSeed, 10000000) + 116444736000000000;
+    lpSystemTimeAsFileTime->dwLowDateTime = (DWORD)ll;
+    lpSystemTimeAsFileTime->dwHighDateTime = ll >> 32;
+    return;
+  }
+  auto GetSystemTimeAsFileTimeProc = _GetSystemTimeAsFileTimeOld ? _GetSystemTimeAsFileTimeOld : &GetSystemTimeAsFileTime;
+  GetSystemTimeAsFileTimeProc(lpSystemTimeAsFileTime);
 }
 
 //--------------------------------------------- CREATE EVENT -------------------------------------------------

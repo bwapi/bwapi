@@ -109,6 +109,9 @@ namespace BWAPI
     this->autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
     this->autoMenuMaxPlayerCount = LoadConfigInt("auto_menu", "wait_for_max_players", 8);
     this->autoMenuWaitPlayerTime = LoadConfigInt("auto_menu", "wait_for_time", 30000);
+
+    // Not related to the auto-menu, but it should be loaded every time auto menu data gets reloaded
+    this->seedOverride = LoadConfigInt("starcraft", "seed_override", std::numeric_limits<decltype(this->seedOverride)>::max());
   }
   void GameImpl::chooseNewRandomMap()
   {
