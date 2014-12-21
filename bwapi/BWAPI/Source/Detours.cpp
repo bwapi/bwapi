@@ -122,7 +122,7 @@ bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 //--------------------------------------------- CREATE EVENT -------------------------------------------------
 HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName)
 {
-  if ( std::string(lpName) == "Starcraft Check For Other Instances" )
+  if ( lpName != nullptr && std::string(lpName) == "Starcraft Check For Other Instances" )
   {
     SetLastError(ERROR_SUCCESS);
     return 0;
