@@ -191,6 +191,7 @@ namespace BWAPI
       void initializeAIModule();
 
       void loadAutoMenuData();
+
       void onMenuFrame();
       Race getMenuRace(const std::string &sChosenRace);
       PlayerImpl *_getPlayer(int id);
@@ -267,10 +268,12 @@ namespace BWAPI
       std::string autoMapIteration;
       unsigned int lastAutoMapEntry;
 
-      /** Count of game-frames passed from game start. */
+      // Count of game-frames passed from game start.
       int frameCount;
       BW::CUnit *savedUnitSelection[PLAYER_COUNT];
     public:
+      int seedOverride = std::numeric_limits<int>::max();
+
       bool wantSelectionUpdate;
       bool startedClient;
 

@@ -101,6 +101,7 @@ void ApplyCodePatches()
   _SleepOld              = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
   _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
   _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEventA", &_CreateEvent);
+  _GetSystemTimeAsFileTimeOld = HackUtil::PatchImport("kernel32.dll", "GetSystemTimeAsFileTime", &_GetSystemTimeAsFileTime);
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
