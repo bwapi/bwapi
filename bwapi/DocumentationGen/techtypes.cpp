@@ -14,11 +14,14 @@ void writeTechInfo()
     of << "<table border='0'>";
     of << row("Race", tref(t.getRace()));
 
-    std::string oreCost = imgOre() + std::to_string(t.mineralPrice());
-    std::string gasCost = imgGas(t.getRace()) + std::to_string(t.gasPrice());
-    of << row("Cost", oreCost + " " + gasCost);
+    if (t.mineralPrice() != 0 || t.gasPrice() != 0)
+    {
+      std::string oreCost = imgOre() + std::to_string(t.mineralPrice());
+      std::string gasCost = imgGas(t.getRace()) + std::to_string(t.gasPrice());
+      of << row("Cost", oreCost + " " + gasCost);
+    }
 
-    of << row("Research Time", std::to_string(t.researchTime()) + " frames");
+    if (t.researchTime() != 0) of << row("Research Time", std::to_string(t.researchTime()) + " frames");
     if (t.energyCost() != 0) of << row("Energy Cost", imgEnergy() + std::to_string(t.energyCost()));
 
     if (t.whatResearches() != UnitTypes::None) of << row("Researched at", iconref(t.whatResearches()));

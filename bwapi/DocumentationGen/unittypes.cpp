@@ -40,13 +40,16 @@ void writeUnitInfo()
       of << row("Supply Provided", t.supplyProvided());
     }
 
-    of << row("Build Score", t.buildScore());
-    of << row("Destroy Score", t.destroyScore());
+    if (t.buildScore() != 0) of << row("Build Score", t.buildScore());
+    if (t.destroyScore() != 0) of << row("Destroy Score", t.destroyScore());
 
-    of << row("Top Speed", t.topSpeed());
-    of << row("Acceleration", t.acceleration());
-    of << row("Halt Distance", t.haltDistance());
-    of << row("Turn Radius", t.turnRadius());
+    if (t.topSpeed() != 0 || t.acceleration() != 0 || t.haltDistance() != 0)
+    {
+      of << row("Top Speed", t.topSpeed());
+      of << row("Acceleration", t.acceleration());
+      of << row("Halt Distance", t.haltDistance());
+    }
+    if (t.turnRadius() != 0) of << row("Turn Radius", t.turnRadius());
 
     // Weapons
     if (t.groundWeapon() != WeaponTypes::None)
