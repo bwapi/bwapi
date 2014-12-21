@@ -144,7 +144,7 @@ namespace BWAPI
 
     //strings (used in shapes and commands)
     int stringCount;
-    char strings[MAX_STRINGS][256];
+    char strings[MAX_STRINGS][1024];
 
     //shapes, commands, unitCommands, from client to server
     int shapeCount;

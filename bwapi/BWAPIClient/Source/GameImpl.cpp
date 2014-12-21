@@ -777,7 +777,7 @@ namespace BWAPI
   void GameImpl::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
   {
     if ( !data->hasGUI ) return;
-    char buffer[512];
+    char buffer[2048];
     VSNPrintf(buffer, format, arg);
     BWAPIC::Shape s(BWAPIC::ShapeType::Text,ctype,x,y,0,0,0,textSize,0,false);
     addText(s,buffer);
