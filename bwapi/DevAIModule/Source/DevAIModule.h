@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI.h>
-#include <windows.h>
 #include <algorithm>
 
 #define bw BWAPI::Broodwar

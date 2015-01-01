@@ -193,8 +193,8 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
   {
     std::stringstream newWindowName;
     newWindowName << lpWindowName;
-    if ( gdwProcNum )
-      newWindowName << "Instance " << gdwProcNum;
+    if (gdwProcNum > 1)
+      newWindowName << " Instance " << gdwProcNum;
 
     detourCreateWindow = true;
     if ( switchToWMode )
@@ -255,7 +255,7 @@ std::string &getReplayName(std::string &sInFilename)
       sInFilename = gDesiredReplayName;
     
     // If we have multiple instances, so no write conflicts
-    if ( gdwProcNum )
+    if (gdwProcNum > 1)
     {
       // Add the instance number before .rep
       std::stringstream ss;

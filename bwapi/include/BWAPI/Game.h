@@ -1206,8 +1206,7 @@ namespace BWAPI
     virtual void setGUI(bool enabled) = 0;
 
     /// Retrieves the Starcraft instance number recorded by BWAPI to identify which Starcraft
-    /// instance an AI module belongs to. This only applies to users running multiple instances
-    /// of Starcraft.
+    /// instance an AI module belongs to. The very first instance should return 1.
     ///
     /// @returns
     ///   An integer value representing the instance number.
