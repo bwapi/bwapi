@@ -58,7 +58,6 @@ void GameImpl::update()
         win     = false;
         allDone = true;
       }
-            
     }
     else
     {
