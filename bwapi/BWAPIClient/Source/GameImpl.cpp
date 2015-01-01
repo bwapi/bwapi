@@ -12,6 +12,7 @@
 #include <Util/Convenience.h>
 #include <string>
 #include <cassert>
+#include <fstream>
 
 #include <BWAPI/Unitset.h>
 
@@ -879,10 +880,10 @@ namespace BWAPI
   }
   bool GameImpl::setMap(const char *mapFileName)
   {
-    if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
+    if ( !mapFileName || strlen(mapFileName) >= 260 || !mapFileName[0] )
       return setLastError(Errors::Invalid_Parameter);
 
-    if ( GetFileAttributesA(mapFileName) == INVALID_FILE_ATTRIBUTES )
+    if (!std::ifstream(mapFileName).is_open())
       return setLastError(Errors::File_Not_Found);
 
     addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );

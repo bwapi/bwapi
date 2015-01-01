@@ -34,7 +34,7 @@ void AttackUnitTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   FAILTEST(userCount>=1);
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
   FAILTEST(unit!=NULL);
@@ -42,7 +42,7 @@ void AttackUnitTest::start()
 
   int targetCount = Broodwar->self()->completedUnitCount(targetType);
   FAILTEST(targetCount>=1);
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==targetType)
       target = u;
   FAILTEST(target!=NULL);

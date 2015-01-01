@@ -18,13 +18,13 @@ void GatherTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(Broodwar->self()->getRace().getWorker());
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType().isWorker())
       worker = u;
-  for each(Unit u in Broodwar->getMinerals())
+  for (Unit u : Broodwar->getMinerals())
     if ( u->getType().isMineralField() )
       mineral = u;
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType().isRefinery())
       refinery = u;
   BWAssertF(worker!=NULL,{fail=true;return;});

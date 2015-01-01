@@ -13,10 +13,10 @@ void MicroTest::onFrame()
   std::map<Unit , int> targetAdjustedHP;
   std::map<Unit , Unitset > targetsInRange;
   std::map<Unit , Unitset > targetGetAttackers;
-  for each(Unit e in Broodwar->enemy()->getUnits())
+  for (Unit e : Broodwar->enemy()->getUnits())
   {
     targetAdjustedHP[e]=e->getHitPoints();
-    for each(Unit s in Broodwar->self()->getUnits())
+    for (Unit s : Broodwar->self()->getUnits())
     {
       if (s->isInWeaponRange(e))
       {
@@ -25,11 +25,11 @@ void MicroTest::onFrame()
       }
     }
   }
-  for each(Unit s in Broodwar->self()->getUnits())
+  for (Unit s : Broodwar->self()->getUnits())
   {
     int minAdjHP=100000;
     Unit localTarget = NULL;
-    for each(Unit e in targetsInRange[s])
+    for (Unit e : targetsInRange[s])
     {
       if (localTarget == NULL || targetAdjustedHP[e]<minAdjHP)
       {
@@ -41,7 +41,7 @@ void MicroTest::onFrame()
   }
   bool isAttackFrame = false;
   int maxCoolDown = 0;
-  for each(Unit s in Broodwar->self()->getUnits())
+  for (Unit s : Broodwar->self()->getUnits())
   {
     isAttackFrame = isAttackFrame || s->isAttackFrame();
     if (s->getGroundWeaponCooldown() > maxCoolDown)
@@ -50,7 +50,7 @@ void MicroTest::onFrame()
   if (lastIsAttackFrame && !isAttackFrame)
   {
     Broodwar->issueCommand(Broodwar->self()->getUnits(),UnitCommand::rightClick(NULL,goal));
-    for each(Unit s in Broodwar->self()->getUnits())
+    for (Unit s : Broodwar->self()->getUnits())
     {
       Broodwar->drawLineMap(s->getPosition(), goal, Colors::Green);
     }
@@ -59,10 +59,10 @@ void MicroTest::onFrame()
   {
     if (maxCoolDown == 0)
     {
-      for each(std::pair<Unit ,Unitset > p in targetGetAttackers)
+      for (std::pair<Unit ,Unitset > p : targetGetAttackers)
       {
         Unit e = p.first;
-        for each(Unit s in p.second)
+        for (Unit s : p.second)
         {
           if (Broodwar->getFrameCount() - s->getLastCommandFrame() > 4)
           {
@@ -80,7 +80,7 @@ void MicroTest::onFrame()
         }
       }
     }
-    for each(Unit s in Broodwar->self()->getUnits())
+    for (Unit s : Broodwar->self()->getUnits())
     {
       Broodwar->drawTextMap(s->getPosition(),"CD: %d",s->getGroundWeaponCooldown());
     }

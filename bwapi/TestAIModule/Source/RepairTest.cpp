@@ -19,7 +19,7 @@ void RepairTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
   BWAssertF(unit!=NULL,{fail=true;return;});
@@ -27,7 +27,7 @@ void RepairTest::start()
 
   int targetCount = Broodwar->self()->completedUnitCount(targetType);
   BWAssertF(targetCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==targetType && u->getHitPoints()<targetType.maxHitPoints())
       target = u;
   BWAssertF(target!=NULL,{fail=true;return;});

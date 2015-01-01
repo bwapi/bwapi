@@ -17,7 +17,7 @@ void SiegeTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(UnitTypes::Terran_Siege_Tank_Tank_Mode);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==UnitTypes::Terran_Siege_Tank_Tank_Mode)
       unit = u;
 

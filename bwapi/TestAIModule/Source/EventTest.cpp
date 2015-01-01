@@ -78,7 +78,7 @@ void EventTest::onFrame()
     state = TrainingSCV;
 
     Unit cc = NULL;
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Command_Center)
         cc = u;
     BWAssert(cc!=NULL);
@@ -95,13 +95,13 @@ void EventTest::onFrame()
       state = BuildingRefinery;
 
       Unit scv = NULL;
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv = u;
       BWAssert(scv!=NULL);
 
       TilePosition tilePosition=TilePositions::None;
-      for each(Unit u in Broodwar->getGeysers())
+      for (Unit u : Broodwar->getGeysers())
         tilePosition=u->getTilePosition();
       scv->build(UnitTypes::Terran_Refinery,tilePosition);
       expectedEvents.push_back(Event::UnitMorph(NULL));
@@ -115,12 +115,12 @@ void EventTest::onFrame()
       state = KillingSCV;
 
       Unit scv = NULL;
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_SCV && u->isCompleted())
           scv=u;
       BWAssert(scv!=NULL);
 
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
           u->attack(scv);
       expectedEvents.push_back(Event::UnitHide(NULL));
@@ -135,7 +135,7 @@ void EventTest::onFrame()
       state = TrainingNuke;
 
       Unit nukeSilo = NULL;
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
           nukeSilo=u;
       BWAssert(nukeSilo!=NULL);
@@ -150,7 +150,7 @@ void EventTest::onFrame()
   {
 
     Unit nukeSilo = NULL;
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Nuclear_Silo)
         nukeSilo=u;
     BWAssert(nukeSilo!=NULL);
@@ -159,7 +159,7 @@ void EventTest::onFrame()
     {
       state = UsingNuke;
       Unit ghost = NULL;
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Ghost)
           ghost=u;
       BWAssert(ghost!=NULL);
@@ -179,7 +179,7 @@ void EventTest::onFrame()
     if (expectedEvents.empty())
     {
       state = DestroyingEnemy;
-      for each(Unit u in Broodwar->self()->getUnits())
+      for (Unit u : Broodwar->self()->getUnits())
         if (u->getType()==UnitTypes::Terran_Marine)
           u->attack(Position(Broodwar->mapWidth()*16,0));
       expectedEvents.push_back(Event::UnitDiscover(NULL));

@@ -17,7 +17,7 @@ void MPHSTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 

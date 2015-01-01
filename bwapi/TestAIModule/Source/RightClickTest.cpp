@@ -21,19 +21,19 @@ void RightClickTest::start()
 
   int userCount = Broodwar->self()->completedUnitCount(unitType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==unitType)
       unit = u;
 
   int enemyCount = Broodwar->self()->completedUnitCount(enemyType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->getAllUnits())
+  for (Unit u : Broodwar->getAllUnits())
     if (u->getType()==enemyType && u->getPlayer()->isEnemy(Broodwar->self()))
       enemyUnit = u;
 
   int friendCount = Broodwar->self()->completedUnitCount(friendlyType);
   BWAssertF(userCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->getAllUnits())
+  for (Unit u : Broodwar->getAllUnits())
     if (u->getType()==friendlyType && u->getPlayer()->isAlly(Broodwar->self()))
       friendUnit = u;
   BWAssertF(unit!=NULL,{fail=true;return;});

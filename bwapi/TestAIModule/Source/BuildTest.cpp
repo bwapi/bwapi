@@ -42,7 +42,7 @@ void BuildTest::start()
 
   int builderCount = Broodwar->self()->completedUnitCount(builderType);
   FAILTEST(builderCount>=1);
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
   {
     if (u->getType()==builderType && u->getAddon()==NULL)
     {

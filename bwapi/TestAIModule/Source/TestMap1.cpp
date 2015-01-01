@@ -70,7 +70,7 @@ void TestMap1::onStart()
 
   BWAssert(Broodwar->self()->getUnits().size()==24);
   Unitset units = Broodwar->self()->getUnits();
-  for each(Unit unit in units)
+  for (Unit unit : units)
   {
     BWAssert(unit->exists()==true);
     BWAssert(unit->isAccelerating()==false);
@@ -160,7 +160,7 @@ void TestMap1::onStart()
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Armory)==1);
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Missile_Turret)==1);
   BWAssert(Broodwar->self()->completedUnitCount(UnitTypes::Terran_Bunker)==1);
-  for each(UnitType t in UnitTypes::allUnitTypes())
+  for (UnitType t : UnitTypes::allUnitTypes())
   {
     if (t.isBuilding() && t.getRace() == Races::Terran && !t.isSpecialBuilding() )
     {
@@ -184,7 +184,7 @@ void TestMap1::onStart()
     BWAssert(neutral->deadUnitCount(t)==0);
     BWAssert(neutral->killedUnitCount(t)==0);
   }
-  for each(TechType t in TechTypes::allTechTypes())
+  for (TechType t : TechTypes::allTechTypes())
   {
     BWAssert(Broodwar->self()->isResearching(t)==false);
     BWAssert(Broodwar->enemy()->isResearching(t)==false);
@@ -200,7 +200,7 @@ void TestMap1::onStart()
       BWAssertErr(Broodwar->self()->hasResearched(t)==false, t.c_str());
     }
   }
-  for each(UpgradeType u in UpgradeTypes::allUpgradeTypes())
+  for (UpgradeType u : UpgradeTypes::allUpgradeTypes())
   {
     BWAssert(Broodwar->self()->isUpgrading(u)==false);
     BWAssert(Broodwar->self()->getUpgradeLevel(u)==0);
@@ -278,7 +278,7 @@ void TestMap1::onFrame()
     BWAssert(Broodwar->self()->gas()==10000);
     BWAssert(Broodwar->self()->gatheredMinerals()==50);
     BWAssert(Broodwar->self()->gatheredGas()==0);
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
     {
       if (u->getType().isFlyingBuilding())
       {
@@ -288,7 +288,7 @@ void TestMap1::onFrame()
   }
   else if (frame==200)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
     {
       if (u->getType()==UnitTypes::Terran_Command_Center ||
           u->getType()==UnitTypes::Terran_Barracks ||
@@ -308,7 +308,7 @@ void TestMap1::onFrame()
   }
   else if (frame==300)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
     {
       BWAssert(u->isLifted()==false);
       BWAssert(u->isTraining()==false);
@@ -324,7 +324,7 @@ void TestMap1::onFrame()
   }
   else if (frame==320)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
     {
       BWAssert(u->isLifted()==false);
       if (u->getType()==UnitTypes::Terran_Command_Center ||
@@ -346,7 +346,7 @@ void TestMap1::onFrame()
   }
   else if (frame==400)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
     {
       BWAssert(u->isTraining()==false);
       BWAssert(u->isIdle()==true);

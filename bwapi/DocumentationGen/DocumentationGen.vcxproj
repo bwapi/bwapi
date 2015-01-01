@@ -44,6 +44,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -58,6 +59,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
