@@ -316,6 +316,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
   // Call the previous exception filter
   return TopExceptionFilter.DefFilterProc(ep);
 }
+#undef NULLCHECK
 
 #define CASENAME(x) case x: return #x
 const char * const GetExceptionName(DWORD dwExceptionCode)
@@ -349,6 +350,7 @@ const char * const GetExceptionName(DWORD dwExceptionCode)
   }
   return "UNKNOWN";
 }
+#undef CASENAME
 
 void InitializeSymFunctions()
 {

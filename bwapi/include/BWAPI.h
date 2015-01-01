@@ -41,6 +41,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
+#include <BWAPI/WindowsTypes.h>
 
 namespace BWAPI
 {

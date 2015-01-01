@@ -1,8 +1,6 @@
 #pragma once
 #include <BWAPI/Type.h>
 
-#define BWAPI_UNITSIZETYPEDEF(x) static const UnitSizeType x(Enum::x) /** ref x */
-
 namespace BWAPI
 {
   namespace UnitSizeTypes
