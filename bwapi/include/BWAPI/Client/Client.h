@@ -1,11 +1,12 @@
 #pragma once
-#include <windows.h>
 #include "GameData.h"
 #include "GameImpl.h"
 #include "ForceImpl.h"
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 #include "GameTable.h"
+
+#include "../WindowsTypes.h"
 
 
 namespace BWAPI

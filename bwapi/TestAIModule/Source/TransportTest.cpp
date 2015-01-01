@@ -19,13 +19,13 @@ void TransportTest::start()
 
   int transportCount = Broodwar->self()->completedUnitCount(transportType);
   BWAssertF(transportCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
     if (u->getType()==transportType)
       transport = u;
 
   if (transportType.getRace()==Races::Terran)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Terran_Marine ||
           u->getType()==UnitTypes::Terran_Firebat ||
           u->getType()==UnitTypes::Terran_Ghost ||
@@ -34,7 +34,7 @@ void TransportTest::start()
   }
   else if (transportType.getRace()==Races::Protoss)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Protoss_Probe ||
           u->getType()==UnitTypes::Protoss_Zealot ||
           u->getType()==UnitTypes::Protoss_Dragoon)
@@ -42,7 +42,7 @@ void TransportTest::start()
   }
   else if (transportType.getRace()==Races::Zerg)
   {
-    for each(Unit u in Broodwar->self()->getUnits())
+    for (Unit u : Broodwar->self()->getUnits())
       if (u->getType()==UnitTypes::Zerg_Drone ||
           u->getType()==UnitTypes::Zerg_Hydralisk ||
           u->getType()==UnitTypes::Zerg_Lurker)
@@ -52,7 +52,7 @@ void TransportTest::start()
   BWAssertF(transport->exists(),{fail=true;return;});
   BWAssertF(transport->getLoadedUnits().size()==0,{fail=true;return;});
   BWAssertF(unloadedUnits.size()==4,{fail=true;return;});
-  for each(Unit u in unloadedUnits)
+  for (Unit u : unloadedUnits)
   {
     BWAssertF(u!=NULL,{fail=true;return;});
     BWAssertF(u->exists()==true,{fail=true;return;});
@@ -68,14 +68,14 @@ bool TransportTest::verifyLoadedUnits()
   BWAssertF(transport!=NULL,{fail=true;return false;});
   Unitset actualLoadedUnits = transport->getLoadedUnits();
   BWAssertF(actualLoadedUnits.size()==loadedUnits.size(),{fail=true;return false;});
-  for each(Unit u in loadedUnits)
+  for (Unit u : loadedUnits)
   {
     BWAssertF(actualLoadedUnits.find(u)!=actualLoadedUnits.end(),{fail=true;return false;});
     BWAssertF(u->isLoaded()==true,{fail=true;return false;});
     BWAssertF(u->getTransport()==transport,{fail=true;return false;});
     BWAssertF(Broodwar->getAllUnits().find(u)!=Broodwar->getAllUnits().end(),{fail=true;return false;});
   }
-  for each(Unit u in unloadedUnits)
+  for (Unit u : unloadedUnits)
   {
     BWAssertF(u->isLoaded()==false,{fail=true;return false;});
     BWAssertF(u->getTransport()==NULL,{fail=true;return false;});
@@ -211,7 +211,7 @@ void TransportTest::update()
       if (verifyLoadedUnits()==false) return;
       BWAssertF(unloadedUnits.size()==4,{fail=true;return;});
       BWAssertF(loadedUnits.size()==0,{fail=true;return;});
-      for each(Unit u in unloadedUnits)
+      for (Unit u : unloadedUnits)
       {
         if (!u->load(transport))
           Broodwar->printf("%s",Broodwar->getLastError().c_str());

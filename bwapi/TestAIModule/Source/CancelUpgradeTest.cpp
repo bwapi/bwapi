@@ -20,7 +20,7 @@ void CancelUpgradeTest::start()
 
   int upgraderCount = Broodwar->self()->completedUnitCount(upgraderType);
   BWAssertF(upgraderCount>=1,{fail=true;return;});
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
   {
     if (u->getType()==upgraderType)
     {

@@ -10,7 +10,7 @@ void ExistenceTest::onStart()
 }
 void ExistenceTest::onFrame()
 {
-  for each(Unit u in Broodwar->getAllUnits())
+  for (Unit u : Broodwar->getAllUnits())
   {
     Broodwar->drawTextMap(u->getPosition(),"%x",u->getID());
   }

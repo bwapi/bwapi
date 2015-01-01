@@ -1,19 +1,21 @@
 #include <iostream>
 #include <cassert>
+#include <thread>
+#include <chrono>
+#include <string>
+
+#include <Windows.h>
 
 #include <BWAPI/Client.h>
 #include <BWAPI.h>
 
-#include <windows.h>
-
-#include <string>
 
 using namespace BWAPI;
 
 void reconnect()
 {
-  while ( !BWAPIClient.connect() )
-    Sleep(1000);
+  while (!BWAPIClient.connect())
+    std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
 }
 
 int main(int argc, const char* argv[])

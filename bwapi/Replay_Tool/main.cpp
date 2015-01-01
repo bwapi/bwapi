@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <cstdio>
+#include <iostream>
 #include <tchar.h>
 #include <BWAPI.h>
 #include "Replay.h"
@@ -19,7 +19,7 @@ enum ToolArgs
 
 void Message(LPCSTR pszText, LPCSTR pszCaption)
 {
-  printf("%s: %s\n", pszCaption, pszText);
+  std::cout << pszCaption << ": " << pszText << std::endl;
 }
 
 int Usage()

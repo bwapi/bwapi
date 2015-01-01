@@ -34,7 +34,7 @@ void CancelMorphTest::start()
 
   int producerCount = Broodwar->self()->completedUnitCount(producerType);
   FAILTEST(producerCount>=1);
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
   {
     if (u->getType()==producerType)
     {

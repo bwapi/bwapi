@@ -40,7 +40,7 @@ void CancelConstructionTest::start()
 
   int builderCount = Broodwar->self()->completedUnitCount(builderType);
   FAILTEST(builderCount>=1);
-  for each(Unit u in Broodwar->self()->getUnits())
+  for (Unit u : Broodwar->self()->getUnits())
   {
     if (u->getType()==builderType && u->getAddon()==NULL)
     {
@@ -105,7 +105,7 @@ void CancelConstructionTest::update()
   {
     Unitset buildingsOnTile;
     Unitset unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y);
-    for each(Unit u in unitsOnTile)
+    for (Unit u : unitsOnTile)
     {
       if (u->getType()==unitType)
       {
@@ -135,7 +135,7 @@ void CancelConstructionTest::update()
 
   Unitset buildingsOnTile;
   Unitset unitsOnTile = Broodwar->getUnitsOnTile(buildLocation.x,buildLocation.y);
-  for each(Unit u in unitsOnTile)
+  for (Unit u : unitsOnTile)
   {
     if (u->getType()==unitType)
     {
