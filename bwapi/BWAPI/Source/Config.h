@@ -1,5 +1,4 @@
 #pragma once
-#include <windows.h>
 #include <string>
 #include <storm.h>
 
@@ -18,5 +17,5 @@ extern std::string screenshotFmt;
 extern bool isCorrectVersion;
 extern bool showWarn;
 extern bool serverEnabled;
-extern DWORD gdwProcNum;
+extern unsigned gdwProcNum;
 

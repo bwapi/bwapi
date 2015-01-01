@@ -636,7 +636,7 @@ void GameImpl::initializeAIModule()
     std::string dll = aicfg.substr(0, aicfg.find_first_of(','));
 
     // Skip to current intended instance
-    for ( int i = 0; i < (int)gdwProcNum && aiList; ++i )
+    for ( int i = 1; i < (int)gdwProcNum && aiList; ++i )
       std::getline(aiList, dll, ',');
 
     // Trim leading and trailing spaces

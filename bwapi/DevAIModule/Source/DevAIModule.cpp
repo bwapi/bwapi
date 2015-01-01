@@ -11,7 +11,7 @@ using namespace std;
 bool enabled;
 int mapH, mapW;
 
-DWORD dwCount = 0;
+unsigned dwCount = 0;
 
 Player self;
 
