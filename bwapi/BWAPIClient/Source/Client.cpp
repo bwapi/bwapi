@@ -3,6 +3,8 @@
 #include <sstream>
 #include <iostream>
 #include <cassert>
+#include <thread>
+#include <chrono>
 
 namespace BWAPI
 {
@@ -124,7 +126,7 @@ namespace BWAPI
       std::cerr << "Client Revision: " << BWAPI::BWAPI_getRevision() << std::endl;
       std::cerr << "Server Revision: " << BWAPI::Broodwar->getRevision() << std::endl;
       disconnect();
-      Sleep(2000);
+      std::this_thread::sleep_for(std::chrono::milliseconds{ 2000 });
       return false;
     }
     //wait for permission from server before we resume execution

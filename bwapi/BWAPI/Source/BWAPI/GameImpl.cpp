@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 
 #include <Util/Exceptions.h>
 #include <Util/Strings.h>
@@ -835,10 +836,10 @@ namespace BWAPI
   //---------------------------------------------------- SET MAP ---------------------------------------------
   bool GameImpl::setMap(const char *mapFileName)
   {
-    if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
+    if ( !mapFileName || strlen(mapFileName) >= 260 || !mapFileName[0] )
       return setLastError(Errors::Invalid_Parameter);
 
-    if ( GetFileAttributesA(mapFileName) == INVALID_FILE_ATTRIBUTES )
+    if ( !std::ifstream(mapFileName).is_open() )
       return setLastError(Errors::File_Not_Found);
 
     if ( !this->tournamentCheck(Tournament::SetMap, (void*)mapFileName) )

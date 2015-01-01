@@ -1,6 +1,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <cstdio>
+#include <thread>
+#include <chrono>
 #include "Thread.h"
 
 #include <Util/clamp.h>
@@ -152,7 +154,7 @@ DWORD WINAPI PersistentPatch(LPVOID)
   RegisterThreadName("BWAPI Persistent Patch");
   for (;;)
   {
-    Sleep(300);
+    std::this_thread::sleep_for(std::chrono::milliseconds{ 300 });
 
     // If version is correct
     if ( isCorrectVersion )
