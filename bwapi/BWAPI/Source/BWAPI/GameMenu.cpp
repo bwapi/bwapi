@@ -121,7 +121,6 @@ namespace BWAPI
       if ( this->autoMapIteration == "RANDOM" )
       {
         // Obtain a random map file
-        srand(GetTickCount());
         chosenEntry = rand() % this->autoMapPool.size();
       }
       else if ( this->autoMapIteration == "SEQUENCE" )

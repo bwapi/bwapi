@@ -1,18 +1,28 @@
 # Changes {#changesTop}
 [TOC]
 
-Current (11:24 AM Sunday, December 14, 2014) {#current}
+Latest {#current}
 ==============================
-Changes:
+[commit](https://github.com/bwapi/bwapi/commit/fe18f08ac4bd4e954ab2b6c5a740f964b65751e1)
+
+Project Changes:
  * BWAPI has migrated from Google Code to GitHub.
- * BWAPI has been updated to use Visual C++ 2013.
- * The video commands have been removed.
- * Removed the underlying `Vectorset` container, replacing it with `std::unordered_set`.
+ * BWAPI now uses Visual C++ 2013 Express for Windows Desktop.
+ * The project now has an automated build server.
+ 
+Enhancements:
  * Starcraft can now load BWAPI's custom network providers (Direct IP and Local PC) without using BWAPI.
+ * Added a `seed_override` option to the configuration, allowing users to fix the random seed at the start of a game (including multi-player).
+ * Multiple instances can now be executed without having to run a patcher.
+
+Regressions:
+ * The video commands have been removed.
+ * The `Vectorset` container has been removed and replaced with `std::unordered_set`.
  
 Documentation:
  * Types are now documented with information, visuals, and external references to Liquipedia, Staredit Network, Wikia, and Blizzard's Starcraft Compendium.
  * C++ STL types are now directly linked to http://www.cppreference.com.
+ * The configuration file (`bwapi.ini`) now has a documentation page.
 
 Bug Fixes:
  * Fixed a bug where some replays would be skipped when `auto_menu` iterated through them.
@@ -28,6 +38,7 @@ Bug Fixes:
  * Fixed a bug where the red and blue values of BWAPI::Color types were switched.
  * Fixed missing names and typos for various BWAPI::Orders.
  * Fixed a bug where `BWAPI::Player::isObserver` would return `true` in some @UMS maps.
+ * Fixed an issue where drawing text would cut off at 256 characters. It is now extended to 1024.
 
 
 BWAPI 4.0.1 Beta (r4453) {#changes_401b}
