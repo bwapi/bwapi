@@ -1,4 +1,6 @@
-#include <Windows.h>
+#pragma once
+
+typedef int BOOL;
 
 struct ExchangeData
 {

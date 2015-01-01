@@ -131,3 +131,4 @@ void DDrawInitialize(int width, int height)
   }
   SDrawManualInitialize(ghMainWnd, *BW::BWDATA::DDInterface, *BW::BWDATA::PrimarySurface, NULL, NULL, *BW::BWDATA::BackSurface, *BW::BWDATA::PrimaryPalette, NULL);
 }
+#undef DDCHECK
