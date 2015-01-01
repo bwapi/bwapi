@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string Error::typeNames[Errors::Enum::MAX] =
+  template <>
+  const std::string Type<Error, Errors::Enum::Unknown>::typeNames[Errors::Enum::MAX] =
   {
     "Unit_Does_Not_Exist",
     "Unit_Not_Visible",

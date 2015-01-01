@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string DamageType::typeNames[DamageTypes::Enum::MAX] = 
+  template <>
+  const std::string Type<DamageType, DamageTypes::Enum::Unknown>::typeNames[DamageTypes::Enum::MAX] =
   {
     "Independent",
     "Explosive",

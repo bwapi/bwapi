@@ -20,7 +20,8 @@ namespace BWAPI
   std::string unitLongNames[UnitTypes::Enum::MAX];
   std::string unitLocalNames[UnitTypes::Enum::MAX];
 
-  const std::string UnitType::typeNames[UnitTypes::Enum::MAX] = 
+  template <>
+  const std::string Type<UnitType, UnitTypes::Enum::Unknown>::typeNames[UnitTypes::Enum::MAX] =
   {
     "Terran_Marine",
     "Terran_Ghost",

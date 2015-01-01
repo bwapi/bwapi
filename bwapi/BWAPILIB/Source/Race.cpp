@@ -9,10 +9,11 @@
 namespace BWAPI
 {
   // NAMES
-  const std::string Race::typeNames[Races::Enum::MAX] =
+  template <>
+  const std::string Type<Race, Races::Enum::Unknown>::typeNames[Races::Enum::MAX] =
   {
     "Zerg", "Terran", "Protoss",
-    "", "", "",
+    "Other", "Unused", "Select",
     "Random", "None", "Unknown"
   };
   

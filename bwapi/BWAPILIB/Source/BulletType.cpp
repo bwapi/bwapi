@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string BulletType::typeNames[BulletTypes::Enum::MAX] =
+  template <>
+  const std::string Type<BulletType, BulletTypes::Enum::Unknown>::typeNames[BulletTypes::Enum::MAX] =
   {
     "Melee", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 

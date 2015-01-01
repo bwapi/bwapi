@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string PlayerType::typeNames[PlayerTypes::Enum::MAX] =
+  template <>
+  const std::string Type<PlayerType, PlayerTypes::Enum::Unknown>::typeNames[PlayerTypes::Enum::MAX] =
   {
     "None",
     "Computer",

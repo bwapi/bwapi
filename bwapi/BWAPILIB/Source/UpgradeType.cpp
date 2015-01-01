@@ -9,7 +9,8 @@
 
 namespace BWAPI
 {
-  const std::string UpgradeType::typeNames[UpgradeTypes::Enum::MAX] =
+  template <>
+  const std::string Type<UpgradeType, UpgradeTypes::Enum::Unknown>::typeNames[UpgradeTypes::Enum::MAX] =
   {
     "Terran_Infantry_Armor",
     "Terran_Vehicle_Plating",
