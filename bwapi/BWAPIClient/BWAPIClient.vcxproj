@@ -42,7 +42,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../include;../Shared;../include/BWAPI/Client;../Util/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../Shared;../include/BWAPI/Client;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -67,7 +67,7 @@ COPY /y "$(IntDir)vc$(PlatformToolsetVersion).pdb" "..\lib\BWAPIClientd.pdb"
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../include;../Shared;../include/BWAPI/Client;../Util/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../Shared;../include/BWAPI/Client;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -121,6 +121,7 @@ COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPIClient.lib"</Command>
     <ClInclude Include="..\include\BWAPI\Client\RegionImpl.h" />
     <ClInclude Include="..\include\BWAPI\Client\Shape.h" />
     <ClInclude Include="..\include\BWAPI\Client\ShapeType.h" />
+    <ClInclude Include="Source\Convenience.h" />
     <ClInclude Include="Source\TemplatesImpl.h" />
     <ClInclude Include="..\include\BWAPI\Client\UnitCommand.h" />
     <ClInclude Include="..\include\BWAPI\Client\UnitData.h" />

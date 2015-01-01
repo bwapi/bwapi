@@ -8,8 +8,7 @@
 
 #include "TemplatesImpl.h"
 
-#include <Util/Types.h>
-#include <Util/Convenience.h>
+#include "Convenience.h"
 #include <string>
 #include <cassert>
 #include <fstream>
