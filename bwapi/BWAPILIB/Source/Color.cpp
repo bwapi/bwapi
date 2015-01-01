@@ -11,24 +11,10 @@ typedef struct tagRGBQUAD {
   BYTE rgbReserved;
 } RGBQUAD;
 
-#define RGBRESERVE {0,0,0,0xFF}
-
 namespace BWAPI
 {
-  /*
-    const Color Green(117);
-    const Color Cyan(128);
-    const Color Yellow(135);
-    const Color Teal(159);
-    const Color Purple(164);
-    const Color Blue(165);
-    const Color Orange(179);
-    const Color White(255);
-    */
-    
-    
-
-  const std::string Color::typeNames[256] = 
+  template <>
+  const std::string Type<Color, 255>::typeNames[256] =
   {
     "Black", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
     "", "", "", "Brown", "", "", "", "", "", "", "", "", "", "", "", "",
@@ -46,6 +32,9 @@ namespace BWAPI
     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "White" };
+
+
+#define RGBRESERVE {0,0,0,0xFF}
 
   bool rgbInitialized = false;
   static const RGBQUAD defaultPalette[256] =
@@ -83,6 +72,7 @@ namespace BWAPI
     RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   ,
     RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , RGBRESERVE   , {255,255,255}
   };
+#undef RGBRESERVE
 
   namespace Colors
   {

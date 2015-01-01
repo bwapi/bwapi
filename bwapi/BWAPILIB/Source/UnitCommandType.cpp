@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string UnitCommandType::typeNames[UnitCommandTypes::Enum::MAX] =
+  template <>
+  const std::string Type<UnitCommandType, UnitCommandTypes::Enum::Unknown>::typeNames[UnitCommandTypes::Enum::MAX] =
   {
     "Attack_Move",
     "Attack_Unit",

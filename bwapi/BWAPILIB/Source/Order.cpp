@@ -7,8 +7,8 @@
 
 namespace BWAPI
 {
-
-  const std::string Order::typeNames[Orders::Enum::MAX] = 
+  template <>
+  const std::string Type<Order, Orders::Enum::Unknown>::typeNames[Orders::Enum::MAX] =
   { 
     "Die", "Stop", "Guard", "PlayerGuard", "TurretGuard", "BunkerGuard", "Move", "ReaverStop", "Attack1", "Attack2",
     "AttackUnit", "AttackFixedRange", "AttackTile", "Hover", "AttackMove", "InfestedCommandCenter", "UnusedNothing", "UnusedPowerup", 

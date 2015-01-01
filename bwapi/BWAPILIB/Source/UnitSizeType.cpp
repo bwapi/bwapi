@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string UnitSizeType::typeNames[UnitSizeTypes::Enum::MAX] =
+  template <>
+  const std::string Type<UnitSizeType, UnitSizeTypes::Enum::Unknown>::typeNames[UnitSizeTypes::Enum::MAX] =
   {
     "Independent",
     "Small",

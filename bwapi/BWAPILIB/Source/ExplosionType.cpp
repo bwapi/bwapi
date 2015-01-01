@@ -7,7 +7,8 @@
 
 namespace BWAPI
 {
-  const std::string ExplosionType::typeNames[ExplosionTypes::Enum::MAX] =
+  template <>
+  const std::string Type<ExplosionType, ExplosionTypes::Enum::Unknown>::typeNames[ExplosionTypes::Enum::MAX] =
   {
     "None",
     "Normal",

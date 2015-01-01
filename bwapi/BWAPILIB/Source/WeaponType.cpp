@@ -13,7 +13,8 @@
 namespace BWAPI
 {
   // NAMES
-  const std::string WeaponType::typeNames[WeaponTypes::Enum::MAX] = 
+  template <>
+  const std::string Type<WeaponType, WeaponTypes::Enum::Unknown>::typeNames[WeaponTypes::Enum::MAX] =
   {
     "Gauss_Rifle",
     "Gauss_Rifle_Jim_Raynor",

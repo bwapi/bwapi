@@ -12,7 +12,8 @@
 namespace BWAPI
 {
   // NAMES
-  const std::string TechType::typeNames[TechTypes::Enum::MAX] =
+  template <>
+  const std::string Type<TechType, TechTypes::Enum::Unknown>::typeNames[TechTypes::Enum::MAX] =
   {
     "Stim_Packs",
     "Lockdown",

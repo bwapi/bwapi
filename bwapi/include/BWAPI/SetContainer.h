@@ -32,9 +32,9 @@ namespace BWAPI
     ///     Predicate for removing elements.
     template<class Pred>
     void erase_if(const Pred& pred) {
-      auto it = begin();
-      while (it != end()) {
-        if (pred(*it)) it = erase(it);
+      auto it = this->begin();
+      while (it != this->end()) {
+        if (pred(*it)) it = this->erase(it);
         else ++it;
       }
     };
