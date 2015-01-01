@@ -24,6 +24,8 @@ Source: "..\Release_Binary\ExampleTournamentModule\*"; DestDir: "{app}\ExampleTo
 Source: "..\Release_Binary\ExampleProjects.sln"; DestDir: "{app}"; Flags: ignoreversion; Components: Library\Examples
 Source: "..\Release_Binary\documentation\*"; DestDir: "{app}\documentation\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Documentation
 Source: "..\Release_Binary\BWAPILIB\*"; DestDir: "{app}\BWAPILIB\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
+Source: "..\Release_Binary\BWAPIClient\*"; DestDir: "{app}\BWAPIClient\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
+Source: "..\Release_Binary\Shared\*"; DestDir: "{app}\Shared\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
 
 [Setup]
 AppName=BWAPI

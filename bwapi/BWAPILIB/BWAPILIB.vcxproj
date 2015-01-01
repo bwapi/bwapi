@@ -82,6 +82,12 @@ XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIL
 XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
 XCOPY "$(SolutionDir)BWAPILIB\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
 XCOPY "$(SolutionDir)BWAPILIB\*.h" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.h" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
 </Command>
     </PreLinkEvent>
     <Lib>
@@ -133,6 +139,12 @@ XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIL
 XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
 XCOPY "$(SolutionDir)BWAPILIB\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
 XCOPY "$(SolutionDir)BWAPILIB\*.h" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.h" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
 </Command>
     </PreLinkEvent>
     <Lib>

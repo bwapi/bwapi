@@ -52,7 +52,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <PreLinkEvent />
     <Link>
@@ -74,7 +73,6 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <PreLinkEvent />
     <Link>

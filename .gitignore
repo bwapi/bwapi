@@ -18,6 +18,8 @@ Release_Binary/ExampleAIModule
 Release_Binary/ExampleTournamentModule
 Release_Binary/include
 Release_Binary/BWAPILIB
+Release_Binary/BWAPIClient
+Release_Binary/Shared
 Release_Binary/MPQdraft/BWAPI_*
 Release_Binary/Starcraft/SNP_DirectIP.snp
 Release_Binary/Starcraft/bwapi-data/BWAPI*.dll
