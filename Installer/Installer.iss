@@ -10,7 +10,6 @@ Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPI.dll"; DestDir: "{code:Broo
 Source: "..\Release_Binary\Starcraft\bwapi-data\bwapi.ini"; DestDir: "{code:BroodwarPath}\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
 Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPId.dll"; DestDir: "{code:BroodwarPath}\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
 Source: "..\Release_Binary\Starcraft\bwapi-data\data\Broodwar.map"; DestDir: "{code:BroodwarPath}\bwapi-data\data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
-Source: "..\CHANGELOG.md"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion isreadme
 Source: "..\Release_Binary\vcredist_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
@@ -30,7 +29,6 @@ Source: "..\Release_Binary\BWAPILIB\*"; DestDir: "{app}\BWAPILIB\"; Flags: ignor
 AppName=BWAPI
 AppId={{5025BB16-9672-4C23-979D-2DC1B276CC5E}
 LicenseFile=..\LICENSE
-InfoBeforeFile=..\CHANGELOG.md
 RestartIfNeededByRun=False
 AppPublisherURL=http://bwapi.github.io
 AppSupportURL=http://bwapi.github.io
@@ -55,22 +53,22 @@ SolidCompression=True
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
 DisableProgramGroupPage=yes
-AppVersion=4.0.1
+AppVersion=4.1.0
 ShowLanguageDialog=no
 AlwaysShowComponentsList=False
 ShowComponentSizes=False
 PrivilegesRequired=poweruser
 LanguageDetectionMethod=locale
-VersionInfoVersion=4.0.1
-VersionInfoTextVersion=4.0.1
-VersionInfoProductVersion=4.0.1
-VersionInfoProductTextVersion=4.0.1
+VersionInfoVersion=4.1.0
+VersionInfoTextVersion=4.1.0
+VersionInfoProductVersion=4.1.0
+VersionInfoProductTextVersion=4.1.0
 OutputBaseFilename=BWAPI_Setup
 
 [Components]
 Name: "Binaries"; Description: "Binaries"
 Name: "Binaries\BWAPI"; Description: "BWAPI Binaries (Requires Starcraft: Broodwar)"; Types: full custom; Check: GetBroodwarPath
-Name: "Binaries\vcredist"; Description: "Microsoft Visual C++ 2010 Redistributable"; Types: custom full
+Name: "Binaries\vcredist"; Description: "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.21005"; Types: custom full
 Name: "Library"; Description: "Interface"; Types: custom full
 Name: "Library\Headers"; Description: "Library & Header Files"; Types: custom full
 Name: "Library\Examples"; Description: "Example Projects"; Types: custom full
