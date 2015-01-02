@@ -1,6 +1,7 @@
 #include "GameImpl.h"
 
 #include <BW/CBullet.h>
+#include <cassert>
 
 #include <BWAPI/BulletImpl.h>
 
@@ -11,8 +12,9 @@ namespace BWAPI
   //----------------------------------------------- GET BULLET FROM INDEX ------------------------------------
   BulletImpl* GameImpl::getBulletFromIndex(int index)
   {
-    int i = (index & 0x7F);
-    return this->bulletArray[i];
+    index &= 0x7F;
+    assert(index < BULLET_ARRAY_MAX_LENGTH);
+    return this->bulletArray[index];
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()

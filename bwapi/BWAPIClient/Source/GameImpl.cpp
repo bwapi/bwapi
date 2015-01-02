@@ -888,62 +888,6 @@ namespace BWAPI
     addCommand( BWAPIC::Command(BWAPIC::CommandType::SetMap, addString(mapFileName)) );
     return setLastError();
   }
-  bool GameImpl::hasPath(Position source, Position destination) const
-  {
-    this->setLastError();
-    if ( !source.isValid() || !destination.isValid() )
-      return this->setLastError(Errors::Unreachable_Location);
-
-    if ( data )
-    {
-      unsigned short srcIdx = data->mapTileRegionId[source.x/32][source.y/32];
-      unsigned short dstIdx = data->mapTileRegionId[destination.x/32][destination.y/32];
-
-      unsigned short srcGroup = 0;
-      unsigned short dstGroup = 0;
-      if ( srcIdx & 0x2000 )
-      {
-        int minitilePosX = (source.x&0x1F)/8;
-        int minitilePosY = (source.y&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-        unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[srcIdx&0x1FFF];
-        unsigned short rgn1         = data->mapSplitTilesRegion1[srcIdx&0x1FFF];
-        unsigned short rgn2         = data->mapSplitTilesRegion2[srcIdx&0x1FFF];
-        if ( (miniTileMask >> minitileShift) & 1 )
-          srcGroup = data->regions[rgn2].islandID;
-        else
-          srcGroup = data->regions[rgn1].islandID;
-      }
-      else
-      {
-        srcGroup = data->regions[srcIdx].islandID;
-      }
-
-      if ( dstIdx & 0x2000 )
-      {
-        int minitilePosX = (destination.x&0x1F)/8;
-        int minitilePosY = (destination.y&0x1F)/8;
-        int minitileShift = minitilePosX + minitilePosY * 4;
-
-        unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[dstIdx&0x1FFF];
-        unsigned short rgn1         = data->mapSplitTilesRegion1[dstIdx&0x1FFF];
-        unsigned short rgn2         = data->mapSplitTilesRegion2[dstIdx&0x1FFF];
-
-        if ( (miniTileMask >> minitileShift) & 1 )
-          dstGroup = data->regions[rgn2].islandID;
-        else
-          dstGroup = data->regions[rgn1].islandID;
-      }
-      else
-      {
-        dstGroup = data->regions[dstIdx].islandID;
-      }
-
-      if ( srcGroup == dstGroup )
-        return true;
-    }
-    return this->setLastError(Errors::Unreachable_Location);
-  }
   int GameImpl::elapsedTime() const
   {
     return data->elapsedTime;
@@ -968,16 +912,23 @@ namespace BWAPI
     unsigned short idx = data->mapTileRegionId[x/32][y/32];
     if ( idx & 0x2000 )
     {
-      int minitilePosX = (x&0x1F)/8;
-      int minitilePosY = (y&0x1F)/8;
-      int minitileShift = minitilePosX + minitilePosY * 4;
-      unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[idx&0x1FFF];
-      unsigned short rgn1         = data->mapSplitTilesRegion1[idx&0x1FFF];
-      unsigned short rgn2         = data->mapSplitTilesRegion2[idx&0x1FFF];
-      if ( (miniTileMask >> minitileShift) & 1 )
+      const int minitilePosX = (x&0x1F)/8;
+      const int minitilePosY = (y&0x1F)/8;
+      const int minitileShift = minitilePosX + minitilePosY * 4;
+      const int index = idx & 0x1FFF;
+      assert(index < std::extent<decltype(data->mapSplitTilesMiniTileMask)>::value);
+      unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[index];
+      
+      if ((miniTileMask >> minitileShift) & 1)
+      {
+        unsigned short rgn2 = data->mapSplitTilesRegion2[index];
         return this->getRegion(rgn2);
+      }
       else
+      {
+        unsigned short rgn1 = data->mapSplitTilesRegion1[index];
         return this->getRegion(rgn1);
+      }
     }
     return this->getRegion(idx);
   }

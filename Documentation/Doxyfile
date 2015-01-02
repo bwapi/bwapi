@@ -1948,7 +1948,6 @@ WARN_LOGFILE           =
 
 INPUT                  = ../bwapi/include/ \
                          ./bwapi.wiki/ \
-                         ../CHANGELOG.md \
                          ../README.md \
                          ../LICENSE.md \
                          ./dox/

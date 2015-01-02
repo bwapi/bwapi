@@ -1,5 +1,6 @@
 #pragma once
 #include <BWAPI.h>
+
 #include "GameData.h"
 #include "Client.h"
 #include "Shape.h"
@@ -10,14 +11,9 @@
 #include "RegionImpl.h"
 #include "UnitImpl.h"
 #include "BulletImpl.h"
+
 #include <list>
 #include <vector>
-
-#include <BWAPI/Unitset.h>
-#include <BWAPI/Bulletset.h>
-#include <BWAPI/Playerset.h>
-#include <BWAPI/Forceset.h>
-#include <BWAPI/Regionset.h>
 
 namespace BWAPI
 {
@@ -191,7 +187,6 @@ namespace BWAPI
       virtual int  getAPM(bool includeSelects = false) const override;
       virtual bool setMap(const char *mapFileName) override;
       virtual void setFrameSkip(int frameSkip) override;
-      virtual bool hasPath(Position source, Position destination) const override;
       virtual bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true) override;
       virtual bool setVision(BWAPI::Player player, bool enabled = true) override;
       virtual int  elapsedTime() const override;
