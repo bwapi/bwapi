@@ -116,7 +116,7 @@ BW::Position directions[] = {
 void IterateDirectionalCallback( bool (__stdcall *cb)(int,WORD*,int,int,int*), int x, int y, int *lParam = nullptr)
 {
   BW::Position origin((short)x,(short)y);
-  for ( int i = 0; i < countof(directions); ++i )
+  for ( int i = 0; i < std::extent<decltype(directions)>::value; ++i )
   {
     BW::Position p = origin + directions[i];
     if ( p.isValid() && !cb(i, getMtxTile(p.x, p.y), p.x, p.y, lParam) )

@@ -109,7 +109,7 @@ void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
 bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
 bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
 {
-  if ( !pAction || pAction->bActionType >= countof(BWTriggerActionFxnTable) )
+  if (!pAction || pAction->bActionType >= std::extent<decltype(BWTriggerActionFxnTable)>::value)
     return false;
 
   bool rval = BWTriggerActionFxnTable[pAction->bActionType](pAction);

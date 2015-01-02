@@ -15,15 +15,6 @@
 #define STORMAPI __stdcall
 #endif
 
-// Array manipulation macros
-#ifndef arrsize
-#define arrsize(x) (sizeof(x)/sizeof(x[0]))   // Official name
-#endif
-
-#ifndef countof
-#define countof(x) arrsize(x)                 // Personal name
-#endif
-
 #ifndef __STORM_SMAX
 #define __STORM_SMAX(x,y) (x < y ? y : x)
 #endif
