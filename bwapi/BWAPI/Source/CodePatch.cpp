@@ -57,7 +57,7 @@ void ApplyCodePatches()
 
     // Write trigger action detours
     memcpy(BWTriggerActionFxnTable, BW::TriggerActionCallbacks, sizeof(BWTriggerActionFxnTable));
-    for ( int i = 0; i < countof(BWTriggerActionFxnTable); ++i )
+    for ( int i = 0; i < std::extent<decltype(BWTriggerActionFxnTable)>::value; ++i )
       BW::TriggerActionCallbacks[i] = &TriggerActionReplacement;
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
