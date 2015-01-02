@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __BWAPI_H__
+#define __BWAPI_H__
+
 #include <BWAPI/InterfaceEvent.h>
 #include <BWAPI/Interface.h>
 #include <BWAPI/AIModule.h>
@@ -61,3 +64,5 @@ namespace BWAPI
   /// @threadsafe
   bool BWAPI_isDebug();
 }
+
+#endif

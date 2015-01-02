@@ -271,8 +271,11 @@ namespace BWAPI
       // Count of game-frames passed from game start.
       int frameCount;
       BW::CUnit *savedUnitSelection[PLAYER_COUNT];
+
+      void setLocalSpeedDirect(int speed);
     public:
       int seedOverride = std::numeric_limits<int>::max();
+      int speedOverride = std::numeric_limits<int>::min();
 
       bool wantSelectionUpdate;
       bool startedClient;

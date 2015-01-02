@@ -202,7 +202,7 @@ namespace BWAPI
     {
       n = -1;
       ss >> n;
-      setLocalSpeed(n);
+      setLocalSpeedDirect(n);
       Broodwar << "Changed game speed" << std::endl;
     }
     else if (cmd == "/fs")
@@ -421,7 +421,7 @@ namespace BWAPI
     this->regionsList.clear();
 
     // Reset game speeds and text size
-    this->setLocalSpeed(-1);
+    this->setLocalSpeedDirect(this->speedOverride);
     this->setFrameSkip(1);
     this->setTextSize();
     this->setGUI(true);
