@@ -5,10 +5,6 @@
 
 namespace BWAPI
 {
-  class Game;
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
-
   class ForceImpl : public ForceInterface
   {
     private:

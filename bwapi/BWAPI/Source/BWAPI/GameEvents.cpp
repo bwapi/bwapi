@@ -214,8 +214,11 @@ namespace BWAPI
 
     // Get Force Objects, assign Force<->Player relations
     ForceImpl *pNeutralForce = new ForceImpl("");
-    pNeutralForce->players.insert(this->players[11]);
-    this->players[11]->force = pNeutralForce;
+    if (this->players[11])
+    {
+      pNeutralForce->players.insert(this->players[11]);
+      this->players[11]->force = pNeutralForce;
+    }
 
     for ( int f = 1; f <= 4; ++f )
     {

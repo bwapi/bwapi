@@ -724,6 +724,18 @@ namespace BWAPI
   {
     return this->getRegionAt(position.x, position.y);
   }
+  bool Game::hasPath(Position source, Position destination) const
+  {
+    this->setLastError();
+    if (source.isValid() && destination.isValid())
+    {
+      Region rgnA = getRegionAt(source);
+      Region rgnB = getRegionAt(destination);
+      if (rgnA->getRegionGroupID() == rgnB->getRegionGroupID())
+        return true;
+    }
+    return this->setLastError(Errors::Unreachable_Location);
+  }
   //------------------------------------------ DRAW TEXT ----------------------------------------------
   void Game::drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...)
   {

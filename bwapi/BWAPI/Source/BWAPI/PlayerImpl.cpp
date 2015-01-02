@@ -136,10 +136,11 @@ namespace BWAPI
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
-    self->color = index < 12 ? BW::BWDATA::PlayerColors[index] : Colors::Black;
+    self->color = index < PLAYER_COUNT ? BW::BWDATA::PlayerColors[index] : Colors::Black;
   
     // Get upgrades, tech, resources
     if ( this->isNeutral() || 
+        index >= PLAYER_COUNT ||
          (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) )
@@ -163,7 +164,7 @@ namespace BWAPI
       MemZero(self->isResearchAvailable);
       MemZero(self->isUnitAvailable);
 
-      if ( !this->isNeutral() && index < 12 )
+      if (!this->isNeutral() && index < PLAYER_COUNT)
       {
         // set upgrade level for visible enemy units
         for(int i = 0; i < 46; ++i)
@@ -240,7 +241,7 @@ namespace BWAPI
     if ( (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) ||
-          index >= 12 )
+          index >= PLAYER_COUNT)
     {
       MemZero(self->supplyTotal);
       MemZero(self->supplyUsed);
@@ -289,9 +290,9 @@ namespace BWAPI
       self->customScore         = BW::BWDATA::AllScores->customScore[index];
     }
 
-    if (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||
+    if (index < PLAYER_COUNT && (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||
         BW::BWDATA::Players[index].nType == PlayerTypes::ComputerLeft ||
-       (BW::BWDATA::Players[index].nType == PlayerTypes::Neutral && !isNeutral()))
+       (BW::BWDATA::Players[index].nType == PlayerTypes::Neutral && !isNeutral())))
     {
       self->leftGame = true;
     }

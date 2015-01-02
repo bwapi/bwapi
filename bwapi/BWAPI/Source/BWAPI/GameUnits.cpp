@@ -7,6 +7,7 @@
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/Order.h>
+#include <cassert>
 
 #include "../../../Debug.h"
 
@@ -16,8 +17,9 @@ namespace BWAPI
   //------------------------------------------------ GET UNIT FROM INDEX -------------------------------------
   UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
-    int i = (index & 0x7FF);
-    return this->unitArray[i];
+    index &= 0x7FF;
+    assert(index < UNIT_ARRAY_MAX_LENGTH);
+    return this->unitArray[index];
   }
   //------------------------------------------------ IS UNIT ALIVE
   bool inline isUnitAlive(UnitImpl* i, bool isHidden = false)

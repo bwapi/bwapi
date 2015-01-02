@@ -854,24 +854,6 @@ namespace BWAPI
     strcpy(BW::BWDATA::CurrentMapFileName, mapFileName);
     return setLastError(Errors::None);
   }
-  //--------------------------------------------------- HAS PATH ---------------------------------------------
-  bool GameImpl::hasPath(Position source, Position destination) const
-  {
-    this->setLastError(Errors::None);
-    if ( !source.isValid() || !destination.isValid() )
-      return this->setLastError(Errors::Unreachable_Location);
-
-    if ( *BW::BWDATA::SAIPathing )
-    {
-      BW::region *srcRgn = BW::getRegionAt( BW::Position(source) );
-      BW::region *dstRgn = BW::getRegionAt( BW::Position(destination) );
-
-      // Return true if the locations are valid and connected
-      if ( srcRgn && dstRgn && srcRgn->groupIndex == dstRgn->groupIndex )
-        return true;
-    }
-    return this->setLastError(Errors::Unreachable_Location);
-  } // hasPath end
   //------------------------------------------------- ELAPSED TIME -------------------------------------------
   int GameImpl::elapsedTime() const
   {

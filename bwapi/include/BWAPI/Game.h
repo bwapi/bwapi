@@ -1258,7 +1258,7 @@ namespace BWAPI
     ///
     /// @retval true if there is a path between the two positions
     /// @retval false if there is no path
-    virtual bool hasPath(Position source, Position destination) const = 0;
+    bool hasPath(Position source, Position destination) const;
 
     /// Sets the alliance state of the current player with the target player.
     ///
