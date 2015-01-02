@@ -5,7 +5,7 @@
 
 namespace BWAPI
 {
-  ForceImpl::ForceImpl(std::string _name)
+  ForceImpl::ForceImpl(std::string const & _name)
     : name(_name)
     , id(-1)
   {

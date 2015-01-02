@@ -18,8 +18,8 @@ namespace BW
   PositionUnitTarget::PositionUnitTarget(const UnitTarget& target)
       : target(target)
   {
-    int index = 336 * ((target.getTarget() & 0x7FF) - 1);
-    CUnit* unit = (CUnit*)((int)BWDATA::UnitNodeTable + index);
+    int index = (target.getTarget() & 0x7FF) - 1;
+    CUnit* unit = &BWDATA::UnitNodeTable[index];
     this->position = unit->position;
   }
   //----------------------------------------------------------------------------------------------------------

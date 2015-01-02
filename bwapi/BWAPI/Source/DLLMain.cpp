@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <thread>
 #include <chrono>
+#include <cassert>
 #include "Thread.h"
 
 #include <Util/clamp.h>
@@ -27,6 +28,7 @@
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
 {
+  assert(dwLength < BW::BWDATA::TurnBuffer.size());
   if ( !pBuffer || !dwLength || !isCorrectVersion )
     return;
 
@@ -34,12 +36,12 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   caps.dwSize = sizeof(CAPS);
   SNetGetProviderCaps(&caps);
 
-  DWORD dwMaxBuffer = clamp<DWORD>(caps.maxmessagesize, 0, 512);
-  if ( dwLength + *BW::BWDATA::sgdwBytesInCmdQueue <= dwMaxBuffer )
+  DWORD dwMaxBuffer = clamp<DWORD>(caps.maxmessagesize, 0, BW::BWDATA::TurnBuffer.size());
+  if ( dwLength + BW::BWDATA::sgdwBytesInCmdQueue <= dwMaxBuffer )
   {
     // Copy data to primary turn buffer
-    memcpy(&BW::BWDATA::TurnBuffer[*BW::BWDATA::sgdwBytesInCmdQueue], pBuffer, dwLength);
-    *BW::BWDATA::sgdwBytesInCmdQueue += dwLength;
+    memcpy(&BW::BWDATA::TurnBuffer[BW::BWDATA::sgdwBytesInCmdQueue], pBuffer, dwLength);
+    BW::BWDATA::sgdwBytesInCmdQueue += dwLength;
     return;
   }
   
@@ -59,9 +61,9 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
       return;
 
     // Send the turn and fill the new buffer
-    BW::BWFXN_sendTurn();
-    memcpy(&BW::BWDATA::TurnBuffer[*BW::BWDATA::sgdwBytesInCmdQueue], pBuffer, dwLength);
-    *BW::BWDATA::sgdwBytesInCmdQueue += dwLength;
+    BW::BWDATA::BWFXN_sendTurn();
+    memcpy(&BW::BWDATA::TurnBuffer[BW::BWDATA::sgdwBytesInCmdQueue], pBuffer, dwLength);
+    BW::BWDATA::sgdwBytesInCmdQueue += dwLength;
   }
   // assume no error, would be fatal in Starcraft anyway
 }

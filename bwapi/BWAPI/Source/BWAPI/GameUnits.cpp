@@ -91,7 +91,7 @@ namespace BWAPI
     // Now we will add alive units to the aliveUnits set and set their isAlive flag to true
 
     //compute alive units
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_VisibleUnit_First); u; u = u->getNext() )
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::UnitNodeList_VisibleUnit_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u) )
       {
@@ -100,7 +100,7 @@ namespace BWAPI
         u->updateInternalData();
       }
     }
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_HiddenUnit_First); u; u = u->getNext() )
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::UnitNodeList_HiddenUnit_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u, true) )
       {
@@ -109,7 +109,7 @@ namespace BWAPI
         u->updateInternalData();
       }
     }
-    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(*BW::BWDATA::UnitNodeList_ScannerSweep_First); u; u = u->getNext() )
+    for ( UnitImpl* u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::UnitNodeList_ScannerSweep_First); u; u = u->getNext() )
     {
       if ( isUnitAlive(u) )
       {
@@ -526,7 +526,7 @@ namespace BWAPI
     Position pos( this->selectedUnitSet.getPosition() );
 
     // Move the position to the center of the screen
-    pos -= Position(BW::BWDATA::GameScreenBuffer->width() / 2, BW::BWDATA::GameScreenBuffer->height() / 2 - 40);
+    pos -= Position(BW::BWDATA::GameScreenBuffer.width() / 2, BW::BWDATA::GameScreenBuffer.height() / 2 - 40);
 
     // Make this position a valid position
     pos.makeValid();

@@ -17,7 +17,7 @@ namespace BW
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   UnitTarget::UnitTarget(BWAPI::UnitImpl* target)
   {
-    u16 unitID = (u16)( ((u32)target->getOriginalRawData - (u32)BWDATA::UnitNodeTable) / 336 + 1);
+    u16 unitID = (u16)((target->getOriginalRawData - BWDATA::UnitNodeTable.data()) + 1);
     if (unitID <= UNIT_ARRAY_MAX_LENGTH)
       this->targetID = unitID | (target->getOriginalRawData->targetOrderSpecial << 11);
     else
@@ -25,7 +25,7 @@ namespace BW
   }
   UnitTarget::UnitTarget(BW::CUnit* target)
   {
-    u16 unitID = (u16)( ((u32)target - (u32)BWDATA::UnitNodeTable) / 336 + 1);
+    u16 unitID = (u16)((target - BWDATA::UnitNodeTable.data()) + 1);
     if (unitID <= UNIT_ARRAY_MAX_LENGTH)
       this->targetID = unitID | (target->targetOrderSpecial << 11);
     else

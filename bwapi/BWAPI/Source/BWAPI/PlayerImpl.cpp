@@ -80,14 +80,14 @@ namespace BWAPI
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Alliance[index].player[ static_cast<PlayerImpl*>(player)->getIndex() ] != 0;
+    return BW::BWDATA::Alliance[index][ static_cast<PlayerImpl*>(player)->getIndex() ] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(const Player player) const
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Alliance[index].player[ static_cast<PlayerImpl*>(player)->getIndex() ] == 0;
+    return BW::BWDATA::Alliance[index][ static_cast<PlayerImpl*>(player)->getIndex() ] == 0;
   }
   //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool PlayerImpl::isNeutral() const
@@ -189,10 +189,10 @@ namespace BWAPI
       this->wasSeenByBWAPIPlayer = true;
 
       // set resources
-      self->minerals           = BW::BWDATA::PlayerResources->minerals[index];
-      self->gas                = BW::BWDATA::PlayerResources->gas[index];
-      self->gatheredMinerals   = BW::BWDATA::PlayerResources->cumulativeMinerals[index];
-      self->gatheredGas        = BW::BWDATA::PlayerResources->cumulativeGas[index];
+      self->minerals           = BW::BWDATA::PlayerResources.minerals[index];
+      self->gas                = BW::BWDATA::PlayerResources.gas[index];
+      self->gatheredMinerals   = BW::BWDATA::PlayerResources.cumulativeMinerals[index];
+      self->gatheredGas        = BW::BWDATA::PlayerResources.cumulativeGas[index];
       self->repairedMinerals   = this->_repairedMinerals;
       self->repairedGas        = this->_repairedGas;
       self->refundedMinerals   = this->_refundedMinerals;
@@ -295,15 +295,6 @@ namespace BWAPI
     {
       self->leftGame = true;
     }
-  }
-  //--------------------------------------------- GET FORCE NAME ---------------------------------------------
-  char* PlayerImpl::getForceName() const
-  {
-    u8 team = BW::BWDATA::Players[index].nTeam;
-    if ( team == 0 || team > 4 )
-      return "";
-    team--;
-    return BW::BWDATA::ForceNames[team].name;
   }
   //--------------------------------------------- SELECTED UNIT ----------------------------------------------
   BW::CUnit** PlayerImpl::selectedUnit()

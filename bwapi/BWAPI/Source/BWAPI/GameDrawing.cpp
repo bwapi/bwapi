@@ -32,8 +32,8 @@ namespace BWAPI
     }
     if (p.x < 0 || 
         p.y < 0 ||
-        p.x > BW::BWDATA::GameScreenBuffer->width() || 
-        p.y > BW::BWDATA::GameScreenBuffer->height())
+        p.x > BW::BWDATA::GameScreenBuffer.width() || 
+        p.y > BW::BWDATA::GameScreenBuffer.height())
       return false;
     return true;
   }
@@ -69,7 +69,7 @@ namespace BWAPI
       p2.y += BW::BWDATA::Mouse->y;
       break;
     }
-    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
+    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer.width(), (s16)BW::BWDATA::GameScreenBuffer.height() };
     if ((p1.x < 0 && p2.x < 0) ||
         (p1.y < 0 && p2.y < 0) ||
         (p1.x > scrLimit.right  && p2.x > scrLimit.right) ||
@@ -112,7 +112,7 @@ namespace BWAPI
       p3.y += BW::BWDATA::Mouse->y;
       break;
     }
-    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer->width(), (s16)BW::BWDATA::GameScreenBuffer->height() };
+    rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer.width(), (s16)BW::BWDATA::GameScreenBuffer.height() };
     if ((p1.x < 0 && p2.x < 0 && p3.x < 0) ||
         (p1.y < 0 && p2.y < 0 && p3.y < 0) ||
         (p1.x > scrLimit.right && p2.x > scrLimit.right && p3.x > scrLimit.right) ||

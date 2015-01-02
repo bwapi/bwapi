@@ -683,9 +683,9 @@ namespace BWAPI
 
       unitFinder     *xf   = data->xUnitSearch;
       unitFinder     *yf   = data->yUnitSearch;
-      const BW::unitFinder *bwxf = BW::BWDATA::UnitOrderingX;
-      const BW::unitFinder *bwyf = BW::BWDATA::UnitOrderingY;
-      int bwSearchSize = *BW::BWDATA::UnitOrderingCount;
+      const BW::unitFinder *bwxf = BW::BWDATA::UnitOrderingX.data();
+      const BW::unitFinder *bwyf = BW::BWDATA::UnitOrderingY.data();
+      int bwSearchSize = BW::BWDATA::UnitOrderingCount;
 
       for ( int i = 0; i < bwSearchSize; ++i, bwxf++, bwyf++ )
       {

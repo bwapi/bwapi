@@ -1,9 +1,13 @@
 #pragma once
 #include <Util/Types.h>
 #include <storm.h>
+#include <array>
+#include <type_traits>
 
 #include "TriggerEngine.h"
 #include "Position.h"
+
+#include "Dialog.h"
 
 #pragma pack(1)
 
@@ -14,19 +18,21 @@
  * -# Functions that communicate directly with broodwar.
  */
 
-#define PLAYER_COUNT             12
-#define PLAYABLE_PLAYER_COUNT     8
-#define RACE_COUNT                3
-#define UNIT_TYPE_COUNT         228
-#define TECH_TYPE_COUNT          44
-#define UPGRADE_TYPE_COUNT       61
-#define WEAPON_TYPE_COUNT       130
-#define DAMAGE_TYPE_COUNT         5
-#define EXPLOSION_TYPE_COUNT     25
-#define FLINGY_TYPE_COUNT       209
-#define UNIT_ARRAY_MAX_LENGTH  1700
-#define BULLET_ARRAY_MAX_LENGTH 100
-#define MAX_SEARCH             (UNIT_ARRAY_MAX_LENGTH*2)
+const int PLAYER_COUNT = 12;
+const int PLAYABLE_PLAYER_COUNT = 8;
+const int RACE_COUNT = 3;
+const int UNIT_TYPE_COUNT = 228;
+const int TECH_TYPE_COUNT = 44;
+const int UPGRADE_TYPE_COUNT = 61;
+const int WEAPON_TYPE_COUNT = 130;
+const int DAMAGE_TYPE_COUNT = 5;
+const int EXPLOSION_TYPE_COUNT = 25;
+const int FLINGY_TYPE_COUNT = 209;
+const int UNIT_ARRAY_MAX_LENGTH = 1700;
+const int BULLET_ARRAY_MAX_LENGTH = 100;
+const int MAX_SEARCH = (UNIT_ARRAY_MAX_LENGTH * 2);
+const int NUM_SPEEDS = 7;
+const int TURN_BUFFER_SIZE = 512;
 
 namespace BW
 {
@@ -50,14 +56,14 @@ namespace BW
     u32   entries;
   };
 
-// Define a value for mac version
+  // Define a value for mac version
 #ifdef _MAC
 #define BWMAC 1
 #else
 #define BWMAC 0
 #endif
 
-// Used for defining BW data without having to write redundant code
+  // Used for defining BW data without having to write redundant code
 #define BW_DATA(type,name,pc,mac) namespace BWDATA { static type const name = BWMAC ? (type)mac : (type)pc; }
 
   /*
@@ -70,26 +76,14 @@ namespace BW
   */
   //----------------------------------------------- PLAYER DATA ----------------------------------------------
   // Player resource counts
-  struct PlayerResources
+  struct PlayerResourcesStruct
   {
     s32 minerals[PLAYER_COUNT];
     s32 gas[PLAYER_COUNT];
     s32 cumulativeGas[PLAYER_COUNT];
     s32 cumulativeMinerals[PLAYER_COUNT];
   };
-  BW_DATA(BW::PlayerResources*, PlayerResources, 0x0057F0F0, 0);
 
-  BW_DATA(u8*, PlayerVictory, 0x00650974, 0);
-  BW_DATA(BW::Position*, startPositions, 0x0058D720, 0);
-  
-  // Force Names
-  struct ForceName
-  {
-    char  name[30];
-  };
-  BW_DATA(ForceName*, ForceNames, 0x0058D5BC, 0);
-
-  // Player Information
   struct PlayerInfo
   {
     int  dwPlayerID;
@@ -99,81 +93,6 @@ namespace BW
     u8   nTeam;
     char szName[25];
   };
-  BW_DATA(PlayerInfo*, Players, 0x0057EEE0, 0);
-
-  BW_DATA(u32*, PlayerDownloadStatus, 0x0068F4FC, 0);
-
-  // Player Alliances
-  struct PlayerAlliance
-  {
-    u8 player[PLAYER_COUNT];
-  };
-  BW_DATA(PlayerAlliance*, Alliance, 0x0058D634, 0);
-  BW_DATA(u32*, PlayerVision, 0x0057F1EC, 0);
-
-  // Replay Vision
-  BW_DATA(u32*, ReplayVision, 0x006D0F18, 0);
-  BW_DATA(u32*, ReplayRevealAll, 0x006D0F1C, 0);
-
-  // Code Patches
-  BW_DATA(u32, ServerMenuIn, 0x004DD5A2, 0);
-  BW_DATA(u32, ServerMenuOut, 0x004DD5C9, 0);
-  BW_DATA(u32, OpponentStartHack, 0x004B995D, 0);
-  BW_DATA(u32, SingleSpeedHack, 0x004D99FB, 0);
-
-  struct swishTimer
-  {
-    WORD wIndex;
-    WORD wType;
-  };
-  BW_DATA(swishTimer*, commonSwishControllers, 0x005129EC, 0);   // count: 43
-  BW_DATA(swishTimer*, gluCustmSwishController, 0x0051A9F0, 0);   // count: 5
-  BW_DATA(swishTimer*, gluCmpgnSwishController, 0x00512B10, 0);   // count: 2
-  BW_DATA(swishTimer*, gluScoreSwishController, 0x0051A844, 0);   // count: 1
-  BW_DATA(swishTimer*, gluChatSwishController, 0x0051A490, 0);  // count: 5
-
-  BW_DATA(u32*, playerStatusArray, 0x0057F0B8, 0);
-
-  // QueueGameCommand data
-  BW_DATA(u32*, sgdwBytesInCmdQueue, 0x00654AA0, 0);
-  BW_DATA(u8*, TurnBuffer, 0x00654880, 0);
-  static void  (* const BWFXN_sendTurn)()          = (void(*)()) 0x00485A40;
-  const u32 BWFXN_QueueCommand = 0x00485BD0;
-
-  // Speed & Latency
-  static const u32     OriginalSpeedModifiers[7]  =        { 167, 111, 83, 67, 56, 48, 42};
-  BW_DATA(u32*, GameSpeedModifiers, 0x005124D8, 0x0014BF3C);
-  BW_DATA(u32*, GameSpeed, 0x006CDFD4, 0x00228458);
-
-  BW_DATA(u32*, LatencyFrames, 0x0051CE70, 0);
-  BW_DATA(u32*, FramesUntilNextTurn, 0x0051CEA0, 0);
-  BW_DATA(int*, FrameSkip, 0x005124D4, 0);
-  BW_DATA(u8*, Latency, 0x006556e4, 0);
-  //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
-  // Dialog and drawing offsets
-  static bool (__fastcall ** const GenericDlgInteractFxns)(dialog*,dlgEvent*)   = (bool (__fastcall**)(dialog*,dlgEvent*))    0x005014AC;
-  static void (__fastcall ** const GenericDlgUpdateFxns)(dialog*,int,int,rect*) = (void (__fastcall**)(dialog*,int,int,rect*))0x00501504;
-
-  BW_DATA(dialog**, DialogList, 0x006D5E34, 0);
-  BW_DATA(Font**, FontBase, 0x006CE0F4, 0);
-  BW_DATA(Bitmap*, GameScreenBuffer, 0x006CEFF0, 0);
-  BW_DATA(Bitmap*, GameScreenConsole, 0x00597240, 0);
-  //BW_DATA(BYTE**, GameTerrainCache, 0x00628454,0);
-  
-  BW_DATA(PALETTEENTRY*, GamePalette, 0x006CE320, 0);
-  BW_DATA(LPDIRECTDRAWSURFACE*, PrimarySurface, 0x006D5E00, 0);
-  BW_DATA(LPDIRECTDRAW*, DDInterface, 0x006D5E08, 0);
-  BW_DATA(LPDIRECTDRAWPALETTE*, PrimaryPalette, 0x006D5E0C, 0);
-  BW_DATA(LPDIRECTDRAWSURFACE*, BackSurface, 0x006D5E10, 0);
-
-  static void (__cdecl * const BWFXN_DDrawDestroy)()   = (void(__cdecl*)())0x0041D8B0;
-  BW_DATA(u32, DDrawInitCallPatch, 0x004DB0A2, 0);
-  static void (__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
-
-  BW_DATA(u8*, RefreshRegions, 0x006CEFF8, 0);
-  BW_DATA(u8*, PlayerColors, 0x00581DD6, 0);
-
-  static bool (__stdcall * const BWFXN_CreepManagementCB)(int,WORD*,int,int,int*) = (bool (__stdcall*)(int,WORD*,int,int,int*))0x00414440;
 
   struct bounds
   {
@@ -195,35 +114,128 @@ namespace BW
     WORD    height;
     WORD    alignment;
     Bitmap  *pSurface;
-    void (__stdcall *pUpdate)(Bitmap *pSurface, bounds *pBounds);
+    void(__stdcall *pUpdate)(Bitmap *pSurface, bounds *pBounds);
   };
-  BW_DATA(layer*, ScreenLayers, 0x006CEF50, 0);
-  extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
-  extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
-
-  BW_DATA(RECT*, ScrLimit, 0x0051A15C, 0);
-  BW_DATA(RECT*, ScrSize, 0x0051A16C, 0);
-
-  //------------------------------------------- CLIST DATA ---------------------------------------------------
-  BW_DATA(CUnit**, UnitNodeList_VisibleUnit_First, 0x00628430, 0);
-  BW_DATA(CUnit**, UnitNodeList_HiddenUnit_First, 0x006283EC, 0);
-  BW_DATA(CUnit**, UnitNodeList_ScannerSweep_First, 0x006283F4, 0);
-  BW_DATA(CUnit*, UnitNodeTable, 0x0059CCA8, 0);
-
-  BW_DATA(CThingy**, ThingyList_UsedFirst, 0x00652918, 0);
-
-  BW_DATA(CBullet**, BulletNodeTable_FirstElement, 0x0064DEC4, 0);
-  BW_DATA(CBullet*, BulletNodeTable, 0x0064B2E8, 0);
 
   struct unitFinder
   {
     int unitIndex;
     int searchValue;
   };
-  // array size 3400 (1700 * 2) for each
-  BW_DATA(unitFinder*, UnitOrderingX, 0x0066FF78, 0);
-  BW_DATA(unitFinder*, UnitOrderingY, 0x006769B8, 0);
-  BW_DATA(int*, UnitOrderingCount, 0x0066FF74, 0);
+
+  const std::array<u32, NUM_SPEEDS> OriginalSpeedModifiers = { 167, 111, 83, 67, 56, 48, 42 };
+
+#define IS_REF(name,addr) & name = *reinterpret_cast<std::remove_reference<decltype(name)>::type*>(addr);
+
+  namespace BWDATA
+  {
+    namespace
+    {
+      // Player Information
+      PlayerResourcesStruct IS_REF(PlayerResources, 0x0057F0F0);
+      std::array<u8, PLAYABLE_PLAYER_COUNT> IS_REF(PlayerVictory, 0x00650974);
+      std::array<BW::Position, PLAYABLE_PLAYER_COUNT> IS_REF(startPositions, 0x0058D720);
+
+      std::array<std::array<char, 30>, 4> IS_REF(ForceNames, 0x0058D5BC);
+      std::array<PlayerInfo, PLAYER_COUNT> IS_REF(Players, 0x0057EEE0);
+      std::array<u32, PLAYABLE_PLAYER_COUNT> IS_REF(PlayerDownloadStatus, 0x0068F4FC);
+      std::array<u32, PLAYABLE_PLAYER_COUNT> IS_REF(playerStatusArray, 0x0057F0B8);
+
+      // Alliance and vision
+      std::array<std::array<u8, PLAYER_COUNT>, PLAYER_COUNT> IS_REF(Alliance, 0x0058D634);
+      std::array<u32, PLAYER_COUNT> IS_REF(PlayerVision, 0x0057F1EC);
+      u32 IS_REF(ReplayVision, 0x006D0F18);
+      u32 IS_REF(ReplayRevealAll, 0x006D0F1C);
+
+      // Code Patches
+      const u32 ServerMenuIn = 0x004DD5A2;
+      const u32 ServerMenuOut = 0x004DD5C9;
+      const u32 OpponentStartHack = 0x004B995D;
+      const u32 SingleSpeedHack = 0x004D99FB;
+
+      struct swishTimer
+      {
+        WORD wIndex;
+        WORD wType;
+      };
+
+      std::array<swishTimer, 43> IS_REF(commonSwishControllers, 0x005129EC);
+      std::array<swishTimer, 5> IS_REF(gluCustmSwishController, 0x0051A9F0);
+      std::array<swishTimer, 2> IS_REF(gluCmpgnSwishController, 0x00512B10);
+      std::array<swishTimer, 1> IS_REF(gluScoreSwishController, 0x0051A844);
+      std::array<swishTimer, 5> IS_REF(gluChatSwishController, 0x0051A490);
+
+      // Command queue data
+      u32 IS_REF(sgdwBytesInCmdQueue, 0x00654AA0);
+      std::array<u8, TURN_BUFFER_SIZE> IS_REF(TurnBuffer, 0x00654880);
+
+      static void(*const BWFXN_sendTurn)() = (void(*)()) 0x00485A40;
+      const u32 BWFXN_QueueCommand = 0x00485BD0;
+
+      // Speed and Latency
+      struct GameSpeeds
+      {
+        std::array<u32, NUM_SPEEDS> gameSpeedModifiers;
+        std::array<u32, NUM_SPEEDS> altSpeedModifiers;
+      };
+      GameSpeeds IS_REF(GameSpeedModifiers, 0x005124D8);   // mac: 0x0014BF3C
+      u32 IS_REF(GameSpeed, 0x006CDFD4);  // mac: 0x00228458
+
+      std::array<u32, NUM_SPEEDS> IS_REF(LatencyFrames, 0x0051CE70);
+      u32 IS_REF(FramesUntilNextTurn, 0x0051CEA0);
+      s32 IS_REF(FrameSkip, 0x005124D4);
+      u8 IS_REF(Latency, 0x006556e4);
+
+      // Dialog and drawing
+      std::array<dialog::FnInteract*, ctrls::max> IS_REF(GenericDlgInteractFxns, 0x005014AC);
+      std::array<dialog::FnUpdate*, ctrls::max> IS_REF(GenericDlgUpdateFxns, 0x00501504);
+      dialog* IS_REF(DialogList, 0x006D5E34);
+
+      std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);
+      Bitmap IS_REF(GameScreenBuffer, 0x006CEFF0);
+      Bitmap IS_REF(GameScreenConsole, 0x00597240);
+
+      std::array<PALETTEENTRY, 256> IS_REF(GamePalette, 0x006CE320);
+      LPDIRECTDRAW IS_REF(DDInterface, 0x006D5E08);
+      LPDIRECTDRAWPALETTE IS_REF(PrimaryPalette, 0x006D5E0C);
+      LPDIRECTDRAWSURFACE IS_REF(PrimarySurface, 0x006D5E00);
+      LPDIRECTDRAWSURFACE IS_REF(BackSurface, 0x006D5E10);
+
+      static void(__cdecl * const BWFXN_DDrawDestroy)() = (void(__cdecl*)())0x0041D8B0;
+      const u32 DDrawInitCallPatch = 0x004DB0A2;
+      static void(__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
+
+      std::array<u8, 1200> IS_REF(RefreshRegions, 0x006CEFF8);
+      std::array<u8, PLAYER_COUNT> IS_REF(PlayerColors, 0x00581DD6);
+
+      static bool(__stdcall * const BWFXN_CreepManagementCB)(int, WORD*, int, int, int*) = (bool(__stdcall*)(int, WORD*, int, int, int*))0x00414440;
+
+      std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
+      RECT IS_REF(ScrLimit, 0x0051A15C);
+      RECT IS_REF(ScrSize, 0x0051A16C);
+
+      // Unit and CList offsets
+      CUnit* IS_REF(UnitNodeList_VisibleUnit_First, 0x00628430);
+      CUnit* IS_REF(UnitNodeList_HiddenUnit_First, 0x006283EC);
+      CUnit* IS_REF(UnitNodeList_ScannerSweep_First, 0x006283F4);
+
+      std::array<CUnit, UNIT_ARRAY_MAX_LENGTH> IS_REF(UnitNodeTable, 0x0059CCA8);
+
+      CThingy* IS_REF(ThingyList_UsedFirst, 0x00652918);
+
+      CBullet* IS_REF(BulletNodeTable_FirstElement, 0x0064DEC4);
+      std::array<CBullet, BULLET_ARRAY_MAX_LENGTH> IS_REF(BulletNodeTable, 0x0064B2E8);
+
+      // Unit ordering system (fast units in region calculations)
+      std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> IS_REF(UnitOrderingX, 0x0066FF78);
+      std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> IS_REF(UnitOrderingY, 0x006769B8);
+      int IS_REF(UnitOrderingCount, 0x0066FF74);
+    }
+  }
+
+  //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
+  extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
+  extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
 
   //------------------------------------------- DATA LEVEL ---------------------------------------------------
   BW_DATA(u32*, wantThingyUpdate, 0x00652920, 0);
@@ -692,26 +704,9 @@ namespace BW
   BW_DATA(SAI_Paths**, SAIPathing, 0x006D5BFC,0);
 
   BW_DATA(grpHead**, TerrainGraphics, 0x006D0C64,0);
-
-  // EXPERIMENTAL
-  //static int (__stdcall *BWFXN_getTileDistance)(int x, int y, int x2, int y2) = (int (__stdcall*)(int,int,int,int))0x00444100;
-  
-  struct baseLocation
-  {
-    /* 0x00 */BW::Position position;
-    /* 0x04 */BYTE  mineralClusters;
-    /* 0x05 */BYTE  gasGeysers;
-    /* 0x06 */BYTE  isStartLocation; // The "base" is actually a Start Location
-    /* 0x07 */BYTE  bFlags;
-                    /*  0x01 - This base is currently occupied.
-                        0x02 - An AI script has acquired this base as an expansion.
-                    */
-    /* 0x08 */DWORD remainingMinerals;
-    /* 0x0C */DWORD remainingGas;
-    /* 0x10 */DWORD unk_10[8];
-  };
-
-  // 250 entries max
-  BW_DATA(baseLocation*, Bases, 0x00692688, 0);
 };
+
+#undef IS_REF
+#undef BW_DATA
+
 #pragma pack()

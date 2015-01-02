@@ -103,12 +103,12 @@ namespace BW
   // ------------------ FIND GLOBAL ------------------
   dialog *FindDialogGlobal(const char *pszName)
   {
-    if ( (*BW::BWDATA::DialogList) && pszName )
-      return (*BW::BWDATA::DialogList)->findDialog(pszName);
+    if ( BW::BWDATA::DialogList && pszName )
+      return BW::BWDATA::DialogList->findDialog(pszName);
     return nullptr;
   }
   // ----------------- CONSTRUCTORS ------------------
-  dialog::dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
+  dialog::dialog(u16 ctrlType, short index, const char *text, u16 left, u16 top, u16 width, u16 height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
     : pNext( nullptr )
     , srcBits(width, height)
     , pszText( const_cast<char*>(text) )
@@ -145,8 +145,8 @@ namespace BW
     rct.bottom  = rct.top  + height - 1;
 
     // Set callback functions
-    pfcnUpdate  = BW::GenericDlgUpdateFxns[wCtrlType];
-    pfcnInteract = pfInteract ? pfInteract : BW::GenericDlgInteractFxns[wCtrlType];
+    pfcnUpdate  = BW::BWDATA::GenericDlgUpdateFxns[wCtrlType];
+    pfcnInteract = pfInteract ? pfInteract : BW::BWDATA::GenericDlgInteractFxns[wCtrlType];
 
     // Set control type-specific options
     switch ( ctrlType )
@@ -158,7 +158,7 @@ namespace BW
       // Allocate destination buffer
       u.dlg.dstBits.wid   = width;
       u.dlg.dstBits.ht    = height;
-      u.dlg.dstBits.data  = (BYTE*)SMAlloc(width*height);
+      u.dlg.dstBits.data  = (u8*)SMAlloc(width*height);
       break;
     case ctrls::cBUTTON:
     case ctrls::cDFLTBTN:
@@ -285,16 +285,16 @@ namespace BW
     return this ? this->pNext : nullptr;
   }
   // ------------------- SET FLAG --------------------
-  bool dialog::setFlags(DWORD dwFlag)
+  bool dialog::setFlags(u32 dwFlag)
   {
     if ( this )
     {
       if ( !this->isDialog() )
       {
-        DWORD size    = dwFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
-        DWORD halign  = dwFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
-        DWORD valign  = dwFlag & (CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
-        DWORD remains = dwFlag & ~(size | halign | valign);
+        u32 size    = dwFlag & (CTRL_FONT_SMALLEST | CTRL_FONT_SMALL | CTRL_FONT_LARGE | CTRL_FONT_LARGEST);
+        u32 halign  = dwFlag & (CTRL_HALIGN_LEFT | CTRL_HALIGN_RIGHT | CTRL_HALIGN_CENTER);
+        u32 valign  = dwFlag & (CTRL_VALIGN_TOP | CTRL_VALIGN_MIDDLE | CTRL_VALIGN_BOTTOM);
+        u32 remains = dwFlag & ~(size | halign | valign);
 
         // set size
         if (size == CTRL_FONT_SMALLEST ||
@@ -335,7 +335,7 @@ namespace BW
     return false;
   }
   // ------------------ CLEAR FLAG -------------------
-  bool dialog::clearFlags(DWORD dwFlag)
+  bool dialog::clearFlags(u32 dwFlag)
   {
     if ( this )
     {
@@ -345,7 +345,7 @@ namespace BW
     return false;
   }
   // ------------------- HAS FLAG --------------------
-  bool dialog::hasFlags(DWORD dwFlag) const
+  bool dialog::hasFlags(u32 dwFlag) const
   {
     return this && (this->lFlags & dwFlag) == dwFlag;
   }
@@ -434,14 +434,14 @@ namespace BW
   }
 // -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
-  bool dialog::doEvent(WORD wEvtNum, DWORD dwUser, WORD wSelect, WORD wVirtKey)
+  bool dialog::doEvent(u16 wEvtNum, u32 dwUser, u16 wSelect, u16 wVirtKey)
   {
     if ( !this || !this->pfcnInteract )
       return false;
 
     dlgEvent evt;
-    evt.cursor.x    = (WORD)BW::BWDATA::Mouse->x;
-    evt.cursor.y    = (WORD)BW::BWDATA::Mouse->y;
+    evt.cursor.x    = (u16)BW::BWDATA::Mouse->x;
+    evt.cursor.y    = (u16)BW::BWDATA::Mouse->y;
     evt.wVirtKey    = wVirtKey;
     evt.wSelection  = wSelect;
     evt.wNo         = wEvtNum;
@@ -451,7 +451,7 @@ namespace BW
   // ----------------- DEFAULT INTERACT --------------
   bool dialog::defaultInteract(BW::dlgEvent *pEvent)
   {
-    return this && pEvent && this->wCtrlType < ctrls::max && GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
+    return this && pEvent && this->wCtrlType < ctrls::max && BWDATA::GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
   }
   // -------------------- ACTIVATE -------------------
   bool dialog::activate()
@@ -518,7 +518,7 @@ namespace BW
     if ( !this )
       return false;
 
-    for ( dialog *i = *BW::BWDATA::DialogList; i; i = i->next() )
+    for ( dialog *i = BW::BWDATA::DialogList; i; i = i->next() )
     {
       if ( this == i )
         return true;
@@ -556,7 +556,7 @@ namespace BW
     if ( !this )
       return false;
 
-    WORD wCtrl = this->wCtrlType;
+    u16 wCtrl = this->wCtrlType;
     return wCtrl == ctrls::cBUTTON || wCtrl == ctrls::cDFLTBTN || wCtrl == ctrls::cFLCBTN;
   }
 // -------------------------------------------- CHECKBOX & OPTION --------------------------------------------
@@ -566,7 +566,7 @@ namespace BW
     if ( !this )
       return false;
 
-    WORD wCtrl = this->wCtrlType;
+    u16 wCtrl = this->wCtrlType;
     return wCtrl == ctrls::cCHKBOX || wCtrl == ctrls::cOPTION;
   }
   // --------------------- CHECKED -------------------
@@ -581,18 +581,18 @@ namespace BW
     if ( !this )
       return false;
 
-    WORD wCtrl = this->wCtrlType;
+    u16 wCtrl = this->wCtrlType;
     return wCtrl == ctrls::cCOMBO || wCtrl == ctrls::cLIST;
   }
   // --------------- GET SELECTED INDEX --------------
-  BYTE dialog::getSelectedIndex() const
+  u8 dialog::getSelectedIndex() const
   {
     if ( this && this->isList() )
       return this->u.list.bSelectedIndex;
     return 0;
   }
   // --------------- GET SELECTED VALUE --------------
-  DWORD dialog::getSelectedValue() const
+  u32 dialog::getSelectedValue() const
   {
     if ( this 
         && this->isList() 
@@ -609,7 +609,7 @@ namespace BW
     return "";
   }
 // -------------- SET SELECTED INDEX -----------------
-  bool dialog::setSelectedIndex(BYTE bIndex)
+  bool dialog::setSelectedIndex(u8 bIndex)
   {
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
@@ -621,14 +621,14 @@ namespace BW
     return false;
   }
 // -------------- SET SELECTED BY VALUE --------------
-  bool dialog::setSelectedByValue(DWORD dwValue)
+  bool dialog::setSelectedByValue(u32 dwValue)
   {
     if ( this && this->isList() && this->u.list.pdwData )
     {
       for ( int i = 0; i < this->u.list.bStrs; ++i )
       {
         if ( this->u.list.pdwData[i] == dwValue )
-          return this->setSelectedIndex((BYTE)i);
+          return this->setSelectedIndex((u8)i);
       }
     } // check
     return false;
@@ -668,18 +668,18 @@ namespace BW
             continue;
 
           // set the selected entry
-          return this->setSelectedIndex((BYTE)i);
+          return this->setSelectedIndex((u8)i);
         }
       } // iterator
     }
     return false;
   }
   // ------------------- ADD ENTRY -------------------
-  bool dialog::addListEntry(char *pszString, DWORD dwValue, BYTE bFlags)
+  bool dialog::addListEntry(char *pszString, u32 dwValue, u8 bFlags)
   {
     if ( this && this->isList() && this->u.list.pbStrFlags && this->u.list.pdwData && this->u.list.ppStrs )
     {
-      BYTE count = this->u.list.bStrs;
+      u8 count = this->u.list.bStrs;
       if ( count < 255 )
       {
         this->u.list.pbStrFlags[count] = bFlags;
@@ -699,7 +699,7 @@ namespace BW
     return false;
   }
   // ----------------- REMOVE ENTRY ------------------
-  bool dialog::removeListEntry(BYTE bIndex)
+  bool dialog::removeListEntry(u8 bIndex)
   {
     if ( this && this->isList() && bIndex < this->u.list.bStrs )
     {
@@ -747,7 +747,7 @@ namespace BW
     if ( this && this->isList() )
     {
       for ( int i = 255; i >= 0; i-- )
-        this->removeListEntry((BYTE)i);
+        this->removeListEntry((u8)i);
       dialog *scroll = this->u.list.pScrlBar;
       if ( scroll )
       {
@@ -760,7 +760,7 @@ namespace BW
     return false;
   }
   // -------------- GET LIST COUNT -------------------
-  BYTE dialog::getListCount() const
+  u8 dialog::getListCount() const
   {
     if ( this && this->isList() )
       return this->u.list.bStrs;

@@ -14,7 +14,7 @@ BW::Bitmap bmpTerrainCache(640+32, 480-32);
 
 void blitTileCache()
 {
-  BW::BWDATA::GameScreenBuffer->blitBitmap(&bmpTerrainCache);
+  BW::BWDATA::GameScreenBuffer.blitBitmap(&bmpTerrainCache);
 }
 
 void updateImageDrawingData()
@@ -41,7 +41,7 @@ void blitGameText(int line, int x, int y)
       szString[1] = 0;
     }
     strcat(szString, BW::BWDATA::Chat_GameText[line].txt);
-    BW::BWDATA::GameScreenBuffer->blitString(szString, x, y);
+    BW::BWDATA::GameScreenBuffer.blitString(szString, x, y);
   }
 }
 
@@ -64,7 +64,7 @@ void drawThingys()
 {
   if ( *BW::BWDATA::wantThingyUpdate )
   {
-    BW::CThingy *pThingyFirst = (*BW::BWDATA::ThingyList_UsedFirst);
+    BW::CThingy *pThingyFirst = BW::BWDATA::ThingyList_UsedFirst;
     for ( BW::CImage *p = pThingyFirst->sprite->underlay; p; p = p->next )
       p->updateGraphicData();
 
@@ -163,8 +163,8 @@ void drawMapTiles()
 {
   BW::TilePosition moveTo = *BW::BWDATA::MoveToTile;
   BW::TilePosition mapMax = *BW::BWDATA::MapSize;
-  int win_wid = BW::BWDATA::GameScreenBuffer->width() + 32;
-  int win_hgt = BW::BWDATA::GameScreenBuffer->height() - 32;
+  int win_wid = BW::BWDATA::GameScreenBuffer.width() + 32;
+  int win_hgt = BW::BWDATA::GameScreenBuffer.height() - 32;
 
   for ( int y = moveTo.y; y < std::min( (short)(moveTo.y + win_hgt/32), mapMax.y); ++y )
   {
@@ -177,7 +177,7 @@ void drawMapTiles()
         *drawTile = tileRef;
         getActiveTile(x,y)->bTemporaryCreep = hasCreep(x,y);
 
-        IterateDirectionalCallback(BW::BWFXN_CreepManagementCB, x, y);
+        IterateDirectionalCallback(BW::BWDATA::BWFXN_CreepManagementCB, x, y);
 
         drawMegatileImageData(*drawTile, x, y );
         *BW::BWDATA::HasMegatileUpdate = true;

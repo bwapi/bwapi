@@ -160,7 +160,7 @@ namespace BWAPI
     if ( !unit )
       return nullptr;
 
-    u16 index = (u16)( ((u32)unit - (u32)BW::BWDATA::UnitNodeTable) / 336) & 0x7FF;
+    int index = unit - BW::BWDATA::UnitNodeTable.data();
     if (index > UNIT_ARRAY_MAX_LENGTH)
     {
       if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
