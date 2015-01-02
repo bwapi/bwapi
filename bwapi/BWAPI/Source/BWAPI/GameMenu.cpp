@@ -112,6 +112,7 @@ namespace BWAPI
 
     // Not related to the auto-menu, but it should be loaded every time auto menu data gets reloaded
     this->seedOverride = LoadConfigInt("starcraft", "seed_override", std::numeric_limits<decltype(this->seedOverride)>::max());
+    this->speedOverride = LoadConfigInt("starcraft", "speed_override", std::numeric_limits<decltype(this->speedOverride)>::min());
   }
   void GameImpl::chooseNewRandomMap()
   {

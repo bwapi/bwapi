@@ -633,27 +633,32 @@ namespace BWAPI
     return this->setLastError();
   }
   //--------------------------------------------------- GAME SPEED -------------------------------------------
-  void  GameImpl::setLocalSpeed(int speed)
+  void GameImpl::setLocalSpeed(int speed)
   {
     // Sets the frame rate of the client 
-    if ( !this->tournamentCheck(Tournament::SetLocalSpeed, &speed) )
-      return;
+    if (!this->tournamentCheck(Tournament::SetLocalSpeed, &speed) ||
+      this->speedOverride != std::numeric_limits<decltype(this->speedOverride)>::min()) return;
+
+    setLocalSpeedDirect(speed);
+  }
+  void GameImpl::setLocalSpeedDirect(int speed)
+  {
     if (speed < 0)
     {
       // Reset the speed if it is negative 
-      for ( int i = 0; i < 7; ++i )
+      for (int i = 0; i < 7; ++i)
       {
-        BW::BWDATA::GameSpeedModifiers[i]    = BW::OriginalSpeedModifiers[i];
-        BW::BWDATA::GameSpeedModifiers[i+7]  = BW::OriginalSpeedModifiers[i] * 3;
+        BW::BWDATA::GameSpeedModifiers[i] = BW::OriginalSpeedModifiers[i];
+        BW::BWDATA::GameSpeedModifiers[i + 7] = BW::OriginalSpeedModifiers[i] * 3;
       }
     }
     else
     {
       // Set all speeds if it is positive
-      for ( int i = 0; i < 7; ++i )
+      for (int i = 0; i < 7; ++i)
       {
-        BW::BWDATA::GameSpeedModifiers[i]    = speed;
-        BW::BWDATA::GameSpeedModifiers[i+7]  = speed * 3;
+        BW::BWDATA::GameSpeedModifiers[i] = speed;
+        BW::BWDATA::GameSpeedModifiers[i + 7] = speed * 3;
       }
     }
   }
