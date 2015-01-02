@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ctime>
 #include <fstream>
+#include <cassert>
 
 #include <Dbghelp.h>
 #include <tlhelp32.h>
@@ -69,6 +70,7 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
       
       // allocate version info
       pVersionData = malloc(dwVersionSize);
+      assert(pVersionData != nullptr);
 
       // get version data
       if ( GetFileVersionInfoA(szExecutableName, NULL, dwVersionSize, pVersionData) &&

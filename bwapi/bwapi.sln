@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcxproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -79,6 +79,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocumentationGen", "Documen
 	ProjectSection(ProjectDependencies) = postProject
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIBTest", "BWAPILIBTest\BWAPILIBTest.vcxproj", "{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -230,6 +232,14 @@ Global
 		{19E2598F-2EBA-4C11-ABE9-AC762CE449C9}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{19E2598F-2EBA-4C11-ABE9-AC762CE449C9}.Release|Win32.ActiveCfg = Release|Win32
 		{19E2598F-2EBA-4C11-ABE9-AC762CE449C9}.Release|Win32.Build.0 = Release|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Debug_Pipeline|Win32.Build.0 = Debug|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Debug|Win32.Build.0 = Debug|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release_Pipeline|Win32.Build.0 = Release|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.ActiveCfg = Release|Win32
+		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
