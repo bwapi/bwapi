@@ -102,7 +102,7 @@ void _InitializePlayerConsole()   // after
 //------------------------------------------------ TRIGGERS --------------------------------------------------
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
 {
-  dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[*BW::BWDATA::GameSpeed];
+  dwMillisecondsPerFrame = BW::OriginalSpeedModifiers[BW::BWDATA::GameSpeed];
   BW::BWFXN_ExecuteGameTriggers(dwMillisecondsPerFrame);
 }
 
@@ -322,7 +322,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
       pal[i].peBlue   = wmodebmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
-    return SBmpSaveImage(newScreenFilename.c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height());
+    return SBmpSaveImage(newScreenFilename.c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height());
   }
   // Call the old fxn
   auto SDrawCaptureScreenProc = _SDrawCaptureScreenOld ? _SDrawCaptureScreenOld : &SDrawCaptureScreen;
@@ -397,14 +397,14 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   if ( wantRefresh )
   {
     wantRefresh = false;
-    memset(BW::BWDATA::RefreshRegions, 1, 1200);
+    BW::BWDATA::RefreshRegions.fill(1);
   }
 
   //GameUpdate(pSurface, pBounds);
   if ( BW::pOldDrawGameProc )
     BW::pOldDrawGameProc(pSurface, pBounds);
 
-  if ( BW::BWDATA::GameScreenBuffer->isValid() )
+  if ( BW::BWDATA::GameScreenBuffer.isValid() )
   {
     //if ( gdwHoliday )
       //DrawHoliday();

@@ -385,9 +385,9 @@ void GameImpl::updateOverlays()
     BWAPI::Position scrPos = getScreenPosition();
 
     // draw mtx grid
-    for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer->height())/32 + 1; ++y )
+    for ( int y = scrPos.y/32; y < (scrPos.y + BW::BWDATA::GameScreenBuffer.height())/32 + 1; ++y )
     {
-      for ( int x = scrPos.x/32; x < (scrPos.x + BW::BWDATA::GameScreenBuffer->width())/32 + 1; ++x )
+      for ( int x = scrPos.x/32; x < (scrPos.x + BW::BWDATA::GameScreenBuffer.width())/32 + 1; ++x )
       {
         for ( int i = 0; i < 32; i += 4 )
         {

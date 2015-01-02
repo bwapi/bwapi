@@ -23,7 +23,7 @@ namespace SMEM
   };
   struct PeerData
   {
-    uint lastOccupied; // timer
+    unsigned lastOccupied; // timer
     char ad[512];
     bool isAdvertising;
     int incomingCount;

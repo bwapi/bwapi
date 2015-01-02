@@ -12,7 +12,7 @@ namespace BWAPI
   class ForceImpl : public ForceInterface
   {
     public:
-      ForceImpl(std::string name);
+      ForceImpl(std::string const & name);
       virtual int getID() const override;
       virtual std::string getName() const override;
       virtual Playerset getPlayers() const override;

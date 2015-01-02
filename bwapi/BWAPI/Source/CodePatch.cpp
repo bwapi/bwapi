@@ -34,8 +34,8 @@ void ApplyCodePatches()
     HackUtil::JmpPatch(BW::BWFXN_RefundMin4, &_refundMin4Hook);
     HackUtil::JmpPatch(BW::BWFXN_RefundGas4, &_refundGas4Hook);
     HackUtil::JmpPatch(BW::BWFXN_RefundMinAndGas5, &_refundMinAndGas5Hook);
-    HackUtil::JmpPatch(BW::BWFXN_QueueCommand, &CommandFilter);
-    HackUtil::JmpPatch(BW::BWFXN_DDrawDestroy, &DDrawDestroy);
+    HackUtil::JmpPatch(BW::BWDATA::BWFXN_QueueCommand, &CommandFilter);
+    HackUtil::JmpPatch(BW::BWDATA::BWFXN_DDrawDestroy, &DDrawDestroy);
     HackUtil::JmpPatch(BW::BWFXN_NetSelectReturnMenu, &_SelectReturnMenu);
     HackUtil::CallPatch(BW::BWDATA::RandomizeRacePatch, &_RandomizePlayerRaces);
     HackUtil::CallPatch(BW::BWDATA::InitPlayerConsolePatch, &_InitializePlayerConsole);
@@ -49,20 +49,11 @@ void ApplyCodePatches()
                                                                   // of always setting speed to "Normal" in
                                                                   // single player
     // Write menu animation speed hack
-    for ( int i = 0; i < 43; ++i )
-    {
-      BW::BWDATA::commonSwishControllers[i].wType = 4;
-    }
-
-    for ( int i = 0; i < 5; ++i )
-    {
-      BW::BWDATA::gluCustmSwishController[i].wType = 4;
-      BW::BWDATA::gluChatSwishController[i].wType  = 4;
-    }
-
-    BW::BWDATA::gluCmpgnSwishController[0].wType = 4;
-    BW::BWDATA::gluCmpgnSwishController[1].wType = 4;
-    BW::BWDATA::gluScoreSwishController[0].wType = 4;
+    for (auto it : BW::BWDATA::commonSwishControllers) it.wType = 4;
+    for (auto it : BW::BWDATA::gluCustmSwishController) it.wType = 4;
+    for (auto it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
+    for (auto it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
+    for (auto it : BW::BWDATA::gluChatSwishController) it.wType = 4;
 
     // Write trigger action detours
     memcpy(BWTriggerActionFxnTable, BW::TriggerActionCallbacks, sizeof(BWTriggerActionFxnTable));

@@ -158,13 +158,10 @@ namespace BWAPI
       }
     }
 
-    // get the set of start locations
-    BW::Position *StartLocs = BW::BWDATA::startPositions;
-    // Iterate all players
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
       // Skip Start Locations that don't exist
-      if ( StartLocs[i] == Position(0, 0) )
+      if (BW::BWDATA::startPositions[i] == Positions::Origin)
         continue;
 
       // If the game is UMS and player is observer and race is not (UserSelect OR invalid player type), skip
@@ -178,7 +175,7 @@ namespace BWAPI
         continue;
 
       // add start location
-      startLocations.push_back( TilePosition(StartLocs[i] - Position(64, 48)) );
+      startLocations.push_back(TilePosition(BW::BWDATA::startPositions[i] - Position(64, 48)));
     }
 
     // Get Player Objects
@@ -216,13 +213,13 @@ namespace BWAPI
     }
 
     // Get Force Objects, assign Force<->Player relations
-    ForceImpl *pNeutralForce = new ForceImpl(std::string(""));
+    ForceImpl *pNeutralForce = new ForceImpl("");
     pNeutralForce->players.insert(this->players[11]);
     this->players[11]->force = pNeutralForce;
 
     for ( int f = 1; f <= 4; ++f )
     {
-      ForceImpl *newForce = new ForceImpl( std::string(BW::BWDATA::ForceNames[f-1].name) );
+      ForceImpl *newForce = new ForceImpl( BW::BWDATA::ForceNames[f-1].data() );
       this->forces.insert( newForce );
       for ( int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p )
       {

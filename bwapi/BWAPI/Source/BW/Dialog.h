@@ -1,6 +1,6 @@
 #pragma once
-#include "offsets.h"
 #include "Bitmap.h"
+#include <string>
 
 #pragma pack(1)
 
@@ -106,70 +106,74 @@ namespace BW
 
   struct pt
   {
-    WORD  x;
-    WORD  y;
+    u16  x;
+    u16  y;
   };
 
   struct dlgEvent
   {
-    DWORD dwUser;
-    WORD  wSelection;
-    WORD  wUnk_0x06;
-    WORD  wVirtKey;
-    WORD  wUnk_0x0A;
-    WORD  wNo;
+    u32 dwUser;
+    u16  wSelection;
+    u16  wUnk_0x06;
+    u16  wVirtKey;
+    u16  wUnk_0x0A;
+    u16  wNo;
     pt    cursor;
-    WORD  wUnk_0x12;
+    u16  wUnk_0x12;
   };
 
 #pragma pack(1)
   class dialog   // BIN Dialog
   {
   public:
-    dialog(WORD ctrlType, short index, const char *text, WORD left, WORD top, WORD width, WORD height = 0, bool (__fastcall *pfInteract)(dialog*,dlgEvent*) = NULL);
+    typedef bool __fastcall FnInteract(dialog* dlg, dlgEvent* evt);
+    typedef void __fastcall FnUpdate(dialog* dlg, int x, int y, rect* dst);
+    typedef void __fastcall FnDrawItem(dialog* dlg, u8 selectedIndex, rect* dstRect, int x, int y);
+
+    dialog(u16 ctrlType, short index, const char *text, u16 left, u16 top, u16 width, u16 height = 0, FnInteract* pfInteract = nullptr);
     ~dialog();
 
     // global functions
-    dialog  *findIndex(short wIndex); // Searches for a control that matches the specified index
+    dialog  *findIndex(short wIndex);         // Searches for a control that matches the specified index
     dialog  *findDialog(const char *pszName); // Searches for a dialog that matches the name specified
-    dialog  *next() const;                  // Retrieves the next dialog or control in the list
+    dialog  *next() const;                    // Retrieves the next dialog or control in the list
 
-    bool    setFlags(DWORD dwFlags);    // Sets a flag or set of flags for the control or dialog
-    bool    clearFlags(DWORD dwFlags);  // Clears a flag or set of flags for the control or dialog
-    bool    hasFlags(DWORD dwFlags) const;    // Returns true if the dialog or control has all of the specified flags enabled
-    bool    setText(char *pszStr);      // Sets the text of a control, or name of a dialog
-    const char *getText() const;                 // Retrieves the text of a control, or name of a dialog
-    int     getHotkey() const;                // Retrieves the hotkey for the button
+    bool    setFlags(u32 dwFlags);        // Sets a flag or set of flags for the control or dialog
+    bool    clearFlags(u32 dwFlags);      // Clears a flag or set of flags for the control or dialog
+    bool    hasFlags(u32 dwFlags) const;  // Returns true if the dialog or control has all of the specified flags enabled
+    bool    setText(char *pszStr);        // Sets the text of a control, or name of a dialog
+    const char *getText() const;          // Retrieves the text of a control, or name of a dialog
+    int     getHotkey() const;            // Retrieves the hotkey for the button
 
     BW::Bitmap  *getSourceBuffer();   // Retrieves a pointer to a bitmap structure for reading or writing to the source buffer
 
-    bool        enable();     // Enables the dialog or control
-    bool        disable();    // Disables the dialog or control
-    bool        isDisabled() const; // Returns true if the dialog or control is disabled
-    bool        show();       // Shows the dialog or control
-    bool        hide();       // Hides the dialog or control
-    bool        isVisible() const;  // Returns true if the dialog or control is visible
+    bool enable();            // Enables the dialog or control
+    bool disable();           // Disables the dialog or control
+    bool isDisabled() const;  // Returns true if the dialog or control is disabled
+    bool show();              // Shows the dialog or control
+    bool hide();              // Hides the dialog or control
+    bool isVisible() const;   // Returns true if the dialog or control is visible
 
     u16 width() const;
     u16 height() const;
 
     // event-specific functions
-    bool doEvent(WORD wEvtNum, DWORD dwUser = 0, WORD wSelect = 0, WORD wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    bool doEvent(u16 wEvtNum, u32 dwUser = 0, u16 wSelect = 0, u16 wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
     bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
     bool activate();        // Activates a control or destroys a dialog
     bool update();          // Updates a control or dialog, refreshing it on the screen
 
     // dialog-specific functions
-    bool        isDialog() const;               // Returns true if the control type is a dialog
-    dialog      *child() const;                 // Retrieves the child control from the parent dialog
+    bool        isDialog() const;         // Returns true if the control type is a dialog
+    dialog      *child() const;           // Retrieves the child control from the parent dialog
     bool        addControl(dialog *ctrl); // Adds a control to this dialog
     bool        initialize();             // Performs the dialog's initialization and adds it to the list
-    bool        isListed() const;               // Checks to see if this dialog is initialized/listed
+    bool        isListed() const;         // Checks to see if this dialog is initialized/listed
 
     // control-specific functions
-    dialog  *parent() const;                      // Retrieves a control's parent dialog
-    short   getIndex() const;                     // Retrieves the index of a control
-    bool    clearFontFlags();               // Clears all font formatting flags
+    dialog  *parent() const;              // Retrieves a control's parent dialog
+    short   getIndex() const;             // Retrieves the index of a control
+    bool    clearFontFlags();             // Clears all font formatting flags
 
     // button-specific
     bool isButton() const;      // Returns true if the control type is a button
@@ -180,31 +184,32 @@ namespace BW
 
     // listbox & combobox
     bool  isList() const;               // Returns true if the control type is a listbox or combobox
-    BYTE  getSelectedIndex() const;     // Returns the index of the selected element
-    DWORD getSelectedValue() const;     // Returns the value of the selected element
+    u8    getSelectedIndex() const;     // Returns the index of the selected element
+    u32   getSelectedValue() const;     // Returns the value of the selected element
     char  *getSelectedString() const;   // Returns the name of the selected element
 
-    bool  setSelectedIndex(BYTE bIndex);              // Sets the selected index
-    bool  setSelectedByValue(DWORD dwValue);          // Sets the selected index based on the given value
+    bool  setSelectedIndex(u8 bIndex);              // Sets the selected index
+    bool  setSelectedByValue(u32 dwValue);          // Sets the selected index based on the given value
     bool  setSelectedByString(const char *pszString, bool noctrl = true); // Sets the selected index based on its name, noctrl = ignore control characters
     bool  setSelectedByString(const std::string &s, bool noctrl = true); // Sets the selected index based on its name, noctrl = ignore control characters
 
-    bool  addListEntry(char *pszString, DWORD dwValue = 0, BYTE bFlags = 0);  // Adds an entry to a listbox or combobox
-    bool  removeListEntry(BYTE bIndex = 0);   // Removes an entry from a listbox or combobox
-    bool  clearList();                        // Removes all entries from a listbox or combobox
-    BYTE  getListCount() const;                     // Retrieves the number of elements in a listbox or combobox
+    bool  addListEntry(char *pszString, u32 dwValue = 0, u8 bFlags = 0);  // Adds an entry to a listbox or combobox
+    bool  removeListEntry(u8 bIndex = 0);   // Removes an entry from a listbox or combobox
+    bool  clearList();                      // Removes all entries from a listbox or combobox
+    u8  getListCount() const;               // Retrieves the number of elements in a listbox or combobox
+
 
     // Data //
     dialog  *pNext;         // 0x00
     rect    rct;            // 0x04   // official
     Bitmap  srcBits;        // 0x0C   // official
     char    *pszText;       // 0x14   // official
-    LONG    lFlags;         // 0x18   // official
-    WORD    wUnk_0x1C;
-    WORD    wUnk_0x1E;
-    short   wIndex;         // 0x20   // official
-    WORD    wCtrlType;      // 0x22   // official
-    WORD    wUser;          // 0x24   // official
+    u32     lFlags;         // 0x18   // official
+    u16     wUnk_0x1C;
+    u16     wUnk_0x1E;
+    s16     wIndex;         // 0x20   // official
+    u16     wCtrlType;      // 0x22   // official
+    u16     wUser;          // 0x24   // official
     /*
       CHECKBOX
         0-2 Show/Hide minimap button
@@ -242,11 +247,10 @@ namespace BW
         124 Highlighted Right menu button
 
     */
-    LONG    lUser;          // 0x26   // official name
-    bool (__fastcall *pfcnInteract)(dialog*,dlgEvent*);  // 0x2A
-    // bool __fastcall pfcnInteract(dialog *dlg, dlgEvent *evt);
-    void (__fastcall *pfcnUpdate)(dialog*,int,int,rect*);    // 0x2E
-    // void __fastcall pfcnUpdate(dialog *dlg, int x, int y, rect *dest);
+    s32    lUser;          // 0x26   // official name
+    FnInteract* pfcnInteract;  // 0x2A    // bool __fastcall pfcnInteract(dialog *dlg, dlgEvent *evt);
+    FnUpdate*   pfcnUpdate;    // 0x2E    // void __fastcall pfcnUpdate(dialog *dlg, int x, int y, rect *dest);
+    
     union _u                 // 0x32   // official
     {
       struct _ctrl           // official
@@ -256,7 +260,7 @@ namespace BW
       
       struct _dlg            // official
       {
-        DWORD   dwUnk_0x32;
+        u32   dwUnk_0x32;
         struct{
           u16 wid, ht;
           u8 *data;
@@ -269,56 +273,56 @@ namespace BW
       
       struct _btn
       {
-        dialog  *pDlg;          // 0x32   // official
-        rect    responseRct;    // 0x36
-        WORD    wHighlight;     // 0x3E
-        WORD    wUnknown_0x40;    // padding?
-        void    *pSmk;          // 0x42
-        rect    textRct;        // 0x46
-        WORD    wAlignment;    // 0x4E
+        dialog* pDlg;         // 0x32   // official
+        rect    responseRct;   // 0x36
+        u16     wHighlight;     // 0x3E
+        u16     wUnknown_0x40;  // padding?
+        void*   pSmk;         // 0x42
+        rect    textRct;       // 0x46
+        u16     wAlignment;     // 0x4E
       } btn;
 
       struct _optn
       {
-        dialog  *pDlg;          // 0x32   // official
-        BYTE    bEnabled;       // 0x36
+        dialog* pDlg;        // 0x32   // official
+        u8      bEnabled;       // 0x36
       } optn;
       
       struct _edit
       {
-        dialog  *pDlg;            // 0x32   // official
-        BYTE    bColor;           // 0x36
-        BYTE    bScrollPosition;  // 0x37
-        BYTE    bLeftMargin;      // 0x38
-        BYTE    bTopMargin;       // 0x39
-        WORD    wUnk_0x3A;        // 0x3A
-        WORD    wUnk_0x3C;
-        BYTE    bCursorPos;       // 0x3E
+        dialog* pDlg;          // 0x32   // official
+        u8      bColor;           // 0x36
+        u8      bScrollPosition;  // 0x37
+        u8      bLeftMargin;      // 0x38
+        u8      bTopMargin;       // 0x39
+        u16     wUnk_0x3A;       // 0x3A
+        u16     wUnk_0x3C;
+        u8      bCursorPos;       // 0x3E
       } edit;
       
       struct _scroll   // official
       {
-        dialog  *pDlg;      // 0x32   // official
-        void  *pfcnScrollerUpdate;  // 0x36
-        WORD  nCurPos;    // 0x3A
-        WORD  nMin;       // 0x3C   // official
-        WORD  nMax;       // 0x3E   // official
-        WORD  wUnk_0x40;    
-        DWORD dwScrollFlags;    // 0x42
-        BYTE  bSliderSkip;      // 0x46
-        BYTE  bUpdateCounter;   // 0x47
-        BYTE  bSliderGraphic;   // 0x48
-        BYTE  bSliderSpacing;   // 0x49
-        WORD  wUnk_0x4A;
-        DWORD dwUnk_0x4C;
+        dialog* pDlg;      // 0x32   // official
+        void*   pfcnScrollerUpdate;  // 0x36
+        u16     nCurPos;    // 0x3A
+        u16     nMin;       // 0x3C   // official
+        u16     nMax;       // 0x3E   // official
+        u16     wUnk_0x40;    
+        u32     dwScrollFlags;    // 0x42
+        u8      bSliderSkip;      // 0x46
+        u8      bUpdateCounter;   // 0x47
+        u8      bSliderGraphic;   // 0x48
+        u8      bSliderSpacing;   // 0x49
+        u16     wUnk_0x4A;
+        u32     dwUnk_0x4C;
       } scroll;
       
       struct _list   // official
       {
-        dialog  *pDlg;      // 0x32   // official
-        dialog  *pScrlBar;    // 0x36
-        char    **ppStrs;     // 0x3A   // official
-        BYTE    *pbStrFlags;  // 0x3E   // official
+        dialog* pDlg;        // 0x32   // official
+        dialog* pScrlBar;    // 0x36
+        char**  ppStrs;      // 0x3A   // official
+        u8*     pbStrFlags;  // 0x3E   // official
           /*
             &0x0F specifies the colour of the entry (Standard colours unless noted)
               0x01  = Use previous (Uses the colour of the entry BEFORE the previous one)
@@ -326,25 +330,24 @@ namespace BW
             &0xF0 specifies additional properties
               0x10  = Gives entry an option button
           */
-        DWORD   *pdwData;         // 0x42   // official
-        BYTE    bStrs;            // 0x46   // official
-        BYTE    unknown_0x47;
-        BYTE    bCurrStr;         // 0x48   // official
-        BYTE    bSpacing;         // 0x49
-        BYTE    bItemsPerPage;    // 0x4A
-        BYTE    bUnknown_0x4B;
-        BYTE    bDirection;       // 0x4C
-        BYTE    bOffset;          // 0x4D
-        BYTE    bSelectedIndex;   // 0x4E
-        BYTE    bUnknown_0x4F;    // padding?
-        WORD    wVerticalOffset;  // 0x4A
-        void    (__fastcall *pDrawItemFcn)(dialog*,BYTE,rect*,int,int);    // 0x4C
-        // void __fastcall pDrawItemFcn(dialog *dlg, BYTE selectedIndex, rect *dstRect, int x, int y)
+        u32*  pdwData;         // 0x42   // official
+        u8    bStrs;            // 0x46   // official
+        u8    unknown_0x47;
+        u8    bCurrStr;         // 0x48   // official
+        u8    bSpacing;         // 0x49
+        u8    bItemsPerPage;    // 0x4A
+        u8    bUnknown_0x4B;
+        u8    bDirection;       // 0x4C
+        u8    bOffset;          // 0x4D
+        u8    bSelectedIndex;   // 0x4E
+        u8    bUnknown_0x4F;    // padding?
+        u16   wVerticalOffset;  // 0x4A
+        FnDrawItem* pDrawItemFcn;    // 0x4C  // void __fastcall pDrawItemFcn(dialog *dlg, u8 selectedIndex, rect *dstRect, int x, int y)
       } list;
     } u;
   };
 #pragma pack()
-  //dialog  *CreateDialogWindow(const char *pszText, WORD wLeft, WORD wTop, WORD wWidth, WORD wHeight); // Creates a custom window dialog
+  //dialog  *CreateDialogWindow(const char *pszText, u16 wLeft, u16 wTop, u16 wWidth, u16 wHeight); // Creates a custom window dialog
   dialog  *FindDialogGlobal(const char *pszName);   // Finds a dialog in Starcraft's global list of dialogs
 };
 
@@ -360,19 +363,19 @@ List entry: Format for lists (map list for example)
   char  szPlayers[35];
   char  szDimensions[35];
   char  szTileset[35];
-  DWORD dwUnk1;
-  DWORD dwUnk2;
-  DWORD dwUnk3;
-  DWORD dwUnk4;
-  DWORD dwUnk5;
+  u32 dwUnk1;
+  u32 dwUnk2;
+  u32 dwUnk3;
+  u32 dwUnk4;
+  u32 dwUnk5;
   char  szFullPath[261];
   char  szFileName[261];
-  WORD  wWidth;
-  WORD  wHeight;
-  WORD  wTileset; // or numPlayers? guess
-  BYTE  bReserved; // players reserved? guess
-  BYTE  bPlayers;
-  BYTE  bComputers; // for UMS
-  BYTE  bHumans; // guess
+  u16  wWidth;
+  u16  wHeight;
+  u16  wTileset; // or numPlayers? guess
+  u8  bReserved; // players reserved? guess
+  u8  bPlayers;
+  u8  bComputers; // for UMS
+  u8  bHumans; // guess
 */
 #pragma pack()

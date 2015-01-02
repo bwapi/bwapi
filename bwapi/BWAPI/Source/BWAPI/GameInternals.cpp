@@ -241,7 +241,7 @@ namespace BWAPI
     }
     else if (cmd == "/wmode")
     {
-      SetWMode(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height(), !wmode);
+      SetWMode(BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height(), !wmode);
       Broodwar << "Toggled windowed mode." << std::endl;
     }
     else if (cmd == "/grid")

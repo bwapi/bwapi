@@ -23,7 +23,7 @@ namespace BWAPI
     bullets.clear();
 
     // Repopulate bullets set
-    for ( BW::CBullet *curritem = *BW::BWDATA::BulletNodeTable_FirstElement; 
+    for ( BW::CBullet *curritem = BW::BWDATA::BulletNodeTable_FirstElement; 
           curritem; 
           curritem = curritem->next )
     {

@@ -99,7 +99,7 @@ namespace BWAPI
 
     if ( this->isBattleNet() )
     {
-      switch(*BW::BWDATA::Latency)
+      switch(BW::BWDATA::Latency)
       {
         case 0:
           return BWAPI::Latency::BattlenetLow;
@@ -113,7 +113,7 @@ namespace BWAPI
     }
     else
     {
-      switch(*BW::BWDATA::Latency)
+      switch(BW::BWDATA::Latency)
       {
         case 0:
           return BWAPI::Latency::LanLow;
@@ -200,7 +200,7 @@ namespace BWAPI
     this->setLastError();
     if ( !data->hasGUI ) return;
 
-    Position scrSize(BW::BWDATA::GameScreenBuffer->width(), BW::BWDATA::GameScreenBuffer->height() + 80);
+    Position scrSize(BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height() + 80);
     Position mapSize( TilePosition(Map::getWidth(), Map::getHeight()) );
 
     // Sets the screen's position relative to the map
@@ -283,9 +283,9 @@ namespace BWAPI
     Unitset unitFinderResults;
 
     // Have the unit finder do its stuff
-    Templates::iterateUnitFinder<BW::unitFinder>(BW::BWDATA::UnitOrderingX,
-                                                 BW::BWDATA::UnitOrderingY,
-                                                 *BW::BWDATA::UnitOrderingCount,
+    Templates::iterateUnitFinder<BW::unitFinder>(BW::BWDATA::UnitOrderingX.data(),
+                                                 BW::BWDATA::UnitOrderingY.data(),
+                                                 BW::BWDATA::UnitOrderingCount,
                                                  left,
                                                  top,
                                                  right,
@@ -300,9 +300,9 @@ namespace BWAPI
     int bestDistance = 99999999;
     Unit pBestUnit = nullptr;
 
-    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX,
-                                                  BW::BWDATA::UnitOrderingY,
-                                                  *BW::BWDATA::UnitOrderingCount,
+    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
+                                                  BW::BWDATA::UnitOrderingY.data(),
+                                                  BW::BWDATA::UnitOrderingCount,
                                                   left,
                                                   top,
                                                   right,
@@ -329,9 +329,9 @@ namespace BWAPI
     topLeft.makeValid();
     botRight.makeValid();
 
-    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX,
-                                                  BW::BWDATA::UnitOrderingY,
-                                                  *BW::BWDATA::UnitOrderingCount,
+    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
+                                                  BW::BWDATA::UnitOrderingY.data(),
+                                                  BW::BWDATA::UnitOrderingCount,
                                                   topLeft.x,
                                                   topLeft.y,
                                                   botRight.x,
@@ -593,7 +593,7 @@ namespace BWAPI
 
     u32 alliance = 0;
     for ( int i = 0; i < PLAYER_COUNT; ++i )
-      alliance |= (BW::BWDATA::Alliance[BWAPIPlayer->getIndex()].player[i] & 3) << (i*2);
+      alliance |= (BW::BWDATA::Alliance[BWAPIPlayer->getIndex()][i] & 3) << (i*2);
     
     u8 newAlliance = allied ? (alliedVictory ? 2 : 1) : 0;
     if ( allied )
@@ -611,12 +611,12 @@ namespace BWAPI
 
     if ( this->isReplay() )
     {
-      u32 vision = *BW::BWDATA::ReplayVision;
+      u32 vision = BW::BWDATA::ReplayVision;
       if ( enabled )
         vision |= 1 << static_cast<PlayerImpl*>(player)->getIndex();
       else
         vision &= ~(1 <<  static_cast<PlayerImpl*>(player)->getIndex() );
-      *BW::BWDATA::ReplayVision = vision;
+      BW::BWDATA::ReplayVision = vision;
     }
     else
     {
@@ -645,20 +645,20 @@ namespace BWAPI
   {
     if (speed < 0)
     {
-      // Reset the speed if it is negative 
-      for (int i = 0; i < 7; ++i)
+      // Reset the speed if it is negative
+      for (int i = 0; i < NUM_SPEEDS; ++i)
       {
-        BW::BWDATA::GameSpeedModifiers[i] = BW::OriginalSpeedModifiers[i];
-        BW::BWDATA::GameSpeedModifiers[i + 7] = BW::OriginalSpeedModifiers[i] * 3;
+        BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[i] = BW::OriginalSpeedModifiers[i];
+        BW::BWDATA::GameSpeedModifiers.altSpeedModifiers[i] = BW::OriginalSpeedModifiers[i] * 3;
       }
     }
     else
     {
       // Set all speeds if it is positive
-      for (int i = 0; i < 7; ++i)
+      for (int i = 0; i < NUM_SPEEDS; ++i)
       {
-        BW::BWDATA::GameSpeedModifiers[i] = speed;
-        BW::BWDATA::GameSpeedModifiers[i + 7] = speed * 3;
+        BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[i] = speed;
+        BW::BWDATA::GameSpeedModifiers.altSpeedModifiers[i] = speed * 3;
       }
     }
   }
@@ -670,7 +670,7 @@ namespace BWAPI
 
     if ( frameSkip > 0 )
     {
-      *BW::BWDATA::FrameSkip = frameSkip;
+      BW::BWDATA::FrameSkip = frameSkip;
       return;
     }
     setLastError(Errors::Invalid_Parameter);
@@ -792,11 +792,11 @@ namespace BWAPI
 
       dwCallDelay = clamp<DWORD>(caps.dwCallDelay, 2, 8);
     }
-    return (BW::BWDATA::LatencyFrames[*BW::BWDATA::GameSpeed]) * (*BW::BWDATA::Latency + dwCallDelay + 1);
+    return (BW::BWDATA::LatencyFrames[BW::BWDATA::GameSpeed]) * (BW::BWDATA::Latency + dwCallDelay + 1);
   }
   int GameImpl::getLatencyTime() const
   {
-    return getLatencyFrames() * BW::BWDATA::GameSpeedModifiers[*BW::BWDATA::GameSpeed];
+    return getLatencyFrames() * BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[BW::BWDATA::GameSpeed];
   }
   int GameImpl::getRemainingLatencyFrames() const
   {
@@ -804,7 +804,7 @@ namespace BWAPI
   }
   int GameImpl::getRemainingLatencyTime() const
   {
-    return (getLatencyFrames() * BW::BWDATA::GameSpeedModifiers[*BW::BWDATA::GameSpeed]) - (GetTickCount() - lastTurnTime);
+    return (getLatencyFrames() * BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[BW::BWDATA::GameSpeed]) - (GetTickCount() - lastTurnTime);
   }
   //--------------------------------------------------- VERSION ----------------------------------------------
   int GameImpl::getRevision() const
@@ -916,7 +916,7 @@ namespace BWAPI
   {
     if ( !isReplay() )
       return this->setLastError(Errors::Invalid_Parameter);
-    *BW::BWDATA::ReplayRevealAll = reveal ? 1 : 0;
+    BW::BWDATA::ReplayRevealAll = reveal ? 1 : 0;
     return this->setLastError();
   }
 };

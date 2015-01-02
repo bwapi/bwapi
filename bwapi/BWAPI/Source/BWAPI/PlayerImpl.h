@@ -89,9 +89,9 @@ namespace BWAPI
        */
       PlayerImpl(u8 index);
       ~PlayerImpl();
-      int getIndex() const;
-      /** Gets 0-based index of the player. (11 for neutral) */
-      char* getForceName() const;
+      int getIndex() const;      // Gets 0-based index of the player. (11 for neutral)
+
+
       void setID(int newID);
 
       /** Gets the bw mapping of synchronised version of selected unit for current player */
