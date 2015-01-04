@@ -5,12 +5,10 @@
 #include <tuple>
 #include <deque>
 
-#ifndef _MAKE_POSITION_TEMPLATE
-
 #ifdef SWIG
-#define _MAKE_POSITION_TEMPLATE(_n,_t,_s) typedef BWAPI::Point<_t,_s> _n;
+#define BWAPI_MAKE_POSITION_TEMPLATE(_n,T,_s) typedef BWAPI::Point<T,_s> _n;
 #else
-#define _MAKE_POSITION_TEMPLATE(_n,_t,_s) typedef BWAPI::Point<_t,_s> _n;   \
+#define BWAPI_MAKE_POSITION_TEMPLATE(_n,T,_s) typedef BWAPI::Point<T,_s> _n;   \
                       namespace _n ## s                                     \
                       { const _n Invalid(32000/_s,32000/_s);                \
                         const _n None(32000/_s,32032/_s);                   \
@@ -19,90 +17,146 @@
                       }
 #endif
 
-#define _OPERATOR_OP_PT(op) Point operator op (const Point &pos) const      \
-              { return Point(this->x op pos.x, this->y op pos.y); };        \
-              Point &operator op ## = (const Point &pos)                    \
-              { this->x op ## = pos.x; this->y op ## = pos.y;               \
-                return *this; }; 
-
-#define _OPERATOR_OP_VAL(op) Point operator op (const _T &val) const        \
-              { return Point(this->x op val, this->y op val); };            \
-              Point &operator op ## = (const _T &val)                       \
-              { this->x op ## = val; this->y op ## = val;                   \
-                return *this; }; 
-
-#define _OPERATOR_OP_VAL_CHK(op) Point operator op (const _T &val) const                  \
-                { if ( val == 0 ) return Point(32000/__Scale,32000/__Scale);              \
-                  return Point(this->x op val, this->y op val); };                        \
-                Point &operator op ## = (const _T &val)                                   \
-                { if ( val == 0 ) { this->x = 32000/__Scale; this->y = 32000/__Scale; }   \
-                  else { this->x op ## = val; this->y op ## = val; }                      \
-                  return *this; }; 
-
-#endif
-
 namespace BWAPI
 {
   // Declaration
-  template<typename _T, int __Scale = 1>
+  template<typename T, int Scale = 1>
   class Point;
 
   // Restrictions (no division by 0 or types too small to contain map positions)
-  template<typename _T> class Point<_T, 0> {};
-  template<int __Scale> class Point<char, __Scale> {};
-  template<int __Scale> class Point<unsigned char, __Scale> {};
-  template<int __Scale> class Point<bool, __Scale> {};
+  template<typename T> class Point<T, 0> {};
+  template<int Scale> class Point<char, Scale> {};
+  template<int Scale> class Point<unsigned char, Scale> {};
+  template<int Scale> class Point<bool, Scale> {};
   
   // ------------------------------------------------------ Point template ----------------
-  template<typename _T, int __Scale>
+  template<typename T, int Scale>
   class Point
   {
   public:
-    typedef std::deque< Point<_T,__Scale> > list;
+    typedef std::deque< Point<T,Scale> > list;
 
     // Constructors
-    Point(_T _x = 0, _T _y = 0) : x(_x), y(_y) {};
-    template<typename _NT> Point(const Point<_NT, __Scale> &pt) : x( (_T)pt.x ), y( (_T)pt.y ) {};
+    Point() : x(T{}), y(T{}) {}
+    Point(T _x, T _y) : x(_x), y(_y) {}
+    template<typename _NT> Point(const Point<_NT, Scale> &pt) : x( (T)pt.x ), y( (T)pt.y ) {}
 
 #pragma warning( push )
 #pragma warning( disable: 4723 )
     // Conversion constructor
     template<typename _NT, int __NScale> explicit Point(const Point<_NT, __NScale> &pt)
-      : x( (_T)(__NScale > __Scale ? pt.x*(__NScale/__Scale) : pt.x/(__Scale/__NScale)) )
-      , y( (_T)(__NScale > __Scale ? pt.y*(__NScale/__Scale) : pt.y/(__Scale/__NScale)) ) { };
+      : x((T)(__NScale > Scale ? pt.x*(__NScale / Scale) : pt.x / (Scale / __NScale)))
+      , y((T)(__NScale > Scale ? pt.y*(__NScale / Scale) : pt.y / (Scale / __NScale))) { }
 #pragma warning( pop )
 
-    // Conversion restriction constructor
-    template<typename _NT> Point(const Point<_NT, 0> &pt) : x(0), y(0) {};
-
     // Operators
-    operator bool() const { return this->isValid(); };
+    explicit operator bool() const { return this->isValid(); };
     
-    bool operator == (const Point<_T,__Scale> &pos) const
+    bool operator == (const Point<T,Scale> &pos) const
     { 
       return std::tie(this->x, this->y) == std::tie(pos.x, pos.y);
     }; 
-    bool operator != (const Point<_T,__Scale> &pos) const
+    bool operator != (const Point<T,Scale> &pos) const
     { 
       return !(*this == pos);
     }; 
 
-    bool operator  < (const Point<_T,__Scale> &position) const
+    bool operator  < (const Point<T,Scale> &position) const
     {
       return std::tie(this->x, this->y) < std::tie(position.x, position.y);
     };
 
-    _OPERATOR_OP_PT(+)
-    _OPERATOR_OP_PT(-)
+    inline Point<T, Scale> &operator += (const Point<T, Scale> &p)
+    {
+      x += p.x;
+      y += p.y;
+      return *this;
+    };
+    inline Point<T, Scale> operator + (const Point<T, Scale> &p) const
+    {
+      Point<T, Scale> r(*this);
+      return r += p;
+    };
+    inline Point<T, Scale> &operator -= (const Point<T, Scale> &p)
+    {
+      x -= p.x;
+      y -= p.y;
+      return *this;
+    };
+    inline Point<T, Scale> operator - (const Point<T, Scale> &p) const
+    {
+      Point<T, Scale> r(*this);
+      return r -= p;
+    };
 
-    _OPERATOR_OP_VAL(*)
-    _OPERATOR_OP_VAL(&)
-    _OPERATOR_OP_VAL(|)
-    _OPERATOR_OP_VAL(^)
+    inline Point<T, Scale> &operator *= (const T &v)
+    {
+      x *= v;
+      y *= v;
+      return *this;
+    };
+    inline Point<T, Scale> operator *(const T &v) const
+    {
+      Point<T, Scale> r(*this);
+      return r *= v;
+    };
+    inline Point<T, Scale> &operator |= (const T &v)
+    {
+      x |= v;
+      y |= v;
+      return *this;
+    };
+    inline Point<T, Scale> operator |(const T &v) const
+    {
+      Point<T, Scale> r(*this);
+      return r |= v;
+    };
+    inline Point<T, Scale> &operator &= (const T &v)
+    {
+      x &= v;
+      y &= v;
+      return *this;
+    };
+    inline Point<T, Scale> operator &(const T &v) const
+    {
+      Point<T, Scale> r(*this);
+      return r &= v;
+    };
+    inline Point<T, Scale> &operator ^= (const T &v)
+    {
+      x ^= v;
+      y ^= v;
+      return *this;
+    };
+    inline Point<T, Scale> operator ^(const T &v) const
+    {
+      Point<T, Scale> r(*this);
+      return r ^= v;
+    };
 
-    _OPERATOR_OP_VAL_CHK(/)
-    _OPERATOR_OP_VAL_CHK(%)
-    
+    Point<T, Scale> operator / (const T &v) const
+    {
+      Point<T, Scale> result(*this);
+      return result /= v;
+    };
+    Point<T, Scale> &operator /= (const T &val)
+    {
+      if (val == 0) { x = 32000 / Scale; y = 32000 / Scale; }
+      else { x /= val; y /= val; }
+      return *this;
+    };
+    Point<T, Scale> operator %(const T &v) const
+    {
+      Point<T, Scale> result(*this);
+      return result %= v;
+    };
+    Point<T, Scale> &operator %= (const T &val)
+    {
+      if (val == 0) { x = 32000 / Scale; y = 32000 / Scale; }
+      else { x %= val; y %= val; }
+      return *this;
+    };
+
     /// Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
     /// quotations.
     ///
@@ -111,7 +165,11 @@ namespace BWAPI
     /// @param pt
     ///   Point to output.
     /// @returns Output stream \p out.
-    friend std::ostream &operator << (std::ostream &out, const Point<_T,__Scale> &pt)
+    friend std::ostream &operator << (std::ostream &out, const Point<T, Scale> &pt)
+    {
+      return out << '(' << pt.x << ',' << pt.y << ')';
+    };
+    friend std::wostream &operator << (std::wostream &out, const Point<T, Scale> &pt)
     {
       return out << '(' << pt.x << ',' << pt.y << ')';
     };
@@ -124,7 +182,11 @@ namespace BWAPI
     /// @param pt
     ///   The receiving variable.
     /// @returns Input stream \p in.
-    friend std::istream &operator >> (std::istream &in, Point<_T,__Scale> &pt)
+    friend std::istream &operator >> (std::istream &in, Point<T, Scale> &pt)
+    {
+      return in >> pt.x >> pt.y;
+    };
+    friend std::istream &operator >> (std::wistream &in, Point<T, Scale> &pt)
     {
       return in >> pt.x >> pt.y;
     };
@@ -159,7 +221,7 @@ namespace BWAPI
     ///
     /// @returns A double representing the distance between this point and \p position.
     /// @see getApproxDistance
-    double getDistance(const Point<_T,__Scale> &position) const
+    double getDistance(const Point<T,Scale> &position) const
     {
       return ((*this) - position).getLength();
     };
@@ -188,7 +250,7 @@ namespace BWAPI
     ///
     /// @returns An integer representing the distance between this point and \p position.
     /// @see getDistance
-    int getApproxDistance(const Point<_T,__Scale> &position) const
+    int getApproxDistance(const Point<T,Scale> &position) const
     {
       unsigned int min = abs((int)(this->x - position.x));
       unsigned int max = abs((int)(this->y - position.y));
@@ -212,7 +274,7 @@ namespace BWAPI
     ///
     /// @returns A reference to itself.
     /// @see setMin
-    Point &setMax(_T max_x, _T max_y)
+    Point &setMax(T max_x, T max_y)
     {
       if ( x > max_x )
         x = max_x;
@@ -221,7 +283,7 @@ namespace BWAPI
       return *this;
     };
     /// @overload
-    Point &setMax(const Point<_T,__Scale> &max)
+    Point &setMax(const Point<T,Scale> &max)
     {
       this->setMax(max.x, max.y);
       return *this;
@@ -237,7 +299,7 @@ namespace BWAPI
     ///
     /// @returns A reference to itself.
     /// @see setMax
-    Point &setMin(_T min_x, _T min_y)
+    Point &setMin(T min_x, T min_y)
     {
       if ( x < min_x )
         x = min_x;
@@ -246,7 +308,7 @@ namespace BWAPI
       return *this;
     };
     /// @overload
-    Point &setMin(const Point<_T,__Scale> &min)
+    Point &setMin(const Point<T,Scale> &min)
     {
       this->setMin(min.x, min.y);
       return *this;
@@ -255,11 +317,10 @@ namespace BWAPI
     /// The x and y members for this class.
     ///
     /// Simply reference these members when retrieving a position's x and y values.
-    _T x, y;
+    T x, y;
   };
 
-  _MAKE_POSITION_TEMPLATE(WalkPosition,int,8)
-  _MAKE_POSITION_TEMPLATE(Position,int,1)
-  _MAKE_POSITION_TEMPLATE(TilePosition,int,32)
+  BWAPI_MAKE_POSITION_TEMPLATE(WalkPosition,int,8)
+  BWAPI_MAKE_POSITION_TEMPLATE(Position,int,1)
+  BWAPI_MAKE_POSITION_TEMPLATE(TilePosition,int,32)
 }
-

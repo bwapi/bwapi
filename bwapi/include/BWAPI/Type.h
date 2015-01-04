@@ -100,9 +100,14 @@ namespace BWAPI
 
     /// Output stream operator overload. Allows printing of the type without calling
     /// Type::getName.
-    friend inline std::ostream &operator << (std::ostream &out, const Type<T,UnknownId> &t)
+    friend inline std::ostream &operator << (std::ostream &out, const Type<T, UnknownId> &t)
     {
       return out << t.getName();
+    };
+    friend inline std::wostream &operator << (std::wostream &out, const Type<T, UnknownId> &t)
+    {
+      std::wstring wideName{ t.getName().begin(), t.getName().end() };
+      return out << wideName;
     };
 
     /// Searches for the type associated with the given string and returns it.
