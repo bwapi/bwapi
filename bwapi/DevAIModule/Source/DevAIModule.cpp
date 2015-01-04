@@ -34,15 +34,6 @@ void DevAIModule::onStart()
 
   // set command optimization
   bw->setCommandOptimizationLevel(3);
-
-  Broodwar << "Minerals: " << Broodwar->getMinerals().size() << endl;
-  bw << "Static minerals: " << bw->getStaticMinerals().size() << endl;
-  Unitset mins = bw->getStaticMinerals();
-  for( auto it = mins.begin(); it != mins.end(); ++it )
-  {
-    Unit u = *it;
-    bw->registerEvent([u](Game*){ bw->drawTextMap(u->getInitialPosition(), "%d", u->getResources()); });
-  }
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -54,48 +45,13 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
-  if ( bw->getFrameCount() < 3 )
-    Broodwar << Broodwar->getMinerals().size() << endl;
-
-  Broodwar->setTextSize(Text::Size::Large);
-  Broodwar->drawTextScreen(Positions::Origin, "%c%c%s", Text::Align_Center, Text::Green, Broodwar->self()->getName().c_str());
-  Broodwar->setTextSize();
-
-  // Log and display the best logical FPS seen in the game
-  static int bestFPS = 0;
-  bestFPS = std::max(bestFPS, Broodwar->getFPS());
-  Broodwar->drawTextScreen(Positions::Origin, "%cBest: %d FPS\nCurrent: %d FPS", Text::White, bestFPS, Broodwar->getFPS() );
-  
-  // Limit logical frames processed to prevent stacking commands
-  if ( Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0 )
-    return;
-
-  if ( BWAPI::Broodwar->self() )
+  if ( bw->self() )
   {
-    BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
+    Unitset myUnits = bw->getSelectedUnits();
     for ( auto u : myUnits )
     {
-      if ( u->getType().isRefinery() )
-      {
-        int nWorkersAssigned = u->getClientInfo<int>('work');
-        if ( nWorkersAssigned < 3 )
-        {
-          Unit pClosestIdleWorker = u->getClosestUnit(BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle);
-          if ( pClosestIdleWorker )
-          {
-            // gather from the refinery (and check if it was successful)
-            if ( pClosestIdleWorker->gather(u) )
-            {
-              // set a back reference for when the unit is killed or re-assigned (code not provided)
-              pClosestIdleWorker->setClientInfo(u, 'ref');
-  
-              // Increment the number of workers assigned and associate it with the refinery
-              ++nWorkersAssigned;
-              u->setClientInfo(nWorkersAssigned, 'work');
-            }
-          }
-        }
-      }
+      bool result = bw->canBuildHere(u->getTilePosition(), UnitTypes::Terran_Machine_Shop, u);
+      bw->drawTextMap(u->getPosition(), "%s %s", result ? "true" : "false", bw->getLastError().c_str());
     } // for
   }
 }

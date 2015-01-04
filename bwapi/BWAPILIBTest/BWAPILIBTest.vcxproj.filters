@@ -35,5 +35,8 @@
     <ClCompile Include="unitTypesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="positionTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
