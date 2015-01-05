@@ -605,6 +605,10 @@ namespace BWAPI
     /// checks for creep, power, and resource distance requirements in addition to the tiles'
     /// buildability and possible units obstructing the build location.
     ///
+    /// @note If the type is an addon and a builer is provided, then the location of the addon will
+    /// be placed 4 tiles to the right and 1 tile down from the given \p position. If the builder
+    /// is not given, then the check for the addon will be conducted at position.
+    ///
     /// @param position
     ///   Indicates the tile position that the top left corner of the structure is intended to go.
     /// @param type

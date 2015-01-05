@@ -58,6 +58,10 @@ void DevAIModule::onFrame()
 
 void DevAIModule::onSendText(std::string text)
 {
+  if (text == "/addon")
+  {
+    Broodwar << (bw->getSelectedUnits().buildAddon(UnitTypes::Terran_Comsat_Station) ? "success" : "fail") << std::endl;
+  }
   Broodwar->sendText("%s", text.c_str());
 }
 

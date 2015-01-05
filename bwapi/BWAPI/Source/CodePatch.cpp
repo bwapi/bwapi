@@ -49,11 +49,11 @@ void ApplyCodePatches()
                                                                   // of always setting speed to "Normal" in
                                                                   // single player
     // Write menu animation speed hack
-    for (auto it : BW::BWDATA::commonSwishControllers) it.wType = 4;
-    for (auto it : BW::BWDATA::gluCustmSwishController) it.wType = 4;
-    for (auto it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
-    for (auto it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
-    for (auto it : BW::BWDATA::gluChatSwishController) it.wType = 4;
+    for (auto &it : BW::BWDATA::commonSwishControllers) it.wType = 4;
+    for (auto &it : BW::BWDATA::gluCustmSwishController) it.wType = 4;
+    for (auto &it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
+    for (auto &it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
+    for (auto &it : BW::BWDATA::gluChatSwishController) it.wType = 4;
 
     // Write trigger action detours
     memcpy(BWTriggerActionFxnTable, BW::TriggerActionCallbacks, sizeof(BWTriggerActionFxnTable));
