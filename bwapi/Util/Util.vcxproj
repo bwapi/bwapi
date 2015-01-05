@@ -73,7 +73,6 @@
     <ClCompile Include="Source\Util\RemoteProcess.cpp" />
     <ClCompile Include="Source\Util\sha1.cpp" />
     <ClCompile Include="Source\Util\SharedMemory.cpp" />
-    <ClCompile Include="Source\Util\Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Util\clamp.h" />
@@ -88,7 +87,6 @@
     <ClInclude Include="Source\Util\sha1.h" />
     <ClInclude Include="Source\Util\SharedMemory.h" />
     <ClInclude Include="Source\Util\SharedStructure.h" />
-    <ClInclude Include="Source\Util\Strings.h" />
     <ClInclude Include="Source\Util\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,7 +3,6 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
-#include <Util/Exceptions.h>
 #include <storm.h>
 
 #include "WMode.h"
