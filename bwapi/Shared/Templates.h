@@ -210,7 +210,6 @@ namespace BWAPI
       // Ground unit dimension check
       if ( type != UnitTypes::Special_Start_Location )
       {
-        Broodwar->drawBoxMap(Position(lt), Position(rb), Colors::Green);
         Position targPos = Position(lt) + Position( type.tileSize() )/2;
         Unitset unitsInRect( Broodwar->getUnitsInRectangle(Position(lt), Position(rb), !IsFlying    &&
                                                                                         !IsLoaded   &&
