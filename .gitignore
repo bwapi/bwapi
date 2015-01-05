@@ -10,6 +10,7 @@ Release_Pipeline
 Debug_Pipeline
 *.swp
 *.bak
+cppcheck.xml
 
 Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*
