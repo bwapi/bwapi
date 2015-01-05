@@ -2,9 +2,9 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
-SiegeTest::SiegeTest() : unit(NULL),
-                         startFrame(-1),
+SiegeTest::SiegeTest() : startFrame(-1),
                          nextFrame(-1),
+                         unit(NULL),
                          completedSiege(false)
 {
   fail = false;

@@ -131,7 +131,7 @@ BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition pos
   return BWAPI::TilePositions::None;
 }
 
-bool BuildingPlacer::buildable(BWAPI::TilePosition position) const
+bool BuildingPlacer::buildable(BWAPI::TilePosition position)
 {
   //returns true if this tile is currently buildable, takes into account units on tile
   if ( !BWAPI::Broodwar->isBuildable(position) )

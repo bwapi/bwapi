@@ -308,7 +308,7 @@ namespace BWAPI
       int lastImmediateCommandFrame;
       UnitCommand lastImmediateCommand;
 
-      void setLastImmediateCommand(const UnitCommand &command);
+      static void setLastImmediateCommand(const UnitCommand &command);
       bool prepareIssueCommand(UnitCommand &command);
 
       void clear();

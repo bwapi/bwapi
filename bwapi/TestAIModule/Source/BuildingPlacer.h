@@ -11,7 +11,7 @@ class BuildingPlacer
     BWAPI::TilePosition getBuildLocation(BWAPI::UnitType type) const;
     BWAPI::TilePosition getBuildLocationNear(BWAPI::TilePosition position,BWAPI::UnitType type) const;
     BWAPI::TilePosition getBuildLocationNear(BWAPI::TilePosition position,BWAPI::UnitType type, int buildDist) const;
-    bool buildable(BWAPI::TilePosition position) const;
+    static bool buildable(BWAPI::TilePosition position);
     void reserveTiles(BWAPI::TilePosition position, int width, int height);
     void freeTiles(BWAPI::TilePosition position, int width, int height);
     void setBuildDistance(int distance);

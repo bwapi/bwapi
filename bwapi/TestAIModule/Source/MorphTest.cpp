@@ -17,14 +17,19 @@ using namespace BWAPI;
   }\
 }
 MorphTest::MorphTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                 producer(NULL),
+                                                 producerType(unitType.whatBuilds().first),
+                                                 previousUnitCount(0),
                                                  startFrame(-1),
                                                  nextFrame(-1),
-                                                 finishingMorph(false)
+                                                 producer(NULL),
+                                                 finishingMorph(false),
+                                                 finishFrame(-1),
+                                                 correctMineralCount(0),
+                                                 correctGasCount(0),
+                                                 correctSupplyUsedCount(0)
 {
   fail = false;
   running = false;
-  producerType = unitType.whatBuilds().first;
   FAILTEST(producerType!=UnitTypes::None);
   FAILTEST(producerType!=UnitTypes::Unknown);
 }

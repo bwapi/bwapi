@@ -3,13 +3,16 @@
 using namespace std;
 using namespace BWAPI;
 CancelResearchTest::CancelResearchTest(BWAPI::TechType techType) : techType(techType),
-                                                                   researcher(NULL),
+                                                                   researcherType(techType.whatResearches()),
                                                                    startFrame(-1),
-                                                                   nextFrame(-1)
+                                                                   nextFrame(-1),
+                                                                   researcher(NULL),
+                                                                   correctMineralCount(0),
+                                                                   correctGasCount(0),
+                                                                   correctSupplyUsedCount(0)
 {
   fail = false;
   running = false;
-  researcherType = techType.whatResearches();
   BWAssertF(researcherType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(researcherType!=UnitTypes::Unknown,{fail=true;return;});
 }

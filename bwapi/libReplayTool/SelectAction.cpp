@@ -48,11 +48,9 @@ void SelectAction::read(AbstractReplayReader &reader)
   if (unitsCount > MAX_UNITS)
     unitsCount = MAX_UNITS;
 
-  WORD selectData;
-
   for (unsigned i = 0; i < unitsCount; ++i)
   {
-    selectData =  reader.readWORD();
+    WORD selectData = reader.readWORD();
     selectedUnits[i].unitID = EXTRACT_SELECT_DATA_UNITID(selectData);
     selectedUnits[i].data = EXTRACT_SELECT_DATA_DATA(selectData);
   }

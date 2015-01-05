@@ -11,8 +11,8 @@ namespace BWAPI
     InterfaceEvent()
       : condProc(nullptr)
       , execProc(nullptr)
-      , runCount(0)
       , runFreq(0)
+      , runCount(0)
       , step(0)
     {};
 
@@ -61,7 +61,7 @@ namespace BWAPI
     ///
     /// @retval true If the event has completed all runs and/or is marked for removal.
     /// @retval false If the event should continue execution.
-    bool isFinished()
+    bool isFinished() const
     {
       return this->runCount == 0;
     };

@@ -17,20 +17,20 @@ namespace BWAPI
   {
   }
   Event::Event(const Event& other)
-    : type(other.type)
-    , position(other.position)
+    : position(other.position)
     , text( other.text != nullptr ? new std::string(*other.text) : nullptr )
     , unit( other.unit )
     , player( other.player )
+    , type(other.type)
     , winner( other.winner )
   {
   }
   Event::Event(Event &&other)
-    : type(other.type)
-    , position(other.position)
+    : position(other.position)
     , text( other.text )
     , unit( other.unit )
     , player( other.player )
+    , type(other.type)
     , winner( other.winner )
   {
     other.text = nullptr;
@@ -45,6 +45,8 @@ namespace BWAPI
   }
   Event& Event::operator=(const Event& other)
   {
+    if (this == &other) return *this;
+
     type = other.type;
     position = other.position;
     if ( text != nullptr )

@@ -14,6 +14,7 @@ namespace BWAPI
     , pipeObjectHandle(INVALID_HANDLE_VALUE)
     , mapFileHandle(INVALID_HANDLE_VALUE)
     , gameTableFileHandle(INVALID_HANDLE_VALUE)
+    , gameTable(NULL)
     , connected(false)
   {}
   Client::~Client()
@@ -42,7 +43,7 @@ namespace BWAPI
       std::cerr << "Game table mapping not found." << std::endl;
       return false;
     }
-    this->gameTable = (GameTable*)MapViewOfFile(this->gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable));
+    this->gameTable = static_cast<GameTable*>( MapViewOfFile(this->gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable)) );
     if ( !this->gameTable )
     {
       std::cerr << "Unable to map Game table." << std::endl;
@@ -106,7 +107,7 @@ namespace BWAPI
       CloseHandle(gameTableFileHandle);
       return false;
     }
-    data = (GameData*) MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData));
+    data = static_cast<GameData*>( MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData)) );
     if ( data == nullptr )
     {
       std::cerr << "Unable to map game data." << std::endl;

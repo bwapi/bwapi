@@ -3,7 +3,6 @@
 #include "GameImpl.h"
 #include <vector>
 #include <string>
-#include <Util/Strings.h>
 #include <Util/Convenience.h>
 
 #include "../WMode.h"

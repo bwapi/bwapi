@@ -3,13 +3,16 @@
 using namespace std;
 using namespace BWAPI;
 CancelUpgradeTest::CancelUpgradeTest(BWAPI::UpgradeType upgradeType) : upgradeType(upgradeType),
-                                                                       upgrader(NULL),
+                                                                       upgraderType(upgradeType.whatUpgrades()),
                                                                        startFrame(-1),
-                                                                       nextFrame(-1)
+                                                                       nextFrame(-1),
+                                                                       upgrader(NULL),
+                                                                       correctMineralCount(0),
+                                                                       correctGasCount(0),
+                                                                       correctSupplyUsedCount(0)
 {
   fail = false;
   running = false;
-  upgraderType = upgradeType.whatUpgrades();
   BWAssertF(upgraderType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(upgraderType!=UnitTypes::Unknown,{fail=true;return;});
 }

@@ -30,6 +30,7 @@ class CancelTrainTest : public TestCase
     BWAPI::UnitType::list correctTrainingQueue;
     enum State
     {
+      Init,
       Start,
       CancelledFirstSlot,
       CancelledLast1,

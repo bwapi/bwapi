@@ -5,9 +5,13 @@
 
 using namespace std;
 using namespace BWAPI;
-TransportTest::TransportTest(BWAPI::UnitType unitType) : transportType(unitType),
+TransportTest::TransportTest(BWAPI::UnitType unitType) : startFrame(-1),
+                                                         nextFrame(-1),
+                                                         transportType(unitType),
                                                          transport(NULL),
-                                                         currentUnit(NULL)
+                                                         currentUnit(NULL),
+                                                         waitFrameStart(0),
+                                                         state(Init)
 {
   fail = false;
   running = false;

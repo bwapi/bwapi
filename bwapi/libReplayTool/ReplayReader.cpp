@@ -10,10 +10,10 @@ ReplayReader::ReplayReader(DWORD dwSize)
   , pCurrent( pActionsBegin )
   , bFrameSize(0)
   , bFrameBytesRead(0)
-  , end(false)
-  , validFrame(false)
   , dwCurrentFrameTick(0)
   , dwHighestFrameTick(0)
+  , end(false)
+  , validFrame(false)
 {
 }
 
@@ -95,8 +95,6 @@ std::string ReplayReader::readCString()
 
   std::string str;
 
-  size_t len = 0;
-  char c = '\0';
   char *pStart = (char*)this->pCurrent;
   while ( this->readBYTE() != '\0' )
   {}

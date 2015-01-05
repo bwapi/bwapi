@@ -198,7 +198,7 @@ void EventTest::onSendText(std::string text)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::SendText(text.c_str())));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -209,7 +209,7 @@ void EventTest::onReceiveText(Player player, std::string text)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::ReceiveText(player,text.c_str())));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -220,7 +220,7 @@ void EventTest::onPlayerLeft(Player player)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::PlayerLeft(player)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -231,7 +231,7 @@ void EventTest::onNukeDetect(Position target)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::NukeDetect(target)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -242,7 +242,7 @@ void EventTest::onUnitDiscover(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitDiscover(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -253,7 +253,7 @@ void EventTest::onUnitEvade(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitEvade(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -264,7 +264,7 @@ void EventTest::onUnitShow(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitShow(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -275,7 +275,7 @@ void EventTest::onUnitHide(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitHide(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -286,7 +286,7 @@ void EventTest::onUnitCreate(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitCreate(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -297,7 +297,7 @@ void EventTest::onUnitDestroy(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitDestroy(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -308,7 +308,7 @@ void EventTest::onUnitMorph(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitMorph(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -319,7 +319,7 @@ void EventTest::onUnitRenegade(Unit unit)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::UnitRenegade(unit)));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }
@@ -330,7 +330,7 @@ void EventTest::onSaveGame(std::string gameName)
   if (strictEventChecking)
   {
     BWAssert(isEventExpectedNext(Event::SaveGame(gameName.c_str())));
-    if (expectedEvents.size()>0)
+    if (!expectedEvents.empty())
       expectedEvents.pop_front();
   }
 }

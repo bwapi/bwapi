@@ -6,20 +6,20 @@
 using namespace ReplayTool;
 
 FileReader::FileReader()
-:pMem(NULL)
+:hFile(NULL)
+,pMem(NULL)
 ,dwFileSize(0)
 ,dwOffset(0)
 ,eof(false)
-,hFile(NULL)
 {
 }
 
 FileReader::FileReader(const void *pData, DWORD dwDataSize)
-:pMem((BYTE*)pData)
+:hFile(NULL)
+,pMem((BYTE*)pData)
 ,dwFileSize(dwDataSize)
 ,dwOffset(0)
 ,eof(false)
-,hFile(NULL)
 {
 }
 
@@ -105,94 +105,4 @@ void FileReader::Read(void *pBuffer, DWORD dwSize)
     memset(pb, 0, dwNullCount);
     return;
   }
-}
-
-int FileReader::Read7BitEncodedInt()
-{
-  int rval = 0, bitshift = 0;
-  BYTE bChar = 0;
-  do
-  {
-    if ( bitshift >= 7*5 ) //ErrBox("Exceeded maximum 7BitEncodedInt value.");
-      return rval;
-    bChar = this->Read<BYTE>();
-    rval |= (bChar & 0x7F) << bitshift;
-    bitshift += 7;
-  } while ( (bChar & 0x80) != 0 );
-  return rval;
-}
-
-std::string FileReader::ReadString()
-{
-  int len = this->Read7BitEncodedInt();
-  std::string str;
-  if ( len > 0 && this->dwOffset + len <= this->dwFileSize )
-  {
-    str.assign((char*)&this->pMem[this->dwOffset], len);
-    this->dwOffset += len;
-  }
-  else
-  {
-    str = "";
-    if ( this->dwOffset + len > this->dwFileSize )
-      this->eof = true;
-  }
-  return str;
-}
-
-std::string FileReader::ReadCString(const char *deliminators)
-{
-  std::string str;
-
-  int len = 0;
-  while ( this->dwOffset + len <= this->dwFileSize && this->pMem[this->dwOffset + len] != 0 )
-  {
-    bool brk = false;
-    for ( int i = 0; deliminators && deliminators[i]; ++i )
-    {
-      if ( this->pMem[this->dwOffset + len] == deliminators[i] )
-        brk = true;
-    }
-    if ( brk )
-      break;
-    ++len;
-  }
-
-  if ( len > 0 && (this->dwOffset + len <= this->dwFileSize || this->dwFileSize > this->dwOffset) )
-  {
-    if ( this->dwOffset + len <= this->dwFileSize )
-    {
-      str.assign((char*)&this->pMem[this->dwOffset], len);
-      this->dwOffset += len;
-    }
-    else
-      str.assign((char*)&this->pMem[this->dwOffset], this->dwFileSize - this->dwOffset);
-  }
-  else
-  {
-    str = "";
-    if ( this->dwOffset + len <= this->dwFileSize )
-      this->dwOffset++;
-  }
-  if ( this->dwOffset + len > this->dwFileSize )
-    this->eof = true;
-  return str;
-}
-
-DWORD FileReader::GetSize()
-{
-  return this->dwFileSize;
-}
-/*
-  // Requires XNA header
-FileReader FileReader::Decompress(DWORD dwCompressedSize, DWORD dwDecompressedSize)
-{
-  BYTE *pDecompressedData = (BYTE*)malloc(dwDecompressedSize);
-  DecompressData(&this->pMem[this->dwOffset], dwCompressedSize, pDecompressedData, dwDecompressedSize);
-  return FileReader(pDecompressedData, dwDecompressedSize);
-}
-*/
-bool FileReader::Eof()
-{
-  return this->eof;
 }

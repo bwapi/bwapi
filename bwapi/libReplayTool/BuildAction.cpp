@@ -17,9 +17,9 @@ BuildAction::BuildAction(PlayerID player)
 
 BuildAction::BuildAction(PlayerID player, BWAPI::Order myOrderType, short myX, short myY, BWAPI::UnitType myUnitType)
   : GameAction(player, ReplayTool::Placebox)
+  ,orderType(myOrderType)
   ,x(myX)
   ,y(myY)
-  ,orderType(myOrderType)
   ,unitType(myUnitType)
 {
 
