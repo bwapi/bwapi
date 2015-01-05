@@ -11,6 +11,7 @@ Debug_Pipeline
 *.swp
 *.bak
 cppcheck.xml
+TestResults
 
 Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*

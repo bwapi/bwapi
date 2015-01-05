@@ -489,6 +489,7 @@ namespace BWAPI
   }
   Unit GameImpl::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
   {
+    // cppcheck-suppress variableScope
     int bestDistance = 99999999;
     Unit pBestUnit = nullptr;
 
@@ -505,6 +506,7 @@ namespace BWAPI
                                                               if ( newDistance < bestDistance )
                                                               {
                                                                 pBestUnit = u;
+                                                                // cppcheck-suppress unreadVariable
                                                                 bestDistance = newDistance;
                                                               }
                                                            } } );

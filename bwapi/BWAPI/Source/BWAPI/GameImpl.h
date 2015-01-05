@@ -191,7 +191,7 @@ namespace BWAPI
       void loadAutoMenuData();
 
       void onMenuFrame();
-      Race getMenuRace(const std::string &sChosenRace);
+      static Race getMenuRace(const std::string &sChosenRace);
       PlayerImpl *_getPlayer(int id);
       static int _currentPlayerId();
       static void pressKey(int key);
