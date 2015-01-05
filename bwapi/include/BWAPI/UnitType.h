@@ -755,6 +755,15 @@ namespace BWAPI
     bool canBuildAddon() const;
   };
 
+  /// The amount of shield points that a unit recovers over 256 frames. That is, 7/256 shields are regenerated per frame.
+  static const int SHIELD_REGEN_RATE = 7;
+
+  /// The amount of energy that a unit with special abilities recovers over 256 frames. That is, 8/256 energy is generated per frame.
+  static const int ENERGY_REGEN_RATE = 8;
+
+  /// The amount of life that a zerg unit recovers over 256 frames. That is, 4/256 life is regenerated per frame.
+  static const int LIFE_REGEN_RATE = 4;
+
   /// Namespace containing unit types
   namespace UnitTypes
   {
