@@ -3,14 +3,17 @@
 using namespace std;
 using namespace BWAPI;
 UseTechTest::UseTechTest(BWAPI::TechType techType) : techType(techType),
-                                                     user(NULL),
                                                      startFrame(-1),
                                                      nextFrame(-1),
-                                                     targetUnit(NULL),
+                                                     user(NULL),
                                                      targetPosition(Positions::None),
+                                                     targetUnit(NULL),
                                                      isInPosition(false),
                                                      usedTech(false),
-                                                     testSucceeded(false)
+                                                     testSucceeded(false),
+                                                     startPosition(Positions::None),
+                                                     targetType(UnitTypes::None),
+                                                     currentEnergy(0)
 {
   fail = false;
   running = false;

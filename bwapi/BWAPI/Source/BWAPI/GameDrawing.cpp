@@ -13,7 +13,7 @@
 namespace BWAPI
 {
   //-------------------------------------------------- IN SCREEN ---------------------------------------------
-  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x, int y)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x, int y) const
   {
     if ( !data->hasGUI )
       return false;
@@ -38,7 +38,7 @@ namespace BWAPI
     return true;
   }
 
-  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2) const
   {
     if ( !data->hasGUI )
       return false;
@@ -78,7 +78,7 @@ namespace BWAPI
     return true;
   }
 
-  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3)
+  bool GameImpl::inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3) const
   {
     if ( !data->hasGUI )
       return false;

@@ -13,7 +13,6 @@ namespace ReplayTool
     bool Open(const char *pszFilename);
     bool Error(const char *pszText = NULL);
     void Free();
-    bool Eof();
     template <class _T>
     _T Read()
     {
@@ -31,11 +30,6 @@ namespace ReplayTool
       return rval;
     }
     void Read(void *pBuffer, DWORD dwSize);
-    int         Read7BitEncodedInt();
-    std::string ReadString();
-    std::string ReadCString(const char *deliminators = NULL);
-    DWORD       GetSize();
-    //FileReader  Decompress(DWORD dwCompressedSize, DWORD dwDecompressedSize);  // Requires XNA header
   private:
     HANDLE  hFile;
     BYTE    *pMem;

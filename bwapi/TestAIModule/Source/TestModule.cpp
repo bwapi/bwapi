@@ -34,16 +34,16 @@ void TestModule::onFrame()
 void TestModule::onUnitCreate(Unit unit)
 {
   if (unit!=NULL)
-    Broodwar->printf("A %s [%x] has been created",unit->getType().c_str(),unit);
+    Broodwar->printf("A %s [%p] has been created",unit->getType().c_str(),unit);
   else
-    Broodwar->printf("A %x has been created",unit);
+    Broodwar->printf("A %p has been created",unit);
 }
 void TestModule::onUnitDestroy(Unit unit)
 {
   if (unit!=NULL)
-    Broodwar->printf("A %s [%x] has been destroyed",unit->getType().c_str(),unit);
+    Broodwar->printf("A %s [%p] has been destroyed",unit->getType().c_str(),unit);
   else
-    Broodwar->printf("A %x has been destroyed",unit);
+    Broodwar->printf("A %p has been destroyed",unit);
 }
 void TestModule::runTestCases()
 {

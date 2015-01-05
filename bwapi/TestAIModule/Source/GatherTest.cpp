@@ -2,11 +2,14 @@
 #include "BWAssert.h"
 using namespace std;
 using namespace BWAPI;
-GatherTest::GatherTest() : worker(NULL),
+GatherTest::GatherTest() : startFrame(-1),
+                           nextFrame(-1),
+                           worker(NULL), 
                            mineral(NULL),
                            refinery(NULL),
-                           startFrame(-1),
-                           nextFrame(-1)
+                           initialMinerals(0),
+                           initialGas(0),
+                           state(0)
 {
   fail = false;
   running = false;

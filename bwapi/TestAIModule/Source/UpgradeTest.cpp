@@ -4,13 +4,16 @@ using namespace std;
 using namespace BWAPI;
 #define LOGTYPE log("UpgradeType: %s", upgradeType.c_str())
 UpgradeTest::UpgradeTest(BWAPI::UpgradeType upgradeType) : upgradeType(upgradeType),
-                                                           upgrader(NULL),
+                                                           upgraderType(upgradeType.whatUpgrades()),
+                                                           previousUpgradeLevel(0),
                                                            startUpgradeFrame(-1),
-                                                           nextUpdateFrame(-1)
+                                                           nextUpdateFrame(-1),
+                                                           upgrader(NULL),
+                                                           correctMineralCount(0),
+                                                           correctGasCount(0)
 {
   fail = false;
   running = false;
-  upgraderType = upgradeType.whatUpgrades();
   BWAssertF(upgraderType!=UnitTypes::None,{fail=true;return;});
   BWAssertF(upgraderType!=UnitTypes::Unknown,{fail=true;return;});
 }

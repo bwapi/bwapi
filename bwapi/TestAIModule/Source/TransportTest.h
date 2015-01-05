@@ -24,6 +24,7 @@ class TransportTest : public TestCase
     int waitFrameStart;
     enum LoadState
     {
+      Init,
       Start,
       WaitForFirstUnit,
       WaitForSecondUnit,

@@ -19,16 +19,20 @@ extern BuildingPlacer* placer;
   }\
 }
 CancelConstructionTest::CancelConstructionTest(BWAPI::UnitType unitType, bool terranHalt) : unitType(unitType),
+                                               builderType(unitType.whatBuilds().first),
                                                builder(NULL),
                                                building(NULL),
+                                               previousUnitCount(0),
                                                startFrame(-1),
                                                nextFrame(-1),
                                                finishFrame(-1),
+                                               correctMineralCount(0),
+                                               correctGasCount(0),
+                                               correctSupplyUsedCount(0),
                                                terranHalt(terranHalt)
 {
   fail = false;
   running = false;
-  builderType = unitType.whatBuilds().first;
   FAILTEST(builderType!=UnitTypes::None);
   FAILTEST(builderType!=UnitTypes::Unknown);
   if (placer==NULL) placer = new BuildingPlacer();

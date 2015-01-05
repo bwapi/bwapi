@@ -193,27 +193,27 @@ namespace BWAPI
       void onMenuFrame();
       Race getMenuRace(const std::string &sChosenRace);
       PlayerImpl *_getPlayer(int id);
-      int _currentPlayerId();
-      void pressKey(int key);
+      static int _currentPlayerId();
+      static void pressKey(int key);
       // Presses the hotkey that belongs to the dialog control (like a button)
       void pressDialogKey(BW::dialog *pDlg);
 
-      void mouseDown(int x, int y);
-      void mouseUp(int x, int y);
+      static void mouseDown(int x, int y);
+      static void mouseUp(int x, int y);
 
       void addToCommandBuffer(Command* command);
       void onGameStart();
       void onGameEnd();
-      int  stormIdToPlayerId(int dwStormId);
+      static int stormIdToPlayerId(int dwStormId);
       void onSendText(const std::string &text);
       void onReceiveText(int playerId, const std::string &text);
       bool parseText(const std::string &text);
-      bool inScreen(CoordinateType::Enum ctype, int x, int y);
-      bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2);
-      bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3);
+      bool inScreen(CoordinateType::Enum ctype, int x, int y) const;
+      bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2) const;
+      bool inScreen(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, int x3, int y3) const;
       void lockFlags();
-      void _startGame();
-      void _changeRace(int slot, BWAPI::Race race);
+      static void _startGame();
+      static void _changeRace(int slot, BWAPI::Race race);
 
       void loadSelected();
       void copyMapToSharedMemory();
@@ -270,7 +270,7 @@ namespace BWAPI
       int frameCount;
       BW::CUnit *savedUnitSelection[PLAYER_COUNT];
 
-      void setLocalSpeedDirect(int speed);
+      static void setLocalSpeedDirect(int speed);
     public:
       int seedOverride = std::numeric_limits<int>::max();
       int speedOverride = std::numeric_limits<int>::min();

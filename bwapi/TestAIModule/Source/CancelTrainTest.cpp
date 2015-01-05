@@ -6,13 +6,23 @@ CancelTrainTest::CancelTrainTest(BWAPI::UnitType unitType1, BWAPI::UnitType unit
                                                : unitType1(unitType1),
                                                  unitType2(unitType2),
                                                  unitType3(unitType3),
+                                                 producerType(unitType1.whatBuilds().first),
                                                  producer(NULL),
                                                  startFrame(-1),
-                                                 nextFrame(-1)
+                                                 nextFrame(-1),
+                                                 correctMineralCount(0),
+                                                 correctGasCount(0),
+                                                 correctSupplyUsedCount(0),
+                                                 originalMineralCount(0),
+                                                 originalGasCount(0),
+                                                 originalSupplyUsedCount(0),
+                                                 originalAllUnit1Count(0),
+                                                 originalAllUnit2Count(0),
+                                                 originalAllUnit3Count(0),
+                                                 state(Init)
 {
   fail = false;
   running = false;
-  producerType = unitType1.whatBuilds().first;
   BWAssertF(producerType==unitType2.whatBuilds().first,{fail=true;return;});
   BWAssertF(producerType==unitType3.whatBuilds().first,{fail=true;return;});
   BWAssertF(producerType!=UnitTypes::None,{fail=true;return;});

@@ -21,16 +21,17 @@ BuildingPlacer* placer=NULL;
 }
 
 BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
-                                                 builder(NULL),
-                                                 building(NULL),
+                                                 builderType(unitType.whatBuilds().first),
+                                                 previousUnitCount(0),
                                                  startFrame(-1),
                                                  nextFrame(-1),
                                                  finishFrame(-1),
+                                                 builder(NULL),
+                                                 building(NULL),
                                                  finishingBuilding(false)
 {
   fail = false;
   running = false;
-  builderType = unitType.whatBuilds().first;
   FAILTEST(builderType!=UnitTypes::None);
   FAILTEST(builderType!=UnitTypes::Unknown);
   if (placer==NULL) placer = new BuildingPlacer();
