@@ -57,7 +57,7 @@ void LiftTest::update()
       BWAssertF(unit->isLifted()==true,{fail=true;return;});
       completedLift=true;
       unit->land(originalTilePosition);
-      BWAssertF(unit->getOrder()==Orders::BuildingLand,{fail=true;return;});
+      BWAssertF(unit->getOrder() == Orders::BuildingLand, { fail = true; log("originalTilePosition=(%d,%d)", originalTilePosition.x, originalTilePosition.y); return; });
       startFrame=thisFrame;
     }
     else

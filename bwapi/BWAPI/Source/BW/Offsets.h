@@ -155,9 +155,10 @@ namespace BW
 
       struct swishTimer
       {
-        WORD wIndex;
-        WORD wType;
+        u16 wIndex;
+        u16 wType;
       };
+      static_assert(sizeof(swishTimer) == 4, "Expected swishTimer structure to be 4 bytes.");
 
       std::array<swishTimer, 43> IS_REF(commonSwishControllers, 0x005129EC);
       std::array<swishTimer, 5> IS_REF(gluCustmSwishController, 0x0051A9F0);

@@ -83,6 +83,8 @@ namespace BWAPI
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
   GameImpl::~GameImpl()
   {
+    this->initializeData();
+
     // destroy all UnitImpl
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
     {

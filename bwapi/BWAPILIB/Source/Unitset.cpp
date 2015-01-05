@@ -118,7 +118,12 @@ namespace BWAPI
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool Unitset::buildAddon(UnitType type) const
   {
-    return this->issueCommand(UnitCommand::buildAddon(nullptr,type));
+    bool result = false;
+    for (auto &it : *this)
+    {
+      result |= it->buildAddon(type);
+    }
+    return result;
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool Unitset::train(UnitType type) const

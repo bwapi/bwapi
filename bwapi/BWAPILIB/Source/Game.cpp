@@ -419,7 +419,7 @@ namespace BWAPI
     // Return if can't find a valid space
     if ( !reserve.hasValidSpace() )
       return;
-
+    
     ReserveGroundHeight(reserve, desiredPosition);
     //ReserveUnbuildable(reserve, type, desiredPosition); // NOTE: canBuildHere already includes this!
 
