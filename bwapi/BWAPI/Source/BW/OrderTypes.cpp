@@ -5,7 +5,6 @@
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>
 #include <BW/Offsets.h>
-#include <Util/Exceptions.h>
 
 #include "../../../Debug.h"
 namespace BW
@@ -166,7 +165,6 @@ namespace BW
         raceDependant = BWAPI::Orders::Enum::PlaceProtossBuilding;
         break;
       default:
-        throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
         break;
       }
     }
@@ -188,7 +186,6 @@ namespace BW
         raceDependant = BWAPI::Orders::Enum::PlaceProtossBuilding;
         break;
       default:
-        throw GeneralException("MakeBuilding::MakeBuilding - wrong race type of the worker");
         break;
       }
     }
