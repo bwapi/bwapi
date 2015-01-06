@@ -81,7 +81,7 @@ bool FileReader::Open(const char *pszFilename)
 
   // Close the file handle
   CloseHandle(hFile);
-  this->hFile = NULL;
+  hFile = NULL;
   return true;
 }
 

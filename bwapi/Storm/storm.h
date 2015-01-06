@@ -571,7 +571,7 @@ SBmpDecodeImage(
     __in      DWORD        dwSrcBuffersize,
     __out_opt PALETTEENTRY *pPalette        = NULL,
     __out     void         *pDstBuffer      = NULL,
-    __out     DWORD        dwDstBuffersize  = 0,
+    __in      DWORD        dwDstBuffersize  = 0,
     __out_opt DWORD        *pdwWidth        = NULL,
     __out_opt DWORD        *pdwHeight       = NULL,
     __out_opt DWORD        *pdwBpp          = NULL);
@@ -597,7 +597,7 @@ SBmpLoadImage(
     __in      const char   *pszFileName,
     __out_opt PALETTEENTRY *pPalette    = NULL,
     __out     void         *pBuffer     = NULL,
-    __out     DWORD        dwBuffersize = 0,
+    __in      DWORD        dwBuffersize = 0,
     __out_opt DWORD        *pdwWidth    = NULL,
     __out_opt DWORD        *pdwHeight   = NULL,
     __out_opt DWORD        *pdwBpp      = NULL);
@@ -1323,8 +1323,7 @@ namespace Storm
 
     ~CFile()
     {
-      if ( isValid() )
-        SFileCloseFile(hFile);
+      close();
     }
 
     HANDLE handle() const
@@ -1336,6 +1335,15 @@ namespace Storm
     {
       valid = SFileOpenFileEx(hMpq, sFileName.c_str(), flags, &hFile) != FALSE;
       return isValid();
+    }
+
+    bool close()
+    {
+      bool result = false;
+      if (isValid())
+        result = SFileCloseFile(hFile) != FALSE;
+      hFile = nullptr;
+      return result;
     }
 
     size_t size() const
@@ -1352,7 +1360,7 @@ namespace Storm
     }
 
     bool isValid() const { return valid && hFile; }
-    operator bool() const { return isValid(); }
+    explicit operator bool() const { return isValid(); }
     bool operator !() const { return !isValid(); }
   };
 
@@ -1376,12 +1384,13 @@ namespace Storm
     CArchive(CArchive &&other)
       : hMpq(other.hMpq)
       , valid(other.valid)
-    { }
+    {
+      other.valid = false;
+    }
 
     ~CArchive()
     {
-      if ( isValid() )
-        SFileCloseArchive(hMpq);
+      close();
     }
 
     bool open(const std::string &sArchiveFileName, unsigned flags = 0, unsigned priority = 0)
@@ -1390,13 +1399,22 @@ namespace Storm
       return isValid();
     }
 
+    bool close()
+    {
+      bool result = false;
+      if (isValid())
+        result = SFileCloseArchive(hMpq) != FALSE;
+      hMpq = nullptr;
+      return result;
+    }
+
     HANDLE handle() const
     {
       return hMpq;
     }
 
     bool isValid() const { return valid && hMpq; }
-    operator bool() const { return isValid(); }
+    explicit operator bool() const { return isValid(); }
     bool operator !() const { return !isValid(); }
 
     CFile openFile( const std::string &sFileName ) const

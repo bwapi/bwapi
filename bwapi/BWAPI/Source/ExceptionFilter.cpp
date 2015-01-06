@@ -61,27 +61,23 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
     // Get the File Version information
     DWORD dwUnused, dwVersionSize;
     dwVersionSize = GetFileVersionInfoSizeA(szExecutableName, &dwUnused);
-    if ( dwVersionSize )
+    if (dwVersionSize > 0)
     {
       // Version Variables
       VS_FIXEDFILEINFO *pFileInfo;
       UINT dwFileInfoSize;
-      void *pVersionData;
+      std::vector<char> versionData(dwVersionSize);
       
-      // allocate version info
-      pVersionData = malloc(dwVersionSize);
-      assert(pVersionData != nullptr);
-
       // get version data
-      if ( GetFileVersionInfoA(szExecutableName, NULL, dwVersionSize, pVersionData) &&
-           VerQueryValueA(pVersionData, "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize) )
+      if (GetFileVersionInfoA(szExecutableName, NULL, dwVersionSize, versionData.data()) &&
+        VerQueryValueA(versionData.data(), "\\", (LPVOID*)&pFileInfo, &dwFileInfoSize))
       {
         w1 = HIWORD(pFileInfo->dwProductVersionMS);
         w2 = LOWORD(pFileInfo->dwProductVersionMS);
         w3 = HIWORD(pFileInfo->dwProductVersionLS);
         w4 = LOWORD(pFileInfo->dwProductVersionLS);
       }
-      free(pVersionData);
+      
     } // ^if dwVerSize
   } // ^if GetModuleFileName
 }
