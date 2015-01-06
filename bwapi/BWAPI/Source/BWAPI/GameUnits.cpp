@@ -18,8 +18,9 @@ namespace BWAPI
   UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
     index &= 0x7FF;
-    assert(index < UNIT_ARRAY_MAX_LENGTH);
-    return this->unitArray[index];
+    if (index < std::extent<decltype(unitArray)>::value)
+      return this->unitArray[index];
+    return nullptr;
   }
   //------------------------------------------------ IS UNIT ALIVE
   bool inline isUnitAlive(UnitImpl* i, bool isHidden = false)

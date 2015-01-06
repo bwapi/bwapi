@@ -159,6 +159,7 @@ namespace BW
 
     // event-specific functions
     bool doEvent(u16 wEvtNum, u32 dwUser = 0, u16 wSelect = 0, u16 wVirtKey = 0); // Calls a dialog or control's interact function by generating event info using these parameters
+    // cppcheck-suppress functionConst
     bool defaultInteract(BW::dlgEvent *pEvent); // Calls a dialog or control's default interact function using this event info
     bool activate();        // Activates a control or destroys a dialog
     bool update();          // Updates a control or dialog, refreshing it on the screen

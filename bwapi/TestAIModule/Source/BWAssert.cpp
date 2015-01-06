@@ -19,8 +19,11 @@ void log(const char* format, ...)
   BWAPI::Broodwar->printf(buffer);
   if (fopen_s(&outfile, "bwapi-data/logs/TestModule - Failed Asserts.log", "a+")==0)
   {
-    fprintf_s(outfile, buffer);
-    fprintf_s(outfile, "\n");
-    fclose(outfile);
+    if (outfile)
+    {
+      fprintf_s(outfile, buffer);
+      fprintf_s(outfile, "\n");
+      fclose(outfile);
+    }
   }
 }

@@ -316,7 +316,10 @@ namespace BWAPI
     else if (ct == UnitCommandTypes::Lift)
       QUEUE_COMMAND(BW::Orders::Lift);
     else if (ct == UnitCommandTypes::Land)
-      QUEUE_COMMAND(BW::Orders::Land, command.x, command.y, command.unit->getType());
+    {
+      if (command.unit)
+        QUEUE_COMMAND(BW::Orders::Land, command.x, command.y, command.unit->getType());
+    }
     else if (ct == UnitCommandTypes::Load)
     {
       BWAPI::UnitType thisType = command.unit ? command.unit->getType() : UnitTypes::None;

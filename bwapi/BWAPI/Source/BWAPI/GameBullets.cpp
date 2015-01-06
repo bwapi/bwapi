@@ -13,8 +13,9 @@ namespace BWAPI
   BulletImpl* GameImpl::getBulletFromIndex(int index)
   {
     index &= 0x7F;
-    assert(index < BULLET_ARRAY_MAX_LENGTH);
-    return this->bulletArray[index];
+    if (index < std::extent<decltype(bulletArray)>::value)
+      return this->bulletArray[index];
+    return nullptr;
   }
   //--------------------------------------------- UPDATE BULLETS ---------------------------------------------
   void GameImpl::updateBullets()

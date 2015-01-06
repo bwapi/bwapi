@@ -652,12 +652,14 @@ void SetWMode(int width, int height, bool state)
       DeleteDC(hdcMem);
     hdcMem = NULL;
 
-    SetWindowLong(ghMainWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
-    SetWindowPos(ghMainWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
-    SetCursor(NULL);
-    SetCursorShowState(false);
-    SetFocus(ghMainWnd);
-
+    if (ghMainWnd)
+    {
+      SetWindowLong(ghMainWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE | WS_SYSMENU);
+      SetWindowPos(ghMainWnd, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+      SetCursor(NULL);
+      SetCursorShowState(false);
+      SetFocus(ghMainWnd);
+    }
     DDrawDestroy();
     DDrawInitialize(width, height);
     WritePrivateProfileStringA("window", "windowed", "OFF", configPath.c_str());

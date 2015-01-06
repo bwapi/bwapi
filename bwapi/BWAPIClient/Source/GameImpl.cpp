@@ -207,7 +207,7 @@ namespace BWAPI
       for(Player p : playerSet)
       {
         // check if the player should not be updated
-        if ( p->leftGame() || p->isDefeated() || p == thePlayer )
+        if ( !p || p->leftGame() || p->isDefeated() || p == thePlayer )
           continue;
         // add player to allies set
         if ( thePlayer->isAlly(p) )
@@ -341,7 +341,7 @@ namespace BWAPI
       for(Player p : playerSet)
       {
         // check if player should be skipped
-        if ( p->leftGame() || p->isDefeated() || p == thePlayer )
+        if ( !p || p->leftGame() || p->isDefeated() || p == thePlayer )
           continue;
         // add player to allies set
         if ( thePlayer->isAlly(p) )
@@ -918,9 +918,14 @@ namespace BWAPI
       const int minitilePosY = (y&0x1F)/8;
       const int minitileShift = minitilePosX + minitilePosY * 4;
       const int index = idx & 0x1FFF;
-      assert(index < std::extent<decltype(data->mapSplitTilesMiniTileMask)>::value);
+      if (index >= std::extent<decltype(data->mapSplitTilesMiniTileMask)>::value)
+        return nullptr;
+      
       unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[index];
       
+      if (index >= std::extent<decltype(data->mapSplitTilesRegion1)>::value)
+        return nullptr;
+
       if ((miniTileMask >> minitileShift) & 1)
       {
         unsigned short rgn2 = data->mapSplitTilesRegion2[index];
