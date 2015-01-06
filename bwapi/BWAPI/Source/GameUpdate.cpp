@@ -199,16 +199,7 @@ void GameImpl::update()
   // Set the replay time, this is a workaround to fixing the replay DIVIDE_BY_ZERO exception bug
   if ( !this->isReplay() )
     *BW::BWDATA::ReplayFrames = this->getFrameCount()+20;
-
-  // Check if the window is iconic, if so, go super fast!
-  static bool bLastIconic = false;
-  if ( !!IsIconic(SDrawGetFrameWindow()) != bLastIconic && !this->isMultiplayer() )
-  {
-    this->setLocalSpeed(bLastIconic ? -1 : 0);
-    this->setFrameSkip(bLastIconic ? 1 : 16);
-    bLastIconic = !bLastIconic;
-  }
-
+  
   // Execute commands that have been buffered by the command optimizer
   updateCommandOptimizer();
 

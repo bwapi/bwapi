@@ -449,7 +449,6 @@ namespace BW
     return this->pfcnInteract(this, &evt);
   }
   // ----------------- DEFAULT INTERACT --------------
-  // cppcheck-suppress functionConst
   bool dialog::defaultInteract(BW::dlgEvent *pEvent)
   {
     return this && pEvent && this->wCtrlType < ctrls::max && BWDATA::GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
