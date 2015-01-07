@@ -136,7 +136,7 @@ namespace BW
     /*0x098*/ u16         buildQueue[5];          //< Queue of units to build. Note that it doesn't begin with index 0, but with #buildQueueSlot index. 
     /*0x0A2*/ u16         energy;                 //< Energy Points   // officially "xwMagic"
     /*0x0A4*/ u8          buildQueueSlot;         //< Index of active unit in #buildQueue. 
-    /*0x0A5*/ u8          targetOrderSpecial;     //< A byte used to determine the target ID for the unit 
+    /*0x0A5*/ u8          uniquenessIdentifier;   //< A byte used to determine uniqueness of the unit
     /*0x0A6*/ u8          secondaryOrderID;       //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
     /*0x0A7*/ u8          buildingOverlayState;   // 0 means the building has the largest amount of fire/blood
     /*0x0A8*/ u16         hpGainDuringRepair;     //< @todo Verify 
@@ -144,6 +144,7 @@ namespace BW
     /*0x0AC*/ u16         remainingBuildTime;     //< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location.
     /*0x0AE*/ u16         previousHP;             // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
     /*0x0B0*/ u16         loadedUnitIndex[8];     // officially called "uwTransport[8]"
+    ///////////////
     /*0x0C0*/ union
               {
                 struct
@@ -187,28 +188,6 @@ namespace BW
                   u8        creepTimer;           // C
                   u8        upgradeLevel;         // D
                   u16 __E;  // 2-byte padding
-                  union                           // 10
-                  { 
-                    struct
-                    { u16       resourceCount;  // amount of resources
-                      u8        resourceIscript;
-                      u8        gatherQueueCount;
-                      BW::CUnit *nextGatherer;    // 14  // pointer to the next workerunit waiting in line to gather
-                      u8        resourceGroup;    // 18
-                      u8        resourceBelongsToAI;
-                    } resource;  // When the unit is resource container
-                    struct { BW::CUnit    *exit; } nydus; // connected nydius canal
-                    struct { BW::CSprite  *nukeDot; } ghost;
-                    struct { BW::CSprite  *pylonAura; } pylon;  // Should be "CUnit::Pylon::pPowerTemplate"
-                    struct
-                    { BW::CUnit *pNuke;   // attached nuke    // official name
-                      bool bReady;      // 14   // official name
-                    } silo;   // Should be "CUnit::Silo::"
-                    struct
-                    { ::rect harvestValue;
-                    } hatchery; // wtf???
-                    struct { POINTS origin; } powerup;
-                  };
                 } building;
                 
                 struct 
@@ -219,11 +198,40 @@ namespace BW
                   u16       repairResourceLossTimer;  // C
                   bool      isCarryingSomething;      // E    // There is a "ubIsHarvesting" somewhere
                   u8        resourceCarryCount;       // F
-                  BW::CUnit *harvestTarget;           // 10
-                  // CLINK<CUnit> harvest_link;
-                  BW::CUnit *prevHarvestUnit;         // 14   // When there is a gather conflict
-                  BW::CUnit *nextHarvestUnit;         // 18
                 } worker;   // Official name, but there is also a "CUnit::WorkerList::pHarvestBldg" somewhere
+              };
+    ///////////////
+    /*0x0D0*/ union
+              {
+                struct
+                {
+                  u16       resourceCount;  // amount of resources
+                  u8        resourceIscript;
+                  u8        gatherQueueCount;
+                  BW::CUnit *nextGatherer;    // 4  // pointer to the next workerunit waiting in line to gather
+                  u8        resourceGroup;    // 8
+                  u8        resourceBelongsToAI;
+                } resource;  // When the unit is resource container
+                struct { BW::CUnit    *exit; } nydus; // connected nydius canal
+                struct { BW::CSprite  *nukeDot; } ghost;
+                struct { BW::CSprite  *pPowerTemplate; } Pylon;
+                struct
+                {
+                  BW::CUnit *pNuke;   // attached nuke    // official name
+                  bool bReady;      // 4   // official name
+                } silo;   // Should be "CUnit::Silo::"
+                struct
+                {
+                  ::rect harvestValue;
+                } hatchery; // wtf???
+                struct { POINTS origin; } powerup;
+                struct
+                {
+                  BW::CUnit *harvestTarget;           // 0
+                  // CLINK<CUnit> harvest_link;
+                  BW::CUnit *prevHarvestUnit;         // 4   // When there is a gather conflict
+                  BW::CUnit *nextHarvestUnit;         // 8
+                } gatherer; //there is also a "CUnit::WorkerList::pHarvestBldg" somewhere
               };
     /*0x0DC*/ u32       statusFlags;
     /*0x0E0*/ u8        resourceType;         // Resource being held by worker: 1 = gas, 2 = ore
@@ -239,17 +247,19 @@ namespace BW
     /*0x0F0*/ BW::CUnit *previousBurrowedUnit;
     /*0x0F4*/ BW::CUnit *nextBurrowedUnit;
     /*0x0F8*/ union
-        { struct
-          { POINTS    position;
-            BW::CUnit *unit;
-          } rally;  // If the unit is rally type
+              {
+                struct
+                { 
+                  POINTS    position;
+                  BW::CUnit *unit;
+                } rally;  // If the unit is rally type
 
-          struct
-          { // CLink<CUnit> power_link;
-            BW::CUnit *prevPsiProvider;
-            BW::CUnit *nextPsiProvider;
-          } pylon;  // If the unit is psi provider
-        };
+                struct
+                { // CLink<CUnit> power_link;
+                  BW::CUnit *prevPsiProvider;
+                  BW::CUnit *nextPsiProvider;
+                } PsiProvider;  // If the unit is psi provider
+              };
     /*0x100*/ BW::Path  *path;    // officially "unitPath"
     /*0x104*/ u8        pathingCollisionInterval; // unknown
     /*0x105*/ u8        pathingFlags;             // 0x01 = uses pathing; 0x02 = ?; 0x04 = ?
@@ -292,8 +302,8 @@ namespace BW
     } finder;
     /*0x14C*/ u8    _repulseUnknown;        // @todo Unknown
     /*0x14D*/ u8    repulseAngle;           // updated only when air unit is being pushed
-    /*0x14E*/ u8    driftPosX;              //  (mapsizex/1.5 max)    // officially "bRepMtxX"   // repulse matrix X/Y
-    /*0x14F*/ u8    driftPosY;              //  (mapsizex/1.5 max)    // "bRepMtxY"
+    /*0x14E*/ u8    bRepMtxX;              //  (mapsizex/1.5 max)   // repulse matrix X/Y
+    /*0x14F*/ u8    bRepMtxY;              //  (mapsizex/1.5 max)
 
     ////////////////////////////////////////////////////////////////////
     // Official Broodwar methods (from beta), ignore these

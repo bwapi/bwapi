@@ -82,6 +82,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocumentationGen", "Documen
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIBTest", "BWAPILIBTest\BWAPILIBTest.vcxproj", "{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWMemoryEdit", "BWMemoryEdit\BWMemoryEdit.csproj", "{6E693729-B778-4361-9668-FFEB3A22AB5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Pipeline|Win32 = Debug_Pipeline|Win32
@@ -239,6 +241,10 @@ Global
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release_Pipeline|Win32.Build.0 = Release|Win32
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.ActiveCfg = Release|Win32
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.Build.0 = Release|Win32
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug_Pipeline|Win32.ActiveCfg = Debug|Any CPU
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release_Pipeline|Win32.ActiveCfg = Release|Any CPU
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "Fasm.NET"
+    </assembly>
+    <members>
+        <member name="P:Binarysharp.Assemblers.Fasm.FasmNet.Mnemonics">
+            <summary>
+Gets the mnemonics.
+</summary>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.InsertLine(System.Int32,System.String,System.Object[])">
+            <summary>
+Inserts the text representation of the specified array of objects, followed by the current line terminator at the specified character position.
+</summary>
+            <param name="index">The position in this instance where insertion begins.</param>
+            <param name="format">The composite format string.</param>
+            <param name="args">The array of objects to write using format.</param>
+            <summary>
+Inserts the text representation of the specified array of objects, followed by the current line terminator at the specified character position.
+</summary>
+            <param name="index">The position in this instance where insertion begins.</param>
+            <param name="format">The composite format string.</param>
+            <param name="args">The array of objects to write using format.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Clear">
+            <summary>
+Removes all characters from the current <see cref="N:Binarysharp.Assemblers.Fasm" /> instance.
+</summary>
+            <summary>
+Removes all characters from the current <see cref="N:Binarysharp.Assemblers.Fasm" /> instance.
+</summary>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble(System.ValueType!System.IntPtr!System.Runtime.CompilerServices.IsBoxed)">
+            <summary>
+Assembles the mnemonics with a given origin address.
+</summary>
+            <param name="origin">The address used as starting address for the assebmly code.</param>
+            <summary>
+Assembles the mnemonics with a given origin address.
+</summary>
+            <param name="origin">The address used as starting address for the assebmly code.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble">
+            <summary>
+Assembles the mnemonics.
+</summary>
+            <summary>
+Assembles the mnemonics.
+</summary>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.AddLine(System.String,System.Object[])">
+            <summary>
+Adds the text representation of the specified array of objects, followed by the current line terminator.
+</summary>
+            <param name="format">The composite format string.</param>
+            <param name="args">The array of objects to write using format.</param>
+            <summary>
+Adds the text representation of the specified array of objects, followed by the current line terminator.
+</summary>
+            <param name="format">The composite format string.</param>
+            <param name="args">The array of objects to write using format.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.#ctor(System.Int32,System.Int32)">
+            <summary>
+Initializes a new instance of the <see cref="N:Binarysharp.Assemblers.Fasm" /> class.
+</summary>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <summary>
+Initializes a new instance of the <see cref="N:Binarysharp.Assemblers.Fasm" /> class.
+</summary>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.#ctor">
+            <summary>
+Initializes a new instance of the <see cref="N:Binarysharp.Assemblers.Fasm" /> class.
+</summary>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+            <summary>
+Initializes a new instance of the <see cref="N:Binarysharp.Assemblers.Fasm" /> class.
+</summary>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.AssembleFiles(System.Collections.Generic.IEnumerable`1{System.String},System.Int32,System.Int32)">
+            <summary>
+Assembles the specified files by appending them.
+</summary>
+            <param name="paths">The path of the files to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <summary>
+Assembles the specified files by appending them.
+</summary>
+            <param name="paths">The path of the files to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.AssembleFiles(System.Collections.Generic.IEnumerable`1{System.String})">
+            <summary>
+Assembles the specified files by appending them.
+</summary>
+            <param name="paths">The path of the files to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+            <summary>
+Assembles the specified files by appending them.
+</summary>
+            <param name="paths">The path of the files to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.AssembleFile(System.String,System.Int32,System.Int32)">
+            <summary>
+Assembles the specified file.
+</summary>
+            <param name="path">The path of the file to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <summary>
+Assembles the specified file.
+</summary>
+            <param name="path">The path of the file to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.AssembleFile(System.String)">
+            <summary>
+Assembles the specified file.
+</summary>
+            <param name="path">The path of the file to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+            <summary>
+Assembles the specified file.
+</summary>
+            <param name="path">The path of the file to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble(System.String[],System.Int32,System.Int32)">
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The array containing mnemonics to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The array containing mnemonics to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble(System.String[])">
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The array containing mnemonics to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The array containing mnemonics to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble(System.String,System.Int32,System.Int32)">
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The mnemonics to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The mnemonics to assemble.</param>
+            <param name="memorySize">The memory size allocated for the buffer.</param>
+            <param name="passLimit">The maximum number of pass to perform.</param>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.Assemble(System.String)">
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The mnemonics to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+            <summary>
+Assembles the given mnemonics.
+</summary>
+            <param name="source">The mnemonics to assemble.</param>
+            <remarks>The default memory size used is 4096 bytes and the maximum number of pass is 100.</remarks>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmNet.GetVersion">
+            <summary>
+Gets the version of FASM compiler.
+</summary>
+            <summary>
+Gets the version of FASM compiler.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmNet._passLimit">
+            <summary>
+The maximum number of pass to perform.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmNet._memorySize">
+            <summary>
+The memory size allocated for the buffer.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmNet._mnemonics">
+            <summary>
+The mnemonics inserted by the user.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.FasmNet">
+            <summary>
+The managed wrapper to interfact with FASM compiler.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.NativeFasmState">
+            <summary>
+The following structure resides at the beginning of memory block provided
+to the fasm_Assemble function. The condition field contains the same value
+as the one returned by function.
+
+When function returns FASM_OK condition, the output_length and
+output_data fields are filled - with pointer to generated output
+(somewhere within the provided memory block) and the count of bytes stored
+there.
+
+When function returns FASM_ERROR, the error_code is filled with the
+code of specific error that happened and error_line is a pointer to the
+LINE_HEADER structure, providing information about the line that caused
+the error.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.NativeLineHeader">
+            <summary>
+The following structure has two variants - it either defines the line
+that was loaded directly from source, or the line that was generated by
+macroinstruction. First case has the highest bit of line_number set to 0,
+while the second case has this bit set.
+
+In the first case, the file_path field contains pointer to the path of
+source file (empty string if it's the source that was provided directly to
+fasm_Assemble function), the line_number is the number of line within
+that file (starting from 1) and the file_offset field contains the offset
+within the file where the line starts.
+
+In the second case the macro_calling_line field contains the pointer to
+LINE_HEADER structure for the line which called the macroinstruction, and
+the macro_line field contains the pointer to LINE_HEADER structure for the
+line within the definition of macroinstruction, which generated this one.
+</summary>
+        </member>
+        <member name="M:fasm_GetVersion">
+            <summary>
+The native function to get the version of FASM compiler embedded in Fasm.obj.
+</summary>
+            <returns>The return valus is a double word containg major version in lower 16 bits, and minor version in the higher 16 bits.</returns>
+        </member>
+        <member name="M:Binarysharp.Assemblers.Fasm.FasmAssemblerException.#ctor(Binarysharp.Assemblers.Fasm.FasmErrors,System.Int32,System.Int32,System.String)">
+            <summary>
+Initializes a new instance of the <see cref="T:Binarysharp.Assemblers.Fasm.FasmAssemblerException" /> class.
+</summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorLine">The line where is the error.</param>
+            <param name="errorOffset">The offset within the file where the line starts.</param>
+            <param name="mnemonics">The assembled mnemonics when the error occurred.</param>
+            <summary>
+Initializes a new instance of the <see cref="T:Binarysharp.Assemblers.Fasm.FasmAssemblerException" /> class.
+</summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorLine">The line where is the error.</param>
+            <param name="errorOffset">The offset within the file where the line starts.</param>
+            <param name="mnemonics">The assembled mnemonics when the error occurred.</param>
+        </member>
+        <member name="P:Binarysharp.Assemblers.Fasm.FasmAssemblerException.Mnemonics">
+            <summary>
+The assembled mnemonics when the error occurred.
+</summary>
+        </member>
+        <member name="P:Binarysharp.Assemblers.Fasm.FasmAssemblerException.ErrorOffset">
+            <summary>
+The offset within the file where the line starts.
+</summary>
+        </member>
+        <member name="P:Binarysharp.Assemblers.Fasm.FasmAssemblerException.ErrorLine">
+            <summary>
+The line where is the error.
+</summary>
+        </member>
+        <member name="P:Binarysharp.Assemblers.Fasm.FasmAssemblerException.ErrorCode">
+            <summary>
+The error code.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmAssemblerException._mnemonics">
+            <summary>
+The private field containing the assembled mnemonics when the error occurred.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmAssemblerException._errorOffset">
+            <summary>
+The private field containing the offset within the file where the line starts.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmAssemblerException._errorLine">
+            <summary>
+The private field containing the line where is the error.
+</summary>
+        </member>
+        <member name="F:Binarysharp.Assemblers.Fasm.FasmAssemblerException._errorCode">
+            <summary>
+The private field containing the error code.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.FasmAssemblerException">
+            <summary>
+The exception that is thrown when a FASM compiler error occurs.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.FasmErrors">
+            <summary>
+The enumeration containing all errors of FASM compiler.
+</summary>
+        </member>
+        <member name="T:Binarysharp.Assemblers.Fasm.FasmResults">
+            <summary>
+The enumeration containing all results of FASM compiler.
+</summary>
+        </member>
+        <!-- Discarding badly formed XML document comment for member 'M:fasm_Assemble(System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte*,System.Byte*,System.Int32,System.Int32,System.Void*)'. -->
+    </members>
+</doc>
