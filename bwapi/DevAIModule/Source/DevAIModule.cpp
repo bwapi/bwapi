@@ -40,6 +40,11 @@ void DevAIModule::onEnd(bool isWinner)
 {
 }
 
+char const *bools(bool v)
+{
+  return v ? "true" : "false";
+}
+
 void DevAIModule::onFrame()
 {
   if ( bw->isReplay() ) // ignore everything if in a replay
@@ -50,8 +55,7 @@ void DevAIModule::onFrame()
     Unitset myUnits = bw->getSelectedUnits();
     for ( auto u : myUnits )
     {
-      bool result = bw->canBuildHere(u->getTilePosition(), UnitTypes::Terran_Machine_Shop, u);
-      bw->drawTextMap(u->getPosition(), "%s %s", result ? "true" : "false", bw->getLastError().c_str());
+      bw->drawTextMap(u->getPosition(), "%s %s %s", bools(u->isStartingAttack()), bools(u->isAttacking()), bools(u->isAttackFrame()));
     } // for
   }
 }

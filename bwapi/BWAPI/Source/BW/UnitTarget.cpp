@@ -19,7 +19,7 @@ namespace BW
   {
     u16 unitID = (u16)((target->getOriginalRawData - BWDATA::UnitNodeTable.data()) + 1);
     if (unitID <= UNIT_ARRAY_MAX_LENGTH)
-      this->targetID = unitID | (target->getOriginalRawData->targetOrderSpecial << 11);
+      this->targetID = unitID | (target->getOriginalRawData->uniquenessIdentifier << 11);
     else
       this->targetID = 0;
   }
@@ -27,7 +27,7 @@ namespace BW
   {
     u16 unitID = (u16)((target - BWDATA::UnitNodeTable.data()) + 1);
     if (unitID <= UNIT_ARRAY_MAX_LENGTH)
-      this->targetID = unitID | (target->targetOrderSpecial << 11);
+      this->targetID = unitID | (target->uniquenessIdentifier << 11);
     else
       this->targetID = 0;
   }

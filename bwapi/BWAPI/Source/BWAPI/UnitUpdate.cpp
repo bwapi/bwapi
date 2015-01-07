@@ -144,7 +144,7 @@ namespace BWAPI
       //_getResources
       _getResources = 0;
       if ( _getType.isResourceContainer() )
-        _getResources = o->building.resource.resourceCount;
+        _getResources = o->resource.resourceCount;
 
       hasEmptyBuildQueue = getBuildQueueSlot < 5 ? (getBuildQueue[getBuildQueueSlot] == UnitTypes::None) : false;  //hasEmptyBuildQueue
       _isCompleted = o->statusFlag(BW::StatusFlags::Completed); //_isCompleted
@@ -206,6 +206,7 @@ namespace BWAPI
                            animState == BW::Anims::AirAttkRpt  || 
                            animState == BW::Anims::GndAttkInit ||
                            animState == BW::Anims::AirAttkInit);
+      
       //isAttackFrame
       self->isAttackFrame = false;
       if ( o->sprite && o->sprite->mainGraphic )
@@ -250,7 +251,7 @@ namespace BWAPI
       self->shields             = _getType.maxShields() > 0 ? (int)ceil(o->shieldPoints/256.0) : 0;  //getShields
       self->energy              = _getType.isSpellcaster()  ? (int)ceil(o->energy/256.0)       : 0;  //getEnergy
       self->resources           = _getResources;                        //getResources
-      self->resourceGroup       = _getType.isResourceContainer() ? o->building.resource.resourceGroup : 0; //getResourceGroup
+      self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
       self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
       self->defenseMatrixPoints = o->status.defenseMatrixDamage/256;  //getDefenseMatrixPoints
@@ -356,7 +357,7 @@ namespace BWAPI
       self->nydusExit = -1;
       if ( _getType == UnitTypes::Zerg_Nydus_Canal )
       {
-        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(o->building.nydus.exit);
+        UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(o->nydus.exit);
         if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitType == UnitTypes::Zerg_Nydus_Canal )
           self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
       }
@@ -368,7 +369,7 @@ namespace BWAPI
         self->powerUp = BroodwarImpl.server.getUnitID(powerUp);
 
       self->isAccelerating  = o->movementFlag(BW::MovementFlags::Accelerating);  //isAccelerating
-      self->isBeingGathered = _getType.isResourceContainer() && (o->building.resource.gatherQueueCount || o->building.resource.nextGatherer);  //isBeingGathered
+      self->isBeingGathered = _getType.isResourceContainer() && (o->resource.gatherQueueCount || o->resource.nextGatherer);  //isBeingGathered
       self->isBlind         = o->status.isBlind != 0;   //isBlind
       self->isBraking       = o->movementFlag(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------
@@ -506,7 +507,7 @@ namespace BWAPI
           self->trainingQueue[0]   = UnitTypes::Enum::Terran_Nuclear_Missile;
           self->trainingQueueCount = 1;
         }
-        self->hasNuke = (o->building.silo.bReady != 0);
+        self->hasNuke = (o->silo.bReady != 0);
         break;
       case UnitTypes::Enum::Zerg_Hatchery:
       case UnitTypes::Enum::Zerg_Lair:
