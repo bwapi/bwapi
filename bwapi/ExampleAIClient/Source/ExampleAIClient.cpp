@@ -47,7 +47,7 @@ int main(int argc, const char* argv[])
     Broodwar->enableFlag(Flag::UserInput);
     // Uncomment to enable complete map information
     //Broodwar->enableFlag(Flag::CompleteMapInformation);
-   
+
     show_bullets=false;
     show_visibility_data=false;
 
@@ -115,7 +115,7 @@ int main(int argc, const char* argv[])
             } else if (e->getText()=="/show visibility")
             {
               show_visibility_data=!show_visibility_data;
-            } 
+            }
             else
             {
               Broodwar << "You typed \"" << e->getText() << "\"!" << std::endl;
@@ -217,12 +217,12 @@ void drawStats()
 {
   int line = 0;
   Broodwar->drawTextScreen(5, 0, "I have %d units:", Broodwar->self()->allUnitCount() );
-  for ( UnitType::set::iterator i = UnitTypes::allUnitTypes().begin(); i != UnitTypes::allUnitTypes().end(); ++i )
+  for (auto& unitType : UnitTypes::allUnitTypes())
   {
-    int count = Broodwar->self()->allUnitCount(*i);
+    int count = Broodwar->self()->allUnitCount(unitType);
     if ( count )
     {
-      Broodwar->drawTextScreen(5, 16*line, "- %d %s%c", count, (*i).c_str(), count == 1 ? ' ' : 's');
+      Broodwar->drawTextScreen(5, 16*line, "- %d %s%c", count, unitType.c_str(), count == 1 ? ' ' : 's');
       ++line;
     }
   }
