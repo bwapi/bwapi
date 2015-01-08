@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <string>
+#include <cstdarg>
 
 #include <BWAPI/Interface.h>
 #include <BWAPI/UnitType.h>
