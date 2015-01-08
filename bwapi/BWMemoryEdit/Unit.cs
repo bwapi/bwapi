@@ -27,7 +27,7 @@ namespace BWMemoryEdit
         public Byte flingyMovementType { get { return data.flingyMovementType; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "flingyMovementType").ToInt32(), value); } }
 
         public Byte playerID { get { return data.playerID; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "playerID").ToInt32(), value); } }
-        public Byte orderID { get { return data.orderID; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "orderID").ToInt32(), value); } }
+        public Order orderID { get { return data.orderID; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "orderID").ToInt32(), value); } }
         public Byte orderState { get { return data.orderState; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "orderState").ToInt32(), value); } }
         public Byte orderSignal { get { return data.orderSignal; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "orderSignal").ToInt32(), value); } }
         public UnitType orderUnitType { get { return data.orderUnitType; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "orderUnitType").ToInt32(), value); } }
@@ -53,7 +53,7 @@ namespace BWMemoryEdit
 
         public UInt16 energy { get { return data.energy; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "energy").ToInt32(), value); } }
 
-        public Byte secondaryOrderID { get { return data.secondaryOrderID; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "secondaryOrderID").ToInt32(), value); } }
+        public Order secondaryOrderID { get { return data.secondaryOrderID; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "secondaryOrderID").ToInt32(), value); } }
         public UInt16 _unknown_0x0AA { get { return data._unknown_0x0AA; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "_unknown_0x0AA").ToInt32(), value); } }
 
         [Browsable(false), UnitType(UnitType.Terran_Vulture)]
