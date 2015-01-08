@@ -77,6 +77,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Order.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,9 +85,11 @@
     <Compile Include="PropertyGridInitialExpandedAttribute.cs" />
     <Compile Include="Rect.cs" />
     <Compile Include="Target.cs" />
+    <Compile Include="TechType.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UnitTypeAttribute.cs" />
     <Compile Include="UnitType.cs" />
+    <Compile Include="UpgradeType.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

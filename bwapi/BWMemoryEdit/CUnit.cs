@@ -37,7 +37,7 @@ namespace BWMemoryEdit
         public Byte currentDirection2;
         public Byte velocityDirection2;
         public Byte playerID;
-        public Byte orderID;
+        public Order orderID;
         public Byte orderState;
         public Byte orderSignal;
         public UnitType orderUnitType;
@@ -78,7 +78,7 @@ namespace BWMemoryEdit
         public UInt16 energy;
         public Byte buildQueueSlot;
         public Byte uniquenessIdentifier;
-        public Byte secondaryOrderID;
+        public Order secondaryOrderID;
         public Byte buildingOverlayState;
         public UInt16 hpGainDuringRepair;
         public UInt16 _unknown_0x0AA;
@@ -116,10 +116,10 @@ namespace BWMemoryEdit
             public struct Building
             {
                 public UInt32 addon;
-                public UInt16 addonBuildType;
+                public UnitType addonBuildType;
                 public UInt16 upgradeResearchTime;
-                public Byte techType;
-                public Byte upgradeType;
+                public TechType techType;
+                public UpgradeType upgradeType;
                 public Byte larvaTimer;
                 public Byte landingTimer;
                 public Byte creepTimer;
