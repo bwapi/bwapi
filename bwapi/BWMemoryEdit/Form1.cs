@@ -14,6 +14,8 @@ namespace BWMemoryEdit
 {
     public partial class MainWindow : Form
     {
+        Dictionary<object, String> listItemCache = new Dictionary<object, String>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +38,28 @@ namespace BWMemoryEdit
             editorGrid.SelectedObject = offsetList.SelectedItem;
             editorGrid.ExpandItemWithInitialExpandedAttribute();
             //editorGrid.BrowsableAttributes = new AttributeCollection(new UnitTypeAttribute(UnitType.Terran_Vulture));
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < offsetList.Items.Count; ++i )
+            {
+                object obj = offsetList.Items[i];
+                String newStr = obj.ToString();
+                if (!listItemCache.ContainsKey(obj)) listItemCache.Add(obj, newStr);
+                
+                if (listItemCache[obj].CompareTo(newStr) != 0)
+                {
+                    offsetList.Items[i] = obj;
+                }
+            }
+            editorGrid.Refresh();
+            compareGrid.Refresh();
+        }
+
+        private void compareBtn_Click(object sender, EventArgs e)
+        {
+            compareGrid.SelectedObject = editorGrid.SelectedObject;
         }
     }
 }
