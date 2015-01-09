@@ -186,7 +186,7 @@ namespace BWAPI
     {
       return in >> pt.x >> pt.y;
     };
-    friend std::istream &operator >> (std::wistream &in, Point<T, Scale> &pt)
+    friend std::wistream &operator >> (std::wistream &in, Point<T, Scale> &pt)
     {
       return in >> pt.x >> pt.y;
     };
