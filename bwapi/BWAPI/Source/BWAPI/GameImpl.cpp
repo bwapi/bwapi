@@ -198,7 +198,7 @@ namespace BWAPI
     this->setLastError();
     if ( !data->hasGUI ) return;
 
-    Position scrSize(BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height() + 80);
+    Position scrSize(BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height()-108);
     Position mapSize( TilePosition(Map::getWidth(), Map::getHeight()) );
 
     // Sets the screen's position relative to the map
