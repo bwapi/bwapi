@@ -206,8 +206,8 @@ namespace BWAPI
     SIZE mapTileSize = { Map::getWidth()*32, Map::getHeight()*32 };
     if (x > mapTileSize.cx - scrLimit.right)
       x = mapTileSize.cx - scrLimit.right;
-    if (y > mapTileSize.cy - (scrLimit.bottom + 80))
-      y = mapTileSize.cy - (scrLimit.bottom + 80);
+    if (y > mapTileSize.cy - (scrLimit.bottom - 108))
+      y = mapTileSize.cy - (scrLimit.bottom - 108);
 
     this->setLastError(Errors::None);
     x &= 0xFFFFFFF8;
@@ -216,6 +216,7 @@ namespace BWAPI
     BW::BWDATA_MoveToTile->x = (u16)(x >> 5); //  /32
     *BW::BWDATA_MoveToY = y;
     BW::BWDATA_MoveToTile->y = (u16)(y >> 5); //  /32
+
     BW::BWFXN_UpdateScreenPosition();
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
