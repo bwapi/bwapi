@@ -28,29 +28,29 @@ namespace BWMemoryEdit
                 {
                     IntPtr unitMemory = new IntPtr(0x0059CCA8 + i * 336);
                     Unit unit = new Unit(sharp[sharp.MakeRelative(unitMemory)], i);
-                    offsetList.Items.Add(unit);
+                    unitList.Items.Add(unit);
                 }
             }
         }
 
         private void offsetList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            editorGrid.SelectedObject = offsetList.SelectedItem;
+            editorGrid.SelectedObject = unitList.SelectedItem;
             editorGrid.ExpandItemWithInitialExpandedAttribute();
             //editorGrid.BrowsableAttributes = new AttributeCollection(new UnitTypeAttribute(UnitType.Terran_Vulture));
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < offsetList.Items.Count; ++i )
+            for (int i = 0; i < unitList.Items.Count; ++i )
             {
-                object obj = offsetList.Items[i];
+                object obj = unitList.Items[i];
                 String newStr = obj.ToString();
                 if (!listItemCache.ContainsKey(obj)) listItemCache.Add(obj, newStr);
                 
                 if (listItemCache[obj].CompareTo(newStr) != 0)
                 {
-                    offsetList.Items[i] = obj;
+                    unitList.Items[i] = obj;
                 }
             }
             editorGrid.Refresh();
