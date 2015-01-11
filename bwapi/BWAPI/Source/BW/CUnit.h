@@ -277,7 +277,7 @@ namespace BW
       /*0x11B*/ u8          stormTimer;
       /*0x11C*/ BW::CUnit*  irradiatedBy;
       /*0x120*/ u8          irradiatePlayerID;
-      /*0x121*/ u8          parasiteFlags;
+      /*0x121*/ u8          parasiteFlags;    // bitmask identifying which players have parasited this unit
       /*0x122*/ u8          cycleCounter;     // counts/cycles up from 0 to 7 (inclusive). See also 0x85.
       /*0x123*/ bool        isBlind;
       /*0x124*/ u8          maelstromTimer;

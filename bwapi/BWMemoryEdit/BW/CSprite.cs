@@ -16,7 +16,7 @@ namespace BWMemoryEdit
         public SpriteType type;
         public Byte player;
         public Byte selectionIndex;
-        public Byte visibilityFlags;
+        public PlayerFlags visibilityFlags;
         public Byte elevationLevel;
         public SpriteFlags flags;
         public Byte selectionTimer;

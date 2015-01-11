@@ -146,7 +146,7 @@ namespace BWMemoryEdit
         public Byte pathingFlags { get { return data.pathingFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "pathingFlags").ToInt32(), value); } }
 
         [Category("Status")]
-        public Byte isBeingHealed { get { return data.isBeingHealed; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBeingHealed").ToInt32(), value); } }
+        public Boolean isBeingHealed { get { return data.isBeingHealed; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBeingHealed").ToInt32(), value); } }
         [Category("Pathing")]
         public Rect contourBounds { get { return data.contourBounds; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "contourBounds").ToInt32(), value); } }
 
@@ -173,11 +173,12 @@ namespace BWMemoryEdit
         [Category("Status")]
         public Byte irradiatePlayerID { get { return data.irradiatePlayerID; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "irradiatePlayerID").ToInt32(), value); } }
         [Category("Status")]
-        public Byte parasiteFlags { get { return data.parasiteFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "parasiteFlags").ToInt32(), value); } }
+        [Editor(typeof(Utils.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public PlayerFlags parasiteFlags { get { return data.parasiteFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "parasiteFlags").ToInt32(), (byte)value); } }
         [Category("Status")]
         public Byte cycleCounter { get { return data.cycleCounter; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "cycleCounter").ToInt32(), value); } }
         [Category("Status")]
-        public Byte isBlind { get { return data.isBlind; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBlind").ToInt32(), value); } }
+        public Boolean isBlind { get { return data.isBlind; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBlind").ToInt32(), value); } }
         [Category("Status")]
         public Byte maelstromTimer { get { return data.maelstromTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "maelstromTimer").ToInt32(), value); } }
         [Category("Status")]

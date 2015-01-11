@@ -9,6 +9,7 @@ namespace BWMemoryEdit.Enums
     [Flags]
     public enum ImageFlags : ushort
     {
+        None = 0,
         Redraw      = 0x0001,
         Flipped     = 0x0002,
         Unk_0004    = 0x0004,
