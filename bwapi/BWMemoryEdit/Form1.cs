@@ -38,6 +38,20 @@ namespace BWMemoryEdit
                     Sprite sprite = new Sprite(sharp[sharp.MakeRelative(spriteMem)], i);
                     spriteList.Items.Add(sprite);
                 }
+                // Init images
+                for (int i = 0; i < 5000; ++i)
+                {
+                    IntPtr imageMem = new IntPtr(0x0052F568 + i * 64);
+                    Image image = new Image(sharp[sharp.MakeRelative(imageMem)], i);
+                    imageList.Items.Add(image);
+                }
+                // Hidden images
+                for (int i = 0; i < 80; ++i)
+                {
+                    IntPtr mem = new IntPtr(0x0057D768 + i * 64);
+                    Image image = new Image(sharp[sharp.MakeRelative(mem)], 1000000 + i);
+                    imageList.Items.Add(image);
+                }
             }
         }
 
@@ -73,11 +87,11 @@ namespace BWMemoryEdit
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            refreshListboxNames(unitList);
-            refreshListboxNames(spriteList);
-            refreshListboxNames(imageList);
             if (updateMemCheckbox.Checked)
             {
+                refreshListboxNames(unitList);
+                refreshListboxNames(spriteList);
+                refreshListboxNames(imageList);
                 editorGrid.Refresh();
                 compareGrid.Refresh();
             }

@@ -32,51 +32,60 @@ namespace BW
     grpFrame      *getCurrentFrame() const;
     BW::Position  getPosition() const;
 
-    /* 0x00 */ CImage       *prev;
-    /* 0x04 */ CImage       *next;
-    /* 0x08 */ u16          imageID;        // officially "uwNo"
-    /* 0x0A */ u8           paletteType;    // officially "ubRLE"
-                                            // RLE_SHADOW = 10
-                                            // RLE_HPFLOATDRAW = 11
-                                            // RLE_OUTLINE = 13
-                                            // RLE_PLAYER_SIDE = 14
-    /* 0x0B */ u8           direction;
-    /* 0x0C */ u16          flags;
-                            /*  0x0001  - Redraw
-                                0x0002  - Don't update x?
-                                0x0004  - Don't update y?
-                                0x0008  - 
-                                0x0010  - 
-                                0x0020  - 
-                                0x0040  - Hidden/Invisible (don't draw)
-                                0x0080  - 
-                                0x0100  - 
-                                0x0200  - 
-                                0x0400  - 
-                                0x0800  - 
-                                0x1000  - 
-                                0x2000  - 
-                                0x4000  - 
-                                0x8000  - 
-                            */
-    /* 0x0E */ s8           horizontalOffset;
-    /* 0x0F */ s8           verticalOffset;
-    /* 0x10 */ u16          iscriptHeader;
-    /* 0x12 */ u16          iscriptOffset;
-    /* 0x14 */ u16          unknown_14;
-    /* 0x16 */ u8           anim;
-    /* 0x17 */ u8           wait;       // officially "sleep"?
-    /* 0x18 */ u16          frameSet;
-    /* 0x1A */ u16          frameIndex;
-    /* 0x1C */ BW::Position mapPosition;
-    /* 0x20 */ BW::Position screenPosition;
-    /* 0x24 */ rect         grpBounds;      // Bounds for GRP frame, only different from normal when part of graphic is out of bounds.
-    /* 0x2C */ grpHead      *GRPFile;
-    /* 0x30 */ void         *coloringData;
-    // void __fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
-    /* 0x34 */ void (__fastcall *renderFunction)(int,int,grpFrame*,RECT*,int);    // officially "DrawFunction"
-    /* 0x38 */ void (__fastcall *updateFunction)(CImage*);                        // officially "UpdateFunction"
-    /* 0x3C */ CSprite       *spriteOwner;
+    /*0x00*/ CImage*      prev;
+    /*0x04*/ CImage*      next;
+    /*0x08*/ u16          imageID;        // officially "uwNo"
+    /*0x0A*/ u8           paletteType;    /* officially "ubRLE"
+                                              RLE_NORMAL = 0
+                                              RLE_CLOAK = 5
+                                              RLE_CLOAKED = 6
+                                              RLE_DECLOAK = 7
+                                              RLE_EFFECT = 9
+                                              RLE_SHADOW = 10 (official)
+                                              RLE_HPFLOATDRAW = 11 (official)
+                                              RLE_WARP_IN = 12
+                                              RLE_OUTLINE = 13
+                                              RLE_PLAYER_SIDE = 14 (official)
+                                              RLE_SHIFT = 16
+                                              RLE_FIRE = 17
+                                          */
+    /*0x0B*/ u8           direction;
+    /*0x0C*/ u16          flags;
+                          /*  0x0001  - Redraw
+                              0x0002  - Flipped/Mirrored
+                              0x0004  - 
+                              0x0008  - Has rotation frames
+                              0x0010  - 
+                              0x0020  - Clickable
+                              0x0040  - Hidden/Invisible (don't draw)
+                              0x0080  - 
+                              0x0100  - 
+                              0x0200  - 
+                              0x0400  - 
+                              0x0800  - 
+                              0x1000  - 
+                              0x2000  - 
+                              0x4000  - 
+                              0x8000  - 
+                          */
+    /*0x0E*/ s8           horizontalOffset;
+    /*0x0F*/ s8           verticalOffset;
+    /*0x10*/ u16          iscriptHeader;
+    /*0x12*/ u16          iscriptOffset;
+    /*0x14*/ u16          unknown_14;
+    /*0x16*/ u8           anim;
+    /*0x17*/ u8           sleep;        // iscript sleep time
+    /*0x18*/ u16          frameSet;
+    /*0x1A*/ u16          frameIndex;
+    /*0x1C*/ BW::Position mapPosition;
+    /*0x20*/ BW::Position screenPosition;
+    /*0x24*/ rect         grpBounds;      // Bounds for GRP frame, only different from normal when part of graphic is out of bounds.
+    /*0x2C*/ grpHead*     GRPFile;
+    /*0x30*/ void*        coloringData;
+    //void__fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
+    /*0x34*/ void (__fastcall* renderFunction)(int,int,grpFrame*,RECT*,int);    // officially "DrawFunction"
+    /*0x38*/ void (__fastcall* updateFunction)(CImage*);                        // officially "UpdateFunction"
+    /*0x3C*/ CSprite*     spriteOwner;
 
     ////////////////////////////////////////////////////////////////////
     // Official Broodwar methods (from beta), ignore these
