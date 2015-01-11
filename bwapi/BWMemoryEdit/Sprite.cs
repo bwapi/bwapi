@@ -18,7 +18,7 @@ namespace BWMemoryEdit
         private CSprite data { get { return ptr.Read<CSprite>(); } set { ptr.Write(value); } }
         /*********************************************************************************************************************/
 
-        public SpriteType type { get { return data.type; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "type").ToInt32(), value); } }
+        public SpriteType type { get { return data.type; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "type").ToInt32(), (ushort)value); } }
         public Byte player { get { return data.player; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "player").ToInt32(), value); } }
         public Byte selectionIndex { get { return data.selectionIndex; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "selectionIndex").ToInt32(), value); } }
         public Byte visibilityFlags { get { return data.visibilityFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "visibilityFlags").ToInt32(), value); } }

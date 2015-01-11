@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BWMemoryEdit
 {
-    public enum SpriteType : short
+    public enum SpriteType : ushort
     {
         SPR_2_38_Ash = 0,
         SPR_2_39_Ash,

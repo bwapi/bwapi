@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BWMemoryEdit.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace BWMemoryEdit
         public Target moveTarget;
         public Position nextMovementWaypoint;
         public Position nextTargetWaypoint;
-        public Byte movementFlags;
+        public UnitMovementFlags movementFlags;
         public Byte currentDirection1;
         public Byte flingyTurnRadius;
         public Byte velocityDirection1;
@@ -212,7 +213,7 @@ namespace BWMemoryEdit
 
         public U1 union1;
         public U2 union2;
-        public UInt32 statusFlags;
+        public UnitStatusFlags statusFlags;
         public Byte resourceType;
         public Byte wireframeRandomizer;
         public Byte secondaryOrderState;
