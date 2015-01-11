@@ -44,7 +44,7 @@ namespace BWMemoryEdit
         private void offsetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox list = sender as ListBox;
-            if (list != null)
+            if (list != null && offsetTabs.SelectedTab.Contains(list))
             {
                 editorGrid.SelectedObject = list.SelectedItem;
 
@@ -76,8 +76,11 @@ namespace BWMemoryEdit
             refreshListboxNames(unitList);
             refreshListboxNames(spriteList);
             refreshListboxNames(imageList);
-            editorGrid.Refresh();
-            compareGrid.Refresh();
+            if (updateMemCheckbox.Checked)
+            {
+                editorGrid.Refresh();
+                compareGrid.Refresh();
+            }
         }
 
         private void compareBtn_Click(object sender, EventArgs e)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BWMemoryEdit
 {
-    public enum UnitType : short
+    public enum UnitType : ushort
     {
         Terran_Marine = 0,
         Terran_Ghost,

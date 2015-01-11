@@ -32,6 +32,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.offsetTabs = new System.Windows.Forms.TabControl();
             this.unitTab = new System.Windows.Forms.TabPage();
+            this.unitList = new System.Windows.Forms.ListBox();
             this.spriteTab = new System.Windows.Forms.TabPage();
             this.spriteList = new System.Windows.Forms.ListBox();
             this.imageTab = new System.Windows.Forms.TabPage();
@@ -39,11 +40,11 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.compareBtn = new System.Windows.Forms.Button();
+            this.updateMemCheckbox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.compareGrid = new System.Windows.Forms.PropertyGrid();
             this.editorGrid = new System.Windows.Forms.PropertyGrid();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.unitList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -95,6 +96,16 @@
             this.unitTab.TabIndex = 0;
             this.unitTab.Text = "Units";
             this.unitTab.UseVisualStyleBackColor = true;
+            // 
+            // unitList
+            // 
+            this.unitList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.unitList.FormattingEnabled = true;
+            this.unitList.Location = new System.Drawing.Point(0, 0);
+            this.unitList.Name = "unitList";
+            this.unitList.Size = new System.Drawing.Size(291, 434);
+            this.unitList.TabIndex = 2;
+            this.unitList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // spriteTab
             // 
@@ -156,6 +167,7 @@
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.compareBtn);
+            this.flowLayoutPanel1.Controls.Add(this.updateMemCheckbox);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -173,6 +185,18 @@
             this.compareBtn.Text = "Compare";
             this.compareBtn.UseVisualStyleBackColor = true;
             this.compareBtn.Click += new System.EventHandler(this.compareBtn_Click);
+            // 
+            // updateMemCheckbox
+            // 
+            this.updateMemCheckbox.AutoSize = true;
+            this.updateMemCheckbox.Checked = true;
+            this.updateMemCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.updateMemCheckbox.Location = new System.Drawing.Point(68, 3);
+            this.updateMemCheckbox.Name = "updateMemCheckbox";
+            this.updateMemCheckbox.Size = new System.Drawing.Size(101, 17);
+            this.updateMemCheckbox.TabIndex = 1;
+            this.updateMemCheckbox.Text = "Update Memory";
+            this.updateMemCheckbox.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -214,16 +238,6 @@
             this.timer.Enabled = true;
             this.timer.Interval = 40;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // unitList
-            // 
-            this.unitList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.unitList.FormattingEnabled = true;
-            this.unitList.Location = new System.Drawing.Point(0, 0);
-            this.unitList.Name = "unitList";
-            this.unitList.Size = new System.Drawing.Size(291, 434);
-            this.unitList.TabIndex = 2;
-            this.unitList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // MainWindow
             // 
@@ -267,6 +281,7 @@
         private System.Windows.Forms.TabPage imageTab;
         private System.Windows.Forms.ListBox imageList;
         private System.Windows.Forms.ListBox unitList;
+        private System.Windows.Forms.CheckBox updateMemCheckbox;
     }
 }
 
