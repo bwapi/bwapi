@@ -12,8 +12,8 @@ namespace BWMemoryEdit
     [StructLayout(LayoutKind.Sequential)]
     public struct Position
     {
-        public UInt16 x { get; set; }
-        public UInt16 y { get; set; }
+        public Int16 x { get; set; }
+        public Int16 y { get; set; }
 
         public override string ToString()
         {

@@ -15,7 +15,7 @@ namespace BW
     /*0x08*/ u16        spriteID;
     /*0x0A*/ u8         playerID;      // officially "creator"
     /*0x0B*/ u8         selectionIndex; //0 <= selectionIndex <= 11. Index in the selection area at bottom of screen.
-    /*0x0C*/ u8         visibilityFlags;
+    /*0x0C*/ u8         visibilityFlags;  // Player bits indicating the visibility for a player
     /*0x0D*/ u8         elevationLevel;
     /*0x0E*/ u8         flags; 
                         /*   0x01  Draw selection circle.

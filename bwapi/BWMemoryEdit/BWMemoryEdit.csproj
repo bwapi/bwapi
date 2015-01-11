@@ -73,7 +73,9 @@
     <Compile Include="BW\CImage.cs" />
     <Compile Include="BW\CSprite.cs" />
     <Compile Include="BW\CUnit.cs" />
+    <Compile Include="BW\LongPosition.cs" />
     <Compile Include="Enums\AnimType.cs" />
+    <Compile Include="Enums\FlingyType.cs" />
     <Compile Include="Enums\ImageType.cs" />
     <Compile Include="Enums\RLE.cs" />
     <Compile Include="Enums\ImageFlags.cs" />

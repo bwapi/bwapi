@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BWMemoryEdit.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace BWMemoryEdit
         public Byte selectionIndex;
         public Byte visibilityFlags;
         public Byte elevationLevel;
-        public Byte flags;
+        public SpriteFlags flags;
         public Byte selectionTimer;
         public UInt16 index;
         public Byte unkflags_12;
