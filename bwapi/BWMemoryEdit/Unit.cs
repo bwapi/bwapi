@@ -130,7 +130,7 @@ namespace BWMemoryEdit
         [Editor(typeof(Utils.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public UnitStatusFlags statusFlags { get { return data.statusFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "statusFlags").ToInt32(), (uint)value); } }
 
-        public Byte resourceType { get { return data.resourceType; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "resourceType").ToInt32(), value); } }
+        public ResourceType resourceType { get { return data.resourceType; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "resourceType").ToInt32(), (byte)value); } }
         public Byte wireframeRandomizer { get { return data.wireframeRandomizer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "wireframeRandomizer").ToInt32(), value); } }
 
         [Category("SecondaryOrder")]
@@ -145,25 +145,42 @@ namespace BWMemoryEdit
         [Category("Pathing")]
         public Byte pathingFlags { get { return data.pathingFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "pathingFlags").ToInt32(), value); } }
 
+        [Category("Status")]
         public Byte isBeingHealed { get { return data.isBeingHealed; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBeingHealed").ToInt32(), value); } }
         [Category("Pathing")]
         public Rect contourBounds { get { return data.contourBounds; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "contourBounds").ToInt32(), value); } }
 
+        [Category("Status")]
         public UInt16 removeTimer { get { return data.removeTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "removeTimer").ToInt32(), value); } }
+        [Category("Status")]
         public UInt16 defenseMatrixDamage { get { return data.defenseMatrixDamage; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "defenseMatrixDamage").ToInt32(), value); } }
+        [Category("Status")]
         public Byte defenseMatrixTimer { get { return data.defenseMatrixTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "defenseMatrixTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte stimTimer { get { return data.stimTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "stimTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte ensnareTimer { get { return data.ensnareTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "ensnareTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte lockdownTimer { get { return data.lockdownTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "lockdownTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte irradiateTimer { get { return data.irradiateTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "irradiateTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte stasisTimer { get { return data.stasisTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "stasisTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte plagueTimer { get { return data.plagueTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "plagueTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte stormTimer { get { return data.stormTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "stormTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte irradiatePlayerID { get { return data.irradiatePlayerID; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "irradiatePlayerID").ToInt32(), value); } }
+        [Category("Status")]
         public Byte parasiteFlags { get { return data.parasiteFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "parasiteFlags").ToInt32(), value); } }
+        [Category("Status")]
         public Byte cycleCounter { get { return data.cycleCounter; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "cycleCounter").ToInt32(), value); } }
+        [Category("Status")]
         public Byte isBlind { get { return data.isBlind; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBlind").ToInt32(), value); } }
+        [Category("Status")]
         public Byte maelstromTimer { get { return data.maelstromTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "maelstromTimer").ToInt32(), value); } }
+        [Category("Status")]
         public Byte acidSporeCount { get { return data.acidSporeCount; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "acidSporeCount").ToInt32(), value); } }
 
         public UInt16 bulletBehaviour3by3AttackSequence { get { return data.bulletBehaviour3by3AttackSequence; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "bulletBehaviour3by3AttackSequence").ToInt32(), value); } }
