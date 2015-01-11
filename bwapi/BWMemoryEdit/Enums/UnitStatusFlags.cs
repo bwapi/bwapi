@@ -9,6 +9,7 @@ namespace BWMemoryEdit.Enums
     [Flags]
     public enum UnitStatusFlags : uint
     {
+        None = 0,
         Completed           = 0x00000001,
         GoundedBuilding     = 0x00000002,
         InAir               = 0x00000004,

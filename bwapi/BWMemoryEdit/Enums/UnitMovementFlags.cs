@@ -9,6 +9,7 @@ namespace BWMemoryEdit.Enums
     [Flags]
     public enum UnitMovementFlags : byte
     {
+        None = 0,
         OrderedAtLeastOnce  = 0x01,
         Accelerating        = 0x02,
         Braking             = 0x04,

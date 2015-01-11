@@ -9,6 +9,7 @@ namespace BWMemoryEdit.Enums
     [Flags]
     public enum SpriteFlags : byte
     {
+        None = 0,
         ShowSelectionCircle = 0x01,
         Unk02 = 0x02,
         Unk04 = 0x04,

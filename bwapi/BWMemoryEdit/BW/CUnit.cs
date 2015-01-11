@@ -247,7 +247,7 @@ namespace BWMemoryEdit
         public Byte pathingCollisionInterval;
         public Byte pathingFlags;
         public Byte _unused_0x106;
-        public Byte isBeingHealed;
+        public Boolean isBeingHealed;
         public Rect contourBounds;
         public UInt16 removeTimer;
         public UInt16 defenseMatrixDamage;
@@ -261,9 +261,9 @@ namespace BWMemoryEdit
         public Byte stormTimer;
         public UInt32 irradiatedBy;
         public Byte irradiatePlayerID;
-        public Byte parasiteFlags;
+        public PlayerFlags parasiteFlags;
         public Byte cycleCounter;
-        public Byte isBlind;
+        public Boolean isBlind;
         public Byte maelstromTimer;
         public Byte _unused_0x125;
         public Byte acidSporeCount;
