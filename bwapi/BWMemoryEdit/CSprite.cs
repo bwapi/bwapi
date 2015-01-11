@@ -19,7 +19,9 @@ namespace BWMemoryEdit
         public Byte elevationLevel;
         public Byte flags;
         public Byte selectionTimer;
-        public UInt32 index;
+        public UInt16 index;
+        public Byte unkflags_12;
+        public Byte unkflags_13;
         public Position position;
         public UInt32 mainGraphic;
         public UInt32 underlay;

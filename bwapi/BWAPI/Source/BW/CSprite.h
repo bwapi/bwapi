@@ -28,7 +28,9 @@ namespace BW
                              0x80  Iscript unbreakable code section.
                         */
     /*0x0F*/ u8         selectionTimer;
-    /*0x10*/ u32        index;
+    /*0x10*/ u16        index;
+    /*0x12*/ u8         unkflags_12;
+    /*0x13*/ u8         unkflags_13;
     /*0x14*/ Position   position;
     /*0x18*/ CImage*    mainGraphic;    // officially "pImagePrimary"
     /*0x1C*/ CImage*    underlay;       // officially "pImageHead"
