@@ -73,7 +73,7 @@ namespace BWMemoryEdit
         public Byte userActionFlags;
         public UInt16 currentButtonSet;
         public Byte isCloaked;
-        public Byte movementState;
+        public UnitMovement movementState;
         public fixed UInt16 buildQueue[5];
         public UInt16 energy;
         public Byte buildQueueSlot;

@@ -13,7 +13,7 @@ namespace BW
   struct Target
   {
     BW::Position  pt;       // official name
-    CUnit         *pUnit;
+    CUnit*        pUnit;
   };
 
 }
