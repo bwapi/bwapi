@@ -1,4 +1,5 @@
 ﻿using Binarysharp.MemoryManagement.Memory;
+using BWMemoryEdit.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace BWMemoryEdit
         public Byte selectionIndex { get { return data.selectionIndex; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "selectionIndex").ToInt32(), value); } }
         public Byte visibilityFlags { get { return data.visibilityFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "visibilityFlags").ToInt32(), value); } }
         public Byte elevationLevel { get { return data.elevationLevel; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "elevationLevel").ToInt32(), value); } }
-        public Byte flags { get { return data.flags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "flags").ToInt32(), value); } }
+        public SpriteFlags flags { get { return data.flags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "flags").ToInt32(), (byte)value); } }
         public Byte selectionTimer { get { return data.selectionTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "selectionTimer").ToInt32(), value); } }
         public UInt16 index { get { return data.index; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "index").ToInt32(), value); } }
         public Byte unkflags_12 { get { return data.unkflags_12; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "unkflags_12").ToInt32(), value); } }

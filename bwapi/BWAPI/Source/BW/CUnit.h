@@ -116,7 +116,7 @@ namespace BW
     /*0x085*/ u8          orderQueueTimer;      // counts/cycles down from from 8 to 0 (inclusive). See also 0x122.
     /*0x086*/ u8          _unknown_0x086;       // pathing related?
     /*0x087*/ u8          attackNotifyTimer;    // Prevent "Your forces are under attack." on every attack
-    /*0x088*/ u16         displayedUnitID;
+    /*0x088*/ u16         previousUnitType;     // Stores the type of the unit prior to being morphed/constructed
     /*0x08A*/ u8          lastEventTimer;       // countdown that stops being recent when it hits 0 
     /*0x08B*/ u8          lastEventColor;       // 17 = was completed (train, morph), 174 = was attacked
     /*0x08C*/ u16         _unused_0x08C;        // might have originally been RGB from lastEventColor
@@ -137,8 +137,8 @@ namespace BW
     /*0x0A5*/ u8          uniquenessIdentifier;   //< A byte used to determine uniqueness of the unit
     /*0x0A6*/ u8          secondaryOrderID;       //< (Build addon verified) @todo verify (Cloak, Build, ExpandCreep suggested by EUDDB) 
     /*0x0A7*/ u8          buildingOverlayState;   // 0 means the building has the largest amount of fire/blood
-    /*0x0A8*/ u16         hpGainDuringRepair;     //< @todo Verify 
-    /*0x0AA*/ u16         _unknown_0x0AA;
+    /*0x0A8*/ u16         hpGain;                 //< hp gained on construction or repair
+    /*0x0AA*/ u16         shieldGain;             //< Shield gain on construction
     /*0x0AC*/ u16         remainingBuildTime;     //< Remaining bulding time; This is also the timer for powerups (flags) to return to their original location.
     /*0x0AE*/ u16         previousHP;             // The HP of the unit before it changed (example Drone->Hatchery, the Drone's HP will be stored here)
     /*0x0B0*/ u16         loadedUnitIndex[8];     // officially called "uwTransport[8]"
@@ -238,9 +238,8 @@ namespace BW
     /*0x0E3*/ u8        recentOrderTimer;     // Counts down from 15 to 0 when most orders are given,
                                               // or when the unit moves after reaching a patrol location
     /*0x0E4*/ s32       visibilityStatus;     // Flags specifying which players can detect this unit (cloaked/burrowed)
-    /*0x0E8*/ u16       _unknown_0x0E8;       // Secondary order related (x?)
-    /*0x0EA*/ u16       _unknown_0x0EA;       // Secondary order related (y?)
-    /*0x0EC*/ BW::CUnit* currentBuildUnit;
+    /*0x0E8*/ BW::Position secondaryOrderPosition;       // unused
+    /*0x0EC*/ BW::CUnit* currentBuildUnit;    // tied to secondary order
     // CLink<CUnit> burrow_link;
     /*0x0F0*/ BW::CUnit* previousBurrowedUnit;
     /*0x0F4*/ BW::CUnit* nextBurrowedUnit;
