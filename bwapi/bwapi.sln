@@ -243,8 +243,10 @@ Global
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.Build.0 = Release|Win32
 		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug_Pipeline|Win32.ActiveCfg = Debug|Any CPU
 		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug|Win32.Build.0 = Debug|Any CPU
 		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release_Pipeline|Win32.ActiveCfg = Release|Any CPU
 		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release|Win32.ActiveCfg = Release|Any CPU
+		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release|Win32.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
