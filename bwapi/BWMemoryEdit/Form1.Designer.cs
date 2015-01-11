@@ -30,6 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.offsetTabs = new System.Windows.Forms.TabControl();
+            this.unitTab = new System.Windows.Forms.TabPage();
+            this.spriteTab = new System.Windows.Forms.TabPage();
+            this.spriteList = new System.Windows.Forms.ListBox();
+            this.imageTab = new System.Windows.Forms.TabPage();
+            this.imageList = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.compareBtn = new System.Windows.Forms.Button();
@@ -37,24 +43,18 @@
             this.compareGrid = new System.Windows.Forms.PropertyGrid();
             this.editorGrid = new System.Windows.Forms.PropertyGrid();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.offsetTabs = new System.Windows.Forms.TabControl();
-            this.unitTab = new System.Windows.Forms.TabPage();
-            this.spriteTab = new System.Windows.Forms.TabPage();
             this.unitList = new System.Windows.Forms.ListBox();
-            this.spriteList = new System.Windows.Forms.ListBox();
-            this.imageTab = new System.Windows.Forms.TabPage();
-            this.imageList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.offsetTabs.SuspendLayout();
             this.unitTab.SuspendLayout();
             this.spriteTab.SuspendLayout();
             this.imageTab.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -73,6 +73,68 @@
             this.splitContainer1.Size = new System.Drawing.Size(974, 460);
             this.splitContainer1.SplitterDistance = 299;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // offsetTabs
+            // 
+            this.offsetTabs.Controls.Add(this.unitTab);
+            this.offsetTabs.Controls.Add(this.spriteTab);
+            this.offsetTabs.Controls.Add(this.imageTab);
+            this.offsetTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.offsetTabs.Location = new System.Drawing.Point(0, 0);
+            this.offsetTabs.Name = "offsetTabs";
+            this.offsetTabs.SelectedIndex = 0;
+            this.offsetTabs.Size = new System.Drawing.Size(299, 460);
+            this.offsetTabs.TabIndex = 0;
+            // 
+            // unitTab
+            // 
+            this.unitTab.Controls.Add(this.unitList);
+            this.unitTab.Location = new System.Drawing.Point(4, 22);
+            this.unitTab.Name = "unitTab";
+            this.unitTab.Size = new System.Drawing.Size(291, 434);
+            this.unitTab.TabIndex = 0;
+            this.unitTab.Text = "Units";
+            this.unitTab.UseVisualStyleBackColor = true;
+            // 
+            // spriteTab
+            // 
+            this.spriteTab.Controls.Add(this.spriteList);
+            this.spriteTab.Location = new System.Drawing.Point(4, 22);
+            this.spriteTab.Name = "spriteTab";
+            this.spriteTab.Size = new System.Drawing.Size(291, 434);
+            this.spriteTab.TabIndex = 1;
+            this.spriteTab.Text = "Sprites";
+            this.spriteTab.UseVisualStyleBackColor = true;
+            // 
+            // spriteList
+            // 
+            this.spriteList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spriteList.FormattingEnabled = true;
+            this.spriteList.Location = new System.Drawing.Point(0, 0);
+            this.spriteList.Name = "spriteList";
+            this.spriteList.Size = new System.Drawing.Size(291, 434);
+            this.spriteList.TabIndex = 2;
+            this.spriteList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
+            // 
+            // imageTab
+            // 
+            this.imageTab.Controls.Add(this.imageList);
+            this.imageTab.Location = new System.Drawing.Point(4, 22);
+            this.imageTab.Name = "imageTab";
+            this.imageTab.Size = new System.Drawing.Size(291, 434);
+            this.imageTab.TabIndex = 2;
+            this.imageTab.Text = "Images";
+            this.imageTab.UseVisualStyleBackColor = true;
+            // 
+            // imageList
+            // 
+            this.imageList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageList.FormattingEnabled = true;
+            this.imageList.Location = new System.Drawing.Point(0, 0);
+            this.imageList.Name = "imageList";
+            this.imageList.Size = new System.Drawing.Size(291, 434);
+            this.imageList.TabIndex = 3;
+            this.imageList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -153,77 +215,15 @@
             this.timer.Interval = 40;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // offsetTabs
-            // 
-            this.offsetTabs.Controls.Add(this.unitTab);
-            this.offsetTabs.Controls.Add(this.spriteTab);
-            this.offsetTabs.Controls.Add(this.imageTab);
-            this.offsetTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.offsetTabs.Location = new System.Drawing.Point(0, 0);
-            this.offsetTabs.Name = "offsetTabs";
-            this.offsetTabs.SelectedIndex = 0;
-            this.offsetTabs.Size = new System.Drawing.Size(299, 460);
-            this.offsetTabs.TabIndex = 0;
-            // 
-            // unitTab
-            // 
-            this.unitTab.Controls.Add(this.unitList);
-            this.unitTab.Location = new System.Drawing.Point(4, 22);
-            this.unitTab.Name = "unitTab";
-            this.unitTab.Padding = new System.Windows.Forms.Padding(3);
-            this.unitTab.Size = new System.Drawing.Size(291, 434);
-            this.unitTab.TabIndex = 0;
-            this.unitTab.Text = "Units";
-            this.unitTab.UseVisualStyleBackColor = true;
-            // 
-            // spriteTab
-            // 
-            this.spriteTab.Controls.Add(this.spriteList);
-            this.spriteTab.Location = new System.Drawing.Point(4, 22);
-            this.spriteTab.Name = "spriteTab";
-            this.spriteTab.Padding = new System.Windows.Forms.Padding(3);
-            this.spriteTab.Size = new System.Drawing.Size(291, 434);
-            this.spriteTab.TabIndex = 1;
-            this.spriteTab.Text = "Sprites";
-            this.spriteTab.UseVisualStyleBackColor = true;
-            // 
             // unitList
             // 
             this.unitList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.unitList.FormattingEnabled = true;
-            this.unitList.Location = new System.Drawing.Point(3, 3);
+            this.unitList.Location = new System.Drawing.Point(0, 0);
             this.unitList.Name = "unitList";
-            this.unitList.Size = new System.Drawing.Size(285, 428);
-            this.unitList.TabIndex = 1;
-            // 
-            // spriteList
-            // 
-            this.spriteList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spriteList.FormattingEnabled = true;
-            this.spriteList.Location = new System.Drawing.Point(3, 3);
-            this.spriteList.Name = "spriteList";
-            this.spriteList.Size = new System.Drawing.Size(285, 428);
-            this.spriteList.TabIndex = 2;
-            // 
-            // imageTab
-            // 
-            this.imageTab.Controls.Add(this.imageList);
-            this.imageTab.Location = new System.Drawing.Point(4, 22);
-            this.imageTab.Name = "imageTab";
-            this.imageTab.Padding = new System.Windows.Forms.Padding(3);
-            this.imageTab.Size = new System.Drawing.Size(291, 434);
-            this.imageTab.TabIndex = 2;
-            this.imageTab.Text = "Images";
-            this.imageTab.UseVisualStyleBackColor = true;
-            // 
-            // imageList
-            // 
-            this.imageList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageList.FormattingEnabled = true;
-            this.imageList.Location = new System.Drawing.Point(3, 3);
-            this.imageList.Name = "imageList";
-            this.imageList.Size = new System.Drawing.Size(285, 428);
-            this.imageList.TabIndex = 3;
+            this.unitList.Size = new System.Drawing.Size(291, 434);
+            this.unitList.TabIndex = 2;
+            this.unitList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // MainWindow
             // 
@@ -237,15 +237,15 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.offsetTabs.ResumeLayout(false);
+            this.unitTab.ResumeLayout(false);
+            this.spriteTab.ResumeLayout(false);
+            this.imageTab.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.offsetTabs.ResumeLayout(false);
-            this.unitTab.ResumeLayout(false);
-            this.spriteTab.ResumeLayout(false);
-            this.imageTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -262,11 +262,11 @@
         private System.Windows.Forms.PropertyGrid compareGrid;
         private System.Windows.Forms.TabControl offsetTabs;
         private System.Windows.Forms.TabPage unitTab;
-        private System.Windows.Forms.ListBox unitList;
         private System.Windows.Forms.TabPage spriteTab;
         private System.Windows.Forms.ListBox spriteList;
         private System.Windows.Forms.TabPage imageTab;
         private System.Windows.Forms.ListBox imageList;
+        private System.Windows.Forms.ListBox unitList;
     }
 }
 

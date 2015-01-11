@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSprite.cs" />
     <Compile Include="CUnit.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -84,6 +85,8 @@
     <Compile Include="PropertyGridExtension.cs" />
     <Compile Include="PropertyGridInitialExpandedAttribute.cs" />
     <Compile Include="Rect.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteType.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="TechType.cs" />
     <Compile Include="Unit.cs" />

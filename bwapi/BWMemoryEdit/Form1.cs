@@ -14,7 +14,7 @@ namespace BWMemoryEdit
 {
     public partial class MainWindow : Form
     {
-        Dictionary<object, String> listItemCache = new Dictionary<object, String>();
+        private Dictionary<object, Dictionary<object, String>> listItemNameCache = new Dictionary<object, Dictionary<object, String>>();
 
         public MainWindow()
         {
@@ -24,35 +24,58 @@ namespace BWMemoryEdit
             if (processes.Length > 0)
             {
                 MemorySharp sharp = new MemorySharp(processes[0]);
+                // Init units
                 for (int i = 0; i < 1700; ++i)
                 {
                     IntPtr unitMemory = new IntPtr(0x0059CCA8 + i * 336);
                     Unit unit = new Unit(sharp[sharp.MakeRelative(unitMemory)], i);
                     unitList.Items.Add(unit);
                 }
+                // Init sprites
+                for (int i = 0; i < 2500; ++i)
+                {
+                    IntPtr spriteMem = new IntPtr(0x00629D98 + i * 36);
+                    Sprite sprite = new Sprite(sharp[sharp.MakeRelative(spriteMem)], i);
+                    spriteList.Items.Add(sprite);
+                }
             }
         }
 
         private void offsetList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            editorGrid.SelectedObject = unitList.SelectedItem;
-            editorGrid.ExpandItemWithInitialExpandedAttribute();
-            //editorGrid.BrowsableAttributes = new AttributeCollection(new UnitTypeAttribute(UnitType.Terran_Vulture));
+            ListBox list = sender as ListBox;
+            if (list != null)
+            {
+                editorGrid.SelectedObject = list.SelectedItem;
+
+                //editorGrid.ExpandItemWithInitialExpandedAttribute();
+                //editorGrid.BrowsableAttributes = new AttributeCollection(new UnitTypeAttribute(UnitType.Terran_Vulture));
+            }
+        }
+
+        private void refreshListboxNames(ListBox list)
+        {
+            if (!listItemNameCache.ContainsKey(list)) listItemNameCache.Add(list, new Dictionary<object,String>());
+
+            Dictionary<object, String> itemCache = listItemNameCache[list];
+            for (int i = 0; i < list.Items.Count; ++i)
+            {
+                object item = list.Items[i];
+                String newStr = item.ToString();
+
+                if (!itemCache.ContainsKey(item)) itemCache.Add(item, newStr);
+                if (itemCache[item].CompareTo(newStr) != 0)
+                {
+                    list.Items[i] = item;
+                }
+            }
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < unitList.Items.Count; ++i )
-            {
-                object obj = unitList.Items[i];
-                String newStr = obj.ToString();
-                if (!listItemCache.ContainsKey(obj)) listItemCache.Add(obj, newStr);
-                
-                if (listItemCache[obj].CompareTo(newStr) != 0)
-                {
-                    unitList.Items[i] = obj;
-                }
-            }
+            refreshListboxNames(unitList);
+            refreshListboxNames(spriteList);
+            refreshListboxNames(imageList);
             editorGrid.Refresh();
             compareGrid.Refresh();
         }
