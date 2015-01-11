@@ -213,7 +213,7 @@ namespace BWMemoryEdit
         public U1 union1;
         public U2 union2;
         public UnitStatusFlags statusFlags;
-        public Byte resourceType;
+        public ResourceType resourceType;
         public Byte wireframeRandomizer;
         public Byte secondaryOrderState;
         public Byte recentOrderTimer;
