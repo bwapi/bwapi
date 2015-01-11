@@ -87,6 +87,7 @@
     <Compile Include="Target.cs" />
     <Compile Include="TechType.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="UnitMovement.cs" />
     <Compile Include="UnitTypeAttribute.cs" />
     <Compile Include="UnitType.cs" />
     <Compile Include="UpgradeType.cs" />

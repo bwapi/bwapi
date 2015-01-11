@@ -49,7 +49,7 @@ namespace BWMemoryEdit
         public Byte AIActionFlag { get { return data.AIActionFlag; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "AIActionFlag").ToInt32(), value); } }
         public Byte userActionFlags { get { return data.userActionFlags; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "userActionFlags").ToInt32(), value); } }
 
-        public Byte movementState { get { return data.movementState; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "movementState").ToInt32(), value); } }
+        public UnitMovement movementState { get { return data.movementState; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "movementState").ToInt32(), value); } }
 
         public UInt16 energy { get { return data.energy; } set { unitPtr.Write(Marshal.OffsetOf(data.GetType(), "energy").ToInt32(), value); } }
 

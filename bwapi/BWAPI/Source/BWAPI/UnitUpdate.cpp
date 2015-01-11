@@ -383,7 +383,7 @@ namespace BWAPI
       self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
       self->isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
       self->isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
-      self->isStuck         = o->movementState == UM_MoveToLegal;
+      self->isStuck         = o->movementState == BW::UM_MoveToLegal;
       self->isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
       self->isInvincible    = o->statusFlag(BW::StatusFlags::Invincible); //isInvincible
       self->buttonset       = o->currentButtonSet;

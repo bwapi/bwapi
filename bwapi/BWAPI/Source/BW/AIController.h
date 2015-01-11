@@ -77,7 +77,7 @@ namespace BW
     T *last;
   };
 
-#define MAX_BUILD_LIST 100
+  const int MAX_BUILD_LIST = 100;
 
   struct townQueueEntry
   {
@@ -108,11 +108,14 @@ namespace BW
     townQueueEntry townQueue[MAX_BUILD_LIST];
   };
 
-#define AI_NONE     0
-#define AI_GUARD    1
-#define AI_PEON     2
-#define AI_BLDG     3
-#define AI_SOLDIER  4
+  enum ControllerType : u8
+  {
+    AI_NONE = 0,
+    AI_GUARD,
+    AI_PEON,
+    AI_BLDG,
+    AI_SOLDIER
+  };
 
 /*
 TYPE_CAPTAIN  1
@@ -134,7 +137,7 @@ DO_TECH   2
     /* 0x00 */ CAIController *prev;
     /* 0x04 */ CAIController *next;
     
-    /* 0x08 */ BYTE bType;
+    /* 0x08 */ ControllerType bType;
     /*    guard = 1,
           worker = 2,
           task = 3,
