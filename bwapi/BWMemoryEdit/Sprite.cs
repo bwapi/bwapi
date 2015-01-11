@@ -25,7 +25,9 @@ namespace BWMemoryEdit
         public Byte elevationLevel { get { return data.elevationLevel; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "elevationLevel").ToInt32(), value); } }
         public Byte flags { get { return data.flags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "flags").ToInt32(), value); } }
         public Byte selectionTimer { get { return data.selectionTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "selectionTimer").ToInt32(), value); } }
-        public UInt32 index { get { return data.index; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "index").ToInt32(), value); } }
+        public UInt16 index { get { return data.index; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "index").ToInt32(), value); } }
+        public Byte unkflags_12 { get { return data.unkflags_12; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "unkflags_12").ToInt32(), value); } }
+        public Byte unkflags_13 { get { return data.unkflags_13; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "unkflags_13").ToInt32(), value); } }
         public Position position { get { return data.position; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "position").ToInt32(), value); } }
 
         /*********************************************************************************************************************/
