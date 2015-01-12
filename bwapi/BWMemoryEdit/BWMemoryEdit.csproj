@@ -86,6 +86,7 @@
     <Compile Include="Enums\SpriteFlags.cs" />
     <Compile Include="Enums\UnitMovementFlags.cs" />
     <Compile Include="Enums\UnitStatusFlags.cs" />
+    <Compile Include="ItemController.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
