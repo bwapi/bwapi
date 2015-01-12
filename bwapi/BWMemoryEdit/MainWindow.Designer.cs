@@ -39,6 +39,8 @@
             this.imageList = new System.Windows.Forms.ListBox();
             this.extraImageTab = new System.Windows.Forms.TabPage();
             this.extraImageList = new System.Windows.Forms.ListBox();
+            this.hpImageTab = new System.Windows.Forms.TabPage();
+            this.hpImageList = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.compareBtn = new System.Windows.Forms.Button();
@@ -56,6 +58,7 @@
             this.spriteTab.SuspendLayout();
             this.imageTab.SuspendLayout();
             this.extraImageTab.SuspendLayout();
+            this.hpImageTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -84,8 +87,11 @@
             this.offsetTabs.Controls.Add(this.spriteTab);
             this.offsetTabs.Controls.Add(this.imageTab);
             this.offsetTabs.Controls.Add(this.extraImageTab);
+            this.offsetTabs.Controls.Add(this.hpImageTab);
             this.offsetTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.offsetTabs.HotTrack = true;
             this.offsetTabs.Location = new System.Drawing.Point(0, 0);
+            this.offsetTabs.Multiline = true;
             this.offsetTabs.Name = "offsetTabs";
             this.offsetTabs.SelectedIndex = 0;
             this.offsetTabs.Size = new System.Drawing.Size(299, 460);
@@ -171,6 +177,27 @@
             this.extraImageList.Size = new System.Drawing.Size(285, 428);
             this.extraImageList.TabIndex = 4;
             this.extraImageList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
+            // 
+            // hpImageTab
+            // 
+            this.hpImageTab.Controls.Add(this.hpImageList);
+            this.hpImageTab.Location = new System.Drawing.Point(4, 22);
+            this.hpImageTab.Name = "hpImageTab";
+            this.hpImageTab.Padding = new System.Windows.Forms.Padding(3);
+            this.hpImageTab.Size = new System.Drawing.Size(291, 434);
+            this.hpImageTab.TabIndex = 4;
+            this.hpImageTab.Text = "HP Images";
+            this.hpImageTab.UseVisualStyleBackColor = true;
+            // 
+            // hpImageList
+            // 
+            this.hpImageList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hpImageList.FormattingEnabled = true;
+            this.hpImageList.Location = new System.Drawing.Point(3, 3);
+            this.hpImageList.Name = "hpImageList";
+            this.hpImageList.Size = new System.Drawing.Size(285, 428);
+            this.hpImageList.TabIndex = 5;
+            this.hpImageList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -283,6 +310,7 @@
             this.spriteTab.ResumeLayout(false);
             this.imageTab.ResumeLayout(false);
             this.extraImageTab.ResumeLayout(false);
+            this.hpImageTab.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -300,9 +328,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button compareBtn;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PropertyGrid editorGrid;
         private System.Windows.Forms.PropertyGrid compareGrid;
-        private System.Windows.Forms.TabControl offsetTabs;
         private System.Windows.Forms.TabPage unitTab;
         private System.Windows.Forms.TabPage spriteTab;
         private System.Windows.Forms.ListBox spriteList;
@@ -312,6 +338,10 @@
         private System.Windows.Forms.CheckBox updateMemCheckbox;
         private System.Windows.Forms.TabPage extraImageTab;
         private System.Windows.Forms.ListBox extraImageList;
+        private System.Windows.Forms.TabPage hpImageTab;
+        private System.Windows.Forms.ListBox hpImageList;
+        public System.Windows.Forms.PropertyGrid editorGrid;
+        public System.Windows.Forms.TabControl offsetTabs;
     }
 }
 
