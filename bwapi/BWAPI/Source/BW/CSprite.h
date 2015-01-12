@@ -33,8 +33,8 @@ namespace BW
     /*0x13*/ u8         unkflags_13;
     /*0x14*/ Position   position;
     /*0x18*/ CImage*    mainGraphic;    // officially "pImagePrimary"
-    /*0x1C*/ CImage*    underlay;       // officially "pImageHead"
-    /*0x20*/ CImage*    overlay;        // officially "pImageTail"
+    /*0x1C*/ CImage*    overlay;       // officially "pImageHead"
+    /*0x20*/ CImage*    underlay;        // officially "pImageTail"
 
     void draw();
     ////////////////////////////////////////////////////////////////////

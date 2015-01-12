@@ -38,9 +38,9 @@ namespace BWMemoryEdit
         [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
         public Reference<Image> mainGraphic { get { return data.mainGraphic; } set { } }
         [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
-        public Reference<Image> underlay { get { return data.underlay; } set { } }
-        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
         public Reference<Image> overlay { get { return data.overlay; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Image> underlay { get { return data.underlay; } set { } }
 
         /*********************************************************************************************************************/
 
