@@ -11,8 +11,8 @@ namespace BWMemoryEdit.BW
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct CImage
     {
-        public UInt32 prev;
-        public UInt32 next;
+        public Reference<Image> prev;
+        public Reference<Image> next;
         public ImageType type;
         public RLE rle;
         public byte direction;
@@ -33,6 +33,6 @@ namespace BWMemoryEdit.BW
         public UInt32 coloringData;
         public UInt32 renderFunction;
         public UInt32 updateFunction;
-        public UInt32 spriteOwner;
+        public Reference<Sprite> spriteOwner;
     }
 }

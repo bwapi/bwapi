@@ -241,7 +241,7 @@ namespace Utils
 
 
     // UITypeEditor for flag enums
-	public class FlagEnumUIEditor : UITypeEditor
+	public class FlagEnumUIEditor : UITypeEditor, IDisposable
 	{
         // The checklistbox
 		private FlagCheckedListBox flagEnumCB;
@@ -279,7 +279,14 @@ namespace Utils
 			return UITypeEditorEditStyle.DropDown;			
 		}
 
-
-	}
+        public void Dispose()
+        {
+            if (flagEnumCB != null)
+            {
+                flagEnumCB.Dispose();
+                flagEnumCB = null;
+            }
+        }
+    }
 
 }

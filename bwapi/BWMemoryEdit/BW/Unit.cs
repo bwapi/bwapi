@@ -2,9 +2,11 @@
 using Binarysharp.MemoryManagement.Memory;
 using BWMemoryEdit.BW;
 using BWMemoryEdit.Enums;
+using BWMemoryEdit.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,13 +17,15 @@ namespace BWMemoryEdit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Unit
     {
-        private RemotePointer ptr;
-        private int id;
-
-        private CUnit data { get { return ptr.Read<CUnit>(); } set { ptr.Write(value); } }
-        /*********************************************************************************************************************/
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> prev { get { return data.prev; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> next { get { return data.next; } set { } }
 
         public Int32 hitPoints { get { return data.hitPoints; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "hitPoints").ToInt32(), value); } }
+
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Sprite> sprite { get { return data.sprite; } set { } }
 
         [Category("Movement")]
         public Target moveTarget { get { return data.moveTarget; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "moveTarget").ToInt32(), value); } }
@@ -89,6 +93,17 @@ namespace BWMemoryEdit
         public UInt32 shieldPoints { get { return data.shieldPoints; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "shieldPoints").ToInt32(), value); } }
         public UnitType unitType { get { return data.unitType; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "unitType").ToInt32(), (ushort)value); } }
 
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> previousPlayerUnit { get { return data.previousPlayerUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> nextPlayerUnit { get { return data.nextPlayerUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> subUnit { get { return data.subUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> autoTargetUnit { get { return data.autoTargetUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> connectedUnit { get { return data.connectedUnit; } set { } }
+
         public Byte _unknown_0x086 { get { return data._unknown_0x086; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "_unknown_0x086").ToInt32(), value); } }
         public Byte attackNotifyTimer { get { return data.attackNotifyTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "attackNotifyTimer").ToInt32(), value); } }
         public UnitType previousUnitType { get { return data.previousUnitType; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "previousUnitType").ToInt32(), (ushort)value); } }
@@ -140,13 +155,23 @@ namespace BWMemoryEdit
         [Category("SecondaryOrder")]
         public Position secondaryOrderPosition { get { return data.secondaryOrderPosition; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "secondaryOrderPosition").ToInt32(), value); } }
 
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> currentBuildUnit { get { return data.currentBuildUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> previousBurrowedUnit { get { return data.previousBurrowedUnit; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> nextBurrowedUnit { get { return data.nextBurrowedUnit; } set { } }
+
+        [Category("Pathing")]
+        public UInt32 path { get { return data.path; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "path").ToInt32(), value); } }
         [Category("Pathing")]
         public Byte pathingCollisionInterval { get { return data.pathingCollisionInterval; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "pathingCollisionInterval").ToInt32(), value); } }
         [Category("Pathing")]
         public Byte pathingFlags { get { return data.pathingFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "pathingFlags").ToInt32(), value); } }
 
+
         [Category("Status")]
-        public Boolean isBeingHealed { get { return data.isBeingHealed; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBeingHealed").ToInt32(), value); } }
+        public Boolean isBeingHealed { get { return data.isBeingHealed != 0; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBeingHealed").ToInt32(), (byte)(value ? 1 : 0)); } }
         [Category("Pathing")]
         public Rect contourBounds { get { return data.contourBounds; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "contourBounds").ToInt32(), value); } }
 
@@ -171,6 +196,9 @@ namespace BWMemoryEdit
         [Category("Status")]
         public Byte stormTimer { get { return data.stormTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "stormTimer").ToInt32(), value); } }
         [Category("Status")]
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Unit> irradiatedBy { get { return data.irradiatedBy; } set { } }
+        [Category("Status")]
         public Byte irradiatePlayerID { get { return data.irradiatePlayerID; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "irradiatePlayerID").ToInt32(), value); } }
         [Category("Status")]
         [Editor(typeof(Utils.FlagEnumUIEditor), typeof(System.Drawing.Design.UITypeEditor))]
@@ -178,7 +206,7 @@ namespace BWMemoryEdit
         [Category("Status")]
         public Byte cycleCounter { get { return data.cycleCounter; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "cycleCounter").ToInt32(), value); } }
         [Category("Status")]
-        public Boolean isBlind { get { return data.isBlind; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBlind").ToInt32(), value); } }
+        public Boolean isBlind { get { return data.isBlind != 0; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isBlind").ToInt32(), (byte)(value ? 1 : 0)); } }
         [Category("Status")]
         public Byte maelstromTimer { get { return data.maelstromTimer; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "maelstromTimer").ToInt32(), value); } }
         [Category("Status")]
@@ -208,9 +236,14 @@ namespace BWMemoryEdit
 
         /*********************************************************************************************************************/
 
-        public Unit(RemotePointer baseUnit, int id)
+        protected RemotePointer ptr;
+        protected uint id;
+
+        protected CUnit data { get { return ptr.Read<CUnit>(); } set { ptr.Write(value); } }
+
+        public Unit(RemotePointer basePtr, uint id)
         {
-            ptr = baseUnit;
+            this.ptr = basePtr;
             this.id = id;
         }
 

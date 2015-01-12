@@ -1,9 +1,11 @@
 ﻿using Binarysharp.MemoryManagement.Memory;
 using BWMemoryEdit.BW;
 using BWMemoryEdit.Enums;
+using BWMemoryEdit.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -12,13 +14,12 @@ using System.Threading.Tasks;
 namespace BWMemoryEdit
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    class Image
+    public class Image
     {
-        private RemotePointer ptr;
-        private int id;
-
-        private CImage data { get { return ptr.Read<CImage>(); } set { ptr.Write(value); } }
-        /*********************************************************************************************************************/
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Image> prev { get { return data.prev; } set { } }
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Image> next { get { return data.next; } set { } }
 
         public ImageType type { get { return data.type; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "type").ToInt32(), (ushort)value); } }
         public RLE rle { get { return data.rle; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "rle").ToInt32(), (byte)value); } }
@@ -42,12 +43,19 @@ namespace BWMemoryEdit
         public Position screenPosition { get { return data.screenPosition; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "screenPosition").ToInt32(), value); } }
         public Rect grpBounds { get { return data.grpBounds; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "grpBounds").ToInt32(), value); } }
 
+        [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
+        public Reference<Sprite> spriteOwner { get { return data.spriteOwner; } set { } }
 
         /*********************************************************************************************************************/
 
-        public Image(RemotePointer baseUnit, int id)
+        protected RemotePointer ptr;
+        protected uint id;
+
+        protected CImage data { get { return ptr.Read<CImage>(); } set { ptr.Write(value); } }
+
+        public Image(RemotePointer basePtr, uint id)
         {
-            ptr = baseUnit;
+            this.ptr = basePtr;
             this.id = id;
         }
 
