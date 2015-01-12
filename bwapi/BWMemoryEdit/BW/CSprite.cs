@@ -26,7 +26,7 @@ namespace BWMemoryEdit
         public Byte unkflags_13;
         public Position position;
         public Reference<Image> mainGraphic;
-        public Reference<Image> underlay;
         public Reference<Image> overlay;
+        public Reference<Image> underlay;
     }
 }
