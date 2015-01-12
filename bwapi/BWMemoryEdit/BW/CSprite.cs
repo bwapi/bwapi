@@ -1,4 +1,5 @@
-﻿using BWMemoryEdit.Enums;
+﻿using BWMemoryEdit.BW;
+using BWMemoryEdit.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace BWMemoryEdit
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct CSprite
     {
-        public UInt32 prev;
-        public UInt32 next;
+        public Reference<Sprite> prev;
+        public Reference<Sprite> next;
         public SpriteType type;
         public Byte player;
         public Byte selectionIndex;
@@ -24,8 +25,8 @@ namespace BWMemoryEdit
         public Byte unkflags_12;
         public Byte unkflags_13;
         public Position position;
-        public UInt32 mainGraphic;
-        public UInt32 underlay;
-        public UInt32 overlay;
+        public Reference<Image> mainGraphic;
+        public Reference<Image> underlay;
+        public Reference<Image> overlay;
     }
 }

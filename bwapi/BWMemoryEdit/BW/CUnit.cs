@@ -13,10 +13,10 @@ namespace BWMemoryEdit
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct CUnit
     {
-        public UInt32 prev;
-        public UInt32 next;
+        public Reference<Unit> prev;
+        public Reference<Unit> next;
         public Int32 hitPoints;
-        public Int32 sprite;
+        public Reference<Sprite> sprite;
         public Target moveTarget;
         public Position nextMovementWaypoint;
         public Position nextTargetWaypoint;
@@ -50,13 +50,13 @@ namespace BWMemoryEdit
         public UInt32 shieldPoints;
         public UnitType unitType;
         public UInt16 __0x66;
-        public UInt32 previousPlayerUnit;
-        public UInt32 nextPlayerUnit;
-        public UInt32 subUnit;
+        public Reference<Unit> previousPlayerUnit;
+        public Reference<Unit> nextPlayerUnit;
+        public Reference<Unit> subUnit;
         public UInt32 orderQueueHead;
         public UInt32 orderQueueTail;
-        public UInt32 autoTargetUnit;
-        public UInt32 connectedUnit;
+        public Reference<Unit> autoTargetUnit;
+        public Reference<Unit> connectedUnit;
         public Byte orderQueueCount;
         public Byte orderQueueTimer;
         public Byte _unknown_0x086;
@@ -219,9 +219,9 @@ namespace BWMemoryEdit
         public Byte recentOrderTimer;
         public UInt32 visibilityStatus;
         public Position secondaryOrderPosition;
-        public UInt32 currentBuildUnit;
-        public UInt32 previousBurrowedUnit;
-        public UInt32 nextBurrowedUnit;
+        public Reference<Unit> currentBuildUnit;
+        public Reference<Unit> previousBurrowedUnit;
+        public Reference<Unit> nextBurrowedUnit;
 
         [StructLayout(LayoutKind.Explicit)]
         public struct U3
@@ -247,7 +247,7 @@ namespace BWMemoryEdit
         public Byte pathingCollisionInterval;
         public Byte pathingFlags;
         public Byte _unused_0x106;
-        public Boolean isBeingHealed;
+        public Byte isBeingHealed;
         public Rect contourBounds;
         public UInt16 removeTimer;
         public UInt16 defenseMatrixDamage;
@@ -259,11 +259,11 @@ namespace BWMemoryEdit
         public Byte stasisTimer;
         public Byte plagueTimer;
         public Byte stormTimer;
-        public UInt32 irradiatedBy;
+        public Reference<Unit> irradiatedBy;
         public Byte irradiatePlayerID;
         public PlayerFlags parasiteFlags;
         public Byte cycleCounter;
-        public Boolean isBlind;
+        public Byte isBlind;
         public Byte maelstromTimer;
         public Byte _unused_0x125;
         public Byte acidSporeCount;

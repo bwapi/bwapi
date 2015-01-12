@@ -37,6 +37,8 @@
             this.spriteList = new System.Windows.Forms.ListBox();
             this.imageTab = new System.Windows.Forms.TabPage();
             this.imageList = new System.Windows.Forms.ListBox();
+            this.extraImageTab = new System.Windows.Forms.TabPage();
+            this.extraImageList = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.compareBtn = new System.Windows.Forms.Button();
@@ -44,7 +46,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.compareGrid = new System.Windows.Forms.PropertyGrid();
             this.editorGrid = new System.Windows.Forms.PropertyGrid();
-            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.refreshTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -53,6 +55,7 @@
             this.unitTab.SuspendLayout();
             this.spriteTab.SuspendLayout();
             this.imageTab.SuspendLayout();
+            this.extraImageTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -80,6 +83,7 @@
             this.offsetTabs.Controls.Add(this.unitTab);
             this.offsetTabs.Controls.Add(this.spriteTab);
             this.offsetTabs.Controls.Add(this.imageTab);
+            this.offsetTabs.Controls.Add(this.extraImageTab);
             this.offsetTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.offsetTabs.Location = new System.Drawing.Point(0, 0);
             this.offsetTabs.Name = "offsetTabs";
@@ -146,6 +150,27 @@
             this.imageList.Size = new System.Drawing.Size(291, 434);
             this.imageList.TabIndex = 3;
             this.imageList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
+            // 
+            // extraImageTab
+            // 
+            this.extraImageTab.Controls.Add(this.extraImageList);
+            this.extraImageTab.Location = new System.Drawing.Point(4, 22);
+            this.extraImageTab.Name = "extraImageTab";
+            this.extraImageTab.Padding = new System.Windows.Forms.Padding(3);
+            this.extraImageTab.Size = new System.Drawing.Size(291, 434);
+            this.extraImageTab.TabIndex = 3;
+            this.extraImageTab.Text = "Extra Images";
+            this.extraImageTab.UseVisualStyleBackColor = true;
+            // 
+            // extraImageList
+            // 
+            this.extraImageList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extraImageList.FormattingEnabled = true;
+            this.extraImageList.Location = new System.Drawing.Point(3, 3);
+            this.extraImageList.Name = "extraImageList";
+            this.extraImageList.Size = new System.Drawing.Size(285, 428);
+            this.extraImageList.TabIndex = 4;
+            this.extraImageList.SelectedIndexChanged += new System.EventHandler(this.offsetList_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -219,6 +244,7 @@
             this.compareGrid.HelpVisible = false;
             this.compareGrid.Location = new System.Drawing.Point(335, 3);
             this.compareGrid.Name = "compareGrid";
+            this.compareGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.compareGrid.Size = new System.Drawing.Size(327, 413);
             this.compareGrid.TabIndex = 2;
             this.compareGrid.ToolbarVisible = false;
@@ -229,15 +255,16 @@
             this.editorGrid.HelpVisible = false;
             this.editorGrid.Location = new System.Drawing.Point(3, 3);
             this.editorGrid.Name = "editorGrid";
+            this.editorGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.editorGrid.Size = new System.Drawing.Size(326, 413);
             this.editorGrid.TabIndex = 1;
             this.editorGrid.ToolbarVisible = false;
             // 
-            // timer
+            // refreshTimer
             // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 40;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.refreshTimer.Enabled = true;
+            this.refreshTimer.Interval = 40;
+            this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
             // 
             // MainWindow
             // 
@@ -255,6 +282,7 @@
             this.unitTab.ResumeLayout(false);
             this.spriteTab.ResumeLayout(false);
             this.imageTab.ResumeLayout(false);
+            this.extraImageTab.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -267,7 +295,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer refreshTimer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button compareBtn;
@@ -282,6 +310,8 @@
         private System.Windows.Forms.ListBox imageList;
         private System.Windows.Forms.ListBox unitList;
         private System.Windows.Forms.CheckBox updateMemCheckbox;
+        private System.Windows.Forms.TabPage extraImageTab;
+        private System.Windows.Forms.ListBox extraImageList;
     }
 }
 
