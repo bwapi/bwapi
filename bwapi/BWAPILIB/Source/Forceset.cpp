@@ -9,7 +9,7 @@ namespace BWAPI
   Playerset Forceset::getPlayers() const
   {
     Playerset rset;
-    for (auto f : *this)
+    for (auto &f : *this)
     {
       auto players = f->getPlayers();
       rset.insert(players.begin(), players.end());

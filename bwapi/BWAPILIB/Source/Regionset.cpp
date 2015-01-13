@@ -11,7 +11,7 @@ namespace BWAPI
     Position sum(0,0); // The sum of all positions
     int count = 0; // The number of valid positions
 
-    for ( auto r : *this )
+    for ( auto &r : *this )
     {
       Position p = r->getCenter();
       if ( p )  // Only use if position is valid/known
@@ -30,7 +30,7 @@ namespace BWAPI
   Unitset Regionset::getUnits(const UnitFilter &pred) const
   {
     Unitset units;
-    for (auto r : *this)
+    for (auto &r : *this)
     {
       auto units = r->getUnits(pred);
       units.insert(units.begin(), units.end());

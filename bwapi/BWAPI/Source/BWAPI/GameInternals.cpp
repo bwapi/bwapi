@@ -285,11 +285,6 @@ namespace BWAPI
     }
     else if (cmd == "/test")
     {
-      //SetResolution(640, 480);
-      Unitset sel = this->getSelectedUnits();
-      for ( auto i = sel.begin(); i != sel.end(); ++i )
-        Broodwar << "Ground strength: " << static_cast<UnitImpl*>(*i)->getOriginalRawData->groundStrength
-                 << "; Air strength: " << static_cast<UnitImpl*>(*i)->getOriginalRawData->airStrength << std::endl;
     }
 #endif
     else

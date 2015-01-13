@@ -720,16 +720,16 @@ namespace BWAPI
       return false;
 
     // Iterate our groups of 12
-    for ( auto i = groupsOf12.begin(); i != groupsOf12.end(); ++i )
+    for ( auto &v : groupsOf12 )
     {
       // Get the first unit available
-      command.unit  = i->front();
+      command.unit  = v.front();
 
       // Command optimization (no select) for unit unloading, but only if optimizer level >= 2
       if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizerLevel < 2 )
       {
         // Select the unit group
-        BW::Orders::Select sel(*i);
+        BW::Orders::Select sel(v);
         botAPM_select++;
         QueueGameCommand(&sel, sel.size);
       }

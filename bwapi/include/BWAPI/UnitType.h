@@ -621,7 +621,7 @@ namespace BWAPI
     ///   if ( BWAPI::Broodwar->self() )
     ///   {
     ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    ///     for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+    ///     for ( auto u : myUnits )
     ///     {
     ///       if ( u->isIdle() && u->getType().isResourceDepot() )
     ///         u->train( u->getType().getRace().getWorker() );
@@ -639,7 +639,7 @@ namespace BWAPI
     ///   if ( BWAPI::Broodwar->self() )
     ///   {
     ///     BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-    ///     for ( auto u = myUnits.begin(); u != myUnits.end(); ++u )
+    ///     for ( auto u : myUnits )
     ///     {
     ///       if ( u->getType().isRefinery() )
     ///       {
@@ -650,10 +650,10 @@ namespace BWAPI
     ///           if ( pClosestIdleWorker )
     ///           {
     ///             // gather from the refinery (and check if successful)
-    ///             if ( pClosestIdleWorker->gather(*u) )
+    ///             if ( pClosestIdleWorker->gather(u) )
     ///             {
     ///               // set a back reference for when the unit is killed or re-assigned (code not provided)
-    ///               pClosestIdleWorker->setClientInfo(*u, 'ref');
+    ///               pClosestIdleWorker->setClientInfo(u, 'ref');
     ///
     ///               // Increment the number of workers assigned and associate it with the refinery
     ///               ++nWorkersAssigned;
@@ -734,13 +734,13 @@ namespace BWAPI
     /// @code
     ///   BWAPI::Position myBasePosition( BWAPI::Broodwar->self()->getStartLocation() );
     ///   BWAPI::UnitSet unitsAroundTheBase = BWAPI::Broodwar->getUnitsInRadius(myBasePosition, 1024, !BWAPI::Filter::IsOwned && !BWAPI::Filter::IsParasited);
-    ///   for ( auto u = unitsAroundTheBase.begin(); u != unitsAroundTheBase.end(); ++u )
+    ///   for ( auto u : unitsAroundTheBase )
     ///   {
     ///     if ( u->getType().isCritter() && !u->isInvincible() )
     ///     {
     ///       BWAPI::Unit myQueen = u->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Zerg_Queen && BWAPI::Filter::IsOwned);
     ///       if ( myQueen )
-    ///         myQueen->useTech(BWAPI::TechTypes::Parasite, *u);
+    ///         myQueen->useTech(BWAPI::TechTypes::Parasite, u);
     ///     }
     ///   }
     /// @endcode

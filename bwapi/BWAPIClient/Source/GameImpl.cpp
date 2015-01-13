@@ -121,12 +121,12 @@ namespace BWAPI
     _observers.clear();
 
     //clear unit data
-    for ( size_t i = 0; i < unitVector.size(); ++i )
-      unitVector[i].clear();
+    for (auto &v : unitVector)
+      v.clear();
 
     //clear player data
-    for(size_t i = 0; i < playerVector.size(); ++i)
-      playerVector[i].units.clear();
+    for (auto &v : playerVector)
+      v.units.clear();
 
     for( Region r : regionsList )
       delete static_cast<RegionImpl*>(r);
@@ -290,8 +290,8 @@ namespace BWAPI
       else if (data->events[e].type==EventType::UnitRenegade)
       {
         Unit u = &unitVector[id];
-        for (auto p = playerSet.begin(); p != playerSet.end(); ++p )
-          static_cast<PlayerImpl*>(*p)->units.erase(u);
+        for (auto &p : playerSet)
+          static_cast<PlayerImpl*>(p)->units.erase(u);
         static_cast<PlayerImpl*>(u->getPlayer())->units.insert(u);
       }
       else if (data->events[e].type == EventType::UnitMorph)

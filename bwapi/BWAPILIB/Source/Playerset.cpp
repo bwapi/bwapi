@@ -13,7 +13,7 @@ namespace BWAPI
   Unitset Playerset::getUnits() const
   {
     Unitset retSet;
-    for (auto p : *this)
+    for (auto &p : *this)
     {
       auto units = p->getUnits();
       retSet.insert(units.begin(), units.end());
@@ -24,7 +24,7 @@ namespace BWAPI
   Race::set Playerset::getRaces() const
   {
     Race::set retSet;
-    for (auto p : *this)
+    for (auto &p : *this)
     {
       retSet.insert(p->getRace());
     }
@@ -33,7 +33,7 @@ namespace BWAPI
 
   void Playerset::setAlliance(bool allies, bool alliedVictory)
   {
-    for (auto p : *this)
+    for (auto &p : *this)
     {
       Broodwar->setAlliance(p, allies, alliedVictory);
     }

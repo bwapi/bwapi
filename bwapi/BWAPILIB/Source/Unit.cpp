@@ -326,17 +326,12 @@ namespace BWAPI
 
   int UnitInterface::getSpaceRemaining() const
   {
-    // Get the space that the current Unit type provides
     int space = this->getType().spaceProvided();
 
-    // Obtain the set of loaded units
-    Unitset loaded = this->getLoadedUnits();
-
     // Decrease the space for each loaded unit
-    for ( auto u : loaded )
+    for (auto &u : getLoadedUnits())
       space -= u->getType().spaceRequired();
 
-    // Return the space available
     return std::max(space, 0);
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------

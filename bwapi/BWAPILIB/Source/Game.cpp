@@ -293,7 +293,7 @@ namespace BWAPI
     reserve.backup();
     Unitset myUnits = Broodwar->self()->getUnits();
     myUnits.erase_if( !(Exists && CanBuildAddon) );
-    for ( auto u : myUnits )
+    for ( auto &u : myUnits )
     {
       TilePosition addonPos = (u->getTilePosition() + TilePosition(4,1)) - start;
       reserve.setRange(addonPos, addonPos+TilePosition(2,2), 0);
@@ -317,16 +317,16 @@ namespace BWAPI
     // Reserve space around owned resource depots and resource containers
     Unitset myUnits = Broodwar->self()->getUnits();
     myUnits.erase_if( !(Exists && (IsCompleted || (ProducesLarva && IsMorphing)) && IsBuilding && (IsResourceDepot || IsRefinery)) );
-    for ( auto it = myUnits.begin(); it != myUnits.end(); ++it )
-      ReserveStructure(reserve, *it, 2, type, desiredPosition);
+    for ( auto &u : myUnits)
+      ReserveStructure(reserve, u, 2, type, desiredPosition);
     
     // Reserve space around neutral resources
     if ( type != UnitTypes::Terran_Bunker )
     {
       Unitset resources = Broodwar->getNeutralUnits();
       resources.erase_if( !(Exists && IsResourceContainer) );
-      for ( auto it = resources.begin(); it != resources.end(); ++it )
-        ReserveStructure(reserve, *it, 2, type, desiredPosition);
+      for ( auto &u : resources)
+        ReserveStructure(reserve, u, 2, type, desiredPosition);
     }
     reserve.restoreIfInvalid(__FUNCTION__);
   }
@@ -348,7 +348,7 @@ namespace BWAPI
 
     // Reserve some space around some specific units
     Unitset myUnits = Broodwar->self()->getUnits();
-    for ( auto it : myUnits )
+    for ( auto &it : myUnits )
     {
       if ( !it->exists() )
         continue;
