@@ -10,6 +10,7 @@ namespace BW
   class Bitmap
   {
   public:
+    Bitmap();
     Bitmap(int width, int height);
     Bitmap(int width, int height, void *pBuffer);
 

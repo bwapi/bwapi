@@ -10,6 +10,7 @@
 #include <Util/Convenience.h>
 
 #include <BWAPI.h>
+#include <SDL.h>
 
 #include "../../svnrev.h"
 
@@ -18,6 +19,7 @@
 #include "DLLMain.h"
 #include "ExceptionFilter.h"
 
+#include "../Window.h"
 #include "Detours.h"
 #include "CodePatch.h"
 #include "Config.h"
@@ -154,9 +156,24 @@ void CheckVersion()
 DWORD WINAPI PersistentPatch(LPVOID)
 {
   RegisterThreadName("BWAPI Persistent Patch");
+
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+  {
+    BWAPIError("SDL Error: %s", SDL_GetError());
+  }
+
+  Window::instance.create();
+
   for (;;)
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds{ 300 });
+    std::this_thread::sleep_for(std::chrono::milliseconds{ 30 });
+
+    // Poll SDL events
+    SDL_Event evt;
+    if (SDL_PollEvent(&evt))
+    {
+      // do stuff
+    }
 
     // If version is correct
     if ( isCorrectVersion )
@@ -197,6 +214,7 @@ DWORD WINAPI PersistentPatch(LPVOID)
     // Checks and names all registered threads, does not need to be called elsewhere
     CheckRegisteredThreads();
   } //loop
+  SDL_Quit();
 }
 
 //------------------------------------------------- DLL MAIN -------------------------------------------------
@@ -216,7 +234,6 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 
     break;
   case DLL_PROCESS_ATTACH:
-
     // Create a BWAPI event for this process
     hEvent = CreateEventA(NULL, FALSE, FALSE, szEventName);
     if ( GetLastError() == ERROR_ALREADY_EXISTS ) // There is a BWAPI module already injected

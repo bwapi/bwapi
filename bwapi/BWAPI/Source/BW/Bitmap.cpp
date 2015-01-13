@@ -10,6 +10,8 @@
 
 namespace BW
 {
+  Bitmap::Bitmap() : wid(0), ht(0), data(nullptr) {}
+
   Bitmap::Bitmap(int width, int height)
     : wid((u16)width)
     , ht( (u16)height)
@@ -60,8 +62,17 @@ namespace BW
 
   void Bitmap::blitBitmap(const Bitmap *pSrc, int x, int y)
   {
-    for ( int iy = 0; iy < std::min(this->height()-y, pSrc->height()); ++iy )
-      memcpy(&this->data[(y + iy)*this->width() + x], &pSrc->data[iy*pSrc->width()], std::min(this->width(),pSrc->width()) );
+    if (x == 0 && this->width() == pSrc->width())
+    {
+      memcpy(&data[y*this->width()], pSrc->data, std::min(this->width()*(this->height() - y), pSrc->width()*pSrc->height()));
+    }
+    else
+    {
+      for (int iy = 0; iy < std::min(this->height() - y, pSrc->height()); ++iy)
+      {
+        memcpy(&this->data[(y + iy)*this->width() + x], &pSrc->data[iy*pSrc->width()], std::min(this->width(), pSrc->width()));
+      }
+    }
   }
 
   void Bitmap::BlitGrpFrame(const grpFrame *pGrp, int x, int y)

@@ -9,6 +9,8 @@
 #include "Config.h"
 #include "Thread.h"
 
+#include "../Window.h"
+
 #include <Util/Convenience.h>
 #include "../../Debug.h"
 
@@ -556,6 +558,8 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
     wmodebmp.bmiColors[i].rgbGreen = pPalEntries[i].peGreen;
     wmodebmp.bmiColors[i].rgbBlue  = pPalEntries[i].peBlue;
   }
+  Window::instance.updatePalette(firstentry, numentries, reinterpret_cast<SDL_Color*>(pPalEntries));
+
   if ( !wmode || !ghMainWnd )
   {
     if ( _SDrawUpdatePaletteOld )

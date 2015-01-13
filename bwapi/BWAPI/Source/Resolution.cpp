@@ -13,6 +13,8 @@
 
 #include "../../Debug.h"
 
+bool resolutionActive = false;
+
 void SetResolution(int width, int height)
 {
   if ( !isCorrectVersion )
@@ -52,6 +54,7 @@ void SetResolution(int width, int height)
   
   // re-initialize w-mode or ddraw, this function can do both
   SetWMode(width, height, wmode);
+  resolutionActive = true;
 }
 
 HMODULE ddLib;

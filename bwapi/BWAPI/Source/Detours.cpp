@@ -15,6 +15,7 @@
 #include "GameDrawing.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
+#include "../Window.h"
 
 #include <BW/Offsets.h>
 #include <BW/TriggerEngine.h>
@@ -399,15 +400,19 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
     BW::BWDATA::RefreshRegions.fill(1);
   }
 
-  //GameUpdate(pSurface, pBounds);
-  if ( BW::pOldDrawGameProc )
+  Window::instance.update();
+  //if (resolutionActive)
+  //{
+  //  GameUpdate(pSurface, pBounds);
+  //}
+
+  if (BW::pOldDrawGameProc)
+  {
     BW::pOldDrawGameProc(pSurface, pBounds);
+  }
 
   if ( BW::BWDATA::GameScreenBuffer.isValid() )
   {
-    //if ( gdwHoliday )
-      //DrawHoliday();
-
     if ( !BWAPI::BroodwarImpl.isPaused() )
     {
       DWORD dwThisTickCount = BWAPI::BroodwarImpl.getFrameCount()*42;

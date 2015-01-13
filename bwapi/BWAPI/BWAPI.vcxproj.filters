@@ -34,6 +34,15 @@
     <Filter Include="BW\Enumerations">
       <UniqueIdentifier>{691200ef-f84c-46fa-8897-50d4e7a08ea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{0114e9ff-6a3b-4189-90bc-d65e2a5e64e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Source Files">
+      <UniqueIdentifier>{bf76314b-dac4-4cc7-a70b-973d550341d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Header Files">
+      <UniqueIdentifier>{e9a419e0-34a0-4205-aca2-58e085c7b372}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BW\CheatType.h">
@@ -247,6 +256,12 @@
     <ClInclude Include="Source\BW\Font.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Render\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRender.h">
+      <Filter>Render\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
@@ -408,6 +423,12 @@
     </ClCompile>
     <ClCompile Include="Source\GameUpdate.cpp">
       <Filter>BWAPI\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Render\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRender.cpp">
+      <Filter>Render\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

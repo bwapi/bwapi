@@ -202,6 +202,9 @@ namespace BW
       LPDIRECTDRAWSURFACE IS_REF(PrimarySurface, 0x006D5E00);
       LPDIRECTDRAWSURFACE IS_REF(BackSurface, 0x006D5E10);
 
+      std::array<PALETTEENTRY, 24> IS_REF(PlayerColourPalette, 0x00581D76);
+      std::array<PALETTEENTRY, 64> IS_REF(ImageDrawPalette, 0x0050CDC1);
+
       static void(__cdecl * const BWFXN_DDrawDestroy)() = (void(__cdecl*)())0x0041D8B0;
       const u32 DDrawInitCallPatch = 0x004DB0A2;
       static void(__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
@@ -214,6 +217,8 @@ namespace BW
       std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
       RECT IS_REF(ScrLimit, 0x0051A15C);
       RECT IS_REF(ScrSize, 0x0051A16C);
+
+      BW::Bitmap* IS_REF(CurrentDrawSurface, 0x006CF4A8);
 
       // Unit and CList offsets
       CUnit* IS_REF(UnitNodeList_VisibleUnit_First, 0x00628430);

@@ -56,12 +56,12 @@ namespace BW
          this->grpBounds.bottom > 0 &&
          this->grpBounds.right  > 0 )
     {
-      if ( (this->flags & 1) /*|| this->needsRefresh()*/ )
+      //if ( (this->flags & 1) /*|| this->needsRefresh()*/ )
       {
         RECT rctDraw = { this->grpBounds.left, this->grpBounds.top, this->grpBounds.right, this->grpBounds.bottom };
         this->renderFunction(this->screenPosition.x, this->screenPosition.y, this->getCurrentFrame(), &rctDraw, (int)this->coloringData);
       }
     }
-    this->flags &= ~1;  // Clear Redraw bit
+    //this->flags &= ~1;  // Clear Redraw bit
   }
 }

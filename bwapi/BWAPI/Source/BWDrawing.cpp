@@ -23,7 +23,7 @@ void updateImageDrawingData()
   {
     for ( BW::CSprite *s = BW::BWDATA::spriteGroups[y]; s; s = s->next )
     {
-      for ( BW::CImage *i = s->overlay; i; i = i->next )
+      for (BW::CImage *i = s->pImageHead; i; i = i->next)
         i->updateGraphicData();
     }
   }
@@ -65,11 +65,11 @@ void drawThingys()
   if ( *BW::BWDATA::wantThingyUpdate )
   {
     BW::CThingy *pThingyFirst = BW::BWDATA::ThingyList_UsedFirst;
-    for ( BW::CImage *p = pThingyFirst->sprite->overlay; p; p = p->next )
+    for (BW::CImage *p = pThingyFirst->sprite->pImageHead; p; p = p->next)
       p->updateGraphicData();
 
     pThingyFirst->sprite->draw();
-    for (BW::CImage *p = pThingyFirst->sprite->overlay; p; p = p->next)
+    for (BW::CImage *p = pThingyFirst->sprite->pImageHead; p; p = p->next)
       p->flags |= 1;
   }
 }
@@ -210,7 +210,7 @@ void GameUpdate(BW::Bitmap* /*pSurface*/, BW::bounds* /*pBounds*/)
   //}
 
   //
-  BW::BWFXN_drawAllSprites();// sprites
+  //BW::BWFXN_drawAllSprites();// sprites
   // Space tileset stars/parallax thing goes here
   // updateAllFog(gameLayer.bits & 1);
   drawGameText();

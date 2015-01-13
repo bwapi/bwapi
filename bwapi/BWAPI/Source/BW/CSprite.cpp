@@ -5,17 +5,17 @@ namespace BW
 {
   void CSprite::draw()
   {
-    //u8 color = 0;
+    u8 color = this->playerID;
     //u8 color = getColourID(this->playerID);
     
-    //imgDrawPalettteIndex[2] = tunit_image_palette[2*color];
-    //imgDrawPalettteIndex[3] = tunit_image_palette[2*color + 1];
+    BW::BWDATA::ImageDrawPalette[2] = BW::BWDATA::PlayerColourPalette[2 * color];
+    BW::BWDATA::ImageDrawPalette[3] = BW::BWDATA::PlayerColourPalette[2 * color + 1];
     //gdrawColorID = color;
     
-    //if ( this->mainGraphic )
-      // unknownColorShiftSomething(this->mainGraphic->paletteType, this->playerID);
+    //if ( this->pImagePrimary )
+      // unknownColorShiftSomething(this->pImagePrimary->paletteType, this->playerID);
 
-    for ( auto i = this->underlay; i; i = i->prev )
+    for (auto i = this->pImageTail; i; i = i->prev)
       i->drawImage();
   }
 

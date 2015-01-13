@@ -7,8 +7,6 @@
 
 #define DECL_OLDFXN(x) decltype(&x) _ ## x ## Old
 
-void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
-
 BOOL  STORMAPI   _SNetLeaveGame(int type);
 int   __cdecl    _nextFrameHook();
 int   STORMAPI   _SStrCopy(char *dest, const char *source, int size);
