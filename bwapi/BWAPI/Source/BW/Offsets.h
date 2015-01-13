@@ -33,6 +33,8 @@ const int BULLET_ARRAY_MAX_LENGTH = 100;
 const int MAX_SEARCH = (UNIT_ARRAY_MAX_LENGTH * 2);
 const int NUM_SPEEDS = 7;
 const int TURN_BUFFER_SIZE = 512;
+const int NUM_TEXT_LINES = 13;
+const int MAX_TEXT_SIZE = 218;
 
 namespace BW
 {
@@ -231,6 +233,36 @@ namespace BW
       std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> IS_REF(UnitOrderingX, 0x0066FF78);
       std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> IS_REF(UnitOrderingY, 0x006769B8);
       int IS_REF(UnitOrderingCount, 0x0066FF74);
+
+      // Mode stuff
+      u8 IS_REF(gameType, 0x00596820);
+      u32 IS_REF(InReplay, 0x006D0F14);
+      int IS_REF(NetMode, 0x0059688C);
+      int IS_REF(CountdownTimer, 0x0058D6F4);  // Countdown Timer (in seconds)
+      int IS_REF(ElapsedTime, 0x0058D6F8); // Elapsed Game Time (in seconds)
+
+      int IS_REF(ReplayFrames, 0x006D0F31); // note: unaligned because it's part of a structure that we're not using
+
+      u8 IS_REF(GameState, 0x006D11EC);
+      u16 IS_REF(gwNextGameMode, 0x0051CE90);
+      u16 IS_REF(gwGameMode, 0x00596904);
+      u32 IS_REF(glGluesMode, 0x006D11BC);
+
+      int IS_REF(g_LocalHumanID, 0x00512688);
+
+      // For fixing BW-level memory leak
+      std::array<void*,2> IS_REF(customList_UIDlgData, 0x0051A350);
+
+      // Stuff for resolution hack
+      bool IS_REF(wantThingyUpdate, 0x00652920);
+      std::array<BW::CSprite*,256> IS_REF(spriteGroups, 0x00629688);
+      
+      // Text messages
+      std::array<std::array<char, MAX_TEXT_SIZE>, NUM_TEXT_LINES> IS_REF(Chat_GameText, 0x00640B60);
+      u8 IS_REF(Chat_NextLine, 0x00640B58);
+      std::array<u8, NUM_TEXT_LINES> IS_REF(Chat_ColorBytes, 0x00641674);
+      u32 IS_REF(Chat_IncrementY, 0x00640B20);
+
     }
   }
 
@@ -238,40 +270,8 @@ namespace BW
   extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
 
-  //------------------------------------------- DATA LEVEL ---------------------------------------------------
-  BW_DATA(u32*, wantThingyUpdate, 0x00652920, 0);
-
-  // Mode Stuff
-  BW_DATA(u8*, gameType, 0x00596820, 0);
-  BW_DATA(u32*, InGame, 0x006556E0, 0);
-  BW_DATA(u32*, InReplay, 0x006D0F14, 0);
-  BW_DATA(int*, NetMode, 0x0059688C, 0);
-  BW_DATA(u32*, CountdownTimer, 0x0058D6F4, 0);  // Countdown Timer (in seconds)
-  BW_DATA(u32*, ElapsedTime, 0x0058D6F8, 0); // Elapsed Game Time (in seconds)
-
-  // note: unaligned because it's part of a structure that we're not using
-  BW_DATA(u32*, ReplayFrames, 0x006D0F31, 0);
-
-  BW_DATA(u8*, GameState, 0x006D11EC, 0);
-  BW_DATA(u16*, gwNextGameMode, 0x0051CE90, 0);
-  BW_DATA(u16*, gwGameMode, 0x00596904, 0);
-  BW_DATA(u32*, glGluesMode, 0x006D11BC, 0);
-
-  BW_DATA(int*, g_LocalHumanID, 0x00512688, 0);
-
-  BW_DATA(void**, customList_UIDlgData, 0x0051A350, 0);
   //--------------------------------------- FOR RESOLUTION HACK ----------------------------------------------
-  BW_DATA(BW::CSprite**, spriteGroups, 0x00629688, 0);
-
-  struct _gametext
-  {
-    char txt[218];
-  };
-  BW_DATA(_gametext*, Chat_GameText, 0x00640B60, 0);
-  BW_DATA(u8*, Chat_NextLine, 0x00640B58, 0);
-  BW_DATA(u8*, Chat_ColorBytes, 0x00641674, 0);
-  BW_DATA(u32*, Chat_IncrementY, 0x00640B20, 0);
-
+  
   static void (__cdecl * const BWFXN_drawDragSelBox)()           = (void (__cdecl*)()) 0x00470040;
   static void (__cdecl * const BWFXN_drawAllThingys)()           = (void (__cdecl*)()) 0x00488180;
   static void (__cdecl * const BWFXN_drawMapTiles)()             = (void (__cdecl*)()) 0x0049C780;

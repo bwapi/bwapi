@@ -14,6 +14,7 @@
 #include "../../svnrev.h"
 
 #include "BW/Offsets.h"
+#include "BW/MenuPosition.h"
 #include "BWAPI/GameImpl.h"
 #include "DLLMain.h"
 #include "ExceptionFilter.h"
@@ -46,14 +47,14 @@ void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
   }
   
   // Verify game mode
-  if ( *BW::BWDATA::gwGameMode == 4 )
+  if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )
     return;
 
   int turns;
   if ( SNetGetTurnsInTransit(&turns) ) // Buffer is full
   {
     int callDelay = 1;
-    if ( *BW::BWDATA::NetMode )
+    if ( BW::BWDATA::NetMode )
       callDelay = clamp<DWORD>(caps.dwCallDelay, 2, 8);
 
     // This statement will probably never be hit, but just in case

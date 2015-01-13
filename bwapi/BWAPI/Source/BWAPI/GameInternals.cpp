@@ -138,7 +138,7 @@ namespace BWAPI
       if ( BW::BWDATA::playerStatusArray[i] & 0x10000 )
       {
         int iplr = this->stormIdToPlayerId(i);
-        if ( iplr != -1 && iplr != (int)*BW::BWDATA::g_LocalHumanID )
+        if ( iplr != -1 && iplr != BW::BWDATA::g_LocalHumanID )
         {
           this->droppedPlayers.push_back(this->players[iplr]);
           SNetDropPlayer(i, 0x40000006);  // The value used when dropping
@@ -338,7 +338,7 @@ namespace BWAPI
   }
   int GameImpl::_currentPlayerId()
   {
-    return *BW::BWDATA::g_LocalHumanID;
+    return BW::BWDATA::g_LocalHumanID;
   }
   bool GameImpl::tournamentCheck(Tournament::ActionID type, void *parameter)
   {

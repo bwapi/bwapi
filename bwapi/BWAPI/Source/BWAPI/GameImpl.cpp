@@ -86,7 +86,7 @@ namespace BWAPI
   {
     if (isReplay())
       return GameTypes::None;
-    return GameType(*BW::BWDATA::gameType);
+    return GameType(BW::BWDATA::gameType);
   }
   //---------------------------------------------- GET LATENCY -----------------------------------------------
   int GameImpl::getLatency() const
@@ -132,7 +132,7 @@ namespace BWAPI
   //--------------------------------------------- GET REPLAY FRAME COUNT -------------------------------------
   int GameImpl::getReplayFrameCount() const
   {
-    return (int)*BW::BWDATA::ReplayFrames;
+    return BW::BWDATA::ReplayFrames;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS() const
@@ -519,12 +519,12 @@ namespace BWAPI
   //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
   bool GameImpl::isMultiplayer() const
   {
-    return *BW::BWDATA::NetMode != 0 && *BW::BWDATA::NetMode != -1;
+    return BW::BWDATA::NetMode != 0 && BW::BWDATA::NetMode != -1;
   }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::isBattleNet() const
   {
-    return *BW::BWDATA::NetMode == 'BNET';
+    return BW::BWDATA::NetMode == 'BNET';
   }
   //----------------------------------------------- IS PAUSED ------------------------------------------------
   bool GameImpl::isPaused() const
@@ -534,7 +534,7 @@ namespace BWAPI
   //----------------------------------------------- IN REPLAY ------------------------------------------------
   bool  GameImpl::isReplay() const
   {
-    return *BW::BWDATA::InReplay != 0;
+    return BW::BWDATA::InReplay != 0;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::_startGame()
@@ -567,8 +567,8 @@ namespace BWAPI
     this->setLastError();
     if ( !this->tournamentCheck(Tournament::LeaveGame) )
       return;
-    *BW::BWDATA::GameState      = 0;
-    *BW::BWDATA::gwNextGameMode = 6;
+    BW::BWDATA::GameState      = 0;
+    BW::BWDATA::gwNextGameMode = 6;
   }
   //--------------------------------------------- RESTART GAME -----------------------------------------------
   void GameImpl::restartGame()
@@ -784,7 +784,7 @@ namespace BWAPI
   int GameImpl::getLatencyFrames() const
   {
     DWORD dwCallDelay = 1;
-    if ( *BW::BWDATA::NetMode )
+    if ( BW::BWDATA::NetMode )
     {
       CAPS caps;
       caps.dwSize = sizeof(CAPS);
@@ -857,7 +857,7 @@ namespace BWAPI
   //------------------------------------------------- ELAPSED TIME -------------------------------------------
   int GameImpl::elapsedTime() const
   {
-    return (int)*BW::BWDATA::ElapsedTime;
+    return BW::BWDATA::ElapsedTime;
   }
   //-------------------------------------- SET COMMAND OPTIMIZATION LEVEL ------------------------------------
   void GameImpl::setCommandOptimizationLevel(int level)
@@ -870,7 +870,7 @@ namespace BWAPI
   //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
   int GameImpl::countdownTimer() const
   {
-    return (int)*BW::BWDATA::CountdownTimer;
+    return BW::BWDATA::CountdownTimer;
   }
   //------------------------------------------------- GET REGION AT ------------------------------------------
   BWAPI::Region GameImpl::getRegionAt(int x, int y) const

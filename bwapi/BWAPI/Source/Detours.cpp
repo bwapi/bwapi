@@ -349,7 +349,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
 {
   if ( source[0] && isCorrectVersion )
   {
-    if ( size == 0x7FFFFFFF && *BW::BWDATA::gwGameMode == 3 )
+    if ( size == 0x7FFFFFFF && BW::BWDATA::gwGameMode == BW::GAME_RUN )
     {
       if ( dest == BW::BWDATA::SaveGameFile )
       {
@@ -365,7 +365,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
         return 0;
       }
     }
-    else if ( size == 120 && *BW::BWDATA::gwGameMode != 3 )
+    else if ( size == 120 && BW::BWDATA::gwGameMode != BW::GAME_RUN )
     {
       // onSend Lobby
     }
@@ -433,7 +433,7 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   if ( BW::pOldDrawDialogProc && !hideHUD )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
-  if ( *BW::BWDATA::gwGameMode == BW::GAME_GLUES )
+  if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )
     BWAPI::BroodwarImpl.onMenuFrame();
 
   BW::dialog *timeout = BW::FindDialogGlobal("TimeOut");
@@ -526,16 +526,16 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
         if ( leakUIClassLoc )
           SMFree(leakUIClassLoc);
         leakUIClassLoc = rval;
-        BW::BWDATA::customList_UIDlgData[0] = BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
-        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA::customList_UIDlgData;
+        BW::BWDATA::customList_UIDlgData[0] = &BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)&BW::BWDATA::customList_UIDlgData;
       }
       else if ( _strcmpi(logfilename, "Starcraft\\SWAR\\lang\\game.cpp") == 0 )
       {
         if ( leakUIGrpLoc )
           SMFree(leakUIGrpLoc);
         leakUIGrpLoc = rval;
-        BW::BWDATA::customList_UIDlgData[0] = BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
-        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)BW::BWDATA::customList_UIDlgData;
+        BW::BWDATA::customList_UIDlgData[0] = &BW::BWDATA::customList_UIDlgData;  // list with custom allocator?
+        BW::BWDATA::customList_UIDlgData[1] = (void*)~(u32)&BW::BWDATA::customList_UIDlgData;
       }
     }
   } // isCorrectVer
