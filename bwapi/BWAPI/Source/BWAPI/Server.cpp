@@ -491,7 +491,7 @@ namespace BWAPI
     bool matchStarting = false;
     
     // iterate events
-    for(Event e : BroodwarImpl.events)
+    for(Event &e : BroodwarImpl.events)
     {
       // Add the event to the server queue
       addEvent(e);
@@ -724,7 +724,7 @@ namespace BWAPI
       //dynamic nuke dot data
       int j = 0;
       data->nukeDotCount = Broodwar->getNukeDots().size();
-      for(Position nd : Broodwar->getNukeDots())
+      for(Position const &nd : Broodwar->getNukeDots())
       {
         data->nukeDots[j].x = nd.x;
         data->nukeDots[j].y = nd.y;

@@ -84,12 +84,12 @@ each second
 
     // find if the list already has an ad from this host
     AdFile *adFile = nullptr;
-    for(auto it = gameList.begin(); it != gameList.end(); ++it)
+    for(auto &g : gameList)
     {
       // if peer IDs equal
-      if ( !memcmp(&it->gameInfo.saHost, &host, sizeof(SOCKADDR)) )
+      if ( !memcmp(&g.gameInfo.saHost, &host, sizeof(SOCKADDR)) )
       {
-        adFile = &(*it);
+        adFile = &g;
         break;
       }
     }
@@ -184,13 +184,13 @@ each second
 
     // interlink gamelist entries (for storm)
     AdFile *lastAd = nullptr;
-    for ( auto it = gameList.begin(); it != gameList.end(); ++it )
+    for ( auto &it : gameList)
     {
-      it->gameInfo.pExtra = it->extraBytes;
+      it.gameInfo.pExtra = it.extraBytes;
       if ( lastAd )
-        lastAd->gameInfo.pNext = &it->gameInfo;
+        lastAd->gameInfo.pNext = &it.gameInfo;
         
-      lastAd = &(*it);
+      lastAd = &it;
     }
 
     if(lastAd)
@@ -382,11 +382,11 @@ each second
 //    DropMessage(0, "spiGetGameInfo");
 
     // search for the game based on the gamename or index
-    for ( auto it = gameList.begin(); it != gameList.end(); ++it )
+    for ( auto &it : gameList )
     {
-      if ( it->gameInfo.dwIndex == dwFindIndex )
+      if ( it.gameInfo.dwIndex == dwFindIndex )
       {
-        *pGameResult = it->gameInfo;
+        *pGameResult = it.gameInfo;
         return true;
       }
     }

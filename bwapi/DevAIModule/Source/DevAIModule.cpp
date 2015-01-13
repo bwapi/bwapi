@@ -53,7 +53,7 @@ void DevAIModule::onFrame()
   if ( bw->self() )
   {
     Unitset myUnits = bw->getSelectedUnits();
-    for ( auto u : myUnits )
+    for ( auto &u : myUnits )
     {
       bw->drawTextMap(u->getPosition(), "%s %s %s", bools(u->isStartingAttack()), bools(u->isAttacking()), bools(u->isAttackFrame()));
     } // for

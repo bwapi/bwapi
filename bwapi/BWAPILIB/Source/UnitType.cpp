@@ -1619,11 +1619,11 @@ namespace BWAPI
     std::vector< std::map<UnitType,int> > req;
     req.resize(UnitTypes::Enum::MAX);
     // Add the whatBuilds types to the required units map
-    for ( auto i = UnitTypes::allUnitTypes().begin(); i != UnitTypes::allUnitTypes().end(); ++i )
+    for ( auto &i : UnitTypes::allUnitTypes() )
     {
-      auto wb = (*i).whatBuilds();
+      auto wb = i.whatBuilds();
       if ( wb.first != UnitTypes::None )
-        req[(*i).getID()].insert( wb );
+        req[i.getID()].insert( wb );
     }
 
     req[Terran_Ghost][Terran_Academy] = 1;

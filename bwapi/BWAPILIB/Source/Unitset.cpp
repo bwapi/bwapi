@@ -20,7 +20,7 @@ namespace BWAPI
     int validPosCount = 0;
 
     // Add up the positions for all units in the set
-    for ( auto u : *this )
+    for ( auto &u : *this )
     {
       Position pos = u->getPosition();
       if ( pos.isValid() )
@@ -38,7 +38,7 @@ namespace BWAPI
   Unitset Unitset::getLoadedUnits() const
   {
     Unitset retSet;
-    for (auto u : *this)
+    for (auto &u : *this)
     {
       auto units = u->getLoadedUnits();
       retSet.insert(units.begin(), units.end());
@@ -48,7 +48,7 @@ namespace BWAPI
   Unitset Unitset::getInterceptors() const
   {
     Unitset retSet;
-    for (auto u : *this)
+    for (auto &u : *this)
     {
       auto units = u->getInterceptors();
       retSet.insert(units.begin(), units.end());
@@ -58,7 +58,7 @@ namespace BWAPI
   Unitset Unitset::getLarva() const
   {
     Unitset retSet;
-    for (auto u : *this)
+    for (auto &u : *this)
     {
       auto units = u->getLarva();
       retSet.insert(units.begin(), units.end());
@@ -72,7 +72,7 @@ namespace BWAPI
       return;
 
     // Assign the client info to all units in the set
-    for (auto u : *this)
+    for (auto &u : *this)
     {
       u->setClientInfo(clientInfo, index);
     }

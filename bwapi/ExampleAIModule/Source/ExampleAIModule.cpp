@@ -77,8 +77,7 @@ void ExampleAIModule::onFrame()
     return;
 
   // Iterate through all the units that we own
-  Unitset myUnits = Broodwar->self()->getUnits();
-  for ( auto u : myUnits)
+  for (auto &u : Broodwar->self()->getUnits())
   {
     // Ignore the unit if it no longer exists
     // Make sure to include this block when handling any Unit pointer!

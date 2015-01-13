@@ -285,11 +285,11 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
           if ( !foundSomething )
           {
             // Iterate custom symbols, @TODO: make this a map?
-            for ( auto i = customSymbols.cbegin(); i != customSymbols.end(); ++i )
+            for ( auto &i : customSymbols )
             {
-              if ( dwOffset >= i->dwStartAddress && dwOffset < i->dwEndAddress )
+              if ( dwOffset >= i.dwStartAddress && dwOffset < i.dwEndAddress )
               {
-                fprintf(hFile, "%s", i->name.c_str());
+                fprintf(hFile, "%s", i.name.c_str());
                 foundSomething = true;
                 break;
               }

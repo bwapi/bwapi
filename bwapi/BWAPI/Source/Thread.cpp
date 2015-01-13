@@ -57,6 +57,6 @@ void CheckRegisteredThreads()
     return;
 
   // iterate all registered thread names and set them for the debugger
-  for ( auto e = threadNames.begin(); e != threadNames.end(); ++e )
-    SetThreadName(e->second, e->first);
+  for ( auto &e : threadNames)
+    SetThreadName(e.second, e.first);
 }
