@@ -198,7 +198,7 @@ void GameImpl::update()
 
   // Set the replay time, this is a workaround to fixing the replay DIVIDE_BY_ZERO exception bug
   if ( !this->isReplay() )
-    *BW::BWDATA::ReplayFrames = this->getFrameCount()+20;
+    BW::BWDATA::ReplayFrames = this->getFrameCount()+20;
   
   // Execute commands that have been buffered by the command optimizer
   updateCommandOptimizer();

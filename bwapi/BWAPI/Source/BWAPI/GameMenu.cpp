@@ -213,7 +213,7 @@ namespace BWAPI
 #endif
 
     // Get the menu mode
-    int menu = *BW::BWDATA::glGluesMode;
+    int menu = BW::BWDATA::glGluesMode;
 
     // Declare a commonly used dialog pointer
     BW::dialog *tempDlg = nullptr;

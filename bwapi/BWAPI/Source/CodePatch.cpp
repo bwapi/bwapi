@@ -98,10 +98,10 @@ void ApplyCodePatches()
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------
 void _SelectReturnMenu()
 {
-  switch ( *BW::BWDATA::NetMode )
+  switch ( BW::BWDATA::NetMode )
   {
   case 'BNET':
-    *BW::BWDATA::glGluesMode = BW::GLUE_BATTLE;  // battle.net
+    BW::BWDATA::glGluesMode = BW::GLUE_BATTLE;  // battle.net
     break;
   case 'IPXN':
   case 'ATLK':
@@ -111,17 +111,17 @@ void _SelectReturnMenu()
   case 'LPIP':
   case 'DRIP':
   case 'SMEM':
-    *BW::BWDATA::glGluesMode = BW::GLUE_GAME_SELECT; // game select
+    BW::BWDATA::glGluesMode = BW::GLUE_GAME_SELECT; // game select
     break;
   case 'MDMX':
   case 'MODM':
-    *BW::BWDATA::glGluesMode = BW::GLUE_MODEM; // modem
+    BW::BWDATA::glGluesMode = BW::GLUE_MODEM; // modem
     break;
   case 'SCBL':
-    *BW::BWDATA::glGluesMode = BW::GLUE_DIRECT; // direct connect
+    BW::BWDATA::glGluesMode = BW::GLUE_DIRECT; // direct connect
     break;
   default:
-    *BW::BWDATA::glGluesMode = BW::GLUE_MAIN_MENU;  // main menu
+    BW::BWDATA::glGluesMode = BW::GLUE_MAIN_MENU;  // main menu
     break;
   }
 }

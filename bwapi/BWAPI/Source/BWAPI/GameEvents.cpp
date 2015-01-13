@@ -90,7 +90,7 @@ namespace BWAPI
     } // playercount iterator
 
 
-    if ( *(BW::BWDATA::InReplay) ) /* set replay flags */
+    if (BW::BWDATA::InReplay) // set replay flags
     {
       // Set every cheat flag to true
       for (int i = 0; i < Flag::Max; ++i)

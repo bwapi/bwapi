@@ -31,7 +31,7 @@ void updateImageDrawingData()
 
 void blitGameText(int line, int x, int y)
 {
-  if ( BW::BWDATA::Chat_GameText[line].txt[0] )
+  if ( BW::BWDATA::Chat_GameText[line][0] )
   {
     char szString[256];
     szString[0] = 0;
@@ -40,20 +40,20 @@ void blitGameText(int line, int x, int y)
       szString[0] = BW::BWDATA::Chat_ColorBytes[line];
       szString[1] = 0;
     }
-    strcat(szString, BW::BWDATA::Chat_GameText[line].txt);
+    strcat(szString, BW::BWDATA::Chat_GameText[line].data());
     BW::BWDATA::GameScreenBuffer.blitString(szString, x, y);
   }
 }
 
 void drawGameText()   // @TODO: Text Alignments
 {
-  int l = *BW::BWDATA::Chat_NextLine;
+  int l = BW::BWDATA::Chat_NextLine;
 
   int y = 112;
   for ( int i = 0; i < 11; ++i )
   {
     blitGameText(l, 10, y);
-    y += *BW::BWDATA::Chat_IncrementY;
+    y += BW::BWDATA::Chat_IncrementY;
     l = (l + 1) % 11;
   }
   blitGameText(12, 10, 295);
@@ -62,7 +62,7 @@ void drawGameText()   // @TODO: Text Alignments
 
 void drawThingys()
 {
-  if ( *BW::BWDATA::wantThingyUpdate )
+  if ( BW::BWDATA::wantThingyUpdate )
   {
     BW::CThingy *pThingyFirst = BW::BWDATA::ThingyList_UsedFirst;
     for ( BW::CImage *p = pThingyFirst->sprite->overlay; p; p = p->next )
