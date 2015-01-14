@@ -211,7 +211,8 @@ namespace BWAPI
       self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
                            animState == BW::Anims::AirAttkRpt  || 
                            animState == BW::Anims::GndAttkInit ||
-                           animState == BW::Anims::AirAttkInit);
+                           animState == BW::Anims::AirAttkInit) && o->orderTarget.pUnit != NULL;
+      
       //isAttackFrame
       self->isAttackFrame = false;
       if ( damageDealer->sprite && damageDealer->sprite->mainGraphic )
