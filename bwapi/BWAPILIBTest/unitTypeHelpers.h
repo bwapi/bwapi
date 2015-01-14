@@ -1,13 +1,13 @@
 #pragma once
-#include <initializer_list>
+#include "helpers.h"
 
-#define WIDE(x) L ## x
 #define AssertDef(v, p) Assert::AreEqual(v, t.p(), WIDE(#p))
 
-#define Assert_getRace(v) AssertDef(v, getRace)
-#define Assert_requiredTech(v) AssertDef(v, requiredTech)
-#define Assert_cloakingTech(v) AssertDef(v, cloakingTech)
-#define Assert_armorUpgrade(v) AssertDef(v, armorUpgrade)
+#define Assert_enum(v) AssertDef(static_cast<int>(BWAPI::UnitTypes::Enum::v), getID)
+#define Assert_getRace(v) AssertDef(BWAPI::Races::v, getRace)
+#define Assert_requiredTech(v) AssertDef(BWAPI::TechTypes::v, requiredTech)
+#define Assert_cloakingTech(v) AssertDef(BWAPI::TechTypes::v, cloakingTech)
+#define Assert_armorUpgrade(v) AssertDef(BWAPI::UpgradeTypes::v, armorUpgrade)
 #define Assert_maxHitPoints(v) AssertDef(v, maxHitPoints)
 #define Assert_maxShields(v) AssertDef(v, maxShields)
 #define Assert_maxEnergy(v) AssertDef(v, maxEnergy)
@@ -21,7 +21,7 @@
 #define Assert_spaceProvided(v) AssertDef(v, spaceProvided)
 #define Assert_buildScore(v) AssertDef(v, buildScore)
 #define Assert_destroyScore(v) AssertDef(v, destroyScore)
-#define Assert_size(v) AssertDef(v, size)
+#define Assert_size(v) AssertDef(BWAPI::UnitSizeTypes::v, size)
 #define Assert_tileWidth(v) AssertDef(v, tileWidth)
 #define Assert_tileHeight(v) AssertDef(v, tileHeight)
 #define Assert_tileSize(v) AssertDef(v, tileSize)
@@ -33,9 +33,9 @@
 #define Assert_height(v) AssertDef(v, height)
 #define Assert_seekRange(v) AssertDef(v, seekRange)
 #define Assert_sightRange(v) AssertDef(v, sightRange)
-#define Assert_groundWeapon(v) AssertDef(v, groundWeapon)
+#define Assert_groundWeapon(v) AssertDef(BWAPI::WeaponTypes::v, groundWeapon)
 #define Assert_maxGroundHits(v) AssertDef(v, maxGroundHits)
-#define Assert_airWeapon(v) AssertDef(v, airWeapon)
+#define Assert_airWeapon(v) AssertDef(BWAPI::WeaponTypes::v, airWeapon)
 #define Assert_maxAirHits(v) AssertDef(v, maxAirHits)
 #define Assert_topSpeed(v) AssertDef(v, topSpeed)
 #define Assert_acceleration(v) AssertDef(v, acceleration)
@@ -76,4 +76,3 @@
 #define Assert_isMineralField(v) AssertDef(v, isMineralField)
 #define Assert_isCritter(v) AssertDef(v, isCritter)
 #define Assert_canBuildAddon(v) AssertDef(v, canBuildAddon)
-

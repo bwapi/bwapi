@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "specializations.h"
+#include <sstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace BWAPI;
@@ -8,13 +9,9 @@ using namespace BWAPI;
 namespace BWAPILIBTest
 {
   // TODO test these
-  // - All arithmetic/binary operations
-  // - All iostream operations
   // - getDistance
   // - getLength
   // - getApproxDistance
-  // - setMax
-  // - setMin
 	TEST_CLASS(positionTest)
 	{
 	public:
@@ -144,5 +141,173 @@ namespace BWAPILIBTest
       Assert::IsFalse(p4 < p4);
 
     }
+    TEST_METHOD(PositionAdd)
+    {
+      Position p1(1, 1), p2(1, 2);
+
+      Position p3 = p1 + p2;
+      Assert::AreEqual(Position(2, 3), p3);
+
+      p3 += p1;
+      Assert::AreEqual(Position(3, 4), p3);
+
+      p3 += Positions::Origin;
+      Assert::AreEqual(Position(3, 4), p3);
+    }
+    TEST_METHOD(PositionSubtract)
+    {
+      Position p1(1, 1), p2(1, 2);
+
+      Position p3 = p1 - p2;
+      Assert::AreEqual(Position(0, -1), p3);
+
+      p3 -= p1;
+      Assert::AreEqual(Position(-1, -2), p3);
+
+      p3 -= Positions::Origin;
+      Assert::AreEqual(Position(-1, -2), p3);
+    }
+    TEST_METHOD(PositionMultiply)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 * 1;
+      Position p3 = p1 * 2;
+      Assert::AreEqual(Position(1, 2), p2);
+      Assert::AreEqual(Position(2, 4), p3);
+
+      p2 *= 2;
+      p3 *= 1;
+      Assert::AreEqual(Position(2, 4), p2);
+      Assert::AreEqual(Position(2, 4), p3);
+    }
+    TEST_METHOD(PositionOr)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 | 1;
+      Position p3 = p1 | 2;
+      Assert::AreEqual(Position(1, 3), p2);
+      Assert::AreEqual(Position(3, 2), p3);
+
+      p2 |= 2;
+      p3 |= 1;
+      Assert::AreEqual(Position(3, 3), p2);
+      Assert::AreEqual(Position(3, 3), p3);
+    }
+    TEST_METHOD(PositionAnd)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 & 1;
+      Position p3 = p1 & 2;
+      Assert::AreEqual(Position(1, 0), p2);
+      Assert::AreEqual(Position(0, 2), p3);
+
+      p2 &= 2;
+      p3 &= 1;
+      Assert::AreEqual(Positions::Origin, p2);
+      Assert::AreEqual(Positions::Origin, p3);
+    }
+    TEST_METHOD(PositionXor)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 ^ 1;
+      Position p3 = p1 ^ 2;
+      Assert::AreEqual(Position(0, 3), p2);
+      Assert::AreEqual(Position(3, 0), p3);
+
+      p2 ^= 2;
+      p3 ^= 1;
+      Assert::AreEqual(Position(2, 1), p2);
+      Assert::AreEqual(Position(2, 1), p3);
+    }
+    TEST_METHOD(PositionDivide)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 / 1;
+      Position p3 = p1 / 2;
+      Assert::AreEqual(Position(1, 2), p2);
+      Assert::AreEqual(Position(0, 1), p3);
+
+      p2 /= 2;
+      p3 /= 1;
+      Assert::AreEqual(Position(0, 1), p2);
+      Assert::AreEqual(Position(0, 1), p3);
+
+      p2 = p1 / 0;
+      p3 /= 0;
+      Assert::AreEqual(Positions::Invalid, p2);
+      Assert::AreEqual(Positions::Invalid, p3);
+    }
+    TEST_METHOD(PositionModulus)
+    {
+      Position p1(1, 2);
+
+      Position p2 = p1 % 1;
+      Position p3 = p1 % 2;
+      Assert::AreEqual(Position(0, 0), p2);
+      Assert::AreEqual(Position(1, 0), p3);
+
+      p2 = p3 = Position(3, 4);
+      p2 %= 2;
+      p3 %= 1;
+      Assert::AreEqual(Position(1, 0), p2);
+      Assert::AreEqual(Position(0, 0), p3);
+
+      p2 = p1 % 0;
+      p3 %= 0;
+      Assert::AreEqual(Positions::Invalid, p2);
+      Assert::AreEqual(Positions::Invalid, p3);
+    }
+    TEST_METHOD(PositionSetMin)
+    {
+      Position p1(0, 0), p2(3, 3);
+
+      p1.setMin(1, 0);
+      p2.setMin(Position(0, 4));
+      Assert::AreEqual(Position(1, 0), p1);
+      Assert::AreEqual(Position(3, 4), p2);
+    }
+    TEST_METHOD(PositionSetMax)
+    {
+      Position p1(0, 0), p2(3, 3);
+
+      p1.setMax(1, -1);
+      p2.setMax(Position(2, 2));
+      Assert::AreEqual(Position(0, -1), p1);
+      Assert::AreEqual(Position(2, 2), p2);
+    }
+    TEST_METHOD(PositionOstream)
+    {
+      Position p1(2, -3);
+      std::stringstream ss;
+      ss << p1;
+      Assert::AreEqual("(2,-3)", ss.str().c_str());
+    }
+    TEST_METHOD(PositionIstream)
+    {
+      Position p1;
+      std::stringstream ss("2 -3");
+      ss >> p1;
+      Assert::AreEqual(Position(2, -3), p1);
+    }
+    TEST_METHOD(PositionWOstream)
+    {
+      Position p1(2, -3);
+      std::wstringstream ss;
+      ss << p1;
+      Assert::AreEqual(L"(2,-3)", ss.str().c_str());
+    }
+    TEST_METHOD(PositionWIstream)
+    {
+      Position p1;
+      std::wstringstream ss(L"2 -3");
+      ss >> p1;
+      Assert::AreEqual(Position(2, -3), p1);
+    }
+
 	};
 }

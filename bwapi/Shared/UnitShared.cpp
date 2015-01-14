@@ -348,9 +348,8 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTORS -------------------------------------------
   Unitset UnitImpl::getInterceptors() const
   {
-    Unitset nothing;
     if (getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor)
-      return nothing;
+      return Unitset{};
     return connectedUnits;
   }
   //--------------------------------------------- GET HATCHERY -----------------------------------------------
@@ -361,9 +360,8 @@ namespace BWAPI
   //--------------------------------------------- GET LARVA --------------------------------------------------
   Unitset UnitImpl::getLarva() const
   {
-    Unitset nothing;
     if (!getType().producesLarva())
-        return nothing;
+      return Unitset{};
     return connectedUnits;
   }
   //--------------------------------------------- EXISTS -----------------------------------------------------
