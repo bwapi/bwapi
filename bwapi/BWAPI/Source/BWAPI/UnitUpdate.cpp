@@ -205,7 +205,7 @@ namespace BWAPI
       self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
                            animState == BW::Anims::AirAttkRpt  || 
                            animState == BW::Anims::GndAttkInit ||
-                           animState == BW::Anims::AirAttkInit);
+                           animState == BW::Anims::AirAttkInit) && o->orderTarget.pUnit != nullptr;
       
       //isAttackFrame
       self->isAttackFrame = false;
