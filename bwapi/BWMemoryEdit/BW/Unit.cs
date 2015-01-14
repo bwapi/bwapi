@@ -22,6 +22,7 @@ namespace BWMemoryEdit
         [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
         public Reference<Unit> next { get { return data.next; } set { } }
 
+        [Category("Core Stats")]
         public Int32 hitPoints { get { return data.hitPoints; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "hitPoints").ToInt32(), value); } }
 
         [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
@@ -90,7 +91,10 @@ namespace BWMemoryEdit
         [Category("PrimaryOrder")]
         public Target orderTarget { get { return data.orderTarget; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "orderTarget").ToInt32(), value); } }
 
+        [Category("Core Stats")]
         public UInt32 shieldPoints { get { return data.shieldPoints; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "shieldPoints").ToInt32(), value); } }
+
+        [Category("Core Stats")]
         public UnitType unitType { get { return data.unitType; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "unitType").ToInt32(), (ushort)value); } }
 
         [Editor(typeof(JumpToReferenceTypeEditor), typeof(UITypeEditor))]
@@ -121,11 +125,13 @@ namespace BWMemoryEdit
         public Byte userActionFlags { get { return data.userActionFlags; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "userActionFlags").ToInt32(), value); } }
 
         public UInt16 currentButtonSet { get { return data.currentButtonSet; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "currentButtonSet").ToInt32(), value); } }
-        public Byte isCloaked { get { return data.isCloaked; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isCloaked").ToInt32(), value); } }
+        [Category("Status")]
+        public Boolean isCloaked { get { return data.isCloaked != 0; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "isCloaked").ToInt32(), (byte)(value ? 1 : 0)); } }
 
         [Category("Movement")]
         public UnitMovement movementState { get { return data.movementState; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "movementState").ToInt32(), (byte)value); } }
 
+        [Category("Core Stats")]
         public UInt16 energy { get { return data.energy; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "energy").ToInt32(), value); } }
 
         public Byte uniquenessIdentifier { get { return data.uniquenessIdentifier; } set { ptr.Write(Marshal.OffsetOf(data.GetType(), "uniquenessIdentifier").ToInt32(), value); } }

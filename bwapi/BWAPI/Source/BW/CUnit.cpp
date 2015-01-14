@@ -19,4 +19,9 @@ namespace BW
   {
     return (this->statusFlags & flags) != 0;
   }
+  const CUnit* CUnit::getDamageDealer() const
+  {
+    if (this->subUnit != nullptr) return this->subUnit;
+    return this;
+  }
 }
