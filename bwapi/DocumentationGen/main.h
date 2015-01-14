@@ -16,5 +16,7 @@ void writeDamageTypeInfo();
 void writeBulletTypeInfo();
 void writeErrorInfo();
 
+void genUnitTypeTest();
+
 
 

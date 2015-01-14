@@ -135,3 +135,9 @@ std::string docIntro(T const & t)
   ss << friendlyName(t) << ". Corresponds with " << namespaceOf<T>::value << "::Enum::" << t.getName() << ".\n";
   return ss.str();
 }
+
+inline std::string tab(size_t level)
+{
+  return std::string(level * 2, ' ');
+}
+

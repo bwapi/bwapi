@@ -3,6 +3,7 @@
 #include "specializations.h"
 #include <BWAPI.h>
 #include "unitTypeHelpers.h"
+#include "helpers.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -21,11 +22,15 @@ namespace BWAPILIBTest
     TEST_METHOD(TestTerran_Marine)
     {
       auto t = BWAPI::UnitTypes::Terran_Marine;
+      
+      Assert_enum(Terran_Marine);
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons, BWAPI::UpgradeTypes::U_238_Shells }, t.upgrades());
+      
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -39,7 +44,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -51,9 +56,9 @@ namespace BWAPILIBTest
       Assert_height(20);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Gauss_Rifle);
+      Assert_groundWeapon(Gauss_Rifle);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Gauss_Rifle);
+      Assert_airWeapon(Gauss_Rifle);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -99,10 +104,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Ghost;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(45);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -116,7 +121,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(175);
       Assert_destroyScore(350);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -128,9 +133,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle);
+      Assert_groundWeapon(C_10_Canister_Rifle);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle);
+      Assert_airWeapon(C_10_Canister_Rifle);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -176,10 +181,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Vulture;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -193,7 +198,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -205,9 +210,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Fragmentation_Grenade);
+      Assert_groundWeapon(Fragmentation_Grenade);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(6.40000);
       Assert_acceleration(100);
@@ -253,10 +258,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Goliath;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -270,7 +275,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -282,9 +287,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(160);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Twin_Autocannons);
+      Assert_groundWeapon(Twin_Autocannons);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Hellfire_Missile_Pack);
+      Assert_airWeapon(Hellfire_Missile_Pack);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.57000);
       Assert_acceleration(1);
@@ -330,10 +335,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -347,7 +352,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(350);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -359,9 +364,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Arclite_Cannon);
+      Assert_groundWeapon(Arclite_Cannon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -407,10 +412,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_SCV;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -424,7 +429,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -436,9 +441,9 @@ namespace BWAPILIBTest
       Assert_height(23);
       Assert_seekRange(32);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Fusion_Cutter);
+      Assert_groundWeapon(Fusion_Cutter);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(67);
@@ -484,10 +489,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Wraith;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Cloaking_Field);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Cloaking_Field);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -501,7 +506,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -513,9 +518,9 @@ namespace BWAPILIBTest
       Assert_height(30);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Burst_Lasers);
+      Assert_groundWeapon(Burst_Lasers);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Gemini_Missiles);
+      Assert_airWeapon(Gemini_Missiles);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -561,10 +566,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Science_Vessel;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -578,7 +583,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(625);
       Assert_destroyScore(1250);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -590,9 +595,9 @@ namespace BWAPILIBTest
       Assert_height(50);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.00000);
       Assert_acceleration(50);
@@ -638,10 +643,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Gui_Montag;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(160);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -655,7 +660,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -667,9 +672,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Flame_Thrower_Gui_Montag);
+      Assert_groundWeapon(Flame_Thrower_Gui_Montag);
       Assert_maxGroundHits(3);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -715,10 +720,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Dropship;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -732,7 +737,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(8);
       Assert_buildScore(300);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -744,9 +749,9 @@ namespace BWAPILIBTest
       Assert_height(37);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.47000);
       Assert_acceleration(17);
@@ -792,10 +797,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Battlecruiser;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -809,7 +814,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(1200);
       Assert_destroyScore(2400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -821,9 +826,9 @@ namespace BWAPILIBTest
       Assert_height(59);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::ATS_Laser_Battery);
+      Assert_groundWeapon(ATS_Laser_Battery);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::ATA_Laser_Battery);
+      Assert_airWeapon(ATA_Laser_Battery);
       Assert_maxAirHits(1);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -869,10 +874,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Vulture_Spider_Mine;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(20);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -886,7 +891,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(25);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -898,9 +903,9 @@ namespace BWAPILIBTest
       Assert_height(15);
       Assert_seekRange(96);
       Assert_sightRange(96);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Spider_Mines);
+      Assert_groundWeapon(Spider_Mines);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(16.0000);
       Assert_acceleration(1);
@@ -946,10 +951,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Missile;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -963,7 +968,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(800);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -975,9 +980,9 @@ namespace BWAPILIBTest
       Assert_height(29);
       Assert_seekRange(0);
       Assert_sightRange(96);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(33.3300);
       Assert_acceleration(33);
@@ -1023,10 +1028,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Civilian;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1040,7 +1045,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1052,9 +1057,9 @@ namespace BWAPILIBTest
       Assert_height(20);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -1100,10 +1105,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Sarah_Kerrigan;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1117,7 +1122,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1129,9 +1134,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan);
+      Assert_groundWeapon(C_10_Canister_Rifle_Sarah_Kerrigan);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan);
+      Assert_airWeapon(C_10_Canister_Rifle_Sarah_Kerrigan);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -1177,10 +1182,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Alan_Schezar;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1194,7 +1199,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1206,9 +1211,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(160);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Twin_Autocannons_Alan_Schezar);
+      Assert_groundWeapon(Twin_Autocannons_Alan_Schezar);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar);
+      Assert_airWeapon(Hellfire_Missile_Pack_Alan_Schezar);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.57000);
       Assert_acceleration(1);
@@ -1254,10 +1259,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Vulture;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1271,7 +1276,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1283,9 +1288,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Fragmentation_Grenade_Jim_Raynor);
+      Assert_groundWeapon(Fragmentation_Grenade_Jim_Raynor);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(6.40000);
       Assert_acceleration(100);
@@ -1331,10 +1336,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Marine;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1348,7 +1353,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(200);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1360,9 +1365,9 @@ namespace BWAPILIBTest
       Assert_height(20);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor);
+      Assert_groundWeapon(Gauss_Rifle_Jim_Raynor);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor);
+      Assert_airWeapon(Gauss_Rifle_Jim_Raynor);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -1408,10 +1413,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Tom_Kazansky;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Cloaking_Field);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Cloaking_Field);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1425,7 +1430,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1437,9 +1442,9 @@ namespace BWAPILIBTest
       Assert_height(30);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Burst_Lasers_Tom_Kazansky);
+      Assert_groundWeapon(Burst_Lasers_Tom_Kazansky);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Gemini_Missiles_Tom_Kazansky);
+      Assert_airWeapon(Gemini_Missiles_Tom_Kazansky);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -1485,10 +1490,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Magellan;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1502,7 +1507,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -1514,9 +1519,9 @@ namespace BWAPILIBTest
       Assert_height(50);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.00000);
       Assert_acceleration(50);
@@ -1562,10 +1567,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Tank_Mode;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1579,7 +1584,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1591,9 +1596,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Arclite_Cannon_Edmund_Duke);
+      Assert_groundWeapon(Arclite_Cannon_Edmund_Duke);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -1639,10 +1644,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Siege_Mode;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1656,7 +1661,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1668,9 +1673,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke);
+      Assert_groundWeapon(Arclite_Shock_Cannon_Edmund_Duke);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(1);
@@ -1716,10 +1721,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Arcturus_Mengsk;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1733,7 +1738,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -1745,9 +1750,9 @@ namespace BWAPILIBTest
       Assert_height(59);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::ATS_Laser_Battery_Hero);
+      Assert_groundWeapon(ATS_Laser_Battery_Hero);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::ATA_Laser_Battery_Hero);
+      Assert_airWeapon(ATA_Laser_Battery_Hero);
       Assert_maxAirHits(1);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -1793,10 +1798,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Hyperion;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1810,7 +1815,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -1822,9 +1827,9 @@ namespace BWAPILIBTest
       Assert_height(59);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::ATS_Laser_Battery_Hyperion);
+      Assert_groundWeapon(ATS_Laser_Battery_Hyperion);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::ATA_Laser_Battery_Hyperion);
+      Assert_airWeapon(ATA_Laser_Battery_Hyperion);
       Assert_maxAirHits(1);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -1870,10 +1875,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Norad_II;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -1887,7 +1892,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -1899,9 +1904,9 @@ namespace BWAPILIBTest
       Assert_height(59);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::ATS_Laser_Battery_Hero);
+      Assert_groundWeapon(ATS_Laser_Battery_Hero);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::ATA_Laser_Battery_Hero);
+      Assert_airWeapon(ATA_Laser_Battery_Hero);
       Assert_maxAirHits(1);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -1947,10 +1952,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Siege_Mode;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Vehicle_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Vehicle_Plating);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -1964,7 +1969,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -1976,9 +1981,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Arclite_Shock_Cannon);
+      Assert_groundWeapon(Arclite_Shock_Cannon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(1);
@@ -2024,10 +2029,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Firebat;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2041,7 +2046,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(200);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2053,9 +2058,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Flame_Thrower);
+      Assert_groundWeapon(Flame_Thrower);
       Assert_maxGroundHits(3);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -2101,10 +2106,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Spell_Scanner_Sweep;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2118,7 +2123,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2130,9 +2135,9 @@ namespace BWAPILIBTest
       Assert_height(31);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -2178,10 +2183,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Medic;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -2195,7 +2200,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(125);
       Assert_destroyScore(250);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2207,9 +2212,9 @@ namespace BWAPILIBTest
       Assert_height(20);
       Assert_seekRange(288);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -2255,10 +2260,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Larva;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(25);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2272,7 +2277,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2284,9 +2289,9 @@ namespace BWAPILIBTest
       Assert_height(16);
       Assert_seekRange(0);
       Assert_sightRange(128);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(1);
@@ -2332,10 +2337,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Egg;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2349,7 +2354,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(25);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2361,9 +2366,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(128);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -2409,10 +2414,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Zergling;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(35);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2426,7 +2431,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(25);
       Assert_destroyScore(50);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2438,9 +2443,9 @@ namespace BWAPILIBTest
       Assert_height(16);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Claws);
+      Assert_groundWeapon(Claws);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.49000);
       Assert_acceleration(1);
@@ -2486,10 +2491,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2503,7 +2508,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(125);
       Assert_destroyScore(350);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2515,9 +2520,9 @@ namespace BWAPILIBTest
       Assert_height(23);
       Assert_seekRange(0);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Needle_Spines);
+      Assert_groundWeapon(Needle_Spines);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Needle_Spines);
+      Assert_airWeapon(Needle_Spines);
       Assert_maxAirHits(1);
       Assert_topSpeed(3.66000);
       Assert_acceleration(1);
@@ -2563,10 +2568,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2580,7 +2585,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(650);
       Assert_destroyScore(1300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -2592,9 +2597,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Kaiser_Blades);
+      Assert_groundWeapon(Kaiser_Blades);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.12000);
       Assert_acceleration(1);
@@ -2640,10 +2645,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Broodling;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(30);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2657,7 +2662,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(25);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2669,9 +2674,9 @@ namespace BWAPILIBTest
       Assert_height(19);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Toxic_Spores);
+      Assert_groundWeapon(Toxic_Spores);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(6.00000);
       Assert_acceleration(1);
@@ -2717,10 +2722,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Drone;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(40);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2734,7 +2739,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -2746,9 +2751,9 @@ namespace BWAPILIBTest
       Assert_height(23);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Spines);
+      Assert_groundWeapon(Spines);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(67);
@@ -2794,10 +2799,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Overlord;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2811,7 +2816,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(8);
       Assert_buildScore(100);
       Assert_destroyScore(200);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -2823,9 +2828,9 @@ namespace BWAPILIBTest
       Assert_height(50);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.830000);
       Assert_acceleration(27);
@@ -2871,10 +2876,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Mutalisk;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2888,7 +2893,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(300);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -2900,9 +2905,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Glave_Wurm);
+      Assert_groundWeapon(Glave_Wurm);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Glave_Wurm);
+      Assert_airWeapon(Glave_Wurm);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -2948,10 +2953,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Guardian;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(150);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -2965,7 +2970,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(550);
       Assert_destroyScore(1100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -2977,9 +2982,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Acid_Spore);
+      Assert_groundWeapon(Acid_Spore);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -3025,10 +3030,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Queen;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -3042,7 +3047,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3054,9 +3059,9 @@ namespace BWAPILIBTest
       Assert_height(48);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -3102,10 +3107,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Defiler;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -3119,7 +3124,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(225);
       Assert_destroyScore(450);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3131,9 +3136,9 @@ namespace BWAPILIBTest
       Assert_height(25);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -3179,10 +3184,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Scourge;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(25);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3196,7 +3201,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(200);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3208,9 +3213,9 @@ namespace BWAPILIBTest
       Assert_height(24);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Suicide_Scourge);
+      Assert_airWeapon(Suicide_Scourge);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(107);
@@ -3256,10 +3261,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Torrasque;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3273,7 +3278,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3285,9 +3290,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Kaiser_Blades_Torrasque);
+      Assert_groundWeapon(Kaiser_Blades_Torrasque);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.12000);
       Assert_acceleration(1);
@@ -3333,10 +3338,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Matriarch;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -3350,7 +3355,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1600);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3362,9 +3367,9 @@ namespace BWAPILIBTest
       Assert_height(48);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -3410,10 +3415,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Infested_Terran;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3427,7 +3432,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3439,9 +3444,9 @@ namespace BWAPILIBTest
       Assert_height(20);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Suicide_Infested_Terran);
+      Assert_groundWeapon(Suicide_Infested_Terran);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.82000);
       Assert_acceleration(1);
@@ -3487,10 +3492,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Infested_Kerrigan;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -3504,7 +3509,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4000);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3516,9 +3521,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(96);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Claws_Infested_Kerrigan);
+      Assert_groundWeapon(Claws_Infested_Kerrigan);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -3564,10 +3569,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Unclean_One;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -3581,7 +3586,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(900);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3593,9 +3598,9 @@ namespace BWAPILIBTest
       Assert_height(25);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -3641,10 +3646,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Hunter_Killer;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(160);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3658,7 +3663,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(500);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3670,9 +3675,9 @@ namespace BWAPILIBTest
       Assert_height(23);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer);
+      Assert_groundWeapon(Needle_Spines_Hunter_Killer);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer);
+      Assert_airWeapon(Needle_Spines_Hunter_Killer);
       Assert_maxAirHits(1);
       Assert_topSpeed(3.66000);
       Assert_acceleration(1);
@@ -3718,10 +3723,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Devouring_One;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(120);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3735,7 +3740,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -3747,9 +3752,9 @@ namespace BWAPILIBTest
       Assert_height(16);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Claws_Devouring_One);
+      Assert_groundWeapon(Claws_Devouring_One);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.49000);
       Assert_acceleration(1);
@@ -3795,10 +3800,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Mutalisk;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3812,7 +3817,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1200);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3824,9 +3829,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Glave_Wurm_Kukulza);
+      Assert_groundWeapon(Glave_Wurm_Kukulza);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Glave_Wurm_Kukulza);
+      Assert_airWeapon(Glave_Wurm_Kukulza);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -3872,10 +3877,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Guardian;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3889,7 +3894,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2200);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3901,9 +3906,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Acid_Spore_Kukulza);
+      Assert_groundWeapon(Acid_Spore_Kukulza);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -3949,10 +3954,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Yggdrasill;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -3966,7 +3971,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(8);
       Assert_buildScore(0);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -3978,9 +3983,9 @@ namespace BWAPILIBTest
       Assert_height(50);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.830000);
       Assert_acceleration(27);
@@ -4026,10 +4031,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Valkyrie;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -4043,7 +4048,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -4055,9 +4060,9 @@ namespace BWAPILIBTest
       Assert_height(37);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Halo_Rockets);
+      Assert_airWeapon(Halo_Rockets);
       Assert_maxAirHits(4);
       Assert_topSpeed(6.60000);
       Assert_acceleration(65);
@@ -4103,10 +4108,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Cocoon;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -4120,7 +4125,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4132,9 +4137,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(128);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -4180,10 +4185,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Corsair;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
       Assert_maxEnergy(200);
@@ -4197,7 +4202,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(350);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4209,9 +4214,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(288);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Neutron_Flare);
+      Assert_airWeapon(Neutron_Flare);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -4257,10 +4262,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Dark_Templar;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(40);
       Assert_maxEnergy(0);
@@ -4274,7 +4279,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(325);
       Assert_destroyScore(650);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4286,9 +4291,9 @@ namespace BWAPILIBTest
       Assert_height(26);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Warp_Blades);
+      Assert_groundWeapon(Warp_Blades);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(27);
@@ -4334,10 +4339,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Devourer;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Flyer_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Flyer_Carapace);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -4351,7 +4356,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(550);
       Assert_destroyScore(1100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -4363,9 +4368,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(224);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Corrosive_Acid);
+      Assert_airWeapon(Corrosive_Acid);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(48);
@@ -4411,10 +4416,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Dark_Archon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(25);
       Assert_maxShields(200);
       Assert_maxEnergy(200);
@@ -4428,7 +4433,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(650);
       Assert_destroyScore(1300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4440,9 +4445,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(224);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(160);
@@ -4488,10 +4493,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Probe;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(20);
       Assert_maxShields(20);
       Assert_maxEnergy(0);
@@ -4505,7 +4510,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4517,9 +4522,9 @@ namespace BWAPILIBTest
       Assert_height(23);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Particle_Beam);
+      Assert_groundWeapon(Particle_Beam);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(67);
@@ -4565,10 +4570,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Zealot;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(60);
       Assert_maxEnergy(0);
@@ -4582,7 +4587,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(200);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4594,9 +4599,9 @@ namespace BWAPILIBTest
       Assert_height(19);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psi_Blades);
+      Assert_groundWeapon(Psi_Blades);
       Assert_maxGroundHits(2);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -4642,10 +4647,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Dragoon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
       Assert_maxEnergy(0);
@@ -4659,7 +4664,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(250);
       Assert_destroyScore(500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4671,9 +4676,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Phase_Disruptor);
+      Assert_groundWeapon(Phase_Disruptor);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Phase_Disruptor);
+      Assert_airWeapon(Phase_Disruptor);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(1);
@@ -4719,10 +4724,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_High_Templar;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(40);
       Assert_maxEnergy(200);
@@ -4736,7 +4741,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(350);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4748,9 +4753,9 @@ namespace BWAPILIBTest
       Assert_height(24);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.20000);
       Assert_acceleration(27);
@@ -4796,10 +4801,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Archon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(10);
       Assert_maxShields(350);
       Assert_maxEnergy(0);
@@ -4813,7 +4818,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(700);
       Assert_destroyScore(1400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -4825,9 +4830,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(96);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psionic_Shockwave);
+      Assert_groundWeapon(Psionic_Shockwave);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Psionic_Shockwave);
+      Assert_airWeapon(Psionic_Shockwave);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.92000);
       Assert_acceleration(160);
@@ -4873,10 +4878,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Shuttle;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(60);
       Assert_maxEnergy(0);
@@ -4890,7 +4895,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(8);
       Assert_buildScore(200);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -4902,9 +4907,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.43000);
       Assert_acceleration(17);
@@ -4950,10 +4955,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Scout;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(150);
       Assert_maxShields(100);
       Assert_maxEnergy(0);
@@ -4967,7 +4972,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(650);
       Assert_destroyScore(1300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -4979,9 +4984,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Dual_Photon_Blasters);
+      Assert_groundWeapon(Dual_Photon_Blasters);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Anti_Matter_Missiles);
+      Assert_airWeapon(Anti_Matter_Missiles);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(48);
@@ -5027,10 +5032,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Arbiter;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(150);
       Assert_maxEnergy(200);
@@ -5044,7 +5049,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(1025);
       Assert_destroyScore(2050);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -5056,9 +5061,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Cannon);
+      Assert_groundWeapon(Phase_Disruptor_Cannon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Cannon);
+      Assert_airWeapon(Phase_Disruptor_Cannon);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(33);
@@ -5104,10 +5109,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Carrier;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(300);
       Assert_maxShields(150);
       Assert_maxEnergy(0);
@@ -5121,7 +5126,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(950);
       Assert_destroyScore(1900);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -5133,9 +5138,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(256);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.33000);
       Assert_acceleration(27);
@@ -5181,10 +5186,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Interceptor;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(40);
       Assert_maxEnergy(0);
@@ -5198,7 +5203,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(30);
       Assert_destroyScore(60);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5210,9 +5215,9 @@ namespace BWAPILIBTest
       Assert_height(16);
       Assert_seekRange(0);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Pulse_Cannon);
+      Assert_groundWeapon(Pulse_Cannon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Pulse_Cannon);
+      Assert_airWeapon(Pulse_Cannon);
       Assert_maxAirHits(1);
       Assert_topSpeed(13.3300);
       Assert_acceleration(427);
@@ -5258,10 +5263,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Dark_Templar;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(80);
       Assert_maxEnergy(0);
@@ -5275,7 +5280,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5287,9 +5292,9 @@ namespace BWAPILIBTest
       Assert_height(26);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Warp_Blades_Hero);
+      Assert_groundWeapon(Warp_Blades_Hero);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(27);
@@ -5335,10 +5340,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Zeratul;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(60);
       Assert_maxShields(400);
       Assert_maxEnergy(0);
@@ -5352,7 +5357,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5364,9 +5369,9 @@ namespace BWAPILIBTest
       Assert_height(26);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Warp_Blades_Zeratul);
+      Assert_groundWeapon(Warp_Blades_Zeratul);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.92000);
       Assert_acceleration(27);
@@ -5412,10 +5417,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Tassadar_Zeratul_Archon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(800);
       Assert_maxEnergy(0);
@@ -5429,7 +5434,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5441,9 +5446,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(96);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psionic_Shockwave_TZ_Archon);
+      Assert_groundWeapon(Psionic_Shockwave_TZ_Archon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Psionic_Shockwave_TZ_Archon);
+      Assert_airWeapon(Psionic_Shockwave_TZ_Archon);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.92000);
       Assert_acceleration(160);
@@ -5489,10 +5494,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Fenix_Zealot;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(240);
       Assert_maxShields(240);
       Assert_maxEnergy(0);
@@ -5506,7 +5511,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5518,9 +5523,9 @@ namespace BWAPILIBTest
       Assert_height(19);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psi_Blades_Fenix);
+      Assert_groundWeapon(Psi_Blades_Fenix);
       Assert_maxGroundHits(2);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -5566,10 +5571,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Fenix_Dragoon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(240);
       Assert_maxShields(240);
       Assert_maxEnergy(0);
@@ -5583,7 +5588,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5595,9 +5600,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Fenix);
+      Assert_groundWeapon(Phase_Disruptor_Fenix);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Fenix);
+      Assert_airWeapon(Phase_Disruptor_Fenix);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(1);
@@ -5643,10 +5648,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Tassadar;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(300);
       Assert_maxEnergy(250);
@@ -5660,7 +5665,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5672,9 +5677,9 @@ namespace BWAPILIBTest
       Assert_height(24);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psi_Assault);
+      Assert_groundWeapon(Psi_Assault);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.20000);
       Assert_acceleration(27);
@@ -5720,10 +5725,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Mojo;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(400);
       Assert_maxShields(400);
       Assert_maxEnergy(0);
@@ -5737,7 +5742,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -5749,9 +5754,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Dual_Photon_Blasters_Mojo);
+      Assert_groundWeapon(Dual_Photon_Blasters_Mojo);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Anti_Matter_Missiles_Mojo);
+      Assert_airWeapon(Anti_Matter_Missiles_Mojo);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(48);
@@ -5797,10 +5802,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Warbringer;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(400);
       Assert_maxEnergy(0);
@@ -5814,7 +5819,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5826,9 +5831,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.78000);
       Assert_acceleration(1);
@@ -5874,10 +5879,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Gantrithor;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(800);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -5891,7 +5896,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(3800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -5903,9 +5908,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(256);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.33000);
       Assert_acceleration(27);
@@ -5951,10 +5956,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Reaver;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(80);
       Assert_maxEnergy(0);
@@ -5968,7 +5973,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -5980,9 +5985,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(256);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.78000);
       Assert_acceleration(1);
@@ -6028,10 +6033,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Observer;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(40);
       Assert_maxShields(20);
       Assert_maxEnergy(0);
@@ -6045,7 +6050,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(225);
       Assert_destroyScore(450);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6057,9 +6062,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.33000);
       Assert_acceleration(27);
@@ -6105,10 +6110,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Scarab;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(20);
       Assert_maxShields(10);
       Assert_maxEnergy(0);
@@ -6122,7 +6127,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6134,9 +6139,9 @@ namespace BWAPILIBTest
       Assert_height(5);
       Assert_seekRange(96);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Scarab);
+      Assert_groundWeapon(Scarab);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(16.0000);
       Assert_acceleration(1);
@@ -6182,10 +6187,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Danimoth;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(600);
       Assert_maxShields(500);
       Assert_maxEnergy(250);
@@ -6199,7 +6204,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -6211,9 +6216,9 @@ namespace BWAPILIBTest
       Assert_height(44);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth);
+      Assert_groundWeapon(Phase_Disruptor_Cannon_Danimoth);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth);
+      Assert_airWeapon(Phase_Disruptor_Cannon_Danimoth);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(33);
@@ -6259,10 +6264,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Aldaris;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Ground_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Ground_Armor);
       Assert_maxHitPoints(80);
       Assert_maxShields(300);
       Assert_maxEnergy(250);
@@ -6276,7 +6281,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1400);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6288,9 +6293,9 @@ namespace BWAPILIBTest
       Assert_height(24);
       Assert_seekRange(96);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Psi_Assault);
+      Assert_groundWeapon(Psi_Assault);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(3.20000);
       Assert_acceleration(27);
@@ -6336,10 +6341,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Artanis;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(250);
       Assert_maxEnergy(0);
@@ -6353,7 +6358,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2400);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -6365,9 +6370,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Dual_Photon_Blasters_Artanis);
+      Assert_groundWeapon(Dual_Photon_Blasters_Artanis);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::Anti_Matter_Missiles_Artanis);
+      Assert_airWeapon(Anti_Matter_Missiles_Artanis);
       Assert_maxAirHits(1);
       Assert_topSpeed(5.00000);
       Assert_acceleration(48);
@@ -6413,10 +6418,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Rhynadon;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6430,7 +6435,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6442,9 +6447,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -6490,10 +6495,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Bengalaas;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6507,7 +6512,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6519,9 +6524,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -6567,10 +6572,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Cargo_Ship;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6584,7 +6589,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6596,9 +6601,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(256);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -6644,10 +6649,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Mercenary_Gunship;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6661,7 +6666,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6673,9 +6678,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(128);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -6721,10 +6726,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Scantid;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6738,7 +6743,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6750,9 +6755,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -6798,10 +6803,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Kakaru;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6815,7 +6820,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6827,9 +6832,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.00000);
       Assert_acceleration(16);
@@ -6875,10 +6880,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Ragnasaur;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6892,7 +6897,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6904,9 +6909,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -6952,10 +6957,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Critter_Ursadon;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(60);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -6969,7 +6974,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -6981,9 +6986,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -7029,10 +7034,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Lurker_Egg;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::Lurker_Aspect);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(Lurker_Aspect);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7046,7 +7051,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(500);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7058,9 +7063,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(128);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -7106,10 +7111,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Raszagal;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Protoss_Air_Armor);
       Assert_maxHitPoints(100);
       Assert_maxShields(60);
       Assert_maxEnergy(250);
@@ -7123,7 +7128,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(1300);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7135,9 +7140,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(288);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Neutron_Flare);
+      Assert_airWeapon(Neutron_Flare);
       Assert_maxAirHits(1);
       Assert_topSpeed(6.67000);
       Assert_acceleration(67);
@@ -7183,10 +7188,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Samir_Duran;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -7200,7 +7205,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7212,9 +7217,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran);
+      Assert_groundWeapon(C_10_Canister_Rifle_Samir_Duran);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran);
+      Assert_airWeapon(C_10_Canister_Rifle_Samir_Duran);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -7260,10 +7265,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Alexei_Stukov;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Infantry_Armor);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Terran_Infantry_Armor);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -7277,7 +7282,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7289,9 +7294,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov);
+      Assert_groundWeapon(C_10_Canister_Rifle_Alexei_Stukov);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov);
+      Assert_airWeapon(C_10_Canister_Rifle_Alexei_Stukov);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -7337,10 +7342,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Map_Revealer;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7354,7 +7359,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7366,9 +7371,9 @@ namespace BWAPILIBTest
       Assert_height(31);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -7414,10 +7419,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Gerard_DuGalle;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Terran_Ship_Plating);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Terran_Ship_Plating);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -7431,7 +7436,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4800);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -7443,9 +7448,9 @@ namespace BWAPILIBTest
       Assert_height(59);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::ATS_Laser_Battery_Hero);
+      Assert_groundWeapon(ATS_Laser_Battery_Hero);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::ATA_Laser_Battery_Hero);
+      Assert_airWeapon(ATA_Laser_Battery_Hero);
       Assert_maxAirHits(1);
       Assert_topSpeed(2.50000);
       Assert_acceleration(27);
@@ -7491,10 +7496,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Lurker;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::Lurker_Aspect);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(Lurker_Aspect);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(125);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7508,7 +7513,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(250);
       Assert_destroyScore(500);
-      Assert_size(BWAPI::UnitSizeTypes::Medium);
+      Assert_size(Medium);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7520,9 +7525,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(192);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Subterranean_Spines);
+      Assert_groundWeapon(Subterranean_Spines);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(5.82000);
       Assert_acceleration(1);
@@ -7568,10 +7573,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Hero_Infested_Duran;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::Personnel_Cloaking);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Zerg_Carapace);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(Personnel_Cloaking);
+      Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(250);
@@ -7585,7 +7590,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(700);
-      Assert_size(BWAPI::UnitSizeTypes::Small);
+      Assert_size(Small);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -7597,9 +7602,9 @@ namespace BWAPILIBTest
       Assert_height(22);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran);
+      Assert_groundWeapon(C_10_Canister_Rifle_Infested_Duran);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran);
+      Assert_airWeapon(C_10_Canister_Rifle_Infested_Duran);
       Assert_maxAirHits(1);
       Assert_topSpeed(4.00000);
       Assert_acceleration(1);
@@ -7645,10 +7650,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Spell_Disruption_Web;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7662,7 +7667,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -7674,9 +7679,9 @@ namespace BWAPILIBTest
       Assert_height(80);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -7722,10 +7727,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Command_Center;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7739,7 +7744,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(1200);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -7751,9 +7756,9 @@ namespace BWAPILIBTest
       Assert_height(83);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -7799,10 +7804,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Comsat_Station;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
       Assert_maxEnergy(200);
@@ -7816,7 +7821,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -7828,9 +7833,9 @@ namespace BWAPILIBTest
       Assert_height(42);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -7876,10 +7881,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Silo;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7893,7 +7898,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -7905,9 +7910,9 @@ namespace BWAPILIBTest
       Assert_height(42);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -7953,10 +7958,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Supply_Depot;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -7970,7 +7975,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -7982,9 +7987,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8030,10 +8035,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Refinery;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8047,7 +8052,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
@@ -8059,9 +8064,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(33);
@@ -8107,10 +8112,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Barracks;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8124,7 +8129,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -8136,9 +8141,9 @@ namespace BWAPILIBTest
       Assert_height(73);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -8184,10 +8189,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Academy;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8201,7 +8206,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -8213,9 +8218,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8261,10 +8266,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Factory;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1250);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8278,7 +8283,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -8290,9 +8295,9 @@ namespace BWAPILIBTest
       Assert_height(81);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -8338,10 +8343,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Starport;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1300);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8355,7 +8360,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -8367,9 +8372,9 @@ namespace BWAPILIBTest
       Assert_height(79);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -8415,10 +8420,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Control_Tower;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8432,7 +8437,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -8444,9 +8449,9 @@ namespace BWAPILIBTest
       Assert_height(47);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8492,10 +8497,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Science_Facility;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8509,7 +8514,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(275);
       Assert_destroyScore(825);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -8521,9 +8526,9 @@ namespace BWAPILIBTest
       Assert_height(77);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -8569,10 +8574,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Covert_Ops;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8586,7 +8591,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -8598,9 +8603,9 @@ namespace BWAPILIBTest
       Assert_height(47);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8646,10 +8651,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Physics_Lab;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8663,7 +8668,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -8675,9 +8680,9 @@ namespace BWAPILIBTest
       Assert_height(47);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8723,10 +8728,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Machine_Shop;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8740,7 +8745,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -8752,9 +8757,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8800,10 +8805,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Engineering_Bay;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8817,7 +8822,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(65);
       Assert_destroyScore(195);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -8829,9 +8834,9 @@ namespace BWAPILIBTest
       Assert_height(61);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -8877,10 +8882,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Armory;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8894,7 +8899,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -8906,9 +8911,9 @@ namespace BWAPILIBTest
       Assert_height(55);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -8954,10 +8959,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Missile_Turret;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(200);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -8971,7 +8976,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -8983,9 +8988,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Longbolt_Missile);
+      Assert_airWeapon(Longbolt_Missile);
       Assert_maxAirHits(1);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9031,10 +9036,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Terran_Bunker;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(350);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9048,7 +9053,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(4);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -9060,9 +9065,9 @@ namespace BWAPILIBTest
       Assert_height(41);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(33);
@@ -9108,10 +9113,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Crashed_Norad_II;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9125,7 +9130,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -9137,9 +9142,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9185,10 +9190,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Ion_Cannon;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9202,7 +9207,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -9214,9 +9219,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9262,10 +9267,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Uraj_Crystal;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(10000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9279,7 +9284,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -9291,9 +9296,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9339,10 +9344,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Khalis_Crystal;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(10000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9356,7 +9361,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -9368,9 +9373,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9416,10 +9421,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Infested_Command_Center;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9433,7 +9438,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(300);
       Assert_destroyScore(900);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -9445,9 +9450,9 @@ namespace BWAPILIBTest
       Assert_height(83);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(1.00000);
       Assert_acceleration(33);
@@ -9493,10 +9498,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Hatchery;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1250);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9510,7 +9515,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(300);
       Assert_destroyScore(900);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -9522,9 +9527,9 @@ namespace BWAPILIBTest
       Assert_height(65);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9570,10 +9575,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Lair;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9587,7 +9592,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(1200);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -9599,9 +9604,9 @@ namespace BWAPILIBTest
       Assert_height(65);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9647,10 +9652,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Hive;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9664,7 +9669,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(1500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -9676,9 +9681,9 @@ namespace BWAPILIBTest
       Assert_height(65);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9724,10 +9729,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Nydus_Canal;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9741,7 +9746,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -9753,9 +9758,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9801,10 +9806,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk_Den;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9818,7 +9823,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -9830,9 +9835,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9878,10 +9883,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Defiler_Mound;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9895,7 +9900,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(150);
       Assert_destroyScore(450);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
@@ -9907,9 +9912,9 @@ namespace BWAPILIBTest
       Assert_height(37);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -9955,10 +9960,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Greater_Spire;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -9972,7 +9977,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(1350);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -9984,9 +9989,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10032,10 +10037,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Queens_Nest;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(850);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10049,7 +10054,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(175);
       Assert_destroyScore(525);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -10061,9 +10066,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10109,10 +10114,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Evolution_Chamber;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10126,7 +10131,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(40);
       Assert_destroyScore(120);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -10138,9 +10143,9 @@ namespace BWAPILIBTest
       Assert_height(53);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10186,10 +10191,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk_Cavern;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10203,7 +10208,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(275);
       Assert_destroyScore(825);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -10215,9 +10220,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10263,10 +10268,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Spire;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10280,7 +10285,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(250);
       Assert_destroyScore(750);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -10292,9 +10297,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10340,10 +10345,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Spawning_Pool;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10357,7 +10362,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -10369,9 +10374,9 @@ namespace BWAPILIBTest
       Assert_height(47);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10417,10 +10422,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Creep_Colony;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10434,7 +10439,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(40);
       Assert_destroyScore(120);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -10446,9 +10451,9 @@ namespace BWAPILIBTest
       Assert_height(48);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10494,10 +10499,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Spore_Colony;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(400);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10511,7 +10516,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(25);
       Assert_destroyScore(195);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -10523,9 +10528,9 @@ namespace BWAPILIBTest
       Assert_height(48);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Seeker_Spores);
+      Assert_airWeapon(Seeker_Spores);
       Assert_maxAirHits(1);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10571,10 +10576,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Sunken_Colony;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(300);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10588,7 +10593,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(40);
       Assert_destroyScore(240);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -10600,9 +10605,9 @@ namespace BWAPILIBTest
       Assert_height(48);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Subterranean_Tentacle);
+      Assert_groundWeapon(Subterranean_Tentacle);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10648,10 +10653,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Overmind_With_Shell;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(5000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10665,7 +10670,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
@@ -10677,9 +10682,9 @@ namespace BWAPILIBTest
       Assert_height(73);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10725,10 +10730,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Overmind;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10742,7 +10747,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
@@ -10754,9 +10759,9 @@ namespace BWAPILIBTest
       Assert_height(73);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10802,10 +10807,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Zerg_Extractor;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10819,7 +10824,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(25);
       Assert_destroyScore(75);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
@@ -10831,9 +10836,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10879,10 +10884,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Mature_Chrysalis;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10896,7 +10901,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -10908,9 +10913,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -10956,10 +10961,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Cerebrate;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -10973,7 +10978,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -10985,9 +10990,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11033,10 +11038,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Cerebrate_Daggoth;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -11050,7 +11055,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11062,9 +11067,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11110,10 +11115,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Nexus;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(750);
       Assert_maxShields(750);
       Assert_maxEnergy(0);
@@ -11127,7 +11132,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(400);
       Assert_destroyScore(1200);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -11139,9 +11144,9 @@ namespace BWAPILIBTest
       Assert_height(79);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11187,10 +11192,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Facility;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -11204,7 +11209,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(300);
       Assert_destroyScore(900);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11216,9 +11221,9 @@ namespace BWAPILIBTest
       Assert_height(37);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11264,10 +11269,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Pylon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(300);
       Assert_maxShields(300);
       Assert_maxEnergy(0);
@@ -11281,7 +11286,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -11293,9 +11298,9 @@ namespace BWAPILIBTest
       Assert_height(33);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11341,10 +11346,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Assimilator;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
       Assert_maxEnergy(0);
@@ -11358,7 +11363,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
@@ -11370,9 +11375,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11418,10 +11423,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Observatory;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(250);
       Assert_maxShields(250);
       Assert_maxEnergy(0);
@@ -11435,7 +11440,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(175);
       Assert_destroyScore(525);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11447,9 +11452,9 @@ namespace BWAPILIBTest
       Assert_height(45);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11495,10 +11500,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Gateway;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -11512,7 +11517,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(75);
       Assert_destroyScore(225);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -11524,9 +11529,9 @@ namespace BWAPILIBTest
       Assert_height(73);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11572,10 +11577,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Photon_Cannon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100);
       Assert_maxShields(100);
       Assert_maxEnergy(0);
@@ -11589,7 +11594,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -11601,9 +11606,9 @@ namespace BWAPILIBTest
       Assert_height(33);
       Assert_seekRange(0);
       Assert_sightRange(352);
-      Assert_groundWeapon(BWAPI::WeaponTypes::STS_Photon_Cannon);
+      Assert_groundWeapon(STS_Photon_Cannon);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::STA_Photon_Cannon);
+      Assert_airWeapon(STA_Photon_Cannon);
       Assert_maxAirHits(1);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11649,10 +11654,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Citadel_of_Adun;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
       Assert_maxEnergy(0);
@@ -11666,7 +11671,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(200);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11678,9 +11683,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11726,10 +11731,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Cybernetics_Core;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -11743,7 +11748,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11755,9 +11760,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11803,10 +11808,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Templar_Archives;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -11820,7 +11825,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(250);
       Assert_destroyScore(750);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11832,9 +11837,9 @@ namespace BWAPILIBTest
       Assert_height(49);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11880,10 +11885,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Forge;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(550);
       Assert_maxShields(550);
       Assert_maxEnergy(0);
@@ -11897,7 +11902,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(100);
       Assert_destroyScore(300);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -11909,9 +11914,9 @@ namespace BWAPILIBTest
       Assert_height(45);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -11957,10 +11962,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Stargate;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(600);
       Assert_maxShields(600);
       Assert_maxEnergy(0);
@@ -11974,7 +11979,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(300);
       Assert_destroyScore(900);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -11986,9 +11991,9 @@ namespace BWAPILIBTest
       Assert_height(73);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12034,10 +12039,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Stasis_Cell_Prison;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12051,7 +12056,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -12063,9 +12068,9 @@ namespace BWAPILIBTest
       Assert_height(96);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12111,10 +12116,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Fleet_Beacon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -12128,7 +12133,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(350);
       Assert_destroyScore(1050);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -12140,9 +12145,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12188,10 +12193,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Arbiter_Tribunal;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(500);
       Assert_maxShields(500);
       Assert_maxEnergy(0);
@@ -12205,7 +12210,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(450);
       Assert_destroyScore(1350);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -12217,9 +12222,9 @@ namespace BWAPILIBTest
       Assert_height(57);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12265,10 +12270,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Support_Bay;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(450);
       Assert_maxShields(450);
       Assert_maxEnergy(0);
@@ -12282,7 +12287,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(125);
       Assert_destroyScore(375);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -12294,9 +12299,9 @@ namespace BWAPILIBTest
       Assert_height(53);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12342,10 +12347,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Protoss_Shield_Battery;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(200);
       Assert_maxShields(200);
       Assert_maxEnergy(200);
@@ -12359,7 +12364,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(50);
       Assert_destroyScore(150);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -12371,9 +12376,9 @@ namespace BWAPILIBTest
       Assert_height(33);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12419,10 +12424,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Khaydarin_Crystal_Form;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12436,7 +12441,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2500);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -12448,9 +12453,9 @@ namespace BWAPILIBTest
       Assert_height(96);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12496,10 +12501,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Temple;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(1500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12513,7 +12518,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(7);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(7, 3));
@@ -12525,9 +12530,9 @@ namespace BWAPILIBTest
       Assert_height(96);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12573,10 +12578,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_XelNaga_Temple;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(5000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12590,7 +12595,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(5000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(5);
       Assert_tileHeight(4);
       Assert_tileSize(BWAPI::TilePosition(5, 4));
@@ -12602,9 +12607,9 @@ namespace BWAPILIBTest
       Assert_height(98);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12650,10 +12655,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12667,7 +12672,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(10);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -12679,9 +12684,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12727,10 +12732,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_2;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12744,7 +12749,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(10);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -12756,9 +12761,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12804,10 +12809,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_3;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12821,7 +12826,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(10);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(2);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(2, 1));
@@ -12833,9 +12838,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12881,10 +12886,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Independant_Starport;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12898,7 +12903,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(10);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -12910,9 +12915,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Independant_Laser_Battery);
+      Assert_groundWeapon(Independant_Laser_Battery);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -12958,10 +12963,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Resource_Vespene_Geyser;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -12975,7 +12980,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(10);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(4);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(4, 2));
@@ -12987,9 +12992,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(288);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13035,10 +13040,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Warp_Gate;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(700);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13052,7 +13057,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(2000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13064,9 +13069,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13112,10 +13117,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Psi_Disrupter;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13129,7 +13134,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(3600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(5);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(5, 3));
@@ -13141,9 +13146,9 @@ namespace BWAPILIBTest
       Assert_height(86);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13189,10 +13194,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Zerg_Beacon;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13206,7 +13211,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13218,9 +13223,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13266,10 +13271,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Terran_Beacon;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13283,7 +13288,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13295,9 +13300,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13343,10 +13348,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Beacon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13360,7 +13365,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13372,9 +13377,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13420,10 +13425,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Zerg_Flag_Beacon;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13437,7 +13442,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13449,9 +13454,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13497,10 +13502,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Terran_Flag_Beacon;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13514,7 +13519,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13526,9 +13531,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13574,10 +13579,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Protoss_Flag_Beacon;
 
-      Assert_getRace(BWAPI::Races::Protoss);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Protoss);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13591,7 +13596,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13603,9 +13608,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13651,10 +13656,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Power_Generator;
 
-      Assert_getRace(BWAPI::Races::Terran);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Terran);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13668,7 +13673,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(600);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -13680,9 +13685,9 @@ namespace BWAPILIBTest
       Assert_height(72);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13728,10 +13733,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Overmind_Cocoon;
 
-      Assert_getRace(BWAPI::Races::Zerg);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(Zerg);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(2500);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13745,7 +13750,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(4000);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -13757,9 +13762,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(0);
       Assert_sightRange(320);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13805,10 +13810,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Spell_Dark_Swarm;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13822,7 +13827,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(5);
       Assert_tileHeight(5);
       Assert_tileSize(BWAPI::TilePosition(5, 5));
@@ -13834,9 +13839,9 @@ namespace BWAPILIBTest
       Assert_height(160);
       Assert_seekRange(0);
       Assert_sightRange(256);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13882,10 +13887,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Missile_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13899,7 +13904,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -13911,9 +13916,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(160);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Hellfire_Missile_Pack_Floor_Trap);
+      Assert_groundWeapon(Hellfire_Missile_Pack_Floor_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -13959,10 +13964,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Hatch;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -13976,7 +13981,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(8);
       Assert_tileHeight(4);
       Assert_tileSize(BWAPI::TilePosition(8, 4));
@@ -13988,9 +13993,9 @@ namespace BWAPILIBTest
       Assert_height(128);
       Assert_seekRange(0);
       Assert_sightRange(224);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14036,10 +14041,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Upper_Level_Door;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14053,7 +14058,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -14065,9 +14070,9 @@ namespace BWAPILIBTest
       Assert_height(38);
       Assert_seekRange(0);
       Assert_sightRange(32);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14113,10 +14118,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Right_Upper_Level_Door;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14130,7 +14135,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -14142,9 +14147,9 @@ namespace BWAPILIBTest
       Assert_height(38);
       Assert_seekRange(0);
       Assert_sightRange(32);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14190,10 +14195,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Pit_Door;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14207,7 +14212,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -14219,9 +14224,9 @@ namespace BWAPILIBTest
       Assert_height(38);
       Assert_seekRange(0);
       Assert_sightRange(32);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14267,10 +14272,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Right_Pit_Door;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14284,7 +14289,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(10);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(3);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(3, 2));
@@ -14296,9 +14301,9 @@ namespace BWAPILIBTest
       Assert_height(38);
       Assert_seekRange(0);
       Assert_sightRange(32);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14344,10 +14349,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Floor_Gun_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14361,7 +14366,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(2);
       Assert_tileHeight(2);
       Assert_tileSize(BWAPI::TilePosition(2, 2));
@@ -14373,9 +14378,9 @@ namespace BWAPILIBTest
       Assert_height(64);
       Assert_seekRange(160);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Twin_Autocannons_Floor_Trap);
+      Assert_groundWeapon(Twin_Autocannons_Floor_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14421,10 +14426,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Wall_Missile_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14438,7 +14443,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14450,9 +14455,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(160);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap);
+      Assert_groundWeapon(Hellfire_Missile_Pack_Wall_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14498,10 +14503,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Wall_Flame_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14515,7 +14520,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14527,9 +14532,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(64);
       Assert_sightRange(96);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Flame_Thrower_Wall_Trap);
+      Assert_groundWeapon(Flame_Thrower_Wall_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14575,10 +14580,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Missile_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14592,7 +14597,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14604,9 +14609,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(160);
       Assert_sightRange(192);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap);
+      Assert_groundWeapon(Hellfire_Missile_Pack_Wall_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14652,10 +14657,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Flame_Trap;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(50);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14669,7 +14674,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(100);
-      Assert_size(BWAPI::UnitSizeTypes::Large);
+      Assert_size(Large);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14681,9 +14686,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(64);
       Assert_sightRange(96);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Flame_Thrower_Wall_Trap);
+      Assert_groundWeapon(Flame_Thrower_Wall_Trap);
       Assert_maxGroundHits(1);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14729,10 +14734,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Special_Start_Location;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14746,7 +14751,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(4);
       Assert_tileHeight(3);
       Assert_tileSize(BWAPI::TilePosition(4, 3));
@@ -14758,9 +14763,9 @@ namespace BWAPILIBTest
       Assert_height(65);
       Assert_seekRange(0);
       Assert_sightRange(32);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14806,10 +14811,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Flag;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(100000);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14823,7 +14828,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14835,9 +14840,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14883,10 +14888,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Young_Chrysalis;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14900,7 +14905,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14912,9 +14917,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -14960,10 +14965,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Psi_Emitter;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -14977,7 +14982,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -14989,9 +14994,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15037,10 +15042,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Data_Disk;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15054,7 +15059,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15066,9 +15071,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15114,10 +15119,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Khaydarin_Crystal;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15131,7 +15136,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15143,9 +15148,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15191,10 +15196,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_1;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15208,7 +15213,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15220,9 +15225,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15268,10 +15273,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_2;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15285,7 +15290,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15297,9 +15302,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15345,10 +15350,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_1;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15362,7 +15367,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15374,9 +15379,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15422,10 +15427,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_2;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15439,7 +15444,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15451,9 +15456,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15499,10 +15504,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_1;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15516,7 +15521,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15528,9 +15533,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15576,10 +15581,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_2;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15593,7 +15598,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15605,9 +15610,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15653,10 +15658,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_1;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15670,7 +15675,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15682,9 +15687,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15730,10 +15735,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_2;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Upgrade_60);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Upgrade_60);
       Assert_maxHitPoints(800);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15747,7 +15752,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Independent);
+      Assert_size(Independent);
       Assert_tileWidth(1);
       Assert_tileHeight(1);
       Assert_tileSize(BWAPI::TilePosition(1, 1));
@@ -15759,9 +15764,9 @@ namespace BWAPILIBTest
       Assert_height(32);
       Assert_seekRange(0);
       Assert_sightRange(160);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15807,10 +15812,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::None;
 
-      Assert_getRace(BWAPI::Races::None);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::None);
+      Assert_getRace(None);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(None);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15824,7 +15829,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::None);
+      Assert_size(None);
       Assert_tileWidth(0);
       Assert_tileHeight(0);
       Assert_tileSize(BWAPI::TilePosition(0, 0));
@@ -15836,9 +15841,9 @@ namespace BWAPILIBTest
       Assert_height(1);
       Assert_seekRange(0);
       Assert_sightRange(0);
-      Assert_groundWeapon(BWAPI::WeaponTypes::None);
+      Assert_groundWeapon(None);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::None);
+      Assert_airWeapon(None);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);
@@ -15884,10 +15889,10 @@ namespace BWAPILIBTest
     {
       auto t = BWAPI::UnitTypes::Unknown;
 
-      Assert_getRace(BWAPI::Races::Unknown);
-      Assert_requiredTech(BWAPI::TechTypes::None);
-      Assert_cloakingTech(BWAPI::TechTypes::None);
-      Assert_armorUpgrade(BWAPI::UpgradeTypes::Unknown);
+      Assert_getRace(Unknown);
+      Assert_requiredTech(None);
+      Assert_cloakingTech(None);
+      Assert_armorUpgrade(Unknown);
       Assert_maxHitPoints(0);
       Assert_maxShields(0);
       Assert_maxEnergy(0);
@@ -15901,7 +15906,7 @@ namespace BWAPILIBTest
       Assert_spaceProvided(0);
       Assert_buildScore(0);
       Assert_destroyScore(0);
-      Assert_size(BWAPI::UnitSizeTypes::Unknown);
+      Assert_size(Unknown);
       Assert_tileWidth(0);
       Assert_tileHeight(0);
       Assert_tileSize(BWAPI::TilePosition(0, 0));
@@ -15913,9 +15918,9 @@ namespace BWAPILIBTest
       Assert_height(1);
       Assert_seekRange(0);
       Assert_sightRange(0);
-      Assert_groundWeapon(BWAPI::WeaponTypes::Unknown);
+      Assert_groundWeapon(Unknown);
       Assert_maxGroundHits(0);
-      Assert_airWeapon(BWAPI::WeaponTypes::Unknown);
+      Assert_airWeapon(Unknown);
       Assert_maxAirHits(0);
       Assert_topSpeed(0.000000);
       Assert_acceleration(0);

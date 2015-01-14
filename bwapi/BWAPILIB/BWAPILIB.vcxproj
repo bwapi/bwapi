@@ -230,12 +230,6 @@ COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"</Command>
     <ClInclude Include="..\include\BWAPI\UpgradeType.h" />
     <ClInclude Include="..\include\BWAPI\WeaponType.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Util\Util.vcxproj">
-      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
