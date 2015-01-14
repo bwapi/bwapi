@@ -33,6 +33,8 @@ namespace BW
     bool movementFlag(u8 flags) const;
     bool statusFlag(u32 flags) const;
 
+    const CUnit* getDamageDealer() const;
+
 // v-- POSSIBLE SHARED BULLET/UNIT STRUCTURE BEGIN
     // CLink<CUnit> link;
     /*0x000*/ BW::CUnit*    prev;
