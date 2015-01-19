@@ -1,8 +1,33 @@
 ;This is an INNO Setup script
 ;You should download INNO Setup and INNO Script Studio v2 to modify and compile it
 
+#define BWAPI_VERSION "4.1.0"
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
+Name: "corsican"; MessagesFile: "compiler:Languages\Corsican.isl"
+Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
+Name: "danish"; MessagesFile: "compiler:Languages\Danish.isl"
+Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl"
+Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl"
+Name: "french"; MessagesFile: "compiler:Languages\French.isl"
+Name: "german"; MessagesFile: "compiler:Languages\German.isl"
+Name: "greek"; MessagesFile: "compiler:Languages\Greek.isl"
+Name: "hebrew"; MessagesFile: "compiler:Languages\Hebrew.isl"
+Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
+Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
+Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
+Name: "serbiancyrillic"; MessagesFile: "compiler:Languages\SerbianCyrillic.isl"
+Name: "serbianlatin"; MessagesFile: "compiler:Languages\SerbianLatin.isl"
+Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Files]
 Source: "..\Release_Binary\Starcraft\SNP_DirectIP.snp"; DestDir: "{code:BroodwarPath}\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
@@ -37,7 +62,7 @@ AppSupportURL=http://bwapi.github.io
 AppUpdatesURL=http://bwapi.github.io
 VersionInfoDescription=Brood War Application Programming Interface
 VersionInfoProductName=BWAPI
-MinVersion=0,5.01
+MinVersion=0,5.01.2600
 DefaultDirName={pf}\BWAPI
 UsePreviousSetupType=False
 UsePreviousTasks=False
@@ -51,21 +76,21 @@ FlatComponentsList=False
 WizardSmallImageFile=instSmall.bmp
 SetupIconFile=instIcon.ico
 WizardImageFile=instLarge.bmp
-SolidCompression=True
-Compression=lzma2/ultra
-InternalCompressLevel=ultra
 DisableProgramGroupPage=yes
-AppVersion=4.1.0
+AppVersion={#BWAPI_VERSION}
 ShowLanguageDialog=no
 AlwaysShowComponentsList=False
 ShowComponentSizes=False
 PrivilegesRequired=poweruser
 LanguageDetectionMethod=locale
-VersionInfoVersion=4.1.0
-VersionInfoTextVersion=4.1.0
-VersionInfoProductVersion=4.1.0
-VersionInfoProductTextVersion=4.1.0
+VersionInfoVersion={#BWAPI_VERSION}
+VersionInfoTextVersion={#BWAPI_VERSION}
+VersionInfoProductVersion={#BWAPI_VERSION}
+VersionInfoProductTextVersion={#BWAPI_VERSION}
 OutputBaseFilename=BWAPI_Setup
+InternalCompressLevel=ultra
+SolidCompression=True
+Compression=lzma2/ultra
 
 [Components]
 Name: "Binaries"; Description: "Binaries"
@@ -77,9 +102,6 @@ Name: "Library\Examples"; Description: "Example Projects"; Types: custom full
 Name: "Library\Documentation"; Description: "Documentation"; Types: custom full
 Name: "Chaoslauncher"; Description: "Chaoslauncher (Plugin Loader) & Plugins"; Types: full custom
 Name: "MPQDraft"; Description: "MPQDraft (Mod Manager & Plugin Loader)"; Types: custom full
-
-[Messages]
-WelcomeLabel2=This will install [name/ver] on your computer.
 
 [Run]
 Filename: "{app}\Chaoslauncher\Chaoslauncher.exe"; WorkingDir: "{app}\Chaoslauncher\"; Flags: nowait postinstall skipifdoesntexist; Description: "Run Chaoslauncher"; Components: Chaoslauncher
