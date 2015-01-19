@@ -29,6 +29,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 
 
 ## Getting Started {#getting-started}
+For now, please use the "dev" branch. At least until v4.1 is released (this should happen before the end of Jan, 2015).
 
 
 ## Important Links & Contact Information {#contact}
