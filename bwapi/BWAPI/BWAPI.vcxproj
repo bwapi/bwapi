@@ -247,7 +247,6 @@
     <ClInclude Include="Source\BW\Font.h" />
     <ClInclude Include="Source\BW\GroupFlags.h" />
     <ClInclude Include="Source\BW\CImage.h" />
-    <ClInclude Include="Source\BW\Latency.h" />
     <ClInclude Include="Source\BW\MenuPosition.h" />
     <ClInclude Include="Source\BW\MiniTileFlags.h" />
     <ClInclude Include="Source\BW\MovementFlags.h" />

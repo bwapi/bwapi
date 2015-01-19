@@ -187,7 +187,7 @@ namespace BW
       std::array<u32, NUM_SPEEDS> IS_REF(LatencyFrames, 0x0051CE70);
       u32 IS_REF(FramesUntilNextTurn, 0x0051CEA0);
       s32 IS_REF(FrameSkip, 0x005124D4);
-      u8 IS_REF(Latency, 0x006556e4);
+      u8 IS_REF(Latency, 0x006556e4);   // A value between 0 and 2 indicating latency setting
 
       // Dialog and drawing
       std::array<dialog::FnInteract*, ctrls::max> IS_REF(GenericDlgInteractFxns, 0x005014AC);
