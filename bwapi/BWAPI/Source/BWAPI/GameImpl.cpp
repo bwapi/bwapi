@@ -30,7 +30,7 @@
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
-#include <BW/Latency.h>
+#include <BWAPI/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/CheatType.h>

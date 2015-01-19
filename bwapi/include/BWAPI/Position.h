@@ -171,7 +171,7 @@ namespace BWAPI
     };
     friend std::wostream &operator << (std::wostream &out, const Point<T, Scale> &pt)
     {
-      return out << '(' << pt.x << ',' << pt.y << ')';
+      return out << L'(' << pt.x << L',' << pt.y << L')';
     };
 
     /// Input stream operator overload. Reads the input in the form "x y" without quotations.

@@ -181,9 +181,6 @@
     <ClInclude Include="Source\BW\MiniTileFlags.h">
       <Filter>BW\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BW\Latency.h">
-      <Filter>BW\Enumerations</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\GroupFlags.h">
       <Filter>BW\Enumerations</Filter>
     </ClInclude>
