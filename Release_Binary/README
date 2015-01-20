@@ -30,12 +30,18 @@ IRC Channel           Freenode #BWAPI
                           shows how to read information about the units in the
                           game.
 
-    - Example AI Client - This project shows how to build an AI client program,
-                          which is an experimental new way of making AIs for
-                          BWAPI. Like the Example AI Module project, this
+    - Example AI Client - This project demonstrates how to build an AI client program
+                          (no longer an experimental way of making AIs for
+                          BWAPI, but rather well tested and widely used way at this point). 
+                          Like the Example AI Module project, this
                           project shows how to print "Hello world!" along with a
                           bit of example code that shows how to read information
-                          about the units in the game.
+                          about the units in the game. The AI Client allows for more flexibility 
+                          in the implementation - one could potentially use non-microsoft 
+                          compilers, even embed other programming languages via FFI
+                          (see http://sscaitournament.com/index.php?action=tutorial for an 
+                          example using Java). This is currently the recommended way of
+                          developing a new AI.
 
     - AI Module Loader  - This project is a very simple AI client program which
                           can load and run Example AI Module DLLs, essentially
