@@ -430,12 +430,12 @@ void GameImpl::updateCommandOptimizer()
         while ( cmd != commandOptimizer[i].end() )
         {
           // Ignore anything but the command that the unit last processed
-          if ( //static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommandFrame == this->getFrameCount() &&
+          /*if ( //static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommandFrame == this->getFrameCount() &&
                   static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommand != *cmd )
           {
             cmd = commandOptimizer[i].erase(cmd);
             continue;
-          }
+          }*/
 
           // If we are starting a new command grouping
           if ( groupOf12.empty() )
