@@ -33,7 +33,7 @@ void DevAIModule::onStart()
   //bw->setFrameSkip(16);
 
   // set command optimization
-  bw->setCommandOptimizationLevel(3);
+  bw->setCommandOptimizationLevel(0);
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -55,7 +55,11 @@ void DevAIModule::onFrame()
     Unitset myUnits = bw->getSelectedUnits();
     for ( auto &u : myUnits )
     {
-      bw->drawTextMap(u->getPosition(), "%s %s %s", bools(u->isStartingAttack()), bools(u->isAttacking()), bools(u->isAttackFrame()));
+      if (!u->cloak())
+      {
+        bw->drawTextMap(u->getPosition(), "%s", bw->getLastError().c_str());
+      }
+      
     } // for
   }
 }
