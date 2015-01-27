@@ -1,5 +1,5 @@
 #pragma once
-#include <util/types.h>
+#include <Util/Types.h>
 
 #include "Position.h"
 #include "CUnit.h"

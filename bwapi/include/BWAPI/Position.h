@@ -5,6 +5,10 @@
 #include <tuple>
 #include <deque>
 
+// Needed by other compilers.
+#include <ostream>
+
+
 #ifdef SWIG
 #define BWAPI_MAKE_POSITION_TEMPLATE(_n,T,_s) typedef BWAPI::Point<T,_s> _n;
 #else

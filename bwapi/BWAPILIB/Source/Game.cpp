@@ -15,6 +15,10 @@
 
 #include <cstdarg>
 
+// Needed by other compilers.
+#include <cstring>
+
+
 namespace BWAPI
 {
   using namespace Filter;
