@@ -25,9 +25,8 @@ namespace BWAPI
     this->onStartCalled   = true;
     this->calledMatchEnd  = false;
 
-    // load the map data
-    map.load();
-    this->savedMapHash = Map::getMapHash();
+    // pre-calculate the map hash
+    Map::calculateMapHash();
 
     // Obtain Broodwar Regions
     if ( *BW::BWDATA::SAIPathing )

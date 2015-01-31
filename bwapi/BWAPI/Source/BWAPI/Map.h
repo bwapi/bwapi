@@ -1,7 +1,5 @@
 #pragma once
 #include <string>
-#include <Util/RectangleArray.h>
-
 #include <BW/Offsets.h>
 
 namespace BWAPI
@@ -14,42 +12,36 @@ namespace BWAPI
   class Map
   {
     public :
-      Map();
-      ~Map();
-      /** Gets file name of the currently opened map by broodwar */
+      // Gets file name of the currently opened map by broodwar
       static std::string getFileName();
       static std::string getPathName();
       static std::string getName();
 
-      /** Width of the current map in terms of build tiles */
+      // Width of the current map in terms of build tiles
       static u16 getWidth();
 
-      /** Height of the current map in terms of build tiles */
+      // Height of the current map in terms of build tiles
       static u16 getHeight();
 
-      bool buildable(int x, int y) const;
-      bool walkable(int x, int y) const;
-      bool visible(int x, int y) const;
-      bool isExplored(int x, int y) const;
-      bool hasCreep(int x, int y) const;
-      bool isOccupied(int x, int y) const;
-      int  groundHeight(int x, int y) const;
+      static bool buildable(int x, int y);
+      static bool walkable(int x, int y);
+      static bool visible(int x, int y);
+      static bool isExplored(int x, int y);
+      static bool hasCreep(int x, int y);
+      static bool isOccupied(int x, int y);
+      static int  groundHeight(int x, int y);
 
-      /** Loads buildability/walkability arrays from the currently opened map. */
-      void load();
-
-      /** Returns a value that represents the map's terrain. */
+      // Returns a value that represents the map's terrain.
+      static std::string calculateMapHash();
       static std::string getMapHash();
-      void copyToSharedMemory();
+      static void copyToSharedMemory();
 
     private :
       static BW::TileID getTile(int x, int y);
+      static BW::activeTile getActiveTile(int x, int y);
       static u8 getTileVariation(BW::TileID);
       static u16 getMiniTile(int x, int y);
-      Util::RectangleArray<BW::activeTile> *activeTiles;
-      Util::RectangleArray<bool> buildability;
-      Util::RectangleArray<bool> walkability;
-      void setBuildability();
-      void setWalkability();
+
+      static std::string savedMapHash;
   };
 };

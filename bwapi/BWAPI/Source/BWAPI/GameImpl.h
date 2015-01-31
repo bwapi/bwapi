@@ -296,8 +296,6 @@ namespace BWAPI
     private:
       std::vector<PlayerImpl*> droppedPlayers;
 
-      Map map;
-
       Unitset aliveUnits; //units alive on current frame
       Unitset dyingUnits; //units leaving aliveUnits set on current frame
 
@@ -336,11 +334,7 @@ namespace BWAPI
       void augmentUnitData();
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
-      /**
-       * Specifies if some order was given, so the loadSelect function will have
-       * to be called.
-       */
-      std::string savedMapHash;
+
       bool flags[BWAPI::Flag::Max];
       TournamentModule  *tournamentController;
       bool              bTournamentMessageAppeared;
