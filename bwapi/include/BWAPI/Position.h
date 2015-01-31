@@ -1,12 +1,9 @@
 #pragma once
 #include <cmath>
 #include <algorithm>
-#include <iosfwd>
 #include <tuple>
 #include <deque>
-
-// Needed by other compilers.
-#include <ostream>
+#include <iostream>
 
 
 #ifdef SWIG

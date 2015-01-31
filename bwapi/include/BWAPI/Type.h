@@ -6,6 +6,7 @@
 #include <deque>
 #include <unordered_map>
 #include <algorithm>
+#include <iostream>
 
 namespace BWAPI
 {
