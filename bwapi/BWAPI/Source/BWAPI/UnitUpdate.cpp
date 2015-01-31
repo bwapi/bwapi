@@ -203,8 +203,8 @@ namespace BWAPI
       // Check if unit is attacking
       BW::Anims::Enum animState = BW::Anims::Init;
       const BW::CUnit* damageDealer = o->getDamageDealer();
-      if (damageDealer->sprite && damageDealer->sprite->mainGraphic)
-        animState = damageDealer->sprite->mainGraphic->anim;
+      if (damageDealer->sprite && damageDealer->sprite->pImagePrimary)
+        animState = damageDealer->sprite->pImagePrimary->anim;
       self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
                            animState == BW::Anims::AirAttkRpt  || 
                            animState == BW::Anims::GndAttkInit ||
@@ -212,15 +212,15 @@ namespace BWAPI
       
       //isAttackFrame
       self->isAttackFrame = false;
-      if (damageDealer->sprite && damageDealer->sprite->mainGraphic)
+      if (damageDealer->sprite && damageDealer->sprite->pImagePrimary)
       { 
         int restFrame = (_getType >= 0 && _getType < UnitTypes::Enum::MAX) ? AttackAnimationRestFrame[_getType] : -1;
         self->isAttackFrame = startingAttack || 
                              (self->isAttacking && 
                               restFrame != -1 && 
-                              (damageDealer->sprite->mainGraphic->frameSet != restFrame ||
+                              (damageDealer->sprite->pImagePrimary->frameSet != restFrame ||
                               lastFrameSet != restFrame) );
-        lastFrameSet = damageDealer->sprite->mainGraphic->frameSet;
+        lastFrameSet = damageDealer->sprite->pImagePrimary->frameSet;
       }
 
       self->isBurrowed  = o->statusFlag(BW::StatusFlags::Burrowed);  //isBurrowed

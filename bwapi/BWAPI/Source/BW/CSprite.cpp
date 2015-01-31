@@ -15,7 +15,7 @@ namespace BW
     //if ( this->mainGraphic )
       // unknownColorShiftSomething(this->mainGraphic->paletteType, this->playerID);
 
-    for ( auto i = this->underlay; i; i = i->prev )
+    for ( auto i = this->pImageTail; i; i = i->prev )
       i->drawImage();
   }
 
