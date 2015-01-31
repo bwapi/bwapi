@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <Util/Convenience.h>
+#include <Util/Exceptions.h>
 
 #include "../WMode.h"
 #include "../Detours.h"
@@ -296,7 +297,7 @@ namespace BWAPI
   //------------------------------------------ copy Map To Shared Memory -------------------------------------
   void GameImpl::copyMapToSharedMemory()
   {
-    map.copyToSharedMemory();
+    Map::copyToSharedMemory();
   }
 
   //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------

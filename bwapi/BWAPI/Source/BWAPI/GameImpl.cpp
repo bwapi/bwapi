@@ -374,24 +374,24 @@ namespace BWAPI
   //----------------------------------------------- GET MAP HASH ---------------------------------------------
   std::string GameImpl::mapHash() const
   {
-    return savedMapHash;
+    return Map::getMapHash();
   }
   //--------------------------------------------- IS WALKABLE ------------------------------------------------
   bool GameImpl::isWalkable(int x, int y) const
   {
-    return map.walkable(x, y);
+    return Map::walkable(x, y);
   }
   //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
   int GameImpl::getGroundHeight(int x, int y) const
   {
-    return map.groundHeight(x, y);
+    return Map::groundHeight(x, y);
   }
   //--------------------------------------------- IS BUILDABLE -----------------------------------------------
   bool GameImpl::isBuildable(int x, int y, bool includeBuildings) const
   {
-    if ( map.buildable(x,y) )
+    if ( Map::buildable(x,y) )
     {
-      if ( includeBuildings && this->isVisible(x,y) && map.isOccupied(x,y) )
+      if ( includeBuildings && this->isVisible(x,y) && Map::isOccupied(x,y) )
         return false;
       return true;
     }
@@ -400,19 +400,19 @@ namespace BWAPI
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool GameImpl::isVisible(int x, int y) const
   {
-    return map.visible(x, y);
+    return Map::visible(x, y);
   }
   //--------------------------------------------- IS EXPLORED ------------------------------------------------
   bool GameImpl::isExplored(int x, int y) const
   {
-    return map.isExplored(x, y);
+    return Map::isExplored(x, y);
   }
   //--------------------------------------------- HAS CREEP --------------------------------------------------
   bool GameImpl::hasCreep(int x, int y) const
   {
     if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->isVisible(x, y))
       return false;
-    return map.hasCreep(x, y);
+    return Map::hasCreep(x, y);
   }
   //--------------------------------------------- HAS POWER --------------------------------------------------
   bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
