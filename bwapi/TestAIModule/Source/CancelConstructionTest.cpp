@@ -69,14 +69,17 @@ void CancelConstructionTest::start()
   }
   else
   {
-    buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,1);
     if (unitType==UnitTypes::Protoss_Pylon)
     {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
     }
-    if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
+    else if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
     {
       buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
+    }
+    else
+    {
+      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(), unitType, 1);
     }
     BWAssertF(builder->build(unitType,buildLocation),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
   }

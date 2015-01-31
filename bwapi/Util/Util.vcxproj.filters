@@ -30,12 +30,6 @@
     <ClInclude Include="Source\Util\Mutex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Util\RectangleArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Util\RegionQuadTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Util\RemoteProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>

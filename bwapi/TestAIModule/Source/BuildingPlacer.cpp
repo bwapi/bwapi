@@ -2,28 +2,16 @@
 
 #include <BWAPI/Unitset.h>
 
-BuildingPlacer::BuildingPlacer()
-{
-  reserveMap.resize(BWAPI::Broodwar->mapWidth(), BWAPI::Broodwar->mapHeight());
-  reserveMap.setTo(false);
-  this->buildDistance = 1;
-}
 bool BuildingPlacer::canBuildHere(BWAPI::TilePosition position, BWAPI::UnitType type) const
 {
   //returns true if we can build this type of unit here. Takes into account reserved tiles.
   if (!BWAPI::Broodwar->canBuildHere(position, type))
     return false;
-  for ( int x = position.x; x < position.x + type.tileSize().x; ++x )
-    for ( int y = position.y; y < position.y + type.tileSize().y; ++y )
-    {
-      if (reserveMap[x][y])
-        return false;
-    }
   return true;
 }
 bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::UnitType type) const
 {
-  return canBuildHereWithSpace(position,type,this->buildDistance);
+  return canBuildHereWithSpace(position, type, 2);
 }
 bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist) const
 {
@@ -50,7 +38,7 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
   for ( int x = start.x; x < end.x; ++x )
     for ( int y = start.y; y < end.y; ++y )
     {
-      if ( !type.isRefinery() && (!buildable(BWAPI::TilePosition(x,y)) || reserveMap[x][y]) )
+      if ( !type.isRefinery() && !buildable(BWAPI::TilePosition(x,y)) )
         return false;
     }
 
@@ -79,7 +67,7 @@ BWAPI::TilePosition BuildingPlacer::getBuildLocation(BWAPI::UnitType type) const
 
 BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition position, BWAPI::UnitType type) const
 {
-  return getBuildLocationNear(position, type,this->buildDistance);
+  return getBuildLocationNear(position, type, 2);
 }
 
 BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist) const
@@ -141,39 +129,4 @@ bool BuildingPlacer::buildable(BWAPI::TilePosition position)
     return false;
 
   return true;
-}
-
-void BuildingPlacer::reserveTiles(BWAPI::TilePosition position, int width, int height)
-{
-  BWAPI::TilePosition end(position + BWAPI::TilePosition(width,height));
-  end.setMin((int)reserveMap.getWidth(), (int)reserveMap.getHeight());
-
-  for ( int x = position.x; x < end.x; ++x )
-    for ( int y = position.y; y < end.y; ++y )
-      reserveMap[x][y] = true;
-}
-
-void BuildingPlacer::freeTiles(BWAPI::TilePosition position, int width, int height)
-{
-  BWAPI::TilePosition end(position + BWAPI::TilePosition(width,height));
-  end.setMin((int)reserveMap.getWidth(), (int)reserveMap.getHeight());
-
-  for ( int x = position.x; x < end.x; ++x )
-    for ( int y = position.y; y < end.y; ++y )
-      reserveMap[x][y] = false;
-}
-
-void BuildingPlacer::setBuildDistance(int distance)
-{
-  this->buildDistance = distance;
-}
-int BuildingPlacer::getBuildDistance() const
-{
-  return this->buildDistance;
-}
-bool BuildingPlacer::isReserved(BWAPI::TilePosition position) const
-{
-  if ( !position )
-    return false;
-  return reserveMap[position.x][position.y];
 }

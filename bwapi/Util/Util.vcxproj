@@ -80,8 +80,6 @@
     <ClInclude Include="Source\Util\Exceptions.h" />
     <ClInclude Include="Source\Util\MemoryFrame.h" />
     <ClInclude Include="Source\Util\Mutex.h" />
-    <ClInclude Include="Source\Util\RectangleArray.h" />
-    <ClInclude Include="Source\Util\RegionQuadTree.h" />
     <ClInclude Include="Source\Util\RemoteProcess.h" />
     <ClInclude Include="Source\Util\RemoteProcessID.h" />
     <ClInclude Include="Source\Util\sha1.h" />
