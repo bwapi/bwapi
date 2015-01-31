@@ -43,8 +43,10 @@ void ProtossTest::onStart()
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Gateway));
   this->addTestCase(new GatherTest());
+  this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Forge));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Photon_Cannon));
+  this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Cybernetics_Core));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Shield_Battery));
 
@@ -57,6 +59,7 @@ void ProtossTest::onStart()
   this->addTestCase(new CancelConstructionTest(UnitTypes::Protoss_Stargate));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Stargate));
   this->addTestCase(new RallyTest(UnitTypes::Protoss_Stargate));
+  this->addTestCase(new BuildTest(UnitTypes::Protoss_Pylon));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Citadel_of_Adun));
   this->addTestCase(new BuildTest(UnitTypes::Protoss_Robotics_Support_Bay));
 

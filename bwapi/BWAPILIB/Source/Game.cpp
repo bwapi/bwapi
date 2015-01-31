@@ -196,7 +196,7 @@ namespace BWAPI
     {
       if ( !hasValidSpace() )
       {
-        Broodwar << pszDebug << std::endl;
+        //Broodwar << pszDebug << std::endl;
         restore();
       }
     };
