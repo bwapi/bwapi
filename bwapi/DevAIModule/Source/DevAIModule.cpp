@@ -55,7 +55,12 @@ void DevAIModule::onFrame()
     Unitset myUnits = bw->getSelectedUnits();
     for ( auto &u : myUnits )
     {
-      if (!u->cloak())
+      if (u->getType() == UnitTypes::Protoss_Probe)
+      {
+        if (!u->build(UnitTypes::Protoss_Shield_Battery, Broodwar->getBuildLocation(UnitTypes::Protoss_Shield_Battery, u->getTilePosition())))
+          bw->drawTextMap(u->getPosition(), "%s", bw->getLastError().c_str());
+      }
+      else if (u->getType().isCloakable() && !u->cloak())
       {
         bw->drawTextMap(u->getPosition(), "%s", bw->getLastError().c_str());
       }
