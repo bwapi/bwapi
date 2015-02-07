@@ -31,7 +31,9 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 
 
 ## Getting Started {#getting-started}
-For now, please use the "dev" branch. At least until v4.1 is released (this should happen before the end of Jan, 2015). Compiling BWAPI and the Example bots can be done according to the instructions in the README: https://github.com/bwapi/bwapi/blob/master/Release_Binary/README
+ - If you are willing to develop a bot of your own (in C++), please use the "master" branch. Compiling BWAPI and the Example bots can be done according to the instructions in the README: https://github.com/bwapi/bwapi/blob/master/Release_Binary/README
+ - If you would like to develop in Java, please follow this tutorial: http://sscaitournament.com/index.php?action=tutorial
+ - If your intentions are just to play against some of the bots, this tutorial is going to help out: http://www.broodwarai.com/forums/viewtopic.php?f=9&t=1337
 
 
 ## Important Links & Contact Information {#contact}
