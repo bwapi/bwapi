@@ -101,7 +101,7 @@ namespace BWAPI
     BroodwarImpl.setLastError();
 
     // Return None if there is no start location
-    if ( BW::BWDATA::startPositions[index] == BW::Position(0,0) )
+    if (index >= PLAYABLE_PLAYER_COUNT || BW::BWDATA::startPositions[index] == BW::Positions::Origin)
       return TilePositions::None;
 
     // Return unknown and set Access_Denied if the start location
