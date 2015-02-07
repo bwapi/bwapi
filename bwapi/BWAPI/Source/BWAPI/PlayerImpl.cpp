@@ -151,7 +151,7 @@ namespace BWAPI
   {
     /* error checking */
     BroodwarImpl.setLastError(Errors::None);
-    if ( BW::BWDATA_startPositions[index] == BW::Position(0,0) )
+    if ( index >= PLAYABLE_PLAYER_COUNT || BW::BWDATA_startPositions[index] == BW::Position(0,0) )
       return TilePositions::None;
 
     if ( !BroodwarImpl._isReplay() &&
