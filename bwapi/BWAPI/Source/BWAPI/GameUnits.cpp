@@ -161,7 +161,7 @@ namespace BWAPI
       {
         if ( !u->wasAlive )
           events.push_back(Event::UnitCreate(u));
-        if ( !u->wasCompleted && u->isCompleted() )
+        if ( !u->wasCompleted && u->_isCompleted )
         {
           events.push_back(Event::UnitComplete(u));
           u->wasCompleted = true;
