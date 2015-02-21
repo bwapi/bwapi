@@ -155,6 +155,7 @@ void EventTest::onFrame()
         nukeSilo=u;
     BWAssert(nukeSilo!=NULL);
 
+#pragma warning(suppress: 6011)
     if (nukeSilo->isIdle() && nukeSilo->hasNuke())
     {
       state = UsingNuke;
@@ -163,6 +164,7 @@ void EventTest::onFrame()
         if (u->getType()==UnitTypes::Terran_Ghost)
           ghost=u;
       BWAssert(ghost!=NULL);
+#pragma warning(suppress: 6011)
       Position p(ghost->getPosition());
       BWAssert(ghost->useTech(TechTypes::Nuclear_Strike,p));
       expectedEvents.push_back(Event::NukeDetect(p));

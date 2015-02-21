@@ -51,6 +51,7 @@ std::string GetLastErrorMessage()
   return result;
 }
 
+#pragma warning(suppress: 28251)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
   std::string sInstallPath = GetRegString("SOFTWARE\\Blizzard Entertainment\\Starcraft", "InstallPath");
