@@ -38,8 +38,6 @@ void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime);
 extern bool hideHUD;
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
-extern double botAPM_noSelect;
-extern double botAPM_select;
 extern std::string gDesiredReplayName;
 extern bool detourCreateWindow;
 

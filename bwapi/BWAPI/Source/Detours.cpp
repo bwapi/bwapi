@@ -387,9 +387,6 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, char **data, int *databy
 }
 
 //----------------------------------------------- DRAW HOOK --------------------------------------------------
-DWORD dwLastAPMCount;
-double botAPM_noSelect;
-double botAPM_select;
 void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
   static bool wantRefresh = false;
@@ -409,19 +406,6 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   {
     //if ( gdwHoliday )
       //DrawHoliday();
-
-    if ( !BWAPI::BroodwarImpl.isPaused() )
-    {
-      // TODO Why is this crap here? This is the DRAWING routine dude.
-      DWORD dwThisTickCount = BWAPI::BroodwarImpl.getFrameCount()*42;
-      if ( dwThisTickCount > dwLastAPMCount )
-      {
-        double timeDiff = dwThisTickCount - dwLastAPMCount;
-        dwLastAPMCount = dwThisTickCount;
-        botAPM_noSelect *= exp((double)(-timeDiff/57000)); // 0.95 * 60000
-        botAPM_select *= exp((double)(-timeDiff/57000)); // 0.95 * 60000
-      }
-    }
 
     if (BWAPI::BroodwarImpl.drawShapes())
     {

@@ -258,7 +258,6 @@ void CommandOptimizer::flush()
           {
             // Select the group
             BW::Orders::Select sel(groupOf12);
-            botAPM_select++;
             QueueGameCommand(&sel, sel.size);
 
             // Workaround for doing certain actions
@@ -281,7 +280,6 @@ void CommandOptimizer::flush()
         {
           // Select the group
           BW::Orders::Select sel(groupOf12);
-          ++botAPM_select;
           QueueGameCommand(&sel, sel.size);
 
           // Workaround for doing certain actions
