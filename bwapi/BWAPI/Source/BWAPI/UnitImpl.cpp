@@ -111,7 +111,7 @@ namespace BWAPI
 
     // Add to command optimizer if possible, as well as the latency compensation buffer
     BroodwarImpl.addToCommandBuffer(new Command(command));
-    return BroodwarImpl.addToCommandOptimizer(command);
+    return BroodwarImpl.commandOptimizer.add(command);
   }
   bool UnitImpl::issueCommand(UnitCommand command)
   {
@@ -134,8 +134,11 @@ namespace BWAPI
       botAPM_select++;
       QueueGameCommand(&sel, sel.size);
     }
-    else if ( command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizerLevel < 2 )
+    else if (command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizer.level < 2)
+    {
+      // TODO this piece should be extracted to the CommandOptimizer
       static_cast<UnitImpl*>(command.unit)->orderSelect();   // Unload optimization (no select)
+    }
 
     // Immediately execute the command
     BroodwarImpl.executeCommand( command );
