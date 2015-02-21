@@ -48,12 +48,17 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
+    <PreBuildEvent />
+    <CustomBuildStep>
       <Command>pushd "$(SolutionDir)"
-"./revisionUpdate.bat"
+cscript "./revisionUpdate.vbs"
 popd</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
       <Message>Updating revision information.</Message>
-    </PreBuildEvent>
+      <Outputs>../svnrev.h</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -68,12 +73,17 @@ popd</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PreBuildEvent>
+    <PreBuildEvent />
+    <CustomBuildStep>
       <Command>pushd "$(SolutionDir)"
-"./revisionUpdate.bat"
+cscript "./revisionUpdate.vbs"
 popd</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
       <Message>Updating revision information.</Message>
-    </PreBuildEvent>
+      <Outputs>../svnrev.h</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
   </ItemGroup>
