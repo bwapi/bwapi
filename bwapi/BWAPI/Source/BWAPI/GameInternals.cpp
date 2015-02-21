@@ -458,9 +458,7 @@ namespace BWAPI
 
     // Some other variables
     apmCounter.init();
-    this->fps = 0;
-    this->averageFPS = 0;
-    this->accumulatedFrames = 0;
+    fpsCounter.init();
 
     // @NOTE: Freeing libraries comes after because of some destructors for functionals in Interface Events
 

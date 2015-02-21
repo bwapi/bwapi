@@ -14,6 +14,7 @@
 
 #include "CommandOptimizer.h"
 #include "APMCounter.h"
+#include "FPSCounter.h"
 
 namespace BW
 {
@@ -368,10 +369,7 @@ namespace BWAPI
       bool actStartedGame;
       bool actRaceSel;
 
-      DWORD   lastUpdateTickCount;
-      int     accumulatedFrames;
-      int     fps;
-      double  averageFPS;
+      FPSCounter fpsCounter;
 
       int  textSize;
 

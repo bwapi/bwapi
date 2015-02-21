@@ -250,6 +250,9 @@
     <ClInclude Include="Source\BWAPI\APMCounter.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BWAPI\FPSCounter.h">
+      <Filter>BWAPI\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
@@ -416,6 +419,9 @@
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\APMCounter.cpp">
+      <Filter>BWAPI\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\FPSCounter.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
   </ItemGroup>

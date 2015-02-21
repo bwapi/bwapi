@@ -215,18 +215,7 @@ void GameImpl::update()
 void GameImpl::updateStatistics()
 {
   apmCounter.update();
-
-  // Compute frame rate
-  accumulatedFrames++;
-  DWORD currentTickCount = GetTickCount();
-  if ( currentTickCount >= lastUpdateTickCount + 1000 )
-  {
-    fps               = accumulatedFrames;
-    averageFPS        = averageFPS*0.7+fps*0.3;
-
-    lastUpdateTickCount = currentTickCount;
-    accumulatedFrames = 0;
-  }
+  fpsCounter.update();
 }
 
 //------------------------------------------------- OVERLAYS -------------------------------------------------
