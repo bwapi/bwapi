@@ -57,9 +57,8 @@ namespace BWAPI
   //----------------------------------------------------------------------------------------------------------
   Region GameImpl::getRegion(int regionID) const
   {
-    if ( !(*BW::BWDATA::SAIPathing) || regionID < 0 || regionID >= (int)(*BW::BWDATA::SAIPathing)->regionCount )
-      return nullptr;
-    return (Region)(*BW::BWDATA::SAIPathing)->regions[regionID].unk_28;
+    auto it = regionMap.find(regionID);
+    return it != regionMap.end() ? it->second : nullptr;
   }
   //----------------------------------------------------------------------------------------------------------
   Player GameImpl::getPlayer(int playerID) const
@@ -880,14 +879,13 @@ namespace BWAPI
       this->setLastError(BWAPI::Errors::Invalid_Parameter);
       return nullptr;
     }
-    BW::region *rgn = BW::getRegionAt(x,y);
+    const BW::region * const rgn = BW::getRegionAt(x,y);
     if ( !rgn )
     {
       this->setLastError(BWAPI::Errors::Invalid_Parameter);
       return nullptr;
     }
-    /// @TODO Don't store data in a BW region
-    return reinterpret_cast<Region>(rgn->unk_28);
+    return getRegion(rgn->getIndex());
   }
   int GameImpl::getLastEventTime() const
   {

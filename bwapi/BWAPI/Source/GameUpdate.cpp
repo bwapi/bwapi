@@ -258,7 +258,7 @@ void GameImpl::updateOverlays()
   if ( pathDebug && *BW::BWDATA::SAIPathing )
   {
     BWAPI::Position mouse   = getMousePosition() + getScreenPosition();
-    BW::region *selectedRgn = BW::getRegionAt(mouse);
+    const BW::region *selectedRgn = BW::getRegionAt(mouse);
     int scrx = (getScreenPosition().x/32 - 1)*32;
     int scry = (getScreenPosition().y/32 - 1)*32;
     for ( int x = (scrx > 0 ? scrx : 0); x < getScreenPosition().x + BW::BWDATA::ScreenLayers[5].width && x/32 < this->mapWidth(); x += 8 )
@@ -266,7 +266,7 @@ void GameImpl::updateOverlays()
       for ( int y = (scry > 0 ? scry : 0); y < getScreenPosition().y + BW::BWDATA::ScreenLayers[5].height && y/32 < this->mapHeight(); y += 8 )
       {
         BW::TilePosition tp((u16)x/32, (u16)y/32);
-        BW::region *r = BW::getRegionAt(x,y);
+        const BW::region *r = BW::getRegionAt(x,y);
         
         BWAPI::Color c = (selectedRgn == r) ? Colors::Brown : Colors::Grey;
         if ( r->accessabilityFlags == 0x1FFD )

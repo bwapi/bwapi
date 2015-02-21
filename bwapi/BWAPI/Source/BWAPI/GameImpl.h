@@ -321,6 +321,7 @@ namespace BWAPI
       Unitset staticNeutralUnits;
 
       Regionset regionsList;
+      std::unordered_map<int, Region> regionMap;
 
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector< std::vector<Command *> > commandBuffer;

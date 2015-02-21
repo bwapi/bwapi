@@ -4,6 +4,8 @@
 #include <BW/Pathing.h>
 #include <Util/Convenience.h>
 
+#include <BWAPI/Game.h>
+
 #include "../../../Debug.h"
 
 namespace BWAPI
@@ -15,14 +17,14 @@ namespace BWAPI
     MemZero(this->data);
 
     // Assuming this is called via GameInternals, so no checks are made
-    BW::region *r         = &(*BW::BWDATA::SAIPathing)->regions[id];
+    const BW::region * const r = &(*BW::BWDATA::SAIPathing)->regions[id];
 
     // Assign common region properties
     self->islandID        = r->groupIndex;
     self->center_x        = r->getCenter().x;
     self->center_y        = r->getCenter().y;
 
-    self->isAccessible      = r->accessabilityFlags != 0x1FFD;
+    self->isAccessible    = r->accessabilityFlags != 0x1FFD;
     self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
     self->priority        = r->defencePriority & 0x7F;
     self->leftMost        = r->rgnBox.left;
@@ -32,7 +34,6 @@ namespace BWAPI
 
     // Connect the BWAPI Region and BW Region two ways
     self->id  = id;
-    r->unk_28 = (u32)this;
     
     this->closestAccessibleRgn    = nullptr;
     this->closestInaccessibleRgn  = nullptr;
@@ -40,7 +41,7 @@ namespace BWAPI
   void RegionImpl::UpdateRegionRelations()
   {
     // Assuming this is called via GameInternals, so no checks are made
-    BW::region *r = &(*BW::BWDATA::SAIPathing)->regions[self->id];
+    const BW::region * const r = &(*BW::BWDATA::SAIPathing)->regions[self->id];
 
     // Assign region neighbors
     this->neighbors.clear();
@@ -49,8 +50,8 @@ namespace BWAPI
     int inaccessibleBestDist  = 99999;
     for ( int n = 0; n < r->neighborCount; ++n )
     {
-      BW::region *neighbor = r->getNeighbor((unsigned char)n);
-      BWAPI::Region bwapiNeighbor = (BWAPI::Region)neighbor->unk_28;
+      BW::region *neighbor = r->getNeighbor(static_cast<u8>(n));
+      BWAPI::Region bwapiNeighbor = Broodwar->getRegion(neighbor->getIndex());
 
       // continue if this is null (but it shouldn't be)
       if ( !bwapiNeighbor )

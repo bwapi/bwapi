@@ -398,11 +398,16 @@ namespace BWAPI
         data->mapSplitTilesMiniTileMask[i] = (*BW::BWDATA::SAIPathing)->splitTiles[i].minitileMask;
         data->mapSplitTilesRegion1[i]      = (*BW::BWDATA::SAIPathing)->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i]      = (*BW::BWDATA::SAIPathing)->splitTiles[i].rgn2;
-        // Region hack using a possibly unused variable (feeling risky, babe :) )
-        if ( (*BW::BWDATA::SAIPathing)->regions[i].unk_28 )
-          data->regions[i] = *((RegionImpl*)(*BW::BWDATA::SAIPathing)->regions[i].unk_28)->getData();
+
+        BWAPI::Region r = Broodwar->getRegion(i);
+        if (r)
+        {
+          data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
+        }
         else
+        {
           MemZero(data->regions[i]);
+        }
       }
     }
 
