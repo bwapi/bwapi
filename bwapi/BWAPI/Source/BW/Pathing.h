@@ -64,6 +64,7 @@ namespace BW
                                             0x002 = Choke Point/Corridor
                                           */
     /*0x21*/u8        neighborProperty; // 0x01 for map bottom, subtracted from neighborCount in some place
+  private:
     /*0x22*/u16       unk_22;
     /*0x24*/u32       unk_24;
     /*0x28*/u32       unk_28;
@@ -126,7 +127,7 @@ namespace BW
   };
 
   bool isCollidingWithContour(contourHub *hub, int x, int y, int left, int top, int right, int bottom);
-  BW::region *getRegionAt(int x, int y);
-  BW::region *getRegionAt(Position pos);
+  const BW::region *getRegionAt(int x, int y);
+  const BW::region *getRegionAt(Position pos);
 }
 #pragma pack()

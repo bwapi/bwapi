@@ -408,6 +408,7 @@ namespace BWAPI
     for ( Regionset::iterator r = this->regionsList.begin(); r != this->regionsList.end(); ++r )
       delete static_cast<RegionImpl*>(*r);
     this->regionsList.clear();
+    this->regionMap.clear();
 
     // Reset game speeds and text size
     this->setLocalSpeedDirect(this->speedOverride);

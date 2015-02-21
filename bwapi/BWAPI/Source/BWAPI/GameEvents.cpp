@@ -32,8 +32,12 @@ namespace BWAPI
     {
       u32 rgnCount = (*BW::BWDATA::SAIPathing)->regionCount;
       // Iterate regions and insert into region list
-      for ( u32 i = 0; i < rgnCount; ++i )
-        this->regionsList.insert(new BWAPI::RegionImpl(i));
+      for (u32 i = 0; i < rgnCount; ++i)
+      {
+        Region r = new BWAPI::RegionImpl(i);
+        this->regionsList.insert(r);
+        this->regionMap[i] = r;
+      }
 
       // Iterate regions again and update neighbor lists
       for ( BWAPI::Region r : this->regionsList )

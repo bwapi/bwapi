@@ -168,7 +168,7 @@ namespace BW
     return true;
   }
 
-  BW::region *getRegionAt(int x, int y)
+  const BW::region *getRegionAt(int x, int y)
   {
     BWAPI::TilePosition tp(x/32, y/32);
     if ( tp.x < 0 || tp.y < 0 || tp.x >= 256 || tp.y >= 256 )
@@ -202,7 +202,7 @@ namespace BW
       return nullptr;
     }
   }
-  BW::region *getRegionAt(Position pos)
+  const BW::region *getRegionAt(Position pos)
   {
     return getRegionAt(pos.x, pos.y);
   }
