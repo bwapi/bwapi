@@ -387,16 +387,18 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, char **data, int *databy
 }
 
 //----------------------------------------------- DRAW HOOK --------------------------------------------------
-bool wantRefresh = false;
 DWORD dwLastAPMCount;
 double botAPM_noSelect;
 double botAPM_select;
 void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
-  if ( wantRefresh )
+  static bool wantRefresh = false;
+  if (wantRefresh)
   {
     wantRefresh = false;
-    BW::BWDATA::RefreshRegions.fill(1);
+    // Calling this function forces a game layer refresh without adding any new offsets
+    // This is done to improve compatibility with Hellinsect's resolution expander hack
+    BW::BWFXN_UpdateScreenPosition();
   }
 
   //GameUpdate(pSurface, pBounds);
@@ -410,6 +412,7 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 
     if ( !BWAPI::BroodwarImpl.isPaused() )
     {
+      // TODO Why is this crap here? This is the DRAWING routine dude.
       DWORD dwThisTickCount = BWAPI::BroodwarImpl.getFrameCount()*42;
       if ( dwThisTickCount > dwLastAPMCount )
       {
@@ -420,10 +423,10 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
       }
     }
 
-    unsigned int numShapes = BWAPI::BroodwarImpl.drawShapes();
-    
-    if ( numShapes )
+    if (BWAPI::BroodwarImpl.drawShapes())
+    {
       wantRefresh = true;
+    }
   }
 }
 //------------------------------------------------- MENU HOOK ------------------------------------------------

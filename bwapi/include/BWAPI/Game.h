@@ -1293,7 +1293,7 @@ namespace BWAPI
     /// Retrieves current amount of time in seconds that the game has elapsed.
     ///
     /// @returns Time, in seconds, that the game has elapsed as an integer.
-    virtual int  elapsedTime() const = 0;
+    virtual int elapsedTime() const = 0;
 
     /// Sets the command optimization level. Command optimization is a feature in BWAPI that tries
     /// to reduce the APM of the bot by grouping or eliminating unnecessary game actions. For

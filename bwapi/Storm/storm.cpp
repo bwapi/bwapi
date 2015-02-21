@@ -154,13 +154,13 @@ BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *lpSource, int pitch, int
 BOOL STORMAPI STransDelete(HANDLE hTrans) rBool;
 
 BOOL STORMAPI STransDuplicate(HANDLE hTransSource, HANDLE hTransDest) rBool;
-BOOL STORMAPI STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask) rBool;
-BOOL STORMAPI STransInvertMask(HANDLE hTrans, int sourcemask) rBool;
+BOOL STORMAPI STransIntersectDirtyArray(HANDLE hTrans, char * dirtyarraymask, unsigned flags, HANDLE * phTransResult) rBool;
+BOOL STORMAPI STransInvertMask(HANDLE hTrans, HANDLE * phTransResult) rBool;
 
 BOOL STORMAPI STransSetDirtyArrayInfo(int width, int height, int depth, int bits) rBool;
 
 BOOL STORMAPI STransPointInMask(HANDLE hTrans, int x, int y) rBool;
-BOOL STORMAPI STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6) rBool;
+BOOL STORMAPI STransCombineMasks(HANDLE hTransA, HANDLE hTransB, int left, int top, int flags, HANDLE * phTransResult) rBool;
 
 BOOL STORMAPI STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut) rBool;
 

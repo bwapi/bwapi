@@ -476,19 +476,26 @@ LONG STORMAPI SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh);
 BOOL STORMAPI SFileOpenArchive(const char *szMpqName, DWORD dwPriority, DWORD dwFlags, HANDLE *phMpq);
 
 // values for dwFlags
-#define MPQ_NO_LISTFILE       0x0010
-#define MPQ_NO_ATTRIBUTES     0x0020
-#define MPQ_FORCE_V1          0x0040
-#define MPQ_CHECK_SECTOR_CRC  0x0080
+enum MPQFlags
+{
+  MPQ_NO_LISTFILE       = 0x0010,
+  MPQ_NO_ATTRIBUTES     = 0x0020,
+  MPQ_FORCE_V1          = 0x0040,
+  MPQ_CHECK_SECTOR_CRC  = 0x0080
+};
+
 
 BOOL STORMAPI SFileOpenFile(const char *filename, HANDLE *phFile);
 BOOL STORMAPI SFileOpenFileEx(HANDLE hMpq, const char *szFileName, DWORD dwSearchScope, HANDLE *phFile);
 
 // values for dwSearchScope
-#define SFILE_FROM_MPQ        0x00000000
-#define SFILE_FROM_ABSOLUTE   0x00000001
-#define SFILE_FROM_RELATIVE   0x00000002
-#define SFILE_FROM_DISK       0x00000004
+enum SFileFlags
+{
+  SFILE_FROM_MPQ      = 0x00000000,
+  SFILE_FROM_ABSOLUTE = 0x00000001,
+  SFILE_FROM_RELATIVE = 0x00000002,
+  SFILE_FROM_DISK     = 0x00000004
+};
 
 BOOL STORMAPI SFileReadFile(HANDLE hFile, void *buffer, DWORD nNumberOfBytesToRead, DWORD *read, LONG lpDistanceToMoveHigh);
 
@@ -519,7 +526,7 @@ BOOL STORMAPI SFileLoadFileEx(void *hArchive, char *filename, int a3, int a4, in
 //BOOL STORMAPI StormGetOption(int type, void *pValue, size_t *pSize);
 //BOOL STORMAPI StormSetOption(int type, void *pValue, size_t size);
 
-BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int width, int height, int a5, int a6, int a7, DWORD rop);
+BOOL STORMAPI SBltROP3(void *lpDstBuffer, void *lpSrcBuffer, int srcDrawWidth, int srcDrawHeight, int dstWidth, int srcWidth, int a7, DWORD rop);
 BOOL STORMAPI SBltROP3Clipped(void *lpDstBuffer, RECT *lpDstRect, POINT *lpDstPt, int a4, void *lpSrcBuffer, RECT *lpSrcRect, POINT *lpSrcPt, int a8, int a9, DWORD rop);
 
 #define SBMP_DEFAULT  0
@@ -863,18 +870,18 @@ BOOL STORMAPI SRegDeleteValue(const char *keyname, const char *valuename, BYTE f
 #define SREG_ABSOLUTE               0x00000010  // specifies that the key is not a relative key
 
 BOOL STORMAPI STransBlt(void *lpSurface, int x, int y, int width, HANDLE hTrans);
-BOOL STORMAPI STransBltUsingMask(void *lpSurface, void *lpSource, int pitch, int width, HANDLE hTrans);
+BOOL STORMAPI STransBltUsingMask(void *lpDest, void *lpSource, int pitch, int width, HANDLE hTrans);
 
 BOOL STORMAPI STransDelete(HANDLE hTrans);
 
 BOOL STORMAPI STransDuplicate(HANDLE hTransSource, HANDLE hTransDest);
-BOOL STORMAPI STransIntersectDirtyArray(HANDLE hTrans, int dirtyarraymask, unsigned __int8 dirtyarray, int sourcemask);
-BOOL STORMAPI STransInvertMask(HANDLE hTrans, int sourcemask);
+BOOL STORMAPI STransIntersectDirtyArray(HANDLE hTrans, char * dirtyarraymask, unsigned flags, HANDLE * phTransResult);
+BOOL STORMAPI STransInvertMask(HANDLE hTrans, HANDLE * phTransResult);
 
 BOOL STORMAPI STransSetDirtyArrayInfo(int width, int height, int depth, int bits);
 
 BOOL STORMAPI STransPointInMask(HANDLE hTrans, int x, int y); // Name is a pure guess
-BOOL STORMAPI STransCombineMasks(HANDLE hTrans, int a2, int a3, int a4, int depth, int a6);
+BOOL STORMAPI STransCombineMasks(HANDLE hTransA, HANDLE hTransB, int left, int top, int flags, HANDLE * phTransResult);
 
 BOOL STORMAPI STransCreateE(void *pBuffer, int width, int height, int bpp, int a5, int bufferSize, HANDLE *phTransOut);
 

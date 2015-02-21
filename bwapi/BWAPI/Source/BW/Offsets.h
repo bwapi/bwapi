@@ -208,7 +208,6 @@ namespace BW
       const u32 DDrawInitCallPatch = 0x004DB0A2;
       static void(__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
 
-      std::array<u8, 1200> IS_REF(RefreshRegions, 0x006CEFF8);
       std::array<u8, PLAYER_COUNT> IS_REF(PlayerColors, 0x00581DD6);
 
       static bool(__stdcall * const BWFXN_CreepManagementCB)(int, WORD*, int, int, int*) = (bool(__stdcall*)(int, WORD*, int, int, int*))0x00414440;
