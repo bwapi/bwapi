@@ -53,7 +53,11 @@ void DevAIModule::onFrame()
   if ( bw->self() )
   {
     Unitset myUnits = bw->getSelectedUnits();
-    myUnits.morph(UnitTypes::Zerg_Zergling);
+    for (auto u : myUnits)
+    {
+      bw->drawCircleMap(u->getPosition(), 64, Colors::Red);
+    }
+    bw->drawTextScreen(Positions::Origin, "%d", bw->getFrameCount());
   }
 }
 
