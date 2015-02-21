@@ -12,6 +12,8 @@
 #include <BWAPI/TournamentAction.h>
 #include <BWAPI/CoordinateType.h>
 
+#include "CommandOptimizer.h"
+
 namespace BW
 {
   class CUnit;
@@ -184,7 +186,6 @@ namespace BWAPI
       void update(); // Updates unitArrayCopy according to bw memory
       void updateStatistics();
       void updateOverlays();
-      void updateCommandOptimizer();
       void initializeTournamentModule();
       void initializeAIModule();
 
@@ -216,10 +217,8 @@ namespace BWAPI
       static void _changeRace(int slot, BWAPI::Race race);
 
       void loadSelected();
-      void copyMapToSharedMemory();
       void moveToSelectedUnits();
       void executeCommand(UnitCommand command);
-      bool addToCommandOptimizer(UnitCommand command);
 
       void chooseNewRandomMap();
       static void SendClientEvent(BWAPI::AIModule *module, Event &e);
@@ -283,8 +282,6 @@ namespace BWAPI
 
       GameData* data;
       
-      int  commandOptimizerLevel;
-
       HMODULE hAIModule;
       AIModule *client;
 
@@ -325,7 +322,7 @@ namespace BWAPI
 
       BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
       std::vector< std::vector<Command *> > commandBuffer;
-      /** Will update the unitsOnTile content, should be called every frame. */
+      // Will update the unitsOnTile content, should be called every frame.
       void updateUnits();
       void updateBullets();
       void computeUnitExistence();
@@ -390,9 +387,10 @@ namespace BWAPI
       bool externalModuleConnected;
       bool calledMatchEnd;
 
-      std::list<UnitCommand> commandOptimizer[UnitCommandTypes::Enum::MAX];
-
       int lastEventTime;
+
+    public:
+      CommandOptimizer commandOptimizer;
 
     private:
       bool tournamentCheck(Tournament::ActionID type, void *parameter = nullptr);

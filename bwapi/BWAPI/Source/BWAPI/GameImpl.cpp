@@ -726,7 +726,8 @@ namespace BWAPI
       command.unit  = v.front();
 
       // Command optimization (no select) for unit unloading, but only if optimizer level >= 2
-      if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizerLevel < 2 )
+      // TODO this piece should be extracted to the CommandOptimizer
+      if ( command.type != BWAPI::UnitCommandTypes::Unload || commandOptimizer.level < 2 )
       {
         // Select the unit group
         BW::Orders::Select sel(v);
@@ -865,7 +866,7 @@ namespace BWAPI
     level = clamp<int>(level, 0, 4);
     if ( !this->tournamentCheck(Tournament::SetCommandOptimizationLevel, &level) )
       return;
-    this->commandOptimizerLevel = level;
+    this->commandOptimizer.level = level;
   }
   //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
   int GameImpl::countdownTimer() const

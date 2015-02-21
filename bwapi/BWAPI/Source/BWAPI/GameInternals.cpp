@@ -294,12 +294,6 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------ copy Map To Shared Memory -------------------------------------
-  void GameImpl::copyMapToSharedMemory()
-  {
-    Map::copyToSharedMemory();
-  }
-
   //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------
   void GameImpl::processInterfaceEvents()
   {
@@ -403,10 +397,8 @@ namespace BWAPI
     this->commandBuffer.clear();
     this->commandBuffer.reserve(16);
 
-    // Clear the command optimization buffer
-    for ( int i = 0; i < UnitCommandTypes::None; ++i )
-      commandOptimizer[i].clear();
-
+    commandOptimizer.init();
+    
     // Delete all dead units
     for ( Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
       delete static_cast<UnitImpl*>(*d);
@@ -422,7 +414,6 @@ namespace BWAPI
     this->setFrameSkip(1);
     this->setTextSize();
     this->setGUI(true);
-    this->setCommandOptimizationLevel(0);
 
     // Reset all Unit objects in the unit array
     for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)

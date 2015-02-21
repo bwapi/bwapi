@@ -610,7 +610,7 @@ namespace BWAPI
         data->selectedUnits[i++] = getUnitID(t);
 
       //dynamic map data
-      BroodwarImpl.copyMapToSharedMemory();
+      Map::copyToSharedMemory();
       //(no dynamic force data)
 
       //dynamic player data
