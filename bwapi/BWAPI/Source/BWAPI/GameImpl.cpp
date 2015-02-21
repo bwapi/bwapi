@@ -137,12 +137,12 @@ namespace BWAPI
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS() const
   {
-    return fps;
+    return fpsCounter.getFps();
   }
   //-------------------------------------------- GET Average FPS ---------------------------------------------
   double GameImpl::getAverageFPS() const
   {
-    return averageFPS;
+    return fpsCounter.getAverageFps();
   }
   //------------------------------------------- GET MOUSE POSITION -------------------------------------------
   BWAPI::Position GameImpl::getMousePosition() const
