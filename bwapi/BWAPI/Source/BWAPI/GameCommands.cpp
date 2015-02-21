@@ -37,7 +37,8 @@ namespace BWAPI
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
   void GameImpl::executeCommand(UnitCommand command)
   {
-    botAPMCounter_noselects++;
+    apmCounter.addNoSelect();
+
     UnitCommandType ct = command.type;
     bool queued = command.isQueued();
     if (ct == UnitCommandTypes::Attack_Move)

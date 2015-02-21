@@ -732,6 +732,7 @@ namespace BWAPI
         // Select the unit group
         BW::Orders::Select sel(v);
         QueueGameCommand(&sel, sel.size);
+        apmCounter.addSelect();
       }
 
       // Execute the command
@@ -834,9 +835,7 @@ namespace BWAPI
   //---------------------------------------------------- GET APM ---------------------------------------------
   int GameImpl::getAPM(bool includeSelects) const
   {
-    if ( includeSelects )
-      return botAPM_selects;
-    return botAPM_noselects;
+    return apmCounter.apm(includeSelects);
   }
   //---------------------------------------------------- SET MAP ---------------------------------------------
   bool GameImpl::setMap(const char *mapFileName)

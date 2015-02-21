@@ -214,25 +214,17 @@ void GameImpl::update()
 //------------------------------------------------- STATS -------------------------------------------------
 void GameImpl::updateStatistics()
 {
+  apmCounter.update();
+
   // Compute frame rate
   accumulatedFrames++;
   DWORD currentTickCount = GetTickCount();
-  if ( currentTickCount >= lastTickCount + 1000 )
+  if ( currentTickCount >= lastUpdateTickCount + 1000 )
   {
     fps               = accumulatedFrames;
     averageFPS        = averageFPS*0.7+fps*0.3;
 
-    double APMInterval = 0.95;
-    int duration = (currentTickCount - lastTickCount);
-    int totalDuration = (currentTickCount - startTickCount);
-    botAPMCounter_selects     = botAPMCounter_selects * exp(-(duration)/(APMInterval*60000));
-    botAPMCounter_noselects   = botAPMCounter_noselects * exp(-(duration)/(APMInterval*60000));
-    double gameDurationFactor = 1-exp(-totalDuration/(APMInterval*60000));
-    if (gameDurationFactor < 0.01) gameDurationFactor = 0.01; //Prevent division by 0
-    botAPM_selects   = (int)floor(botAPMCounter_noselects+botAPMCounter_selects/(APMInterval*gameDurationFactor));
-    botAPM_noselects = (int)floor(botAPMCounter_noselects/(APMInterval*gameDurationFactor));
-
-    lastTickCount     = currentTickCount;
+    lastUpdateTickCount = currentTickCount;
     accumulatedFrames = 0;
   }
 }

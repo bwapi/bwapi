@@ -13,6 +13,7 @@
 #include <BWAPI/CoordinateType.h>
 
 #include "CommandOptimizer.h"
+#include "APMCounter.h"
 
 namespace BW
 {
@@ -367,15 +368,10 @@ namespace BWAPI
       bool actStartedGame;
       bool actRaceSel;
 
-      DWORD   startTickCount;
-      DWORD   lastTickCount;
+      DWORD   lastUpdateTickCount;
       int     accumulatedFrames;
       int     fps;
       double  averageFPS;
-      int     botAPM_noselects;
-      int     botAPM_selects;
-      double  botAPMCounter_noselects;
-      double  botAPMCounter_selects;
 
       int  textSize;
 
@@ -390,6 +386,7 @@ namespace BWAPI
       int lastEventTime;
 
     public:
+      APMCounter apmCounter;
       CommandOptimizer commandOptimizer;
 
     private:

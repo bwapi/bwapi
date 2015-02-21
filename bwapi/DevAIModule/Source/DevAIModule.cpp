@@ -50,14 +50,16 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
+  bw->drawTextScreen(Positions::Origin, "APM Selects: %d\nAPM No Selects: %d", bw->getAPM(true), bw->getAPM(false));
+
   if ( bw->self() )
   {
     Unitset myUnits = bw->getSelectedUnits();
     for (auto u : myUnits)
     {
+      u->move(bw->getMousePosition() + bw->getScreenPosition());
       bw->drawCircleMap(u->getPosition(), 64, Colors::Red);
     }
-    bw->drawTextScreen(Positions::Origin, "%d", bw->getFrameCount());
   }
 }
 

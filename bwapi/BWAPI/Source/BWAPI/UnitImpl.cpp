@@ -132,6 +132,7 @@ namespace BWAPI
       sel2[1] = static_cast<UnitImpl*>(command.target);
       BW::Orders::Select sel(2, sel2);
       QueueGameCommand(&sel, sel.size);
+      BroodwarImpl.apmCounter.addSelect();
     }
     else if (command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizer.level < 2)
     {
@@ -154,6 +155,7 @@ namespace BWAPI
     UnitImpl *u = this;
     BW::Orders::Select sel = BW::Orders::Select(1, &u);
     QueueGameCommand(&sel, sel.size);
+    BroodwarImpl.apmCounter.addSelect();
   }
   //----------------------------------------------------------------------------------------------------------
   UnitImpl* UnitImpl::BWUnitToBWAPIUnit(BW::CUnit* unit)
