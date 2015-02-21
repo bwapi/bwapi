@@ -46,6 +46,7 @@ namespace BWAPI
 
     BWAPIC::UnitCommand c;
     c.type      = command.type;
+#pragma warning(suppress: 6011)
     c.unitIndex = command.unit->getID();
     if ( command.target )
       c.targetIndex = command.target->getID();
