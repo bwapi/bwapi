@@ -7,7 +7,6 @@
 #include "UnitImpl.h"
 #include "GameImpl.h"
 #include <BW/OrderTypes.h>
-#include "../Detours.h"
 #include "../DLLMain.h"
 
 using namespace BWAPI;
@@ -259,6 +258,7 @@ void CommandOptimizer::flush()
             // Select the group
             BW::Orders::Select sel(groupOf12);
             QueueGameCommand(&sel, sel.size);
+            BroodwarImpl.apmCounter.addSelect();
 
             // Workaround for doing certain actions
             Unit unit = (i == UnitCommandTypes::Load ||
@@ -281,6 +281,7 @@ void CommandOptimizer::flush()
           // Select the group
           BW::Orders::Select sel(groupOf12);
           QueueGameCommand(&sel, sel.size);
+          BroodwarImpl.apmCounter.addSelect();
 
           // Workaround for doing certain actions
           Unit unit = (i == UnitCommandTypes::Load ||

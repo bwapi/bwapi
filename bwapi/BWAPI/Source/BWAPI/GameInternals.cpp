@@ -457,10 +457,7 @@ namespace BWAPI
     this->autoMapTryCount = 0;
 
     // Some other variables
-    this->botAPMCounter_selects   = 0;
-    this->botAPMCounter_noselects = 0;
-    this->botAPM_selects = 0;
-    this->botAPM_noselects = 0;
+    apmCounter.init();
     this->fps = 0;
     this->averageFPS = 0;
     this->accumulatedFrames = 0;

@@ -21,7 +21,6 @@ namespace BWAPI
 
     // initialize the variables
     //this->frameCount      = 0;
-    this->startTickCount  = GetTickCount();
     this->onStartCalled   = true;
     this->calledMatchEnd  = false;
 

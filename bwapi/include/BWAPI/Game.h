@@ -46,6 +46,9 @@ namespace BWAPI
   {
   protected:
     virtual ~Game() {};
+
+    Game& operator=(const Game& other) = delete;
+    Game& operator=(Game&& other) = delete;
   public :
     /// Retrieves the set of all teams/forces. Forces are commonly seen in @UMS game types and
     /// some others such as @TvB and the team versions of game types.

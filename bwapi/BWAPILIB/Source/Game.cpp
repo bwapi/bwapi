@@ -192,7 +192,7 @@ namespace BWAPI
     {
       memcpy(data, save, sizeof(data));
     };
-    void restoreIfInvalid(const char * const pszDebug)
+    void restoreIfInvalid(const char * /*const pszDebug*/)
     {
       if ( !hasValidSpace() )
       {
