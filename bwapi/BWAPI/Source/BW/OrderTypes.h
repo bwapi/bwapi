@@ -5,6 +5,9 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Unit.h>
 
+#include <BWAPI/UnitType.h>
+#include <BWAPI/Order.h>
+
 #include "PositionUnitTarget.h"
 #include "Offsets.h"
 
@@ -20,164 +23,167 @@ namespace BW
   // Set of classes that can pass to IssueCommand function. 
   namespace Orders
   {
+    template<int Cmd>
+    struct BWCommand
+    {
+      u8 commandType = Cmd;
+    };
+
     // Attack Location command in bw, can target either location or target. 
-    class Attack
+    class Attack : private BWCommand<0x15>
     {
-      public :
-        // Attack Location on position. 
-        Attack(const BW::Position& target, int order, bool queued = false);
-        Attack(int x, int y, int order, bool queued = false);
-        // Attack Location on unit. 
-        Attack(BWAPI::Unit target, int order, bool queued = false);
-        // Attack Location on general target. 
-        Attack(const PositionUnitTarget& target, int order, bool queued = false);
-      private :
-        // 0x15 = Attack Location command-code in bw 
-        u8 always0x15;
-        BW::PositionUnitTarget target;
-        u16 always0xe4;
-        u8 order;
-        u8 type;
+    public:
+      // Attack Location on position. 
+      Attack(const BW::Position& target, int order, bool queued = false);
+      Attack(int x, int y, int order, bool queued = false);
+      // Attack Location on unit. 
+      Attack(BWAPI::Unit target, int order, bool queued = false);
+      // Attack Location on general target. 
+      Attack(const PositionUnitTarget& target, int order, bool queued = false);
+    private:
+      BW::PositionUnitTarget target;
+      u16 always0xe4 = BWAPI::UnitTypes::Enum::None;
+      u8 order;
+      u8 type;
     };
+
     // Right click command in bw, can target either location or target. 
-    class RightClick
+    class RightClick : private BWCommand<0x14>
     {
-      public :
-        // Right-click on position. 
-        RightClick(const BW::Position& target, bool queued = false);
-        RightClick(int x, int y, bool queued = false);
-        // Right-click on unit. 
-        RightClick(BWAPI::Unit target, bool queued = false);
-        // Right-click on general target. 
-        RightClick(const PositionUnitTarget& target, bool queued = false);
-      private :
-        // 0x14 = Rightclick command-code in bw 
-        u8 always0x14;
-        BW::PositionUnitTarget target;
-        u16 always0xe4;
-        u8  type;
+    public:
+      // Right-click on position. 
+      RightClick(const BW::Position& target, bool queued = false);
+      RightClick(int x, int y, bool queued = false);
+      // Right-click on unit. 
+      RightClick(BWAPI::Unit target, bool queued = false);
+      // Right-click on general target. 
+      RightClick(const PositionUnitTarget& target, bool queued = false);
+    private:
+      BW::PositionUnitTarget target;
+      u16 always0xe4 = BWAPI::UnitTypes::Enum::None;
+      u8  type;
     };
+
     // Selection addition in bw 
-    class SelectAdd
+    class SelectAdd : private BWCommand<0x0A>
     {
-      public :
-        SelectAdd(int count, BWAPI::Unit *units);
-        SelectAdd(int count, BW::CUnit **units);
-        // 0x0A = Shift-Select command-code in bw 
-        u8         always0x0A;
-        u8         targCount;
-        UnitTarget targets[MAX_SELECTION_COUNT];
-        u32        size;
+    public:
+      SelectAdd(int count, const BWAPI::Unit *units);
+      SelectAdd(int count, const BW::CUnit **units);
+
+      size_t size() const;
+    private:
+      u8         targCount;
+      UnitTarget targets[MAX_SELECTION_COUNT];
     };
+
     // Selection command in bw 
-    class Select
+    class Select : private BWCommand<0x09>
     {
-      public :
-        Select(int count, BWAPI::Unit *units);
-        Select(int count, BW::CUnit **units);
-        Select(const std::vector<BWAPI::Unit>& units);
-        // 0x09 = Select command-code in bw 
-        u8         always0x09;
-        u8         targCount;
-        UnitTarget targets[MAX_SELECTION_COUNT];
-        u32        size;
+    public:
+      Select(int count, const BWAPI::Unit *units);
+      Select(int count, const BW::CUnit **units);
+      Select(const std::vector<BWAPI::Unit>& units);
+
+      size_t size() const;
+    private:
+      u8         targCount;
+      UnitTarget targets[MAX_SELECTION_COUNT];
     };
+
     // Train unit command in bw. 
-    class TrainUnit
+    class TrainUnit : private BWCommand<0x1F>
     {
-      public :
-        TrainUnit(int type);
-        // 0x1f = Train Command-code in bw 
-        u8 always0x1f;
-        // Type of unit to train 
-        u16 type;
+    public:
+      TrainUnit(int type);
+    private:
+      // Type of unit to train 
+      u16 type;
     };
+
     // Train unit command in bw. 
-    class TrainFighter
+    class TrainFighter : private BWCommand<0x27>
     {
-      public :
-        TrainFighter();
-        // 0x27 = Train fighter Command-code in bw 
-        u8 always0x27;
     };
+
     // Make building. 
-    class MakeBuilding
+    class MakeBuilding : private BWCommand<0x0c>
     {
-      public :
-        MakeBuilding(BW::TilePosition position, int type);
-        MakeBuilding(int tileX, int tileY, int type);
-        // 0x0c = make building Command-code in bw 
-        u8 always0x0c;
-        // Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f 
-        u8 raceDependant;
-        BW::TilePosition position;
-        // Type of building to make 
-        u16 type;
+    public:
+      MakeBuilding(BW::TilePosition position, int type);
+      MakeBuilding(int tileX, int tileY, int type);
+
+    private:
+      // Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f 
+      u8 raceDependant = 0;
+      BW::TilePosition position;
+      // Type of building to make 
+      u16 type;
     };
 
     // Place COP 
-    class PlaceCOP
+    class PlaceCOP : private BWCommand<0x0c>
     {
-      public :
-        PlaceCOP(BW::TilePosition position, int type);
-        PlaceCOP(int x, int y, int type);
-        // 0x0c = make building Command-code in bw 
-        u8 always0x0c;
-        u8 always0x9B;
-        BW::TilePosition position;
-        // Type of building to make 
-        u16 type;
+    public:
+      PlaceCOP(BW::TilePosition position, int type);
+      PlaceCOP(int x, int y, int type);
+    
+    private:
+      u8 always0x9B = BWAPI::Orders::Enum::CTFCOP2;
+      BW::TilePosition position;
+      // Type of building to make 
+      u16 type;
     };
 
     // Invent tech. 
-    class Invent
+    class Invent : private BWCommand<0x30>
     {
-      public :
-        Invent(int type);
-        // 0x30 = invent tech Command-code in bw 
-        u8 always0x30;
-        // Type of tech to invent 
-        u8 tech;
+    public:
+      Invent(int type);
+    private:
+      // Type of tech to invent 
+      u8 tech;
     };
-    class Upgrade
+
+    class Upgrade : private BWCommand<0x32>
     {
-      public :
-        Upgrade(int upgrade);
-        // 0x32 = upgrade Command-code in bw 
-        u8 always0x32;
-        // Type of upgrade 
-        u8 upgrade;
+    public:
+      Upgrade(int upgrade);
+    private:
+      // Type of upgrade 
+      u8 upgrade;
     };
-    class MakeAddon
+
+    class MakeAddon : private BWCommand<0x0c>
     {
-      public :
-        MakeAddon(BW::TilePosition position, int type);
-        MakeAddon(int tileX, int tileY, int type);
-        // 0x0c = make building Command-code in bw 
-        u8 always0x0c;
-        // 1e for terran 1f for protoss
-        u8 always0x24;
-        BW::TilePosition position;
-        // Type of building to make 
-        u16 type;
+    public:
+      MakeAddon(BW::TilePosition position, int type);
+      MakeAddon(int tileX, int tileY, int type);
+    private:
+      // 1e for terran 1f for protoss
+      u8 always0x24 = BWAPI::Orders::Enum::PlaceAddon;
+      BW::TilePosition position;
+      // Type of building to make 
+      u16 type;
     };
-    class MakeNydusExit
+
+    class MakeNydusExit : private BWCommand<0x0c>
     {
-      public :
-        MakeNydusExit(BW::TilePosition position);
-        MakeNydusExit(int tileX, int tileY);
-        // 0x0c = make building Command-code in bw 
-        u8 always0x0c;
-        // 1e for terran 1f for protoss
-        u8 always0x2E;
-        BW::TilePosition position;
-        // Type of building to make 
-        u16 type;
+    public:
+      MakeNydusExit(BW::TilePosition position);
+      MakeNydusExit(int tileX, int tileY);
+    private:
+      // 1e for terran 1f for protoss
+      u8 always0x2E = BWAPI::Orders::Enum::BuildNydusExit;
+      BW::TilePosition position;
+      // Type of building to make 
+      u16 type = BWAPI::UnitTypes::Enum::Zerg_Nydus_Canal;
     };
+
     // Change slot command in bw. 
-    class ChangeSlot
+    class ChangeSlot : private BWCommand<0x44>
     {
-      public :
+    public:
       typedef enum __SlotType
       {
         Computer = 0,
@@ -185,35 +191,31 @@ namespace BW
         Closed
       } SlotType;
       ChangeSlot(int slotID, SlotType type);
-      private :
-        // 0x44 = Change slot command-code in bw 
-        u8 always0x44;
-        // Order of the slot to change (0 for the 1st slot) 
-        u8 slotID;
-        // Target slot state. 
-        u8 slotType;
+    private:
+      // Order of the slot to change (0 for the 1st slot) 
+      u8 slotID;
+      // Target slot state. 
+      u8 slotType;
     };
+
     // Change race command in bw. 
-    class RequestChangeRace
+    class RequestChangeRace : private BWCommand<0x41>
     {
-      public :
-        RequestChangeRace(int slot, int race);
-      private :
-        // 0x41 = Command code for change race in bw. 
-        u8 always0x41;
-        // Order of the slot to change (0 for the 1st slot). 
-        u8 slotID;
-        // Target slot race. 
-        u8 race;
+    public:
+      RequestChangeRace(int slot, int race);
+    private:
+      // Order of the slot to change (0 for the 1st slot). 
+      u8 slotID;
+      // Target slot race. 
+      u8 race;
     };
+
     // Lobby slot alteration (sent by host only). 
-    class UpdateSlot
+    class UpdateSlot : private BWCommand<0x3e>
     {
     public:
       UpdateSlot(int slot, int stormPlayerID, int owner, int newRace, int team);
     private:
-      // 0x3E = Command code 
-      u8 always0x3E;
       // Order of the slot to change (0 for the 1st slot). 
       u8 bSlot;
       // Storm ID of the player to map the slot to. 
@@ -225,328 +227,227 @@ namespace BW
       // Player's force. 
       u8 nTeam;
     };
+
     // Starts game in the pre-game lobby. 
-    class StartGame
+    class StartGame : private BWCommand<0x3c>
     {
-      public :
-        StartGame();
-      private :
-        // 0x3c = Command code for start game. 
-        u8 always0x3c;
     };
+
     // Pauses the game. 
-    class PauseGame
+    class PauseGame : private BWCommand<0x10>
     {
-      public :
-        PauseGame();
-      private :
-        // 0x10 = Command code for pause game. 
-        u8 always0x10;
-    };
-    class ResumeGame
-    {
-      public :
-        ResumeGame();
-      private :
-        // 0x11 = Command code for unpause game. 
-        u8 always0x11;
-    };
-    class LeaveGame
-    {
-      public :
-        LeaveGame(int type);
-      private :
-        // 0x57 = Command code for unpause game. 
-        u8 always0x57;
-        u8 type;
     };
 
-    class MergeDarkArchon
+    class ResumeGame : private BWCommand<0x11>
     {
-      public :
-        MergeDarkArchon();
-      private :
-        // 0x5A = Command code for Merge Dark Archon. 
-        u8 always0x5A;
     };
 
-    class MergeArchon
+    class LeaveGame : private BWCommand<0x57>
     {
-      public :
-        MergeArchon();
-      private :
-        // 0x2A = Command code for Merge Archon. 
-        u8 always0x2A;
+    public:
+      LeaveGame(int type);
+    private:
+      u8 type;
     };
 
-    class MinimapPing
+    class MergeDarkArchon : private BWCommand<0x5a>
     {
-      public :
-        MinimapPing(BW::Position position);
-        MinimapPing(int x, int y);
-      private :
-        // 0x58 = Command code for Minimap Ping. 
-        u8 always0x58;
-        BW::Position position;
     };
 
-    class UseStimPack
+    class MergeArchon : private BWCommand<0x2a>
     {
-      public :
-        UseStimPack();
-      private :
-        // 0x36 = Command code for Stim 
-        u8 always0x36;
     };
 
-    class BuildingMorph
+    class MinimapPing : private BWCommand<0x58>
     {
-      public :
-        BuildingMorph(int type);
-        // 0x35 = Building Morph for zerg 
-        u8 always0x35;
-        // Type of unit to train 
-        u16 type;
+    public:
+      MinimapPing(BW::Position position);
+      MinimapPing(int x, int y);
+    private:
+      BW::Position position;
     };
 
-    class CancelAddon
+    class UseStimPack : private BWCommand<0x36>
     {
-      public :
-        CancelAddon();
-      private :
-        u8 always0x34;
     };
 
-    class CancelUpgrade
+    class BuildingMorph : private BWCommand<0x35>
     {
-      public :
-        CancelUpgrade();
-      private :
-        u8 always0x33;
+    public:
+      BuildingMorph(int type);
+    private:
+      // Type of unit to train 
+      u16 type;
     };
 
-    class CancelResearch
+    class CancelAddon : private BWCommand<0x34>
     {
-      public :
-        CancelResearch();
-      private :
-        u8 always0x31;
     };
 
-    class CancelNuke
+    class CancelUpgrade : private BWCommand<0x33>
     {
-      public :
-        CancelNuke();
-      private :
-        u8 always0x2E;
     };
 
-    class Lift
+    class CancelResearch : private BWCommand<0x31>
     {
-      public :
-        Lift();
-      private :
-        u8 always0x2F;
-        u32 unknown;
     };
 
-    class Land
+    class CancelNuke : private BWCommand<0x2e>
     {
-      public :
-        Land(BW::TilePosition position, int type);
-        Land(int x, int y, int type);
-      private :
-        u8 always0x0C;
-        u8 always0x47;
-        BW::TilePosition position;
-        u16 type;
     };
 
-    class Burrow
+    class Lift : private BWCommand<0x2f>
     {
-      public :
-        Burrow();
-      private :
-        u8 always0x2C;
-        u8 unused;
+    private:
+      u32 unknown = 0;
     };
 
-    class Unburrow
+    class Land : private BWCommand<0x0c>
     {
-      public :
-        Unburrow();
-      private :
-        u8 always0x2D;
-        u8 unused;
+    public:
+      Land(BW::TilePosition position, int type);
+      Land(int x, int y, int type);
+    private:
+      u8 always0x47 = BWAPI::Orders::Enum::BuildingLand;
+      BW::TilePosition position;
+      u16 type;
     };
 
-    class HoldPosition
+    class Burrow : private BWCommand<0x2c>
     {
-      public :
-        HoldPosition(bool queued = false);
-      private :
-        u8 always0x2B;
-        u8 type;
+    private:
+      u8 unused = 0;
     };
 
-    class UnloadUnit
+    class Unburrow : private BWCommand<0x2d>
     {
-      public :
-        UnloadUnit(BWAPI::Unit unload);
-        // 0x29 = Unload Unit 
-        u8 always0x29;
-        // The unit to unload bw index 
-        UnitTarget target;
+    private:
+      u8 unused = 0;
     };
 
-    class UnloadAll
+    class HoldPosition : private BWCommand<0x2b>
     {
-      public :
-        UnloadAll();
-      private :
-        u8 always0x28;
-        u8 unused;
+    public:
+      HoldPosition(bool queued = false);
+    private:
+      u8 type;
     };
 
-    class Siege
+    class UnloadUnit : private BWCommand<0x29>
     {
-      public :
-        Siege();
-      private :
-        u8 always0x26;
-        u8 unused;
+    public:
+      UnloadUnit(BWAPI::Unit unload);
+    private:
+      // The unit to unload bw index 
+      UnitTarget target;
     };
 
-    class Unsiege
+    class UnloadAll : private BWCommand<0x28>
     {
-      public :
-        Unsiege();
-      private :
-        u8 always0x25;
-        u8 unused;
+    private:
+      u8 unused = 0;
     };
 
-    class UnitMorph
+    class Siege : private BWCommand<0x26>
     {
-      public :
-        UnitMorph(int type);
-        // 0x23 = Unit Morph (Zerg) Command-code in bw 
-        u8 always0x23;
-        // Type of unit to train 
-        u16 type;
+    private:
+      u8 unused = 0;
     };
 
-    class Cloak
+    class Unsiege : private BWCommand<0x25>
     {
-      public :
-        Cloak();
-      private :
-        u8 always0x21;
-        u8 unused;
+    private:
+      u8 unused = 0;
     };
 
-    class Decloak
+    class UnitMorph : private BWCommand<0x23>
     {
-      public :
-        Decloak();
-      private :
-        u8 always0x22;
-        u8 unused;
+    public:
+      UnitMorph(int type);
+    private:
+      // Type of unit to train 
+      u16 type;
     };
 
-    class ReturnCargo
+    class Cloak : private BWCommand<0x21>
     {
-      public :
-        ReturnCargo(bool queued = false);
-      private :
-        u8 always0x1E;
-        u8 type;
+    private:
+      u8 unused = 0;
     };
 
-    class Stop
+    class Decloak : private BWCommand<0x22>
     {
-      public :
-        Stop(bool queued = false);
-      private :
-        u8 always0x1A;
-        u8 type;
+    private:
+      u8 unused = 0;
     };
 
-    class ReaverStop
+    class ReturnCargo : private BWCommand<0x1e>
     {
-      public :
-        ReaverStop();
-      private :
-        u8 always0x1C;
+    public:
+      ReturnCargo(bool queued = false);
+    private:
+      u8 type;
     };
 
-    class CarrierStop
+    class Stop : private BWCommand<0x1a>
     {
-      public :
-        CarrierStop();
-      private :
-        u8 always0x1B;
+    public:
+      Stop(bool queued = false);
+    private:
+      u8 type;
     };
 
-    class CancelUnitMorph
+    class ReaverStop : private BWCommand<0x1c>
     {
-      public :
-        CancelUnitMorph();
-      private :
-        u8 always0x19;
     };
 
-    class CancelConstruction
+    class CarrierStop : private BWCommand<0x1b>
     {
-      public :
-        CancelConstruction();
-      private :
-        u8 always0x18;
     };
 
-    class CancelTrain
+    class CancelUnitMorph : private BWCommand<0x19>
     {
-      public :
-        CancelTrain(int slot = -2);
-      private :
-        u8 always0x20;
-        s8 slot;
-        u8 unknown;
     };
 
-    class UseCheat
+    class CancelConstruction : private BWCommand<0x18>
     {
-      public :
-        UseCheat(u32 flags);
-      private :
-        u8 always0x12;
-        u32 flags;
     };
 
-    class RestartGame
+    class CancelTrain : private BWCommand<0x20>
     {
-      public :
-        RestartGame();
-      private :
-        u8 always0x08;
+    public:
+      CancelTrain(int slot = -2);
+    private:
+      s8 slot;
+      u8 unknown = 0;
     };
 
-    class SetAllies
+    class UseCheat : private BWCommand<0x12>
     {
-      public :
-        SetAllies(u32 allies);
-      private :
-        u8  always0x0E;
-        u32 allies;
+    public:
+      UseCheat(u32 flags);
+    private:
+      u32 flags;
     };
 
-    class SetVision
+    class RestartGame : private BWCommand<0x08>
     {
-      public :
-        SetVision(u16 vision);
-      private :
-        u8  always0x0D;
-        u16 vision;
+    };
+
+    class SetAllies : private BWCommand<0x0e>
+    {
+    public:
+      SetAllies(u32 allies);
+    private:
+      u32 allies;
+    };
+
+    class SetVision : private BWCommand<0x0d>
+    {
+    public:
+      SetVision(u16 vision);
+    private:
+      u16 vision;
     };
   } // namespace orders
 }; // namespace BW

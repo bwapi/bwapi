@@ -730,7 +730,7 @@ namespace BWAPI
       {
         // Select the unit group
         BW::Orders::Select sel(v);
-        QueueGameCommand(&sel, sel.size);
+        QueueGameCommand(&sel, sel.size());
         apmCounter.addSelect();
       }
 
