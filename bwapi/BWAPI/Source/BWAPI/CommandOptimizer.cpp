@@ -257,7 +257,7 @@ void CommandOptimizer::flush()
           {
             // Select the group
             BW::Orders::Select sel(groupOf12);
-            QueueGameCommand(&sel, sel.size);
+            QueueGameCommand(&sel, sel.size());
             BroodwarImpl.apmCounter.addSelect();
 
             // Workaround for doing certain actions
@@ -280,7 +280,7 @@ void CommandOptimizer::flush()
         {
           // Select the group
           BW::Orders::Select sel(groupOf12);
-          QueueGameCommand(&sel, sel.size);
+          QueueGameCommand(&sel, sel.size());
           BroodwarImpl.apmCounter.addSelect();
 
           // Workaround for doing certain actions

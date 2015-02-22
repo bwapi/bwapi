@@ -21,14 +21,16 @@ namespace BW
   class UnitTarget
   {
     public :
-      /// Default contructor, sets x and y to 0.
       UnitTarget();
+
       /// Constructor, takes BWAPI unit pointer, and decodes it to bw index type.
-      UnitTarget(BWAPI::Unit target);
-      UnitTarget(BW::CUnit* target);
+      UnitTarget(const BWAPI::Unit target);
+      UnitTarget(const BW::CUnit* target);
       u16 getTarget() const;
     private :
-      u16 targetID; /// Unit index pointer stored in the way bw understands it
+      u16 targetID = 0; /// Unit index pointer stored in the way bw understands it
   };
+
+  static_assert(sizeof(UnitTarget) == 2, "UnitTarget is expected to be POD 2 bytes.");
 };
 #pragma pack()

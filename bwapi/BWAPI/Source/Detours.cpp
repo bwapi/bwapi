@@ -594,8 +594,8 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
          buffer[0] == 0x5A )
     {
       //reload the unit selection states (so that the user doesn't notice any changes in selected units in the Starcraft GUI.
-      BW::Orders::Select sel = BW::Orders::Select(BW::BWDATA::ClientSelectionCount, BW::BWDATA::ClientSelectionGroup.data());
-      QueueGameCommand(&sel, sel.size);
+      BW::Orders::Select sel(BW::BWDATA::ClientSelectionCount, const_cast<const BW::CUnit**>(BW::BWDATA::ClientSelectionGroup.data()));
+      QueueGameCommand(&sel, sel.size());
     } // user select
     QueueGameCommand(buffer, length);
   }

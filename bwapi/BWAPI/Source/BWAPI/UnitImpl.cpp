@@ -129,7 +129,7 @@ namespace BWAPI
       //select both units for archon warp or dark archon meld
       Unit sel2[2] = { command.unit, command.target };
       BW::Orders::Select sel(2, sel2);
-      QueueGameCommand(&sel, sel.size);
+      QueueGameCommand(&sel, sel.size());
       BroodwarImpl.apmCounter.addSelect();
     }
     else if (command.type != UnitCommandTypes::Unload || BroodwarImpl.commandOptimizer.level < 2)
@@ -152,7 +152,7 @@ namespace BWAPI
   {
     Unit u = this;
     BW::Orders::Select sel = BW::Orders::Select(1, &u);
-    QueueGameCommand(&sel, sel.size);
+    QueueGameCommand(&sel, sel.size());
     BroodwarImpl.apmCounter.addSelect();
   }
   //----------------------------------------------------------------------------------------------------------
