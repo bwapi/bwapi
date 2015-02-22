@@ -94,8 +94,6 @@ namespace BWAPI
 
       void setID(int newID);
 
-      /** Gets the bw mapping of synchronised version of selected unit for current player */
-      BW::CUnit** selectedUnit();
       /**
        * Updates localData according to bw values. (Should be called every frame before local data updates are
        * performed

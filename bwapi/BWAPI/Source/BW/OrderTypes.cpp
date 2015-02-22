@@ -15,7 +15,7 @@ namespace BW
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
     Attack::Attack(BWAPI::Unit target, int OrderID, bool queued)
         : always0x15(0x15)
-        , target((BWAPI::UnitImpl*)target)
+        , target(target)
         , always0xe4((u16)BWAPI::UnitTypes::None)
         , order((u8)OrderID)
         , type(queued ? 1 : 0)
@@ -50,7 +50,7 @@ namespace BW
     //--------------------------------------- RIGHT CLICK CONSTRUCTOR ---------------------------------------
     RightClick::RightClick(BWAPI::Unit target, bool queued)
         : always0x14(0x14)
-        , target((BWAPI::UnitImpl*)target)
+        , target(target)
         , always0xe4((u16)BWAPI::UnitTypes::None)
         , type(queued ? 1 : 0)
     {
@@ -79,7 +79,7 @@ namespace BW
     {
     }
     //--------------------------------------- SHIFT SELECT CONSTRUCTOR ---------------------------------------
-    SelectAdd::SelectAdd(int count, BWAPI::UnitImpl **units)
+    SelectAdd::SelectAdd(int count, BWAPI::Unit *units)
         : always0x0A(0x0A)
     {
       unsigned int finalCount = 0;
@@ -102,7 +102,7 @@ namespace BW
       size      = 2 + targCount * 2;
     }
     //----------------------------------------- SELECT CONSTRUCTOR -------------------------------------------
-    Select::Select(int count, BWAPI::UnitImpl **units)
+    Select::Select(int count, BWAPI::Unit *units)
         : always0x09(0x09)
     {
       unsigned int finalCount = 0;
@@ -124,13 +124,13 @@ namespace BW
       targCount = (u8)finalCount;
       size      = 2 + targCount * 2;
     }
-    Select::Select(const std::vector<BWAPI::Unit> &units)
+    Select::Select(const std::vector<BWAPI::Unit>& units)
       : always0x09(0x09)
     {
       unsigned int finalCount = 0;
       for (unsigned int i = 0; i < units.size() && i < 12; ++i)
-        if (units[i] != NULL)
-          targets[finalCount++] = UnitTarget((BWAPI::UnitImpl*)units[i]);
+        if (units[i])
+          targets[finalCount++] = UnitTarget(units[i]);
 
       targCount = (u8)finalCount;
       size = 2 + targCount * 2;
@@ -384,7 +384,7 @@ namespace BW
     //------------------------------------------------ UNLOAD UNIT -------------------------------------------
     UnloadUnit::UnloadUnit(BWAPI::Unit unload)
         : always0x29(0x29)
-        , target((BWAPI::UnitImpl*)unload)
+        , target(unload)
     {
     }
     //---------------------------------------------- UNLOAD ALL ----------------------------------------------

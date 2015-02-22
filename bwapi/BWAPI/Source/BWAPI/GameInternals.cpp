@@ -63,16 +63,16 @@ namespace BWAPI
     try
     {
       // iterate through players and create PlayerImpl for each
-      for (int i = 0; i < PLAYER_COUNT; ++i)
-        players[i] = new PlayerImpl((u8)i);
+      for (u8 i = 0; i < PLAYER_COUNT; ++i)
+        players[i] = new PlayerImpl(i);
 
       // iterate through units and create UnitImpl for each
-      for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-        unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], (u16)i);
+      for (u16 i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+        unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], i);
 
       // iterate through bullets and create BulletImpl for each
-      for (int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
-        bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], (u16)i);
+      for (u16 i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+        bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], i);
     }
     catch (GeneralException& exception)
     {
@@ -86,47 +86,40 @@ namespace BWAPI
     this->initializeData();
 
     // destroy all UnitImpl
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+    for (UnitImpl* u : unitArray)
     {
-      if ( unitArray[i] != nullptr )
-      {
-        delete unitArray[i];
-        unitArray[i] = nullptr;
-      }
+      if (u) delete u;
     }
+    unitArray.fill(nullptr);
 
     // destroy all PlayerImpl
-    for (int i = 0; i < PLAYER_COUNT; ++i)
+    for (int i = 0; i < std::extent<decltype(players)>::value; ++i)
     {
-      if ( players[i] != nullptr )
-      {
-        delete players[i];
-        players[i] = nullptr;
-      }
+      if (players[i]) delete players[i];
+      players[i] = nullptr;
     }
-
+    
     // destroy all bullets
-    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+    for (BulletImpl* b : bulletArray)
     {
-      if ( bulletArray[i] != nullptr )
-      {
-        delete bulletArray[i];
-        bulletArray[i] = nullptr;
-      }
+      if (b) delete b;
     }
+    bulletArray.fill(nullptr);
   }
   //---------------------------------------- REFRESH SELECTION STATES ----------------------------------------
   void GameImpl::refreshSelectionStates()
   {
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-      this->unitArray[i]->setSelected(false);
-
-    selectedUnitSet.clear();
-    for (int i = 0; i < *BW::BWDATA::ClientSelectionCount && i < 12; ++i)
+    for (UnitImpl* u : unitArray)
     {
-      if ( BW::BWDATA::ClientSelectionGroup[i] )
+      if (u) u->setSelected(false);
+    }
+    
+    selectedUnitSet.clear();
+    for (int i = 0; i < BW::BWDATA::ClientSelectionCount && i < MAX_SELECTION_COUNT; ++i)
+    {
+      BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
+      if (u)
       {
-        BWAPI::UnitImpl *u = UnitImpl::BWUnitToBWAPIUnit(BW::BWDATA::ClientSelectionGroup[i]);
         u->setSelected(true);
         selectedUnitSet.insert(u);
       }
@@ -381,10 +374,9 @@ namespace BWAPI
     this->_allies.clear();
     this->_enemies.clear();
     this->_observers.clear();
-    this->invalidIndices.clear();
 
     // Reset saved selection
-    MemZero(this->savedUnitSelection);
+    this->savedUnitSelection.fill(nullptr);
     this->wantSelectionUpdate = false;
 
     // Disable all game flags
@@ -417,24 +409,24 @@ namespace BWAPI
     this->setGUI(true);
 
     // Reset all Unit objects in the unit array
-    for (int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+    for (UnitImpl* u : unitArray)
     {
-      if ( !unitArray[i] )
-        continue;
-      unitArray[i]->clear();
-      unitArray[i]->userSelected      = false;
-      unitArray[i]->isAlive           = false;
-      unitArray[i]->wasAlive          = false;
-      unitArray[i]->wasCompleted      = false;
-      unitArray[i]->wasAccessible     = false;
-      unitArray[i]->wasVisible        = false;
-      unitArray[i]->staticInformation = false;
-      unitArray[i]->nukeDetected      = false;
-      unitArray[i]->lastType          = UnitTypes::Unknown;
-      unitArray[i]->lastPlayer        = nullptr;
+      if (!u) continue;
+      u->clear();
+      u->userSelected = false;
+      u->isAlive = false;
+      u->wasAlive = false;
+      u->wasCompleted = false;
+      u->wasAccessible = false;
+      u->wasVisible = false;
+      u->staticInformation = false;
+      u->nukeDetected = false;
+      u->lastType = UnitTypes::Unknown;
+      u->lastPlayer = nullptr;
 
-      unitArray[i]->setID(-1);
+      u->setID(-1);
     }
+
     BulletImpl::nextId = 0;
     this->cheatFlags  = 0;
     //this->frameCount  = -1;

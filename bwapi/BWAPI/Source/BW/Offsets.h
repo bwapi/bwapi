@@ -35,6 +35,7 @@ const int NUM_SPEEDS = 7;
 const int TURN_BUFFER_SIZE = 512;
 const int NUM_TEXT_LINES = 13;
 const int MAX_TEXT_SIZE = 218;
+const int MAX_SELECTION_COUNT = 12;
 
 namespace BW
 {
@@ -262,6 +263,9 @@ namespace BW
       std::array<u8, NUM_TEXT_LINES> IS_REF(Chat_ColorBytes, 0x00641674);
       u32 IS_REF(Chat_IncrementY, 0x00640B20);
 
+      // Selected units
+      std::array<CUnit*, MAX_SELECTION_COUNT> IS_REF(ClientSelectionGroup, 0x00597208);
+      u8 IS_REF(ClientSelectionCount, 0x0059723D);
     }
   }
 
@@ -285,9 +289,6 @@ namespace BW
   BW_DATA(u8*, InputFlags, 0x006CDDC0, 0);
 
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
-  BW_DATA(CUnit**, ClientSelectionGroup, 0x00597208, 0);
-  BW_DATA(u8*, ClientSelectionCount, 0x0059723D, 0);
-  BW_DATA(u32, PlayerSelection, 0x006284E0, 0);
 
   BW_DATA(u32*, isGamePaused, 0x006509C4, 0);
   static const u32 BWFXN_P_IsGamePaused           = 0x004D974E;

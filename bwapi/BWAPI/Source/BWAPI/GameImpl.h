@@ -244,11 +244,10 @@ namespace BWAPI
       Unit _unitFromIndex(int index);
 
     public:
-      Race lastKnownRaceBeforeStart[PLAYABLE_PLAYER_COUNT];
+      std::array<Race, PLAYABLE_PLAYER_COUNT> lastKnownRaceBeforeStart;
       PlayerImpl *BWAPIPlayer;
       PlayerImpl *enemyPlayer;
       Server server;
-      std::unordered_set<int> invalidIndices;
       std::list<Event> events;
     private:
       std::vector<std::string> sentMessages;
@@ -269,7 +268,7 @@ namespace BWAPI
 
       // Count of game-frames passed from game start.
       int frameCount;
-      BW::CUnit *savedUnitSelection[PLAYER_COUNT];
+      std::array<BW::CUnit*,PLAYER_COUNT> savedUnitSelection;
 
       static void setLocalSpeedDirect(int speed);
     public:
@@ -279,7 +278,7 @@ namespace BWAPI
       bool wantSelectionUpdate;
       bool startedClient;
 
-      UnitImpl *unitArray[UNIT_ARRAY_MAX_LENGTH];
+      std::array<UnitImpl*, UNIT_ARRAY_MAX_LENGTH> unitArray;
       bool isTournamentCall;
 
       GameData* data;
@@ -290,7 +289,8 @@ namespace BWAPI
       HMODULE hTournamentModule;
       AIModule *tournamentAI;
 
-      PlayerImpl *players[PLAYER_COUNT];
+      // NOTE: This MUST be a POD array (NOT std::array) because of the crappy assembly hacks that are being used
+      PlayerImpl* players[PLAYER_COUNT];
 
     private:
       std::vector<PlayerImpl*> droppedPlayers;
@@ -323,7 +323,7 @@ namespace BWAPI
       Regionset regionsList;
       std::unordered_map<int, Region> regionMap;
 
-      BulletImpl* bulletArray[BULLET_ARRAY_MAX_LENGTH];
+      std::array<BulletImpl*,BULLET_ARRAY_MAX_LENGTH> bulletArray;
       std::vector< std::vector<Command *> > commandBuffer;
       // Will update the unitsOnTile content, should be called every frame.
       void updateUnits();
@@ -335,7 +335,7 @@ namespace BWAPI
       void applyLatencyCompensation();
       void computeSecondaryUnitSets();
 
-      bool flags[BWAPI::Flag::Max];
+      std::array<bool,BWAPI::Flag::Max> flags;
       TournamentModule  *tournamentController;
       bool              bTournamentMessageAppeared;
       mutable BWAPI::Error lastError;
@@ -343,7 +343,7 @@ namespace BWAPI
       u32 cheatFlags;
       std::string autoMenuLanMode;
       std::string autoMenuRace;
-      std::string autoMenuEnemyRace[PLAYABLE_PLAYER_COUNT];
+      std::array<std::string, PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;
       unsigned int autoMenuEnemyCount;
       unsigned int autoMenuMinPlayerCount;
       unsigned int autoMenuMaxPlayerCount;
