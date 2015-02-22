@@ -297,11 +297,6 @@ namespace BWAPI
       self->leftGame = true;
     }
   }
-  //--------------------------------------------- SELECTED UNIT ----------------------------------------------
-  BW::CUnit** PlayerImpl::selectedUnit()
-  {
-    return (BW::CUnit**)(BW::BWDATA::PlayerSelection + index * 48);
-  }
   //----------------------------------------------------------------------------------------------------------
   void PlayerImpl::onGameEnd()
   {

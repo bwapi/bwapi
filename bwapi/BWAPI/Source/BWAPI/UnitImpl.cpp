@@ -127,9 +127,7 @@ namespace BWAPI
        (command.extra == TechTypes::Archon_Warp || command.extra == TechTypes::Dark_Archon_Meld))
     {
       //select both units for archon warp or dark archon meld
-      UnitImpl *sel2[2];
-      sel2[0] = static_cast<UnitImpl*>(command.unit);
-      sel2[1] = static_cast<UnitImpl*>(command.target);
+      Unit sel2[2] = { command.unit, command.target };
       BW::Orders::Select sel(2, sel2);
       QueueGameCommand(&sel, sel.size);
       BroodwarImpl.apmCounter.addSelect();
@@ -152,7 +150,7 @@ namespace BWAPI
   //---------------------------------------------- ORDER SELECT ----------------------------------------------
   void UnitImpl::orderSelect()
   {
-    UnitImpl *u = this;
+    Unit u = this;
     BW::Orders::Select sel = BW::Orders::Select(1, &u);
     QueueGameCommand(&sel, sel.size);
     BroodwarImpl.apmCounter.addSelect();
@@ -166,8 +164,6 @@ namespace BWAPI
     int index = unit - BW::BWDATA::UnitNodeTable.data();
     if (index > UNIT_ARRAY_MAX_LENGTH)
     {
-      if (BroodwarImpl.invalidIndices.find(index) == BroodwarImpl.invalidIndices.end())
-        BroodwarImpl.invalidIndices.insert(index);
       return nullptr;
     }
     return BroodwarImpl.getUnitFromIndex(index);

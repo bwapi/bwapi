@@ -18,7 +18,7 @@ namespace BWAPI
   UnitImpl* GameImpl::getUnitFromIndex(int index)
   {
     index &= 0x7FF;
-    if (index < std::extent<decltype(unitArray)>::value)
+    if (static_cast<unsigned>(index) < unitArray.size())
       return this->unitArray[index];
     return nullptr;
   }
@@ -320,9 +320,9 @@ namespace BWAPI
     // This function computes units on tile, player units, neutral units, minerals, geysers, pylons, and static unit sets
     // Also generates the UnitMorph and UnitRenegade callbacks
 
-    for(Player p : players)
+    for(PlayerImpl* p : players)
     {
-      PlayerData *pd = static_cast<PlayerImpl*>(p)->self;
+      PlayerData *pd = p->self;
       MemZero(pd->allUnitCount);
       MemZero(pd->visibleUnitCount);
       MemZero(pd->completedUnitCount);

@@ -62,9 +62,9 @@ void GameImpl::update()
     else
     {
       allDone = true;
-      for(Player p : this->players)
+      for(PlayerImpl* p : this->players)
       {
-        if ( static_cast<PlayerImpl*>(p)->getIndex() >= PLAYABLE_PLAYER_COUNT )
+        if ( p->getIndex() >= PLAYABLE_PLAYER_COUNT )
           continue;
         if ( !p->isDefeated() && !p->isVictorious() && !p->leftGame() )
           allDone = false;
@@ -86,10 +86,10 @@ void GameImpl::update()
   if ( this->calledMatchEnd ) return;
 
   // Update unit selection
-  if ( wantSelectionUpdate && memcmp(savedUnitSelection, BW::BWDATA::ClientSelectionGroup, sizeof(savedUnitSelection)) != 0 )
+  if (wantSelectionUpdate && savedUnitSelection != BW::BWDATA::ClientSelectionGroup)
   {
     wantSelectionUpdate = false;
-    memcpy(savedUnitSelection, BW::BWDATA::ClientSelectionGroup, sizeof(savedUnitSelection));
+    savedUnitSelection = BW::BWDATA::ClientSelectionGroup;
     refreshSelectionStates();
   }
 
@@ -172,8 +172,8 @@ void GameImpl::update()
   {
     UnitImpl *u = static_cast<UnitImpl*>(ui);
     deadUnits.insert(u);
-    int index = u->getIndex();
-    unitArray[index] = new UnitImpl(&BW::BWDATA::UnitNodeTable[index], (u16)index);
+    u16 index = u->getIndex();
+    unitArray[index] = new UnitImpl(&BW::BWDATA::UnitNodeTable[index], index);
     u->die();
   }
 

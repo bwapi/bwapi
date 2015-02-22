@@ -6,6 +6,7 @@
 #include <BWAPI/Unit.h>
 
 #include "PositionUnitTarget.h"
+#include "Offsets.h"
 
 namespace BWAPI
 { 
@@ -60,26 +61,25 @@ namespace BW
     class SelectAdd
     {
       public :
-        SelectAdd(int count, BWAPI::UnitImpl **units);
+        SelectAdd(int count, BWAPI::Unit *units);
         SelectAdd(int count, BW::CUnit **units);
         // 0x0A = Shift-Select command-code in bw 
         u8         always0x0A;
         u8         targCount;
-        UnitTarget targets[12];
+        UnitTarget targets[MAX_SELECTION_COUNT];
         u32        size;
     };
     // Selection command in bw 
     class Select
     {
       public :
-        Select(int count, BWAPI::UnitImpl **units);
+        Select(int count, BWAPI::Unit *units);
         Select(int count, BW::CUnit **units);
-        Select(const BWAPI::Unitset &unitset);
-        Select(const std::vector<BWAPI::Unit> &units);
+        Select(const std::vector<BWAPI::Unit>& units);
         // 0x09 = Select command-code in bw 
         u8         always0x09;
         u8         targCount;
-        UnitTarget targets[12];
+        UnitTarget targets[MAX_SELECTION_COUNT];
         u32        size;
     };
     // Train unit command in bw. 

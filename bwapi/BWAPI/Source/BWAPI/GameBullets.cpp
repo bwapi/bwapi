@@ -13,7 +13,7 @@ namespace BWAPI
   BulletImpl* GameImpl::getBulletFromIndex(int index)
   {
     index &= 0x7F;
-    if (index < std::extent<decltype(bulletArray)>::value)
+    if (static_cast<unsigned>(index) < bulletArray.size())
       return this->bulletArray[index];
     return nullptr;
   }
@@ -21,8 +21,8 @@ namespace BWAPI
   void GameImpl::updateBullets()
   {
     // Reset bullets information
-    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
-      this->bulletArray[i]->setExists(false);
+    for (BulletImpl* b : bulletArray)
+      b->setExists(false);
     bullets.clear();
 
     // Repopulate bullets set
@@ -36,10 +36,10 @@ namespace BWAPI
     }
 
     // Update all bullets info
-    for(int i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+    for (BulletImpl* b : bulletArray)
     {
-      this->bulletArray[i]->saveExists();
-      this->bulletArray[i]->updateData();
+      b->saveExists();
+      b->updateData();
     }
   }
 
