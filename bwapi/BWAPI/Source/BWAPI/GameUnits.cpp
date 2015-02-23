@@ -372,6 +372,7 @@ namespace BWAPI
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {
+        u->wasCompleted = false; // After morphing units mostly are not completed
         events.push_back(Event::UnitMorph(i));
         if (i->lastType == UnitTypes::Resource_Vespene_Geyser)
         {
