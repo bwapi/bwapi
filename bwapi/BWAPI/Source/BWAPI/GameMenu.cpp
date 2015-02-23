@@ -20,12 +20,12 @@ namespace BWAPI
   void GameImpl::loadAutoMenuData()
   {
     //this function is called when starcraft loads and at the end of each match.
-    //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type    
-    this->autoMenuMode = LoadConfigString("auto_menu", "auto_menu", "OFF");
+    //the function loads the parameters for the auto-menu feature such as auto_menu, map, race, enemy_race, enemy_count, and game_type
+    this->autoMenuMode = LoadConfigStringUCase("auto_menu", "auto_menu", "OFF");
 #ifdef _DEBUG
-    this->autoMenuPause = LoadConfigString("auto_menu", "pause_dbg", "OFF");
+    this->autoMenuPause = LoadConfigStringUCase("auto_menu", "pause_dbg", "OFF");
 #endif
-    this->autoMenuRestartGame = LoadConfigString("auto_menu", "auto_restart", "OFF");
+    this->autoMenuRestartGame = LoadConfigStringUCase("auto_menu", "auto_restart", "OFF");
     this->autoMenuGameName    = LoadConfigString("auto_menu", "game");
 
     // Load map string
@@ -51,11 +51,11 @@ namespace BWAPI
       if ( tmp != std::string::npos )
         this->autoMenuMapPath = cfgMap.substr(0, tmp);
       this->autoMenuMapPath += "\\";
-      
+
       // Iterate files in directory
       WIN32_FIND_DATAA finder = { 0 };
       HANDLE hFind = FindFirstFileA(cfgMap.c_str(), &finder);
-      
+
       if ( hFind != INVALID_HANDLE_VALUE )
       {
         do
@@ -77,7 +77,7 @@ namespace BWAPI
     } // if map was changed^
 
     // Get map iteration config
-    std::string newMapIteration = LoadConfigString("auto_menu", "mapiteration", "RANDOM");
+    std::string newMapIteration = LoadConfigStringUCase("auto_menu", "mapiteration", "RANDOM");
     if ( this->autoMapIteration != newMapIteration )
     {
       this->autoMapIteration = newMapIteration;
@@ -91,19 +91,19 @@ namespace BWAPI
       this->chooseNewRandomMap();
 
     this->autoMenuLanMode       = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
-    this->autoMenuRace          = LoadConfigString("auto_menu", "race", "RANDOM");
-    this->autoMenuEnemyRace[0]  = LoadConfigString("auto_menu", "enemy_race", "RANDOM");
+    this->autoMenuRace          = LoadConfigStringUCase("auto_menu", "race", "RANDOM");
+    this->autoMenuEnemyRace[0]  = LoadConfigStringUCase("auto_menu", "enemy_race", "RANDOM");
     for ( unsigned int i = 1; i < 8; ++i )
     {
       std::stringstream sskey;
       sskey << "enemy_race_" << i;
-      this->autoMenuEnemyRace[i] = LoadConfigString("auto_menu", sskey.str().c_str(), "DEFAULT");
+      this->autoMenuEnemyRace[i] = LoadConfigStringUCase("auto_menu", sskey.str().c_str(), "DEFAULT");
       if ( this->autoMenuEnemyRace[i] == "DEFAULT" )
         this->autoMenuEnemyRace[i] = this->autoMenuEnemyRace[0];
     }
 
     this->autoMenuEnemyCount  = clamp<int>(LoadConfigInt("auto_menu", "enemy_count", 1), 0, 7);
-    this->autoMenuGameType    = LoadConfigString("auto_menu", "game_type", "MELEE");
+    this->autoMenuGameType    = LoadConfigStringUCase("auto_menu", "game_type", "MELEE");
     this->autoMenuSaveReplay  = LoadConfigString("auto_menu", "save_replay");
 
     this->autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
@@ -165,7 +165,7 @@ namespace BWAPI
     }
     return rval;
   }
-  
+
   Race GameImpl::getMenuRace(const std::string &sChosenRace)
   {
     // Determine the current player's race
@@ -176,6 +176,8 @@ namespace BWAPI
       race = rand() % 2 == 0 ? Races::Terran : Races::Zerg;
     else if ( sChosenRace == "RANDOMPZ" )
       race = rand() % 2 == 0 ? Races::Protoss : Races::Zerg;
+    else if ( sChosenRace == "RANDOMTPZ" )
+      race = {rand() % 3};
     else
       race = Race::getType(sChosenRace);
     return race;
@@ -276,7 +278,7 @@ namespace BWAPI
             // Set enemy races
             for ( unsigned int i = 1; i <= this->autoMenuEnemyCount; ++i )
               this->_changeRace(i, getMenuRace(this->autoMenuEnemyRace[i]));
-            
+
             //close remaining slots
             for( int i = this->autoMenuEnemyCount; i < 7; ++i )
             {
@@ -289,14 +291,14 @@ namespace BWAPI
 
         // get the full map path
         std::string mapFilePath = installPath + lastMapGen;
-        
+
         // Get substring containing only the file name
         size_t tmp = mapFilePath.find_last_of("/\\");
         std::string mapFileName(mapFilePath, tmp == std::string::npos ? 0 : tmp+1);
 
         // Get substring containing only the directory
         std::string mapFileDir(mapFilePath, 0, mapFilePath.size() - mapFileName.size() - 1);
-        
+
         // Apply the altered name to all vector entries
         for ( BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA::MapListVector->begin; (u32)i != ~(u32)&BW::BWDATA::MapListVector->end && (u32)i != (u32)&BW::BWDATA::MapListVector->begin; i = i->next )
         {
@@ -313,7 +315,7 @@ namespace BWAPI
 
         // update map folder location
         SStrCopy(BW::BWDATA::CurrentMapFolder.data(), mapFileDir.c_str(), MAX_PATH);
-        
+
         // if we encounter an unknown error when attempting to load the map
         if ( BW::FindDialogGlobal("gluPOk") )
         {
@@ -330,7 +332,7 @@ namespace BWAPI
       // Press hotkey if trying to get to BNET
       // or press it after the LAN mode has been selected
       if ( this->autoMenuMode == "BATTLE_NET" ||
-           (tempDlg->findIndex(5)->isVisible() && 
+           (tempDlg->findIndex(5)->isVisible() &&
            tempDlg->findIndex(5)->setSelectedByString(this->autoMenuLanMode) )  )
         pressDialogKey( tempDlg->findIndex(9) );
 
@@ -346,7 +348,7 @@ namespace BWAPI
           break;
 
         if ( isJoining &&
-             !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) && 
+             !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) &&
              waitJoinTimer + (3000 * (getInstanceNumber() + 1) ) > GetTickCount() )
           break;
 
@@ -366,10 +368,10 @@ namespace BWAPI
       break;
     case BW::GLUE_CHAT:
       waitJoinTimer = 0;
-      
-      if ( !actRaceSel && 
-            BW::FindDialogGlobal("Chat") && 
-            _currentPlayerId() >= 0 && 
+
+      if ( !actRaceSel &&
+            BW::FindDialogGlobal("Chat") &&
+            _currentPlayerId() >= 0 &&
             _currentPlayerId() < 8 &&
             waitSelRaceTimer + 300 < GetTickCount() )
       {
@@ -396,7 +398,7 @@ namespace BWAPI
           {
             actRaceSel = true;
           }
-          
+
           // Set the race
           if ( !actRaceSel )
             this->_changeRace(8, playerRace);
@@ -412,12 +414,12 @@ namespace BWAPI
       }
 
       // Start the game if creating and auto-menu requirements are met
-      if (  isCreating && 
+      if (  isCreating &&
             waitRestartTimer + 2000 < GetTickCount() &&
-            !actStartedGame && 
-            isHost && 
-            getLobbyPlayerReadyCount() > 0 && 
-            getLobbyPlayerReadyCount() == getLobbyPlayerCount() && 
+            !actStartedGame &&
+            isHost &&
+            getLobbyPlayerReadyCount() > 0 &&
+            getLobbyPlayerReadyCount() == getLobbyPlayerCount() &&
             (getLobbyPlayerReadyCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0) )
       {
         if ( getLobbyPlayerReadyCount() >= this->autoMenuMaxPlayerCount || getLobbyOpenCount() == 0 || GetTickCount() > createdTimer + this->autoMenuWaitPlayerTime )
@@ -443,7 +445,7 @@ namespace BWAPI
         this->pressDialogKey( BW::FindDialogGlobal("Login")->findIndex(4) );
       }
       break;
-    case BW::GLUE_SCORE_Z_DEFEAT: 
+    case BW::GLUE_SCORE_Z_DEFEAT:
     case BW::GLUE_SCORE_Z_VICTORY:
     case BW::GLUE_SCORE_T_DEFEAT:
     case BW::GLUE_SCORE_T_VICTORY:
@@ -491,7 +493,7 @@ namespace BWAPI
     const char *txt = countdown->getText();
     if ( txt && txt[0] && txt[0] < '2' )
       return; // return if the countdown is less than 2
-    
+
     // Send the change race command for multi-player
     QUEUE_COMMAND(BW::Orders::RequestChangeRace, slot, race);
   }
