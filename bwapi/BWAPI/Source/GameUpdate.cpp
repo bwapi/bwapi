@@ -41,7 +41,7 @@ void GameImpl::update()
   //the first time update() is called, we also call onGameStart to initialize some things
   if ( !onStartCalled )
     this->onGameStart();
-      
+
   if ( !this->calledMatchEnd && frameCount > 1 )
   {
     bool win     = false;
@@ -72,6 +72,8 @@ void GameImpl::update()
     }
     if ( allDone)
     {
+      if (win)
+        rn_GameResult = "win";
       this->calledMatchEnd = true;
       events.push_back(Event::MatchFrame());
       events.push_back(Event::MatchEnd(win));
@@ -139,8 +141,8 @@ void GameImpl::update()
     this->startedClient = true;
   }
 
-  if ( !this->bTournamentMessageAppeared && 
-        hTournamentModule && 
+  if ( !this->bTournamentMessageAppeared &&
+        hTournamentModule &&
         this->frameCount > _currentPlayerId()*8 )
   {
     this->bTournamentMessageAppeared = true;
@@ -199,7 +201,7 @@ void GameImpl::update()
   // Set the replay time, this is a workaround to fixing the replay DIVIDE_BY_ZERO exception bug
   if ( !this->isReplay() )
     BW::BWDATA::ReplayFrames = this->getFrameCount()+20;
-  
+
   // Execute commands that have been buffered by the command optimizer
   commandOptimizer.flush();
 
@@ -239,7 +241,7 @@ void GameImpl::updateOverlays()
     BWAPI::Color c = Colors::Red;
     int x = this->getMousePosition().x + this->getScreenPosition().x;
     int y = this->getMousePosition().y + this->getScreenPosition().y;
-    if ( BW::isCollidingWithContour((*BW::BWDATA::SAIPathing)->contours, 
+    if ( BW::isCollidingWithContour((*BW::BWDATA::SAIPathing)->contours,
                                 x,
                                 y,
                                 UnitTypes::Terran_Marine.dimensionLeft(),
@@ -267,7 +269,7 @@ void GameImpl::updateOverlays()
       {
         BW::TilePosition tp((u16)x/32, (u16)y/32);
         const BW::region *r = BW::getRegionAt(x,y);
-        
+
         BWAPI::Color c = (selectedRgn == r) ? Colors::Brown : Colors::Grey;
         if ( r->accessabilityFlags == 0x1FFD )
           c = (selectedRgn == r) ? Colors::Yellow : Colors::Red;
@@ -337,7 +339,7 @@ void GameImpl::updateOverlays()
     foreach (BWAPI::RegionImpl *r, this->regionsList )
     {
       drawTextMap(r->getCenter(), "%u", r->getRegionGroupID());
-        
+
       std::vector<BWAPI::Position> poly = r->getSimplePolygon();
       BWAPI::Position prev = Positions::None;
       for ( auto j = poly.begin(), jend = poly.end(); j != jend; ++j )
@@ -423,7 +425,7 @@ void GameImpl::initializeTournamentModule()
       std::string missing;
       if ( !newTournamentAI )
         missing += "newTournamentAI";
-          
+
       if ( !newTournamentModule )
       {
         if ( !missing.empty() )
@@ -539,7 +541,7 @@ void GameImpl::initializeAIModule()
         std::string missing;
         if ( !newGame )
           missing += "gameInit";
-          
+
         if ( !newAIModule )
         {
           if ( !missing.empty() )
