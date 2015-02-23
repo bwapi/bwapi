@@ -4,6 +4,7 @@
 
 // Functions
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault = NULL);
+std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, const char *pszDefault = NULL);
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault = 0);
 std::string LoadRegString(const char *pszKeyName, const char *pszValueName);
 

@@ -7,6 +7,7 @@
 #include "Config.h"
 
 #include "WMode.h"
+#include "Util/Convenience.h"
 
 std::string screenshotFmt;
 
@@ -44,6 +45,11 @@ std::string LoadConfigString(const char *pszKey, const char *pszItem, const char
   GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath.c_str());
   return std::string(buffer);
 }
+// this version uppercase result string after loading, should be used for the most of enum-like strings
+std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, const char *pszDefault)
+{
+  return toUpper(LoadConfigString (pszKey, pszItem, pszDefault));
+}
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
   return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath.c_str());
@@ -70,10 +76,10 @@ void InitPrimaryConfig()
     screenshotFmt.insert(0, ".");
 
   // Check if warning dialogs should be shown
-  showWarn = LoadConfigString("config", "show_warnings", "YES") == "YES";
+  showWarn = LoadConfigStringUCase("config", "show_warnings", "YES") == "YES";
 
   // Check if shared memory should be enabled
-  serverEnabled = LoadConfigString("config", "shared_memory", "ON") == "ON";
+  serverEnabled = LoadConfigStringUCase("config", "shared_memory", "ON") == "ON";
 
   // Get process count
   gdwProcNum = getProcessCount("StarCraft.exe");
@@ -84,7 +90,7 @@ void InitPrimaryConfig()
   windowRect.top    = LoadConfigInt("window", "top");
   windowRect.right  = LoadConfigInt("window", "width");
   windowRect.bottom = LoadConfigInt("window", "height");
-  switchToWMode     = LoadConfigString("window", "windowed", "OFF") == "ON";
+  switchToWMode     = LoadConfigStringUCase("window", "windowed", "OFF") == "ON";
 
   // Limit minimum w-mode size
   if ( windowRect.right < WMODE_MIN_WIDTH )

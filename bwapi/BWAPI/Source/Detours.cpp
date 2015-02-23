@@ -13,6 +13,7 @@
 #include "NewHackUtil.h"
 #include "Detours.h"
 #include "GameDrawing.h"
+#include "Util/Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
 
@@ -151,7 +152,7 @@ HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManual
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId)
 {
   auto CreateThreadProc = _CreateThreadOld ? _CreateThreadOld : &CreateThread;
-  
+
   DWORD dwThreadId = 0;   // Local thread ID for thread labelling
   HANDLE rval = CreateThreadProc(lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, &dwThreadId);
 
@@ -199,17 +200,17 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     if ( switchToWMode )
     {
       HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
-      hWndReturn = CreateWindowExProc(dwExStyle, 
-                                        lpClassName, 
+      hWndReturn = CreateWindowExProc(dwExStyle,
+                                        lpClassName,
                                         newWindowName.str().c_str(),
-                                        dwStyle | WS_OVERLAPPEDWINDOW, 
-                                        windowRect.left, 
-                                        windowRect.top, 
-                                        windowRect.right, 
-                                        windowRect.bottom, 
-                                        hWndParent, 
-                                        hMenu, 
-                                        hInstance, 
+                                        dwStyle | WS_OVERLAPPEDWINDOW,
+                                        windowRect.left,
+                                        windowRect.top,
+                                        windowRect.right,
+                                        windowRect.bottom,
+                                        hWndParent,
+                                        hMenu,
+                                        hInstance,
                                         lpParam);
       ghMainWnd = hWndReturn;
       SetWMode(windowRect.right, windowRect.bottom, true);
@@ -234,10 +235,10 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData)
 {
-  if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() && 
-       BWAPI::BroodwarImpl.autoMenuMode != ""         &&
-       BWAPI::BroodwarImpl.autoMenuMode != "OFF"      &&
-       !BWAPI::BroodwarImpl.lastMapGen.empty()        &&
+  if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() &&
+       BWAPI::BroodwarImpl.autoMenuMode != ""       &&
+       BWAPI::BroodwarImpl.autoMenuMode != "OFF"    &&
+       !BWAPI::BroodwarImpl.lastMapGen.empty()      &&
        strstr(lpFileName, "*.*")  )
     lpFileName = BWAPI::BroodwarImpl.lastMapGen.c_str();
 
@@ -252,7 +253,7 @@ std::string &getReplayName(std::string &sInFilename)
     // If we're replacing the name
     if ( !gDesiredReplayName.empty() )
       sInFilename = gDesiredReplayName;
-    
+
     // If we have multiple instances, so no write conflicts
     if (gdwProcNum > 1)
     {
@@ -435,7 +436,7 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   if ( !nosound )
   {
     nosound = true;
-    if ( LoadConfigString("starcraft", "sound", "ON") == "OFF" )
+    if ( LoadConfigStringUCase("starcraft", "sound", "ON") == "OFF" )
       BW::BWFXN_DSoundDestroy();
   }
 
@@ -504,7 +505,7 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
 
   if ( isCorrectVersion )
   {
-    if ( lastFile == "dlgs\\protoss.grp" || 
+    if ( lastFile == "dlgs\\protoss.grp" ||
          lastFile == "dlgs\\terran.grp"  ||
          lastFile == "dlgs\\zerg.grp" )
     {
@@ -526,7 +527,7 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
       }
     }
   } // isCorrectVer
-  
+
   return rval;
 }
 
@@ -551,7 +552,7 @@ void __fastcall CommandFilter(BYTE *buffer, DWORD length)
     return;
 
   // Filter commands using BWAPI rules
-  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) || 
+  if ( BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) ||
        !BWAPI::BroodwarImpl.onStartCalled ||
        buffer[0] <= 0x0B ||
        (buffer[0] >= 0x0F && buffer[0] <= 0x12) ||
