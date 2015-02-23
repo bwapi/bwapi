@@ -118,7 +118,7 @@ namespace BWAPI
           this->enemyPlayer = this->players[i];
       }
     }
-    
+
     // get pre-race info
     BYTE bRaceInfo[12] = { 0 };
     BYTE bOwnerInfo[12] = { 0 };
@@ -167,8 +167,8 @@ namespace BWAPI
         continue;
 
       // If the game is UMS and player is observer and race is not (UserSelect OR invalid player type), skip
-      if ( this->getGameType() == GameTypes::Use_Map_Settings && 
-           this->players[i]->isObserver() && 
+      if ( this->getGameType() == GameTypes::Use_Map_Settings &&
+           this->players[i]->isObserver() &&
            (bRaceInfo[i] != Races::Enum::Select ||
            (bOwnerInfo[i] != PlayerTypes::Computer &&
             bOwnerInfo[i] != PlayerTypes::Player   &&
@@ -183,7 +183,7 @@ namespace BWAPI
     // Get Player Objects
     for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
     {
-      if ( this->players[i] && 
+      if ( this->players[i] &&
            BW::BWDATA::Players[i].nType != PlayerTypes::None &&
            BW::BWDATA::Players[i].nType <  PlayerTypes::Closed )
       {
@@ -246,6 +246,8 @@ namespace BWAPI
     }
 
     // Get info for replay naming
+    rn_GameResult = "loss"; // Game is counted as lost by default
+
     if ( !this->isReplay() )
     {
       if ( BWAPIPlayer )
@@ -270,7 +272,7 @@ namespace BWAPI
       {
         if ( p )
         {
-          rn_EnemiesNames += p->getName().substr(0, 6);
+          rn_EnemiesNames += p->getType() != PlayerTypes::Computer ? p->getName().substr(0, 6) : "Comp";
           rn_EnemiesRaces += p->getRace().getName().substr(0, 1);
         }
       }
@@ -306,7 +308,7 @@ namespace BWAPI
 
     // Do onReceiveText
     int realId = stormIdToPlayerId(playerId);
-    if ( realId != -1 && 
+    if ( realId != -1 &&
          (!this->BWAPIPlayer ||
           realId != this->BWAPIPlayer->getIndex() ) &&
          this->isFlagEnabled(BWAPI::Flag::UserInput) )
@@ -360,6 +362,7 @@ namespace BWAPI
       SetEnvironmentVariableA("ALLYRACES",  rn_AlliesRaces.c_str());
       SetEnvironmentVariableA("ENEMYNAMES", rn_EnemiesNames.c_str());
       SetEnvironmentVariableA("ENEMYRACES", rn_EnemiesRaces.c_str());
+      SetEnvironmentVariableA("GAMERESULT", rn_GameResult.c_str ());
 
       // Expand environment strings to szInterPath
       char szTmpPath[MAX_PATH] = { 0 };
@@ -378,7 +381,7 @@ namespace BWAPI
       // Get time
       time_t tmpTime = time(nullptr);
       tm *timeInfo = localtime(&tmpTime);
-      
+
       // Expand time strings, add a handler for this specific task to ignore errors in the format string
       _invalid_parameter_handler old = _set_invalid_parameter_handler(&ignore_invalid_parameter);
         strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);

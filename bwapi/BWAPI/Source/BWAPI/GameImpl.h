@@ -33,7 +33,7 @@ namespace BWAPI
   class Command;
   class BulletImpl;
   class Bulletset;
-  
+
   class PlayerInterface;
   typedef PlayerInterface *Player;
 
@@ -52,7 +52,7 @@ namespace BWAPI
       virtual const Unitset&    getMinerals() const override;
       virtual const Unitset&    getGeysers() const override;
       virtual const Unitset&    getNeutralUnits() const override;
- 
+
       virtual const Unitset&  getStaticMinerals() const override;
       virtual const Unitset&  getStaticGeysers() const override;
       virtual const Unitset&  getStaticNeutralUnits() const override;
@@ -236,7 +236,7 @@ namespace BWAPI
 
       void refreshSelectionStates();
       const GameData* getGameData() const;
-      
+
       void dropPlayers();
 
       int drawShapes();
@@ -281,7 +281,7 @@ namespace BWAPI
       bool isTournamentCall;
 
       GameData* data;
-      
+
       HMODULE hAIModule;
       AIModule *client;
 
@@ -361,6 +361,7 @@ namespace BWAPI
       std::string rn_AlliesRaces;
       std::string rn_EnemiesNames;
       std::string rn_EnemiesRaces;
+      std::string rn_GameResult;
       DWORD endTick;
       Playerset _allies;
       Playerset _enemies;
