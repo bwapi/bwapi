@@ -386,6 +386,7 @@ namespace BWAPI
       UnitImpl *u = static_cast<UnitImpl*>(ui);
       if (u->lastType != u->_getType && u->lastType != UnitTypes::Unknown && u->_getType != UnitTypes::Unknown)
       {
+        u->wasCompleted = false; // After morphing units mostly are not completed
         events.push_back(Event::UnitMorph(u));
         if (u->lastType == UnitTypes::Resource_Vespene_Geyser)
         {
