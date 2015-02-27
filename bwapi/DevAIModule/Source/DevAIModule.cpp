@@ -110,6 +110,7 @@ void DevAIModule::onUnitCreate(BWAPI::Unit unit)
 
 void DevAIModule::onUnitDestroy(BWAPI::Unit unit)
 {
+  Broodwar << unit->getType() << " died; exists = " << std::boolalpha << unit->exists() << std::endl;
 }
 
 void DevAIModule::onUnitMorph(BWAPI::Unit unit)

@@ -359,7 +359,6 @@ namespace BWAPI
     this->discoverUnits.clear();
     this->accessibleUnits.clear();
     this->evadeUnits.clear();
-    this->lastEvadedUnits.clear();
     this->selectedUnitSet.clear();
     this->startLocations.clear();
     this->playerSet.clear();

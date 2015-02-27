@@ -254,8 +254,8 @@ namespace BWAPI
       // Update BWAPI DLL
       BroodwarImpl.processEvents();
 
-      static_cast<GameImpl*>(BroodwarPtr)->events.clear();
-      if (!static_cast<GameImpl*>(BroodwarPtr)->startedClient)
+      BroodwarImpl.events.clear();
+      if (!BroodwarImpl.startedClient)
         checkForConnections();
     }
     // Reset data going out to client
@@ -569,7 +569,7 @@ namespace BWAPI
       }
       BroodwarImpl.isTournamentCall = false;
     }
-    for(Unit u : BroodwarImpl.lastEvadedUnits)
+    for(Unit u : BroodwarImpl.evadeUnits)
       data->units[u->getID()] = static_cast<UnitImpl*>(u)->data;
 
     static_cast<GameImpl*>(BroodwarPtr)->events.clear();
