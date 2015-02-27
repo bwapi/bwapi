@@ -75,7 +75,6 @@ namespace BWAPI
       u->wasAlive = true;
       u->isAlive  = false;
     }
-    lastEvadedUnits = evadeUnits;//save last evaded units for updating shared memory (Server.cpp)
 
     //set the wasAccessible and wasVisible fields
     for (Unit u : accessibleUnits)

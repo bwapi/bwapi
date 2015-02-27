@@ -253,7 +253,6 @@ namespace BWAPI
       std::vector<std::string> sentMessages;
 
     public:
-      Unitset lastEvadedUnits;
       bool onStartCalled;
       std::string lastMapGen;
       std::string autoMenuMode;
@@ -300,8 +299,9 @@ namespace BWAPI
 
       Unitset discoverUnits; //units entering accessibleUnits set on current frame
       Unitset accessibleUnits; //units that are accessible to the client on current frame
+    public:
       Unitset evadeUnits; //units leaving accessibleUnits set on current frame
-
+    private:
       Unitset selectedUnitSet;
 
       TilePosition::list startLocations;

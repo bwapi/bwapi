@@ -574,7 +574,7 @@ namespace BWAPI
   bool GameImpl::isWalkable(int x, int y) const
   {
     if ( !WalkPosition(x, y) )
-      return 0;
+      return false;
     return data->isWalkable[x][y];
   }
   //--------------------------------------------- GET GROUND HEIGHT ------------------------------------------
@@ -588,28 +588,28 @@ namespace BWAPI
   bool GameImpl::isBuildable(int x, int y, bool includeBuildings) const
   {
     if ( !TilePosition(x, y) )
-      return 0;
+      return false;
     return data->isBuildable[x][y] && ( includeBuildings ? !data->isOccupied[x][y] : true );
   }
   //--------------------------------------------- IS VISIBLE -------------------------------------------------
   bool GameImpl::isVisible(int x, int y) const
   {
     if ( !TilePosition(x, y) )
-      return 0;
+      return false;
     return data->isVisible[x][y];
   }
   //--------------------------------------------- IS EXPLORED ------------------------------------------------
   bool GameImpl::isExplored(int x, int y) const
   {
     if ( !TilePosition(x, y) )
-      return 0;
+      return false;
     return data->isExplored[x][y];
   }
   //--------------------------------------------- HAS CREEP --------------------------------------------------
   bool GameImpl::hasCreep(int x, int y) const
   {
     if ( !TilePosition(x, y) )
-      return 0;
+      return false;
     return data->hasCreep[x][y];
   }
   //--------------------------------------------- HAS POWER --------------------------------------------------
