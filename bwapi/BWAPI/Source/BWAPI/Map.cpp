@@ -20,17 +20,17 @@ namespace BWAPI
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
-    return BW::BWDATA::MapSize->x;
+    return BW::BWDATA::MapSize.x;
   }
   //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
-    return BW::BWDATA::MapSize->y;
+    return BW::BWDATA::MapSize.y;
   }
   //---------------------------------------------- GET PATH NAME ---------------------------------------------
   std::string Map::getPathName()
   {
-    std::string mapPath( BW::BWDATA::CurrentMapFileName );
+    std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
     
     // If the install path is included in the map path, remove it, creating a relative path
     if ( !installPath.empty() && mapPath.compare(0, installPath.length(), installPath) == 0 )
@@ -41,7 +41,7 @@ namespace BWAPI
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    std::string mapFileName( BW::BWDATA::CurrentMapFileName );
+    std::string mapFileName( BW::BWDATA::CurrentMapFileName.data() );
     
     // Remove the path
     size_t tmp = mapFileName.find_last_of("/\\");
@@ -53,7 +53,7 @@ namespace BWAPI
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
   {
-    return std::string{ BW::BWDATA::CurrentMapName };
+    return std::string{ BW::BWDATA::CurrentMapName.data() };
   }
   void Map::copyToSharedMemory()
   {

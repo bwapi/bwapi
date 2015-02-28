@@ -312,7 +312,7 @@ namespace BWAPI
         }
 
         // update map folder location
-        SStrCopy(BW::BWDATA::CurrentMapFolder, mapFileDir.c_str(), MAX_PATH);
+        SStrCopy(BW::BWDATA::CurrentMapFolder.data(), mapFileDir.c_str(), MAX_PATH);
         
         // if we encounter an unknown error when attempting to load the map
         if ( BW::FindDialogGlobal("gluPOk") )

@@ -148,7 +148,7 @@ namespace BWAPI
   {
     if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
       return BWAPI::Positions::Unknown;
-    return BWAPI::Position(BW::BWDATA::Mouse->x, BW::BWDATA::Mouse->y);
+    return BWAPI::Position(BW::BWDATA::Mouse.x, BW::BWDATA::Mouse.y);
   }
   //--------------------------------------------- GET MOUSE STATE --------------------------------------------
   bool GameImpl::getMouseState(MouseButton button) const
@@ -189,7 +189,7 @@ namespace BWAPI
   {
     if ( !this->isFlagEnabled(BWAPI::Flag::UserInput) )
       return BWAPI::Positions::Unknown;
-    return BWAPI::Position(*(BW::BWDATA::ScreenX),*(BW::BWDATA::ScreenY));
+    return BWAPI::Position(BW::BWDATA::ScreenX, BW::BWDATA::ScreenY);
   }
   //------------------------------------------- SET SCREEN POSITION ------------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
@@ -206,9 +206,9 @@ namespace BWAPI
     movePos.setMax( mapSize - scrSize);
 
     movePos &= 0xFFFFFFF8;
-    *BW::BWDATA::MoveToX = movePos.x;
-    *BW::BWDATA::MoveToY = movePos.y;
-    *BW::BWDATA::MoveToTile = BW::TilePosition(movePos);
+    BW::BWDATA::MoveToX = movePos.x;
+    BW::BWDATA::MoveToY = movePos.y;
+    BW::BWDATA::MoveToTile = BW::TilePosition(movePos);
     BW::BWFXN_UpdateScreenPosition();
   }
   //---------------------------------------------- PING MINIMAP ----------------------------------------------
@@ -528,7 +528,7 @@ namespace BWAPI
   //----------------------------------------------- IS PAUSED ------------------------------------------------
   bool GameImpl::isPaused() const
   {
-    return *BW::BWDATA::isGamePaused != 0;
+    return BW::BWDATA::isGamePaused != 0;
   }
   //----------------------------------------------- IN REPLAY ------------------------------------------------
   bool  GameImpl::isReplay() const
@@ -839,7 +839,7 @@ namespace BWAPI
   //---------------------------------------------------- SET MAP ---------------------------------------------
   bool GameImpl::setMap(const char *mapFileName)
   {
-    if ( !mapFileName || strlen(mapFileName) >= 260 || !mapFileName[0] )
+    if ( !mapFileName || strlen(mapFileName) >= MAX_PATH || !mapFileName[0] )
       return setLastError(Errors::Invalid_Parameter);
 
     if ( !std::ifstream(mapFileName).is_open() )
@@ -849,7 +849,7 @@ namespace BWAPI
       return setLastError(Errors::None);
 
 
-    strcpy(BW::BWDATA::CurrentMapFileName, mapFileName);
+    strcpy(BW::BWDATA::CurrentMapFileName.data(), mapFileName);
     return setLastError(Errors::None);
   }
   //------------------------------------------------- ELAPSED TIME -------------------------------------------

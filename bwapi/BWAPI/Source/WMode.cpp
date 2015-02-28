@@ -150,7 +150,7 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     bFlag = 0x20;
     break;
   }
-  if ( !( (*BW::BWDATA::InputFlags) & ~bFlag & 0x2A) )
+  if ( !( BW::BWDATA::InputFlags & ~bFlag & 0x2A) )
   {
     switch( dwEvent )
     {
@@ -160,13 +160,13 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     case BW_EVN_LBUTTONDBLCLK:
     case BW_EVN_RBUTTONDBLCLK:
     case BW_EVN_MBUTTONDBLCLK:
-      *BW::BWDATA::InputFlags |= bFlag;
+      BW::BWDATA::InputFlags |= bFlag;
       SetCapture(ghMainWnd);
       break;
     case BW_EVN_LBUTTONUP:
     case BW_EVN_RBUTTONUP:
     case BW_EVN_MBUTTONUP:
-      *BW::BWDATA::InputFlags &= ~bFlag;
+      BW::BWDATA::InputFlags &= ~bFlag;
       ReleaseCapture();
       break;
     }
@@ -176,10 +176,10 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     evt.wNo = (WORD)dwEvent;
     evt.cursor.x = pt.x;
     evt.cursor.y = pt.y;
-    BW::BWDATA::Mouse->x = pt.x;
-    BW::BWDATA::Mouse->y = pt.y;
-    if ( !SendHotkey(&evt) && BW::InputProcedures[dwEvent] )
-      BW::InputProcedures[dwEvent](&evt);
+    BW::BWDATA::Mouse.x = pt.x;
+    BW::BWDATA::Mouse.y = pt.y;
+    if ( !SendHotkey(&evt) && BW::BWDATA::InputProcedures[dwEvent] )
+      BW::BWDATA::InputProcedures[dwEvent](&evt);
   }
 }
 
@@ -418,10 +418,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
       if ( GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU ) // Compatibility for Xen W-Mode
       {
-        (*BW::BWDATA::InputFlags) |= 1;
+        BW::BWDATA::InputFlags |= 1;
         POINTS pt = MAKEPOINTS(lParam);
-        BW::BWDATA::Mouse->x = pt.x;
-        BW::BWDATA::Mouse->y = pt.y;
+        BW::BWDATA::Mouse.x = pt.x;
+        BW::BWDATA::Mouse.y = pt.y;
         return TRUE;
       }
       break;

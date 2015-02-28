@@ -17,12 +17,12 @@ static inline void convertCoordType(int &x, int &y, const BWAPI::CoordinateType:
   switch ( ctype )
   {
   case BWAPI::CoordinateType::Map:
-    x -= *(BW::BWDATA::ScreenX);
-    y -= *(BW::BWDATA::ScreenY);
+    x -= BW::BWDATA::ScreenX;
+    y -= BW::BWDATA::ScreenY;
     break;
   case BWAPI::CoordinateType::Mouse:
-    x += BW::BWDATA::Mouse->x;
-    y += BW::BWDATA::Mouse->y;
+    x += BW::BWDATA::Mouse.x;
+    y += BW::BWDATA::Mouse.y;
     break;
   }
 }

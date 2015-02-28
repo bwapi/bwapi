@@ -193,7 +193,7 @@ void GameImpl::update()
   */
 
   //increment frame count if the game is not paused
-  if ( *BW::BWDATA::isGamePaused == 0 )
+  if ( BW::BWDATA::isGamePaused == 0 )
     this->frameCount++;
 
   // Set the replay time, this is a workaround to fixing the replay DIVIDE_BY_ZERO exception bug

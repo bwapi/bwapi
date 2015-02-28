@@ -29,7 +29,7 @@ namespace BW
 
     rect bounds = { 0, 0, pGrpFrame->wid, pGrpFrame->hgt };
     BW::Position screen(this->mapPosition);
-    screen -= Position((short)*BW::BWDATA::MoveToX, (short)*BW::BWDATA::MoveToY);
+    screen -= Position(static_cast<short>(BW::BWDATA::MoveToX), static_cast<short>(BW::BWDATA::MoveToY));
     
     if ( screen.x < 0 )
     {

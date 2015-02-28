@@ -440,8 +440,8 @@ namespace BW
       return false;
 
     dlgEvent evt;
-    evt.cursor.x    = (u16)BW::BWDATA::Mouse->x;
-    evt.cursor.y    = (u16)BW::BWDATA::Mouse->y;
+    evt.cursor.x    = static_cast<u16>(BW::BWDATA::Mouse.x);
+    evt.cursor.y    = static_cast<u16>(BW::BWDATA::Mouse.y);
     evt.wVirtKey    = wVirtKey;
     evt.wSelection  = wSelect;
     evt.wNo         = wEvtNum;

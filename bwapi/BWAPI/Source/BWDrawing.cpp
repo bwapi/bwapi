@@ -19,7 +19,7 @@ void blitTileCache()
 
 void updateImageDrawingData()
 {
-  for ( int y = 0; y < BW::BWDATA::MapSize->y; ++y )
+  for ( int y = 0; y < BW::BWDATA::MapSize.y; ++y )
   {
     for ( BW::CSprite *s = BW::BWDATA::spriteGroups[y]; s; s = s->next )
     {
@@ -76,17 +76,17 @@ void drawThingys()
 
 BW::activeTile *getActiveTile(int x, int y)
 {
-  return &(*BW::BWDATA::ActiveTileArray)[x + y * BW::BWDATA::MapSize->x];
+  return &(*BW::BWDATA::ActiveTileArray)[x + y * BW::BWDATA::MapSize.x];
 }
 
 WORD *getMtxTile(int x, int y)
 {
-  return &(*BW::BWDATA::MapTileArray)[x + y * BW::BWDATA::MapSize->x];
+  return &(*BW::BWDATA::MapTileArray)[x + y * BW::BWDATA::MapSize.x];
 }
 
 WORD *getCellTile(int x, int y)
 {
-  return &(*BW::BWDATA::CellMap)[x + y * BW::BWDATA::MapSize->x];
+  return &(*BW::BWDATA::CellMap)[x + y * BW::BWDATA::MapSize.x];
 }
 
 bool hasCreep(int x, int y)
@@ -141,7 +141,7 @@ void drawMegatileImageData(WORD tile, int targTileX, int targTileY)
   // in pixels/8
   bool isCreepTile = !!(tile & 0x8000);
   
-  BW::Position scrPixelPos( BW::TilePosition((short)targTileX, (short)targTileY) - *BW::BWDATA::MoveToTile );
+  BW::Position scrPixelPos( BW::TilePosition((short)targTileX, (short)targTileY) - BW::BWDATA::MoveToTile );
 
   tile &= 0x7FFF;
   BW::vx4entry &entry = (*BW::BWDATA::VX4Data)[tile];
@@ -153,7 +153,7 @@ void drawMegatileImageData(WORD tile, int targTileX, int targTileY)
   if ( isCreepTile )
   {
     // Get creep edge data
-    u8 creepID = (*BW::BWDATA::CreepEdgeData)[ targTileX + targTileY * BW::BWDATA::MapSize->x ];
+    u8 creepID = (*BW::BWDATA::CreepEdgeData)[ targTileX + targTileY * BW::BWDATA::MapSize.x ];
     if ( creepID != 0 )   // Render terrain GRP for creep edge (if exists) to terrain cache
       bmpTerrainCache.BlitGraphic(*BW::BWDATA::TerrainGraphics, creepID-1, scrPixelPos.x, scrPixelPos.y);
   }
@@ -161,8 +161,8 @@ void drawMegatileImageData(WORD tile, int targTileX, int targTileY)
 
 void drawMapTiles()
 {
-  BW::TilePosition moveTo = *BW::BWDATA::MoveToTile;
-  BW::TilePosition mapMax = *BW::BWDATA::MapSize;
+  BW::TilePosition moveTo = BW::BWDATA::MoveToTile;
+  BW::TilePosition mapMax = BW::BWDATA::MapSize;
   int win_wid = BW::BWDATA::GameScreenBuffer.width() + 32;
   int win_hgt = BW::BWDATA::GameScreenBuffer.height() - 32;
 
