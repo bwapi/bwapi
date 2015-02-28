@@ -60,6 +60,7 @@
 #define BW_EVN_SYSCHAR        16
 #define BW_EVN_WHEELUP        17
 #define BW_EVN_WHEELDWN       18
+#define BW_EVN_MAX            19
 
 #define BW_USER_CREATE        0
 #define BW_USER_DESTROY       1

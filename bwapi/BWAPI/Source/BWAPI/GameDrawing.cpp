@@ -22,12 +22,12 @@ namespace BWAPI
     switch ( ctype )
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
-      p.x -= *(BW::BWDATA::ScreenX);
-      p.y -= *(BW::BWDATA::ScreenY);
+      p.x -= BW::BWDATA::ScreenX;
+      p.y -= BW::BWDATA::ScreenY;
       break;
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      p.x += BW::BWDATA::Mouse->x;
-      p.y += BW::BWDATA::Mouse->y;
+      p.x += BW::BWDATA::Mouse.x;
+      p.y += BW::BWDATA::Mouse.y;
       break;
     }
     if (p.x < 0 || 
@@ -56,17 +56,17 @@ namespace BWAPI
              (y1 >= maxH && y2 >= maxH) )
           return false;
 
-        p1.x -= *(BW::BWDATA::ScreenX);
-        p1.y -= *(BW::BWDATA::ScreenY);
-        p2.x -= *(BW::BWDATA::ScreenX);
-        p2.y -= *(BW::BWDATA::ScreenY);
+        p1.x -= BW::BWDATA::ScreenX;
+        p1.y -= BW::BWDATA::ScreenY;
+        p2.x -= BW::BWDATA::ScreenX;
+        p2.y -= BW::BWDATA::ScreenY;
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      p1.x += BW::BWDATA::Mouse->x;
-      p1.y += BW::BWDATA::Mouse->y;
-      p2.x += BW::BWDATA::Mouse->x;
-      p2.y += BW::BWDATA::Mouse->y;
+      p1.x += BW::BWDATA::Mouse.x;
+      p1.y += BW::BWDATA::Mouse.y;
+      p2.x += BW::BWDATA::Mouse.x;
+      p2.y += BW::BWDATA::Mouse.y;
       break;
     }
     rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer.width(), (s16)BW::BWDATA::GameScreenBuffer.height() };
@@ -95,21 +95,21 @@ namespace BWAPI
              (x1 >= maxW && x2 >= maxW && x3 >= maxW) ||
              (y1 >= maxH && y2 >= maxH && y3 >= maxH) )
           return false;
-        p1.x -= *(BW::BWDATA::ScreenX);
-        p1.y -= *(BW::BWDATA::ScreenY);
-        p2.x -= *(BW::BWDATA::ScreenX);
-        p2.y -= *(BW::BWDATA::ScreenY);
-        p3.x -= *(BW::BWDATA::ScreenX);
-        p3.y -= *(BW::BWDATA::ScreenY);
+        p1.x -= BW::BWDATA::ScreenX;
+        p1.y -= BW::BWDATA::ScreenY;
+        p2.x -= BW::BWDATA::ScreenX;
+        p2.y -= BW::BWDATA::ScreenY;
+        p3.x -= BW::BWDATA::ScreenX;
+        p3.y -= BW::BWDATA::ScreenY;
         break;
       }
     case BWAPI::CoordinateType::Mouse: // if we're using mouse coordinates, add the position of the mouse to convert the coordinates into screen coordinates
-      p1.x += BW::BWDATA::Mouse->x;
-      p1.y += BW::BWDATA::Mouse->y;
-      p2.x += BW::BWDATA::Mouse->x;
-      p2.y += BW::BWDATA::Mouse->y;
-      p3.x += BW::BWDATA::Mouse->x;
-      p3.y += BW::BWDATA::Mouse->y;
+      p1.x += BW::BWDATA::Mouse.x;
+      p1.y += BW::BWDATA::Mouse.y;
+      p2.x += BW::BWDATA::Mouse.x;
+      p2.y += BW::BWDATA::Mouse.y;
+      p3.x += BW::BWDATA::Mouse.x;
+      p3.y += BW::BWDATA::Mouse.y;
       break;
     }
     rect scrLimit = { 0, 0, (s16)BW::BWDATA::GameScreenBuffer.width(), (s16)BW::BWDATA::GameScreenBuffer.height() };

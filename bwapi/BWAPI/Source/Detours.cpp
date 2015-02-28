@@ -341,7 +341,7 @@ BOOL __stdcall _SNetLeaveGame(int type)
 int __cdecl _nextFrameHook()
 {
   BWAPI::BroodwarImpl.update();
-  return *BW::BWDATA::isGamePaused;
+  return BW::BWDATA::isGamePaused;
 }
 
 //------------------------------------------------- SEND TEXT ------------------------------------------------
@@ -351,7 +351,7 @@ int __stdcall _SStrCopy(char *dest, const char *source, int size)
   {
     if ( size == 0x7FFFFFFF && BW::BWDATA::gwGameMode == BW::GAME_RUN )
     {
-      if ( dest == BW::BWDATA::SaveGameFile )
+      if ( dest == BW::BWDATA::SaveGameFile.data() )
       {
         // onSaveGame
         BWAPI::BroodwarImpl.onSaveGame(source);

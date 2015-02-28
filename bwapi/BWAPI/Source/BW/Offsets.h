@@ -266,6 +266,31 @@ namespace BW
       // Selected units
       std::array<CUnit*, MAX_SELECTION_COUNT> IS_REF(ClientSelectionGroup, 0x00597208);
       u8 IS_REF(ClientSelectionCount, 0x0059723D);
+
+      // Inputs
+      std::array<void(__fastcall *)(dlgEvent*), BW_EVN_MAX> IS_REF(InputProcedures, 0x005968A0);
+      std::array<dialog*, BW_EVN_MAX> IS_REF(EventDialogs, 0x006D5E40);
+      u8 IS_REF(InputFlags, 0x006CDDC0);
+
+      //
+      u32 IS_REF(isGamePaused, 0x006509C4);
+
+      // Positions (mouse/screen)
+      u32 IS_REF(MoveToX, 0x0062848C);
+      u32 IS_REF(MoveToY, 0x006284A8);
+      TilePosition IS_REF(MoveToTile, 0x0057F1D0);
+
+      POINT IS_REF(Mouse, 0x006CDDC4);
+      u32 IS_REF(ScreenX, 0x00628448);
+      u32 IS_REF(ScreenY, 0x00628470);
+
+      TilePosition IS_REF(MapSize, 0x0057F1D4);
+
+      // Strings
+      std::array<char, MAX_PATH> IS_REF(CurrentMapFileName, 0x0057FD3C);
+      std::array<char, 32> IS_REF(CurrentMapName, 0x0057FE40);
+      std::array<char, MAX_PATH> IS_REF(CurrentMapFolder, 0x0059BB70);
+      std::array<char, 28> IS_REF(SaveGameFile, 0x00685148);
     }
   }
 
@@ -283,14 +308,7 @@ namespace BW
   //static void (__cdecl *BWFXN_updateImageData)()          = (void (__cdecl*)()) 0x00498CF0;
 
 
-  static void (__fastcall ** const InputProcedures)(dlgEvent*) = (void (__fastcall**)(dlgEvent*))0x005968A0;
-  BW_DATA(dialog**, EventDialogs, 0x006D5E40, 0);
-
-  BW_DATA(u8*, InputFlags, 0x006CDDC0, 0);
-
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
-
-  BW_DATA(u32*, isGamePaused, 0x006509C4, 0);
   static const u32 BWFXN_P_IsGamePaused           = 0x004D974E;
 
   // These 2 can be merged;
@@ -337,21 +355,8 @@ namespace BW
 
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl * const BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
-  BW_DATA(u32*, MoveToX, 0x0062848C, 0);
-  BW_DATA(u32*, MoveToY, 0x006284A8, 0);
-  BW_DATA(TilePosition*, MoveToTile, 0x0057F1D0, 0);
-
-  BW_DATA(POINT*, Mouse, 0x006CDDC4, 0);
-  BW_DATA(u32*, ScreenX, 0x00628448, 0);
-  BW_DATA(u32*, ScreenY, 0x00628470, 0);
-
-  BW_DATA(TilePosition*, MapSize, 0x0057F1D4, 0);
 
   //--------------------------------------------- STRINGS ----------------------------------------------------
-  BW_DATA(char*, CurrentMapFileName, 0x0057FD3C, 0);
-  BW_DATA(char*, CurrentMapName, 0x0057FE40, 0);
-  BW_DATA(char*, CurrentMapFolder, 0x0059BB70, 0);
-  BW_DATA(char*, SaveGameFile, 0x00685148, 0);
 
   struct MapVectorEntry   // sizeof 1348
   {
@@ -474,9 +479,6 @@ namespace BW
 
   static void (__stdcall * const BWFXN_ExecuteGameTriggers)(DWORD dwMillisecondsPerFrame) = (void(__stdcall*)(DWORD))0x0048A460;
   BW_DATA(u32, ExecuteGameTrigsCallPatch, 0x004D9798, 0);
-
-  const char *GetStatString(int index);
-  BW_DATA(char**, StringTableOff, 0x006D1238, 0);
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
   struct AllScores
