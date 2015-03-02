@@ -113,9 +113,9 @@ namespace BWAPI
     selectedUnits.clear();
     pylons.clear();
     events.clear();
-    thePlayer  = NULL;
-    theEnemy   = NULL;
-    theNeutral = NULL;
+    thePlayer  = nullptr;
+    theEnemy   = nullptr;
+    theNeutral = nullptr;
     _allies.clear();
     _enemies.clear();
     _observers.clear();

@@ -493,86 +493,8 @@ namespace BWAPI
 
   void Server::updateSharedMemory()
   {
-    bool matchStarting = false;
-    
-    // iterate events
-    for(Event &e : BroodwarImpl.events)
-    {
-      // Add the event to the server queue
-      addEvent(e);
-      if (e.getType() == EventType::MatchStart)
-        matchStarting = true;
-
-      // ignore if tournament AI not loaded
-      if ( !BroodwarImpl.tournamentAI )
-        continue;
-
-      // call the tournament module callbacks for server/client
-      BroodwarImpl.isTournamentCall = true;
-      switch ( e.getType() )
-      {
-      case EventType::MatchStart:
-        BroodwarImpl.tournamentAI->onStart();
-        break;
-      case EventType::MatchEnd:
-        BroodwarImpl.tournamentAI->onEnd(e.isWinner());
-        break;
-      case EventType::MatchFrame:
-        BroodwarImpl.tournamentAI->onFrame();
-        break;
-      case EventType::MenuFrame:
-        break;
-      case EventType::SendText:
-        BroodwarImpl.tournamentAI->onSendText(e.getText());
-        break;
-      case EventType::ReceiveText:
-        BroodwarImpl.tournamentAI->onReceiveText(e.getPlayer(), e.getText());
-        break;
-      case EventType::PlayerLeft:
-        BroodwarImpl.tournamentAI->onPlayerLeft(e.getPlayer());
-        break;
-      case EventType::NukeDetect:
-        BroodwarImpl.tournamentAI->onNukeDetect(e.getPosition());
-        break;
-      case EventType::UnitDiscover:
-        BroodwarImpl.tournamentAI->onUnitDiscover(e.getUnit());
-        break;
-      case EventType::UnitEvade:
-        BroodwarImpl.tournamentAI->onUnitEvade(e.getUnit());
-        break;
-      case EventType::UnitCreate:
-        BroodwarImpl.tournamentAI->onUnitCreate(e.getUnit());
-        break;
-      case EventType::UnitDestroy:
-        BroodwarImpl.tournamentAI->onUnitDestroy(e.getUnit());
-        break;
-      case EventType::UnitMorph:
-        BroodwarImpl.tournamentAI->onUnitMorph(e.getUnit());
-        break;
-      case EventType::UnitShow:
-        BroodwarImpl.tournamentAI->onUnitShow(e.getUnit());
-        break;
-      case EventType::UnitHide:
-        BroodwarImpl.tournamentAI->onUnitHide(e.getUnit());
-        break;
-      case EventType::UnitRenegade:
-        BroodwarImpl.tournamentAI->onUnitRenegade(e.getUnit());
-        break;
-      case EventType::SaveGame:
-        BroodwarImpl.tournamentAI->onSaveGame(e.getText());
-        break;
-      case EventType::UnitComplete:
-        BroodwarImpl.tournamentAI->onUnitComplete(e.getUnit());
-        break;
-      default:
-        break;
-      }
-      BroodwarImpl.isTournamentCall = false;
-    }
     for(Unit u : BroodwarImpl.evadeUnits)
       data->units[u->getID()] = static_cast<UnitImpl*>(u)->data;
-
-    static_cast<GameImpl*>(BroodwarPtr)->events.clear();
 
     data->frameCount              = Broodwar->getFrameCount();
     data->replayFrameCount        = Broodwar->getReplayFrameCount();
@@ -735,10 +657,29 @@ namespace BWAPI
         data->nukeDots[j].y = nd.y;
         ++j;
       }
-
     }
-    if (matchStarting)
-      Server::onMatchStart();
+
+    // iterate events
+    for (Event &e : BroodwarImpl.events)
+    {
+      if (e.getType() == EventType::MatchStart)
+      {
+        Server::onMatchStart();
+      }
+
+      // Add the event to the server queue
+      addEvent(e);
+
+      // ignore if tournament AI not loaded
+      if (!BroodwarImpl.tournamentAI)
+        continue;
+
+      // call the tournament module callbacks for server/client
+      BroodwarImpl.isTournamentCall = true;
+      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
+      BroodwarImpl.isTournamentCall = false;
+    }
+    BroodwarImpl.events.clear();
   }
 
   int Server::getForceID(Force force)
