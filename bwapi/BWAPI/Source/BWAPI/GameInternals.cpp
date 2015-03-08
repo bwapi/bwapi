@@ -98,7 +98,7 @@ namespace BWAPI
       if (players[i]) delete players[i];
       players[i] = nullptr;
     }
-    
+
     // destroy all bullets
     for (BulletImpl* b : bulletArray)
     {
@@ -113,7 +113,7 @@ namespace BWAPI
     {
       if (u) u->setSelected(false);
     }
-    
+
     selectedUnitSet.clear();
     for (int i = 0; i < BW::BWDATA::ClientSelectionCount && i < MAX_SELECTION_COUNT; ++i)
     {
@@ -149,8 +149,7 @@ namespace BWAPI
       return;
 
     // Press and release the key
-    PostMessage(SDrawGetFrameWindow(), WM_KEYDOWN, (WPARAM)key, NULL);
-    PostMessage(SDrawGetFrameWindow(), WM_KEYUP,   (WPARAM)key, 0xC0000000);
+    PostMessage(SDrawGetFrameWindow(), WM_CHAR, (WPARAM)key, NULL);
   }
   void GameImpl::pressDialogKey(BW::dialog *pDlg)
   {
@@ -292,13 +291,13 @@ namespace BWAPI
   {
     // GameImpl events
     this->updateEvents();
-    
+
     // UnitImpl events
     for(Unit u : this->accessibleUnits)
     {
       u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
     }
-    
+
     // ForceImpl events
     for (Force f : this->forces)
       f->updateEvents();
@@ -389,7 +388,7 @@ namespace BWAPI
     this->commandBuffer.reserve(16);
 
     commandOptimizer.init();
-    
+
     // Delete all dead units
     for ( Unitset::iterator d = this->deadUnits.begin(); d != this->deadUnits.end(); ++d )
       delete static_cast<UnitImpl*>(*d);
@@ -467,7 +466,7 @@ namespace BWAPI
       FreeLibrary(hAIModule);
       hAIModule = nullptr;
     }
-    
+
     this->startedClient = false;
 
     // Destroy the Tournament Module controller
@@ -483,7 +482,7 @@ namespace BWAPI
       delete this->tournamentAI;
       this->tournamentAI = nullptr;
     }
-    
+
     // Destroy the Tournament Module Library
     if ( hTournamentModule )
     {
