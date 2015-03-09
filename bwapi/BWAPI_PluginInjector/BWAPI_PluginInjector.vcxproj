@@ -62,6 +62,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <PreLinkEvent>
       <Message>Creating ChaosLauncherInjector readme</Message>
@@ -94,6 +95,7 @@ COPY /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\MP
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <PreLinkEvent>
       <Message>Creating ChaosLauncherInjector readme</Message>

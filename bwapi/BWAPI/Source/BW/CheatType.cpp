@@ -1,9 +1,9 @@
-#pragma once
 #include "CheatType.h"
 #include <string>
 #include <algorithm>
 #include <iterator>
 #include <cctype>
+#include "Util/Convenience.h"
 
 namespace BW
 {
@@ -11,7 +11,7 @@ namespace BW
   {
     // Convert to lowercase in a new string
     std::string name;
-    std::transform(str.begin(), str.end(), std::back_inserter(name), &::tolower);
+    name = toLower(str);
 
     // Get the cheat flag
     if      ( name == "black sheep wall" )            return CheatFlags::BlackSheepWall;

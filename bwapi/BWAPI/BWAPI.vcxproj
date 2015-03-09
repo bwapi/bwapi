@@ -70,7 +70,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../Shared;Source/BWAPI;../Util/Source;Source;../include;../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -78,6 +78,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DisableSpecificWarnings>4238;4480;4481</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -139,6 +140,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <DisableSpecificWarnings>4238;4480;4481</DisableSpecificWarnings>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <PreLinkEvent>
       <Command>

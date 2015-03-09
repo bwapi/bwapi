@@ -36,9 +36,9 @@ namespace BWAPI
 
         // erase-remove idiom, eliminates spaces and underscores from the string
         n.erase( std::remove_if(n.begin(), n.end(), [](char const &c){ return isspace(c) || c == '_'; }), n.end() );
-        
+
         // Make lowercase
-        std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+        std::transform (n.begin (), n.end (), n.begin (), ::tolower);
 
         result.insert( typeMapT::value_type(n, T(i)) );
       }
@@ -53,7 +53,7 @@ namespace BWAPI
     ///   to an internal Broodwar type. If the given id is invalid, then it becomes Types::Unknown.
     ///   If it is omitted, then it becomes Types::None.
     explicit Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
-    
+
     /// A set type that contains the current type.
     typedef SetContainer<T> set;
 
@@ -121,12 +121,12 @@ namespace BWAPI
     {
       // Mapping of strings to types
       static const typeMapT typeMap( typeMapInit() );
-    
+
       // erase-remove idiom, eliminates spaces and underscores from the string to search
       name.erase( std::remove_if(name.begin(), name.end(), [](char const &c){ return isspace(c) || c == '_'; }), name.end() );
-      
+
       // Make lowercase
-      std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+      std::transform (name.begin (), name.end (), name.begin (), ::tolower);
 
       // Find the type
       auto it = typeMap.find(name);
