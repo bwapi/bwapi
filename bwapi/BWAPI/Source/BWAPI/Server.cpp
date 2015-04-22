@@ -24,8 +24,8 @@
 
 namespace BWAPI
 {
-  #define PIPE_TIMEOUT 3000
-  #define PIPE_SYSTEM_BUFFER_SIZE 4096
+  const int PIPE_TIMEOUT = 3000;
+  const int PIPE_SYSTEM_BUFFER_SIZE = 4096;
 
   const BWAPI::GameInstance GameInstance_None(0, false, 0);
   Server::Server()
@@ -618,7 +618,7 @@ namespace BWAPI
       {
         if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
         {
-          UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
+          const UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
           if ( u && u->canAccess() )
           {
             xf->searchValue = bwxf->searchValue;
@@ -629,7 +629,7 @@ namespace BWAPI
 
         if ( bwyf->unitIndex > 0 && bwyf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
         {
-          UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
+          const UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
           if ( u && u->canAccess() )
           {
             yf->searchValue = bwyf->searchValue;
@@ -641,7 +641,7 @@ namespace BWAPI
       } // loop unit finder
       
       // Set size
-      data->unitSearchSize = xf - data->xUnitSearch; // we assume and equal number of y values was put into the array
+      data->unitSearchSize = xf - data->xUnitSearch; // we assume an equal number of y values was put into the array
       
 
       //dynamic bullet data
@@ -695,7 +695,7 @@ namespace BWAPI
   }
   Force Server::getForce(int id) const
   {
-    if ((int)forceVector.size() <= id || id < 0)
+    if (forceVector.size() <= static_cast<unsigned>(id))
       return nullptr;
     return forceVector[id];
   }
@@ -712,7 +712,7 @@ namespace BWAPI
   }
   Player Server::getPlayer(int id) const
   {
-    if ((int)playerVector.size() <= id || id < 0)
+    if (playerVector.size() <= static_cast<unsigned>(id))
       return nullptr;
     return playerVector[id];
   }
@@ -730,7 +730,7 @@ namespace BWAPI
   }
   Unit Server::getUnit(int id) const
   {
-    if ((int)unitVector.size() <= id || id < 0)
+    if (unitVector.size() <= static_cast<unsigned>(id))
       return nullptr;
     return unitVector[id];
   }

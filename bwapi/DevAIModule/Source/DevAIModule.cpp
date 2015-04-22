@@ -54,11 +54,16 @@ void DevAIModule::onFrame()
 
   if ( bw->self() )
   {
-    Unitset myUnits = bw->getSelectedUnits();
-    for (auto u : myUnits)
+    for (auto u : bw->getAllUnits())
     {
-      u->move(bw->getMousePosition() + bw->getScreenPosition());
-      bw->drawCircleMap(u->getPosition(), 64, Colors::Red);
+      bw->drawTextMap(u->getPosition(), "%c%d vs %d", Text::Teal, u->getID(), u->getReplayID());
+    }
+    //bw->self()->getUnits().morph(UnitTypes::Zerg_Overlord);
+    for (auto u : bw->self()->getUnits())
+    {
+      if (u->getType() == UnitTypes::Zerg_Overlord && u->isIdle()) u->move(Positions::Origin);
+      else if (u->getType() == UnitTypes::Zerg_Larva && self->completedUnitCount(UnitTypes::Zerg_Larva) > 2) u->morph(UnitTypes::Zerg_Overlord);
+      else if (u->getType() == UnitTypes::Zerg_Larva && self->allUnitCount(UnitTypes::Zerg_Hatchery) < 8) u->morph(UnitTypes::Zerg_Drone);
     }
   }
 }
@@ -68,6 +73,11 @@ void DevAIModule::onSendText(std::string text)
   if (text == "/addon")
   {
     Broodwar << (bw->getSelectedUnits().buildAddon(UnitTypes::Terran_Comsat_Station) ? "success" : "fail") << std::endl;
+  }
+  else if (text == "/test")
+  {
+    Broodwar->sendText("show me the money");
+    Broodwar->sendText("show me the money");
   }
   Broodwar->sendText("%s", text.c_str());
 }

@@ -373,7 +373,7 @@ namespace BWAPI
 
       FPSCounter fpsCounter;
 
-      int  textSize;
+      Text::Size::Enum textSize;
 
       bool pathDebug;
       bool unitDebug;

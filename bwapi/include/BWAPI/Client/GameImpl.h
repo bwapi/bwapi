@@ -14,6 +14,7 @@
 
 #include <list>
 #include <vector>
+#include <array>
 
 namespace BWAPI
 {
@@ -37,7 +38,7 @@ namespace BWAPI
       std::vector<PlayerImpl> playerVector;
       std::vector<UnitImpl>   unitVector;
       std::vector<BulletImpl> bulletVector;
-      RegionImpl *regionArray[5000];
+      std::array<RegionImpl*,5000> regionArray;
 
       Forceset forces;
       Playerset playerSet;
@@ -57,7 +58,6 @@ namespace BWAPI
 
       TilePosition::list startLocations;
       std::list< Event > events;
-      bool flagEnabled[2];
       Player thePlayer;
       Player theEnemy;
       Player theNeutral;
@@ -65,7 +65,7 @@ namespace BWAPI
       Playerset _enemies;
       Playerset _observers;
       mutable Error lastError;
-      int textSize;
+      Text::Size::Enum textSize;
 
     public :
       Event makeEvent(BWAPIC::Event e);

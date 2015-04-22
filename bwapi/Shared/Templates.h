@@ -67,7 +67,7 @@ namespace BWAPI
     template <class finder, typename _T>
     void iterateUnitFinder(finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
     {
-      DWORD dwFinderFlags[1701] = { 0 };
+      std::array<unsigned,1700> dwFinderFlags = {};
 
       // Declare some variables
       int r = right, b = bottom;
@@ -144,7 +144,7 @@ namespace BWAPI
           if ( u && u->exists() )
             callback(u);
         }
-        // Reset finderFlags so it can be reused without incident
+        // Reset finderFlags so that callback isn't called for duplicates
         dwFinderFlags[iUnitIndex] = 0;
       }
     }

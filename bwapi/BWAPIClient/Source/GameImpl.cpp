@@ -131,7 +131,7 @@ namespace BWAPI
     for( Region r : regionsList )
       delete static_cast<RegionImpl*>(r);
     regionsList.clear();
-    memset(this->regionArray, 0, sizeof(this->regionArray));
+    regionArray.fill(nullptr);
   }
 
   //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------
@@ -224,7 +224,7 @@ namespace BWAPI
     staticMinerals = minerals;
     staticGeysers = geysers;
     staticNeutralUnits = neutralUnits;
-    textSize = 1;
+    textSize = Text::Size::Default;
   }
   //------------------------------------------------- ON MATCH END -------------------------------------------
   void GameImpl::onMatchEnd()
