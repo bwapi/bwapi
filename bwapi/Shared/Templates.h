@@ -67,8 +67,10 @@ namespace BWAPI
     template <class finder, typename _T>
     void iterateUnitFinder(finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
     {
-      std::array<unsigned,1700> dwFinderFlags = {};
-
+      // Note that the native finder in Broodwar uses an id between 1 and 1700, 0 being an unused entry
+      // IDs provided by the client are BWAPI IDs, which are not bound
+      std::unordered_map<unsigned, unsigned> finderFlags;
+      
       // Declare some variables
       int r = right, b = bottom;
       bool isWidthExtended  = right - left + 1 < UnitTypes::maxUnitWidth();
@@ -106,46 +108,46 @@ namespace BWAPI
       for ( finder *px = pLeft; px < pRight; ++px )
       {
         int iUnitIndex = px->unitIndex;
-        if ( dwFinderFlags[iUnitIndex] == 0 )
+        if ( finderFlags[iUnitIndex] == 0 )
         {
           if ( isWidthExtended )  // If width is small, check unit bounds
           {
             Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
             if ( u && u->getLeft() <= right )
-              dwFinderFlags[iUnitIndex] = 1;
+              finderFlags[iUnitIndex] = 1;
           }
           else
-            dwFinderFlags[iUnitIndex] = 1;
+            finderFlags[iUnitIndex] = 1;
         }
       }
       // Iterate the Y entries of the finder
       for ( finder *py = pTop; py < pBottom; ++py )
       {
         int iUnitIndex = py->unitIndex;
-        if ( dwFinderFlags[iUnitIndex] == 1 )
+        if ( finderFlags[iUnitIndex] == 1 )
         {
           if ( isHeightExtended ) // If height is small, check unit bounds
           {
             Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
             if ( u && u->getTop() <= bottom )
-              dwFinderFlags[iUnitIndex] = 2;
+              finderFlags[iUnitIndex] = 2;
           }
           else
-            dwFinderFlags[iUnitIndex] = 2;
+            finderFlags[iUnitIndex] = 2;
         }
       }
       // Final Iteration
       for ( finder *px = pLeft; px < pRight; ++px )
       {
         int iUnitIndex = px->unitIndex;
-        if ( dwFinderFlags[iUnitIndex] == 2 )
+        if ( finderFlags[iUnitIndex] == 2 )
         {
           Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
           if ( u && u->exists() )
             callback(u);
         }
         // Reset finderFlags so that callback isn't called for duplicates
-        dwFinderFlags[iUnitIndex] = 0;
+        finderFlags[iUnitIndex] = 0;
       }
     }
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
