@@ -2,10 +2,6 @@
 #include "GameImpl.h"
 
 #include <cmath>
-#include <limits>
-#include <sstream>
-
-#include <Util/Convenience.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
@@ -28,33 +24,9 @@ namespace BWAPI
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::CUnit* originalUnit, u16 index)
       : getOriginalRawData(originalUnit)  // 273
-      , self(&data) // 282
-      , userSelected(false) // 284
-      , nukeDetected(false) // 285
-      , lastGroundWeaponCooldown(0) // 287
-      , lastAirWeaponCooldown(0)
-      , lastType(UnitTypes::Unknown) // 290
-      , lastPlayer(nullptr)
-      , id(-1)  // 292
-      , isAlive(false)  // 293
-      , wasAlive(false) // 294
-      , wasCompleted(false)
-      , wasAccessible(false)
-      , wasVisible(false)
-      , staticInformation(false)  // 299
-      , startingAttack(false) // 300
-      , lastCommandFrame(0)
-      , lastCommand()
-      , lastImmediateCommandFrame(0)
-      , lastImmediateCommand()
       , index(index)  // 319
   {
-    MemZero(data);
     clear();
-  }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
-  UnitImpl::~UnitImpl()
-  {
   }
   //--------------------------------------------- SET ID -----------------------------------------------------
   void UnitImpl::setID(int newID)

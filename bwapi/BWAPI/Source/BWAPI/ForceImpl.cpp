@@ -7,7 +7,6 @@ namespace BWAPI
 {
   ForceImpl::ForceImpl(std::string const & _name)
     : name(_name)
-    , id(-1)
   {
   }
   void ForceImpl::setID(int newID)

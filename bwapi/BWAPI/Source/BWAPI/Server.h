@@ -11,11 +11,11 @@ namespace BWAPI
   struct GameTable;
   class Event;
   class ForceInterface;
-  typedef ForceInterface *Force;
+  typedef ForceInterface* Force;
   class PlayerInterface;
-  typedef PlayerInterface *Player;
+  typedef PlayerInterface* Player;
   class UnitInterface;
-  typedef UnitInterface *Unit;
+  typedef UnitInterface* Unit;
 
   class Server
   {
@@ -41,7 +41,7 @@ namespace BWAPI
     int       getUnitID(Unit unit);
     Unit      getUnit(int id) const;
 
-    GameData  *data;
+    GameData  *data = nullptr;
   private:
     void onMatchStart();
     void checkForConnections();
@@ -50,13 +50,15 @@ namespace BWAPI
     void callOnFrame();
     void processCommands();
     void setWaitForResponse(bool wait);
-    HANDLE pipeObjectHandle;
-    HANDLE mapFileHandle;
-    HANDLE gameTableFileHandle;
-    GameTable* gameTable;
-    int gameTableIndex;
-    bool connected;
-    bool localOnly;
+
+    HANDLE pipeObjectHandle = nullptr;
+    HANDLE mapFileHandle = nullptr;
+    HANDLE gameTableFileHandle = nullptr;
+    GameTable* gameTable = nullptr;
+    int gameTableIndex = -1;
+    bool connected = false;
+    bool localOnly = false;
+
     std::vector<Force> forceVector;
     std::unordered_map<Force, int> forceLookup;
 
@@ -66,8 +68,8 @@ namespace BWAPI
     std::vector<Unit> unitVector;
     std::unordered_map<Unit, int> unitLookup;
 
-    PSID pEveryoneSID;
-    PACL pACL;
-    PSECURITY_DESCRIPTOR pSD;
+    PSID pEveryoneSID = nullptr;
+    PACL pACL = nullptr;
+    PSECURITY_DESCRIPTOR pSD = nullptr;
   };
 }

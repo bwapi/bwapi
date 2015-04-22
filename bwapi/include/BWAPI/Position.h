@@ -38,16 +38,16 @@ namespace BWAPI
     typedef std::deque< Point<T,Scale> > list;
 
     // Constructors
-    Point() : x(T{}), y(T{}) {}
+    Point() = default;
     Point(T _x, T _y) : x(_x), y(_y) {}
-    template<typename _NT> Point(const Point<_NT, Scale> &pt) : x( (T)pt.x ), y( (T)pt.y ) {}
+    template<typename _NT> Point(const Point<_NT, Scale> &pt) : x( static_cast<T>(pt.x) ), y( static_cast<T>(pt.y) ) {}
 
 #pragma warning( push )
 #pragma warning( disable: 4723 )
     // Conversion constructor
     template<typename _NT, int __NScale> explicit Point(const Point<_NT, __NScale> &pt)
-      : x((T)(__NScale > Scale ? pt.x*(__NScale / Scale) : pt.x / (Scale / __NScale)))
-      , y((T)(__NScale > Scale ? pt.y*(__NScale / Scale) : pt.y / (Scale / __NScale))) { }
+      : x(static_cast<T>(__NScale > Scale ? pt.x*(__NScale / Scale) : pt.x / (Scale / __NScale)))
+      , y(static_cast<T>(__NScale > Scale ? pt.y*(__NScale / Scale) : pt.y / (Scale / __NScale))) { }
 #pragma warning( pop )
 
     // Operators
@@ -318,7 +318,7 @@ namespace BWAPI
     /// The x and y members for this class.
     ///
     /// Simply reference these members when retrieving a position's x and y values.
-    T x, y;
+    T x = T{}, y = T{};
   };
 
   BWAPI_MAKE_POSITION_TEMPLATE(WalkPosition,int,8)

@@ -15,19 +15,10 @@ namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   PlayerImpl::PlayerImpl(u8 index)
-  : force(nullptr)
-  , self(&data)
-  , wasSeenByBWAPIPlayer(false)
-  , id(-1)
-  , index(index)
+    : index(index)
   {
-    MemZero(data);
     resetResources();
     self->color = index < 12 ? BW::BWDATA::PlayerColors[index] : Colors::Black;
-  }
-  //--------------------------------------------- DESTRUCTOR -------------------------------------------------
-  PlayerImpl::~PlayerImpl()
-  {
   }
   //--------------------------------------------- SET ID -----------------------------------------------------
   void PlayerImpl::setID(int newID)

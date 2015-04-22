@@ -17,17 +17,10 @@ namespace BWAPI
 
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   BulletImpl::BulletImpl(BW::CBullet* originalBullet, u16 _index)
-      : self( &data )
-      , bwOriginalBullet(originalBullet)
+      : bwOriginalBullet(originalBullet)
       , index(_index)
-      , id(-1)
-      , __exists(false)
-      , lastExists(false)
   {
-    MemZero(data);
   }
-  BulletImpl::~BulletImpl()
-  { }
   //----------------------------------------------- SET EXISTS -----------------------------------------------
   void BulletImpl::setExists(bool exists)
   {

@@ -15,7 +15,7 @@ namespace BWAPI
   class UnitCommand
   {
     public:
-      UnitCommand();
+      UnitCommand() = default;
       UnitCommand(Unit _unit, UnitCommandType _type, Unit _target, int _x, int _y, int _extra);
 
       static UnitCommand attack(Unit unit, PositionOrUnit target, bool shiftQueueCommand = false);
@@ -59,8 +59,8 @@ namespace BWAPI
       static UnitCommand placeCOP(Unit unit, TilePosition target);
 
       UnitCommandType getType() const;
-      Unit           getUnit() const;
-      Unit           getTarget() const;
+      Unit            getUnit() const;
+      Unit            getTarget() const;
       Position        getTargetPosition() const;
       TilePosition    getTargetTilePosition() const;
       UnitType        getUnitType() const;
@@ -72,10 +72,11 @@ namespace BWAPI
       bool operator==(const UnitCommand& other) const;
       bool operator!=(const UnitCommand& other) const;
 
-      Unit unit;
-      UnitCommandType type;
-      Unit target;
-      int x, y;
-      int extra;
+      Unit unit = nullptr;
+      UnitCommandType type = UnitCommandTypes::None;
+      Unit target = nullptr;
+      int x = Positions::None.x;
+      int y = Positions::None.y;
+      int extra = 0;
   };
 }

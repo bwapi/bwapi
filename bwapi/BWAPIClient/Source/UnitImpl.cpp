@@ -11,10 +11,10 @@
 #include <string>
 namespace BWAPI
 {
-  UnitImpl::UnitImpl(int id)
+  UnitImpl::UnitImpl(int _id)
+    : self(&(BWAPI::BWAPIClient.data->units[_id]))
+    , id(_id)
   {
-    this->self = &(BWAPI::BWAPIClient.data->units[id]);
-    this->id   = id;
     clear();
   }
   //--------------------------------------------- ISSUE COMMAND ----------------------------------------------

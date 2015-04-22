@@ -1,10 +1,6 @@
-#define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
-
 #include "GameImpl.h"
 #include <vector>
 #include <string>
-#include <Util/Convenience.h>
-#include <Util/Exceptions.h>
 
 #include "../WMode.h"
 #include "../Detours.h"
@@ -34,50 +30,23 @@ namespace BWAPI
 
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   GameImpl::GameImpl()
-      : onStartCalled(false)  // 257
-      , isHost(false)
-      , lastAutoMapEntry(0) // 267
-      , isTournamentCall(false) // 278
-      , data(server.data)
-      , client(nullptr) // 285
-      , tournamentAI(nullptr) // 288
-      , tournamentController(nullptr) //341
-      , bTournamentMessageAppeared(false)
-      , autoMenuEnemyCount(0)
-      , autoMenuMinPlayerCount(0)
-      , autoMenuMaxPlayerCount(0)
-      , autoMenuWaitPlayerTime(0)
-      , endTick(0)  // 366
-      , inGame(false) // 371
-      , pathDebug(false)  // 387
-      , unitDebug(false)
-      , grid(false)
-      , showfps(false)
-      , externalModuleConnected(false)
-      , calledMatchEnd(false) // 393
-      , lastEventTime(0)  //
   {
     BWAPI::BroodwarPtr = static_cast<Game*>(this);
 
     BWtoBWAPI_init();
-    try
-    {
-      // iterate through players and create PlayerImpl for each
-      for (u8 i = 0; i < PLAYER_COUNT; ++i)
-        players[i] = new PlayerImpl(i);
 
-      // iterate through units and create UnitImpl for each
-      for (u16 i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
-        unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], i);
+    // iterate through players and create PlayerImpl for each
+    for (u8 i = 0; i < PLAYER_COUNT; ++i)
+      players[i] = new PlayerImpl(i);
 
-      // iterate through bullets and create BulletImpl for each
-      for (u16 i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
-        bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], i);
-    }
-    catch (GeneralException& exception)
-    {
-      BWAPIError("Exception caught inside Game constructor: %s", exception.getMessage().c_str());
-    }
+    // iterate through units and create UnitImpl for each
+    for (u16 i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+      unitArray[i] = new UnitImpl(&BW::BWDATA::UnitNodeTable[i], i);
+
+    // iterate through bullets and create BulletImpl for each
+    for (u16 i = 0; i < BULLET_ARRAY_MAX_LENGTH; ++i)
+      bulletArray[i] = new BulletImpl(&BW::BWDATA::BulletNodeTable[i], i);
+
     this->initializeData();
   }
   //----------------------------------------------- DESTRUCTOR -----------------------------------------------
@@ -378,7 +347,7 @@ namespace BWAPI
     this->wantSelectionUpdate = false;
 
     // Disable all game flags
-    MemZero(flags);
+    flags.fill(false);
 
     // Clear the latency buffer
     for(unsigned int j = 0; j < this->commandBuffer.size(); ++j)
@@ -417,7 +386,6 @@ namespace BWAPI
       u->wasCompleted = false;
       u->wasAccessible = false;
       u->wasVisible = false;
-      u->staticInformation = false;
       u->nukeDetected = false;
       u->lastType = UnitTypes::Unknown;
       u->lastPlayer = nullptr;

@@ -2,7 +2,6 @@
 
 #include <BW/Offsets.h>
 #include <BW/Pathing.h>
-#include <Util/Convenience.h>
 
 #include <BWAPI/Game.h>
 
@@ -11,11 +10,7 @@
 namespace BWAPI
 {
   RegionImpl::RegionImpl(int id)
-    : self( &data )
   {
-    // Set client data
-    MemZero(this->data);
-
     // Assuming this is called via GameInternals, so no checks are made
     const BW::region * const r = &(*BW::BWDATA::SAIPathing)->regions[id];
 
@@ -80,9 +75,6 @@ namespace BWAPI
       ++self->neighborCount;
       self->neighbors[n] = neighbor->getIndex();
     }
-  }
-  RegionImpl::~RegionImpl()
-  {
   }
   RegionData *RegionImpl::getData()
   {

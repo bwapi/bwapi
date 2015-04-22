@@ -238,7 +238,6 @@ namespace BWAPI
 
       //Internal BWAPI commands:
       UnitImpl(BW::CUnit* originalUnit, u16 index);
-      ~UnitImpl();
       static UnitImpl* BWUnitToBWAPIUnit(BW::CUnit* unit);
       void die();
       void setID(int newID);
@@ -278,34 +277,33 @@ namespace BWAPI
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 
-      UnitData data;
-      UnitData *self;
+      UnitData  data;
+      UnitData* self = &data;
 
-      bool userSelected;
-      bool nukeDetected;
+      bool userSelected = false;
+      bool nukeDetected = false;
       Position nukePosition;
-      int lastGroundWeaponCooldown;
-      int lastAirWeaponCooldown;
-      int lastFrameSet;
-      UnitType lastType;
-      Player lastPlayer;
-      int id;
-      bool isAlive;
-      bool wasAlive;
-      bool _isCompleted;
-      bool wasCompleted;
-      bool wasAccessible;
-      bool wasVisible;
-      bool staticInformation;
-      bool startingAttack;
+      int lastGroundWeaponCooldown = 0;
+      int lastAirWeaponCooldown = 0;
+      int lastFrameSet = -1;
+      UnitType lastType = UnitTypes::Unknown;
+      Player lastPlayer = nullptr;
+      int id = -1;
+      bool isAlive = false;
+      bool wasAlive = false;
+      bool _isCompleted = false;
+      bool wasCompleted = false;
+      bool wasAccessible = false;
+      bool wasVisible = false;
+      bool startingAttack = false;
       
       Unitset connectedUnits;
       Unitset loadedUnits;
 
-      int lastCommandFrame;
+      int lastCommandFrame = 0;
       UnitCommand lastCommand;
 
-      int lastImmediateCommandFrame;
+      int lastImmediateCommandFrame = 0;
       UnitCommand lastImmediateCommand;
 
       static void setLastImmediateCommand(const UnitCommand &command);

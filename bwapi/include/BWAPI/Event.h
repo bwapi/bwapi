@@ -9,12 +9,12 @@ namespace BWAPI
 {
   // Forward Declarations
   class PlayerInterface;
-  typedef PlayerInterface *Player;
+  typedef PlayerInterface* Player;
 
   class Event
   {
     public:
-      Event();
+      Event() = default;
       ~Event();
       Event(const Event& other);
       Event(Event&& other);
@@ -54,11 +54,11 @@ namespace BWAPI
       Event& setWinner(bool isWinner);
       //static Event TriggerAction();
     private:
-      Position        position;
-      std::string     *text;
-      Unit unit;
-      Player          player;
-      EventType::Enum type;
-      bool            winner;
+      Position        position = Positions::None;
+      std::string*    text = nullptr;
+      Unit            unit = nullptr;
+      Player          player = nullptr;
+      EventType::Enum type = EventType::None;
+      bool            winner = false;
   };
 }

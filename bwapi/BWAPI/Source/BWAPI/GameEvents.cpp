@@ -417,7 +417,6 @@ namespace BWAPI
       if ( this->players[i] )
         this->players[i]->onGameEnd();
 
-    this->endTick       = GetTickCount();
     this->onStartCalled = false;
 
     this->initializeData();

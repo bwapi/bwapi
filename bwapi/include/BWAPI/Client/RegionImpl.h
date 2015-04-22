@@ -10,10 +10,10 @@ namespace BWAPI
   class RegionImpl : public RegionInterface
   {
   private:
-    RegionData *self;
+    RegionData* self;
     Regionset neighbors;
-    BWAPI::Region closestAccessibleRgn;
-    BWAPI::Region closestInaccessibleRgn;
+    BWAPI::Region closestAccessibleRgn = nullptr;
+    BWAPI::Region closestInaccessibleRgn = nullptr;
   public:
     RegionImpl(int index);
     void setNeighbors();

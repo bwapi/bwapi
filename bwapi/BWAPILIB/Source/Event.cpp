@@ -6,16 +6,8 @@
 
 namespace BWAPI
 {
-  std::string emptyString;
-  Event::Event()
-    :position(Positions::None)
-    ,text(nullptr)
-    ,unit(nullptr)
-    ,player(nullptr)
-    ,type(EventType::None)
-    ,winner(false)
-  {
-  }
+  namespace { std::string emptyString; }
+
   Event::Event(const Event& other)
     : position(other.position)
     , text( other.text != nullptr ? new std::string(*other.text) : nullptr )

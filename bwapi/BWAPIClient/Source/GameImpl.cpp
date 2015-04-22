@@ -25,6 +25,7 @@ namespace BWAPI
       forceVector.push_back(ForceImpl(i));
     for(int i = 0; i < 12; ++i)
       playerVector.push_back(PlayerImpl(i));
+    // @TODO: Possible to exceed 10000 here
     for(int i = 0; i < 10000; ++i)
       unitVector.push_back(UnitImpl(i));
     for(int i = 0; i < 100; ++i)

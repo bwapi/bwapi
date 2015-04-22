@@ -14,7 +14,7 @@ namespace BWAPI
 {
   // Forwards
   class ForceInterface;
-  typedef ForceInterface *Force;
+  typedef ForceInterface* Force;
   class UnitType;
   class UpgradeType;
   class TechType;
@@ -88,7 +88,6 @@ namespace BWAPI
        * @param id 0-based Index of the player (11 for resources as it is player 12)
        */
       PlayerImpl(u8 index);
-      ~PlayerImpl();
       int getIndex() const;      // Gets 0-based index of the player. (11 for neutral)
 
 
@@ -105,9 +104,9 @@ namespace BWAPI
       void resetResources();
       
     // data members
-      ForceImpl   *force;
-      PlayerData  data;
-      PlayerData  *self;
+      ForceImpl*  force = nullptr;
+      PlayerData  data = {};
+      PlayerData* self = &data;
       Unitset     units;
 
       s32 _repairedMinerals;
@@ -115,9 +114,9 @@ namespace BWAPI
       s32 _refundedMinerals;
       s32 _refundedGas;
 
-      bool wasSeenByBWAPIPlayer;
+      bool wasSeenByBWAPIPlayer = false;
     private :
-      int id;
+      int id = -1;
       u8 index;  /**< Order of the player, is used to load player's information from the memory */
   };
 };

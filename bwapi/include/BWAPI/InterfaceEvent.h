@@ -8,13 +8,7 @@ namespace BWAPI
   {
   public:
     // default ctor
-    InterfaceEvent()
-      : condProc(nullptr)
-      , execProc(nullptr)
-      , runFreq(0)
-      , runCount(0)
-      , step(0)
-    {};
+    InterfaceEvent() = default;
 
     // expected ctor
     InterfaceEvent(const std::function<void(T*)> &action, const std::function<bool(T*)> &condition = nullptr, int timesToRun = -1, int framesToCheck = 0)
@@ -121,11 +115,11 @@ namespace BWAPI
 
   private:
     // Data members
-    std::function<bool(T*)> condProc;
-    std::function<void(T*)> execProc;
-    int runFreq;  // Frequency of runs, in frames (0 means every frame, 1 means every other frame)
-    int runCount; // Number of times that the action can occur (-1 being infinite)
-    int step;     // Current step. Executes when reaches 0, then reset to runFreq.
+    std::function<bool(T*)> condProc = nullptr;
+    std::function<void(T*)> execProc = nullptr;
+    int runFreq = 0;  // Frequency of runs, in frames (0 means every frame, 1 means every other frame)
+    int runCount = 0; // Number of times that the action can occur (-1 being infinite)
+    int step = 0;     // Current step. Executes when reaches 0, then reset to runFreq.
   };
 
   // Note: This is down here to prevent intellisense errors

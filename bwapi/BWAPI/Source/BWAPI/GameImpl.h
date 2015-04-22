@@ -253,17 +253,17 @@ namespace BWAPI
       std::vector<std::string> sentMessages;
 
     public:
-      bool onStartCalled;
+      bool onStartCalled = false;
       std::string lastMapGen;
       std::string autoMenuMode;
       std::string autoMenuMapPath;
     private:
       std::string autoMenuGameName;
-      bool isHost;
+      bool isHost = false;
       int  autoMapTryCount;
       std::vector<std::string> autoMapPool;
       std::string autoMapIteration;
-      unsigned int lastAutoMapEntry;
+      unsigned int lastAutoMapEntry = 0;
 
       // Count of game-frames passed from game start.
       int frameCount;
@@ -278,17 +278,18 @@ namespace BWAPI
       bool startedClient;
 
       std::array<UnitImpl*, UNIT_ARRAY_MAX_LENGTH> unitArray;
-      bool isTournamentCall;
+      bool isTournamentCall = false;
 
-      GameData* data;
+      GameData* data = server.data;
 
       HMODULE hAIModule;
-      AIModule *client;
+      AIModule* client = nullptr;
 
       HMODULE hTournamentModule;
-      AIModule *tournamentAI;
+      AIModule* tournamentAI = nullptr;
 
       // NOTE: This MUST be a POD array (NOT std::array) because of the crappy assembly hacks that are being used
+      // Until we can get rid of the assembly hacks, this must be treated like a pissed off cat
       PlayerImpl* players[PLAYER_COUNT];
 
     private:
@@ -336,18 +337,18 @@ namespace BWAPI
       void computeSecondaryUnitSets();
 
       std::array<bool,BWAPI::Flag::Max> flags;
-      TournamentModule  *tournamentController;
-      bool              bTournamentMessageAppeared;
+      TournamentModule* tournamentController = nullptr;
+      bool              bTournamentMessageAppeared = false;
       mutable BWAPI::Error lastError;
       Unitset deadUnits;    // Keeps track of units that were removed from the game, used only to deallocate them
       u32 cheatFlags;
       std::string autoMenuLanMode;
       std::string autoMenuRace;
       std::array<std::string, PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;
-      unsigned int autoMenuEnemyCount;
-      unsigned int autoMenuMinPlayerCount;
-      unsigned int autoMenuMaxPlayerCount;
-      unsigned int autoMenuWaitPlayerTime;
+      unsigned autoMenuEnemyCount = 0;
+      unsigned autoMenuMinPlayerCount = 0;
+      unsigned autoMenuMaxPlayerCount = 0;
+      unsigned autoMenuWaitPlayerTime = 0;
       std::string autoMenuGameType;
       std::string autoMenuRestartGame;
       std::string autoMenuSaveReplay;
@@ -362,12 +363,11 @@ namespace BWAPI
       std::string rn_EnemiesNames;
       std::string rn_EnemiesRaces;
       std::string rn_GameResult;
-      DWORD endTick;
       Playerset _allies;
       Playerset _enemies;
       Playerset _observers;
 
-      bool inGame;
+      bool inGame = false;
       bool actStartedGame;
       bool actRaceSel;
 
@@ -375,15 +375,15 @@ namespace BWAPI
 
       Text::Size::Enum textSize;
 
-      bool pathDebug;
-      bool unitDebug;
-      bool grid;
-      bool showfps;
+      bool pathDebug = false;
+      bool unitDebug = false;
+      bool grid = false;
+      bool showfps = false;
 
-      bool externalModuleConnected;
-      bool calledMatchEnd;
+      bool externalModuleConnected = false;
+      bool calledMatchEnd = false;
 
-      int lastEventTime;
+      int lastEventTime = 0;
 
     public:
       APMCounter apmCounter;

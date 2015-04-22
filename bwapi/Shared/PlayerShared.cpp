@@ -71,9 +71,9 @@ namespace BWAPI
     if ( race == Races::None )  // Get current race's supply if None is specified
       race = this->getRace();
 
-    if ( race < 0 || race >= 3 )  // bounds checking
-      return 0;
-    return self->supplyTotal[race];
+    if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyTotal)>::value)
+      return self->supplyTotal[race];
+    return 0;
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
   int PlayerImpl::supplyUsed(Race race) const
@@ -81,9 +81,9 @@ namespace BWAPI
     if ( race == Races::None )  // Get current race's supply if None is specified
       race = this->getRace();
 
-    if ( race < 0 || race >= 3 )  // bounds checking
-      return 0;
-    return self->supplyUsed[race];
+    if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyUsed)>::value)
+      return self->supplyUsed[race];
+    return 0;
   }
   //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const

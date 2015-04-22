@@ -28,12 +28,11 @@ namespace BWAPI
     virtual BWAPI::Region getClosestInaccessibleRegion() const override;
 
     RegionImpl(int id);
-    ~RegionImpl();
     void UpdateRegionRelations();
-    RegionData *getData();
+    RegionData* getData();
   private:
-    RegionData data;
-    RegionData *self;
+    RegionData  data = {};
+    RegionData* self = &data;
     
     Regionset neighbors;
     BWAPI::Region closestAccessibleRgn;

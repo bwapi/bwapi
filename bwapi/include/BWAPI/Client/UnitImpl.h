@@ -25,7 +25,7 @@ namespace BWAPI
       void      clear();
       void      saveInitialState();
 
-      UnitImpl(int id);
+      UnitImpl(int _id);
 
       virtual int           getID() const override;
       virtual bool          exists() const override;

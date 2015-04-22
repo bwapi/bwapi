@@ -35,14 +35,14 @@ namespace BWAPI
       virtual bool       isVisible(Player player = nullptr) const override;
 
       BulletImpl(BW::CBullet* originalBullet, u16 index);
-      ~BulletImpl();
 
       void        setExists(bool exists);
       BW::CBullet* getRawData() const;
       void        saveExists();
 
-      BulletData* self;
-      BulletData  data;
+      BulletData  data = {};
+      BulletData* self = &data;
+
       void        updateData();
 
       static BulletImpl* BWBulletToBWAPIBullet(BW::CBullet* bullet);
@@ -50,8 +50,8 @@ namespace BWAPI
     private:
       BW::CBullet* bwOriginalBullet; /**< Pointer to broodwar unit data table. */
       u16 index;
-      int id;
-      bool __exists;
-      bool lastExists;
+      int id = -1;
+      bool __exists = false;
+      bool lastExists = false;
   };
 };

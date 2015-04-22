@@ -22,14 +22,14 @@ namespace BWAPI
     void disconnect();
     void update();
 
-    GameData  *data;
+    GameData* data = nullptr;
   private:
-    HANDLE    pipeObjectHandle;
-    HANDLE    mapFileHandle;
-    HANDLE    gameTableFileHandle;
-    GameTable *gameTable;
+    HANDLE      pipeObjectHandle;
+    HANDLE      mapFileHandle;
+    HANDLE      gameTableFileHandle;
+    GameTable*  gameTable = nullptr;
     
-    bool connected;
+    bool connected = false;
   };
   extern Client BWAPIClient;
 }

@@ -20,6 +20,6 @@ namespace BWAPI
       std::string name;
       void setID(int newID);
     private:
-      int id;
+      int id = -1;
   };
 };

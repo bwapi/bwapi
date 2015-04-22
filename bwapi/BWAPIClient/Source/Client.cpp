@@ -10,12 +10,9 @@ namespace BWAPI
 {
   Client BWAPIClient;
   Client::Client()
-    : data(nullptr)
-    , pipeObjectHandle(INVALID_HANDLE_VALUE)
+    : pipeObjectHandle(INVALID_HANDLE_VALUE)
     , mapFileHandle(INVALID_HANDLE_VALUE)
     , gameTableFileHandle(INVALID_HANDLE_VALUE)
-    , gameTable(NULL)
-    , connected(false)
   {}
   Client::~Client()
   {

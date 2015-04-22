@@ -29,15 +29,6 @@ namespace BWAPI
 
   const BWAPI::GameInstance GameInstance_None(0, false, 0);
   Server::Server()
-    : data(nullptr)
-    , mapFileHandle(nullptr)
-    , gameTable(nullptr)
-    , gameTableIndex(-1)
-    , connected(false)
-    , localOnly(false)
-    , pEveryoneSID(NULL)
-    , pACL(NULL)
-    , pSD(NULL)
   {
     // Local variables
     const DWORD processID = GetCurrentProcessId();
