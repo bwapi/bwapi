@@ -103,13 +103,19 @@ namespace BWAPI
     /// @see getInitialType
     virtual UnitType getType() const = 0;
 
-    /// Retrieves the unit's position from the upper left corner of the map in pixels.
+    /// Retrieves the unit's position from the upper left corner of the map in pixels. The
+    /// position returned is roughly the center if the unit.
+    ///
+    /// @note The unit bounds are defined as this value plus/minus the values of
+    /// UnitType::dimensionLeft, UnitType::dimensionUp, UnitType::dimensionRight,
+    /// and UnitType::dimensionDown, which is conveniently expressed in UnitInterface::getLeft,
+    /// UnitInterface::getTop, UnitInterface::getRight, and UnitInterface::getBottom respectively.
     ///
     /// @retval Positions::Unknown if this unit is inaccessible.
     ///
     /// @returns Position object representing the unit's current position.
     ///
-    /// @see getTilePosition, getInitialPosition
+    /// @see getTilePosition, getInitialPosition, getLeft, getTop
     virtual Position getPosition() const = 0;
 
     /// Retrieves the unit's build position from the upper left corner of the map in tiles.
