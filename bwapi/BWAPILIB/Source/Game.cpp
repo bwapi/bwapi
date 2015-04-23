@@ -730,13 +730,12 @@ namespace BWAPI
   }
   bool Game::hasPath(Position source, Position destination) const
   {
-    this->setLastError();
     if (source.isValid() && destination.isValid())
     {
       Region rgnA = getRegionAt(source);
       Region rgnB = getRegionAt(destination);
-      if (rgnA->getRegionGroupID() == rgnB->getRegionGroupID())
-        return true;
+      if (rgnA && rgnB && rgnA->getRegionGroupID() == rgnB->getRegionGroupID())
+        return this->setLastError();
     }
     return this->setLastError(Errors::Unreachable_Location);
   }

@@ -360,7 +360,7 @@ namespace BWAPI
   //----------------------------------------------- GET FORCE ------------------------------------------------
   Force GameImpl::getForce(int forceId) const
   {
-    if (forceId < 0 || forceId >= (int)forceVector.size())
+    if (static_cast<unsigned>(forceId) >= forceVector.size())
       return nullptr;
     return (Force)(&forceVector[forceId]);
   }
@@ -373,14 +373,14 @@ namespace BWAPI
   //----------------------------------------------- GET PLAYER -----------------------------------------------
   Player GameImpl::getPlayer(int playerId) const
   {
-    if (playerId < 0 || playerId >= (int)playerVector.size())
+    if (static_cast<unsigned>(playerId) >= playerVector.size())
       return nullptr;
     return (Player)(&playerVector[playerId]);
   }
   //----------------------------------------------- GET UNIT -------------------------------------------------
   Unit GameImpl::getUnit(int unitId) const
   {
-    if (unitId < 0 || unitId >= (int)unitVector.size())
+    if (static_cast<unsigned>(unitId) >= unitVector.size())
       return nullptr;
     return (Unit )(&unitVector[unitId]);
   }
@@ -443,12 +443,12 @@ namespace BWAPI
   //-------------------------------------------- GET SCREEN POSITION -----------------------------------------
   Position GameImpl::getScreenPosition() const
   {
-    return Position(data->screenX,data->screenY);
+    return Position(data->screenX, data->screenY);
   }
   //-------------------------------------------- SET SCREEN POSITION -----------------------------------------
   void GameImpl::setScreenPosition(int x, int y)
   {
-    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetScreenPosition,x,y));
+    addCommand(BWAPIC::Command(BWAPIC::CommandType::SetScreenPosition, x, y));
   }
   //----------------------------------------------- PING MINIMAP ---------------------------------------------
   void GameImpl::pingMinimap(int x, int y)
@@ -468,7 +468,7 @@ namespace BWAPI
     if ( flag < 0 || flag >= BWAPI::Flag::Max ) 
       return;
     if ( data->flags[flag] == false )
-      addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag,flag));
+      addCommand(BWAPIC::Command(BWAPIC::CommandType::EnableFlag, flag));
   }
   //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
   Unitset GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const

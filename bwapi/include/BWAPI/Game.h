@@ -1425,6 +1425,10 @@ namespace BWAPI
     ///   The y coordinate, in pixels.
     ///
     /// @returns Pointer to the Region interface at the given position.
+    /// @retval nullptr if the provided position is not valid (i.e. not within the map bounds).
+    ///
+    /// @note If the provided position is invalid, the error Errors::Invalid_Parameter is set.
+    /// @see getAllRegions, getRegion
     virtual BWAPI::Region getRegionAt(int x, int y) const = 0;
     /// @overload
     BWAPI::Region getRegionAt(BWAPI::Position position) const;
