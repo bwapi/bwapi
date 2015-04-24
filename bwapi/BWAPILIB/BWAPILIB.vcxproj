@@ -160,7 +160,6 @@ COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModule.cpp" />
-    <ClCompile Include="Source\Bulletset.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
     <ClCompile Include="Source\Color.cpp" />

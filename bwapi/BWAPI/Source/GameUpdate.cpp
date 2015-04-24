@@ -267,8 +267,8 @@ void GameImpl::updateOverlays()
     {
       for ( int y = (scry > 0 ? scry : 0); y < getScreenPosition().y + BW::BWDATA::ScreenLayers[5].height && y/32 < this->mapHeight(); y += 8 )
       {
-        BW::TilePosition tp((u16)x/32, (u16)y/32);
-        const BW::region *r = BW::getRegionAt(x,y);
+        BW::TilePosition tp(static_cast<s16>(x/32), static_cast<s16>(y/32));
+        const BW::region *r = BW::getRegionAt(x, y);
 
         BWAPI::Color c = (selectedRgn == r) ? Colors::Brown : Colors::Grey;
         if ( r->accessabilityFlags == 0x1FFD )

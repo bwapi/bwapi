@@ -620,7 +620,7 @@ namespace BWAPI
       if ( !BWAPIPlayer || player == BWAPIPlayer )
         return this->setLastError(Errors::Invalid_Parameter);
 
-      u16 vision = (u16)BW::BWDATA::PlayerVision[BWAPIPlayer->getIndex()];    
+      u16 vision = static_cast<u16>(BW::BWDATA::PlayerVision[BWAPIPlayer->getIndex()]);
       if ( enabled )
         vision |= 1 << static_cast<PlayerImpl*>(player)->getIndex();
       else

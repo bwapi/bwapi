@@ -426,11 +426,11 @@ namespace BW
 // ------------------- GET SIZE ----------------------
   u16 dialog::width() const
   {
-    return this ? (u16)this->srcBits.width() : 0;
+    return this ? static_cast<u16>(this->srcBits.width()) : 0;
   }
   u16 dialog::height() const
   {
-    return this ? (u16)this->srcBits.height() : 0;
+    return this ? static_cast<u16>(this->srcBits.height()) : 0;
   }
 // -------------------------------------------------- EVENTS -------------------------------------------------
   // --------------------- EVENT ---------------------
@@ -625,10 +625,10 @@ namespace BW
   {
     if ( this && this->isList() && this->u.list.pdwData )
     {
-      for ( int i = 0; i < this->u.list.bStrs; ++i )
+      for ( u8 i = 0; i < this->u.list.bStrs; ++i )
       {
         if ( this->u.list.pdwData[i] == dwValue )
-          return this->setSelectedIndex((u8)i);
+          return this->setSelectedIndex(i);
       }
     } // check
     return false;
@@ -644,7 +644,7 @@ namespace BW
     if ( this && this->isList() && this->u.list.ppStrs )
     {
       // Iterate through each entry
-      for ( int i = 0; i < this->u.list.bStrs; ++i )
+      for ( u8 i = 0; i < this->u.list.bStrs; ++i )
       {
         // compare the string to the one we're looking for
         if ( this->u.list.ppStrs[i] )
@@ -668,7 +668,7 @@ namespace BW
             continue;
 
           // set the selected entry
-          return this->setSelectedIndex((u8)i);
+          return this->setSelectedIndex(i);
         }
       } // iterator
     }
@@ -747,7 +747,7 @@ namespace BW
     if ( this && this->isList() )
     {
       for ( int i = 255; i >= 0; i-- )
-        this->removeListEntry((u8)i);
+        this->removeListEntry(static_cast<u8>(i));
       dialog *scroll = this->u.list.pScrlBar;
       if ( scroll )
       {

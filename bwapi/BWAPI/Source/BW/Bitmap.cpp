@@ -10,16 +10,10 @@
 
 namespace BW
 {
-  Bitmap::Bitmap(int width, int height)
-    : wid((u16)width)
-    , ht( (u16)height)
-    , data( (u8*)SMAlloc(width*height) )
-  {}
-  
   Bitmap::Bitmap(int width, int height, void *pBuffer)
-    : wid((u16)width)
-    , ht( (u16)height)
-    , data( (u8*)pBuffer )
+    : wid(static_cast<u16>(width))
+    , ht(static_cast<u16>(height))
+    , data(static_cast<u8*>(pBuffer != nullptr ? pBuffer : SMAlloc(width*height)))
   {}
 
   void Bitmap::resize(int width, int height)
@@ -27,9 +21,9 @@ namespace BW
     if ( !this || width <= 0 || height <= 0 )
       return;
 
-    this->wid   = (u16)width;
-    this->ht    = (u16)height;
-    this->data  = (u8*)SMReAlloc(this->data, width*height);
+    this->wid   = static_cast<u16>(width);
+    this->ht    = static_cast<u16>(height);
+    this->data  = static_cast<u8*>(SMReAlloc(this->data, width*height));
   }
 
   bool Bitmap::isValid() const

@@ -34,12 +34,12 @@ namespace BW
     {
     public:
       // Attack Location on position. 
-      Attack(const BW::Position& target, int order, bool queued = false);
-      Attack(int x, int y, int order, bool queued = false);
+      Attack(const BW::Position& target, BWAPI::Order order, bool queued = false);
+      Attack(int x, int y, BWAPI::Order order, bool queued = false);
       // Attack Location on unit. 
-      Attack(BWAPI::Unit target, int order, bool queued = false);
+      Attack(BWAPI::Unit target, BWAPI::Order order, bool queued = false);
       // Attack Location on general target. 
-      Attack(const PositionUnitTarget& target, int order, bool queued = false);
+      Attack(const PositionUnitTarget& target, BWAPI::Order order, bool queued = false);
     private:
       BW::PositionUnitTarget target;
       u16 always0xe4 = BWAPI::UnitTypes::Enum::None;
@@ -95,7 +95,7 @@ namespace BW
     class TrainUnit : private BWCommand<0x1F>
     {
     public:
-      TrainUnit(int type);
+      TrainUnit(BWAPI::UnitType type);
     private:
       // Type of unit to train 
       u16 type;
@@ -110,8 +110,8 @@ namespace BW
     class MakeBuilding : private BWCommand<0x0c>
     {
     public:
-      MakeBuilding(BW::TilePosition position, int type);
-      MakeBuilding(int tileX, int tileY, int type);
+      MakeBuilding(BW::TilePosition position, BWAPI::UnitType type);
+      MakeBuilding(int tileX, int tileY, BWAPI::UnitType type);
 
     private:
       // Specifies race of builder: zerg = 0x19, terran = 1e, toss = 1f 
@@ -125,8 +125,8 @@ namespace BW
     class PlaceCOP : private BWCommand<0x0c>
     {
     public:
-      PlaceCOP(BW::TilePosition position, int type);
-      PlaceCOP(int x, int y, int type);
+      PlaceCOP(BW::TilePosition position, BWAPI::UnitType type);
+      PlaceCOP(int x, int y, BWAPI::UnitType type);
     
     private:
       u8 always0x9B = BWAPI::Orders::Enum::CTFCOP2;
@@ -157,8 +157,8 @@ namespace BW
     class MakeAddon : private BWCommand<0x0c>
     {
     public:
-      MakeAddon(BW::TilePosition position, int type);
-      MakeAddon(int tileX, int tileY, int type);
+      MakeAddon(BW::TilePosition position, BWAPI::UnitType type);
+      MakeAddon(int tileX, int tileY, BWAPI::UnitType type);
     private:
       // 1e for terran 1f for protoss
       u8 always0x24 = BWAPI::Orders::Enum::PlaceAddon;
@@ -274,7 +274,7 @@ namespace BW
     class BuildingMorph : private BWCommand<0x35>
     {
     public:
-      BuildingMorph(int type);
+      BuildingMorph(BWAPI::UnitType type);
     private:
       // Type of unit to train 
       u16 type;
@@ -305,8 +305,8 @@ namespace BW
     class Land : private BWCommand<0x0c>
     {
     public:
-      Land(BW::TilePosition position, int type);
-      Land(int x, int y, int type);
+      Land(BW::TilePosition position, BWAPI::UnitType type);
+      Land(int x, int y, BWAPI::UnitType type);
     private:
       u8 always0x47 = BWAPI::Orders::Enum::BuildingLand;
       BW::TilePosition position;
@@ -363,7 +363,7 @@ namespace BW
     class UnitMorph : private BWCommand<0x23>
     {
     public:
-      UnitMorph(int type);
+      UnitMorph(BWAPI::UnitType type);
     private:
       // Type of unit to train 
       u16 type;

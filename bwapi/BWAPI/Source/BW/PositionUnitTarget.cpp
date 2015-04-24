@@ -11,7 +11,7 @@ namespace BW
   {
   }
   PositionUnitTarget::PositionUnitTarget(int x, int y)
-      : position((u16)x,(u16)y)
+    : position(static_cast<s16>(x), static_cast<s16>(y))
   {
   }
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------

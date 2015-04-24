@@ -43,8 +43,8 @@ namespace BW
       bounds.top    += -screen.y;  // -screenY is positive
       screen.y  = 0;
     }
-    bounds.right  = (s16)std::min<int>(bounds.right,  BW::BWDATA::GameScreenBuffer.width() - screen.x);
-    bounds.bottom = (s16)std::min<int>(bounds.bottom, BW::BWDATA::GameScreenBuffer.height()  - screen.y);
+    bounds.right  = static_cast<s16>(std::min<int>(bounds.right,  BW::BWDATA::GameScreenBuffer.width() - screen.x));
+    bounds.bottom = static_cast<s16>(std::min<int>(bounds.bottom, BW::BWDATA::GameScreenBuffer.height() - screen.y));
 
     this->screenPosition = screen;
     this->grpBounds = bounds;

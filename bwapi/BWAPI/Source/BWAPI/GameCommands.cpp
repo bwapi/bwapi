@@ -255,7 +255,7 @@ namespace BWAPI
     }
     else if (ct == UnitCommandTypes::Use_Tech_Position)
     {
-      int order = (command.getTechType() == TechTypes::Healing ? Orders::HealMove : command.getTechType().getOrder());
+      Order order = (command.getTechType() == TechTypes::Healing ? Orders::HealMove : command.getTechType().getOrder());
       QUEUE_COMMAND(BW::Orders::Attack, command.x, command.y, order);
     }
     else if (ct == UnitCommandTypes::Use_Tech_Unit)

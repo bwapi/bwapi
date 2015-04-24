@@ -10,7 +10,7 @@ namespace BW
 
   FontChar *Font::getChar(char c) const
   {
-    u8 ch = (u8)c;
+    u8 ch = static_cast<u8>(c);
     if (  this->isValid() &&
           this->low <= ch && ch <= this->high &&
           this->chrs[ch - this->low] != reinterpret_cast<const FontChar*>(this) )

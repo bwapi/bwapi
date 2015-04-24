@@ -12,29 +12,29 @@ namespace BW
   namespace Orders
   {
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(BWAPI::Unit target, int OrderID, bool queued)
+    Attack::Attack(BWAPI::Unit target, BWAPI::Order OrderID, bool queued)
         : target(target)
-        , order((u8)OrderID)
+        , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const BW::Position& target, int OrderID, bool queued)
+    Attack::Attack(const BW::Position& target, BWAPI::Order OrderID, bool queued)
         : target(target)
-        , order((u8)OrderID)
+        , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
-    Attack::Attack(int x, int y, int OrderID, bool queued)
+    Attack::Attack(int x, int y, BWAPI::Order OrderID, bool queued)
         : target(x,y)
-        , order((u8)OrderID)
+        , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
     //--------------------------------------- ATTACK LOCATION CONSTRUCTOR -----------------------------------
-    Attack::Attack(const PositionUnitTarget& target, int OrderID, bool queued)
+    Attack::Attack(const PositionUnitTarget& target, BWAPI::Order OrderID, bool queued)
         : target(target)
-        , order((u8)OrderID)
+        , order(static_cast<u8>(OrderID))
         , type(queued ? 1 : 0)
     {
     }
@@ -112,14 +112,14 @@ namespace BW
       return 2 + targCount * 2;
     }
     //---------------------------------------- TRAIN UNIT CONSTRUCTOR ----------------------------------------
-    TrainUnit::TrainUnit(int type)
-        : type((u16)type)
+    TrainUnit::TrainUnit(BWAPI::UnitType type)
+      : type(static_cast<u16>(type))
     {
     }
     //--------------------------------------------- MAKE BULDING ---------------------------------------------
-    MakeBuilding::MakeBuilding(BW::TilePosition position, int type)
+    MakeBuilding::MakeBuilding(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
-        , type((u16)type)
+        , type(static_cast<u16>(type))
     {
       switch( BWAPI::UnitType(type).getRace() )
       {
@@ -136,40 +136,38 @@ namespace BW
         break;
       }
     }
-    MakeBuilding::MakeBuilding(int tileX, int tileY, int type)
-      : MakeBuilding(BW::TilePosition((u16)tileX, (u16)tileY), type)
+    MakeBuilding::MakeBuilding(int tileX, int tileY, BWAPI::UnitType type)
+      : MakeBuilding(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
     }
     //---------------------------------------------- PLACE COP -----------------------------------------------
-    PlaceCOP::PlaceCOP(BW::TilePosition position, int type)
+    PlaceCOP::PlaceCOP(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
-        , type((u16)type)
+        , type(static_cast<u16>(type))
     {
     }
-    PlaceCOP::PlaceCOP(int x, int y, int type)
-        : position((u16)x, (u16)y)
-        , type((u16)type)
+    PlaceCOP::PlaceCOP(int x, int y, BWAPI::UnitType type)
+      : PlaceCOP(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {
     }
     //--------------------------------------------- INVENT TECH ----------------------------------------------
     Invent::Invent(int tech)
-        : tech((u8)tech)
+      : tech(static_cast<u8>(tech))
     {
     }
     //----------------------------------------------- UPGRADE ------------------------------------------------
     Upgrade::Upgrade(int upgrade)
-        : upgrade((u8)upgrade)
+      : upgrade(static_cast<u8>(upgrade))
     {
     }
     //---------------------------------------------- MAKE ADDON ----------------------------------------------
-    MakeAddon::MakeAddon(BW::TilePosition position, int type)
+    MakeAddon::MakeAddon(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
-        , type((u16)type)
+        , type(static_cast<u16>(type))
     {
     }
-    MakeAddon::MakeAddon(int tileX, int tileY, int type)
-        : position((u16)tileX, (u16)tileY)
-        , type((u16)type)
+    MakeAddon::MakeAddon(int tileX, int tileY, BWAPI::UnitType type)
+      : MakeAddon(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
     }
     //---------------------------------------------- MAKE NYDUS ----------------------------------------------
@@ -178,32 +176,32 @@ namespace BW
     {
     }
     MakeNydusExit::MakeNydusExit(int tileX, int tileY)
-        : position((u16)tileX, (u16)tileY)
+      : position(static_cast<s16>(tileX), static_cast<s16>(tileY))
     {
     }
     //------------------------------------------- MOVE CONSTRUCTOR -------------------------------------------
     ChangeSlot::ChangeSlot(int slotID, SlotType type)
-    : slotID((u8)slotID)
-    , slotType((u8)type)
+      : slotID(static_cast<u8>(slotID))
+      , slotType(static_cast<u8>(type))
     {
     }
     //--------------------------------------- CHANGE RACE CONSTRUCTOR ----------------------------------------
     RequestChangeRace::RequestChangeRace(int slot, int race)
-    : slotID((u8)slot)
-    , race((u8)race)
+      : slotID(static_cast<u8>(slot))
+      , race(static_cast<u8>(race))
     {
     }
     UpdateSlot::UpdateSlot(int slot, int stormPlayerID, int owner, int newRace, int team)
-      : bSlot((u8)slot)
-      , bStormPlayerID((u8)stormPlayerID)
-      , nType((u8)owner)
-      , bNewRace((u8)newRace)
-      , nTeam((u8)team)
+      : bSlot(static_cast<u8>(slot))
+      , bStormPlayerID(static_cast<u8>(stormPlayerID))
+      , nType(static_cast<u8>(owner))
+      , bNewRace(static_cast<u8>(newRace))
+      , nTeam(static_cast<u8>(team))
     {
     }
     //------------------------------------------ RESUME CONSTRUCTOR ------------------------------------------
     LeaveGame::LeaveGame(int type)
-        : type((u8)type)
+      : type(static_cast<u8>(type))
     {
     }
     //-------------------------------------------- MINIMAP PING ----------------------------------------------
@@ -212,23 +210,22 @@ namespace BW
     {
     }
     MinimapPing::MinimapPing(int x, int y)
-        : position((u16)x, (u16)y)
+      : position(static_cast<s16>(x), static_cast<s16>(y))
     {
     }
     //---------------------------------------- BUILDING MORPH CONSTRUCTOR ------------------------------------
-    BuildingMorph::BuildingMorph(int type)
-        : type((u16)type)
+    BuildingMorph::BuildingMorph(BWAPI::UnitType type)
+      : type(static_cast<u16>(type))
     {
     }
     //------------------------------------------------- LAND -------------------------------------------------
-    Land::Land(BW::TilePosition position, int type)
+    Land::Land(BW::TilePosition position, BWAPI::UnitType type)
         : position(position)
-        , type((u16)type)
+        , type(static_cast<u16>(type))
     {
     }
-    Land::Land(int x, int y, int type)
-        : position((u16)x, (u16)y)
-        , type((u16)type)
+    Land::Land(int x, int y, BWAPI::UnitType type)
+      : Land(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {
     }
     //--------------------------------------------- HOLD POSITION --------------------------------------------
@@ -242,8 +239,8 @@ namespace BW
     {
     }
     //----------------------------------------- UNIT MORPH CONSTRUCTOR ---------------------------------------
-    UnitMorph::UnitMorph(int type)
-        : type((u16)type)
+    UnitMorph::UnitMorph(BWAPI::UnitType type)
+      : type(static_cast<u16>(type))
     {
     }
     //------------------------------------------ RETURN CARGO ------------------------------------------------

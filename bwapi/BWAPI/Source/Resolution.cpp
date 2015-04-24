@@ -36,7 +36,7 @@ void SetResolution(int width, int height)
   
   // Recreate STrans thingy
   BW::BlizzVectorEntry<BW::TransVectorEntry> *transEntry = BW::BWDATA::TransMaskVector->begin;
-  if ( (u32)transEntry && (u32)transEntry != (u32)&BW::BWDATA::TransMaskVector->begin )
+  if ( transEntry && static_cast<void*>(transEntry) != &BW::BWDATA::TransMaskVector->begin )
   {
     HANDLE oldTrans = transEntry->container.hTrans;
     SetRect(&transEntry->container.info, 0, 0, width, height);

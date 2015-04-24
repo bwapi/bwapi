@@ -54,12 +54,12 @@ namespace BW
 
   Position region::getCenter() const
   {
-    return BW::Position((u16)(this->rgnCenterX >> 8), (u16)(this->rgnCenterY >> 8));
+    return BW::Position(static_cast<s16>(this->rgnCenterX >> 8), static_cast<s16>(this->rgnCenterY >> 8));
   }
 
   u16 region::getIndex() const
   {
-    return (u16)( ((u32)this - (u32)((*BW::BWDATA::SAIPathing)->regions)) / sizeof(BW::region) );
+    return static_cast<u16>(this - (*BW::BWDATA::SAIPathing)->regions);
   }
 
 // searchInner: 0 = top

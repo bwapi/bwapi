@@ -10,8 +10,7 @@ namespace BW
   class Bitmap
   {
   public:
-    Bitmap(int width, int height);
-    Bitmap(int width, int height, void *pBuffer);
+    Bitmap(int width, int height, void* pBuffer = nullptr);
 
     void resize(int width, int height);
     bool isValid() const;
