@@ -1,0 +1,15 @@
+/*!
+@defgroup TypeClasses Type Classes
+List of type classes.
+
+@defgroup Types Types
+List of type constants.
+@{
+  @defgroup UpgradeTypes UpgradeTypes
+  List of all upgrades.
+@}
+
+@defgroup Interface Interface Classes
+List of interface classes.
+
+*/

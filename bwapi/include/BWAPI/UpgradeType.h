@@ -6,12 +6,13 @@ namespace BWAPI
 {
   class Race;
 
+  /// <summary>Namespace of upgrade types.</summary>
   namespace UpgradeTypes
   {
-    /// Enumeration of upgrade types
+    /// <summary>Enumeration of upgrade types.</summary>
     namespace Enum
     {
-      /// Enumeration of upgrade types
+      /// <summary>Enumeration of upgrade types.</summary>
       enum Enum
       {
         Terran_Infantry_Armor   = 0,
@@ -76,52 +77,108 @@ namespace BWAPI
       };
     }
   }
+
+  /// <summary>The upgrade type represents a passive upgrade that can be obtained with
+  /// UnitInterface::upgrade. </summary>
+  ///
+  /// @ingroup TypeClasses
   class UpgradeType : public Type<UpgradeType, UpgradeTypes::Enum::Unknown>
   {
   public:
     /// @copydoc Type::Type(int)
     UpgradeType(int id = UpgradeTypes::Enum::None);
 
-    /** Returns the race the upgrade is for. For example, UpgradeTypes::Terran_Infantry_Armor.getRace()
-     * will return Races::Terran. */
+    /// <summary>Retrieves the race the upgrade is for.</summary>
+    /// For example, UpgradeTypes::Terran_Infantry_Armor.getRace() will return Races::Terran.
+    ///
+    /// @returns Race that this upgrade belongs to.
     Race getRace() const;
 
-    /** Returns the mineral price for the first upgrade. */
+    /// <summary>Returns the mineral price for the upgrade.</summary>
+    ///
+    /// <param name="level"> (optional)
+    ///     The next upgrade level.
+    /// </param>
+    ///
+    /// @note Upgrades start at level 0.
+    /// 
+    /// @returns The mineral cost of the upgrade for the given \p level.
     int mineralPrice(int level = 1) const;
 
-    /** Returns the amount that the mineral price increases for each additional upgrade. */
+    /// <summary>The amount that the mineral price increases for each additional upgrade.</summary>
+    ///
+    /// @returns The mineral cost added to the upgrade after each level.
     int mineralPriceFactor() const;
 
-    /** Returns the vespene gas price for the first upgrade. */
+    /// <summary>Returns the vespene gas price for the first upgrade.</summary>
+    ///
+    /// <param name="level"> (optional)
+    ///     The next upgrade level.
+    /// </param>
+    ///
+    /// @note Upgrades start at level 0.
+    /// 
+    /// @returns The gas cost of the upgrade for the given \p level.
     int gasPrice(int level = 1) const;
 
-    /** Returns the amount that the vespene gas price increases for each additional upgrade. */
+    /// <summary>Returns the amount that the vespene gas price increases for each additional upgrade.</summary>
+    ///
+    /// @returns The gas cost added to the upgrade after each level.
     int gasPriceFactor() const;
 
-    /** Returns the number of frames needed to research the first upgrade. */
+    /// <summary>Returns the number of frames needed to research the first upgrade.</summary>
+    ///
+    /// <param name="level"> (optional)
+    ///     The next upgrade level.
+    /// </param>
+    ///
+    /// @note Upgrades start at level 0.
+    /// 
+    /// @returns The time cost of the upgrade for the given \p level.
     int upgradeTime(int level = 1) const;
 
-    /** Returns the number of frames that the upgrade time increases for each additional upgrade. */
+    /// <summary>Returns the number of frames that the upgrade time increases for each additional upgrade.</summary>
+    ///
+    /// @returns The time cost added to the upgrade after each level.
     int upgradeTimeFactor() const;
 
-    /** Returns the maximum number of times the upgrade can be researched. */
+    /// <summary>Returns the maximum number of times the upgrade can be researched.</summary>
+    ///
+    /// @returns Maximum number of times this upgrade can be upgraded.
     int maxRepeats() const;
 
-    /** Returns the type of unit that researches the upgrade. */
+    /// <summary>Returns the type of unit that researches the upgrade.</summary>
+    ///
+    /// @returns The UnitType that is used to upgrade this type.
     UnitType whatUpgrades() const;
 
-    /** Returns the type of unit that is additionally required for the upgrade. */
+    /// <summary>Returns the type of unit that is required for the upgrade.</summary> The player
+    /// must have at least one of these units completed in order to start upgrading this upgrade.
+    ///
+    /// <param name="level"> (optional)
+    ///     The next upgrade level.
+    /// </param>
+    ///
+    /// @note Upgrades start at level 0.
+    /// 
+    /// @returns UnitType required to obtain this upgrade.
     UnitType whatsRequired(int level = 1) const;
 
-    /** Returns the set of units that are affected by this upgrade. */
+    /// <summary>Returns the set of units that are affected by this upgrade.</summary>
+    /// 
+    /// @returns Set of unit types that passively use this upgrade type.
     const UnitType::set& whatUses() const;
   };
-  /// Namespace of upgrade types
+
   namespace UpgradeTypes
   {
-    /** Returns the set of all the UpgradeTypes. */
+    /// <summary>Returns the set of all the UpgradeTypes.</summary>
+    ///
+    /// @returns UpgradeType::set containing all of the well-defined UpgradeTypes.
     const UpgradeType::set& allUpgradeTypes();
 
+    /// @ingroup UpgradeTypes
+    ///@{
     extern const UpgradeType Terran_Infantry_Armor;
     extern const UpgradeType Terran_Vehicle_Plating;
     extern const UpgradeType Terran_Ship_Plating;
@@ -175,6 +232,7 @@ namespace BWAPI
     extern const UpgradeType Upgrade_60;
     extern const UpgradeType None;
     extern const UpgradeType Unknown;
+    ///@}
   }
 
   static_assert(sizeof(UpgradeType) == sizeof(int), "Expected type to resolve to primitive size.");
