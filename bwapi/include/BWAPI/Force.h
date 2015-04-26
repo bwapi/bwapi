@@ -10,23 +10,25 @@ namespace BWAPI
   class ForceInterface;
   typedef ForceInterface *Force;
 
-  /// The Force class is used to get information about each force in a match. Normally this is
-  /// considered a team.
+  /// <summary>The Force class is used to get information about each force in a match.</summary>
+  /// Normally this is considered a team.
   ///
   /// @note It is not called a team because players on the same force do not necessarily need
   /// to be allied at the beginning of a match.
+  ///
+  /// @ingroup Interface
   class ForceInterface : public Interface<ForceInterface>
   {
   protected:
     virtual ~ForceInterface() {};
   public :
-    /// Retrieves the unique ID that represents this Force.
+    /// <summary>Retrieves the unique ID that represents this Force.</summary>
     ///
     /// @returns
     ///   An integer containing the ID for the Force.
     virtual int getID() const = 0;
 
-    /// Retrieves the name of the Force.
+    /// <summary>Retrieves the name of the Force.</summary>
     ///
     /// @returns
     ///   A std::string object containing the name of the force.
@@ -42,7 +44,7 @@ namespace BWAPI
     /// Game::sendText and other variadic functions.
     virtual std::string getName() const = 0;
 
-    /// Retrieves the set of players that belong to this Force.
+    /// <summary>Retrieves the set of players that belong to this Force.</summary>
     ///
     /// @returns
     ///   A Playerset object containing the players that are part of this Force.

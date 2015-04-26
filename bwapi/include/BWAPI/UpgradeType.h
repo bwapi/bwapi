@@ -170,6 +170,7 @@ namespace BWAPI
     const UnitType::set& whatUses() const;
   };
 
+  /// @ingroup Types
   namespace UpgradeTypes
   {
     /// <summary>Returns the set of all the UpgradeTypes.</summary>
@@ -177,8 +178,6 @@ namespace BWAPI
     /// @returns UpgradeType::set containing all of the well-defined UpgradeTypes.
     const UpgradeType::set& allUpgradeTypes();
 
-    /// @ingroup UpgradeTypes
-    ///@{
     extern const UpgradeType Terran_Infantry_Armor;
     extern const UpgradeType Terran_Vehicle_Plating;
     extern const UpgradeType Terran_Ship_Plating;
@@ -232,7 +231,6 @@ namespace BWAPI
     extern const UpgradeType Upgrade_60;
     extern const UpgradeType None;
     extern const UpgradeType Unknown;
-    ///@}
   }
 
   static_assert(sizeof(UpgradeType) == sizeof(int), "Expected type to resolve to primitive size.");

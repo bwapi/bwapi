@@ -9,12 +9,16 @@ namespace BWAPI
   class Order;
   class Race;
 
+  /// <summary>Namespace containing tech types.</summary>
+  /// @see TechType
   namespace TechTypes
   {
-    /// Enumeration of Tech Types
+    /// <summary>Enumeration of Tech Types.</summary>
+    /// @see TechType
     namespace Enum
     {
-      /// Enumeration of Tech Types
+      /// <summary>Enumeration of Tech Types.</summary>
+      /// @see TechType
       enum Enum
       {
         Stim_Packs = 0,
@@ -60,16 +64,19 @@ namespace BWAPI
       };
     };
   }
-  /// The TechType (or Technology Type, also referred to as an Ability) represents a Unit's ability
-  /// which can be researched with UnitInterface::research or used with UnitInterface::useTech. In order for a Unit
-  /// to use its own specialized ability, it must first be available and researched.
+  /// <summary>The TechType (or Technology Type, also referred to as an Ability) represents a Unit's ability
+  /// which can be researched with UnitInterface::research or used with UnitInterface::useTech.</summary>
+  /// In order for a Unit to use its own specialized ability, it must first be available and researched.
+  ///
+  /// @see TechTypes
+  /// @ingroup TypeClasses
   class TechType : public Type<TechType, TechTypes::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       TechType(int id = TechTypes::Enum::None);
 
-      /// Retrieves the race that is required to research or use the TechType.
+      /// <summary>Retrieves the race that is required to research or use the TechType.</summary>
       ///
       /// @note There is an exception where @Infested_Kerrigan can use @Psi_Storm. This does not
       /// apply to the behavior of this function.
@@ -77,66 +84,68 @@ namespace BWAPI
       /// @returns Race object indicating which race is designed to use this technology type.
       Race getRace() const;
 
-      /// Retrieves the mineral cost of researching this technology.
+      /// <summary>Retrieves the mineral cost of researching this technology.</summary>
       ///
       /// @returns Amount of minerals needed in order to research this technology.
       int mineralPrice() const;
 
-      /// Retrieves the vespene gas cost of researching this technology.
+      /// <summary>Retrieves the vespene gas cost of researching this technology.</summary>
       ///
       /// @returns Amount of vespene gas needed in order to research this technology.
       int gasPrice() const;
 
-      /// Retrieves the number of frames needed to research the tech type.
+      /// <summary>Retrieves the number of frames needed to research the tech type.</summary>
       ///
       /// @returns The time, in frames, it will take for the research to complete.
       /// @see UnitInterface::getRemainingResearchTime
       int researchTime() const;
 
-      /// Retrieves the amount of energy needed to use this TechType as an ability.
+      /// <summary>Retrieves the amount of energy needed to use this TechType as an ability.</summary>
       ///
       /// @returns Energy cost of the ability.
       /// @see UnitInterface::getEnergy
       int energyCost() const;
 
-      /// Retrieves the UnitType that can research this technology.
+      /// <summary>Retrieves the UnitType that can research this technology.</summary>
       ///
       /// @returns UnitType that is able to research the technology in the game.
       /// @retval UnitTypes::None If the technology/ability is either provided for free or never
       /// available.
       UnitType whatResearches() const;
 
-      /// Retrieves the Weapon that is attached to this tech type. A technology's WeaponType
-      /// is used to indicate the range and behaviour of the ability when used by a Unit.
+      /// <summary>Retrieves the Weapon that is attached to this tech type.</summary>
+      /// A technology's WeaponType is used to indicate the range and behaviour of the ability
+      /// when used by a Unit.
       ///
       /// @returns WeaponType containing information about the ability's behavior.
       /// @retval WeaponTypes::None If there is no corresponding WeaponType.
       WeaponType getWeapon() const;
 
-      /// Checks if this ability can be used on other units.
+      /// <summary>Checks if this ability can be used on other units.</summary>
       ///
       /// @returns true if the ability can be used on other units, and false if it can not.
       bool targetsUnit() const;
 
-      /// Checks if this ability can be used on the terrain (ground).
+      /// <summary>Checks if this ability can be used on the terrain (ground).</summary>
       ///
       /// @returns true if the ability can be used on the terrain.
       bool targetsPosition() const;
 
-      /// Retrieves the set of all UnitTypes that are capable of using this ability.
+      /// <summary>Retrieves the set of all UnitTypes that are capable of using this ability.</summary>
       ///
       /// @returns Set of UnitTypes that can use this ability when researched.
       const UnitType::set& whatUses() const;
 
-      /// Retrieves the Order that a Unit uses when using this ability.
+      /// <summary>Retrieves the Order that a Unit uses when using this ability.</summary>
       ///
       /// @returns Order representing the action a Unit uses to perform this ability
       Order getOrder() const;
   };
-  /// Namespace containing tech types
+
+  /// @ingroup Types
   namespace TechTypes
   {
-    /// Retrieves the set of all the TechTypes.
+    /// <summary>Retrieves the set of all the TechTypes.</summary>
     ///
     /// @returns Set of all available TechTypes.
     const TechType::set& allTechTypes();

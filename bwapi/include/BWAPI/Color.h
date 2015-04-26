@@ -3,205 +3,217 @@
 
 namespace BWAPI
 {
-  /// The Color object is used in drawing routines to specify the color to use.
+  /// <summary>The Color object is used in drawing routines to specify the color to use.</summary>
   ///
   /// @note Starcraft uses a 256 color palette for rendering. Thus, the colors available are
   /// limited to this palette.
+  ///
+  /// @see Colors
+  /// @ingroup TypeClasses
   class Color : public Type<Color, 255>
   {
     public:
-      /// A constructor that uses the color at the specified palette index.
+      /// <summary>A constructor that uses the color at the specified palette index.</summary>
       ///
-      /// @param id 
+      /// <param name="id">
       ///   The index of the color in the 256-color palette.
+      /// </param>
       Color(int id = 0);
 
-      /// A constructor that uses the color index in the palette that is closest to the given rgb
-      /// values. On its first call, the colors in the palette will be sorted for fast indexing.
+      /// <summary>A constructor that uses the color index in the palette that is closest to the
+      /// given rgb values.</summary> On its first call, the colors in the palette will be sorted
+      /// for fast indexing.
       ///
       /// @note This function computes the distance of the RGB values and may not be accurate.
       ///
-      /// @param red
+      /// <param name="red">
       ///   The amount of red.
-      /// @param green
+      /// </param>
+      /// <param name="green">
       ///   The amount of green.
-      /// @param blue
+      /// </param>
+      /// <param name="blue">
       ///   The amount of blue.
+      /// </param>
       Color(int red, int green, int blue);
 
-      /// Retrieves the red component of the color.
+      /// <summary>Retrieves the red component of the color.</summary>
       ///
       /// @returns integer containing the value of the red component.
       int red() const;
 
-      /// Retrieves the green component of the color.
+      /// <summary>Retrieves the green component of the color.</summary>
       ///
       /// @returns integer containing the value of the green component.
       int green() const;
 
-      /// Retrieves the blue component of the color.
+      /// <summary>Retrieves the blue component of the color.</summary>
       ///
       /// @returns integer containing the value of the blue component.
       int blue() const;
   };
 
-  /// Namespace containing known colors.
+  /// <summary>Namespace containing known colors.</summary>
+  /// @see Color
+  /// @ingroup Types
   namespace Colors
   {
-    /// The default color for Player 1.
+    /// <summary>The default color for Player 1.</summary>
     extern const Color Red;
 
-    /// The default color for Player 2.
+    /// <summary>The default color for Player 2.</summary>
     extern const Color Blue;
 
-    /// The default color for Player 3.
+    /// <summary>The default color for Player 3.</summary>
     extern const Color Teal;
 
-    /// The default color for Player 4.
+    /// <summary>The default color for Player 4.</summary>
     extern const Color Purple;
 
-    /// The default color for Player 5.
+    /// <summary>The default color for Player 5.</summary>
     extern const Color Orange;
 
-    /// The default color for Player 6.
+    /// <summary>The default color for Player 6.</summary>
     extern const Color Brown;
 
-    /// A bright white. Note that this is lighter than Player 7's white.
+    /// <summary>A bright white. Note that this is lighter than Player 7's white.</summary>
     extern const Color White;
 
-    /// The default color for Player 8.
+    /// <summary>The default color for Player 8.</summary>
     extern const Color Yellow;
 
-    /// The alternate color for Player 7 on Ice tilesets.
+    /// <summary>The alternate color for Player 7 on Ice tilesets.</summary>
     extern const Color Green;
 
-    /// The default color for Neutral (Player 12).
+    /// <summary>The default color for Neutral (Player 12).</summary>
     extern const Color Cyan;
     
-    /// The color black
+    /// <summary>The color black</summary>
     extern const Color Black;
 
-    /// The color grey
+    /// <summary>The color grey</summary>
     extern const Color Grey;
   }
   
-  /// Namespace containing text formatting codes. Such codes are used in calls to Game::drawText,
-  /// Game::printf, and Broodwar::operator<<
+  /// <summary>Namespace containing text formatting codes.</summary> Such codes are used in calls
+  /// to Game::drawText, Game::printf, and Broodwar::operator<<
   namespace Text
   {
-    // Enumeration of text formatting codes
+    /// <summary>Enumeration of text formatting codes</summary>
     enum Enum
     {
-      /// Uses the previous color that was specified before the current one.
+      /// <summary>Uses the previous color that was specified before the current one.</summary>
       Previous    = 1,
       
-      /// Uses the default blueish color. This color is used in standard game messages.
+      /// <summary>Uses the default blueish color. This color is used in standard game messages.</summary>
       Default      = 2,
       
-      /// A solid yellow. This yellow is used in notifications and is also the default color when
-      /// printing text to Broodwar.
+      /// <summary>A solid yellow. This yellow is used in notifications and is also the default
+      /// color when printing text to Broodwar.</summary>
       Yellow      = 3,
       
-      /// A bright white. This is used for timers.
+      /// <summary>A bright white. This is used for timers.</summary>
       White      = 4,
       
-      /// A dark grey. This color code will override all color formatting that follows.
+      /// <summary>A dark grey. This color code will override all color formatting that follows.</summary>
       Grey      = 5,
       
-      /// A deep red. This color code is used for error messages.
+      /// <summary>A deep red. This color code is used for error messages.</summary>
       Red        = 6,
       
-      /// A solid green. This color is used for sent messages and resource counters.
+      /// <summary>A solid green. This color is used for sent messages and resource counters.</summary>
       Green      = 7,
       
-      /// A type of red. This color is used to color the name of the red player.
+      /// <summary>A type of red. This color is used to color the name of the red player.</summary>
       BrightRed    = 8,
       
-      /// This code hides all text and formatting that follows.
+      /// <summary>This code hides all text and formatting that follows.</summary>
       Invisible    = 11,
       
-      /// A deep blue. This color is used to color the name of the blue player.
+      /// <summary>A deep blue. This color is used to color the name of the blue player.</summary>
       Blue      = 14,
       
-      /// A teal color. This color is used to color the name of the teal player.
+      /// <summary>A teal color. This color is used to color the name of the teal player.</summary>
       Teal      = 15,
       
-      /// A deep purple. This color is used to color the name of the purple player.
+      /// <summary>A deep purple. This color is used to color the name of the purple player.</summary>
       Purple      = 16,
       
-      /// A solid orange. This color is used to color the name of the orange player.
+      /// <summary>A solid orange. This color is used to color the name of the orange player.</summary>
       Orange      = 17,
       
-      /// An alignment directive that aligns the text to the right side of the screen.
+      /// <summary>An alignment directive that aligns the text to the right side of the screen.</summary>
       Align_Right    = 18,
       
-      /// An alignment directive that aligns the text to the center of the screen.
+      /// <summary>An alignment directive that aligns the text to the center of the screen.</summary>
       Align_Center  = 19,
       
       /// @copydoc Invisible
       Invisible2    = 20,
       
-      /// A dark brown. This color is used to color the name of the brown player.
+      /// <summary>A dark brown. This color is used to color the name of the brown player.</summary>
       Brown      = 21,
       
-      /// A dirty white. This color is used to color the name of the white player.
+      /// <summary>A dirty white. This color is used to color the name of the white player.</summary>
       PlayerWhite    = 22,
       
-      /// A deep yellow. This color is used to color the name of the yellow player.
+      /// <summary>A deep yellow. This color is used to color the name of the yellow player.</summary>
       PlayerYellow  = 23,
       
-      /// A dark green. This color is used to color the name of the green player.
+      /// <summary>A dark green. This color is used to color the name of the green player.</summary>
       DarkGreen    = 24,
       
-      /// A bright yellow.
+      /// <summary>A bright yellow.</summary>
       LightYellow    = 25,
       
-      /// A cyan color. Similar to Default.
+      /// <summary>A cyan color. Similar to Default.</summary>
       Cyan      = 26,
       
-      /// A tan color.
+      /// <summary>A tan color.</summary>
       Tan        = 27,
       
-      /// A dark blueish color.
+      /// <summary>A dark blueish color.</summary>
       GreyBlue    = 28,
       
-      /// A type of Green.
+      /// <summary>A type of Green.</summary>
       GreyGreen    = 29,
       
-      /// A different type of Cyan.
+      /// <summary>A different type of Cyan.</summary>
       GreyCyan    = 30,
       
-      /// A bright blue color.
+      /// <summary>A bright blue color.</summary>
       Turquoise    = 31
     };
 
-    /// Namespace containing text sizes.
+    /// <summary>Namespace containing text sizes.</summary>
     namespace Size
     {
-      /// Enumeration of available text sizes
+      /// <summary>Enumeration of available text sizes</summary>
       enum Enum
       {
-        /// The smallest text size in the game.
+        /// <summary>The smallest text size in the game.</summary>
         Small,
 
-        /// The standard text size, used for most things in the game such as chat messages.
+        /// <summary>The standard text size, used for most things in the game such as chat messages.</summary>
         Default,
 
-        /// A larger text size. This size is used for the in-game countdown timer seen in @CTF and @UMS game types.
+        /// <summary>A larger text size. This size is used for the in-game countdown timer seen in @CTF and @UMS game types.</summary>
         Large,
 
-        /// The largest text size in the game.
+        /// <summary>The largest text size in the game.</summary>
         Huge
       };
     }
 
-    /// Standard output stream operator for text formatting codes. This is used to correctly
-    /// format the codes for output.
+    /// <summary>Standard output stream operator for text formatting codes.</summary> This is
+    /// used to correctly format the codes for output.
     ///
-    /// @param out
+    /// <param name="out">
     ///   Reference to destination output stream.
-    /// @param t
+    /// </param>
+    /// <param name="t">
     ///   Reference to the Text formatting code to insert into the output stream.
+    /// </param>
     ///
     /// @returns Reference to the \p out parameter that was passed in.
     std::ostream &operator << (std::ostream &out, const Text::Enum &t);

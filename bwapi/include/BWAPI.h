@@ -48,7 +48,7 @@
 
 namespace BWAPI
 {
-  /// Retrieves the revision of the BWAPILIB module currently being used.
+  /// <summary>Retrieves the revision of the BWAPILIB module currently being used.</summary>
   ///
   /// @returns
   ///   An integer representing the revision number of the library.
@@ -56,7 +56,7 @@ namespace BWAPI
   /// @threadsafe
   int BWAPI_getRevision();
 
-  /// Checks if the BWAPILIB module was compiled in DEBUG mode.
+  /// <summary>Checks if the BWAPILIB module was compiled in DEBUG mode.</summary>
   ///
   /// @retval true if this is a DEBUG build
   /// @retval false if this is a RELEASE build

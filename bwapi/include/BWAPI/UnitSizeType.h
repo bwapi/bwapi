@@ -3,12 +3,18 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing unit size types.</summary>
+  ///
+  /// @see UnitSizeType
+  /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
   namespace UnitSizeTypes
   {
-    /// Enumeration of unit size types
+    /// <summary>Enumeration of unit size types.</summary>
+    /// @see UnitSizeType
     namespace Enum
     {
-      /// Enumeration of unit size types
+      /// <summary>Enumeration of unit size types.</summary>
+      /// @see UnitSizeType
       enum Enum
       {
         Independent = 0,
@@ -21,18 +27,25 @@ namespace BWAPI
       };
     };
   };
+
+  /// <summary>Size types are used by unit types in Broodwar to determine how much damage will be
+  /// applied.</summary> This corresponds with DamageType for several different damage reduction
+  /// applications.
+  ///
+  /// @see DamageType, UnitType
+  /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
+  /// @ingroup TypeClasses
   class UnitSizeType : public Type<UnitSizeType, UnitSizeTypes::Enum::Unknown>
   {
   public:
     /// @copydoc Type::Type(int)
     UnitSizeType(int id = UnitSizeTypes::Enum::None);
   };
-  /// Namespace containing unit size types
-  ///
-  /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
+
+  /// @ingroup Types
   namespace UnitSizeTypes
   {
-    /// Retrieves the set of all UnitSizeTypes.
+    /// <summary>Retrieves the set of all valid UnitSizeTypes.</summary>
     ///
     /// @returns Set of all UnitSizeTypes.
     const UnitSizeType::set& allUnitSizeTypes();

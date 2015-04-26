@@ -24,11 +24,12 @@ namespace BWAPI
   class PlayerInterface;
   typedef PlayerInterface *Player;
 
-  /// The Player represents a unique controller in the game. Each player in a match will have his
-  /// or her own player instance. There is also a neutral player which owns all the neutral units
-  /// (such as mineral patches and vespene geysers).
+  /// <summary>The Player represents a unique controller in the game.</summary> Each player in
+  /// a match will have his or her own player instance. There is also a neutral player which owns
+  /// all the neutral units (such as mineral patches and vespene geysers).
   ///
   /// @see Playerset, PlayerType, Race
+  /// @ingroup Interface
   class PlayerInterface : public Interface<PlayerInterface>
   {
   protected:

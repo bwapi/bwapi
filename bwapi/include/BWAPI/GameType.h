@@ -3,12 +3,16 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing game types.</summary>
+  /// @see GameType
   namespace GameTypes
   {
-    /// Enumeration of game types
+    /// <summary>Enumeration of game types.</summary>
+    /// @see GameType
     namespace Enum
     {
-      /// Enumeration of game types
+      /// <summary>Enumeration of game types.</summary>
+      /// @see GameType
       enum Enum
       {
         None = 0,
@@ -35,16 +39,22 @@ namespace BWAPI
       };
     };
   };
+  /// <summary>A class that represents game types in Broodwar.</summary> A game type is selected
+  /// when creating a game.
+  ///
+  /// @see GameTypes
+  /// @ingroup TypeClasses
   class GameType : public Type<GameType, GameTypes::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       GameType(int id = GameTypes::Enum::None);
   };
-  /// Namespace containing game types
+
+  /// @ingroup Types
   namespace GameTypes
   {
-    /// Retrieves the set of all the valid GameTypes.
+    /// <summary>Retrieves the set of all the valid GameTypes.</summary>
     ///
     /// @returns Set of available GameTypes.
     const GameType::set& allGameTypes();

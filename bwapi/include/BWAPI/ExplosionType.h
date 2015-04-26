@@ -3,12 +3,16 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing explosion types.</summary>
+  /// @see ExplosionType
   namespace ExplosionTypes
   {
-    /// Enumeration of explosion types
+    /// <summary>Enumeration of explosion types.</summary>
+    /// @see ExplosionType
     namespace Enum
     {
-      /// Enumeration of explosion types
+      /// <summary>Enumeration of explosion types.</summary>
+      /// @see ExplosionType
       enum Enum
       {
         None = 0,
@@ -41,16 +45,22 @@ namespace BWAPI
       };
     };
   };
+  /// <summary>A representation of a weapon's explosion type.</summary> This indicates how the
+  /// weapon behaves, such as if it deals splash damage or causes an effect to occur.
+  ///
+  /// @see ExplosionTypes
+  /// @ingroup TypeClasses
   class ExplosionType : public Type<ExplosionType, ExplosionTypes::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       ExplosionType(int id = ExplosionTypes::Enum::None);
   };
-  /// Namespace containing explosion types
+
+  /// @ingroup Types
   namespace ExplosionTypes
   {
-    /// Retrieves the set of all ExplosionTypes.
+    /// <summary>Retrieves the set of all valid ExplosionTypes.</summary>
     ///
     /// @returns Set of ExplosionTypes.
     const ExplosionType::set& allExplosionTypes();

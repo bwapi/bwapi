@@ -3,12 +3,16 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing bullet types.</summary>
+  /// @see BulletType
   namespace BulletTypes
   {
-    /// Enumeration of bullet types
+    /// <summary>Enumeration of bullet types.</summary>
+    /// @see BulletType
     namespace Enum
     {
-      /// Enumeration of bullet types
+      /// <summary>Enumeration of bullet types.</summary>
+      /// @see BulletType
       enum Enum
       {
         Melee = 0,
@@ -59,6 +63,12 @@ namespace BWAPI
       };
     }
   }
+  /// <summary>This class represents a type of bullet. </summary>
+  ///
+  /// @note Internally, these are the same IDs as flingy types in Broodwar.
+  ///
+  /// @see BulletTypes
+  /// @ingroup TypeClasses
   class BulletType : public Type<BulletType, BulletTypes::Enum::Unknown>
   {
     public:
@@ -66,10 +76,10 @@ namespace BWAPI
       BulletType(int id = BulletTypes::Enum::None);
   };
 
-  /// Namespace containing bullet types
+  /// @ingroup Types
   namespace BulletTypes
   {
-    /// Retrieves the set of all the BulletTypes.
+    /// <summary>Retrieves the set of all the BulletTypes.</summary>
     ///
     /// @returns Set of BulletTypes.
     const BulletType::set& allBulletTypes();

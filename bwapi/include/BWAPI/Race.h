@@ -5,12 +5,16 @@ namespace BWAPI
 {
   class UnitType;
 
+  /// <summary>Namespace containing all valid races.</summary>
+  /// @see Race
   namespace Races
   {
-    /// Enumeration of races
+    /// <summary>Enumeration of races.</summary>
+    /// @see Race
     namespace Enum
     {
-      /// Enumeration of races
+      /// <summary>Enumeration of races.</summary>
+      /// @see Race
       enum Enum
       {
         Zerg = 0,
@@ -27,26 +31,27 @@ namespace BWAPI
     };
   }
 
-  /// The Race object is used to get information about a particular race. For example, the default
-  /// worker and supply provider UnitType.
+  /// <summary>The Race object is used to get information about a particular race.</summary> For
+  /// example, the default worker and supply provider UnitType.
   ///
   /// As you should already know, Starcraft has three races: @Terran , @Protoss , and @Zerg .
-  /// @see UnitType::getRace, PlayerInterface::getRace
+  /// @see UnitType::getRace, PlayerInterface::getRace, Races
+  /// @ingroup TypeClasses
   class Race : public Type<Race, Races::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       Race(int id = Races::Enum::None);
 
-      /// Retrieves the default worker type for this Race.
+      /// <summary>Retrieves the default worker type for this Race.</summary>
       /// 
       /// @note In Starcraft, workers are the units that are used to construct structures.
       ///
       /// @returns UnitType of the worker that this race uses.
       UnitType getWorker() const;
 
-      /// Retrieves the default resource center UnitType that is used to create expansions for
-      /// this Race.
+      /// <summary>Retrieves the default resource center UnitType that is used to create expansions for
+      /// this Race.</summary>
       ///
       /// @note In Starcraft, the center is the very first structure of the Race's technology
       /// tree. Also known as its base of operations or resource depot.
@@ -54,8 +59,8 @@ namespace BWAPI
       /// @returns UnitType of the center that this race uses.
       UnitType getCenter() const;
 
-      /// Retrieves the default structure UnitType for this Race that is used to harvest gas from
-      /// @Geysers .
+      /// <summary>Retrieves the default structure UnitType for this Race that is used to harvest gas from
+      /// @Geysers.</summary>
       ///
       /// @note In Starcraft, you must first construct a structure over a @Geyser in order to
       /// begin harvesting Vespene Gas.
@@ -63,8 +68,8 @@ namespace BWAPI
       /// @returns UnitType of the structure used to harvest gas.
       UnitType getRefinery() const;
 
-      /// Retrieves the default transport UnitType for this race that is used to transport ground 
-      /// units across the map.
+      /// <summary>Retrieves the default transport UnitType for this race that is used to transport ground 
+      /// units across the map.</summary>
       ///
       /// @note In Starcraft, transports will allow you to carry ground units over unpassable
       /// terrain.
@@ -72,8 +77,8 @@ namespace BWAPI
       /// @returns UnitType for transportation.
       UnitType getTransport() const;
 
-      /// Retrieves the default supply provider UnitType for this race that is used to  construct
-      /// units.
+      /// <summary>Retrieves the default supply provider UnitType for this race that is used to  construct
+      /// units.</summary>
       ///
       /// @note In Starcraft, training, morphing, or warping in units requires that the player
       /// has sufficient supply available for their Race.
@@ -81,10 +86,11 @@ namespace BWAPI
       /// @returns UnitType that provides the player with supply.
       UnitType getSupplyProvider() const;
   };
-  /// Namespace containing all races
+
+  /// @ingroup Types
   namespace Races
   {
-    /// Retrieves the set of all races.
+    /// <summary>Retrieves the set of all valid races.</summary>
     ///
     /// @returns Race::set containing all the Race types.
     const Race::set& allRaces();

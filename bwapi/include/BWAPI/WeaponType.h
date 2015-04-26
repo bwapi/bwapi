@@ -8,12 +8,16 @@ namespace BWAPI
   class DamageType;
   class ExplosionType;
 
+  /// <summary>namespace containing weapon types.</summary>
+  /// @see WeaponType
   namespace WeaponTypes
   {
-    /// Enumeration of weapon types
+    /// <summary>Enumeration of weapon types.</summary>
+    /// @see WeaponType
     namespace Enum
     {
-      /// Enumeration of weapon types
+      /// <summary>Enumeration of weapon types.</summary>
+      /// @see WeaponType
       enum Enum
       {
         Gauss_Rifle = 0,
@@ -134,92 +138,192 @@ namespace BWAPI
       };
     }
   }
+  /// <summary>This object identifies a weapon type used by a unit to attack and deal damage.</summary>
+  /// Some weapon types can be upgraded while others are used for special abilities.
+  ///
+  /// @see WeaponTypes
+  /// @ingroup TypeClasses
   class WeaponType : public Type<WeaponType, WeaponTypes::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       WeaponType(int id = WeaponTypes::Enum::None);
 
-      /** Returns the tech type that must be researched before this weapon can be used, or TechTypes::None if
-       * no tech type is required. */
+      /// <summary>Retrieves the technology type that must be researched before this weapon can
+      /// be used.</summary>
+      ///
+      /// @returns TechType required by this weapon.
+      /// @retval TechTypes::None if no tech type is required to use this weapon.
+      /// @see TechType::getWeapon
       TechType getTech() const;
 
-      /** Returns the unit that can use this weapon. */
+      /// <summary>Retrieves the unit type that is intended to use this weapon type.</summary>
+      ///
+      /// @note There is a rare case where some hero unit types use the same weapon.
+      /// @todo specify which types use the same weapon
+      ///
+      /// @returns The UnitType that uses this weapon.
+      /// @see UnitType::groundWeapon, UnitType::airWeapon
       UnitType whatUses() const;
 
-      /** Returns the amount of damage that this weapon deals per attack. */
+      /// <summary>Retrieves the base amount of damage that this weapon can deal per attack.</summary>
+      /// 
+      /// @note That this damage amount must go through a DamageType and UnitSizeType filter
+      /// before it is applied to a unit.
+      ///
+      /// @returns Amount of base damage that this weapon deals.
       int damageAmount() const;
 
-      // TODO: add doc
+      /// <summary>Determines the bonus amount of damage that this weapon type increases by for every
+      /// upgrade to this type.</summary>
+      ///
+      /// @see upgradeType
+      /// @returns Amount of damage added for every weapon upgrade.
       int damageBonus() const;
 
-      /** Returns the amount of cooldown time between attacks. */
+      /// <summary>Retrieves the base amount of cooldown time between each attack, in frames.</summary>
+      ///
+      /// @returns The amount of base cooldown applied to the unit after an attack.
+      /// @see UnitInterface::getGroundWeaponCooldown, UnitInterface::getAirWeaponCooldown
       int damageCooldown() const;
 
-      /** Returns the amount that the damage increases per upgrade.
-       * \see WeaponType::upgradeType. */
+      /// <summary>Obtains the intended number of missiles/attacks that are used.</summary>
+      /// This is used to multiply with the damage amount to obtain the full amount of damage
+      /// for an attack.
+      ///
+      /// @returns The damage factor multiplied by the amount to obtain the total damage.
+      /// @see damageAmount
       int damageFactor() const;
 
-      /** Returns the upgrade type that can be upgraded to increase the attack damage. */
+      /// <summary>Retrieves the upgrade type that increases this weapon's damage output.</summary>
+      /// 
+      /// @returns The UpgradeType used to upgrade this weapon's damage.
+      /// @see damageBonus
       UpgradeType upgradeType() const;
 
-      /** Returns the type of damage that this weapon uses (i.e. concussive, normal, explosive, etc). */
+      /// <summary>Retrieves the damage type that this weapon applies to a unit type.</summary>
+      ///
+      /// @returns DamageType used for damage calculation.
+      /// @see DamageType, UnitSizeType
       DamageType damageType() const;
 
-      /** Returns the type of explosion that this weapon uses. */
+      /// <summary>Retrieves the explosion type that indicates how the weapon deals damage.</summary>
+      ///
+      /// @returns ExplosionType identifying how damage is applied to a target location.
       ExplosionType explosionType() const;
 
-      /** Returns the minimum attack range of the weapon, measured in pixels, 0 for most things except
-       * WeaponTypes::Arclite_Shock_Cannon (the weapon of the Terran Siege Tank in Siege Mode). */
+      /// <summary>Retrieves the minimum attack range of the weapon, measured in pixels.</summary>
+      /// This value is 0 for almost all weapon types, except for WeaponTypes::Arclite_Shock_Cannon
+      /// and WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke.
+      ///
+      /// @returns Minimum attack range, in pixels.
       int minRange() const;
 
-      /** Returns the maximum attack range of the weapon, measured in pixels. */
+      /// <summary>Retrieves the maximum attack range of the weapon, measured in pixels.</summary>
+      ///
+      /// @returns Maximum attack range, in pixels.
       int maxRange() const;
 
-      /** Inner radius used in splash damage calculations. */
+      /// <summary>Retrieves the inner radius used for splash damage calculations, in pixels.</summary>
+      /// 
+      /// @todo Add damage calculation.
+      /// @returns Radius of the inner splash area, in pixels.
       int innerSplashRadius() const;
 
-      /** Median radius used in splash damage calculations. */
+      /// <summary>Retrieves the middle radius used for splash damage calculations, in pixels.</summary>
+      /// 
+      /// @todo Add damage calculation.
+      /// @returns Radius of the middle splash area, in pixels.
       int medianSplashRadius() const;
 
-      /** Outer radius used in splash damage calculations. */
+      /// <summary>Retrieves the outer radius used for splash damage calculations, in pixels.</summary>
+      /// 
+      /// @todo Add damage calculation.
+      /// @returns Radius of the outer splash area, in pixels.
       int outerSplashRadius() const;
 
-      /** Returns true if this weapon can attack air units. */
+      /// <summary>Checks if this weapon type can target air units.</summary>
+      ///
+      /// @returns true if this weapon type can target air units, and false otherwise.
+      /// @see UnitInterface::isFlying, UnitType::isFlyer
       bool targetsAir() const;
 
-      // TODO: group these methods
-      /** Returns true if this weapon can attack ground units. */
+      /// <summary>Checks if this weapon type can target ground units.</summary>
+      ///
+      /// @returns true if this weapon type can target ground units, and false otherwise.
+      /// @see UnitInterface::isFlying, UnitType::isFlyer
       bool targetsGround() const;
+
+      /// <summary>Checks if this weapon type can only target mechanical units.</summary>
+      ///
+      /// @returns true if this weapon type can only target mechanical units, and false otherwise.
+      /// @see targetsOrgOrMech, UnitType::isMechanical
       bool targetsMechanical() const;
+      
+      /// <summary>Checks if this weapon type can only target organic units.</summary>
+      ///
+      /// @returns true if this weapon type can only target organic units, and false otherwise.
+      /// @see targetsOrgOrMech, UnitType::isOrganic
       bool targetsOrganic() const;
+      
+      /// <summary>Checks if this weapon type cannot target structures.</summary>
+      ///
+      /// @returns true if this weapon type cannot target buildings, and false if it can.
+      /// @see UnitType::isBuilding
       bool targetsNonBuilding() const;
+
+      /// <summary>Checks if this weapon type cannot target robotic units.</summary>
+      ///
+      /// @returns true if this weapon type cannot target robotic units, and false if it can.
+      /// @see UnitType::isRobotic
       bool targetsNonRobotic() const;
+
+      /// <summary>Checks if this weapon type can target the ground.</summary>
+      ///
+      /// @note This is more for attacks like @Psi_Storm which can target a location, not to be
+      /// confused with attack move.
+      ///
+      /// @returns true if this weapon type can target a location, and false otherwise.
       bool targetsTerrain() const;
+      
+      /// <summary>Checks if this weapon type can only target organic or mechanical units.</summary>
+      ///
+      /// @returns true if this weapon type can only target organic or mechanical units, and false otherwise.
+      /// @see targetsOrganic, targetsMechanical, UnitType::isOrganic, UnitType::isMechanical
       bool targetsOrgOrMech() const;
+
+      /// <summary>Checks if this weapon type can only target units owned by the same player.</summary>
+      /// This is used for WeaponTypes::Consume.
+      ///
+      /// @returns true if this weapon type can only target your own units, and false otherwise.
+      /// @see UnitInterface::getPlayer
       bool targetsOwn() const;
   };
-  /// namespace containing weapon types
+
+  /// @ingroup Types
   namespace WeaponTypes
   {
-    /// Retrieves the set of all weapon types. This is a union between the normalWeaponTypes and
-    /// specialWeaponTypes.
+    /// <summary>Retrieves the set of all defined weapon types.</summary> This is a union between
+    /// the normal and special weapon types.
     ///
-    /// @returns set consisting of all weapon types.
+    /// @returns set consisting of all defined weapon types.
+    /// @see normalWeaponTypes, specialWeaponTypes
     const WeaponType::set& allWeaponTypes();
 
-    /// Retrieves the set of all normal weapon types. This set contains all weapons that are
-    /// not used for abilities.
+    /// <summary>Retrieves the set of all defined normal weapon types.</summary> This set contains
+    /// all weapons that are not used for abilities.
     ///
     /// @returns constant set consisting of all normal weapon types.
     const WeaponType::set& normalWeaponTypes();
 
-    /// Retrieves the set of all special weapon types. This set contains all weapons that are
-    /// used exclusively for special unit abilities.
+    /// <summary>Retrieves the set of all special weapon types.</summary> This set contains all
+    /// weapons that are used exclusively for special unit abilities.
     ///
     /// @returns constant set consisting of all special weapon types.
     const WeaponType::set& specialWeaponTypes();
 
+    /// @name Normal Weapons
+    ///@{
     extern const WeaponType Gauss_Rifle;
     extern const WeaponType Gauss_Rifle_Jim_Raynor;
     extern const WeaponType C_10_Canister_Rifle;
@@ -301,7 +405,10 @@ namespace BWAPI
     extern const WeaponType Hellfire_Missile_Pack_Wall_Trap;
     extern const WeaponType Flame_Thrower_Wall_Trap;
     extern const WeaponType Hellfire_Missile_Pack_Floor_Trap;
+    ///@}
 
+    /// @name Special Weapons
+    ///@{
     extern const WeaponType Yamato_Gun;
     extern const WeaponType Nuclear_Strike;
     extern const WeaponType Lockdown;
@@ -321,6 +428,7 @@ namespace BWAPI
     extern const WeaponType Feedback;
     extern const WeaponType Optical_Flare;
     extern const WeaponType Maelstrom;
+    ///@}
 
     extern const WeaponType None;
     extern const WeaponType Unknown;

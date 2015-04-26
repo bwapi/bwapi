@@ -39,9 +39,11 @@ namespace BWAPI
   class Unitset;
   class UpgradeType;
 
-  /// The abstract Game class is implemented by BWAPI and is the primary means of obtaining all
-  /// game state information from Starcraft Broodwar. Game state information includes all units,
+  /// <summary>The abstract Game class is implemented by BWAPI and is the primary means of obtaining all
+  /// game state information from Starcraft Broodwar.</summary> Game state information includes all units,
   /// resources, players, forces, bullets, terrain, fog of war, regions, etc.
+  ///
+  /// @ingroup Interface
   class Game : public Interface<Game>
   {
   protected:
@@ -891,6 +893,9 @@ namespace BWAPI
     /// @returns Playerset containing all currently active observer players
     virtual Playerset& observers() = 0;
 
+    /// @name Debugging Members
+    /// @{
+
     /// Sets the size of the text for all calls to drawText following this one.
     ///
     /// @param size (optional)
@@ -1120,6 +1125,8 @@ namespace BWAPI
     void drawLineScreen(int x1, int y1, int x2, int y2, Color color);
     /// @overload
     void drawLineScreen(Position a, Position b, Color color);
+
+    /// @}
 
     /// Retrieves the maximum delay, in number of frames, between a command being issued and the
     /// command being executed by Broodwar.

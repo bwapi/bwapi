@@ -76,7 +76,7 @@ body, table, div, p, dl {
   background-color: #0a0;
   overflow: hidden;
   white-space: nowrap;
-  position: absolute;
+  position: fixed;
   right: -70px;
   top: 10px;
   -webkit-transform: rotate(22deg);

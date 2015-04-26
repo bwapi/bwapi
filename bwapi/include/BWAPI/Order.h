@@ -3,12 +3,16 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing unit orders.</summary>
+  /// @see Order
   namespace Orders
   {
-    /// Enumeration of unit orders
+    /// <summary>Enumeration of unit orders.</summary>
+    /// @see Order
     namespace Enum
     {
-      /// Enumeration of unit orders
+      /// <summary>Enumeration of unit orders.</summary>
+      /// @see Order
       enum Enum
       {
         Die,
@@ -206,22 +210,24 @@ namespace BWAPI
       };
     }
   }
-  /// An Order (Order type) represents a Unit's current action and can be retrieved with
-  /// UnitInterface::getOrder. It can also be used to identify the current state of the unit during
-  /// command execution (gathering minerals can consist of Orders::MoveToMinerals,
+  /// <summary>An Order (Order type) represents a Unit's current action and can be retrieved with
+  /// UnitInterface::getOrder.</summary> It can also be used to identify the current state of the
+  /// unit during command execution (gathering minerals can consist of Orders::MoveToMinerals,
   /// Orders::WaitForMinerals, Orders::MiningMinerals, etc.).
   ///
-  /// @see UnitInterface::getOrder
+  /// @see UnitInterface::getOrder, Orders
+  /// @ingroup TypeClasses
   class Order : public Type<Order, Orders::Enum::Unknown>
   {
     public:
       /// @copydoc Type::Type(int)
       Order(int id = Orders::Enum::None);
   };
-  /// Namespace containing unit orders
+
+  /// @ingroup Types
   namespace Orders
   {
-    /// Retrieves the set of all the Orders.
+    /// <summary>Retrieves the set of all defined game orders.</summary>
     ///
     /// @returns Set of all Order types.
     const Order::set& allOrders();

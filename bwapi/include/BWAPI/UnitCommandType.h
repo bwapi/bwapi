@@ -3,12 +3,16 @@
 
 namespace BWAPI
 {
+  /// <summary>Namespace containing unit command types.</summary>
+  /// @see UnitCommandType
   namespace UnitCommandTypes
   {
-    /// Enumeration of unit command types
+    /// <summary>Enumeration of valid unit command types.</summary>
+    /// @see UnitCommandType
     namespace Enum
     {
-      /// Enumeration of unit command types
+      /// <summary>Enumeration of valid unit command types.</summary>
+      /// @see UnitCommandType
       enum Enum
       {
         Attack_Move = 0,
@@ -61,16 +65,23 @@ namespace BWAPI
       };
     };
   };
+  /// <summary>A representation of a unit command in BWAPI.</summary> This is used by bots to
+  /// notify BWAPI which commands to use. BWAPI filters commands accordingly and then converts
+  /// them to Broodwar commands, which differ in complexity.
+  ///
+  /// @see UnitCommandTypes
+  /// @ingroup TypeClasses
   class UnitCommandType : public Type<UnitCommandType, UnitCommandTypes::Enum::Unknown>
   {
   public:
     /// @copydoc Type::Type(int)
     UnitCommandType(int id = UnitCommandTypes::Enum::None);
   };
-  /// Namespace containing unit command types
+
+  /// @ingroup Types
   namespace UnitCommandTypes
   {
-    /// Retrieves the set of all UnitCommandTypes.
+    /// <summary>Retrieves the set of all valid UnitCommandTypes.</summary>
     ///
     /// @returns Set of UnitCommandTypes.
     const UnitCommandType::set& allUnitCommandTypes();

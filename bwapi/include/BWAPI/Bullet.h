@@ -11,7 +11,7 @@ namespace BWAPI
   class BulletInterface;
   typedef BulletInterface *Bullet;
 
-  /// An interface object representing a bullet or missile spawned from an attack.
+  /// <summary>An interface object representing a bullet or missile spawned from an attack.</summary>
   ///
   /// The Bullet interface allows you to detect bullets, missiles, and other types
   /// of non-melee attacks or special abilities that would normally be visible through
@@ -30,18 +30,19 @@ namespace BWAPI
   /// it is visible. Otherwise if Flag::CompleteMapInformation is enabled, then all Bullets
   /// in the game are accessible.
   /// @see Game::getBullets, BulletInterface::exists
+  /// @ingroup Interface
   class BulletInterface : public Interface<BulletInterface>
   {
   protected:
     virtual ~BulletInterface() {};
   public:
-    /// Retrieves a unique identifier for the current Bullet.
+    /// <summary>Retrieves a unique identifier for the current Bullet.</summary>
     ///
     /// @returns
     ///   An integer value containing the identifier.
     virtual int getID() const = 0;
     
-    /// Checks if the Bullet exists in the view of the BWAPI player.
+    /// <summary>Checks if the Bullet exists in the view of the BWAPI player.</summary>
     ///
     /// @retval true If the bullet exists or is visible.
     /// @retval false If the bullet was destroyed or has gone out of scope.
@@ -55,7 +56,7 @@ namespace BWAPI
     /// @see isVisible, UnitInterface::exists
     virtual bool exists() const = 0;
 
-    /// Retrieves the Player interface that owns the Bullet.
+    /// <summary>Retrieves the Player interface that owns the Bullet.</summary>
     ///
     /// @retval nullptr If the Player object for this Bullet is inaccessible.
     ///
@@ -63,7 +64,7 @@ namespace BWAPI
     ///   The owning Player interface object.
     virtual Player getPlayer() const = 0;
 
-    /// Retrieves the type of this Bullet.
+    /// <summary>Retrieves the type of this Bullet.</summary>
     ///
     /// @retval BulletTypes::Unknown if the Bullet is inaccessible.
     ///
@@ -71,7 +72,7 @@ namespace BWAPI
     ///   A BulletType representing the Bullet's type.
     virtual BulletType getType() const = 0;
 
-    /// Retrieves the Unit interface that the Bullet spawned from.
+    /// <summary>Retrieves the Unit interface that the Bullet spawned from.</summary>
     ///
     /// @retval nullptr If the source can not be identified or is inaccessible.
     ///
@@ -80,7 +81,7 @@ namespace BWAPI
     /// @see getTarget
     virtual Unit getSource() const = 0;
 
-    /// Retrieves the Bullet's current position.
+    /// <summary>Retrieves the Bullet's current position.</summary>
     ///
     /// @retval Positions::Unknown If the Bullet is inaccessible.
     ///
@@ -89,8 +90,8 @@ namespace BWAPI
     /// @see getTargetPosition
     virtual Position getPosition() const = 0;
 
-    /// Retrieve's the direction the Bullet is facing. If the angle is 0, then the Bullet is
-    /// facing right.
+    /// <summary>Retrieve's the direction the Bullet is facing.</summary> If the angle is 0, then
+    /// the Bullet is facing right.
     /// 
     /// @retval 0.0 If the bullet is inaccessible.
     ///
@@ -98,7 +99,7 @@ namespace BWAPI
     ///   A double representing the direction the Bullet is facing.
     virtual double getAngle() const = 0;
 
-    /// Retrieves the X component of the Bullet's velocity, measured in pixels per frame.
+    /// <summary>Retrieves the X component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
     /// @retval 0.0 if the Bullet is inaccessible.
     ///
@@ -108,7 +109,7 @@ namespace BWAPI
     /// @see getVelocityY, getAngle
     virtual double getVelocityX() const = 0;
 
-    /// Retrieves the Y component of the Bullet's velocity, measured in pixels per frame.
+    /// <summary>Retrieves the Y component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
     /// @retval 0.0 if the Bullet is inaccessible.
     ///
@@ -118,7 +119,7 @@ namespace BWAPI
     /// @see getVelocityX, getAngle
     virtual double getVelocityY() const = 0;
 
-    /// Retrieves the Unit interface that the Bullet is heading to.
+    /// <summary>Retrieves the Unit interface that the Bullet is heading to.</summary>
     ///
     /// @retval nullptr If the Bullet's target Unit is inaccessible, the Bullet is targetting the
     /// ground, or if the Bullet itself is inaccessible.
@@ -128,7 +129,7 @@ namespace BWAPI
     /// @see getTargetPosition, getSource
     virtual Unit getTarget() const = 0;
 
-    /// Retrieves the target position that the Bullet is heading to.
+    /// <summary>Retrieves the target position that the Bullet is heading to.</summary>
     ///
     /// @retval Positions::Unknown If the bullet is inaccessible.
     ///
@@ -137,7 +138,7 @@ namespace BWAPI
     /// @see getTarget, getPosition
     virtual Position getTargetPosition() const = 0;
 
-    /// Retrieves the timer that indicates the Bullet's life span.
+    /// <summary>Retrieves the timer that indicates the Bullet's life span.</summary>
     ///
     /// Bullets are not permanent objects, so they will often have a limited life span.
     /// This life span is measured in frames. Normally a Bullet will reach its target
@@ -149,12 +150,13 @@ namespace BWAPI
     ///   An integer representing the remaining number of frames until the Bullet self-destructs.
     virtual int getRemoveTimer() const = 0;
 
-    /// Retrieves the visibility state of the Bullet.
+    /// <summary>Retrieves the visibility state of the Bullet.</summary>
     ///
-    /// @param player (optional)
+    /// <param name="player"> (optional)
     ///   If this parameter is specified, then the Bullet's visibility to the given player is
     ///   checked. If this parameter is omitted, then a default value of nullptr is used, which
     ///   will check if the BWAPI player has vision of the Bullet.
+    /// </param>
     ///
     /// @note If \c player is nullptr and Broodwar->self() is also nullptr, then the visibility of
     /// the Bullet is determined by checking if at least one other player has vision of the

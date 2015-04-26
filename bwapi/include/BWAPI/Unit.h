@@ -26,13 +26,14 @@ namespace BWAPI
   class UnitInterface;
   typedef UnitInterface *Unit;
   
-  /// The Unit class is used to get information about individual units as well as issue orders to units. Each
-  /// unit in the game has a unique Unit object, and Unit objects are not deleted until the end of the match
-  /// (so you don't need to worry about unit pointers becoming invalid).
+  /// <summary>The Unit class is used to get information about individual units as well as issue
+  /// orders to units.</summary> Each unit in the game has a unique Unit object, and Unit objects
+  /// are not deleted until the end of the match (so you don't need to worry about unit pointers
+  /// becoming invalid).
   ///
-  /// Every Unit in the game is either accessible or inaccessible. To determine if an AI can access a
-  /// particular unit, BWAPI checks to see if Flag::CompleteMapInformation is enabled. So there are two cases
-  /// to consider - either the flag is enabled, or it is disabled:
+  /// Every Unit in the game is either accessible or inaccessible. To determine if an AI can access
+  /// a particular unit, BWAPI checks to see if Flag::CompleteMapInformation is enabled. So there
+  /// are two cases to consider - either the flag is enabled, or it is disabled:
   ///
   /// If Flag::CompleteMapInformation is disabled, then a unit is accessible if and only if it is visible.
   /// @note Some properties of visible enemy units will not be made available to the AI (such as the
@@ -49,6 +50,8 @@ namespace BWAPI
   /// If a Unit is not accessible, then only the getInitial__ functions will be available to the AI.
   /// However for units that were owned by the player, getPlayer and getType will continue to work for units
   /// that have been destroyed.
+  ///
+  /// @ingroup Interface
   class UnitInterface : public Interface<UnitInterface>
   {
   protected:
@@ -1123,6 +1126,9 @@ namespace BWAPI
     /// @see Game::getLastError, UnitInterface::canTargetUnit
     virtual bool isTargetable() const = 0;
 
+    /// @name Unit Commands
+    /// @{
+
     /// This function issues a command to the unit(s), however it is used for interfacing only,
     /// and is recommended to use one of the more specific command functions when writing an AI.
     ///
@@ -1407,6 +1413,10 @@ namespace BWAPI
     ///
     /// @see canPlaceCOP
     bool placeCOP(TilePosition target);
+
+    /// @}
+    /// @name Command Verifiers
+    /// @{
 
     /// Checks whether the unit is able to execute the given command. If you are calling this
     /// function repeatedly (e.g. to generate a collection of valid commands), you can avoid
@@ -2016,5 +2026,7 @@ namespace BWAPI
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::placeCOP
     virtual bool canPlaceCOP(TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+
+    ///@}
   };
 }

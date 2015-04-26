@@ -368,6 +368,17 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "geyser=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
                          "Stim_Packs=@ref BWAPI::TechTypes::Stim_Packs \"Stim Packs\"" \
                          "Stasis=@ref BWAPI::TechTypes::Stasis_Field \"Stasis Field\"" \
+                         "Egg=@ref BWAPI::UnitTypes::Zerg_Egg \"Egg\"" \
+                         "Probe=@ref BWAPI::UnitTypes::Protoss_Probe \"Probe\"" \
+                         "Wraiths=@ref BWAPI::UnitTypes::Terran_Wraith \"Wraiths\"" \
+                         "Ghosts=@ref BWAPI::UnitTypes::Terran_Ghost \"Ghosts\"" \
+                         "Mineral_Fields=@ref BWAPI::UnitTypes::Resource_Mineral_Field \"Mineral Fields\"" \
+                         "Vespene_Geysers=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
+                         "Comsat_Station=@ref BWAPI::UnitTypes::Terran_Comsat_Station \"Comsat Station\"" \
+                         "Civilian=@ref BWAPI::UnitTypes::Terran_Civilian \"Civilian\"" \
+                         "Dark_Templar_Hero=@ref BWAPI::UnitTypes::Hero_Dark_Templar \"Dark Templar Hero\"" \
+                         "Capture_the_flag=@ref BWAPI::GameTypes::Capture_The_Flag \"Capture the Flag\"" \
+                         "abilities=@ref BWAPI::TechTypes \"abilities\"" \
                          "liquipedia{1}=[View on Liquipedia](http://wiki.teamliquid.net/starcraft/\1)<br>" \
                          "senwiki{1}=[View on Staredit Network](http://www.staredit.net/starcraft/\1)<br>" \
                          "sccofficial{1}=[View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/\1.shtml)<br>" \

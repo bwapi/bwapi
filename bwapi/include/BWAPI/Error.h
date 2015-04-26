@@ -6,12 +6,16 @@ namespace BWAPI
 {
   class UnitType;
 
+  /// <summary>Namespace containing error codes</summary>
+  /// @see Error
   namespace Errors
   {
-    /// Enumeration of Error types
+    /// <summary>Enumeration of Error types.</summary>
+    /// @see Error
     namespace Enum
     {
-      /// Enumeration of Error types
+      /// <summary>Enumeration of Error types.</summary>
+      /// @see Error
       enum Enum
       {
         Unit_Does_Not_Exist,
@@ -47,10 +51,12 @@ namespace BWAPI
     };
   };
   
-  /// The Error object is generally used to determine why certain functions in BWAPI have failed.
+  /// <summary>The Error object is generally used to determine why certain functions in BWAPI
+  /// have failed.</summary>
   ///
   /// For example, you may not have enough resources to construct a unit.
-  /// @see Game::getLastError, Game::setLastError
+  /// @see Game::getLastError, Game::setLastError, Errors
+  /// @ingroup TypeClasses
   class Error : public Type<Error, Errors::Enum::Unknown>
   {
   public:
@@ -58,14 +64,14 @@ namespace BWAPI
     Error(int id = Errors::Enum::None);
   };
 
-  /// Namespace containing error codes
+  /// @ingroup Types
   namespace Errors
   {
-    /// Retrieves the set of all the error codes.
+    /// <summary>Retrieves the set of all the error codes.</summary>
     ///
     /// @returns Set of error types.
     const Error::set& allErrors();
-
+    
     extern const Error Unit_Does_Not_Exist;
     extern const Error Unit_Not_Visible;
     extern const Error Unit_Not_Owned;
