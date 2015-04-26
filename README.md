@@ -31,13 +31,11 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 
 
 ## Getting Started {#getting-started}
- - If you are willing to develop a bot of your own (in C++), please use the "master" branch. Compiling BWAPI and the Example bots can be done according to the instructions in the README: https://github.com/bwapi/bwapi/blob/master/Release_Binary/README
- - If you would like to develop in Java, please follow this tutorial: http://sscaitournament.com/index.php?action=tutorial
- - If your intentions are just to play against some of the bots, this tutorial is going to help out: http://www.broodwarai.com/forums/viewtopic.php?f=9&t=1337
-
+ - Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases).
+ - If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
+ - Want to help improve BWAPI? Fork the [`develop` branch](https://github.com/bwapi/bwapi/tree/develop).
 
 ## Important Links & Contact Information {#contact}
-* **Project Page:**          http://bwapi.github.io/
 * **Documentation:**         http://bwapi.github.io/
 * **Repository:**            https://github.com/bwapi/bwapi
 * **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
@@ -62,9 +60,10 @@ You may experience issues when working with BWAPI. Here are some steps you may w
 3. Check the Issue Tracker to see if your issue has already been reported.
 4. Submit an issue to the Issue Tracker. Some pieces of information to consider submitting are
   * Log files
+  * Screenshots
   * Version or revision number
   * Operating System
-  * Steps to reproduce the problem
+  * **Steps to reproduce the problem**
 
 [Go to the Issue tracker](https://github.com/bwapi/bwapi/issues)
 
