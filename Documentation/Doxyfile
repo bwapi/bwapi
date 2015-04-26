@@ -2036,7 +2036,8 @@ EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        = BWAPI::Point< _T, 0 > \
                          BWAPI::Point< bool, __Scale > \
                          BWAPI::Point< char, __Scale > \
-                         BWAPI::Point< unsigned char, __Scale >
+                         BWAPI::Point< unsigned char, __Scale > \
+                         __*
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
