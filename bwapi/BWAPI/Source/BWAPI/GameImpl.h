@@ -273,6 +273,7 @@ namespace BWAPI
     public:
       int seedOverride = std::numeric_limits<int>::max();
       int speedOverride = std::numeric_limits<int>::min();
+      bool wantDropPlayers = true;
 
       bool wantSelectionUpdate;
       bool startedClient;

@@ -428,7 +428,7 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   if ( timeout )
   {
     BW::dialog *dropbtn = timeout->findIndex(2);
-    if ( !dropbtn->isDisabled() )
+    if ( !dropbtn->isDisabled() && BWAPI::BroodwarImpl.wantDropPlayers )
       BWAPI::BroodwarImpl.dropPlayers();
   }
 
