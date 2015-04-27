@@ -470,27 +470,29 @@ void GameImpl::initializeAIModule()
     // declare/assign variables
     hAIModule         = nullptr;
 
-    std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL");
-    std::stringstream aiList(aicfg);
-
-    // Get DLL name
-    std::string dll = aicfg.substr(0, aicfg.find_first_of(','));
-
-    // Skip to current intended instance
-    for ( int i = 1; i < (int)gdwProcNum && aiList; ++i )
-      std::getline(aiList, dll, ',');
-
-    // Trim leading and trailing spaces
-    while ( isspace(dll.front()) )
-      dll.erase(0);
-    while ( isspace(dll.back())  )
-      dll.pop_back();
-
-    // Check if string was loaded
-    if ( aicfg == "_NULL" )
+    std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL"), dll;
+    if (aicfg == "_NULL")
+    {
       BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", configPath.c_str());
-    else  // Load DLL
+    }
+    else
+    {
+      std::stringstream aiList(aicfg);
+
+      // Get DLL name
+      dll = aicfg.substr(0, aicfg.find_first_of(','));
+
+      // Skip to current intended instance
+      for (int i = 0; i < (int)gdwProcNum && aiList; ++i)
+        std::getline(aiList, dll, ',');
+
+      // Trim leading and trailing spaces, and extra quotations
+      auto trimBegin = dll.find_first_not_of(" \"");
+      auto trimEnd = dll.find_last_not_of(" \"") + 1;
+      dll = dll.substr(trimBegin, trimEnd - trimBegin);
+
       hAIModule = LoadLibraryA(dll.c_str());
+    }
 
     if ( !hAIModule )
     {

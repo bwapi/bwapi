@@ -50,9 +50,13 @@ void DevAIModule::onFrame()
   {
     for (auto u : bw->getAllUnits())
     {
-      if (u->isStartingAttack())
+      if (u->getType() != UnitTypes::Terran_Goliath) continue;
+      Unit targ = u->getOrderTarget();
+      if (!targ) continue;
+
+      if (targ->getID() == -1)
       {
-        Broodwar << "o hey " << u->getType() << std::endl;
+        Broodwar << "Whoops! " << targ->getType() << " - " << targ->getPlayer()->getName() << std::endl;
       }
     }
   }
