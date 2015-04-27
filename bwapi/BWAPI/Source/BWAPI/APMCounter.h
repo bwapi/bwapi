@@ -4,7 +4,6 @@
 namespace BWAPI
 {
   // Keeps track of Actions Per Minute (APM).
-  // TODO consider tracking APM in game time instead of real time?
   class APMCounter
   {
   public:

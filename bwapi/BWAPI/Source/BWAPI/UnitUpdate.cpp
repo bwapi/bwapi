@@ -139,7 +139,7 @@ namespace BWAPI
       //_getPosition
       _getPosition = BWAPI::Position(_getTransport ? static_cast<UnitImpl*>(_getTransport)->getOriginalRawData->position : o->position);
 
-      _getHitPoints = (int)ceil(o->hitPoints / 256.0); //_getHitPoints
+      _getHitPoints = (int)std::ceil(o->hitPoints / 256.0); //_getHitPoints
       //------------------------------------------------------------------------------------------------------
       //_getResources
       _getResources = 0;
@@ -189,32 +189,27 @@ namespace BWAPI
       self->velocityX = (double)o->current_speed.x / 256.0; //getVelocityX
       self->velocityY = (double)o->current_speed.y / 256.0; //getVelocityY
       //------------------------------------------------------------------------------------------------------
-      //getGroundWeaponCooldown
-      if ( _getType == UnitTypes::Protoss_Reaver || _getType == UnitTypes::Hero_Warbringer )
-        self->groundWeaponCooldown = o->mainOrderTimer;
-      else if ( o->subUnit )
-        self->groundWeaponCooldown = o->subUnit->groundWeaponCooldown;
-      else
-        self->groundWeaponCooldown = o->groundWeaponCooldown;
-
-      self->airWeaponCooldown = o->getDamageDealer()->airWeaponCooldown; //getAirWeaponCooldown
+      self->groundWeaponCooldown = o->getGroundWeaponCooldown(); //getGroundWeaponCooldown
+      self->airWeaponCooldown = o->getAirWeaponCooldown(); //getAirWeaponCooldown
       self->spellCooldown = o->spellCooldown;  //getSpellCooldown
 
-      // Check if unit is attacking
-      BW::Anims::Enum animState = BW::Anims::Init;
-      const BW::CUnit* damageDealer = o->getDamageDealer();
-      if (damageDealer->sprite && damageDealer->sprite->pImagePrimary)
-        animState = damageDealer->sprite->pImagePrimary->anim;
-      self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
-                           animState == BW::Anims::AirAttkRpt  || 
-                           animState == BW::Anims::GndAttkInit ||
-                           animState == BW::Anims::AirAttkInit) && o->orderTarget.pUnit != nullptr;
+      self->isAttacking = o->isAttacking();
       
+      // startingAttack
+      int airWeaponCooldown = o->getAirWeaponCooldown();
+      int groundWeaponCooldown = o->getGroundWeaponCooldown();
+      bool startingAttack = (airWeaponCooldown > lastAirWeaponCooldown || groundWeaponCooldown > lastGroundWeaponCooldown) && o->isAttacking();
+      lastAirWeaponCooldown = airWeaponCooldown;
+      lastGroundWeaponCooldown = groundWeaponCooldown;
+
+      self->isStartingAttack = startingAttack;  //isStartingAttack
+
       //isAttackFrame
       self->isAttackFrame = false;
+      const BW::CUnit* damageDealer = o->getDamageDealer();
       if (damageDealer->sprite && damageDealer->sprite->pImagePrimary)
       { 
-        int restFrame = (_getType >= 0 && _getType < UnitTypes::Enum::MAX) ? AttackAnimationRestFrame[_getType] : -1;
+        int restFrame = _getType.isValid() ? AttackAnimationRestFrame[_getType] : -1;
         self->isAttackFrame = startingAttack || 
                              (self->isAttacking && 
                               restFrame != -1 && 
@@ -228,7 +223,6 @@ namespace BWAPI
       self->isCompleted = _isCompleted; //isCompleted
       self->isMoving    = o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
                           self->order == Orders::Move; //isMoving
-      self->isStartingAttack = startingAttack;  //isStartingAttack
     }
     else
     {
@@ -251,8 +245,8 @@ namespace BWAPI
     {
       self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
       self->hitPoints           = _getHitPoints;  //getHitPoints
-      self->shields             = _getType.maxShields() > 0 ? (int)ceil(o->shieldPoints/256.0) : 0;  //getShields
-      self->energy              = _getType.isSpellcaster()  ? (int)ceil(o->energy/256.0)       : 0;  //getEnergy
+      self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
+      self->energy              = _getType.isSpellcaster()  ? (int)std::ceil(o->energy/256.0)       : 0;  //getEnergy
       self->resources           = _getResources;                        //getResources
       self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount

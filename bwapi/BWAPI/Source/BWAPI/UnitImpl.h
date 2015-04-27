@@ -295,7 +295,6 @@ namespace BWAPI
       bool wasCompleted = false;
       bool wasAccessible = false;
       bool wasVisible = false;
-      bool startingAttack = false;
       
       Unitset connectedUnits;
       Unitset loadedUnits;

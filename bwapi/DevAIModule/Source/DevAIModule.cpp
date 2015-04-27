@@ -46,15 +46,15 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
-  bw->drawTextScreen(Positions::Origin, "APM Selects: %d\nAPM No Selects: %d", bw->getAPM(true), bw->getAPM(false));
-
   if ( bw->self() )
   {
     for (auto u : bw->getAllUnits())
     {
-      bw->drawTextMap(u->getPosition(), "%c%d vs %d", Text::Teal, u->getID(), u->getReplayID());
+      if (u->isStartingAttack())
+      {
+        Broodwar << "o hey " << u->getType() << std::endl;
+      }
     }
-    bw->getUnitsInRadius(Positions::Origin, 999999999, Filter::IsOwned && Filter::IsFlyingBuilding).lift();
   }
 }
 

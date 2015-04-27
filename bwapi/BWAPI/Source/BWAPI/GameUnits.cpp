@@ -224,22 +224,12 @@ namespace BWAPI
       UnitImpl *u = static_cast<UnitImpl*>(ui);
       u->connectedUnits.clear();
       u->loadedUnits.clear();
-      int airWeaponCooldown = u->getOriginalRawData->airWeaponCooldown;
-      if ( u->getOriginalRawData->subUnit )
-        airWeaponCooldown = u->getOriginalRawData->subUnit->airWeaponCooldown;
-      int groundWeaponCooldown = u->getOriginalRawData->groundWeaponCooldown;
-      if ( u->getOriginalRawData->subUnit )
-        groundWeaponCooldown = u->getOriginalRawData->subUnit->groundWeaponCooldown;
-      if ( u->getOriginalRawData->unitType == UnitTypes::Protoss_Reaver || u->getOriginalRawData->unitType == UnitTypes::Hero_Warbringer )
-        groundWeaponCooldown = u->getOriginalRawData->mainOrderTimer;
 
-      u->startingAttack           = airWeaponCooldown > u->lastAirWeaponCooldown || groundWeaponCooldown > u->lastGroundWeaponCooldown;
-      u->lastAirWeaponCooldown    = airWeaponCooldown;
-      u->lastGroundWeaponCooldown = groundWeaponCooldown;
       if (u->getID() == -1)
         u->setID(server.getUnitID(u));
-      if (u->canAccess())
-        u->updateData();
+
+      u->updateData();
+
       if ( u->getOriginalRawData->unitType == UnitTypes::Terran_Ghost)
       {
         if (u->getOriginalRawData->orderID == Orders::NukePaint)

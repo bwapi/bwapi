@@ -35,6 +35,10 @@ namespace BW
 
     const CUnit* getDamageDealer() const;
 
+    bool isAttacking() const;
+    int getGroundWeaponCooldown() const;
+    int getAirWeaponCooldown() const;
+
 // v-- POSSIBLE SHARED BULLET/UNIT STRUCTURE BEGIN
     // CLink<CUnit> link;
     /*0x000*/ BW::CUnit*    prev;
