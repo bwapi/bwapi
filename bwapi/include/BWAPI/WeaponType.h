@@ -7,6 +7,7 @@ namespace BWAPI
   class UpgradeType;
   class DamageType;
   class ExplosionType;
+  class UnitType;
 
   namespace WeaponTypes
   {
