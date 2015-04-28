@@ -25,7 +25,7 @@ namespace BWAPI
 
   namespace Filter
   {
-    /// <summary>A unary filter that checks if the unit type is a transport (has capacity).</summary>
+    /// <summary>A unary filter that checks if the unit type is a transport.</summary>
     extern const PtrUnitFilter IsTransport;
 
     /// @see BWAPI::UnitType::canProduce
