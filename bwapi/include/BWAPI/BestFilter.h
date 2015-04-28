@@ -4,8 +4,8 @@
 
 namespace BWAPI
 {
-  /// The BestFilter is used to compare two objects with each other. Each function object compares
-  /// two of the same object and returns the most desirable one.
+  /// <summary>The BestFilter is used to compare two objects with each other.</summary> Each
+  /// function object compares two of the same object and returns the most desirable one.
   ///
   /// @note: A function object should return one of the two given parameters, never nullptr. Both
   /// parameters being given should never be nullptr.

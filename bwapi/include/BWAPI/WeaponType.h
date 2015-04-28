@@ -160,6 +160,7 @@ namespace BWAPI
       /// <summary>Retrieves the unit type that is intended to use this weapon type.</summary>
       ///
       /// @note There is a rare case where some hero unit types use the same weapon.
+      ///
       /// @todo specify which types use the same weapon
       ///
       /// @returns The UnitType that uses this weapon.
@@ -226,20 +227,23 @@ namespace BWAPI
 
       /// <summary>Retrieves the inner radius used for splash damage calculations, in pixels.</summary>
       /// 
-      /// @todo Add damage calculation.
       /// @returns Radius of the inner splash area, in pixels.
+      ///
+      /// @todo Add damage calculation.
       int innerSplashRadius() const;
 
       /// <summary>Retrieves the middle radius used for splash damage calculations, in pixels.</summary>
       /// 
-      /// @todo Add damage calculation.
       /// @returns Radius of the middle splash area, in pixels.
+      ///
+      /// @todo Add damage calculation.
       int medianSplashRadius() const;
 
       /// <summary>Retrieves the outer radius used for splash damage calculations, in pixels.</summary>
       /// 
-      /// @todo Add damage calculation.
       /// @returns Radius of the outer splash area, in pixels.
+      ///
+      /// @todo Add damage calculation.
       int outerSplashRadius() const;
 
       /// <summary>Checks if this weapon type can target air units.</summary>

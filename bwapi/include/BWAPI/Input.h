@@ -1,6 +1,8 @@
 #pragma once
 namespace BWAPI
 {
+  /// <summary>An enumeration of mouse button inputs.</summary>
+  /// @see Game::getMouseState
   enum MouseButton
   {
     M_LEFT = 0,
@@ -9,6 +11,8 @@ namespace BWAPI
     M_MAX,
   };
 
+  /// <summary>An enumeration of keyboard input values.</summary>
+  /// @see Game::getKeyState
   enum Key
   {
     K_LBUTTON = 0x01,

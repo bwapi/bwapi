@@ -7,8 +7,8 @@ namespace BWAPI
   template <class T, class HashT>
   using SetContainerUnderlyingT = std::unordered_set < T, HashT >;
 
-  /// This container is used to wrap convenience functions for BWAPI and be used as a bridge with
-  /// a built-in set type.
+  /// <summary>This container is used to wrap convenience functions for BWAPI and be used as a
+  /// bridge with a built-in set type.</summary>
   ///
   /// @tparam T
   ///     Type that this set contains.
@@ -26,10 +26,12 @@ namespace BWAPI
     template <class IterT>
     SetContainer(IterT _begin, IterT _end) : SetContainerUnderlyingT<T, HashT>(_begin, _end) {}
     
-    /// Iterates the set and erases each element x where pred(x) returns true.
+    /// <summary>Iterates the set and erases each element x where pred(x) returns true.</summary>
     ///
-    /// @param pred
+    /// <param name="pred">
     ///     Predicate for removing elements.
+    /// </param>
+    /// @see std::erase_if
     template<class Pred>
     void erase_if(const Pred& pred) {
       auto it = this->begin();
@@ -39,10 +41,11 @@ namespace BWAPI
       }
     };
 
-    /// Checks if this set contains a specific value.
+    /// <summary>Checks if this set contains a specific value.</summary>
     ///
-    /// @param value
+    /// <param name="value">
     ///     Value to search for.
+    /// </param>
     bool contains(T const &value) const
     {
       return count(value) != 0;

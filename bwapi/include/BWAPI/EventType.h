@@ -1,8 +1,10 @@
 #pragma once
 namespace BWAPI
 {
+  /// <summary>Contains a list of event types supported by BWAPI.</summary>
   namespace EventType
   {
+    /// <summary>Enumeration of callback event types.</summary>
     enum Enum
     {
       MatchStart,

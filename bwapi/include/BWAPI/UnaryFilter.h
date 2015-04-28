@@ -3,7 +3,7 @@
 
 namespace BWAPI
 {
-  /// UnaryFilter allows for logical functor combinations.
+  /// <summary>UnaryFilter allows for logical functor combinations.</summary>
   ///
   /// @code
   ///   Unit myUnit;

@@ -6,6 +6,7 @@ namespace BWAPI
   /// <summary>Namespace containing damage types.</summary>
   ///
   /// @see DamageType
+  ///
   /// [View on Liquipedia](http://wiki.teamliquid.net/starcraft/Damage_Type)<br>
   /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
   /// [View on Starcraft Wikia](http://starcraft.wikia.com/wiki/Damage_types)<br>

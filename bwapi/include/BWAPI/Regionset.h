@@ -11,6 +11,7 @@ namespace BWAPI
 
   class Unitset;
 
+  /// <summary>A container that holds a set of Region objects.</summary>
   class Regionset : public SetContainer<BWAPI::Region, std::hash<void*>>
   {
   public:

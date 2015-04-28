@@ -30,27 +30,70 @@ namespace BWAPI
   template<int Scale> class Point<unsigned char, Scale> {};
   template<int Scale> class Point<bool, Scale> {};
   
-  // ------------------------------------------------------ Point template ----------------
+  /// <summary>The Point class is a base class that implements convenience members and performs
+  /// conversions for several different position scales.</summary> It is intended to be inherited
+  /// or typedef'd for use with BWAPI. Users can extend the Point class, and implement their own
+  /// members, and it will remain compatible with BWAPI.
+  ///
+  /// @tparam T
+  ///     The underlying type of the x and y values. BWAPI uses int.
+  /// @tparam Scale
+  ///     The underlying scale that this is intended to be used for. The smaller this value, the
+  ///     higher the precision. A value of 1 indicates the pixel level.
+  ///
+  /// Consider the following:
+  /// @code
+  /// class VectorPos : public BWAPI::Point<double, 1>   // Same as BWAPI::Position with underlying type double
+  /// {
+  /// public:
+  ///   VectorPos(double x_, double y_) : BWAPI::Point<double,1>(x_, y_) {}
+  ///   // ... whatever members that operate with the underling type double
+  /// };
+  /// @endcode
+  ///
+  /// It then follows that this code will work without incident:
+  /// @code
+  /// BWAPI::Unit myUnit; // assume that the unit is valid and assigned elsewhere
+  /// VectorPos myPos{5.7, 8.2};
+  /// myUnit->move(myPos);  // Automatic type conversion, unit is moved to (5,8)
+  /// @endcode
+  ///
   template<typename T, int Scale>
   class Point
   {
   public:
     typedef std::deque< Point<T,Scale> > list;
 
-    // Constructors
     Point() = default;
     Point(T _x, T _y) : x(_x), y(_y) {}
-    template<typename _NT> Point(const Point<_NT, Scale> &pt) : x( static_cast<T>(pt.x) ), y( static_cast<T>(pt.y) ) {}
+
+    /// <summary>A copy constructor for positions with different underlying types.</summary>
+    ///
+    /// <param name="pt">
+    ///     The Point to receive data from.
+    /// </param>
+    ///
+    /// @tparam FromT
+    ///     The type being converted to type T.
+    template<typename FromT> Point(const Point<FromT, Scale> &pt) : x( static_cast<T>(pt.x) ), y( static_cast<T>(pt.y) ) {}
 
 #pragma warning( push )
 #pragma warning( disable: 4723 )
-    // Conversion constructor
-    template<typename _NT, int __NScale> explicit Point(const Point<_NT, __NScale> &pt)
-      : x(static_cast<T>(__NScale > Scale ? pt.x*(__NScale / Scale) : pt.x / (Scale / __NScale)))
-      , y(static_cast<T>(__NScale > Scale ? pt.y*(__NScale / Scale) : pt.y / (Scale / __NScale))) { }
+    /// <summary>A conversion copy constructor to convert positions of different scales to one
+    /// another.</summary>
+    ///
+    /// @tparam FromT
+    ///     The type that it is converting from.
+    /// @tparam FromScale
+    ///     The scale that it is converting from.
+    template<typename FromT, int FromScale> explicit Point(const Point<FromT, FromScale> &pt)
+      : x(static_cast<T>(FromScale > Scale ? pt.x*(FromScale / Scale) : pt.x / (Scale / FromScale)))
+      , y(static_cast<T>(FromScale > Scale ? pt.y*(FromScale / Scale) : pt.y / (Scale / FromScale))) { }
 #pragma warning( pop )
 
     // Operators
+    /// <summary>A convenience for use with if statements to identify if a position is valid.</summary>
+    /// @see isValid
     explicit operator bool() const { return this->isValid(); };
     
     bool operator == (const Point<T,Scale> &pos) const
@@ -62,6 +105,8 @@ namespace BWAPI
       return !(*this == pos);
     }; 
 
+    /// <summary>A less than operator that enables positions to be used by additional STL containers.</summary>
+    /// Compares lexicographically the x position, followed by the y position.
     bool operator  < (const Point<T,Scale> &position) const
     {
       return std::tie(this->x, this->y) < std::tie(position.x, position.y);
@@ -158,41 +203,48 @@ namespace BWAPI
       return *this;
     };
 
-    /// Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
-    /// quotations.
+    /// <summary>Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
+    /// quotations.</summary>
     ///
-    /// @param out
+    /// <param name="out">
     ///   Output stream.
-    /// @param pt
+    /// </param>
+    /// <param name="pt">
     ///   Point to output.
+    /// </param>
     /// @returns Output stream \p out.
     friend std::ostream &operator << (std::ostream &out, const Point<T, Scale> &pt)
     {
       return out << '(' << pt.x << ',' << pt.y << ')';
     };
+    /// @overload
     friend std::wostream &operator << (std::wostream &out, const Point<T, Scale> &pt)
     {
       return out << L'(' << pt.x << L',' << pt.y << L')';
     };
 
-    /// Input stream operator overload. Reads the input in the form "x y" without quotations.
-    /// The x and y values are read as type T(typically int or float) and stored into pt.
+    /// <summary>Input stream operator overload. Reads the input in the form "x y" without
+    /// quotations.</summary> The x and y values are read as type T(typically int or float) and
+    /// stored into pt.
     ///
-    /// @param in
+    /// <param name="in">
     ///   The input stream.
-    /// @param pt
+    /// </param>
+    /// <param name="pt">
     ///   The receiving variable.
+    /// </param>
     /// @returns Input stream \p in.
     friend std::istream &operator >> (std::istream &in, Point<T, Scale> &pt)
     {
       return in >> pt.x >> pt.y;
     };
+    /// @overload
     friend std::wistream &operator >> (std::wistream &in, Point<T, Scale> &pt)
     {
       return in >> pt.x >> pt.y;
     };
 
-    /// Checks if this point is within the game's map bounds.
+    /// <summary>Checks if this point is within the game's map bounds.</summary>
     ///
     /// @note If the Broodwar pointer is not initialized, this function will check validity
     /// against the largest (256x256) map size.
@@ -203,8 +255,9 @@ namespace BWAPI
     /// @see makeValid
     bool isValid() const;
 
-    /// Checks if this point is within the game's map bounds, if not, then it will set the x and y
-    /// values to be within map bounds. (Example: If x is less than 0, then x is set to 0)
+    /// <summary>Checks if this point is within the game's map bounds, if not, then it will set
+    /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
+    /// then x is set to 0.
     ///
     /// @note If the Broodwar pointer is not initialized, this function will check validity
     /// against the largest (256x256) map size.
@@ -213,12 +266,13 @@ namespace BWAPI
     /// @see isValid
     Point &makeValid();
 
-    /// Gets an accurate distance measurement from this point to the given position.
+    /// <summary>Gets an accurate distance measurement from this point to the given position.</summary>
     ///
     /// @note This function impedes performance. In most cases you should use getApproxDistance.
     ///
-    /// @param position
+    /// <param name="position">
     ///   The target position to get the distance to.
+    /// </param>
     ///
     /// @returns A double representing the distance between this point and \p position.
     /// @see getApproxDistance
@@ -227,7 +281,7 @@ namespace BWAPI
       return ((*this) - position).getLength();
     };
     
-    /// Gets the length of this point from the top left corner of the map.
+    /// <summary>Gets the length of this point from the top left corner of the map.</summary>
     ///
     /// @note This function impedes performance. In most cases you should use getApproxDistance.
     ///
@@ -240,14 +294,15 @@ namespace BWAPI
       return sqrt(x * x + y * y);
     };
     
-    /// Retrieves the approximate distance using an algorithm from Starcraft: Broodwar.
+    /// <summary>Retrieves the approximate distance using an algorithm from Starcraft: Broodwar.</summary>
     ///
     /// @note This function is desired because it uses the same "imperfect" algorithm used in
     /// Broodwar, so that calculations will be consistent with the game. It is also optimized
     /// for performance.
     ///
-    /// @param position
+    /// <param name="position">
     ///     The target point to measure the distance to.
+    /// </param>
     ///
     /// @returns An integer representing the distance between this point and \p position.
     /// @see getDistance
@@ -265,13 +320,15 @@ namespace BWAPI
       return (minCalc >> 5) + minCalc + max - (max >> 4) - (max >> 6);
     };
     
-    /// Sets the maximum x and y values. If the  current x or y values exceed the given maximum,
-    /// then values are set to the maximum.
+    /// <summary>Sets the maximum x and y values.</summary> If the  current x or y values exceed
+    /// the given maximum, then values are set to the maximum.
     ///
-    /// @param max_x
+    /// <param name="max_x">
     ///     Maximum x value.
-    /// @param max_y
+    /// </param>
+    /// <param name="max_y">
     ///     Maximum y value.
+    /// </param>
     ///
     /// @returns A reference to itself.
     /// @see setMin
@@ -290,13 +347,15 @@ namespace BWAPI
       return *this;
     };
     
-    /// Sets the minimum x and y values. If the current x or y values are below the given minimum,
-    /// then values are set to the minimum.
+    /// <summary>Sets the minimum x and y values.</summary> If the current x or y values are
+    /// below the given minimum, then values are set to the minimum.
     ///
-    /// @param min_x
+    /// <param name="min_x">
     ///     Minimum x value.
-    /// @param min_y
+    /// </param>
+    /// <param name="min_y">
     ///     Minimum y value.
+    /// </param>
     ///
     /// @returns A reference to itself.
     /// @see setMax
@@ -315,13 +374,19 @@ namespace BWAPI
       return *this;
     };
 
-    /// The x and y members for this class.
+    /// <summary>The x and y members for this class.</summary>
     ///
     /// Simply reference these members when retrieving a position's x and y values.
     T x = T{}, y = T{};
   };
 
-  BWAPI_MAKE_POSITION_TEMPLATE(WalkPosition,int,8)
-  BWAPI_MAKE_POSITION_TEMPLATE(Position,int,1)
-  BWAPI_MAKE_POSITION_TEMPLATE(TilePosition,int,32)
+  /// <summary>Indicates a position that is 8x8 pixels in size.</summary>
+  /// @see Game::isWalkable
+  BWAPI_MAKE_POSITION_TEMPLATE(WalkPosition, int, 8);
+
+  /// <summary>Indicates a position that is 1x1 pixel in size. This is the most precise position type.</summary>
+  BWAPI_MAKE_POSITION_TEMPLATE(Position, int, 1);
+
+  /// <summary>Indicates a position that is 32x32 pixels in size. Typically used for building placement.</summary>
+  BWAPI_MAKE_POSITION_TEMPLATE(TilePosition, int, 32);
 }

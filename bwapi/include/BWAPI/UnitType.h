@@ -534,22 +534,25 @@ namespace BWAPI
 
     /// <summary>Retrieves the unit's acceleration amount.</summary>
     ///
-    /// @todo Figure out the units this quantity is measured in.
     /// @returns How fast the unit can accelerate to its top speed.
+    ///
+    /// @todo Figure out the units this quantity is measured in.
     int acceleration() const;
 
     /// <summary>Retrieves the unit's halting distance.</summary> This determines how fast a unit
     /// can stop moving.
     ///
-    /// @todo Figure out the units this quantity is measured in.
     /// @returns A halting distance value.
+    ///
+    /// @todo Figure out the units this quantity is measured in.
     int haltDistance() const;
 
     /// <summary>Retrieves a unit's turning radius.</summary> This determines how fast a unit can
     /// turn.
     ///
-    /// @todo Figure out the units this quantity is measured in.
     /// @returns A turn radius value.
+    ///
+    /// @todo Figure out the units this quantity is measured in.
     int turnRadius() const;
 
     /// <summary>Determines if a unit can train other units.</summary> For example,
@@ -790,10 +793,10 @@ namespace BWAPI
     /// UnitTypes::Special_Terran_Flag_Beacon, and UnitTypes::Special_Protoss_Flag_Beacon.
     /// Flag beacons spawn a @Flag after some ARBITRARY I FORGOT AMOUNT OF FRAMES.
     ///
-    /// @todo specify number of frames for flag spawner
-    ///
     /// @see isBeacon
     /// @returns true if this unit type is one of the three race flag beacons, and false otherwise.
+    ///
+    /// @todo specify number of frames for flag spawner
     bool isFlagBeacon() const;
 
     /// <summary>Checks if this structure is special and cannot be obtained normally within the

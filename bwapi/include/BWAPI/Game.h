@@ -184,6 +184,8 @@ namespace BWAPI
     /// between issuing a command and having it processed.
     ///
     /// @returns The latency setting of the game, which is of Latency::Enum.
+    /// @see Latency::Enum
+    ///
     /// @todo Change return type to Latency::Enum without breaking everything.
     virtual int getLatency() const = 0;
 
@@ -235,6 +237,8 @@ namespace BWAPI
     /// @return A bool indicating the state of the given \p button. true if the button was pressed
     /// and false if it was not.
     /// @retval false always if Flag::UserInput is disabled.
+    ///
+    /// @see MouseButton
     virtual bool getMouseState(MouseButton button) const = 0;
 
     /// Retrieves the state of the given keyboard key.
@@ -245,6 +249,8 @@ namespace BWAPI
     /// @return A bool indicating the state of the given \p key. true if the key was pressed
     /// and false if it was not.
     /// @retval false always if Flag::UserInput is disabled.
+    ///
+    /// @see Key
     virtual bool getKeyState(Key key) const = 0;
 
     /// Retrieves the top left position of the viewport from the top left corner of the map, in
@@ -285,6 +291,9 @@ namespace BWAPI
     /// @param flag
     ///   The Flag::Enum entry describing the flag's effects on BWAPI.
     /// @returns true if the given \p flag is enabled, false if the flag is disabled.
+    ///
+    /// @see Flag::Enum
+    ///
     /// @todo Take Flag::Enum as parameter instead of int
     virtual bool isFlagEnabled(int flag) const = 0;
 
@@ -295,6 +304,9 @@ namespace BWAPI
     ///
     /// @param flag
     ///   The Flag::Enum entry describing the flag's effects on BWAPI.
+    ///
+    /// @see Flag::Enum
+    ///
     /// @todo Take Flag::Enum as parameter instead of int
     virtual void enableFlag(int flag) = 0;
 
@@ -439,19 +451,21 @@ namespace BWAPI
     virtual int mapHeight() const = 0;
 
     /// Retrieves the file name of the currently loaded map.
-    /// @TODO: Note on campaign files.
     ///
     /// @returns Map file name as std::string object.
     ///
     /// @see mapPathName, mapName
+    ///
+    /// @TODO: Note on campaign files.
     virtual std::string mapFileName() const = 0;
 
     /// Retrieves the full path name of the currently loaded map.
-    /// @TODO: Note on campaign files.
     ///
     /// @returns Map file name as std::string object.
     ///
     /// @see mapFileName, mapName
+    ///
+    /// @TODO: Note on campaign files.
     virtual std::string mapPathName() const = 0;
 
     /// Retrieves the title of the currently loaded map.
@@ -467,6 +481,7 @@ namespace BWAPI
     ///
     /// @note Campaign maps will return a hash of their internal map chunk components(.chk), while
     /// standard maps will return a hash of their entire map archive (.scm,.scx).
+    ///
     /// @TODO: Note on replays.
     virtual std::string mapHash() const = 0;
 
@@ -795,6 +810,7 @@ namespace BWAPI
 
     /// Restarts the match. Works the same as if the match was restarted from the in-game menu
     /// (F10). This option is only available in single player games.
+    ///
     /// @todo return a bool indicating success, document error code for invalid state
     virtual void restartGame() = 0;
 

@@ -20,10 +20,10 @@
 
 namespace BWAPI
 {
-  /// The CompareFilter is a container in which a stored function predicate returns a value.
-  /// Arithmetic and bitwise operators will return a new CompareFilter that applies the operation
-  /// to the result of the original functor. If any relational operators are used, then it creates
-  /// a UnaryFilter that returns the result of the operation.
+  /// <summary>The CompareFilter is a container in which a stored function predicate returns a
+  /// value.</summary> Arithmetic and bitwise operators will return a new CompareFilter that
+  /// applies the operation to the result of the original functor. If any relational operators are
+  /// used, then it creates a UnaryFilter that returns the result of the operation.
   ///
   /// @tparam PType
   ///   The parameter type, which is the type passed into the functor.

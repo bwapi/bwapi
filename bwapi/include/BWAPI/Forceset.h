@@ -8,7 +8,7 @@ namespace BWAPI
   typedef ForceInterface *Force;
   class Playerset;
 
-  /// A container that holds a group of Forces.
+  /// <summary>A container that holds a group of Forces.</summary>
   ///
   /// @see BWAPI::Force, BWAPI::Vectorset
   class Forceset : public SetContainer<BWAPI::Force, std::hash<void*>>

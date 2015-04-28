@@ -25,7 +25,7 @@ namespace BWAPI
 
   namespace Filter
   {
-    /// A unary filter that checks if the unit type is a transport (has capacity).
+    /// <summary>A unary filter that checks if the unit type is a transport (has capacity).</summary>
     extern const PtrUnitFilter IsTransport;
 
     /// @see BWAPI::UnitType::canProduce
@@ -136,7 +136,8 @@ namespace BWAPI
     /// @see BWAPI::UnitType::maxHitPoints
     extern const PtrIntCompareUnitFilter MaxHP;
 
-    /// A comparison filter that retrieves the unit's HP percentage. The formula is HP*100/MaxHP.
+    /// <summary>A comparison filter that retrieves the unit's HP percentage.</summary> The formula
+    /// is HP*100/MaxHP.
     extern const PtrIntCompareUnitFilter HP_Percent;
   
     /// @see BWAPI::UnitInterface::getShields
@@ -145,7 +146,8 @@ namespace BWAPI
     /// @see BWAPI::UnitType::maxShields
     extern const PtrIntCompareUnitFilter MaxShields;
 
-    /// A comparison filter that retrieves the unit's shields percentage. The formula is Shields*100/MaxShields.
+    /// <summary>A comparison filter that retrieves the unit's shields percentage.</summary> The
+    /// formula is Shields*100/MaxShields.
     extern const PtrIntCompareUnitFilter Shields_Percent;
   
     /// @see BWAPI::UnitInterface::getEnergy
@@ -154,7 +156,8 @@ namespace BWAPI
     /// @see BWAPI::PlayerInterface::maxEnergy
     extern const PtrIntCompareUnitFilter MaxEnergy;
     
-    /// A comparison filter that retrieves the unit's energy percentage. The formula is Energy*100/MaxEnergy.
+    /// <summary>A comparison filter that retrieves the unit's energy percentage.</summary> The
+    /// formula is Energy*100/MaxEnergy.
     extern const PtrIntCompareUnitFilter Energy_Percent;
 
     /// @see BWAPI::PlayerInterface::armor
@@ -340,7 +343,7 @@ namespace BWAPI
     /// @see BWAPI::UnitInterface::isCarryingMinerals
     extern const PtrUnitFilter IsCarryingMinerals;
 
-    /// A unary filter that checks if IsCarryingGas or IsCarryingMinerals return true.
+    /// <summary>A unary filter that checks if IsCarryingGas or IsCarryingMinerals return true.</summary>
     extern const PtrUnitFilter IsCarryingSomething;
 
     /// @see BWAPI::UnitInterface::isCloaked
@@ -457,15 +460,15 @@ namespace BWAPI
     /// @see BWAPI::UnitInterface::isVisible
     extern const PtrUnitFilter IsVisible;
   
-    /// A unary filter that checks if the current unit is an enemy of the BWAPI player.
+    /// <summary>A unary filter that checks if the current unit is an enemy of the BWAPI player.</summary>
     /// @note This will always be false when the BWAPI Player is unspecified, such as in a replay.
     extern const PtrUnitFilter IsEnemy;
 
-    /// A unary filter that checks if the current unit is an ally of the BWAPI player.
+    /// <summary>A unary filter that checks if the current unit is an ally of the BWAPI player.</summary>
     /// @note This will always be false when the BWAPI Player is unspecified, such as in a replay.
     extern const PtrUnitFilter IsAlly;
 
-    /// A unary filter that checks if the current unit is owned by the BWAPI player.
+    /// <summary>A unary filter that checks if the current unit is owned by the BWAPI player.</summary>
     /// @note This will always be false when the BWAPI Player is unspecified, such as in a replay.
     extern const PtrUnitFilter IsOwned;
   }

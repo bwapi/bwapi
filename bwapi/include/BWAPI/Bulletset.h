@@ -7,6 +7,7 @@ namespace BWAPI
   class BulletInterface;
   typedef BulletInterface *Bullet;
 
+  /// <summary>A container for a set of Bullet objects.</summary>
   class Bulletset : public SetContainer<Bullet, std::hash<void*>>
   {
   public:

@@ -239,6 +239,8 @@ namespace BWAPI
       ///   null-terminated character array containing the message. If \p actionType is
       ///   Tournament::ActionID::SetLocalSpeed, then parameter is a pointer to an integer.
       /// </param>
+      ///
+      /// @see BWAPI::Tournament::ActionID
       virtual bool onAction(BWAPI::Tournament::ActionID actionType, void *parameter = nullptr);
 
       /// <summary>This function is called if the current player is chosen to advertise the BWAPI
