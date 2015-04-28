@@ -15,6 +15,7 @@ namespace BWAPI
   class Interface
   {
   protected:
+    /// @cond HIDDEN
     Interface() = default;
     virtual ~Interface() {};
 
@@ -40,6 +41,7 @@ namespace BWAPI
         }
       }
     };
+    /// @endcond
   public:
     /// <summary>Retrieves a pointer or value at an index that was stored for this interface using
     /// setClientInfo.</summary>

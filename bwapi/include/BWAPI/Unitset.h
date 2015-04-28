@@ -75,6 +75,9 @@ namespace BWAPI
     /// @copydoc UnitInterface::getClosestUnit
     Unit getClosestUnit(const UnitFilter &pred = nullptr, int radius = 999999) const;
 
+    /// @name Unit Commands
+    /// @{
+
     /// @copydoc UnitInterface::issueCommand
     bool issueCommand(UnitCommand command) const;
     
@@ -176,6 +179,8 @@ namespace BWAPI
     
     /// @copydoc UnitInterface::useTech
     bool useTech(TechType tech, PositionOrUnit target = nullptr) const;
+
+    ///@}
   };
 }
 

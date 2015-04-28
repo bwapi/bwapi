@@ -81,6 +81,8 @@ namespace BWAPI
   /// <summary>The upgrade type represents a passive upgrade that can be obtained with
   /// UnitInterface::upgrade. </summary>
   ///
+  /// @see UpgradeTypes
+  ///
   /// @ingroup TypeClasses
   class UpgradeType : public Type<UpgradeType, UpgradeTypes::Enum::Unknown>
   {

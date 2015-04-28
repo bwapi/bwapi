@@ -24,6 +24,7 @@ namespace BWAPI
   class Type
   {
   protected:
+    /// @cond HIDDEN
     /// <summary>Primitive storage unit for the type identifier (type id).</summary>
     int tid;
 
@@ -32,7 +33,7 @@ namespace BWAPI
 
     /// <summary>Type that maps names to their type values.</summary>
     typedef std::unordered_map<std::string,T> typeMapT;
-
+    /// @endcond
   private:
     static typeMapT typeMapInit()
     {

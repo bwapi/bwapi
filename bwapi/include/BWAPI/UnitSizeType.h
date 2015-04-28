@@ -6,6 +6,7 @@ namespace BWAPI
   /// <summary>Namespace containing unit size types.</summary>
   ///
   /// @see UnitSizeType
+  ///
   /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
   namespace UnitSizeTypes
   {
@@ -32,7 +33,8 @@ namespace BWAPI
   /// applied.</summary> This corresponds with DamageType for several different damage reduction
   /// applications.
   ///
-  /// @see DamageType, UnitType
+  /// @see DamageType, UnitType, UnitSizeTypes
+  ///
   /// [View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/gs/damage.shtml)<br>
   /// @ingroup TypeClasses
   class UnitSizeType : public Type<UnitSizeType, UnitSizeTypes::Enum::Unknown>

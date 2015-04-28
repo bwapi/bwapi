@@ -389,7 +389,6 @@ Value of 10  [0xa]. See BWAPI::UnitTypes::Hero_Gui_Montag.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>720 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -960,7 +959,6 @@ Value of 13  [0xd]. See BWAPI::UnitTypes::Terran_Vulture_Spider_Mine.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>25</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>16</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1002,7 +1000,6 @@ Value of 14  [0xe]. See BWAPI::UnitTypes::Terran_Nuclear_Missile.
 @endhtmlonly 16</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>800</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>33.33</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>33</td></tr>
 <tr><td><strong>Halt Distance</strong></td><td>1103213</td></tr>
@@ -1045,7 +1042,6 @@ Value of 15  [0xf]. See BWAPI::UnitTypes::Terran_Civilian.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1088,7 +1084,6 @@ Value of 16  [0x10]. See BWAPI::UnitTypes::Hero_Sarah_Kerrigan.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>700</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1143,7 +1138,6 @@ Value of 17  [0x11]. See BWAPI::UnitTypes::Hero_Alan_Schezar.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4.57</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1193,7 +1187,6 @@ Value of 19  [0x13]. See BWAPI::UnitTypes::Hero_Jim_Raynor_Vulture.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6.4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>100</td></tr>
@@ -1243,7 +1236,6 @@ Value of 20  [0x14]. See BWAPI::UnitTypes::Hero_Jim_Raynor_Marine.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>200</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1297,7 +1289,6 @@ Value of 21  [0x15]. See BWAPI::UnitTypes::Hero_Tom_Kazansky.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1600</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6.67</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>67</td></tr>
@@ -1350,7 +1341,6 @@ Value of 22  [0x16]. See BWAPI::UnitTypes::Hero_Magellan.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2500</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>50</td></tr>
@@ -1398,7 +1388,6 @@ Value of 23  [0x17]. See BWAPI::UnitTypes::Hero_Edmund_Duke_Tank_Mode.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1448,7 +1437,6 @@ Value of 25  [0x19]. See BWAPI::UnitTypes::Hero_Edmund_Duke_Siege_Mode.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>0</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1498,7 +1486,6 @@ Value of 27  [0x1b]. See BWAPI::UnitTypes::Hero_Arcturus_Mengsk.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>2.5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -1548,7 +1535,6 @@ Value of 28  [0x1c]. See BWAPI::UnitTypes::Hero_Hyperion.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>2.5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -1601,7 +1587,6 @@ Value of 29  [0x1d]. See BWAPI::UnitTypes::Hero_Norad_II.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>2.5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -1653,7 +1638,6 @@ Value of 30  [0x1e]. See BWAPI::UnitTypes::Terran_Siege_Tank_Siege_Mode.
 <img src='supply1.png'>
 @endhtmlonly 4</td></tr>
 <tr><td><strong>Build Time</strong></td><td>750 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>700</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>0</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1768,12 +1752,6 @@ Value of 33  [0x21]. See BWAPI::UnitTypes::Spell_Scanner_Sweep.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>27x31 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -1866,7 +1844,6 @@ Value of 35  [0x23]. See BWAPI::UnitTypes::Zerg_Larva.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>0</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -1913,12 +1890,7 @@ Value of 36  [0x24]. See BWAPI::UnitTypes::Zerg_Egg.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>25</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Medium "Medium"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -2146,7 +2118,6 @@ Value of 40  [0x28]. See BWAPI::UnitTypes::Zerg_Broodling.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>25</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2588,7 +2559,6 @@ Value of 48  [0x30]. See BWAPI::UnitTypes::Hero_Torrasque.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2600</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5.12</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2636,7 +2606,6 @@ Value of 49  [0x31]. See BWAPI::UnitTypes::Hero_Matriarch.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1600</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6.67</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>67</td></tr>
@@ -2741,7 +2710,6 @@ Value of 51  [0x33]. See BWAPI::UnitTypes::Hero_Infested_Kerrigan.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4000</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2798,7 +2766,6 @@ Value of 52  [0x34]. See BWAPI::UnitTypes::Hero_Unclean_One.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>900</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2849,7 +2816,6 @@ Value of 53  [0x35]. See BWAPI::UnitTypes::Hero_Hunter_Killer.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>780 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>500</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>3.66</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2902,7 +2868,6 @@ Value of 54  [0x36]. See BWAPI::UnitTypes::Hero_Devouring_One.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>840 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5.49</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -2952,7 +2917,6 @@ Value of 55  [0x37]. See BWAPI::UnitTypes::Hero_Kukulza_Mutalisk.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1200</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6.67</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>67</td></tr>
@@ -3001,7 +2965,6 @@ Value of 56  [0x38]. See BWAPI::UnitTypes::Hero_Kukulza_Guardian.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2200</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>2.5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -3048,7 +3011,6 @@ Value of 57  [0x39]. See BWAPI::UnitTypes::Hero_Yggdrasill.
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Supply Provided</strong></td><td>60</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>0.83</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -3146,12 +3108,7 @@ Value of 59  [0x3b]. See BWAPI::UnitTypes::Zerg_Cocoon.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -3738,7 +3695,6 @@ Value of 74  [0x4a]. See BWAPI::UnitTypes::Hero_Dark_Templar.
 <img src='supply2.png'>
 @endhtmlonly 2</td></tr>
 <tr><td><strong>Build Time</strong></td><td>750 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4.92</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -3788,7 +3744,6 @@ Value of 75  [0x4b]. See BWAPI::UnitTypes::Hero_Zeratul.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4.92</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -3838,7 +3793,6 @@ Value of 76  [0x4c]. See BWAPI::UnitTypes::Hero_Tassadar_Zeratul_Archon.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4.92</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>160</td></tr>
@@ -3891,7 +3845,6 @@ Value of 77  [0x4d]. See BWAPI::UnitTypes::Hero_Fenix_Zealot.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -3941,7 +3894,6 @@ Value of 78  [0x4e]. See BWAPI::UnitTypes::Hero_Fenix_Dragoon.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1000</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -3995,7 +3947,6 @@ Value of 79  [0x4f]. See BWAPI::UnitTypes::Hero_Tassadar.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>3.2</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -4050,7 +4001,6 @@ Value of 80  [0x50]. See BWAPI::UnitTypes::Hero_Mojo.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2600</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>48</td></tr>
@@ -4102,7 +4052,6 @@ Value of 81  [0x51]. See BWAPI::UnitTypes::Hero_Warbringer.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1600</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>1.78</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4153,7 +4102,6 @@ Value of 82  [0x52]. See BWAPI::UnitTypes::Hero_Gantrithor.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4200 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>3800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>3.33</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -4314,8 +4262,6 @@ Value of 85  [0x55]. See BWAPI::UnitTypes::Protoss_Scarab.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>105 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>16</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
 <tr><td><strong>Halt Distance</strong></td><td>1</td></tr>
@@ -4370,7 +4316,6 @@ Value of 86  [0x56]. See BWAPI::UnitTypes::Hero_Danimoth.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4100</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>33</td></tr>
@@ -4428,7 +4373,6 @@ Value of 87  [0x57]. See BWAPI::UnitTypes::Hero_Aldaris.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>3.2</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -4478,7 +4422,6 @@ Value of 88  [0x58]. See BWAPI::UnitTypes::Hero_Artanis.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2400</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>48</td></tr>
@@ -4529,7 +4472,6 @@ Value of 89  [0x59]. See BWAPI::UnitTypes::Critter_Rhynadon.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4567,7 +4509,6 @@ Value of 90  [0x5a]. See BWAPI::UnitTypes::Critter_Bengalaas.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4605,12 +4546,6 @@ Value of 91  [0x5b]. See BWAPI::UnitTypes::Special_Cargo_Ship.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Medium "Medium"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>256</td></tr>
@@ -4643,12 +4578,6 @@ Value of 92  [0x5c]. See BWAPI::UnitTypes::Special_Mercenary_Gunship.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Medium "Medium"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>128</td></tr>
@@ -4681,7 +4610,6 @@ Value of 93  [0x5d]. See BWAPI::UnitTypes::Critter_Scantid.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4719,7 +4647,6 @@ Value of 94  [0x5e]. See BWAPI::UnitTypes::Critter_Kakaru.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>16</td></tr>
@@ -4757,7 +4684,6 @@ Value of 95  [0x5f]. See BWAPI::UnitTypes::Critter_Ragnasaur.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4795,7 +4721,6 @@ Value of 96  [0x60]. See BWAPI::UnitTypes::Critter_Ursadon.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4833,12 +4758,7 @@ Value of 97  [0x61]. See BWAPI::UnitTypes::Zerg_Lurker_Egg.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>500</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Medium "Medium"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -4885,7 +4805,6 @@ Value of 98  [0x62]. See BWAPI::UnitTypes::Hero_Raszagal.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>750 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1300</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>6.67</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>67</td></tr>
@@ -4937,7 +4856,6 @@ Value of 99  [0x63]. See BWAPI::UnitTypes::Hero_Samir_Duran.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>700</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -4993,7 +4911,6 @@ Value of 100  [0x64]. See BWAPI::UnitTypes::Hero_Alexei_Stukov.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>700</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -5048,12 +4965,6 @@ Value of 101  [0x65]. See BWAPI::UnitTypes::Special_Map_Revealer.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>27x31 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5087,7 +4998,6 @@ Value of 102  [0x66]. See BWAPI::UnitTypes::Hero_Gerard_DuGalle.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4800</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>2.5</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>27</td></tr>
@@ -5199,7 +5109,6 @@ Value of 104  [0x68]. See BWAPI::UnitTypes::Hero_Infested_Duran.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>700</td></tr>
 <tr><td><strong>Top Speed</strong></td><td>4</td></tr>
 <tr><td><strong>Acceleration</strong></td><td>1</td></tr>
@@ -5256,12 +5165,6 @@ Value of 105  [0x69]. See BWAPI::UnitTypes::Spell_Disruption_Web.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>120x80 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5342,10 +5245,6 @@ Value of 107  [0x6b]. See BWAPI::UnitTypes::Terran_Comsat_Station.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>69x42 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5391,10 +5290,6 @@ Value of 108  [0x6c]. See BWAPI::UnitTypes::Terran_Nuclear_Silo.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>69x42 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5440,10 +5335,6 @@ Value of 109  [0x6d]. See BWAPI::UnitTypes::Terran_Supply_Depot.
 <tr><td><strong>Supply Provided</strong></td><td>16</td></tr>
 <tr><td><strong>Build Score</strong></td><td>50</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>150</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>77x49 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5574,10 +5465,6 @@ Value of 112  [0x70]. See BWAPI::UnitTypes::Terran_Academy.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>85x57 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5712,10 +5599,6 @@ Value of 115  [0x73]. See BWAPI::UnitTypes::Terran_Control_Tower.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>76x47 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5802,10 +5685,6 @@ Value of 117  [0x75]. See BWAPI::UnitTypes::Terran_Covert_Ops.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>76x47 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5846,10 +5725,6 @@ Value of 118  [0x76]. See BWAPI::UnitTypes::Terran_Physics_Lab.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>76x47 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5890,10 +5765,6 @@ Value of 120  [0x78]. See BWAPI::UnitTypes::Terran_Machine_Shop.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>71x49 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -5980,10 +5851,6 @@ Value of 123  [0x7b]. See BWAPI::UnitTypes::Terran_Armory.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x55 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6026,9 +5893,6 @@ Value of 124  [0x7c]. See BWAPI::UnitTypes::Terran_Missile_Turret.
 <tr><td><strong>Build Time</strong></td><td>450 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>50</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>150</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
 <tr><td><strong>Turn Radius</strong></td><td>40</td></tr>
 <tr><td><strong>Air Weapon</strong></td><td> @htmlonly
 <img src='icon337.png'>
@@ -6120,12 +5984,7 @@ Value of 126  [0x7e]. See BWAPI::UnitTypes::Special_Crashed_Norad_II.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6158,12 +6017,7 @@ Value of 127  [0x7f]. See BWAPI::UnitTypes::Special_Ion_Cannon.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6196,12 +6050,6 @@ Value of 128  [0x80]. See BWAPI::UnitTypes::Powerup_Uraj_Crystal.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6234,12 +6082,6 @@ Value of 129  [0x81]. See BWAPI::UnitTypes::Powerup_Khalis_Crystal.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6313,10 +6155,6 @@ Value of 131  [0x83]. See BWAPI::UnitTypes::Zerg_Hatchery.
 <tr><td><strong>Supply Provided</strong></td><td>2</td></tr>
 <tr><td><strong>Build Score</strong></td><td>300</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>900</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>99x65 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6358,10 +6196,6 @@ Value of 132  [0x84]. See BWAPI::UnitTypes::Zerg_Lair.
 <tr><td><strong>Supply Provided</strong></td><td>2</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1200</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>99x65 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6405,10 +6239,6 @@ Value of 133  [0x85]. See BWAPI::UnitTypes::Zerg_Hive.
 <tr><td><strong>Supply Provided</strong></td><td>2</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1500</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>99x65 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6451,10 +6281,6 @@ Value of 134  [0x86]. See BWAPI::UnitTypes::Zerg_Nydus_Canal.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>64x64 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6497,10 +6323,6 @@ Value of 135  [0x87]. See BWAPI::UnitTypes::Zerg_Hydralisk_Den.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>81x57 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6543,10 +6365,6 @@ Value of 136  [0x88]. See BWAPI::UnitTypes::Zerg_Defiler_Mound.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>150</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>450</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>97x37 px; 4x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6589,10 +6407,6 @@ Value of 137  [0x89]. See BWAPI::UnitTypes::Zerg_Greater_Spire.
 <tr><td><strong>Build Time</strong></td><td>1800 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>200</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1350</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>57x57 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6635,10 +6449,6 @@ Value of 138  [0x8a]. See BWAPI::UnitTypes::Zerg_Queens_Nest.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>175</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>525</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>71x57 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6681,10 +6491,6 @@ Value of 139  [0x8b]. See BWAPI::UnitTypes::Zerg_Evolution_Chamber.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>40</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>120</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>77x53 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6727,10 +6533,6 @@ Value of 140  [0x8c]. See BWAPI::UnitTypes::Zerg_Ultralisk_Cavern.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>275</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>825</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>73x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6773,10 +6575,6 @@ Value of 141  [0x8d]. See BWAPI::UnitTypes::Zerg_Spire.
 <tr><td><strong>Build Time</strong></td><td>1800 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>250</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>750</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>57x57 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6819,10 +6617,6 @@ Value of 142  [0x8e]. See BWAPI::UnitTypes::Zerg_Spawning_Pool.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>77x47 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6865,10 +6659,6 @@ Value of 143  [0x8f]. See BWAPI::UnitTypes::Zerg_Creep_Colony.
 <tr><td><strong>Build Time</strong></td><td>300 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>40</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>120</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>48x48 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -6909,10 +6699,6 @@ Value of 144  [0x90]. See BWAPI::UnitTypes::Zerg_Spore_Colony.
 <tr><td><strong>Build Time</strong></td><td>300 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>25</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>195</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Air Weapon</strong></td><td> @htmlonly
 <img src='icon347.png'>
 @endhtmlonly @ref WeaponTypes::Seeker_Spores "Seeker Spores"</td></tr>
@@ -6958,10 +6744,6 @@ Value of 146  [0x92]. See BWAPI::UnitTypes::Zerg_Sunken_Colony.
 <tr><td><strong>Build Time</strong></td><td>300 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>40</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>240</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon348.png'>
 @endhtmlonly @ref WeaponTypes::Subterranean_Tentacle "Subterranean Tentacle"</td></tr>
@@ -7005,12 +6787,7 @@ Value of 147  [0x93]. See BWAPI::UnitTypes::Special_Overmind_With_Shell.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>160x73 px; 5x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7043,12 +6820,7 @@ Value of 148  [0x94]. See BWAPI::UnitTypes::Special_Overmind.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>160x73 px; 5x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7083,10 +6855,6 @@ Value of 149  [0x95]. See BWAPI::UnitTypes::Zerg_Extractor.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>25</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>75</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>128x64 px; 4x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7125,12 +6893,7 @@ Value of 150  [0x96]. See BWAPI::UnitTypes::Special_Mature_Chrysalis.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>0 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>64x64 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7163,12 +6926,7 @@ Value of 151  [0x97]. See BWAPI::UnitTypes::Special_Cerebrate.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>0 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2500</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>73x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7201,12 +6959,7 @@ Value of 152  [0x98]. See BWAPI::UnitTypes::Special_Cerebrate_Daggoth.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>0 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2500</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>73x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7243,10 +6996,6 @@ Value of 154  [0x9a]. See BWAPI::UnitTypes::Protoss_Nexus.
 <tr><td><strong>Supply Provided</strong></td><td>18</td></tr>
 <tr><td><strong>Build Score</strong></td><td>400</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1200</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>113x79 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7291,10 +7040,6 @@ Value of 155  [0x9b]. See BWAPI::UnitTypes::Protoss_Robotics_Facility.
 <tr><td><strong>Build Time</strong></td><td>1200 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>300</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>900</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>77x37 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7342,10 +7087,6 @@ Value of 156  [0x9c]. See BWAPI::UnitTypes::Protoss_Pylon.
 <tr><td><strong>Supply Provided</strong></td><td>16</td></tr>
 <tr><td><strong>Build Score</strong></td><td>50</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>150</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>33x33 px; 2x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7390,10 +7131,6 @@ Value of 157  [0x9d]. See BWAPI::UnitTypes::Protoss_Assimilator.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>50</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>150</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>97x57 px; 4x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7438,10 +7175,6 @@ Value of 159  [0x9f]. See BWAPI::UnitTypes::Protoss_Observatory.
 <tr><td><strong>Build Time</strong></td><td>450 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>175</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>525</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>89x45 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7488,10 +7221,6 @@ Value of 160  [0xa0]. See BWAPI::UnitTypes::Protoss_Gateway.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>75</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>225</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>97x73 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7538,10 +7267,6 @@ Value of 162  [0xa2]. See BWAPI::UnitTypes::Protoss_Photon_Cannon.
 <tr><td><strong>Build Time</strong></td><td>750 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon362.png'>
 @endhtmlonly @ref WeaponTypes::STS_Photon_Cannon "STS Photon Cannon"</td></tr>
@@ -7594,10 +7319,6 @@ Value of 163  [0xa3]. See BWAPI::UnitTypes::Protoss_Citadel_of_Adun.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>200</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>600</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>65x49 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7644,10 +7365,6 @@ Value of 164  [0xa4]. See BWAPI::UnitTypes::Protoss_Cybernetics_Core.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>81x49 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7694,10 +7411,6 @@ Value of 165  [0xa5]. See BWAPI::UnitTypes::Protoss_Templar_Archives.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>250</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>750</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>65x49 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7744,10 +7457,6 @@ Value of 166  [0xa6]. See BWAPI::UnitTypes::Protoss_Forge.
 <tr><td><strong>Build Time</strong></td><td>600 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>100</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>300</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>73x45 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7794,10 +7503,6 @@ Value of 167  [0xa7]. See BWAPI::UnitTypes::Protoss_Stargate.
 <tr><td><strong>Build Time</strong></td><td>1050 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>300</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>900</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>97x73 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7841,12 +7546,7 @@ Value of 168  [0xa8]. See BWAPI::UnitTypes::Special_Stasis_Cell_Prison.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>128x96 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7882,10 +7582,6 @@ Value of 169  [0xa9]. See BWAPI::UnitTypes::Protoss_Fleet_Beacon.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>350</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1050</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>88x57 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7932,10 +7628,6 @@ Value of 170  [0xaa]. See BWAPI::UnitTypes::Protoss_Arbiter_Tribunal.
 <tr><td><strong>Build Time</strong></td><td>900 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>450</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>1350</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>89x57 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -7984,10 +7676,6 @@ Value of 171  [0xab]. See BWAPI::UnitTypes::Protoss_Robotics_Support_Bay.
 <tr><td><strong>Build Time</strong></td><td>450 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>125</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>375</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>65x53 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8035,10 +7723,6 @@ Value of 172  [0xac]. See BWAPI::UnitTypes::Protoss_Shield_Battery.
 <tr><td><strong>Build Time</strong></td><td>450 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>50</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>150</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>65x33 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8082,12 +7766,7 @@ Value of 173  [0xad]. See BWAPI::UnitTypes::Special_Khaydarin_Crystal_Form.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2500</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>128x96 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8120,12 +7799,7 @@ Value of 174  [0xae]. See BWAPI::UnitTypes::Special_Protoss_Temple.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>224x96 px; 7x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8158,12 +7832,7 @@ Value of 175  [0xaf]. See BWAPI::UnitTypes::Special_XelNaga_Temple.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>5000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>160x98 px; 5x4 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8198,10 +7867,6 @@ Value of 176  [0xb0]. See BWAPI::UnitTypes::Resource_Mineral_Field.
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>10</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>64x32 px; 2x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8236,10 +7901,6 @@ Value of 177  [0xb1]. See BWAPI::UnitTypes::Resource_Mineral_Field_Type_2.
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>10</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>64x32 px; 2x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8274,10 +7935,6 @@ Value of 178  [0xb2]. See BWAPI::UnitTypes::Resource_Mineral_Field_Type_3.
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>10</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>64x32 px; 2x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8312,10 +7969,6 @@ Value of 184  [0xb8]. See BWAPI::UnitTypes::Special_Independant_Starport.
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>10</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon0.png'>
 @endhtmlonly @ref WeaponTypes::Independant_Laser_Battery "Independant Laser Battery"</td></tr>
@@ -8353,10 +8006,6 @@ Value of 188  [0xbc]. See BWAPI::UnitTypes::Resource_Vespene_Geyser.
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
 <tr><td><strong>Build Score</strong></td><td>10</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>128x64 px; 4x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8389,12 +8038,7 @@ Value of 189  [0xbd]. See BWAPI::UnitTypes::Special_Warp_Gate.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>2000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8427,12 +8071,7 @@ Value of 190  [0xbe]. See BWAPI::UnitTypes::Special_Psi_Disrupter.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>4800 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>3600</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>150x86 px; 5x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8465,12 +8104,6 @@ Value of 194  [0xc2]. See BWAPI::UnitTypes::Special_Zerg_Beacon.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8503,12 +8136,6 @@ Value of 195  [0xc3]. See BWAPI::UnitTypes::Special_Terran_Beacon.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8541,12 +8168,6 @@ Value of 196  [0xc4]. See BWAPI::UnitTypes::Special_Protoss_Beacon.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8579,12 +8200,6 @@ Value of 197  [0xc5]. See BWAPI::UnitTypes::Special_Zerg_Flag_Beacon.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8617,12 +8232,6 @@ Value of 198  [0xc6]. See BWAPI::UnitTypes::Special_Terran_Flag_Beacon.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8655,12 +8264,6 @@ Value of 199  [0xc7]. See BWAPI::UnitTypes::Special_Protoss_Flag_Beacon.
 <img src='supply2.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8693,12 +8296,7 @@ Value of 200  [0xc8]. See BWAPI::UnitTypes::Special_Power_Generator.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>600</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>120x72 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8731,12 +8329,7 @@ Value of 201  [0xc9]. See BWAPI::UnitTypes::Special_Overmind_Cocoon.
 <img src='supply0.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>4000</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>96x64 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Large "Large"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8769,12 +8362,6 @@ Value of 202  [0xca]. See BWAPI::UnitTypes::Spell_Dark_Swarm.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>160x160 px; 5x5 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8807,11 +8394,7 @@ Value of 203  [0xcb]. See BWAPI::UnitTypes::Special_Floor_Missile_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
 <tr><td><strong>Turn Radius</strong></td><td>20</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon327.png'>
@@ -8851,12 +8434,7 @@ Value of 204  [0xcc]. See BWAPI::UnitTypes::Special_Floor_Hatch.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>256x128 px; 8x4 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8889,12 +8467,7 @@ Value of 205  [0xcd]. See BWAPI::UnitTypes::Special_Upper_Level_Door.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>70x38 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8927,12 +8500,7 @@ Value of 206  [0xce]. See BWAPI::UnitTypes::Special_Right_Upper_Level_Door.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>70x38 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -8965,12 +8533,7 @@ Value of 207  [0xcf]. See BWAPI::UnitTypes::Special_Pit_Door.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>70x38 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9003,12 +8566,7 @@ Value of 208  [0xd0]. See BWAPI::UnitTypes::Special_Right_Pit_Door.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>10</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>70x38 px; 3x2 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9041,11 +8599,7 @@ Value of 209  [0xd1]. See BWAPI::UnitTypes::Special_Floor_Gun_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
 <tr><td><strong>Turn Radius</strong></td><td>127</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon326.png'>
@@ -9085,12 +8639,7 @@ Value of 210  [0xd2]. See BWAPI::UnitTypes::Special_Wall_Missile_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon327.png'>
 @endhtmlonly @ref WeaponTypes::Hellfire_Missile_Pack_Wall_Trap "Hellfire Missile Pack Wall Trap"</td></tr>
@@ -9129,12 +8678,7 @@ Value of 211  [0xd3]. See BWAPI::UnitTypes::Special_Wall_Flame_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon335.png'>
 @endhtmlonly @ref WeaponTypes::Flame_Thrower_Wall_Trap "Flame Thrower Wall Trap"</td></tr>
@@ -9173,12 +8717,7 @@ Value of 212  [0xd4]. See BWAPI::UnitTypes::Special_Right_Wall_Missile_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon327.png'>
 @endhtmlonly @ref WeaponTypes::Hellfire_Missile_Pack_Wall_Trap "Hellfire Missile Pack Wall Trap"</td></tr>
@@ -9217,12 +8756,7 @@ Value of 213  [0xd5]. See BWAPI::UnitTypes::Special_Right_Wall_Flame_Trap.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
 <tr><td><strong>Destroy Score</strong></td><td>100</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Ground Weapon</strong></td><td> @htmlonly
 <img src='icon335.png'>
 @endhtmlonly @ref WeaponTypes::Flame_Thrower_Wall_Trap "Flame Thrower Wall Trap"</td></tr>
@@ -9261,12 +8795,6 @@ Value of 214  [0xd6]. See BWAPI::UnitTypes::Special_Start_Location.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>0 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>97x65 px; 4x3 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9299,12 +8827,6 @@ Value of 215  [0xd7]. See BWAPI::UnitTypes::Powerup_Flag.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9337,12 +8859,6 @@ Value of 216  [0xd8]. See BWAPI::UnitTypes::Powerup_Young_Chrysalis.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9375,12 +8891,6 @@ Value of 217  [0xd9]. See BWAPI::UnitTypes::Powerup_Psi_Emitter.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9413,12 +8923,6 @@ Value of 218  [0xda]. See BWAPI::UnitTypes::Powerup_Data_Disk.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9451,12 +8955,6 @@ Value of 219  [0xdb]. See BWAPI::UnitTypes::Powerup_Khaydarin_Crystal.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9489,12 +8987,6 @@ Value of 220  [0xdc]. See BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_1.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9527,12 +9019,6 @@ Value of 221  [0xdd]. See BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_2.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9565,12 +9051,6 @@ Value of 222  [0xde]. See BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_1.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9603,12 +9083,6 @@ Value of 223  [0xdf]. See BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_2.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9641,12 +9115,6 @@ Value of 224  [0xe0]. See BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_1.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9679,12 +9147,6 @@ Value of 225  [0xe1]. See BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_2.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9717,12 +9179,6 @@ Value of 226  [0xe2]. See BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_1.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>
@@ -9755,12 +9211,6 @@ Value of 227  [0xe3]. See BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_2.
 <img src='supply1.png'>
 @endhtmlonly 0</td></tr>
 <tr><td><strong>Build Time</strong></td><td>1 frames</td></tr>
-<tr><td><strong>Build Score</strong></td><td>0</td></tr>
-<tr><td><strong>Destroy Score</strong></td><td>0</td></tr>
-<tr><td><strong>Top Speed</strong></td><td>0</td></tr>
-<tr><td><strong>Acceleration</strong></td><td>0</td></tr>
-<tr><td><strong>Halt Distance</strong></td><td>0</td></tr>
-<tr><td><strong>Turn Radius</strong></td><td>0</td></tr>
 <tr><td><strong>Size</strong></td><td>32x32 px; 1x1 tiles</td></tr>
 <tr><td><strong>SizeType</strong></td><td>@ref UnitSizeTypes::Independent "Independent"</td></tr>
 <tr><td><strong>Seek Range</strong></td><td>0</td></tr>

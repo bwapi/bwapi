@@ -58,7 +58,9 @@ namespace BWAPI
     /// will be used instead.
     /// @retval Positions::None if a nullptr Unit was assigned to this class.
     Position getPosition() const;
+
   private:
+    /// @cond HIDDEN
     union
     {
       struct
@@ -71,6 +73,7 @@ namespace BWAPI
         int y;
       } unit;
     };
+    /// @endcond
   };
 
 }

@@ -5,19 +5,6 @@
 #include <deque>
 #include <iostream>
 
-
-#ifdef SWIG
-#define BWAPI_MAKE_POSITION_TEMPLATE(_n,T,_s) typedef BWAPI::Point<T,_s> _n;
-#else
-#define BWAPI_MAKE_POSITION_TEMPLATE(_n,T,_s) typedef BWAPI::Point<T,_s> _n;   \
-                      namespace _n ## s                                     \
-                      { const _n Invalid(32000/_s,32000/_s);                \
-                        const _n None(32000/_s,32032/_s);                   \
-                        const _n Unknown(32000/_s,32064/_s);                \
-                        const _n Origin(0,0);                               \
-                      }
-#endif
-
 namespace BWAPI
 {
   // Declaration
@@ -58,6 +45,8 @@ namespace BWAPI
   /// myUnit->move(myPos);  // Automatic type conversion, unit is moved to (5,8)
   /// @endcode
   ///
+  /// @note For full compatibility with BWAPI, \p T must have a precision of at least 16 bits and
+  /// \p Scale must be a factor of 32.
   template<typename T, int Scale>
   class Point
   {
@@ -380,13 +369,67 @@ namespace BWAPI
     T x = T{}, y = T{};
   };
 
-  /// <summary>Indicates a position that is 8x8 pixels in size.</summary>
-  /// @see Game::isWalkable
-  BWAPI_MAKE_POSITION_TEMPLATE(WalkPosition, int, 8);
+  /// <summary>The scale of a @ref Position. Each position corresponds to a 1x1 pixel area.</summary>
+  /// @see Position
+  const int POSITION_SCALE = 1;
+  
+  /// <summary>The scale of a @ref WalkPosition. Each walk position corresponds to an 8x8 pixel area.</summary>
+  /// @see WalkPosition
+  const int WALKPOSITION_SCALE = 8;
+
+  /// <summary>The scale of a @ref TilePosition. Each tile position corresponds to a 32x32 pixel area.</summary>
+  /// @see TilePosition
+  const int TILEPOSITION_SCALE = 32;
 
   /// <summary>Indicates a position that is 1x1 pixel in size. This is the most precise position type.</summary>
-  BWAPI_MAKE_POSITION_TEMPLATE(Position, int, 1);
+  /// @see Positions
+  typedef BWAPI::Point<int, POSITION_SCALE> Position;
+
+  /// <summary>List of special @ref Position constants.</summary>
+  namespace Positions
+  {
+    /// @hideinitializer
+    const Position Invalid{32000 / POSITION_SCALE, 32000 / POSITION_SCALE};
+    /// @hideinitializer
+    const Position None{32000 / POSITION_SCALE, 32032 / POSITION_SCALE};
+    /// @hideinitializer
+    const Position Unknown{32000 / POSITION_SCALE, 32064 / POSITION_SCALE};
+    const Position Origin{0, 0};
+  }
+
+  /// <summary>Indicates a position that is 8x8 pixels in size.</summary>
+  /// @see Game::isWalkable, WalkPositions
+  typedef BWAPI::Point<int, WALKPOSITION_SCALE> WalkPosition;
+
+  /// <summary>List of special @ref WalkPosition constants.</summary>
+  namespace WalkPositions
+  {
+    /// @hideinitializer
+    const WalkPosition Invalid{32000 / WALKPOSITION_SCALE, 32000 / WALKPOSITION_SCALE};
+    /// @hideinitializer
+    const WalkPosition None{32000 / WALKPOSITION_SCALE, 32032 / WALKPOSITION_SCALE};
+    /// @hideinitializer
+    const WalkPosition Unknown{32000 / WALKPOSITION_SCALE, 32064 / WALKPOSITION_SCALE};
+    const WalkPosition Origin{0,0};
+  }
 
   /// <summary>Indicates a position that is 32x32 pixels in size. Typically used for building placement.</summary>
-  BWAPI_MAKE_POSITION_TEMPLATE(TilePosition, int, 32);
+  /// @see TilePositions
+  typedef BWAPI::Point<int, TILEPOSITION_SCALE> TilePosition;
+
+  /// <summary>List of special @ref TilePosition constants.</summary>
+  namespace TilePositions
+  {
+    /// @hideinitializer
+    const TilePosition Invalid{32000 / TILEPOSITION_SCALE, 32000 / TILEPOSITION_SCALE};
+    /// @hideinitializer
+    const TilePosition None{32000 / TILEPOSITION_SCALE, 32032 / TILEPOSITION_SCALE};
+    /// @hideinitializer
+    const TilePosition Unknown{32000 / TILEPOSITION_SCALE, 32064 / TILEPOSITION_SCALE};
+    const TilePosition Origin{0, 0};
+  }
+
+  static_assert(sizeof(Position) == 8, "Expected BWAPI Position to be 8 bytes.");
+  static_assert(sizeof(TilePosition) == 8, "Expected BWAPI Position to be 8 bytes.");
+  static_assert(sizeof(WalkPosition) == 8, "Expected BWAPI Position to be 8 bytes.");
 }

@@ -6,7 +6,11 @@ void writeUnitInfo()
   std::ofstream of("unittypes.dox");
   for (auto t : UnitTypes::allUnitTypes())
   {
-    if (t == UnitTypes::Unknown || t == UnitTypes::None) continue;
+    if (t == UnitTypes::Unknown || t == UnitTypes::None)
+    {
+      //of << docBegin(t) << docIntro(t) << docEnd();
+      continue;
+    }
     of << docEnum(t);
     of << docBegin(t);
 

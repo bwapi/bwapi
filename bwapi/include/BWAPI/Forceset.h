@@ -10,7 +10,7 @@ namespace BWAPI
 
   /// <summary>A container that holds a group of Forces.</summary>
   ///
-  /// @see BWAPI::Force, BWAPI::Vectorset
+  /// @see BWAPI::Force
   class Forceset : public SetContainer<BWAPI::Force, std::hash<void*>>
   {
   public:

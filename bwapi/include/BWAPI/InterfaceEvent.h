@@ -69,6 +69,7 @@ namespace BWAPI
     friend void swap(InterfaceEvent<T> &a, InterfaceEvent<T> &b);
 
   protected:
+    /// @cond HIDDEN
     template < typename U >
     friend class Interface;
 
@@ -112,14 +113,16 @@ namespace BWAPI
         return this->condProc(instance);
       return true; // always run if there is no conditional function
     };
-
+    /// @endcond
   private:
+    /// @cond HIDDEN
     // Data members
     std::function<bool(T*)> condProc = nullptr;
     std::function<void(T*)> execProc = nullptr;
     int runFreq = 0;  // Frequency of runs, in frames (0 means every frame, 1 means every other frame)
     int runCount = 0; // Number of times that the action can occur (-1 being infinite)
     int step = 0;     // Current step. Executes when reaches 0, then reset to runFreq.
+    /// @endcond
   };
 
   // Note: This is down here to prevent intellisense errors

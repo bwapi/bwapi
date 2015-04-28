@@ -19,6 +19,10 @@ body, table, div, p, dl {
     background-color: transparent;
 }
 
+.memitem {
+    margin-bottom: 8px;
+}
+
 .memSeparator {
     display: none;
 }
@@ -29,7 +33,7 @@ body, table, div, p, dl {
 }
 
 /* Background image removal */
-.memproto, .tabs , .tabs2, .tabs3, .tablist li, .tablist a, .tablist a:hover, .tablist li.current a , .navpath ul, #nav-tree .selected, #nav-tree, .fieldtable th {
+.memproto, .tabs , .tabs2, .tabs3, .tablist li, .tablist a, .tablist a:hover, .tablist li.current a , .navpath ul, #nav-tree .selected, #nav-tree, .fieldtable th, dl.reflist dt {
     background-image: none;
 }
 
@@ -51,7 +55,7 @@ body, table, div, p, dl {
 }
 
 /* Member descriptions */
-.memproto {
+.memproto, dl.reflist dt  {
     padding: 0px;
     border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -61,8 +65,12 @@ body, table, div, p, dl {
     -moz-box-shadow: none;
 }
 
+td.mlabels-right {
+    vertical-align: middle;
+}
+
 /* Border radius and box shadow */
-.memdoc, .fieldtable, .fieldtable th {
+.memdoc, .fieldtable, .fieldtable th, dl.reflist dd {
     border-radius: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;

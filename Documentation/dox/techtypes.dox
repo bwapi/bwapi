@@ -198,12 +198,6 @@ Value of 4  [0x4]. See BWAPI::TechTypes::Scanner_Sweep.
 @endhtmlonly  Scanner Sweep. Corresponds with TechTypes::Enum::Scanner_Sweep.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas1.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Energy Cost</strong></td><td> @htmlonly
 <img src='energy.png'>
 @endhtmlonly 50</td></tr>
@@ -258,12 +252,6 @@ Value of 6  [0x6]. See BWAPI::TechTypes::Defensive_Matrix.
 @endhtmlonly  Defensive Matrix. Corresponds with TechTypes::Enum::Defensive_Matrix.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas1.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Energy Cost</strong></td><td> @htmlonly
 <img src='energy.png'>
 @endhtmlonly 100</td></tr>
@@ -438,12 +426,6 @@ Value of 12  [0xc]. See BWAPI::TechTypes::Infestation.
 @endhtmlonly  Infestation. Corresponds with TechTypes::Enum::Infestation.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas0.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
 <tr><td><strong>Order</strong></td><td> @htmlonly
 <img src='icon313.png'>
@@ -505,12 +487,6 @@ Value of 14  [0xe]. See BWAPI::TechTypes::Dark_Swarm.
 @endhtmlonly  Dark Swarm. Corresponds with TechTypes::Enum::Dark_Swarm.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas0.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Energy Cost</strong></td><td> @htmlonly
 <img src='energy.png'>
 @endhtmlonly 100</td></tr>
@@ -649,12 +625,6 @@ Value of 18  [0x12]. See BWAPI::TechTypes::Parasite.
 @endhtmlonly  Parasite. Corresponds with TechTypes::Enum::Parasite.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas0.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Energy Cost</strong></td><td> @htmlonly
 <img src='energy.png'>
 @endhtmlonly 75</td></tr>
@@ -826,12 +796,6 @@ Value of 23  [0x17]. See BWAPI::TechTypes::Archon_Warp.
 @endhtmlonly  Archon Warp. Corresponds with TechTypes::Enum::Archon_Warp.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas2.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
 <tr><td><strong>Used by</strong></td><td> @htmlonly
 <img src='icon67.png'>
@@ -960,12 +924,6 @@ Value of 28  [0x1c]. See BWAPI::TechTypes::Dark_Archon_Meld.
 @endhtmlonly  Dark Archon Meld. Corresponds with TechTypes::Enum::Dark_Archon_Meld.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas2.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
 <tr><td><strong>Used by</strong></td><td> @htmlonly
 <img src='icon61.png'>
@@ -1115,12 +1073,6 @@ Value of 34  [0x22]. See BWAPI::TechTypes::Healing.
 @endhtmlonly  Healing. Corresponds with TechTypes::Enum::Healing.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas1.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Energy Cost</strong></td><td> @htmlonly
 <img src='energy.png'>
 @endhtmlonly 1</td></tr>
@@ -1145,12 +1097,6 @@ Value of 45  [0x2d]. See BWAPI::TechTypes::Nuclear_Strike.
 @endhtmlonly  Nuclear Strike. Corresponds with TechTypes::Enum::Nuclear_Strike.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 0  @htmlonly
-<img src='gas1.png'>
-@endhtmlonly 0</td></tr>
-<tr><td><strong>Research Time</strong></td><td>0 frames</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
 <tr><td><strong>Weapon</strong></td><td> @htmlonly
 <img src='icon311.png'>

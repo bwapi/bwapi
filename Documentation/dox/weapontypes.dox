@@ -1,220 +1,4 @@
 /*!
-@var BWAPI::WeaponTypes::Enum::Gauss_Rifle
-Value of 0  [0x0]. See BWAPI::WeaponTypes::Gauss_Rifle.
-*/
-/*!
-@var BWAPI::WeaponTypes::Gauss_Rifle
- @htmlonly
-<img src='icon323.png'>
-@endhtmlonly  Gauss Rifle. Corresponds with WeaponTypes::Enum::Gauss_Rifle.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon0.png'>
-@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"</td></tr>
-<tr><td><strong>Damage</strong></td><td>6</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
-@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::Psi_Blades
-Value of 64  [0x40]. See BWAPI::WeaponTypes::Psi_Blades.
-*/
-/*!
-@var BWAPI::WeaponTypes::Psi_Blades
- @htmlonly
-<img src='icon353.png'>
-@endhtmlonly  Psi Blades. Corresponds with WeaponTypes::Enum::Psi_Blades.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon65.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"</td></tr>
-<tr><td><strong>Damage</strong></td><td>8</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
-@endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::Glave_Wurm
-Value of 48  [0x30]. See BWAPI::WeaponTypes::Glave_Wurm.
-*/
-/*!
-@var BWAPI::WeaponTypes::Glave_Wurm
- @htmlonly
-<img src='icon345.png'>
-@endhtmlonly  Glave Wurm. Corresponds with WeaponTypes::Enum::Glave_Wurm.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon43.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk"</td></tr>
-<tr><td><strong>Damage</strong></td><td>9</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
-@endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::C_10_Canister_Rifle_Samir_Duran
-Value of 112  [0x70]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran.
-*/
-/*!
-@var BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran
- @htmlonly
-<img src='icon324.png'>
-@endhtmlonly  C 10 Canister Rifle Samir Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Samir_Duran.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon99.png'>
-@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"</td></tr>
-<tr><td><strong>Damage</strong></td><td>25</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
-@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::Psi_Blades_Fenix
-Value of 65  [0x41]. See BWAPI::WeaponTypes::Psi_Blades_Fenix.
-*/
-/*!
-@var BWAPI::WeaponTypes::Psi_Blades_Fenix
- @htmlonly
-<img src='icon353.png'>
-@endhtmlonly  Psi Blades Fenix. Corresponds with WeaponTypes::Enum::Psi_Blades_Fenix.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon77.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"</td></tr>
-<tr><td><strong>Damage</strong></td><td>20</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
-@endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::Gauss_Rifle_Jim_Raynor
-Value of 1  [0x1]. See BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor.
-*/
-/*!
-@var BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor
- @htmlonly
-<img src='icon323.png'>
-@endhtmlonly  Gauss Rifle Jim Raynor. Corresponds with WeaponTypes::Enum::Gauss_Rifle_Jim_Raynor.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon20.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"</td></tr>
-<tr><td><strong>Damage</strong></td><td>18</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
-@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::Glave_Wurm_Kukulza
-Value of 49  [0x31]. See BWAPI::WeaponTypes::Glave_Wurm_Kukulza.
-*/
-/*!
-@var BWAPI::WeaponTypes::Glave_Wurm_Kukulza
- @htmlonly
-<img src='icon345.png'>
-@endhtmlonly  Glave Wurm Kukulza. Corresponds with WeaponTypes::Enum::Glave_Wurm_Kukulza.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon55.png'>
-@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk"</td></tr>
-<tr><td><strong>Damage</strong></td><td>18</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
-@endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
-@var BWAPI::WeaponTypes::Enum::C_10_Canister_Rifle_Infested_Duran
-Value of 113  [0x71]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran.
-*/
-/*!
-@var BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
- @htmlonly
-<img src='icon324.png'>
-@endhtmlonly  C 10 Canister Rifle Infested Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Infested_Duran.
-
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon104.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"</td></tr>
-<tr><td><strong>Damage</strong></td><td>25</td></tr>
-<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
-<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
-<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
-@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
-<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
-<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
-<tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
-<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
-</table>
-
-*/
-/*!
 @var BWAPI::WeaponTypes::Enum::C_10_Canister_Rifle
 Value of 2  [0x2]. See BWAPI::WeaponTypes::C_10_Canister_Rifle.
 */
@@ -318,6 +102,222 @@ Value of 67  [0x43]. See BWAPI::WeaponTypes::Phase_Disruptor_Fenix.
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
 <tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Psi_Blades
+Value of 64  [0x40]. See BWAPI::WeaponTypes::Psi_Blades.
+*/
+/*!
+@var BWAPI::WeaponTypes::Psi_Blades
+ @htmlonly
+<img src='icon353.png'>
+@endhtmlonly  Psi Blades. Corresponds with WeaponTypes::Enum::Psi_Blades.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon65.png'>
+@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"</td></tr>
+<tr><td><strong>Damage</strong></td><td>8</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon305.png'>
+@endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Gauss_Rifle
+Value of 0  [0x0]. See BWAPI::WeaponTypes::Gauss_Rifle.
+*/
+/*!
+@var BWAPI::WeaponTypes::Gauss_Rifle
+ @htmlonly
+<img src='icon323.png'>
+@endhtmlonly  Gauss Rifle. Corresponds with WeaponTypes::Enum::Gauss_Rifle.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon0.png'>
+@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"</td></tr>
+<tr><td><strong>Damage</strong></td><td>6</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon288.png'>
+@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>128</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Glave_Wurm
+Value of 48  [0x30]. See BWAPI::WeaponTypes::Glave_Wurm.
+*/
+/*!
+@var BWAPI::WeaponTypes::Glave_Wurm
+ @htmlonly
+<img src='icon345.png'>
+@endhtmlonly  Glave Wurm. Corresponds with WeaponTypes::Enum::Glave_Wurm.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon43.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk"</td></tr>
+<tr><td><strong>Damage</strong></td><td>9</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon301.png'>
+@endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::C_10_Canister_Rifle_Samir_Duran
+Value of 112  [0x70]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran.
+*/
+/*!
+@var BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran
+ @htmlonly
+<img src='icon324.png'>
+@endhtmlonly  C 10 Canister Rifle Samir Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Samir_Duran.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon99.png'>
+@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"</td></tr>
+<tr><td><strong>Damage</strong></td><td>25</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon288.png'>
+@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Gauss_Rifle_Jim_Raynor
+Value of 1  [0x1]. See BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor.
+*/
+/*!
+@var BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor
+ @htmlonly
+<img src='icon323.png'>
+@endhtmlonly  Gauss Rifle Jim Raynor. Corresponds with WeaponTypes::Enum::Gauss_Rifle_Jim_Raynor.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon20.png'>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"</td></tr>
+<tr><td><strong>Damage</strong></td><td>18</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon288.png'>
+@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>160</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Psi_Blades_Fenix
+Value of 65  [0x41]. See BWAPI::WeaponTypes::Psi_Blades_Fenix.
+*/
+/*!
+@var BWAPI::WeaponTypes::Psi_Blades_Fenix
+ @htmlonly
+<img src='icon353.png'>
+@endhtmlonly  Psi Blades Fenix. Corresponds with WeaponTypes::Enum::Psi_Blades_Fenix.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon77.png'>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"</td></tr>
+<tr><td><strong>Damage</strong></td><td>20</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon305.png'>
+@endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>15</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::Glave_Wurm_Kukulza
+Value of 49  [0x31]. See BWAPI::WeaponTypes::Glave_Wurm_Kukulza.
+*/
+/*!
+@var BWAPI::WeaponTypes::Glave_Wurm_Kukulza
+ @htmlonly
+<img src='icon345.png'>
+@endhtmlonly  Glave Wurm Kukulza. Corresponds with WeaponTypes::Enum::Glave_Wurm_Kukulza.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon55.png'>
+@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk"</td></tr>
+<tr><td><strong>Damage</strong></td><td>18</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon301.png'>
+@endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>96</td></tr>
+<tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
+</table>
+
+*/
+/*!
+@var BWAPI::WeaponTypes::Enum::C_10_Canister_Rifle_Infested_Duran
+Value of 113  [0x71]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran.
+*/
+/*!
+@var BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
+ @htmlonly
+<img src='icon324.png'>
+@endhtmlonly  C 10 Canister Rifle Infested Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Infested_Duran.
+
+<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
+<img src='icon104.png'>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"</td></tr>
+<tr><td><strong>Damage</strong></td><td>25</td></tr>
+<tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
+<tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
+<tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
+<tr><td><strong>Upgrade</strong></td><td> @htmlonly
+<img src='icon288.png'>
+@endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
+<tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
+<tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
+<tr><td><strong>Maximum Range</strong></td><td>192</td></tr>
 <tr><td><strong>Target Attributes</strong></td><td>Air, Ground</td></tr>
 </table>
 
