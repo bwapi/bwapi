@@ -111,7 +111,7 @@ namespace BWAPI
     /// <param name="timesToRun"> (optional)
     ///   The number of times to execute the action before the event is removed. If the value is
     ///   negative, then the event will never be removed. The value will be -1 if omitted, causing
-    ///   the event to execute regularly.
+    ///   the event to execute until the game ends.
     /// </param>
     /// <param name="framesToCheck"> (optional)
     ///   The number of frames to skip between checks. If this value is 0, then a condition check is
@@ -123,17 +123,6 @@ namespace BWAPI
     {
       interfaceEvents.push_back( InterfaceEvent<T>(action,condition,timesToRun,framesToCheck) );
     };
-    /// @overload
-    void registerEvent(const InterfaceEvent<T> &evt)
-    {
-      interfaceEvents.push_back( evt );
-    };
-    /// @overload
-    void registerEvent(InterfaceEvent<T> &&evt)
-    {
-      interfaceEvents.push_back( std::move(evt) );
-    };
-
   };
 
 

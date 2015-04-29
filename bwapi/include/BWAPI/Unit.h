@@ -893,8 +893,31 @@ namespace BWAPI
     /// @todo may currently be wrong
     bool isHoldingPosition() const;
 
-    /// Checks if this unit is not doing anything. This function is particularly useful when
-    /// checking for units that aren't doing any tasks.
+    /// <summary>Checks if this unit is running an idle order.</summary> This function is
+    /// particularly useful when checking for units that aren't doing any tasks that you assigned.
+    ///
+    /// A unit is considered idle if it is <b>not</b> doing any of the following:
+    ///   - Training
+    ///   - Constructing
+    ///   - Morphing
+    ///   - Researching
+    ///   - Upgrading
+    ///
+    /// In <b>addition</b> to running one of the following orders:
+    ///   - Orders::PlayerGuard: Player unit idle.
+    ///   - Orders::Guard: Generic unit idle.
+    ///   - Orders::Stop
+    ///   - Orders::PickupIdle
+    ///   - Orders::Nothing: Structure/generic idle.
+    ///   - Orders::Medic: Medic idle.
+    ///   - Orders::Carrier: Carrier idle.
+    ///   - Orders::Reaver: Reaver idle.
+    ///   - Orders::Critter: Critter idle.
+    ///   - Orders::Neutral: Neutral unit idle.
+    ///   - Orders::TowerGuard: Turret structure idle.
+    ///   - Orders::Burrowed: Burrowed unit idle.
+    ///   - Orders::NukeTrain
+    ///   - Orders::Larva: Larva idle.
     ///
     /// @code
     ///   BWAPI::Unitset myUnits = BWAPI::Broodwar->self()->getUnits();

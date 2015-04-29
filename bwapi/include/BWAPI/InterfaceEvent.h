@@ -3,14 +3,37 @@
 
 namespace BWAPI
 {
+  /// <summary>The interface event is an attachment to BWAPI interfaces which allows the user to
+  /// register powerful conditional callbacks that can be executed a user-specified number of
+  /// times.</summary>
+  ///
+  /// @tparam T
+  ///     The interface that this class is being used for.
+  ///
+  /// @see Interface::registerEvent
   template < typename T >
   class InterfaceEvent
   {
   public:
-    // default ctor
     InterfaceEvent() = default;
 
-    // expected ctor
+    /// <summary>This is the expected constructor for an interface event.</summary>
+    ///
+    /// <param name="action">
+    ///     An function callback that is run when all other conditions for this event are met.
+    /// </param>
+    /// <param name="condition"> (optioinal)
+    ///     A function predicate that returns true if this event should be triggered.
+    /// </param>
+    /// <param name="timesToRun"> (optional)
+    ///     The number of times that the action is called before this event is discarded. A value
+    ///     of -1 means the event will never be discarded until the game has ended.
+    /// </param>
+    /// <param name="framesToCheck"> (optional)
+    ///     The frequency that the event will check its condition at. A lower value indicates a
+    ///     higher frequency. A value of 0 means that the condition is checked every frame.
+    ///     A value of 10 means that the condition is checked once every 10 frames.
+    /// </param>
     InterfaceEvent(const std::function<void(T*)> &action, const std::function<bool(T*)> &condition = nullptr, int timesToRun = -1, int framesToCheck = 0)
       : condProc( condition )
       , execProc( action )
@@ -18,58 +41,23 @@ namespace BWAPI
       , runCount( timesToRun )
       , step( framesToCheck )
     {};
-    // copy ctor
-    InterfaceEvent(const InterfaceEvent<T> &other)
-      : condProc( other.condProc )
-      , execProc( other.execProc )
-      , runFreq( other.runFreq )
-      , runCount( other.runCount )
-      , step( other.step )
-    {};
-    // move ctor
-    InterfaceEvent(InterfaceEvent<T> &&other)
-      : condProc( std::move(other.condProc) )
-      , execProc( std::move(other.execProc) )
-      , runFreq( std::move(other.runFreq) )
-      , runCount( std::move(other.runCount) )
-      , step( std::move(other.step) )
-    {};
-    // copy assignment
-    InterfaceEvent &operator =(InterfaceEvent<T> other)
-    {
-      swap(*this, other);
-      return *this;
-    };
-    // move assignment
-    InterfaceEvent &operator =(InterfaceEvent<T> &&other)
-    {
-      swap(*this, other);
-      return *this;
-    };
 
-    // dtor
-    virtual ~InterfaceEvent()
-    {};
-
-    /// Checks if the event has finished its execution and is marked for removal.
+    /// <summary>Checks if the event has finished its execution and is marked for removal.</summary>
     ///
-    /// @retval true If the event has completed all runs and/or is marked for removal.
-    /// @retval false If the event should continue execution.
+    /// @returns true if the event has completed all runs and/or is marked for removal, otherwise
+    /// it returns false if the event should continue execution.
     bool isFinished() const
     {
       return this->runCount == 0;
     };
 
-    /// Marks the event for removal.
+    /// <summary>Marks the event for removal.</summary>
     void removeEvent()
     {
       this->runCount = 0;
     };
 
-    friend void swap(InterfaceEvent<T> &a, InterfaceEvent<T> &b);
-
   protected:
-    /// @cond HIDDEN
     template < typename U >
     friend class Interface;
 
@@ -113,27 +101,12 @@ namespace BWAPI
         return this->condProc(instance);
       return true; // always run if there is no conditional function
     };
-    /// @endcond
   private:
-    /// @cond HIDDEN
     // Data members
     std::function<bool(T*)> condProc = nullptr;
     std::function<void(T*)> execProc = nullptr;
     int runFreq = 0;  // Frequency of runs, in frames (0 means every frame, 1 means every other frame)
     int runCount = 0; // Number of times that the action can occur (-1 being infinite)
     int step = 0;     // Current step. Executes when reaches 0, then reset to runFreq.
-    /// @endcond
   };
-
-  // Note: This is down here to prevent intellisense errors
-  template <typename T>
-  inline void swap(InterfaceEvent<T> &a, InterfaceEvent<T> &b)
-  {
-    std::swap(a.condProc, b.condProc);
-    std::swap(a.execProc, b.execProc);
-    std::swap(a.runFreq, b.runFreq);
-    std::swap(a.runCount, b.runCount);
-    std::swap(a.step, b.step);
-  };
-
 }

@@ -46,6 +46,8 @@
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/WindowsTypes.h>
 
+/// <summary>The primary namespace for the BWAPI interface.</summary> Everything that is BWAPI is
+/// contained within it.
 namespace BWAPI
 {
   /// <summary>Retrieves the revision of the BWAPILIB module currently being used.</summary>
