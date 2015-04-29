@@ -180,22 +180,14 @@ namespace BWAPI
     /// @returns UpgradeType::set containing all of the well-defined UpgradeTypes.
     const UpgradeType::set& allUpgradeTypes();
 
+    /// @name Terran Upgrades
+    /// @{
     extern const UpgradeType Terran_Infantry_Armor;
     extern const UpgradeType Terran_Vehicle_Plating;
     extern const UpgradeType Terran_Ship_Plating;
-    extern const UpgradeType Zerg_Carapace;
-    extern const UpgradeType Zerg_Flyer_Carapace;
-    extern const UpgradeType Protoss_Ground_Armor;
-    extern const UpgradeType Protoss_Air_Armor;
     extern const UpgradeType Terran_Infantry_Weapons;
     extern const UpgradeType Terran_Vehicle_Weapons;
     extern const UpgradeType Terran_Ship_Weapons;
-    extern const UpgradeType Zerg_Melee_Attacks;
-    extern const UpgradeType Zerg_Missile_Attacks;
-    extern const UpgradeType Zerg_Flyer_Attacks;
-    extern const UpgradeType Protoss_Ground_Weapons;
-    extern const UpgradeType Protoss_Air_Weapons;
-    extern const UpgradeType Protoss_Plasma_Shields;
     extern const UpgradeType U_238_Shells;
     extern const UpgradeType Ion_Thrusters;
     extern const UpgradeType Titan_Reactor;
@@ -203,6 +195,16 @@ namespace BWAPI
     extern const UpgradeType Moebius_Reactor;
     extern const UpgradeType Apollo_Reactor;
     extern const UpgradeType Colossus_Reactor;
+    extern const UpgradeType Caduceus_Reactor;
+    extern const UpgradeType Charon_Boosters;
+    /// @}
+    /// @name Zerg Upgrades
+    /// @{
+    extern const UpgradeType Zerg_Carapace;
+    extern const UpgradeType Zerg_Flyer_Carapace;
+    extern const UpgradeType Zerg_Melee_Attacks;
+    extern const UpgradeType Zerg_Missile_Attacks;
+    extern const UpgradeType Zerg_Flyer_Attacks;
     extern const UpgradeType Ventral_Sacs;
     extern const UpgradeType Antennae;
     extern const UpgradeType Pneumatized_Carapace;
@@ -212,6 +214,16 @@ namespace BWAPI
     extern const UpgradeType Grooved_Spines;
     extern const UpgradeType Gamete_Meiosis;
     extern const UpgradeType Metasynaptic_Node;
+    extern const UpgradeType Chitinous_Plating;
+    extern const UpgradeType Anabolic_Synthesis;
+    /// @}
+    /// @name Protoss Upgrades
+    /// @{
+    extern const UpgradeType Protoss_Ground_Armor;
+    extern const UpgradeType Protoss_Air_Armor;
+    extern const UpgradeType Protoss_Ground_Weapons;
+    extern const UpgradeType Protoss_Air_Weapons;
+    extern const UpgradeType Protoss_Plasma_Shields;
     extern const UpgradeType Singularity_Charge;
     extern const UpgradeType Leg_Enhancements;
     extern const UpgradeType Scarab_Damage;
@@ -226,10 +238,8 @@ namespace BWAPI
     extern const UpgradeType Khaydarin_Core;
     extern const UpgradeType Argus_Jewel;
     extern const UpgradeType Argus_Talisman;
-    extern const UpgradeType Caduceus_Reactor;
-    extern const UpgradeType Chitinous_Plating;
-    extern const UpgradeType Anabolic_Synthesis;
-    extern const UpgradeType Charon_Boosters;
+    /// @}
+
     extern const UpgradeType Upgrade_60;
     extern const UpgradeType None;
     extern const UpgradeType Unknown;

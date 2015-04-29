@@ -150,6 +150,8 @@ namespace BWAPI
     /// @returns Set of all available TechTypes.
     const TechType::set& allTechTypes();
 
+    /// @name Terran Abilities
+    /// @{
     extern const TechType Stim_Packs;
     extern const TechType Lockdown;
     extern const TechType EMP_Shockwave;
@@ -161,6 +163,13 @@ namespace BWAPI
     extern const TechType Yamato_Gun;
     extern const TechType Cloaking_Field;
     extern const TechType Personnel_Cloaking;
+    extern const TechType Restoration;
+    extern const TechType Optical_Flare;
+    extern const TechType Healing;
+    extern const TechType Nuclear_Strike;
+    /// @}
+    /// @name Zerg Abilities
+    /// @{
     extern const TechType Burrowing;
     extern const TechType Infestation;
     extern const TechType Spawn_Broodlings;
@@ -169,22 +178,23 @@ namespace BWAPI
     extern const TechType Consume;
     extern const TechType Ensnare;
     extern const TechType Parasite;
+    extern const TechType Lurker_Aspect;
+    /// @}
+    /// @name Protoss Abilities
+    /// @{
     extern const TechType Psionic_Storm;
     extern const TechType Hallucination;
     extern const TechType Recall;
     extern const TechType Stasis_Field;
     extern const TechType Archon_Warp;
-    extern const TechType Restoration;
     extern const TechType Disruption_Web;
     extern const TechType Mind_Control;
     extern const TechType Dark_Archon_Meld;
     extern const TechType Feedback;
-    extern const TechType Optical_Flare;
     extern const TechType Maelstrom;
-    extern const TechType Lurker_Aspect;
-    extern const TechType Healing;
+    /// @}
+
     extern const TechType None;
-    extern const TechType Nuclear_Strike;
     extern const TechType Unknown;
   };
 
