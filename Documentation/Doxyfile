@@ -252,6 +252,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Hives=@ref BWAPI::UnitTypes::Zerg_Hive \"Hives\"" \
                          "Larvae=@ref BWAPI::UnitTypes::Zerg_Larva \"Larvae\"" \
                          "Medic=@ref BWAPI::UnitTypes::Terran_Medic \"Medic\"" \
+                         "Medics=@ref BWAPI::UnitTypes::Terran_Medic \"Medics\"" \
                          "Hatchery=@ref BWAPI::UnitTypes::Zerg_Hatchery \"Hatchery\"" \
                          "Lair=@ref BWAPI::UnitTypes::Zerg_Lair \"Lair\"" \
                          "Hive=@ref BWAPI::UnitTypes::Zerg_Hive \"Hive\"" \
@@ -271,6 +272,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Geysers=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
                          "Protoss=@ref Races::Protoss \"Protoss\"" \
                          "Marines=@ref BWAPI::UnitTypes::Terran_Marine \"Marines\"" \
+                         "Marine=@ref BWAPI::UnitTypes::Terran_Marine \"Marine\"" \
                          "Scourges=@ref BWAPI::UnitTypes::Zerg_Scourge \"Scourges\"" \
                          "Barracks=@ref BWAPI::UnitTypes::Terran_Barracks \"Barracks\"" \
                          "Creep_Colony=@ref BWAPI::UnitTypes::Zerg_Creep_Colony \"Creep Colony\"" \
@@ -286,6 +288,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Larva=@ref BWAPI::UnitTypes::Zerg_Larva \"Larva\"" \
                          "Zerglings=@ref BWAPI::UnitTypes::Zerg_Zergling \"Zerglings\"" \
                          "Burrow=@ref BWAPI::TechTypes::Burrowing \"Burrow\"" \
+                         "Burrowing=@ref BWAPI::TechTypes::Burrowing \"Burrowing\"" \
                          "UseMapSettings=@ref BWAPI::GameTypes::Use_Map_Settings \"Use Map Settings\"" \
                          "MindControl=@ref BWAPI::TechTypes::Mind_Control \"Mind Control\"" \
                          "Refinery=@ref BWAPI::UnitTypes::Terran_Refinery \"Refinery\"" \
@@ -299,6 +302,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "UMS=@ref BWAPI::GameTypes::Use_Map_Settings \"Use Map Settings\"" \
                          "CTF=@ref GameTypes::Capture_The_Flag \"Capture The Flag\"" \
                          "Transport=Transport(@ref BWAPI::UnitTypes::Terran_Dropship \"Dropship\", @ref BWAPI::UnitTypes::Protoss_Shuttle \"Shuttle\", @ref BWAPI::UnitTypes::Zerg_Overlord \"Overlord\" )" \
+                         "Transports=Transports(@ref BWAPI::UnitTypes::Terran_Dropship \"Dropships\", @ref BWAPI::UnitTypes::Protoss_Shuttle \"Shuttles\", @ref BWAPI::UnitTypes::Zerg_Overlord \"Overlords\" )" \
                          TODO=@todo \
                          "threadsafe=@note This function is considered thread-safe." \
                          "Infested_Kerrigan=@ref BWAPI::UnitTypes::Hero_Infested_Kerrigan \"Infested Kerrigan\"" \

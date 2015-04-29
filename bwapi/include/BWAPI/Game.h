@@ -788,7 +788,7 @@ namespace BWAPI
     /// @note That text printed through this function is not seen by other players or in replays.
     /// 
     /// <param name="format">
-    ///   Text formatting. See printf for more information. Refrain from passing non-constant
+    ///   Text formatting. See std::printf for more information. Refrain from passing non-constant
     ///   strings directly in this parameter.
     /// </param>
     /// <param name="...">
@@ -810,12 +810,12 @@ namespace BWAPI
     virtual void vPrintf(const char *format, va_list args) = 0;
     
     /// <summary>Sends a text message to all other players in the game.</summary> The behaviour of
-    /// this function is the same as printf, located in header cstdio.
+    /// this function is the same as std::printf, located in header cstdio.
     ///
     /// @note In a single player game this function can be used to execute cheat codes.
     ///
     /// <param name="format">
-    ///   Text formatting. See printf for more information. Refrain from passing non-constant
+    ///   Text formatting. See std::printf for more information. Refrain from passing non-constant
     ///   strings directly in this parameter.
     /// </param>
     ///
@@ -834,15 +834,15 @@ namespace BWAPI
     void vSendText(const char *format, va_list args);
 
     /// <summary>An extended version of Game::sendText which allows messages to be forwarded to
-    /// allies.</summary> The behaviour of this function is the same as printf, located in header
-    /// cstdio.
+    /// allies.</summary> The behaviour of this function is the same as std::printf, located in
+    /// header cstdio.
     ///
     /// <param name="toAllies">
     ///   If this parameter is set to true, then the message is only sent to allied players,
     ///   otherwise it will be sent to all players.
     /// </param>
     /// <param name="format">
-    ///   Text formatting. See printf for more information. Refrain from passing non-constant
+    ///   Text formatting. See std::printf for more information. Refrain from passing non-constant
     ///   strings directly in this parameter.
     /// </param>
     ///
