@@ -40,7 +40,7 @@ BOOL STORMAPI SNetSendServerChatCommand(const char *command) rBool;
 
 BOOL STORMAPI SNetGetPlayerNames(DWORD flags) rBool;
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID) rBool;
-BOOL STORMAPI SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5) rBool;
+BOOL STORMAPI SNetReportGameResult(unsigned a1, int size, int *results, const char* headerInfo, const char* detailInfo) rBool;
 
 int STORMAPI SNetSendLeagueCommand(char *cmd, char *callback) rInt;
 int STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath) rInt;

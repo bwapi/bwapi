@@ -433,7 +433,13 @@ BOOL STORMAPI SNetSendServerChatCommand(const char *command);
 
 BOOL STORMAPI SNetGetPlayerNames(DWORD flags); // Is actually SetPlayerFlags or something
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
-BOOL STORMAPI SNetReportGameResult(unsigned int a1, int size, int a3, int a4, int a5);
+
+#define SNET_GAME_RESULT_WIN        1
+#define SNET_GAME_RESULT_LOSS       2
+#define SNET_GAME_RESULT_DRAW       3
+#define SNET_GAME_RESULT_DISCONNECT 4
+
+BOOL STORMAPI SNetReportGameResult(unsigned a1, int size, int *results, const char* headerInfo, const char* detailInfo);
 
 int  STORMAPI SNetSendLeagueCommand(char *cmd, char *callback);
 int  STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath);
