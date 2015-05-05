@@ -204,6 +204,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
 {
   // Event to prevent the injection of more than one BWAPI DLL
   static HANDLE hEvent = nullptr;
+  static HANDLE hPersistThread = nullptr;
   
   static char szEventName[32];  // The name of the event, unique for this process
   sprintf(szEventName, "BWAPI #%u", GetCurrentProcessId());
@@ -214,6 +215,8 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     if ( hEvent != nullptr )
       CloseHandle(hEvent);  // destroy the event
 
+    if (hPersistThread != nullptr)
+      CloseHandle(hPersistThread); // destroy the thread
     break;
   case DLL_PROCESS_ATTACH:
 
@@ -238,7 +241,7 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     ApplyCodePatches();
 
     // Create our thread that persistently applies hacks
-    CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
+    hPersistThread = CreateThread(NULL, 0, &PersistentPatch, NULL, 0, NULL);
 
     break;
   }
