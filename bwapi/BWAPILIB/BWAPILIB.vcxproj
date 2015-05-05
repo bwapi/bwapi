@@ -155,7 +155,10 @@ XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C 
     <PostBuildEvent>
       <Message>Copying BWAPI library to Developer folder</Message>
       <Command>COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\lib\BWAPId.lib"
-COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"</Command>
+COPY /y "$(OutDir)$(TargetName)$(TargetExt)" "..\lib\BWAPId.lib"
+COPY /y "$(OutDir)BWAPId.pdb" "$(SolutionDir)..\Release_Binary\lib\BWAPId.pdb"
+COPY /y "$(OutDir)BWAPId.pdb" "..\lib\BWAPId.pdb"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
