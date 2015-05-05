@@ -60,8 +60,7 @@ namespace BWAPI
     const int width = getWidth();
     const int height = getHeight();
 
-    GameData* data = BroodwarImpl.server.data;
-    bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
+    GameData* const data = BroodwarImpl.server.data;
     if ( BroodwarImpl.isReplay() )
     {
       for(int x = 0; x < width; ++x)
@@ -78,16 +77,16 @@ namespace BWAPI
     }
     else
     {
-      int playerIndex = BroodwarImpl.BWAPIPlayer->getIndex();
-      u32 playerFlag = 1 << playerIndex;
+      const bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
+      const u32 playerFlag = 1 << BroodwarImpl.BWAPIPlayer->getIndex();
       for(int x = 0; x < width; ++x)
       {
         for(int y = 0; y < height; ++y)
         {
-          BW::activeTile tileData = getActiveTile(x, y);
+          const BW::activeTile tileData = getActiveTile(x, y);
           data->isVisible[x][y]   = !(tileData.bVisibilityFlags & playerFlag);
           data->isExplored[x][y]  = !(tileData.bExploredFlags & playerFlag);
-          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && tileData.bTemporaryCreep != 0;
+          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && (tileData.bTemporaryCreep != 0 || tileData.bHasCreep != 0);
           data->isOccupied[x][y]  = (data->isVisible[x][y] || completeMapInfo) && tileData.bCurrentlyOccupied != 0;
         }
       }
@@ -141,16 +140,9 @@ namespace BWAPI
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    if ( *BW::BWDATA::MapTileArray && (unsigned)x < getWidth() && (unsigned)y < getHeight())
+    if ( *BW::BWDATA::MapTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
       return *((*BW::BWDATA::MapTileArray) + x + y * Map::getWidth());
     return 0;
-  }
-  //-------------------------------------------- GET ACTIVE TILE ---------------------------------------------
-  BW::activeTile Map::getActiveTile(int x, int y)
-  {
-    if (*BW::BWDATA::ActiveTileArray && (unsigned)x < getWidth() && (unsigned)y < getHeight())
-      return *((*BW::BWDATA::ActiveTileArray) + x + y * Map::getWidth());
-    return BW::activeTile{};
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
   u8 Map::getTileVariation(BW::TileID tileType)
