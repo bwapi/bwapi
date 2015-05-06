@@ -661,10 +661,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\Holiday\Holiday.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\NewHackUtil.h"
 					>
 				</File>
@@ -694,10 +690,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\Graphics.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\Holiday\Holiday.cpp"
 					>
 				</File>
 				<File

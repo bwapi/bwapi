@@ -8,7 +8,6 @@
 #include "WMode.h"
 #include "DLLMain.h"
 #include "Resolution.h"
-#include "Holiday/Holiday.h"
 
 #include "Detours.h"
 #include "BWAPI/GameImpl.h"
@@ -432,9 +431,6 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 
   if ( BW::BWDATA_GameScreenBuffer->data )
   {
-    if ( gdwHoliday )
-      DrawHoliday();
-
     if ( !BWAPI::BroodwarImpl.isPaused() )
     {
       DWORD dwThisTickCount = BWAPI::BroodwarImpl.getFrameCount()*42;
