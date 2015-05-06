@@ -31,8 +31,9 @@ void DevAIModule::onFrame()
   std::set<Unit*> units = bw->getAllUnits();
   for each (Unit * u in units)
   {
-    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%d", u->isAttacking());
+    u->morph(UnitTypes::Zerg_Zergling);
   }
+
 }
 
 void DevAIModule::onSendText(std::string text)

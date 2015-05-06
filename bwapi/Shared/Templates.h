@@ -336,7 +336,8 @@ namespace BWAPI
       
       /* Check if player has enough supplies */
       BWAPI::Race typeRace = type.getRace();
-      if ( type.supplyRequired() > 0 && Broodwar->self()->supplyTotal(typeRace) < Broodwar->self()->supplyUsed(typeRace) + type.supplyRequired() - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0) )
+      const int supplyRequired = type.supplyRequired() * (type.isTwoUnitsInOneEgg() ? 2 : 1);
+      if (supplyRequired > 0 && Broodwar->self()->supplyTotal(typeRace) < Broodwar->self()->supplyUsed(typeRace) + supplyRequired - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0))
         return Broodwar->setLastError(Errors::Insufficient_Supply);
 
       UnitType addon = UnitTypes::None;
