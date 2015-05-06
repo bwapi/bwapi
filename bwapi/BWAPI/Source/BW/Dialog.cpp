@@ -211,7 +211,6 @@ namespace BW
             dlg->parent()->rct.bottom = dlg->parent()->rct.top + dlg->parent()->srcBits.ht - 1;
             dlg->parent()->u.dlg.dstBits.ht = dlg->parent()->srcBits.ht;
           }
-          wantRefresh = true;
           break;
         }
         break;
@@ -262,7 +261,6 @@ namespace BW
           dlg->rct.top    -= dlg->rct.bottom - (scrLimit.bottom - 40);
           dlg->rct.bottom -= dlg->rct.bottom - (scrLimit.bottom - 40);
         }
-        wantRefresh = true;
       }
       i = dlg->child();
       while( i )

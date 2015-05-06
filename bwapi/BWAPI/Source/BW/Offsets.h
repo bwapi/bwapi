@@ -177,7 +177,6 @@ namespace BW
   BWDATA(u32, DDrawInitCallPatch, 0x004DB0A2, 0);
   static void (__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
 
-  BWDATA(u8*, RefreshRegions, 0x006CEFF8, 0);
   BWDATA(u8*, PlayerColors, 0x00581DD6, 0);
 
   struct bounds

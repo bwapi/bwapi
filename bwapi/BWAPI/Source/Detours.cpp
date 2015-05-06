@@ -412,16 +412,18 @@ BOOL __stdcall _SNetReceiveMessage(int *senderplayerid, u8 **data, int *databyte
 }
 
 //----------------------------------------------- DRAW HOOK --------------------------------------------------
-bool wantRefresh = false;
 DWORD dwLastAPMCount;
 double botAPM_noSelect;
 double botAPM_select;
 void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
 {
+  static bool wantRefresh = false;
   if ( wantRefresh )
   {
     wantRefresh = false;
-    memset(BW::BWDATA_RefreshRegions, 1, 1200);
+    // Calling this function forces a game layer refresh without adding any new offsets
+    // This is done to improve compatibility with Hellinsect's resolution expander hack
+    BW::BWFXN_UpdateScreenPosition();
   }
 
   //GameUpdate(pSurface, pBounds);
@@ -445,9 +447,7 @@ void __stdcall DrawHook(BW::bitmap *pSurface, BW::bounds *pBounds)
       }
     }
 
-    unsigned int numShapes = BWAPI::BroodwarImpl.drawShapes();
-    
-    if ( numShapes )
+    if ( BWAPI::BroodwarImpl.drawShapes() )
       wantRefresh = true;
   }
 }
