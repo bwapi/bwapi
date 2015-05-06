@@ -5,7 +5,6 @@
 #include "BWAPI/GameImpl.h"
 
 #include "Config.h"
-#include "Recording.h"
 
 #include "../../Debug.h"
 
@@ -17,8 +16,6 @@ void* pBits;
 bool gbWantUpdate     = false;
 bool gbIsCursorHidden = true;
 bool gbHoldingAlt     = false;
-
-bool recordingUpdated;
 
 bool switchToWMode = false;
 RECT windowRect    = { 0, 0, 640, 480 };
@@ -527,22 +524,6 @@ BOOL __stdcall _SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lpl
 
 BOOL __stdcall _SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect)
 {
-  // Recording code to copy data over to a standard buffer,
-  // and also to hide the "Recording" message from the video.
-  if ( recordingStarted && pVidBuffer && lpSurface )
-  {
-    recordingUpdated = true;
-    if ( !lpRect && wmode )
-    {
-      // Copy the buffer data
-      memcpy(pVidBuffer, lpSurface, 640*480);
-
-      // Notify that it is recording
-      BW::bitmap tmpBmp = { 640, 480, (u8*)lpSurface };
-      BW::BlitText("\x07" "Recording", &tmpBmp, 406, 346, 0);
-    }
-  }
-
   if ( !wmode )
   {
     if ( _SDrawUnlockSurfaceOld )

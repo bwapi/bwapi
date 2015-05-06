@@ -8,7 +8,6 @@
 #include "WMode.h"
 #include "Detours.h"
 #include "DLLMain.h"
-#include "Recording.h"
 #include "Resolution.h"
 
 #include <BWAPI/BWtoBWAPI.h>
@@ -39,8 +38,6 @@ namespace BWAPI
       , client(NULL)
       , inGame(false)
       , endTick(0)
-      , pathDebug(false)
-      , unitDebug(false)
       , grid(false)
       , calledMatchEnd(false)
       , lastAutoMapEntry(0)
@@ -249,33 +246,12 @@ namespace BWAPI
       grid = !grid;
       printf("Matrix grid %s.", grid ? "enabled" : "disabled");
     }
-    else if (parsed[0] == "/record")
-    {
-      if ( !StartVideoRecording(640, 480) )
-        MessageBox(NULL, "Recording failed to start.", "Recording failed!", MB_OK | MB_ICONHAND);
-    }
-    else if (parsed[0] == "/stoprecord")
-    {
-      StopVideoRecording();
-    }
 #ifdef _DEBUG
     else if (parsed[0] == "/latency")
     {
       printf("latency: %d", getLatency());
       printf("New latency: %u frames; %ums", getLatencyFrames(), getLatencyTime());
     }
-// The following commands are knockoffs of Starcraft Beta's developer mode
-    else if (parsed[0] == "/pathdebug")
-    {
-      pathDebug = !pathDebug;
-      printf("pathdebug %s", pathDebug ? "ENABLED" : "DISABLED");
-    }
-    else if (parsed[0] == "/unitdebug")
-    {
-      unitDebug = !unitDebug;
-      printf("unitdebug %s", unitDebug ? "ENABLED" : "DISABLED");
-    }
-// end knockoffs
     else if (parsed[0] == "/hud")
     {
       hideHUD = !hideHUD;

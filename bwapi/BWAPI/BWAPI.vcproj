@@ -669,10 +669,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Source\Recording.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Source\Resolution.h"
 					>
 				</File>
@@ -706,10 +702,6 @@
 				</File>
 				<File
 					RelativePath=".\Source\NewHackUtil.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Source\Recording.cpp"
 					>
 				</File>
 				<File

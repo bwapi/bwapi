@@ -422,8 +422,6 @@ namespace BWAPI
 
       int  textSize;
 
-      bool pathDebug;
-      bool unitDebug;
       bool grid;
 
       bool externalModuleConnected;
