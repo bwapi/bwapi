@@ -643,15 +643,6 @@ namespace BWAPI
     if ( !this->isReplay() )
       *BW::BWDATA_ReplayFrames = this->getFrameCount()+20;
 
-    // Check if the window is iconic, if so, go super fast!
-    static bool bLastIconic = false;
-    if ( !!IsIconic(SDrawGetFrameWindow()) != bLastIconic && !this->isMultiplayer() )
-    {
-      this->setLocalSpeed(bLastIconic ? -1 : 0);
-      this->setFrameSkip(bLastIconic ? 1 : 16);
-      bLastIconic = !bLastIconic;
-    }
-
     // If we should process our commands just before sending them
     // @TODO: Only process on the frame before commands are sent
     //if ( *BW::BWDATA_FramesUntilNextTurn == 1 )
