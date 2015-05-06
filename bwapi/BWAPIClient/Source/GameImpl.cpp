@@ -474,7 +474,6 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::getUnitsInRectangle(int left, int top, int right, int bottom) const
   {
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     static int lastLeft   = -1;
     static int lastRight  = -1;
     static int lastTop    = -1;
@@ -491,8 +490,7 @@ namespace BWAPI
 
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<unitFinder>(data->xUnitSearch, 
-                                            data->yUnitSearch, 
-                                            g_dwFinderFlags, 
+                                            data->yUnitSearch,
                                             left, 
                                             top, 
                                             right, 
@@ -517,7 +515,6 @@ namespace BWAPI
   std::set<Unit*>& GameImpl::getUnitsInRadius(BWAPI::Position center, int radius) const
   {
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     static Position lastPosition = Positions::Invalid;
     static int lastRadius        = -1;
     static int lastFrame         = -1;
@@ -541,7 +538,6 @@ namespace BWAPI
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<unitFinder>(data->xUnitSearch, 
                                             data->yUnitSearch, 
-                                            g_dwFinderFlags, 
                                             left, 
                                             top, 
                                             right, 

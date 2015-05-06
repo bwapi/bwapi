@@ -223,7 +223,6 @@ namespace BWAPI
   {
     // Initialize static variables
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     unitFinderResults.clear();
 
     // Return if this unit does not exist
@@ -243,7 +242,6 @@ namespace BWAPI
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
                                                 BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
                                                 left, 
                                                 top, 
                                                 right, 
@@ -286,7 +284,6 @@ namespace BWAPI
   {
     // Initialize static variables
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     unitFinderResults.clear();
 
     // Return if this unit does not exist
@@ -309,7 +306,6 @@ namespace BWAPI
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
                                                 BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
                                                 left, 
                                                 top, 
                                                 right, 

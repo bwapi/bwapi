@@ -313,7 +313,6 @@ namespace BWAPI
   {
     // Initialize static variables
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     static int lastLeft   = -1;
     static int lastRight  = -1;
     static int lastTop    = -1;
@@ -332,8 +331,7 @@ namespace BWAPI
 
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
-                                                BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
+                                                BW::BWDATA_UnitOrderingY,
                                                 left, 
                                                 top, 
                                                 right, 
@@ -359,7 +357,6 @@ namespace BWAPI
   {
     // Initialize static variables
     static std::set<Unit*> unitFinderResults;
-    static DWORD g_dwFinderFlags[1701] = { 0 };
     static Position lastPosition = Positions::Invalid;
     static int lastRadius        = -1;
     static int lastFrame         = -1;
@@ -385,7 +382,6 @@ namespace BWAPI
     // Have the unit finder do its stuff
     Templates::manageUnitFinder<BW::unitFinder>(BW::BWDATA_UnitOrderingX, 
                                                 BW::BWDATA_UnitOrderingY, 
-                                                g_dwFinderFlags, 
                                                 left, 
                                                 top, 
                                                 right, 

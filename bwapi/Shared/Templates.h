@@ -60,11 +60,13 @@ namespace BWAPI
     }
     
     template <class finder>
-    void manageUnitFinder(finder *finder_x, finder *finder_y, DWORD *pdwFinderFlags, int left, int top, int right, int bottom, bool (__fastcall *callback)(Unit *uIterator), std::set<Unit*> &finderSet)
+    void manageUnitFinder(finder *finder_x, finder *finder_y, int left, int top, int right, int bottom, bool (__fastcall *callback)(Unit *uIterator), std::set<Unit*> &finderSet)
     {
       // Clear the set
       finderSet.clear();
 
+      std::map<unsigned, unsigned> pdwFinderFlags;
+      
       Templates::swapIfLarger<int>(left, right);
       Templates::swapIfLarger<int>(top, bottom);
 
