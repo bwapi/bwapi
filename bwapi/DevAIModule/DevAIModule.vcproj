@@ -183,10 +183,6 @@
 				RelativePath=".\Source\Dll.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Source\Wiki.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -195,10 +191,6 @@
 			>
 			<File
 				RelativePath=".\Source\DevAIModule.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Source\Wiki.h"
 				>
 			</File>
 		</Filter>

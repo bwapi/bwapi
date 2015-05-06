@@ -7,3 +7,5 @@ Release_Binary/Chaoslauncher/BWAPI*
 Release_Binary/MPQdraft/BWAPI*
 Release_Binary/include/BWAPI*
 Release_Binary/lib/BWAPI*
+*.log
+__log.txt

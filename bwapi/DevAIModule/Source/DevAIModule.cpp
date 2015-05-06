@@ -3,11 +3,7 @@
 
 using namespace BWAPI;
 
-bool enabled;
 int mapH, mapW;
-
-DWORD dwCount = 0;
-int bestFPS;
 
 void DevAIModule::onStart()
 {
@@ -20,7 +16,6 @@ void DevAIModule::onStart()
   // save map info
   mapH = bw->mapHeight();
   mapW = bw->mapWidth();
-
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -28,53 +23,21 @@ void DevAIModule::onEnd(bool isWinner)
 
 }
 
-DWORD dwLastTickCount;
-bool testunload;
 void DevAIModule::onFrame()
 {
 	if ( bw->isReplay() )
 		return;
 
-	int tFPS = bw->getFPS();
-	if ( tFPS > bestFPS )
-		bestFPS = tFPS;
-
-
-  std::set<Player*> plyrs( bw->getPlayers() );
-  int iPos = 8;
-	for each ( Player *p in plyrs )
+  std::set<Unit*> units = bw->getAllUnits();
+  for each (Unit * u in units)
   {
-    Broodwar->drawTextScreen(10, iPos, "%c%s -- %s", p->getTextColor(), p->getName().c_str(), p->getRace().c_str() );
-    iPos += 10;
+    bw->drawTextMap(u->getPosition().x(), u->getPosition().y(), "%d", u->isAttacking());
   }
 }
 
 void DevAIModule::onSendText(std::string text)
 {
-  if ( text == "/wiki" )
-  {
-    writeUnitWiki();
-    writeWeaponWiki();
-    Broodwar->printf("Generated wiki pages!");
-  }
-  else if ( text == "/best" )
-  {
-    bw->printf("Best: %d FPS", bestFPS);
-  }
-  else if ( text == "/races" )
-  {
-    for ( std::set<Player*>::const_iterator p = bw->getPlayers().begin(),
-          pend = bw->getPlayers().end();
-          p != pend;
-          ++p )
-    {
-      bw->printf("%s is %s", (*p)->getName().c_str(), (*p)->getRace().c_str());
-    }
-  }
-  else
-  {
-    Broodwar->sendText("%s", text.c_str());
-  }
+  Broodwar->sendText("%s", text.c_str());
 }
 
 void DevAIModule::onReceiveText(BWAPI::Player* player, std::string text)

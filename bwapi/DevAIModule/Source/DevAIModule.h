@@ -1,19 +1,8 @@
 #pragma once
 #include <BWAPI.h>
 #include <windows.h>
-#include <algorithm>
-
-#include "Wiki.h"
 
 #define bw BWAPI::Broodwar
-
-#define SEARCH_UNEXPLORED   0
-#define SEARCH_EXPLORED     1
-#define SEARCH_NOTVISIBLE   2
-#define SEARCH_CONSTRUCT    3
-
-bool                pointSearch(int dwType, BWAPI::TilePosition pt, BWAPI::Unit *unit = NULL, BWAPI::UnitType type = BWAPI::UnitTypes::None, int width = 1, int height = 1);
-BWAPI::TilePosition spiralSearch(int dwType, BWAPI::TilePosition start, int radius, BWAPI::Unit *unit = NULL, BWAPI::UnitType type = BWAPI::UnitTypes::None, int width = 1, int height = 1);
 
 class DevAIModule : public BWAPI::AIModule
 {
