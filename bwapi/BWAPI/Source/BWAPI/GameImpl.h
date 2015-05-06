@@ -286,7 +286,6 @@ namespace BWAPI
       std::list<Event> events;
       int bulletCount;
       Server server;
-      std::vector<BWAPI::UnitImpl*> lastEvadedUnits;
       bool onStartCalled;
       std::string lastMapGen;
       std::string autoMenuMode;
@@ -336,8 +335,10 @@ namespace BWAPI
 
       std::vector<BWAPI::UnitImpl*> discoverUnits; //units entering accessibleUnits set on current frame
       std::set<BWAPI::Unit*> accessibleUnits; //units that are accessible to the client on current frame
+    public:
       std::vector<BWAPI::UnitImpl*> evadeUnits; //units leaving accessibleUnits set on current frame
 
+    private:
       std::set<BWAPI::Unit*>  selectedUnitSet;
       std::set<BWAPI::Unit*>  emptySet;
       std::set<TilePosition>  startLocations;

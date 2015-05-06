@@ -580,7 +580,7 @@ namespace BWAPI
       }
       BroodwarImpl.isTournamentCall = false;
     }
-    foreach(UnitImpl* u, BroodwarImpl.lastEvadedUnits)
+    foreach(UnitImpl* u, BroodwarImpl.evadeUnits)
       data->units[u->getID()] = u->data;
 
     ((GameImpl*)Broodwar)->events.clear();

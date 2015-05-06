@@ -69,7 +69,6 @@ namespace BWAPI
       u->wasAlive = true;
       u->isAlive  = false;
     }
-    lastEvadedUnits = evadeUnits;//save last evaded units for updating shared memory (Server.cpp)
 
     //set the wasAccessible and wasVisible fields
     foreach(UnitImpl* u, accessibleUnits)
@@ -372,7 +371,7 @@ namespace BWAPI
       }
       if (i->lastType != i->_getType && i->lastType != UnitTypes::Unknown && i->_getType != UnitTypes::Unknown)
       {
-        u->wasCompleted = false; // After morphing units mostly are not completed
+        i->wasCompleted = false; // After morphing units mostly are not completed
         events.push_back(Event::UnitMorph(i));
         if (i->lastType == UnitTypes::Resource_Vespene_Geyser)
         {
