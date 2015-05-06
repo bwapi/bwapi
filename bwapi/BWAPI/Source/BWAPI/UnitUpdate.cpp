@@ -193,28 +193,24 @@ namespace BWAPI
       self->velocityX = (double)o->current_speed.x / 256.0; //getVelocityX
       self->velocityY = (double)o->current_speed.y / 256.0; //getVelocityY
       //------------------------------------------------------------------------------------------------------
-      //getGroundWeaponCooldown
-      if ( _getType == UnitTypes::Protoss_Reaver || _getType == UnitTypes::Hero_Warbringer )
-        self->groundWeaponCooldown = o->mainOrderTimer;
-      else if ( o->subUnit )
-        self->groundWeaponCooldown = o->subUnit->groundWeaponCooldown;
-      else
-        self->groundWeaponCooldown = o->groundWeaponCooldown;
-
-      self->airWeaponCooldown = o->getDamageDealer()->airWeaponCooldown; //getAirWeaponCooldown
+      self->groundWeaponCooldown = o->getGroundWeaponCooldown(); //getGroundWeaponCooldown
+      self->airWeaponCooldown = o->getAirWeaponCooldown(); //getAirWeaponCooldown
       self->spellCooldown = o->spellCooldown;  //getSpellCooldown
 
-      u8 animState = BW::Anims::Init;
-      const BW::Unit* damageDealer = o->getDamageDealer();
-      if ( damageDealer->sprite && damageDealer->sprite->mainGraphic )
-        animState = damageDealer->sprite->mainGraphic->anim;
-      self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
-                           animState == BW::Anims::AirAttkRpt  || 
-                           animState == BW::Anims::GndAttkInit ||
-                           animState == BW::Anims::AirAttkInit) && o->orderTargetUnit != NULL;
-      
+      self->isAttacking = o->isAttacking();
+
+      // startingAttack
+      int airWeaponCooldown = o->getAirWeaponCooldown();
+      int groundWeaponCooldown = o->getGroundWeaponCooldown();
+      bool startingAttack = (airWeaponCooldown > lastAirWeaponCooldown || groundWeaponCooldown > lastGroundWeaponCooldown) && o->isAttacking();
+      lastAirWeaponCooldown = airWeaponCooldown;
+      lastGroundWeaponCooldown = groundWeaponCooldown;
+
+      self->isStartingAttack = startingAttack;  //isStartingAttack
+
       //isAttackFrame
       self->isAttackFrame = false;
+      const BW::Unit* damageDealer = o->getDamageDealer();
       if ( damageDealer->sprite && damageDealer->sprite->mainGraphic )
       { 
         int restFrame = (_getType >= 0 && _getType < BW::UnitID::MAX) ? AttackAnimationRestFrame[_getType] : -1;
@@ -231,7 +227,6 @@ namespace BWAPI
       self->isCompleted = _isCompleted; //isCompleted
       self->isMoving    = o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
                           self->order == BW::OrderID::Move; //isMoving
-      self->isStartingAttack = startingAttack;  //isStartingAttack
     }
     else
     {

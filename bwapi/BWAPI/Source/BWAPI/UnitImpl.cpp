@@ -42,7 +42,6 @@ namespace BWAPI
       , nukeDetected(false)
       , lastGroundWeaponCooldown(0)
       , lastAirWeaponCooldown(0)
-      , startingAttack(false)
       , lastCommandFrame(0)
       , lastCommand()
       , id(-1)

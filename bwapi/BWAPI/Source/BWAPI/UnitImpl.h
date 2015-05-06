@@ -279,7 +279,6 @@ namespace BWAPI
       int lastGroundWeaponCooldown;
       int lastAirWeaponCooldown;
       int lastFrameSet;
-      bool startingAttack;
       UnitType lastType;
       Player* lastPlayer;
       int id;
