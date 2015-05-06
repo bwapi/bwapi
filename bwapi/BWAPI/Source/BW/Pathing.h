@@ -123,7 +123,6 @@ namespace BW
     contourHub  *contours;             // 0x97A1C
   };
 
-  bool isCollidingWithContour(contourHub *hub, int x, int y, int left, int top, int right, int bottom);
   BW::region *getRegionAt(int x, int y);
   BW::region *getRegionAt(Position pos);
 }
