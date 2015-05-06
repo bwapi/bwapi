@@ -29,6 +29,8 @@ namespace BW
     bool movementFlag(u8 flags) const;
     bool statusFlag(u32 flags) const;
 
+    const Unit* getDamageDealer() const;
+
 // v-- POSSIBLE SHARED BULLET/UNIT STRUCTURE BEGIN
     /*0x000*/ BW::Unit                            *prev;
     /*0x004*/ BW::Unit                            *next;                 /**< Pointer to next unit in the unit linked list, we use

@@ -201,26 +201,28 @@ namespace BWAPI
       else
         self->groundWeaponCooldown = o->groundWeaponCooldown;
 
-      self->airWeaponCooldown = o->subUnit ? o->subUnit->airWeaponCooldown : o->airWeaponCooldown; //getAirWeaponCooldown
+      self->airWeaponCooldown = o->getDamageDealer()->airWeaponCooldown; //getAirWeaponCooldown
       self->spellCooldown = o->spellCooldown;  //getSpellCooldown
-      u8 animState = 0;
-      if ( o->sprite && o->sprite->mainGraphic )
-        animState = o->sprite->mainGraphic->anim;
+
+      u8 animState = BW::Anims::Init;
+      const BW::Unit* damageDealer = o->getDamageDealer();
+      if ( damageDealer->sprite && damageDealer->sprite->mainGraphic )
+        animState = damageDealer->sprite->mainGraphic->anim;
       self->isAttacking = (animState == BW::Anims::GndAttkRpt  ||  //isAttacking
                            animState == BW::Anims::AirAttkRpt  || 
                            animState == BW::Anims::GndAttkInit ||
                            animState == BW::Anims::AirAttkInit);
       //isAttackFrame
       self->isAttackFrame = false;
-      if ( o->sprite && o->sprite->mainGraphic )
+      if ( damageDealer->sprite && damageDealer->sprite->mainGraphic )
       { 
         int restFrame = (_getType >= 0 && _getType < BW::UnitID::MAX) ? AttackAnimationRestFrame[_getType] : -1;
         self->isAttackFrame = startingAttack || 
                              (self->isAttacking && 
                               restFrame != -1 && 
-                              (o->sprite->mainGraphic->frameSet != restFrame || 
+                              (damageDealer->sprite->mainGraphic->frameSet != restFrame || 
                               lastFrameSet != restFrame) );
-        lastFrameSet = o->sprite->mainGraphic->frameSet;
+        lastFrameSet = damageDealer->sprite->mainGraphic->frameSet;
       }
 
       self->isBurrowed  = o->statusFlag(BW::StatusFlags::Burrowed);  //isBurrowed

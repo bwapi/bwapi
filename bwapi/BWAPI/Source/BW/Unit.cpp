@@ -19,4 +19,9 @@ namespace BW
   {
     return (this->statusFlags & flags) != 0;
   }
+  const Unit* Unit::getDamageDealer() const
+  {
+    if (this->subUnit != NULL) return this->subUnit;
+    return this;
+  }
 }
