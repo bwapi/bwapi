@@ -219,7 +219,7 @@ namespace BWAPI
       this->playerSet.insert(this->players[11]);
 
     for (int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p) {
-        if (this->players[p]) this->players[p]->force = nullptr;
+        if (this->players[p]) this->players[p]->force = NULL;
     }
 
     // Get Force Objects, assign Force<->Player relations

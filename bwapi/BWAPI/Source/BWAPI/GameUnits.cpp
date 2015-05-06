@@ -211,7 +211,7 @@ namespace BWAPI
       i->lastAirWeaponCooldown    = airWeaponCooldown;
       i->lastGroundWeaponCooldown = groundWeaponCooldown;
       if (i->getID() == -1)
-        i->setID(server.getUnitID(u));
+        i->setID(server.getUnitID(i));
       if (i->canAccess())
         i->updateData();
       if ( i->getOriginalRawData->unitType == BW::UnitID::Terran_Ghost)
