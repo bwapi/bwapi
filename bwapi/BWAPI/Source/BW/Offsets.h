@@ -459,9 +459,6 @@ namespace BW
   static void (__stdcall * const BWFXN_ExecuteGameTriggers)(DWORD dwMillisecondsPerFrame) = (void(__stdcall*)(DWORD))0x0048A460;
   BWDATA(u32, ExecuteGameTrigsCallPatch, 0x004D9798, 0);
 
-  const char            *GetStatString(int index);
-  extern char           *BWDATA_StringTableOff;
-
   //------------------------------------------------ SUPPLIES ------------------------------------------------
   struct AllScores
   {

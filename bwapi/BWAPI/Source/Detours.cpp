@@ -574,14 +574,6 @@ void *__stdcall _SMemAlloc(int amount, char *logfilename, int logline, char defa
     }
   } // isCorrectVer
 
-  /* Save the allocated string table pointer */
-  if ( lastFile == "rez\\stat_txt.tbl" )
-  {
-    BW::BWDATA_StringTableOff = (char*)rval;
-    lastFile = "";
-    //MessageBox(0, "BWDATA_StringTableOff", "", 0);
-  }
-
   /* Save the allocated fog of war pointer */
   if ( amount == 0x40000 && strcmpi(logfilename, "Starcraft\\SWAR\\lang\\Gamemap.cpp") == 0 && logline == 606 )
   {
