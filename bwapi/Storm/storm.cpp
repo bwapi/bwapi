@@ -21,7 +21,7 @@ BOOL STORMAPI SNetGetProviderCaps(PCAPS providerCaps) rBool;
 BOOL STORMAPI SNetGetTurnsInTransit(int *turns) rBool;
 BOOL STORMAPI SNetInitializeDevice(int a1, int a2, int a3, int a4, int *a5) rBool;
 BOOL STORMAPI SNetInitializeProvider(DWORD providerName, client_info *gameClientInfo, user_info *userData, battle_info *bnCallbacks, module_info *moduleData) rBool;
-BOOL STORMAPI SNetJoinGame(unsigned int a1, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid) rBool;
+BOOL STORMAPI SNetJoinGame(int id, char *gameName, char *gamePassword, char *playerName, char *userStats, int *playerid) rBool;
 BOOL STORMAPI SNetLeaveGame(int type) rBool;
 BOOL STORMAPI SNetPerformUpgrade(DWORD *upgradestatus) rBool;
 BOOL STORMAPI SNetReceiveMessage(int *senderplayerid, char **data, int *databytes) rBool;
