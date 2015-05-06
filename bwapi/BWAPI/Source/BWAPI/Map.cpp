@@ -95,7 +95,7 @@ namespace BWAPI
           BW::activeTile tileData = (*activeTiles)[y][x];
           data->isVisible[x][y]   = !(tileData.bVisibilityFlags & playerFlag);
           data->isExplored[x][y]  = !(tileData.bExploredFlags & playerFlag);
-          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && tileData.bTemporaryCreep != 0;
+          data->hasCreep[x][y]    = (data->isVisible[x][y] || completeMapInfo) && (tileData.bTemporaryCreep != 0 || tileData.bHasCreep != 0);
           data->isOccupied[x][y]  = (data->isVisible[x][y] || completeMapInfo) && tileData.bCurrentlyOccupied != 0;
         }
       }
