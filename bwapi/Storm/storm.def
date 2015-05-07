@@ -35,16 +35,16 @@ EXPORTS
 
   SNetEnumGamesEx               @133 NONAME
   SNetSendServerChatCommand     @134 NONAME
-  ;SNetSend135                  @135 NONAME
-  ;SNetReceive136               @136 NONAME
-  SNetGetPlayerNames            @137 NONAME
+  ;SNetSendDatagram             @135 NONAME
+  ;SNetReceiveDatagram          @136 NONAME
+  SNet137                       @137 NONAME
   SNetCreateLadderGame          @138 NONAME
   SNetReportGameResult          @139 NONAME
   ;SNetCheckDataFile             @140 NONAME
   SNetSendLeagueCommand         @141 NONAME
   SNetSendReplayPath            @142 NONAME
   SNetGetLeagueName             @143 NONAME
-  SNet144                       @144 NONAME
+  SNetGetPlayerNames            @144 NONAME
   SNetLeagueLogout              @145 NONAME
   SNetGetLeaguePlayerName       @146 NONAME
 

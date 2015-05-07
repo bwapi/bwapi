@@ -38,14 +38,14 @@ BOOL STORMAPI SNetSetGameMode(DWORD modeFlags, bool makePublic) rBool;
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall) rBool;
 BOOL STORMAPI SNetSendServerChatCommand(const char *command) rBool;
 
-BOOL STORMAPI SNetGetPlayerNames(DWORD flags) rBool;
+BOOL STORMAPI SNet137(DWORD flags) rBool;
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID) rBool;
 BOOL STORMAPI SNetReportGameResult(unsigned a1, int size, int *results, const char* headerInfo, const char* detailInfo) rBool;
 
 int STORMAPI SNetSendLeagueCommand(char *cmd, char *callback) rInt;
 int STORMAPI SNetSendReplayPath(int a1, int a2, char *replayPath) rInt;
 int STORMAPI SNetGetLeagueName(int leagueID) rInt;
-BOOL STORMAPI SNet144(char *buffer) rBool;
+BOOL STORMAPI SNetGetPlayerNames(char **names) rBool;
 int STORMAPI SNetLeagueLogout(char *bnetName) rInt;
 int STORMAPI SNetGetLeaguePlayerName(char *curPlayerLeageName, size_t nameSize) rInt;
 
