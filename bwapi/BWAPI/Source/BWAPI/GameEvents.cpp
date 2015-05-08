@@ -18,7 +18,7 @@
 #include "../../svnrev.h"
 #include "../../Debug.h"
 
-#define TOURNAMENT_STR "BWAPI r" SVN_REV_STR " Tournament Mode Engaged!"
+#define TOURNAMENT_STR "BWAPI r" SVN_REV_STR " (3.7.5) Tournament Mode Engaged!"
 
 namespace BWAPI
 {
@@ -584,7 +584,7 @@ namespace BWAPI
       this->startedClient = true;
       // Don't send text in tournament mode
       if ( !hTournamentModule )
-        sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " is now live using \"%s\".", pszModuleName );
+        sendText("BWAPI r" SVN_REV_STR " " BUILD_STR " (3.7.5) is now live using \"%s\".", pszModuleName );
     }
 
     if ( !this->bTournamentMessageAppeared && 
