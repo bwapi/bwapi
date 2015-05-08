@@ -575,7 +575,7 @@ namespace BWAPI
 
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
-      if ( !self->isMorphing || self->buildType != UnitTypes::None )
+      if ( !self->isCompleted && (!self->isMorphing || self->buildType != UnitTypes::None) )
         self->remainingBuildTime = o->remainingBuildTime;
       //------------------------------------------------------------------------------------------------------
       //getRallyPosition
