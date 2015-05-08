@@ -39,6 +39,8 @@ BOOL APIENTRY DllMain( HANDLE hModule,
  extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule(BWAPI::Game* game)
 {
   BWAPI::Broodwar=game;
+  game->setCommandOptimizationLevel(0);
+  game->setLatCom(true);
   if ( game->getGameType() == BWAPI::GameTypes::Use_Map_Settings )
   {
     if (game->mapFileName()=="testmap1.scm")

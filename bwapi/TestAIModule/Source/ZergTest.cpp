@@ -26,6 +26,7 @@ void ZergTest::onStart()
   Broodwar->enableFlag(Flag::CompleteMapInformation);
 
   Broodwar->setLocalSpeed(0);
+  Broodwar->setFrameSkip(128);
   this->addTestCase(new CancelMorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new MorphTest(UnitTypes::Zerg_Drone));
   this->addTestCase(new RightClickTest(UnitTypes::Zerg_Drone,UnitTypes::Zerg_Hatchery,UnitTypes::Zerg_Hatchery));
