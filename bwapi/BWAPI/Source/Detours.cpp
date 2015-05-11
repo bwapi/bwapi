@@ -235,12 +235,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData)
 {
-  if ( !BWAPI::BroodwarImpl.autoMenuMapPath.empty() &&
-       BWAPI::BroodwarImpl.autoMenuMode != ""       &&
-       BWAPI::BroodwarImpl.autoMenuMode != "OFF"    &&
-       !BWAPI::BroodwarImpl.lastMapGen.empty()      &&
-       strstr(lpFileName, "*.*")  )
-    lpFileName = BWAPI::BroodwarImpl.lastMapGen.c_str();
+  lpFileName = BWAPI::BroodwarImpl.autoMenuManager.interceptFindFirstFile(lpFileName);
 
   auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);

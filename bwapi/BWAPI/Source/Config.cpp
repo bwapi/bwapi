@@ -42,7 +42,7 @@ DWORD getProcessCount(const char *pszProcName)
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
   char buffer[MAX_PATH];
-  GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath.c_str());
+  GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath().c_str());
   return std::string(buffer);
 }
 // this version uppercase result string after loading, should be used for the most of enum-like strings
@@ -52,7 +52,7 @@ std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, cons
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
-  return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath.c_str());
+  return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
 }
 std::string LoadRegString(const char *pszKeyName, const char *pszValueName)
 {
@@ -61,9 +61,9 @@ std::string LoadRegString(const char *pszKeyName, const char *pszValueName)
   return std::string(szTemp);
 }
 
-bool isPrimaryConfigInitialized = false;
 void InitPrimaryConfig()
 {
+  static bool isPrimaryConfigInitialized = false;
   // Return if already initialized
   if ( isPrimaryConfigInitialized )
     return;

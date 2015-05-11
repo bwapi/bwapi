@@ -351,7 +351,7 @@ namespace BWAPI
     if ( !this->onStartCalled )
       return;
 
-    if ( autoMenuSaveReplay != "" && !this->isReplay() )
+    if ( autoMenuManager.autoMenuSaveReplay != "" && !this->isReplay() )
     {
       // Set replay envvars
       SetEnvironmentVariableA("BOTNAME",    rn_BWAPIName.c_str());
@@ -366,7 +366,7 @@ namespace BWAPI
 
       // Expand environment strings to szInterPath
       char szTmpPath[MAX_PATH] = { 0 };
-      ExpandEnvironmentStringsA(autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
+      ExpandEnvironmentStringsA(autoMenuManager.autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
 
       std::string pathStr(szTmpPath);
 
@@ -420,7 +420,7 @@ namespace BWAPI
     this->onStartCalled = false;
 
     this->initializeData();
-    this->chooseNewRandomMap();
+    this->autoMenuManager.chooseNewRandomMap();
   }
   //---------------------------------------------- SEND EVENTS TO CLIENT
   void GameImpl::SendClientEvent(BWAPI::AIModule *module, Event &e)

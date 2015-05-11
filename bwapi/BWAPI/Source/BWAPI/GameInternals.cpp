@@ -120,11 +120,6 @@ namespace BWAPI
     // Press and release the key
     PostMessage(SDrawGetFrameWindow(), WM_CHAR, (WPARAM)key, NULL);
   }
-  void GameImpl::pressDialogKey(BW::dialog *pDlg)
-  {
-    if ( pDlg )
-      this->pressKey( pDlg->getHotkey() );
-  }
   void GameImpl::mouseDown(int x, int y)
   {
     // Press the left mouse button
@@ -409,11 +404,6 @@ namespace BWAPI
 
     // clear messages so they are not stored until the next match
     this->sentMessages.clear();
-
-    // Reset menu activation variables
-    this->actRaceSel      = false;
-    this->actStartedGame  = false;
-    this->autoMapTryCount = 0;
 
     // Some other variables
     apmCounter.init();

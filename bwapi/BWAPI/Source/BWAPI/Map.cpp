@@ -33,8 +33,8 @@ namespace BWAPI
     std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
     
     // If the install path is included in the map path, remove it, creating a relative path
-    if ( !installPath.empty() && mapPath.compare(0, installPath.length(), installPath) == 0 )
-      mapPath.erase(0, installPath.length() );
+    if ( !installPath().empty() && mapPath.compare(0, installPath().length(), installPath()) == 0 )
+      mapPath.erase(0, installPath().length() );
     
     return mapPath;
   }

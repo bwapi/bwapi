@@ -15,6 +15,7 @@
 #include "CommandOptimizer.h"
 #include "APMCounter.h"
 #include "FPSCounter.h"
+#include "AutoMenuManager.h"
 
 namespace BW
 {
@@ -198,8 +199,6 @@ namespace BWAPI
       PlayerImpl *_getPlayer(int id);
       static int _currentPlayerId();
       static void pressKey(int key);
-      // Presses the hotkey that belongs to the dialog control (like a button)
-      void pressDialogKey(BW::dialog *pDlg);
 
       static void mouseDown(int x, int y);
       static void mouseUp(int x, int y);
@@ -222,7 +221,6 @@ namespace BWAPI
       void moveToSelectedUnits();
       void executeCommand(UnitCommand command);
 
-      void chooseNewRandomMap();
       static void SendClientEvent(BWAPI::AIModule *module, Event &e);
 
       void queueSentMessage(std::string const &message);
@@ -252,25 +250,15 @@ namespace BWAPI
     private:
       std::vector<std::string> sentMessages;
 
-    public:
-      bool onStartCalled = false;
-      std::string lastMapGen;
-      std::string autoMenuMode;
-      std::string autoMenuMapPath;
-    private:
-      std::string autoMenuGameName;
-      bool isHost = false;
-      int  autoMapTryCount;
-      std::vector<std::string> autoMapPool;
-      std::string autoMapIteration;
-      unsigned int lastAutoMapEntry = 0;
-
       // Count of game-frames passed from game start.
-      int frameCount;
+      int frameCount = 0;
       std::array<BW::CUnit*,PLAYER_COUNT> savedUnitSelection;
 
       static void setLocalSpeedDirect(int speed);
     public:
+      bool onStartCalled = false;
+      AutoMenuManager autoMenuManager;
+
       int seedOverride = std::numeric_limits<int>::max();
       int speedOverride = std::numeric_limits<int>::min();
       bool wantDropPlayers = true;
@@ -293,6 +281,7 @@ namespace BWAPI
       // Until we can get rid of the assembly hacks, this must be treated like a pissed off cat
       PlayerImpl* players[PLAYER_COUNT];
 
+      Unitset evadeUnits; //units leaving accessibleUnits set on current frame
     private:
       std::vector<PlayerImpl*> droppedPlayers;
 
@@ -301,9 +290,6 @@ namespace BWAPI
 
       Unitset discoverUnits; //units entering accessibleUnits set on current frame
       Unitset accessibleUnits; //units that are accessible to the client on current frame
-    public:
-      Unitset evadeUnits; //units leaving accessibleUnits set on current frame
-    private:
       Unitset selectedUnitSet;
 
       TilePosition::list startLocations;
@@ -327,7 +313,7 @@ namespace BWAPI
 
       std::array<BulletImpl*,BULLET_ARRAY_MAX_LENGTH> bulletArray;
       std::vector< std::vector<Command *> > commandBuffer;
-      // Will update the unitsOnTile content, should be called every frame.
+
       void updateUnits();
       void updateBullets();
       void computeUnitExistence();
@@ -343,19 +329,7 @@ namespace BWAPI
       mutable BWAPI::Error lastError;
       Unitset deadUnits;    // Keeps track of units that were removed from the game, used only to deallocate them
       u32 cheatFlags;
-      std::string autoMenuLanMode;
-      std::string autoMenuRace;
-      std::array<std::string, PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;
-      unsigned autoMenuEnemyCount = 0;
-      unsigned autoMenuMinPlayerCount = 0;
-      unsigned autoMenuMaxPlayerCount = 0;
-      unsigned autoMenuWaitPlayerTime = 0;
-      std::string autoMenuGameType;
-      std::string autoMenuRestartGame;
-      std::string autoMenuSaveReplay;
-#ifdef _DEBUG
-      std::string autoMenuPause;
-#endif
+
       std::string rn_BWAPIName;
       std::string rn_BWAPIRace;
       std::string rn_MapName;
@@ -369,8 +343,6 @@ namespace BWAPI
       Playerset _observers;
 
       bool inGame = false;
-      bool actStartedGame;
-      bool actRaceSel;
 
       FPSCounter fpsCounter;
 
