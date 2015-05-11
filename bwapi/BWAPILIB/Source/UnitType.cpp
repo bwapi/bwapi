@@ -2029,6 +2029,13 @@ namespace BWAPI
            this->getID() == UnitTypes::Spell_Disruption_Web ||
            this->getID() == UnitTypes::Spell_Scanner_Sweep;
   }
+  bool UnitType::producesCreep() const
+  {
+    return this->producesLarva() ||
+           this->getID() == UnitTypes::Zerg_Creep_Colony ||
+           this->getID() == UnitTypes::Zerg_Spore_Colony ||
+           this->getID() == UnitTypes::Zerg_Sunken_Colony;
+  }
   bool UnitType::producesLarva() const
   {
     return this->getID() == UnitTypes::Zerg_Hatchery ||

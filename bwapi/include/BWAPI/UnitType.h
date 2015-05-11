@@ -814,6 +814,13 @@ namespace BWAPI
     /// @returns true if this unit type is used for an ability, and false otherwise.
     bool isSpell() const;
 
+    /// <summary>Checks if this structure type produces creep.</summary> That is, the unit type
+    /// spreads creep over a wide area so that @Zerg structures can be placed on it.
+    ///
+    /// @returns true if this unit type spreads creep.
+    /// @implies getRace() == Races::Zerg, isBuilding()
+    bool producesCreep() const;
+
     /// <summary>Checks if this unit type produces larva.</summary> This is essentially used to
     /// check if the unit type is a @Hatchery, @Lair, or @Hive.
     ///
