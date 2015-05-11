@@ -3,9 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcxproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA} = {BF01C290-133F-4BE9-83CE-B09A0E6805FA}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI_PluginInjector", "BWAPI_PluginInjector\BWAPI_PluginInjector.vcxproj", "{E872FA31-C3AC-4331-AD60-315768E44ACA}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -57,8 +54,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Replay_Tool", "Replay_Tool\
 	ProjectSection(ProjectDependencies) = postProject
 		{02027215-F122-4174-A0A8-248A28A43980} = {02027215-F122-4174-A0A8-248A28A43980}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CopyToTarget", "CopyToTarget\CopyToTarget.vcxproj", "{BF01C290-133F-4BE9-83CE-B09A0E6805FA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libReplayTool", "libReplayTool\libReplayTool.vcxproj", "{02027215-F122-4174-A0A8-248A28A43980}"
 EndProject
@@ -194,12 +189,6 @@ Global
 		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.ActiveCfg = Release|Win32
 		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.Build.0 = Release|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Debug|Win32.Build.0 = Debug|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Release|Win32.ActiveCfg = Release|Win32
-		{BF01C290-133F-4BE9-83CE-B09A0E6805FA}.Release|Win32.Build.0 = Release|Win32
 		{02027215-F122-4174-A0A8-248A28A43980}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
 		{02027215-F122-4174-A0A8-248A28A43980}.Debug|Win32.ActiveCfg = Debug|Win32
 		{02027215-F122-4174-A0A8-248A28A43980}.Debug|Win32.Build.0 = Debug|Win32
