@@ -431,7 +431,7 @@ SNetSetGameMode(
 BOOL STORMAPI SNetEnumGamesEx(int a1, int a2, int (__fastcall *callback)(DWORD, DWORD, DWORD), int *hintnextcall);
 BOOL STORMAPI SNetSendServerChatCommand(const char *command);
 
-BOOL STORMAPI SNet137(DWORD flags); // Is actually SetPlayerFlags or something
+BOOL STORMAPI SNetDisconnectAll(DWORD flags);
 BOOL STORMAPI SNetCreateLadderGame(const char *pszGameName, const char *pszGamePassword, const char *pszGameStatString, DWORD dwGameType, DWORD dwGameLadderType, DWORD dwGameModeFlags, char *GameTemplateData, int GameTemplateSize, int playerCount, char *creatorName, char *a11, int *playerID);
 
 #define SNET_GAME_RESULT_WIN        1

@@ -37,7 +37,7 @@ EXPORTS
   SNetSendServerChatCommand     @134 NONAME
   ;SNetSendDatagram             @135 NONAME
   ;SNetReceiveDatagram          @136 NONAME
-  SNet137                       @137 NONAME
+  SNetDisconnectAll             @137 NONAME
   SNetCreateLadderGame          @138 NONAME
   SNetReportGameResult          @139 NONAME
   ;SNetCheckDataFile             @140 NONAME
