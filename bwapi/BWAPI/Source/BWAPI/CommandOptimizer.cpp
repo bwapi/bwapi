@@ -173,110 +173,86 @@ void CommandOptimizer::clear()
 void CommandOptimizer::flush()
 {
   // TODO Only process on the frame before commands are sent
-  //if ( *BW::BWDATA::FramesUntilNextTurn == 1 )
+
+  // Iterate the command types
+  for (int i = 0; i < UnitCommandTypes::Enum::None; ++i)
   {
-    // Iterate the command types
-    for (int i = 0; i < UnitCommandTypes::Enum::None; ++i)
+    // Declare our temporary variables
+    std::vector<Unit> groupOf12;
+
+    Position pos = Positions::None;
+    int       e = 0;
+    Unit t = nullptr;
+    UnitType  ut;
+    bool      o = false;
+
+    // Iterate the list
+    auto cmd = optimizerQueue[i].begin();
+
+    // Re-Iterate all remaining commands
+    while (cmd != optimizerQueue[i].end())
     {
-      // Declare our temporary variables
-      std::vector<Unit> groupOf12;
-
-      Position pos = Positions::None;
-      int       e = 0;
-      Unit t = nullptr;
-      UnitType  ut;
-      bool      o = false;
-
-      // Iterate the list
-      auto cmd = optimizerQueue[i].begin();
-
-      // Re-Iterate all remaining commands
+      // Iterate all commands, and only process those that are equal
       while (cmd != optimizerQueue[i].end())
       {
-        // Iterate all commands, and only process those that are equal
-        while (cmd != optimizerQueue[i].end())
+        // Ignore anything but the command that the unit last processed
+        /*if ( //static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommandFrame == this->getFrameCount() &&
+        static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommand != *cmd )
         {
-          // Ignore anything but the command that the unit last processed
-          /*if ( //static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommandFrame == this->getFrameCount() &&
-          static_cast<UnitImpl*>(cmd->unit)->lastImmediateCommand != *cmd )
-          {
-          cmd = commandOptimizer[i].erase(cmd);
-          continue;
-          }*/
+        cmd = commandOptimizer[i].erase(cmd);
+        continue;
+        }*/
 
-          // If we are starting a new command grouping
-          if (groupOf12.empty())
+        // If we are starting a new command grouping
+        if (groupOf12.empty())
+        {
+          // Assign our comparison variables to determine which commands should be grouped
+          // Note: Using individual variables instead of comparing UnitCommand operator== because
+          //       it will also compare the type which is not necessary, and we may create a new
+          //       optimization type that does a fuzzy position comparison
+          e = cmd->extra;
+          t = cmd->target;
+          pos = cmd->getTargetPosition();
+          if (i == UnitCommandTypes::Attack_Unit ||
+            i == UnitCommandTypes::Unload_All ||
+            i == UnitCommandTypes::Load ||
+            i == UnitCommandTypes::Cancel_Morph)
+            o = cmd->unit->getType().isBuilding();
+          else if (i == UnitCommandTypes::Use_Tech)
+            o = cmd->unit->isSieged() || cmd->unit->isCloaked() || cmd->unit->isBurrowed();
+          else
+            o = false;
+          groupOf12.push_back(cmd->unit);
+          cmd = optimizerQueue[i].erase(cmd);
+        } // otherwise if this command is the same as the first, the units can be grouped
+        else if (e == cmd->extra && t == cmd->target && pos == cmd->getTargetPosition())
+        {
+          bool oTmp;
+          if (i == UnitCommandTypes::Attack_Unit ||
+            i == UnitCommandTypes::Unload_All ||
+            i == UnitCommandTypes::Load ||
+            i == UnitCommandTypes::Cancel_Morph)
+            oTmp = cmd->unit->getType().isBuilding();
+          else if (i == UnitCommandTypes::Use_Tech)
+            oTmp = cmd->unit->isSieged() || cmd->unit->isCloaked() || cmd->unit->isBurrowed();
+          else
+            oTmp = false;
+
+          if (o == oTmp)
           {
-            // Assign our comparison variables to determine which commands should be grouped
-            // Note: Using individual variables instead of comparing UnitCommand operator== because
-            //       it will also compare the type which is not necessary, and we may create a new
-            //       optimization type that does a fuzzy position comparison
-            e = cmd->extra;
-            t = cmd->target;
-            pos = cmd->getTargetPosition();
-            if (i == UnitCommandTypes::Attack_Unit ||
-              i == UnitCommandTypes::Unload_All ||
-              i == UnitCommandTypes::Load ||
-              i == UnitCommandTypes::Cancel_Morph)
-              o = cmd->unit->getType().isBuilding();
-            else if (i == UnitCommandTypes::Use_Tech)
-              o = cmd->unit->isSieged() || cmd->unit->isCloaked() || cmd->unit->isBurrowed();
-            else
-              o = false;
             groupOf12.push_back(cmd->unit);
             cmd = optimizerQueue[i].erase(cmd);
-          } // otherwise if this command is the same as the first, the units can be grouped
-          else if (e == cmd->extra && t == cmd->target && pos == cmd->getTargetPosition())
-          {
-            bool oTmp;
-            if (i == UnitCommandTypes::Attack_Unit ||
-              i == UnitCommandTypes::Unload_All ||
-              i == UnitCommandTypes::Load ||
-              i == UnitCommandTypes::Cancel_Morph)
-              oTmp = cmd->unit->getType().isBuilding();
-            else if (i == UnitCommandTypes::Use_Tech)
-              oTmp = cmd->unit->isSieged() || cmd->unit->isCloaked() || cmd->unit->isBurrowed();
-            else
-              oTmp = false;
-
-            if (o == oTmp)
-            {
-              groupOf12.push_back(cmd->unit);
-              cmd = optimizerQueue[i].erase(cmd);
-            }
-            else
-              ++cmd;
-          } // otherwise skip this command for now
-          else
-          {
-            ++cmd;
           }
+          else
+            ++cmd;
+        } // otherwise skip this command for now
+        else
+        {
+          ++cmd;
+        }
 
-          // If our group of 12 is full
-          if (groupOf12.size() == 12)
-          {
-            // Select the group
-            BW::Orders::Select sel(groupOf12);
-            QueueGameCommand(&sel, sel.size());
-            BroodwarImpl.apmCounter.addSelect();
-
-            // Workaround for doing certain actions
-            Unit unit = (i == UnitCommandTypes::Load ||
-              i == UnitCommandTypes::Attack_Unit ||
-              i == UnitCommandTypes::Train ||
-              i == UnitCommandTypes::Unload_All ||
-              i == UnitCommandTypes::Cancel_Morph ||
-              i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : nullptr;
-
-            // execute command
-            BroodwarImpl.executeCommand(UnitCommand(unit, i, t, pos.x, pos.y, e));
-            groupOf12.clear();
-          } // groupOf12 max execute
-        } // second while
-
-        // If we iterated the entire command list and don't have an empty group, then give a command
-        // to the remaining units in the group
-        if (!groupOf12.empty())
+        // If our group of 12 is full
+        if (groupOf12.size() == 12)
         {
           // Select the group
           BW::Orders::Select sel(groupOf12);
@@ -294,12 +270,34 @@ void CommandOptimizer::flush()
           // execute command
           BroodwarImpl.executeCommand(UnitCommand(unit, i, t, pos.x, pos.y, e));
           groupOf12.clear();
-        }
-        // Reset iterator
-        cmd = optimizerQueue[i].begin();
-      } // first while
-    } // iterate command types
-  } // execute all stored commands
+        } // groupOf12 max execute
+      } // second while
+
+      // If we iterated the entire command list and don't have an empty group, then give a command
+      // to the remaining units in the group
+      if (!groupOf12.empty())
+      {
+        // Select the group
+        BW::Orders::Select sel(groupOf12);
+        QueueGameCommand(&sel, sel.size());
+        BroodwarImpl.apmCounter.addSelect();
+
+        // Workaround for doing certain actions
+        Unit unit = (i == UnitCommandTypes::Load ||
+          i == UnitCommandTypes::Attack_Unit ||
+          i == UnitCommandTypes::Train ||
+          i == UnitCommandTypes::Unload_All ||
+          i == UnitCommandTypes::Cancel_Morph ||
+          i == UnitCommandTypes::Use_Tech) ? groupOf12.front() : nullptr;
+
+        // execute command
+        BroodwarImpl.executeCommand(UnitCommand(unit, i, t, pos.x, pos.y, e));
+        groupOf12.clear();
+      }
+      // Reset iterator
+      cmd = optimizerQueue[i].begin();
+    } // first while
+  } // iterate command types
 }
 
 void CommandOptimizer::init()

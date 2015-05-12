@@ -35,22 +35,6 @@ namespace BW
   struct SAI_Paths;
   struct grpHead;
 
-  /*
-
-  //----------------------------------------------- DATA TABLES ----------------------------------------------
-  struct DatLoad
-  {
-  u32   address;
-  u32   length;
-  u32   entries;
-  };
-
-  BW_DATA(DatLoad*, Upgrades_Table, 0x005136E0, 0x0015AFCC);   // Mac: for 1.16.1
-  BW_DATA(DatLoad*, TechData_Table, 0x005137D8, 0x0015A6F4);   // PC: all for 1.15.3, 1.16, and 1.16.1
-  BW_DATA(DatLoad*, Weapons_Table, 0x00513868, 0x0015C19C);
-  BW_DATA(DatLoad*, Units_Table, 0x00513C30, 0x0015AD38);
-  BW_DATA(DatLoad*, Flingy_Table, 0x00515A38, 0x0014BC08);
-  */
   //----------------------------------------------- PLAYER DATA ----------------------------------------------
   // Player resource counts
   struct PlayerResourcesStruct
@@ -160,7 +144,6 @@ namespace BW
       u32 IS_REF(GameSpeed, 0x006CDFD4);  // mac: 0x00228458
 
       std::array<u32, NUM_SPEEDS> IS_REF(LatencyFrames, 0x0051CE70);
-      u32 IS_REF(FramesUntilNextTurn, 0x0051CEA0);
       s32 IS_REF(FrameSkip, 0x005124D4);
       u8 IS_REF(Latency, 0x006556e4);   // A value between 0 and 2 indicating latency setting
 
@@ -169,9 +152,10 @@ namespace BW
       std::array<dialog::FnUpdate*, ctrls::max> IS_REF(GenericDlgUpdateFxns, 0x00501504);
       dialog* IS_REF(DialogList, 0x006D5E34);
 
-      std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);
+      std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);    // Can be worked around
       Bitmap IS_REF(GameScreenBuffer, 0x006CEFF0);
 
+      // Direct draw hacks
       std::array<PALETTEENTRY, 256> IS_REF(GamePalette, 0x006CE320);
       LPDIRECTDRAW IS_REF(DDInterface, 0x006D5E08);
       LPDIRECTDRAWPALETTE IS_REF(PrimaryPalette, 0x006D5E0C);
@@ -304,118 +288,27 @@ namespace BW
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl * const BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
 
-  //--------------------------------------------- STRINGS ----------------------------------------------------
-  // TODO: Get rid of this
-  struct MapVectorEntry   // sizeof 1348
-  {
-    char  szEntryName[64];        // fixed entry name // 8
-    BYTE  bUnknown_48;            // 72
-    char  szMapName[32];          // 73
-    char  szMapDescription[316];  // 105
-    char  szTotalPlayers[35];     // 421
-    char  szComputerSlots[35];    // 456
-    char  szHumanSlots[35];       // 491
-    char  szMapDimensions[35];    // 526
-    char  szMapTileset[35];       // 561
-    DWORD dwListEntryIndex;       // 596
-    DWORD dwUnknown_258;          // 600  Computer slots?
-    DWORD dwUnknown_25C;          // 604
-    DWORD dwUnknown_260;          // 608
-    DWORD dwUnknown_264;          // 612
-    BYTE  bEntryFlags;            // 616
-              //  0x01: Game
-              //  0x04: Standard
-              //  0x08: Folder
-              //  0x80: Replay
-    char  szFullPath[MAX_PATH];   // 617
-    char  szFileName[MAX_PATH];   // 877
-    BYTE  bUnknown_471;           // 1137
-    WORD  wMapWidth;              // 1138
-    WORD  wMapHeight;             // 1140
-    WORD  wMapTileset;            // 1142
-    BYTE  bUnknown_478;           // 1144
-    BYTE  bTotalPlayers;          // 1145
-    BYTE  bComputerSlots;         // 1146
-    BYTE  bHumanSlots;            // 1147
-    BYTE  bUnknown_47C;           // 1148
-    WORD  wUnknown_47D;           // 1149
-    struct 
-    {
-      struct
-      {
-        BYTE  bCmd;             //  1151
-        DWORD dwSeed;           //  1152
-        BYTE  bPlayerBytes[8];  //  1156
-      } gameInitCommand;
-      struct
-      {
-        DWORD dwUnknownAlways0;   // 1164
-        char  szPlayerName[24];   // 1168
-        DWORD dwGameFlags;        // 1192
-        WORD  wMapWidth;          // 1196
-        WORD  wMapHeight;         // 1198
-        BYTE  bActivePlayerCount; // 1200
-        BYTE  bAvailableSlots;    // 1201
-        BYTE  bGameSpeed;         // 1202
-        BYTE  bGameState;         // 1203
-        WORD  wGameType;          // 1204
-        WORD  wGameSubType;       // 1206
-        DWORD dwSeed;             // 1208
-        WORD  wTileset;           // 1212
-        BYTE  bAutosaved;         // set if it was saved as LastReplay    // 1214
-        BYTE  bComputerPlayerCount; // 1215
-      } gameData;
-      char szGameName[25];  // 1216
-      char szMapName[32];   // 1241
-      struct
-      {
-        WORD  wGameType;              // 1273
-        WORD  wGameSubType;           // 1275
-        WORD  wSubTypeDisplay;        // 1277
-        WORD  wSubTypeLabel;          // 1279
-        BYTE  bVictoryCondition;      // 1281
-        BYTE  bResourceType;          // 1282
-        BYTE  bUseStandardUnitStats;  // 1283
-        BYTE  bFogOfWar_Unused;       // 1284
-        BYTE  bStartingUnits;         // 1285
-        BYTE  bUseFixedPosition;      // 1286
-        BYTE  bRestrictionFlags;      // 1287
-        BYTE  bAlliesEnabled;         // 1288
-        BYTE  bTeamsEnabled;          // 1289
-        BYTE  bCheatsEnabled;         // 1290
-        BYTE  bTournamentModeEnabled; // 1291
-        DWORD dwVictoryConditionValue;  // 1292
-        DWORD dwResourceMineralsValue;  // 1296
-        DWORD dwResourceGasValue; // unused // 1300
-        BYTE  __align_1; // 1304
-      } gameTemplate;
-    } partialReplayGameHeader;
-    DWORD dwUnknown_519[7]; // 1305
-    BYTE  bPlayerSlotEnabled[12];  // 1333
-    BYTE  __align_3[3];   // 1345
-  };  // 1348
-  
+
   template <class _T>
-  struct BlizzVectorEntry
+  struct VCListEntry
   {
-    BlizzVectorEntry<_T> *prev; // First entry points to begin in controller
-    BlizzVectorEntry<_T> *next; // negative value indicates vector::end and points to &end in controller
+    VCListEntry<_T> *prev; // First entry points to begin in controller
+    VCListEntry<_T> *next; // negative value indicates vector::end and points to &end in controller
     _T container;
   };
 
   template <class _T>
-  struct BlizzVectorController // sizeof 12
+  struct VCList // sizeof 12
   {
     int unknown_00;
-    BlizzVectorEntry<_T> *end;
-    BlizzVectorEntry<_T> *begin;
+    VCListEntry<_T> *end;
+    VCListEntry<_T> *begin;
   };
   namespace BWDATA
   {
     namespace
     {
-      BlizzVectorController<MapVectorEntry> IS_REF(MapListVector, 0x0051A274);
-      std::array<BlizzVectorController<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> IS_REF(TriggerVectors, 0x0051A280);
+      std::array<VCList<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> IS_REF(TriggerVectors, 0x0051A280);
     }
   }
 
@@ -494,14 +387,6 @@ namespace BW
   //------------------------------------------------ MAPPING -------------------------------------------------
   // Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group.
   typedef u16 TileID;
-  namespace BWDATA
-  {
-    namespace
-    {
-      TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
-      TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
-    }
-  }
 
   /// Direct mapping of minitile flags array
   struct MiniTileMaps_type
@@ -512,13 +397,6 @@ namespace BW
     };
     MiniTileFlagArray tile[0x10000];
   };
-  namespace BWDATA
-  {
-    namespace
-    {
-      MiniTileMaps_type* IS_REF(MiniTileFlags, 0x005993D0);   // vf4
-    }
-  }
 
   struct activeTile
   {
@@ -542,6 +420,9 @@ namespace BW
   {
     namespace
     {
+      TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
+      TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
+      MiniTileMaps_type* IS_REF(MiniTileFlags, 0x005993D0);   // vf4
       activeTile* IS_REF(ActiveTileArray, 0x006D1260);
       SAI_Paths* IS_REF(SAIPathing, 0x006D5BFC);
     }

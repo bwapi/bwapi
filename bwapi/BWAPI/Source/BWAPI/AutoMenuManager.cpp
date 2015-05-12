@@ -268,34 +268,6 @@ void AutoMenuManager::onMenuFrame()
         } // if single
       } // if map is playable
 
-      // get the full map path
-      std::string mapFilePath = installPath() + lastMapGen;
-
-      // Get substring containing only the file name
-      size_t tmp = mapFilePath.find_last_of("/\\");
-      std::string mapFileName(mapFilePath, tmp == std::string::npos ? 0 : tmp + 1);
-
-      // Get substring containing only the directory
-      std::string mapFileDir(mapFilePath, 0, mapFilePath.size() - mapFileName.size() - 1);
-
-      // Apply the altered name to all vector entries
-      // TODO: Find alternative method
-      for (BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA::MapListVector.begin; (u32)i != ~(u32)&BW::BWDATA::MapListVector.end && (u32)i != (u32)&BW::BWDATA::MapListVector.begin; i = i->next)
-      {
-        i->container.bTotalPlayers = 8;
-        i->container.bHumanSlots = 8;
-        for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
-          i->container.bPlayerSlotEnabled[p] = 1;
-
-        // Safe string copies
-        SSCopy(i->container.szEntryName, mapFileName.c_str());
-        SSCopy(i->container.szFileName, mapFileName.c_str()); // @TODO verify
-        SSCopy(i->container.szFullPath, mapFilePath.c_str());
-      }
-
-      // update map folder location
-      SStrCopy(BW::BWDATA::CurrentMapFolder.data(), mapFileDir.c_str(), MAX_PATH);
-
       // if we encounter an unknown error when attempting to load the map
       if (BW::FindDialogGlobal("gluPOk"))
       {
@@ -303,6 +275,7 @@ void AutoMenuManager::onMenuFrame()
         ++this->autoMapTryCount;
         this->pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
       }
+
       this->pressDialogKey(tempDlg->findIndex(12));
     } // if lastmapgen
     break;
@@ -457,6 +430,19 @@ const char* AutoMenuManager::interceptFindFirstFile(const char* lpFileName)
     strstr(lpFileName, "*.*"))
   {
     lpFileName = lastMapGen.c_str();
+
+    // get the full map path
+    std::string mapFilePath = installPath() + lastMapGen;
+
+    // Get substring containing only the file name
+    size_t tmp = mapFilePath.find_last_of("/\\");
+    std::string mapFileName(mapFilePath, tmp == std::string::npos ? 0 : tmp + 1);
+
+    // Get substring containing only the directory
+    std::string mapFileDir(mapFilePath, 0, mapFilePath.size() - mapFileName.size() - 1);
+
+    // update map folder location
+    SStrCopy(BW::BWDATA::CurrentMapFolder.data(), mapFileDir.c_str(), MAX_PATH);
   }
   return lpFileName;
 }

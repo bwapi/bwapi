@@ -72,7 +72,7 @@ namespace BWAPI
     {
       // Then iterate each trigger
       // checking if a unit can be created or given to the player later in the game
-      for ( BW::BlizzVectorEntry<BW::Triggers::Trigger> *t = BW::BWDATA::TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA::TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA::TriggerVectors[i].begin; t = t->next )
+      for ( BW::VCListEntry<BW::Triggers::Trigger> *t = BW::BWDATA::TriggerVectors[i].begin; (u32)t != ~(u32)&BW::BWDATA::TriggerVectors[i].end && (u32)t != (u32)&BW::BWDATA::TriggerVectors[i].begin; t = t->next )
       {
         // check if trigger conditions can be met
         if ( t->container.conditionsCanBeMet() )
