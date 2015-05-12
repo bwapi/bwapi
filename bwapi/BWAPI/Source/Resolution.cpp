@@ -15,6 +15,7 @@
 HMODULE ddLib;
 void DDrawDestroy()
 {
+#ifndef SHADOW_BROODWAR
   SDrawManualInitialize(ghMainWnd);   // NOTE: Necessary so Storm knows the main window
   if ( BW::BWDATA::PrimaryPalette )
     (BW::BWDATA::PrimaryPalette)->Release();
@@ -34,12 +35,14 @@ void DDrawDestroy()
 
   if ( ghMainWnd )
     ShowWindow(ghMainWnd, SW_MINIMIZE);
+#endif
 }
 
 #define DDCHECK(x) { if ( !(x) ) BWAPIError(GetLastError(), "\"" #x "\" failed on %s:%u.", __FILE__, __LINE__); }
 
 void DDrawInitialize(int width, int height)
 {
+#ifndef SHADOW_BROODWAR
   if ( !ghMainWnd || wmode )
     return;
 
@@ -88,5 +91,6 @@ void DDrawInitialize(int width, int height)
     BW::BWDATA::PrimarySurface->Unlock(&surfaceDesc);
   }
   SDrawManualInitialize(ghMainWnd, BW::BWDATA::DDInterface, BW::BWDATA::PrimarySurface, NULL, NULL, BW::BWDATA::BackSurface, BW::BWDATA::PrimaryPalette, NULL);
+#endif
 }
 #undef DDCHECK

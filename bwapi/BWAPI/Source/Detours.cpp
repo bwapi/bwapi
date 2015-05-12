@@ -183,7 +183,9 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     detourCreateWindow = true;
     if ( switchToWMode )
     {
+#ifndef SHADOW_BROODWAR
       HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
+#endif
       hWndReturn = CreateWindowExProc(dwExStyle,
                                         lpClassName,
                                         newWindowName.str().c_str(),
@@ -478,10 +480,11 @@ BOOL __stdcall _SFileOpenFile(const char *filename, HANDLE *phFile)
 //--------------------------------------------- MEM ALLOC HOOK -----------------------------------------------
 void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char defaultValue)
 {
-  /* Call the original function */
+  // Call the original function
   auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;
   void *rval = SMemAllocProc(amount, logfilename, logline, defaultValue);
 
+#ifndef SHADOW_BROODWAR
   if ( isCorrectVersion )
   {
     if ( lastFile == "dlgs\\protoss.grp" ||
@@ -506,7 +509,7 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
       }
     }
   } // isCorrectVer
-
+#endif
   return rval;
 }
 

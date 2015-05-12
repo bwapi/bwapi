@@ -36,7 +36,7 @@ namespace BW
   struct SAI_Paths;
   struct grpHead;
 
-  //----------------------------------------------- PLAYER DATA ----------------------------------------------
+#ifndef SHADOW_BROODWAR
 
 #define IS_REF(name,addr) (& name) = *reinterpret_cast<std::remove_reference<decltype(name)>::type*>(addr);
 
@@ -113,8 +113,6 @@ namespace BW
       std::array<u8, PLAYER_COUNT> IS_REF(PlayerColors, 0x00581DD6);
 
       std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
-      RECT IS_REF(ScrLimit, 0x0051A15C);
-      RECT IS_REF(ScrSize, 0x0051A16C);
 
       // Unit and CList offsets
       CUnit* IS_REF(UnitNodeList_VisibleUnit_First, 0x00628430);
@@ -184,7 +182,7 @@ namespace BW
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
-  
+
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static const u32 BWFXN_P_IsGamePaused           = 0x004D974E;
 
@@ -259,16 +257,16 @@ namespace BW
       std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeMaxBW, 0x0058F278);
       std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeLevelBW, 0x0058F32C);
 
-      static const u32 UpgradeProgress = 0x0058F3E0;
-
+      std::array<u8, 96> IS_REF(UpgradeProgress, 0x0058F3E0);
+      
       //--------------------------------------------- TECH DATA --------------------------------------------------
       std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechAvailableSC, 0x0058CE24);
       std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechResearchSC, 0x0058CF44);
       std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechAvailableBW, 0x0058F050);
       std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechResearchBW, 0x0058F140);
 
-      static const u32 ResearchProgress = 0x0058F230;
-    
+      std::array<u8, 72> IS_REF(ResearchProgress, 0x0058F230);
+
       //------------------------------------------------ MAPPING -------------------------------------------------
       TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
       TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
@@ -278,8 +276,173 @@ namespace BW
     }
   }
 
-};
-
 #undef IS_REF
+#else // SHADOW_BROODWAR
+
+  namespace BWDATA
+  {
+    namespace
+    {
+      // Player Information
+      extern PlayerResourcesStruct PlayerResources;
+      extern std::array<u8, PLAYABLE_PLAYER_COUNT> PlayerVictory;
+      extern std::array<BW::Position, PLAYABLE_PLAYER_COUNT> startPositions;
+
+      extern std::array<std::array<char, 30>, 4> ForceNames;
+      extern std::array<PlayerInfo, PLAYER_COUNT> Players;
+      extern std::array<u32, PLAYABLE_PLAYER_COUNT> PlayerDownloadStatus;
+      extern std::array<u32, PLAYABLE_PLAYER_COUNT> playerStatusArray;
+
+      // Alliance and vision
+      extern std::array<std::array<u8, PLAYER_COUNT>, PLAYER_COUNT> Alliance;
+      extern std::array<u32, PLAYER_COUNT> PlayerVision;
+      extern u32 ReplayVision;
+      extern u32 ReplayRevealAll;
+
+      // Command queue data
+      extern u32 sgdwBytesInCmdQueue;
+      extern std::array<u8, TURN_BUFFER_SIZE> TurnBuffer;
+
+      void BWFXN_sendTurn();
+
+      // Speed and Latency
+      struct GameSpeeds
+      {
+        std::array<u32, NUM_SPEEDS> gameSpeedModifiers;
+        std::array<u32, NUM_SPEEDS> altSpeedModifiers;
+      };
+      extern GameSpeeds GameSpeedModifiers;
+      extern u32 GameSpeed;
+
+      extern std::array<u32, NUM_SPEEDS> LatencyFrames;
+      extern s32 FrameSkip;
+      extern u8 Latency;   // A value between 0 and 2 indicating latency setting
+
+      // Dialog and drawing
+      extern std::array<dialog::FnInteract*, ctrls::max> GenericDlgInteractFxns;
+      extern std::array<dialog::FnUpdate*, ctrls::max> GenericDlgUpdateFxns;
+      extern dialog* DialogList;
+
+      extern std::array<Font*, 4> FontBase;    // Can be worked around
+      extern Bitmap GameScreenBuffer;
+      
+      extern std::array<u8, PLAYER_COUNT> PlayerColors;
+
+      extern std::array<layer, 8> ScreenLayers;
+
+      // Unit and CList offsets
+      extern CUnit* UnitNodeList_VisibleUnit_First;
+      extern CUnit* UnitNodeList_HiddenUnit_First;
+      extern CUnit* UnitNodeList_ScannerSweep_First;
+
+      extern std::array<CUnit, UNIT_ARRAY_MAX_LENGTH> UnitNodeTable;
+
+      extern CBullet* BulletNodeTable_FirstElement;
+      extern std::array<CBullet, BULLET_ARRAY_MAX_LENGTH> BulletNodeTable;
+
+      // Unit ordering system (fast units in region calculations)
+      extern std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> UnitOrderingX;
+      extern std::array<unitFinder, UNIT_ARRAY_MAX_LENGTH * 2> UnitOrderingY;
+      extern int UnitOrderingCount;
+
+      // Mode stuff
+      extern u8 gameType;
+      extern u32 InReplay;
+      extern int NetMode;
+      extern int CountdownTimer;  // Countdown Timer (in seconds)
+      extern int ElapsedTime; // Elapsed Game Time (in seconds)
+
+      extern int ReplayFrames;
+
+      extern u8 GameState;
+      extern u16 gwNextGameMode;
+      extern u16 gwGameMode;
+      extern u32 glGluesMode;
+
+      extern int g_LocalHumanID;
+
+      // Selected units
+      extern std::array<CUnit*, MAX_SELECTION_COUNT> ClientSelectionGroup;
+      extern u8 ClientSelectionCount;
+
+      extern u32 isGamePaused;
+
+      // Positions (mouse/screen)
+      extern u32 MoveToX;
+      extern u32 MoveToY;
+      extern TilePosition MoveToTile;
+
+      extern POINT Mouse;
+      extern u32 ScreenX;
+      extern u32 ScreenY;
+
+      extern TilePosition MapSize;
+
+      // Strings
+      extern std::array<char, MAX_PATH> CurrentMapFileName;
+      extern std::array<char, 32> CurrentMapName;
+      extern std::array<char, MAX_PATH> CurrentMapFolder;
+      extern std::array<char, 28> SaveGameFile;
+    }
+  }
+
+  //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
+  extern void(__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
+  extern void(__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
+
+  //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
+  void BWFXN_DSoundDestroy();
+  void BWFXN_RandomizePlayerRaces();
+  void BWFXN_InitializePlayerConsole();
+
+  //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
+  void BWFXN_UpdateScreenPosition();
+
+
+  namespace BWDATA
+  {
+    namespace
+    {
+      extern std::array<VCList<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> TriggerVectors;
+    }
+  }
+
+  void BWFXN_ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);
+
+  //------------------------------------------------ SUPPLIES ------------------------------------------------
+  namespace BWDATA
+  {
+    namespace
+    {
+      extern BW::AllScoresStruct AllScores;
+      extern std::array< std::array<u8, BW::UNIT_TYPE_COUNT>, BW::PLAYER_COUNT> UnitAvailability;
+
+      //------------------------------------------- UPGRADE DATA -------------------------------------------------
+      extern std::array< std::array<u8, 46>, PLAYER_COUNT> UpgradeMaxSC;
+      extern std::array< std::array<u8, 46>, PLAYER_COUNT> UpgradeLevelSC;
+      extern std::array< std::array<u8, 15>, PLAYER_COUNT> UpgradeMaxBW;
+      extern std::array< std::array<u8, 15>, PLAYER_COUNT> UpgradeLevelBW;
+
+      extern std::array<u8, 96> UpgradeProgress;
+
+      //--------------------------------------------- TECH DATA --------------------------------------------------
+      extern std::array< std::array<u8, 24>, PLAYER_COUNT> TechAvailableSC;
+      extern std::array< std::array<u8, 24>, PLAYER_COUNT> TechResearchSC;
+      extern std::array< std::array<u8, 20>, PLAYER_COUNT> TechAvailableBW;
+      extern std::array< std::array<u8, 20>, PLAYER_COUNT> TechResearchBW;
+
+      extern std::array<u8, 72> ResearchProgress;
+
+      //------------------------------------------------ MAPPING -------------------------------------------------
+      extern TileID* MapTileArray; // MTXM (Matrix Map) -- gfpMIMap
+      extern TileType* TileSetMap;  // cv5
+      extern MiniTileMaps_type* MiniTileFlags;   // vf4
+      extern activeTile* ActiveTileArray;
+      extern SAI_Paths* SAIPathing;
+    }
+  }
+#endif // SHADOW_BROODWAR
+
+};
 
 #pragma pack()

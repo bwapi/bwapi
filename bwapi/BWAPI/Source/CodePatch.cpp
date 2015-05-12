@@ -17,6 +17,7 @@
 
 void ApplyCodePatches()
 {
+#ifndef SHADOW_BROODWAR
   // ---------------------------------- VERSION DEPENDENT ----------------------------------------------------
   // Only apply if version is correct
   if ( isCorrectVersion )
@@ -88,6 +89,7 @@ void ApplyCodePatches()
   _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
   _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEventA", &_CreateEvent);
   _GetSystemTimeAsFileTimeOld = HackUtil::PatchImport("kernel32.dll", "GetSystemTimeAsFileTime", &_GetSystemTimeAsFileTime);
+#endif
 }
 
 //----------------------------------------- NET-MODE RETURN MENU ---------------------------------------------

@@ -51,7 +51,7 @@ void InitializeWModeBitmap(int width, int height)
   wmodebmp.bmiHeader.biBitCount      = 8;
   wmodebmp.bmiHeader.biCompression   = BI_RGB;
   wmodebmp.bmiHeader.biSizeImage     = width * height;
-
+#ifndef SHADOW_BROODWAR
   if ( isCorrectVersion )
   {
     for ( int i = 0; i < 256; ++i )
@@ -61,6 +61,7 @@ void InitializeWModeBitmap(int width, int height)
       wmodebmp.bmiColors[i].rgbBlue  = BW::BWDATA::GamePalette[i].peBlue;
     }
   }
+#endif
   HDC     hdc   = GetDC(ghMainWnd);
   hwmodeBmp     = CreateDIBSection(hdc, (BITMAPINFO*)&wmodebmp, DIB_RGB_COLORS, &pBits, NULL, 0);
   hdcMem        = CreateCompatibleDC(hdc);
@@ -115,6 +116,7 @@ LPARAM FixPoints(LPARAM lParam)
 
 bool SendHotkey(BW::dlgEvent *pEvent)
 {
+#ifndef SHADOW_BROODWAR
   BW::dialog *dlg = BW::BWDATA::EventDialogs[pEvent->wNo];
   if ( dlg && dlg->pfcnInteract(dlg, pEvent) )
     return true;
@@ -126,11 +128,13 @@ bool SendHotkey(BW::dlgEvent *pEvent)
       return true;
     dlg = dlg->next();
   }
+#endif
   return false;
 }
 
 void ButtonEvent(DWORD dwEvent, LPARAM lParam)
 {
+#ifndef SHADOW_BROODWAR
   BYTE bFlag = 0;
   switch( dwEvent )
   {
@@ -181,6 +185,7 @@ void ButtonEvent(DWORD dwEvent, LPARAM lParam)
     if ( !SendHotkey(&evt) && BW::BWDATA::InputProcedures[dwEvent] )
       BW::BWDATA::InputProcedures[dwEvent](&evt);
   }
+#endif
 }
 
 void CorrectWindowWidth(int type, SIZE *ws, RECT *rct, SIZE *border)
@@ -585,6 +590,7 @@ BOOL __stdcall _SDrawRealizePalette()
 
 void SetWMode(int width, int height, bool state)
 {
+#ifndef SHADOW_BROODWAR
   // Compatibility for Xen W-Mode
   if ( ghMainWnd && !(GetWindowLong(ghMainWnd, GWL_STYLE) & WS_SYSMENU) )
     return;
@@ -664,6 +670,7 @@ void SetWMode(int width, int height, bool state)
     DDrawInitialize(width, height);
     WritePrivateProfileStringA("window", "windowed", "OFF", configPath().c_str());
   }
+#endif
 }
 
 void SetCursorShowState(bool bShow)

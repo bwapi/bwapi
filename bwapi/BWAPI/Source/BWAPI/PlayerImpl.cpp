@@ -216,11 +216,11 @@ namespace BWAPI
 
       // set upgrades in progress
       for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
-        self->isUpgrading[i]   = ( *(u8*)(BW::BWDATA::UpgradeProgress + index * 8 + i/8 ) & (1 << i%8)) != 0;
+        self->isUpgrading[i]   = (BW::BWDATA::UpgradeProgress[index * 8 + i/8] & (1 << i%8)) != 0;
       
       // set research in progress
       for (int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
-        self->isResearching[i] = ( *(u8*)(BW::BWDATA::ResearchProgress + index * 6 + i/8 ) & (1 << i%8)) != 0;
+        self->isResearching[i] = (BW::BWDATA::ResearchProgress[index * 6 + i/8] & (1 << i%8)) != 0;
 
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
         self->isUnitAvailable[i] = !!BW::BWDATA::UnitAvailability[index][i];

@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef SHADOW_BROODWAR
 void __declspec() _repairHook();
 void __declspec() _refundMineralsHook();
 void __declspec() _refundGasHook();
@@ -9,4 +10,4 @@ void __declspec() _refundGas3Hook();
 void __declspec() _refundMin4Hook();
 void __declspec() _refundGas4Hook();
 void __declspec() _refundMinAndGas5Hook();
-
+#endif
