@@ -16,6 +16,7 @@
 #include <BWAPI/Client/GameTable.h>
 
 #include <BW/Pathing.h>
+#include <BW/Offsets.h>
 
 #include "../Config.h"
 #include "../../../svnrev.h"
@@ -590,7 +591,7 @@ namespace BWAPI
       for(Unit i : Broodwar->getAllUnits())
         data->units[i->getID()] = static_cast<UnitImpl*>(i)->data;
 
-      for(int i = 0; i < UNIT_ARRAY_MAX_LENGTH; ++i)
+      for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       {
         Unit u = Broodwar->indexToUnit(i);
         int id = -1;
@@ -607,7 +608,7 @@ namespace BWAPI
 
       for ( int i = 0; i < bwSearchSize; ++i, bwxf++, bwyf++ )
       {
-        if ( bwxf->unitIndex > 0 && bwxf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
+        if (bwxf->unitIndex > 0 && bwxf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
         {
           const UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
           if ( u && u->canAccess() )
@@ -618,7 +619,7 @@ namespace BWAPI
           }
         } // x index
 
-        if ( bwyf->unitIndex > 0 && bwyf->unitIndex <= UNIT_ARRAY_MAX_LENGTH )
+        if (bwyf->unitIndex > 0 && bwyf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
         {
           const UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
           if ( u && u->canAccess() )

@@ -134,7 +134,7 @@ namespace BWAPI
       return nullptr;
 
     int index = unit - BW::BWDATA::UnitNodeTable.data();
-    if (index > UNIT_ARRAY_MAX_LENGTH)
+    if (index > BW::UNIT_ARRAY_MAX_LENGTH)
     {
       return nullptr;
     }

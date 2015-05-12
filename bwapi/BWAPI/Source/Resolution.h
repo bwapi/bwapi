@@ -1,5 +1,4 @@
 #pragma once
-#include "BW/Offsets.h"
 
 void SetResolution(int width, int height);
 

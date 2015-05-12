@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Offsets.h"
+#include <Util/Types.h>
 namespace BW
 {
+  typedef u16 TileID;
   class TileType;
   /**
    *  Set of tiles to construct a map, every map can have different set,

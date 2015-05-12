@@ -1,7 +1,7 @@
 #include "BulletImpl.h"
 #include <BW/CBullet.h>
 #include <BW/CSprite.h>
-#include <BW/Offsets.h>
+#include <BW/Constants.h>
 #include <BWAPI/Client/BulletData.h>
 #include <Util/Convenience.h>
 
@@ -45,7 +45,7 @@ namespace BWAPI
       return nullptr;
 
     int index = bullet - BW::BWDATA::BulletNodeTable.data();
-    if ( index > BULLET_ARRAY_MAX_LENGTH )
+    if ( index > BW::BULLET_ARRAY_MAX_LENGTH )
       return nullptr;
     return BroodwarImpl.getBulletFromIndex(index);
   }

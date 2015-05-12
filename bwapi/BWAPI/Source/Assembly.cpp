@@ -2,7 +2,6 @@
 
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
-#include "BW/Offsets.h"
 
 // PLEASE LOOK AWAY. THIS IS SO BAD AND GROSS AND DISGUSTING AND SHAMEFUL. TURN AWAY NOW WHILE YOU STILL CAN.
 // TODO Get rid of this somehow.

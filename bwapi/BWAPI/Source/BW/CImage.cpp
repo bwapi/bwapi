@@ -2,6 +2,7 @@
 
 #include <BW/Dialog.h>
 #include <BW/CSprite.h>
+#include <BW/Offsets.h>
 
 namespace BW
 {
@@ -58,7 +59,7 @@ namespace BW
     {
       if ( (this->flags & 1) /*|| this->needsRefresh()*/ )
       {
-        RECT rctDraw = { this->grpBounds.left, this->grpBounds.top, this->grpBounds.right, this->grpBounds.bottom };
+        rect rctDraw = { this->grpBounds.left, this->grpBounds.top, this->grpBounds.right, this->grpBounds.bottom };
         this->renderFunction(this->screenPosition.x, this->screenPosition.y, this->getCurrentFrame(), &rctDraw, (int)this->coloringData);
       }
     }

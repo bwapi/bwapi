@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <BW/Offsets.h>
+#include <Util/Types.h>
 
 namespace BWAPI
 {

@@ -1,11 +1,10 @@
 #pragma once
 #include <windows.h>
+#include <storm.h>
 
-#include "BW/Offsets.h"
-
-#define WMODE_MIN_WIDTH  200
-#define WMODE_MIN_HEIGHT 150
-#define WMODE_SNAP_RANGE 20
+static const int WMODE_MIN_WIDTH  = 200;
+static const int WMODE_MIN_HEIGHT = 150;
+static const int WMODE_SNAP_RANGE = 20;
 
 struct BITMAPINFO256 {
     BITMAPINFOHEADER    bmiHeader;

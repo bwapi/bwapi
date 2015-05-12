@@ -3,11 +3,15 @@
 #include <vector>
 #include <array>
 
-#include <BW/Offsets.h>
+#include <BW/Constants.h>
+
+namespace BW
+{
+  class dialog;
+}
 
 namespace BWAPI
 {
-
   class AutoMenuManager
   {
   public:
@@ -35,7 +39,7 @@ namespace BWAPI
     std::string autoMapIteration;
 
     std::string autoMenuRace;
-    std::array<std::string, PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;
+    std::array<std::string, BW::PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;
     unsigned autoMenuEnemyCount = 0;
     unsigned autoMenuMinPlayerCount = 0;
     unsigned autoMenuMaxPlayerCount = 0;

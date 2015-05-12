@@ -251,6 +251,7 @@ popd</Command>
     <ClInclude Include="Source\BW\CBullet.h" />
     <ClInclude Include="Source\BW\CheatFlags.h" />
     <ClInclude Include="Source\BW\CheatType.h" />
+    <ClInclude Include="Source\BW\Constants.h" />
     <ClInclude Include="Source\BW\CThingy.h" />
     <ClInclude Include="Source\BW\Dialog.h" />
     <ClInclude Include="Source\BW\FlingyID.h" />

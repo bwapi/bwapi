@@ -18,7 +18,6 @@
 #include <BW/UnitTarget.h>
 #include <BW/UnitStatusFlags.h>
 #include <BW/MovementFlags.h>
-#include <BW/Offsets.h>
 #include <BW/Path.h>
 #include "Server.h"
 #include "BWtoBWAPI.h"

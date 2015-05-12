@@ -41,7 +41,7 @@ namespace BWAPI
   BWAPI::Race PlayerImpl::getRace() const
   {
     BroodwarImpl.setLastError();
-    if ( this->index < PLAYABLE_PLAYER_COUNT )
+    if ( this->index < BW::PLAYABLE_PLAYER_COUNT )
     {
       Race rlast = BroodwarImpl.lastKnownRaceBeforeStart[this->index];
       if (  rlast != Races::Zerg          &&
@@ -92,7 +92,7 @@ namespace BWAPI
     BroodwarImpl.setLastError();
 
     // Return None if there is no start location
-    if (index >= PLAYABLE_PLAYER_COUNT || BW::BWDATA::startPositions[index] == BW::Positions::Origin)
+    if (index >= BW::PLAYABLE_PLAYER_COUNT || BW::BWDATA::startPositions[index] == BW::Positions::Origin)
       return TilePositions::None;
 
     // Return unknown and set Access_Denied if the start location
@@ -127,11 +127,11 @@ namespace BWAPI
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
-    self->color = index < PLAYER_COUNT ? BW::BWDATA::PlayerColors[index] : Colors::Black;
+    self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::PlayerColors[index] : Colors::Black;
   
     // Get upgrades, tech, resources
     if ( this->isNeutral() || 
-        index >= PLAYER_COUNT ||
+      index >= BW::PLAYER_COUNT ||
          (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) )
@@ -155,7 +155,7 @@ namespace BWAPI
       MemZero(self->isResearchAvailable);
       MemZero(self->isUnitAvailable);
 
-      if (!this->isNeutral() && index < PLAYER_COUNT)
+      if (!this->isNeutral() && index < BW::PLAYER_COUNT)
       {
         // set upgrade level for visible enemy units
         for(int i = 0; i < 46; ++i)
@@ -166,7 +166,7 @@ namespace BWAPI
               self->upgradeLevel[i] = BW::BWDATA::UpgradeLevelSC->level[index][i];
           }
         }
-        for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
+        for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
         {
           for(UnitType t : UpgradeType(i).whatUses())
           {
@@ -196,7 +196,7 @@ namespace BWAPI
         self->upgradeLevel[i]     = BW::BWDATA::UpgradeLevelSC->level[index][i];
         self->maxUpgradeLevel[i]  = BW::BWDATA::UpgradeMaxSC->level[index][i];
       }
-      for(int i = 46; i < UPGRADE_TYPE_COUNT; ++i)
+      for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
       {
         self->upgradeLevel[i]     = BW::BWDATA::UpgradeLevelBW->level[index][i - 46];
         self->maxUpgradeLevel[i]  = BW::BWDATA::UpgradeMaxBW->level[index][i - 46];
@@ -208,21 +208,21 @@ namespace BWAPI
         self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchSC->enabled[index][i]);
         self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableSC->enabled[index][i];
       }
-      for(int i = 24; i < TECH_TYPE_COUNT; ++i)
+      for (int i = 24; i < BW::TECH_TYPE_COUNT; ++i)
       {
         self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchBW->enabled[index][i - 24]);
         self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableBW->enabled[index][i - 24];
       }
 
       // set upgrades in progress
-      for(int i = 0; i < UPGRADE_TYPE_COUNT; ++i)
+      for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
         self->isUpgrading[i]   = ( *(u8*)(BW::BWDATA::UpgradeProgress + index * 8 + i/8 ) & (1 << i%8)) != 0;
       
       // set research in progress
-      for(int i = 0; i < TECH_TYPE_COUNT; ++i)
+      for (int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
         self->isResearching[i] = ( *(u8*)(BW::BWDATA::ResearchProgress + index * 6 + i/8 ) & (1 << i%8)) != 0;
 
-      for ( int i = 0; i < UNIT_TYPE_COUNT; ++i )
+      for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
         self->isUnitAvailable[i] = !!BW::BWDATA::UnitAvailability->available[index][i];
 
       self->hasResearched[TechTypes::Enum::Nuclear_Strike] = self->isUnitAvailable[UnitTypes::Enum::Terran_Nuclear_Missile];
@@ -232,7 +232,7 @@ namespace BWAPI
     if ( (!BroodwarImpl.isReplay() && 
           BroodwarImpl.self()->isEnemy(this) && 
           !BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation)) ||
-          index >= PLAYER_COUNT)
+          index >= BW::PLAYER_COUNT)
     {
       MemZero(self->supplyTotal);
       MemZero(self->supplyUsed);
@@ -248,7 +248,7 @@ namespace BWAPI
     else
     {
       // set supply
-      for (u8 i = 0; i < RACE_COUNT; ++i)
+      for (u8 i = 0; i < BW::RACE_COUNT; ++i)
       {
         self->supplyTotal[i]  = BW::BWDATA::AllScores->supplies[i].available[index];
         if (self->supplyTotal[i] > BW::BWDATA::AllScores->supplies[i].max[index])
@@ -256,7 +256,7 @@ namespace BWAPI
         self->supplyUsed[i]   = BW::BWDATA::AllScores->supplies[i].used[index];
       }
       // set total unit counts
-      for(int i = 0; i < UNIT_TYPE_COUNT; ++i)
+      for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
       {
         self->deadUnitCount[i]   = BW::BWDATA::AllScores->unitCounts.dead[i][index];
         self->killedUnitCount[i] = BW::BWDATA::AllScores->unitCounts.killed[i][index];
@@ -281,7 +281,7 @@ namespace BWAPI
       self->customScore         = BW::BWDATA::AllScores->customScore[index];
     }
 
-    if (index < PLAYER_COUNT && (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||
+    if (index < BW::PLAYER_COUNT && (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||
         BW::BWDATA::Players[index].nType == PlayerTypes::ComputerLeft ||
        (BW::BWDATA::Players[index].nType == PlayerTypes::Neutral && !isNeutral())))
     {

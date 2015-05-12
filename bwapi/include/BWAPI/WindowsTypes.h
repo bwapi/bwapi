@@ -1,8 +1,14 @@
 #pragma once
 
+typedef char  CHAR;
+typedef short SHORT;
+typedef long  LONG;
+typedef unsigned char   BYTE;
+typedef unsigned short  WORD;
+typedef unsigned long   DWORD;
 typedef int BOOL;
 typedef void* HANDLE;
-typedef unsigned long DWORD;
+typedef void* PVOID;
 typedef void* LPVOID;
 
 #ifndef WINAPI

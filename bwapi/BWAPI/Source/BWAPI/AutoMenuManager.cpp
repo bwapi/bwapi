@@ -144,7 +144,7 @@ void AutoMenuManager::chooseNewRandomMap()
 unsigned int getLobbyPlayerCount()
 {
   unsigned int rval = 0;
-  for (unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+  for (unsigned int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     if (BW::BWDATA::Players[i].nType == PlayerTypes::Player)
       ++rval;
@@ -154,7 +154,7 @@ unsigned int getLobbyPlayerCount()
 unsigned int getLobbyPlayerReadyCount()
 {
   unsigned int rval = 0;
-  for (unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+  for (unsigned int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     if (BW::BWDATA::Players[i].nType == PlayerTypes::Player && BW::BWDATA::PlayerDownloadStatus[i] >= 100)
       ++rval;
@@ -164,7 +164,7 @@ unsigned int getLobbyPlayerReadyCount()
 unsigned int getLobbyOpenCount()
 {
   unsigned int rval = 0;
-  for (unsigned int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i)
+  for (unsigned int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     if (BW::BWDATA::Players[i].nType == PlayerTypes::EitherPreferHuman)
       ++rval;
@@ -283,7 +283,7 @@ void AutoMenuManager::onMenuFrame()
       {
         i->container.bTotalPlayers = 8;
         i->container.bHumanSlots = 8;
-        for (int p = 0; p < PLAYABLE_PLAYER_COUNT; ++p)
+        for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
           i->container.bPlayerSlotEnabled[p] = 1;
 
         // Safe string copies

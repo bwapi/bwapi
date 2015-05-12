@@ -10,6 +10,9 @@ typedef int32_t  s32;
 typedef uint64_t u64;
 typedef int64_t  s64;
 
+typedef char CHAR;
+typedef short SHORT;
+typedef long LONG;
 typedef unsigned char   BYTE;
 typedef unsigned short  WORD;
 typedef unsigned long   DWORD;
@@ -17,10 +20,17 @@ typedef void*           PVOID;
 typedef int             BOOL;
 typedef void*           HANDLE;
 
+typedef struct __point
+{
+  long x, y;
+} point;
+
+typedef struct __points
+{
+  short x, y;
+} points;
+
 typedef struct __rect
 {
-  s16 left;
-  s16 top;
-  s16 right;
-  s16 bottom;
+  s16 left, top, right, bottom;
 } rect;

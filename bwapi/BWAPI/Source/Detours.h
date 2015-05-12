@@ -2,12 +2,19 @@
 
 #include <windows.h>
 #include <string>
+#include <storm.h>
 
-#include "BW/Offsets.h"
+namespace BW
+{
+  namespace Triggers
+  {
+    class Action;
+  }
+  class Bitmap;
+  struct bounds;
+}
 
 #define DECL_OLDFXN(x) decltype(&x) _ ## x ## Old
-
-void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds);
 
 BOOL  STORMAPI   _SNetLeaveGame(int type);
 int   __cdecl    _nextFrameHook();

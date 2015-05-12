@@ -76,12 +76,14 @@ namespace BW
   {
     if ( size < 0 || size > 3 )
       return 0;
+    // TODO: Get rid of this offset
     return BW::BWDATA::FontBase[size]->getTextWidth(pszStr);
   }
   int Font::getTextHeight(const char *pszStr, int size)
   {
     if ( size < 0 || size > 3 )
       return 0;
+    // TODO: Get rid of this offset
     return BW::BWDATA::FontBase[size]->getTextHeight(pszStr);
   }
   // ------------------------------------------------------------------------------ FontChar ------

@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "BW/Offsets.h"
 
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength);
 

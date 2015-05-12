@@ -6,11 +6,6 @@
 
 #include "../../../Debug.h"
 
-#define BOTTOM 0
-#define LEFT 1
-#define TOP 2
-#define RIGHT 3
-
 namespace BW
 {
   bool region::isConnectedTo(region *target) const
@@ -61,6 +56,12 @@ namespace BW
   {
     return static_cast<u16>(this - (*BW::BWDATA::SAIPathing)->regions);
   }
+
+  /*
+#define BOTTOM 0
+#define LEFT 1
+#define TOP 2
+#define RIGHT 3
 
 // searchInner: 0 = top
   //            1 = -right
@@ -166,7 +167,7 @@ namespace BW
             return false;
     }
     return true;
-  }
+  }*/
 
   const BW::region *getRegionAt(int x, int y)
   {

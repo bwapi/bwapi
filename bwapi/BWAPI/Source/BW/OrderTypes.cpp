@@ -4,7 +4,6 @@
 
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>
-#include <BW/Offsets.h>
 
 #include "../../../Debug.h"
 namespace BW

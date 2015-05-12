@@ -1,7 +1,6 @@
 #pragma once
 #include <Util/Types.h>
 #include <string>
-#include <BW/Offsets.h>
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Client/PlayerData.h>

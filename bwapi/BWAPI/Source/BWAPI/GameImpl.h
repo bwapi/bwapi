@@ -3,7 +3,8 @@
 #include <list>
 #include <deque>
 
-#include <BW/Offsets.h>
+#include <Util/Types.h>
+#include <BW/Constants.h>
 
 #include <BWAPI/Game.h>
 #include <BWAPI/Server.h>
@@ -242,7 +243,7 @@ namespace BWAPI
       Unit _unitFromIndex(int index);
 
     public:
-      std::array<Race, PLAYABLE_PLAYER_COUNT> lastKnownRaceBeforeStart;
+      std::array<Race, BW::PLAYABLE_PLAYER_COUNT> lastKnownRaceBeforeStart;
       PlayerImpl *BWAPIPlayer;
       PlayerImpl *enemyPlayer;
       Server server;
@@ -252,7 +253,7 @@ namespace BWAPI
 
       // Count of game-frames passed from game start.
       int frameCount = 0;
-      std::array<BW::CUnit*,PLAYER_COUNT> savedUnitSelection;
+      std::array<BW::CUnit*, BW::PLAYER_COUNT> savedUnitSelection;
 
       static void setLocalSpeedDirect(int speed);
     public:
@@ -266,7 +267,7 @@ namespace BWAPI
       bool wantSelectionUpdate;
       bool startedClient;
 
-      std::array<UnitImpl*, UNIT_ARRAY_MAX_LENGTH> unitArray;
+      std::array<UnitImpl*, BW::UNIT_ARRAY_MAX_LENGTH> unitArray;
       bool isTournamentCall = false;
 
       GameData* data = server.data;
@@ -279,7 +280,7 @@ namespace BWAPI
 
       // NOTE: This MUST be a POD array (NOT std::array) because of the crappy assembly hacks that are being used
       // Until we can get rid of the assembly hacks, this must be treated like a pissed off cat
-      PlayerImpl* players[PLAYER_COUNT];
+      PlayerImpl* players[BW::PLAYER_COUNT];
 
       Unitset evadeUnits; //units leaving accessibleUnits set on current frame
     private:
@@ -311,7 +312,7 @@ namespace BWAPI
       Regionset regionsList;
       std::unordered_map<int, Region> regionMap;
 
-      std::array<BulletImpl*,BULLET_ARRAY_MAX_LENGTH> bulletArray;
+      std::array<BulletImpl*, BW::BULLET_ARRAY_MAX_LENGTH> bulletArray;
       std::vector< std::vector<Command *> > commandBuffer;
 
       void updateUnits();

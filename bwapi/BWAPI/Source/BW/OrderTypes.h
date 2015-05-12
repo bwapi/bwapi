@@ -9,7 +9,7 @@
 #include <BWAPI/Order.h>
 
 #include "PositionUnitTarget.h"
-#include "Offsets.h"
+#include "Constants.h"
 
 namespace BWAPI
 { 
@@ -74,7 +74,7 @@ namespace BW
       size_t size() const;
     private:
       u8         targCount;
-      UnitTarget targets[MAX_SELECTION_COUNT];
+      UnitTarget targets[BW::MAX_SELECTION_COUNT];
     };
 
     // Selection command in bw 
@@ -88,7 +88,7 @@ namespace BW
       size_t size() const;
     private:
       u8         targCount;
-      UnitTarget targets[MAX_SELECTION_COUNT];
+      UnitTarget targets[BW::MAX_SELECTION_COUNT];
     };
 
     // Train unit command in bw. 

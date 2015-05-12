@@ -2,9 +2,9 @@
 
 #include <Util/Types.h>
 #include <BW/Position.h>
-#include <BW/Offsets.h>
 #include <BW/Target.h>
 #include <BW/Path.h>
+#include <BWAPI.h>
 
 #pragma pack(1)
 namespace BWAPI
@@ -14,7 +14,7 @@ namespace BWAPI
 namespace BW
 {
   // Forwards
-  class Sprite;
+  class CSprite;
   class COrder;
   struct Path;  
 
@@ -67,11 +67,11 @@ namespace BW
     /*0x026*/ u8            _unknown_0x026;
     /*0x027*/ u8            flingyMovementType;
     /*0x028*/ BW::Position  position;         // Current position of the unit
-    /*0x02C*/ POINT         halt;             // @todo Unknown    // Either this or current_speed is officially called "xDX, xDY" (no POINT struct)
+    /*0x02C*/ point         halt;             // @todo Unknown    // Either this or current_speed is officially called "xDX, xDY" (no POINT struct)
     /*0x034*/ u32           flingyTopSpeed;
     /*0x038*/ s32           current_speed1;
     /*0x03C*/ s32           current_speed2;
-    /*0x040*/ POINT         current_speed;
+    /*0x040*/ point         current_speed;
 
     /*0x048*/ u16           flingyAcceleration;
     /*0x04A*/ u8            currentDirection2;
@@ -197,7 +197,7 @@ namespace BW
                 struct 
                 {
                   BW::CUnit*  pPowerup;                // 0    // official
-                  POINTS      targetResource;           // 4
+                  points      targetResource;           // 4
                   BW::CUnit*  targetResourceUnit;      // 8
                   u16         repairResourceLossTimer;  // C
                   bool        isCarryingSomething;      // E    // There is a "ubIsHarvesting" somewhere
@@ -228,7 +228,7 @@ namespace BW
                 {
                   ::rect harvestValue;
                 } hatchery; // wtf???
-                struct { POINTS origin; } powerup;
+                struct { points origin; } powerup;
                 struct
                 {
                   BW::CUnit* harvestTarget;           // 0
@@ -253,7 +253,7 @@ namespace BW
               {
                 struct
                 { 
-                  POINTS      position;
+                  points      position;
                   BW::CUnit*  unit;
                 } rally;  // If the unit is rally type
 

@@ -50,12 +50,12 @@ DECL_OLDFXN(CreateEventA);
 DECL_OLDFXN(GetSystemTimeAsFileTime);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
-u8 savedRace[PLAYABLE_PLAYER_COUNT];
-int mappedIndex[PLAYABLE_PLAYER_COUNT];
+u8 savedRace[BW::PLAYABLE_PLAYER_COUNT];
+int mappedIndex[BW::PLAYABLE_PLAYER_COUNT];
 void _RandomizePlayerRaces()    // before
 {
   // iterate each player
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     // Save the player's initial race
     savedRace[i] = BW::BWDATA::Players[i].nRace;
@@ -74,7 +74,7 @@ void _RandomizePlayerRaces()    // before
 
 int getMappedIndex(int stormID)
 {
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     if ( mappedIndex[i] == stormID )
       return i;
@@ -84,7 +84,7 @@ int getMappedIndex(int stormID)
 
 void _InitializePlayerConsole()   // after
 {
-  for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+  for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
   {
     // Retrieve the original race value before randomization occurred from the mapped index
     int mapID = getMappedIndex(BW::BWDATA::Players[i].dwStormId);

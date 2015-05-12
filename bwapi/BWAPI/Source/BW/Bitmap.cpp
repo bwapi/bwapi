@@ -4,9 +4,8 @@
 #include <algorithm>
 
 #include "Font.h"
-#include "Offsets.h"
 #include "CImage.h"
-#include <BWAPI.h>
+#include "Offsets.h"
 
 namespace BW
 {
@@ -153,7 +152,7 @@ namespace BW
     if ( bSize > 3 || !pszStr )
       return false;
 
-    // localize pointer
+    // localize pointer (TODO: get rid of this offset)
     Font *fnt = BWDATA::FontBase[bSize];
     if ( !fnt->isValid() )
       return false;

@@ -74,7 +74,7 @@ namespace BWAPI
     if ( !this->isFlagEnabled(Flag::CompleteMapInformation) )
       return nullptr;
     int i = (unitIndex & 0x7FF);
-    if ( i < UNIT_ARRAY_MAX_LENGTH && this->unitArray[i]->canAccess() )
+    if (i < BW::UNIT_ARRAY_MAX_LENGTH && this->unitArray[i]->canAccess())
       return this->unitArray[i];
     return nullptr;
   }
@@ -492,7 +492,7 @@ namespace BWAPI
       {
         if ( toAllies ) // Send to all allies
         {
-          for ( int i = 0; i < PLAYABLE_PLAYER_COUNT; ++i )
+          for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
             if ( this->BWAPIPlayer->isAlly(players[i]) && BW::BWDATA::Players[i].dwStormId != -1 )
               SNetSendMessage(BW::BWDATA::Players[i].dwStormId, szMessage, msgLen + 3);
         }
@@ -589,7 +589,7 @@ namespace BWAPI
       return this->setLastError(Errors::Invalid_Parameter);
 
     u32 alliance = 0;
-    for ( int i = 0; i < PLAYER_COUNT; ++i )
+    for (int i = 0; i < BW::PLAYER_COUNT; ++i)
       alliance |= (BW::BWDATA::Alliance[BWAPIPlayer->getIndex()][i] & 3) << (i*2);
     
     u8 newAlliance = allied ? (alliedVictory ? 2 : 1) : 0;
@@ -643,7 +643,7 @@ namespace BWAPI
     if (speed < 0)
     {
       // Reset the speed if it is negative
-      for (int i = 0; i < NUM_SPEEDS; ++i)
+      for (int i = 0; i < BW::NUM_SPEEDS; ++i)
       {
         BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[i] = BW::OriginalSpeedModifiers[i];
         BW::BWDATA::GameSpeedModifiers.altSpeedModifiers[i] = BW::OriginalSpeedModifiers[i] * 3;
@@ -652,7 +652,7 @@ namespace BWAPI
     else
     {
       // Set all speeds if it is positive
-      for (int i = 0; i < NUM_SPEEDS; ++i)
+      for (int i = 0; i < BW::NUM_SPEEDS; ++i)
       {
         BW::BWDATA::GameSpeedModifiers.gameSpeedModifiers[i] = speed;
         BW::BWDATA::GameSpeedModifiers.altSpeedModifiers[i] = speed * 3;

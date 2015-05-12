@@ -1,10 +1,11 @@
 #pragma once
-#include "Offsets.h"
+
+#include <BW/Position.h>
 
 #pragma pack(1)
 namespace BW
 {
-  class Sprite;
+  class CSprite;
 
   struct grpFrame
   {
@@ -118,7 +119,7 @@ namespace BW
     /*0x2C*/ grpHead*     GRPFile;
     /*0x30*/ void*        coloringData;
     //void__fastcall renderFunction(int screenX, int screenY, grpFrame *pFrame, RECT *grpRect, int colorData);
-    /*0x34*/ void (__fastcall* renderFunction)(int,int,grpFrame*,RECT*,int);    // officially "DrawFunction"
+    /*0x34*/ void (__fastcall* renderFunction)(int,int,grpFrame*,rect*,int);    // officially "DrawFunction"
     /*0x38*/ void (__fastcall* updateFunction)(CImage*);                        // officially "UpdateFunction"
     /*0x3C*/ CSprite*     spriteOwner;
 

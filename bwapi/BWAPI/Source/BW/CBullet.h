@@ -3,14 +3,14 @@
 #include <Util/Types.h>
 #include <BW/Position.h>
 
-#include <BW/Offsets.h>
 #include "Target.h"
 
 #pragma pack(1)
 namespace BW
 {
   // forwards
-  class Sprite;
+  class CSprite;
+  class CUnit;
 
   // See Unit.h and compare this entire structure with the first part of the unit structure
   // I'm not sure how much of it is the same so I didn't bother updating this.
@@ -34,11 +34,11 @@ namespace BW
     /*0x26*/ u8           unknown_0x26;
     /*0x27*/ u8           flingyMoveControl;
     /*0x28*/ BW::Position position;
-    /*0x2C*/ POINT        halt; // (xHalt >> 4) == xHalt
+    /*0x2C*/ point        halt; // (xHalt >> 4) == xHalt
     /*0x34*/ s32          flingyTopSpeed;
     /*0x38*/ s32          unknown_0x38; //increasing counter or timer
     /*0x3C*/ s32          unknown_0x3C; //increasing counter or timer, often the same value as unknown_0x38
-    /*0x40*/ POINT        current_speed;
+    /*0x40*/ point        current_speed;
     /*0x48*/ u16          flingyAcceleration;
     /*0x4A*/ u8           currentDirection;
     /*0x4B*/ u8           velocityDirection; //seems to always be the same as currentDirection

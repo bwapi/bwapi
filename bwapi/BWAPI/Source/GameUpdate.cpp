@@ -6,7 +6,7 @@
 #include "Config.h"
 #include "Detours.h"
 
-#include <BW/Offsets.h>
+#include <BW/Constants.h>
 #include <BW/Bitmap.h>
 #include <BW/CUnit.h>
 #include <BW/OrderTypes.h>
@@ -64,7 +64,7 @@ void GameImpl::update()
       allDone = true;
       for(PlayerImpl* p : this->players)
       {
-        if ( p->getIndex() >= PLAYABLE_PLAYER_COUNT )
+        if (p->getIndex() >= BW::PLAYABLE_PLAYER_COUNT)
           continue;
         if ( !p->isDefeated() && !p->isVictorious() && !p->leftGame() )
           allDone = false;
@@ -113,7 +113,7 @@ void GameImpl::update()
         _observers.insert(p);
     }
   }
-  for (int i = 0; i < PLAYER_COUNT; ++i)
+  for (int i = 0; i < BW::PLAYER_COUNT; ++i)
   {
     bool prevLeftGame = this->players[i]->leftGame();
     this->players[i]->updateData();

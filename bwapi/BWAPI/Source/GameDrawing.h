@@ -1,5 +1,10 @@
 #pragma once
-#include "BW/Offsets.h"
+#include "BW/Bitmap.h"
+
+namespace BW
+{
+  struct bounds;
+}
 
 void GameUpdate(BW::Bitmap *pSurface, BW::bounds *pBounds);
 
