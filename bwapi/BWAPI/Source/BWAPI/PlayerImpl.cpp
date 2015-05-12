@@ -205,13 +205,13 @@ namespace BWAPI
       // set abilities researched
       for(int i = 0; i < 24; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchSC->enabled[index][i]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableSC->enabled[index][i];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchSC[index][i]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableSC[index][i];
       }
       for (int i = 24; i < BW::TECH_TYPE_COUNT; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchBW->enabled[index][i - 24]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableBW->enabled[index][i - 24];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchBW[index][i - 24]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableBW[index][i - 24];
       }
 
       // set upgrades in progress

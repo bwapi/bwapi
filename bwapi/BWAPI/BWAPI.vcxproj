@@ -287,7 +287,6 @@ popd</Command>
     <ClInclude Include="Source\Detours.h" />
     <ClInclude Include="Source\DLLMain.h" />
     <ClInclude Include="Source\ExceptionFilter.h" />
-    <ClInclude Include="Source\GameDrawing.h" />
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\NewHackUtil.h" />
     <ClInclude Include="Source\Resolution.h" />
@@ -346,7 +345,6 @@ popd</Command>
     <ClCompile Include="Source\Detours.cpp" />
     <ClCompile Include="Source\DLLMain.cpp" />
     <ClCompile Include="Source\ExceptionFilter.cpp" />
-    <ClCompile Include="Source\BWDrawing.cpp" />
     <ClCompile Include="Source\GameUpdate.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\NewHackUtil.cpp" />

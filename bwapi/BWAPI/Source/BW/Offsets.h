@@ -171,7 +171,6 @@ namespace BW
 
       std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);
       Bitmap IS_REF(GameScreenBuffer, 0x006CEFF0);
-      Bitmap IS_REF(GameScreenConsole, 0x00597240);
 
       std::array<PALETTEENTRY, 256> IS_REF(GamePalette, 0x006CE320);
       LPDIRECTDRAW IS_REF(DDInterface, 0x006D5E08);
@@ -181,11 +180,8 @@ namespace BW
 
       static void(__cdecl * const BWFXN_DDrawDestroy)() = (void(__cdecl*)())0x0041D8B0;
       const u32 DDrawInitCallPatch = 0x004DB0A2;
-      static void(__cdecl * const BWFXN_UpdateBltMasks)() = (void(__cdecl*)())0x0041D470;
 
       std::array<u8, PLAYER_COUNT> IS_REF(PlayerColors, 0x00581DD6);
-
-      static bool(__stdcall * const BWFXN_CreepManagementCB)(int, WORD*, int, int, int*) = (bool(__stdcall*)(int, WORD*, int, int, int*))0x00414440;
 
       std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
       RECT IS_REF(ScrLimit, 0x0051A15C);
@@ -197,8 +193,6 @@ namespace BW
       CUnit* IS_REF(UnitNodeList_ScannerSweep_First, 0x006283F4);
 
       std::array<CUnit, UNIT_ARRAY_MAX_LENGTH> IS_REF(UnitNodeTable, 0x0059CCA8);
-
-      CThingy* IS_REF(ThingyList_UsedFirst, 0x00652918);
 
       CBullet* IS_REF(BulletNodeTable_FirstElement, 0x0064DEC4);
       std::array<CBullet, BULLET_ARRAY_MAX_LENGTH> IS_REF(BulletNodeTable, 0x0064B2E8);
@@ -226,16 +220,6 @@ namespace BW
 
       // For fixing BW-level memory leak
       std::array<void*,2> IS_REF(customList_UIDlgData, 0x0051A350);
-
-      // Stuff for resolution hack
-      bool IS_REF(wantThingyUpdate, 0x00652920);
-      std::array<BW::CSprite*,256> IS_REF(spriteGroups, 0x00629688);
-      
-      // Text messages
-      std::array<std::array<char, MAX_TEXT_SIZE>, NUM_TEXT_LINES> IS_REF(Chat_GameText, 0x00640B60);
-      u8 IS_REF(Chat_NextLine, 0x00640B58);
-      std::array<u8, NUM_TEXT_LINES> IS_REF(Chat_ColorBytes, 0x00641674);
-      u32 IS_REF(Chat_IncrementY, 0x00640B20);
 
       // Selected units
       std::array<CUnit*, MAX_SELECTION_COUNT> IS_REF(ClientSelectionGroup, 0x00597208);
@@ -271,17 +255,7 @@ namespace BW
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
-
-  //--------------------------------------- FOR RESOLUTION HACK ----------------------------------------------
   
-  static void (__cdecl * const BWFXN_drawDragSelBox)()           = (void (__cdecl*)()) 0x00470040;
-  static void (__cdecl * const BWFXN_drawAllThingys)()           = (void (__cdecl*)()) 0x00488180;
-  static void (__cdecl * const BWFXN_drawMapTiles)()             = (void (__cdecl*)()) 0x0049C780;
-  static void (__cdecl * const BWFXN_blitMapTiles)()             = (void (__cdecl*)()) 0x0040C253;
-  static void (__cdecl * const BWFXN_drawAllSprites)()           = (void (__cdecl*)()) 0x00498D40;
-  //static void (__cdecl *BWFXN_updateImageData)()          = (void (__cdecl*)()) 0x00498CF0;
-
-
   //----------------------------------------- FUNCTION LEVEL -------------------------------------------------
   static const u32 BWFXN_P_IsGamePaused           = 0x004D974E;
 
@@ -420,15 +394,7 @@ namespace BW
     BYTE  bPlayerSlotEnabled[12];  // 1333
     BYTE  __align_3[3];   // 1345
   };  // 1348
-
-  struct TransVectorEntry
-  {
-    HANDLE            hTrans;
-    RECT              info;
-    DWORD             dwReserved;
-  };
-
-
+  
   template <class _T>
   struct BlizzVectorEntry
   {
@@ -449,7 +415,6 @@ namespace BW
     namespace
     {
       BlizzVectorController<MapVectorEntry> IS_REF(MapListVector, 0x0051A274);
-      BlizzVectorController<TransVectorEntry> IS_REF(TransMaskVector, 0x0051A334);
       std::array<BlizzVectorController<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> IS_REF(TriggerVectors, 0x0051A280);
     }
   }
@@ -544,26 +509,7 @@ namespace BW
     namespace
     {
       TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
-      WORD* IS_REF(CellMap, 0x00628494); // gfpCellMap (terrain)
       TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
-    }
-  }
-  typedef struct
-  {
-    WORD wImageRef[4][4];
-  } vx4entry;
-  typedef struct
-  {
-    BYTE cdata[8][8];
-  } vr4entry;
-
-  namespace BWDATA
-  {
-    namespace
-    {
-      vx4entry* IS_REF(VX4Data, 0x00628458);
-      vr4entry* IS_REF(VR4Data, 0x00628444);
-      bool IS_REF(HasMegatileUpdate, 0x0059CB58);
     }
   }
 
@@ -607,10 +553,7 @@ namespace BW
     namespace
     {
       activeTile* IS_REF(ActiveTileArray, 0x006D1260);
-      u8* IS_REF(CreepEdgeData, 0x006D0E80);
       SAI_Paths* IS_REF(SAIPathing, 0x006D5BFC);
-
-      grpHead* IS_REF(TerrainGraphics, 0x006D0C64);   // Single GRP
     }
   }
 

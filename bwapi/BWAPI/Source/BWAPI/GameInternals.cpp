@@ -219,27 +219,10 @@ namespace BWAPI
       Broodwar << "Latency: " << getLatency() << std::endl;
       Broodwar << "New latency: " << getLatencyFrames() << " frames (" << getLatencyTime() << "ms)" << std::endl;
     }
-// The following commands are knockoffs of Starcraft Beta's developer mode
-    else if (cmd == "/pathdebug")
-    {
-      pathDebug = !pathDebug;
-      Broodwar << "pathdebug " << (pathDebug ? "ENABLED" : "DISABLED") << std::endl;
-    }
-    else if (cmd == "/unitdebug")
-    {
-      unitDebug = !unitDebug;
-      Broodwar << "unitdebug " << (unitDebug ? "ENABLED" : "DISABLED") << std::endl;
-    }
-// end knockoffs
     else if (cmd == "/hud")
     {
       hideHUD = !hideHUD;
       Broodwar << "Now " << (hideHUD ? "hiding" : "showing") << " the HUD." << std::endl;
-    }
-    else if (cmd == "/resize")
-    {
-      Broodwar << "Done" << std::endl;
-      SetResolution(1280, 720);
     }
     else if (cmd == "/test")
     {

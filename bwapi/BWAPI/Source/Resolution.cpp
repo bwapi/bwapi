@@ -7,52 +7,10 @@
 
 #include "BW/Offsets.h"
 #include "BW/Dialog.h"
-#include "GameDrawing.h"
 
 #include "NewHackUtil.h"
 
 #include "../../Debug.h"
-
-void SetResolution(int width, int height)
-{
-  if ( !isCorrectVersion )
-    return;
-
-  // Resize game screen data buffer
-  BW::BWDATA::GameScreenBuffer.resize(width, height);
-
-  // Resize game terrain cache buffer
-  bmpTerrainCache.resize(width+32, height-32);
-  //*BW::BWDATA::GameTerrainCache = (BYTE*)SMReAlloc(*BW::BWDATA::GameTerrainBuffer, (width+32)*(height-32) );
-
-  // Set new screen limits
-  BW::BWDATA::ScreenLayers[5].width  = (WORD)width;
-  BW::BWDATA::ScreenLayers[5].height = (WORD)height;
-  SetRect(&BW::BWDATA::ScrLimit, 0, 0, width - 1, height - 1);
-  SetRect(&BW::BWDATA::ScrSize,  0, 0, width,     height);
-  
-  // Resize game screen console (HUD) buffer
-  BW::BWDATA::GameScreenConsole.resize(width, height);
-  
-  // Recreate STrans thingy
-  BW::BlizzVectorEntry<BW::TransVectorEntry> *transEntry = BW::BWDATA::TransMaskVector.begin;
-  if ( transEntry && static_cast<void*>(transEntry) != &BW::BWDATA::TransMaskVector.begin )
-  {
-    HANDLE oldTrans = transEntry->container.hTrans;
-    SetRect(&transEntry->container.info, 0, 0, width, height);
-    STransCreateE(BW::BWDATA::GameScreenConsole.getData(), width, height, 8, 0, 0, &transEntry->container.hTrans);
-    if ( oldTrans )
-      STransDelete(oldTrans);
-
-    // call a function that does some weird stuff
-    BW::BWDATA::BWFXN_UpdateBltMasks();
-  }
-
-  STransSetDirtyArrayInfo(width, height, 16, 16);
-  
-  // re-initialize w-mode or ddraw, this function can do both
-  SetWMode(width, height, wmode);
-}
 
 HMODULE ddLib;
 void DDrawDestroy()

@@ -229,9 +229,6 @@
     <ClInclude Include="Source\BW\CSprite.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameDrawing.h">
-      <Filter>Hacks\Header FIles</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\CThingy.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
@@ -399,9 +396,6 @@
     </ClCompile>
     <ClCompile Include="Source\BW\CImage.cpp">
       <Filter>BW\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWDrawing.cpp">
-      <Filter>Hacks\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BW\CThingy.cpp">
       <Filter>BW\Source Files</Filter>

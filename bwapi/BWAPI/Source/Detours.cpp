@@ -12,7 +12,6 @@
 #include "Config.h"
 #include "NewHackUtil.h"
 #include "Detours.h"
-#include "GameDrawing.h"
 #include "Util/Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"

@@ -349,8 +349,6 @@ namespace BWAPI
 
       Text::Size::Enum textSize;
 
-      bool pathDebug = false;
-      bool unitDebug = false;
       bool grid = false;
       bool showfps = false;
 
