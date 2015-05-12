@@ -29,9 +29,9 @@ namespace BWAPI
     Map::calculateMapHash();
 
     // Obtain Broodwar Regions
-    if ( *BW::BWDATA::SAIPathing )
+    if ( BW::BWDATA::SAIPathing )
     {
-      u32 rgnCount = (*BW::BWDATA::SAIPathing)->regionCount;
+      u32 rgnCount = BW::BWDATA::SAIPathing->regionCount;
       // Iterate regions and insert into region list
       for (u32 i = 0; i < rgnCount; ++i)
       {
@@ -59,7 +59,7 @@ namespace BWAPI
       // First check if player owns a unit at start
       for (int u = 0; u < UnitTypes::None; ++u)
       {
-        if (BW::BWDATA::AllScores->unitCounts.all[u][i])
+        if (BW::BWDATA::AllScores.unitCounts.all[u][i])
         {
           if (this->players[i])
             this->players[i]->setParticipating();

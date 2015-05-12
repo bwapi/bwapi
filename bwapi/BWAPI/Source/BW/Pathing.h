@@ -5,7 +5,7 @@
 
 #pragma pack(1)
 
-#define getRegionFromId(x) (&((*BW::BWDATA::SAIPathing)->regions[(x)&0x1FFF]))
+#define getRegionFromId(x) (&(BW::BWDATA::SAIPathing->regions[(x)&0x1FFF]))
 
 namespace BW
 {

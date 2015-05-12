@@ -41,8 +41,8 @@ namespace BWAPI
       static BW::TileID getTile(int x, int y);
       static inline BW::activeTile getActiveTile(int x, int y)
       {
-        if (*BW::BWDATA::ActiveTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
-          return *((*BW::BWDATA::ActiveTileArray) + x + y * Map::getWidth());
+        if (BW::BWDATA::ActiveTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
+          return BW::BWDATA::ActiveTileArray[x + y * Map::getWidth()];
         return BW::activeTile{};
       }
       static u8 getTileVariation(BW::TileID);

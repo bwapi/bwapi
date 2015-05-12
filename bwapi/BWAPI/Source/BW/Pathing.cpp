@@ -17,7 +17,7 @@ namespace BW
 
   bool region::isConnectedTo(u16 index) const
   {
-    if ( index < (*BW::BWDATA::SAIPathing)->regionCount )
+    if ( index < BW::BWDATA::SAIPathing->regionCount )
       return this->groupIndex == getRegionFromId(index)->groupIndex;
     return false;
   }
@@ -54,7 +54,7 @@ namespace BW
 
   u16 region::getIndex() const
   {
-    return static_cast<u16>(this - (*BW::BWDATA::SAIPathing)->regions);
+    return static_cast<u16>(this - BW::BWDATA::SAIPathing->regions);
   }
 
   /*
@@ -176,7 +176,7 @@ namespace BW
       return nullptr;
 
     // Obtain the region IDs from the positions
-    u16 id = (*BW::BWDATA::SAIPathing)->mapTileRegionId[tp.y][tp.x];
+    u16 id = BW::BWDATA::SAIPathing->mapTileRegionId[tp.y][tp.x];
 
     // Check if the id is splitting the tile between regions
     if ( id & 0xE000 )
@@ -188,15 +188,15 @@ namespace BW
       int minitilePosX = (x&0x1F)/8;
       int minitilePosY = (y&0x1F)/8;
       int minitileShift = minitilePosX + minitilePosY * 4;
-      BW::split *t = &(*BW::BWDATA::SAIPathing)->splitTiles[id];
+      BW::split *t = &BW::BWDATA::SAIPathing->splitTiles[id];
       if ( (t->minitileMask >> minitileShift) & 1 )
-        return &(*BW::BWDATA::SAIPathing)->regions[t->rgn2];
-      return &(*BW::BWDATA::SAIPathing)->regions[t->rgn1];
+        return &BW::BWDATA::SAIPathing->regions[t->rgn2];
+      return &BW::BWDATA::SAIPathing->regions[t->rgn1];
     }
     else if ( id < 5000 )
     {
       // Get source region from tile
-      return &(*BW::BWDATA::SAIPathing)->regions[id];
+      return &BW::BWDATA::SAIPathing->regions[id];
     }
     else
     {

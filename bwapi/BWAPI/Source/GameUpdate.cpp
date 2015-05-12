@@ -237,27 +237,10 @@ void GameImpl::updateOverlays()
       if ( raw->autoTargetUnit )
         this->drawLineMap(u->getPosition(), BWAPI::Position(raw->autoTargetUnit->position), Colors::Red);
     }
-    /*
-    BWAPI::Color c = Colors::Red;
-    int x = this->getMousePosition().x + this->getScreenPosition().x;
-    int y = this->getMousePosition().y + this->getScreenPosition().y;
-    if ( BW::isCollidingWithContour((*BW::BWDATA::SAIPathing)->contours,
-                                x,
-                                y,
-                                UnitTypes::Terran_Marine.dimensionLeft(),
-                                UnitTypes::Terran_Marine.dimensionUp(),
-                                UnitTypes::Terran_Marine.dimensionRight(),
-                                UnitTypes::Terran_Marine.dimensionDown()) )
-        c = Colors::Green;
-    drawBoxMap(x - UnitTypes::Terran_Marine.dimensionLeft(),
-                                y - UnitTypes::Terran_Marine.dimensionUp(),
-                                x + UnitTypes::Terran_Marine.dimensionRight(),
-                                y + UnitTypes::Terran_Marine.dimensionDown(), c);
-    */
   } // unitdebug
 
   // pathdebug
-  if ( pathDebug && *BW::BWDATA::SAIPathing )
+  if ( pathDebug && BW::BWDATA::SAIPathing )
   {
     BWAPI::Position mouse   = getMousePosition() + getScreenPosition();
     const BW::region *selectedRgn = BW::getRegionAt(mouse);
@@ -278,9 +261,9 @@ void GameImpl::updateOverlays()
         drawLineMap(x+7, y, x, y+7, c);
       } // iterate y
     } // iterate x
-    for ( unsigned int i = 0; i < (*BW::BWDATA::SAIPathing)->regionCount; ++i )
+    for ( unsigned int i = 0; i < BW::BWDATA::SAIPathing->regionCount; ++i )
     {
-      BW::region *r = &(*BW::BWDATA::SAIPathing)->regions[i];
+      BW::region *r = &BW::BWDATA::SAIPathing->regions[i];
       if ( r->accessabilityFlags != 0x1FFD )
         drawBoxMap(r->rgnBox.left, r->rgnBox.top, r->rgnBox.right, r->rgnBox.bottom, r == selectedRgn ? Colors::Cyan : Colors::Purple);
 
@@ -295,7 +278,7 @@ void GameImpl::updateOverlays()
     }
     for ( int i = 0; i < 4; ++i )
     {
-      BW::contourHub *hub = (*BW::BWDATA::SAIPathing)->contours;
+      BW::contourHub *hub = BW::BWDATA::SAIPathing->contours;
       for ( int c = 0; c < hub->contourCount[i]; ++c )
       {
         BW::contour *cont = &hub->contours[i][c];

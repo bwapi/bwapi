@@ -35,25 +35,16 @@ namespace BW
   struct SAI_Paths;
   struct grpHead;
 
+  /*
+
+  //----------------------------------------------- DATA TABLES ----------------------------------------------
   struct DatLoad
   {
-    u32   address;
-    u32   length;
-    u32   entries;
+  u32   address;
+  u32   length;
+  u32   entries;
   };
 
-  // Define a value for mac version
-#ifdef _MAC
-#define BWMAC 1
-#else
-#define BWMAC 0
-#endif
-
-  // Used for defining BW data without having to write redundant code
-#define BW_DATA(type,name,pc,mac) namespace BWDATA { static type const name = BWMAC ? (type)mac : (type)pc; }
-
-  /*
-  //----------------------------------------------- DATA TABLES ----------------------------------------------
   BW_DATA(DatLoad*, Upgrades_Table, 0x005136E0, 0x0015AFCC);   // Mac: for 1.16.1
   BW_DATA(DatLoad*, TechData_Table, 0x005137D8, 0x0015A6F4);   // PC: all for 1.15.3, 1.16, and 1.16.1
   BW_DATA(DatLoad*, Weapons_Table, 0x00513868, 0x0015C19C);
@@ -111,7 +102,7 @@ namespace BW
 
   const std::array<u32, NUM_SPEEDS> OriginalSpeedModifiers = { 167, 111, 83, 67, 56, 48, 42 };
 
-#define IS_REF(name,addr) & name = *reinterpret_cast<std::remove_reference<decltype(name)>::type*>(addr);
+#define IS_REF(name,addr) (& name) = *reinterpret_cast<std::remove_reference<decltype(name)>::type*>(addr);
 
   namespace BWDATA
   {
@@ -331,10 +322,10 @@ namespace BW
   static const u32 BWFXN_NetSelectReturnMenu   = 0x004DC5B0;
 
   static void (* const BWFXN_RandomizePlayerRaces)() = (void (*)()) 0x004A9A30;
-  BW_DATA(u32, RandomizeRacePatch, 0x004EF20E, 0);
+  static const u32 BWFXN_RandomizeRacePatch = 0x004EF20E;
 
   static void (* const BWFXN_InitializePlayerConsole)() = (void (*)()) 0x004EE180;
-  BW_DATA(u32, InitPlayerConsolePatch, 0x004EF244, 0);
+  static const u32 BWFXN_InitPlayerConsolePatch = 0x004EF244;
 
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl * const BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
@@ -453,18 +444,23 @@ namespace BW
     BlizzVectorEntry<_T> *end;
     BlizzVectorEntry<_T> *begin;
   };
-
-  BW_DATA(BlizzVectorController<MapVectorEntry>*, MapListVector, 0x0051A274, 0);
-  BW_DATA(BlizzVectorController<TransVectorEntry>*, TransMaskVector, 0x0051A334, 0);
-  BW_DATA(BlizzVectorController<Triggers::Trigger>*, TriggerVectors, 0x0051A280, 0);
+  namespace BWDATA
+  {
+    namespace
+    {
+      BlizzVectorController<MapVectorEntry> IS_REF(MapListVector, 0x0051A274);
+      BlizzVectorController<TransVectorEntry> IS_REF(TransMaskVector, 0x0051A334);
+      std::array<BlizzVectorController<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> IS_REF(TriggerVectors, 0x0051A280);
+    }
+  }
 
   static bool (__fastcall ** const TriggerActionCallbacks)(BW::Triggers::Action*) = (bool(__fastcall**)(BW::Triggers::Action*))0x00512800;
 
   static void (__stdcall * const BWFXN_ExecuteGameTriggers)(DWORD dwMillisecondsPerFrame) = (void(__stdcall*)(DWORD))0x0048A460;
-  BW_DATA(u32, ExecuteGameTrigsCallPatch, 0x004D9798, 0);
+  static const u32 BWFXN_ExecuteGameTrigsCallPatch = 0x004D9798;
 
   //------------------------------------------------ SUPPLIES ------------------------------------------------
-  struct AllScores
+  struct AllScoresStruct
   {
     s32 allUnitsTotal[PLAYER_COUNT];
     s32 allUnitsProduced[PLAYER_COUNT];
@@ -505,157 +501,72 @@ namespace BW
     };
     Counts unitCounts;
   };
-  BW_DATA(BW::AllScores*, AllScores, 0x00581DE4, 0);
-  /*
-  //---------------------------------------------- UNIT DATA -------------------------------------------------
-  static const u8  *BW_DATA_Unit_Graphic             = (const u8*)  unitsDat[0].address;
-  static const u16 *BW_DATA_Unit_SubUnit             = (const u16*) unitsDat[1].address;
-  static const u32 *BW_DATA_Unit_ConstructionGraphic = (const u32*) unitsDat[4].address;
-  static const u8  *BW_DATA_Unit_ShieldsEnabled      = (const u8*)  unitsDat[6].address;
-  static const u16 *BW_DATA_Unit_MaxShieldPoints     = (const u16*) unitsDat[7].address;
-  static const s32 *BW_DATA_Unit_MaxHitPoints        = (const s32*) unitsDat[8].address;
-  static const u8  *BW_DATA_Unit_Elevation           = (const u8*)  unitsDat[9].address;
-  static const u8  *BW_DATA_Unit_GroundWeapon        = (const u8*)  unitsDat[17].address;
-  static const u8  *BW_DATA_Unit_MaxGroundHits       = (const u8*)  unitsDat[18].address;
-  static const u8  *BW_DATA_Unit_AirWeapon           = (const u8*)  unitsDat[19].address;
-  static const u8  *BW_DATA_Unit_MaxAirHits          = (const u8*)  unitsDat[20].address;
-  static const u32 *BW_DATA_Unit_PrototypeFlags      = (const u32*) unitsDat[22].address;
-  static const u8  *BW_DATA_Unit_SeekRange           = (const u8*)  unitsDat[23].address;
-  static const u8  *BW_DATA_Unit_SightRange          = (const u8*)  unitsDat[24].address;
-  static const u8  *BW_DATA_Unit_ArmorUpgrade        = (const u8*)  unitsDat[25].address;
-  static const u8  *BW_DATA_Unit_SizeType            = (const u8*)  unitsDat[26].address;
-  static const u8  *BW_DATA_Unit_ArmorAmount         = (const u8*)  unitsDat[27].address;
-  static const u16 *BW_DATA_Unit_MineralCost         = (const u16*) unitsDat[40].address;
-  static const u16 *BW_DATA_Unit_GasCost             = (const u16*) unitsDat[41].address;
-  static const u16 *BW_DATA_Unit_TimeCost            = (const u16*) unitsDat[42].address;
-  static const u8  *BW_DATA_Unit_GroupFlags          = (const u8*)  unitsDat[44].address;
-  static const u8  *BW_DATA_Unit_SupplyProvided      = (const u8*)  unitsDat[45].address;
-  static const u8  *BW_DATA_Unit_SupplyRequired      = (const u8*)  unitsDat[46].address;
-  static const u8  *BW_DATA_Unit_SpaceRequired       = (const u8*)  unitsDat[47].address;
-  static const u8  *BW_DATA_Unit_SpaceProvided       = (const u8*)  unitsDat[48].address;
-  static const u16 *BW_DATA_Unit_BuildScore          = (const u16*) unitsDat[49].address;
-  static const u16 *BW_DATA_Unit_DestroyScore        = (const u16*) unitsDat[50].address;
-  static const u16 *BW_DATA_Unit_MapStringID         = (const u16*) unitsDat[51].address;
-  static const u8  *BW_DATA_Unit_BroodwarOnly        = (const u8*)  unitsDat[52].address;
-
-  /// Unit Placement Size
-  struct UnitPlacement_type
+  namespace BWDATA
   {
-    struct Placement_Internal_type
+    namespace
     {
-      u16 height;
-      u16 width;
-    } unitType[UNIT_TYPE_COUNT];
-  };
-  static const UnitPlacement_type *BW_DATA_Unit_Placement = (const UnitPlacement_type*) unitsDat[36].address;
-
-  // Unit Dimensions; The distance from the 1px 'center' of unit to each border
-  struct UnitsDimensions_type
-  {
-    struct UnitDimensions
-    {
-      u16 left;
-      u16 up;
-      u16 right;
-      u16 down;
-    } units[UNIT_TYPE_COUNT];
-  };
-  static const UnitsDimensions_type *BW_DATA_Unit_Dimensions = (const UnitsDimensions_type*) unitsDat[38].address;
-  */
-  struct _uavail
-  {
-    u8 available[12][228];
-  };
-  BW_DATA(_uavail*, UnitAvailability, 0x0057F27C, 0);
-  /*
-  //-------------------------------------------- FLINGY DATA -------------------------------------------------
-  static const u16 *BW_DATA_Flingy_SpriteID        = (const u16*) flingyDat[0].address;
-  static const u32 *BW_DATA_Flingy_TopSpeed        = (const u32*) flingyDat[1].address;
-  static const u16 *BW_DATA_Flingy_Acceleration    = (const u16*) flingyDat[2].address;
-  static const u32 *BW_DATA_Flingy_HaltDistance    = (const u32*) flingyDat[3].address;
-  static const u8  *BW_DATA_Flingy_TurnRadius      = (const u8*)  flingyDat[4].address;
-  static const u8  *BW_DATA_Flingy_MovementControl = (const u8*)  flingyDat[6].address;
-
-  //-------------------------------------------- WEAPON DATA -------------------------------------------------
-  static const u16 *BW_DATA_Weapon_Label              = (const u16*) weaponsDat[0].address;
-  static const u32 *BW_DATA_Weapon_Graphic            = (const u32*) weaponsDat[1].address;
-  static const u16 *BW_DATA_Weapon_TargetFlags        = (const u16*) weaponsDat[3].address;
-  static const u32 *BW_DATA_Weapon_MinRange           = (const u32*) weaponsDat[4].address;
-  static const u32 *BW_DATA_Weapon_MaxRange           = (const u32*) weaponsDat[5].address;
-  static const u8  *BW_DATA_Weapon_Upgrade            = (const u8*)  weaponsDat[6].address;
-  static const u8  *BW_DATA_Weapon_DamageType         = (const u8*)  weaponsDat[7].address;
-  static const u8  *BW_DATA_Weapon_Behavior           = (const u8*)  weaponsDat[8].address;
-  static const u8  *BW_DATA_Weapon_RemoveAfter        = (const u8*)  weaponsDat[9].address;
-  static const u8  *BW_DATA_Weapon_ExplosionType      = (const u8*)  weaponsDat[10].address;
-  static const u16 *BW_DATA_Weapon_InnerSplashRadius  = (const u16*) weaponsDat[11].address;
-  static const u16 *BW_DATA_Weapon_MedianSplashRadius = (const u16*) weaponsDat[12].address;
-  static const u16 *BW_DATA_Weapon_OuterSplashRadius  = (const u16*) weaponsDat[13].address;
-  static const u16 *BW_DATA_Weapon_DamageAmount       = (const u16*) weaponsDat[14].address;
-  static const u16 *BW_DATA_Weapon_DamageBonus        = (const u16*) weaponsDat[15].address;
-  static const u8  *BW_DATA_Weapon_DamageCooldown     = (const u8*)  weaponsDat[16].address;
-  static const u8  *BW_DATA_Weapon_DamageFactor       = (const u8*)  weaponsDat[17].address;
-  static const u8  *BW_DATA_Weapon_AttackDirection    = (const u8*)  weaponsDat[18].address;
-  static const u8  *BW_DATA_Weapon_LaunchSpin         = (const u8*)  weaponsDat[19].address;
-  static const u8  *BW_DATA_Weapon_XOffset            = (const u8*)  weaponsDat[20].address;
-  static const u8  *BW_DATA_Weapon_YOffset            = (const u8*)  weaponsDat[21].address;
-
+      BW::AllScoresStruct IS_REF(AllScores, 0x00581DE4);
+      std::array< std::array<u8, BW::UNIT_TYPE_COUNT>, BW::PLAYER_COUNT> IS_REF(UnitAvailability, 0x0057F27C);
+    }
+  }
   //------------------------------------------- UPGRADE DATA -------------------------------------------------
-  static const u16            *BW_DATA_Upgrade_MineralCostBase   = (const u16*)  upgradesDat[0].address;
-  static const u16            *BW_DATA_Upgrade_MineralCostFactor = (const u16*)  upgradesDat[1].address;
-  static const u16            *BW_DATA_Upgrade_GasCostBase       = (const u16*)  upgradesDat[2].address;
-  static const u16            *BW_DATA_Upgrade_GasCostFactor     = (const u16*)  upgradesDat[3].address;
-  static const u16            *BW_DATA_Upgrade_TimeCostBase      = (const u16*)  upgradesDat[4].address;
-  static const u16            *BW_DATA_Upgrade_TimeCostFactor    = (const u16*)  upgradesDat[5].address;
-  static const u16            *BW_DATA_Upgrade_Label             = (const u16*)  upgradesDat[8].address;
-  static const u8             *BW_DATA_Upgrade_Race              = (const u8*)   upgradesDat[9].address;
-  static const u8             *BW_DATA_Upgrade_MaxRepeats        = (const u8*)   upgradesDat[10].address;
-  */
-  struct _scUpgrs {    u8 level[PLAYER_COUNT][46];  };
-  struct _bwUpgrs {    u8 level[PLAYER_COUNT][15];  };
-  BW_DATA(_scUpgrs*, UpgradeMaxSC, 0x0058D088, 0);
-  BW_DATA(_scUpgrs*, UpgradeLevelSC, 0x0058D2B0, 0);
-  BW_DATA(_bwUpgrs*, UpgradeMaxBW, 0x0058F278, 0);
-  BW_DATA(_bwUpgrs*, UpgradeLevelBW, 0x0058F32C, 0);
+  namespace BWDATA
+  {
+    namespace
+    {
+      std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeMaxSC, 0x0058D088);
+      std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeLevelSC, 0x0058D2B0);
+      std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeMaxBW, 0x0058F278);
+      std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeLevelBW, 0x0058F32C);
 
-  BW_DATA(u32, UpgradeProgress, 0x0058F3E0, 0);
-
+      static const u32 UpgradeProgress = 0x0058F3E0;
+    }
+  }
   //--------------------------------------------- TECH DATA --------------------------------------------------
-  /*
-  static const u16 *BW_DATA_Tech_MineralCost  = (const u16*) techdataDat[0].address;
-  static const u16 *BW_DATA_Tech_GasCost      = (const u16*) techdataDat[1].address;
-  static const u16 *BW_DATA_Tech_TimeCost     = (const u16*) techdataDat[2].address;
-  static const u16 *BW_DATA_Tech_EnergyCost   = (const u16*) techdataDat[3].address;
-  static const u16 *BW_DATA_Tech_LabelIndex   = (const u16*) techdataDat[7].address;
-  */
+  namespace BWDATA
+  {
+    namespace
+    {
+      std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechAvailableSC, 0x0058CE24);
+      std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechResearchSC, 0x0058CF44);
+      std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechAvailableBW, 0x0058F050);
+      std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechResearchBW, 0x0058F140);
 
-  struct _scTechs {    u8 enabled[PLAYER_COUNT][24];  };
-  struct _bwTechs {    u8 enabled[PLAYER_COUNT][20];  };
-  BW_DATA(_scTechs*, TechAvailableSC, 0x0058CE24, 0);
-  BW_DATA(_scTechs*, TechResearchSC, 0x0058CF44, 0);
-  BW_DATA(_bwTechs*, TechAvailableBW, 0x0058F050, 0);
-  BW_DATA(_bwTechs*, TechResearchBW, 0x0058F140, 0);
-
-  BW_DATA(u32, ResearchProgress, 0x0058F230, 0);
+      static const u32 ResearchProgress = 0x0058F230;
+    }
+  }
 
   //------------------------------------------------ MAPPING -------------------------------------------------
   // Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group.
   typedef u16 TileID;
-  BW_DATA(TileID**, MapTileArray, 0x005993C4, 0); // MTXM (Matrix Map) -- gfpMIMap
-  BW_DATA(WORD**,CellMap, 0x00628494,0); // gfpCellMap (terrain)
-  BW_DATA(TileType**, TileSet, 0x006D5EC8, 0);  // cv5
+  namespace BWDATA
+  {
+    namespace
+    {
+      TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
+      WORD* IS_REF(CellMap, 0x00628494); // gfpCellMap (terrain)
+      TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
+    }
+  }
   typedef struct
   {
     WORD wImageRef[4][4];
   } vx4entry;
-  BW_DATA(vx4entry**, VX4Data, 0x00628458, 0);
   typedef struct
   {
     BYTE cdata[8][8];
   } vr4entry;
-  BW_DATA(vr4entry**,VR4Data, 0x00628444, 0);
 
-  BW_DATA(bool*, HasMegatileUpdate, 0x0059CB58,0);
-  
+  namespace BWDATA
+  {
+    namespace
+    {
+      vx4entry* IS_REF(VX4Data, 0x00628458);
+      vr4entry* IS_REF(VR4Data, 0x00628444);
+      bool IS_REF(HasMegatileUpdate, 0x0059CB58);
+    }
+  }
+
   /// Direct mapping of minitile flags array
   struct MiniTileMaps_type
   {
@@ -665,7 +576,13 @@ namespace BW
     };
     MiniTileFlagArray tile[0x10000];
   };
-  BW_DATA(MiniTileMaps_type**, MiniTileFlags, 0x005993D0, 0);   // vf4
+  namespace BWDATA
+  {
+    namespace
+    {
+      MiniTileMaps_type* IS_REF(MiniTileFlags, 0x005993D0);   // vf4
+    }
+  }
 
   struct activeTile
   {
@@ -685,14 +602,20 @@ namespace BW
     u8 bUnknown3          : 1; // Unused?
   };
 
-  BW_DATA(activeTile**, ActiveTileArray, 0x006D1260,0);
-  BW_DATA(u8**, CreepEdgeData, 0x006D0E80,0);
-  BW_DATA(SAI_Paths**, SAIPathing, 0x006D5BFC,0);
+  namespace BWDATA
+  {
+    namespace
+    {
+      activeTile* IS_REF(ActiveTileArray, 0x006D1260);
+      u8* IS_REF(CreepEdgeData, 0x006D0E80);
+      SAI_Paths* IS_REF(SAIPathing, 0x006D5BFC);
 
-  BW_DATA(grpHead**, TerrainGraphics, 0x006D0C64,0);
+      grpHead* IS_REF(TerrainGraphics, 0x006D0C64);   // Single GRP
+    }
+  }
+
 };
 
 #undef IS_REF
-#undef BW_DATA
 
 #pragma pack()

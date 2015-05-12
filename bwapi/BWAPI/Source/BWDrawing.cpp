@@ -76,17 +76,17 @@ void drawThingys()
 
 BW::activeTile *getActiveTile(int x, int y)
 {
-  return &(*BW::BWDATA::ActiveTileArray)[x + y * BW::BWDATA::MapSize.x];
+  return &BW::BWDATA::ActiveTileArray[x + y * BW::BWDATA::MapSize.x];
 }
 
 WORD *getMtxTile(int x, int y)
 {
-  return &(*BW::BWDATA::MapTileArray)[x + y * BW::BWDATA::MapSize.x];
+  return &BW::BWDATA::MapTileArray[x + y * BW::BWDATA::MapSize.x];
 }
 
 WORD *getCellTile(int x, int y)
 {
-  return &(*BW::BWDATA::CellMap)[x + y * BW::BWDATA::MapSize.x];
+  return &BW::BWDATA::CellMap[x + y * BW::BWDATA::MapSize.x];
 }
 
 bool hasCreep(int x, int y)
@@ -96,7 +96,7 @@ bool hasCreep(int x, int y)
 
 WORD getTileRef(WORD tile)
 {
-  return (*BW::BWDATA::TileSet)[(tile >> 4) & 0x7FF].megaTileRef[tile & 0xF];
+  return BW::BWDATA::TileSetMap[(tile >> 4) & 0x7FF].megaTileRef[tile & 0xF];
 }
 
 
@@ -129,7 +129,7 @@ void drawMinitileImageData(WORD wTileImageIdx, int targx, int targy)
   // in pixels
   bool isFlipped = !!(wTileImageIdx & 1);
   wTileImageIdx >>= 1;
-  const BW::vr4entry &imageData = (*BW::BWDATA::VR4Data)[wTileImageIdx];
+  const BW::vr4entry &imageData = BW::BWDATA::VR4Data[wTileImageIdx];
 
   for ( int y = 0; y < 8; ++y )
     for ( int x = 0; x < 8; ++x )
@@ -144,7 +144,7 @@ void drawMegatileImageData(WORD tile, int targTileX, int targTileY)
   BW::Position scrPixelPos( BW::TilePosition((short)targTileX, (short)targTileY) - BW::BWDATA::MoveToTile );
 
   tile &= 0x7FFF;
-  BW::vx4entry &entry = (*BW::BWDATA::VX4Data)[tile];
+  BW::vx4entry &entry = BW::BWDATA::VX4Data[tile];
   for ( int y = 0; y < 4; ++y )
     for ( int x = 0; x < 4; ++x )
       drawMinitileImageData(entry.wImageRef[y][x], scrPixelPos.x + x*8, scrPixelPos.y + y*8);
@@ -153,9 +153,9 @@ void drawMegatileImageData(WORD tile, int targTileX, int targTileY)
   if ( isCreepTile )
   {
     // Get creep edge data
-    u8 creepID = (*BW::BWDATA::CreepEdgeData)[ targTileX + targTileY * BW::BWDATA::MapSize.x ];
+    u8 creepID = BW::BWDATA::CreepEdgeData[ targTileX + targTileY * BW::BWDATA::MapSize.x ];
     if ( creepID != 0 )   // Render terrain GRP for creep edge (if exists) to terrain cache
-      bmpTerrainCache.BlitGraphic(*BW::BWDATA::TerrainGraphics, creepID-1, scrPixelPos.x, scrPixelPos.y);
+      bmpTerrainCache.BlitGraphic(BW::BWDATA::TerrainGraphics, creepID-1, scrPixelPos.x, scrPixelPos.y);
   }
 }
 
@@ -180,7 +180,7 @@ void drawMapTiles()
         IterateDirectionalCallback(BW::BWDATA::BWFXN_CreepManagementCB, x, y);
 
         drawMegatileImageData(*drawTile, x, y );
-        *BW::BWDATA::HasMegatileUpdate = true;
+        BW::BWDATA::HasMegatileUpdate = true;
       }
 
     }

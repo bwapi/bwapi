@@ -140,8 +140,8 @@ namespace BWAPI
   //------------------------------------------------ GET TILE ------------------------------------------------
   BW::TileID Map::getTile(int x, int y)
   {
-    if ( *BW::BWDATA::MapTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
-      return *((*BW::BWDATA::MapTileArray) + x + y * Map::getWidth());
+    if ( BW::BWDATA::MapTileArray && static_cast<unsigned>(x) < getWidth() && static_cast<unsigned>(y) < getHeight())
+      return BW::BWDATA::MapTileArray[x + y * Map::getWidth()];
     return 0;
   }
   //------------------------------------------- GET TILE VARIATION -------------------------------------------
@@ -159,7 +159,7 @@ namespace BWAPI
     BW::TileID tileID = BWAPI::Map::getTile(tx, ty);
     BW::TileType* tile = BW::TileSet::getTileType(tileID);
     if ( tile && BW::BWDATA::MiniTileFlags )
-      return (*BW::BWDATA::MiniTileFlags)->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
+      return BW::BWDATA::MiniTileFlags->tile[tile->megaTileRef[Map::getTileVariation(tileID)]].miniTile[mx + my*4];
     return 0;
   }
   //------------------------------------------ GET MAP HASH --------------------------------------------------

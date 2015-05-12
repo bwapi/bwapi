@@ -23,7 +23,7 @@ void ApplyCodePatches()
   {
     // Create function-level hooks
     HackUtil::CallPatch(BW::BWFXN_P_IsGamePaused, &_nextFrameHook);
-    HackUtil::CallPatch(BW::BWDATA::ExecuteGameTrigsCallPatch, &ExecuteGameTriggers);
+    HackUtil::CallPatch(BW::BWFXN_ExecuteGameTrigsCallPatch, &ExecuteGameTriggers);
     HackUtil::WriteNops(BW::BWFXN_SpendRepair, 7);
     HackUtil::JmpPatch(BW::BWFXN_SpendRepair, &_repairHook);
     HackUtil::JmpPatch(BW::BWFXN_RefundMinerals, &_refundMineralsHook);
@@ -37,8 +37,8 @@ void ApplyCodePatches()
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_QueueCommand, &CommandFilter);
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_DDrawDestroy, &DDrawDestroy);
     HackUtil::JmpPatch(BW::BWFXN_NetSelectReturnMenu, &_SelectReturnMenu);
-    HackUtil::CallPatch(BW::BWDATA::RandomizeRacePatch, &_RandomizePlayerRaces);
-    HackUtil::CallPatch(BW::BWDATA::InitPlayerConsolePatch, &_InitializePlayerConsole);
+    HackUtil::CallPatch(BW::BWFXN_RandomizeRacePatch, &_RandomizePlayerRaces);
+    HackUtil::CallPatch(BW::BWFXN_InitPlayerConsolePatch, &_InitializePlayerConsole);
     
     // Perform code patches
     char zero = 0;

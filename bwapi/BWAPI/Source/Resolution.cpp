@@ -35,8 +35,8 @@ void SetResolution(int width, int height)
   BW::BWDATA::GameScreenConsole.resize(width, height);
   
   // Recreate STrans thingy
-  BW::BlizzVectorEntry<BW::TransVectorEntry> *transEntry = BW::BWDATA::TransMaskVector->begin;
-  if ( transEntry && static_cast<void*>(transEntry) != &BW::BWDATA::TransMaskVector->begin )
+  BW::BlizzVectorEntry<BW::TransVectorEntry> *transEntry = BW::BWDATA::TransMaskVector.begin;
+  if ( transEntry && static_cast<void*>(transEntry) != &BW::BWDATA::TransMaskVector.begin )
   {
     HANDLE oldTrans = transEntry->container.hTrans;
     SetRect(&transEntry->container.info, 0, 0, width, height);
