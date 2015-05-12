@@ -256,6 +256,9 @@
     <ClInclude Include="Source\BW\Constants.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BW\Structures.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">

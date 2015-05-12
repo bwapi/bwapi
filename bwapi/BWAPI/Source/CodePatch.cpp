@@ -54,11 +54,6 @@ void ApplyCodePatches()
     for (auto &it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
     for (auto &it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
     for (auto &it : BW::BWDATA::gluChatSwishController) it.wType = 4;
-
-    // Write trigger action detours
-    memcpy(BWTriggerActionFxnTable, BW::TriggerActionCallbacks, sizeof(BWTriggerActionFxnTable));
-    for ( int i = 0; i < std::extent<decltype(BWTriggerActionFxnTable)>::value; ++i )
-      BW::TriggerActionCallbacks[i] = &TriggerActionReplacement;
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
   // Write storm authentication patch (allow custom network modes)

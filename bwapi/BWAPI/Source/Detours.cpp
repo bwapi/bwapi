@@ -104,20 +104,6 @@ void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame)
   BW::BWFXN_ExecuteGameTriggers(dwMillisecondsPerFrame);
 }
 
-bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
-bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction)
-{
-  if (!pAction || pAction->bActionType >= std::extent<decltype(BWTriggerActionFxnTable)>::value)
-    return false;
-
-  bool rval = BWTriggerActionFxnTable[pAction->bActionType](pAction);
-  if ( rval )
-  {
-    // do stuff
-  }
-  return rval;
-}
-
 //--------------------------------------- GetSystemTimeAsFileTime --------------------------------------------
 void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
 {

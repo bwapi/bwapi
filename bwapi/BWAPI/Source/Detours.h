@@ -65,8 +65,5 @@ extern DECL_OLDFXN(CreateThread);
 extern DECL_OLDFXN(CreateEventA);
 extern DECL_OLDFXN(GetSystemTimeAsFileTime);
 
-bool __fastcall TriggerActionReplacement(BW::Triggers::Action *pAction);
-extern bool (__fastcall *BWTriggerActionFxnTable[60])(BW::Triggers::Action*);
-
 void _RandomizePlayerRaces();
 void _InitializePlayerConsole();
