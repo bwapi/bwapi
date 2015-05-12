@@ -24,7 +24,6 @@
 
 #include "../../Debug.h"
 
-bool hideHUD;
 std::string gDesiredReplayName;
 
 void *leakUIClassLoc;
@@ -412,7 +411,7 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 bool nosound = false;
 void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
-  if ( BW::pOldDrawDialogProc && !hideHUD )
+  if ( BW::pOldDrawDialogProc )
     BW::pOldDrawDialogProc(pSurface, pBounds);
 
   if ( BW::BWDATA::gwGameMode == BW::GAME_GLUES )

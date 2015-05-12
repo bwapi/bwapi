@@ -279,6 +279,7 @@ void AutoMenuManager::onMenuFrame()
       std::string mapFileDir(mapFilePath, 0, mapFilePath.size() - mapFileName.size() - 1);
 
       // Apply the altered name to all vector entries
+      // TODO: Find alternative method
       for (BW::BlizzVectorEntry<BW::MapVectorEntry> *i = BW::BWDATA::MapListVector.begin; (u32)i != ~(u32)&BW::BWDATA::MapListVector.end && (u32)i != (u32)&BW::BWDATA::MapListVector.begin; i = i->next)
       {
         i->container.bTotalPlayers = 8;

@@ -219,11 +219,6 @@ namespace BWAPI
       Broodwar << "Latency: " << getLatency() << std::endl;
       Broodwar << "New latency: " << getLatencyFrames() << " frames (" << getLatencyTime() << "ms)" << std::endl;
     }
-    else if (cmd == "/hud")
-    {
-      hideHUD = !hideHUD;
-      Broodwar << "Now " << (hideHUD ? "hiding" : "showing") << " the HUD." << std::endl;
-    }
     else if (cmd == "/test")
     {
     }

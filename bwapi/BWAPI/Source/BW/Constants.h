@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 
 namespace BW
 {
@@ -20,4 +21,7 @@ namespace BW
   const int NUM_TEXT_LINES = 13;
   const int MAX_TEXT_SIZE = 218;
   const int MAX_SELECTION_COUNT = 12;
+
+  const std::array<unsigned, NUM_SPEEDS> OriginalSpeedModifiers = { 167, 111, 83, 67, 56, 48, 42 };
+
 }

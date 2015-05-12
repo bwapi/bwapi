@@ -99,8 +99,8 @@ namespace BW
     int unitIndex;
     int searchValue;
   };
+  
 
-  const std::array<u32, NUM_SPEEDS> OriginalSpeedModifiers = { 167, 111, 83, 67, 56, 48, 42 };
 
 #define IS_REF(name,addr) (& name) = *reinterpret_cast<std::remove_reference<decltype(name)>::type*>(addr);
 
@@ -305,7 +305,7 @@ namespace BW
   static void (__cdecl * const BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
 
   //--------------------------------------------- STRINGS ----------------------------------------------------
-
+  // TODO: Get rid of this
   struct MapVectorEntry   // sizeof 1348
   {
     char  szEntryName[64];        // fixed entry name // 8
@@ -472,26 +472,16 @@ namespace BW
     {
       BW::AllScoresStruct IS_REF(AllScores, 0x00581DE4);
       std::array< std::array<u8, BW::UNIT_TYPE_COUNT>, BW::PLAYER_COUNT> IS_REF(UnitAvailability, 0x0057F27C);
-    }
-  }
-  //------------------------------------------- UPGRADE DATA -------------------------------------------------
-  namespace BWDATA
-  {
-    namespace
-    {
+
+      //------------------------------------------- UPGRADE DATA -------------------------------------------------
       std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeMaxSC, 0x0058D088);
       std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeLevelSC, 0x0058D2B0);
       std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeMaxBW, 0x0058F278);
       std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeLevelBW, 0x0058F32C);
 
       static const u32 UpgradeProgress = 0x0058F3E0;
-    }
-  }
-  //--------------------------------------------- TECH DATA --------------------------------------------------
-  namespace BWDATA
-  {
-    namespace
-    {
+
+      //--------------------------------------------- TECH DATA --------------------------------------------------
       std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechAvailableSC, 0x0058CE24);
       std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechResearchSC, 0x0058CF44);
       std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechAvailableBW, 0x0058F050);
