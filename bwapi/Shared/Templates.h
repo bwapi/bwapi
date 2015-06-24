@@ -1052,7 +1052,7 @@ namespace BWAPI
       if (Broodwar->self()->gas() < type.gasPrice())
         return Broodwar->setLastError(Errors::Insufficient_Gas);
 
-      if (type == TechTypes::Lurker_Aspect && !Broodwar->self()->completedUnitCount(UnitTypes::Zerg_Lair) && !Broodwar->self()->allUnitCount(UnitTypes::Zerg_Hive))
+      if (!Broodwar->self()->hasUnitTypeRequirement(type.requiredUnit()))
         return Broodwar->setLastError(Errors::Insufficient_Tech);
 
       return Broodwar->setLastError();

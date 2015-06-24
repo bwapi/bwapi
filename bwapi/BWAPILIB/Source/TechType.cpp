@@ -317,5 +317,11 @@ namespace BWAPI
   {
     return TechTypeSet::techTypeSet;
   }
+  UnitType TechType::requiredUnit() const
+  {
+    if (*this == TechTypes::Lurker_Aspect)
+      return UnitTypes::Zerg_Lair;
+    return UnitTypes::None;
+  }
 }
 

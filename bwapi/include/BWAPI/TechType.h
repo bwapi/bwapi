@@ -140,6 +140,16 @@ namespace BWAPI
       ///
       /// @returns Order representing the action a Unit uses to perform this ability
       Order getOrder() const;
+
+      /// <summary>Retrieves the UnitType required to research this technology.</summary>
+      /// The required unit type must be a completed unit owned by the player researching the
+      /// technology.
+      ///
+      /// @returns UnitType that is needed to research this tech type.
+      /// @retval UnitTypes::None if no unit is required to research this tech type.
+      ///
+      /// @see PlayerInterface::completedUnitCount
+      UnitType requiredUnit() const;
   };
 
   /// @ingroup Types
