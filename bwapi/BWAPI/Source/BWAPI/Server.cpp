@@ -373,7 +373,7 @@ namespace BWAPI
     for ( int x = 0; x < mapSize.x; ++x )
       for ( int y = 0; y < mapSize.y; ++y )
       {
-        data->isBuildable[x][y]     = Broodwar->isBuildable(x, y);
+        data->isBuildable[x][y] = Broodwar->isBuildable(x, y);
         data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
         if (BW::BWDATA::SAIPathing )
           data->mapTileRegionId[x][y] = BW::BWDATA::SAIPathing->mapTileRegionId[y][x];
@@ -388,8 +388,8 @@ namespace BWAPI
       for(int i = 0; i < 5000; ++i)
       {
         data->mapSplitTilesMiniTileMask[i] = BW::BWDATA::SAIPathing->splitTiles[i].minitileMask;
-        data->mapSplitTilesRegion1[i]      = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
-        data->mapSplitTilesRegion2[i]      = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
+        data->mapSplitTilesRegion1[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
+        data->mapSplitTilesRegion2[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
 
         BWAPI::Region r = Broodwar->getRegion(i);
         if (r)
@@ -438,32 +438,32 @@ namespace BWAPI
       PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
 
       StrCopy(p->name, i->getName());
-      p->race  = i->getRace();
-      p->type  = i->getType();
+      p->race = i->getRace();
+      p->type = i->getType();
       p->force = getForceID(i->getForce());
       p->color = p2->color;
 
       for(int j = 0; j < 12; ++j)
       {
-        p->isAlly[j]  = false;
+        p->isAlly[j] = false;
         p->isEnemy[j] = false;
       }
       for(Player j : Broodwar->getPlayers())
       {
-        p->isAlly[getPlayerID(j)]  = i->isAlly(j);
-        p->isEnemy[getPlayerID(j)]  = i->isEnemy(j);
+        p->isAlly[getPlayerID(j)] = i->isAlly(j);
+        p->isEnemy[getPlayerID(j)] = i->isEnemy(j);
       }
-      p->isNeutral    = i->isNeutral();
-      p->startLocationX  = i->getStartLocation().x;
-      p->startLocationY  = i->getStartLocation().y;
+      p->isNeutral = i->isNeutral();
+      p->startLocationX = i->getStartLocation().x;
+      p->startLocationY = i->getStartLocation().y;
     }
 
-    data->forceCount    = forceVector.size();
-    data->playerCount    = playerVector.size();
-    data->initialUnitCount  = unitVector.size();
+    data->forceCount = forceVector.size();
+    data->playerCount = playerVector.size();
+    data->initialUnitCount = unitVector.size();
 
-    data->botAPM_noselects  = 0;
-    data->botAPM_selects  = 0;
+    data->botAPM_noselects = 0;
+    data->botAPM_selects = 0;
   }
   void Server::clearAll()
   {
@@ -485,8 +485,8 @@ namespace BWAPI
 
   void Server::updateSharedMemory()
   {
-    for(Unit u : BroodwarImpl.evadeUnits)
-      data->units[u->getID()] = static_cast<UnitImpl*>(u)->data;
+    for (Unit u : BroodwarImpl.evadeUnits)
+      data->units[getUnitID(u)] = static_cast<UnitImpl*>(u)->data;
 
     data->frameCount              = Broodwar->getFrameCount();
     data->replayFrameCount        = Broodwar->getReplayFrameCount();
@@ -522,8 +522,10 @@ namespace BWAPI
 
       for ( int i = 0; i < BWAPI::Flag::Max; ++i )
         data->flags[i] = Broodwar->isFlagEnabled(i);
-      data->isPaused          = Broodwar->isPaused();
+
+      data->isPaused = Broodwar->isPaused();
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
+
       int i = 0;
       for(Unit t : Broodwar->getSelectedUnits())
         data->selectedUnits[i++] = getUnitID(t);
@@ -589,43 +591,43 @@ namespace BWAPI
 
       //dynamic unit data
       for(Unit i : Broodwar->getAllUnits())
-        data->units[i->getID()] = static_cast<UnitImpl*>(i)->data;
+        data->units[getUnitID(i)] = static_cast<UnitImpl*>(i)->data;
 
       for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       {
         Unit u = Broodwar->indexToUnit(i);
         int id = -1;
         if ( u )
-          id = u->getID();
+          id = getUnitID(u);
         data->unitArray[i] = id;
       }
 
-      unitFinder     *xf   = data->xUnitSearch;
-      unitFinder     *yf   = data->yUnitSearch;
-      const BW::unitFinder *bwxf = BW::BWDATA::UnitOrderingX.data();
-      const BW::unitFinder *bwyf = BW::BWDATA::UnitOrderingY.data();
+      unitFinder* xf = data->xUnitSearch;
+      unitFinder* yf = data->yUnitSearch;
+      const BW::unitFinder* bwxf = BW::BWDATA::UnitOrderingX.data();
+      const BW::unitFinder* bwyf = BW::BWDATA::UnitOrderingY.data();
       int bwSearchSize = BW::BWDATA::UnitOrderingCount;
 
       for ( int i = 0; i < bwSearchSize; ++i, bwxf++, bwyf++ )
       {
         if (bwxf->unitIndex > 0 && bwxf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
         {
-          const UnitImpl *u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
+          UnitImpl* u = BroodwarImpl.unitArray[bwxf->unitIndex-1];
           if ( u && u->canAccess() )
           {
             xf->searchValue = bwxf->searchValue;
-            xf->unitIndex   = u->getID();
+            xf->unitIndex = getUnitID(u);
             xf++;
           }
         } // x index
 
         if (bwyf->unitIndex > 0 && bwyf->unitIndex <= BW::UNIT_ARRAY_MAX_LENGTH)
         {
-          const UnitImpl *u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
+          UnitImpl* u = BroodwarImpl.unitArray[bwyf->unitIndex-1];
           if ( u && u->canAccess() )
           {
             yf->searchValue = bwyf->searchValue;
-            yf->unitIndex   = u->getID();
+            yf->unitIndex = getUnitID(u);
             yf++;
           }
         } // x index
@@ -656,7 +658,7 @@ namespace BWAPI
     {
       if (e.getType() == EventType::MatchStart)
       {
-        Server::onMatchStart();
+        onMatchStart();
       }
 
       // Add the event to the server queue
@@ -833,7 +835,7 @@ namespace BWAPI
       {
         if (data->unitCommands[i].unitIndex < 0 || data->unitCommands[i].unitIndex >= (int)unitVector.size())
           continue;
-        Unit unit   = unitVector[data->unitCommands[i].unitIndex];
+        Unit unit = unitVector[data->unitCommands[i].unitIndex];
         Unit target = nullptr;
         if (data->unitCommands[i].targetIndex >= 0 && data->unitCommands[i].targetIndex < (int)unitVector.size())
           target = unitVector[data->unitCommands[i].targetIndex];

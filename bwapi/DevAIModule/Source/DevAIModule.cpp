@@ -46,6 +46,14 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
+  for (auto &u : bw->getAllUnits())
+  {
+    if (!u->getType().isResourceContainer() && !u->getType().isWorker() && !u->getType().isCritter() && !u->getType().isResourceDepot()
+      && u->getType() != UnitTypes::Zerg_Overlord && u->getType() != UnitTypes::Zerg_Larva && u->getType() != UnitTypes::Zerg_Egg)
+    {
+      Broodwar << u->getType() << std::endl;
+    }
+  }
 }
 
 void DevAIModule::onSendText(std::string text)

@@ -23,8 +23,8 @@ namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
   UnitImpl::UnitImpl(BW::CUnit* originalUnit, u16 index)
-      : getOriginalRawData(originalUnit)  // 273
-      , index(index)  // 319
+      : getOriginalRawData(originalUnit)
+      , index(index)
   {
     clear();
   }
