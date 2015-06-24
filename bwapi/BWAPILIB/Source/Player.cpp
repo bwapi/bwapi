@@ -9,7 +9,7 @@ using namespace BWAPI;
 //--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
 int PlayerInterface::incompleteUnitCount(UnitType unit) const
 {
-  return this->completedUnitCount(unit) - this->allUnitCount(unit);
+  return this->allUnitCount(unit) - this->completedUnitCount(unit);
 }
 //--------------------------------------------- MAX ENERGY -------------------------------------------------
 int PlayerInterface::maxEnergy(UnitType unit) const

@@ -46,44 +46,22 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
-  for (Unit res : Broodwar->getStaticMinerals())
-  {
-    if (Broodwar->isVisible(res->getInitialTilePosition()) && !res->isVisible())
-    {
-      // mined out or error
-      //Broodwar->setLocalSpeed(1000000);
-      Broodwar->drawBoxMap(res->getInitialPosition() - Position(8, 8), res->getInitialPosition() + Position(8, 8), Colors::Red);
-    }
-  }
-
-  if ( bw->self() )
-  {
-    for (auto u : bw->getSelectedUnits())
-    {
-      if (bw->getKeyState(K_T))
-        u->cancelTrain(-3);
-      else if (bw->getKeyState(K_Y))
-        u->cancelTrain(-4);
-    }
-    for (auto u : bw->getAllUnits())
-    {
-      bw->drawTextMap(u->getPosition(), "%s %d", u->getOrder().c_str(), u->isHoldingPosition());
-      /*
-      if (u->getType() != UnitTypes::Terran_Goliath) continue;
-      Unit targ = u->getOrderTarget();
-      if (!targ) continue;
-
-      if (targ->getID() == -1)
-      {
-        Broodwar << "Whoops! " << targ->getType() << " - " << targ->getPlayer()->getName() << std::endl;
-      }
-      */
-    }
-  }
 }
 
 void DevAIModule::onSendText(std::string text)
 {
+  if (text == "/morph")
+  {
+    BWAPI::Unitset larvae = self->getUnits();
+    larvae.erase_if(Filter::GetType != UnitTypes::Zerg_Larva);
+    if (!larvae.empty())
+    {
+      if (!(*larvae.begin())->morph(UnitTypes::Zerg_Mutalisk))
+      {
+        Broodwar << bw->getLastError() << ":" << self->incompleteUnitCount(UnitTypes::Zerg_Greater_Spire) << ":" << self->incompleteUnitCount(UnitTypes::Zerg_Spire) << std::endl;
+      }
+    }
+  }
   Broodwar->sendText("%s", text.c_str());
 }
 
