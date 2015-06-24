@@ -1056,6 +1056,9 @@ Value of 32  [0x20]. See BWAPI::TechTypes::Lurker_Aspect.
 <tr><td><strong>Researched at</strong></td><td> @htmlonly
 <img src='icon135.png'>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk_Den "Zerg Hydralisk Den"</td></tr>
+<tr><td><strong>Requires</strong></td><td> @htmlonly
+<img src='icon132.png'>
+@endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
 <tr><td><strong>Used by</strong></td><td> @htmlonly
 <img src='icon38.png'>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>

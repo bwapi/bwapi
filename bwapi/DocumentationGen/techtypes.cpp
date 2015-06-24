@@ -25,6 +25,7 @@ void writeTechInfo()
     if (t.energyCost() != 0) of << row("Energy Cost", imgEnergy() + std::to_string(t.energyCost()));
 
     if (t.whatResearches() != UnitTypes::None) of << row("Researched at", iconref(t.whatResearches()));
+    if (t.requiredUnit() != UnitTypes::None) of << row("Requires", iconref(t.requiredUnit()));
 
     std::set<std::string> targets;
     if (t.targetsPosition()) targets.insert("Positions");
