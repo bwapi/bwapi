@@ -621,5 +621,19 @@ namespace BWAPI
     ///
     /// @returns true if the \p unit type is available to the player.
     virtual bool isUnitAvailable(UnitType unit) const = 0;
+
+    /// <summary>Verifies that this player satisfies a unit type requirement.</summary>
+    /// This verifies complex type requirements involving morphable @Zerg structures. For example,
+    /// if something requires a @Spire, but the player has (or is in the process of morphing) a
+    /// @Greater_Spire, this function will identify the requirement. It is simply a convenience function
+    /// that performs all of the requirement checks.
+    ///
+    /// <param name="unit">
+    ///   The UnitType to check.
+    /// </param>
+    /// <param name="amount"> (optional)
+    ///   The amount of units that are required.
+    /// </param>
+    bool hasUnitTypeRequirement(UnitType unit, int amount = 1) const;
   };
 };
