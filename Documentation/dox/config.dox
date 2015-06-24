@@ -1,8 +1,0 @@
-/*!
-@page config Configuration
-@tableofcontents
-
-@section def_config Default Configuration
-@verbinclude bwapi.ini
-
-*/

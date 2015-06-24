@@ -1246,6 +1246,8 @@ namespace BWAPI
     ///
     /// @returns true if this unit has power or is inaccessible, and false if this unit is
     /// unpowered.
+    ///
+    /// @since 4.0.1 Beta (previously isUnpowered)
     virtual bool isPowered() const = 0;
 
     /// <summary>Checks if this unit is a structure that is currently upgrading an upgrade.</summary>

@@ -4,6 +4,7 @@
 */svnrev.h
 *.suo
 *.log
+*.ncb
 Debug
 Release
 Release_Pipeline
@@ -15,6 +16,7 @@ TestResults
 
 Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*
+Release_Binary/Chaoslauncher/BWAPI*
 Release_Binary/ExampleAIClient
 Release_Binary/ExampleAIModule
 Release_Binary/ExampleTournamentModule

@@ -2,7 +2,6 @@
 [TOC]
 # Project Information {#project}
 
-* [Go to the github page](https://github.com/bwapi/bwapi)
 * [Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)
 * [Go to the releases](https://github.com/bwapi/bwapi/releases)
 
@@ -19,6 +18,7 @@ user input by default, ensuring the user cannot take control of game units while
 These defaults can be changed for flexibility, unless enforced by a Tournament Module (game referee for
 AI tournaments). Changed defaults will be advertised when the match begins.
 
+
 ## Capabilities {#capability}
 
  - Write competitive AIs for Starcraft: Broodwar by controlling individual units.
@@ -27,14 +27,13 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - Get comprehensive information on the unit types, upgrades, technologies, weapons, and more.
  - Study and research real-time AI algorithms in a robust commercial RTS environment.
 
-## Sample Projects {#samples}
-
-
+ 
 ## Getting Started {#getting-started}
  - Developing a bot in C++? Then download the [latest release](https://github.com/bwapi/bwapi/releases).
  - If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
  - Want to help improve BWAPI? Fork the [`develop` branch](https://github.com/bwapi/bwapi/tree/develop).
 
+ 
 ## Important Links & Contact Information {#contact}
 * **Documentation:**         http://bwapi.github.io/
 * **Repository:**            https://github.com/bwapi/bwapi
@@ -43,6 +42,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 * **Forums:**                http://www.broodwarai.com/forums/
 * **Facebook:**              https://www.facebook.com/groups/bwapi/
 * **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
+
 
 ## Competitions {#competition}
 Various venues host remote competitive AI competitions that allow developers from around the world to participate. These venues are often held annually and will sometimes offer prizes to the winners. It is also a great way to test your bot's capabilities.
@@ -66,6 +66,7 @@ You may experience issues when working with BWAPI. Here are some steps you may w
   * **Steps to reproduce the problem**
 
 [Go to the Issue tracker](https://github.com/bwapi/bwapi/issues)
+
 
 ## Legal {#legal}
 [Starcraft](http://www.blizzard.com/games/sc/) and [Starcraft: Broodwar](http://www.blizzard.com/games/sc/) are trademarks of
