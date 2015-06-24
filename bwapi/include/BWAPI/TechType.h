@@ -149,6 +149,8 @@ namespace BWAPI
       /// @retval UnitTypes::None if no unit is required to research this tech type.
       ///
       /// @see PlayerInterface::completedUnitCount
+      ///
+      /// @since 4.1.2
       UnitType requiredUnit() const;
   };
 

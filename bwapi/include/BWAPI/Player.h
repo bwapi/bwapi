@@ -636,6 +636,8 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the unit type requirements are met, and false otherwise.
+    ///
+    /// @since 4.1.2
     bool hasUnitTypeRequirement(UnitType unit, int amount = 1) const;
   };
 };

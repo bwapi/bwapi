@@ -84,7 +84,7 @@ td.mlabels-right {
   background-color: #0a0;
   overflow: hidden;
   white-space: nowrap;
-  position: fixed;
+  position: absolute;
   right: -70px;
   top: 10px;
   -webkit-transform: rotate(22deg);
@@ -95,6 +95,7 @@ td.mlabels-right {
   -webkit-box-shadow: 0 0 10px #888;
      -moz-box-shadow: 0 0 10px #888;
           box-shadow: 0 0 10px #888;
+  z-index: 9999;
 }
 .ribbon a {
   border: 1px solid #afa;

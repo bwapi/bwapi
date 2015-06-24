@@ -819,6 +819,8 @@ namespace BWAPI
     ///
     /// @returns true if this unit type spreads creep.
     /// @implies getRace() == Races::Zerg, isBuilding()
+    ///
+    /// @since 4.1.2
     bool producesCreep() const;
 
     /// <summary>Checks if this unit type produces larva.</summary> This is essentially used to
