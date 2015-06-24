@@ -31,7 +31,9 @@ void DevAIModule::onFrame()
   std::set<Unit*> units = bw->getAllUnits();
   for each (Unit * u in units)
   {
-    u->morph(UnitTypes::Zerg_Zergling);
+    UnitType t = u->getType();
+    if (t == UnitTypes::Terran_Marine)
+      bw->printf("SPAM!");
   }
 
 }
