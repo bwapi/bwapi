@@ -864,6 +864,17 @@ namespace BWAPI
     /// @returns true if this unit type can construct an add-on, and false if it can not.
     /// @see isAddon
     bool canBuildAddon() const;
+
+    /// <summary>Retrieves the set of units that this unit type is capable of creating.</summary>
+    /// This includes training, constructing, warping, and morphing.
+    ///
+    /// @note Some maps have special parameters that disable construction of units that are otherwise
+    /// normally available. Use PlayerInterface::isUnitAvailable to determine if a unit type is
+    /// actually available in the current game for a specific player.
+    ///
+    /// @returns UnitType::set containing the units it can build.
+    /// @see PlayerInterface::isUnitAvailable
+    UnitType::set buildsWhat() const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>
