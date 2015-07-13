@@ -889,6 +889,17 @@ namespace BWAPI
     ///
     /// @since 4.1.2
     const SetContainer<TechType>& researchesWhat() const;
+
+    /// <summary>Retrieves the set of upgrades that this unit type is capable of upgrading.</summary>
+    ///
+    /// @note Some maps have special upgrade limitations. Use PlayerInterface::getMaxUpgradeLevel
+    /// to check if an upgrade is available.
+    ///
+    /// @returns UpgradeType::set containing the upgrade types that can be upgraded.
+    /// @see PlayerInterface::getMaxUpgradeLevel
+    ///
+    /// @since 4.1.2
+    const SetContainer<UpgradeType>& upgradesWhat() const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>

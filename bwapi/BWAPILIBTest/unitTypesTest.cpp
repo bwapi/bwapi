@@ -101,6 +101,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Ghost)
     {
@@ -191,6 +192,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Vulture)
     {
@@ -281,6 +283,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Goliath)
     {
@@ -371,6 +374,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Siege_Tank_Tank_Mode)
     {
@@ -461,6 +465,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_SCV)
     {
@@ -551,6 +556,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Academy, BWAPI::UnitTypes::Terran_Armory, BWAPI::UnitTypes::Terran_Barracks, BWAPI::UnitTypes::Terran_Bunker, BWAPI::UnitTypes::Terran_Engineering_Bay, BWAPI::UnitTypes::Terran_Command_Center, BWAPI::UnitTypes::Terran_Factory, BWAPI::UnitTypes::Terran_Missile_Turret, BWAPI::UnitTypes::Terran_Refinery, BWAPI::UnitTypes::Terran_Science_Facility, BWAPI::UnitTypes::Terran_Starport, BWAPI::UnitTypes::Terran_Supply_Depot }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Wraith)
     {
@@ -641,6 +647,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Science_Vessel)
     {
@@ -731,6 +738,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Gui_Montag)
     {
@@ -821,6 +829,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Dropship)
     {
@@ -911,6 +920,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Battlecruiser)
     {
@@ -1001,6 +1011,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Vulture_Spider_Mine)
     {
@@ -1091,6 +1102,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Nuclear_Missile)
     {
@@ -1181,6 +1193,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Civilian)
     {
@@ -1271,6 +1284,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Sarah_Kerrigan)
     {
@@ -1361,6 +1375,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Alan_Schezar)
     {
@@ -1451,6 +1466,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Jim_Raynor_Vulture)
     {
@@ -1541,6 +1557,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Jim_Raynor_Marine)
     {
@@ -1631,6 +1648,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Tom_Kazansky)
     {
@@ -1721,6 +1739,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Magellan)
     {
@@ -1811,6 +1830,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Edmund_Duke_Tank_Mode)
     {
@@ -1901,6 +1921,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Edmund_Duke_Siege_Mode)
     {
@@ -1991,6 +2012,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Arcturus_Mengsk)
     {
@@ -2081,6 +2103,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Hyperion)
     {
@@ -2171,6 +2194,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Norad_II)
     {
@@ -2261,6 +2285,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Siege_Tank_Siege_Mode)
     {
@@ -2351,6 +2376,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Firebat)
     {
@@ -2441,6 +2467,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpell_Scanner_Sweep)
     {
@@ -2531,6 +2558,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Medic)
     {
@@ -2621,6 +2649,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Larva)
     {
@@ -2711,6 +2740,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hydralisk, BWAPI::UnitTypes::Zerg_Defiler, BWAPI::UnitTypes::Zerg_Drone, BWAPI::UnitTypes::Zerg_Mutalisk, BWAPI::UnitTypes::Zerg_Overlord, BWAPI::UnitTypes::Zerg_Zergling, BWAPI::UnitTypes::Zerg_Queen, BWAPI::UnitTypes::Zerg_Ultralisk, BWAPI::UnitTypes::Zerg_Scourge }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Egg)
     {
@@ -2801,6 +2831,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Zergling)
     {
@@ -2891,6 +2922,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Hydralisk)
     {
@@ -2981,6 +3013,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Lurker }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Ultralisk)
     {
@@ -3071,6 +3104,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Broodling)
     {
@@ -3161,6 +3195,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Drone)
     {
@@ -3251,6 +3286,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hydralisk_Den, BWAPI::UnitTypes::Zerg_Creep_Colony, BWAPI::UnitTypes::Zerg_Defiler_Mound, BWAPI::UnitTypes::Zerg_Hatchery, BWAPI::UnitTypes::Zerg_Evolution_Chamber, BWAPI::UnitTypes::Zerg_Extractor, BWAPI::UnitTypes::Zerg_Spawning_Pool, BWAPI::UnitTypes::Zerg_Nydus_Canal, BWAPI::UnitTypes::Zerg_Queens_Nest, BWAPI::UnitTypes::Zerg_Spire, BWAPI::UnitTypes::Zerg_Ultralisk_Cavern }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Overlord)
     {
@@ -3341,6 +3377,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Mutalisk)
     {
@@ -3431,6 +3468,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Guardian, BWAPI::UnitTypes::Zerg_Devourer }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Guardian)
     {
@@ -3521,6 +3559,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Queen)
     {
@@ -3611,6 +3650,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Defiler)
     {
@@ -3701,6 +3741,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Scourge)
     {
@@ -3791,6 +3832,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Torrasque)
     {
@@ -3881,6 +3923,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Matriarch)
     {
@@ -3971,6 +4014,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Infested_Terran)
     {
@@ -4061,6 +4105,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Infested_Kerrigan)
     {
@@ -4151,6 +4196,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Unclean_One)
     {
@@ -4241,6 +4287,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Hunter_Killer)
     {
@@ -4331,6 +4378,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Devouring_One)
     {
@@ -4421,6 +4469,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Kukulza_Mutalisk)
     {
@@ -4511,6 +4560,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Kukulza_Guardian)
     {
@@ -4601,6 +4651,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Yggdrasill)
     {
@@ -4691,6 +4742,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Valkyrie)
     {
@@ -4781,6 +4833,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Cocoon)
     {
@@ -4871,6 +4924,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Corsair)
     {
@@ -4961,6 +5015,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Dark_Templar)
     {
@@ -5051,6 +5106,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Dark_Archon }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Devourer)
     {
@@ -5141,6 +5197,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Dark_Archon)
     {
@@ -5231,6 +5288,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Probe)
     {
@@ -5321,6 +5379,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Nexus, BWAPI::UnitTypes::Protoss_Arbiter_Tribunal, BWAPI::UnitTypes::Protoss_Assimilator, BWAPI::UnitTypes::Protoss_Citadel_of_Adun, BWAPI::UnitTypes::Protoss_Cybernetics_Core, BWAPI::UnitTypes::Protoss_Fleet_Beacon, BWAPI::UnitTypes::Protoss_Forge, BWAPI::UnitTypes::Protoss_Gateway, BWAPI::UnitTypes::Protoss_Observatory, BWAPI::UnitTypes::Protoss_Photon_Cannon, BWAPI::UnitTypes::Protoss_Pylon, BWAPI::UnitTypes::Protoss_Robotics_Facility, BWAPI::UnitTypes::Protoss_Robotics_Support_Bay, BWAPI::UnitTypes::Protoss_Shield_Battery, BWAPI::UnitTypes::Protoss_Stargate, BWAPI::UnitTypes::Protoss_Templar_Archives }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Zealot)
     {
@@ -5411,6 +5470,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Dragoon)
     {
@@ -5501,6 +5561,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_High_Templar)
     {
@@ -5591,6 +5652,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Archon }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Archon)
     {
@@ -5681,6 +5743,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Shuttle)
     {
@@ -5771,6 +5834,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Scout)
     {
@@ -5861,6 +5925,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Arbiter)
     {
@@ -5951,6 +6016,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Carrier)
     {
@@ -6041,6 +6107,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Interceptor }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Interceptor)
     {
@@ -6131,6 +6198,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Dark_Templar)
     {
@@ -6221,6 +6289,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Zeratul)
     {
@@ -6311,6 +6380,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Tassadar_Zeratul_Archon)
     {
@@ -6401,6 +6471,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Fenix_Zealot)
     {
@@ -6491,6 +6562,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Fenix_Dragoon)
     {
@@ -6581,6 +6653,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Tassadar)
     {
@@ -6671,6 +6744,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Mojo)
     {
@@ -6761,6 +6835,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Warbringer)
     {
@@ -6851,6 +6926,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Gantrithor)
     {
@@ -6941,6 +7017,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Reaver)
     {
@@ -7031,6 +7108,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Scarab }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Observer)
     {
@@ -7121,6 +7199,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Scarab)
     {
@@ -7211,6 +7290,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Danimoth)
     {
@@ -7301,6 +7381,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Aldaris)
     {
@@ -7391,6 +7472,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Artanis)
     {
@@ -7481,6 +7563,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Rhynadon)
     {
@@ -7571,6 +7654,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Bengalaas)
     {
@@ -7661,6 +7745,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Cargo_Ship)
     {
@@ -7751,6 +7836,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Mercenary_Gunship)
     {
@@ -7841,6 +7927,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Scantid)
     {
@@ -7931,6 +8018,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Kakaru)
     {
@@ -8021,6 +8109,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Ragnasaur)
     {
@@ -8111,6 +8200,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeCritter_Ursadon)
     {
@@ -8201,6 +8291,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Lurker_Egg)
     {
@@ -8291,6 +8382,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Raszagal)
     {
@@ -8381,6 +8473,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Samir_Duran)
     {
@@ -8471,6 +8564,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Alexei_Stukov)
     {
@@ -8561,6 +8655,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Map_Revealer)
     {
@@ -8651,6 +8746,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Gerard_DuGalle)
     {
@@ -8741,6 +8837,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Lurker)
     {
@@ -8831,6 +8928,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeHero_Infested_Duran)
     {
@@ -8921,6 +9019,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpell_Disruption_Web)
     {
@@ -9011,6 +9110,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Command_Center)
     {
@@ -9101,6 +9201,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(true);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_SCV, BWAPI::UnitTypes::Terran_Comsat_Station, BWAPI::UnitTypes::Terran_Nuclear_Silo }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Comsat_Station)
     {
@@ -9191,6 +9292,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Nuclear_Silo)
     {
@@ -9281,6 +9383,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Nuclear_Missile }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Supply_Depot)
     {
@@ -9371,6 +9474,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Refinery)
     {
@@ -9461,6 +9565,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Barracks)
     {
@@ -9551,6 +9656,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Marine, BWAPI::UnitTypes::Terran_Firebat, BWAPI::UnitTypes::Terran_Medic, BWAPI::UnitTypes::Terran_Ghost }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Academy)
     {
@@ -9641,6 +9747,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Stim_Packs, BWAPI::TechTypes::Restoration, BWAPI::TechTypes::Optical_Flare }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::U_238_Shells, BWAPI::UpgradeTypes::Caduceus_Reactor }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Factory)
     {
@@ -9731,6 +9838,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(true);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Vulture, BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode, BWAPI::UnitTypes::Terran_Goliath, BWAPI::UnitTypes::Terran_Machine_Shop }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Starport)
     {
@@ -9821,6 +9929,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(true);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Wraith, BWAPI::UnitTypes::Terran_Dropship, BWAPI::UnitTypes::Terran_Control_Tower, BWAPI::UnitTypes::Terran_Science_Vessel, BWAPI::UnitTypes::Terran_Battlecruiser, BWAPI::UnitTypes::Terran_Valkyrie }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Control_Tower)
     {
@@ -9911,6 +10020,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Cloaking_Field }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Apollo_Reactor }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Science_Facility)
     {
@@ -10001,6 +10111,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(true);
       AssertSetEquals({ BWAPI::UnitTypes::Terran_Covert_Ops, BWAPI::UnitTypes::Terran_Physics_Lab }, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::EMP_Shockwave, BWAPI::TechTypes::Irradiate }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Titan_Reactor }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Covert_Ops)
     {
@@ -10091,6 +10202,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Personnel_Cloaking, BWAPI::TechTypes::Lockdown }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ocular_Implants, BWAPI::UpgradeTypes::Moebius_Reactor }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Physics_Lab)
     {
@@ -10181,6 +10293,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Yamato_Gun }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Colossus_Reactor }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Machine_Shop)
     {
@@ -10271,6 +10384,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Tank_Siege_Mode, BWAPI::TechTypes::Spider_Mines }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ion_Thrusters, BWAPI::UpgradeTypes::Charon_Boosters }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Engineering_Bay)
     {
@@ -10361,6 +10475,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Infantry_Armor, BWAPI::UpgradeTypes::Terran_Infantry_Weapons }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Armory)
     {
@@ -10451,6 +10566,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Terran_Vehicle_Plating, BWAPI::UpgradeTypes::Terran_Ship_Weapons, BWAPI::UpgradeTypes::Terran_Vehicle_Weapons, BWAPI::UpgradeTypes::Terran_Ship_Plating }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Missile_Turret)
     {
@@ -10541,6 +10657,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeTerran_Bunker)
     {
@@ -10631,6 +10748,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Crashed_Norad_II)
     {
@@ -10721,6 +10839,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Ion_Cannon)
     {
@@ -10811,6 +10930,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Uraj_Crystal)
     {
@@ -10901,6 +11021,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Khalis_Crystal)
     {
@@ -10991,6 +11112,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Infested_Command_Center)
     {
@@ -11081,6 +11203,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Infested_Terran }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Hatchery)
     {
@@ -11171,6 +11294,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Lair }, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Lair)
     {
@@ -11261,6 +11385,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Hive }, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ventral_Sacs, BWAPI::UpgradeTypes::Antennae, BWAPI::UpgradeTypes::Pneumatized_Carapace }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Hive)
     {
@@ -11351,6 +11476,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Ventral_Sacs, BWAPI::UpgradeTypes::Antennae, BWAPI::UpgradeTypes::Pneumatized_Carapace }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Nydus_Canal)
     {
@@ -11441,6 +11567,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Hydralisk_Den)
     {
@@ -11531,6 +11658,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Lurker_Aspect }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Muscular_Augments, BWAPI::UpgradeTypes::Grooved_Spines }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Defiler_Mound)
     {
@@ -11621,6 +11749,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Consume, BWAPI::TechTypes::Plague }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Metasynaptic_Node }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Greater_Spire)
     {
@@ -11711,6 +11840,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Attacks, BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Queens_Nest)
     {
@@ -11801,6 +11931,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Ensnare, BWAPI::TechTypes::Spawn_Broodlings }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Gamete_Meiosis }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Evolution_Chamber)
     {
@@ -11891,6 +12022,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Zerg_Missile_Attacks, BWAPI::UpgradeTypes::Zerg_Carapace }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Ultralisk_Cavern)
     {
@@ -11981,6 +12113,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Anabolic_Synthesis, BWAPI::UpgradeTypes::Chitinous_Plating }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Spire)
     {
@@ -12071,6 +12204,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Greater_Spire }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Flyer_Attacks, BWAPI::UpgradeTypes::Zerg_Flyer_Carapace }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Spawning_Pool)
     {
@@ -12161,6 +12295,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Metabolic_Boost, BWAPI::UpgradeTypes::Adrenal_Glands }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Creep_Colony)
     {
@@ -12251,6 +12386,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Zerg_Sunken_Colony, BWAPI::UnitTypes::Zerg_Spore_Colony }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Spore_Colony)
     {
@@ -12341,6 +12477,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Sunken_Colony)
     {
@@ -12431,6 +12568,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Overmind_With_Shell)
     {
@@ -12521,6 +12659,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Overmind)
     {
@@ -12611,6 +12750,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeZerg_Extractor)
     {
@@ -12701,6 +12841,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Mature_Chrysalis)
     {
@@ -12791,6 +12932,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Cerebrate)
     {
@@ -12881,6 +13023,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Cerebrate_Daggoth)
     {
@@ -12971,6 +13114,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Nexus)
     {
@@ -13061,6 +13205,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Probe }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Robotics_Facility)
     {
@@ -13151,6 +13296,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Observer, BWAPI::UnitTypes::Protoss_Reaver, BWAPI::UnitTypes::Protoss_Shuttle }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Pylon)
     {
@@ -13241,6 +13387,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Assimilator)
     {
@@ -13331,6 +13478,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Observatory)
     {
@@ -13421,6 +13569,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Sensor_Array, BWAPI::UpgradeTypes::Gravitic_Boosters }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Gateway)
     {
@@ -13511,6 +13660,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Zealot, BWAPI::UnitTypes::Protoss_Dragoon, BWAPI::UnitTypes::Protoss_High_Templar, BWAPI::UnitTypes::Protoss_Dark_Templar }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Photon_Cannon)
     {
@@ -13601,6 +13751,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Citadel_of_Adun)
     {
@@ -13691,6 +13842,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Leg_Enhancements }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Cybernetics_Core)
     {
@@ -13781,6 +13933,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Air_Armor, BWAPI::UpgradeTypes::Protoss_Air_Weapons, BWAPI::UpgradeTypes::Singularity_Charge }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Templar_Archives)
     {
@@ -13871,6 +14024,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Psionic_Storm, BWAPI::TechTypes::Mind_Control, BWAPI::TechTypes::Hallucination, BWAPI::TechTypes::Maelstrom }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Khaydarin_Amulet, BWAPI::UpgradeTypes::Argus_Talisman }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Forge)
     {
@@ -13961,6 +14115,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Protoss_Ground_Armor, BWAPI::UpgradeTypes::Protoss_Ground_Weapons, BWAPI::UpgradeTypes::Protoss_Plasma_Shields }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Stargate)
     {
@@ -14051,6 +14206,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({ BWAPI::UnitTypes::Protoss_Scout, BWAPI::UnitTypes::Protoss_Carrier, BWAPI::UnitTypes::Protoss_Arbiter, BWAPI::UnitTypes::Protoss_Corsair }, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Stasis_Cell_Prison)
     {
@@ -14141,6 +14297,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Fleet_Beacon)
     {
@@ -14231,6 +14388,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Disruption_Web }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Carrier_Capacity, BWAPI::UpgradeTypes::Apial_Sensors, BWAPI::UpgradeTypes::Gravitic_Thrusters, BWAPI::UpgradeTypes::Argus_Jewel }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Arbiter_Tribunal)
     {
@@ -14321,6 +14479,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({ BWAPI::TechTypes::Stasis_Field, BWAPI::TechTypes::Recall }, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Khaydarin_Core }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Robotics_Support_Bay)
     {
@@ -14411,6 +14570,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Scarab_Damage, BWAPI::UpgradeTypes::Reaver_Capacity, BWAPI::UpgradeTypes::Gravitic_Drive }, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeProtoss_Shield_Battery)
     {
@@ -14501,6 +14661,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Khaydarin_Crystal_Form)
     {
@@ -14591,6 +14752,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Protoss_Temple)
     {
@@ -14681,6 +14843,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_XelNaga_Temple)
     {
@@ -14771,6 +14934,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeResource_Mineral_Field)
     {
@@ -14861,6 +15025,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeResource_Mineral_Field_Type_2)
     {
@@ -14951,6 +15116,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeResource_Mineral_Field_Type_3)
     {
@@ -15041,6 +15207,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Independant_Starport)
     {
@@ -15131,6 +15298,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeResource_Vespene_Geyser)
     {
@@ -15221,6 +15389,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Warp_Gate)
     {
@@ -15311,6 +15480,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Psi_Disrupter)
     {
@@ -15401,6 +15571,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Zerg_Beacon)
     {
@@ -15491,6 +15662,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Terran_Beacon)
     {
@@ -15581,6 +15753,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Protoss_Beacon)
     {
@@ -15671,6 +15844,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Zerg_Flag_Beacon)
     {
@@ -15761,6 +15935,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Terran_Flag_Beacon)
     {
@@ -15851,6 +16026,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Protoss_Flag_Beacon)
     {
@@ -15941,6 +16117,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Power_Generator)
     {
@@ -16031,6 +16208,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Overmind_Cocoon)
     {
@@ -16121,6 +16299,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpell_Dark_Swarm)
     {
@@ -16211,6 +16390,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Floor_Missile_Trap)
     {
@@ -16301,6 +16481,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Floor_Hatch)
     {
@@ -16391,6 +16572,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Upper_Level_Door)
     {
@@ -16481,6 +16663,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Right_Upper_Level_Door)
     {
@@ -16571,6 +16754,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Pit_Door)
     {
@@ -16661,6 +16845,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Right_Pit_Door)
     {
@@ -16751,6 +16936,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Floor_Gun_Trap)
     {
@@ -16841,6 +17027,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Wall_Missile_Trap)
     {
@@ -16931,6 +17118,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Wall_Flame_Trap)
     {
@@ -17021,6 +17209,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Right_Wall_Missile_Trap)
     {
@@ -17111,6 +17300,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Right_Wall_Flame_Trap)
     {
@@ -17201,6 +17391,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeSpecial_Start_Location)
     {
@@ -17291,6 +17482,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Flag)
     {
@@ -17381,6 +17573,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Young_Chrysalis)
     {
@@ -17471,6 +17664,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Psi_Emitter)
     {
@@ -17561,6 +17755,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Data_Disk)
     {
@@ -17651,6 +17846,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Khaydarin_Crystal)
     {
@@ -17741,6 +17937,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Mineral_Cluster_Type_1)
     {
@@ -17831,6 +18028,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Mineral_Cluster_Type_2)
     {
@@ -17921,6 +18119,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Protoss_Gas_Orb_Type_1)
     {
@@ -18011,6 +18210,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Protoss_Gas_Orb_Type_2)
     {
@@ -18101,6 +18301,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Zerg_Gas_Sac_Type_1)
     {
@@ -18191,6 +18392,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Zerg_Gas_Sac_Type_2)
     {
@@ -18281,6 +18483,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Terran_Gas_Tank_Type_1)
     {
@@ -18371,6 +18574,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypePowerup_Terran_Gas_Tank_Type_2)
     {
@@ -18461,6 +18665,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeNone)
     {
@@ -18551,6 +18756,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
     TEST_METHOD(UnitTypeUnknown)
     {
@@ -18641,6 +18847,7 @@ namespace BWAPILIBTest
       Assert_canBuildAddon(false);
       AssertSetEquals({}, t.buildsWhat());
       AssertSetEquals({}, t.researchesWhat());
+      AssertSetEquals({}, t.upgradesWhat());
     }
 
   };
