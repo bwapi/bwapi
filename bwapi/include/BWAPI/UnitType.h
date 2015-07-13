@@ -876,7 +876,19 @@ namespace BWAPI
     /// @see PlayerInterface::isUnitAvailable
     ///
     /// @since 4.1.2
-    UnitType::set buildsWhat() const;
+    const UnitType::set& buildsWhat() const;
+
+    /// <summary>Retrieves the set of technologies that this unit type is capable of researching.</summary>
+    /// 
+    /// @note Some maps have special parameters that disable certain technologies. Use
+    /// PlayerInterface::isResearchAvailable to determine if a technology is actually available in the
+    /// current game for a specific player.
+    ///
+    /// @returns TechType::set containing the technology types that can be researched.
+    /// @see PlayerInterface::isResearchAvailable
+    ///
+    /// @since 4.1.2
+    const SetContainer<TechType>& researchesWhat() const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>

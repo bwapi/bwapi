@@ -98,6 +98,7 @@ void genUnitTypeTest()
     ASS_EQ(isCritter);
     ASS_EQ(canBuildAddon);
     of << tab(3) << "AssertSetEquals(" << setToString(t.buildsWhat(), "BWAPI::UnitTypes::") << ", t.buildsWhat());\n";
+    of << tab(3) << "AssertSetEquals(" << setToString(t.researchesWhat(), "BWAPI::TechTypes::") << ", t.researchesWhat());\n";
 
     of << tab(2) << "}\n";
   }
