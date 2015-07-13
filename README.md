@@ -5,6 +5,8 @@
 * [Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)
 * [Go to the releases](https://github.com/bwapi/bwapi/releases)
 
+@htmlinclude twitter_widget
+
 ## Overview {#overview}
 
 The Brood War Application Programming Interface (BWAPI) is a free and open source C++ framework that is

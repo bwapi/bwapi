@@ -1730,6 +1730,7 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ../bwapi/include/ \
+                         ./main.md \
                          ../README.md \
                          ./dox/
 
@@ -1814,7 +1815,7 @@ EXCLUDE_SYMBOLS        = BWAPI::Point< _T, 0 > \
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = ../Release_Binary/Starcraft/bwapi-data/
+EXAMPLE_PATH           = ./
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
