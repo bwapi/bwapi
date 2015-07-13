@@ -34,6 +34,8 @@ namespace Microsoft{
       SPECIALIZE(WalkPosition);
 
 #undef SPECIALIZE
+
+      template <class K, class T> static std::wstring ToString(const std::pair<K, T>& v) { RETURN_WIDE_STRING(v); }
     }
   }
 }

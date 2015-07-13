@@ -874,6 +874,8 @@ namespace BWAPI
     ///
     /// @returns UnitType::set containing the units it can build.
     /// @see PlayerInterface::isUnitAvailable
+    ///
+    /// @since 4.1.2
     UnitType::set buildsWhat() const;
   };
 

@@ -5,6 +5,7 @@
 
 #define Assert_enum(v) AssertDef(static_cast<int>(BWAPI::UnitTypes::Enum::v), getID)
 #define Assert_getRace(v) AssertDef(BWAPI::Races::v, getRace)
+#define Assert_whatBuilds(v, amt) Assert::AreEqual(std::make_pair(BWAPI::UnitTypes::v, amt), t.whatBuilds(), L"whatBuilds")
 #define Assert_requiredTech(v) AssertDef(BWAPI::TechTypes::v, requiredTech)
 #define Assert_cloakingTech(v) AssertDef(BWAPI::TechTypes::v, cloakingTech)
 #define Assert_armorUpgrade(v) AssertDef(BWAPI::UpgradeTypes::v, armorUpgrade)
@@ -72,6 +73,7 @@
 #define Assert_isFlagBeacon(v) AssertDef(v, isFlagBeacon)
 #define Assert_isSpecialBuilding(v) AssertDef(v, isSpecialBuilding)
 #define Assert_isSpell(v) AssertDef(v, isSpell)
+#define Assert_producesCreep(v) AssertDef(v, producesCreep)
 #define Assert_producesLarva(v) AssertDef(v, producesLarva)
 #define Assert_isMineralField(v) AssertDef(v, isMineralField)
 #define Assert_isCritter(v) AssertDef(v, isCritter)

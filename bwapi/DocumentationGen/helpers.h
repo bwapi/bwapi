@@ -141,3 +141,38 @@ inline std::string tab(size_t level)
   return std::string(level * 2, ' ');
 }
 
+template <class T>
+inline std::string setToString(T set, const std::string& prefix = "")
+{
+  std::ostringstream ss;
+  ss << "{ ";
+  bool first = true;
+  for (auto &v : set)
+  {
+    if (!first)
+      ss << ", ";
+    first = false;
+
+    ss << prefix << v;
+  }
+  ss << " }";
+  return ss.str();
+}
+
+template <class T>
+inline std::string mapToString(T map, const std::string& prefix1 = "", const std::string& prefix2 = "")
+{
+  std::ostringstream ss;
+  ss << "{ ";
+  bool first = true;
+  for (auto &v : map)
+  {
+    if (!first)
+      ss << ", ";
+    first = false;
+
+    ss << "{" << prefix1 << v.first << ", " << prefix2 << v.second << "}";
+  }
+  ss << " }";
+  return ss.str();
+}

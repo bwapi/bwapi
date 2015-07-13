@@ -16,8 +16,12 @@ void genUnitTypeTest()
 #define ASS_EQ(n) of << tab(3) << "Assert_" #n "(" << t.n() << ");\n"
 
     ASS_EQ(getRace);
+    of << tab(3) << "Assert_whatBuilds(" << t.whatBuilds().first << ", " << t.whatBuilds().second << ");\n";
+    of << tab(3) << "AssertSetEquals(" << mapToString(t.requiredUnits(), "BWAPI::UnitTypes::") << ", t.requiredUnits());\n";
     ASS_EQ(requiredTech);
     ASS_EQ(cloakingTech);
+    of << tab(3) << "AssertSetEquals(" << setToString(t.abilities(), "BWAPI::TechTypes::") << ", t.abilities());\n";
+    of << tab(3) << "AssertSetEquals(" << setToString(t.upgrades(), "BWAPI::UpgradeTypes::") << ", t.upgrades());\n";
     ASS_EQ(armorUpgrade);
     ASS_EQ(maxHitPoints);
     ASS_EQ(maxShields);
@@ -36,12 +40,15 @@ void genUnitTypeTest()
     ASS_EQ(tileWidth);
     ASS_EQ(tileHeight);
     of << tab(3) << "Assert_tileSize(BWAPI::TilePosition" << t.tileSize() << ");\n";
+    of << tab(3) << "Assert::AreEqual(BWAPI::TilePosition(t.tileWidth(), t.tileHeight()), t.tileSize());\n";
     ASS_EQ(dimensionLeft);
     ASS_EQ(dimensionUp);
     ASS_EQ(dimensionRight);
     ASS_EQ(dimensionDown);
     ASS_EQ(width);
+    of << tab(3) << "Assert::AreEqual(t.dimensionLeft() + 1 + t.dimensionRight(), t.width());\n";
     ASS_EQ(height);
+    of << tab(3) << "Assert::AreEqual(t.dimensionUp() + 1 + t.dimensionDown(), t.height());\n";
     ASS_EQ(seekRange);
     ASS_EQ(sightRange);
     ASS_EQ(groundWeapon);
@@ -83,10 +90,12 @@ void genUnitTypeTest()
     ASS_EQ(isFlagBeacon);
     ASS_EQ(isSpecialBuilding);
     ASS_EQ(isSpell);
+    ASS_EQ(producesCreep);
     ASS_EQ(producesLarva);
     ASS_EQ(isMineralField);
     ASS_EQ(isCritter);
     ASS_EQ(canBuildAddon);
+    of << tab(3) << "AssertSetEquals(" << setToString(t.buildsWhat(), "BWAPI::UnitTypes::") << ", t.buildsWhat());\n";
 
     of << tab(2) << "}\n";
   }
