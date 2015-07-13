@@ -4,6 +4,7 @@
 #define AssertDef(v, p) Assert::AreEqual(v, t.p(), WIDE(#p))
 
 #define Assert_enum(v) AssertDef(static_cast<int>(BWAPI::UnitTypes::Enum::v), getID)
+#define Assert_getName(v) AssertDef(#v, c_str)
 #define Assert_getRace(v) AssertDef(BWAPI::Races::v, getRace)
 #define Assert_whatBuilds(v, amt) Assert::AreEqual(std::make_pair(BWAPI::UnitTypes::v, amt), t.whatBuilds(), L"whatBuilds")
 #define Assert_requiredTech(v) AssertDef(BWAPI::TechTypes::v, requiredTech)

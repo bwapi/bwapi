@@ -17,6 +17,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Marine;
       Assert_enum(Terran_Marine);
 
+      Assert_getName(Terran_Marine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Barracks, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
@@ -104,6 +106,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Ghost;
       Assert_enum(Terran_Ghost);
 
+      Assert_getName(Terran_Ghost);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Barracks, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 }, { BWAPI::UnitTypes::Terran_Covert_Ops, 1 } }, t.requiredUnits());
@@ -191,6 +195,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Vulture;
       Assert_enum(Terran_Vulture);
 
+      Assert_getName(Terran_Vulture);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Factory, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
@@ -278,6 +284,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Goliath;
       Assert_enum(Terran_Goliath);
 
+      Assert_getName(Terran_Goliath);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Factory, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Armory, 1 } }, t.requiredUnits());
@@ -365,6 +373,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Tank_Mode;
       Assert_enum(Terran_Siege_Tank_Tank_Mode);
 
+      Assert_getName(Terran_Siege_Tank_Tank_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Factory, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Machine_Shop, 1 } }, t.requiredUnits());
@@ -452,6 +462,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_SCV;
       Assert_enum(Terran_SCV);
 
+      Assert_getName(Terran_SCV);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Command_Center, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
@@ -539,6 +551,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Wraith;
       Assert_enum(Terran_Wraith);
 
+      Assert_getName(Terran_Wraith);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
@@ -626,6 +640,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Science_Vessel;
       Assert_enum(Terran_Science_Vessel);
 
+      Assert_getName(Terran_Science_Vessel);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
@@ -713,6 +729,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Gui_Montag;
       Assert_enum(Hero_Gui_Montag);
 
+      Assert_getName(Hero_Gui_Montag);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -800,6 +818,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Dropship;
       Assert_enum(Terran_Dropship);
 
+      Assert_getName(Terran_Dropship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 } }, t.requiredUnits());
@@ -887,6 +907,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Battlecruiser;
       Assert_enum(Terran_Battlecruiser);
 
+      Assert_getName(Terran_Battlecruiser);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Physics_Lab, 1 } }, t.requiredUnits());
@@ -974,6 +996,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Vulture_Spider_Mine;
       Assert_enum(Terran_Vulture_Spider_Mine);
 
+      Assert_getName(Terran_Vulture_Spider_Mine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1061,6 +1085,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Missile;
       Assert_enum(Terran_Nuclear_Missile);
 
+      Assert_getName(Terran_Nuclear_Missile);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Nuclear_Silo, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Nuclear_Silo, 1 } }, t.requiredUnits());
@@ -1148,6 +1174,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Civilian;
       Assert_enum(Terran_Civilian);
 
+      Assert_getName(Terran_Civilian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1235,6 +1263,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Sarah_Kerrigan;
       Assert_enum(Hero_Sarah_Kerrigan);
 
+      Assert_getName(Hero_Sarah_Kerrigan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1322,6 +1352,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Alan_Schezar;
       Assert_enum(Hero_Alan_Schezar);
 
+      Assert_getName(Hero_Alan_Schezar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1409,6 +1441,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Vulture;
       Assert_enum(Hero_Jim_Raynor_Vulture);
 
+      Assert_getName(Hero_Jim_Raynor_Vulture);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1496,6 +1530,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Jim_Raynor_Marine;
       Assert_enum(Hero_Jim_Raynor_Marine);
 
+      Assert_getName(Hero_Jim_Raynor_Marine);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1583,6 +1619,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Tom_Kazansky;
       Assert_enum(Hero_Tom_Kazansky);
 
+      Assert_getName(Hero_Tom_Kazansky);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1670,6 +1708,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Magellan;
       Assert_enum(Hero_Magellan);
 
+      Assert_getName(Hero_Magellan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1757,6 +1797,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Tank_Mode;
       Assert_enum(Hero_Edmund_Duke_Tank_Mode);
 
+      Assert_getName(Hero_Edmund_Duke_Tank_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1844,6 +1886,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Edmund_Duke_Siege_Mode;
       Assert_enum(Hero_Edmund_Duke_Siege_Mode);
 
+      Assert_getName(Hero_Edmund_Duke_Siege_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -1931,6 +1975,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Arcturus_Mengsk;
       Assert_enum(Hero_Arcturus_Mengsk);
 
+      Assert_getName(Hero_Arcturus_Mengsk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -2018,6 +2064,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Hyperion;
       Assert_enum(Hero_Hyperion);
 
+      Assert_getName(Hero_Hyperion);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -2105,6 +2153,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Norad_II;
       Assert_enum(Hero_Norad_II);
 
+      Assert_getName(Hero_Norad_II);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -2192,6 +2242,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Siege_Tank_Siege_Mode;
       Assert_enum(Terran_Siege_Tank_Siege_Mode);
 
+      Assert_getName(Terran_Siege_Tank_Siege_Mode);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Factory, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 }, { BWAPI::UnitTypes::Terran_Machine_Shop, 1 } }, t.requiredUnits());
@@ -2279,6 +2331,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Firebat;
       Assert_enum(Terran_Firebat);
 
+      Assert_getName(Terran_Firebat);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Barracks, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
@@ -2366,6 +2420,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Spell_Scanner_Sweep;
       Assert_enum(Spell_Scanner_Sweep);
 
+      Assert_getName(Spell_Scanner_Sweep);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -2453,6 +2509,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Medic;
       Assert_enum(Terran_Medic);
 
+      Assert_getName(Terran_Medic);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Barracks, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Barracks, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
@@ -2540,6 +2598,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Larva;
       Assert_enum(Zerg_Larva);
 
+      Assert_getName(Zerg_Larva);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Hatchery, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
@@ -2627,6 +2687,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Egg;
       Assert_enum(Zerg_Egg);
 
+      Assert_getName(Zerg_Egg);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
@@ -2714,6 +2776,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Zergling;
       Assert_enum(Zerg_Zergling);
 
+      Assert_getName(Zerg_Zergling);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
@@ -2801,6 +2865,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk;
       Assert_enum(Zerg_Hydralisk);
 
+      Assert_getName(Zerg_Hydralisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Hydralisk_Den, 1 } }, t.requiredUnits());
@@ -2888,6 +2954,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk;
       Assert_enum(Zerg_Ultralisk);
 
+      Assert_getName(Zerg_Ultralisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Ultralisk_Cavern, 1 } }, t.requiredUnits());
@@ -2975,6 +3043,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Broodling;
       Assert_enum(Zerg_Broodling);
 
+      Assert_getName(Zerg_Broodling);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -3062,6 +3132,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Drone;
       Assert_enum(Zerg_Drone);
 
+      Assert_getName(Zerg_Drone);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
@@ -3149,6 +3221,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Overlord;
       Assert_enum(Zerg_Overlord);
 
+      Assert_getName(Zerg_Overlord);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 } }, t.requiredUnits());
@@ -3236,6 +3310,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Mutalisk;
       Assert_enum(Zerg_Mutalisk);
 
+      Assert_getName(Zerg_Mutalisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
@@ -3323,6 +3399,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Guardian;
       Assert_enum(Zerg_Guardian);
 
+      Assert_getName(Zerg_Guardian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Mutalisk, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
@@ -3410,6 +3488,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Queen;
       Assert_enum(Zerg_Queen);
 
+      Assert_getName(Zerg_Queen);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Queens_Nest, 1 } }, t.requiredUnits());
@@ -3497,6 +3577,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Defiler;
       Assert_enum(Zerg_Defiler);
 
+      Assert_getName(Zerg_Defiler);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Defiler_Mound, 1 } }, t.requiredUnits());
@@ -3584,6 +3666,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Scourge;
       Assert_enum(Zerg_Scourge);
 
+      Assert_getName(Zerg_Scourge);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Larva, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Larva, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
@@ -3671,6 +3755,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Torrasque;
       Assert_enum(Hero_Torrasque);
 
+      Assert_getName(Hero_Torrasque);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -3758,6 +3844,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Matriarch;
       Assert_enum(Hero_Matriarch);
 
+      Assert_getName(Hero_Matriarch);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -3845,6 +3933,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Infested_Terran;
       Assert_enum(Zerg_Infested_Terran);
 
+      Assert_getName(Zerg_Infested_Terran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Infested_Command_Center, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Infested_Command_Center, 1 } }, t.requiredUnits());
@@ -3932,6 +4022,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Infested_Kerrigan;
       Assert_enum(Hero_Infested_Kerrigan);
 
+      Assert_getName(Hero_Infested_Kerrigan);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4019,6 +4111,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Unclean_One;
       Assert_enum(Hero_Unclean_One);
 
+      Assert_getName(Hero_Unclean_One);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4106,6 +4200,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Hunter_Killer;
       Assert_enum(Hero_Hunter_Killer);
 
+      Assert_getName(Hero_Hunter_Killer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4193,6 +4289,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Devouring_One;
       Assert_enum(Hero_Devouring_One);
 
+      Assert_getName(Hero_Devouring_One);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4280,6 +4378,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Mutalisk;
       Assert_enum(Hero_Kukulza_Mutalisk);
 
+      Assert_getName(Hero_Kukulza_Mutalisk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4367,6 +4467,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Kukulza_Guardian;
       Assert_enum(Hero_Kukulza_Guardian);
 
+      Assert_getName(Hero_Kukulza_Guardian);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4454,6 +4556,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Yggdrasill;
       Assert_enum(Hero_Yggdrasill);
 
+      Assert_getName(Hero_Yggdrasill);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -4541,6 +4645,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Valkyrie;
       Assert_enum(Terran_Valkyrie);
 
+      Assert_getName(Terran_Valkyrie);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 }, { BWAPI::UnitTypes::Terran_Control_Tower, 1 }, { BWAPI::UnitTypes::Terran_Armory, 1 } }, t.requiredUnits());
@@ -4628,6 +4734,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Cocoon;
       Assert_enum(Zerg_Cocoon);
 
+      Assert_getName(Zerg_Cocoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Mutalisk, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
@@ -4715,6 +4823,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Corsair;
       Assert_enum(Protoss_Corsair);
 
+      Assert_getName(Protoss_Corsair);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Stargate, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
@@ -4802,6 +4912,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Dark_Templar;
       Assert_enum(Protoss_Dark_Templar);
 
+      Assert_getName(Protoss_Dark_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Gateway, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 } }, t.requiredUnits());
@@ -4889,6 +5001,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Devourer;
       Assert_enum(Zerg_Devourer);
 
+      Assert_getName(Zerg_Devourer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Mutalisk, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Mutalisk, 1 }, { BWAPI::UnitTypes::Zerg_Greater_Spire, 1 } }, t.requiredUnits());
@@ -4976,6 +5090,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Dark_Archon;
       Assert_enum(Protoss_Dark_Archon);
 
+      Assert_getName(Protoss_Dark_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Dark_Templar, 2);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Dark_Templar, 2 } }, t.requiredUnits());
@@ -5063,6 +5179,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Probe;
       Assert_enum(Protoss_Probe);
 
+      Assert_getName(Protoss_Probe);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Nexus, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
@@ -5150,6 +5268,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Zealot;
       Assert_enum(Protoss_Zealot);
 
+      Assert_getName(Protoss_Zealot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Gateway, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
@@ -5237,6 +5357,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Dragoon;
       Assert_enum(Protoss_Dragoon);
 
+      Assert_getName(Protoss_Dragoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Gateway, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
@@ -5324,6 +5446,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_High_Templar;
       Assert_enum(Protoss_High_Templar);
 
+      Assert_getName(Protoss_High_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Gateway, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Gateway, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 } }, t.requiredUnits());
@@ -5411,6 +5535,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Archon;
       Assert_enum(Protoss_Archon);
 
+      Assert_getName(Protoss_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_High_Templar, 2);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_High_Templar, 2 } }, t.requiredUnits());
@@ -5498,6 +5624,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Shuttle;
       Assert_enum(Protoss_Shuttle);
 
+      Assert_getName(Protoss_Shuttle);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Robotics_Facility, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
@@ -5585,6 +5713,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Scout;
       Assert_enum(Protoss_Scout);
 
+      Assert_getName(Protoss_Scout);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Stargate, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
@@ -5672,6 +5802,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Arbiter;
       Assert_enum(Protoss_Arbiter);
 
+      Assert_getName(Protoss_Arbiter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Stargate, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 }, { BWAPI::UnitTypes::Protoss_Arbiter_Tribunal, 1 } }, t.requiredUnits());
@@ -5759,6 +5891,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Carrier;
       Assert_enum(Protoss_Carrier);
 
+      Assert_getName(Protoss_Carrier);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Stargate, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Stargate, 1 }, { BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1 } }, t.requiredUnits());
@@ -5846,6 +5980,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Interceptor;
       Assert_enum(Protoss_Interceptor);
 
+      Assert_getName(Protoss_Interceptor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Carrier, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Carrier, 1 } }, t.requiredUnits());
@@ -5933,6 +6069,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Dark_Templar;
       Assert_enum(Hero_Dark_Templar);
 
+      Assert_getName(Hero_Dark_Templar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6020,6 +6158,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Zeratul;
       Assert_enum(Hero_Zeratul);
 
+      Assert_getName(Hero_Zeratul);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6107,6 +6247,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Tassadar_Zeratul_Archon;
       Assert_enum(Hero_Tassadar_Zeratul_Archon);
 
+      Assert_getName(Hero_Tassadar_Zeratul_Archon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6194,6 +6336,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Fenix_Zealot;
       Assert_enum(Hero_Fenix_Zealot);
 
+      Assert_getName(Hero_Fenix_Zealot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6281,6 +6425,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Fenix_Dragoon;
       Assert_enum(Hero_Fenix_Dragoon);
 
+      Assert_getName(Hero_Fenix_Dragoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6368,6 +6514,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Tassadar;
       Assert_enum(Hero_Tassadar);
 
+      Assert_getName(Hero_Tassadar);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6455,6 +6603,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Mojo;
       Assert_enum(Hero_Mojo);
 
+      Assert_getName(Hero_Mojo);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6542,6 +6692,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Warbringer;
       Assert_enum(Hero_Warbringer);
 
+      Assert_getName(Hero_Warbringer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6629,6 +6781,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Gantrithor;
       Assert_enum(Hero_Gantrithor);
 
+      Assert_getName(Hero_Gantrithor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -6716,6 +6870,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Reaver;
       Assert_enum(Protoss_Reaver);
 
+      Assert_getName(Protoss_Reaver);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Robotics_Facility, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Support_Bay, 1 } }, t.requiredUnits());
@@ -6803,6 +6959,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Observer;
       Assert_enum(Protoss_Observer);
 
+      Assert_getName(Protoss_Observer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Robotics_Facility, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 }, { BWAPI::UnitTypes::Protoss_Observatory, 1 } }, t.requiredUnits());
@@ -6890,6 +7048,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Scarab;
       Assert_enum(Protoss_Scarab);
 
+      Assert_getName(Protoss_Scarab);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Reaver, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Reaver, 1 } }, t.requiredUnits());
@@ -6977,6 +7137,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Danimoth;
       Assert_enum(Hero_Danimoth);
 
+      Assert_getName(Hero_Danimoth);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7064,6 +7226,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Aldaris;
       Assert_enum(Hero_Aldaris);
 
+      Assert_getName(Hero_Aldaris);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7151,6 +7315,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Artanis;
       Assert_enum(Hero_Artanis);
 
+      Assert_getName(Hero_Artanis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7238,6 +7404,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Rhynadon;
       Assert_enum(Critter_Rhynadon);
 
+      Assert_getName(Critter_Rhynadon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7325,6 +7493,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Bengalaas;
       Assert_enum(Critter_Bengalaas);
 
+      Assert_getName(Critter_Bengalaas);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7412,6 +7582,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Cargo_Ship;
       Assert_enum(Special_Cargo_Ship);
 
+      Assert_getName(Special_Cargo_Ship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7499,6 +7671,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Mercenary_Gunship;
       Assert_enum(Special_Mercenary_Gunship);
 
+      Assert_getName(Special_Mercenary_Gunship);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7586,6 +7760,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Scantid;
       Assert_enum(Critter_Scantid);
 
+      Assert_getName(Critter_Scantid);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7673,6 +7849,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Kakaru;
       Assert_enum(Critter_Kakaru);
 
+      Assert_getName(Critter_Kakaru);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7760,6 +7938,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Ragnasaur;
       Assert_enum(Critter_Ragnasaur);
 
+      Assert_getName(Critter_Ragnasaur);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7847,6 +8027,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Critter_Ursadon;
       Assert_enum(Critter_Ursadon);
 
+      Assert_getName(Critter_Ursadon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -7934,6 +8116,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Lurker_Egg;
       Assert_enum(Zerg_Lurker_Egg);
 
+      Assert_getName(Zerg_Lurker_Egg);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Hydralisk, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hydralisk, 1 } }, t.requiredUnits());
@@ -8021,6 +8205,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Raszagal;
       Assert_enum(Hero_Raszagal);
 
+      Assert_getName(Hero_Raszagal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8108,6 +8294,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Samir_Duran;
       Assert_enum(Hero_Samir_Duran);
 
+      Assert_getName(Hero_Samir_Duran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8195,6 +8383,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Alexei_Stukov;
       Assert_enum(Hero_Alexei_Stukov);
 
+      Assert_getName(Hero_Alexei_Stukov);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8282,6 +8472,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Map_Revealer;
       Assert_enum(Special_Map_Revealer);
 
+      Assert_getName(Special_Map_Revealer);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8369,6 +8561,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Gerard_DuGalle;
       Assert_enum(Hero_Gerard_DuGalle);
 
+      Assert_getName(Hero_Gerard_DuGalle);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8456,6 +8650,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Lurker;
       Assert_enum(Zerg_Lurker);
 
+      Assert_getName(Zerg_Lurker);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Hydralisk, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hydralisk, 1 } }, t.requiredUnits());
@@ -8543,6 +8739,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Hero_Infested_Duran;
       Assert_enum(Hero_Infested_Duran);
 
+      Assert_getName(Hero_Infested_Duran);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8630,6 +8828,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Spell_Disruption_Web;
       Assert_enum(Spell_Disruption_Web);
 
+      Assert_getName(Spell_Disruption_Web);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -8717,6 +8917,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Command_Center;
       Assert_enum(Terran_Command_Center);
 
+      Assert_getName(Terran_Command_Center);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
@@ -8804,6 +9006,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Comsat_Station;
       Assert_enum(Terran_Comsat_Station);
 
+      Assert_getName(Terran_Comsat_Station);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Command_Center, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 }, { BWAPI::UnitTypes::Terran_Academy, 1 } }, t.requiredUnits());
@@ -8891,6 +9095,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Nuclear_Silo;
       Assert_enum(Terran_Nuclear_Silo);
 
+      Assert_getName(Terran_Nuclear_Silo);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Command_Center, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Command_Center, 1 }, { BWAPI::UnitTypes::Terran_Science_Facility, 1 }, { BWAPI::UnitTypes::Terran_Covert_Ops, 1 } }, t.requiredUnits());
@@ -8978,6 +9184,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Supply_Depot;
       Assert_enum(Terran_Supply_Depot);
 
+      Assert_getName(Terran_Supply_Depot);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
@@ -9065,6 +9273,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Refinery;
       Assert_enum(Terran_Refinery);
 
+      Assert_getName(Terran_Refinery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 } }, t.requiredUnits());
@@ -9152,6 +9362,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Barracks;
       Assert_enum(Terran_Barracks);
 
+      Assert_getName(Terran_Barracks);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
@@ -9239,6 +9451,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Academy;
       Assert_enum(Terran_Academy);
 
+      Assert_getName(Terran_Academy);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
@@ -9326,6 +9540,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Factory;
       Assert_enum(Terran_Factory);
 
+      Assert_getName(Terran_Factory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
@@ -9413,6 +9629,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Starport;
       Assert_enum(Terran_Starport);
 
+      Assert_getName(Terran_Starport);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
@@ -9500,6 +9718,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Control_Tower;
       Assert_enum(Terran_Control_Tower);
 
+      Assert_getName(Terran_Control_Tower);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Starport, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
@@ -9587,6 +9807,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Science_Facility;
       Assert_enum(Terran_Science_Facility);
 
+      Assert_getName(Terran_Science_Facility);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Starport, 1 } }, t.requiredUnits());
@@ -9674,6 +9896,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Covert_Ops;
       Assert_enum(Terran_Covert_Ops);
 
+      Assert_getName(Terran_Covert_Ops);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Science_Facility, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
@@ -9761,6 +9985,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Physics_Lab;
       Assert_enum(Terran_Physics_Lab);
 
+      Assert_getName(Terran_Physics_Lab);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Science_Facility, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Science_Facility, 1 } }, t.requiredUnits());
@@ -9848,6 +10074,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Machine_Shop;
       Assert_enum(Terran_Machine_Shop);
 
+      Assert_getName(Terran_Machine_Shop);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_Factory, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
@@ -9935,6 +10163,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Engineering_Bay;
       Assert_enum(Terran_Engineering_Bay);
 
+      Assert_getName(Terran_Engineering_Bay);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Command_Center, 1 } }, t.requiredUnits());
@@ -10022,6 +10252,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Armory;
       Assert_enum(Terran_Armory);
 
+      Assert_getName(Terran_Armory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Factory, 1 } }, t.requiredUnits());
@@ -10109,6 +10341,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Missile_Turret;
       Assert_enum(Terran_Missile_Turret);
 
+      Assert_getName(Terran_Missile_Turret);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Engineering_Bay, 1 } }, t.requiredUnits());
@@ -10196,6 +10430,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Terran_Bunker;
       Assert_enum(Terran_Bunker);
 
+      Assert_getName(Terran_Bunker);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(Terran_SCV, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Terran_SCV, 1 }, { BWAPI::UnitTypes::Terran_Barracks, 1 } }, t.requiredUnits());
@@ -10283,6 +10519,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Crashed_Norad_II;
       Assert_enum(Special_Crashed_Norad_II);
 
+      Assert_getName(Special_Crashed_Norad_II);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -10370,6 +10608,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Ion_Cannon;
       Assert_enum(Special_Ion_Cannon);
 
+      Assert_getName(Special_Ion_Cannon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -10457,6 +10697,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Uraj_Crystal;
       Assert_enum(Powerup_Uraj_Crystal);
 
+      Assert_getName(Powerup_Uraj_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -10544,6 +10786,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Khalis_Crystal;
       Assert_enum(Powerup_Khalis_Crystal);
 
+      Assert_getName(Powerup_Khalis_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -10631,6 +10875,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Infested_Command_Center;
       Assert_enum(Zerg_Infested_Command_Center);
 
+      Assert_getName(Zerg_Infested_Command_Center);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -10718,6 +10964,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Hatchery;
       Assert_enum(Zerg_Hatchery);
 
+      Assert_getName(Zerg_Hatchery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
@@ -10805,6 +11053,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Lair;
       Assert_enum(Zerg_Lair);
 
+      Assert_getName(Zerg_Lair);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Hatchery, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hatchery, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
@@ -10892,6 +11142,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Hive;
       Assert_enum(Zerg_Hive);
 
+      Assert_getName(Zerg_Hive);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Lair, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Lair, 1 }, { BWAPI::UnitTypes::Zerg_Queens_Nest, 1 } }, t.requiredUnits());
@@ -10979,6 +11231,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Nydus_Canal;
       Assert_enum(Zerg_Nydus_Canal);
 
+      Assert_getName(Zerg_Nydus_Canal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
@@ -11066,6 +11320,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Hydralisk_Den;
       Assert_enum(Zerg_Hydralisk_Den);
 
+      Assert_getName(Zerg_Hydralisk_Den);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 } }, t.requiredUnits());
@@ -11153,6 +11409,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Defiler_Mound;
       Assert_enum(Zerg_Defiler_Mound);
 
+      Assert_getName(Zerg_Defiler_Mound);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
@@ -11240,6 +11498,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Greater_Spire;
       Assert_enum(Zerg_Greater_Spire);
 
+      Assert_getName(Zerg_Greater_Spire);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Spire, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Hive, 1 }, { BWAPI::UnitTypes::Zerg_Spire, 1 } }, t.requiredUnits());
@@ -11327,6 +11587,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Queens_Nest;
       Assert_enum(Zerg_Queens_Nest);
 
+      Assert_getName(Zerg_Queens_Nest);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Lair, 1 } }, t.requiredUnits());
@@ -11414,6 +11676,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Evolution_Chamber;
       Assert_enum(Zerg_Evolution_Chamber);
 
+      Assert_getName(Zerg_Evolution_Chamber);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
@@ -11501,6 +11765,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Ultralisk_Cavern;
       Assert_enum(Zerg_Ultralisk_Cavern);
 
+      Assert_getName(Zerg_Ultralisk_Cavern);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hive, 1 } }, t.requiredUnits());
@@ -11588,6 +11854,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Spire;
       Assert_enum(Zerg_Spire);
 
+      Assert_getName(Zerg_Spire);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Lair, 1 } }, t.requiredUnits());
@@ -11675,6 +11943,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Spawning_Pool;
       Assert_enum(Zerg_Spawning_Pool);
 
+      Assert_getName(Zerg_Spawning_Pool);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 }, { BWAPI::UnitTypes::Zerg_Hatchery, 1 } }, t.requiredUnits());
@@ -11762,6 +12032,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Creep_Colony;
       Assert_enum(Zerg_Creep_Colony);
 
+      Assert_getName(Zerg_Creep_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
@@ -11849,6 +12121,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Spore_Colony;
       Assert_enum(Zerg_Spore_Colony);
 
+      Assert_getName(Zerg_Spore_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Creep_Colony, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Evolution_Chamber, 1 }, { BWAPI::UnitTypes::Zerg_Creep_Colony, 1 } }, t.requiredUnits());
@@ -11936,6 +12210,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Sunken_Colony;
       Assert_enum(Zerg_Sunken_Colony);
 
+      Assert_getName(Zerg_Sunken_Colony);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Creep_Colony, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Spawning_Pool, 1 }, { BWAPI::UnitTypes::Zerg_Creep_Colony, 1 } }, t.requiredUnits());
@@ -12023,6 +12299,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Overmind_With_Shell;
       Assert_enum(Special_Overmind_With_Shell);
 
+      Assert_getName(Special_Overmind_With_Shell);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -12110,6 +12388,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Overmind;
       Assert_enum(Special_Overmind);
 
+      Assert_getName(Special_Overmind);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -12197,6 +12477,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Zerg_Extractor;
       Assert_enum(Zerg_Extractor);
 
+      Assert_getName(Zerg_Extractor);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(Zerg_Drone, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Zerg_Drone, 1 } }, t.requiredUnits());
@@ -12284,6 +12566,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Mature_Chrysalis;
       Assert_enum(Special_Mature_Chrysalis);
 
+      Assert_getName(Special_Mature_Chrysalis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -12371,6 +12655,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Cerebrate;
       Assert_enum(Special_Cerebrate);
 
+      Assert_getName(Special_Cerebrate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -12458,6 +12744,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Cerebrate_Daggoth;
       Assert_enum(Special_Cerebrate_Daggoth);
 
+      Assert_getName(Special_Cerebrate_Daggoth);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -12545,6 +12833,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Nexus;
       Assert_enum(Protoss_Nexus);
 
+      Assert_getName(Protoss_Nexus);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
@@ -12632,6 +12922,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Facility;
       Assert_enum(Protoss_Robotics_Facility);
 
+      Assert_getName(Protoss_Robotics_Facility);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
@@ -12719,6 +13011,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Pylon;
       Assert_enum(Protoss_Pylon);
 
+      Assert_getName(Protoss_Pylon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
@@ -12806,6 +13100,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Assimilator;
       Assert_enum(Protoss_Assimilator);
 
+      Assert_getName(Protoss_Assimilator);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 } }, t.requiredUnits());
@@ -12893,6 +13189,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Observatory;
       Assert_enum(Protoss_Observatory);
 
+      Assert_getName(Protoss_Observatory);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
@@ -12980,6 +13278,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Gateway;
       Assert_enum(Protoss_Gateway);
 
+      Assert_getName(Protoss_Gateway);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
@@ -13067,6 +13367,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Photon_Cannon;
       Assert_enum(Protoss_Photon_Cannon);
 
+      Assert_getName(Protoss_Photon_Cannon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Forge, 1 } }, t.requiredUnits());
@@ -13154,6 +13456,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Citadel_of_Adun;
       Assert_enum(Protoss_Citadel_of_Adun);
 
+      Assert_getName(Protoss_Citadel_of_Adun);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
@@ -13241,6 +13545,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Cybernetics_Core;
       Assert_enum(Protoss_Cybernetics_Core);
 
+      Assert_getName(Protoss_Cybernetics_Core);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
@@ -13328,6 +13634,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Templar_Archives;
       Assert_enum(Protoss_Templar_Archives);
 
+      Assert_getName(Protoss_Templar_Archives);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Citadel_of_Adun, 1 } }, t.requiredUnits());
@@ -13415,6 +13723,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Forge;
       Assert_enum(Protoss_Forge);
 
+      Assert_getName(Protoss_Forge);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Nexus, 1 } }, t.requiredUnits());
@@ -13502,6 +13812,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Stargate;
       Assert_enum(Protoss_Stargate);
 
+      Assert_getName(Protoss_Stargate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1 } }, t.requiredUnits());
@@ -13589,6 +13901,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Stasis_Cell_Prison;
       Assert_enum(Special_Stasis_Cell_Prison);
 
+      Assert_getName(Special_Stasis_Cell_Prison);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -13676,6 +13990,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Fleet_Beacon;
       Assert_enum(Protoss_Fleet_Beacon);
 
+      Assert_getName(Protoss_Fleet_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
@@ -13763,6 +14079,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Arbiter_Tribunal;
       Assert_enum(Protoss_Arbiter_Tribunal);
 
+      Assert_getName(Protoss_Arbiter_Tribunal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Templar_Archives, 1 }, { BWAPI::UnitTypes::Protoss_Stargate, 1 } }, t.requiredUnits());
@@ -13850,6 +14168,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Robotics_Support_Bay;
       Assert_enum(Protoss_Robotics_Support_Bay);
 
+      Assert_getName(Protoss_Robotics_Support_Bay);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Robotics_Facility, 1 } }, t.requiredUnits());
@@ -13937,6 +14257,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Protoss_Shield_Battery;
       Assert_enum(Protoss_Shield_Battery);
 
+      Assert_getName(Protoss_Shield_Battery);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(Protoss_Probe, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Protoss_Probe, 1 }, { BWAPI::UnitTypes::Protoss_Gateway, 1 } }, t.requiredUnits());
@@ -14024,6 +14346,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Khaydarin_Crystal_Form;
       Assert_enum(Special_Khaydarin_Crystal_Form);
 
+      Assert_getName(Special_Khaydarin_Crystal_Form);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14111,6 +14435,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Protoss_Temple;
       Assert_enum(Special_Protoss_Temple);
 
+      Assert_getName(Special_Protoss_Temple);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14198,6 +14524,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_XelNaga_Temple;
       Assert_enum(Special_XelNaga_Temple);
 
+      Assert_getName(Special_XelNaga_Temple);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14285,6 +14613,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field;
       Assert_enum(Resource_Mineral_Field);
 
+      Assert_getName(Resource_Mineral_Field);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14372,6 +14702,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_2;
       Assert_enum(Resource_Mineral_Field_Type_2);
 
+      Assert_getName(Resource_Mineral_Field_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14459,6 +14791,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Resource_Mineral_Field_Type_3;
       Assert_enum(Resource_Mineral_Field_Type_3);
 
+      Assert_getName(Resource_Mineral_Field_Type_3);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14546,6 +14880,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Independant_Starport;
       Assert_enum(Special_Independant_Starport);
 
+      Assert_getName(Special_Independant_Starport);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14633,6 +14969,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Resource_Vespene_Geyser;
       Assert_enum(Resource_Vespene_Geyser);
 
+      Assert_getName(Resource_Vespene_Geyser);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14720,6 +15058,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Warp_Gate;
       Assert_enum(Special_Warp_Gate);
 
+      Assert_getName(Special_Warp_Gate);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14807,6 +15147,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Psi_Disrupter;
       Assert_enum(Special_Psi_Disrupter);
 
+      Assert_getName(Special_Psi_Disrupter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14894,6 +15236,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Zerg_Beacon;
       Assert_enum(Special_Zerg_Beacon);
 
+      Assert_getName(Special_Zerg_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -14981,6 +15325,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Terran_Beacon;
       Assert_enum(Special_Terran_Beacon);
 
+      Assert_getName(Special_Terran_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15068,6 +15414,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Protoss_Beacon;
       Assert_enum(Special_Protoss_Beacon);
 
+      Assert_getName(Special_Protoss_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15155,6 +15503,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Zerg_Flag_Beacon;
       Assert_enum(Special_Zerg_Flag_Beacon);
 
+      Assert_getName(Special_Zerg_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15242,6 +15592,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Terran_Flag_Beacon;
       Assert_enum(Special_Terran_Flag_Beacon);
 
+      Assert_getName(Special_Terran_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15329,6 +15681,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Protoss_Flag_Beacon;
       Assert_enum(Special_Protoss_Flag_Beacon);
 
+      Assert_getName(Special_Protoss_Flag_Beacon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Protoss);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15416,6 +15770,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Power_Generator;
       Assert_enum(Special_Power_Generator);
 
+      Assert_getName(Special_Power_Generator);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Terran);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15503,6 +15859,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Overmind_Cocoon;
       Assert_enum(Special_Overmind_Cocoon);
 
+      Assert_getName(Special_Overmind_Cocoon);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Zerg);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15590,6 +15948,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Spell_Dark_Swarm;
       Assert_enum(Spell_Dark_Swarm);
 
+      Assert_getName(Spell_Dark_Swarm);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15677,6 +16037,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Floor_Missile_Trap;
       Assert_enum(Special_Floor_Missile_Trap);
 
+      Assert_getName(Special_Floor_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15764,6 +16126,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Floor_Hatch;
       Assert_enum(Special_Floor_Hatch);
 
+      Assert_getName(Special_Floor_Hatch);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15851,6 +16215,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Upper_Level_Door;
       Assert_enum(Special_Upper_Level_Door);
 
+      Assert_getName(Special_Upper_Level_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -15938,6 +16304,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Right_Upper_Level_Door;
       Assert_enum(Special_Right_Upper_Level_Door);
 
+      Assert_getName(Special_Right_Upper_Level_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16025,6 +16393,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Pit_Door;
       Assert_enum(Special_Pit_Door);
 
+      Assert_getName(Special_Pit_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16112,6 +16482,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Right_Pit_Door;
       Assert_enum(Special_Right_Pit_Door);
 
+      Assert_getName(Special_Right_Pit_Door);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16199,6 +16571,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Floor_Gun_Trap;
       Assert_enum(Special_Floor_Gun_Trap);
 
+      Assert_getName(Special_Floor_Gun_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16286,6 +16660,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Wall_Missile_Trap;
       Assert_enum(Special_Wall_Missile_Trap);
 
+      Assert_getName(Special_Wall_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16373,6 +16749,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Wall_Flame_Trap;
       Assert_enum(Special_Wall_Flame_Trap);
 
+      Assert_getName(Special_Wall_Flame_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16460,6 +16838,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Missile_Trap;
       Assert_enum(Special_Right_Wall_Missile_Trap);
 
+      Assert_getName(Special_Right_Wall_Missile_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16547,6 +16927,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Right_Wall_Flame_Trap;
       Assert_enum(Special_Right_Wall_Flame_Trap);
 
+      Assert_getName(Special_Right_Wall_Flame_Trap);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16634,6 +17016,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Special_Start_Location;
       Assert_enum(Special_Start_Location);
 
+      Assert_getName(Special_Start_Location);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16721,6 +17105,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Flag;
       Assert_enum(Powerup_Flag);
 
+      Assert_getName(Powerup_Flag);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16808,6 +17194,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Young_Chrysalis;
       Assert_enum(Powerup_Young_Chrysalis);
 
+      Assert_getName(Powerup_Young_Chrysalis);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16895,6 +17283,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Psi_Emitter;
       Assert_enum(Powerup_Psi_Emitter);
 
+      Assert_getName(Powerup_Psi_Emitter);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -16982,6 +17372,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Data_Disk;
       Assert_enum(Powerup_Data_Disk);
 
+      Assert_getName(Powerup_Data_Disk);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17069,6 +17461,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Khaydarin_Crystal;
       Assert_enum(Powerup_Khaydarin_Crystal);
 
+      Assert_getName(Powerup_Khaydarin_Crystal);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17156,6 +17550,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_1;
       Assert_enum(Powerup_Mineral_Cluster_Type_1);
 
+      Assert_getName(Powerup_Mineral_Cluster_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17243,6 +17639,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Mineral_Cluster_Type_2;
       Assert_enum(Powerup_Mineral_Cluster_Type_2);
 
+      Assert_getName(Powerup_Mineral_Cluster_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17330,6 +17728,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_1;
       Assert_enum(Powerup_Protoss_Gas_Orb_Type_1);
 
+      Assert_getName(Powerup_Protoss_Gas_Orb_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17417,6 +17817,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Protoss_Gas_Orb_Type_2;
       Assert_enum(Powerup_Protoss_Gas_Orb_Type_2);
 
+      Assert_getName(Powerup_Protoss_Gas_Orb_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17504,6 +17906,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_1;
       Assert_enum(Powerup_Zerg_Gas_Sac_Type_1);
 
+      Assert_getName(Powerup_Zerg_Gas_Sac_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17591,6 +17995,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Zerg_Gas_Sac_Type_2;
       Assert_enum(Powerup_Zerg_Gas_Sac_Type_2);
 
+      Assert_getName(Powerup_Zerg_Gas_Sac_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17678,6 +18084,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_1;
       Assert_enum(Powerup_Terran_Gas_Tank_Type_1);
 
+      Assert_getName(Powerup_Terran_Gas_Tank_Type_1);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17765,6 +18173,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Powerup_Terran_Gas_Tank_Type_2;
       Assert_enum(Powerup_Terran_Gas_Tank_Type_2);
 
+      Assert_getName(Powerup_Terran_Gas_Tank_Type_2);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17852,6 +18262,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::None;
       Assert_enum(None);
 
+      Assert_getName(None);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(None);
       Assert_whatBuilds(None, 0);
       AssertSetEquals({}, t.requiredUnits());
@@ -17939,6 +18351,8 @@ namespace BWAPILIBTest
       auto t = BWAPI::UnitTypes::Unknown;
       Assert_enum(Unknown);
 
+      Assert_getName(Unknown);
+      Assert::AreEqual(t.c_str(), t.getName().c_str());
       Assert_getRace(Unknown);
       Assert_whatBuilds(Unknown, 1);
       AssertSetEquals({ { BWAPI::UnitTypes::Unknown, 1 } }, t.requiredUnits());

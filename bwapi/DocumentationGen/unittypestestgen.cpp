@@ -15,6 +15,8 @@ void genUnitTypeTest()
 
 #define ASS_EQ(n) of << tab(3) << "Assert_" #n "(" << t.n() << ");\n"
 
+    ASS_EQ(getName);
+    of << tab(3) << "Assert::AreEqual(t.c_str(), t.getName().c_str());\n";
     ASS_EQ(getRace);
     of << tab(3) << "Assert_whatBuilds(" << t.whatBuilds().first << ", " << t.whatBuilds().second << ");\n";
     of << tab(3) << "AssertSetEquals(" << mapToString(t.requiredUnits(), "BWAPI::UnitTypes::") << ", t.requiredUnits());\n";
