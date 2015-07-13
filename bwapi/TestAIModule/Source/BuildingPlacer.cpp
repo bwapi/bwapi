@@ -2,24 +2,13 @@
 
 #include <BWAPI/Unitset.h>
 
-bool BuildingPlacer::canBuildHere(BWAPI::TilePosition position, BWAPI::UnitType type) const
-{
-  //returns true if we can build this type of unit here. Takes into account reserved tiles.
-  if (!BWAPI::Broodwar->canBuildHere(position, type))
-    return false;
-  return true;
-}
-bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::UnitType type) const
-{
-  return canBuildHereWithSpace(position, type, 2);
-}
-bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist) const
+bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist)
 {
   //returns true if we can build this type of unit here with the specified amount of space.
   //space value is stored in this->buildDistance.
 
   //if we can't build here, we of course can't build here with space
-  if (!this->canBuildHere(position, type))
+  if (!BWAPI::Broodwar->canBuildHere(position, type))
     return false;
 
   int width  = type.tileWidth();
@@ -51,26 +40,8 @@ bool BuildingPlacer::canBuildHereWithSpace(BWAPI::TilePosition position, BWAPI::
   }
   return true;
 }
-BWAPI::TilePosition BuildingPlacer::getBuildLocation(BWAPI::UnitType type) const
-{
-  //returns a valid build location if one exists, scans the map left to right
-  int wid = BWAPI::Broodwar->mapWidth(), hgt = BWAPI::Broodwar->mapHeight();
-  for ( int x = 0; x < wid; ++x )
-    for ( int y = 0; y < hgt; ++y )
-    {
-      BWAPI::TilePosition tp(x,y);
-      if (this->canBuildHere( tp, type))
-        return tp;
-    }
-  return BWAPI::TilePositions::None;
-}
 
-BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition position, BWAPI::UnitType type) const
-{
-  return getBuildLocationNear(position, type, 2);
-}
-
-BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist) const
+BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition position, BWAPI::UnitType type, int buildDist)
 {
   //returns a valid build location near the specified tile position.
   //searches outward in a spiral.
@@ -83,7 +54,7 @@ BWAPI::TilePosition BuildingPlacer::getBuildLocationNear(BWAPI::TilePosition pos
   {
     //if we can build here, return this tile position
     if ( position )
-      if (this->canBuildHereWithSpace(position, type, buildDist))
+      if (canBuildHereWithSpace(position, type, buildDist))
         return position;
 
     //otherwise, move to another position

@@ -96,9 +96,6 @@
     <ClInclude Include="..\include\BWAPI\Client\ShapeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TemplatesImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Client\UnitCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -6,7 +6,7 @@
 #include <BWAPI/Client/UnitImpl.h>
 #include <BWAPI/Client/BulletImpl.h>
 
-#include "TemplatesImpl.h"
+#include "Templates.h"
 
 #include "Convenience.h"
 #include <string>

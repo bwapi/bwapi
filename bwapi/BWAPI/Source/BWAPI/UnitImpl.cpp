@@ -10,7 +10,7 @@
 #include "Command.h"
 #include "../DLLMain.h"
 #include "../Detours.h"
-#include "TemplatesImpl.h"
+#include "Templates.h"
 
 #include <BW/CUnit.h>
 #include <BW/COrder.h>

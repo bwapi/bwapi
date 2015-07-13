@@ -3,7 +3,7 @@
 #include "BuildingPlacer.h"
 using namespace std;
 using namespace BWAPI;
-extern BuildingPlacer* placer;
+
 #define FAILTEST(C)\
 {\
   if (!(C))\
@@ -35,7 +35,6 @@ CancelConstructionTest::CancelConstructionTest(BWAPI::UnitType unitType, bool te
   running = false;
   FAILTEST(builderType!=UnitTypes::None);
   FAILTEST(builderType!=UnitTypes::Unknown);
-  if (placer==NULL) placer = new BuildingPlacer();
 }
 void CancelConstructionTest::start()
 {
@@ -71,15 +70,15 @@ void CancelConstructionTest::start()
   {
     if (unitType==UnitTypes::Protoss_Pylon)
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 4);
     }
     else if (unitType.getRace()==Races::Zerg && unitType.isResourceDepot())
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 2);
     }
     else
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(), unitType, 1);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 1);
     }
     BWAssertF(builder->build(unitType,buildLocation),{Broodwar->printf("%s",Broodwar->getLastError().c_str());fail=true;return;});
   }

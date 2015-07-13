@@ -15,7 +15,7 @@
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/UnitImpl.h>
 #include <BWAPI/BulletImpl.h>
-#include <TemplatesImpl.h>
+#include <Templates.h>
 #include <BWAPI/Command.h>
 #include <BWAPI/Map.h>
 #include <BWAPI/Flag.h>

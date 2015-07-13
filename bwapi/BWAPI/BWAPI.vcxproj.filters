@@ -139,9 +139,6 @@
     <ClInclude Include="..\Shared\Templates.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Shared\TemplatesImpl.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
     </ClInclude>

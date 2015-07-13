@@ -1,6 +1,6 @@
 #include <BWAPI.h>
 #include <GameImpl.h>
-#include <TemplatesImpl.h>
+#include <Templates.h>
 
 namespace BWAPI
 {

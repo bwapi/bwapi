@@ -1730,7 +1730,6 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ../bwapi/include/ \
-                         ./main.md \
                          ../README.md \
                          ./dox/
 

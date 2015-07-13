@@ -129,7 +129,6 @@ COPY /y "$(OutDir)BWAPIClient.pdb" "..\lib\BWAPIClient.pdb"
     <ClInclude Include="..\include\BWAPI\Client\Shape.h" />
     <ClInclude Include="..\include\BWAPI\Client\ShapeType.h" />
     <ClInclude Include="Source\Convenience.h" />
-    <ClInclude Include="Source\TemplatesImpl.h" />
     <ClInclude Include="..\include\BWAPI\Client\UnitCommand.h" />
     <ClInclude Include="..\include\BWAPI\Client\UnitData.h" />
     <ClInclude Include="..\include\BWAPI\Client\UnitImpl.h" />

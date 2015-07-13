@@ -219,16 +219,16 @@ void AutoMenuManager::onMenuFrame()
       break;
 
     // Choose single or multi
-    this->pressDialogKey(BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4));
+    pressDialogKey(BW::FindDialogGlobal("MainMenu")->findIndex(isAutoSingle ? 3 : 4));
 
     // choose original or expansion (we always choose expansion)
     if (BW::FindDialogGlobal("Delete"))
-      this->pressDialogKey(BW::FindDialogGlobal("Delete")->findIndex(7));
+      pressDialogKey(BW::FindDialogGlobal("Delete")->findIndex(7));
     break;
   case BW::GLUE_EX_CAMPAIGN:  // Campaign selection menu
   case BW::GLUE_CAMPAIGN:
     // Choose "Custom"
-    this->pressDialogKey(BW::FindDialogGlobal("RaceSelection")->findIndex(10));
+    pressDialogKey(BW::FindDialogGlobal("RaceSelection")->findIndex(10));
     break;
   case BW::GLUE_CREATE:       // Game creation menu
   case BW::GLUE_CREATE_MULTI:
@@ -273,10 +273,10 @@ void AutoMenuManager::onMenuFrame()
       {
         this->chooseNewRandomMap();
         ++this->autoMapTryCount;
-        this->pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
+        pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
       }
 
-      this->pressDialogKey(tempDlg->findIndex(12));
+      pressDialogKey(tempDlg->findIndex(12));
     } // if lastmapgen
     break;
   case BW::GLUE_CONNECT:
@@ -310,12 +310,12 @@ void AutoMenuManager::onMenuFrame()
 
     if (isCreating && isHost)
     {
-      this->pressDialogKey(tempDlg->findIndex(15));  // Create Game
+      pressDialogKey(tempDlg->findIndex(15));  // Create Game
     }
     else // is joining
     {
       this->lastMapGen.clear();
-      this->pressDialogKey(tempDlg->findIndex(13));  // OK
+      pressDialogKey(tempDlg->findIndex(13));  // OK
     }
   }
   break;
@@ -361,7 +361,7 @@ void AutoMenuManager::onMenuFrame()
 
     if (BW::FindDialogGlobal("gluPOk"))
     {
-      this->pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
+      pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
       actStartedGame = false;
       waitRestartTimer = GetTickCount();
     }
@@ -391,11 +391,11 @@ void AutoMenuManager::onMenuFrame()
     if (tempDlg)
     {
       tempDlg->findIndex(4)->setText("BWAPI");
-      this->pressDialogKey(tempDlg->findIndex(1));
+      pressDialogKey(tempDlg->findIndex(1));
     }
     else
     {
-      this->pressDialogKey(BW::FindDialogGlobal("Login")->findIndex(4));
+      pressDialogKey(BW::FindDialogGlobal("Login")->findIndex(4));
     }
     break;
   case BW::GLUE_SCORE_Z_DEFEAT:
@@ -405,12 +405,12 @@ void AutoMenuManager::onMenuFrame()
   case BW::GLUE_SCORE_P_DEFEAT:
   case BW::GLUE_SCORE_P_VICTORY:
     if (this->autoMenuRestartGame != "" && this->autoMenuRestartGame != "OFF")
-      this->pressDialogKey(BW::FindDialogGlobal("End")->findIndex(7));
+      pressDialogKey(BW::FindDialogGlobal("End")->findIndex(7));
     break;
   case BW::GLUE_READY_T:  // Mission Briefing
   case BW::GLUE_READY_Z:
   case BW::GLUE_READY_P:
-    this->pressDialogKey(BW::FindDialogGlobal(menu == BW::GLUE_READY_Z ? "ReadyZ" : "TerranRR")->findIndex(13));
+    pressDialogKey(BW::FindDialogGlobal(menu == BW::GLUE_READY_Z ? "ReadyZ" : "TerranRR")->findIndex(13));
     break;
   } // menu switch
 }

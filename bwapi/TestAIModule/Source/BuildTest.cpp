@@ -3,7 +3,6 @@
 #include "BuildingPlacer.h"
 using namespace std;
 using namespace BWAPI;
-BuildingPlacer* placer=NULL;
 
 #define FAILTEST(C)\
 {\
@@ -34,7 +33,6 @@ BuildTest::BuildTest(BWAPI::UnitType unitType) : unitType(unitType),
   running = false;
   FAILTEST(builderType!=UnitTypes::None);
   FAILTEST(builderType!=UnitTypes::Unknown);
-  if (placer==NULL) placer = new BuildingPlacer();
 }
 void BuildTest::start()
 {
@@ -63,14 +61,14 @@ void BuildTest::start()
   {
     if (unitType==UnitTypes::Protoss_Pylon)
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,4);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 4);
     }
     else if ((unitType.getRace()==Races::Zerg && unitType.isResourceDepot()) || unitType==UnitTypes::Protoss_Gateway)
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(),unitType,2);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 2);
     }
     {
-      buildLocation = placer->getBuildLocationNear(builder->getTilePosition(), unitType, 1);
+      buildLocation = BuildingPlacer::getBuildLocationNear(builder->getTilePosition(), unitType, 1);
     }
     FAILTEST(builder->build(unitType, buildLocation));
   }

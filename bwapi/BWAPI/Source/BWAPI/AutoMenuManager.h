@@ -21,11 +21,12 @@ namespace BWAPI
     void chooseNewRandomMap();
     void onMenuFrame();
 
+    // cppcheck-suppress functionConst
     const char* interceptFindFirstFile(const char *lpFileName);
 
     std::string autoMenuSaveReplay;
   private:
-    void pressDialogKey(BW::dialog *pDlg);
+    static void pressDialogKey(BW::dialog *pDlg);
 
     std::string autoMenuMode;
     std::string autoMenuLanMode;

@@ -54,7 +54,7 @@ namespace BW
 
   u16 region::getIndex() const
   {
-    return static_cast<u16>(this - BW::BWDATA::SAIPathing->regions);
+    return static_cast<u16>(this - (BW::BWDATA::SAIPathing->regions));
   }
 
   const BW::region *getRegionAt(int x, int y)

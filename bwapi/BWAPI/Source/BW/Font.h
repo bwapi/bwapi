@@ -4,6 +4,7 @@
 
 namespace BW
 {
+  // cppcheck-suppress noConstructor
   class FontChar
   {
   public:

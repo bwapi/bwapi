@@ -228,7 +228,6 @@ popd</Command>
     <ClInclude Include="..\include\BWAPI\Region.h" />
     <ClInclude Include="..\include\BWAPI\Unit.h" />
     <ClInclude Include="..\Shared\Templates.h" />
-    <ClInclude Include="..\Shared\TemplatesImpl.h" />
     <ClInclude Include="Source\Assembly.h" />
     <ClInclude Include="Source\BWAPI\APMCounter.h" />
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h" />

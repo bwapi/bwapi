@@ -4,7 +4,7 @@
 #include <BWAPI/Client/PlayerImpl.h>
 #include <BWAPI/Client/UnitImpl.h>
 
-#include "TemplatesImpl.h"
+#include "Templates.h"
 #include "Command.h"
 
 #include <limits>

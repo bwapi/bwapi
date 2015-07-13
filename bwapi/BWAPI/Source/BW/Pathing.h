@@ -31,6 +31,7 @@ namespace BW
     u16 bottom;
   };
 
+  // cppcheck-suppress noConstructor
   class region
   {
   public:
