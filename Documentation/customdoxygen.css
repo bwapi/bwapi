@@ -109,6 +109,18 @@ td.mlabels-right {
   text-shadow: 0 0 5px #444;
 }
 
+@media print {
+  .twitter-timeline {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 400px), print {
+  #projectlogo {
+    display: none !important;
+  }
+}
+
 /* DOXYGEN Code Styles - These are from doxygen but can be changed to fit the theme
 ----------------------------------- */
 
