@@ -1,3 +1,48 @@
+
+BWAPI 3.7.5 (r4160)
+==============================
+*Note: This is a support patch with several backported changes. This is intended to be fully compatible with 3.7.4.*
+
+Changes:
+- Removed holiday lights.
+- Removed video recording commands.
+- Removed a feature that changed the game speed when the window was minimized.
+- Improved BWAPI's debug drawing compatibility with other hacks.
+
+Bug Fixes (4.0.0 Beta):
+- Fixed a bug where `Unit::getRemainingBuildTime` failed to work correctly for some units (such as siege tanks).
+
+Bug Fixes (4.0.1 Beta):
+- Fixed a bug where auto_menu caused a second multi-instance client to redownload a map that already existed.
+- Fixed a bug where auto_menu attempted to start a game before map downloads could be processed.
+
+Bug Fixes (4.1.0 Beta):
+- Fixed a major bug that could cause crashes or produce undefined results on larger maps when using BWAPI::Game::hasPath or BWAPI::Game::getRegion.
+- Fixed a crash when retrieving the name of a force in BWAPIClient.
+- Fixed a bug where BWAPI::Unit::isAttacking would always return false for the @Goliath and @SiegeTank.
+- Fixed a bug where auto_menu caused a second multi-instance client to redownload a map that already existed.
+- Fixed a bug where auto_menu attempted to start a game before map downloads could be processed.
+- Fixed a bug that prevented client modules from connecting to BWAPI as non-administrators.
+- Fixed a bug that caused crashes when running consecutive games.
+- Fixed BWAPI::Game::sendText in the BWAPI Client.
+- Fixed a bug where BWAPI::Player::isObserver would return true in some @UMS maps.
+- Fixed an issue where unit fields were not reset after its destruction.
+- Fixed a bug where BWAPI::Game::setScreenPosition would not move the screen all the way to the bottom of the map.
+- Fixed a bug where BWAPI::Unit::isAttacking would always return true for units that are holding position (and have attacked something at least once).
+
+Bug Fixes (4.1.1 Beta):
+- Fixed a buffer overflow when accessing start locations. Also fixes DEBUG mode for client modules.
+- Fixed an issue where BWAPI::Game::canMake would return true if the player did not have enough supply to create @Zerglings or @Scourges.
+- Fixed a bug where a BWAPI::EventType::UnitComplete event would be triggered on unit creation for client modules.
+- Fixed a bug where BWAPI::EventType::UnitComplete events were not triggered for units after morphing.
+- Fixed a bug in the client where getUnitsIn* functions failed to work correctly, causing a buffer overflow.
+- Fixed a bug where Unit::isStartingAttack and Unit::isAttackFrame would return true when a unit was unloaded from a transport or when the unit's target died.
+- Fixed a bug where client modules failed to correctly detect creep.
+- Fixed a bug where BWAPI::Unit::exists() returned true in onUnitDestroy for client modules.
+
+Bug Fixes (4.1.2):
+- Fixed a bug where client modules would include a set of inaccessible units which incorrectly identify as @Marines.
+
 =======================================
 Changes from BWAPI 3.7.3 to BWAPI 3.7.4
 =======================================

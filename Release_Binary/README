@@ -1,14 +1,11 @@
 ---------------
-| BWAPI 3.7.4 |
+| BWAPI 3.7.5 |
 ---------------
 
-The BWAPI web site    http://code.google.com/p/bwapi/
-Documentation         http://code.google.com/p/bwapi/wiki/BWAPIManual
-Blog                  http://bwapi.blogspot.com/
-Google Group          http://groups.google.com/group/bwapi
-Forums                http://www.broodwarai.com/forums/index.php?showforum=46
-Bug Reports           http://code.google.com/p/bwapi/issues/list
-IRC Channel           QuakeNet #BWAPI
+The BWAPI web site    http://bwapi.github.io/
+Old Documentation     http://code.google.com/p/bwapi/wiki/BWAPIManual
+Issue Tracker         https://github.com/bwapi/bwapi/issues
+IRC Channel           Freenode #BWAPI
 
 1. Introduction to BWAPI
 ------------------------
@@ -139,10 +136,7 @@ into bugs or other problems. We cannot find all the bugs on our own so your
 feedback is invaluable and can be very helpful for improving BWAPI. When you
 find a bug, please describe what the bug is and, if possible, how to reproduce
 the bug and post the report in either a new issue at
-   http://code.google.com/p/bwapi/issues/list
-
-or in a message to the bwapi google group at
-   http://groups.google.com/group/bwapi
+   https://github.com/bwapi/bwapi/issues
 
 Additionally, the contents of the BWAPI global log may prove useful in tracking
 down the bug, so when appropriate please include relevant contents of the file
