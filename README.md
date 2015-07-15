@@ -2,6 +2,7 @@
 [TOC]
 # Project Information {#project}
 
+* [Project website] (http://bwapi.github.io)
 * [Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)
 * [Go to the releases](https://github.com/bwapi/bwapi/releases)
 
@@ -41,7 +42,6 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 * **Repository:**            https://github.com/bwapi/bwapi
 * **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
 * **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
-* **Forums:**                http://www.broodwarai.com/forums/
 * **Facebook:**              https://www.facebook.com/groups/bwapi/
 * **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
 
@@ -51,7 +51,6 @@ Various venues host remote competitive AI competitions that allow developers fro
 * [AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment (AIIDE)](http://www.starcraftaicompetition.com)
 * [IEEE Conference on Computational Intelligence and Games (CIG)](http://cilab.sejong.ac.kr/sc_competition/)
 * [Student StarCraft AI (SSCAI) Tournament](http://sscaitournament.com/)
-* [StarCraft Micro AI (SMAI) Tournament](http://scmai.hackcraft.sk/)
 * [BWAPI Bots Ladder](http://bots-stats.krasi0.com)
 
 

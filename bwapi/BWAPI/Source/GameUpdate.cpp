@@ -23,7 +23,7 @@ std::string GameImpl::getTournamentString()
   if ( sMemo.empty() )
   {
     std::stringstream ss;
-    ss << "BWAPI r" << SVN_REV << " Tournament Mode Engaged!";
+    ss << "BWAPI " BWAPI_VER "." << SVN_REV << " Tournament Mode Engaged!";
     sMemo = ss.str();
   }
   return sMemo;
@@ -433,6 +433,6 @@ void GameImpl::initializeAIModule()
   }
 
   if ( !hTournamentModule ) // If tournament mode wasn't initialized
-    sendText("BWAPI r%d %s is now live using \"%s\".", SVN_REV, BUILD_STR, moduleName.c_str() );
+    sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str() );
 }
 

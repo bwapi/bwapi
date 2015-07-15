@@ -1,7 +1,7 @@
 ;This is an INNO Setup script
 ;You should download INNO Setup and INNO Script Studio v2 to modify and compile it
 
-#define BWAPI_VERSION "4.1.1"
+#define BWAPI_VERSION "4.1.2"
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

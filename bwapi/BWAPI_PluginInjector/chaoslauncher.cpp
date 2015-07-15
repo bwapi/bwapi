@@ -25,10 +25,10 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   std::stringstream ss_desc;
-  ss_desc << "Injects " << MODULE << " into the Broodwar process.\r\n\r\n"
-     << "Revision " << SVN_REV << ".\r\n"
+  ss_desc << "Injects " << MODULE << " (" << BUILD_STR << ") into the Broodwar process.\r\n\r\n"
+     << "Version " << BWAPI_VER << " for Starcraft " << STARCRAFT_VER << ".\r\n"
      << "Check for updates at " << BWAPI_HOME_URL << " \r\n\r\n"
-     << "Created by the BWAPI Project Team";
+     << "Created by the BWAPI Project Team.";
 
   strcpy(name, GetPluginName().substr(0, 64).c_str());
   strcpy(description, ss_desc.str().substr(0, 512).c_str());

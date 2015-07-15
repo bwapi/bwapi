@@ -9,7 +9,7 @@
 std::string GetPluginName()
 {
   std::stringstream ss_name;
-  ss_name << "BWAPI Injector (" << STARCRAFT_VER << ") " << BUILD_STR;
+  ss_name << "BWAPI " << BWAPI_VER << " Injector [" << BUILD_STR << "]";
   return ss_name.str();
 }
 
