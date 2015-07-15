@@ -1,5 +1,6 @@
 # The Brood War API {#BWAPI}
 [TOC]
+
 # Project Information {#project}
 
 * [Project website] (http://bwapi.github.io)
