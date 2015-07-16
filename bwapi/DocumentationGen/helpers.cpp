@@ -31,42 +31,46 @@ std::string tref(std::string const &t)
   return t;
 }
 
-std::string rawImg(std::string const & src)
+std::string sprite(std::string const & group, std::string const & name)
 {
-  return "<img src=\'" + src + "\'>";
+  return "@htmlonly\n<i class=\'" + group + " " + group + "-" + name + "\'></i>\n@endhtmlonly ";
 }
-std::string img(std::string const & src)
+
+std::string tooltipIcon(std::string const & name)
 {
-  return " @htmlonly\n" + rawImg(src) + "\n@endhtmlonly ";
+  return sprite("tticon", name);
+}
+
+std::string cmdButton(std::string const & name)
+{
+  return sprite("cmdbtn", name);
 }
 
 std::string imgOre()
 {
-  return img("ore.png");
+  return tooltipIcon("ore");
 }
 
 std::string imgEnergy()
 {
-  return img("energy.png");
+  return tooltipIcon("energy");
 }
 
 std::string imgGas(Race race)
 {
-  return img("gas" + std::to_string(race.getID() % 3) + ".png");
+  return tooltipIcon("gas" + std::to_string(race.getID() % 3));
 }
 
 std::string imgSupply(Race race)
 {
-  return img("supply" + std::to_string(race.getID() % 3) + ".png");
+  return tooltipIcon("supply" + std::to_string(race.getID() % 3));
 }
 
 std::string iconId(unsigned id)
 {
   if (id == 65535) return "";
 
-  std::ostringstream ss;
-  ss << "icon" << id << ".png";
-  return img(ss.str());
+  return cmdButton("icon" + std::to_string(id));
 }
 
 std::string icon(WeaponType const & t)

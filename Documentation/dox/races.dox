@@ -6,20 +6,20 @@ Value of 0  [0x0]. See BWAPI::Races::Zerg.
 @var BWAPI::Races::Zerg
 Zerg. Corresponds with Races::Enum::Zerg.
 
-<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
-<img src='icon41.png'>
+<table border='0'><tr><td><strong>Worker</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon41'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone"</td></tr>
-<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
-<img src='icon131.png'>
+<tr><td><strong>Resource Depot</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon131'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hatchery "Zerg Hatchery"</td></tr>
-<tr><td><strong>Refinery</strong></td><td> @htmlonly
-<img src='icon149.png'>
+<tr><td><strong>Refinery</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon149'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Extractor "Zerg Extractor"</td></tr>
-<tr><td><strong>Transport</strong></td><td> @htmlonly
-<img src='icon42.png'>
+<tr><td><strong>Transport</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
-<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
-<img src='icon42.png'>
+<tr><td><strong>Supply Provider</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
 @tlZerg @sccZerg @wikZerg
@@ -32,20 +32,20 @@ Value of 1  [0x1]. See BWAPI::Races::Terran.
 @var BWAPI::Races::Terran
 Terran. Corresponds with Races::Enum::Terran.
 
-<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
-<img src='icon7.png'>
+<table border='0'><tr><td><strong>Worker</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon7'></i>
 @endhtmlonly @ref UnitTypes::Terran_SCV "Terran SCV"</td></tr>
-<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
-<img src='icon106.png'>
+<tr><td><strong>Resource Depot</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon106'></i>
 @endhtmlonly @ref UnitTypes::Terran_Command_Center "Terran Command Center"</td></tr>
-<tr><td><strong>Refinery</strong></td><td> @htmlonly
-<img src='icon110.png'>
+<tr><td><strong>Refinery</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon110'></i>
 @endhtmlonly @ref UnitTypes::Terran_Refinery "Terran Refinery"</td></tr>
-<tr><td><strong>Transport</strong></td><td> @htmlonly
-<img src='icon11.png'>
+<tr><td><strong>Transport</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon11'></i>
 @endhtmlonly @ref UnitTypes::Terran_Dropship "Terran Dropship"</td></tr>
-<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
-<img src='icon109.png'>
+<tr><td><strong>Supply Provider</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon109'></i>
 @endhtmlonly @ref UnitTypes::Terran_Supply_Depot "Terran Supply Depot"</td></tr>
 </table>
 @tlTerran @sccTerran @wikTerran
@@ -58,20 +58,20 @@ Value of 2  [0x2]. See BWAPI::Races::Protoss.
 @var BWAPI::Races::Protoss
 Protoss. Corresponds with Races::Enum::Protoss.
 
-<table border='0'><tr><td><strong>Worker</strong></td><td> @htmlonly
-<img src='icon64.png'>
+<table border='0'><tr><td><strong>Worker</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon64'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe"</td></tr>
-<tr><td><strong>Resource Depot</strong></td><td> @htmlonly
-<img src='icon154.png'>
+<tr><td><strong>Resource Depot</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon154'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Nexus "Protoss Nexus"</td></tr>
-<tr><td><strong>Refinery</strong></td><td> @htmlonly
-<img src='icon157.png'>
+<tr><td><strong>Refinery</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon157'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Assimilator "Protoss Assimilator"</td></tr>
-<tr><td><strong>Transport</strong></td><td> @htmlonly
-<img src='icon69.png'>
+<tr><td><strong>Transport</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon69'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"</td></tr>
-<tr><td><strong>Supply Provider</strong></td><td> @htmlonly
-<img src='icon156.png'>
+<tr><td><strong>Supply Provider</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon156'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Pylon "Protoss Pylon"</td></tr>
 </table>
 @tlProtoss @sccProtoss @wikProtoss
