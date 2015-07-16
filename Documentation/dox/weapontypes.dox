@@ -4,19 +4,19 @@ Value of 2  [0x2]. See BWAPI::WeaponTypes::C_10_Canister_Rifle.
 */
 /*!
 @var BWAPI::WeaponTypes::C_10_Canister_Rifle
- @htmlonly
-<img src='icon324.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon324'></i>
 @endhtmlonly  C 10 Canister Rifle. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -31,19 +31,19 @@ Value of 66  [0x42]. See BWAPI::WeaponTypes::Phase_Disruptor.
 */
 /*!
 @var BWAPI::WeaponTypes::Phase_Disruptor
- @htmlonly
-<img src='icon354.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon354'></i>
 @endhtmlonly  Phase Disruptor. Corresponds with WeaponTypes::Enum::Phase_Disruptor.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon66.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon66'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -58,19 +58,19 @@ Value of 3  [0x3]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan.
 */
 /*!
 @var BWAPI::WeaponTypes::C_10_Canister_Rifle_Sarah_Kerrigan
- @htmlonly
-<img src='icon324.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon324'></i>
 @endhtmlonly  C 10 Canister Rifle Sarah Kerrigan. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Sarah_Kerrigan.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon16.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon16'></i>
 @endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -85,19 +85,19 @@ Value of 67  [0x43]. See BWAPI::WeaponTypes::Phase_Disruptor_Fenix.
 */
 /*!
 @var BWAPI::WeaponTypes::Phase_Disruptor_Fenix
- @htmlonly
-<img src='icon354.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon354'></i>
 @endhtmlonly  Phase Disruptor Fenix. Corresponds with WeaponTypes::Enum::Phase_Disruptor_Fenix.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon78.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon78'></i>
 @endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>45</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -112,19 +112,19 @@ Value of 64  [0x40]. See BWAPI::WeaponTypes::Psi_Blades.
 */
 /*!
 @var BWAPI::WeaponTypes::Psi_Blades
- @htmlonly
-<img src='icon353.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon353'></i>
 @endhtmlonly  Psi Blades. Corresponds with WeaponTypes::Enum::Psi_Blades.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon65.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon65'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -139,19 +139,19 @@ Value of 0  [0x0]. See BWAPI::WeaponTypes::Gauss_Rifle.
 */
 /*!
 @var BWAPI::WeaponTypes::Gauss_Rifle
- @htmlonly
-<img src='icon323.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon323'></i>
 @endhtmlonly  Gauss Rifle. Corresponds with WeaponTypes::Enum::Gauss_Rifle.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"</td></tr>
 <tr><td><strong>Damage</strong></td><td>6</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -166,19 +166,19 @@ Value of 48  [0x30]. See BWAPI::WeaponTypes::Glave_Wurm.
 */
 /*!
 @var BWAPI::WeaponTypes::Glave_Wurm
- @htmlonly
-<img src='icon345.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon345'></i>
 @endhtmlonly  Glave Wurm. Corresponds with WeaponTypes::Enum::Glave_Wurm.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon43.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon43'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk"</td></tr>
 <tr><td><strong>Damage</strong></td><td>9</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -193,19 +193,19 @@ Value of 112  [0x70]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran.
 */
 /*!
 @var BWAPI::WeaponTypes::C_10_Canister_Rifle_Samir_Duran
- @htmlonly
-<img src='icon324.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon324'></i>
 @endhtmlonly  C 10 Canister Rifle Samir Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Samir_Duran.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon99.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon99'></i>
 @endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"</td></tr>
 <tr><td><strong>Damage</strong></td><td>25</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -220,19 +220,19 @@ Value of 1  [0x1]. See BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor.
 */
 /*!
 @var BWAPI::WeaponTypes::Gauss_Rifle_Jim_Raynor
- @htmlonly
-<img src='icon323.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon323'></i>
 @endhtmlonly  Gauss Rifle Jim Raynor. Corresponds with WeaponTypes::Enum::Gauss_Rifle_Jim_Raynor.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon20.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon20'></i>
 @endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"</td></tr>
 <tr><td><strong>Damage</strong></td><td>18</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -247,19 +247,19 @@ Value of 65  [0x41]. See BWAPI::WeaponTypes::Psi_Blades_Fenix.
 */
 /*!
 @var BWAPI::WeaponTypes::Psi_Blades_Fenix
- @htmlonly
-<img src='icon353.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon353'></i>
 @endhtmlonly  Psi Blades Fenix. Corresponds with WeaponTypes::Enum::Psi_Blades_Fenix.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon77.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon77'></i>
 @endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -274,19 +274,19 @@ Value of 49  [0x31]. See BWAPI::WeaponTypes::Glave_Wurm_Kukulza.
 */
 /*!
 @var BWAPI::WeaponTypes::Glave_Wurm_Kukulza
- @htmlonly
-<img src='icon345.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon345'></i>
 @endhtmlonly  Glave Wurm Kukulza. Corresponds with WeaponTypes::Enum::Glave_Wurm_Kukulza.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon55.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon55'></i>
 @endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk"</td></tr>
 <tr><td><strong>Damage</strong></td><td>18</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -301,19 +301,19 @@ Value of 113  [0x71]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
 */
 /*!
 @var BWAPI::WeaponTypes::C_10_Canister_Rifle_Infested_Duran
- @htmlonly
-<img src='icon324.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon324'></i>
 @endhtmlonly  C 10 Canister Rifle Infested Duran. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Infested_Duran.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon104.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
 @endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"</td></tr>
 <tr><td><strong>Damage</strong></td><td>25</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -328,19 +328,19 @@ Value of 4  [0x4]. See BWAPI::WeaponTypes::Fragmentation_Grenade.
 */
 /*!
 @var BWAPI::WeaponTypes::Fragmentation_Grenade
- @htmlonly
-<img src='icon325.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon325'></i>
 @endhtmlonly  Fragmentation Grenade. Corresponds with WeaponTypes::Enum::Fragmentation_Grenade.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon2.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon2'></i>
 @endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -355,19 +355,19 @@ Value of 116  [0x74]. See BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov.
 */
 /*!
 @var BWAPI::WeaponTypes::C_10_Canister_Rifle_Alexei_Stukov
- @htmlonly
-<img src='icon324.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon324'></i>
 @endhtmlonly  C 10 Canister Rifle Alexei Stukov. Corresponds with WeaponTypes::Enum::C_10_Canister_Rifle_Alexei_Stukov.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon100.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon100'></i>
 @endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -382,19 +382,19 @@ Value of 52  [0x34]. See BWAPI::WeaponTypes::Seeker_Spores.
 */
 /*!
 @var BWAPI::WeaponTypes::Seeker_Spores
- @htmlonly
-<img src='icon347.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon347'></i>
 @endhtmlonly  Seeker Spores. Corresponds with WeaponTypes::Enum::Seeker_Spores.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon144.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon144'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Spore_Colony "Zerg Spore Colony"</td></tr>
 <tr><td><strong>Damage</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -409,19 +409,19 @@ Value of 5  [0x5]. See BWAPI::WeaponTypes::Fragmentation_Grenade_Jim_Raynor.
 */
 /*!
 @var BWAPI::WeaponTypes::Fragmentation_Grenade_Jim_Raynor
- @htmlonly
-<img src='icon325.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon325'></i>
 @endhtmlonly  Fragmentation Grenade Jim Raynor. Corresponds with WeaponTypes::Enum::Fragmentation_Grenade_Jim_Raynor.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon19.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon19'></i>
 @endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -436,19 +436,19 @@ Value of 69  [0x45]. See BWAPI::WeaponTypes::Psi_Assault.
 */
 /*!
 @var BWAPI::WeaponTypes::Psi_Assault
- @htmlonly
-<img src='icon355.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon355'></i>
 @endhtmlonly  Psi Assault. Corresponds with WeaponTypes::Enum::Psi_Assault.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon79.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -463,22 +463,22 @@ Value of 6  [0x6]. See BWAPI::WeaponTypes::Spider_Mines.
 */
 /*!
 @var BWAPI::WeaponTypes::Spider_Mines
- @htmlonly
-<img src='icon364.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon364'></i>
 @endhtmlonly  Spider Mines. Corresponds with WeaponTypes::Enum::Spider_Mines.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon243.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon243'></i>
 @endhtmlonly @ref TechTypes::Spider_Mines "Spider Mines"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon13.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon13'></i>
 @endhtmlonly @ref UnitTypes::Terran_Vulture_Spider_Mine "Terran Vulture Spider Mine"</td></tr>
 <tr><td><strong>Damage</strong></td><td>125</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Radial_Splash "Radial Splash"</td></tr>
@@ -494,19 +494,19 @@ Value of 70  [0x46]. See BWAPI::WeaponTypes::Psionic_Shockwave.
 */
 /*!
 @var BWAPI::WeaponTypes::Psionic_Shockwave
- @htmlonly
-<img src='icon356.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon356'></i>
 @endhtmlonly  Psionic Shockwave. Corresponds with WeaponTypes::Enum::Psionic_Shockwave.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon68.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon68'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -522,19 +522,19 @@ Value of 7  [0x7]. See BWAPI::WeaponTypes::Twin_Autocannons.
 */
 /*!
 @var BWAPI::WeaponTypes::Twin_Autocannons
- @htmlonly
-<img src='icon326.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon326'></i>
 @endhtmlonly  Twin Autocannons. Corresponds with WeaponTypes::Enum::Twin_Autocannons.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon3.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon3'></i>
 @endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath"</td></tr>
 <tr><td><strong>Damage</strong></td><td>12</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -549,19 +549,19 @@ Value of 71  [0x47]. See BWAPI::WeaponTypes::Psionic_Shockwave_TZ_Archon.
 */
 /*!
 @var BWAPI::WeaponTypes::Psionic_Shockwave_TZ_Archon
- @htmlonly
-<img src='icon356.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon356'></i>
 @endhtmlonly  Psionic Shockwave TZ Archon. Corresponds with WeaponTypes::Enum::Psionic_Shockwave_TZ_Archon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon76.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon76'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>60</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -577,19 +577,19 @@ Value of 9  [0x9]. See BWAPI::WeaponTypes::Twin_Autocannons_Alan_Schezar.
 */
 /*!
 @var BWAPI::WeaponTypes::Twin_Autocannons_Alan_Schezar
- @htmlonly
-<img src='icon326.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon326'></i>
 @endhtmlonly  Twin Autocannons Alan Schezar. Corresponds with WeaponTypes::Enum::Twin_Autocannons_Alan_Schezar.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon17.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon17'></i>
 @endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>24</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -604,19 +604,19 @@ Value of 73  [0x49]. See BWAPI::WeaponTypes::Dual_Photon_Blasters.
 */
 /*!
 @var BWAPI::WeaponTypes::Dual_Photon_Blasters
- @htmlonly
-<img src='icon358.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon358'></i>
 @endhtmlonly  Dual Photon Blasters. Corresponds with WeaponTypes::Enum::Dual_Photon_Blasters.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon70.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -631,19 +631,19 @@ Value of 8  [0x8]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack.
 */
 /*!
 @var BWAPI::WeaponTypes::Hellfire_Missile_Pack
- @htmlonly
-<img src='icon327.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon327'></i>
 @endhtmlonly  Hellfire Missile Pack. Corresponds with WeaponTypes::Enum::Hellfire_Missile_Pack.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon3.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon3'></i>
 @endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -658,19 +658,19 @@ Value of 10  [0xa]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar.
 */
 /*!
 @var BWAPI::WeaponTypes::Hellfire_Missile_Pack_Alan_Schezar
- @htmlonly
-<img src='icon327.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon327'></i>
 @endhtmlonly  Hellfire Missile Pack Alan Schezar. Corresponds with WeaponTypes::Enum::Hellfire_Missile_Pack_Alan_Schezar.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon17.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon17'></i>
 @endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -685,19 +685,19 @@ Value of 74  [0x4a]. See BWAPI::WeaponTypes::Anti_Matter_Missiles.
 */
 /*!
 @var BWAPI::WeaponTypes::Anti_Matter_Missiles
- @htmlonly
-<img src='icon359.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon359'></i>
 @endhtmlonly  Anti Matter Missiles. Corresponds with WeaponTypes::Enum::Anti_Matter_Missiles.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon70.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 <tr><td><strong>Damage</strong></td><td>14</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -712,19 +712,19 @@ Value of 11  [0xb]. See BWAPI::WeaponTypes::Arclite_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::Arclite_Cannon
- @htmlonly
-<img src='icon328.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon328'></i>
 @endhtmlonly  Arclite Cannon. Corresponds with WeaponTypes::Enum::Arclite_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon5.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon5'></i>
 @endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>37</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -739,19 +739,19 @@ Value of 75  [0x4b]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Mojo.
 */
 /*!
 @var BWAPI::WeaponTypes::Dual_Photon_Blasters_Mojo
- @htmlonly
-<img src='icon358.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon358'></i>
 @endhtmlonly  Dual Photon Blasters Mojo. Corresponds with WeaponTypes::Enum::Dual_Photon_Blasters_Mojo.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon80.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon80'></i>
 @endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -766,19 +766,19 @@ Value of 12  [0xc]. See BWAPI::WeaponTypes::Arclite_Cannon_Edmund_Duke.
 */
 /*!
 @var BWAPI::WeaponTypes::Arclite_Cannon_Edmund_Duke
- @htmlonly
-<img src='icon328.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon328'></i>
 @endhtmlonly  Arclite Cannon Edmund Duke. Corresponds with WeaponTypes::Enum::Arclite_Cannon_Edmund_Duke.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon23.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon23'></i>
 @endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode"</td></tr>
 <tr><td><strong>Damage</strong></td><td>70</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>37</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -793,19 +793,19 @@ Value of 76  [0x4c]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Mojo.
 */
 /*!
 @var BWAPI::WeaponTypes::Anti_Matter_Missiles_Mojo
- @htmlonly
-<img src='icon359.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon359'></i>
 @endhtmlonly  Anti Matter Missiles Mojo. Corresponds with WeaponTypes::Enum::Anti_Matter_Missiles_Mojo.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon80.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon80'></i>
 @endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo"</td></tr>
 <tr><td><strong>Damage</strong></td><td>28</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -820,19 +820,19 @@ Value of 13  [0xd]. See BWAPI::WeaponTypes::Fusion_Cutter.
 */
 /*!
 @var BWAPI::WeaponTypes::Fusion_Cutter
- @htmlonly
-<img src='icon329.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon329'></i>
 @endhtmlonly  Fusion Cutter. Corresponds with WeaponTypes::Enum::Fusion_Cutter.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon7.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon7'></i>
 @endhtmlonly @ref UnitTypes::Terran_SCV "Terran SCV"</td></tr>
 <tr><td><strong>Damage</strong></td><td>5</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -847,19 +847,19 @@ Value of 77  [0x4d]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::Phase_Disruptor_Cannon
- @htmlonly
-<img src='icon360.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon360'></i>
 @endhtmlonly  Phase Disruptor Cannon. Corresponds with WeaponTypes::Enum::Phase_Disruptor_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon71.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>45</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -874,19 +874,19 @@ Value of 15  [0xf]. See BWAPI::WeaponTypes::Gemini_Missiles.
 */
 /*!
 @var BWAPI::WeaponTypes::Gemini_Missiles
- @htmlonly
-<img src='icon331.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon331'></i>
 @endhtmlonly  Gemini Missiles. Corresponds with WeaponTypes::Enum::Gemini_Missiles.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon8.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
 @endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -901,19 +901,19 @@ Value of 17  [0x11]. See BWAPI::WeaponTypes::Gemini_Missiles_Tom_Kazansky.
 */
 /*!
 @var BWAPI::WeaponTypes::Gemini_Missiles_Tom_Kazansky
- @htmlonly
-<img src='icon331.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon331'></i>
 @endhtmlonly  Gemini Missiles Tom Kazansky. Corresponds with WeaponTypes::Enum::Gemini_Missiles_Tom_Kazansky.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon21.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon21'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky"</td></tr>
 <tr><td><strong>Damage</strong></td><td>40</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -928,19 +928,19 @@ Value of 16  [0x10]. See BWAPI::WeaponTypes::Burst_Lasers.
 */
 /*!
 @var BWAPI::WeaponTypes::Burst_Lasers
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Burst Lasers. Corresponds with WeaponTypes::Enum::Burst_Lasers.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon8.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
 @endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -955,19 +955,19 @@ Value of 18  [0x12]. See BWAPI::WeaponTypes::Burst_Lasers_Tom_Kazansky.
 */
 /*!
 @var BWAPI::WeaponTypes::Burst_Lasers_Tom_Kazansky
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Burst Lasers Tom Kazansky. Corresponds with WeaponTypes::Enum::Burst_Lasers_Tom_Kazansky.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon21.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon21'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky"</td></tr>
 <tr><td><strong>Damage</strong></td><td>16</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -982,19 +982,19 @@ Value of 19  [0x13]. See BWAPI::WeaponTypes::ATS_Laser_Battery.
 */
 /*!
 @var BWAPI::WeaponTypes::ATS_Laser_Battery
- @htmlonly
-<img src='icon333.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon333'></i>
 @endhtmlonly  ATS Laser Battery. Corresponds with WeaponTypes::Enum::ATS_Laser_Battery.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon12.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
 @endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"</td></tr>
 <tr><td><strong>Damage</strong></td><td>25</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1009,19 +1009,19 @@ Value of 21  [0x15]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hero.
 */
 /*!
 @var BWAPI::WeaponTypes::ATS_Laser_Battery_Hero
- @htmlonly
-<img src='icon333.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon333'></i>
 @endhtmlonly  ATS Laser Battery Hero. Corresponds with WeaponTypes::Enum::ATS_Laser_Battery_Hero.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon29.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon29'></i>
 @endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II"</td></tr>
 <tr><td><strong>Damage</strong></td><td>50</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1036,19 +1036,19 @@ Value of 23  [0x17]. See BWAPI::WeaponTypes::ATS_Laser_Battery_Hyperion.
 */
 /*!
 @var BWAPI::WeaponTypes::ATS_Laser_Battery_Hyperion
- @htmlonly
-<img src='icon333.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon333'></i>
 @endhtmlonly  ATS Laser Battery Hyperion. Corresponds with WeaponTypes::Enum::ATS_Laser_Battery_Hyperion.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon28.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon28'></i>
 @endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1063,19 +1063,19 @@ Value of 20  [0x14]. See BWAPI::WeaponTypes::ATA_Laser_Battery.
 */
 /*!
 @var BWAPI::WeaponTypes::ATA_Laser_Battery
- @htmlonly
-<img src='icon334.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon334'></i>
 @endhtmlonly  ATA Laser Battery. Corresponds with WeaponTypes::Enum::ATA_Laser_Battery.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon12.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
 @endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"</td></tr>
 <tr><td><strong>Damage</strong></td><td>25</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1090,19 +1090,19 @@ Value of 22  [0x16]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hero.
 */
 /*!
 @var BWAPI::WeaponTypes::ATA_Laser_Battery_Hero
- @htmlonly
-<img src='icon334.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon334'></i>
 @endhtmlonly  ATA Laser Battery Hero. Corresponds with WeaponTypes::Enum::ATA_Laser_Battery_Hero.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon29.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon29'></i>
 @endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II"</td></tr>
 <tr><td><strong>Damage</strong></td><td>50</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1117,19 +1117,19 @@ Value of 24  [0x18]. See BWAPI::WeaponTypes::ATA_Laser_Battery_Hyperion.
 */
 /*!
 @var BWAPI::WeaponTypes::ATA_Laser_Battery_Hyperion
- @htmlonly
-<img src='icon334.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon334'></i>
 @endhtmlonly  ATA Laser Battery Hyperion. Corresponds with WeaponTypes::Enum::ATA_Laser_Battery_Hyperion.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon28.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon28'></i>
 @endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion"</td></tr>
 <tr><td><strong>Damage</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1144,19 +1144,19 @@ Value of 25  [0x19]. See BWAPI::WeaponTypes::Flame_Thrower.
 */
 /*!
 @var BWAPI::WeaponTypes::Flame_Thrower
- @htmlonly
-<img src='icon335.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon335'></i>
 @endhtmlonly  Flame Thrower. Corresponds with WeaponTypes::Enum::Flame_Thrower.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon32.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon32'></i>
 @endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -1172,19 +1172,19 @@ Value of 26  [0x1a]. See BWAPI::WeaponTypes::Flame_Thrower_Gui_Montag.
 */
 /*!
 @var BWAPI::WeaponTypes::Flame_Thrower_Gui_Montag
- @htmlonly
-<img src='icon335.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon335'></i>
 @endhtmlonly  Flame Thrower Gui Montag. Corresponds with WeaponTypes::Enum::Flame_Thrower_Gui_Montag.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon10.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon10'></i>
 @endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag"</td></tr>
 <tr><td><strong>Damage</strong></td><td>16</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -1200,19 +1200,19 @@ Value of 27  [0x1b]. See BWAPI::WeaponTypes::Arclite_Shock_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::Arclite_Shock_Cannon
- @htmlonly
-<img src='icon336.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon336'></i>
 @endhtmlonly  Arclite Shock Cannon. Corresponds with WeaponTypes::Enum::Arclite_Shock_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon30.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon30'></i>
 @endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode"</td></tr>
 <tr><td><strong>Damage</strong></td><td>70</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>5</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>75</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Radial_Splash "Radial Splash"</td></tr>
@@ -1229,19 +1229,19 @@ Value of 28  [0x1c]. See BWAPI::WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke.
 */
 /*!
 @var BWAPI::WeaponTypes::Arclite_Shock_Cannon_Edmund_Duke
- @htmlonly
-<img src='icon336.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon336'></i>
 @endhtmlonly  Arclite Shock Cannon Edmund Duke. Corresponds with WeaponTypes::Enum::Arclite_Shock_Cannon_Edmund_Duke.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon25.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon25'></i>
 @endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode"</td></tr>
 <tr><td><strong>Damage</strong></td><td>150</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>5</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>75</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Radial_Splash "Radial Splash"</td></tr>
@@ -1258,19 +1258,19 @@ Value of 29  [0x1d]. See BWAPI::WeaponTypes::Longbolt_Missile.
 */
 /*!
 @var BWAPI::WeaponTypes::Longbolt_Missile
- @htmlonly
-<img src='icon337.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon337'></i>
 @endhtmlonly  Longbolt Missile. Corresponds with WeaponTypes::Enum::Longbolt_Missile.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon124.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon124'></i>
 @endhtmlonly @ref UnitTypes::Terran_Missile_Turret "Terran Missile Turret"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1285,19 +1285,19 @@ Value of 35  [0x23]. See BWAPI::WeaponTypes::Claws.
 */
 /*!
 @var BWAPI::WeaponTypes::Claws
- @htmlonly
-<img src='icon338.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon338'></i>
 @endhtmlonly  Claws. Corresponds with WeaponTypes::Enum::Claws.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon37.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"</td></tr>
 <tr><td><strong>Damage</strong></td><td>5</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1312,19 +1312,19 @@ Value of 36  [0x24]. See BWAPI::WeaponTypes::Claws_Devouring_One.
 */
 /*!
 @var BWAPI::WeaponTypes::Claws_Devouring_One
- @htmlonly
-<img src='icon338.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon338'></i>
 @endhtmlonly  Claws Devouring One. Corresponds with WeaponTypes::Enum::Claws_Devouring_One.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon54.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon54'></i>
 @endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1339,19 +1339,19 @@ Value of 37  [0x25]. See BWAPI::WeaponTypes::Claws_Infested_Kerrigan.
 */
 /*!
 @var BWAPI::WeaponTypes::Claws_Infested_Kerrigan
- @htmlonly
-<img src='icon338.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon338'></i>
 @endhtmlonly  Claws Infested Kerrigan. Corresponds with WeaponTypes::Enum::Claws_Infested_Kerrigan.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon51.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
 @endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"</td></tr>
 <tr><td><strong>Damage</strong></td><td>50</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1366,19 +1366,19 @@ Value of 38  [0x26]. See BWAPI::WeaponTypes::Needle_Spines.
 */
 /*!
 @var BWAPI::WeaponTypes::Needle_Spines
- @htmlonly
-<img src='icon339.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon339'></i>
 @endhtmlonly  Needle Spines. Corresponds with WeaponTypes::Enum::Needle_Spines.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon38.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon300.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon300'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Missile_Attacks "Zerg Missile Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1393,19 +1393,19 @@ Value of 39  [0x27]. See BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer.
 */
 /*!
 @var BWAPI::WeaponTypes::Needle_Spines_Hunter_Killer
- @htmlonly
-<img src='icon339.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon339'></i>
 @endhtmlonly  Needle Spines Hunter Killer. Corresponds with WeaponTypes::Enum::Needle_Spines_Hunter_Killer.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon53.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon53'></i>
 @endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon300.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon300'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Missile_Attacks "Zerg Missile Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1420,19 +1420,19 @@ Value of 40  [0x28]. See BWAPI::WeaponTypes::Kaiser_Blades.
 */
 /*!
 @var BWAPI::WeaponTypes::Kaiser_Blades
- @htmlonly
-<img src='icon340.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon340'></i>
 @endhtmlonly  Kaiser Blades. Corresponds with WeaponTypes::Enum::Kaiser_Blades.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon39.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon39'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1447,19 +1447,19 @@ Value of 41  [0x29]. See BWAPI::WeaponTypes::Kaiser_Blades_Torrasque.
 */
 /*!
 @var BWAPI::WeaponTypes::Kaiser_Blades_Torrasque
- @htmlonly
-<img src='icon340.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon340'></i>
 @endhtmlonly  Kaiser Blades Torrasque. Corresponds with WeaponTypes::Enum::Kaiser_Blades_Torrasque.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon48.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon48'></i>
 @endhtmlonly @ref UnitTypes::Hero_Torrasque "Hero Torrasque"</td></tr>
 <tr><td><strong>Damage</strong></td><td>50</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1474,19 +1474,19 @@ Value of 42  [0x2a]. See BWAPI::WeaponTypes::Toxic_Spores.
 */
 /*!
 @var BWAPI::WeaponTypes::Toxic_Spores
- @htmlonly
-<img src='icon341.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon341'></i>
 @endhtmlonly  Toxic Spores. Corresponds with WeaponTypes::Enum::Toxic_Spores.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon40.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Broodling "Zerg Broodling"</td></tr>
 <tr><td><strong>Damage</strong></td><td>4</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon299.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Melee_Attacks "Zerg Melee Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1501,19 +1501,19 @@ Value of 43  [0x2b]. See BWAPI::WeaponTypes::Spines.
 */
 /*!
 @var BWAPI::WeaponTypes::Spines
- @htmlonly
-<img src='icon342.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon342'></i>
 @endhtmlonly  Spines. Corresponds with WeaponTypes::Enum::Spines.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon41.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon41'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone"</td></tr>
 <tr><td><strong>Damage</strong></td><td>5</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1528,19 +1528,19 @@ Value of 46  [0x2e]. See BWAPI::WeaponTypes::Acid_Spore.
 */
 /*!
 @var BWAPI::WeaponTypes::Acid_Spore
- @htmlonly
-<img src='icon344.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon344'></i>
 @endhtmlonly  Acid Spore. Corresponds with WeaponTypes::Enum::Acid_Spore.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon44.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon44'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Guardian "Zerg Guardian"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1555,19 +1555,19 @@ Value of 47  [0x2f]. See BWAPI::WeaponTypes::Acid_Spore_Kukulza.
 */
 /*!
 @var BWAPI::WeaponTypes::Acid_Spore_Kukulza
- @htmlonly
-<img src='icon344.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon344'></i>
 @endhtmlonly  Acid Spore Kukulza. Corresponds with WeaponTypes::Enum::Acid_Spore_Kukulza.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon56.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon56'></i>
 @endhtmlonly @ref UnitTypes::Hero_Kukulza_Guardian "Hero Kukulza Guardian"</td></tr>
 <tr><td><strong>Damage</strong></td><td>40</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1582,19 +1582,19 @@ Value of 53  [0x35]. See BWAPI::WeaponTypes::Subterranean_Tentacle.
 */
 /*!
 @var BWAPI::WeaponTypes::Subterranean_Tentacle
- @htmlonly
-<img src='icon348.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon348'></i>
 @endhtmlonly  Subterranean Tentacle. Corresponds with WeaponTypes::Enum::Subterranean_Tentacle.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon146.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon146'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Sunken_Colony "Zerg Sunken Colony"</td></tr>
 <tr><td><strong>Damage</strong></td><td>40</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>32</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1609,19 +1609,19 @@ Value of 54  [0x36]. See BWAPI::WeaponTypes::Suicide_Infested_Terran.
 */
 /*!
 @var BWAPI::WeaponTypes::Suicide_Infested_Terran
- @htmlonly
-<img src='icon349.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon349'></i>
 @endhtmlonly  Suicide Infested Terran. Corresponds with WeaponTypes::Enum::Suicide_Infested_Terran.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon50.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon50'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Infested_Terran "Zerg Infested Terran"</td></tr>
 <tr><td><strong>Damage</strong></td><td>500</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Radial_Splash "Radial Splash"</td></tr>
@@ -1637,19 +1637,19 @@ Value of 55  [0x37]. See BWAPI::WeaponTypes::Suicide_Scourge.
 */
 /*!
 @var BWAPI::WeaponTypes::Suicide_Scourge
- @htmlonly
-<img src='icon350.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon350'></i>
 @endhtmlonly  Suicide Scourge. Corresponds with WeaponTypes::Enum::Suicide_Scourge.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon47.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon47'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Scourge "Zerg Scourge"</td></tr>
 <tr><td><strong>Damage</strong></td><td>110</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1664,19 +1664,19 @@ Value of 62  [0x3e]. See BWAPI::WeaponTypes::Particle_Beam.
 */
 /*!
 @var BWAPI::WeaponTypes::Particle_Beam
- @htmlonly
-<img src='icon351.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon351'></i>
 @endhtmlonly  Particle Beam. Corresponds with WeaponTypes::Enum::Particle_Beam.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon64.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon64'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe"</td></tr>
 <tr><td><strong>Damage</strong></td><td>5</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1691,19 +1691,19 @@ Value of 114  [0x72]. See BWAPI::WeaponTypes::Dual_Photon_Blasters_Artanis.
 */
 /*!
 @var BWAPI::WeaponTypes::Dual_Photon_Blasters_Artanis
- @htmlonly
-<img src='icon358.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon358'></i>
 @endhtmlonly  Dual Photon Blasters Artanis. Corresponds with WeaponTypes::Enum::Dual_Photon_Blasters_Artanis.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon88.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon88'></i>
 @endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1718,19 +1718,19 @@ Value of 115  [0x73]. See BWAPI::WeaponTypes::Anti_Matter_Missiles_Artanis.
 */
 /*!
 @var BWAPI::WeaponTypes::Anti_Matter_Missiles_Artanis
- @htmlonly
-<img src='icon359.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon359'></i>
 @endhtmlonly  Anti Matter Missiles Artanis. Corresponds with WeaponTypes::Enum::Anti_Matter_Missiles_Artanis.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon88.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon88'></i>
 @endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis"</td></tr>
 <tr><td><strong>Damage</strong></td><td>28</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1745,19 +1745,19 @@ Value of 78  [0x4e]. See BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth.
 */
 /*!
 @var BWAPI::WeaponTypes::Phase_Disruptor_Cannon_Danimoth
- @htmlonly
-<img src='icon360.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon360'></i>
 @endhtmlonly  Phase Disruptor Cannon Danimoth. Corresponds with WeaponTypes::Enum::Phase_Disruptor_Cannon_Danimoth.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon86.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
 @endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>45</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1772,19 +1772,19 @@ Value of 79  [0x4f]. See BWAPI::WeaponTypes::Pulse_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::Pulse_Cannon
- @htmlonly
-<img src='icon361.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon361'></i>
 @endhtmlonly  Pulse Cannon. Corresponds with WeaponTypes::Enum::Pulse_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon73.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon73'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor"</td></tr>
 <tr><td><strong>Damage</strong></td><td>6</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1799,19 +1799,19 @@ Value of 80  [0x50]. See BWAPI::WeaponTypes::STS_Photon_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::STS_Photon_Cannon
- @htmlonly
-<img src='icon362.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon362'></i>
 @endhtmlonly  STS Photon Cannon. Corresponds with WeaponTypes::Enum::STS_Photon_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon162.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon162'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Photon_Cannon "Protoss Photon Cannon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1826,19 +1826,19 @@ Value of 81  [0x51]. See BWAPI::WeaponTypes::STA_Photon_Cannon.
 */
 /*!
 @var BWAPI::WeaponTypes::STA_Photon_Cannon
- @htmlonly
-<img src='icon362.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon362'></i>
 @endhtmlonly  STA Photon Cannon. Corresponds with WeaponTypes::Enum::STA_Photon_Cannon.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon162.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon162'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Photon_Cannon "Protoss Photon Cannon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -1853,19 +1853,19 @@ Value of 82  [0x52]. See BWAPI::WeaponTypes::Scarab.
 */
 /*!
 @var BWAPI::WeaponTypes::Scarab
- @htmlonly
-<img src='icon85.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon85'></i>
 @endhtmlonly  Scarab. Corresponds with WeaponTypes::Enum::Scarab.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon85.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon85'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Scarab "Protoss Scarab"</td></tr>
 <tr><td><strong>Damage</strong></td><td>100</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>25</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon314.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon314'></i>
 @endhtmlonly @ref UpgradeTypes::Scarab_Damage "Scarab Damage"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -1881,19 +1881,19 @@ Value of 100  [0x64]. See BWAPI::WeaponTypes::Neutron_Flare.
 */
 /*!
 @var BWAPI::WeaponTypes::Neutron_Flare
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Neutron Flare. Corresponds with WeaponTypes::Enum::Neutron_Flare.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon60.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"</td></tr>
 <tr><td><strong>Damage</strong></td><td>5</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon306.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Air_Weapons "Protoss Air Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Air_Splash "Air Splash"</td></tr>
@@ -1909,19 +1909,19 @@ Value of 103  [0x67]. See BWAPI::WeaponTypes::Halo_Rockets.
 */
 /*!
 @var BWAPI::WeaponTypes::Halo_Rockets
- @htmlonly
-<img src='icon331.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon331'></i>
 @endhtmlonly  Halo Rockets. Corresponds with WeaponTypes::Enum::Halo_Rockets.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon58.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon58'></i>
 @endhtmlonly @ref UnitTypes::Terran_Valkyrie "Terran Valkyrie"</td></tr>
 <tr><td><strong>Damage</strong></td><td>6</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>64</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon290.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Ship_Weapons "Terran Ship Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Air_Splash "Air Splash"</td></tr>
@@ -1937,19 +1937,19 @@ Value of 104  [0x68]. See BWAPI::WeaponTypes::Corrosive_Acid.
 */
 /*!
 @var BWAPI::WeaponTypes::Corrosive_Acid
- @htmlonly
-<img src='icon344.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon344'></i>
 @endhtmlonly  Corrosive Acid. Corresponds with WeaponTypes::Enum::Corrosive_Acid.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon62.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon62'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Devourer "Zerg Devourer"</td></tr>
 <tr><td><strong>Damage</strong></td><td>25</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>100</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon301.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Flyer_Attacks "Zerg Flyer Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Corrosive_Acid "Corrosive Acid"</td></tr>
@@ -1964,19 +1964,19 @@ Value of 109  [0x6d]. See BWAPI::WeaponTypes::Subterranean_Spines.
 */
 /*!
 @var BWAPI::WeaponTypes::Subterranean_Spines
- @htmlonly
-<img src='icon382.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon382'></i>
 @endhtmlonly  Subterranean Spines. Corresponds with WeaponTypes::Enum::Subterranean_Spines.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon103.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon103'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lurker "Zerg Lurker"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>2</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>37</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon300.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon300'></i>
 @endhtmlonly @ref UpgradeTypes::Zerg_Missile_Attacks "Zerg Missile Attacks"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -1992,19 +1992,19 @@ Value of 111  [0x6f]. See BWAPI::WeaponTypes::Warp_Blades.
 */
 /*!
 @var BWAPI::WeaponTypes::Warp_Blades
- @htmlonly
-<img src='icon353.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon353'></i>
 @endhtmlonly  Warp Blades. Corresponds with WeaponTypes::Enum::Warp_Blades.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon61.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon61'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>40</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>3</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2019,19 +2019,19 @@ Value of 86  [0x56]. See BWAPI::WeaponTypes::Warp_Blades_Hero.
 */
 /*!
 @var BWAPI::WeaponTypes::Warp_Blades_Hero
- @htmlonly
-<img src='icon353.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon353'></i>
 @endhtmlonly  Warp Blades Hero. Corresponds with WeaponTypes::Enum::Warp_Blades_Hero.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon74.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon74'></i>
 @endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>45</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>30</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2046,19 +2046,19 @@ Value of 85  [0x55]. See BWAPI::WeaponTypes::Warp_Blades_Zeratul.
 */
 /*!
 @var BWAPI::WeaponTypes::Warp_Blades_Zeratul
- @htmlonly
-<img src='icon353.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon353'></i>
 @endhtmlonly  Warp Blades Zeratul. Corresponds with WeaponTypes::Enum::Warp_Blades_Zeratul.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon75.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon75'></i>
 @endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul"</td></tr>
 <tr><td><strong>Damage</strong></td><td>100</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon305.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly @ref UpgradeTypes::Protoss_Ground_Weapons "Protoss Ground Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2073,19 +2073,19 @@ Value of 93  [0x5d]. See BWAPI::WeaponTypes::Independant_Laser_Battery.
 */
 /*!
 @var BWAPI::WeaponTypes::Independant_Laser_Battery
- @htmlonly
-<img src='icon0.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly  Independant Laser Battery. Corresponds with WeaponTypes::Enum::Independant_Laser_Battery.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon184.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon184'></i>
 @endhtmlonly @ref UnitTypes::Special_Independant_Starport "Special Independant Starport"</td></tr>
 <tr><td><strong>Damage</strong></td><td>7</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2100,19 +2100,19 @@ Value of 96  [0x60]. See BWAPI::WeaponTypes::Twin_Autocannons_Floor_Trap.
 */
 /*!
 @var BWAPI::WeaponTypes::Twin_Autocannons_Floor_Trap
- @htmlonly
-<img src='icon326.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon326'></i>
 @endhtmlonly  Twin Autocannons Floor Trap. Corresponds with WeaponTypes::Enum::Twin_Autocannons_Floor_Trap.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon209.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon209'></i>
 @endhtmlonly @ref UnitTypes::Special_Floor_Gun_Trap "Special Floor Gun Trap"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2127,19 +2127,19 @@ Value of 97  [0x61]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap.
 */
 /*!
 @var BWAPI::WeaponTypes::Hellfire_Missile_Pack_Wall_Trap
- @htmlonly
-<img src='icon327.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon327'></i>
 @endhtmlonly  Hellfire Missile Pack Wall Trap. Corresponds with WeaponTypes::Enum::Hellfire_Missile_Pack_Wall_Trap.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon210.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon210'></i>
 @endhtmlonly @ref UnitTypes::Special_Wall_Missile_Trap "Special Wall Missile Trap"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2154,19 +2154,19 @@ Value of 99  [0x63]. See BWAPI::WeaponTypes::Hellfire_Missile_Pack_Floor_Trap.
 */
 /*!
 @var BWAPI::WeaponTypes::Hellfire_Missile_Pack_Floor_Trap
- @htmlonly
-<img src='icon327.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon327'></i>
 @endhtmlonly  Hellfire Missile Pack Floor Trap. Corresponds with WeaponTypes::Enum::Hellfire_Missile_Pack_Floor_Trap.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon203.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon203'></i>
 @endhtmlonly @ref UnitTypes::Special_Floor_Missile_Trap "Special Floor Missile Trap"</td></tr>
 <tr><td><strong>Damage</strong></td><td>10</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>2</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon289.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Vehicle_Weapons "Terran Vehicle Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Normal "Normal"</td></tr>
@@ -2181,19 +2181,19 @@ Value of 98  [0x62]. See BWAPI::WeaponTypes::Flame_Thrower_Wall_Trap.
 */
 /*!
 @var BWAPI::WeaponTypes::Flame_Thrower_Wall_Trap
- @htmlonly
-<img src='icon335.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon335'></i>
 @endhtmlonly  Flame Thrower Wall Trap. Corresponds with WeaponTypes::Enum::Flame_Thrower_Wall_Trap.
 
-<table border='0'><tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon211.png'>
+<table border='0'><tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon211'></i>
 @endhtmlonly @ref UnitTypes::Special_Wall_Flame_Trap "Special Wall Flame Trap"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon288.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly @ref UpgradeTypes::Terran_Infantry_Weapons "Terran Infantry Weapons"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Enemy_Splash "Enemy Splash"</td></tr>
@@ -2209,22 +2209,22 @@ Value of 30  [0x1e]. See BWAPI::WeaponTypes::Yamato_Gun.
 */
 /*!
 @var BWAPI::WeaponTypes::Yamato_Gun
- @htmlonly
-<img src='icon251.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
 @endhtmlonly  Yamato Gun. Corresponds with WeaponTypes::Enum::Yamato_Gun.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon251.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
 @endhtmlonly @ref TechTypes::Yamato_Gun "Yamato Gun"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon12.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
 @endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"</td></tr>
 <tr><td><strong>Damage</strong></td><td>260</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>15</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Yamato_Gun "Yamato Gun"</td></tr>
@@ -2239,22 +2239,22 @@ Value of 31  [0x1f]. See BWAPI::WeaponTypes::Nuclear_Strike.
 */
 /*!
 @var BWAPI::WeaponTypes::Nuclear_Strike
- @htmlonly
-<img src='icon311.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
 @endhtmlonly  Nuclear Strike. Corresponds with WeaponTypes::Enum::Nuclear_Strike.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref TechTypes::Nuclear_Strike "Nuclear Strike"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 <tr><td><strong>Damage</strong></td><td>600</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Explosive "Explosive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Nuclear_Missile "Nuclear Missile"</td></tr>
@@ -2270,22 +2270,22 @@ Value of 56  [0x38]. See BWAPI::WeaponTypes::Parasite.
 */
 /*!
 @var BWAPI::WeaponTypes::Parasite
- @htmlonly
-<img src='icon271.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
 @endhtmlonly  Parasite. Corresponds with WeaponTypes::Enum::Parasite.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon271.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
 @endhtmlonly @ref TechTypes::Parasite "Parasite"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon45.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Parasite "Parasite"</td></tr>
@@ -2300,22 +2300,22 @@ Value of 32  [0x20]. See BWAPI::WeaponTypes::Lockdown.
 */
 /*!
 @var BWAPI::WeaponTypes::Lockdown
- @htmlonly
-<img src='icon240.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly  Lockdown. Corresponds with WeaponTypes::Enum::Lockdown.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon240.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly @ref TechTypes::Lockdown "Lockdown"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Lockdown "Lockdown"</td></tr>
@@ -2330,22 +2330,22 @@ Value of 57  [0x39]. See BWAPI::WeaponTypes::Spawn_Broodlings.
 */
 /*!
 @var BWAPI::WeaponTypes::Spawn_Broodlings
- @htmlonly
-<img src='icon40.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly  Spawn Broodlings. Corresponds with WeaponTypes::Enum::Spawn_Broodlings.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon40.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly @ref TechTypes::Spawn_Broodlings "Spawn Broodlings"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon45.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Broodlings "Broodlings"</td></tr>
@@ -2360,22 +2360,22 @@ Value of 33  [0x21]. See BWAPI::WeaponTypes::EMP_Shockwave.
 */
 /*!
 @var BWAPI::WeaponTypes::EMP_Shockwave
- @htmlonly
-<img src='icon241.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly  EMP Shockwave. Corresponds with WeaponTypes::Enum::EMP_Shockwave.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon241.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly @ref TechTypes::EMP_Shockwave "EMP Shockwave"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon9.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Concussive "Concussive"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::EMP_Shockwave "EMP Shockwave"</td></tr>
@@ -2391,22 +2391,22 @@ Value of 58  [0x3a]. See BWAPI::WeaponTypes::Ensnare.
 */
 /*!
 @var BWAPI::WeaponTypes::Ensnare
- @htmlonly
-<img src='icon267.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon267'></i>
 @endhtmlonly  Ensnare. Corresponds with WeaponTypes::Enum::Ensnare.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon267.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon267'></i>
 @endhtmlonly @ref TechTypes::Ensnare "Ensnare"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon45.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Ensnare "Ensnare"</td></tr>
@@ -2421,22 +2421,22 @@ Value of 34  [0x22]. See BWAPI::WeaponTypes::Irradiate.
 */
 /*!
 @var BWAPI::WeaponTypes::Irradiate
- @htmlonly
-<img src='icon241.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly  Irradiate. Corresponds with WeaponTypes::Enum::Irradiate.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon242.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon242'></i>
 @endhtmlonly @ref TechTypes::Irradiate "Irradiate"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon9.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"</td></tr>
 <tr><td><strong>Damage</strong></td><td>250</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>75</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Irradiate "Irradiate"</td></tr>
@@ -2451,22 +2451,22 @@ Value of 59  [0x3b]. See BWAPI::WeaponTypes::Dark_Swarm.
 */
 /*!
 @var BWAPI::WeaponTypes::Dark_Swarm
- @htmlonly
-<img src='icon270.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon270'></i>
 @endhtmlonly  Dark Swarm. Corresponds with WeaponTypes::Enum::Dark_Swarm.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon270.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon270'></i>
 @endhtmlonly @ref TechTypes::Dark_Swarm "Dark Swarm"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon46.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Dark_Swarm "Dark Swarm"</td></tr>
@@ -2481,22 +2481,22 @@ Value of 60  [0x3c]. See BWAPI::WeaponTypes::Plague.
 */
 /*!
 @var BWAPI::WeaponTypes::Plague
- @htmlonly
-<img src='icon265.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly  Plague. Corresponds with WeaponTypes::Enum::Plague.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon265.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly @ref TechTypes::Plague "Plague"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon46.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"</td></tr>
 <tr><td><strong>Damage</strong></td><td>300</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Plague "Plague"</td></tr>
@@ -2511,22 +2511,22 @@ Value of 61  [0x3d]. See BWAPI::WeaponTypes::Consume.
 */
 /*!
 @var BWAPI::WeaponTypes::Consume
- @htmlonly
-<img src='icon265.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly  Consume. Corresponds with WeaponTypes::Enum::Consume.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon302.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon302'></i>
 @endhtmlonly @ref TechTypes::Consume "Consume"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon46.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Consume "Consume"</td></tr>
@@ -2541,22 +2541,22 @@ Value of 83  [0x53]. See BWAPI::WeaponTypes::Stasis_Field.
 */
 /*!
 @var BWAPI::WeaponTypes::Stasis_Field
- @htmlonly
-<img src='icon278.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly  Stasis Field. Corresponds with WeaponTypes::Enum::Stasis_Field.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon278.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly @ref TechTypes::Stasis_Field "Stasis Field"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon71.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Stasis_Field "Stasis Field"</td></tr>
@@ -2571,22 +2571,22 @@ Value of 84  [0x54]. See BWAPI::WeaponTypes::Psionic_Storm.
 */
 /*!
 @var BWAPI::WeaponTypes::Psionic_Storm
- @htmlonly
-<img src='icon278.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly  Psionic Storm. Corresponds with WeaponTypes::Enum::Psionic_Storm.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon275.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon275'></i>
 @endhtmlonly @ref TechTypes::Psionic_Storm "Psionic Storm"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon67.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
 @endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
 <tr><td><strong>Damage</strong></td><td>14</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>45</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Radial_Splash "Radial Splash"</td></tr>
@@ -2602,22 +2602,22 @@ Value of 101  [0x65]. See BWAPI::WeaponTypes::Disruption_Web.
 */
 /*!
 @var BWAPI::WeaponTypes::Disruption_Web
- @htmlonly
-<img src='icon359.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon359'></i>
 @endhtmlonly  Disruption Web. Corresponds with WeaponTypes::Enum::Disruption_Web.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon369.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon369'></i>
 @endhtmlonly @ref TechTypes::Disruption_Web "Disruption Web"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon60.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Disruption_Web "Disruption Web"</td></tr>
@@ -2632,22 +2632,22 @@ Value of 102  [0x66]. See BWAPI::WeaponTypes::Restoration.
 */
 /*!
 @var BWAPI::WeaponTypes::Restoration
- @htmlonly
-<img src='icon241.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly  Restoration. Corresponds with WeaponTypes::Enum::Restoration.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon366.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon366'></i>
 @endhtmlonly @ref TechTypes::Restoration "Restoration"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 <tr><td><strong>Damage</strong></td><td>20</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>0</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Restoration "Restoration"</td></tr>
@@ -2662,22 +2662,22 @@ Value of 105  [0x69]. See BWAPI::WeaponTypes::Mind_Control.
 */
 /*!
 @var BWAPI::WeaponTypes::Mind_Control
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Mind Control. Corresponds with WeaponTypes::Enum::Mind_Control.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon371.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon371'></i>
 @endhtmlonly @ref TechTypes::Mind_Control "Mind Control"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Normal "Normal"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Mind_Control "Mind Control"</td></tr>
@@ -2692,22 +2692,22 @@ Value of 106  [0x6a]. See BWAPI::WeaponTypes::Feedback.
 */
 /*!
 @var BWAPI::WeaponTypes::Feedback
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Feedback. Corresponds with WeaponTypes::Enum::Feedback.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon372.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon372'></i>
 @endhtmlonly @ref TechTypes::Feedback "Feedback"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Ignore_Armor "Ignore Armor"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Feedback "Feedback"</td></tr>
@@ -2722,22 +2722,22 @@ Value of 107  [0x6b]. See BWAPI::WeaponTypes::Optical_Flare.
 */
 /*!
 @var BWAPI::WeaponTypes::Optical_Flare
- @htmlonly
-<img src='icon332.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly  Optical Flare. Corresponds with WeaponTypes::Enum::Optical_Flare.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon373.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon373'></i>
 @endhtmlonly @ref TechTypes::Optical_Flare "Optical Flare"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 <tr><td><strong>Damage</strong></td><td>8</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>22</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Optical_Flare "Optical Flare"</td></tr>
@@ -2752,22 +2752,22 @@ Value of 108  [0x6c]. See BWAPI::WeaponTypes::Maelstrom.
 */
 /*!
 @var BWAPI::WeaponTypes::Maelstrom
- @htmlonly
-<img src='icon240.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly  Maelstrom. Corresponds with WeaponTypes::Enum::Maelstrom.
 
-<table border='0'><tr><td><strong>Technology</strong></td><td> @htmlonly
-<img src='icon381.png'>
+<table border='0'><tr><td><strong>Technology</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon381'></i>
 @endhtmlonly @ref TechTypes::Maelstrom "Maelstrom"</td></tr>
-<tr><td><strong>What uses this?</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>What uses this?</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 <tr><td><strong>Damage</strong></td><td>0</td></tr>
 <tr><td><strong>Damage Bonus</strong></td><td>1</td></tr>
 <tr><td><strong>Base Cooldown</strong></td><td>1</td></tr>
 <tr><td><strong>Damage Factor</strong></td><td>1</td></tr>
-<tr><td><strong>Upgrade</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Upgrade</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UpgradeTypes::Upgrade_60 "Upgrade 60"</td></tr>
 <tr><td><strong>DamageType</strong></td><td>@ref DamageTypes::Independent "Independent"</td></tr>
 <tr><td><strong>ExplosionType</strong></td><td>@ref ExplosionTypes::Maelstrom "Maelstrom"</td></tr>

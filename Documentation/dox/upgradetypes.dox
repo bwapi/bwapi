@@ -4,51 +4,51 @@ Value of 8  [0x8]. See BWAPI::UpgradeTypes::Terran_Vehicle_Weapons.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Vehicle_Weapons
- @htmlonly
-<img src='icon289.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon289'></i>
 @endhtmlonly  Terran Vehicle Weapons. Corresponds with UpgradeTypes::Enum::Terran_Vehicle_Weapons.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon123.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon123'></i>
 @endhtmlonly @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon2.png'>
-@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture"  @htmlonly
-<img src='icon203.png'>
-@endhtmlonly @ref UnitTypes::Special_Floor_Missile_Trap "Special Floor Missile Trap"  @htmlonly
-<img src='icon3.png'>
-@endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath"  @htmlonly
-<img src='icon19.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture"  @htmlonly
-<img src='icon25.png'>
-@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode"  @htmlonly
-<img src='icon209.png'>
-@endhtmlonly @ref UnitTypes::Special_Floor_Gun_Trap "Special Floor Gun Trap"  @htmlonly
-<img src='icon17.png'>
-@endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar"  @htmlonly
-<img src='icon5.png'>
-@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode"  @htmlonly
-<img src='icon30.png'>
-@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode"  @htmlonly
-<img src='icon23.png'>
-@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode"  @htmlonly
-<img src='icon210.png'>
-@endhtmlonly @ref UnitTypes::Special_Wall_Missile_Trap "Special Wall Missile Trap"  @htmlonly
-<img src='icon212.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon2'></i>
+@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture" @htmlonly
+<i class='cmdbtn cmdbtn-icon203'></i>
+@endhtmlonly @ref UnitTypes::Special_Floor_Missile_Trap "Special Floor Missile Trap" @htmlonly
+<i class='cmdbtn cmdbtn-icon3'></i>
+@endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath" @htmlonly
+<i class='cmdbtn cmdbtn-icon19'></i>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture" @htmlonly
+<i class='cmdbtn cmdbtn-icon25'></i>
+@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon209'></i>
+@endhtmlonly @ref UnitTypes::Special_Floor_Gun_Trap "Special Floor Gun Trap" @htmlonly
+<i class='cmdbtn cmdbtn-icon17'></i>
+@endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar" @htmlonly
+<i class='cmdbtn cmdbtn-icon5'></i>
+@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon30'></i>
+@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon23'></i>
+@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon210'></i>
+@endhtmlonly @ref UnitTypes::Special_Wall_Missile_Trap "Special Wall Missile Trap" @htmlonly
+<i class='cmdbtn cmdbtn-icon212'></i>
 @endhtmlonly @ref UnitTypes::Special_Right_Wall_Missile_Trap "Special Right Wall Missile Trap"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -59,49 +59,49 @@ Value of 0  [0x0]. See BWAPI::UpgradeTypes::Terran_Infantry_Armor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Infantry_Armor
- @htmlonly
-<img src='icon292.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon292'></i>
 @endhtmlonly  Terran Infantry Armor. Corresponds with UpgradeTypes::Enum::Terran_Infantry_Armor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon122.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon122'></i>
 @endhtmlonly @ref UnitTypes::Terran_Engineering_Bay "Terran Engineering Bay"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon32.png'>
-@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat"  @htmlonly
-<img src='icon16.png'>
-@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan"  @htmlonly
-<img src='icon0.png'>
-@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"  @htmlonly
-<img src='icon1.png'>
-@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"  @htmlonly
-<img src='icon15.png'>
-@endhtmlonly @ref UnitTypes::Terran_Civilian "Terran Civilian"  @htmlonly
-<img src='icon7.png'>
-@endhtmlonly @ref UnitTypes::Terran_SCV "Terran SCV"  @htmlonly
-<img src='icon34.png'>
-@endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"  @htmlonly
-<img src='icon10.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag"  @htmlonly
-<img src='icon20.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"  @htmlonly
-<img src='icon99.png'>
-@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"  @htmlonly
-<img src='icon100.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon32'></i>
+@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat" @htmlonly
+<i class='cmdbtn cmdbtn-icon16'></i>
+@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
+@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
+@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost" @htmlonly
+<i class='cmdbtn cmdbtn-icon15'></i>
+@endhtmlonly @ref UnitTypes::Terran_Civilian "Terran Civilian" @htmlonly
+<i class='cmdbtn cmdbtn-icon7'></i>
+@endhtmlonly @ref UnitTypes::Terran_SCV "Terran SCV" @htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
+@endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic" @htmlonly
+<i class='cmdbtn cmdbtn-icon10'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag" @htmlonly
+<i class='cmdbtn cmdbtn-icon20'></i>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon99'></i>
+@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran" @htmlonly
+<i class='cmdbtn cmdbtn-icon100'></i>
 @endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -112,43 +112,43 @@ Value of 1  [0x1]. See BWAPI::UpgradeTypes::Terran_Vehicle_Plating.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Vehicle_Plating
- @htmlonly
-<img src='icon293.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon293'></i>
 @endhtmlonly  Terran Vehicle Plating. Corresponds with UpgradeTypes::Enum::Terran_Vehicle_Plating.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon123.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon123'></i>
 @endhtmlonly @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon2.png'>
-@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture"  @htmlonly
-<img src='icon19.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture"  @htmlonly
-<img src='icon3.png'>
-@endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath"  @htmlonly
-<img src='icon5.png'>
-@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode"  @htmlonly
-<img src='icon25.png'>
-@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode"  @htmlonly
-<img src='icon17.png'>
-@endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar"  @htmlonly
-<img src='icon23.png'>
-@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode"  @htmlonly
-<img src='icon30.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon2'></i>
+@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture" @htmlonly
+<i class='cmdbtn cmdbtn-icon19'></i>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture" @htmlonly
+<i class='cmdbtn cmdbtn-icon3'></i>
+@endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath" @htmlonly
+<i class='cmdbtn cmdbtn-icon5'></i>
+@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon25'></i>
+@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon17'></i>
+@endhtmlonly @ref UnitTypes::Hero_Alan_Schezar "Hero Alan Schezar" @htmlonly
+<i class='cmdbtn cmdbtn-icon23'></i>
+@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon30'></i>
 @endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -159,49 +159,49 @@ Value of 2  [0x2]. See BWAPI::UpgradeTypes::Terran_Ship_Plating.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Ship_Plating
- @htmlonly
-<img src='icon291.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon291'></i>
 @endhtmlonly  Terran Ship Plating. Corresponds with UpgradeTypes::Enum::Terran_Ship_Plating.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150 + lvl*75  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 + lvl*75 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon123.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon123'></i>
 @endhtmlonly @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon8.png'>
-@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"  @htmlonly
-<img src='icon9.png'>
-@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"  @htmlonly
-<img src='icon27.png'>
-@endhtmlonly @ref UnitTypes::Hero_Arcturus_Mengsk "Hero Arcturus Mengsk"  @htmlonly
-<img src='icon11.png'>
-@endhtmlonly @ref UnitTypes::Terran_Dropship "Terran Dropship"  @htmlonly
-<img src='icon28.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion"  @htmlonly
-<img src='icon12.png'>
-@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"  @htmlonly
-<img src='icon29.png'>
-@endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II"  @htmlonly
-<img src='icon21.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky"  @htmlonly
-<img src='icon22.png'>
-@endhtmlonly @ref UnitTypes::Hero_Magellan "Hero Magellan"  @htmlonly
-<img src='icon58.png'>
-@endhtmlonly @ref UnitTypes::Terran_Valkyrie "Terran Valkyrie"  @htmlonly
-<img src='icon102.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
+@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith" @htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
+@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel" @htmlonly
+<i class='cmdbtn cmdbtn-icon27'></i>
+@endhtmlonly @ref UnitTypes::Hero_Arcturus_Mengsk "Hero Arcturus Mengsk" @htmlonly
+<i class='cmdbtn cmdbtn-icon11'></i>
+@endhtmlonly @ref UnitTypes::Terran_Dropship "Terran Dropship" @htmlonly
+<i class='cmdbtn cmdbtn-icon28'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion" @htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
+@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser" @htmlonly
+<i class='cmdbtn cmdbtn-icon29'></i>
+@endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II" @htmlonly
+<i class='cmdbtn cmdbtn-icon21'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky" @htmlonly
+<i class='cmdbtn cmdbtn-icon22'></i>
+@endhtmlonly @ref UnitTypes::Hero_Magellan "Hero Magellan" @htmlonly
+<i class='cmdbtn cmdbtn-icon58'></i>
+@endhtmlonly @ref UnitTypes::Terran_Valkyrie "Terran Valkyrie" @htmlonly
+<i class='cmdbtn cmdbtn-icon102'></i>
 @endhtmlonly @ref UnitTypes::Hero_Gerard_DuGalle "Hero Gerard DuGalle"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -212,63 +212,63 @@ Value of 3  [0x3]. See BWAPI::UpgradeTypes::Zerg_Carapace.
 */
 /*!
 @var BWAPI::UpgradeTypes::Zerg_Carapace
- @htmlonly
-<img src='icon297.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon297'></i>
 @endhtmlonly  Zerg Carapace. Corresponds with UpgradeTypes::Enum::Zerg_Carapace.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150 + lvl*75  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 + lvl*75 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon139.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon139'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Evolution_Chamber "Zerg Evolution Chamber"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon35.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Larva "Zerg Larva"  @htmlonly
-<img src='icon36.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Egg "Zerg Egg"  @htmlonly
-<img src='icon37.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"  @htmlonly
-<img src='icon46.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"  @htmlonly
-<img src='icon38.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"  @htmlonly
-<img src='icon103.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Lurker "Zerg Lurker"  @htmlonly
-<img src='icon39.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"  @htmlonly
-<img src='icon48.png'>
-@endhtmlonly @ref UnitTypes::Hero_Torrasque "Hero Torrasque"  @htmlonly
-<img src='icon104.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"  @htmlonly
-<img src='icon40.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Broodling "Zerg Broodling"  @htmlonly
-<img src='icon41.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone"  @htmlonly
-<img src='icon50.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Infested_Terran "Zerg Infested Terran"  @htmlonly
-<img src='icon51.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"  @htmlonly
-<img src='icon52.png'>
-@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One"  @htmlonly
-<img src='icon53.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer"  @htmlonly
-<img src='icon54.png'>
-@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One"  @htmlonly
-<img src='icon59.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Cocoon "Zerg Cocoon"  @htmlonly
-<img src='icon97.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon35'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Larva "Zerg Larva" @htmlonly
+<i class='cmdbtn cmdbtn-icon36'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Egg "Zerg Egg" @htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling" @htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler" @htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon103'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Lurker "Zerg Lurker" @htmlonly
+<i class='cmdbtn cmdbtn-icon39'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon48'></i>
+@endhtmlonly @ref UnitTypes::Hero_Torrasque "Hero Torrasque" @htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran" @htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Broodling "Zerg Broodling" @htmlonly
+<i class='cmdbtn cmdbtn-icon41'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone" @htmlonly
+<i class='cmdbtn cmdbtn-icon50'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Infested_Terran "Zerg Infested Terran" @htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon52'></i>
+@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One" @htmlonly
+<i class='cmdbtn cmdbtn-icon53'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer" @htmlonly
+<i class='cmdbtn cmdbtn-icon54'></i>
+@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One" @htmlonly
+<i class='cmdbtn cmdbtn-icon59'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Cocoon "Zerg Cocoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon97'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lurker_Egg "Zerg Lurker Egg"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -279,47 +279,47 @@ Value of 4  [0x4]. See BWAPI::UpgradeTypes::Zerg_Flyer_Carapace.
 */
 /*!
 @var BWAPI::UpgradeTypes::Zerg_Flyer_Carapace
- @htmlonly
-<img src='icon298.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon298'></i>
 @endhtmlonly  Zerg Flyer Carapace. Corresponds with UpgradeTypes::Enum::Zerg_Flyer_Carapace.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150 + lvl*75  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 + lvl*75 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon141.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon141'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Spire "Zerg Spire"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon42.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"  @htmlonly
-<img src='icon43.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk"  @htmlonly
-<img src='icon44.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Guardian "Zerg Guardian"  @htmlonly
-<img src='icon45.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"  @htmlonly
-<img src='icon55.png'>
-@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk"  @htmlonly
-<img src='icon47.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Scourge "Zerg Scourge"  @htmlonly
-<img src='icon57.png'>
-@endhtmlonly @ref UnitTypes::Hero_Yggdrasill "Hero Yggdrasill"  @htmlonly
-<img src='icon49.png'>
-@endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch"  @htmlonly
-<img src='icon56.png'>
-@endhtmlonly @ref UnitTypes::Hero_Kukulza_Guardian "Hero Kukulza Guardian"  @htmlonly
-<img src='icon62.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord" @htmlonly
+<i class='cmdbtn cmdbtn-icon43'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon44'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Guardian "Zerg Guardian" @htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen" @htmlonly
+<i class='cmdbtn cmdbtn-icon55'></i>
+@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon47'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Scourge "Zerg Scourge" @htmlonly
+<i class='cmdbtn cmdbtn-icon57'></i>
+@endhtmlonly @ref UnitTypes::Hero_Yggdrasill "Hero Yggdrasill" @htmlonly
+<i class='cmdbtn cmdbtn-icon49'></i>
+@endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch" @htmlonly
+<i class='cmdbtn cmdbtn-icon56'></i>
+@endhtmlonly @ref UnitTypes::Hero_Kukulza_Guardian "Hero Kukulza Guardian" @htmlonly
+<i class='cmdbtn cmdbtn-icon62'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Devourer "Zerg Devourer"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -330,59 +330,59 @@ Value of 5  [0x5]. See BWAPI::UpgradeTypes::Protoss_Ground_Armor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Protoss_Ground_Armor
- @htmlonly
-<img src='icon303.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon303'></i>
 @endhtmlonly  Protoss Ground Armor. Corresponds with UpgradeTypes::Enum::Protoss_Ground_Armor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon166.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon166'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Forge "Protoss Forge"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon61.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"  @htmlonly
-<img src='icon63.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"  @htmlonly
-<img src='icon64.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe"  @htmlonly
-<img src='icon65.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"  @htmlonly
-<img src='icon74.png'>
-@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar"  @htmlonly
-<img src='icon66.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"  @htmlonly
-<img src='icon75.png'>
-@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul"  @htmlonly
-<img src='icon67.png'>
-@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"  @htmlonly
-<img src='icon68.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon"  @htmlonly
-<img src='icon76.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon"  @htmlonly
-<img src='icon77.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"  @htmlonly
-<img src='icon78.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon"  @htmlonly
-<img src='icon79.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"  @htmlonly
-<img src='icon81.png'>
-@endhtmlonly @ref UnitTypes::Hero_Warbringer "Hero Warbringer"  @htmlonly
-<img src='icon83.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver"  @htmlonly
-<img src='icon87.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon61'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon64'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe" @htmlonly
+<i class='cmdbtn cmdbtn-icon65'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon74'></i>
+@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon66'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon75'></i>
+@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul" @htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon68'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon76'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon77'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon78'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar" @htmlonly
+<i class='cmdbtn cmdbtn-icon81'></i>
+@endhtmlonly @ref UnitTypes::Hero_Warbringer "Hero Warbringer" @htmlonly
+<i class='cmdbtn cmdbtn-icon83'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver" @htmlonly
+<i class='cmdbtn cmdbtn-icon87'></i>
 @endhtmlonly @ref UnitTypes::Hero_Aldaris "Hero Aldaris"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 </table>
 
@@ -393,51 +393,51 @@ Value of 6  [0x6]. See BWAPI::UpgradeTypes::Protoss_Air_Armor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Protoss_Air_Armor
- @htmlonly
-<img src='icon304.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon304'></i>
 @endhtmlonly  Protoss Air Armor. Corresponds with UpgradeTypes::Enum::Protoss_Air_Armor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150 + lvl*75  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 + lvl*75 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon164.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon164'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon84.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer"  @htmlonly
-<img src='icon60.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"  @htmlonly
-<img src='icon69.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"  @htmlonly
-<img src='icon70.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"  @htmlonly
-<img src='icon71.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"  @htmlonly
-<img src='icon80.png'>
-@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo"  @htmlonly
-<img src='icon72.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier"  @htmlonly
-<img src='icon73.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor"  @htmlonly
-<img src='icon82.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gantrithor "Hero Gantrithor"  @htmlonly
-<img src='icon86.png'>
-@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"  @htmlonly
-<img src='icon88.png'>
-@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis"  @htmlonly
-<img src='icon98.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon84'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer" @htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair" @htmlonly
+<i class='cmdbtn cmdbtn-icon69'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle" @htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout" @htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter" @htmlonly
+<i class='cmdbtn cmdbtn-icon80'></i>
+@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo" @htmlonly
+<i class='cmdbtn cmdbtn-icon72'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier" @htmlonly
+<i class='cmdbtn cmdbtn-icon73'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor" @htmlonly
+<i class='cmdbtn cmdbtn-icon82'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gantrithor "Hero Gantrithor" @htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
+@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth" @htmlonly
+<i class='cmdbtn cmdbtn-icon88'></i>
+@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis" @htmlonly
+<i class='cmdbtn cmdbtn-icon98'></i>
 @endhtmlonly @ref UnitTypes::Hero_Raszagal "Hero Raszagal"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
 </table>
 
@@ -448,49 +448,49 @@ Value of 7  [0x7]. See BWAPI::UpgradeTypes::Terran_Infantry_Weapons.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Infantry_Weapons
- @htmlonly
-<img src='icon288.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon288'></i>
 @endhtmlonly  Terran Infantry Weapons. Corresponds with UpgradeTypes::Enum::Terran_Infantry_Weapons.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon122.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon122'></i>
 @endhtmlonly @ref UnitTypes::Terran_Engineering_Bay "Terran Engineering Bay"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon32.png'>
-@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat"  @htmlonly
-<img src='icon16.png'>
-@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan"  @htmlonly
-<img src='icon0.png'>
-@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"  @htmlonly
-<img src='icon20.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"  @htmlonly
-<img src='icon1.png'>
-@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"  @htmlonly
-<img src='icon10.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag"  @htmlonly
-<img src='icon99.png'>
-@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"  @htmlonly
-<img src='icon211.png'>
-@endhtmlonly @ref UnitTypes::Special_Wall_Flame_Trap "Special Wall Flame Trap"  @htmlonly
-<img src='icon213.png'>
-@endhtmlonly @ref UnitTypes::Special_Right_Wall_Flame_Trap "Special Right Wall Flame Trap"  @htmlonly
-<img src='icon100.png'>
-@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov"  @htmlonly
-<img src='icon104.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon32'></i>
+@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat" @htmlonly
+<i class='cmdbtn cmdbtn-icon16'></i>
+@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
+@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon20'></i>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
+@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost" @htmlonly
+<i class='cmdbtn cmdbtn-icon10'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag" @htmlonly
+<i class='cmdbtn cmdbtn-icon99'></i>
+@endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran" @htmlonly
+<i class='cmdbtn cmdbtn-icon211'></i>
+@endhtmlonly @ref UnitTypes::Special_Wall_Flame_Trap "Special Wall Flame Trap" @htmlonly
+<i class='cmdbtn cmdbtn-icon213'></i>
+@endhtmlonly @ref UnitTypes::Special_Right_Wall_Flame_Trap "Special Right Wall Flame Trap" @htmlonly
+<i class='cmdbtn cmdbtn-icon100'></i>
+@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov" @htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
 @endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -501,43 +501,43 @@ Value of 9  [0x9]. See BWAPI::UpgradeTypes::Terran_Ship_Weapons.
 */
 /*!
 @var BWAPI::UpgradeTypes::Terran_Ship_Weapons
- @htmlonly
-<img src='icon290.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon290'></i>
 @endhtmlonly  Terran Ship Weapons. Corresponds with UpgradeTypes::Enum::Terran_Ship_Weapons.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*50  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*50 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100 + lvl*50</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon123.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon123'></i>
 @endhtmlonly @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon8.png'>
-@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"  @htmlonly
-<img src='icon29.png'>
-@endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II"  @htmlonly
-<img src='icon21.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky"  @htmlonly
-<img src='icon28.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion"  @htmlonly
-<img src='icon12.png'>
-@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"  @htmlonly
-<img src='icon27.png'>
-@endhtmlonly @ref UnitTypes::Hero_Arcturus_Mengsk "Hero Arcturus Mengsk"  @htmlonly
-<img src='icon102.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gerard_DuGalle "Hero Gerard DuGalle"  @htmlonly
-<img src='icon58.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
+@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith" @htmlonly
+<i class='cmdbtn cmdbtn-icon29'></i>
+@endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II" @htmlonly
+<i class='cmdbtn cmdbtn-icon21'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky" @htmlonly
+<i class='cmdbtn cmdbtn-icon28'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion" @htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
+@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser" @htmlonly
+<i class='cmdbtn cmdbtn-icon27'></i>
+@endhtmlonly @ref UnitTypes::Hero_Arcturus_Mengsk "Hero Arcturus Mengsk" @htmlonly
+<i class='cmdbtn cmdbtn-icon102'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gerard_DuGalle "Hero Gerard DuGalle" @htmlonly
+<i class='cmdbtn cmdbtn-icon58'></i>
 @endhtmlonly @ref UnitTypes::Terran_Valkyrie "Terran Valkyrie"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 </table>
 
@@ -548,39 +548,39 @@ Value of 10  [0xa]. See BWAPI::UpgradeTypes::Zerg_Melee_Attacks.
 */
 /*!
 @var BWAPI::UpgradeTypes::Zerg_Melee_Attacks
- @htmlonly
-<img src='icon299.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon299'></i>
 @endhtmlonly  Zerg Melee Attacks. Corresponds with UpgradeTypes::Enum::Zerg_Melee_Attacks.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*50  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*50 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100 + lvl*50</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon139.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon139'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Evolution_Chamber "Zerg Evolution Chamber"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon37.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"  @htmlonly
-<img src='icon54.png'>
-@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One"  @htmlonly
-<img src='icon51.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"  @htmlonly
-<img src='icon39.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"  @htmlonly
-<img src='icon40.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Broodling "Zerg Broodling"  @htmlonly
-<img src='icon48.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling" @htmlonly
+<i class='cmdbtn cmdbtn-icon54'></i>
+@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One" @htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon39'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Broodling "Zerg Broodling" @htmlonly
+<i class='cmdbtn cmdbtn-icon48'></i>
 @endhtmlonly @ref UnitTypes::Hero_Torrasque "Hero Torrasque"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -591,33 +591,33 @@ Value of 11  [0xb]. See BWAPI::UpgradeTypes::Zerg_Missile_Attacks.
 */
 /*!
 @var BWAPI::UpgradeTypes::Zerg_Missile_Attacks
- @htmlonly
-<img src='icon300.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon300'></i>
 @endhtmlonly  Zerg Missile Attacks. Corresponds with UpgradeTypes::Enum::Zerg_Missile_Attacks.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*50  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*50 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100 + lvl*50</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon139.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon139'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Evolution_Chamber "Zerg Evolution Chamber"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon38.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"  @htmlonly
-<img src='icon53.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer"  @htmlonly
-<img src='icon103.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon53'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer" @htmlonly
+<i class='cmdbtn cmdbtn-icon103'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lurker "Zerg Lurker"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -628,37 +628,37 @@ Value of 12  [0xc]. See BWAPI::UpgradeTypes::Zerg_Flyer_Attacks.
 */
 /*!
 @var BWAPI::UpgradeTypes::Zerg_Flyer_Attacks
- @htmlonly
-<img src='icon301.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon301'></i>
 @endhtmlonly  Zerg Flyer Attacks. Corresponds with UpgradeTypes::Enum::Zerg_Flyer_Attacks.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon141.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon141'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Spire "Zerg Spire"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon43.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk"  @htmlonly
-<img src='icon55.png'>
-@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk"  @htmlonly
-<img src='icon56.png'>
-@endhtmlonly @ref UnitTypes::Hero_Kukulza_Guardian "Hero Kukulza Guardian"  @htmlonly
-<img src='icon44.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Guardian "Zerg Guardian"  @htmlonly
-<img src='icon62.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon43'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Mutalisk "Zerg Mutalisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon55'></i>
+@endhtmlonly @ref UnitTypes::Hero_Kukulza_Mutalisk "Hero Kukulza Mutalisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon56'></i>
+@endhtmlonly @ref UnitTypes::Hero_Kukulza_Guardian "Hero Kukulza Guardian" @htmlonly
+<i class='cmdbtn cmdbtn-icon44'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Guardian "Zerg Guardian" @htmlonly
+<i class='cmdbtn cmdbtn-icon62'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Devourer "Zerg Devourer"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -669,49 +669,49 @@ Value of 13  [0xd]. See BWAPI::UpgradeTypes::Protoss_Ground_Weapons.
 */
 /*!
 @var BWAPI::UpgradeTypes::Protoss_Ground_Weapons
- @htmlonly
-<img src='icon305.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon305'></i>
 @endhtmlonly  Protoss Ground Weapons. Corresponds with UpgradeTypes::Enum::Protoss_Ground_Weapons.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*50  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*50 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100 + lvl*50</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon166.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon166'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Forge "Protoss Forge"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon65.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"  @htmlonly
-<img src='icon77.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"  @htmlonly
-<img src='icon74.png'>
-@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar"  @htmlonly
-<img src='icon66.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"  @htmlonly
-<img src='icon78.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon"  @htmlonly
-<img src='icon87.png'>
-@endhtmlonly @ref UnitTypes::Hero_Aldaris "Hero Aldaris"  @htmlonly
-<img src='icon79.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"  @htmlonly
-<img src='icon76.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon"  @htmlonly
-<img src='icon68.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon"  @htmlonly
-<img src='icon75.png'>
-@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul"  @htmlonly
-<img src='icon61.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon65'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon77'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon74'></i>
+@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon66'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon78'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon87'></i>
+@endhtmlonly @ref UnitTypes::Hero_Aldaris "Hero Aldaris" @htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar" @htmlonly
+<i class='cmdbtn cmdbtn-icon76'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon68'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon75'></i>
+@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul" @htmlonly
+<i class='cmdbtn cmdbtn-icon61'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 </table>
 
@@ -722,43 +722,43 @@ Value of 14  [0xe]. See BWAPI::UpgradeTypes::Protoss_Air_Weapons.
 */
 /*!
 @var BWAPI::UpgradeTypes::Protoss_Air_Weapons
- @htmlonly
-<img src='icon306.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon306'></i>
 @endhtmlonly  Protoss Air Weapons. Corresponds with UpgradeTypes::Enum::Protoss_Air_Weapons.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100 + lvl*75  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 + lvl*75 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100 + lvl*75</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon164.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon164'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon86.png'>
-@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"  @htmlonly
-<img src='icon70.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"  @htmlonly
-<img src='icon88.png'>
-@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis"  @htmlonly
-<img src='icon72.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier"  @htmlonly
-<img src='icon80.png'>
-@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo"  @htmlonly
-<img src='icon71.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"  @htmlonly
-<img src='icon73.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor"  @htmlonly
-<img src='icon60.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
+@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth" @htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout" @htmlonly
+<i class='cmdbtn cmdbtn-icon88'></i>
+@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis" @htmlonly
+<i class='cmdbtn cmdbtn-icon72'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier" @htmlonly
+<i class='cmdbtn cmdbtn-icon80'></i>
+@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo" @htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter" @htmlonly
+<i class='cmdbtn cmdbtn-icon73'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor" @htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
 </table>
 
@@ -769,83 +769,83 @@ Value of 15  [0xf]. See BWAPI::UpgradeTypes::Protoss_Plasma_Shields.
 */
 /*!
 @var BWAPI::UpgradeTypes::Protoss_Plasma_Shields
- @htmlonly
-<img src='icon310.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon310'></i>
 @endhtmlonly  Protoss Plasma Shields. Corresponds with UpgradeTypes::Enum::Protoss_Plasma_Shields.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200 + lvl*100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 + lvl*100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200 + lvl*100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>4000 + lvl*480 frames</td></tr>
 <tr><td><strong>Maximum Level</strong></td><td>3</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon166.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon166'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Forge "Protoss Forge"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon68.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon"  @htmlonly
-<img src='icon60.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"  @htmlonly
-<img src='icon69.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"  @htmlonly
-<img src='icon61.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"  @htmlonly
-<img src='icon63.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"  @htmlonly
-<img src='icon64.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe"  @htmlonly
-<img src='icon65.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"  @htmlonly
-<img src='icon66.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"  @htmlonly
-<img src='icon67.png'>
-@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"  @htmlonly
-<img src='icon70.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"  @htmlonly
-<img src='icon71.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"  @htmlonly
-<img src='icon72.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier"  @htmlonly
-<img src='icon73.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor"  @htmlonly
-<img src='icon74.png'>
-@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar"  @htmlonly
-<img src='icon75.png'>
-@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul"  @htmlonly
-<img src='icon76.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon"  @htmlonly
-<img src='icon77.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot"  @htmlonly
-<img src='icon78.png'>
-@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon"  @htmlonly
-<img src='icon79.png'>
-@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"  @htmlonly
-<img src='icon80.png'>
-@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo"  @htmlonly
-<img src='icon81.png'>
-@endhtmlonly @ref UnitTypes::Hero_Warbringer "Hero Warbringer"  @htmlonly
-<img src='icon82.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gantrithor "Hero Gantrithor"  @htmlonly
-<img src='icon83.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver"  @htmlonly
-<img src='icon84.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer"  @htmlonly
-<img src='icon86.png'>
-@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"  @htmlonly
-<img src='icon87.png'>
-@endhtmlonly @ref UnitTypes::Hero_Aldaris "Hero Aldaris"  @htmlonly
-<img src='icon88.png'>
-@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis"  @htmlonly
-<img src='icon98.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon68'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Archon "Protoss Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair" @htmlonly
+<i class='cmdbtn cmdbtn-icon69'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle" @htmlonly
+<i class='cmdbtn cmdbtn-icon61'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon64'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Probe "Protoss Probe" @htmlonly
+<i class='cmdbtn cmdbtn-icon65'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon66'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout" @htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter" @htmlonly
+<i class='cmdbtn cmdbtn-icon72'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier" @htmlonly
+<i class='cmdbtn cmdbtn-icon73'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Interceptor "Protoss Interceptor" @htmlonly
+<i class='cmdbtn cmdbtn-icon74'></i>
+@endhtmlonly @ref UnitTypes::Hero_Dark_Templar "Hero Dark Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon75'></i>
+@endhtmlonly @ref UnitTypes::Hero_Zeratul "Hero Zeratul" @htmlonly
+<i class='cmdbtn cmdbtn-icon76'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar_Zeratul_Archon "Hero Tassadar Zeratul Archon" @htmlonly
+<i class='cmdbtn cmdbtn-icon77'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Zealot "Hero Fenix Zealot" @htmlonly
+<i class='cmdbtn cmdbtn-icon78'></i>
+@endhtmlonly @ref UnitTypes::Hero_Fenix_Dragoon "Hero Fenix Dragoon" @htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
+@endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar" @htmlonly
+<i class='cmdbtn cmdbtn-icon80'></i>
+@endhtmlonly @ref UnitTypes::Hero_Mojo "Hero Mojo" @htmlonly
+<i class='cmdbtn cmdbtn-icon81'></i>
+@endhtmlonly @ref UnitTypes::Hero_Warbringer "Hero Warbringer" @htmlonly
+<i class='cmdbtn cmdbtn-icon82'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gantrithor "Hero Gantrithor" @htmlonly
+<i class='cmdbtn cmdbtn-icon83'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver" @htmlonly
+<i class='cmdbtn cmdbtn-icon84'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer" @htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
+@endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth" @htmlonly
+<i class='cmdbtn cmdbtn-icon87'></i>
+@endhtmlonly @ref UnitTypes::Hero_Aldaris "Hero Aldaris" @htmlonly
+<i class='cmdbtn cmdbtn-icon88'></i>
+@endhtmlonly @ref UnitTypes::Hero_Artanis "Hero Artanis" @htmlonly
+<i class='cmdbtn cmdbtn-icon98'></i>
 @endhtmlonly @ref UnitTypes::Hero_Raszagal "Hero Raszagal"</td></tr>
-<tr><td><strong>Level 2 Requires</strong></td><td> @htmlonly
-<img src='icon164.png'>
+<tr><td><strong>Level 2 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon164'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
-<tr><td><strong>Level 3 Requires</strong></td><td> @htmlonly
-<img src='icon164.png'>
+<tr><td><strong>Level 3 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon164'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
 </table>
 
@@ -856,22 +856,22 @@ Value of 16  [0x10]. See BWAPI::UpgradeTypes::U_238_Shells.
 */
 /*!
 @var BWAPI::UpgradeTypes::U_238_Shells
- @htmlonly
-<img src='icon238.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon238'></i>
 @endhtmlonly  U 238 Shells. Corresponds with UpgradeTypes::Enum::U_238_Shells.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon112.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon112'></i>
 @endhtmlonly @ref UnitTypes::Terran_Academy "Terran Academy"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon0.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"</td></tr>
 </table>
 
@@ -882,22 +882,22 @@ Value of 17  [0x11]. See BWAPI::UpgradeTypes::Ion_Thrusters.
 */
 /*!
 @var BWAPI::UpgradeTypes::Ion_Thrusters
- @htmlonly
-<img src='icon287.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon287'></i>
 @endhtmlonly  Ion Thrusters. Corresponds with UpgradeTypes::Enum::Ion_Thrusters.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon120.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon120'></i>
 @endhtmlonly @ref UnitTypes::Terran_Machine_Shop "Terran Machine Shop"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon2.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon2'></i>
 @endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture"</td></tr>
 </table>
 
@@ -908,22 +908,22 @@ Value of 19  [0x13]. See BWAPI::UpgradeTypes::Titan_Reactor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Titan_Reactor
- @htmlonly
-<img src='icon248.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon248'></i>
 @endhtmlonly  Titan Reactor. Corresponds with UpgradeTypes::Enum::Titan_Reactor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon9.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"</td></tr>
 </table>
 
@@ -934,22 +934,22 @@ Value of 20  [0x14]. See BWAPI::UpgradeTypes::Ocular_Implants.
 */
 /*!
 @var BWAPI::UpgradeTypes::Ocular_Implants
- @htmlonly
-<img src='icon249.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon249'></i>
 @endhtmlonly  Ocular Implants. Corresponds with UpgradeTypes::Enum::Ocular_Implants.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon117.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon117'></i>
 @endhtmlonly @ref UnitTypes::Terran_Covert_Ops "Terran Covert Ops"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 </table>
 
@@ -960,22 +960,22 @@ Value of 21  [0x15]. See BWAPI::UpgradeTypes::Moebius_Reactor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Moebius_Reactor
- @htmlonly
-<img src='icon256.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon256'></i>
 @endhtmlonly  Moebius Reactor. Corresponds with UpgradeTypes::Enum::Moebius_Reactor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon117.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon117'></i>
 @endhtmlonly @ref UnitTypes::Terran_Covert_Ops "Terran Covert Ops"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 </table>
 
@@ -986,22 +986,22 @@ Value of 22  [0x16]. See BWAPI::UpgradeTypes::Apollo_Reactor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Apollo_Reactor
- @htmlonly
-<img src='icon284.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon284'></i>
 @endhtmlonly  Apollo Reactor. Corresponds with UpgradeTypes::Enum::Apollo_Reactor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon115.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon115'></i>
 @endhtmlonly @ref UnitTypes::Terran_Control_Tower "Terran Control Tower"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon8.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
 @endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"</td></tr>
 </table>
 
@@ -1012,22 +1012,22 @@ Value of 23  [0x17]. See BWAPI::UpgradeTypes::Colossus_Reactor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Colossus_Reactor
- @htmlonly
-<img src='icon285.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon285'></i>
 @endhtmlonly  Colossus Reactor. Corresponds with UpgradeTypes::Enum::Colossus_Reactor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon118.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon118'></i>
 @endhtmlonly @ref UnitTypes::Terran_Physics_Lab "Terran Physics Lab"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon12.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
 @endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"</td></tr>
 </table>
 
@@ -1038,22 +1038,22 @@ Value of 24  [0x18]. See BWAPI::UpgradeTypes::Ventral_Sacs.
 */
 /*!
 @var BWAPI::UpgradeTypes::Ventral_Sacs
- @htmlonly
-<img src='icon261.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon261'></i>
 @endhtmlonly  Ventral Sacs. Corresponds with UpgradeTypes::Enum::Ventral_Sacs.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2400 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon42.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
 
@@ -1064,22 +1064,22 @@ Value of 25  [0x19]. See BWAPI::UpgradeTypes::Antennae.
 */
 /*!
 @var BWAPI::UpgradeTypes::Antennae
- @htmlonly
-<img src='icon262.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon262'></i>
 @endhtmlonly  Antennae. Corresponds with UpgradeTypes::Enum::Antennae.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon42.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
 
@@ -1090,22 +1090,22 @@ Value of 26  [0x1a]. See BWAPI::UpgradeTypes::Pneumatized_Carapace.
 */
 /*!
 @var BWAPI::UpgradeTypes::Pneumatized_Carapace
- @htmlonly
-<img src='icon296.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon296'></i>
 @endhtmlonly  Pneumatized Carapace. Corresponds with UpgradeTypes::Enum::Pneumatized_Carapace.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon42.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon42'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Overlord "Zerg Overlord"</td></tr>
 </table>
 
@@ -1116,22 +1116,22 @@ Value of 27  [0x1b]. See BWAPI::UpgradeTypes::Metabolic_Boost.
 */
 /*!
 @var BWAPI::UpgradeTypes::Metabolic_Boost
- @htmlonly
-<img src='icon263.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon263'></i>
 @endhtmlonly  Metabolic Boost. Corresponds with UpgradeTypes::Enum::Metabolic_Boost.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon142.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon142'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Spawning_Pool "Zerg Spawning Pool"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon37.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"</td></tr>
 </table>
 
@@ -1142,25 +1142,25 @@ Value of 28  [0x1c]. See BWAPI::UpgradeTypes::Adrenal_Glands.
 */
 /*!
 @var BWAPI::UpgradeTypes::Adrenal_Glands
- @htmlonly
-<img src='icon264.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon264'></i>
 @endhtmlonly  Adrenal Glands. Corresponds with UpgradeTypes::Enum::Adrenal_Glands.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon142.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon142'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Spawning_Pool "Zerg Spawning Pool"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon37.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"</td></tr>
-<tr><td><strong>Level 1 Requires</strong></td><td> @htmlonly
-<img src='icon133.png'>
+<tr><td><strong>Level 1 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon133'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hive "Zerg Hive"</td></tr>
 </table>
 
@@ -1171,22 +1171,22 @@ Value of 29  [0x1d]. See BWAPI::UpgradeTypes::Muscular_Augments.
 */
 /*!
 @var BWAPI::UpgradeTypes::Muscular_Augments
- @htmlonly
-<img src='icon266.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon266'></i>
 @endhtmlonly  Muscular Augments. Corresponds with UpgradeTypes::Enum::Muscular_Augments.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon135.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon135'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk_Den "Zerg Hydralisk Den"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon38.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 </table>
 
@@ -1197,22 +1197,22 @@ Value of 30  [0x1e]. See BWAPI::UpgradeTypes::Grooved_Spines.
 */
 /*!
 @var BWAPI::UpgradeTypes::Grooved_Spines
- @htmlonly
-<img src='icon268.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon268'></i>
 @endhtmlonly  Grooved Spines. Corresponds with UpgradeTypes::Enum::Grooved_Spines.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon135.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon135'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk_Den "Zerg Hydralisk Den"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon38.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 </table>
 
@@ -1223,22 +1223,22 @@ Value of 31  [0x1f]. See BWAPI::UpgradeTypes::Gamete_Meiosis.
 */
 /*!
 @var BWAPI::UpgradeTypes::Gamete_Meiosis
- @htmlonly
-<img src='icon294.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon294'></i>
 @endhtmlonly  Gamete Meiosis. Corresponds with UpgradeTypes::Enum::Gamete_Meiosis.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon138.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon138'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queens_Nest "Zerg Queens Nest"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon45.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"</td></tr>
 </table>
 
@@ -1249,22 +1249,22 @@ Value of 32  [0x20]. See BWAPI::UpgradeTypes::Metasynaptic_Node.
 */
 /*!
 @var BWAPI::UpgradeTypes::Metasynaptic_Node
- @htmlonly
-<img src='icon295.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon295'></i>
 @endhtmlonly  Metasynaptic Node. Corresponds with UpgradeTypes::Enum::Metasynaptic_Node.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon136.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon136'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler_Mound "Zerg Defiler Mound"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon46.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"</td></tr>
 </table>
 
@@ -1275,22 +1275,22 @@ Value of 33  [0x21]. See BWAPI::UpgradeTypes::Singularity_Charge.
 */
 /*!
 @var BWAPI::UpgradeTypes::Singularity_Charge
- @htmlonly
-<img src='icon281.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon281'></i>
 @endhtmlonly  Singularity Charge. Corresponds with UpgradeTypes::Enum::Singularity_Charge.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon164.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon164'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Cybernetics_Core "Protoss Cybernetics Core"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon66.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon66'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dragoon "Protoss Dragoon"</td></tr>
 </table>
 
@@ -1301,22 +1301,22 @@ Value of 34  [0x22]. See BWAPI::UpgradeTypes::Leg_Enhancements.
 */
 /*!
 @var BWAPI::UpgradeTypes::Leg_Enhancements
- @htmlonly
-<img src='icon307.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon307'></i>
 @endhtmlonly  Leg Enhancements. Corresponds with UpgradeTypes::Enum::Leg_Enhancements.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon163.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon163'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Citadel_of_Adun "Protoss Citadel of Adun"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon65.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon65'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Zealot "Protoss Zealot"</td></tr>
 </table>
 
@@ -1327,22 +1327,22 @@ Value of 35  [0x23]. See BWAPI::UpgradeTypes::Scarab_Damage.
 */
 /*!
 @var BWAPI::UpgradeTypes::Scarab_Damage
- @htmlonly
-<img src='icon314.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon314'></i>
 @endhtmlonly  Scarab Damage. Corresponds with UpgradeTypes::Enum::Scarab_Damage.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon171.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon171'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Robotics_Support_Bay "Protoss Robotics Support Bay"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon83.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon83'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver"</td></tr>
 </table>
 
@@ -1353,22 +1353,22 @@ Value of 36  [0x24]. See BWAPI::UpgradeTypes::Reaver_Capacity.
 */
 /*!
 @var BWAPI::UpgradeTypes::Reaver_Capacity
- @htmlonly
-<img src='icon315.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon315'></i>
 @endhtmlonly  Reaver Capacity. Corresponds with UpgradeTypes::Enum::Reaver_Capacity.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon171.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon171'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Robotics_Support_Bay "Protoss Robotics Support Bay"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon83.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon83'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Reaver "Protoss Reaver"</td></tr>
 </table>
 
@@ -1379,22 +1379,22 @@ Value of 37  [0x25]. See BWAPI::UpgradeTypes::Gravitic_Drive.
 */
 /*!
 @var BWAPI::UpgradeTypes::Gravitic_Drive
- @htmlonly
-<img src='icon316.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon316'></i>
 @endhtmlonly  Gravitic Drive. Corresponds with UpgradeTypes::Enum::Gravitic_Drive.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon171.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon171'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Robotics_Support_Bay "Protoss Robotics Support Bay"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon69.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon69'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Shuttle "Protoss Shuttle"</td></tr>
 </table>
 
@@ -1405,22 +1405,22 @@ Value of 38  [0x26]. See BWAPI::UpgradeTypes::Sensor_Array.
 */
 /*!
 @var BWAPI::UpgradeTypes::Sensor_Array
- @htmlonly
-<img src='icon317.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon317'></i>
 @endhtmlonly  Sensor Array. Corresponds with UpgradeTypes::Enum::Sensor_Array.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon159.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon159'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Observatory "Protoss Observatory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon84.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon84'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer"</td></tr>
 </table>
 
@@ -1431,22 +1431,22 @@ Value of 39  [0x27]. See BWAPI::UpgradeTypes::Gravitic_Boosters.
 */
 /*!
 @var BWAPI::UpgradeTypes::Gravitic_Boosters
- @htmlonly
-<img src='icon276.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon276'></i>
 @endhtmlonly  Gravitic Boosters. Corresponds with UpgradeTypes::Enum::Gravitic_Boosters.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon159.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon159'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Observatory "Protoss Observatory"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon84.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon84'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Observer "Protoss Observer"</td></tr>
 </table>
 
@@ -1457,22 +1457,22 @@ Value of 40  [0x28]. See BWAPI::UpgradeTypes::Khaydarin_Amulet.
 */
 /*!
 @var BWAPI::UpgradeTypes::Khaydarin_Amulet
- @htmlonly
-<img src='icon318.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon318'></i>
 @endhtmlonly  Khaydarin Amulet. Corresponds with UpgradeTypes::Enum::Khaydarin_Amulet.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon67.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
 @endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
 </table>
 
@@ -1483,22 +1483,22 @@ Value of 41  [0x29]. See BWAPI::UpgradeTypes::Apial_Sensors.
 */
 /*!
 @var BWAPI::UpgradeTypes::Apial_Sensors
- @htmlonly
-<img src='icon319.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon319'></i>
 @endhtmlonly  Apial Sensors. Corresponds with UpgradeTypes::Enum::Apial_Sensors.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon70.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 </table>
 
@@ -1509,22 +1509,22 @@ Value of 42  [0x2a]. See BWAPI::UpgradeTypes::Gravitic_Thrusters.
 */
 /*!
 @var BWAPI::UpgradeTypes::Gravitic_Thrusters
- @htmlonly
-<img src='icon320.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon320'></i>
 @endhtmlonly  Gravitic Thrusters. Corresponds with UpgradeTypes::Enum::Gravitic_Thrusters.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon70.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon70'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Scout "Protoss Scout"</td></tr>
 </table>
 
@@ -1535,22 +1535,22 @@ Value of 43  [0x2b]. See BWAPI::UpgradeTypes::Carrier_Capacity.
 */
 /*!
 @var BWAPI::UpgradeTypes::Carrier_Capacity
- @htmlonly
-<img src='icon321.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon321'></i>
 @endhtmlonly  Carrier Capacity. Corresponds with UpgradeTypes::Enum::Carrier_Capacity.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon72.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon72'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Carrier "Protoss Carrier"</td></tr>
 </table>
 
@@ -1561,22 +1561,22 @@ Value of 44  [0x2c]. See BWAPI::UpgradeTypes::Khaydarin_Core.
 */
 /*!
 @var BWAPI::UpgradeTypes::Khaydarin_Core
- @htmlonly
-<img src='icon322.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon322'></i>
 @endhtmlonly  Khaydarin Core. Corresponds with UpgradeTypes::Enum::Khaydarin_Core.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon170.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon170'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter_Tribunal "Protoss Arbiter Tribunal"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon71.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"</td></tr>
 </table>
 
@@ -1587,22 +1587,22 @@ Value of 47  [0x2f]. See BWAPI::UpgradeTypes::Argus_Jewel.
 */
 /*!
 @var BWAPI::UpgradeTypes::Argus_Jewel
- @htmlonly
-<img src='icon383.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon383'></i>
 @endhtmlonly  Argus Jewel. Corresponds with UpgradeTypes::Enum::Argus_Jewel.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon60.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"</td></tr>
 </table>
 
@@ -1613,22 +1613,22 @@ Value of 49  [0x31]. See BWAPI::UpgradeTypes::Argus_Talisman.
 */
 /*!
 @var BWAPI::UpgradeTypes::Argus_Talisman
- @htmlonly
-<img src='icon385.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon385'></i>
 @endhtmlonly  Argus Talisman. Corresponds with UpgradeTypes::Enum::Argus_Talisman.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 </table>
 
@@ -1639,22 +1639,22 @@ Value of 51  [0x33]. See BWAPI::UpgradeTypes::Caduceus_Reactor.
 */
 /*!
 @var BWAPI::UpgradeTypes::Caduceus_Reactor
- @htmlonly
-<img src='icon384.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon384'></i>
 @endhtmlonly  Caduceus Reactor. Corresponds with UpgradeTypes::Enum::Caduceus_Reactor.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2500 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon112.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon112'></i>
 @endhtmlonly @ref UnitTypes::Terran_Academy "Terran Academy"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 </table>
 
@@ -1665,22 +1665,22 @@ Value of 52  [0x34]. See BWAPI::UpgradeTypes::Chitinous_Plating.
 */
 /*!
 @var BWAPI::UpgradeTypes::Chitinous_Plating
- @htmlonly
-<img src='icon379.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon379'></i>
 @endhtmlonly  Chitinous Plating. Corresponds with UpgradeTypes::Enum::Chitinous_Plating.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon140.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon140'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Ultralisk_Cavern "Zerg Ultralisk Cavern"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon39.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon39'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"</td></tr>
 </table>
 
@@ -1691,22 +1691,22 @@ Value of 53  [0x35]. See BWAPI::UpgradeTypes::Anabolic_Synthesis.
 */
 /*!
 @var BWAPI::UpgradeTypes::Anabolic_Synthesis
- @htmlonly
-<img src='icon378.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon378'></i>
 @endhtmlonly  Anabolic Synthesis. Corresponds with UpgradeTypes::Enum::Anabolic_Synthesis.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon140.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon140'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Ultralisk_Cavern "Zerg Ultralisk Cavern"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon39.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon39'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Ultralisk "Zerg Ultralisk"</td></tr>
 </table>
 
@@ -1717,25 +1717,25 @@ Value of 54  [0x36]. See BWAPI::UpgradeTypes::Charon_Boosters.
 */
 /*!
 @var BWAPI::UpgradeTypes::Charon_Boosters
- @htmlonly
-<img src='icon380.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon380'></i>
 @endhtmlonly  Charon Boosters. Corresponds with UpgradeTypes::Enum::Charon_Boosters.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Upgrade Time</strong></td><td>2000 frames</td></tr>
-<tr><td><strong>Upgraded at</strong></td><td> @htmlonly
-<img src='icon120.png'>
+<tr><td><strong>Upgraded at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon120'></i>
 @endhtmlonly @ref UnitTypes::Terran_Machine_Shop "Terran Machine Shop"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon3.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon3'></i>
 @endhtmlonly @ref UnitTypes::Terran_Goliath "Terran Goliath"</td></tr>
-<tr><td><strong>Level 1 Requires</strong></td><td> @htmlonly
-<img src='icon123.png'>
+<tr><td><strong>Level 1 Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon123'></i>
 @endhtmlonly @ref UnitTypes::Terran_Armory "Terran Armory"</td></tr>
 </table>
 

@@ -4,38 +4,38 @@ Value of 8  [0x8]. See BWAPI::TechTypes::Yamato_Gun.
 */
 /*!
 @var BWAPI::TechTypes::Yamato_Gun
- @htmlonly
-<img src='icon251.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
 @endhtmlonly  Yamato Gun. Corresponds with TechTypes::Enum::Yamato_Gun.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 150</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon118.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon118'></i>
 @endhtmlonly @ref UnitTypes::Terran_Physics_Lab "Terran Physics Lab"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon251.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
 @endhtmlonly @ref WeaponTypes::Yamato_Gun "Yamato Gun"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon251.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon251'></i>
 @endhtmlonly @ref Orders::FireYamatoGun "FireYamatoGun"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon28.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion"  @htmlonly
-<img src='icon12.png'>
-@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser"  @htmlonly
-<img src='icon102.png'>
-@endhtmlonly @ref UnitTypes::Hero_Gerard_DuGalle "Hero Gerard DuGalle"  @htmlonly
-<img src='icon29.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon28'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hyperion "Hero Hyperion" @htmlonly
+<i class='cmdbtn cmdbtn-icon12'></i>
+@endhtmlonly @ref UnitTypes::Terran_Battlecruiser "Terran Battlecruiser" @htmlonly
+<i class='cmdbtn cmdbtn-icon102'></i>
+@endhtmlonly @ref UnitTypes::Hero_Gerard_DuGalle "Hero Gerard DuGalle" @htmlonly
+<i class='cmdbtn cmdbtn-icon29'></i>
 @endhtmlonly @ref UnitTypes::Hero_Norad_II "Hero Norad II"</td></tr>
 </table>
 @tlYamato_Gun @sccYamato_Gun @wikYamato_Gun
@@ -46,28 +46,28 @@ Value of 0  [0x0]. See BWAPI::TechTypes::Stim_Packs.
 */
 /*!
 @var BWAPI::TechTypes::Stim_Packs
- @htmlonly
-<img src='icon237.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon237'></i>
 @endhtmlonly  Stim Packs. Corresponds with TechTypes::Enum::Stim_Packs.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon112.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon112'></i>
 @endhtmlonly @ref UnitTypes::Terran_Academy "Terran Academy"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon32.png'>
-@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat"  @htmlonly
-<img src='icon0.png'>
-@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine"  @htmlonly
-<img src='icon20.png'>
-@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine"  @htmlonly
-<img src='icon10.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon32'></i>
+@endhtmlonly @ref UnitTypes::Terran_Firebat "Terran Firebat" @htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
+@endhtmlonly @ref UnitTypes::Terran_Marine "Terran Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon20'></i>
+@endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Marine "Hero Jim Raynor Marine" @htmlonly
+<i class='cmdbtn cmdbtn-icon10'></i>
 @endhtmlonly @ref UnitTypes::Hero_Gui_Montag "Hero Gui Montag"</td></tr>
 </table>
 @tlStim_Packs @sccStim_Packs @wikStim_Packs
@@ -78,40 +78,40 @@ Value of 1  [0x1]. See BWAPI::TechTypes::Lockdown.
 */
 /*!
 @var BWAPI::TechTypes::Lockdown
- @htmlonly
-<img src='icon240.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly  Lockdown. Corresponds with TechTypes::Enum::Lockdown.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon117.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon117'></i>
 @endhtmlonly @ref UnitTypes::Terran_Covert_Ops "Terran Covert Ops"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon240.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly @ref WeaponTypes::Lockdown "Lockdown"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon240.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly @ref Orders::CastLockdown "CastLockdown"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon1.png'>
-@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"  @htmlonly
-<img src='icon100.png'>
-@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov"  @htmlonly
-<img src='icon16.png'>
-@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan"  @htmlonly
-<img src='icon104.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"  @htmlonly
-<img src='icon99.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
+@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost" @htmlonly
+<i class='cmdbtn cmdbtn-icon100'></i>
+@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov" @htmlonly
+<i class='cmdbtn cmdbtn-icon16'></i>
+@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran" @htmlonly
+<i class='cmdbtn cmdbtn-icon99'></i>
 @endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"</td></tr>
 </table>
 @tlLockdown @sccLockdown @wikLockdown
@@ -122,34 +122,34 @@ Value of 2  [0x2]. See BWAPI::TechTypes::EMP_Shockwave.
 */
 /*!
 @var BWAPI::TechTypes::EMP_Shockwave
- @htmlonly
-<img src='icon241.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly  EMP Shockwave. Corresponds with TechTypes::Enum::EMP_Shockwave.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon241.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly @ref WeaponTypes::EMP_Shockwave "EMP Shockwave"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon241.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly @ref Orders::CastEMPShockwave "CastEMPShockwave"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon9.png'>
-@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"  @htmlonly
-<img src='icon22.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
+@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel" @htmlonly
+<i class='cmdbtn cmdbtn-icon22'></i>
 @endhtmlonly @ref UnitTypes::Hero_Magellan "Hero Magellan"</td></tr>
 </table>
 @tlEMP_Shockwave @sccEMP_Shockwave @wikEMP_Shockwave
@@ -160,29 +160,29 @@ Value of 3  [0x3]. See BWAPI::TechTypes::Spider_Mines.
 */
 /*!
 @var BWAPI::TechTypes::Spider_Mines
- @htmlonly
-<img src='icon243.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon243'></i>
 @endhtmlonly  Spider Mines. Corresponds with TechTypes::Enum::Spider_Mines.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon120.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon120'></i>
 @endhtmlonly @ref UnitTypes::Terran_Machine_Shop "Terran Machine Shop"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon364.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon364'></i>
 @endhtmlonly @ref WeaponTypes::Spider_Mines "Spider Mines"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::PlaceMine "PlaceMine"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon2.png'>
-@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture"  @htmlonly
-<img src='icon19.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon2'></i>
+@endhtmlonly @ref UnitTypes::Terran_Vulture "Terran Vulture" @htmlonly
+<i class='cmdbtn cmdbtn-icon19'></i>
 @endhtmlonly @ref UnitTypes::Hero_Jim_Raynor_Vulture "Hero Jim Raynor Vulture"</td></tr>
 </table>
 @tlSpider_Mines @sccSpider_Mines @wikSpider_Mines
@@ -193,18 +193,18 @@ Value of 4  [0x4]. See BWAPI::TechTypes::Scanner_Sweep.
 */
 /*!
 @var BWAPI::TechTypes::Scanner_Sweep
- @htmlonly
-<img src='icon250.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon250'></i>
 @endhtmlonly  Scanner Sweep. Corresponds with TechTypes::Enum::Scanner_Sweep.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 50</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastScannerSweep "CastScannerSweep"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon107.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon107'></i>
 @endhtmlonly @ref UnitTypes::Terran_Comsat_Station "Terran Comsat Station"</td></tr>
 </table>
 @tlScanner_Sweep @sccScanner_Sweep @wikScanner_Sweep
@@ -215,28 +215,28 @@ Value of 5  [0x5]. See BWAPI::TechTypes::Tank_Siege_Mode.
 */
 /*!
 @var BWAPI::TechTypes::Tank_Siege_Mode
- @htmlonly
-<img src='icon245.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon245'></i>
 @endhtmlonly  Tank Siege Mode. Corresponds with TechTypes::Enum::Tank_Siege_Mode.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon120.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon120'></i>
 @endhtmlonly @ref UnitTypes::Terran_Machine_Shop "Terran Machine Shop"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon5.png'>
-@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode"  @htmlonly
-<img src='icon30.png'>
-@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode"  @htmlonly
-<img src='icon23.png'>
-@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode"  @htmlonly
-<img src='icon25.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon5'></i>
+@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Tank_Mode "Terran Siege Tank Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon30'></i>
+@endhtmlonly @ref UnitTypes::Terran_Siege_Tank_Siege_Mode "Terran Siege Tank Siege Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon23'></i>
+@endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Tank_Mode "Hero Edmund Duke Tank Mode" @htmlonly
+<i class='cmdbtn cmdbtn-icon25'></i>
 @endhtmlonly @ref UnitTypes::Hero_Edmund_Duke_Siege_Mode "Hero Edmund Duke Siege Mode"</td></tr>
 </table>
 @tlTank_Siege_Mode @sccTank_Siege_Mode @wikTank_Siege_Mode
@@ -247,22 +247,22 @@ Value of 6  [0x6]. See BWAPI::TechTypes::Defensive_Matrix.
 */
 /*!
 @var BWAPI::TechTypes::Defensive_Matrix
- @htmlonly
-<img src='icon247.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon247'></i>
 @endhtmlonly  Defensive Matrix. Corresponds with TechTypes::Enum::Defensive_Matrix.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon247.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon247'></i>
 @endhtmlonly @ref Orders::CastDefensiveMatrix "CastDefensiveMatrix"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon9.png'>
-@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"  @htmlonly
-<img src='icon22.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
+@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel" @htmlonly
+<i class='cmdbtn cmdbtn-icon22'></i>
 @endhtmlonly @ref UnitTypes::Hero_Magellan "Hero Magellan"</td></tr>
 </table>
 @tlDefensive_Matrix @sccDefensive_Matrix @wikDefensive_Matrix
@@ -273,32 +273,32 @@ Value of 7  [0x7]. See BWAPI::TechTypes::Irradiate.
 */
 /*!
 @var BWAPI::TechTypes::Irradiate
- @htmlonly
-<img src='icon242.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon242'></i>
 @endhtmlonly  Irradiate. Corresponds with TechTypes::Enum::Irradiate.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 75</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon116.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon116'></i>
 @endhtmlonly @ref UnitTypes::Terran_Science_Facility "Terran Science Facility"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon241.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly @ref WeaponTypes::Irradiate "Irradiate"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastIrradiate "CastIrradiate"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon9.png'>
-@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel"  @htmlonly
-<img src='icon22.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon9'></i>
+@endhtmlonly @ref UnitTypes::Terran_Science_Vessel "Terran Science Vessel" @htmlonly
+<i class='cmdbtn cmdbtn-icon22'></i>
 @endhtmlonly @ref UnitTypes::Hero_Magellan "Hero Magellan"</td></tr>
 </table>
 @tlIrradiate @sccIrradiate @wikIrradiate
@@ -309,27 +309,27 @@ Value of 9  [0x9]. See BWAPI::TechTypes::Cloaking_Field.
 */
 /*!
 @var BWAPI::TechTypes::Cloaking_Field
- @htmlonly
-<img src='icon252.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon252'></i>
 @endhtmlonly  Cloaking Field. Corresponds with TechTypes::Enum::Cloaking_Field.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 25</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon115.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon115'></i>
 @endhtmlonly @ref UnitTypes::Terran_Control_Tower "Terran Control Tower"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon8.png'>
-@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith"  @htmlonly
-<img src='icon21.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon8'></i>
+@endhtmlonly @ref UnitTypes::Terran_Wraith "Terran Wraith" @htmlonly
+<i class='cmdbtn cmdbtn-icon21'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tom_Kazansky "Hero Tom Kazansky"</td></tr>
 </table>
 @tlCloaking_Field @sccCloaking_Field @wikCloaking_Field
@@ -340,35 +340,35 @@ Value of 10  [0xa]. See BWAPI::TechTypes::Personnel_Cloaking.
 */
 /*!
 @var BWAPI::TechTypes::Personnel_Cloaking
- @htmlonly
-<img src='icon252.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon252'></i>
 @endhtmlonly  Personnel Cloaking. Corresponds with TechTypes::Enum::Personnel_Cloaking.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 25</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon117.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon117'></i>
 @endhtmlonly @ref UnitTypes::Terran_Covert_Ops "Terran Covert Ops"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon1.png'>
-@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"  @htmlonly
-<img src='icon100.png'>
-@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov"  @htmlonly
-<img src='icon16.png'>
-@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan"  @htmlonly
-<img src='icon104.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"  @htmlonly
-<img src='icon51.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"  @htmlonly
-<img src='icon99.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
+@endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost" @htmlonly
+<i class='cmdbtn cmdbtn-icon100'></i>
+@endhtmlonly @ref UnitTypes::Hero_Alexei_Stukov "Hero Alexei Stukov" @htmlonly
+<i class='cmdbtn cmdbtn-icon16'></i>
+@endhtmlonly @ref UnitTypes::Hero_Sarah_Kerrigan "Hero Sarah Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran" @htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon99'></i>
 @endhtmlonly @ref UnitTypes::Hero_Samir_Duran "Hero Samir Duran"</td></tr>
 </table>
 @tlPersonnel_Cloaking @sccPersonnel_Cloaking @wikPersonnel_Cloaking
@@ -379,38 +379,38 @@ Value of 11  [0xb]. See BWAPI::TechTypes::Burrowing.
 */
 /*!
 @var BWAPI::TechTypes::Burrowing
- @htmlonly
-<img src='icon259.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon259'></i>
 @endhtmlonly  Burrowing. Corresponds with TechTypes::Enum::Burrowing.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon131.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon131'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hatchery "Zerg Hatchery"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon53.png'>
-@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer"  @htmlonly
-<img src='icon37.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling"  @htmlonly
-<img src='icon54.png'>
-@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One"  @htmlonly
-<img src='icon46.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"  @htmlonly
-<img src='icon38.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"  @htmlonly
-<img src='icon41.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone"  @htmlonly
-<img src='icon50.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Infested_Terran "Zerg Infested Terran"  @htmlonly
-<img src='icon52.png'>
-@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One"  @htmlonly
-<img src='icon103.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon53'></i>
+@endhtmlonly @ref UnitTypes::Hero_Hunter_Killer "Hero Hunter Killer" @htmlonly
+<i class='cmdbtn cmdbtn-icon37'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Zergling "Zerg Zergling" @htmlonly
+<i class='cmdbtn cmdbtn-icon54'></i>
+@endhtmlonly @ref UnitTypes::Hero_Devouring_One "Hero Devouring One" @htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler" @htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk" @htmlonly
+<i class='cmdbtn cmdbtn-icon41'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Drone "Zerg Drone" @htmlonly
+<i class='cmdbtn cmdbtn-icon50'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Infested_Terran "Zerg Infested Terran" @htmlonly
+<i class='cmdbtn cmdbtn-icon52'></i>
+@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One" @htmlonly
+<i class='cmdbtn cmdbtn-icon103'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lurker "Zerg Lurker"</td></tr>
 </table>
 @tlBurrowing @sccBurrowing @wikBurrowing
@@ -421,19 +421,19 @@ Value of 12  [0xc]. See BWAPI::TechTypes::Infestation.
 */
 /*!
 @var BWAPI::TechTypes::Infestation
- @htmlonly
-<img src='icon313.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon313'></i>
 @endhtmlonly  Infestation. Corresponds with TechTypes::Enum::Infestation.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon313.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon313'></i>
 @endhtmlonly @ref Orders::CastInfestation "CastInfestation"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon45.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"  @htmlonly
-<img src='icon49.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen" @htmlonly
+<i class='cmdbtn cmdbtn-icon49'></i>
 @endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch"</td></tr>
 </table>
 @tlInfestation @sccInfestation @wikInfestation
@@ -444,34 +444,34 @@ Value of 13  [0xd]. See BWAPI::TechTypes::Spawn_Broodlings.
 */
 /*!
 @var BWAPI::TechTypes::Spawn_Broodlings
- @htmlonly
-<img src='icon40.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly  Spawn Broodlings. Corresponds with TechTypes::Enum::Spawn_Broodlings.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 150</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon138.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon138'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queens_Nest "Zerg Queens Nest"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon40.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly @ref WeaponTypes::Spawn_Broodlings "Spawn Broodlings"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon40.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon40'></i>
 @endhtmlonly @ref Orders::CastSpawnBroodlings "CastSpawnBroodlings"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon45.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"  @htmlonly
-<img src='icon49.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen" @htmlonly
+<i class='cmdbtn cmdbtn-icon49'></i>
 @endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch"</td></tr>
 </table>
 @tlSpawn_Broodlings @sccSpawn_Broodlings @wikSpawn_Broodlings
@@ -482,23 +482,23 @@ Value of 14  [0xe]. See BWAPI::TechTypes::Dark_Swarm.
 */
 /*!
 @var BWAPI::TechTypes::Dark_Swarm
- @htmlonly
-<img src='icon270.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon270'></i>
 @endhtmlonly  Dark Swarm. Corresponds with TechTypes::Enum::Dark_Swarm.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon270.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon270'></i>
 @endhtmlonly @ref WeaponTypes::Dark_Swarm "Dark Swarm"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastDarkSwarm "CastDarkSwarm"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon46.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"  @htmlonly
-<img src='icon52.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler" @htmlonly
+<i class='cmdbtn cmdbtn-icon52'></i>
 @endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One"</td></tr>
 </table>
 @tlDark_Swarm @sccDark_Swarm @wikDark_Swarm
@@ -509,32 +509,32 @@ Value of 15  [0xf]. See BWAPI::TechTypes::Plague.
 */
 /*!
 @var BWAPI::TechTypes::Plague
- @htmlonly
-<img src='icon265.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly  Plague. Corresponds with TechTypes::Enum::Plague.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 150</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon136.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon136'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler_Mound "Zerg Defiler Mound"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon265.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly @ref WeaponTypes::Plague "Plague"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastPlague "CastPlague"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon46.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"  @htmlonly
-<img src='icon52.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler" @htmlonly
+<i class='cmdbtn cmdbtn-icon52'></i>
 @endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One"</td></tr>
 </table>
 @tlPlague @sccPlague @wikPlague
@@ -545,33 +545,33 @@ Value of 16  [0x10]. See BWAPI::TechTypes::Consume.
 */
 /*!
 @var BWAPI::TechTypes::Consume
- @htmlonly
-<img src='icon302.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon302'></i>
 @endhtmlonly  Consume. Corresponds with TechTypes::Enum::Consume.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon136.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon136'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Defiler_Mound "Zerg Defiler Mound"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon265.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon265'></i>
 @endhtmlonly @ref WeaponTypes::Consume "Consume"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastConsume "CastConsume"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon46.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler"  @htmlonly
-<img src='icon52.png'>
-@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One"  @htmlonly
-<img src='icon51.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"  @htmlonly
-<img src='icon104.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon46'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Defiler "Zerg Defiler" @htmlonly
+<i class='cmdbtn cmdbtn-icon52'></i>
+@endhtmlonly @ref UnitTypes::Hero_Unclean_One "Hero Unclean One" @htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon104'></i>
 @endhtmlonly @ref UnitTypes::Hero_Infested_Duran "Hero Infested Duran"</td></tr>
 </table>
 @tlConsume @sccConsume @wikConsume
@@ -582,34 +582,34 @@ Value of 17  [0x11]. See BWAPI::TechTypes::Ensnare.
 */
 /*!
 @var BWAPI::TechTypes::Ensnare
- @htmlonly
-<img src='icon267.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon267'></i>
 @endhtmlonly  Ensnare. Corresponds with TechTypes::Enum::Ensnare.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 75</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon138.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon138'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Queens_Nest "Zerg Queens Nest"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon267.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon267'></i>
 @endhtmlonly @ref WeaponTypes::Ensnare "Ensnare"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastEnsnare "CastEnsnare"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon45.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"  @htmlonly
-<img src='icon49.png'>
-@endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch"  @htmlonly
-<img src='icon51.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen" @htmlonly
+<i class='cmdbtn cmdbtn-icon49'></i>
+@endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch" @htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
 @endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"</td></tr>
 </table>
 @tlEnsnare @sccEnsnare @wikEnsnare
@@ -620,25 +620,25 @@ Value of 18  [0x12]. See BWAPI::TechTypes::Parasite.
 */
 /*!
 @var BWAPI::TechTypes::Parasite
- @htmlonly
-<img src='icon271.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
 @endhtmlonly  Parasite. Corresponds with TechTypes::Enum::Parasite.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 75</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon271.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
 @endhtmlonly @ref WeaponTypes::Parasite "Parasite"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon271.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon271'></i>
 @endhtmlonly @ref Orders::CastParasite "CastParasite"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon45.png'>
-@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen"  @htmlonly
-<img src='icon49.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon45'></i>
+@endhtmlonly @ref UnitTypes::Zerg_Queen "Zerg Queen" @htmlonly
+<i class='cmdbtn cmdbtn-icon49'></i>
 @endhtmlonly @ref UnitTypes::Hero_Matriarch "Hero Matriarch"</td></tr>
 </table>
 @tlParasite @sccParasite @wikParasite
@@ -649,34 +649,34 @@ Value of 19  [0x13]. See BWAPI::TechTypes::Psionic_Storm.
 */
 /*!
 @var BWAPI::TechTypes::Psionic_Storm
- @htmlonly
-<img src='icon275.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon275'></i>
 @endhtmlonly  Psionic Storm. Corresponds with TechTypes::Enum::Psionic_Storm.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 75</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon278.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly @ref WeaponTypes::Psionic_Storm "Psionic Storm"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastPsionicStorm "CastPsionicStorm"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon51.png'>
-@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan"  @htmlonly
-<img src='icon67.png'>
-@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"  @htmlonly
-<img src='icon79.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon51'></i>
+@endhtmlonly @ref UnitTypes::Hero_Infested_Kerrigan "Hero Infested Kerrigan" @htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"</td></tr>
 </table>
 @tlPsionic_Storm @sccPsionic_Storm @wikPsionic_Storm
@@ -687,31 +687,31 @@ Value of 20  [0x14]. See BWAPI::TechTypes::Hallucination.
 */
 /*!
 @var BWAPI::TechTypes::Hallucination
- @htmlonly
-<img src='icon277.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon277'></i>
 @endhtmlonly  Hallucination. Corresponds with TechTypes::Enum::Hallucination.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon277.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon277'></i>
 @endhtmlonly @ref Orders::CastHallucination "CastHallucination"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon67.png'>
-@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"  @htmlonly
-<img src='icon79.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
+@endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar" @htmlonly
+<i class='cmdbtn cmdbtn-icon79'></i>
 @endhtmlonly @ref UnitTypes::Hero_Tassadar "Hero Tassadar"</td></tr>
 </table>
 @tlHallucination @sccHallucination @wikHallucination
@@ -722,29 +722,29 @@ Value of 21  [0x15]. See BWAPI::TechTypes::Recall.
 */
 /*!
 @var BWAPI::TechTypes::Recall
- @htmlonly
-<img src='icon280.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon280'></i>
 @endhtmlonly  Recall. Corresponds with TechTypes::Enum::Recall.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 150</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon170.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon170'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter_Tribunal "Protoss Arbiter Tribunal"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastRecall "CastRecall"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon71.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"  @htmlonly
-<img src='icon86.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter" @htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
 @endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"</td></tr>
 </table>
 @tlRecall @sccRecall @wikRecall
@@ -755,32 +755,32 @@ Value of 22  [0x16]. See BWAPI::TechTypes::Stasis_Field.
 */
 /*!
 @var BWAPI::TechTypes::Stasis_Field
- @htmlonly
-<img src='icon278.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly  Stasis Field. Corresponds with TechTypes::Enum::Stasis_Field.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 150  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 150 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 150</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon170.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon170'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Arbiter_Tribunal "Protoss Arbiter Tribunal"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon278.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon278'></i>
 @endhtmlonly @ref WeaponTypes::Stasis_Field "Stasis Field"</td></tr>
 <tr><td><strong>Order</strong></td><td>@ref Orders::CastStasisField "CastStasisField"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon71.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter"  @htmlonly
-<img src='icon86.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon71'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Arbiter "Protoss Arbiter" @htmlonly
+<i class='cmdbtn cmdbtn-icon86'></i>
 @endhtmlonly @ref UnitTypes::Hero_Danimoth "Hero Danimoth"</td></tr>
 </table>
 @tlStasis_Field @sccStasis_Field @wikStasis_Field
@@ -791,14 +791,14 @@ Value of 23  [0x17]. See BWAPI::TechTypes::Archon_Warp.
 */
 /*!
 @var BWAPI::TechTypes::Archon_Warp
- @htmlonly
-<img src='icon68.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon68'></i>
 @endhtmlonly  Archon Warp. Corresponds with TechTypes::Enum::Archon_Warp.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon67.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon67'></i>
 @endhtmlonly @ref UnitTypes::Protoss_High_Templar "Protoss High Templar"</td></tr>
 </table>
 @tlArchon_Warp @sccArchon_Warp @wikArchon_Warp
@@ -809,32 +809,32 @@ Value of 24  [0x18]. See BWAPI::TechTypes::Restoration.
 */
 /*!
 @var BWAPI::TechTypes::Restoration
- @htmlonly
-<img src='icon366.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon366'></i>
 @endhtmlonly  Restoration. Corresponds with TechTypes::Enum::Restoration.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 50</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon112.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon112'></i>
 @endhtmlonly @ref UnitTypes::Terran_Academy "Terran Academy"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon241.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon241'></i>
 @endhtmlonly @ref WeaponTypes::Restoration "Restoration"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon277.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon277'></i>
 @endhtmlonly @ref Orders::CastRestoration "CastRestoration"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 </table>
 @tlRestoration @sccRestoration @wikRestoration
@@ -845,34 +845,34 @@ Value of 25  [0x19]. See BWAPI::TechTypes::Disruption_Web.
 */
 /*!
 @var BWAPI::TechTypes::Disruption_Web
- @htmlonly
-<img src='icon369.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon369'></i>
 @endhtmlonly  Disruption Web. Corresponds with TechTypes::Enum::Disruption_Web.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1200 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 125</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon169.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon169'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Fleet_Beacon "Protoss Fleet Beacon"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon359.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon359'></i>
 @endhtmlonly @ref WeaponTypes::Disruption_Web "Disruption Web"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon369.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon369'></i>
 @endhtmlonly @ref Orders::CastDisruptionWeb "CastDisruptionWeb"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon60.png'>
-@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair"  @htmlonly
-<img src='icon98.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon60'></i>
+@endhtmlonly @ref UnitTypes::Protoss_Corsair "Protoss Corsair" @htmlonly
+<i class='cmdbtn cmdbtn-icon98'></i>
 @endhtmlonly @ref UnitTypes::Hero_Raszagal "Hero Raszagal"</td></tr>
 </table>
 @tlDisruption_Web @sccDisruption_Web @wikDisruption_Web
@@ -883,32 +883,32 @@ Value of 27  [0x1b]. See BWAPI::TechTypes::Mind_Control.
 */
 /*!
 @var BWAPI::TechTypes::Mind_Control
- @htmlonly
-<img src='icon371.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon371'></i>
 @endhtmlonly  Mind Control. Corresponds with TechTypes::Enum::Mind_Control.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 150</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon332.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly @ref WeaponTypes::Mind_Control "Mind Control"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon371.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon371'></i>
 @endhtmlonly @ref Orders::CastMindControl "CastMindControl"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 </table>
 @tlMind_Control @sccMind_Control @wikMind_Control
@@ -919,14 +919,14 @@ Value of 28  [0x1c]. See BWAPI::TechTypes::Dark_Archon_Meld.
 */
 /*!
 @var BWAPI::TechTypes::Dark_Archon_Meld
- @htmlonly
-<img src='icon63.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly  Dark Archon Meld. Corresponds with TechTypes::Enum::Dark_Archon_Meld.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon61.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon61'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Templar "Protoss Dark Templar"</td></tr>
 </table>
 @tlDark_Archon_Meld @sccDark_Archon_Meld @wikDark_Archon_Meld
@@ -937,29 +937,29 @@ Value of 29  [0x1d]. See BWAPI::TechTypes::Feedback.
 */
 /*!
 @var BWAPI::TechTypes::Feedback
- @htmlonly
-<img src='icon372.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon372'></i>
 @endhtmlonly  Feedback. Corresponds with TechTypes::Enum::Feedback.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 50</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon332.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly @ref WeaponTypes::Feedback "Feedback"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon372.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon372'></i>
 @endhtmlonly @ref Orders::CastFeedback "CastFeedback"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 </table>
 @tlFeedback @sccFeedback @wikFeedback
@@ -970,32 +970,32 @@ Value of 30  [0x1e]. See BWAPI::TechTypes::Optical_Flare.
 */
 /*!
 @var BWAPI::TechTypes::Optical_Flare
- @htmlonly
-<img src='icon373.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon373'></i>
 @endhtmlonly  Optical Flare. Corresponds with TechTypes::Enum::Optical_Flare.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas1.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas1'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 75</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon112.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon112'></i>
 @endhtmlonly @ref UnitTypes::Terran_Academy "Terran Academy"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon332.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon332'></i>
 @endhtmlonly @ref WeaponTypes::Optical_Flare "Optical Flare"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon373.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon373'></i>
 @endhtmlonly @ref Orders::CastOpticalFlare "CastOpticalFlare"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 </table>
 @tlOptical_Flare @sccOptical_Flare @wikOptical_Flare
@@ -1006,32 +1006,32 @@ Value of 31  [0x1f]. See BWAPI::TechTypes::Maelstrom.
 */
 /*!
 @var BWAPI::TechTypes::Maelstrom
- @htmlonly
-<img src='icon381.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon381'></i>
 @endhtmlonly  Maelstrom. Corresponds with TechTypes::Enum::Maelstrom.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Protoss "Protoss"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 100  @htmlonly
-<img src='gas2.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 100 @htmlonly
+<i class='tticon tticon-gas2'></i>
 @endhtmlonly 100</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1500 frames</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 100</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon165.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon165'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Templar_Archives "Protoss Templar Archives"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon240.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly @ref WeaponTypes::Maelstrom "Maelstrom"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon240.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon240'></i>
 @endhtmlonly @ref Orders::CastMaelstrom "CastMaelstrom"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon63.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon63'></i>
 @endhtmlonly @ref UnitTypes::Protoss_Dark_Archon "Protoss Dark Archon"</td></tr>
 </table>
 @tlMaelstrom @sccMaelstrom @wikMaelstrom
@@ -1042,25 +1042,25 @@ Value of 32  [0x20]. See BWAPI::TechTypes::Lurker_Aspect.
 */
 /*!
 @var BWAPI::TechTypes::Lurker_Aspect
- @htmlonly
-<img src='icon376.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon376'></i>
 @endhtmlonly  Lurker Aspect. Corresponds with TechTypes::Enum::Lurker_Aspect.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Zerg "Zerg"</td></tr>
-<tr><td><strong>Cost</strong></td><td> @htmlonly
-<img src='ore.png'>
-@endhtmlonly 200  @htmlonly
-<img src='gas0.png'>
+<tr><td><strong>Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-ore'></i>
+@endhtmlonly 200 @htmlonly
+<i class='tticon tticon-gas0'></i>
 @endhtmlonly 200</td></tr>
 <tr><td><strong>Research Time</strong></td><td>1800 frames</td></tr>
-<tr><td><strong>Researched at</strong></td><td> @htmlonly
-<img src='icon135.png'>
+<tr><td><strong>Researched at</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon135'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk_Den "Zerg Hydralisk Den"</td></tr>
-<tr><td><strong>Requires</strong></td><td> @htmlonly
-<img src='icon132.png'>
+<tr><td><strong>Requires</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon132'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Lair "Zerg Lair"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon38.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon38'></i>
 @endhtmlonly @ref UnitTypes::Zerg_Hydralisk "Zerg Hydralisk"</td></tr>
 </table>
 @tlLurker_Aspect @sccLurker_Aspect @wikLurker_Aspect
@@ -1071,20 +1071,20 @@ Value of 34  [0x22]. See BWAPI::TechTypes::Healing.
 */
 /*!
 @var BWAPI::TechTypes::Healing
- @htmlonly
-<img src='icon365.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon365'></i>
 @endhtmlonly  Healing. Corresponds with TechTypes::Enum::Healing.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
-<tr><td><strong>Energy Cost</strong></td><td> @htmlonly
-<img src='energy.png'>
+<tr><td><strong>Energy Cost</strong></td><td>@htmlonly
+<i class='tticon tticon-energy'></i>
 @endhtmlonly 1</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon365.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon365'></i>
 @endhtmlonly @ref Orders::MedicHeal "MedicHeal"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon34.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon34'></i>
 @endhtmlonly @ref UnitTypes::Terran_Medic "Terran Medic"</td></tr>
 </table>
 @tlHealing @sccHealing @wikHealing
@@ -1095,20 +1095,20 @@ Value of 45  [0x2d]. See BWAPI::TechTypes::Nuclear_Strike.
 */
 /*!
 @var BWAPI::TechTypes::Nuclear_Strike
- @htmlonly
-<img src='icon0.png'>
+@htmlonly
+<i class='cmdbtn cmdbtn-icon0'></i>
 @endhtmlonly  Nuclear Strike. Corresponds with TechTypes::Enum::Nuclear_Strike.
 
 <table border='0'><tr><td><strong>Race</strong></td><td>@ref Races::Terran "Terran"</td></tr>
 <tr><td><strong>Targets</strong></td><td>Positions, Units</td></tr>
-<tr><td><strong>Weapon</strong></td><td> @htmlonly
-<img src='icon311.png'>
+<tr><td><strong>Weapon</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
 @endhtmlonly @ref WeaponTypes::Nuclear_Strike "Nuclear Strike"</td></tr>
-<tr><td><strong>Order</strong></td><td> @htmlonly
-<img src='icon311.png'>
+<tr><td><strong>Order</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon311'></i>
 @endhtmlonly @ref Orders::NukePaint "NukePaint"</td></tr>
-<tr><td><strong>Used by</strong></td><td> @htmlonly
-<img src='icon1.png'>
+<tr><td><strong>Used by</strong></td><td>@htmlonly
+<i class='cmdbtn cmdbtn-icon1'></i>
 @endhtmlonly @ref UnitTypes::Terran_Ghost "Terran Ghost"</td></tr>
 </table>
 @tlNuclear_Strike @sccNuclear_Strike @wikNuclear_Strike
