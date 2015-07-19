@@ -26,7 +26,7 @@
   
 </head>
 <body>
-<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div itemscope itemtype="http://schema.org/SoftwareApplication" id="top"><!-- do not remove this div, it is closed by doxygen! -->
 
 <!--BEGIN TITLEAREA-->
 <div id="titlearea">
@@ -34,12 +34,12 @@
  <tbody>
  <tr style="height: 56px;">
   <!--BEGIN PROJECT_LOGO-->
-  <td id="projectlogo"><img style="width:110px;height:55px;" alt="Logo" src="$relpath^$projectlogo"/></td>
+  <td id="projectlogo"><img itemprop="image" style="width:110px;height:55px;" alt="Logo" src="$relpath^$projectlogo"/></td>
   <!--END PROJECT_LOGO-->
   <!--BEGIN PROJECT_NAME-->
   <td style="padding-left: 0.5em;">
    <div id="projectname">$projectname
-   <!--BEGIN PROJECT_NUMBER-->&#160;<span id="projectnumber">$projectnumber</span><!--END PROJECT_NUMBER-->
+   <!--BEGIN PROJECT_NUMBER-->&#160;<span itemprop="softwareVersion" id="projectnumber">$projectnumber</span><!--END PROJECT_NUMBER-->
    </div>
    <!--BEGIN PROJECT_BRIEF--><div id="projectbrief">$projectbrief</div><!--END PROJECT_BRIEF-->
   </td>
@@ -64,5 +64,11 @@
     <a href="https://github.com/bwapi/bwapi">Fork me on GitHub</a>
   </div>
 </div>
+
+<meta itemprop="name" content="Brood War API">
+<meta itemprop="downloadUrl" content="https://github.com/bwapi/bwapi/releases">
+<meta itemprop="url" content="http://bwapi.github.io/">
+<meta itemprop="operatingSystem" content="Windows">
+
 <!--END TITLEAREA-->
 <!-- end header part -->
