@@ -2084,7 +2084,8 @@ HTML_EXTRA_STYLESHEET  =
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_FILES       = ./cmdbtns.png \
-                         ./tticons.png
+                         ./tticons.png \
+                         ./favicon.ico
                          
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
