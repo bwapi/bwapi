@@ -26,7 +26,17 @@ $generatedby &#160;<a href="http://www.doxygen.org/index.html">
 <script type="text/javascript" src="$relpath^jquery.js"></script>
 <script type="text/javascript" src="$relpath^dynsections.js"></script>
 <script type="text/javascript">
-  $(document).ready(function() { searchBox.OnSelectItem(0); });
+  $(document).ready(function() { 
+    searchBox.OnSelectItem(0);
+    
+    $(".memberdecls, .memname, .memproto, .paramname, .fieldname, .entry, .fragment").addClass("notranslate");
+    $("#MSearchResultsWindow").addClass("notranslate");
+    $(".qindex, .qindex + table").addClass("notranslate");
+    $(".contents > ul").addClass("notranslate");
+    $(".contents > h3").addClass("notranslate");
+    $("#navrow4 > .tablist > li > a").addClass("notranslate");
+    $("a.el, a.elRef").addClass("notranslate");
+  });
 </script>
 </body>
 </html>
