@@ -626,8 +626,10 @@ table.memberdecls {
 	color: #555;
 }
 
-.memItemLeft, .memTemplItemLeft {
-  white-space: nowrap;
+@media screen and (min-width: 500px){
+  .memItemLeft, .memTemplItemLeft {
+    white-space: nowrap;
+  }
 }
 
 .memItemRight {
@@ -825,9 +827,14 @@ div.directory {
 }
 
 .directory td.entry {
-  white-space: nowrap;
   padding-right: 6px;
 	padding-top: 3px;
+}
+
+@media screen and (min-width: 500px){
+  .directory td.entry {
+    white-space: nowrap;
+  }
 }
 
 .directory td.entry a {
