@@ -626,6 +626,10 @@ table.memberdecls {
 	color: #555;
 }
 
+.memItemLeft, .memTemplItemLeft {
+  white-space: nowrap;
+}
+
 .memItemRight {
 	width: 100%;
 }
@@ -821,6 +825,7 @@ div.directory {
 }
 
 .directory td.entry {
+  white-space: nowrap;
   padding-right: 6px;
 	padding-top: 3px;
 }
