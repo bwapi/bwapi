@@ -126,6 +126,10 @@ search.css
     margin-left:15px;
 }
 
+img {
+  border-style: none;
+}
+
 #MSearchCloseImg {
   width: 11px;
   height: 11px;
@@ -1235,6 +1239,16 @@ dl.section dd {
 	border-bottom: 1px solid #5E5B72;
   overflow: hidden;
   position: relative;
+}
+
+#titlearea td
+{
+  padding: 0px;
+}
+
+#titlearea table
+{
+  border-spacing: 0px;
 }
 
 .image, .dotgraph, .mscgraph, .diagraph
