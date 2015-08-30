@@ -18,7 +18,7 @@ void writeUnitInfo()
     //of << "<img src='icon" << iconId << ".png' style='float:right;'>";
     of << icon(t) << " " << docIntro(t) << "\n";
 
-    of << "<table border='0'>";
+    of << "<table>";
     //of << row("Identifier", t.getID());
     of << row("Race", tref(t.getRace()));
     of << row("Hit Points", t.maxHitPoints());

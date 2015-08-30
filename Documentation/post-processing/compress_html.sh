@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for f in ../../Release_Binary/documentation/html/*.html ../../Release_Binary/documentation/html/**.html; do
+for f in ../../Release_Binary/documentation/html/*.html ../../Release_Binary/documentation/html/**/*.html; do
   echo "$f"
   java -jar htmlcompressor-1.5.3.jar \
     --remove-intertag-spaces \

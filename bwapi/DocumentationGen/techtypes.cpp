@@ -11,7 +11,7 @@ void writeTechInfo()
 
     of << icon(t) << " " << docIntro(t) << "\n";
 
-    of << "<table border='0'>";
+    of << "<table>";
     of << row("Race", tref(t.getRace()));
 
     if (t.mineralPrice() != 0 || t.gasPrice() != 0)

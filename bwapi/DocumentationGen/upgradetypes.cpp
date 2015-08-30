@@ -11,7 +11,7 @@ void writeUpgradeInfo()
 
     of << icon(t) << " " << docIntro(t) << "\n";
 
-    of << "<table border='0'>";
+    of << "<table>";
     of << row("Race", tref(t.getRace()));
 
     std::string oreCost = imgOre() + std::to_string(t.mineralPrice());
