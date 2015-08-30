@@ -11,7 +11,7 @@ void writeWeaponInfo()
 
     of << icon(t) << " " << docIntro(t) << "\n";
 
-    of << "<table border='0'>";
+    of << "<table>";
     if (t.getTech() != TechTypes::None) of << row("Technology", iconref(t.getTech()));
     of << row("What uses this?", iconref(t.whatUses()));
     of << row("Damage", t.damageAmount());

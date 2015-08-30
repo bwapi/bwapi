@@ -636,8 +636,14 @@ table.memberdecls {
   }
 }
 
+.memItemLeft, .memTemplItemLeft {
+  text-align: right;
+  vertical-align: top;
+}
+
 .memItemRight {
 	width: 100%;
+  vertical-align: bottom;
 }
 
 .memTemplParams {
@@ -689,27 +695,9 @@ table.memberdecls {
    box-shadow: 0 0 15px cyan;
 }
 
-.memname {
-  font-weight: bold;
-  margin-left: 6px;
-}
-
-.memname td {
-	vertical-align: bottom;
-}
-
-@media screen and (max-width: 650px){
-  .memname tr {
-    display: inline-block !important;
-  }
-  .memname td {
-    display: inline-block !important;
-  }
-}
-
 .memproto, dl.reflist dt {
   border: 1px solid #A6A4B6;
-  padding: 6px 0px 6px 0px;
+  padding: 6px;
   color: #202027;
   font-weight: bold;
   text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
@@ -732,14 +720,6 @@ dl.reflist dt {
 dl.reflist dd {
   margin: 0px 0px 10px 0px;
   padding: 5px;
-}
-
-.paramkey {
-	text-align: right;
-}
-
-.paramtype {
-	white-space: nowrap;
 }
 
 .paramname {
@@ -773,23 +753,9 @@ dl.reflist dd {
   vertical-align: top;
 }
 
-table.mlabels {
-	border-spacing: 0px;
-}
-
-td.mlabels-left {
-	width: 100%;
-	padding: 0px;
-}
-
-td.mlabels-right {
-	vertical-align: middle;
-	padding: 0px;
-	white-space: nowrap;
-}
-
 span.mlabels {
   margin-left: 8px;
+  float: right;
 }
 
 span.mlabel {
@@ -857,8 +823,7 @@ div.directory {
 	border-left: 1px solid rgba(0,0,0,0.05);
 }
 
-.directory tr.even {
-	padding-left: 6px;
+.directory tr:nth-child(odd) {
 	background-color: #F6F6F8;
 }
 
@@ -1542,6 +1507,7 @@ tr.heading h2 {
     overflow:inherit;
     display:inline;
   }
+  #google_translate_element { display: none; }
 }
 
 /* ==================================================================================================================
@@ -1558,10 +1524,6 @@ customdoxygen.css
 .adjust-right {
 	margin-left: 30px !important;
 	font-size: 1.15em !important;
-}
-
-.memSeparator {
-    display: none;
 }
 
 /* Ribbon; Fork me banner; Modified from: https://unindented.org/articles/github-ribbon-using-css-transforms/ 

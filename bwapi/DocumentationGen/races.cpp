@@ -11,7 +11,7 @@ void writeRaceInfo()
 
     of << docIntro(t) << "\n";
 
-    of << "<table border='0'>";
+    of << "<table>";
     
     of << row("Worker", iconref(t.getWorker()));
     of << row("Resource Depot", iconref(t.getCenter()));
