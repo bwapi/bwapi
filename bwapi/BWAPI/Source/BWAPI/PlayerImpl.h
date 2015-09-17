@@ -104,7 +104,7 @@ namespace BWAPI
       
     // data members
       ForceImpl*  force = nullptr;
-      PlayerData  data = {};
+      PlayerData  data;
       PlayerData* self = &data;
       Unitset     units;
 
