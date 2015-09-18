@@ -39,11 +39,23 @@ DWORD getProcessCount(const char *pszProcName)
 }
 
 //----------------------------- LOAD CONFIG FXNS ------------------------------------------
-std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
+std::string envKeyName(const char *pszKey, const char *pszItem)
+{
+  return "BWAPI_CONFIG_" + toUpper(pszKey) + "__" + toUpper(pszItem);
+}
+std::string LoadConfigStringFromFile(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
   char buffer[MAX_PATH];
   GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath().c_str());
   return std::string(buffer);
+}
+std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
+{
+  std::string envKey = envKeyName(pszKey, pszItem);
+  if (char* v = std::getenv(envKey.c_str()))
+    return v;
+  else
+    return LoadConfigStringFromFile(pszKey, pszItem, pszDefault);
 }
 // this version uppercase result string after loading, should be used for the most of enum-like strings
 std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, const char *pszDefault)
@@ -52,7 +64,11 @@ std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, cons
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
-  return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
+  std::string envKey = envKeyName(pszKey, pszItem);
+  if (char* v = std::getenv(envKey.c_str()))
+    return std::stoi(v);
+  else
+    return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
 }
 
 void InitPrimaryConfig()
