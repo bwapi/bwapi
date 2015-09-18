@@ -10,7 +10,7 @@ int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault = 
 
 void InitPrimaryConfig();
 
-// Data
+// The starcraft instance's root directory
 inline const std::string& installPath()
 {
   static std::string path;
@@ -27,9 +27,17 @@ inline const std::string& installPath()
   }
   return path;
 }
+// The config directory
+inline const std::string& configDir()
+{
+  static const std::string path = installPath() + "bwapi-data\\";
+  return path;
+}
+// The bwapi.ini file in the config directory or environment variable BWAPI_CONFIG_INI
 inline const std::string& configPath()
 {
-  static const std::string path = installPath() + "bwapi-data\\bwapi.ini";
+  char* v;
+  static const std::string path = (v=std::getenv("BWAPI_CONFIG_INI")) ? v : configDir()+"bwapi.ini";
   return path;
 }
 extern std::string screenshotFmt;
@@ -38,4 +46,3 @@ extern bool isCorrectVersion;
 extern bool showWarn;
 extern bool serverEnabled;
 extern unsigned gdwProcNum;
-
