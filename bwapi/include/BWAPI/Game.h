@@ -695,6 +695,10 @@ namespace BWAPI
     /// be placed 4 tiles to the right and 1 tile down from the given \p position. If the builder
     /// is not given, then the check for the addon will be conducted at position.
     ///
+    /// @note If \p type is UnitTypes::Special_Start_Location, then the area for a resource depot
+    /// (@Command_Center, @Hatchery, @Nexus) is checked as normal, but any potential obstructions
+    /// (existing structures, creep, units, etc.) are ignored.
+    ///
     /// <param name="position">
     ///   Indicates the tile position that the top left corner of the structure is intended to go.
     /// </param>

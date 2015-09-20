@@ -953,8 +953,11 @@ namespace BWAPI
     extern const UnitType Terran_Firebat;
     extern const UnitType Terran_Ghost;
     extern const UnitType Terran_Goliath;
+    /// @Terran tier 1 unit.
     extern const UnitType Terran_Marine;
     extern const UnitType Terran_Medic;
+    /// @Terran worker.
+    /// @see Race::getWorker
     extern const UnitType Terran_SCV;
     extern const UnitType Terran_Siege_Tank_Siege_Mode;
     extern const UnitType Terran_Siege_Tank_Tank_Mode;
@@ -964,6 +967,8 @@ namespace BWAPI
     /// @name Terran Air Units
     /// @{
     extern const UnitType Terran_Battlecruiser;
+    /// @Terran transport.
+    /// @see Race::getTransport
     extern const UnitType Terran_Dropship;
     extern const UnitType Terran_Nuclear_Missile;
     extern const UnitType Terran_Science_Vessel;
@@ -994,14 +999,24 @@ namespace BWAPI
     extern const UnitType Terran_Academy;
     extern const UnitType Terran_Armory;
     extern const UnitType Terran_Barracks;
+    /// @Terran defensive structure.
     extern const UnitType Terran_Bunker;
+    /// @Terran resource depot.
+    /// @see Race::getCenter
     extern const UnitType Terran_Command_Center;
     extern const UnitType Terran_Engineering_Bay;
     extern const UnitType Terran_Factory;
+    /// @Terran defensive structure against air units.
     extern const UnitType Terran_Missile_Turret;
+    /// @Terran gas harvesting structure. Constructed over a @Vespene_Geyser.
+    /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
+    /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
+    /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
     extern const UnitType Terran_Refinery;
     extern const UnitType Terran_Science_Facility;
     extern const UnitType Terran_Starport;
+    /// @Terran supply provider.
+    /// @see Race::getSupplyProvider
     extern const UnitType Terran_Supply_Depot;
     /// @}
     /// @name Terran Addons
@@ -1027,9 +1042,12 @@ namespace BWAPI
     extern const UnitType Protoss_Dark_Templar;
     extern const UnitType Protoss_Dragoon;
     extern const UnitType Protoss_High_Templar;
+    /// @Protoss worker unit.
+    /// @see Race::getWorker
     extern const UnitType Protoss_Probe;
     extern const UnitType Protoss_Reaver;
     extern const UnitType Protoss_Scarab;
+    /// @Protoss tier 1 unit.
     extern const UnitType Protoss_Zealot;
     /// @}
     /// @name Protoss Air Units
@@ -1040,6 +1058,8 @@ namespace BWAPI
     extern const UnitType Protoss_Interceptor;
     extern const UnitType Protoss_Observer;
     extern const UnitType Protoss_Scout;
+    /// @Protoss transport.
+    /// @see Race::getTransport
     extern const UnitType Protoss_Shuttle;
     /// @}
     /// @name Protoss Heroes Units
@@ -1061,18 +1081,28 @@ namespace BWAPI
     /// @name Protoss Buildings
     /// @{
     extern const UnitType Protoss_Arbiter_Tribunal;
+    /// @Protoss gas harvesting structure. Must be placed on top of a @Vespene_Geyser.
+    /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
+    /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
+    /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
     extern const UnitType Protoss_Assimilator;
     extern const UnitType Protoss_Citadel_of_Adun;
     extern const UnitType Protoss_Cybernetics_Core;
     extern const UnitType Protoss_Fleet_Beacon;
     extern const UnitType Protoss_Forge;
     extern const UnitType Protoss_Gateway;
+    /// @Protoss resource depot.
+    /// @see Race::getCenter
     extern const UnitType Protoss_Nexus;
     extern const UnitType Protoss_Observatory;
+    /// @Protoss defensive structure.
     extern const UnitType Protoss_Photon_Cannon;
+    /// @Protoss supply provider. Required to place other @Protoss structures.
+    /// @see Race::getSupplyProvider
     extern const UnitType Protoss_Pylon;
     extern const UnitType Protoss_Robotics_Facility;
     extern const UnitType Protoss_Robotics_Support_Bay;
+    /// A structure that can recharge @Protoss_Shields.
     extern const UnitType Protoss_Shield_Battery;
     extern const UnitType Protoss_Stargate;
     extern const UnitType Protoss_Templar_Archives;
@@ -1089,14 +1119,18 @@ namespace BWAPI
     /// @{
     extern const UnitType Zerg_Broodling;
     extern const UnitType Zerg_Defiler;
+    /// @Zerg worker unit.
+    /// @see Race::getWorker
     extern const UnitType Zerg_Drone;
     extern const UnitType Zerg_Egg;
     extern const UnitType Zerg_Hydralisk;
     extern const UnitType Zerg_Infested_Terran;
+    /// Spawned at @Hatcheries.
     extern const UnitType Zerg_Larva;
     extern const UnitType Zerg_Lurker;
     extern const UnitType Zerg_Lurker_Egg;
     extern const UnitType Zerg_Ultralisk;
+    /// @Zerg tier 1 unit.
     extern const UnitType Zerg_Zergling;
     /// @}
     /// @name Zerg Air Units
@@ -1105,6 +1139,8 @@ namespace BWAPI
     extern const UnitType Zerg_Devourer;
     extern const UnitType Zerg_Guardian;
     extern const UnitType Zerg_Mutalisk;
+    /// @Zerg supply provider and transport unit. Must research @Ventral_Sacs to become a transport.
+    /// @see Race::getSupplyProvider, Race::getTransport
     extern const UnitType Zerg_Overlord;
     extern const UnitType Zerg_Queen;
     extern const UnitType Zerg_Scourge;
@@ -1124,21 +1160,32 @@ namespace BWAPI
     /// @}
     /// @name Zerg Buildings
     /// @{
+    /// Spreads creep and morphs to @Zerg defensive structures.
     extern const UnitType Zerg_Creep_Colony;
     extern const UnitType Zerg_Defiler_Mound;
     extern const UnitType Zerg_Evolution_Chamber;
+    /// @Zerg gas harvesting structure. Must be constructed on a @Vespene_Geyser.
+    /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
+    /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
+    /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
     extern const UnitType Zerg_Extractor;
     extern const UnitType Zerg_Greater_Spire;
+    /// @Zerg resource depot and larva generator. Spreads creep.
+    /// @see Race::getCenter
     extern const UnitType Zerg_Hatchery;
     extern const UnitType Zerg_Hive;
     extern const UnitType Zerg_Hydralisk_Den;
+    /// @note Can land on both creep and non-creep.
     extern const UnitType Zerg_Infested_Command_Center;
     extern const UnitType Zerg_Lair;
+    /// Used to teleport @Zerg ground units from one Nydus Canal to the other.
     extern const UnitType Zerg_Nydus_Canal;
     extern const UnitType Zerg_Queens_Nest;
     extern const UnitType Zerg_Spawning_Pool;
     extern const UnitType Zerg_Spire;
+    /// @Zerg defensive structure against air units.
     extern const UnitType Zerg_Spore_Colony;
+    /// @Zerg defensive structure against ground units.
     extern const UnitType Zerg_Sunken_Colony;
     extern const UnitType Zerg_Ultralisk_Cavern;
     /// @}
@@ -1165,6 +1212,9 @@ namespace BWAPI
     extern const UnitType Resource_Mineral_Field;
     extern const UnitType Resource_Mineral_Field_Type_2;
     extern const UnitType Resource_Mineral_Field_Type_3;
+    /// @note When a refinery unit is constructed over this type, a new unit is NOT created.
+    /// Rather, the vespene geyser is replaced with the refinery unit. Similarily, when a refinery
+    /// is destroyed, the type is replaced with the vespene geyser.
     extern const UnitType Resource_Vespene_Geyser;
     /// @}
     /// @name Spells
@@ -1185,6 +1235,7 @@ namespace BWAPI
     /// @name Powerups
     /// @{
     extern const UnitType Powerup_Data_Disk;
+    /// @note Can't be carried by your own workers.
     extern const UnitType Powerup_Flag;
     extern const UnitType Powerup_Khalis_Crystal;
     extern const UnitType Powerup_Khaydarin_Crystal;
@@ -1221,15 +1272,25 @@ namespace BWAPI
     extern const UnitType Special_Cargo_Ship;
     extern const UnitType Special_Floor_Hatch;
     extern const UnitType Special_Independant_Starport;
+    /// A special unit placed by the campaign editor that reveals a large area of the map.
     extern const UnitType Special_Map_Revealer;
     extern const UnitType Special_Mercenary_Gunship;
+    /// A special unit that indicates a player's starting location. The unit is removed at the
+    /// beginning of the game and replaced with the race's resource depot.
+    ///
+    /// A special use case with BWAPI is passing this value to Game::canBuildHere.
+    /// @see Game::canBuildHere
     extern const UnitType Special_Start_Location;
     /// @}
 
     extern const UnitType None;
+    /// A special macro type, used for retrieving statistics for all unit types.
     extern const UnitType AllUnits;
+    /// A special macro type, used for retrieving statistics for all movable, non-structure units.
     extern const UnitType Men;
+    /// A special macro type, used for retrieving statistics for all structures.
     extern const UnitType Buildings;
+    /// A special macro type, used for retrieving statistics for all structures that can produce units.
     extern const UnitType Factories;
     extern const UnitType Unknown;
   }
