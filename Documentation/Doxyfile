@@ -2089,7 +2089,8 @@ HTML_EXTRA_STYLESHEET  =
 
 HTML_EXTRA_FILES       = ./cmdbtns.png \
                          ./tticons.png \
-                         ./favicon.ico
+                         ./favicon.ico \
+                         ./robots.txt
                          
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
