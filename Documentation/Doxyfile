@@ -259,6 +259,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Scarabs=@ref BWAPI::UnitTypes::Protoss_Scarab \"Scarabs\"" \
                          "Terran=@ref Races::Terran \"Terran\"" \
                          "Command_Center=@ref BWAPI::UnitTypes::Terran_Command_Center \"Command Center\"" \
+                         "Nexus=@ref BWAPI::UnitTypes::Protoss_Nexus \"Nexus\"" \
                          "Factory=@ref BWAPI::UnitTypes::Terran_Factory \"Factory\"" \
                          "Starport=@ref BWAPI::UnitTypes::Terran_Starport \"Starport\"" \
                          "Starport=@ref BWAPI::UnitTypes::Terran_Starport \"Starport\"" \
@@ -378,6 +379,7 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "Ghosts=@ref BWAPI::UnitTypes::Terran_Ghost \"Ghosts\"" \
                          "Mineral_Fields=@ref BWAPI::UnitTypes::Resource_Mineral_Field \"Mineral Fields\"" \
                          "Vespene_Geysers=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geysers\"" \
+                         "Vespene_Geyser=@ref BWAPI::UnitTypes::Resource_Vespene_Geyser \"Vespene Geyser\"" \
                          "Comsat_Station=@ref BWAPI::UnitTypes::Terran_Comsat_Station \"Comsat Station\"" \
                          "Civilian=@ref BWAPI::UnitTypes::Terran_Civilian \"Civilian\"" \
                          "Dark_Templar_Hero=@ref BWAPI::UnitTypes::Hero_Dark_Templar \"Dark Templar Hero\"" \
@@ -385,6 +387,8 @@ ALIASES                = "Dropships=@ref BWAPI::UnitTypes::Terran_Dropship \"Dro
                          "abilities=@ref BWAPI::TechTypes \"abilities\"" \
                          "Spire=@ref BWAPI::UnitTypes::Zerg_Spire \"Spire\"" \
                          "Greater_Spire=@ref BWAPI::UnitTypes::Zerg_Greater_Spire \"Greater Spire\"" \
+                         "Protoss_Shields=@ref BWAPI::UpgradeTypes::Protoss_Plasma_Shields \"Protoss Shields\"" \
+                         "Ventral_Sacs=@ref BWAPI::UpgradeTypes::Ventral_Sacs \"Ventral Sacs\"" \
                          "liquipedia{1}=[View on Liquipedia](http://wiki.teamliquid.net/starcraft/\1)<br>" \
                          "sccofficial{1}=[View on Starcraft Campendium (Official Website)](http://classic.battle.net/scc/\1.shtml)<br>" \
                          "scwikia{1}=[View on Starcraft Wikia](http://starcraft.wikia.com/wiki/\1)<br>" \
