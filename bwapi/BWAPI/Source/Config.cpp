@@ -54,12 +54,6 @@ int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
   return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
 }
-std::string LoadRegString(const char *pszKeyName, const char *pszValueName)
-{
-  char szTemp[MAX_PATH] = { 0 };
-  SRegLoadString(pszKeyName, pszValueName, SREG_NONE, szTemp, MAX_PATH);
-  return std::string(szTemp);
-}
 
 void InitPrimaryConfig()
 {
