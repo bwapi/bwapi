@@ -1,3 +1,18 @@
+# Reporting an Issue
+ - Report all issues
+ - Trivial documentation issues welcome ([example](https://github.com/bwapi/bwapi/issues/616))
+ - Non-trivial feature requests welcome ([example](https://github.com/bwapi/bwapi/issues/393))
+
+# Versioning
+BWAPI versioning is categorized as follows: `major.minor.patch [Beta]`
+
+Version Component | Description
+------------------|----------------
+major             | Increased when massive structural changes are made.
+minor             | Increased when breaking changes are made. Modules will need to be recompiled.
+patch             | Increased when non-breaking changes are made.
+Beta              | Appended to a major version increase until stability has been verified.
+
 # Coding Standards
 
 ## Spacing
@@ -135,4 +150,24 @@ Examples of documentation:
  - Use explicit enum types (preferably enum class) instead of ints.
  - Use in-class member initialization.
  - Use the keywords default, delete, override, final, etc.
+
+# Changing the API
+## Adding a Virtual Function
+  1. Add it after all other virtual functions.
+  2. Label it with Doxygen `@since` tag, indicating the version it was introduced.
+  
+Note: Virtual functions are implementation defined, but Visual Studio appears to maintain some consistency regarding the use of virtual functions. Adding a new function to the end will maintain some backwards compatibility.
+  
+## Renaming a Function
+  1. Rename the function.
+  2. Create a non-virtual function with the old name that calls the new function.
+  3. Label it with Doxygen `@deprecated` tag and refer to the new function.
+  4. Optionally add a compiler deprecation warning (until we move to VS 2015).
+  5. Remove it after the next 2 minor versions or next major version, whichever comes first.
+
+## Deprecating a Function 
+  1. Label it with Doxygen `@deprecated` tag.
+  2. Provide reason for the deprecation and alternatives if applicable.
+  3. Optionally add a compiler deprecation warning (until we move to VS 2015).
+  4. Remove it after the next 2 minor versions or next major version, whichever comes first.
 
