@@ -29,6 +29,7 @@ namespace BWAPI
     static void pressDialogKey(BW::dialog *pDlg);
 
     std::string autoMenuMode;
+    std::string autoMenuCharacterName;
     std::string autoMenuLanMode;
     std::string autoMenuRestartGame;
     std::string autoMenuGameType;
