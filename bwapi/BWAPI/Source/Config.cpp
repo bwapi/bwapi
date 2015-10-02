@@ -70,6 +70,17 @@ int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
   else
     return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
 }
+void WriteConfig(const char *pszKey, const char *pszItem, const std::string& value)
+{
+  // avoid writing unless the value is actually different, because writing causes
+  // an annoying popup when having the file open in e.g. notepad++
+  if (LoadConfigStringFromFile(pszKey, pszItem, "_NULL") != value)
+    WritePrivateProfileStringA(pszKey, pszItem, value.c_str(), configPath().c_str());
+}
+void WriteConfig(const char *pszKey, const char *pszItem, int value)
+{
+  WriteConfig(pszKey, pszItem, std::to_string(value));
+}
 
 void InitPrimaryConfig()
 {
