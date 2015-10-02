@@ -34,6 +34,7 @@ void AutoMenuManager::reloadConfig()
 #endif
   this->autoMenuRestartGame = LoadConfigStringUCase("auto_menu", "auto_restart", "OFF");
   this->autoMenuGameName = LoadConfigString("auto_menu", "game");
+  this->autoMenuCharacterName = LoadConfigString("auto_menu", "character_name", "FIRST");
 
   // Load map string
   std::string cfgMap = LoadConfigString("auto_menu", "map", "");
@@ -413,18 +414,39 @@ void AutoMenuManager::onMenuFrame()
     } // if isCreating etc
     break;
   case BW::GLUE_LOGIN:  // Registry/Character screen
-    // Type in "BWAPI" if no characters available
-    tempDlg = BW::FindDialogGlobal("gluPEdit");
-    if (tempDlg)
+  {
+    if (this->autoMenuCharacterName == "WAIT")
+      break;
+
+    std::string name = this->autoMenuCharacterName;
+    if (name == "FIRST")
+      name = "bwapi"; // this name will be used if there are no existing characters
+    else if (name.empty())
+      name = "empty";
+
+    BW::dialog* newIdPopup = BW::FindDialogGlobal("gluPEdit");
+    if (newIdPopup)
     {
-      tempDlg->findIndex(4)->setText("BWAPI");
-      pressDialogKey(tempDlg->findIndex(1));
+      newIdPopup->findIndex(4)->setText(&name[0]); //it'll copy the string
+      BroodwarImpl.pressKey(VK_RETURN); // popup Ok
+      BroodwarImpl.pressKey(VK_RETURN); // main Ok
+    }
+    else if (this->autoMenuCharacterName != "FIRST")
+    {
+      //if we're here, there are some existing characters
+      BW::dialog* characterList = BW::FindDialogGlobal("Login")->findIndex(8);
+
+      if (characterList->getListCount() == 0)
+        break; //wait for list to exist/be populated
+      if (characterList->setSelectedByString(this->autoMenuCharacterName))
+        BroodwarImpl.pressKey(VK_RETURN); // main Ok
+      else
+        BroodwarImpl.pressKey('N'); // New ID
     }
     else
-    {
-      pressDialogKey(BW::FindDialogGlobal("Login")->findIndex(4));
-    }
+      BroodwarImpl.pressKey(VK_RETURN); // main Ok
     break;
+  }
   case BW::GLUE_SCORE_Z_DEFEAT:
   case BW::GLUE_SCORE_Z_VICTORY:
   case BW::GLUE_SCORE_T_DEFEAT:
