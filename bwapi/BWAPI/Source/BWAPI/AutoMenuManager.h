@@ -32,6 +32,7 @@ namespace BWAPI
     std::string autoMenuLanMode;
     std::string autoMenuRestartGame;
     std::string autoMenuGameType;
+    std::string autoMenuGameTypeExtra;
     std::string autoMenuGameName;
     unsigned lastAutoMapEntry = 0;
     std::string lastMapGen;
