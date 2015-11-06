@@ -113,6 +113,7 @@ void AutoMenuManager::reloadConfig()
   this->autoMenuEnemyCount = std::min(std::max(this->autoMenuEnemyCount, 0U), 7U);
 
   this->autoMenuGameType = LoadConfigStringUCase("auto_menu", "game_type", "MELEE");
+  this->autoMenuGameTypeExtra = LoadConfigString("auto_menu", "game_type_extra", "");
   this->autoMenuSaveReplay = LoadConfigString("auto_menu", "save_replay");
 
   this->autoMenuMinPlayerCount = LoadConfigInt("auto_menu", "wait_for_min_players", 2);
@@ -245,8 +246,34 @@ void AutoMenuManager::onMenuFrame()
 
         // retrieve gametype dropdown
         BW::dialog *gameTypeDropdown = tempDlg->findIndex(17);
+        if (!gameTypeDropdown)
+          break;
+
         if (gt != GameTypes::None && gt != GameTypes::Unknown && (int)gameTypeDropdown->getSelectedValue() != gt)
+        {
           gameTypeDropdown->setSelectedByValue(gt);
+          break;
+        }
+
+        // game types with an extra settings dropdown
+        if (gt == GameTypes::Top_vs_Bottom ||
+            gt == GameTypes::Greed ||
+            gt == GameTypes::Slaughter ||
+            gt == GameTypes::Team_Melee ||
+            gt == GameTypes::Team_Free_For_All ||
+            gt == GameTypes::Team_Capture_The_Flag)
+        {
+          BW::dialog* extraDropdown = tempDlg->findIndex(18);
+          if (!extraDropdown || std::string(extraDropdown->getSelectedString()).empty())
+            break;
+          
+          if (!this->autoMenuGameTypeExtra.empty() &&
+            extraDropdown->getSelectedString() != this->autoMenuGameTypeExtra)
+          {
+            extraDropdown->setSelectedByString(this->autoMenuGameTypeExtra);
+            break;
+          }
+        }
 
         // if this is single player
         if (isAutoSingle)
