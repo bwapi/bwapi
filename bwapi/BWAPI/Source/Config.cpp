@@ -39,11 +39,23 @@ DWORD getProcessCount(const char *pszProcName)
 }
 
 //----------------------------- LOAD CONFIG FXNS ------------------------------------------
-std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
+std::string envKeyName(const char *pszKey, const char *pszItem)
+{
+  return "BWAPI_CONFIG_" + toUpper(pszKey) + "__" + toUpper(pszItem);
+}
+std::string LoadConfigStringFromFile(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
   char buffer[MAX_PATH];
   GetPrivateProfileStringA(pszKey, pszItem, pszDefault ? pszDefault : "", buffer, MAX_PATH, configPath().c_str());
   return std::string(buffer);
+}
+std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault)
+{
+  std::string envKey = envKeyName(pszKey, pszItem);
+  if (char* v = std::getenv(envKey.c_str()))
+    return v;
+  else
+    return LoadConfigStringFromFile(pszKey, pszItem, pszDefault);
 }
 // this version uppercase result string after loading, should be used for the most of enum-like strings
 std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, const char *pszDefault)
@@ -52,13 +64,22 @@ std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, cons
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {
-  return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
+  std::string envKey = envKeyName(pszKey, pszItem);
+  if (char* v = std::getenv(envKey.c_str()))
+    return std::stoi(v);
+  else
+    return GetPrivateProfileIntA(pszKey, pszItem, iDefault, configPath().c_str());
 }
-std::string LoadRegString(const char *pszKeyName, const char *pszValueName)
+void WriteConfig(const char *pszKey, const char *pszItem, const std::string& value)
 {
-  char szTemp[MAX_PATH] = { 0 };
-  SRegLoadString(pszKeyName, pszValueName, SREG_NONE, szTemp, MAX_PATH);
-  return std::string(szTemp);
+  // avoid writing unless the value is actually different, because writing causes
+  // an annoying popup when having the file open in e.g. notepad++
+  if (LoadConfigStringFromFile(pszKey, pszItem, "_NULL") != value)
+    WritePrivateProfileStringA(pszKey, pszItem, value.c_str(), configPath().c_str());
+}
+void WriteConfig(const char *pszKey, const char *pszItem, int value)
+{
+  WriteConfig(pszKey, pszItem, std::to_string(value));
 }
 
 void InitPrimaryConfig()

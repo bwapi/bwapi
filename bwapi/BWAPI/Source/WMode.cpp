@@ -283,13 +283,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
         case SIZE_RESTORED:
           {
-            char szTemp[32];
             RECT tempRect;
             GetClientRect(hWnd, &tempRect);
             windowRect.right  = tempRect.right;
             windowRect.bottom = tempRect.bottom;
-            WritePrivateProfileStringA("window", "width",  _itoa(tempRect.right,  szTemp, 10), configPath().c_str());
-            WritePrivateProfileStringA("window", "height", _itoa(tempRect.bottom, szTemp, 10), configPath().c_str());
+            WriteConfig("window", "width", tempRect.right);
+            WriteConfig("window", "height", tempRect.bottom);
             break;
           }
         }// wParam switch
@@ -306,10 +305,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
           windowRect.left = tempRect.left;
           windowRect.top  = tempRect.top;
-
-          char szTemp[32];
-          WritePrivateProfileStringA("window", "left", _itoa(tempRect.left, szTemp, 10), configPath().c_str());
-          WritePrivateProfileStringA("window", "top",  _itoa(tempRect.top, szTemp, 10), configPath().c_str());
+          WriteConfig("window", "left", tempRect.left);
+          WriteConfig("window", "top",  tempRect.top);
         }
         break;
       } // case WM_MOVE
@@ -648,7 +645,7 @@ void SetWMode(int width, int height, bool state)
     SetCursorShowState(false);
 
     SetDIBColorTable(hdcMem, 0, 256, wmodebmp.bmiColors);
-    WritePrivateProfileStringA("window", "windowed", "ON", configPath().c_str());
+    WriteConfig("window", "windowed", "ON");
   }
   else
   {
@@ -668,7 +665,7 @@ void SetWMode(int width, int height, bool state)
     }
     DDrawDestroy();
     DDrawInitialize(width, height);
-    WritePrivateProfileStringA("window", "windowed", "OFF", configPath().c_str());
+    WriteConfig("window", "windowed", "OFF");
   }
 #endif
 }

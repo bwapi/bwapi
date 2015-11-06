@@ -212,7 +212,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 
     // Load custom symbols for Broodwar, etc
     std::vector<_customSymbolStore> customSymbols;
-    std::string symbolMapPath = installPath() + "bwapi-data\\data\\Broodwar.map";
+    std::string symbolMapPath = configDir() + "data\\Broodwar.map";
     FILE *hBWSymbols = fopen(symbolMapPath.c_str(), "r");
     if ( hBWSymbols )
     {
@@ -229,7 +229,7 @@ LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
       }
       fclose(hBWSymbols);
     }
-    /*std::ifstream bwSymbols( installPath() + "bwapi-data\\data\\Broodwar.map");
+    /*std::ifstream bwSymbols( configDir() + "data\\Broodwar.map");
     if ( bwSymbols )
     {
       DWORD dwAddr = 0, dwSize = 0;
