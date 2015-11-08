@@ -441,7 +441,7 @@ void AutoMenuManager::onMenuFrame()
       if (characterList->setSelectedByString(this->autoMenuCharacterName))
         BroodwarImpl.pressKey(VK_RETURN); // main Ok
       else
-        BroodwarImpl.pressKey('N'); // New ID
+        pressDialogKey(BW::FindDialogGlobal("Login")->findIndex(6)); // New ID
     }
     else
       BroodwarImpl.pressKey(VK_RETURN); // main Ok
