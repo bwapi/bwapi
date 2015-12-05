@@ -24,6 +24,7 @@
 #include "WMode.h"
 
 #include "../../Debug.h"
+#include <BWAPI/Streams.h>
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)
@@ -217,6 +218,14 @@ BOOL APIENTRY DllMain(HMODULE, DWORD ul_reason_for_call, LPVOID)
     break;
   case DLL_PROCESS_ATTACH:
   {
+    bool attach_s = LoadConfigStringUCase("config", "console_attach_on_startup", "FALSE") == "TRUE";
+    bool alloc_s  = LoadConfigStringUCase("config", "console_alloc_on_startup",  "FALSE") == "TRUE";
+    bool attach_a = LoadConfigStringUCase("config", "console_attach_auto", "TRUE") == "TRUE";
+    bool alloc_a =  LoadConfigStringUCase("config", "console_alloc_auto",  "TRUE") == "TRUE";
+
+    if (!BWAPI::openConsole(attach_s, alloc_s))
+      BWAPI::autoOpenConsole(attach_a, alloc_a);
+
     static char szEventName[32];  // The name of the event, unique for this process
     sprintf(szEventName, "BWAPI #%u", GetCurrentProcessId());
 

@@ -199,6 +199,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
   <ItemGroup>
     <ClInclude Include="..\include\BWAPI\AIModule.h" />
     <ClInclude Include="..\include\BWAPI\BestFilter.h" />
+    <ClInclude Include="..\include\BWAPI\BroodwarOutputDevice.h" />
     <ClInclude Include="..\include\BWAPI\Bulletset.h" />
     <ClInclude Include="..\include\BWAPI\BulletType.h" />
     <ClInclude Include="..\include\BWAPI\Color.h" />
