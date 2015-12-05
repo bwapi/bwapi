@@ -18,23 +18,21 @@ namespace BWAPI
   /// the next line will be some default color. To fix this color problem this device keeps track of
   /// the width of the text in the buffer and manually wraps when needed (not on word boundaries), and
   /// then colors the next line with the current color again before continuing to write.
-  /// @since 4.1.3
+  /// @since 4.2.0
   class BroodwarOutputDevice : public boost::iostreams::sink
   {
-    static const int max_width = 620; //620 is the max width before starcraft wraps on it's own
+    static const int MAX_WIDTH = 620; //620 is the max width before starcraft wraps on it's own
 
-    int bufferWidth;
+    int bufferWidth = 0;
     std::stringbuf buffer;
-    Text::Enum defaultColor;
+    const Text::Enum defaultColor;
     boost::circular_buffer<Text::Enum> previousColors;
 
   public:
     explicit BroodwarOutputDevice(Text::Enum defaultColor = Text::Yellow)
-      : bufferWidth(0)
-      , defaultColor(defaultColor)
+      : defaultColor(Text::isColor(defaultColor) ? defaultColor : Text::Yellow)
       , previousColors(128) //arbitrary stack size
     {
-      assert(Text::isColor(defaultColor));
       buffer.sputc(char(defaultColor));
       previousColors.push_back(defaultColor);
     }
@@ -50,8 +48,10 @@ namespace BWAPI
         char c = s[j];
 
         //push/pop colors
-        if (Text::isColor(static_cast<Text::Enum>(c)))
-          previousColors.push_back(static_cast<Text::Enum>(c));
+        if (Text::isColor(Text::Enum(c)))
+        {
+          previousColors.push_back(Text::Enum(c));
+        }
         else if (c == Text::Previous)
         {
           previousColors.pop_back();
@@ -60,7 +60,7 @@ namespace BWAPI
           c = char(previousColors.back());
         }
 
-        if (c == '\n' || bufferWidth + charWidth(c) > max_width)
+        if (c == '\n' || bufferWidth + charWidth(c) > MAX_WIDTH)
         {
           BroodwarPtr->printf("%s", buffer.str().c_str());
           buffer.str("");
