@@ -68,12 +68,14 @@ namespace BWAPI
   {
     // putting cin in a filtering_ostreambuf makes it stop responding directly on Enter keypresses, and instead
     // you need to press Ctrl+C the same amount of times as the number of elements in the filter chain.
-    //static io::filtering_istreambuf auto_cin_buf(OpenConsoleFilter(attach, alloc) | boost::ref(*std::cin.rdbuf()));
-    static io::filtering_ostreambuf auto_cout_buf(OpenConsoleFilter(attach, alloc) | boost::ref(*std::cout.rdbuf()));
-    static io::filtering_ostreambuf auto_cerr_buf(OpenConsoleFilter(attach, alloc) | boost::ref(*std::cerr.rdbuf()));
-    //std::cin.rdbuf(&auto_opening_cin_buf);
-    std::cout.rdbuf(&auto_cout_buf);
-    std::cerr.rdbuf(&auto_cerr_buf);
+    static std::streambuf& orig_cout_buf(*std::cout.rdbuf());
+    static std::streambuf& orig_cerr_buf(*std::cerr.rdbuf());
+    static std::unique_ptr<io::filtering_ostreambuf> auto_cout_buf;
+    static std::unique_ptr<io::filtering_ostreambuf> auto_cerr_buf;
+    auto_cout_buf = std::make_unique<io::filtering_ostreambuf>(OpenConsoleFilter(attach, alloc) | boost::ref(orig_cout_buf));
+    auto_cerr_buf = std::make_unique<io::filtering_ostreambuf>(OpenConsoleFilter(attach, alloc) | boost::ref(orig_cerr_buf));
+    std::cout.rdbuf(auto_cout_buf.get());
+    std::cerr.rdbuf(auto_cerr_buf.get());
   }
 
 
