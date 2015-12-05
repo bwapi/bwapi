@@ -190,6 +190,7 @@
     <ClInclude Include="..\include\BWAPI\SetContainer.h">
       <Filter>Containers\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\BWAPI\BroodwarOutputDevice.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">

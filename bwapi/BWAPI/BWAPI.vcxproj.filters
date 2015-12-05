@@ -256,6 +256,9 @@
     <ClInclude Include="Source\BW\Structures.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\BWAPI\Streams.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
@@ -425,6 +428,9 @@
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp">
+      <Filter>BWAPI\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\Streams.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
   </ItemGroup>
