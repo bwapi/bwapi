@@ -60,8 +60,7 @@ namespace BWAPI
       std::ios::sync_with_stdio(true);
       return true;
     }
-    else
-      return false;
+    return false;
   }
 
   void autoOpenConsole(bool attach, bool alloc)

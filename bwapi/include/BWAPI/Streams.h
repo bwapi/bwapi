@@ -16,12 +16,12 @@ namespace BWAPI
   ///   True if a console was successfully attached/allocated
   ///
   /// @see AttachConsole, AllocConsole
-  /// @since 4.1.3
+  /// @since 4.2.0
   bool openConsole(bool allowAttach, bool allowAlloc);
 
   /// <summary>Make openConsole be called when something is written to std::cout or std::cerr.</summary>
   /// @see openConsole
-  /// @since 4.1.3
+  /// @since 4.2.0
   void autoOpenConsole(bool allowAttach, bool allowAlloc);
 
   /// <summary>Output stream that writes text to the screen as a notification.</summary>
@@ -31,19 +31,19 @@ namespace BWAPI
   /// @note Text printed from this stream is not seen by other players or in replays.
   ///
   /// @see Text::Enum, BroodwarOutputDevice
-  /// @since 4.1.3
+  /// @since 4.2.0
   extern std::ostream& bwout;
   
   /// <summary>An output stream like bwout, but colored Text::BrightRed by default</summary>
   /// @see bwout
-  /// @since 4.1.3
+  /// @since 4.2.0
   extern std::ostream& bwerr;
   
   /// <summary>An output stream that writes to both std::cout and BWAPI::bwout.</summary>
-  /// @since 4.1.3
+  /// @since 4.2.0
   extern std::ostream& out;
   
   /// <summary>An output stream that writes to both std::cerr and BWAPI::bwerr.</summary>
-  /// @since 4.1.3
+  /// @since 4.2.0
   extern std::ostream& err;
 }
