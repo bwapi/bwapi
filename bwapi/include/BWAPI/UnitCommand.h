@@ -16,6 +16,7 @@ namespace BWAPI
     public:
       UnitCommand() = default;
       UnitCommand(Unit _unit, UnitCommandType _type, Unit _target, int _x, int _y, int _extra);
+      UnitCommand(Unit _unit, UnitCommandType _type);
 
       static UnitCommand attack(Unit unit, Unit target, bool shiftQueueCommand = false);
       static UnitCommand attack(Unit unit, Position target, bool shiftQueueCommand = false);
@@ -71,9 +72,17 @@ namespace BWAPI
       UpgradeType     getUpgradeType() const;
       int             getSlot() const;
       bool            isQueued() const;
-      
+
       bool operator==(const UnitCommand& other) const;
       bool operator!=(const UnitCommand& other) const;
+
+      template <class T, int S>
+      void assignTarget(Point<T, S> target)
+      {
+        target.makeValid();
+        x = target.x;
+        y = target.y;
+      }
 
       Unit unit = nullptr;
       UnitCommandType type = UnitCommandTypes::None;
