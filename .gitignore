@@ -31,3 +31,4 @@ bwapi/libReplayToolTest/TestData/Replay_Tool_Actual.exe
 bwapi/ipch/
 Release_Binary/Chaoslauncher/__log.txt
 Release_Binary/ExampleAIClient/Source/
+bwapi/packages/
