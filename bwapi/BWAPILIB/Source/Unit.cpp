@@ -87,68 +87,74 @@ namespace BWAPI
                                   abs(this->getPosition().y - this->getType().tileHeight() * 32 / 2)) );
   }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitInterface::getDistance(PositionOrUnit target) const
+  int UnitInterface::getDistance(Position target) const
   {
-    // If this unit does not exist
-    if ( !exists() )
-      return std::numeric_limits<int>::max();
-
-    // Must be something valid
-    if ( !target.getUnit() && !target.getPosition() )
-      return std::numeric_limits<int>::max();
-
-    // if target is a unit but doesn't exist
-    if ( target.getUnit() && !target.getUnit()->exists() )
-      return std::numeric_limits<int>::max();
-
-    // If target is the same as the source
-    if ( this == target.getUnit() )
+    // If this unit does not exist or target is invalid
+    if (!exists() || !target)
       return std::numeric_limits<int>::max();
 
     /////// Compute distance
 
     // retrieve left/top/right/bottom values for calculations
-    int left, right, top, bottom;
-
-    if ( target.isPosition() )
-    {
-      // Retrieve the target position if it is so
-      Position targPos = target.getPosition();
-      left    = targPos.x - 1;
-      top     = targPos.y - 1;
-      right   = targPos.x + 1;
-      bottom  = targPos.y + 1;
-    }
-    else
-    {
-      // Retrieve the target unit if it's not a position
-      Unit pUnit = target.getUnit();
-
-      // return if target is invalid
-      if ( !pUnit || pUnit == this )
-        return 0;
-
-      left    = pUnit->getLeft() - 1;
-      top     = pUnit->getTop() - 1;
-      right   = pUnit->getRight() + 1;
-      bottom  = pUnit->getBottom() + 1;
-    }
+    int left = target.x - 1;
+    int top = target.y - 1;
+    int right = target.x + 1;
+    int bottom = target.y + 1;
 
     // compute x distance
     int xDist = this->getLeft() - right;
-    if ( xDist < 0 )
+    if (xDist < 0)
     {
       xDist = left - this->getRight();
-      if ( xDist < 0 )
+      if (xDist < 0)
         xDist = 0;
     }
 
     // compute y distance
     int yDist = this->getTop() - bottom;
-    if ( yDist < 0 )
+    if (yDist < 0)
     {
       yDist = top - this->getBottom();
-      if ( yDist < 0 )
+      if (yDist < 0)
+        yDist = 0;
+    }
+
+    // compute actual distance
+    return Positions::Origin.getApproxDistance(Position(xDist, yDist));
+  }
+  int UnitInterface::getDistance(Unit target) const
+  {
+    // If this unit does not exist or target is invalid
+    if (!exists() || !target || !target->exists())
+      return std::numeric_limits<int>::max();
+
+    // If target is the same as the source
+    if (this == target)
+      return 0;
+
+    /////// Compute distance
+
+    // retrieve left/top/right/bottom values for calculations
+    int left = target->getLeft() - 1;
+    int top = target->getTop() - 1;
+    int right = target->getRight() + 1;
+    int bottom = target->getBottom() + 1;
+
+    // compute x distance
+    int xDist = this->getLeft() - right;
+    if (xDist < 0)
+    {
+      xDist = left - this->getRight();
+      if (xDist < 0)
+        xDist = 0;
+    }
+
+    // compute y distance
+    int yDist = this->getTop() - bottom;
+    if (yDist < 0)
+    {
+      yDist = top - this->getBottom();
+      if (yDist < 0)
         yDist = 0;
     }
 
@@ -156,23 +162,35 @@ namespace BWAPI
     return Positions::Origin.getApproxDistance(Position(xDist, yDist));
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitInterface::hasPath(PositionOrUnit target) const
+  bool UnitInterface::hasPath(Position target) const
   {
     Broodwar->setLastError();
     // Return error if the position is invalid
-    if ( !target.getPosition() )
+    if (!target)
       return Broodwar->setLastError(Errors::Invalid_Parameter);
 
     // Return true if this unit is an air unit
-    if ( this->isFlying() )
+    if (this->isFlying())
       return true;
 
-    // Return error if either this or the target does not "exist"
-    if ( (target.getUnit() && !target.getUnit()->exists()) || !exists() )
+    // Return error if this does not exist
+    if (!exists())
       return Broodwar->setLastError(Errors::Unit_Not_Visible);
 
-    // return result of Game::hasPath
-    return Broodwar->hasPath(this->getPosition(), target.getPosition());
+    return Broodwar->hasPath(this->getPosition(), target);
+  }
+  bool UnitInterface::hasPath(Unit target) const
+  {
+    Broodwar->setLastError();
+    // Return error if the target is invalid
+    if (!target)
+      return Broodwar->setLastError(Errors::Invalid_Parameter);
+
+    // Return error if target does not exist
+    if (!target->exists())
+      return Broodwar->setLastError(Errors::Unit_Not_Visible);
+
+    return hasPath(target->getPosition());
   }
   //--------------------------------------------- GET REGION -------------------------------------------------
   BWAPI::Region UnitInterface::getRegion() const
@@ -335,7 +353,11 @@ namespace BWAPI
     return std::max(space, 0);
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitInterface::attack(PositionOrUnit target, bool shiftQueueCommand)
+  bool UnitInterface::attack(Position target, bool shiftQueueCommand)
+  {
+    return this->issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
+  }
+  bool UnitInterface::attack(Unit target, bool shiftQueueCommand)
   {
     return this->issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
   }
@@ -387,9 +409,13 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::upgrade(this,upgrade));
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
-  bool UnitInterface::setRallyPoint(PositionOrUnit target)
+  bool UnitInterface::setRallyPoint(Unit target)
   {
-    return this->issueCommand( UnitCommand::setRallyPoint(this, target) );
+    return this->issueCommand(UnitCommand::setRallyPoint(this, target));
+  }
+  bool UnitInterface::setRallyPoint(Position target)
+  {
+    return this->issueCommand(UnitCommand::setRallyPoint(this, target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool UnitInterface::move(Position target, bool shiftQueueCommand)
@@ -492,9 +518,13 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::unloadAll(this,target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitInterface::rightClick(PositionOrUnit target, bool shiftQueueCommand)
+  bool UnitInterface::rightClick(Position target, bool shiftQueueCommand)
   {
     return this->issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
+  }
+  bool UnitInterface::rightClick(Unit target, bool shiftQueueCommand)
+  {
+    return this->issueCommand(UnitCommand::rightClick(this, target, shiftQueueCommand));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool UnitInterface::haltConstruction()
@@ -532,11 +562,15 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::cancelUpgrade(this));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitInterface::useTech(TechType tech, PositionOrUnit target)
+  bool UnitInterface::useTech(TechType tech, Position target)
   {
-    if ( target.isUnit() && target.getUnit() == nullptr )
-      return this->issueCommand(UnitCommand::useTech(this,tech));
-    return this->issueCommand(UnitCommand::useTech(this,tech,target));
+    return this->issueCommand(UnitCommand::useTech(this, tech, target));
+  }
+  bool UnitInterface::useTech(TechType tech, Unit target)
+  {
+    if (target == nullptr)
+      return this->issueCommand(UnitCommand::useTech(this, tech));
+    return this->issueCommand(UnitCommand::useTech(this, tech, target));
   }
   //--------------------------------------------- PLACE COP --------------------------------------------------
   bool UnitInterface::placeCOP(TilePosition target)

@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI/Position.h>
-#include <BWAPI/PositionUnit.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
@@ -257,19 +256,31 @@ namespace BWAPI
     /// are grouped together to form an expansion.
     virtual int getResourceGroup() const = 0;
 
-    /// <summary>Retrieves the distance between this unit and a target.</summary>
+    /// <summary>Retrieves the distance between this unit and a target position.</summary>
     ///
     /// @note Distance is calculated from the edge of this unit, using Starcraft's own distance
-    /// algorithm.
+    /// algorithm. Ignores collisions.
     ///
     /// <param name="target">
-    ///   A Position or a Unit to calculate the distance to. If it is a unit, then it will
-    ///   calculate the distance to the edge of the target unit.
+    ///   A Position to calculate the distance to.
     /// </param>
     ///
     /// @returns An integer representation of the number of pixels between this unit and the
     /// \p target.
-    int getDistance(PositionOrUnit target) const;
+    int getDistance(Position target) const;
+
+    /// <summary>Retrieves the distance between this unit and a target unit.</summary>
+    ///
+    /// @note Distance is calculated from the edge of this unit, using Starcraft's own distance
+    /// algorithm. Ignores collisions.
+    ///
+    /// <param name="target">
+    ///   A Unit to calculate the distance to. Calculate the distance to the edge of the target unit.
+    /// </param>
+    ///
+    /// @returns An integer representation of the number of pixels between this unit and the
+    /// \p target.
+    int getDistance(Unit target) const;
 
     /// <summary>Using data provided by Starcraft, checks if there is a path available from this
     /// unit to the given target.</summary>
@@ -287,7 +298,25 @@ namespace BWAPI
     /// @retval true If there is a path between this unit and the target.
     /// @retval false If the target is on a different piece of land than this one (such as an
     /// island).
-    bool hasPath(PositionOrUnit target) const;
+    bool hasPath(Position target) const;
+
+    /// <summary>Using data provided by Starcraft, checks if there is a path available from this
+    /// unit to the given target.</summary>
+    ///
+    /// @note This function only takes into account the terrain data, and does not include
+    /// buildings when determining if a path is available. However, the complexity of this
+    /// function is constant ( O(1) ), and no extensive calculations are necessary.
+    ///
+    /// @note If the current unit is an air unit, then this function will always return true.
+    ///
+    /// <param name="target">
+    ///   A Position or a Unit that is used to determine if this unit has a path to the target.
+    /// </param>
+    ///
+    /// @retval true If there is a path between this unit and the target.
+    /// @retval false If the target is on a different piece of land than this one (such as an
+    /// island).
+    bool hasPath(Unit target) const;
 
     /// <summary>Retrieves the frame number that sent the last successful command.</summary>
     /// 
@@ -1300,12 +1329,10 @@ namespace BWAPI
     /// @see UnitCommandTypes, Game::getLastError, UnitInterface::canIssueCommand
     virtual bool issueCommand(UnitCommand command) = 0;
 
-    /// <summary>Orders the unit(s) to attack move to the specified position or attack the
-    /// specified unit.</summary>
+    /// <summary>Orders the unit(s) to attack move to the specified position.</summary>
     ///
     /// <param name="target">
-    ///     A Position or a Unit to designate as the target. If a Position is used, the unit will
-    ///     perform an Attack Move command.
+    ///     A Position to designate as the target. The unit will perform an Attack Move command.
     /// </param>
     /// <param name="shiftQueueCommand"> (optional)
     ///     If this value is true, then the order will be queued instead of immediately executed.
@@ -1319,7 +1346,24 @@ namespace BWAPI
     /// @note A @Medic will use Heal Move instead of attack.
     ///
     /// @see Game::getLastError, UnitInterface::canAttack
-    bool attack(PositionOrUnit target, bool shiftQueueCommand = false);
+    bool attack(Position target, bool shiftQueueCommand = false);
+
+    /// <summary>Orders the unit(s) to attack the specified target unit.</summary>
+    ///
+    /// <param name="target">
+    ///     A Unit to designate as the target.
+    /// </param>
+    /// <param name="shiftQueueCommand"> (optional)
+    ///     If this value is true, then the order will be queued instead of immediately executed.
+    ///     If this value is omitted, then the order will be executed immediately by default.
+    /// </param>
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see Game::getLastError, UnitInterface::canAttack
+    bool attack(Unit target, bool shiftQueueCommand = false);
 
     /// <summary>Orders the worker unit(s) to construct a structure at a target position.</summary>
     ///
@@ -1418,10 +1462,10 @@ namespace BWAPI
     /// @see cancelUpgrade, isUpgrading, getRemainingUpgradeTime, getUpgrade, canUpgrade
     bool upgrade(UpgradeType upgrade);
 
-    /// <summary>Orders the unit to set its rally position to the specified position or unit.</summary>
+    /// <summary>Orders the unit to set its rally position.</summary>
     ///
     /// <param name="target">
-    ///     The target position or target unit that this structure will rally to.
+    ///     The target position that this structure will rally completed units to.
     /// </param>
     ///
     /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
@@ -1429,7 +1473,20 @@ namespace BWAPI
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @see getRallyPosition, getRallyUnit, canSetRallyPoint, canSetRallyPosition, canSetRallyUnit
-    bool setRallyPoint(PositionOrUnit target);
+    bool setRallyPoint(Position target);
+
+    /// <summary>Orders the unit to set its rally position to the specified unit.</summary>
+    ///
+    /// <param name="target">
+    ///     The target unit that this structure will rally completed units to.
+    /// </param>
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see getRallyPosition, getRallyUnit, canSetRallyPoint, canSetRallyPosition, canSetRallyUnit
+    bool setRallyPoint(Unit target);
 
     /// <summary>Orders the unit to move from its current position to the specified position.</summary>
     ///
@@ -1709,10 +1766,10 @@ namespace BWAPI
     /// @see load, unload, getLoadedUnits, isLoaded, canUnloadAllPosition, canUnloadAtPosition
     bool unloadAll(Position target, bool shiftQueueCommand = false);
 
-    /// <summary>Works like the right click in the GUI.</summary>
+    /// <summary>Performs a right click action as it would work in StarCraft.</summary>
     ///
     /// <param name="target">
-    ///     The target position or target unit to right click.
+    ///     The target position to right click.
     /// </param>
     /// <param name="shiftQueueCommand"> (optional)
     ///     If this value is true, then the order will be queued instead of immediately executed.
@@ -1724,7 +1781,24 @@ namespace BWAPI
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     ///
     /// @see canRightClick, canRightClickPosition, canRightClickUnit
-    bool rightClick(PositionOrUnit target, bool shiftQueueCommand = false);
+    bool rightClick(Position target, bool shiftQueueCommand = false);
+
+    /// <summary>Performs a right click action as it would work in StarCraft.</summary>
+    ///
+    /// <param name="target">
+    ///     The target unit to right click.
+    /// </param>
+    /// <param name="shiftQueueCommand"> (optional)
+    ///     If this value is true, then the order will be queued instead of immediately executed.
+    ///     If this value is omitted, then the order will be executed immediately by default.
+    /// </param>
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that 
+    /// the command would fail.
+    /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
+    ///
+    /// @see canRightClick, canRightClickPosition, canRightClickUnit
+    bool rightClick(Unit target, bool shiftQueueCommand = false);
 
     /// <summary>Orders a @SCV to stop constructing a structure.</summary> This leaves the
     /// structure in an incomplete state until it is either cancelled, razed, or completed by
@@ -1794,14 +1868,30 @@ namespace BWAPI
     /// @note There is a small chance for a command to fail after it has been passed to Broodwar.
     /// @see upgrade, isUpgrading, getUpgrade, canCancelUpgrade
     bool cancelUpgrade();
-    
+
+    /// <summary>Orders the unit to use a technology.</summary>
+    ///
+    /// <param name="tech">
+    ///     The technology type to use.
+    /// </param>
+    /// <param name="target">
+    ///     If specified, indicates the target location to use the tech on.
+    /// </param>
+    ///
+    /// @returns true if the command was passed to Broodwar, and false if BWAPI determined that
+    /// the command would fail.
+    ///
+    /// @see canUseTechWithOrWithoutTarget, canUseTech, canUseTechWithoutTarget, canUseTechUnit,
+    ///      canUseTechPosition, TechTypes
+    bool useTech(TechType tech, Position target);
+
     /// <summary>Orders the unit to use a technology.</summary>
     ///
     /// <param name="tech">
     ///     The technology type to use.
     /// </param>
     /// <param name="target"> (optional)
-    ///     If specified, indicates the target location or unit to use the tech on. If unspecified,
+    ///     If specified, indicates the target unit to use the tech on. If unspecified,
     ///     causes the \p tech to be used without a target (i.e. @Stim_Packs).
     /// </param>
     ///
@@ -1810,7 +1900,7 @@ namespace BWAPI
     ///
     /// @see canUseTechWithOrWithoutTarget, canUseTech, canUseTechWithoutTarget, canUseTechUnit,
     ///      canUseTechPosition, TechTypes
-    bool useTech(TechType tech, PositionOrUnit target = nullptr);
+    bool useTech(TechType tech, Unit target = nullptr);
 
     /// <summary>Moves a @Flag_Beacon to a different location.</summary> This is only used for @CTF
     /// or @UMS game types.
@@ -1992,7 +2082,9 @@ namespace BWAPI
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::attack,
     /// UnitInterface::canAttackMove, UnitInterface::canAttackUnit
-    virtual bool canAttack(PositionOrUnit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    virtual bool canAttack(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    /// @overload
+    virtual bool canAttack(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Cheap checks for whether the unit is able to execute an attack command to attack-move or attack a unit,
     /// as part of a Unitset.</summary>
@@ -2004,7 +2096,9 @@ namespace BWAPI
     /// (non-null) unit, as part of a Unitset.</summary>
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canAttack
-    virtual bool canAttackGrouped(PositionOrUnit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
+    virtual bool canAttackGrouped(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
+    /// @overload
+    virtual bool canAttackGrouped(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Checks whether the unit is able to execute an attack command to attack-move.</summary>
     ///
@@ -2117,7 +2211,9 @@ namespace BWAPI
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::setRallyPoint,
     /// UnitInterface::canSetRallyPosition, UnitInterface::canSetRallyUnit.
-    virtual bool canSetRallyPoint(PositionOrUnit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    virtual bool canSetRallyPoint(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    /// @overload
+    virtual bool canSetRallyPoint(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Checks whether the unit is able to execute a setRallyPoint command to a position.</summary>
     ///
@@ -2305,7 +2401,9 @@ namespace BWAPI
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::rightClick,
     /// UnitInterface::canRightClickPosition, UnitInterface::canRightClickUnit.
-    virtual bool canRightClick(PositionOrUnit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    virtual bool canRightClick(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    // @overload
+    virtual bool canRightClick(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Cheap checks for whether the unit is able to execute a rightClick command to a position
     /// or unit, as part of a Unitset.</summary>
@@ -2317,7 +2415,9 @@ namespace BWAPI
     /// unit, as part of a Unitset.</summary>
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommandGrouped, UnitInterface::canRightClickUnit
-    virtual bool canRightClickGrouped(PositionOrUnit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
+    virtual bool canRightClickGrouped(Position target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
+    /// @overload
+    virtual bool canRightClickGrouped(Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Checks whether the unit is able to execute a rightClick command for a position.</summary>
     ///
@@ -2416,7 +2516,9 @@ namespace BWAPI
     ///
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::useTech,
     /// UnitInterface::canUseTechWithoutTarget, UnitInterface::canUseTechUnit, UnitInterface::canUseTechPosition
-    virtual bool canUseTech(BWAPI::TechType tech, PositionOrUnit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    virtual bool canUseTech(BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
+    /// @overload
+    virtual bool canUseTech(BWAPI::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const = 0;
 
     /// <summary>Checks whether the unit is able to execute a useTech command without a target.</summary>
     ///

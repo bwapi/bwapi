@@ -29,7 +29,6 @@
 #include <BWAPI/Playerset.h>
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Position.h>
-#include <BWAPI/PositionUnit.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Region.h>
 #include <BWAPI/Regionset.h>

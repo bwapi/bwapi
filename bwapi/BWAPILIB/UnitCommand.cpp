@@ -1,6 +1,5 @@
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Unit.h>
-#include <BWAPI/PositionUnit.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/UpgradeType.h>
 #include <tuple>
@@ -17,24 +16,27 @@ namespace BWAPI
   , y(_y)
   , extra(_extra)
   {}
-  UnitCommand UnitCommand::attack(Unit unit, PositionOrUnit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::attack(Unit unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
-    c.unit  = unit;
+    c.unit = unit;
 
-    if ( target.isPosition() )
-    {
-      c.type  = UnitCommandTypes::Attack_Move;
-      Position targPos = target.getPosition();
-      targPos.makeValid();
-      c.x  = targPos.x;
-      c.y  = targPos.y;
-    }
-    else
-    {
-      c.type   = UnitCommandTypes::Attack_Unit;
-      c.target = target.getUnit();
-    }
+    c.type = UnitCommandTypes::Attack_Move;
+    target.makeValid();
+    c.x = target.x;
+    c.y = target.y;
+    
+    c.extra = shiftQueueCommand ? 1 : 0;
+    return c;
+  }
+  UnitCommand UnitCommand::attack(Unit unit, Unit target, bool shiftQueueCommand)
+  {
+    UnitCommand c;
+    c.unit = unit;
+
+    c.type = UnitCommandTypes::Attack_Unit;
+    c.target = target;
+
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
@@ -89,23 +91,23 @@ namespace BWAPI
     c.extra = upgrade;
     return c;
   }
-  UnitCommand UnitCommand::setRallyPoint(Unit unit, PositionOrUnit target)
+  UnitCommand UnitCommand::setRallyPoint(Unit unit, Position target)
   {
     UnitCommand c;
     c.unit = unit;
-    if ( target.isPosition() )
-    {
-      c.type = UnitCommandTypes::Set_Rally_Position;
-      Position targPos = target.getPosition();
-      targPos.makeValid();
-      c.x    = targPos.x;
-      c.y    = targPos.y;
-    }
-    else
-    {
-      c.type   = UnitCommandTypes::Set_Rally_Unit;
-      c.target = target.getUnit();
-    }
+    c.type = UnitCommandTypes::Set_Rally_Position;
+
+    target.makeValid();
+    c.x = target.x;
+    c.y = target.y;
+    return c;
+  }
+  UnitCommand UnitCommand::setRallyPoint(Unit unit, Unit target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.type = UnitCommandTypes::Set_Rally_Unit;
+    c.target = target;
     return c;
   }
   UnitCommand UnitCommand::move(Unit unit, Position target, bool shiftQueueCommand)
@@ -276,25 +278,28 @@ namespace BWAPI
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit unit, PositionOrUnit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::rightClick(Unit unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c;
     c.unit = unit;
 
-    if ( target.isPosition() )
-    {
-      c.type = UnitCommandTypes::Right_Click_Position;
-      Position targPos = target.getPosition();
-      targPos.makeValid();
-      c.x    = targPos.x;
-      c.y    = targPos.y;
-    }
-    else
-    {
-      c.type   = UnitCommandTypes::Right_Click_Unit;
-      c.target = target.getUnit();
-    }
-    c.extra  = shiftQueueCommand ? 1 : 0;
+    c.type = UnitCommandTypes::Right_Click_Position;
+    target.makeValid();
+    c.x = target.x;
+    c.y = target.y;
+    
+    c.extra = shiftQueueCommand ? 1 : 0;
+    return c;
+  }
+  UnitCommand UnitCommand::rightClick(Unit unit, Unit target, bool shiftQueueCommand)
+  {
+    UnitCommand c;
+    c.unit = unit;
+
+    c.type = UnitCommandTypes::Right_Click_Unit;
+    c.target = target;
+
+    c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
   UnitCommand UnitCommand::haltConstruction(Unit unit)
@@ -361,25 +366,28 @@ namespace BWAPI
       c.type = unit->isSieged() ? UnitCommandTypes::Unsiege : UnitCommandTypes::Siege;
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit unit, TechType tech, PositionOrUnit target)
+  UnitCommand UnitCommand::useTech(Unit unit, TechType tech, Position target)
   {
     UnitCommand c;
-    c.unit  = unit;
+    c.unit = unit;
     c.extra = tech;
 
-    if ( target.isPosition() )
-    {
-      c.type  = UnitCommandTypes::Use_Tech_Position;
-      Position targPos = target.getPosition();
-      targPos.makeValid();
-      c.x  = targPos.x;
-      c.y  = targPos.y;
-    }
-    else
-    {
-      c.type   = UnitCommandTypes::Use_Tech_Unit;
-      c.target = target.getUnit();
-    }
+    c.type = UnitCommandTypes::Use_Tech_Position;
+    target.makeValid();
+    c.x = target.x;
+    c.y = target.y;
+
+    return c;
+  }
+  UnitCommand UnitCommand::useTech(Unit unit, TechType tech, Unit target)
+  {
+    UnitCommand c;
+    c.unit = unit;
+    c.extra = tech;
+
+    c.type = UnitCommandTypes::Use_Tech_Unit;
+    c.target = target;
+
     return c;
   }
   UnitCommand UnitCommand::placeCOP(Unit unit, TilePosition target)

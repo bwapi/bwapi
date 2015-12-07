@@ -183,7 +183,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClCompile Include="Source\Playerset.cpp" />
     <ClCompile Include="Source\PlayerType.cpp" />
     <ClCompile Include="Source\Position.cpp" />
-    <ClCompile Include="Source\PositionUnit.cpp" />
     <ClCompile Include="Source\Race.cpp" />
     <ClCompile Include="Source\Region.cpp" />
     <ClCompile Include="Source\Regionset.cpp" />
@@ -210,7 +209,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClInclude Include="..\include\BWAPI\InterfaceEvent.h" />
     <ClInclude Include="..\include\BWAPI\Latency.h" />
     <ClInclude Include="..\include\BWAPI\Playerset.h" />
-    <ClInclude Include="..\include\BWAPI\PositionUnit.h" />
     <ClInclude Include="..\include\BWAPI\Regionset.h" />
     <ClInclude Include="..\include\BWAPI\SetContainer.h" />
     <ClInclude Include="..\include\BWAPI\UnaryFilter.h" />

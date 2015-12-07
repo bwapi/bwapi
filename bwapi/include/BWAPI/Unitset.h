@@ -1,7 +1,6 @@
 #pragma once
 #include "SetContainer.h"
 #include <BWAPI/Position.h>
-#include <BWAPI/PositionUnit.h>
 #include <BWAPI/Filters.h>
 
 namespace BWAPI
@@ -82,7 +81,10 @@ namespace BWAPI
     bool issueCommand(UnitCommand command) const;
     
     /// @copydoc UnitInterface::attack
-    bool attack(PositionOrUnit target, bool shiftQueueCommand = false) const;
+    bool attack(Position target, bool shiftQueueCommand = false) const;
+
+    /// @copydoc UnitInterface::attack
+    bool attack(Unit target, bool shiftQueueCommand = false) const;
 
     /// @copydoc UnitInterface::build
     bool build(UnitType type, TilePosition target = TilePositions::None) const;
@@ -97,7 +99,10 @@ namespace BWAPI
     bool morph(UnitType type) const;
 
     /// @copydoc UnitInterface::setRallyPoint
-    bool setRallyPoint(PositionOrUnit target) const;
+    bool setRallyPoint(Unit target) const;
+
+    /// @copydoc UnitInterface::setRallyPoint
+    bool setRallyPoint(Position target) const;
 
     /// @copydoc UnitInterface::move
     bool move(Position target, bool shiftQueueCommand = false) const;
@@ -154,7 +159,10 @@ namespace BWAPI
     bool unloadAll(Position target, bool shiftQueueCommand = false) const;
 
     /// @copydoc UnitInterface::rightClick
-    bool rightClick(PositionOrUnit target, bool shiftQueueCommand = false) const;
+    bool rightClick(Unit target, bool shiftQueueCommand = false) const;
+
+    /// @copydoc UnitInterface::rightClick
+    bool rightClick(Position target, bool shiftQueueCommand = false) const;
 
     /// @copydoc UnitInterface::haltConstruction
     bool haltConstruction() const;
@@ -178,7 +186,10 @@ namespace BWAPI
     bool cancelUpgrade() const;
     
     /// @copydoc UnitInterface::useTech
-    bool useTech(TechType tech, PositionOrUnit target = nullptr) const;
+    bool useTech(TechType tech, Unit target = nullptr) const;
+
+    /// @copydoc UnitInterface::useTech
+    bool useTech(TechType tech, Position target) const;
 
     ///@}
   };
