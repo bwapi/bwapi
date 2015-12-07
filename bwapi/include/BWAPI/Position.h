@@ -257,6 +257,8 @@ namespace BWAPI
 
     /// <summary>Gets an accurate distance measurement from this point to the given position.</summary>
     ///
+    /// @note This is a direct distance calculation that ignores all collision.
+    ///
     /// @note This function impedes performance. In most cases you should use getApproxDistance.
     ///
     /// <param name="position">
@@ -284,6 +286,8 @@ namespace BWAPI
     };
     
     /// <summary>Retrieves the approximate distance using an algorithm from Starcraft: Broodwar.</summary>
+    ///
+    /// @note This is a direct distance calculation that ignores all collision.
     ///
     /// @note This function is desired because it uses the same "imperfect" algorithm used in
     /// Broodwar, so that calculations will be consistent with the game. It is also optimized
