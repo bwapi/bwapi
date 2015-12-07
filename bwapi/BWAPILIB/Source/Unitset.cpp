@@ -104,7 +104,11 @@ namespace BWAPI
     return Broodwar->issueCommand(*this, command);
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool Unitset::attack(PositionOrUnit target, bool shiftQueueCommand) const
+  bool Unitset::attack(Position target, bool shiftQueueCommand) const
+  {
+    return this->issueCommand(UnitCommand::attack(nullptr, target, shiftQueueCommand));
+  }
+  bool Unitset::attack(Unit target, bool shiftQueueCommand) const
   {
     return this->issueCommand(UnitCommand::attack(nullptr, target, shiftQueueCommand));
   }
@@ -136,9 +140,13 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::morph(nullptr,type));
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
-  bool Unitset::setRallyPoint(PositionOrUnit target) const
+  bool Unitset::setRallyPoint(Position target) const
   {
-    return this->issueCommand( UnitCommand::setRallyPoint(nullptr, target) );
+    return this->issueCommand(UnitCommand::setRallyPoint(nullptr, target));
+  }
+  bool Unitset::setRallyPoint(Unit target) const
+  {
+    return this->issueCommand(UnitCommand::setRallyPoint(nullptr, target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool Unitset::move(Position target, bool shiftQueueCommand) const
@@ -231,9 +239,13 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::unloadAll(nullptr,target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool Unitset::rightClick(PositionOrUnit target, bool shiftQueueCommand) const
+  bool Unitset::rightClick(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::rightClick(nullptr,target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::rightClick(nullptr, target, shiftQueueCommand));
+  }
+  bool Unitset::rightClick(Position target, bool shiftQueueCommand) const
+  {
+    return this->issueCommand(UnitCommand::rightClick(nullptr, target, shiftQueueCommand));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool Unitset::haltConstruction() const
@@ -271,11 +283,15 @@ namespace BWAPI
     return this->issueCommand(UnitCommand::cancelUpgrade(nullptr));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool Unitset::useTech(TechType tech, PositionOrUnit target) const
+  bool Unitset::useTech(TechType tech, Unit target) const
   {
-    if ( target.isUnit() && target.getUnit() == nullptr )
-      return this->issueCommand(UnitCommand::useTech(nullptr,tech));
-    return this->issueCommand(UnitCommand::useTech(nullptr,tech,target));
+    if (target == nullptr)
+      return this->issueCommand(UnitCommand::useTech(nullptr, tech));
+    return this->issueCommand(UnitCommand::useTech(nullptr, tech, target));
+  }
+  bool Unitset::useTech(TechType tech, Position target) const
+  {
+    return this->issueCommand(UnitCommand::useTech(nullptr, tech, target));
   }
 }
 

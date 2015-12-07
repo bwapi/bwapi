@@ -67,7 +67,6 @@
     <ClCompile Include="Source\AIModule.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PositionUnit.cpp" />
     <ClCompile Include="Source\Unit.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
@@ -169,7 +168,6 @@
     <ClInclude Include="..\include\BWAPI\TournamentAction.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\PositionUnit.h" />
     <ClInclude Include="..\include\BWAPI\CoordinateType.h">
       <Filter>Enums</Filter>
     </ClInclude>

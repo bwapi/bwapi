@@ -656,7 +656,11 @@ namespace BWAPI
   {
     return Templates::canAttack(const_cast<UnitImpl*>(this), checkCommandibility);
   }
-  bool UnitImpl::canAttack(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canAttack(Position target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canAttack(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canAttack(Unit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canAttack(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
   }
@@ -664,7 +668,11 @@ namespace BWAPI
   {
     return Templates::canAttackGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
   }
-  bool UnitImpl::canAttackGrouped(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  bool UnitImpl::canAttackGrouped(Position target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canAttackGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canAttackGrouped(Unit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
   {
     return Templates::canAttackGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
   }
@@ -757,7 +765,11 @@ namespace BWAPI
   {
     return Templates::canSetRallyPoint(const_cast<UnitImpl*>(this), checkCommandibility);
   }
-  bool UnitImpl::canSetRallyPoint(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canSetRallyPoint(Position target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canSetRallyPoint(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canSetRallyPoint(Unit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canSetRallyPoint(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
   }
@@ -924,7 +936,11 @@ namespace BWAPI
   {
     return Templates::canRightClick(const_cast<UnitImpl*>(this), checkCommandibility);
   }
-  bool UnitImpl::canRightClick(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canRightClick(Position target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canRightClick(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canRightClick(Unit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canRightClick(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibility);
   }
@@ -932,7 +948,11 @@ namespace BWAPI
   {
     return Templates::canRightClickGrouped(const_cast<UnitImpl*>(this), checkCommandibilityGrouped, checkCommandibility);
   }
-  bool UnitImpl::canRightClickGrouped(PositionOrUnit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  bool UnitImpl::canRightClickGrouped(Position target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
+  {
+    return Templates::canRightClickGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
+  }
+  bool UnitImpl::canRightClickGrouped(Unit target, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility) const
   {
     return Templates::canRightClickGrouped(const_cast<UnitImpl*>(this), target, checkCanTargetUnit, checkCanIssueCommandType, checkCommandibilityGrouped, checkCommandibility);
   }
@@ -1015,7 +1035,11 @@ namespace BWAPI
   {
     return Templates::canUseTechWithOrWithoutTarget(const_cast<UnitImpl*>(this), tech, checkCanIssueCommandType, checkCommandibility);
   }
-  bool UnitImpl::canUseTech(BWAPI::TechType tech, PositionOrUnit target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  bool UnitImpl::canUseTech(BWAPI::TechType tech, Unit target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
+  {
+    return Templates::canUseTech(const_cast<UnitImpl*>(this), tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, checkCommandibility);
+  }
+  bool UnitImpl::canUseTech(BWAPI::TechType tech, Position target, bool checkCanTargetUnit, bool checkTargetsType, bool checkCanIssueCommandType, bool checkCommandibility) const
   {
     return Templates::canUseTech(const_cast<UnitImpl*>(this), tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, checkCommandibility);
   }

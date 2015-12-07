@@ -1443,8 +1443,7 @@ namespace BWAPI
     ///   The destination position.
     /// </param>
     ///
-    /// @retval true if there is a path between the two positions
-    /// @retval false if there is no path
+    /// @returns true if there is a path between the two positions, and false if there is not.
     bool hasPath(Position source, Position destination) const;
 
     /// <summary>Sets the alliance state of the current player with the target player.</summary>
