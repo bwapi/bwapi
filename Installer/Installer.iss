@@ -67,7 +67,6 @@ DefaultDirName={pf}\BWAPI
 UsePreviousSetupType=False
 UsePreviousTasks=False
 UsePreviousLanguage=False
-ShowTasksTreeLines=True
 AlwaysShowGroupOnReadyPage=True
 AlwaysShowDirOnReadyPage=True
 UsePreviousGroup=False
@@ -91,15 +90,17 @@ OutputBaseFilename=BWAPI_Setup
 InternalCompressLevel=ultra
 SolidCompression=True
 Compression=lzma2/ultra
+DisableReadyPage=True
 
 [Components]
-Name: "Binaries"; Description: "Binaries"
+Name: "Binaries"; Description: "Binaries"; Types: custom full
 Name: "Binaries\BWAPI"; Description: "BWAPI Binaries (Requires Starcraft: Broodwar)"; Types: full custom; Check: GetBroodwarPath
+Name: "Binaries\Gateways"; Description: "The Abyss Battle.net Gateway"; Types: custom full
 Name: "Binaries\vcredist"; Description: "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.21005"; Types: custom full
 Name: "Library"; Description: "Interface"; Types: custom full
-Name: "Library\Headers"; Description: "Library & Header Files"; Types: custom full
-Name: "Library\Examples"; Description: "Example Projects"; Types: custom full
 Name: "Library\Documentation"; Description: "Documentation"; Types: custom full
+Name: "Library\Examples"; Description: "Example Projects"; Types: custom full
+Name: "Library\Headers"; Description: "Library & Header Files"; Types: custom full
 Name: "Chaoslauncher"; Description: "Chaoslauncher (Plugin Loader) & Plugins"; Types: full custom
 Name: "MPQDraft"; Description: "MPQDraft (Mod Manager & Plugin Loader)"; Types: custom full
 
@@ -116,12 +117,7 @@ Name: "full"; Description: "Full Installation"
 Name: "custom"; Description: "Custom Installation"; Flags: iscustom
 
 [Registry]
-Root: "HKCU32"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|sc.theabyss.ru;+7;The Abyss (ICCUP);}"; Tasks: ICCUP
-Root: "HKCU32"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|games.podolsk.ru;+8;Games Podolsk;}"; Tasks: Podolsk
-
-[Tasks]
-Name: "ICCUP"; Description: "The Abyss (ICCUP)"; GroupDescription: "Install Additional Battle.net Gateways:"
-Name: "Podolsk"; Description: "Games Podolsk"; GroupDescription: "Install Additional Battle.net Gateways:"
+Root: "HKCU32"; Subkey: "Software\Battle.net\Configuration"; ValueType: multisz; ValueName: "Battle.net gateways"; ValueData: "{code:InstallGateway|sc.theabyss.ru;+7;The Abyss (ICCUP);}"; Components: Binaries\Gateways
 
 [Code]
 var sBroodwarPath : String;
