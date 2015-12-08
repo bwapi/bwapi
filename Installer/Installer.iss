@@ -31,10 +31,15 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Files]
 Source: "..\Release_Binary\Starcraft\SNP_DirectIP.snp"; DestDir: "{code:BroodwarPath}\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
+Source: "..\Release_Binary\Starcraft\SNP_DirectIP.snp"; DestDir: "{app}\Starcraft\"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPI.dll"; DestDir: "{code:BroodwarPath}\bwapi-data"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
+Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPI.dll"; DestDir: "{app}\Starcraft\bwapi-data"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\Release_Binary\Starcraft\bwapi-data\bwapi.ini"; DestDir: "{code:BroodwarPath}\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
+Source: "..\Release_Binary\Starcraft\bwapi-data\bwapi.ini"; DestDir: "{app}\Starcraft\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPId.dll"; DestDir: "{code:BroodwarPath}\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
+Source: "..\Release_Binary\Starcraft\bwapi-data\BWAPId.dll"; DestDir: "{app}\Starcraft\bwapi-data\"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\Release_Binary\Starcraft\bwapi-data\data\Broodwar.map"; DestDir: "{code:BroodwarPath}\bwapi-data\data\"; Flags: ignoreversion; Components: Binaries\BWAPI; Check: GetBroodwarPath
+Source: "..\Release_Binary\Starcraft\bwapi-data\data\Broodwar.map"; DestDir: "{app}\Starcraft\bwapi-data\data\"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion isreadme
 Source: "..\Release_Binary\vcredist_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
