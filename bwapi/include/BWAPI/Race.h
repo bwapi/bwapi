@@ -50,13 +50,20 @@ namespace BWAPI
       /// @returns UnitType of the worker that this race uses.
       UnitType getWorker() const;
 
-      /// <summary>Retrieves the default resource center UnitType that is used to create expansions for
-      /// this Race.</summary>
+      /// <summary>Retrieves the default resource depot UnitType that workers of this race can
+      /// construct and return resources to.</summary>
       ///
       /// @note In Starcraft, the center is the very first structure of the Race's technology
       /// tree. Also known as its base of operations or resource depot.
       /// 
       /// @returns UnitType of the center that this race uses.
+      ///
+      /// @since 4.2.0
+      UnitType getResourceDepot() const;
+
+      /// <summary>Deprecated. Use getResourceDepot instead.</summary>
+      /// @deprecated As of 4.2.0 due to naming inconsistency. Use #getResourceDepot instead.
+      /// See https://github.com/bwapi/bwapi/issues/621 for more information.
       UnitType getCenter() const;
 
       /// <summary>Retrieves the default structure UnitType for this Race that is used to harvest gas from
