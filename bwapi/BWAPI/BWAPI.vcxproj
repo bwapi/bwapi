@@ -226,6 +226,7 @@ popd</Command>
     <ClInclude Include="..\include\BWAPI\Interface.h" />
     <ClInclude Include="..\include\BWAPI\Player.h" />
     <ClInclude Include="..\include\BWAPI\Region.h" />
+    <ClInclude Include="..\include\BWAPI\Streams.h" />
     <ClInclude Include="..\include\BWAPI\Unit.h" />
     <ClInclude Include="..\Shared\Templates.h" />
     <ClInclude Include="Source\Assembly.h" />
@@ -320,6 +321,7 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\PlayerImpl.cpp" />
     <ClCompile Include="Source\BWAPI\RegionImpl.cpp" />
     <ClCompile Include="Source\BWAPI\Server.cpp" />
+    <ClCompile Include="Source\BWAPI\Streams.cpp" />
     <ClCompile Include="Source\BWAPI\UnitImpl.cpp" />
     <ClCompile Include="Source\BWAPI\UnitUpdate.cpp" />
     <ClCompile Include="Source\BW\Bitmap.cpp" />
@@ -352,7 +354,17 @@ popd</Command>
     <ClCompile Include="Source\Thread.cpp" />
     <ClCompile Include="Source\WMode.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\boost.1.59.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.59.0.0\build\native\boost.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.59.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.59.0.0\build\native\boost.targets'))" />
+  </Target>
 </Project>

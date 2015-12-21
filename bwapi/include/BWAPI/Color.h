@@ -185,6 +185,14 @@ namespace BWAPI
       Turquoise    = 31
     };
 
+    /// <summary>Checks if the given character is a color-changing control code.</summary>
+    /// @returns true if \p c is a regular color, not Text::Previous, Text::Invisible* or Text::Align*
+    /// @since 4.2.0
+    inline bool isColor(Text::Enum c)
+    {
+      return (2 <= c && c <= 8) || (14 <= c && c <= 17) || (21 <= c && c <= 31);
+    }
+
     /// <summary>Namespace containing text sizes.</summary>
     namespace Size
     {
