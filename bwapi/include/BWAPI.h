@@ -65,6 +65,12 @@ namespace BWAPI
   ///
   /// @threadsafe
   bool BWAPI_isDebug();
+  
+  /// <summary>The client version that this header file was compiled with.</summary>
+  /// Used to determine a client's compatibility with the BWAPI server process.
+  ///
+  /// @note This value is purposely high to avoid collisions with revision values.
+  const int CLIENT_VERSION = 10001;
 }
 
 #endif

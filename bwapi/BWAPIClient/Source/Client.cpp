@@ -117,12 +117,12 @@ namespace BWAPI
     BWAPI::BroodwarPtr = new GameImpl(data);
     assert( BWAPI::BroodwarPtr != nullptr );
 
-    if (BWAPI::BWAPI_getRevision() != BWAPI::Broodwar->getRevision())
+    if (BWAPI::CLIENT_VERSION != BWAPI::Broodwar->getClientVersion())
     {
       //error
       std::cerr << "Error: Client and Server are not compatible!" << std::endl;
-      std::cerr << "Client Revision: " << BWAPI::BWAPI_getRevision() << std::endl;
-      std::cerr << "Server Revision: " << BWAPI::Broodwar->getRevision() << std::endl;
+      std::cerr << "Client version: " << BWAPI::CLIENT_VERSION << std::endl;
+      std::cerr << "Server version: " << BWAPI::Broodwar->getClientVersion() << std::endl;
       disconnect();
       std::this_thread::sleep_for(std::chrono::milliseconds{ 2000 });
       return false;

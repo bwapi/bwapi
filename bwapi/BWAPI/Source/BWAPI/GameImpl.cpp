@@ -809,6 +809,10 @@ namespace BWAPI
   {
     return SVN_REV;
   }
+  int GameImpl::getClientVersion() const
+  {
+    return CLIENT_VERSION;
+  }
   bool GameImpl::isDebug() const
   {
     return BUILD_DEBUG == 1;

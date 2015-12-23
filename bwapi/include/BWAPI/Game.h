@@ -1330,6 +1330,13 @@ namespace BWAPI
     /// @threadsafe
     virtual int getRevision() const = 0;
 
+    /// <summary>Retrieves the version that the BWAPI client is using for compatibility checks.</summary>
+    ///
+    /// @returns The version number for the BWAPI client.
+    ///
+    /// @threadsafe
+    virtual int getClientVersion() const = 0;
+
     /// <summary>Retrieves the debug state of the BWAPI build.</summary>
     ///
     /// @returns true if the BWAPI module is a DEBUG build, and false if it is a RELEASE build.

@@ -28,6 +28,7 @@ namespace BWAPI
   struct GameData
   {
     //revision and debug will stay at the top of struct so they don't move in memory from revision to revision.
+    int client_version;
     int revision;
     bool isDebug;
 
