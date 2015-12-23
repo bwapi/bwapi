@@ -334,6 +334,7 @@ namespace BWAPI
     //called once when Starcraft starts. Not at the start of every match.
     data->instanceID       = gdwProcNum;
     data->revision         = SVN_REV;
+    data->client_version   = CLIENT_VERSION;
     data->isDebug          = (BUILD_DEBUG == 1);
     data->eventCount       = 0;
     data->eventStringCount = 0;

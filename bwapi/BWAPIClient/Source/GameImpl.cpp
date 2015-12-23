@@ -842,6 +842,10 @@ namespace BWAPI
   {
     return data->revision;
   }
+  int GameImpl::getClientVersion() const
+  {
+    return data->client_version;
+  }
   bool GameImpl::isDebug() const
   {
     return data->isDebug;
