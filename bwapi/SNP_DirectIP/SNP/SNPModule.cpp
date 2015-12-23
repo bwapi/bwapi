@@ -127,7 +127,7 @@ each second
     SetEvent(receiveEvent);
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiInitialize( client_info *gameClientInfo, 
+  BOOL __stdcall spiInitialize(client_info *gameClientInfo,
                                 user_info *userData, 
                                 battle_info *bnCallbacks, 
                                 module_info *moduleData, 
@@ -151,13 +151,13 @@ each second
     {
       fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
 
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiDestroy()
+  BOOL __stdcall spiDestroy()
   {
     // called when you leave back to the network module selection menu
 //    DropMessage(0, "spiDestroy");
@@ -170,13 +170,13 @@ each second
     {
       fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
 
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiLockGameList(int a1, int a2, game **ppGameList)
+  BOOL __stdcall spiLockGameList(int a1, int a2, game **ppGameList)
   {
     critSecExLock = new CriticalSection::Lock(critSec);
     // Strom locks the game list to access it
@@ -224,7 +224,7 @@ each second
     {
       fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
     /*
     if ( !ppGameList )
@@ -259,11 +259,11 @@ each second
     EnterCriticalSection(&gCrit);
     *ppGameList = (gameStruc*)gpMGameList;
     */
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   DWORD gdwLastTickCount;
-  bool __stdcall spiUnlockGameList(game *pGameList, DWORD *a2)
+  BOOL __stdcall spiUnlockGameList(game *pGameList, DWORD *a2)
   {
     // when storm is done reading from the gamelist
 //    DropMessage(0, "spiUnlockGameList");
@@ -280,7 +280,7 @@ each second
     {
       fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
 
     /*
@@ -302,10 +302,10 @@ each second
       BroadcastGameListRequest();
     }
     */
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, void *pExtraBytes, DWORD dwExtraBytesCount)
+  BOOL __stdcall spiStartAdvertisingLadderGame(char *pszGameName, char *pszGamePassword, char *pszGameStatString, DWORD dwGameState, DWORD dwElapsedTime, DWORD dwGameType, int a7, int a8, void *pExtraBytes, DWORD dwExtraBytesCount)
   {
     INTERLOCKED;
 //    DropMessage(0, "spiStartAdvertisingLadderGame");
@@ -363,19 +363,19 @@ each second
     LeaveCriticalSection(&gCrit);
     BroadcastAdvertisement();
     */
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiStopAdvertisingGame()
+  BOOL __stdcall spiStopAdvertisingGame()
   {
     INTERLOCKED;
     // Called when you stop hosting a game
 //    DropMessage(0, "spiStopAdvertisingGame");
     pluggedNetwork->stopAdvertising();
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, game *pGameResult)
+  BOOL __stdcall spiGetGameInfo(DWORD dwFindIndex, char *pszFindGameName, int a3, game *pGameResult)
   {
     INTERLOCKED;
     // returns game info for the game we are about to join
@@ -387,21 +387,21 @@ each second
       if ( it.gameInfo.dwIndex == dwFindIndex )
       {
         *pGameResult = it.gameInfo;
-        return true;
+        return TRUE;
       }
     }
 
     // found game
     SErrSetLastError(STORM_ERROR_GAME_NOT_FOUND);
-    return false;
+    return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiSend(DWORD addrCount, SOCKADDR * *addrList, char *buf, DWORD bufLen)
+  BOOL __stdcall spiSend(DWORD addrCount, SOCKADDR * *addrList, char *buf, DWORD bufLen)
   {
 //    DropMessage(0, "spiSend %d", GetCurrentThreadId());
 
     if(!addrCount)
-      return true;
+      return TRUE;
 
     if(addrCount > 1)
       DropMessage(1, "spiSend, multicast not supported");
@@ -421,12 +421,12 @@ each second
     catch(GeneralException &e)
     {
       DropLastError("spiSend failed: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiReceive(SOCKADDR **senderPeer, char **data, DWORD *databytes)
+  BOOL __stdcall spiReceive(SOCKADDR **senderPeer, char **data, DWORD *databytes)
   {
     INTERLOCKED;
 //    DropMessage(0, "spiReceive %d", GetCurrentThreadId());
@@ -446,7 +446,7 @@ each second
         if(incomingGamePackets.empty())
         {
           SErrSetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
-          return false;
+          return FALSE;
         }
 
         // save the packet before removing it from queue
@@ -473,12 +473,12 @@ each second
     catch(GeneralException &e)
     {
       DropLastError("spiLockGameList failed: %s", e.getMessage());
-      return false;
+      return FALSE;
     }
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiFree(SOCKADDR * addr, char *data, DWORD databytes)
+  BOOL __stdcall spiFree(SOCKADDR * addr, char *data, DWORD databytes)
   {
     INTERLOCKED;
     // called after spiReceive, to free the reserved memory
@@ -487,10 +487,10 @@ each second
     BYTE *loan = (BYTE*)addr;
     if(loan)
       delete loan;
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiCompareNetAddresses(SOCKADDR * addr1, SOCKADDR * addr2, DWORD *dwResult)
+  BOOL __stdcall spiCompareNetAddresses(SOCKADDR * addr1, SOCKADDR * addr2, DWORD *dwResult)
   {
     INTERLOCKED;
     DropMessage(0, "spiCompareNetAddresses");
@@ -500,11 +500,11 @@ each second
     if ( !addr1 || !addr2 || !dwResult )
     {
       SErrSetLastError(ERROR_INVALID_PARAMETER);
-      return false;
+      return FALSE;
     }
 
     *dwResult = (0 == memcmp(addr1, addr2, sizeof(SOCKADDR)));
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -520,29 +520,29 @@ each second
 
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiLockDeviceList(DWORD *a1)
+  BOOL __stdcall spiLockDeviceList(DWORD *a1)
   {
 //    DropMessage(0, "spiLockDeviceList");
     // This function is complete
     *a1 = 0;
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiUnlockDeviceList()
+  BOOL __stdcall spiUnlockDeviceList(void* unknownStruct)
   {
 //    DropMessage(0, "spiUnlockDeviceList");
     // This function is complete
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiFreeExternalMessage(SOCKADDR * addr, char *data, DWORD databytes)
+  BOOL __stdcall spiFreeExternalMessage(SOCKADDR * addr, char *data, DWORD databytes)
   {
     DropMessage(0, "spiFreeExternalMessage");
     /*
     // This function is complete
     SetLastError(ERROR_INVALID_PARAMETER);
     */
-    return false;
+    return FALSE;
   }
 
 
@@ -557,7 +557,7 @@ each second
 
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
+  BOOL __stdcall spiGetPerformanceData(DWORD dwType, DWORD *dwResult, int a3, int a4)
   {
     DropMessage(0, "spiGetPerformanceData");
     /*
@@ -580,18 +580,18 @@ each second
       return false;
     }
     */
-    return false;
+    return FALSE;
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)
+  BOOL __stdcall spiInitializeDevice(int a1, void *a2, void *a3, DWORD *a4, void *a5)
   {
     DropMessage(0, "spiInitializeDevice");
     // This function is complete
-    return false;
+    return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiReceiveExternalMessage(SOCKADDR * *addr, char **data, DWORD *databytes)
+  BOOL __stdcall spiReceiveExternalMessage(SOCKADDR * *addr, char **data, DWORD *databytes)
   {
 //    DropMessage(0, "spiReceiveExternalMessage");
     // This function is complete
@@ -602,11 +602,11 @@ each second
     if ( databytes )
       *databytes = 0;
     SErrSetLastError(STORM_ERROR_NO_MESSAGES_WAITING);
-    return false;
+    return FALSE;
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiSelectGame( int a1, 
+  BOOL __stdcall spiSelectGame(int a1,
                                 client_info *gameClientInfo, 
                                 user_info *userData, 
                                 battle_info *bnCallbacks, 
@@ -616,22 +616,22 @@ each second
     DropMessage(0, "spiSelectGame");
     // Looks like an old function and doesn't seem like it's used anymore
     // UDPN's function Creates an IPX game select dialog window
-    return false;
+    return FALSE;
   }
 
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiSendExternalMessage(int a1, int a2, int a3, int a4, int a5)
+  BOOL __stdcall spiSendExternalMessage(int a1, int a2, int a3, int a4, int a5)
   {
     DropMessage(0, "spiSendExternalMessage");
     // This function is complete
-    return false;
+    return FALSE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
-  bool __stdcall spiLeagueGetName(char *pszDest, DWORD dwSize)
+  BOOL __stdcall spiLeagueGetName(char *pszDest, DWORD dwSize)
   {
     DropMessage(0, "spiLeagueGetName");
     // This function is complete
-    return true;
+    return TRUE;
   }
   //------------------------------------------------------------------------------------------------------------------------------------
   SNP::NetFunctions spiFunctions = {

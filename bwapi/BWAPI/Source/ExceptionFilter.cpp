@@ -49,10 +49,7 @@ std::string getModuleNameFrom(LPCVOID pExcptAddr)
 void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
 {
   // Initialize values
-  w1 = 0;
-  w2 = 0;
-  w3 = 0;
-  w4 = 0;
+  w1 = w2 = w3 = w4 = 0;
 
   // Get path to Starcraft.exe
   char szExecutableName[MAX_PATH];
