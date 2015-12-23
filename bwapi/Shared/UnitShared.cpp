@@ -147,7 +147,7 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
-    return getInterceptors().size();
+    return self->interceptorCount;
   }
   //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
   int UnitImpl::getScarabCount() const

@@ -356,7 +356,7 @@ namespace BWAPI
             max_amt += 5;
 
           // check if there is room
-          if (builder->getScarabCount() + (int)builder->getTrainingQueue().size() >= max_amt)
+          if (builder->getScarabCount() + static_cast<int>(builder->getTrainingQueue().size()) >= max_amt)
             return Broodwar->setLastError(Errors::Insufficient_Space);
           break;
         }

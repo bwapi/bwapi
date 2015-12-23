@@ -402,9 +402,14 @@ namespace BWAPI
     virtual int getAcidSporeCount() const = 0;
 
     /// <summary>Retrieves the number of interceptors that this unit manages.</summary> This
-    /// function is only for the @Carrier.
+    /// function is only for the @Carrier and its hero.
+    ///
+    /// @note This number may differ from the number of units returned from #getInterceptors. This
+    /// occurs for cases in which you can see the number of enemy interceptors in the Carrier HUD,
+    /// but don't actually have access to the individual interceptors.
     ///
     /// @returns Number of interceptors in this unit.
+    /// @see getInterceptors
     virtual int getInterceptorCount() const = 0;
 
     /// <summary>Retrieves the number of scarabs that this unit has for use.</summary> This
@@ -748,9 +753,10 @@ namespace BWAPI
     virtual Unit getCarrier() const = 0;
 
     /// <summary>Retrieves the set of @Interceptors controlled by this unit.</summary> This is
-    /// intended for @Carriers.
+    /// intended for @Carriers and its hero.
     ///
-    /// @returns Unitset containing @Interceptor units owned by this one.
+    /// @returns Unitset containing @Interceptor units owned by this carrier.
+    /// @see getInterceptorCount
     virtual Unitset getInterceptors() const = 0;
 
     /// <summary>Retrieves the parent @Hatchery, @Lair, or @Hive that owns this particular unit.</summary>
@@ -758,6 +764,7 @@ namespace BWAPI
     ///
     /// @returns Hatchery unit that has ownership of this larva.
     /// @retval nullptr if the current unit is not a @Larva or has no parent.
+    /// @see getLarva
     virtual Unit getHatchery() const = 0;
 
     /// <summary>Retrieves the set of @Larvae that were spawned by this unit.</summary> Only
@@ -766,6 +773,7 @@ namespace BWAPI
     ///
     /// @returns Unitset containing @Larva units owned by this unit. The set will be empty if
     /// there are none.
+    /// @see getHatchery
     virtual Unitset getLarva() const = 0;
 
     /// <summary>Retrieves the set of all units in a given radius of the current unit.</summary>

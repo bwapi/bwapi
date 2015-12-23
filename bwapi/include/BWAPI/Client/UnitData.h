@@ -23,6 +23,7 @@ namespace BWAPI
     int killCount;
     int acidSporeCount;
     int scarabCount;
+    int interceptorCount;
     int spiderMineCount;
     int groundWeaponCooldown;
     int airWeaponCooldown;
