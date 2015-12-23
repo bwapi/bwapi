@@ -20,7 +20,7 @@ void DevAIModule::onStart()
 {
   // enable stuff
   bw->enableFlag(Flag::UserInput);
-  bw->enableFlag(Flag::CompleteMapInformation);
+  //bw->enableFlag(Flag::CompleteMapInformation);
 
   // save player info
   self = bw->self();
@@ -48,10 +48,10 @@ void DevAIModule::onFrame()
 
   for (auto &u : bw->getAllUnits())
   {
-    if (!u->getType().isResourceContainer() && !u->getType().isWorker() && !u->getType().isCritter() && !u->getType().isResourceDepot()
-      && u->getType() != UnitTypes::Zerg_Overlord && u->getType() != UnitTypes::Zerg_Larva && u->getType() != UnitTypes::Zerg_Egg)
+    if (u->getType() != UnitTypes::Protoss_Interceptor)
     {
-      Broodwar << u->getType() << std::endl;
+      int fighterCount = std::max(u->getScarabCount(), u->getInterceptorCount());
+      bw->drawTextMap(u->getPosition(), "%c%d", fighterCount == 0 ? Text::Red : Text::Green, fighterCount);
     }
   }
 }

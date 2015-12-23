@@ -490,7 +490,7 @@ namespace BWAPI
       switch ( _getType )
       {
       case UnitTypes::Enum::Protoss_Reaver:
-      case UnitTypes::Enum::Hero_Gantrithor:
+      case UnitTypes::Enum::Hero_Warbringer:
         self->scarabCount = o->carrier.inHangerCount;
         break;
       case UnitTypes::Enum::Terran_Vulture:

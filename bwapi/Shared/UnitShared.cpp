@@ -147,9 +147,7 @@ namespace BWAPI
   //--------------------------------------------- GET INTERCEPTOR COUNT --------------------------------------
   int UnitImpl::getInterceptorCount() const
   {
-    if (getType() != UnitTypes::Protoss_Carrier && getType() != UnitTypes::Hero_Gantrithor)
-      return 0;
-    return connectedUnits.size();
+    return getInterceptors().size();
   }
   //--------------------------------------------- GET SCARAB COUNT -------------------------------------------
   int UnitImpl::getScarabCount() const
