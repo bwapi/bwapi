@@ -48,10 +48,28 @@ void DevAIModule::onFrame()
 
   for (auto &u : bw->getAllUnits())
   {
-    if (u->getType() != UnitTypes::Protoss_Interceptor)
+    int count = 0;
+    switch (u->getType())
     {
-      int fighterCount = std::max(u->getScarabCount(), u->getInterceptorCount());
-      bw->drawTextMap(u->getPosition(), "%c%d", fighterCount == 0 ? Text::Red : Text::Green, fighterCount);
+    case UnitTypes::Enum::Protoss_Reaver:
+    case UnitTypes::Enum::Hero_Warbringer:
+      count = u->getScarabCount();
+      break;
+    case UnitTypes::Enum::Protoss_Carrier:
+    case UnitTypes::Enum::Hero_Gantrithor:
+      count = u->getInterceptorCount();
+      break;
+    case UnitTypes::Enum::Terran_Vulture:
+    case UnitTypes::Enum::Hero_Jim_Raynor_Vulture:
+      count = u->getSpiderMineCount();
+      break;
+    default:
+      count = -1;
+      break;
+    }
+    if (count >= 0)
+    {
+      bw->drawTextMap(u->getPosition(), "%d", count);
     }
   }
 }
