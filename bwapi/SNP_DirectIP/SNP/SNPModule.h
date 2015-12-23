@@ -9,48 +9,48 @@ namespace SNP
     // The size of the vtable
     DWORD dwSize;
     // Compares two sockaddrs with each other and returns the number of differences in dwResult
-    bool  (__stdcall *spiCompareNetAddresses)(SOCKADDR* addr1, SOCKADDR* addr2, DWORD *dwResult);
+    BOOL(__stdcall *spiCompareNetAddresses)(SOCKADDR* addr1, SOCKADDR* addr2, DWORD *dwResult);
     // Called when the module is released
-    bool  (__stdcall *spiDestroy)();
+    BOOL(__stdcall *spiDestroy)();
     // Called in order to free blocks of packet memory returned in the spiReceive functions
-    bool  (__stdcall *spiFree)(SOCKADDR* addr, char *data, DWORD databytes);
-    bool  (__stdcall *spiFreeExternalMessage)(SOCKADDR* addr, char *data, DWORD databytes);
+    BOOL(__stdcall *spiFree)(SOCKADDR* addr, char *data, DWORD databytes);
+    BOOL(__stdcall *spiFreeExternalMessage)(SOCKADDR* addr, char *data, DWORD databytes);
     // Returns info on a specified game
     void  *spiGetGameInfo;
     // Returns packet statistics
     void  *spiGetPerformanceData;
     // Called when the module is initialized
-    bool  (__stdcall *spiInitialize)(client_info *gameClientInfo, user_info *userData, battle_info *bnCallbacks, module_info *moduleData, HANDLE hEvent);
+    BOOL(__stdcall *spiInitialize)(client_info *gameClientInfo, user_info *userData, battle_info *bnCallbacks, module_info *moduleData, HANDLE hEvent);
     void  *spiInitializeDevice;
     void  *spiLockDeviceList;
     // Called to prevent the game list from updating so that it can be processed by storm
     void  *spiLockGameList;
     // Return received data from a connectionless socket to storm
-    bool (__stdcall *spiReceive)(SOCKADDR* *addr, char **data, DWORD *databytes);
+    BOOL(__stdcall *spiReceive)(SOCKADDR* *addr, char **data, DWORD *databytes);
     // Return received data from a connected socket to storm
-    bool (__stdcall *spiReceiveExternalMessage)(SOCKADDR* *addr, char **data, DWORD *databytes);
+    BOOL(__stdcall *spiReceiveExternalMessage)(SOCKADDR* *addr, char **data, DWORD *databytes);
     // Called when a game is selected to query information
     void  *spiSelectGame;
     // Sends data over a connectionless socket
-    bool (__stdcall *spiSend)(DWORD addrCount, SOCKADDR* *addrList, char *buf, DWORD bufLen);
+    BOOL(__stdcall *spiSend)(DWORD addrCount, SOCKADDR* *addrList, char *buf, DWORD bufLen);
     // Sends data over a connected socket
     void  *spiSendExternalMessage;
     // An extended version of spiStartAdvertisingGame
     void  *spiStartAdvertisingLadderGame;
     // Called to stop advertising the game
-    bool (__stdcall *spiStopAdvertisingGame)();
-    bool (__stdcall *spiUnlockDeviceList)();
+    BOOL(__stdcall *spiStopAdvertisingGame)();
+    BOOL(__stdcall *spiUnlockDeviceList)(void* unknownStruct);
     // Called after the game list has been processed and resume updating
     void  *spiUnlockGameList;
     // Called to begin advertising a created game to other clients
-    bool (__stdcall *spiStartAdvertisingGame)(const char *pszGameName, DWORD dwGameNameSize, const char *pszPassword, DWORD dwPasswordSize);
+    BOOL(__stdcall *spiStartAdvertisingGame)(const char *pszGameName, DWORD dwGameNameSize, const char *pszPassword, DWORD dwPasswordSize);
     void  *spiReportGameResult;
     void  *spiCheckDataFile;
     void  *spiLeagueCommand;
     void  *spiLeagueSendReplayPath;
     void  *spiLeagueGetReplayPath;
     void  *spiLeagueLogout;
-    bool (__stdcall *spiLeagueGetName)(char *pszDest, DWORD dwSize);
+    BOOL(__stdcall *spiLeagueGetName)(char *pszDest, DWORD dwSize);
   };
 
   extern NetFunctions spiFunctions;
