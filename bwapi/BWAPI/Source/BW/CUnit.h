@@ -160,7 +160,7 @@ namespace BW
                 {
                   BW::CUnit*  pInHanger;     // 0   first child inside the hanger    // official
                   BW::CUnit*  pOutHanger;    // 4   first child outside the hanger
-                  u8          inHangerCount;      // 8   number inside the hanger
+                  u8          inHangerCount;      // 8   number inside the hanger (used for scarab count)
                   u8          outHangerCount;     // 9   number outside the hanger
                 } carrier; // also applies to reaver (Carrier is official)
                 
