@@ -48,28 +48,10 @@ void DevAIModule::onFrame()
 
   for (auto &u : bw->getAllUnits())
   {
-    int count = 0;
-    switch (u->getType())
+    if (u->getType() == UnitTypes::Zerg_Hive)
     {
-    case UnitTypes::Enum::Protoss_Reaver:
-    case UnitTypes::Enum::Hero_Warbringer:
-      count = u->getScarabCount();
-      break;
-    case UnitTypes::Enum::Protoss_Carrier:
-    case UnitTypes::Enum::Hero_Gantrithor:
-      count = u->getInterceptorCount();
-      break;
-    case UnitTypes::Enum::Terran_Vulture:
-    case UnitTypes::Enum::Hero_Jim_Raynor_Vulture:
-      count = u->getSpiderMineCount();
-      break;
-    default:
-      count = -1;
-      break;
-    }
-    if (count >= 0)
-    {
-      bw->drawTextMap(u->getPosition(), "%d", count);
+      if (!u->research(TechTypes::Burrowing))
+        bw->drawTextMap(u->getPosition(), "%c%s", Text::Yellow, bw->getLastError().c_str());
     }
   }
 }

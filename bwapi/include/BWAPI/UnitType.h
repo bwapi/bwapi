@@ -900,6 +900,18 @@ namespace BWAPI
     ///
     /// @since 4.1.2
     const SetContainer<UpgradeType>& upgradesWhat() const;
+
+    /// <summary>Checks if the current type is equal to the provided type, or a successor of the
+    /// provided type.</summary> For example, a Hive is a successor of a Hatchery, since it can
+    /// still research the @Burrow technology.
+    ///
+    /// <param name="type">
+    ///   The unit type to check.
+    /// </param>
+    ///
+    /// @see TechType::whatResearches, UpgradeType::whatUpgrades
+    /// @since 4.2.0
+    bool isSuccessorOf(UnitType type) const;
   };
 
   /// <summary>The amount of shield points that a unit recovers over 256 frames.</summary>
