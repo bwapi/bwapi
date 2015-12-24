@@ -2815,4 +2815,19 @@ namespace BWAPI
   {
     return unitUpgrades::upgradesWhat[this->getID()];
   }
+  bool UnitType::isSuccessorOf(UnitType type) const
+  {
+    if (*this == type) return true;
+    switch (type)
+    {
+    case UnitTypes::Enum::Zerg_Hatchery:
+      return *this == UnitTypes::Zerg_Lair || *this == UnitTypes::Zerg_Hive;
+    case UnitTypes::Enum::Zerg_Lair:
+      return *this == UnitTypes::Zerg_Hive;
+    case UnitTypes::Enum::Zerg_Spire:
+      return *this == UnitTypes::Zerg_Greater_Spire;
+    default:
+      return false;
+    }
+  }
 }

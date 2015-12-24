@@ -1052,7 +1052,7 @@ namespace BWAPI
         if (thisUnit->getPlayer() != Broodwar->self())
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
-        if (thisUnit->getType() != type.whatResearches())
+        if (!thisUnit->getType().isSuccessorOf(type.whatResearches()))
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
         if ( checkCanIssueCommandType && ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() ) )
@@ -1102,13 +1102,13 @@ namespace BWAPI
         if (thisUnit->getPlayer() != self)
           return Broodwar->setLastError(Errors::Unit_Not_Owned);
 
-        if (thisUnit->getType() != type.whatUpgrades())
+        if (!thisUnit->getType().isSuccessorOf(type.whatUpgrades()))
           return Broodwar->setLastError(Errors::Incompatible_UnitType);
 
         if ( checkCanIssueCommandType && ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() ) )
           return Broodwar->setLastError(Errors::Unit_Busy);
       }
-      int nextLvl = self->getUpgradeLevel(type)+1;
+      int nextLvl = self->getUpgradeLevel(type) + 1;
       
       if (!self->hasUnitTypeRequirement(type.whatUpgrades()))
         return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);

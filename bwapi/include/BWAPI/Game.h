@@ -1335,6 +1335,7 @@ namespace BWAPI
     /// @returns The version number for the BWAPI client.
     ///
     /// @threadsafe
+    /// @since 4.2.0
     virtual int getClientVersion() const = 0;
 
     /// <summary>Retrieves the debug state of the BWAPI build.</summary>
