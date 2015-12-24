@@ -555,8 +555,8 @@ namespace BWAPI
 
     /// <summary>Retrieves the list of units queued up to be trained.</summary>
     ///
-    /// @returns a UnitType::set containing all the types that are in this factory's training
-    /// queue.
+    /// @returns a UnitType::list containing all the types that are in this factory's training
+    /// queue, from oldest to most recent.
     /// @see train, cancelTrain, isTraining
     virtual UnitType::list getTrainingQueue() const = 0;
 
