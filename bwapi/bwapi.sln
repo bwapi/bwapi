@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcxproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 EndProject
@@ -46,20 +46,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PKLib", "PKLib\PKLib.vcxproj", "{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Replay_Tool", "Replay_Tool\Replay_Tool.vcxproj", "{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}"
-	ProjectSection(ProjectDependencies) = postProject
-		{02027215-F122-4174-A0A8-248A28A43980} = {02027215-F122-4174-A0A8-248A28A43980}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libReplayTool", "libReplayTool\libReplayTool.vcxproj", "{02027215-F122-4174-A0A8-248A28A43980}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libReplayToolTest", "libReplayToolTest\libReplayToolTest.vcxproj", "{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{02027215-F122-4174-A0A8-248A28A43980} = {02027215-F122-4174-A0A8-248A28A43980}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SNP_DirectIP", "SNP_DirectIP\SNP_DirectIP.vcxproj", "{452BDDC2-D77B-45C3-991E-7D93DE3638B0}"
@@ -177,30 +163,6 @@ Global
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.Build.0 = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug_Pipeline|Win32.ActiveCfg = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug|Win32.ActiveCfg = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Debug|Win32.Build.0 = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.ActiveCfg = Release|Win32
-		{BB8B0BBC-2D1A-4976-A5E0-95D9B5757551}.Release|Win32.Build.0 = Release|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Debug|Win32.ActiveCfg = Debug|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Debug|Win32.Build.0 = Debug|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.ActiveCfg = Release|Win32
-		{33D9CC15-ACCC-45E4-A947-5D30E0A8E943}.Release|Win32.Build.0 = Release|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Debug|Win32.ActiveCfg = Debug|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Debug|Win32.Build.0 = Debug|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Release|Win32.ActiveCfg = Release|Win32
-		{02027215-F122-4174-A0A8-248A28A43980}.Release|Win32.Build.0 = Release|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Debug|Win32.Build.0 = Debug|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Release|Win32.ActiveCfg = Release|Win32
-		{5C4BE4F1-9D4A-4ECA-B64B-ABDB58199F5C}.Release|Win32.Build.0 = Release|Win32
 		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
 		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug_Pipeline|Win32.Build.0 = Debug|Win32
 		{452BDDC2-D77B-45C3-991E-7D93DE3638B0}.Debug|Win32.ActiveCfg = Debug|Win32
