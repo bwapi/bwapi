@@ -291,13 +291,16 @@ namespace BWAPI
     ///
     /// @note If the current unit is an air unit, then this function will always return true.
     ///
+    /// @note If the unit somehow gets stuck in unwalkable terrain, then this function may still
+    /// return true if one of the unit's corners is on walkable terrain (i.e. if the unit is expected
+    /// to return to the walkable terrain).
+    ///
     /// <param name="target">
     ///   A Position or a Unit that is used to determine if this unit has a path to the target.
     /// </param>
     ///
-    /// @retval true If there is a path between this unit and the target.
-    /// @retval false If the target is on a different piece of land than this one (such as an
-    /// island).
+    /// @returns true If there is a path between this unit and the target position, otherwise it will return false.
+    /// @see Game::hasPath
     bool hasPath(Position target) const;
 
     /// <summary>Using data provided by Starcraft, checks if there is a path available from this
