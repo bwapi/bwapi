@@ -177,7 +177,21 @@ namespace BWAPI
     if (!exists())
       return Broodwar->setLastError(Errors::Unit_Not_Visible);
 
-    return Broodwar->hasPath(this->getPosition(), target);
+    // Check the center of the unit (most common behaviour)
+    if (Broodwar->hasPath(this->getPosition(), target))
+      return true;
+
+    // Otherwise check all four corners of the unit, in case it accidentally fell out of its region
+    if (Broodwar->hasPath(Position(getLeft(), getTop()), target))
+      return true;
+
+    if (Broodwar->hasPath(Position(getRight(), getTop()), target))
+      return true;
+
+    if (Broodwar->hasPath(Position(getLeft(), getBottom()), target))
+      return true;
+
+    return Broodwar->hasPath(Position(getRight(), getBottom()), target);
   }
   bool UnitInterface::hasPath(Unit target) const
   {
