@@ -1440,9 +1440,12 @@ namespace BWAPI
 
     /// <summary>Checks if there is a path from source to destination.</summary> This only checks
     /// if the source position is connected to the destination position. This function does not
-    /// check if all  units can actually travel from source to destination. Because of this
+    /// check if all units can actually travel from source to destination. Because of this
     /// limitation, it has an O(1) complexity, and cases where this limitation hinders gameplay is
     /// uncommon at best.
+    ///
+    /// @note If making queries on a unit, it's better to call UnitInterface::hasPath, since it is
+    /// a more lenient version of this function that accounts for some edge cases.
     /// 
     /// <param name="source">
     ///   The source position.
@@ -1452,6 +1455,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if there is a path between the two positions, and false if there is not.
+    /// @see UnitInterface::hasPath
     bool hasPath(Position source, Position destination) const;
 
     /// <summary>Sets the alliance state of the current player with the target player.</summary>
