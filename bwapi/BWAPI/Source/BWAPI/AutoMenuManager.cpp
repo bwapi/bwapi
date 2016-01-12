@@ -99,6 +99,19 @@ void AutoMenuManager::reloadConfig()
 
   this->autoMenuLanMode = LoadConfigString("auto_menu", "lan_mode", "Local Area Network (UDP)");
   this->autoMenuRace = LoadConfigStringUCase("auto_menu", "race", "RANDOM");
+  std::stringstream raceList(this->autoMenuRace);
+
+  std::string currentrace = this->autoMenuRace.substr(0, this->autoMenuRace.find_first_of(','));
+
+  for (int i = 0; i < (int)gdwProcNum && raceList; ++i)
+      std::getline(raceList, currentrace, ',');
+
+  auto trimBegin = currentrace.find_first_not_of(" \"");
+  auto trimEnd = currentrace.find_last_not_of(" \"") + 1;
+  currentrace = currentrace.substr(trimBegin, trimEnd - trimBegin);
+
+  this->autoMenuRace = currentrace;
+
   this->autoMenuEnemyRace[0] = LoadConfigStringUCase("auto_menu", "enemy_race", "RANDOM");
   for (unsigned int i = 1; i < 8; ++i)
   {
