@@ -74,7 +74,7 @@ namespace BWAPI
     }
 
   private:
-    int charPrintingWidth(char c) const
+    int charPrintingWidth(unsigned char c) const
     {
       if (c == '\t')
         return DEFAULT_FONT_MAX_WIDTH * 2 - bufferWidth % (DEFAULT_FONT_MAX_WIDTH * 2);
