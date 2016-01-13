@@ -35,11 +35,15 @@ inline const std::string& configDir()
   static const std::string path = installPath() + "bwapi-data\\";
   return path;
 }
-// The bwapi.ini file in the config directory or environment variable BWAPI_CONFIG_INI
+// The bwapi.ini file in the config directory. Can be overridden by environment variable BWAPI_CONFIG_INI
 inline const std::string& configPath()
 {
-  char* v;
-  static const std::string path = (v=std::getenv("BWAPI_CONFIG_INI")) ? v : configDir()+"bwapi.ini";
+  static std::string path;
+  if (path.empty())
+  {
+    char* env = std::getenv("BWAPI_CONFIG_INI");
+    path = env ? env : configDir() + "bwapi.ini";
+  }
   return path;
 }
 extern std::string screenshotFmt;
