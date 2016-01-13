@@ -1,15 +1,12 @@
-#include <BWAPI/Streams.h>
-#include <BWAPI/BroodwarOutputDevice.h>
+#include "Console.h"
+#include <iostream>
 
 #pragma warning(push)
 #pragma warning(disable: 4127) //conditional expression is constant
-#pragma warning(disable: 4512) //assignment operator could not be generated
 #pragma warning(disable: 4702) //unreachable code
-#include <boost/iostreams/tee.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #pragma warning(pop)
 
-//for openConsole()
 #include <windows.h>
 #include <io.h>
 #include <fcntl.h>
@@ -76,20 +73,4 @@ namespace BWAPI
     std::cout.rdbuf(auto_cout_buf.get());
     std::cerr.rdbuf(auto_cerr_buf.get());
   }
-
-
-
-  using bwstream = io::stream<BroodwarOutputDevice>;
-  using teestream = io::stream<io::tee_device<std::ostream, std::ostream>>;
-
-  BroodwarOutputDevice bwout_device;
-  BroodwarOutputDevice bwerr_device(Text::BrightRed);
-  bwstream bwout_stream(bwout_device);
-  bwstream bwerr_stream(bwerr_device);
-  std::ostream& bwout = bwout_stream;
-  std::ostream& bwerr = bwerr_stream;
-  teestream out_stream(io::tee(std::cout, bwout));
-  teestream err_stream(io::tee(std::cerr, bwerr));
-  std::ostream& out = out_stream;
-  std::ostream& err = err_stream;
 }

@@ -1,14 +1,8 @@
 #pragma once
 #include <BWAPI/Game.h>
-#include <BW/Offsets.h>
-#include <BW/Font.h>
 #include <sstream>
 #include <boost/circular_buffer.hpp>
-
-#pragma warning(push)
-#pragma warning(disable: 4702) //unreachable code
-#include <boost/iostreams/stream.hpp>
-#pragma warning(pop)
+#include <boost/iostreams/concepts.hpp>
 
 namespace BWAPI
 {
@@ -21,7 +15,9 @@ namespace BWAPI
   /// @since 4.2.0
   class BroodwarOutputDevice : public boost::iostreams::sink
   {
-    static const int MAX_WIDTH = 620; //620 is the max width before starcraft wraps on it's own
+    static const int MAX_WIDTH = 620; //620 is the max width before starcraft wraps
+    static const int DEFAULT_FONT_CHAR_PRINTING_WIDTHS[];
+    static const int DEFAULT_FONT_MAX_WIDTH = 10;
 
     int bufferWidth = 0;
     std::stringbuf buffer;
@@ -60,7 +56,7 @@ namespace BWAPI
           c = char(previousColors.back());
         }
 
-        if (c == '\n' || bufferWidth + charWidth(c) > MAX_WIDTH)
+        if (c == '\n' || bufferWidth + charPrintingWidth(c) > MAX_WIDTH)
         {
           BroodwarPtr->printf("%s", buffer.str().c_str());
           buffer.str("");
@@ -71,25 +67,19 @@ namespace BWAPI
         if (c != '\n')
         {
           buffer.sputc(c);
-          bufferWidth += charWidth(c);
+          bufferWidth += charPrintingWidth(c);
         }
       }
       return n;
     }
 
   private:
-    int charWidth(char c) const
+    int charPrintingWidth(char c) const
     {
-      const BW::Font& font = *BW::BWDATA::FontBase[Text::Size::Default];
-      int mw = font.maxWidth();
-      if (c == ' ')
-        return mw / 2;
-      else if (c == '\t')
-        return mw * 2 - bufferWidth % (mw * 2);
-      else if (font.getChar(c))
-        return font.getChar(c)->width() + 1;
+      if (c == '\t')
+        return DEFAULT_FONT_MAX_WIDTH * 2 - bufferWidth % (DEFAULT_FONT_MAX_WIDTH * 2);
       else
-        return 0;
+        return DEFAULT_FONT_CHAR_PRINTING_WIDTHS[c];
     }
   };
 }

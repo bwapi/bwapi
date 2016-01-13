@@ -82,6 +82,10 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BroodwarOutputDevice.cpp" />
+    <ClCompile Include="Source\Streams.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BWAPI\Event.h" />
@@ -191,6 +195,9 @@
       <Filter>Containers\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BWAPI\BroodwarOutputDevice.h" />
+    <ClInclude Include="..\include\BWAPI\Streams.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">
