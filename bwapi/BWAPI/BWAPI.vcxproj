@@ -226,7 +226,6 @@ popd</Command>
     <ClInclude Include="..\include\BWAPI\Interface.h" />
     <ClInclude Include="..\include\BWAPI\Player.h" />
     <ClInclude Include="..\include\BWAPI\Region.h" />
-    <ClInclude Include="..\include\BWAPI\Streams.h" />
     <ClInclude Include="..\include\BWAPI\Unit.h" />
     <ClInclude Include="..\Shared\Templates.h" />
     <ClInclude Include="Source\Assembly.h" />
@@ -237,6 +236,7 @@ popd</Command>
     <ClInclude Include="Source\BWAPI\Command.h" />
     <ClInclude Include="Source\BWAPI\CommandOptimizer.h" />
     <ClInclude Include="Source\BWAPI\CommandTemp.h" />
+    <ClInclude Include="Source\BWAPI\Console.h" />
     <ClInclude Include="Source\BWAPI\ForceImpl.h" />
     <ClInclude Include="Source\BWAPI\FPSCounter.h" />
     <ClInclude Include="Source\BWAPI\GameImpl.h" />
@@ -307,6 +307,7 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />
     <ClCompile Include="Source\BWAPI\BWtoBWAPI.cpp" />
     <ClCompile Include="Source\BWAPI\CommandOptimizer.cpp" />
+    <ClCompile Include="Source\BWAPI\Console.cpp" />
     <ClCompile Include="Source\BWAPI\ForceImpl.cpp" />
     <ClCompile Include="Source\BWAPI\FPSCounter.cpp" />
     <ClCompile Include="Source\BWAPI\GameBullets.cpp" />
@@ -321,7 +322,6 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\PlayerImpl.cpp" />
     <ClCompile Include="Source\BWAPI\RegionImpl.cpp" />
     <ClCompile Include="Source\BWAPI\Server.cpp" />
-    <ClCompile Include="Source\BWAPI\Streams.cpp" />
     <ClCompile Include="Source\BWAPI\UnitImpl.cpp" />
     <ClCompile Include="Source\BWAPI\UnitUpdate.cpp" />
     <ClCompile Include="Source\BW\Bitmap.cpp" />
