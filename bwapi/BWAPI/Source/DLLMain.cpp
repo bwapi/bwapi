@@ -22,9 +22,9 @@
 #include "CodePatch.h"
 #include "Config.h"
 #include "WMode.h"
+#include "Console.h"
 
 #include "../../Debug.h"
-#include <BWAPI/Streams.h>
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)

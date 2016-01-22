@@ -57,7 +57,6 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILib.pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -118,7 +117,6 @@ COPY /y "$(OutDir)BWAPILib.pdb" "..\lib\BWAPILib.pdb"
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4480</DisableSpecificWarnings>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILibd.pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -167,6 +165,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModule.cpp" />
+    <ClCompile Include="Source\BroodwarOutputDevice.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -186,6 +185,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClCompile Include="Source\Race.cpp" />
     <ClCompile Include="Source\Region.cpp" />
     <ClCompile Include="Source\Regionset.cpp" />
+    <ClCompile Include="Source\Streams.cpp" />
     <ClCompile Include="Source\TechType.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\Unitset.cpp" />
@@ -212,6 +212,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClInclude Include="..\include\BWAPI\Playerset.h" />
     <ClInclude Include="..\include\BWAPI\Regionset.h" />
     <ClInclude Include="..\include\BWAPI\SetContainer.h" />
+    <ClInclude Include="..\include\BWAPI\Streams.h" />
     <ClInclude Include="..\include\BWAPI\UnaryFilter.h" />
     <ClInclude Include="..\include\BWAPI\Unitset.h" />
     <ClInclude Include="Source\Common.h" />
