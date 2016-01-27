@@ -41,7 +41,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent />
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -57,6 +57,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILib.pdb</ProgramDataBaseFileName>
     </ClCompile>
@@ -117,6 +118,7 @@ COPY /y "$(OutDir)BWAPILib.pdb" "..\lib\BWAPILib.pdb"
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4480</DisableSpecificWarnings>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILibd.pdb</ProgramDataBaseFileName>
     </ClCompile>
