@@ -35,7 +35,7 @@ void AutoMenuManager::reloadConfig()
 #endif
   this->autoMenuRestartGame = LoadConfigStringUCase("auto_menu", "auto_restart", "OFF");
   this->autoMenuGameName = LoadConfigString("auto_menu", "game");
-  this->autoMenuCharacterName = LoadConfigString("auto_menu", "character_name", "FIRST");
+  this->autoMenuCharacterName = LoadConfigString("auto_menu", "character_name", "FIRST").substr(0, 24);
 
   // Load map string
   std::string cfgMap = LoadConfigString("auto_menu", "map", "");
