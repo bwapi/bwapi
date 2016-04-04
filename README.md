@@ -37,6 +37,41 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - If you would like to develop a bot in Java, please follow [this tutorial](http://sscaitournament.com/index.php?action=tutorial).
  - Want to help improve BWAPI? Fork the [`develop` branch](https://github.com/bwapi/bwapi/tree/develop).
 
+## Quick Start {#quick-start}
+1. installation
+  1. install Visual Studio 2013
+  2. install StarCraft: Brood War
+  3. go to battle.net, just to get updates, don't need an account
+  4. install BWAPI
+2. compile
+  1. open ExampleProjects.sln in the BWAPI install directory
+  2. build ExampleAIModule project, release mode
+  3. copy ExampleAIModule.dll to bwapi-data/AI inside the StarCraft install folder
+3. run StarCraft through Chaoslauncher
+  1. run Chaoslauncher as administrator
+    - Chaoslauncher is found in Chaoslauncher directory of BWAPI install directory
+  3. check BWAPI 4.1.2 Injector [RELEASE]
+  4. Start
+    - make sure the thing between Start and Update is set to Starcraft 4.1.2, not ICCup 4.1.2
+4. run a game against Blizzard's AI
+  1. Single Player
+  2. Expansion
+  3. any user
+  4. Play Custom
+5. run a game against yourself
+  1. run Chaoslauncher - MultiInstance as administrator
+  2. Start
+    1. Multiplayer
+    2. Expansion
+    3. Local PC
+    4. any user
+    5. Create Game
+    6. any map
+  3. Start -- uncheck BWAPI 4.1.2 Injector [RELEASE] to let a human play, leave alone to make AI play itself
+    1. Multiplayer
+    2. Expansion
+    3. Local PC
+    4. join game
  
 ## Important Links & Contact Information {#contact}
 * **Documentation:**         http://bwapi.github.io/
