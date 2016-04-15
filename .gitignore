@@ -13,6 +13,8 @@ Debug_Pipeline
 *.bak
 cppcheck.xml
 TestResults
+*.VC.db
+*.VC.opendb
 
 Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*
