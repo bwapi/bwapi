@@ -29,13 +29,13 @@ namespace BWAPI
 
   Unitset Regionset::getUnits(const UnitFilter &pred) const
   {
-    Unitset units;
+    Unitset result;
     for (auto &r : *this)
     {
       auto units = r->getUnits(pred);
-      units.insert(units.begin(), units.end());
+      result.insert(units.begin(), units.end());
     }
-    return units;
+    return result;
   }
 }
 
