@@ -1,5 +1,7 @@
 #include "helpers.h"
 
+#include <set>
+
 void genUnitTypeTest()
 {
   std::ofstream of("testUnitTypes.txt");

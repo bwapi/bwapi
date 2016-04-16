@@ -1,5 +1,8 @@
 #include "helpers.h"
 
+#include <set>
+#include <string>
+
 void writePlayerTypeInfo()
 {
   std::ofstream of("playertypes.dox");
