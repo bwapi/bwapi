@@ -1,5 +1,8 @@
 #include "helpers.h"
 
+#include <set>
+#include <string>
+
 void writeTechInfo()
 {
   std::ofstream of("techtypes.dox");
