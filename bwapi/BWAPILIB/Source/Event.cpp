@@ -226,23 +226,23 @@ namespace BWAPI
   {
     return winner;
   }
-  Event& Event::setType(EventType::Enum type)
+  Event& Event::setType(EventType::Enum type_)
   {
-    this->type = type;
+    this->type = type_;
     return *this;
   }
-  Event& Event::setPosition(Position position)
+  Event& Event::setPosition(Position position_)
   {
-    this->position = position;
+    this->position = position_;
     return *this;
   }
-  Event& Event::setText(const char* text)
+  Event& Event::setText(const char* text_)
   {
     if (this->text != nullptr)
     {
-      if (text != nullptr)
+      if (text_ != nullptr)
       {
-        this->text->assign(text);
+        this->text->assign(text_);
       }
       else
       {
@@ -252,21 +252,21 @@ namespace BWAPI
     }
     else
     {
-      if (text != nullptr)
+      if (text_ != nullptr)
       {
-        this->text = new std::string(text);
+        this->text = new std::string(text_);
       }
     }
     return *this;
   }
-  Event& Event::setUnit(Unit unit)
+  Event& Event::setUnit(Unit unit_)
   {
-    this->unit = unit;
+    this->unit = unit_;
     return *this;
   }
-  Event& Event::setPlayer(Player player)
+  Event& Event::setPlayer(Player player_)
   {
-    this->player = player;
+    this->player = player_;
     return *this;
   }
   Event& Event::setWinner(bool isWinner)

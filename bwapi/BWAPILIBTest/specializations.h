@@ -8,11 +8,10 @@ namespace Microsoft{
   namespace VisualStudio {
     namespace CppUnitTestFramework
     {
-      
+
 #define SPECIALIZE(N) \
-      template <> static std::wstring ToString(const BWAPI::N& q) { RETURN_WIDE_STRING(q); } \
-      template <> static std::wstring ToString(const BWAPI::N* q) { RETURN_WIDE_STRING(q); } \
-      template <> static std::wstring ToString(BWAPI::N* q)       { RETURN_WIDE_STRING(q); }
+      template <> std::wstring ToString(const BWAPI::N& q) { RETURN_WIDE_STRING(q); } \
+      template <> std::wstring ToString(const BWAPI::N* q) { RETURN_WIDE_STRING(q); }
 
       SPECIALIZE(BulletType);
       SPECIALIZE(Color);

@@ -415,12 +415,12 @@ namespace BWAPI
     StrCopy(data->mapHash, Broodwar->mapHash());
 
     data->startLocationCount = Broodwar->getStartLocations().size();
-    int i = 0;
-    for(TilePosition t : Broodwar->getStartLocations())
+    int idx = 0;
+    for (TilePosition t : Broodwar->getStartLocations())
     {
-      data->startLocations[i].x = t.x;
-      data->startLocations[i].y = t.y;
-      i++;
+      data->startLocations[idx].x = t.x;
+      data->startLocations[idx].y = t.y;
+      idx++;
     }
 
     //static force data
@@ -527,9 +527,9 @@ namespace BWAPI
       data->isPaused = Broodwar->isPaused();
       data->selectedUnitCount = Broodwar->getSelectedUnits().size();
 
-      int i = 0;
+      int idx = 0;
       for(Unit t : Broodwar->getSelectedUnits())
-        data->selectedUnits[i++] = getUnitID(t);
+        data->selectedUnits[idx++] = getUnitID(t);
 
       //dynamic map data
       Map::copyToSharedMemory();
