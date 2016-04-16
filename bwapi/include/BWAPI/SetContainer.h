@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_set>
-#include <set>
 
 namespace BWAPI
 {
@@ -19,13 +18,8 @@ namespace BWAPI
   {
   public:
     SetContainer() : SetContainerUnderlyingT<T, HashT>() {}
-    SetContainer(SetContainer const &other) : SetContainerUnderlyingT<T, HashT>(other) {}
-    SetContainer(SetContainer &&other) : SetContainerUnderlyingT<T, HashT>(std::forward<SetContainer>(other)) {}
     SetContainer(std::initializer_list<T> ilist) : SetContainerUnderlyingT<T, HashT>(ilist) {}
-    SetContainer& operator=(const SetContainer& n) = default;
-    SetContainer& operator=(SetContainer&& n) = default;
 
-    
     template <class IterT>
     SetContainer(IterT _begin, IterT _end) : SetContainerUnderlyingT<T, HashT>(_begin, _end) {}
     
