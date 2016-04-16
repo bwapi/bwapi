@@ -202,14 +202,14 @@ namespace BWAPI
     ///   Point to output.
     /// </param>
     /// @returns Output stream \p out.
-    friend std::ostream &operator << (std::ostream &out, const Point<T, Scale> &pt)
+    friend std::ostream &operator << (std::ostream &os, const Point<T, Scale> &pt)
     {
-      return out << '(' << pt.x << ',' << pt.y << ')';
+      return os << '(' << pt.x << ',' << pt.y << ')';
     };
     /// @overload
-    friend std::wostream &operator << (std::wostream &out, const Point<T, Scale> &pt)
+    friend std::wostream &operator << (std::wostream &os, const Point<T, Scale> &pt)
     {
-      return out << L'(' << pt.x << L',' << pt.y << L')';
+      return os << L'(' << pt.x << L',' << pt.y << L')';
     };
 
     /// <summary>Input stream operator overload. Reads the input in the form "x y" without

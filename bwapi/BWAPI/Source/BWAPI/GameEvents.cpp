@@ -318,7 +318,7 @@ namespace BWAPI
       events.back().setText(text.c_str());
     }
   }
-  int fixPathString(const char *in, char *out, size_t outLen)
+  int fixPathString(const char *in, char *out_, size_t outLen)
   {
     unsigned int n = 0;
     const unsigned char *_in = (const unsigned char*)in;
@@ -333,13 +333,13 @@ namespace BWAPI
            _in[i] != ':' )
       {
         if ( _in[i] == '/' )
-          out[n] = '\\';
+          out_[n] = '\\';
         else
-          out[n] = _in[i];
+          out_[n] = _in[i];
         ++n;
       }
     }
-    out[n] = 0;
+    out_[n] = 0;
     return n;
   }
 

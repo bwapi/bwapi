@@ -119,15 +119,15 @@ namespace BWAPI
     /// <param name="t">
     ///     The type to write as a string.
     /// </param>
-    friend inline std::ostream &operator << (std::ostream &out, const Type<T, UnknownId> &t)
+    friend inline std::ostream &operator << (std::ostream &os, const Type<T, UnknownId> &t)
     {
-      return out << t.getName();
+      return os << t.getName();
     };
     /// @overload
-    friend inline std::wostream &operator << (std::wostream &out, const Type<T, UnknownId> &t)
+    friend inline std::wostream &operator << (std::wostream &os, const Type<T, UnknownId> &t)
     {
       std::wstring wideName{ t.getName().begin(), t.getName().end() };
-      return out << wideName;
+      return os << wideName;
     };
 
     /// <summary>Searches for the type associated with the given string and returns it.</summary>
