@@ -8,10 +8,10 @@ namespace BWAPI
   {
   public:
     // Initializes all variables to defaults. Used when initializing game data.
-    void init();
+    void init(int frame = 0);
 
     // Updates the counter
-    void update();
+    void update(int frame);
 
     // Used by Broodwar to get the integral fps
     int getFps() const;
@@ -21,9 +21,8 @@ namespace BWAPI
 
   private:
     using clock = std::chrono::steady_clock;
-    using milliseconds = std::chrono::milliseconds;
 
-    int     lastUpdateFrame = 0;
+    int lastUpdateFrame = 0;
     long double fps = 0;
     long double averageFPS = 0;
 

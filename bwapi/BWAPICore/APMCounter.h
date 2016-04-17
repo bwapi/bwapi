@@ -1,5 +1,4 @@
 #pragma once
-#include <chrono>
 
 namespace BWAPI
 {
@@ -14,19 +13,19 @@ namespace BWAPI
     int apm(bool selects = true) const;
 
     // Updates the APM counter
-    void update();
+    void update(int frame);
 
-    // Increments the APM counter for selections
+    // Increments the total APM counter
     void addSelect();
 
-    // Increments the APM counter for non-selections
+    // Increments the APM counter for non-selections, as well as the total APM counter
     void addNoSelect();
 
   private:
-    int     botAPM_noselects = 0;
-    int     botAPM_selects = 0;
-    long double  botAPMCounter_noselects = 0;
-    long double  botAPMCounter_selects = 0;
+    int botAPM_noselects = 0;
+    int botAPM_selects = 0;
+    long double botAPMCounter_noselects = 0;
+    long double botAPMCounter_selects = 0;
 
     int lastUpdateFrame = 0;
   };

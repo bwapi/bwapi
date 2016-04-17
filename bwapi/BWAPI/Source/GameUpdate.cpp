@@ -216,8 +216,8 @@ void GameImpl::update()
 //------------------------------------------------- STATS -------------------------------------------------
 void GameImpl::updateStatistics()
 {
-  apmCounter.update();
-  fpsCounter.update();
+  apmCounter.update(getFrameCount());
+  fpsCounter.update(getFrameCount());
 }
 
 //------------------------------------------------- OVERLAYS -------------------------------------------------

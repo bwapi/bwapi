@@ -2,16 +2,12 @@
 
 #include <cmath>
 
-#include "GameImpl.h"
-
 using namespace BWAPI;
 
 void APMCounter::init()
 {
-  botAPM_noselects = 0;
-  botAPM_selects = 0;
-  botAPMCounter_noselects = 0;
-  botAPMCounter_selects = 0;
+  botAPM_noselects = botAPM_selects = 0;
+  botAPMCounter_noselects = botAPMCounter_selects = 0.0;
 }
 
 int APMCounter::apm(bool selects) const
@@ -19,18 +15,16 @@ int APMCounter::apm(bool selects) const
   return selects ? botAPM_selects : botAPM_noselects;
 }
 
-void APMCounter::update()
+void APMCounter::update(int frame)
 {
   // Note: formula from APMAlert
   const long double APMInterval = 0.95L;    // time after which actions are worth
 
-  int currentFrame = BroodwarImpl.getFrameCount();
-
   // Get the time difference between frames on fastest game speed (milliseconds).
   // That's numFrames * 42ms / frame .
-  int timeDifference = (currentFrame - lastUpdateFrame) * 42;
+  int timeDifference = (frame - lastUpdateFrame) * 42;
 
-  int totalTime = currentFrame * 42;
+  int totalTime = frame * 42;
 
   // decay
   botAPMCounter_selects = botAPMCounter_selects * std::exp(-timeDifference / (APMInterval * 60000));
@@ -42,7 +36,7 @@ void APMCounter::update()
   botAPM_selects = static_cast<int>(botAPMCounter_selects / (APMInterval*gameDurationFactor));
   botAPM_noselects = static_cast<int>(botAPMCounter_noselects / (APMInterval*gameDurationFactor));
 
-  lastUpdateFrame = currentFrame;
+  lastUpdateFrame = frame;
 }
 
 void APMCounter::addSelect()
