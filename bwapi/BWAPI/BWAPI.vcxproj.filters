@@ -241,12 +241,6 @@
     <ClInclude Include="Source\BWAPI\CommandOptimizer.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BWAPI\APMCounter.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BWAPI\FPSCounter.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
@@ -419,12 +413,6 @@
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\CommandOptimizer.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\APMCounter.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\FPSCounter.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp">

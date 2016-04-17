@@ -64,7 +64,7 @@ namespace BWAPI
       /// <summary>Deprecated. Use getResourceDepot instead.</summary>
       /// @deprecated As of 4.2.0 due to naming inconsistency. Use #getResourceDepot instead.
       /// See https://github.com/bwapi/bwapi/issues/621 for more information.
-      UnitType getCenter() const;
+      [[deprecated("getCenter() was renamed to getResourceDepot()")]] UnitType getCenter() const;
 
       /// <summary>Retrieves the default structure UnitType for this Race that is used to harvest gas from
       /// @Geysers.</summary>
