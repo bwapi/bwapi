@@ -1,6 +1,7 @@
 #include "FPSCounter.h"
 
 #include <chrono>
+#include <cmath>
 
 using namespace BWAPI;
 using namespace std::literals::chrono_literals;

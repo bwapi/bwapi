@@ -58,10 +58,8 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILib.pdb</ProgramDataBaseFileName>
-      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <PreLinkEvent>
       <Message>Copying include files, BWAPILIB project, and example projects to final release</Message>
@@ -121,10 +119,8 @@ COPY /y "$(OutDir)BWAPILib.pdb" "..\lib\BWAPILib.pdb"
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
-      <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(OutDir)BWAPILibd.pdb</ProgramDataBaseFileName>
-      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <PreLinkEvent>
       <Message>Copying include files, BWAPILIB project, and example projects to final release</Message>
