@@ -57,9 +57,6 @@ void ApplyCodePatches()
     for (auto &it : BW::BWDATA::gluChatSwishController) it.wType = 4;
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
-  // Write storm authentication patch (allow custom network modes)
-  HackUtil::JmpPatch(HackUtil::GetImport("storm.dll", 251), &_SFileAuthenticateArchive);
-
   // Storm detours
   _SNetLeaveGameOld       = HackUtil::PatchImport("storm.dll", 119, &_SNetLeaveGame);
   _SNetReceiveMessageOld  = HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
