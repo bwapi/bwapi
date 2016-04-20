@@ -31,7 +31,7 @@ Gustav
 Several members in the gamedev.se forum.
 */
  
-#include "sha1.h"
+#include "Sha1.h"
 #include <cstring>
 
 namespace sha1
