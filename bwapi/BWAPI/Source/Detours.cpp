@@ -110,7 +110,7 @@ void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
   auto replacementSeed = BWAPI::BroodwarImpl.seedOverride;
   if (lpSystemTimeAsFileTime != nullptr && replacementSeed != std::numeric_limits<decltype(replacementSeed)>::max())
   {
-    // https://support.microsoft.com/kb/167296
+    // Convert time_t to Windows file time https://support.microsoft.com/kb/167296
     auto ll = Int32x32To64(replacementSeed, 10000000) + 116444736000000000;
     lpSystemTimeAsFileTime->dwLowDateTime = (DWORD)ll;
     lpSystemTimeAsFileTime->dwHighDateTime = ll >> 32;
@@ -434,15 +434,6 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
     endDialog = BW::FindDialogGlobal("WMission");
   if ( endDialog )
     endDialog->findIndex(-2)->activate();
-}
-
-//------------------------------------------- AUTH ARCHIVE HOOK ----------------------------------------------
-BOOL __stdcall _SFileAuthenticateArchive(HANDLE /*hArchive*/, DWORD *dwReturnVal)
-{
-  /* Always return a successful check to bypass our custom SNP module authentication */
-  if ( dwReturnVal )
-    *dwReturnVal = 5;
-  return TRUE;
 }
 
 //--------------------------------------------- OPEN FILE HOOK -----------------------------------------------
