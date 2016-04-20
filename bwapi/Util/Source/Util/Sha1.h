@@ -1,4 +1,4 @@
-// sha1.h and sha1.cpp are from code.google.com/p/smallsha1/
+// Sha1.h and Sha1.cpp are from code.google.com/p/smallsha1/
 /*
 Copyright (c) 2009, Micael Hildenborg
 All rights reserved.

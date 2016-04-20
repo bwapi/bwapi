@@ -10,7 +10,7 @@
 #include "PlayerImpl.h"
 #include <fstream>
 #include <memory>
-#include <Util/sha1.h>
+#include <Util/Sha1.h>
 
 #include "../../../Debug.h"
 

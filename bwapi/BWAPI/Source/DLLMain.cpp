@@ -5,7 +5,7 @@
 #include <cassert>
 #include "Thread.h"
 
-#include <Util/clamp.h>
+#include <Util/Clamp.h>
 #include <Util/Convenience.h>
 
 #include <BWAPI.h>

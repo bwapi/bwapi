@@ -13,7 +13,7 @@
     <ClCompile Include="Source\Util\RemoteProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Util\sha1.cpp">
+    <ClCompile Include="Source\Util\Sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util\SharedMemory.cpp">
@@ -36,7 +36,7 @@
     <ClInclude Include="Source\Util\RemoteProcessID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Util\sha1.h">
+    <ClInclude Include="Source\Util\Sha1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\SharedMemory.h">
@@ -48,7 +48,7 @@
     <ClInclude Include="Source\Util\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Util\clamp.h">
+    <ClInclude Include="Source\Util\Clamp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\Convenience.h">
