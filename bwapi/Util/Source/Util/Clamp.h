@@ -1,5 +1,5 @@
 #pragma once
-/*  clamp.h
+/*  Clamp.h
     clamping a value to be between a specified min and max value
 */
 #include <algorithm>

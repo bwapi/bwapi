@@ -72,18 +72,18 @@
     <ClCompile Include="Source\Util\MemoryFrame.cpp" />
     <ClCompile Include="Source\Util\Mutex.cpp" />
     <ClCompile Include="Source\Util\RemoteProcess.cpp" />
-    <ClCompile Include="Source\Util\sha1.cpp" />
+    <ClCompile Include="Source\Util\Sha1.cpp" />
     <ClCompile Include="Source\Util\SharedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Util\clamp.h" />
+    <ClInclude Include="Source\Util\Clamp.h" />
     <ClInclude Include="Source\Util\Convenience.h" />
     <ClInclude Include="Source\Util\Exceptions.h" />
     <ClInclude Include="Source\Util\MemoryFrame.h" />
     <ClInclude Include="Source\Util\Mutex.h" />
     <ClInclude Include="Source\Util\RemoteProcess.h" />
     <ClInclude Include="Source\Util\RemoteProcessID.h" />
-    <ClInclude Include="Source\Util\sha1.h" />
+    <ClInclude Include="Source\Util\Sha1.h" />
     <ClInclude Include="Source\Util\SharedMemory.h" />
     <ClInclude Include="Source\Util\SharedStructure.h" />
     <ClInclude Include="Source\Util\Types.h" />
