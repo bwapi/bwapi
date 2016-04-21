@@ -1,6 +1,6 @@
 #include "Bitmap.h"
 #include <storm.h>
-#include <Util/Clamp.h>
+#include <boost/algorithm/clamp.hpp>
 #include <algorithm>
 
 #include "Font.h"
@@ -9,6 +9,8 @@
 
 namespace BW
 {
+  using boost::algorithm::clamp;
+
   Bitmap::Bitmap(int width, int height, void *pBuffer)
     : wid(static_cast<u16>(width))
     , ht(static_cast<u16>(height))
