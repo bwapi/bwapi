@@ -40,7 +40,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      PlayerType(int id = PlayerTypes::Enum::None);
+      constexpr PlayerType(int id = PlayerTypes::Enum::None) : Type(id) {}
 
       /// <summary>Identifies whether or not this type is used for the pre-game lobby.</summary>
       /// A type such as PlayerTypes::ComputerLeft would only appear in-game when a computer
@@ -65,17 +65,17 @@ namespace BWAPI
     /// @returns Set consisting of all valid PlayerTypes.
     const PlayerType::set& allPlayerTypes();
     
-    extern const PlayerType None;
-    extern const PlayerType Computer;
-    extern const PlayerType Player;
-    extern const PlayerType RescuePassive;
-    extern const PlayerType EitherPreferComputer;
-    extern const PlayerType EitherPreferHuman;
-    extern const PlayerType Neutral;
-    extern const PlayerType Closed;
-    extern const PlayerType PlayerLeft;
-    extern const PlayerType ComputerLeft;
-    extern const PlayerType Unknown;
+    constexpr PlayerType None(Enum::None);
+    constexpr PlayerType Computer(Enum::Computer);
+    constexpr PlayerType Player(Enum::Player);
+    constexpr PlayerType RescuePassive(Enum::RescuePassive);
+    constexpr PlayerType EitherPreferComputer(Enum::EitherPreferComputer);
+    constexpr PlayerType EitherPreferHuman(Enum::EitherPreferHuman);
+    constexpr PlayerType Neutral(Enum::Neutral);
+    constexpr PlayerType Closed(Enum::Closed);
+    constexpr PlayerType PlayerLeft(Enum::PlayerLeft);
+    constexpr PlayerType ComputerLeft(Enum::ComputerLeft);
+    constexpr PlayerType Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(PlayerType) == sizeof(int), "Expected type to resolve to primitive size.");

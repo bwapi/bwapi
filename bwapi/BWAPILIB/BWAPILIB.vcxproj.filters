@@ -97,9 +97,6 @@
     <ClInclude Include="..\include\BWAPI\DamageType.h">
       <Filter>Types\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Common.h">
-      <Filter>Types\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Error.h">
       <Filter>Types\Header Files</Filter>
     </ClInclude>

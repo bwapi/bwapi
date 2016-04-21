@@ -5,8 +5,6 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -225,48 +223,6 @@ namespace BWAPI
       Stasis_Field, Archon_Warp, Restoration, Disruption_Web,
       Mind_Control, Dark_Archon_Meld, Feedback, Optical_Flare,
       Maelstrom, Lurker_Aspect, Healing, None, Nuclear_Strike, Unknown };
-  }
-  namespace TechTypes
-  {
-    BWAPI_TYPEDEF(TechType,Stim_Packs);
-    BWAPI_TYPEDEF(TechType,Lockdown);
-    BWAPI_TYPEDEF(TechType,EMP_Shockwave);
-    BWAPI_TYPEDEF(TechType,Spider_Mines);
-    BWAPI_TYPEDEF(TechType,Scanner_Sweep);
-    BWAPI_TYPEDEF(TechType,Tank_Siege_Mode);
-    BWAPI_TYPEDEF(TechType,Defensive_Matrix);
-    BWAPI_TYPEDEF(TechType,Irradiate);
-    BWAPI_TYPEDEF(TechType,Yamato_Gun);
-    BWAPI_TYPEDEF(TechType,Cloaking_Field);
-    BWAPI_TYPEDEF(TechType,Personnel_Cloaking);
-    BWAPI_TYPEDEF(TechType,Burrowing);
-    BWAPI_TYPEDEF(TechType,Infestation);
-    BWAPI_TYPEDEF(TechType,Spawn_Broodlings);
-    BWAPI_TYPEDEF(TechType,Dark_Swarm);
-    BWAPI_TYPEDEF(TechType,Plague);
-    BWAPI_TYPEDEF(TechType,Consume);
-    BWAPI_TYPEDEF(TechType,Ensnare);
-    BWAPI_TYPEDEF(TechType,Parasite);
-    BWAPI_TYPEDEF(TechType,Psionic_Storm);
-    BWAPI_TYPEDEF(TechType,Hallucination);
-    BWAPI_TYPEDEF(TechType,Recall);
-    BWAPI_TYPEDEF(TechType,Stasis_Field);
-    BWAPI_TYPEDEF(TechType,Archon_Warp);
-    BWAPI_TYPEDEF(TechType,Restoration);
-    BWAPI_TYPEDEF(TechType,Disruption_Web);
-    BWAPI_TYPEDEF(TechType,Mind_Control);
-    BWAPI_TYPEDEF(TechType,Dark_Archon_Meld);
-    BWAPI_TYPEDEF(TechType,Feedback);
-    BWAPI_TYPEDEF(TechType,Optical_Flare);
-    BWAPI_TYPEDEF(TechType,Maelstrom);
-    BWAPI_TYPEDEF(TechType,Lurker_Aspect);
-    BWAPI_TYPEDEF(TechType,Healing);
-    BWAPI_TYPEDEF(TechType,None);
-    BWAPI_TYPEDEF(TechType,Nuclear_Strike);
-    BWAPI_TYPEDEF(TechType,Unknown);
-  }
-  TechType::TechType(int id) : Type( id )
-  {
   }
   Race TechType::getRace() const
   {

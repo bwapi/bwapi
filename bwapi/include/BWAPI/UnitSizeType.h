@@ -41,7 +41,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    UnitSizeType(int id = UnitSizeTypes::Enum::None);
+    constexpr UnitSizeType(int id = UnitSizeTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -52,12 +52,12 @@ namespace BWAPI
     /// @returns Set of all UnitSizeTypes.
     const UnitSizeType::set& allUnitSizeTypes();
     
-    extern const UnitSizeType Independent;
-    extern const UnitSizeType Small;
-    extern const UnitSizeType Medium;
-    extern const UnitSizeType Large;
-    extern const UnitSizeType None;
-    extern const UnitSizeType Unknown;
+    constexpr UnitSizeType Independent(Enum::Independent);
+    constexpr UnitSizeType Small(Enum::Small);
+    constexpr UnitSizeType Medium(Enum::Medium);
+    constexpr UnitSizeType Large(Enum::Large);
+    constexpr UnitSizeType None(Enum::None);
+    constexpr UnitSizeType Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(UnitSizeType) == sizeof(int), "Expected type to resolve to primitive size.");

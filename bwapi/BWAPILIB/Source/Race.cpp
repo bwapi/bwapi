@@ -2,8 +2,6 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -71,17 +69,6 @@ namespace BWAPI
     using namespace Races::Enum;
     const Race::set raceSet = { Zerg, Terran, Protoss, None, Unknown };
   }
-  namespace Races
-  {
-    BWAPI_TYPEDEF(Race,Zerg);
-    BWAPI_TYPEDEF(Race,Terran);
-    BWAPI_TYPEDEF(Race,Protoss);
-    BWAPI_TYPEDEF(Race,Random);
-    BWAPI_TYPEDEF(Race,None);
-    BWAPI_TYPEDEF(Race,Unknown);
-  }
-  Race::Race(int id) : Type(id)
-  {}
   UnitType Race::getWorker() const
   {
     return RaceInternal::workerTypes[this->getID()];

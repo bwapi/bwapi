@@ -54,7 +54,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      ExplosionType(int id = ExplosionTypes::Enum::None);
+      constexpr ExplosionType(int id = ExplosionTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -65,31 +65,31 @@ namespace BWAPI
     /// @returns Set of ExplosionTypes.
     const ExplosionType::set& allExplosionTypes();
 
-    extern const ExplosionType None;
-    extern const ExplosionType Normal;
-    extern const ExplosionType Radial_Splash;
-    extern const ExplosionType Enemy_Splash;
-    extern const ExplosionType Lockdown;
-    extern const ExplosionType Nuclear_Missile;
-    extern const ExplosionType Parasite;
-    extern const ExplosionType Broodlings;
-    extern const ExplosionType EMP_Shockwave;
-    extern const ExplosionType Irradiate;
-    extern const ExplosionType Ensnare;
-    extern const ExplosionType Plague;
-    extern const ExplosionType Stasis_Field;
-    extern const ExplosionType Dark_Swarm;
-    extern const ExplosionType Consume;
-    extern const ExplosionType Yamato_Gun;
-    extern const ExplosionType Restoration;
-    extern const ExplosionType Disruption_Web;
-    extern const ExplosionType Corrosive_Acid;
-    extern const ExplosionType Mind_Control;
-    extern const ExplosionType Feedback;
-    extern const ExplosionType Optical_Flare;
-    extern const ExplosionType Maelstrom;
-    extern const ExplosionType Air_Splash;
-    extern const ExplosionType Unknown;
+    constexpr ExplosionType None(Enum::None);
+    constexpr ExplosionType Normal(Enum::Normal);
+    constexpr ExplosionType Radial_Splash(Enum::Radial_Splash);
+    constexpr ExplosionType Enemy_Splash(Enum::Enemy_Splash);
+    constexpr ExplosionType Lockdown(Enum::Lockdown);
+    constexpr ExplosionType Nuclear_Missile(Enum::Nuclear_Missile);
+    constexpr ExplosionType Parasite(Enum::Parasite);
+    constexpr ExplosionType Broodlings(Enum::Broodlings);
+    constexpr ExplosionType EMP_Shockwave(Enum::EMP_Shockwave);
+    constexpr ExplosionType Irradiate(Enum::Irradiate);
+    constexpr ExplosionType Ensnare(Enum::Ensnare);
+    constexpr ExplosionType Plague(Enum::Plague);
+    constexpr ExplosionType Stasis_Field(Enum::Stasis_Field);
+    constexpr ExplosionType Dark_Swarm(Enum::Dark_Swarm);
+    constexpr ExplosionType Consume(Enum::Consume);
+    constexpr ExplosionType Yamato_Gun(Enum::Yamato_Gun);
+    constexpr ExplosionType Restoration(Enum::Restoration);
+    constexpr ExplosionType Disruption_Web(Enum::Disruption_Web);
+    constexpr ExplosionType Corrosive_Acid(Enum::Corrosive_Acid);
+    constexpr ExplosionType Mind_Control(Enum::Mind_Control);
+    constexpr ExplosionType Feedback(Enum::Feedback);
+    constexpr ExplosionType Optical_Flare(Enum::Optical_Flare);
+    constexpr ExplosionType Maelstrom(Enum::Maelstrom);
+    constexpr ExplosionType Air_Splash(Enum::Air_Splash);
+    constexpr ExplosionType Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(ExplosionType) == sizeof(int), "Expected type to resolve to primitive size.");

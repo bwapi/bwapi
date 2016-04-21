@@ -217,7 +217,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClInclude Include="..\include\BWAPI\Streams.h" />
     <ClInclude Include="..\include\BWAPI\UnaryFilter.h" />
     <ClInclude Include="..\include\BWAPI\Unitset.h" />
-    <ClInclude Include="Source\Common.h" />
     <ClInclude Include="..\include\BWAPI\DamageType.h" />
     <ClInclude Include="..\include\BWAPI\Error.h" />
     <ClInclude Include="..\include\BWAPI\Event.h" />

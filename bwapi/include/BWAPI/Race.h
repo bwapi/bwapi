@@ -41,7 +41,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      Race(int id = Races::Enum::None);
+      constexpr Race(int id = Races::Enum::None) : Type(id) {}
 
       /// <summary>Retrieves the default worker type for this Race.</summary>
       /// 
@@ -102,12 +102,12 @@ namespace BWAPI
     /// @returns Race::set containing all the Race types.
     const Race::set& allRaces();
 
-    extern const Race Zerg;
-    extern const Race Terran;
-    extern const Race Protoss;
-    extern const Race Random;
-    extern const Race None;
-    extern const Race Unknown;
+    constexpr Race Zerg(Enum::Zerg);
+    constexpr Race Terran(Enum::Terran);
+    constexpr Race Protoss(Enum::Protoss);
+    constexpr Race Random(Enum::Random);
+    constexpr Race None(Enum::None);
+    constexpr Race Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(Race) == sizeof(int), "Expected type to resolve to primitive size.");

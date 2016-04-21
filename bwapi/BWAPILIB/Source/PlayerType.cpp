@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/PlayerType.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -29,27 +27,6 @@ namespace BWAPI
     using namespace PlayerTypes::Enum;
     const PlayerType::set playerTypeSet = { None, Computer, Player, RescuePassive, EitherPreferComputer, EitherPreferHuman,
       Neutral, Closed, PlayerLeft, ComputerLeft, Unknown };
-  }
-  namespace PlayerTypes
-  {
-    BWAPI_TYPEDEF(PlayerType,None);
-    BWAPI_TYPEDEF(PlayerType,Computer);
-    BWAPI_TYPEDEF(PlayerType,Player);
-    BWAPI_TYPEDEF(PlayerType,RescuePassive);
-    // Rescue Active
-    
-    BWAPI_TYPEDEF(PlayerType,EitherPreferComputer);
-    BWAPI_TYPEDEF(PlayerType,EitherPreferHuman);
-    BWAPI_TYPEDEF(PlayerType,Neutral);
-    BWAPI_TYPEDEF(PlayerType,Closed);
-    // Observer
-    BWAPI_TYPEDEF(PlayerType,PlayerLeft);
-    BWAPI_TYPEDEF(PlayerType,ComputerLeft);
-    BWAPI_TYPEDEF(PlayerType,Unknown);
-
-  }
-  PlayerType::PlayerType(int id) : Type( id )
-  {
   }
   bool PlayerType::isLobbyType() const
   {
