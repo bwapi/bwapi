@@ -2,7 +2,7 @@
 
 #include "../Graphics.h"
 #include <cassert>
-#include <Util/Clamp.h>
+#include <boost/algorithm/clamp.hpp>
 #include <Util/Convenience.h>
 
 #include <BW/Dialog.h>
@@ -140,8 +140,7 @@ namespace BWAPI
   void GameImpl::setTextSize(Text::Size::Enum size)
   {
     // Clamp to valid sizes
-    if ( size < Text::Size::Small ) size = Text::Size::Small;
-    if ( size > Text::Size::Huge ) size = Text::Size::Huge;
+    size = boost::algorithm::clamp(size, Text::Size::Small, Text::Size::Huge);
 
     if ( !this->tournamentCheck(Tournament::SetTextSize, &size) )
       return;

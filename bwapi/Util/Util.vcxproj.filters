@@ -48,9 +48,6 @@
     <ClInclude Include="Source\Util\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Util\Clamp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Util\Convenience.h">
       <Filter>Header Files</Filter>
     </ClInclude>

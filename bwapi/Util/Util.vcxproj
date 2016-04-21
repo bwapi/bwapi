@@ -76,7 +76,6 @@
     <ClCompile Include="Source\Util\SharedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Util\Clamp.h" />
     <ClInclude Include="Source\Util\Convenience.h" />
     <ClInclude Include="Source\Util\Exceptions.h" />
     <ClInclude Include="Source\Util\MemoryFrame.h" />
