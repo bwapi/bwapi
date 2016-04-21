@@ -100,22 +100,7 @@ namespace BWAPI
       }
       return best_id;
     }
-
-    const Color Red(111);
-    const Color Blue(165);
-    const Color Teal(159);
-    const Color Purple(164);
-    const Color Orange(179);
-    const Color Brown(19);
-    const Color White(255);
-    const Color Yellow(135);
-    const Color Green(117);
-    const Color Cyan(128);
-    const Color Black(0);
-    const Color Grey(74);
   }
-  Color::Color(int id) : Type(id)
-  {}
   int getRGBIndex(int red, int green, int blue)
   {
     static BYTE closestColor[64][64][64];

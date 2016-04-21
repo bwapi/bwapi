@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/Error.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -42,7 +40,7 @@ namespace BWAPI
 
   namespace Errors
   {
-      static const Error::set typeSet = {
+    static const Error::set typeSet = {
       Enum::Unit_Does_Not_Exist,
       Enum::Unit_Not_Visible,
       Enum::Unit_Not_Owned,
@@ -72,37 +70,7 @@ namespace BWAPI
       Enum::None,
       Enum::Unknown
     };
-
-    BWAPI_TYPEDEF(Error,Unit_Does_Not_Exist);
-    BWAPI_TYPEDEF(Error,Unit_Not_Visible);
-    BWAPI_TYPEDEF(Error,Unit_Not_Owned);
-    BWAPI_TYPEDEF(Error,Unit_Busy);
-    BWAPI_TYPEDEF(Error,Incompatible_UnitType);
-    BWAPI_TYPEDEF(Error,Incompatible_TechType);
-    BWAPI_TYPEDEF(Error,Incompatible_State);
-    BWAPI_TYPEDEF(Error,Already_Researched);
-    BWAPI_TYPEDEF(Error,Fully_Upgraded);
-    BWAPI_TYPEDEF(Error,Currently_Researching);
-    BWAPI_TYPEDEF(Error,Currently_Upgrading);
-    BWAPI_TYPEDEF(Error,Insufficient_Minerals);
-    BWAPI_TYPEDEF(Error,Insufficient_Gas);
-    BWAPI_TYPEDEF(Error,Insufficient_Supply);
-    BWAPI_TYPEDEF(Error,Insufficient_Energy);
-    BWAPI_TYPEDEF(Error,Insufficient_Tech);
-    BWAPI_TYPEDEF(Error,Insufficient_Ammo);
-    BWAPI_TYPEDEF(Error,Insufficient_Space);
-    BWAPI_TYPEDEF(Error,Invalid_Tile_Position);
-    BWAPI_TYPEDEF(Error,Unbuildable_Location);
-    BWAPI_TYPEDEF(Error,Unreachable_Location);
-    BWAPI_TYPEDEF(Error,Out_Of_Range);
-    BWAPI_TYPEDEF(Error,Unable_To_Hit);
-    BWAPI_TYPEDEF(Error,Access_Denied);
-    BWAPI_TYPEDEF(Error,File_Not_Found);
-    BWAPI_TYPEDEF(Error,Invalid_Parameter);
-    BWAPI_TYPEDEF(Error,None);
-    BWAPI_TYPEDEF(Error,Unknown);
   }
-  Error::Error(int id) : Type( id ) {}
   const Error::set& Errors::allErrors()
   {
     return Errors::typeSet;

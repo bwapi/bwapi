@@ -61,7 +61,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    Error(int id = Errors::Enum::None);
+    constexpr Error(int id = Errors::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -72,34 +72,34 @@ namespace BWAPI
     /// @returns Set of error types.
     const Error::set& allErrors();
     
-    extern const Error Unit_Does_Not_Exist;
-    extern const Error Unit_Not_Visible;
-    extern const Error Unit_Not_Owned;
-    extern const Error Unit_Busy;
-    extern const Error Incompatible_UnitType;
-    extern const Error Incompatible_TechType;
-    extern const Error Incompatible_State;
-    extern const Error Already_Researched;
-    extern const Error Fully_Upgraded;
-    extern const Error Currently_Researching;
-    extern const Error Currently_Upgrading;
-    extern const Error Insufficient_Minerals;
-    extern const Error Insufficient_Gas;
-    extern const Error Insufficient_Supply;
-    extern const Error Insufficient_Energy;
-    extern const Error Insufficient_Tech;
-    extern const Error Insufficient_Ammo;
-    extern const Error Insufficient_Space;
-    extern const Error Invalid_Tile_Position;
-    extern const Error Unbuildable_Location;
-    extern const Error Unreachable_Location;
-    extern const Error Out_Of_Range;
-    extern const Error Unable_To_Hit;
-    extern const Error Access_Denied;
-    extern const Error File_Not_Found;
-    extern const Error Invalid_Parameter;
-    extern const Error None;
-    extern const Error Unknown;
+    constexpr Error Unit_Does_Not_Exist(Enum::Unit_Does_Not_Exist);
+    constexpr Error Unit_Not_Visible(Enum::Unit_Not_Visible);
+    constexpr Error Unit_Not_Owned(Enum::Unit_Not_Owned);
+    constexpr Error Unit_Busy(Enum::Unit_Busy);
+    constexpr Error Incompatible_UnitType(Enum::Incompatible_UnitType);
+    constexpr Error Incompatible_TechType(Enum::Incompatible_TechType);
+    constexpr Error Incompatible_State(Enum::Incompatible_State);
+    constexpr Error Already_Researched(Enum::Already_Researched);
+    constexpr Error Fully_Upgraded(Enum::Fully_Upgraded);
+    constexpr Error Currently_Researching(Enum::Currently_Researching);
+    constexpr Error Currently_Upgrading(Enum::Currently_Upgrading);
+    constexpr Error Insufficient_Minerals(Enum::Insufficient_Minerals);
+    constexpr Error Insufficient_Gas(Enum::Insufficient_Gas);
+    constexpr Error Insufficient_Supply(Enum::Insufficient_Supply);
+    constexpr Error Insufficient_Energy(Enum::Insufficient_Energy);
+    constexpr Error Insufficient_Tech(Enum::Insufficient_Tech);
+    constexpr Error Insufficient_Ammo(Enum::Insufficient_Ammo);
+    constexpr Error Insufficient_Space(Enum::Insufficient_Space);
+    constexpr Error Invalid_Tile_Position(Enum::Invalid_Tile_Position);
+    constexpr Error Unbuildable_Location(Enum::Unbuildable_Location);
+    constexpr Error Unreachable_Location(Enum::Unreachable_Location);
+    constexpr Error Out_Of_Range(Enum::Out_Of_Range);
+    constexpr Error Unable_To_Hit(Enum::Unable_To_Hit);
+    constexpr Error Access_Denied(Enum::Access_Denied);
+    constexpr Error File_Not_Found(Enum::File_Not_Found);
+    constexpr Error Invalid_Parameter(Enum::Invalid_Parameter);
+    constexpr Error None(Enum::None);
+    constexpr Error Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(Error) == sizeof(int), "Expected type to resolve to primitive size.");

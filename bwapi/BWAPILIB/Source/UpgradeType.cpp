@@ -3,8 +3,6 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -262,64 +260,6 @@ namespace BWAPI
       Argus_Jewel, Argus_Talisman, Caduceus_Reactor, Chitinous_Plating,
       Anabolic_Synthesis, Charon_Boosters, None, Unknown };
   }
-  namespace UpgradeTypes
-  {
-    BWAPI_TYPEDEF(UpgradeType,Terran_Infantry_Armor);
-    BWAPI_TYPEDEF(UpgradeType,Terran_Vehicle_Plating);
-    BWAPI_TYPEDEF(UpgradeType,Terran_Ship_Plating);
-    BWAPI_TYPEDEF(UpgradeType,Zerg_Carapace);
-    BWAPI_TYPEDEF(UpgradeType,Zerg_Flyer_Carapace);
-    BWAPI_TYPEDEF(UpgradeType,Protoss_Ground_Armor);
-    BWAPI_TYPEDEF(UpgradeType,Protoss_Air_Armor);
-    BWAPI_TYPEDEF(UpgradeType,Terran_Infantry_Weapons);
-    BWAPI_TYPEDEF(UpgradeType,Terran_Vehicle_Weapons);
-    BWAPI_TYPEDEF(UpgradeType,Terran_Ship_Weapons);
-    BWAPI_TYPEDEF(UpgradeType,Zerg_Melee_Attacks);
-    BWAPI_TYPEDEF(UpgradeType,Zerg_Missile_Attacks);
-    BWAPI_TYPEDEF(UpgradeType,Zerg_Flyer_Attacks);
-    BWAPI_TYPEDEF(UpgradeType,Protoss_Ground_Weapons);
-    BWAPI_TYPEDEF(UpgradeType,Protoss_Air_Weapons);
-    BWAPI_TYPEDEF(UpgradeType,Protoss_Plasma_Shields);
-    BWAPI_TYPEDEF(UpgradeType,U_238_Shells);
-    BWAPI_TYPEDEF(UpgradeType,Ion_Thrusters);
-    BWAPI_TYPEDEF(UpgradeType,Titan_Reactor);
-    BWAPI_TYPEDEF(UpgradeType,Ocular_Implants);
-    BWAPI_TYPEDEF(UpgradeType,Moebius_Reactor);
-    BWAPI_TYPEDEF(UpgradeType,Apollo_Reactor);
-    BWAPI_TYPEDEF(UpgradeType,Colossus_Reactor);
-    BWAPI_TYPEDEF(UpgradeType,Ventral_Sacs);
-    BWAPI_TYPEDEF(UpgradeType,Antennae);
-    BWAPI_TYPEDEF(UpgradeType,Pneumatized_Carapace);
-    BWAPI_TYPEDEF(UpgradeType,Metabolic_Boost);
-    BWAPI_TYPEDEF(UpgradeType,Adrenal_Glands);
-    BWAPI_TYPEDEF(UpgradeType,Muscular_Augments);
-    BWAPI_TYPEDEF(UpgradeType,Grooved_Spines);
-    BWAPI_TYPEDEF(UpgradeType,Gamete_Meiosis);
-    BWAPI_TYPEDEF(UpgradeType,Metasynaptic_Node);
-    BWAPI_TYPEDEF(UpgradeType,Singularity_Charge);
-    BWAPI_TYPEDEF(UpgradeType,Leg_Enhancements);
-    BWAPI_TYPEDEF(UpgradeType,Scarab_Damage);
-    BWAPI_TYPEDEF(UpgradeType,Reaver_Capacity);
-    BWAPI_TYPEDEF(UpgradeType,Gravitic_Drive);
-    BWAPI_TYPEDEF(UpgradeType,Sensor_Array);
-    BWAPI_TYPEDEF(UpgradeType,Gravitic_Boosters);
-    BWAPI_TYPEDEF(UpgradeType,Khaydarin_Amulet);
-    BWAPI_TYPEDEF(UpgradeType,Apial_Sensors);
-    BWAPI_TYPEDEF(UpgradeType,Gravitic_Thrusters);
-    BWAPI_TYPEDEF(UpgradeType,Carrier_Capacity);
-    BWAPI_TYPEDEF(UpgradeType,Khaydarin_Core);
-    BWAPI_TYPEDEF(UpgradeType,Argus_Jewel);
-    BWAPI_TYPEDEF(UpgradeType,Argus_Talisman);
-    BWAPI_TYPEDEF(UpgradeType,Caduceus_Reactor);
-    BWAPI_TYPEDEF(UpgradeType,Chitinous_Plating);
-    BWAPI_TYPEDEF(UpgradeType,Anabolic_Synthesis);
-    BWAPI_TYPEDEF(UpgradeType,Charon_Boosters);
-    BWAPI_TYPEDEF(UpgradeType,Upgrade_60);
-    BWAPI_TYPEDEF(UpgradeType,None);
-    BWAPI_TYPEDEF(UpgradeType,Unknown);
-  }
-  UpgradeType::UpgradeType(int id) : Type( id )
-  {}
   Race UpgradeType::getRace() const
   {
     return upgradeInternalRace::upgradeRaces[this->getID()];

@@ -6,8 +6,6 @@
 #include <BWAPI/DamageType.h>
 #include <BWAPI/ExplosionType.h>
 
-#include "Common.h"
-
 #include "../../Debug.h"
 
 namespace BWAPI
@@ -520,115 +518,6 @@ namespace BWAPI
       };
   }
 
-  namespace WeaponTypes
-  {
-    BWAPI_TYPEDEF(WeaponType,Gauss_Rifle);
-    BWAPI_TYPEDEF(WeaponType,Gauss_Rifle_Jim_Raynor);
-    BWAPI_TYPEDEF(WeaponType,C_10_Canister_Rifle);
-    BWAPI_TYPEDEF(WeaponType,C_10_Canister_Rifle_Sarah_Kerrigan);
-    BWAPI_TYPEDEF(WeaponType,C_10_Canister_Rifle_Samir_Duran);
-    BWAPI_TYPEDEF(WeaponType,C_10_Canister_Rifle_Infested_Duran);
-    BWAPI_TYPEDEF(WeaponType,C_10_Canister_Rifle_Alexei_Stukov);
-    BWAPI_TYPEDEF(WeaponType,Fragmentation_Grenade);
-    BWAPI_TYPEDEF(WeaponType,Fragmentation_Grenade_Jim_Raynor);
-    BWAPI_TYPEDEF(WeaponType,Spider_Mines);
-    BWAPI_TYPEDEF(WeaponType,Twin_Autocannons);
-    BWAPI_TYPEDEF(WeaponType,Twin_Autocannons_Alan_Schezar);
-    BWAPI_TYPEDEF(WeaponType,Hellfire_Missile_Pack);
-    BWAPI_TYPEDEF(WeaponType,Hellfire_Missile_Pack_Alan_Schezar);
-    BWAPI_TYPEDEF(WeaponType,Arclite_Cannon);
-    BWAPI_TYPEDEF(WeaponType,Arclite_Cannon_Edmund_Duke);
-    BWAPI_TYPEDEF(WeaponType,Fusion_Cutter);
-    BWAPI_TYPEDEF(WeaponType,Gemini_Missiles);
-    BWAPI_TYPEDEF(WeaponType,Gemini_Missiles_Tom_Kazansky);
-    BWAPI_TYPEDEF(WeaponType,Burst_Lasers);
-    BWAPI_TYPEDEF(WeaponType,Burst_Lasers_Tom_Kazansky);
-    BWAPI_TYPEDEF(WeaponType,ATS_Laser_Battery);
-    BWAPI_TYPEDEF(WeaponType,ATS_Laser_Battery_Hero);
-    BWAPI_TYPEDEF(WeaponType,ATS_Laser_Battery_Hyperion);
-    BWAPI_TYPEDEF(WeaponType,ATA_Laser_Battery);
-    BWAPI_TYPEDEF(WeaponType,ATA_Laser_Battery_Hero);
-    BWAPI_TYPEDEF(WeaponType,ATA_Laser_Battery_Hyperion);
-    BWAPI_TYPEDEF(WeaponType,Flame_Thrower);
-    BWAPI_TYPEDEF(WeaponType,Flame_Thrower_Gui_Montag);
-    BWAPI_TYPEDEF(WeaponType,Arclite_Shock_Cannon);
-    BWAPI_TYPEDEF(WeaponType,Arclite_Shock_Cannon_Edmund_Duke);
-    BWAPI_TYPEDEF(WeaponType,Longbolt_Missile);
-    BWAPI_TYPEDEF(WeaponType,Claws);
-    BWAPI_TYPEDEF(WeaponType,Claws_Devouring_One);
-    BWAPI_TYPEDEF(WeaponType,Claws_Infested_Kerrigan);
-    BWAPI_TYPEDEF(WeaponType,Needle_Spines);
-    BWAPI_TYPEDEF(WeaponType,Needle_Spines_Hunter_Killer);
-    BWAPI_TYPEDEF(WeaponType,Kaiser_Blades);
-    BWAPI_TYPEDEF(WeaponType,Kaiser_Blades_Torrasque);
-    BWAPI_TYPEDEF(WeaponType,Toxic_Spores);
-    BWAPI_TYPEDEF(WeaponType,Spines);
-    BWAPI_TYPEDEF(WeaponType,Acid_Spore);
-    BWAPI_TYPEDEF(WeaponType,Acid_Spore_Kukulza);
-    BWAPI_TYPEDEF(WeaponType,Glave_Wurm);
-    BWAPI_TYPEDEF(WeaponType,Glave_Wurm_Kukulza);
-    BWAPI_TYPEDEF(WeaponType,Seeker_Spores);
-    BWAPI_TYPEDEF(WeaponType,Subterranean_Tentacle);
-    BWAPI_TYPEDEF(WeaponType,Suicide_Infested_Terran);
-    BWAPI_TYPEDEF(WeaponType,Suicide_Scourge);
-    BWAPI_TYPEDEF(WeaponType,Particle_Beam);
-    BWAPI_TYPEDEF(WeaponType,Psi_Blades);
-    BWAPI_TYPEDEF(WeaponType,Psi_Blades_Fenix);
-    BWAPI_TYPEDEF(WeaponType,Phase_Disruptor);
-    BWAPI_TYPEDEF(WeaponType,Phase_Disruptor_Fenix);
-    BWAPI_TYPEDEF(WeaponType,Psi_Assault);
-    BWAPI_TYPEDEF(WeaponType,Psionic_Shockwave);
-    BWAPI_TYPEDEF(WeaponType,Psionic_Shockwave_TZ_Archon);
-    BWAPI_TYPEDEF(WeaponType,Dual_Photon_Blasters);
-    BWAPI_TYPEDEF(WeaponType,Dual_Photon_Blasters_Mojo);
-    BWAPI_TYPEDEF(WeaponType,Dual_Photon_Blasters_Artanis);
-    BWAPI_TYPEDEF(WeaponType,Anti_Matter_Missiles);
-    BWAPI_TYPEDEF(WeaponType,Anti_Matter_Missiles_Mojo);
-    BWAPI_TYPEDEF(WeaponType,Anti_Matter_Missiles_Artanis);
-    BWAPI_TYPEDEF(WeaponType,Phase_Disruptor_Cannon);
-    BWAPI_TYPEDEF(WeaponType,Phase_Disruptor_Cannon_Danimoth);
-    BWAPI_TYPEDEF(WeaponType,Pulse_Cannon);
-    BWAPI_TYPEDEF(WeaponType,STS_Photon_Cannon);
-    BWAPI_TYPEDEF(WeaponType,STA_Photon_Cannon);
-    BWAPI_TYPEDEF(WeaponType,Scarab);
-    BWAPI_TYPEDEF(WeaponType,Neutron_Flare);
-    BWAPI_TYPEDEF(WeaponType,Halo_Rockets);
-    BWAPI_TYPEDEF(WeaponType,Corrosive_Acid);
-    BWAPI_TYPEDEF(WeaponType,Subterranean_Spines);
-    BWAPI_TYPEDEF(WeaponType,Warp_Blades);
-    BWAPI_TYPEDEF(WeaponType,Warp_Blades_Hero);
-    BWAPI_TYPEDEF(WeaponType,Warp_Blades_Zeratul);
-    BWAPI_TYPEDEF(WeaponType,Independant_Laser_Battery);
-    BWAPI_TYPEDEF(WeaponType,Twin_Autocannons_Floor_Trap);
-    BWAPI_TYPEDEF(WeaponType,Hellfire_Missile_Pack_Wall_Trap);
-    BWAPI_TYPEDEF(WeaponType,Flame_Thrower_Wall_Trap);
-    BWAPI_TYPEDEF(WeaponType,Hellfire_Missile_Pack_Floor_Trap);
-
-    BWAPI_TYPEDEF(WeaponType,Yamato_Gun);
-    BWAPI_TYPEDEF(WeaponType,Nuclear_Strike);
-    BWAPI_TYPEDEF(WeaponType,Lockdown);
-    BWAPI_TYPEDEF(WeaponType,EMP_Shockwave);
-    BWAPI_TYPEDEF(WeaponType,Irradiate);
-    BWAPI_TYPEDEF(WeaponType,Parasite);
-    BWAPI_TYPEDEF(WeaponType,Spawn_Broodlings);
-    BWAPI_TYPEDEF(WeaponType,Ensnare);
-    BWAPI_TYPEDEF(WeaponType,Dark_Swarm);
-    BWAPI_TYPEDEF(WeaponType,Plague);
-    BWAPI_TYPEDEF(WeaponType,Consume);
-    BWAPI_TYPEDEF(WeaponType,Stasis_Field);
-    BWAPI_TYPEDEF(WeaponType,Psionic_Storm);
-    BWAPI_TYPEDEF(WeaponType,Disruption_Web);
-    BWAPI_TYPEDEF(WeaponType,Restoration);
-    BWAPI_TYPEDEF(WeaponType,Mind_Control);
-    BWAPI_TYPEDEF(WeaponType,Feedback);
-    BWAPI_TYPEDEF(WeaponType,Optical_Flare);
-    BWAPI_TYPEDEF(WeaponType,Maelstrom);
-
-    BWAPI_TYPEDEF(WeaponType,None);
-    BWAPI_TYPEDEF(WeaponType,Unknown);
-  }
-  WeaponType::WeaponType(int id) : Type( id )
-  {}
   TechType WeaponType::getTech() const
   {
     return wpnInternalTechs::attachedTech[this->getID()];

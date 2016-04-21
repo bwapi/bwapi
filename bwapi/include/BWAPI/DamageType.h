@@ -46,7 +46,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      DamageType(int id = DamageTypes::Enum::None);
+      constexpr DamageType(int id = DamageTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -57,13 +57,13 @@ namespace BWAPI
     /// @returns Set of DamageTypes.
     const DamageType::set& allDamageTypes();
 
-    extern const DamageType Independent;
-    extern const DamageType Explosive;
-    extern const DamageType Concussive;
-    extern const DamageType Normal;
-    extern const DamageType Ignore_Armor;
-    extern const DamageType None;
-    extern const DamageType Unknown;
+    constexpr DamageType Independent(Enum::Independent);
+    constexpr DamageType Explosive(Enum::Explosive);
+    constexpr DamageType Concussive(Enum::Concussive);
+    constexpr DamageType Normal(Enum::Normal);
+    constexpr DamageType Ignore_Armor(Enum::Ignore_Armor);
+    constexpr DamageType None(Enum::None);
+    constexpr DamageType Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(DamageType) == sizeof(int), "Expected type to resolve to primitive size.");

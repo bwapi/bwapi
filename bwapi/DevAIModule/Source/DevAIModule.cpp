@@ -48,10 +48,14 @@ void DevAIModule::onFrame()
 
   for (auto &u : bw->getAllUnits())
   {
-    if (u->getType() == UnitTypes::Zerg_Hive)
+    switch (u->getType())
     {
-      if (!u->research(TechTypes::Burrowing))
-        bw->drawTextMap(u->getPosition(), "%c%s", Text::Yellow, bw->getLastError().c_str());
+    case int(UnitTypes::Zerg_Hive):
+      Broodwar << "Found a Hive!" << std::endl;
+      break;
+    case UnitTypes::Terran_Command_Center.getID():
+      Broodwar << "Found a Command Center!" << std::endl;
+      break;
     }
   }
 }

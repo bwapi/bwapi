@@ -48,7 +48,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      GameType(int id = GameTypes::Enum::None);
+      constexpr GameType(int id = GameTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -59,21 +59,21 @@ namespace BWAPI
     /// @returns Set of available GameTypes.
     const GameType::set& allGameTypes();
     
-    extern const GameType Melee;
-    extern const GameType Free_For_All;
-    extern const GameType One_on_One;
-    extern const GameType Capture_The_Flag;
-    extern const GameType Greed;
-    extern const GameType Slaughter;
-    extern const GameType Sudden_Death;
-    extern const GameType Ladder;
-    extern const GameType Use_Map_Settings;
-    extern const GameType Team_Melee;
-    extern const GameType Team_Free_For_All;
-    extern const GameType Team_Capture_The_Flag;
-    extern const GameType Top_vs_Bottom;
-    extern const GameType None;
-    extern const GameType Unknown;
+    constexpr GameType Melee(Enum::Melee);
+    constexpr GameType Free_For_All(Enum::Free_For_All);
+    constexpr GameType One_on_One(Enum::One_on_One);
+    constexpr GameType Capture_The_Flag(Enum::Capture_The_Flag);
+    constexpr GameType Greed(Enum::Greed);
+    constexpr GameType Slaughter(Enum::Slaughter);
+    constexpr GameType Sudden_Death(Enum::Sudden_Death);
+    constexpr GameType Ladder(Enum::Ladder);
+    constexpr GameType Use_Map_Settings(Enum::Use_Map_Settings);
+    constexpr GameType Team_Melee(Enum::Team_Melee);
+    constexpr GameType Team_Free_For_All(Enum::Team_Free_For_All);
+    constexpr GameType Team_Capture_The_Flag(Enum::Team_Capture_The_Flag);
+    constexpr GameType Top_vs_Bottom(Enum::Top_vs_Bottom);
+    constexpr GameType None(Enum::None);
+    constexpr GameType Unknown(Enum::Unknown);
   }
 
   static_assert(sizeof(GameType) == sizeof(int), "Expected type to resolve to primitive size.");

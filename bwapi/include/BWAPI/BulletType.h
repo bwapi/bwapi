@@ -73,7 +73,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      BulletType(int id = BulletTypes::Enum::None);
+      constexpr BulletType(int id = BulletTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types
@@ -84,43 +84,43 @@ namespace BWAPI
     /// @returns Set of BulletTypes.
     const BulletType::set& allBulletTypes();
 
-    extern const BulletType Melee;
-    extern const BulletType Fusion_Cutter_Hit;
-    extern const BulletType Gauss_Rifle_Hit;
-    extern const BulletType C_10_Canister_Rifle_Hit;
-    extern const BulletType Gemini_Missiles;
-    extern const BulletType Fragmentation_Grenade;
-    extern const BulletType Longbolt_Missile;
-    extern const BulletType ATS_ATA_Laser_Battery;
-    extern const BulletType Burst_Lasers;
-    extern const BulletType Arclite_Shock_Cannon_Hit;
-    extern const BulletType EMP_Missile;
-    extern const BulletType Dual_Photon_Blasters_Hit;
-    extern const BulletType Particle_Beam_Hit;
-    extern const BulletType Anti_Matter_Missile;
-    extern const BulletType Pulse_Cannon;
-    extern const BulletType Psionic_Shockwave_Hit;
-    extern const BulletType Psionic_Storm;
-    extern const BulletType Yamato_Gun;
-    extern const BulletType Phase_Disruptor;
-    extern const BulletType STA_STS_Cannon_Overlay;
-    extern const BulletType Sunken_Colony_Tentacle;
-    extern const BulletType Acid_Spore;
-    extern const BulletType Glave_Wurm;
-    extern const BulletType Seeker_Spores;
-    extern const BulletType Queen_Spell_Carrier;
-    extern const BulletType Plague_Cloud;
-    extern const BulletType Consume;
-    extern const BulletType Ensnare;
-    extern const BulletType Needle_Spine_Hit;
-    extern const BulletType Invisible;
-    extern const BulletType Optical_Flare_Grenade;
-    extern const BulletType Halo_Rockets;
-    extern const BulletType Subterranean_Spines;
-    extern const BulletType Corrosive_Acid_Shot;
-    extern const BulletType Neutron_Flare;
-    extern const BulletType None;
-    extern const BulletType Unknown;
+    constexpr BulletType Melee(Enum::Melee);
+    constexpr BulletType Fusion_Cutter_Hit(Enum::Fusion_Cutter_Hit);
+    constexpr BulletType Gauss_Rifle_Hit(Enum::Gauss_Rifle_Hit);
+    constexpr BulletType C_10_Canister_Rifle_Hit(Enum::C_10_Canister_Rifle_Hit);
+    constexpr BulletType Gemini_Missiles(Enum::Gemini_Missiles);
+    constexpr BulletType Fragmentation_Grenade(Enum::Fragmentation_Grenade);
+    constexpr BulletType Longbolt_Missile(Enum::Longbolt_Missile);
+    constexpr BulletType ATS_ATA_Laser_Battery(Enum::ATS_ATA_Laser_Battery);
+    constexpr BulletType Burst_Lasers(Enum::Burst_Lasers);
+    constexpr BulletType Arclite_Shock_Cannon_Hit(Enum::Arclite_Shock_Cannon_Hit);
+    constexpr BulletType EMP_Missile(Enum::EMP_Missile);
+    constexpr BulletType Dual_Photon_Blasters_Hit(Enum::Dual_Photon_Blasters_Hit);
+    constexpr BulletType Particle_Beam_Hit(Enum::Particle_Beam_Hit);
+    constexpr BulletType Anti_Matter_Missile(Enum::Anti_Matter_Missile);
+    constexpr BulletType Pulse_Cannon(Enum::Pulse_Cannon);
+    constexpr BulletType Psionic_Shockwave_Hit(Enum::Psionic_Shockwave_Hit);
+    constexpr BulletType Psionic_Storm(Enum::Psionic_Storm);
+    constexpr BulletType Yamato_Gun(Enum::Yamato_Gun);
+    constexpr BulletType Phase_Disruptor(Enum::Phase_Disruptor);
+    constexpr BulletType STA_STS_Cannon_Overlay(Enum::STA_STS_Cannon_Overlay);
+    constexpr BulletType Sunken_Colony_Tentacle(Enum::Sunken_Colony_Tentacle);
+    constexpr BulletType Acid_Spore(Enum::Acid_Spore);
+    constexpr BulletType Glave_Wurm(Enum::Glave_Wurm);
+    constexpr BulletType Seeker_Spores(Enum::Seeker_Spores);
+    constexpr BulletType Queen_Spell_Carrier(Enum::Queen_Spell_Carrier);
+    constexpr BulletType Plague_Cloud(Enum::Plague_Cloud);
+    constexpr BulletType Consume(Enum::Consume);
+    constexpr BulletType Ensnare(Enum::Ensnare);
+    constexpr BulletType Needle_Spine_Hit(Enum::Needle_Spine_Hit);
+    constexpr BulletType Invisible(Enum::Invisible);
+    constexpr BulletType Optical_Flare_Grenade(Enum::Optical_Flare_Grenade);
+    constexpr BulletType Halo_Rockets(Enum::Halo_Rockets);
+    constexpr BulletType Subterranean_Spines(Enum::Subterranean_Spines);
+    constexpr BulletType Corrosive_Acid_Shot(Enum::Corrosive_Acid_Shot);
+    constexpr BulletType Neutron_Flare(Enum::Neutron_Flare);
+    constexpr BulletType None(Enum::None);
+    constexpr BulletType Unknown(Enum::Unknown);
   };
 
   static_assert(sizeof(BulletType) == sizeof(int), "Expected type to resolve to primitive size.");
