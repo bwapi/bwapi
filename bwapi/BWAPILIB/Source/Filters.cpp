@@ -18,7 +18,6 @@ namespace BWAPI
   namespace Filter
   {
     U_UFILTER(IsTransport, u->getType().spaceProvided() > 0 && u->getType() != UnitTypes::Terran_Bunker);
-
     U_UFILTER(CanProduce, u->getType().canProduce() );
     U_UFILTER(CanAttack, u->getType().canAttack() );
     U_UFILTER(CanMove, u->getType().canMove() );

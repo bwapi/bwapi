@@ -17,11 +17,7 @@ namespace BWAPI
   class SetContainer : public SetContainerUnderlyingT < T, HashT >
   {
   public:
-    SetContainer() : SetContainerUnderlyingT<T, HashT>() {}
-    SetContainer(std::initializer_list<T> ilist) : SetContainerUnderlyingT<T, HashT>(ilist) {}
-
-    template <class IterT>
-    SetContainer(IterT _begin, IterT _end) : SetContainerUnderlyingT<T, HashT>(_begin, _end) {}
+    using SetContainerUnderlyingT<T, HashT>::SetContainerUnderlyingT;
     
     /// <summary>Iterates the set and erases each element x where pred(x) returns true.</summary>
     ///
