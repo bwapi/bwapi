@@ -5,6 +5,8 @@
 #include <cmath>
 #include <storm.h>
 
+#include <boost/filesystem.hpp>
+
 #include "WMode.h"
 #include "DLLMain.h"
 #include "Resolution.h"
@@ -278,17 +280,10 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
   if ( !pszOutput )
     return FALSE;
 
-  std::string newScreenFilename(pszOutput);
+  boost::filesystem::path newScreenFilename(pszOutput);
 
-  // Change screenshot extension
   if ( !screenshotFmt.empty() ) // If an extension replacement was specified
-  {
-    size_t tmp = newScreenFilename.find_last_of("./\\");
-    if ( tmp != std::string::npos && newScreenFilename[tmp] == '.' )  // If extension is found
-      newScreenFilename.replace(tmp, std::string::npos, screenshotFmt);
-    else
-      newScreenFilename.append(screenshotFmt);
-  }
+    newScreenFilename.replace_extension(screenshotFmt);
 
   // Save the screenshot in w-mode
   if ( wmode && pBits && isCorrectVersion )
@@ -302,11 +297,11 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
       pal[i].peBlue   = wmodebmp.bmiColors[i].rgbBlue;
       pal[i].peFlags  = 0;
     }
-    return SBmpSaveImage(newScreenFilename.c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height());
+    return SBmpSaveImage(newScreenFilename.string().c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height());
   }
   // Call the old fxn
   auto SDrawCaptureScreenProc = _SDrawCaptureScreenOld ? _SDrawCaptureScreenOld : &SDrawCaptureScreen;
-  return SDrawCaptureScreenProc(newScreenFilename.c_str());
+  return SDrawCaptureScreenProc(newScreenFilename.string().c_str());
 }
 
 //----------------------------------------------- ON GAME END ------------------------------------------------

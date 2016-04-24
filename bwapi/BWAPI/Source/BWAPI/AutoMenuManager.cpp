@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <boost/filesystem.hpp>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
@@ -492,18 +493,11 @@ const char* AutoMenuManager::interceptFindFirstFile(const char* lpFileName)
   {
     lpFileName = lastMapGen.c_str();
 
-    // get the full map path
-    std::string mapFilePath = installPath() + lastMapGen;
-
-    // Get substring containing only the file name
-    size_t tmp = mapFilePath.find_last_of("/\\");
-    std::string mapFileName(mapFilePath, tmp == std::string::npos ? 0 : tmp + 1);
-
-    // Get substring containing only the directory
-    std::string mapFileDir(mapFilePath, 0, mapFilePath.size() - mapFileName.size() - 1);
+    // Get the directory that the map is in
+    std::string directoryPath = boost::filesystem::path(installPath() + lastMapGen).parent_path().string();
 
     // update map folder location
-    SStrCopy(BW::BWDATA::CurrentMapFolder.data(), mapFileDir.c_str(), MAX_PATH);
+    SStrCopy(BW::BWDATA::CurrentMapFolder.data(), directoryPath.c_str(), MAX_PATH);
   }
   return lpFileName;
 }

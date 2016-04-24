@@ -1,4 +1,12 @@
 #include "Map.h"
+
+#include <fstream>
+#include <memory>
+#include <Util/Sha1.h>
+
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+
 #include "../DLLMain.h"
 #include "../Config.h"
 
@@ -8,9 +16,6 @@
 #include <BW/MiniTileFlags.h>
 #include "GameImpl.h"
 #include "PlayerImpl.h"
-#include <fstream>
-#include <memory>
-#include <Util/Sha1.h>
 
 #include "../../../Debug.h"
 
@@ -31,24 +36,15 @@ namespace BWAPI
   std::string Map::getPathName()
   {
     std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
-    
-    // If the install path is included in the map path, remove it, creating a relative path
-    if ( !installPath().empty() && mapPath.compare(0, installPath().length(), installPath()) == 0 )
-      mapPath.erase(0, installPath().length() );
-    
+    boost::filesystem::path test;
+    boost::erase_first(mapPath, installPath());     // Remove the install path to create a relative path
     return mapPath;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    std::string mapFileName( BW::BWDATA::CurrentMapFileName.data() );
-    
-    // Remove the path
-    size_t tmp = mapFileName.find_last_of("/\\");
-    if ( tmp != std::string::npos )
-      mapFileName.erase(0, tmp+1);
-
-    return mapFileName;
+    boost::filesystem::path mapPath( BW::BWDATA::CurrentMapFileName.data() );
+    return mapPath.filename().string();
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
