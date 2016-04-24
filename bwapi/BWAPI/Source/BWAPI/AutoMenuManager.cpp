@@ -116,9 +116,8 @@ void AutoMenuManager::reloadConfig()
   this->autoMenuEnemyRace[0] = LoadConfigStringUCase("auto_menu", "enemy_race", "RANDOM");
   for (unsigned int i = 1; i < 8; ++i)
   {
-    std::stringstream sskey;
-    sskey << "enemy_race_" << i;
-    this->autoMenuEnemyRace[i] = LoadConfigStringUCase("auto_menu", sskey.str().c_str(), "DEFAULT");
+    std::string key = "enemy_race_" + std::to_string(i);
+    this->autoMenuEnemyRace[i] = LoadConfigStringUCase("auto_menu", key.c_str(), "DEFAULT");
     if (this->autoMenuEnemyRace[i] == "DEFAULT")
       this->autoMenuEnemyRace[i] = this->autoMenuEnemyRace[0];
   }

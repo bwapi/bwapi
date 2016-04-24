@@ -38,17 +38,3 @@ inline void VSNPrintf(char (&dst)[N], const char *fmt, va_list &ap)
   vsnprintf(dst, N-1, fmt, ap);
   StrTerminate(dst);
 }
-
-inline std::string toUpper (const std::string &src)
-{
-  auto res = src;
-  std::transform(res.begin(), res.end(), res.begin(), ::toupper);
-  return res;
-}
-
-inline std::string toLower (const std::string &src)
-{
-  auto res = src;
-  std::transform (res.begin (), res.end (), res.begin (), ::tolower);
-  return res;
-}

@@ -175,10 +175,9 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
   HWND hWndReturn = NULL;
   if ( strcmp(lpClassName, "SWarClass") == 0 )
   {
-    std::stringstream newWindowName;
-    newWindowName << lpWindowName;
+    std::string newWindowName = lpWindowName;
     if (gdwProcNum > 1)
-      newWindowName << " Instance " << gdwProcNum;
+      newWindowName += " Instance " + std::to_string(gdwProcNum);
 
     detourCreateWindow = true;
     if ( switchToWMode )
@@ -188,7 +187,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
 #endif
       hWndReturn = CreateWindowExProc(dwExStyle,
                                         lpClassName,
-                                        newWindowName.str().c_str(),
+                                        newWindowName.c_str(),
                                         dwStyle | WS_OVERLAPPEDWINDOW,
                                         windowRect.left,
                                         windowRect.top,
@@ -203,7 +202,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     }
     else
     {
-      hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.str().c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+      hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
       ghMainWnd = hWndReturn;
     }
     switchToWMode = false;

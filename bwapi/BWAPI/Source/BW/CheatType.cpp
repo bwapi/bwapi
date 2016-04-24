@@ -1,17 +1,13 @@
 #include "CheatType.h"
 #include <string>
-#include <algorithm>
-#include <iterator>
-#include <cctype>
-#include "Util/Convenience.h"
+#include <boost/algorithm/string.hpp>
 
 namespace BW
 {
   CheatFlags::Enum getCheatFlag(const std::string &str)
   {
     // Convert to lowercase in a new string
-    std::string name;
-    name = toLower(str);
+    std::string name = boost::to_lower_copy(str);
 
     // Get the cheat flag
     if      ( name == "black sheep wall" )            return CheatFlags::BlackSheepWall;
