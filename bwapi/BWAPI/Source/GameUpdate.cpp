@@ -1,5 +1,7 @@
 #include "GameImpl.h"
 
+#include <boost/filesystem.hpp>
+
 #include "PlayerImpl.h"
 
 #include "DLLMain.h"
@@ -343,7 +345,8 @@ void GameImpl::initializeAIModule()
     // declare/assign variables
     hAIModule         = nullptr;
 
-    std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL"), dll;
+    std::string dll;
+    std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL");
     if (aicfg == "_NULL")
     {
       BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", configPath().c_str());
@@ -396,12 +399,8 @@ void GameImpl::initializeAIModule()
           Broodwar << Text::Green << "Loaded the AI Module: " << dll << std::endl;
         externalModuleConnected = true;
 
-        moduleName = dll;
-
         // Strip the path from the module name
-        size_t tmp = moduleName.find_last_of("/\\");
-        if ( tmp != std::string::npos )
-          moduleName.erase(0, tmp+1);
+        moduleName = boost::filesystem::path(dll).filename().string();
       }
       else  // If the AIModule function is not found
       {

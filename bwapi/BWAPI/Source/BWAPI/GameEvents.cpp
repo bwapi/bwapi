@@ -1,6 +1,9 @@
 #include "GameImpl.h"
 #include <ctime>
 
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string_regex.hpp>
+
 #include "Detours.h"
 
 #include <BW/Pathing.h>
@@ -372,31 +375,26 @@ namespace BWAPI
       std::string pathStr(szTmpPath);
 
       // Double any %'s remaining in the string so that strftime executes correctly
-      size_t tmp = std::string::npos;
-      while ( tmp = pathStr.find_last_of('%', tmp-1), tmp != std::string::npos )
-        pathStr.insert(tmp, "%");
+      boost::algorithm::replace_all(pathStr, "%", "%%");
 
       // Replace the placeholder $'s with %'s for the strftime call
-      std::replace(pathStr.begin(), pathStr.end(), '$', '%');
+      boost::algorithm::replace_all(pathStr, "$", "%");
 
       // Get time
-      time_t tmpTime = time(nullptr);
-      tm *timeInfo = localtime(&tmpTime);
+      time_t tmpTime = std::time(nullptr);
+      tm *timeInfo = std::localtime(&tmpTime);
 
       // Expand time strings, add a handler for this specific task to ignore errors in the format string
+      // TODO: Replace with boost time format
       _invalid_parameter_handler old = _set_invalid_parameter_handler(&ignore_invalid_parameter);
-        strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
+        std::strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
       _set_invalid_parameter_handler(old);
       pathStr = szTmpPath;
 
       // Remove illegal characters
-      pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(), [](char c){ return iscntrl( reinterpret_cast<unsigned char&>(c) ) ||  c == '?' || c == '*' ||
-                                                                                c == '<' ||  c == '|' || c == '>' || c == '"' ||
-                                                                                c == ':';}), pathStr.end());
-      // Create the directory tree
-      size_t pos = 0;
-      while ( pos = pathStr.find_first_of("/\\", pos+1), pos != std::string::npos )
-        CreateDirectoryA(pathStr.substr(0,pos).c_str(), nullptr);
+      boost::algorithm::erase_all_regex(pathStr, boost::regex("[[:cntrl:]?*<|>\":]"));
+      
+      boost::filesystem::create_directories(boost::filesystem::path(pathStr).parent_path());
 
       // Copy to global desired replay name
       gDesiredReplayName = pathStr;
