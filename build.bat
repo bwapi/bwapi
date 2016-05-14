@@ -19,6 +19,6 @@ set PATH=%PATH%;%CD%/apps;%CD%/apps/phantomjs;%CD%/apps/InnoSetup;%CD%/apps/cygw
 pushd %CD%
 cd bwapi
 nuget restore
-msbuild /target:Release_Pipeline;Debug_Pipeline bwapi.sln
-msbuild /target:Installer_Target bwapi.sln
+msbuild /verbosity:normal /target:Release_Pipeline;Debug_Pipeline bwapi.sln
+msbuild /verbosity:normal /target:Installer_Target bwapi.sln
 popd
