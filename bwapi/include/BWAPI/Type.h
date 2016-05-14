@@ -113,7 +113,7 @@ namespace BWAPI
     /// <summary>Output stream operator overload.</summary> Allows printing of the type without
     /// calling Type::getName.
     ///
-    /// <param name="out">
+    /// <param name="os">
     ///     The destination output stream.
     /// </param>
     /// <param name="t">
