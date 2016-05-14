@@ -36,7 +36,6 @@ namespace BWAPI
   std::string Map::getPathName()
   {
     std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
-    boost::filesystem::path test;
     boost::erase_first(mapPath, installPath());     // Remove the install path to create a relative path
     return mapPath;
   }

@@ -195,7 +195,7 @@ namespace BWAPI
     /// <summary>Ouput stream operator overload. Outputs the Point in the format "(x,y)" without
     /// quotations.</summary>
     ///
-    /// <param name="out">
+    /// <param name="os">
     ///   Output stream.
     /// </param>
     /// <param name="pt">
