@@ -13,8 +13,6 @@ namespace SNP
   //------------------------------------------------------------------------------------------------------------------------------------
   Network<SOCKADDR> *pluggedNetwork = NULL;
 
-  bool fatalError = false;
-
   client_info gameAppInfo;
 
   CriticalSection critSec;
@@ -136,7 +134,6 @@ each second
     // Called when the module is loaded
 //    DropMessage(0, "spiInitialize");
 
-    fatalError = false;
     gameAppInfo = *gameClientInfo;
 
     receiveEvent = hEvent;
@@ -149,7 +146,6 @@ each second
     }
     catch(GeneralException &e)
     {
-      fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
       return FALSE;
     }
@@ -168,7 +164,6 @@ each second
     }
     catch(GeneralException &e)
     {
-      fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
       return FALSE;
     }
@@ -222,7 +217,6 @@ each second
     }
     catch(GeneralException &e)
     {
-      fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
       return FALSE;
     }
@@ -278,7 +272,6 @@ each second
     }
     catch(GeneralException &e)
     {
-      fatalError = true;
       DropLastError(__FUNCTION__ " unhandled exception: %s", e.getMessage());
       return FALSE;
     }

@@ -39,7 +39,7 @@ namespace SMEM
     PeerData peer[8];
   };
   Util::SharedStructure<SharedData> session;
-  Util::Mutex mutex("Global\\LocalPC_Network_Mutex");
+  Util::Mutex mutex("Local\\LocalPC_Network_Mutex");
 
   SharedData *shd = NULL;
 
@@ -79,7 +79,7 @@ namespace SMEM
     INTERLOCKED;
 
     // init shared stuff
-    bool just_created = session.create("Global\\LocalPC_Network_Memory");
+    bool just_created = session.create("Local\\LocalPC_Network_Memory");
     shd = &session.get();
 
     // if the shared memory was just created, init it
@@ -113,7 +113,8 @@ namespace SMEM
   }
   void LocalPC::destroy()
   {
-    shd->peer[self].lastOccupied = 0;
+    if (shd)
+      shd->peer[self].lastOccupied = 0;
     session.release();
   }
   void LocalPC::requestAds()
