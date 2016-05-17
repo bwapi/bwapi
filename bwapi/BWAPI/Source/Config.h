@@ -2,6 +2,7 @@
 #include <string>
 #include <storm.h>
 #include "DLLMain.h"
+#include <boost/filesystem/path.hpp>
 
 // Functions
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault = NULL);
@@ -19,11 +20,8 @@ inline const std::string& installPath()
   if (path.empty())
   {
     char buffer[MAX_PATH];
-    if (GetModuleFileNameA(NULL, buffer, MAX_PATH))
-    {
-      path = std::string(buffer);
-      path = path.substr(0, path.find_last_of("\\/")+1);
-    }
+    if (GetModuleFileNameA(NULL, buffer, MAX_PATH)) //get .exe path
+      path = boost::filesystem::path(buffer).parent_path().string() + "\\";
     else
       BWAPIError("Error getting starcraft's root directory via GetModuleFileNameA()");
   }
