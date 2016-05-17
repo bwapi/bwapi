@@ -57,8 +57,7 @@ namespace Util
     SharedMemory();
     ~SharedMemory();
 
-    void create(int size);                          // allocates memory
-    bool create(int size, const char* systemName);  // allocates memory, returns false if opened an existing named object
+    bool create(int size, const char* systemName = nullptr);  // allocates memory, returns false if opened an existing named object
     void import(Export source);     // connects to shared memory
     void release();                             // releases memory
     Export exportToProcess(RemoteProcess &target, bool readOnly) const;
