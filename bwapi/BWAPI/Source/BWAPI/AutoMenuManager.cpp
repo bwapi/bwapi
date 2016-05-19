@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
@@ -108,9 +109,9 @@ void AutoMenuManager::reloadConfig()
   for (int i = 0; i < (int)gdwProcNum && raceList; ++i)
       std::getline(raceList, currentrace, ',');
 
-  auto trimBegin = currentrace.find_first_not_of(" \"");
-  auto trimEnd = currentrace.find_last_not_of(" \"") + 1;
-  currentrace = currentrace.substr(trimBegin, trimEnd - trimBegin);
+  // trim whitespace outside quotations and then the quotations
+  boost::trim(currentrace);
+  boost::trim_if(currentrace, boost::is_any_of("\""));
 
   this->autoMenuRace = currentrace;
 
