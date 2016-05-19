@@ -16,6 +16,7 @@
 
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
+#include <boost/algorithm/string/trim.hpp>
 
 using namespace BWAPI;
 
@@ -362,10 +363,9 @@ void GameImpl::initializeAIModule()
       for (int i = 0; i < (int)gdwProcNum && aiList; ++i)
         std::getline(aiList, dll, ',');
 
-      // Trim leading and trailing spaces, and extra quotations
-      auto trimBegin = dll.find_first_not_of(" \"");
-      auto trimEnd = dll.find_last_not_of(" \"") + 1;
-      dll = dll.substr(trimBegin, trimEnd - trimBegin);
+      // trim whitespace outside quotations and then the quotations
+      boost::trim(dll);
+      boost::trim_if(dll, boost::is_any_of("\""));
 
       hAIModule = LoadLibraryA(dll.c_str());
     }
