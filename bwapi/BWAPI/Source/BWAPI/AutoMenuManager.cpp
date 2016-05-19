@@ -341,22 +341,23 @@ void AutoMenuManager::onMenuFrame()
     if (!tempDlg)
       break;
 
-    if (isJoining &&
-      !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) &&
+    bool gameToJoinExists = tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) ||
+      (this->autoMenuGameName == "JOIN_FIRST" && tempDlg->findIndex(5)->getListCount() > 0);
+
+    if (isJoining && !gameToJoinExists &&
       waitJoinTimer + (3000 * (BroodwarImpl.getInstanceNumber() + 1)) > GetTickCount())
-      break;
+      break; //wait for game to be hosted
 
     waitJoinTimer = GetTickCount();
-    isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName));
 
-    if (isCreating && isHost)
-    {
-      pressDialogKey(tempDlg->findIndex(15));  // Create Game
-    }
-    else // is joining
+    if (gameToJoinExists)
     {
       this->lastMapGen.clear();
       pressDialogKey(tempDlg->findIndex(13));  // OK
+    }
+    else if (isCreating)
+    {
+      pressDialogKey(tempDlg->findIndex(15));  // Create Game
     }
   }
   break;
@@ -411,7 +412,6 @@ void AutoMenuManager::onMenuFrame()
     if (isCreating &&
       waitRestartTimer + 2000 < GetTickCount() &&
       !actStartedGame &&
-      isHost &&
       getLobbyPlayerReadyCount() > 0 &&
       getLobbyPlayerReadyCount() == getLobbyPlayerCount() &&
       (getLobbyPlayerReadyCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0))

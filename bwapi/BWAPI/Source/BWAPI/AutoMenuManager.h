@@ -52,7 +52,6 @@ namespace BWAPI
 
     bool actStartedGame = false;
     bool actRaceSel = false;
-    bool isHost = false;
 
 #ifdef _DEBUG
     std::string autoMenuPause;
