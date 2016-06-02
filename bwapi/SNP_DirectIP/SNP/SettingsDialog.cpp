@@ -3,39 +3,32 @@
 
 #include "resource.h"
 
-INT_PTR CALLBACK Sessings( HWND, UINT, WPARAM, LPARAM );
+INT_PTR CALLBACK Settings( HWND, UINT, WPARAM, LPARAM );
 DWORD WINAPI dlgThread(LPVOID lpParameter);
 
-volatile bool dlgActive = false;
-volatile bool wantExit = false;
-
-HANDLE dlgThreadHandle = NULL;
-HWND hDlg;
+HANDLE hdlgThread = NULL;
+HWND hDlg = NULL;
 
 extern HINSTANCE hInstance;
 
 DWORD WINAPI dlgThread(LPVOID lpParameter)
 {
-  DialogBox(hInstance, MAKEINTRESOURCE(IDD_SETTINGS), NULL, Sessings);
+  DialogBox(hInstance, MAKEINTRESOURCE(IDD_SETTINGS), NULL, Settings);
   return 0;
 }
 
 void showSettingsDialog()
 {
-  wantExit = false;
-  dlgActive = true;
-  dlgThreadHandle = CreateThread(NULL, NULL, dlgThread, NULL, NULL, NULL);
+  hdlgThread = CreateThread(NULL, NULL, dlgThread, NULL, NULL, NULL);
 }
 
 void hideSettingsDialog()
 {
-  if(dlgActive)
+  if(hdlgThread)
   {
-    wantExit = true;
     SendMessage(hDlg, WM_CLOSE, 0, 0);
-    WaitForSingleObject(dlgThreadHandle, 10000);
-    dlgActive = false;
-    dlgThreadHandle = NULL;
+    WaitForSingleObject(hdlgThread, 10000);
+    hdlgThread = NULL;
   }
 }
 
@@ -77,28 +70,30 @@ void setStatusString(const char *statusText)
   }
 }
 
-
-INT_PTR CALLBACK Sessings( HWND _hDlg, UINT message, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK Settings( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-  hDlg = _hDlg;
-  switch( message )
+  switch( uMsg )
   {
     case WM_INITDIALOG:
-      SetDlgItemTextA(_hDlg, IDC_EDITIP,    "127.0.0.1");
-      SetDlgItemTextA(_hDlg, IDC_EDITPORT,  "6112");
-      SetDlgItemTextA(_hDlg, IDC_EDITLPORT, "6112");
+      SetDlgItemTextA(hwndDlg, IDC_EDITIP,    "127.0.0.1");
+      SetDlgItemTextA(hwndDlg, IDC_EDITPORT,  "6112");
+      SetDlgItemTextA(hwndDlg, IDC_EDITLPORT, "6112");
+      hDlg = hwndDlg;
       return TRUE;
 
     case WM_COMMAND:
       if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) 
       {
-        EndDialog(hDlg, LOWORD(wParam));
+        EndDialog(hwndDlg, LOWORD(wParam));
+        hDlg = NULL;
         return TRUE;
       }
       break;
 
     case WM_CLOSE:
-      EndDialog(hDlg, 0);
+      EndDialog(hwndDlg, 0);
+      hDlg = NULL;
+      return TRUE;
   }
     return FALSE;
 }
