@@ -45,10 +45,6 @@ namespace Util
 
     return !alreadyExisted;
   }
-  void SharedMemory::create(int size)
-  {
-    this->create(size, NULL);
-  }
   //----------------------- IMPORT -------------------------------------
   void SharedMemory::import(Export source)
   {

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
@@ -35,7 +36,7 @@ void AutoMenuManager::reloadConfig()
 #endif
   this->autoMenuRestartGame = LoadConfigStringUCase("auto_menu", "auto_restart", "OFF");
   this->autoMenuGameName = LoadConfigString("auto_menu", "game");
-  this->autoMenuCharacterName = LoadConfigString("auto_menu", "character_name", "FIRST");
+  this->autoMenuCharacterName = LoadConfigString("auto_menu", "character_name", "FIRST").substr(0, 24);
 
   // Load map string
   std::string cfgMap = LoadConfigString("auto_menu", "map", "");
@@ -108,9 +109,9 @@ void AutoMenuManager::reloadConfig()
   for (int i = 0; i < (int)gdwProcNum && raceList; ++i)
       std::getline(raceList, currentrace, ',');
 
-  auto trimBegin = currentrace.find_first_not_of(" \"");
-  auto trimEnd = currentrace.find_last_not_of(" \"") + 1;
-  currentrace = currentrace.substr(trimBegin, trimEnd - trimBegin);
+  // trim whitespace outside quotations and then the quotations
+  boost::trim(currentrace);
+  boost::trim_if(currentrace, boost::is_any_of("\""));
 
   this->autoMenuRace = currentrace;
 
@@ -341,22 +342,23 @@ void AutoMenuManager::onMenuFrame()
     if (!tempDlg)
       break;
 
-    if (isJoining &&
-      !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) &&
+    bool gameToJoinExists = tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) ||
+      (this->autoMenuGameName == "JOIN_FIRST" && tempDlg->findIndex(5)->getListCount() > 0);
+
+    if (isJoining && !gameToJoinExists &&
       waitJoinTimer + (3000 * (BroodwarImpl.getInstanceNumber() + 1)) > GetTickCount())
-      break;
+      break; //wait for game to be hosted
 
     waitJoinTimer = GetTickCount();
-    isHost = !(isJoining && tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName));
 
-    if (isCreating && isHost)
-    {
-      pressDialogKey(tempDlg->findIndex(15));  // Create Game
-    }
-    else // is joining
+    if (gameToJoinExists)
     {
       this->lastMapGen.clear();
       pressDialogKey(tempDlg->findIndex(13));  // OK
+    }
+    else if (isCreating)
+    {
+      pressDialogKey(tempDlg->findIndex(15));  // Create Game
     }
   }
   break;
@@ -411,7 +413,6 @@ void AutoMenuManager::onMenuFrame()
     if (isCreating &&
       waitRestartTimer + 2000 < GetTickCount() &&
       !actStartedGame &&
-      isHost &&
       getLobbyPlayerReadyCount() > 0 &&
       getLobbyPlayerReadyCount() == getLobbyPlayerCount() &&
       (getLobbyPlayerReadyCount() >= this->autoMenuMinPlayerCount || getLobbyOpenCount() == 0))
