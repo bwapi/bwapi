@@ -27,7 +27,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <NMakeBuildCommandLine>WHERE doxygen
+    <NMakeBuildCommandLine>set PATH=%PATH%;$(SolutionDir)/../apps/doxygen/;$(SolutionDir)/../apps/graphviz/bin/
+
+WHERE doxygen
 IF %ERRORLEVEL% NEQ 0 (
   echo "doxygen: error 1: Documentation requires doxygen (http://www.doxygen.org/). The bin directory must be in your PATH."
   exit 1
@@ -39,7 +41,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 cd $(SolutionDir)/../Documentation
-doxygen
+( type Doxyfile &amp; echo DOT_PATH="../apps/graphviz/bin/dot.exe" ) | doxygen.exe -
 cd $(SolutionDir)</NMakeBuildCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

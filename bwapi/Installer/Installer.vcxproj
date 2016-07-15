@@ -6,6 +6,11 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Documentation\Documentation.vcxproj">
+      <Project>{2bed9e24-4dae-43a1-8d7f-a4ec05e53dae}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D5928E29-F115-474E-BA42-9AB710B0E892}</ProjectGuid>
     <RootNamespace>Installer</RootNamespace>
@@ -54,23 +59,6 @@ cd $(SolutionDir)
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
-      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\BWAPI\BWAPI.vcxproj">
-      <Project>{001204ec-33b7-427d-af9b-68f222c97349}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\BWAPI_PluginInjector\BWAPI_PluginInjector.vcxproj">
-      <Project>{e872fa31-c3ac-4331-ad60-315768e44aca}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Documentation\Documentation.vcxproj">
-      <Project>{2bed9e24-4dae-43a1-8d7f-a4ec05e53dae}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SNP_DirectIP\SNP_DirectIP.vcxproj">
-      <Project>{452bddc2-d77b-45c3-991e-7d93de3638b0}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -12,10 +12,6 @@
 ::  - Inno Setup (Installer)
 ::  - 7-Zip (archive without installer)
 
-:: Retrieve dependencies
-"apps/install-dependencies.bat"
-set PATH=%PATH%;%CD%/apps;%CD%/apps/phantomjs;%CD%/apps/InnoSetup;%CD%/apps/cygwin/bin
-
 pushd %CD%
 cd bwapi
 nuget restore
