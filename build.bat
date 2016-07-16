@@ -13,8 +13,21 @@
 ::  - 7-Zip (archive without installer)
 
 pushd %CD%
+
+:: Build BWAPI's full stack
 cd bwapi
 nuget restore
-msbuild /verbosity:normal /target:Release_Pipeline;Debug_Pipeline bwapi.sln
-msbuild /verbosity:normal /target:Installer_Target bwapi.sln
+msbuild /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
+msbuild /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
+msbuild /verbosity:normal /p:Configuration=Installer_Target bwapi.sln
+
+:: Run unit tests
+cd Debug
+if defined APPVEYOR (
+  vstest.console BWAPILIBTest.dll BWAPICoreTest.dll /logger:Appveyor
+) else (
+  vstest.console BWAPILIBTest.dll BWAPICoreTest.dll
+)
+:: Finish
 popd
+
