@@ -63,7 +63,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y /B "$(OutDir)$(TargetName)$(TargetExt)" + "SNP\caps.mpq" "$(SolutionDir)..\Release_Binary\Starcraft\$(TargetName).snp"</Command>
+      <Command>copy /Y /B "$(OutDir)$(TargetName)$(TargetExt)" + "SNP\caps.mpq" "$(OutDir)$(TargetName).snp"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
