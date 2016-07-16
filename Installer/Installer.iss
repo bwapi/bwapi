@@ -140,8 +140,6 @@ var
 begin
   // Workaround: Determine the correct 32-bit subkey name because of INNO setup bug
   sSubkeyName := 'SOFTWARE\'
-  if ( IsWin64() ) then
-    StrCat(sSubkeyName, 'Wow6432Node\');
 
   StrCat(sSubkeyName, CompanyName);
   StrCat(sSubkeyName, '\');
@@ -165,8 +163,6 @@ begin
     begin
       // Determine subkey due to a bug in INNO setup
       sSubkey := 'SOFTWARE\Blizzard Entertainment\Starcraft';
-      if ( IsWin64() ) then
-        sSubkey := 'SOFTWARE\Wow6432Node\Blizzard Entertainment\Starcraft';
 
       // Write the InstallPath, first try HKLM (because Chaoslaunch complains), then HKCU
       Result := True;
