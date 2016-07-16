@@ -14,20 +14,22 @@
 
 pushd %CD%
 
+if defined APPVEYOR (
+  set MSBUILD_ADDITIONAL_OPTIONS=/logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  set VSTEST_ADDITIONAL_OPTIONS=/logger:Appveyor
+)
+
 :: Build BWAPI's full stack
 cd bwapi
 nuget restore
-msbuild /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
-msbuild /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
-msbuild /verbosity:normal /p:Configuration=Installer_Target bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target bwapi.sln
 
 :: Run unit tests
 cd Debug
-if defined APPVEYOR (
-  vstest.console BWAPILIBTest.dll BWAPICoreTest.dll /logger:Appveyor
-) else (
-  vstest.console BWAPILIBTest.dll BWAPICoreTest.dll
-)
+vstest.console BWAPILIBTest.dll BWAPICoreTest.dll %VSTEST_ADDITIONAL_OPTIONS%
+
 :: Finish
 popd
 
