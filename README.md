@@ -1,12 +1,12 @@
 # The Brood War API {#BWAPI}
-[![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
 
 [TOC]
 
 # Project Information {#project}
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
+
 * [Project website] (http://bwapi.github.io)
-* [Go to the build pipeline](http://ec2-54-68-169-224.us-west-2.compute.amazonaws.com:8080/)
 * [Go to the releases](https://github.com/bwapi/bwapi/releases)
 
 @htmlinclude twitter_widget
