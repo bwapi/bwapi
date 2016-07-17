@@ -72,6 +72,7 @@ BOOL STORMAPI SFileDdaGetPos(HANDLE directsound, int a2, int a3) rBool;
 
 BOOL STORMAPI SFileDdaInitialize(HANDLE directsound) rBool;
 BOOL STORMAPI SFileDdaSetVolume(HANDLE directsound, signed int bigvolume, signed int volume) rBool;
+BOOL STORMAPI SFileDestroy() rBool;
 
 BOOL STORMAPI SFileGetFileArchive(HANDLE hFile, HANDLE archive) rBool;
 LONG STORMAPI SFileGetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh) rInt;
