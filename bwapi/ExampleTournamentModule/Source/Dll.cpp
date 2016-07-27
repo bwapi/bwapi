@@ -1,4 +1,5 @@
 #include <BWAPI.h>
+#include <Windows.h>
 
 #include "ExampleTournamentModule.h"
 
