@@ -41,7 +41,7 @@ namespace BWAPI
     /// </param>
     bool contains(T const &value) const
     {
-      return count(value) != 0;
+      return this->count(value) != 0;
     }
   };
 
