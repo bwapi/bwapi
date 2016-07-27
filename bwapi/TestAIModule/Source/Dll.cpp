@@ -1,4 +1,5 @@
 #include <BWAPI.h>
+#include <Windows.h>
 
 #include "TestMap1.h"
 #include "TerranTest.h"

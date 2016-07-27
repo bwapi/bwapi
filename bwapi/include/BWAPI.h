@@ -44,7 +44,6 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
-#include <BWAPI/WindowsTypes.h>
 
 /// <summary>The primary namespace for the BWAPI interface.</summary> Everything that is BWAPI is
 /// contained within it.

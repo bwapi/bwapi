@@ -6,7 +6,7 @@
 #include "UnitImpl.h"
 #include "GameTable.h"
 
-#include "../WindowsTypes.h"
+#include <Windows.h>
 
 
 namespace BWAPI
