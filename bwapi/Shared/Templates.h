@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "UnitImpl.h"
+#include "GameImpl.h"
 
 namespace BWAPI
 {
