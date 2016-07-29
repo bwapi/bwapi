@@ -86,9 +86,9 @@ namespace HackUtil
 
     for (u32 i = 0; importOrigin[i].u1.Ordinal != 0; i++)
     {
-      if (IMAGE_SNAP_BY_ORDINAL32(importOrigin[i].u1.Ordinal) && (DWORD)name < 0xFFFF)
+      if ((DWORD)name < 0xFFFF)
       {
-        if (IMAGE_ORDINAL32(importOrigin[i].u1.Ordinal) == IMAGE_ORDINAL32((DWORD)name))
+        if (IMAGE_SNAP_BY_ORDINAL32(importOrigin[i].u1.Ordinal) && IMAGE_ORDINAL32(importOrigin[i].u1.Ordinal) == IMAGE_ORDINAL32((DWORD)name))
         {
           FARPROC oldFxn = (FARPROC)importFunction[i];
           WriteMem(&importFunction[i], &patchFunction, 4);
