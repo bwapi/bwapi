@@ -48,6 +48,7 @@ DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
 DECL_OLDFXN(CreateEventA);
 DECL_OLDFXN(GetSystemTimeAsFileTime);
+DECL_OLDFXN(GetCommandLineA);
 
 //------------------------------------------------ RANDOM RACE --------------------------------------------------
 u8 savedRace[BW::PLAYABLE_PLAYER_COUNT];
@@ -120,6 +121,21 @@ void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime)
   }
   auto GetSystemTimeAsFileTimeProc = _GetSystemTimeAsFileTimeOld ? _GetSystemTimeAsFileTimeOld : &GetSystemTimeAsFileTime;
   GetSystemTimeAsFileTimeProc(lpSystemTimeAsFileTime);
+}
+
+//--------------------------------------- GetCommandLineA --------------------------------------------
+LPSTR WINAPI _GetCommandLineA()
+{
+  static std::string newCommandLine;
+  auto GetCommandLineAProc = _GetCommandLineAOld ? _GetCommandLineAOld : &GetCommandLineA;
+  newCommandLine = GetCommandLineAProc();
+
+  // Apply NOSOUND option
+  if (LoadConfigStringUCase("starcraft", "sound", "ON") == "OFF")
+  {
+    newCommandLine += " nosound";
+  }
+  return const_cast<char*>(newCommandLine.c_str());
 }
 
 //--------------------------------------------- CREATE EVENT -------------------------------------------------
@@ -390,7 +406,6 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
   }
 }
 //------------------------------------------------- MENU HOOK ------------------------------------------------
-bool nosound = false;
 void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 {
   if ( BW::pOldDrawDialogProc )
@@ -405,14 +420,6 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
     BW::dialog *dropbtn = timeout->findIndex(2);
     if ( !dropbtn->isDisabled() && BWAPI::BroodwarImpl.wantDropPlayers )
       BWAPI::BroodwarImpl.dropPlayers();
-  }
-
-  // NOSOUND config option
-  if ( !nosound )
-  {
-    nosound = true;
-    if ( LoadConfigStringUCase("starcraft", "sound", "ON") == "OFF" )
-      BW::BWFXN_DSoundDestroy();
   }
 
   // WMODE config option
