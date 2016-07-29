@@ -201,7 +201,10 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     if ( switchToWMode )
     {
 #ifndef SHADOW_BROODWAR
-      HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
+      if (isCorrectVersion)
+      {
+        HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
+      }
 #endif
       hWndReturn = CreateWindowExProc(dwExStyle,
                                         lpClassName,

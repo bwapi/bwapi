@@ -57,7 +57,6 @@ void ApplyCodePatches()
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
   // Storm detours
-  /*
   _SNetLeaveGameOld       = HackUtil::PatchImport("storm.dll", 119, &_SNetLeaveGame);
   _SNetReceiveMessageOld  = HackUtil::PatchImport("storm.dll", 121, &_SNetReceiveMessage);
   _SNetSendTurnOld        = HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
@@ -66,7 +65,7 @@ void ApplyCodePatches()
   _SDrawCaptureScreenOld  = HackUtil::PatchImport("storm.dll", 342, &_SDrawCaptureScreen);
   _SMemAllocOld           = HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   _SStrCopyOld            = HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
-  */
+  
   // wmode/drawing detours
   _GetCursorPosOld         = HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
   _SetCursorPosOld         = HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
