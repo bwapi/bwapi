@@ -117,7 +117,7 @@ BOOL STORMAPI SDrawLockSurface(int surfacenumber, RECT *lpDestRect, void **lplpS
 BOOL STORMAPI SDrawManualInitialize(HWND hWnd, LPDIRECTDRAW ddInterface, LPDIRECTDRAWSURFACE primarySurface, LPDIRECTDRAWSURFACE surface2, LPDIRECTDRAWSURFACE surface3, LPDIRECTDRAWSURFACE backSurface, LPDIRECTDRAWPALETTE ddPalette, HPALETTE hPalette) rBool;
 
 BOOL STORMAPI SDrawPostClose() rBool;
-BOOL STORMAPI SDrawRealizePalette() rBool;
+//BOOL STORMAPI SDrawRealizePalette() rBool;
 
 BOOL STORMAPI SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect) rBool;
 BOOL STORMAPI SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4) rBool;
