@@ -62,8 +62,8 @@ void DDrawInitialize(int width, int height)
   // Create and initialize DirectDrawInterface
   DDCHECK( _DirectDrawCreate(NULL, &BW::BWDATA::DDInterface, NULL) == DD_OK );
   DDCHECK( BW::BWDATA::DDInterface->SetCooperativeLevel(ghMainWnd, DDSCL_FULLSCREEN | DDSCL_ALLOWREBOOT | DDSCL_EXCLUSIVE) == DD_OK );
-  if ( BW::BWDATA::DDInterface->SetDisplayMode(width, height, 8) != DD_OK )
-    DDCHECK( BW::BWDATA::DDInterface->SetDisplayMode(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 8) == DD_OK );
+  if ( BW::BWDATA::DDInterface->SetDisplayMode(width, height, 32) != DD_OK )
+    DDCHECK( BW::BWDATA::DDInterface->SetDisplayMode(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 32) == DD_OK );
 
   // Create DirectDrawPalette
   DDCHECK( BW::BWDATA::DDInterface->CreatePalette(DDPCAPS_8BIT | DDPCAPS_ALLOW256, BW::BWDATA::GamePalette.data(), &BW::BWDATA::PrimaryPalette, NULL) == DD_OK );
