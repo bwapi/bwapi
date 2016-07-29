@@ -9,6 +9,7 @@
 namespace BW
 {
   // ------------------ TEMPLATE ---------------------
+  /*
   bool __fastcall InteractTemplate(dialog *dlg, dlgEvent *evt)
   {
     char out[512];
@@ -99,7 +100,7 @@ namespace BW
       break;
     }
     return dlg->defaultInteract(evt);
-  }
+  }*/
   // ------------------ FIND GLOBAL ------------------
   dialog *FindDialogGlobal(const char *pszName)
   {
@@ -108,6 +109,7 @@ namespace BW
     return nullptr;
   }
   // ----------------- CONSTRUCTORS ------------------
+  /*
   dialog::dialog(u16 ctrlType, short index, const char *text, u16 left, u16 top, u16 width, u16 height, bool (__fastcall *pfInteract)(dialog*,dlgEvent*))
     : pNext( nullptr )
     , srcBits(width, height)
@@ -237,7 +239,7 @@ namespace BW
         } // if parent
       } // if control
     } // if this
-  }
+  }*/
   // --------------------- FIND ----------------------
   dialog *dialog::findIndex(short wIndex)
   {
@@ -449,10 +451,10 @@ namespace BW
     return this->pfcnInteract(this, &evt);
   }
   // ----------------- DEFAULT INTERACT --------------
-  bool dialog::defaultInteract(BW::dlgEvent *pEvent)
+  /*bool dialog::defaultInteract(BW::dlgEvent *pEvent)
   {
     return this && pEvent && this->wCtrlType < ctrls::max && BWDATA::GenericDlgInteractFxns[this->wCtrlType](this, pEvent);
-  }
+  }*/
   // -------------------- ACTIVATE -------------------
   bool dialog::activate()
   {

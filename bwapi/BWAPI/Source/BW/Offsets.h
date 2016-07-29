@@ -93,8 +93,6 @@ namespace BW
       u8 IS_REF(Latency, 0x006556e4);   // A value between 0 and 2 indicating latency setting
 
       // Dialog and drawing
-      std::array<dialog::FnInteract*, ctrls::max> IS_REF(GenericDlgInteractFxns, 0x005014AC);
-      std::array<dialog::FnUpdate*, ctrls::max> IS_REF(GenericDlgUpdateFxns, 0x00501504);
       dialog* IS_REF(DialogList, 0x006D5E34);
 
       std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);    // Can be worked around
@@ -319,8 +317,6 @@ namespace BW
       extern u8 Latency;   // A value between 0 and 2 indicating latency setting
 
       // Dialog and drawing
-      extern std::array<dialog::FnInteract*, ctrls::max> GenericDlgInteractFxns;
-      extern std::array<dialog::FnUpdate*, ctrls::max> GenericDlgUpdateFxns;
       extern dialog* DialogList;
 
       extern std::array<Font*, 4> FontBase;    // Can be worked around
