@@ -40,6 +40,7 @@ VOID   WINAPI _Sleep(DWORD dwMilliseconds);
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
 HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
 void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime);
+LPSTR WINAPI _GetCommandLineA();
 
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
@@ -63,6 +64,7 @@ extern DECL_OLDFXN(Sleep);
 extern DECL_OLDFXN(CreateThread);
 extern DECL_OLDFXN(CreateEventA);
 extern DECL_OLDFXN(GetSystemTimeAsFileTime);
+extern DECL_OLDFXN(GetCommandLineA);
 
 void _RandomizePlayerRaces();
 void _InitializePlayerConsole();
