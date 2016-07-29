@@ -216,8 +216,6 @@ namespace BW
   static const u32 BWFXN_SpendRepair                    = 0x00467006;
   static const u32 BWFXN_SpendRepairReturnAddress       = 0x0046700D;
 
-  static const u32 BWFXN_NetSelectReturnMenu   = 0x004DC5B0;
-
   static void (* const BWFXN_RandomizePlayerRaces)() = (void (*)()) 0x004A9A30;
   static const u32 BWFXN_RandomizeRacePatch = 0x004EF20E;
 
