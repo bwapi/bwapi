@@ -162,7 +162,7 @@ EXPORTS
   SDrawManualInitialize         @351 NONAME
   ;SDrawMessageBox               @352 NONAME
   SDrawPostClose                @353 NONAME
-  SDrawRealizePalette           @354 NONAME
+  ;SDrawRealizePalette           @354 NONAME
   ;SDrawSelectGdiSurface         @355 NONAME
   SDrawUnlockSurface            @356 NONAME
   SDrawUpdatePalette            @357 NONAME

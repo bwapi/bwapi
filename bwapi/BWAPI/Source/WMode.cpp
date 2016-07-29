@@ -32,7 +32,6 @@ BOOL (WINAPI   *_ClipCursorOld)(const RECT *lpRect);
 BOOL (STORMAPI *_SDrawLockSurfaceOld)(int surfacenumber, RECT *lpDestRect, void **lplpSurface, int *lpPitch, int arg_unused);
 BOOL (STORMAPI *_SDrawUnlockSurfaceOld)(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
 BOOL (STORMAPI *_SDrawUpdatePaletteOld)(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
-BOOL (STORMAPI *_SDrawRealizePaletteOld)();
 
 BITMAPINFO256 wmodebmp;
 HBITMAP hwmodeBmp;
@@ -567,21 +566,6 @@ BOOL __stdcall _SDrawUpdatePalette(unsigned int firstentry, unsigned int numentr
 
   if ( !IsIconic(ghMainWnd) )
     SetDIBColorTable(hdcMem, firstentry, numentries, wmodebmp.bmiColors);
-  return TRUE;
-}
-
-BOOL __stdcall _SDrawRealizePalette()
-{
-  if ( !wmode || !ghMainWnd )
-  {
-    if ( _SDrawRealizePaletteOld )
-      return _SDrawRealizePaletteOld();
-    return SDrawRealizePalette();
-  }
-
-  if ( IsIconic(ghMainWnd) )
-    return FALSE;
-
   return TRUE;
 }
 

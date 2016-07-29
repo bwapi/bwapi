@@ -756,7 +756,7 @@ SDrawPostClose();
 
 
 // undefined
-BOOL STORMAPI SDrawRealizePalette();
+//BOOL STORMAPI SDrawRealizePalette();
 
 BOOL STORMAPI SDrawUnlockSurface(int surfacenumber, void *lpSurface, int a3, RECT *lpRect);
 BOOL STORMAPI SDrawUpdatePalette(unsigned int firstentry, unsigned int numentries, PALETTEENTRY *pPalEntries, int a4);
