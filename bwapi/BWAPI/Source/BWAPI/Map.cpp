@@ -25,30 +25,30 @@ namespace BWAPI
   //----------------------------------------------- GET WIDTH ------------------------------------------------
   u16 Map::getWidth()
   {
-    return BW::BWDATA::MapSize.x;
+    return BW::BWDATA::Game.mapTileSize.x;
   }
   //----------------------------------------------- GET HEIGHT -----------------------------------------------
   u16 Map::getHeight()
   {
-    return BW::BWDATA::MapSize.y;
+    return BW::BWDATA::Game.mapTileSize.y;
   }
   //---------------------------------------------- GET PATH NAME ---------------------------------------------
   std::string Map::getPathName()
   {
-    std::string mapPath( BW::BWDATA::CurrentMapFileName.data() );
+    std::string mapPath( BW::BWDATA::Game.mapFileName );
     boost::erase_first(mapPath, installPath());     // Remove the install path to create a relative path
     return mapPath;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    boost::filesystem::path mapPath( BW::BWDATA::CurrentMapFileName.data() );
+    boost::filesystem::path mapPath( BW::BWDATA::Game.mapFileName );
     return mapPath.filename().string();
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
   std::string Map::getName()
   {
-    return std::string{ BW::BWDATA::CurrentMapName.data() };
+    return BW::BWDATA::Game.mapTitle;
   }
   void Map::copyToSharedMemory()
   {

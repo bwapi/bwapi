@@ -249,6 +249,7 @@ popd</Command>
     <ClInclude Include="Source\BW\AIController.h" />
     <ClInclude Include="Source\BW\Bitmap.h" />
     <ClInclude Include="Source\BW\BNETCommands.h" />
+    <ClInclude Include="Source\BW\BWGame.h" />
     <ClInclude Include="Source\BW\CBullet.h" />
     <ClInclude Include="Source\BW\CheatFlags.h" />
     <ClInclude Include="Source\BW\CheatType.h" />
