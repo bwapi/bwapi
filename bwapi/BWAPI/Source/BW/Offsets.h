@@ -11,6 +11,7 @@
 #include "Position.h"
 
 #include "Dialog.h"
+#include "BWGame.h"
 
 #pragma pack(1)
 
@@ -44,19 +45,16 @@ namespace BW
   {
     namespace
     {
-      // Player Information
-      PlayerResourcesStruct IS_REF(PlayerResources, 0x0057F0F0);
-      std::array<u8, PLAYABLE_PLAYER_COUNT> IS_REF(PlayerVictory, 0x00650974);
-      std::array<BW::Position, PLAYABLE_PLAYER_COUNT> IS_REF(startPositions, 0x0058D720);
+      BWGame IS_REF(Game, 0x0057F0F0); // up to 0x005967EE
 
-      std::array<std::array<char, 30>, 4> IS_REF(ForceNames, 0x0058D5BC);
+      // Player Information
+      std::array<u8, PLAYABLE_PLAYER_COUNT> IS_REF(PlayerVictory, 0x00650974);
+
       std::array<PlayerInfo, PLAYER_COUNT> IS_REF(Players, 0x0057EEE0);
       std::array<u32, PLAYABLE_PLAYER_COUNT> IS_REF(PlayerDownloadStatus, 0x0068F4FC);
       std::array<u32, PLAYABLE_PLAYER_COUNT> IS_REF(playerStatusArray, 0x0057F0B8);
 
       // Alliance and vision
-      std::array<std::array<u8, PLAYER_COUNT>, PLAYER_COUNT> IS_REF(Alliance, 0x0058D634);
-      std::array<u32, PLAYER_COUNT> IS_REF(PlayerVision, 0x0057F1EC);
       u32 IS_REF(ReplayVision, 0x006D0F18);
       u32 IS_REF(ReplayRevealAll, 0x006D0F1C);
 
@@ -108,8 +106,6 @@ namespace BW
       static void(__cdecl * const BWFXN_DDrawDestroy)() = (void(__cdecl*)())0x0041D8B0;
       const u32 DDrawInitCallPatch = 0x004DB0A2;
 
-      std::array<u8, PLAYER_COUNT> IS_REF(PlayerColors, 0x00581DD6);
-
       std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
 
       // Unit and CList offsets
@@ -131,8 +127,6 @@ namespace BW
       u8 IS_REF(gameType, 0x00596820);
       u32 IS_REF(InReplay, 0x006D0F14);
       int IS_REF(NetMode, 0x0059688C);
-      int IS_REF(CountdownTimer, 0x0058D6F4);  // Countdown Timer (in seconds)
-      int IS_REF(ElapsedTime, 0x0058D6F8); // Elapsed Game Time (in seconds)
 
       int IS_REF(ReplayFrames, 0x006D0F31); // note: unaligned because it's part of a structure that we're not using
 
@@ -161,17 +155,12 @@ namespace BW
       // Positions (mouse/screen)
       u32 IS_REF(MoveToX, 0x0062848C);
       u32 IS_REF(MoveToY, 0x006284A8);
-      TilePosition IS_REF(MoveToTile, 0x0057F1D0);
 
       POINT IS_REF(Mouse, 0x006CDDC4);
       u32 IS_REF(ScreenX, 0x00628448);
       u32 IS_REF(ScreenY, 0x00628470);
 
-      TilePosition IS_REF(MapSize, 0x0057F1D4);
-
       // Strings
-      std::array<char, MAX_PATH> IS_REF(CurrentMapFileName, 0x0057FD3C);
-      std::array<char, 32> IS_REF(CurrentMapName, 0x0057FE40);
       std::array<char, MAX_PATH> IS_REF(CurrentMapFolder, 0x0059BB70);
       std::array<char, 28> IS_REF(SaveGameFile, 0x00685148);
     }
@@ -242,25 +231,6 @@ namespace BW
   {
     namespace
     {
-      BW::AllScoresStruct IS_REF(AllScores, 0x00581DE4);
-      std::array< std::array<u8, BW::UNIT_TYPE_COUNT>, BW::PLAYER_COUNT> IS_REF(UnitAvailability, 0x0057F27C);
-
-      //------------------------------------------- UPGRADE DATA -------------------------------------------------
-      std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeMaxSC, 0x0058D088);
-      std::array< std::array<u8, 46>, PLAYER_COUNT> IS_REF(UpgradeLevelSC, 0x0058D2B0);
-      std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeMaxBW, 0x0058F278);
-      std::array< std::array<u8, 15>, PLAYER_COUNT> IS_REF(UpgradeLevelBW, 0x0058F32C);
-
-      std::array<u8, 96> IS_REF(UpgradeProgress, 0x0058F3E0);
-      
-      //--------------------------------------------- TECH DATA --------------------------------------------------
-      std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechAvailableSC, 0x0058CE24);
-      std::array< std::array<u8, 24>, PLAYER_COUNT> IS_REF(TechResearchSC, 0x0058CF44);
-      std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechAvailableBW, 0x0058F050);
-      std::array< std::array<u8, 20>, PLAYER_COUNT> IS_REF(TechResearchBW, 0x0058F140);
-
-      std::array<u8, 72> IS_REF(ResearchProgress, 0x0058F230);
-
       //------------------------------------------------ MAPPING -------------------------------------------------
       TileID* IS_REF(MapTileArray, 0x005993C4); // MTXM (Matrix Map) -- gfpMIMap
       TileType* IS_REF(TileSetMap, 0x006D5EC8);  // cv5
@@ -278,18 +248,14 @@ namespace BW
     namespace
     {
       // Player Information
-      extern PlayerResourcesStruct PlayerResources;
+      extern BWGame Game;
       extern std::array<u8, PLAYABLE_PLAYER_COUNT> PlayerVictory;
-      extern std::array<BW::Position, PLAYABLE_PLAYER_COUNT> startPositions;
 
-      extern std::array<std::array<char, 30>, 4> ForceNames;
       extern std::array<PlayerInfo, PLAYER_COUNT> Players;
       extern std::array<u32, PLAYABLE_PLAYER_COUNT> PlayerDownloadStatus;
       extern std::array<u32, PLAYABLE_PLAYER_COUNT> playerStatusArray;
 
       // Alliance and vision
-      extern std::array<std::array<u8, PLAYER_COUNT>, PLAYER_COUNT> Alliance;
-      extern std::array<u32, PLAYER_COUNT> PlayerVision;
       extern u32 ReplayVision;
       extern u32 ReplayRevealAll;
 
@@ -317,8 +283,6 @@ namespace BW
 
       extern std::array<Font*, 4> FontBase;    // Can be worked around
       extern Bitmap GameScreenBuffer;
-      
-      extern std::array<u8, PLAYER_COUNT> PlayerColors;
 
       extern std::array<layer, 8> ScreenLayers;
 
@@ -341,8 +305,6 @@ namespace BW
       extern u8 gameType;
       extern u32 InReplay;
       extern int NetMode;
-      extern int CountdownTimer;  // Countdown Timer (in seconds)
-      extern int ElapsedTime; // Elapsed Game Time (in seconds)
 
       extern int ReplayFrames;
 
@@ -362,17 +324,12 @@ namespace BW
       // Positions (mouse/screen)
       extern u32 MoveToX;
       extern u32 MoveToY;
-      extern TilePosition MoveToTile;
 
       extern POINT Mouse;
       extern u32 ScreenX;
       extern u32 ScreenY;
 
-      extern TilePosition MapSize;
-
       // Strings
-      extern std::array<char, MAX_PATH> CurrentMapFileName;
-      extern std::array<char, 32> CurrentMapName;
       extern std::array<char, MAX_PATH> CurrentMapFolder;
       extern std::array<char, 28> SaveGameFile;
     }
@@ -405,25 +362,6 @@ namespace BW
   {
     namespace
     {
-      extern BW::AllScoresStruct AllScores;
-      extern std::array< std::array<u8, BW::UNIT_TYPE_COUNT>, BW::PLAYER_COUNT> UnitAvailability;
-
-      //------------------------------------------- UPGRADE DATA -------------------------------------------------
-      extern std::array< std::array<u8, 46>, PLAYER_COUNT> UpgradeMaxSC;
-      extern std::array< std::array<u8, 46>, PLAYER_COUNT> UpgradeLevelSC;
-      extern std::array< std::array<u8, 15>, PLAYER_COUNT> UpgradeMaxBW;
-      extern std::array< std::array<u8, 15>, PLAYER_COUNT> UpgradeLevelBW;
-
-      extern std::array<u8, 96> UpgradeProgress;
-
-      //--------------------------------------------- TECH DATA --------------------------------------------------
-      extern std::array< std::array<u8, 24>, PLAYER_COUNT> TechAvailableSC;
-      extern std::array< std::array<u8, 24>, PLAYER_COUNT> TechResearchSC;
-      extern std::array< std::array<u8, 20>, PLAYER_COUNT> TechAvailableBW;
-      extern std::array< std::array<u8, 20>, PLAYER_COUNT> TechResearchBW;
-
-      extern std::array<u8, 72> ResearchProgress;
-
       //------------------------------------------------ MAPPING -------------------------------------------------
       extern TileID* MapTileArray; // MTXM (Matrix Map) -- gfpMIMap
       extern TileType* TileSetMap;  // cv5

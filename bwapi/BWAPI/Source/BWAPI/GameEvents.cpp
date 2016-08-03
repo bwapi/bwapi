@@ -62,7 +62,7 @@ namespace BWAPI
       // First check if player owns a unit at start
       for (int u = 0; u < UnitTypes::None; ++u)
       {
-        if (BW::BWDATA::AllScores.unitCounts.all[u][i])
+        if (BW::BWDATA::Game.unitCounts.all[u][i])
         {
           if (this->players[i])
             this->players[i]->setParticipating();
@@ -167,7 +167,7 @@ namespace BWAPI
     for (int i = 0; i < BW::PLAYABLE_PLAYER_COUNT; ++i)
     {
       // Skip Start Locations that don't exist
-      if (BW::BWDATA::startPositions[i] == Positions::Origin)
+      if (BW::BWDATA::Game.startPositions[i] == Positions::Origin)
         continue;
 
       // If the game is UMS and player is observer and race is not (UserSelect OR invalid player type), skip
@@ -181,7 +181,7 @@ namespace BWAPI
         continue;
 
       // add start location
-      startLocations.push_back(TilePosition(BW::BWDATA::startPositions[i] - Position(64, 48)));
+      startLocations.push_back(TilePosition(BW::BWDATA::Game.startPositions[i] - Position(64, 48)));
     }
 
     // Get Player Objects
@@ -228,7 +228,7 @@ namespace BWAPI
 
     for ( int f = 1; f <= 4; ++f )
     {
-      ForceImpl *newForce = new ForceImpl( BW::BWDATA::ForceNames[f-1].data() );
+      ForceImpl *newForce = new ForceImpl( BW::BWDATA::Game.forceNames[f-1].data() );
       this->forces.insert( newForce );
       for (int p = 0; p < BW::PLAYABLE_PLAYER_COUNT; ++p)
       {

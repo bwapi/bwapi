@@ -7,15 +7,6 @@ namespace BW
 {
   class  Bitmap;
 
-  // Player resource counts
-  struct PlayerResourcesStruct
-  {
-    s32 minerals[PLAYER_COUNT];
-    s32 gas[PLAYER_COUNT];
-    s32 cumulativeGas[PLAYER_COUNT];
-    s32 cumulativeMinerals[PLAYER_COUNT];
-  };
-
   struct PlayerInfo
   {
     int  dwPlayerID;

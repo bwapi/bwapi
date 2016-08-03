@@ -18,7 +18,7 @@ namespace BWAPI
     : index(index)
   {
     resetResources();
-    self->color = index < 12 ? BW::BWDATA::PlayerColors[index] : Colors::Black;
+    self->color = index < 12 ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black;
   }
   //--------------------------------------------- SET ID -----------------------------------------------------
   void PlayerImpl::setID(int newID)
@@ -71,14 +71,14 @@ namespace BWAPI
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Alliance[index][ static_cast<PlayerImpl*>(player)->getIndex() ] != 0;
+    return BW::BWDATA::Game.playerAlliances[index][ static_cast<PlayerImpl*>(player)->getIndex() ] != 0;
   }
   //--------------------------------------------- IS ALLIES WITH ---------------------------------------------
   bool PlayerImpl::isEnemy(const Player player) const
   {
     if ( !player || this->isNeutral() || player->isNeutral() || this->isObserver() || player->isObserver() )
       return false;
-    return BW::BWDATA::Alliance[index][ static_cast<PlayerImpl*>(player)->getIndex() ] == 0;
+    return BW::BWDATA::Game.playerAlliances[index][ static_cast<PlayerImpl*>(player)->getIndex() ] == 0;
   }
   //--------------------------------------------- IS NEUTRAL -------------------------------------------------
   bool PlayerImpl::isNeutral() const
@@ -92,7 +92,7 @@ namespace BWAPI
     BroodwarImpl.setLastError();
 
     // Return None if there is no start location
-    if (index >= BW::PLAYABLE_PLAYER_COUNT || BW::BWDATA::startPositions[index] == BW::Positions::Origin)
+    if (index >= BW::PLAYABLE_PLAYER_COUNT || BW::BWDATA::Game.startPositions[index] == BW::Positions::Origin)
       return TilePositions::None;
 
     // Return unknown and set Access_Denied if the start location
@@ -105,7 +105,7 @@ namespace BWAPI
       return TilePositions::Unknown;
     }
     // return the start location as a tile position
-    return TilePosition(BW::BWDATA::startPositions[index] - BW::Position((TILE_SIZE * 4) / 2, (TILE_SIZE * 3) / 2));
+    return TilePosition(BW::BWDATA::Game.startPositions[index] - BW::Position((TILE_SIZE * 4) / 2, (TILE_SIZE * 3) / 2));
   }
   //--------------------------------------------- IS VICTORIOUS ----------------------------------------------
   bool PlayerImpl::isVictorious() const
@@ -127,7 +127,7 @@ namespace BWAPI
   //--------------------------------------------- UPDATE -----------------------------------------------------
   void PlayerImpl::updateData()
   { 
-    self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::PlayerColors[index] : Colors::Black;
+    self->color = index < BW::PLAYER_COUNT ? BW::BWDATA::Game.playerColorIndex[index] : Colors::Black;
   
     // Get upgrades, tech, resources
     if ( this->isNeutral() || 
@@ -163,7 +163,7 @@ namespace BWAPI
           for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
-              self->upgradeLevel[i] = BW::BWDATA::UpgradeLevelSC[index][i];
+              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelSC[index][i];
           }
         }
         for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
@@ -171,7 +171,7 @@ namespace BWAPI
           for(UnitType t : UpgradeType(i).whatUses())
           {
             if ( self->completedUnitCount[t] > 0 )
-              self->upgradeLevel[i] = BW::BWDATA::UpgradeLevelBW[index][i - 46];
+              self->upgradeLevel[i] = BW::BWDATA::Game.currentUpgradeLevelBW[index][i - 46];
           }
         }
       }
@@ -181,10 +181,10 @@ namespace BWAPI
       this->wasSeenByBWAPIPlayer = true;
 
       // set resources
-      self->minerals           = BW::BWDATA::PlayerResources.minerals[index];
-      self->gas                = BW::BWDATA::PlayerResources.gas[index];
-      self->gatheredMinerals   = BW::BWDATA::PlayerResources.cumulativeMinerals[index];
-      self->gatheredGas        = BW::BWDATA::PlayerResources.cumulativeGas[index];
+      self->minerals           = BW::BWDATA::Game.minerals[index];
+      self->gas                = BW::BWDATA::Game.gas[index];
+      self->gatheredMinerals   = BW::BWDATA::Game.cumulativeMinerals[index];
+      self->gatheredGas        = BW::BWDATA::Game.cumulativeGas[index];
       self->repairedMinerals   = this->_repairedMinerals;
       self->repairedGas        = this->_repairedGas;
       self->refundedMinerals   = this->_refundedMinerals;
@@ -193,37 +193,37 @@ namespace BWAPI
       // set upgrade level
       for(int i = 0; i < 46; ++i)
       {
-        self->upgradeLevel[i]     = BW::BWDATA::UpgradeLevelSC[index][i];
-        self->maxUpgradeLevel[i]  = BW::BWDATA::UpgradeMaxSC[index][i];
+        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelSC[index][i];
+        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelSC[index][i];
       }
       for (int i = 46; i < BW::UPGRADE_TYPE_COUNT; ++i)
       {
-        self->upgradeLevel[i]     = BW::BWDATA::UpgradeLevelBW[index][i - 46];
-        self->maxUpgradeLevel[i]  = BW::BWDATA::UpgradeMaxBW[index][i - 46];
+        self->upgradeLevel[i]     = BW::BWDATA::Game.currentUpgradeLevelBW[index][i - 46];
+        self->maxUpgradeLevel[i]  = BW::BWDATA::Game.maxUpgradeLevelBW[index][i - 46];
       }
 
       // set abilities researched
       for(int i = 0; i < 24; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchSC[index][i]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableSC[index][i];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedSC[index][i]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableSC[index][i];
       }
       for (int i = 24; i < BW::TECH_TYPE_COUNT; ++i)
       {
-        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::TechResearchBW[index][i - 24]);
-        self->isResearchAvailable[i]  = !!BW::BWDATA::TechAvailableBW[index][i - 24];
+        self->hasResearched[i]        = (TechType(i).whatResearches() == UnitTypes::None ? true : !!BW::BWDATA::Game.techResearchedBW[index][i - 24]);
+        self->isResearchAvailable[i]  = !!BW::BWDATA::Game.techAvailableBW[index][i - 24];
       }
 
       // set upgrades in progress
       for (int i = 0; i < BW::UPGRADE_TYPE_COUNT; ++i)
-        self->isUpgrading[i]   = (BW::BWDATA::UpgradeProgress[index * 8 + i/8] & (1 << i%8)) != 0;
+        self->isUpgrading[i]   = (BW::BWDATA::Game.upgradeInProgressBW[index * 8 + i/8] & (1 << i%8)) != 0;
       
       // set research in progress
       for (int i = 0; i < BW::TECH_TYPE_COUNT; ++i)
-        self->isResearching[i] = (BW::BWDATA::ResearchProgress[index * 6 + i/8] & (1 << i%8)) != 0;
+        self->isResearching[i] = (BW::BWDATA::Game.techResearchInProgressBW[index * 6 + i/8] & (1 << i%8)) != 0;
 
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
-        self->isUnitAvailable[i] = !!BW::BWDATA::UnitAvailability[index][i];
+        self->isUnitAvailable[i] = !!BW::BWDATA::Game.unitAvailability[index][i];
 
       self->hasResearched[TechTypes::Enum::Nuclear_Strike] = self->isUnitAvailable[UnitTypes::Enum::Terran_Nuclear_Missile];
     }
@@ -250,35 +250,35 @@ namespace BWAPI
       // set supply
       for (u8 i = 0; i < BW::RACE_COUNT; ++i)
       {
-        self->supplyTotal[i]  = BW::BWDATA::AllScores.supplies[i].available[index];
-        if (self->supplyTotal[i] > BW::BWDATA::AllScores.supplies[i].max[index])
-          self->supplyTotal[i]  = BW::BWDATA::AllScores.supplies[i].max[index];
-        self->supplyUsed[i]   = BW::BWDATA::AllScores.supplies[i].used[index];
+        self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].available[index];
+        if (self->supplyTotal[i] > BW::BWDATA::Game.supplies[i].max[index])
+          self->supplyTotal[i]  = BW::BWDATA::Game.supplies[i].max[index];
+        self->supplyUsed[i]   = BW::BWDATA::Game.supplies[i].used[index];
       }
       // set total unit counts
       for (int i = 0; i < BW::UNIT_TYPE_COUNT; ++i)
       {
-        self->deadUnitCount[i]   = BW::BWDATA::AllScores.unitCounts.dead[i][index];
-        self->killedUnitCount[i] = BW::BWDATA::AllScores.unitCounts.killed[i][index];
+        self->deadUnitCount[i]   = BW::BWDATA::Game.unitCounts.dead[i][index];
+        self->killedUnitCount[i] = BW::BWDATA::Game.unitCounts.killed[i][index];
       }
       // set macro dead unit counts
-      self->deadUnitCount[UnitTypes::AllUnits]    = BW::BWDATA::AllScores.allUnitsLost[index] + BW::BWDATA::AllScores.allBuildingsLost[index];
-      self->deadUnitCount[UnitTypes::Men]         = BW::BWDATA::AllScores.allUnitsLost[index];
-      self->deadUnitCount[UnitTypes::Buildings]   = BW::BWDATA::AllScores.allBuildingsLost[index];
-      self->deadUnitCount[UnitTypes::Factories]   = BW::BWDATA::AllScores.allFactoriesLost[index];
+      self->deadUnitCount[UnitTypes::AllUnits]    = BW::BWDATA::Game.allUnitsLost[index] + BW::BWDATA::Game.allBuildingsLost[index];
+      self->deadUnitCount[UnitTypes::Men]         = BW::BWDATA::Game.allUnitsLost[index];
+      self->deadUnitCount[UnitTypes::Buildings]   = BW::BWDATA::Game.allBuildingsLost[index];
+      self->deadUnitCount[UnitTypes::Factories]   = BW::BWDATA::Game.allFactoriesLost[index];
 
       // set macro kill unit counts
-      self->killedUnitCount[UnitTypes::AllUnits]  = BW::BWDATA::AllScores.allUnitsKilled[index] + BW::BWDATA::AllScores.allBuildingsRazed[index];
-      self->killedUnitCount[UnitTypes::Men]       = BW::BWDATA::AllScores.allUnitsKilled[index];
-      self->killedUnitCount[UnitTypes::Buildings] = BW::BWDATA::AllScores.allBuildingsRazed[index];
-      self->killedUnitCount[UnitTypes::Factories] = BW::BWDATA::AllScores.allFactoriesRazed[index];
+      self->killedUnitCount[UnitTypes::AllUnits]  = BW::BWDATA::Game.allUnitsKilled[index] + BW::BWDATA::Game.allBuildingsRazed[index];
+      self->killedUnitCount[UnitTypes::Men]       = BW::BWDATA::Game.allUnitsKilled[index];
+      self->killedUnitCount[UnitTypes::Buildings] = BW::BWDATA::Game.allBuildingsRazed[index];
+      self->killedUnitCount[UnitTypes::Factories] = BW::BWDATA::Game.allFactoriesRazed[index];
       
       // set score counts
-      self->totalUnitScore      = BW::BWDATA::AllScores.allUnitScore[index];
-      self->totalKillScore      = BW::BWDATA::AllScores.allKillScore[index];
-      self->totalBuildingScore  = BW::BWDATA::AllScores.allBuildingScore[index];
-      self->totalRazingScore    = BW::BWDATA::AllScores.allRazingScore[index];
-      self->customScore         = BW::BWDATA::AllScores.customScore[index];
+      self->totalUnitScore      = BW::BWDATA::Game.allUnitScore[index];
+      self->totalKillScore      = BW::BWDATA::Game.allKillScore[index];
+      self->totalBuildingScore  = BW::BWDATA::Game.allBuildingScore[index];
+      self->totalRazingScore    = BW::BWDATA::Game.allRazingScore[index];
+      self->customScore         = BW::BWDATA::Game.customScore[index];
     }
 
     if (index < BW::PLAYER_COUNT && (BW::BWDATA::Players[index].nType == PlayerTypes::PlayerLeft ||
