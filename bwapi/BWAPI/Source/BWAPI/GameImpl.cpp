@@ -129,7 +129,7 @@ namespace BWAPI
   //--------------------------------------------- GET REPLAY FRAME COUNT -------------------------------------
   int GameImpl::getReplayFrameCount() const
   {
-    return BW::BWDATA::ReplayFrames;
+    return BW::BWDATA::ReplayHead.frameCount;
   }
   //------------------------------------------------ GET FPS -------------------------------------------------
   int GameImpl::getFPS() const

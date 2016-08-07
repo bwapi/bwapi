@@ -63,48 +63,6 @@ namespace BW
     VCListEntry<_T> *begin;
   };
 
-  struct AllScoresStruct
-  {
-    s32 allUnitsTotal[PLAYER_COUNT];
-    s32 allUnitsProduced[PLAYER_COUNT];
-    s32 allUnitsOwned[PLAYER_COUNT];
-    s32 allUnitsLost[PLAYER_COUNT];
-    s32 allUnitsKilled[PLAYER_COUNT];
-    s32 allUnitScore[PLAYER_COUNT];
-    s32 allKillScore[PLAYER_COUNT];
-    s32 allBuildingsTotal[PLAYER_COUNT];
-    s32 allBuildingsConstructed[PLAYER_COUNT];
-    s32 allBuildingsOwned[PLAYER_COUNT];
-    s32 allBuildingsLost[PLAYER_COUNT];
-    s32 allBuildingsRazed[PLAYER_COUNT];
-    s32 allBuildingScore[PLAYER_COUNT];
-    s32 allRazingScore[PLAYER_COUNT];
-    s32 allFactoriesConstructed[PLAYER_COUNT];
-    s32 allFactoriesOwned[PLAYER_COUNT];
-    s32 allFactoriesLost[PLAYER_COUNT];
-    s32 allFactoriesRazed[PLAYER_COUNT];
-
-    // Supply available, used, and maximum for all players and every race
-    struct SuppliesPerRace
-    {
-      s32 available[PLAYER_COUNT];
-      s32 used[PLAYER_COUNT];
-      s32 max[PLAYER_COUNT];
-    };
-    SuppliesPerRace supplies[RACE_COUNT];
-    s32 customScore[PLAYER_COUNT];
-
-    // Unit counts: all, completed, killed, dead
-    struct Counts
-    {
-      s32 all[UNIT_TYPE_COUNT][PLAYER_COUNT];
-      s32 completed[UNIT_TYPE_COUNT][PLAYER_COUNT];
-      s32 killed[UNIT_TYPE_COUNT][PLAYER_COUNT];
-      s32 dead[UNIT_TYPE_COUNT][PLAYER_COUNT];
-    };
-    Counts unitCounts;
-  };
-
   // Higher 12 bits for tile group, lower 4 bits for variant of tile in the tile group.
   typedef u16 TileID;
 

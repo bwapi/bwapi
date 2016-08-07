@@ -274,6 +274,7 @@ popd</Command>
     <ClInclude Include="Source\BW\PositionUnitTarget.h" />
     <ClInclude Include="Source\BW\CSprite.h" />
     <ClInclude Include="Source\BW\Render.h" />
+    <ClInclude Include="Source\BW\Replay.h" />
     <ClInclude Include="Source\BW\Structures.h" />
     <ClInclude Include="Source\BW\Target.h" />
     <ClInclude Include="Source\BW\TileSet.h" />
