@@ -1724,6 +1724,7 @@ namespace BWAPI
     /// that developers can deterministically reproduce the error. Works in both games and replays.
     ///
     /// @returns This game's random seed.
+    /// @since 4.2.0
     virtual unsigned getRandomSeed() const = 0;
   };
 
