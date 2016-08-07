@@ -1,7 +1,7 @@
 ;This is an INNO Setup script
 ;You should download INNO Setup and INNO Script Studio v2 to modify and compile it
 
-#define BWAPI_VERSION "4.1.2"
+#define BWAPI_VERSION "4.2.0"
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -68,7 +68,7 @@ AppUpdatesURL=http://bwapi.github.io
 VersionInfoDescription=Brood War Application Programming Interface
 VersionInfoProductName=BWAPI
 MinVersion=0,5.01.2600
-DefaultDirName={pf}\BWAPI
+DefaultDirName={%USERPROFILE}\BWAPI
 UsePreviousSetupType=False
 UsePreviousTasks=False
 UsePreviousLanguage=False

@@ -16,6 +16,6 @@
   #define BUILD_DEBUG 0
 #endif
 
-#define BWAPI_VER "4.1.2"
+#define BWAPI_VER "4.2.0"
 #define BWAPI_HOME_URL "http://bwapi.github.io/"
 #endif
