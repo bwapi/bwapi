@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 14.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcxproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 EndProject
@@ -72,6 +72,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Documentation", "Documentation\Documentation.vcxproj", "{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer", "Installer\Installer.vcxproj", "{D5928E29-F115-474E-BA42-9AB710B0E892}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InstallerArchive", "Archive\Archive.vcxproj", "{7C035A16-F016-4F21-88EB-8DD3B9539219}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE} = {2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -253,6 +258,12 @@ Global
 		{D5928E29-F115-474E-BA42-9AB710B0E892}.Installer_Target|Win32.Build.0 = Release|Win32
 		{D5928E29-F115-474E-BA42-9AB710B0E892}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{D5928E29-F115-474E-BA42-9AB710B0E892}.Release|Win32.ActiveCfg = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Debug_Pipeline|Win32.ActiveCfg = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Debug|Win32.ActiveCfg = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Installer_Target|Win32.ActiveCfg = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Installer_Target|Win32.Build.0 = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
+		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
