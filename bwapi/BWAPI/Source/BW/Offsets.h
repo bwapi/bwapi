@@ -6,6 +6,7 @@
 
 #include "Constants.h"
 #include "Structures.h"
+#include "Replay.h"
 
 #include "TriggerEngine.h"
 #include "Position.h"
@@ -128,7 +129,7 @@ namespace BW
       u32 IS_REF(InReplay, 0x006D0F14);
       int IS_REF(NetMode, 0x0059688C);
 
-      int IS_REF(ReplayFrames, 0x006D0F31); // note: unaligned because it's part of a structure that we're not using
+      ReplayHeader IS_REF(ReplayHead, 0x006D0F30);
 
       u8 IS_REF(GameState, 0x006D11EC);
       u16 IS_REF(gwNextGameMode, 0x0051CE90);
@@ -306,7 +307,7 @@ namespace BW
       extern u32 InReplay;
       extern int NetMode;
 
-      extern int ReplayFrames;
+      extern ReplayHeader ReplayHead;
 
       extern u8 GameState;
       extern u16 gwNextGameMode;

@@ -256,6 +256,9 @@
     <ClInclude Include="Source\BW\BWGame.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\BW\Replay.h">
+      <Filter>BW\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
