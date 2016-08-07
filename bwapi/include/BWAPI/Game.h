@@ -1718,6 +1718,13 @@ namespace BWAPI
     /// @returns The amount of damage that fromType would deal to toType.
     /// @see getDamageFrom
     int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer = nullptr, Player fromPlayer = nullptr) const;
+
+    /// <summary>Retrieves the initial random seed that was used in this game's creation.</summary>
+    /// This is used to identify the seed that started this game, in case an error occurred, so
+    /// that developers can deterministically reproduce the error. Works in both games and replays.
+    ///
+    /// @returns This game's random seed.
+    virtual unsigned getRandomSeed() const = 0;
   };
 
   extern Game *BroodwarPtr;

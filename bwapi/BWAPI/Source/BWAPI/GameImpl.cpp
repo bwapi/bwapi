@@ -900,5 +900,10 @@ namespace BWAPI
     BW::BWDATA::ReplayRevealAll = reveal ? 1 : 0;
     return this->setLastError();
   }
+  //-------------------------------------------------- GET RANDOM SEED ---------------------------------------
+  unsigned GameImpl::getRandomSeed() const
+  {
+    return BW::BWDATA::ReplayHead.gameSeed.randSeed;
+  }
 };
 

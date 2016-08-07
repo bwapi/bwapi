@@ -960,5 +960,9 @@ namespace BWAPI
     lastError = Errors::None;
     return true;
   }
+  unsigned GameImpl::getRandomSeed() const
+  {
+    return data->randomSeed;
+  }
 };
 

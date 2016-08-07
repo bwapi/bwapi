@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include <type_traits>
 #include <string>
@@ -18,7 +19,7 @@ inline void StrTerminate(char (&str)[N])
 template <size_t N>
 inline void StrCopy(char (&dst)[N], const char *src)
 {
-  strncpy(dst, src, N-1);
+  std::copy(src, src + N, dst);
   StrTerminate(dst);
 };
 
