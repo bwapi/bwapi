@@ -35,6 +35,8 @@ void DevAIModule::onStart()
 
   // set command optimization
   bw->setCommandOptimizationLevel(0);
+  //147...610
+  bw << "Random Seed: " << bw->getRandomSeed() << std::endl;
 }
 
 void DevAIModule::onEnd(bool isWinner)
@@ -46,18 +48,6 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
-  for (auto &u : bw->getAllUnits())
-  {
-    switch (u->getType())
-    {
-    case int(UnitTypes::Zerg_Hive):
-      Broodwar << "Found a Hive!" << std::endl;
-      break;
-    case UnitTypes::Terran_Command_Center.getID():
-      Broodwar << "Found a Command Center!" << std::endl;
-      break;
-    }
-  }
 }
 
 void DevAIModule::onSendText(std::string text)

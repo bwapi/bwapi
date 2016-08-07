@@ -183,6 +183,8 @@ namespace BWAPI
 
       virtual bool setRevealAll(bool reveal = true) override;
 
+      virtual unsigned getRandomSeed() const override;
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();

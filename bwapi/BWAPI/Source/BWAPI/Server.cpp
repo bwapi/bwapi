@@ -491,6 +491,7 @@ namespace BWAPI
 
     data->frameCount              = Broodwar->getFrameCount();
     data->replayFrameCount        = Broodwar->getReplayFrameCount();
+    data->randomSeed              = Broodwar->getRandomSeed();
     data->fps                     = Broodwar->getFPS();
     data->botAPM_noselects        = Broodwar->getAPM(false);
     data->botAPM_selects          = Broodwar->getAPM(true);
