@@ -1,15 +1,12 @@
 # The Brood War API {#BWAPI}
 
-[TOC]
-
-# Project Information {#project}
-
 [![Build status](https://ci.appveyor.com/api/projects/status/6eikd5g49co6l5ty/branch/develop?svg=true)](https://ci.appveyor.com/project/heinermann/bwapi/branch/develop)
 
-* [Project website] (http://bwapi.github.io)
-* [Go to the releases](https://github.com/bwapi/bwapi/releases)
+[TOC]
 
 @htmlinclude twitter_widget
+
+# Project Information {#project}
 
 ## Overview {#overview}
 
@@ -79,6 +76,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 * **Documentation:**         http://bwapi.github.io/
 * **Repository:**            https://github.com/bwapi/bwapi
 * **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
+* **Releases:**              https://github.com/bwapi/bwapi/releases
 * **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
 * **Facebook:**              https://www.facebook.com/groups/bwapi/
 * **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
