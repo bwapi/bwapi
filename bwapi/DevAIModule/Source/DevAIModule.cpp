@@ -48,6 +48,10 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
+  Unitset a = self->getUnits();
+  Unitset b;
+
+  b = a;
 }
 
 void DevAIModule::onSendText(std::string text)

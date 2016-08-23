@@ -962,349 +962,349 @@ namespace BWAPI
 
     /// @name Terran Ground Units
     /// @{
-    constexpr UnitType Terran_Firebat(Enum::Terran_Firebat);
-    constexpr UnitType Terran_Ghost(Enum::Terran_Ghost);
-    constexpr UnitType Terran_Goliath(Enum::Terran_Goliath);
+    constexpr UnitType Terran_Firebat{Enum::Terran_Firebat};
+    constexpr UnitType Terran_Ghost{Enum::Terran_Ghost};
+    constexpr UnitType Terran_Goliath{Enum::Terran_Goliath};
     /// @Terran tier 1 unit.
-    constexpr UnitType Terran_Marine(Enum::Terran_Marine);
-    constexpr UnitType Terran_Medic(Enum::Terran_Medic);
+    constexpr UnitType Terran_Marine{Enum::Terran_Marine};
+    constexpr UnitType Terran_Medic{Enum::Terran_Medic};
     /// @Terran worker.
     /// @see Race::getWorker
-    constexpr UnitType Terran_SCV(Enum::Terran_SCV);
-    constexpr UnitType Terran_Siege_Tank_Siege_Mode(Enum::Terran_Siege_Tank_Siege_Mode);
-    constexpr UnitType Terran_Siege_Tank_Tank_Mode(Enum::Terran_Siege_Tank_Tank_Mode);
-    constexpr UnitType Terran_Vulture(Enum::Terran_Vulture);
-    constexpr UnitType Terran_Vulture_Spider_Mine(Enum::Terran_Vulture_Spider_Mine);
+    constexpr UnitType Terran_SCV{Enum::Terran_SCV};
+    constexpr UnitType Terran_Siege_Tank_Siege_Mode{Enum::Terran_Siege_Tank_Siege_Mode};
+    constexpr UnitType Terran_Siege_Tank_Tank_Mode{Enum::Terran_Siege_Tank_Tank_Mode};
+    constexpr UnitType Terran_Vulture{Enum::Terran_Vulture};
+    constexpr UnitType Terran_Vulture_Spider_Mine{Enum::Terran_Vulture_Spider_Mine};
     /// @}
     /// @name Terran Air Units
     /// @{
-    constexpr UnitType Terran_Battlecruiser(Enum::Terran_Battlecruiser);
+    constexpr UnitType Terran_Battlecruiser{Enum::Terran_Battlecruiser};
     /// @Terran transport.
     /// @see Race::getTransport
-    constexpr UnitType Terran_Dropship(Enum::Terran_Dropship);
-    constexpr UnitType Terran_Nuclear_Missile(Enum::Terran_Nuclear_Missile);
-    constexpr UnitType Terran_Science_Vessel(Enum::Terran_Science_Vessel);
-    constexpr UnitType Terran_Valkyrie(Enum::Terran_Valkyrie);
-    constexpr UnitType Terran_Wraith(Enum::Terran_Wraith);
+    constexpr UnitType Terran_Dropship{Enum::Terran_Dropship};
+    constexpr UnitType Terran_Nuclear_Missile{Enum::Terran_Nuclear_Missile};
+    constexpr UnitType Terran_Science_Vessel{Enum::Terran_Science_Vessel};
+    constexpr UnitType Terran_Valkyrie{Enum::Terran_Valkyrie};
+    constexpr UnitType Terran_Wraith{Enum::Terran_Wraith};
     /// @}
     /// @name Terran Heroes
     /// @{
-    constexpr UnitType Hero_Alan_Schezar(Enum::Hero_Alan_Schezar);
-    constexpr UnitType Hero_Alexei_Stukov(Enum::Hero_Alexei_Stukov);
-    constexpr UnitType Hero_Arcturus_Mengsk(Enum::Hero_Arcturus_Mengsk);
-    constexpr UnitType Hero_Edmund_Duke_Tank_Mode(Enum::Hero_Edmund_Duke_Tank_Mode);
-    constexpr UnitType Hero_Edmund_Duke_Siege_Mode(Enum::Hero_Edmund_Duke_Siege_Mode);
-    constexpr UnitType Hero_Gerard_DuGalle(Enum::Hero_Gerard_DuGalle);
-    constexpr UnitType Hero_Gui_Montag(Enum::Hero_Gui_Montag);
-    constexpr UnitType Hero_Hyperion(Enum::Hero_Hyperion);
-    constexpr UnitType Hero_Jim_Raynor_Marine(Enum::Hero_Jim_Raynor_Marine);
-    constexpr UnitType Hero_Jim_Raynor_Vulture(Enum::Hero_Jim_Raynor_Vulture);
-    constexpr UnitType Hero_Magellan(Enum::Hero_Magellan);
-    constexpr UnitType Hero_Norad_II(Enum::Hero_Norad_II);
-    constexpr UnitType Hero_Samir_Duran(Enum::Hero_Samir_Duran);
-    constexpr UnitType Hero_Sarah_Kerrigan(Enum::Hero_Sarah_Kerrigan);
-    constexpr UnitType Hero_Tom_Kazansky(Enum::Hero_Tom_Kazansky);
-    constexpr UnitType Terran_Civilian(Enum::Terran_Civilian);
+    constexpr UnitType Hero_Alan_Schezar{Enum::Hero_Alan_Schezar};
+    constexpr UnitType Hero_Alexei_Stukov{Enum::Hero_Alexei_Stukov};
+    constexpr UnitType Hero_Arcturus_Mengsk{Enum::Hero_Arcturus_Mengsk};
+    constexpr UnitType Hero_Edmund_Duke_Tank_Mode{Enum::Hero_Edmund_Duke_Tank_Mode};
+    constexpr UnitType Hero_Edmund_Duke_Siege_Mode{Enum::Hero_Edmund_Duke_Siege_Mode};
+    constexpr UnitType Hero_Gerard_DuGalle{Enum::Hero_Gerard_DuGalle};
+    constexpr UnitType Hero_Gui_Montag{Enum::Hero_Gui_Montag};
+    constexpr UnitType Hero_Hyperion{Enum::Hero_Hyperion};
+    constexpr UnitType Hero_Jim_Raynor_Marine{Enum::Hero_Jim_Raynor_Marine};
+    constexpr UnitType Hero_Jim_Raynor_Vulture{Enum::Hero_Jim_Raynor_Vulture};
+    constexpr UnitType Hero_Magellan{Enum::Hero_Magellan};
+    constexpr UnitType Hero_Norad_II{Enum::Hero_Norad_II};
+    constexpr UnitType Hero_Samir_Duran{Enum::Hero_Samir_Duran};
+    constexpr UnitType Hero_Sarah_Kerrigan{Enum::Hero_Sarah_Kerrigan};
+    constexpr UnitType Hero_Tom_Kazansky{Enum::Hero_Tom_Kazansky};
+    constexpr UnitType Terran_Civilian{Enum::Terran_Civilian};
     /// @}
     /// @name Terran Buildings
     /// @{
-    constexpr UnitType Terran_Academy(Enum::Terran_Academy);
-    constexpr UnitType Terran_Armory(Enum::Terran_Armory);
-    constexpr UnitType Terran_Barracks(Enum::Terran_Barracks);
+    constexpr UnitType Terran_Academy{Enum::Terran_Academy};
+    constexpr UnitType Terran_Armory{Enum::Terran_Armory};
+    constexpr UnitType Terran_Barracks{Enum::Terran_Barracks};
     /// @Terran defensive structure.
-    constexpr UnitType Terran_Bunker(Enum::Terran_Bunker);
+    constexpr UnitType Terran_Bunker{Enum::Terran_Bunker};
     /// @Terran resource depot.
     /// @see Race::getCenter
-    constexpr UnitType Terran_Command_Center(Enum::Terran_Command_Center);
-    constexpr UnitType Terran_Engineering_Bay(Enum::Terran_Engineering_Bay);
-    constexpr UnitType Terran_Factory(Enum::Terran_Factory);
+    constexpr UnitType Terran_Command_Center{Enum::Terran_Command_Center};
+    constexpr UnitType Terran_Engineering_Bay{Enum::Terran_Engineering_Bay};
+    constexpr UnitType Terran_Factory{Enum::Terran_Factory};
     /// @Terran defensive structure against air units.
-    constexpr UnitType Terran_Missile_Turret(Enum::Terran_Missile_Turret);
+    constexpr UnitType Terran_Missile_Turret{Enum::Terran_Missile_Turret};
     /// @Terran gas harvesting structure. Constructed over a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
-    constexpr UnitType Terran_Refinery(Enum::Terran_Refinery);
-    constexpr UnitType Terran_Science_Facility(Enum::Terran_Science_Facility);
-    constexpr UnitType Terran_Starport(Enum::Terran_Starport);
+    constexpr UnitType Terran_Refinery{Enum::Terran_Refinery};
+    constexpr UnitType Terran_Science_Facility{Enum::Terran_Science_Facility};
+    constexpr UnitType Terran_Starport{Enum::Terran_Starport};
     /// @Terran supply provider.
     /// @see Race::getSupplyProvider
-    constexpr UnitType Terran_Supply_Depot(Enum::Terran_Supply_Depot);
+    constexpr UnitType Terran_Supply_Depot{Enum::Terran_Supply_Depot};
     /// @}
     /// @name Terran Addons
     /// @{
-    constexpr UnitType Terran_Comsat_Station(Enum::Terran_Comsat_Station);
-    constexpr UnitType Terran_Control_Tower(Enum::Terran_Control_Tower);
-    constexpr UnitType Terran_Covert_Ops(Enum::Terran_Covert_Ops);
-    constexpr UnitType Terran_Machine_Shop(Enum::Terran_Machine_Shop);
-    constexpr UnitType Terran_Nuclear_Silo(Enum::Terran_Nuclear_Silo);
-    constexpr UnitType Terran_Physics_Lab(Enum::Terran_Physics_Lab);
+    constexpr UnitType Terran_Comsat_Station{Enum::Terran_Comsat_Station};
+    constexpr UnitType Terran_Control_Tower{Enum::Terran_Control_Tower};
+    constexpr UnitType Terran_Covert_Ops{Enum::Terran_Covert_Ops};
+    constexpr UnitType Terran_Machine_Shop{Enum::Terran_Machine_Shop};
+    constexpr UnitType Terran_Nuclear_Silo{Enum::Terran_Nuclear_Silo};
+    constexpr UnitType Terran_Physics_Lab{Enum::Terran_Physics_Lab};
     /// @}
     /// @name Terran Special Buildings
     /// @{
-    constexpr UnitType Special_Crashed_Norad_II(Enum::Special_Crashed_Norad_II);
-    constexpr UnitType Special_Ion_Cannon(Enum::Special_Ion_Cannon);
-    constexpr UnitType Special_Power_Generator(Enum::Special_Power_Generator);
-    constexpr UnitType Special_Psi_Disrupter(Enum::Special_Psi_Disrupter);
+    constexpr UnitType Special_Crashed_Norad_II{Enum::Special_Crashed_Norad_II};
+    constexpr UnitType Special_Ion_Cannon{Enum::Special_Ion_Cannon};
+    constexpr UnitType Special_Power_Generator{Enum::Special_Power_Generator};
+    constexpr UnitType Special_Psi_Disrupter{Enum::Special_Psi_Disrupter};
     /// @}
     /// @name Protoss Ground Units
     /// @{
-    constexpr UnitType Protoss_Archon(Enum::Protoss_Archon);
-    constexpr UnitType Protoss_Dark_Archon(Enum::Protoss_Dark_Archon);
-    constexpr UnitType Protoss_Dark_Templar(Enum::Protoss_Dark_Templar);
-    constexpr UnitType Protoss_Dragoon(Enum::Protoss_Dragoon);
-    constexpr UnitType Protoss_High_Templar(Enum::Protoss_High_Templar);
+    constexpr UnitType Protoss_Archon{Enum::Protoss_Archon};
+    constexpr UnitType Protoss_Dark_Archon{Enum::Protoss_Dark_Archon};
+    constexpr UnitType Protoss_Dark_Templar{Enum::Protoss_Dark_Templar};
+    constexpr UnitType Protoss_Dragoon{Enum::Protoss_Dragoon};
+    constexpr UnitType Protoss_High_Templar{Enum::Protoss_High_Templar};
     /// @Protoss worker unit.
     /// @see Race::getWorker
-    constexpr UnitType Protoss_Probe(Enum::Protoss_Probe);
-    constexpr UnitType Protoss_Reaver(Enum::Protoss_Reaver);
-    constexpr UnitType Protoss_Scarab(Enum::Protoss_Scarab);
+    constexpr UnitType Protoss_Probe{Enum::Protoss_Probe};
+    constexpr UnitType Protoss_Reaver{Enum::Protoss_Reaver};
+    constexpr UnitType Protoss_Scarab{Enum::Protoss_Scarab};
     /// @Protoss tier 1 unit.
-    constexpr UnitType Protoss_Zealot(Enum::Protoss_Zealot);
+    constexpr UnitType Protoss_Zealot{Enum::Protoss_Zealot};
     /// @}
     /// @name Protoss Air Units
     /// @{
-    constexpr UnitType Protoss_Arbiter(Enum::Protoss_Arbiter);
-    constexpr UnitType Protoss_Carrier(Enum::Protoss_Carrier);
-    constexpr UnitType Protoss_Corsair(Enum::Protoss_Corsair);
-    constexpr UnitType Protoss_Interceptor(Enum::Protoss_Interceptor);
-    constexpr UnitType Protoss_Observer(Enum::Protoss_Observer);
-    constexpr UnitType Protoss_Scout(Enum::Protoss_Scout);
+    constexpr UnitType Protoss_Arbiter{Enum::Protoss_Arbiter};
+    constexpr UnitType Protoss_Carrier{Enum::Protoss_Carrier};
+    constexpr UnitType Protoss_Corsair{Enum::Protoss_Corsair};
+    constexpr UnitType Protoss_Interceptor{Enum::Protoss_Interceptor};
+    constexpr UnitType Protoss_Observer{Enum::Protoss_Observer};
+    constexpr UnitType Protoss_Scout{Enum::Protoss_Scout};
     /// @Protoss transport.
     /// @see Race::getTransport
-    constexpr UnitType Protoss_Shuttle(Enum::Protoss_Shuttle);
+    constexpr UnitType Protoss_Shuttle{Enum::Protoss_Shuttle};
     /// @}
     /// @name Protoss Heroes Units
     /// @{
-    constexpr UnitType Hero_Aldaris(Enum::Hero_Aldaris);
-    constexpr UnitType Hero_Artanis(Enum::Hero_Artanis);
-    constexpr UnitType Hero_Danimoth(Enum::Hero_Danimoth);
-    constexpr UnitType Hero_Dark_Templar(Enum::Hero_Dark_Templar);
-    constexpr UnitType Hero_Fenix_Dragoon(Enum::Hero_Fenix_Dragoon);
-    constexpr UnitType Hero_Fenix_Zealot(Enum::Hero_Fenix_Zealot);
-    constexpr UnitType Hero_Gantrithor(Enum::Hero_Gantrithor);
-    constexpr UnitType Hero_Mojo(Enum::Hero_Mojo);
-    constexpr UnitType Hero_Raszagal(Enum::Hero_Raszagal);
-    constexpr UnitType Hero_Tassadar(Enum::Hero_Tassadar);
-    constexpr UnitType Hero_Tassadar_Zeratul_Archon(Enum::Hero_Tassadar_Zeratul_Archon);
-    constexpr UnitType Hero_Warbringer(Enum::Hero_Warbringer);
-    constexpr UnitType Hero_Zeratul(Enum::Hero_Zeratul);
+    constexpr UnitType Hero_Aldaris{Enum::Hero_Aldaris};
+    constexpr UnitType Hero_Artanis{Enum::Hero_Artanis};
+    constexpr UnitType Hero_Danimoth{Enum::Hero_Danimoth};
+    constexpr UnitType Hero_Dark_Templar{Enum::Hero_Dark_Templar};
+    constexpr UnitType Hero_Fenix_Dragoon{Enum::Hero_Fenix_Dragoon};
+    constexpr UnitType Hero_Fenix_Zealot{Enum::Hero_Fenix_Zealot};
+    constexpr UnitType Hero_Gantrithor{Enum::Hero_Gantrithor};
+    constexpr UnitType Hero_Mojo{Enum::Hero_Mojo};
+    constexpr UnitType Hero_Raszagal{Enum::Hero_Raszagal};
+    constexpr UnitType Hero_Tassadar{Enum::Hero_Tassadar};
+    constexpr UnitType Hero_Tassadar_Zeratul_Archon{Enum::Hero_Tassadar_Zeratul_Archon};
+    constexpr UnitType Hero_Warbringer{Enum::Hero_Warbringer};
+    constexpr UnitType Hero_Zeratul{Enum::Hero_Zeratul};
     /// @}
     /// @name Protoss Buildings
     /// @{
-    constexpr UnitType Protoss_Arbiter_Tribunal(Enum::Protoss_Arbiter_Tribunal);
+    constexpr UnitType Protoss_Arbiter_Tribunal{Enum::Protoss_Arbiter_Tribunal};
     /// @Protoss gas harvesting structure. Must be placed on top of a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
-    constexpr UnitType Protoss_Assimilator(Enum::Protoss_Assimilator);
-    constexpr UnitType Protoss_Citadel_of_Adun(Enum::Protoss_Citadel_of_Adun);
-    constexpr UnitType Protoss_Cybernetics_Core(Enum::Protoss_Cybernetics_Core);
-    constexpr UnitType Protoss_Fleet_Beacon(Enum::Protoss_Fleet_Beacon);
-    constexpr UnitType Protoss_Forge(Enum::Protoss_Forge);
-    constexpr UnitType Protoss_Gateway(Enum::Protoss_Gateway);
+    constexpr UnitType Protoss_Assimilator{Enum::Protoss_Assimilator};
+    constexpr UnitType Protoss_Citadel_of_Adun{Enum::Protoss_Citadel_of_Adun};
+    constexpr UnitType Protoss_Cybernetics_Core{Enum::Protoss_Cybernetics_Core};
+    constexpr UnitType Protoss_Fleet_Beacon{Enum::Protoss_Fleet_Beacon};
+    constexpr UnitType Protoss_Forge{Enum::Protoss_Forge};
+    constexpr UnitType Protoss_Gateway{Enum::Protoss_Gateway};
     /// @Protoss resource depot.
     /// @see Race::getCenter
-    constexpr UnitType Protoss_Nexus(Enum::Protoss_Nexus);
-    constexpr UnitType Protoss_Observatory(Enum::Protoss_Observatory);
+    constexpr UnitType Protoss_Nexus{Enum::Protoss_Nexus};
+    constexpr UnitType Protoss_Observatory{Enum::Protoss_Observatory};
     /// @Protoss defensive structure.
-    constexpr UnitType Protoss_Photon_Cannon(Enum::Protoss_Photon_Cannon);
+    constexpr UnitType Protoss_Photon_Cannon{Enum::Protoss_Photon_Cannon};
     /// @Protoss supply provider. Required to place other @Protoss structures.
     /// @see Race::getSupplyProvider
-    constexpr UnitType Protoss_Pylon(Enum::Protoss_Pylon);
-    constexpr UnitType Protoss_Robotics_Facility(Enum::Protoss_Robotics_Facility);
-    constexpr UnitType Protoss_Robotics_Support_Bay(Enum::Protoss_Robotics_Support_Bay);
+    constexpr UnitType Protoss_Pylon{Enum::Protoss_Pylon};
+    constexpr UnitType Protoss_Robotics_Facility{Enum::Protoss_Robotics_Facility};
+    constexpr UnitType Protoss_Robotics_Support_Bay{Enum::Protoss_Robotics_Support_Bay};
     /// A structure that can recharge @Protoss_Shields.
-    constexpr UnitType Protoss_Shield_Battery(Enum::Protoss_Shield_Battery);
-    constexpr UnitType Protoss_Stargate(Enum::Protoss_Stargate);
-    constexpr UnitType Protoss_Templar_Archives(Enum::Protoss_Templar_Archives);
+    constexpr UnitType Protoss_Shield_Battery{Enum::Protoss_Shield_Battery};
+    constexpr UnitType Protoss_Stargate{Enum::Protoss_Stargate};
+    constexpr UnitType Protoss_Templar_Archives{Enum::Protoss_Templar_Archives};
     /// @}
     /// @name Protoss Special Buildings
     /// @{
-    constexpr UnitType Special_Khaydarin_Crystal_Form(Enum::Special_Khaydarin_Crystal_Form);
-    constexpr UnitType Special_Protoss_Temple(Enum::Special_Protoss_Temple);
-    constexpr UnitType Special_Stasis_Cell_Prison(Enum::Special_Stasis_Cell_Prison);
-    constexpr UnitType Special_Warp_Gate(Enum::Special_Warp_Gate);
-    constexpr UnitType Special_XelNaga_Temple(Enum::Special_XelNaga_Temple);
+    constexpr UnitType Special_Khaydarin_Crystal_Form{Enum::Special_Khaydarin_Crystal_Form};
+    constexpr UnitType Special_Protoss_Temple{Enum::Special_Protoss_Temple};
+    constexpr UnitType Special_Stasis_Cell_Prison{Enum::Special_Stasis_Cell_Prison};
+    constexpr UnitType Special_Warp_Gate{Enum::Special_Warp_Gate};
+    constexpr UnitType Special_XelNaga_Temple{Enum::Special_XelNaga_Temple};
     /// @}
     /// @name Zerg Ground Units
     /// @{
-    constexpr UnitType Zerg_Broodling(Enum::Zerg_Broodling);
-    constexpr UnitType Zerg_Defiler(Enum::Zerg_Defiler);
+    constexpr UnitType Zerg_Broodling{Enum::Zerg_Broodling};
+    constexpr UnitType Zerg_Defiler{Enum::Zerg_Defiler};
     /// @Zerg worker unit.
     /// @see Race::getWorker
-    constexpr UnitType Zerg_Drone(Enum::Zerg_Drone);
-    constexpr UnitType Zerg_Egg(Enum::Zerg_Egg);
-    constexpr UnitType Zerg_Hydralisk(Enum::Zerg_Hydralisk);
-    constexpr UnitType Zerg_Infested_Terran(Enum::Zerg_Infested_Terran);
+    constexpr UnitType Zerg_Drone{Enum::Zerg_Drone};
+    constexpr UnitType Zerg_Egg{Enum::Zerg_Egg};
+    constexpr UnitType Zerg_Hydralisk{Enum::Zerg_Hydralisk};
+    constexpr UnitType Zerg_Infested_Terran{Enum::Zerg_Infested_Terran};
     /// Spawned at @Hatcheries.
-    constexpr UnitType Zerg_Larva(Enum::Zerg_Larva);
-    constexpr UnitType Zerg_Lurker(Enum::Zerg_Lurker);
-    constexpr UnitType Zerg_Lurker_Egg(Enum::Zerg_Lurker_Egg);
-    constexpr UnitType Zerg_Ultralisk(Enum::Zerg_Ultralisk);
+    constexpr UnitType Zerg_Larva{Enum::Zerg_Larva};
+    constexpr UnitType Zerg_Lurker{Enum::Zerg_Lurker};
+    constexpr UnitType Zerg_Lurker_Egg{Enum::Zerg_Lurker_Egg};
+    constexpr UnitType Zerg_Ultralisk{Enum::Zerg_Ultralisk};
     /// @Zerg tier 1 unit.
-    constexpr UnitType Zerg_Zergling(Enum::Zerg_Zergling);
+    constexpr UnitType Zerg_Zergling{Enum::Zerg_Zergling};
     /// @}
     /// @name Zerg Air Units
     /// @{
-    constexpr UnitType Zerg_Cocoon(Enum::Zerg_Cocoon);
-    constexpr UnitType Zerg_Devourer(Enum::Zerg_Devourer);
-    constexpr UnitType Zerg_Guardian(Enum::Zerg_Guardian);
-    constexpr UnitType Zerg_Mutalisk(Enum::Zerg_Mutalisk);
+    constexpr UnitType Zerg_Cocoon{Enum::Zerg_Cocoon};
+    constexpr UnitType Zerg_Devourer{Enum::Zerg_Devourer};
+    constexpr UnitType Zerg_Guardian{Enum::Zerg_Guardian};
+    constexpr UnitType Zerg_Mutalisk{Enum::Zerg_Mutalisk};
     /// @Zerg supply provider and transport unit. Must research @Ventral_Sacs to become a transport.
     /// @see Race::getSupplyProvider, Race::getTransport
-    constexpr UnitType Zerg_Overlord(Enum::Zerg_Overlord);
-    constexpr UnitType Zerg_Queen(Enum::Zerg_Queen);
-    constexpr UnitType Zerg_Scourge(Enum::Zerg_Scourge);
+    constexpr UnitType Zerg_Overlord{Enum::Zerg_Overlord};
+    constexpr UnitType Zerg_Queen{Enum::Zerg_Queen};
+    constexpr UnitType Zerg_Scourge{Enum::Zerg_Scourge};
     /// @}
     /// @name Zerg Heroes
     /// @{
-    constexpr UnitType Hero_Devouring_One(Enum::Hero_Devouring_One);
-    constexpr UnitType Hero_Hunter_Killer(Enum::Hero_Hunter_Killer);
-    constexpr UnitType Hero_Infested_Duran(Enum::Hero_Infested_Duran);
-    constexpr UnitType Hero_Infested_Kerrigan(Enum::Hero_Infested_Kerrigan);
-    constexpr UnitType Hero_Kukulza_Guardian(Enum::Hero_Kukulza_Guardian);
-    constexpr UnitType Hero_Kukulza_Mutalisk(Enum::Hero_Kukulza_Mutalisk);
-    constexpr UnitType Hero_Matriarch(Enum::Hero_Matriarch);
-    constexpr UnitType Hero_Torrasque(Enum::Hero_Torrasque);
-    constexpr UnitType Hero_Unclean_One(Enum::Hero_Unclean_One);
-    constexpr UnitType Hero_Yggdrasill(Enum::Hero_Yggdrasill);
+    constexpr UnitType Hero_Devouring_One{Enum::Hero_Devouring_One};
+    constexpr UnitType Hero_Hunter_Killer{Enum::Hero_Hunter_Killer};
+    constexpr UnitType Hero_Infested_Duran{Enum::Hero_Infested_Duran};
+    constexpr UnitType Hero_Infested_Kerrigan{Enum::Hero_Infested_Kerrigan};
+    constexpr UnitType Hero_Kukulza_Guardian{Enum::Hero_Kukulza_Guardian};
+    constexpr UnitType Hero_Kukulza_Mutalisk{Enum::Hero_Kukulza_Mutalisk};
+    constexpr UnitType Hero_Matriarch{Enum::Hero_Matriarch};
+    constexpr UnitType Hero_Torrasque{Enum::Hero_Torrasque};
+    constexpr UnitType Hero_Unclean_One{Enum::Hero_Unclean_One};
+    constexpr UnitType Hero_Yggdrasill{Enum::Hero_Yggdrasill};
     /// @}
     /// @name Zerg Buildings
     /// @{
     /// Spreads creep and morphs to @Zerg defensive structures.
-    constexpr UnitType Zerg_Creep_Colony(Enum::Zerg_Creep_Colony);
-    constexpr UnitType Zerg_Defiler_Mound(Enum::Zerg_Defiler_Mound);
-    constexpr UnitType Zerg_Evolution_Chamber(Enum::Zerg_Evolution_Chamber);
+    constexpr UnitType Zerg_Creep_Colony{Enum::Zerg_Creep_Colony};
+    constexpr UnitType Zerg_Defiler_Mound{Enum::Zerg_Defiler_Mound};
+    constexpr UnitType Zerg_Evolution_Chamber{Enum::Zerg_Evolution_Chamber};
     /// @Zerg gas harvesting structure. Must be constructed on a @Vespene_Geyser.
     /// @note When this is constructed over a @Vespene_Geyser, the unit type of the geyser is replaced
     /// with this one. When it is destroyed, then this type is replaced by the @Vespene_Geyser.
     /// @see Race::getRefinery, UnitTypes::Resource_Vespene_Geyser
-    constexpr UnitType Zerg_Extractor(Enum::Zerg_Extractor);
-    constexpr UnitType Zerg_Greater_Spire(Enum::Zerg_Greater_Spire);
+    constexpr UnitType Zerg_Extractor{Enum::Zerg_Extractor};
+    constexpr UnitType Zerg_Greater_Spire{Enum::Zerg_Greater_Spire};
     /// @Zerg resource depot and larva generator. Spreads creep.
     /// @see Race::getCenter
-    constexpr UnitType Zerg_Hatchery(Enum::Zerg_Hatchery);
-    constexpr UnitType Zerg_Hive(Enum::Zerg_Hive);
-    constexpr UnitType Zerg_Hydralisk_Den(Enum::Zerg_Hydralisk_Den);
+    constexpr UnitType Zerg_Hatchery{Enum::Zerg_Hatchery};
+    constexpr UnitType Zerg_Hive{Enum::Zerg_Hive};
+    constexpr UnitType Zerg_Hydralisk_Den{Enum::Zerg_Hydralisk_Den};
     /// @note Can land on both creep and non-creep.
-    constexpr UnitType Zerg_Infested_Command_Center(Enum::Zerg_Infested_Command_Center);
-    constexpr UnitType Zerg_Lair(Enum::Zerg_Lair);
+    constexpr UnitType Zerg_Infested_Command_Center{Enum::Zerg_Infested_Command_Center};
+    constexpr UnitType Zerg_Lair{Enum::Zerg_Lair};
     /// Used to teleport @Zerg ground units from one Nydus Canal to the other.
-    constexpr UnitType Zerg_Nydus_Canal(Enum::Zerg_Nydus_Canal);
-    constexpr UnitType Zerg_Queens_Nest(Enum::Zerg_Queens_Nest);
-    constexpr UnitType Zerg_Spawning_Pool(Enum::Zerg_Spawning_Pool);
-    constexpr UnitType Zerg_Spire(Enum::Zerg_Spire);
+    constexpr UnitType Zerg_Nydus_Canal{Enum::Zerg_Nydus_Canal};
+    constexpr UnitType Zerg_Queens_Nest{Enum::Zerg_Queens_Nest};
+    constexpr UnitType Zerg_Spawning_Pool{Enum::Zerg_Spawning_Pool};
+    constexpr UnitType Zerg_Spire{Enum::Zerg_Spire};
     /// @Zerg defensive structure against air units.
-    constexpr UnitType Zerg_Spore_Colony(Enum::Zerg_Spore_Colony);
+    constexpr UnitType Zerg_Spore_Colony{Enum::Zerg_Spore_Colony};
     /// @Zerg defensive structure against ground units.
-    constexpr UnitType Zerg_Sunken_Colony(Enum::Zerg_Sunken_Colony);
-    constexpr UnitType Zerg_Ultralisk_Cavern(Enum::Zerg_Ultralisk_Cavern);
+    constexpr UnitType Zerg_Sunken_Colony{Enum::Zerg_Sunken_Colony};
+    constexpr UnitType Zerg_Ultralisk_Cavern{Enum::Zerg_Ultralisk_Cavern};
     /// @}
     /// @name Zerg Special Buildings
     /// @{
-    constexpr UnitType Special_Cerebrate(Enum::Special_Cerebrate);
-    constexpr UnitType Special_Cerebrate_Daggoth(Enum::Special_Cerebrate_Daggoth);
-    constexpr UnitType Special_Mature_Chrysalis(Enum::Special_Mature_Chrysalis);
-    constexpr UnitType Special_Overmind(Enum::Special_Overmind);
-    constexpr UnitType Special_Overmind_Cocoon(Enum::Special_Overmind_Cocoon);
-    constexpr UnitType Special_Overmind_With_Shell(Enum::Special_Overmind_With_Shell);
+    constexpr UnitType Special_Cerebrate{Enum::Special_Cerebrate};
+    constexpr UnitType Special_Cerebrate_Daggoth{Enum::Special_Cerebrate_Daggoth};
+    constexpr UnitType Special_Mature_Chrysalis{Enum::Special_Mature_Chrysalis};
+    constexpr UnitType Special_Overmind{Enum::Special_Overmind};
+    constexpr UnitType Special_Overmind_Cocoon{Enum::Special_Overmind_Cocoon};
+    constexpr UnitType Special_Overmind_With_Shell{Enum::Special_Overmind_With_Shell};
     /// @}
     /// @name Critters
     /// @{
-    constexpr UnitType Critter_Bengalaas(Enum::Critter_Bengalaas);
-    constexpr UnitType Critter_Kakaru(Enum::Critter_Kakaru);
-    constexpr UnitType Critter_Ragnasaur(Enum::Critter_Ragnasaur);
-    constexpr UnitType Critter_Rhynadon(Enum::Critter_Rhynadon);
-    constexpr UnitType Critter_Scantid(Enum::Critter_Scantid);
-    constexpr UnitType Critter_Ursadon(Enum::Critter_Ursadon);
+    constexpr UnitType Critter_Bengalaas{Enum::Critter_Bengalaas};
+    constexpr UnitType Critter_Kakaru{Enum::Critter_Kakaru};
+    constexpr UnitType Critter_Ragnasaur{Enum::Critter_Ragnasaur};
+    constexpr UnitType Critter_Rhynadon{Enum::Critter_Rhynadon};
+    constexpr UnitType Critter_Scantid{Enum::Critter_Scantid};
+    constexpr UnitType Critter_Ursadon{Enum::Critter_Ursadon};
     /// @}
     /// @name Resources
     /// @{
-    constexpr UnitType Resource_Mineral_Field(Enum::Resource_Mineral_Field);
-    constexpr UnitType Resource_Mineral_Field_Type_2(Enum::Resource_Mineral_Field_Type_2);
-    constexpr UnitType Resource_Mineral_Field_Type_3(Enum::Resource_Mineral_Field_Type_3);
+    constexpr UnitType Resource_Mineral_Field{Enum::Resource_Mineral_Field};
+    constexpr UnitType Resource_Mineral_Field_Type_2{Enum::Resource_Mineral_Field_Type_2};
+    constexpr UnitType Resource_Mineral_Field_Type_3{Enum::Resource_Mineral_Field_Type_3};
     /// @note When a refinery unit is constructed over this type, a new unit is NOT created.
     /// Rather, the vespene geyser is replaced with the refinery unit. Similarily, when a refinery
     /// is destroyed, the type is replaced with the vespene geyser.
-    constexpr UnitType Resource_Vespene_Geyser(Enum::Resource_Vespene_Geyser);
+    constexpr UnitType Resource_Vespene_Geyser{Enum::Resource_Vespene_Geyser};
     /// @}
     /// @name Spells
     /// @{
-    constexpr UnitType Spell_Dark_Swarm(Enum::Spell_Dark_Swarm);
-    constexpr UnitType Spell_Disruption_Web(Enum::Spell_Disruption_Web);
-    constexpr UnitType Spell_Scanner_Sweep(Enum::Spell_Scanner_Sweep);
+    constexpr UnitType Spell_Dark_Swarm{Enum::Spell_Dark_Swarm};
+    constexpr UnitType Spell_Disruption_Web{Enum::Spell_Disruption_Web};
+    constexpr UnitType Spell_Scanner_Sweep{Enum::Spell_Scanner_Sweep};
     /// @}
     /// @name Beacons
     /// @{
-    constexpr UnitType Special_Protoss_Beacon(Enum::Special_Protoss_Beacon);
-    constexpr UnitType Special_Protoss_Flag_Beacon(Enum::Special_Protoss_Flag_Beacon);
-    constexpr UnitType Special_Terran_Beacon(Enum::Special_Terran_Beacon);
-    constexpr UnitType Special_Terran_Flag_Beacon(Enum::Special_Terran_Flag_Beacon);
-    constexpr UnitType Special_Zerg_Beacon(Enum::Special_Zerg_Beacon);
-    constexpr UnitType Special_Zerg_Flag_Beacon(Enum::Special_Zerg_Flag_Beacon);
+    constexpr UnitType Special_Protoss_Beacon{Enum::Special_Protoss_Beacon};
+    constexpr UnitType Special_Protoss_Flag_Beacon{Enum::Special_Protoss_Flag_Beacon};
+    constexpr UnitType Special_Terran_Beacon{Enum::Special_Terran_Beacon};
+    constexpr UnitType Special_Terran_Flag_Beacon{Enum::Special_Terran_Flag_Beacon};
+    constexpr UnitType Special_Zerg_Beacon{Enum::Special_Zerg_Beacon};
+    constexpr UnitType Special_Zerg_Flag_Beacon{Enum::Special_Zerg_Flag_Beacon};
     /// @}
     /// @name Powerups
     /// @{
-    constexpr UnitType Powerup_Data_Disk(Enum::Powerup_Data_Disk);
+    constexpr UnitType Powerup_Data_Disk{Enum::Powerup_Data_Disk};
     /// @note Can't be carried by your own workers.
-    constexpr UnitType Powerup_Flag(Enum::Powerup_Flag);
-    constexpr UnitType Powerup_Khalis_Crystal(Enum::Powerup_Khalis_Crystal);
-    constexpr UnitType Powerup_Khaydarin_Crystal(Enum::Powerup_Khaydarin_Crystal);
-    constexpr UnitType Powerup_Mineral_Cluster_Type_1(Enum::Powerup_Mineral_Cluster_Type_1);
-    constexpr UnitType Powerup_Mineral_Cluster_Type_2(Enum::Powerup_Mineral_Cluster_Type_2);
-    constexpr UnitType Powerup_Protoss_Gas_Orb_Type_1(Enum::Powerup_Protoss_Gas_Orb_Type_1);
-    constexpr UnitType Powerup_Protoss_Gas_Orb_Type_2(Enum::Powerup_Protoss_Gas_Orb_Type_2);
-    constexpr UnitType Powerup_Psi_Emitter(Enum::Powerup_Psi_Emitter);
-    constexpr UnitType Powerup_Terran_Gas_Tank_Type_1(Enum::Powerup_Terran_Gas_Tank_Type_1);
-    constexpr UnitType Powerup_Terran_Gas_Tank_Type_2(Enum::Powerup_Terran_Gas_Tank_Type_2);
-    constexpr UnitType Powerup_Uraj_Crystal(Enum::Powerup_Uraj_Crystal);
-    constexpr UnitType Powerup_Young_Chrysalis(Enum::Powerup_Young_Chrysalis);
-    constexpr UnitType Powerup_Zerg_Gas_Sac_Type_1(Enum::Powerup_Zerg_Gas_Sac_Type_1);
-    constexpr UnitType Powerup_Zerg_Gas_Sac_Type_2(Enum::Powerup_Zerg_Gas_Sac_Type_2);
+    constexpr UnitType Powerup_Flag{Enum::Powerup_Flag};
+    constexpr UnitType Powerup_Khalis_Crystal{Enum::Powerup_Khalis_Crystal};
+    constexpr UnitType Powerup_Khaydarin_Crystal{Enum::Powerup_Khaydarin_Crystal};
+    constexpr UnitType Powerup_Mineral_Cluster_Type_1{Enum::Powerup_Mineral_Cluster_Type_1};
+    constexpr UnitType Powerup_Mineral_Cluster_Type_2{Enum::Powerup_Mineral_Cluster_Type_2};
+    constexpr UnitType Powerup_Protoss_Gas_Orb_Type_1{Enum::Powerup_Protoss_Gas_Orb_Type_1};
+    constexpr UnitType Powerup_Protoss_Gas_Orb_Type_2{Enum::Powerup_Protoss_Gas_Orb_Type_2};
+    constexpr UnitType Powerup_Psi_Emitter{Enum::Powerup_Psi_Emitter};
+    constexpr UnitType Powerup_Terran_Gas_Tank_Type_1{Enum::Powerup_Terran_Gas_Tank_Type_1};
+    constexpr UnitType Powerup_Terran_Gas_Tank_Type_2{Enum::Powerup_Terran_Gas_Tank_Type_2};
+    constexpr UnitType Powerup_Uraj_Crystal{Enum::Powerup_Uraj_Crystal};
+    constexpr UnitType Powerup_Young_Chrysalis{Enum::Powerup_Young_Chrysalis};
+    constexpr UnitType Powerup_Zerg_Gas_Sac_Type_1{Enum::Powerup_Zerg_Gas_Sac_Type_1};
+    constexpr UnitType Powerup_Zerg_Gas_Sac_Type_2{Enum::Powerup_Zerg_Gas_Sac_Type_2};
     /// @}
     /// @name Traps
     /// @{
-    constexpr UnitType Special_Floor_Gun_Trap(Enum::Special_Floor_Gun_Trap);
-    constexpr UnitType Special_Floor_Missile_Trap(Enum::Special_Floor_Missile_Trap);
-    constexpr UnitType Special_Right_Wall_Flame_Trap(Enum::Special_Right_Wall_Flame_Trap);
-    constexpr UnitType Special_Right_Wall_Missile_Trap(Enum::Special_Right_Wall_Missile_Trap);
-    constexpr UnitType Special_Wall_Flame_Trap(Enum::Special_Wall_Flame_Trap);
-    constexpr UnitType Special_Wall_Missile_Trap(Enum::Special_Wall_Missile_Trap);
+    constexpr UnitType Special_Floor_Gun_Trap{Enum::Special_Floor_Gun_Trap};
+    constexpr UnitType Special_Floor_Missile_Trap{Enum::Special_Floor_Missile_Trap};
+    constexpr UnitType Special_Right_Wall_Flame_Trap{Enum::Special_Right_Wall_Flame_Trap};
+    constexpr UnitType Special_Right_Wall_Missile_Trap{Enum::Special_Right_Wall_Missile_Trap};
+    constexpr UnitType Special_Wall_Flame_Trap{Enum::Special_Wall_Flame_Trap};
+    constexpr UnitType Special_Wall_Missile_Trap{Enum::Special_Wall_Missile_Trap};
     /// @}
     /// @name Doors
     /// @{
-    constexpr UnitType Special_Pit_Door(Enum::Special_Pit_Door);
-    constexpr UnitType Special_Right_Pit_Door(Enum::Special_Right_Pit_Door);
-    constexpr UnitType Special_Right_Upper_Level_Door(Enum::Special_Right_Upper_Level_Door);
-    constexpr UnitType Special_Upper_Level_Door(Enum::Special_Upper_Level_Door);
+    constexpr UnitType Special_Pit_Door{Enum::Special_Pit_Door};
+    constexpr UnitType Special_Right_Pit_Door{Enum::Special_Right_Pit_Door};
+    constexpr UnitType Special_Right_Upper_Level_Door{Enum::Special_Right_Upper_Level_Door};
+    constexpr UnitType Special_Upper_Level_Door{Enum::Special_Upper_Level_Door};
     /// @}
     /// @name Special
     /// @{
-    constexpr UnitType Special_Cargo_Ship(Enum::Special_Cargo_Ship);
-    constexpr UnitType Special_Floor_Hatch(Enum::Special_Floor_Hatch);
-    constexpr UnitType Special_Independant_Starport(Enum::Special_Independant_Starport);
+    constexpr UnitType Special_Cargo_Ship{Enum::Special_Cargo_Ship};
+    constexpr UnitType Special_Floor_Hatch{Enum::Special_Floor_Hatch};
+    constexpr UnitType Special_Independant_Starport{Enum::Special_Independant_Starport};
     /// A special unit placed by the campaign editor that reveals a large area of the map.
-    constexpr UnitType Special_Map_Revealer(Enum::Special_Map_Revealer);
-    constexpr UnitType Special_Mercenary_Gunship(Enum::Special_Mercenary_Gunship);
+    constexpr UnitType Special_Map_Revealer{Enum::Special_Map_Revealer};
+    constexpr UnitType Special_Mercenary_Gunship{Enum::Special_Mercenary_Gunship};
     /// A special unit that indicates a player's starting location. The unit is removed at the
     /// beginning of the game and replaced with the race's resource depot.
     ///
     /// A special use case with BWAPI is passing this value to Game::canBuildHere.
     /// @see Game::canBuildHere
-    constexpr UnitType Special_Start_Location(Enum::Special_Start_Location);
+    constexpr UnitType Special_Start_Location{Enum::Special_Start_Location};
     /// @}
 
-    constexpr UnitType None(Enum::None);
+    constexpr UnitType None{Enum::None};
     /// A special macro type, used for retrieving statistics for all unit types.
-    constexpr UnitType AllUnits(Enum::AllUnits);
+    constexpr UnitType AllUnits{Enum::AllUnits};
     /// A special macro type, used for retrieving statistics for all movable, non-structure units.
-    constexpr UnitType Men(Enum::Men);
+    constexpr UnitType Men{Enum::Men};
     /// A special macro type, used for retrieving statistics for all structures.
-    constexpr UnitType Buildings(Enum::Buildings);
+    constexpr UnitType Buildings{Enum::Buildings};
     /// A special macro type, used for retrieving statistics for all structures that can produce units.
-    constexpr UnitType Factories(Enum::Factories);
-    constexpr UnitType Unknown(Enum::Unknown);
+    constexpr UnitType Factories{Enum::Factories};
+    constexpr UnitType Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(UnitType) == sizeof(int), "Expected type to resolve to primitive size.");

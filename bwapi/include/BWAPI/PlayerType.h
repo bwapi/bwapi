@@ -65,17 +65,17 @@ namespace BWAPI
     /// @returns Set consisting of all valid PlayerTypes.
     const PlayerType::set& allPlayerTypes();
     
-    constexpr PlayerType None(Enum::None);
-    constexpr PlayerType Computer(Enum::Computer);
-    constexpr PlayerType Player(Enum::Player);
-    constexpr PlayerType RescuePassive(Enum::RescuePassive);
-    constexpr PlayerType EitherPreferComputer(Enum::EitherPreferComputer);
-    constexpr PlayerType EitherPreferHuman(Enum::EitherPreferHuman);
-    constexpr PlayerType Neutral(Enum::Neutral);
-    constexpr PlayerType Closed(Enum::Closed);
-    constexpr PlayerType PlayerLeft(Enum::PlayerLeft);
-    constexpr PlayerType ComputerLeft(Enum::ComputerLeft);
-    constexpr PlayerType Unknown(Enum::Unknown);
+    constexpr PlayerType None{Enum::None};
+    constexpr PlayerType Computer{Enum::Computer};
+    constexpr PlayerType Player{Enum::Player};
+    constexpr PlayerType RescuePassive{Enum::RescuePassive};
+    constexpr PlayerType EitherPreferComputer{Enum::EitherPreferComputer};
+    constexpr PlayerType EitherPreferHuman{Enum::EitherPreferHuman};
+    constexpr PlayerType Neutral{Enum::Neutral};
+    constexpr PlayerType Closed{Enum::Closed};
+    constexpr PlayerType PlayerLeft{Enum::PlayerLeft};
+    constexpr PlayerType ComputerLeft{Enum::ComputerLeft};
+    constexpr PlayerType Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(PlayerType) == sizeof(int), "Expected type to resolve to primitive size.");

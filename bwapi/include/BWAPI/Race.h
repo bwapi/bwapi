@@ -64,7 +64,10 @@ namespace BWAPI
       /// <summary>Deprecated. Use getResourceDepot instead.</summary>
       /// @deprecated As of 4.2.0 due to naming inconsistency. Use #getResourceDepot instead.
       /// See https://github.com/bwapi/bwapi/issues/621 for more information.
-      [[deprecated("getCenter() was renamed to getResourceDepot()")]] UnitType getCenter() const;
+#ifndef SWIG // Deprecated tags not supported https://github.com/swig/swig/issues/490
+      [[deprecated("getCenter() was renamed to getResourceDepot()")]]
+#endif
+      UnitType getCenter() const;
 
       /// <summary>Retrieves the default structure UnitType for this Race that is used to harvest gas from
       /// @Geysers.</summary>
@@ -102,12 +105,12 @@ namespace BWAPI
     /// @returns Race::set containing all the Race types.
     const Race::set& allRaces();
 
-    constexpr Race Zerg(Enum::Zerg);
-    constexpr Race Terran(Enum::Terran);
-    constexpr Race Protoss(Enum::Protoss);
-    constexpr Race Random(Enum::Random);
-    constexpr Race None(Enum::None);
-    constexpr Race Unknown(Enum::Unknown);
+    constexpr Race Zerg{Enum::Zerg};
+    constexpr Race Terran{Enum::Terran};
+    constexpr Race Protoss{Enum::Protoss};
+    constexpr Race Random{Enum::Random};
+    constexpr Race None{Enum::None};
+    constexpr Race Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(Race) == sizeof(int), "Expected type to resolve to primitive size.");

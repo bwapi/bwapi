@@ -59,40 +59,40 @@ namespace BWAPI
   namespace Colors
   {
     /// <summary>The default color for Player 1.</summary>
-    constexpr Color Red(111);
+    constexpr Color Red{ 111 };
 
     /// <summary>The default color for Player 2.</summary>
-    constexpr Color Blue(165);
+    constexpr Color Blue{ 165 };
 
     /// <summary>The default color for Player 3.</summary>
-    constexpr Color Teal(159);
+    constexpr Color Teal{ 159 };
 
     /// <summary>The default color for Player 4.</summary>
-    constexpr Color Purple(164);
+    constexpr Color Purple{ 164 };
 
     /// <summary>The default color for Player 5.</summary>
-    constexpr Color Orange(179);
+    constexpr Color Orange{ 179 };
 
     /// <summary>The default color for Player 6.</summary>
-    constexpr Color Brown(19);
+    constexpr Color Brown{ 19 };
 
     /// <summary>A bright white. Note that this is lighter than Player 7's white.</summary>
-    constexpr Color White(255);
+    constexpr Color White{ 255 };
 
     /// <summary>The default color for Player 8.</summary>
-    constexpr Color Yellow(135);
+    constexpr Color Yellow{ 135 };
 
     /// <summary>The alternate color for Player 7 on Ice tilesets.</summary>
-    constexpr Color Green(117);
+    constexpr Color Green{ 117 };
 
     /// <summary>The default color for Neutral (Player 12).</summary>
-    constexpr Color Cyan(128);
+    constexpr Color Cyan{ 128 };
     
     /// <summary>The color black</summary>
-    constexpr Color Black(0);
+    constexpr Color Black{ 0 };
 
     /// <summary>The color grey</summary>
-    constexpr Color Grey(74);
+    constexpr Color Grey{ 74 };
   }
   
   /// <summary>Namespace containing text formatting codes.</summary> Such codes are used in calls

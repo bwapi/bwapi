@@ -17,8 +17,10 @@ namespace BWAPI
   class SetContainer : public SetContainerUnderlyingT < T, HashT >
   {
   public:
+#ifndef SWIG
     using SetContainerUnderlyingT<T, HashT>::SetContainerUnderlyingT;
-    
+#endif
+
     /// <summary>Iterates the set and erases each element x where pred(x) returns true.</summary>
     ///
     /// <param name="pred">
@@ -32,7 +34,7 @@ namespace BWAPI
         if (pred(*it)) it = this->erase(it);
         else ++it;
       }
-    };
+    }
 
     /// <summary>Checks if this set contains a specific value.</summary>
     ///
