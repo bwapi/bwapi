@@ -57,13 +57,13 @@ namespace BWAPI
     /// @returns Set of DamageTypes.
     const DamageType::set& allDamageTypes();
 
-    constexpr DamageType Independent(Enum::Independent);
-    constexpr DamageType Explosive(Enum::Explosive);
-    constexpr DamageType Concussive(Enum::Concussive);
-    constexpr DamageType Normal(Enum::Normal);
-    constexpr DamageType Ignore_Armor(Enum::Ignore_Armor);
-    constexpr DamageType None(Enum::None);
-    constexpr DamageType Unknown(Enum::Unknown);
+    constexpr DamageType Independent{Enum::Independent};
+    constexpr DamageType Explosive{Enum::Explosive};
+    constexpr DamageType Concussive{Enum::Concussive};
+    constexpr DamageType Normal{Enum::Normal};
+    constexpr DamageType Ignore_Armor{Enum::Ignore_Armor};
+    constexpr DamageType None{Enum::None};
+    constexpr DamageType Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(DamageType) == sizeof(int), "Expected type to resolve to primitive size.");

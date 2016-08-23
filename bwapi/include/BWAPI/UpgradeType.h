@@ -182,67 +182,67 @@ namespace BWAPI
 
     /// @name Terran Upgrades
     /// @{
-    constexpr UpgradeType Terran_Infantry_Armor(Enum::Terran_Infantry_Armor);
-    constexpr UpgradeType Terran_Vehicle_Plating(Enum::Terran_Vehicle_Plating);
-    constexpr UpgradeType Terran_Ship_Plating(Enum::Terran_Ship_Plating);
-    constexpr UpgradeType Terran_Infantry_Weapons(Enum::Terran_Infantry_Weapons);
-    constexpr UpgradeType Terran_Vehicle_Weapons(Enum::Terran_Vehicle_Weapons);
-    constexpr UpgradeType Terran_Ship_Weapons(Enum::Terran_Ship_Weapons);
-    constexpr UpgradeType U_238_Shells(Enum::U_238_Shells);
-    constexpr UpgradeType Ion_Thrusters(Enum::Ion_Thrusters);
-    constexpr UpgradeType Titan_Reactor(Enum::Titan_Reactor);
-    constexpr UpgradeType Ocular_Implants(Enum::Ocular_Implants);
-    constexpr UpgradeType Moebius_Reactor(Enum::Moebius_Reactor);
-    constexpr UpgradeType Apollo_Reactor(Enum::Apollo_Reactor);
-    constexpr UpgradeType Colossus_Reactor(Enum::Colossus_Reactor);
-    constexpr UpgradeType Caduceus_Reactor(Enum::Caduceus_Reactor);
-    constexpr UpgradeType Charon_Boosters(Enum::Charon_Boosters);
+    constexpr UpgradeType Terran_Infantry_Armor{Enum::Terran_Infantry_Armor};
+    constexpr UpgradeType Terran_Vehicle_Plating{Enum::Terran_Vehicle_Plating};
+    constexpr UpgradeType Terran_Ship_Plating{Enum::Terran_Ship_Plating};
+    constexpr UpgradeType Terran_Infantry_Weapons{Enum::Terran_Infantry_Weapons};
+    constexpr UpgradeType Terran_Vehicle_Weapons{Enum::Terran_Vehicle_Weapons};
+    constexpr UpgradeType Terran_Ship_Weapons{Enum::Terran_Ship_Weapons};
+    constexpr UpgradeType U_238_Shells{Enum::U_238_Shells};
+    constexpr UpgradeType Ion_Thrusters{Enum::Ion_Thrusters};
+    constexpr UpgradeType Titan_Reactor{Enum::Titan_Reactor};
+    constexpr UpgradeType Ocular_Implants{Enum::Ocular_Implants};
+    constexpr UpgradeType Moebius_Reactor{Enum::Moebius_Reactor};
+    constexpr UpgradeType Apollo_Reactor{Enum::Apollo_Reactor};
+    constexpr UpgradeType Colossus_Reactor{Enum::Colossus_Reactor};
+    constexpr UpgradeType Caduceus_Reactor{Enum::Caduceus_Reactor};
+    constexpr UpgradeType Charon_Boosters{Enum::Charon_Boosters};
     /// @}
     /// @name Zerg Upgrades
     /// @{
-    constexpr UpgradeType Zerg_Carapace(Enum::Zerg_Carapace);
-    constexpr UpgradeType Zerg_Flyer_Carapace(Enum::Zerg_Flyer_Carapace);
-    constexpr UpgradeType Zerg_Melee_Attacks(Enum::Zerg_Melee_Attacks);
-    constexpr UpgradeType Zerg_Missile_Attacks(Enum::Zerg_Missile_Attacks);
-    constexpr UpgradeType Zerg_Flyer_Attacks(Enum::Zerg_Flyer_Attacks);
-    constexpr UpgradeType Ventral_Sacs(Enum::Ventral_Sacs);
-    constexpr UpgradeType Antennae(Enum::Antennae);
-    constexpr UpgradeType Pneumatized_Carapace(Enum::Pneumatized_Carapace);
-    constexpr UpgradeType Metabolic_Boost(Enum::Metabolic_Boost);
-    constexpr UpgradeType Adrenal_Glands(Enum::Adrenal_Glands);
-    constexpr UpgradeType Muscular_Augments(Enum::Muscular_Augments);
-    constexpr UpgradeType Grooved_Spines(Enum::Grooved_Spines);
-    constexpr UpgradeType Gamete_Meiosis(Enum::Gamete_Meiosis);
-    constexpr UpgradeType Metasynaptic_Node(Enum::Metasynaptic_Node);
-    constexpr UpgradeType Chitinous_Plating(Enum::Chitinous_Plating);
-    constexpr UpgradeType Anabolic_Synthesis(Enum::Anabolic_Synthesis);
+    constexpr UpgradeType Zerg_Carapace{Enum::Zerg_Carapace};
+    constexpr UpgradeType Zerg_Flyer_Carapace{Enum::Zerg_Flyer_Carapace};
+    constexpr UpgradeType Zerg_Melee_Attacks{Enum::Zerg_Melee_Attacks};
+    constexpr UpgradeType Zerg_Missile_Attacks{Enum::Zerg_Missile_Attacks};
+    constexpr UpgradeType Zerg_Flyer_Attacks{Enum::Zerg_Flyer_Attacks};
+    constexpr UpgradeType Ventral_Sacs{Enum::Ventral_Sacs};
+    constexpr UpgradeType Antennae{Enum::Antennae};
+    constexpr UpgradeType Pneumatized_Carapace{Enum::Pneumatized_Carapace};
+    constexpr UpgradeType Metabolic_Boost{Enum::Metabolic_Boost};
+    constexpr UpgradeType Adrenal_Glands{Enum::Adrenal_Glands};
+    constexpr UpgradeType Muscular_Augments{Enum::Muscular_Augments};
+    constexpr UpgradeType Grooved_Spines{Enum::Grooved_Spines};
+    constexpr UpgradeType Gamete_Meiosis{Enum::Gamete_Meiosis};
+    constexpr UpgradeType Metasynaptic_Node{Enum::Metasynaptic_Node};
+    constexpr UpgradeType Chitinous_Plating{Enum::Chitinous_Plating};
+    constexpr UpgradeType Anabolic_Synthesis{Enum::Anabolic_Synthesis};
     /// @}
     /// @name Protoss Upgrades
     /// @{
-    constexpr UpgradeType Protoss_Ground_Armor(Enum::Protoss_Ground_Armor);
-    constexpr UpgradeType Protoss_Air_Armor(Enum::Protoss_Air_Armor);
-    constexpr UpgradeType Protoss_Ground_Weapons(Enum::Protoss_Ground_Weapons);
-    constexpr UpgradeType Protoss_Air_Weapons(Enum::Protoss_Air_Weapons);
-    constexpr UpgradeType Protoss_Plasma_Shields(Enum::Protoss_Plasma_Shields);
-    constexpr UpgradeType Singularity_Charge(Enum::Singularity_Charge);
-    constexpr UpgradeType Leg_Enhancements(Enum::Leg_Enhancements);
-    constexpr UpgradeType Scarab_Damage(Enum::Scarab_Damage);
-    constexpr UpgradeType Reaver_Capacity(Enum::Reaver_Capacity);
-    constexpr UpgradeType Gravitic_Drive(Enum::Gravitic_Drive);
-    constexpr UpgradeType Sensor_Array(Enum::Sensor_Array);
-    constexpr UpgradeType Gravitic_Boosters(Enum::Gravitic_Boosters);
-    constexpr UpgradeType Khaydarin_Amulet(Enum::Khaydarin_Amulet);
-    constexpr UpgradeType Apial_Sensors(Enum::Apial_Sensors);
-    constexpr UpgradeType Gravitic_Thrusters(Enum::Gravitic_Thrusters);
-    constexpr UpgradeType Carrier_Capacity(Enum::Carrier_Capacity);
-    constexpr UpgradeType Khaydarin_Core(Enum::Khaydarin_Core);
-    constexpr UpgradeType Argus_Jewel(Enum::Argus_Jewel);
-    constexpr UpgradeType Argus_Talisman(Enum::Argus_Talisman);
+    constexpr UpgradeType Protoss_Ground_Armor{Enum::Protoss_Ground_Armor};
+    constexpr UpgradeType Protoss_Air_Armor{Enum::Protoss_Air_Armor};
+    constexpr UpgradeType Protoss_Ground_Weapons{Enum::Protoss_Ground_Weapons};
+    constexpr UpgradeType Protoss_Air_Weapons{Enum::Protoss_Air_Weapons};
+    constexpr UpgradeType Protoss_Plasma_Shields{Enum::Protoss_Plasma_Shields};
+    constexpr UpgradeType Singularity_Charge{Enum::Singularity_Charge};
+    constexpr UpgradeType Leg_Enhancements{Enum::Leg_Enhancements};
+    constexpr UpgradeType Scarab_Damage{Enum::Scarab_Damage};
+    constexpr UpgradeType Reaver_Capacity{Enum::Reaver_Capacity};
+    constexpr UpgradeType Gravitic_Drive{Enum::Gravitic_Drive};
+    constexpr UpgradeType Sensor_Array{Enum::Sensor_Array};
+    constexpr UpgradeType Gravitic_Boosters{Enum::Gravitic_Boosters};
+    constexpr UpgradeType Khaydarin_Amulet{Enum::Khaydarin_Amulet};
+    constexpr UpgradeType Apial_Sensors{Enum::Apial_Sensors};
+    constexpr UpgradeType Gravitic_Thrusters{Enum::Gravitic_Thrusters};
+    constexpr UpgradeType Carrier_Capacity{Enum::Carrier_Capacity};
+    constexpr UpgradeType Khaydarin_Core{Enum::Khaydarin_Core};
+    constexpr UpgradeType Argus_Jewel{Enum::Argus_Jewel};
+    constexpr UpgradeType Argus_Talisman{Enum::Argus_Talisman};
     /// @}
 
-    constexpr UpgradeType Upgrade_60(Enum::Upgrade_60);
-    constexpr UpgradeType None(Enum::None);
-    constexpr UpgradeType Unknown(Enum::Unknown);
+    constexpr UpgradeType Upgrade_60{Enum::Upgrade_60};
+    constexpr UpgradeType None{Enum::None};
+    constexpr UpgradeType Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(UpgradeType) == sizeof(int), "Expected type to resolve to primitive size.");

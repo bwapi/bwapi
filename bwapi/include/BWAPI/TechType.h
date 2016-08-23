@@ -164,50 +164,50 @@ namespace BWAPI
 
     /// @name Terran Abilities
     /// @{
-    constexpr TechType Stim_Packs(Enum::Stim_Packs);
-    constexpr TechType Lockdown(Enum::Lockdown);
-    constexpr TechType EMP_Shockwave(Enum::EMP_Shockwave);
-    constexpr TechType Spider_Mines(Enum::Spider_Mines);
-    constexpr TechType Scanner_Sweep(Enum::Scanner_Sweep);
-    constexpr TechType Tank_Siege_Mode(Enum::Tank_Siege_Mode);
-    constexpr TechType Defensive_Matrix(Enum::Defensive_Matrix);
-    constexpr TechType Irradiate(Enum::Irradiate);
-    constexpr TechType Yamato_Gun(Enum::Yamato_Gun);
-    constexpr TechType Cloaking_Field(Enum::Cloaking_Field);
-    constexpr TechType Personnel_Cloaking(Enum::Personnel_Cloaking);
-    constexpr TechType Restoration(Enum::Restoration);
-    constexpr TechType Optical_Flare(Enum::Optical_Flare);
-    constexpr TechType Healing(Enum::Healing);
-    constexpr TechType Nuclear_Strike(Enum::Nuclear_Strike);
+    constexpr TechType Stim_Packs{Enum::Stim_Packs};
+    constexpr TechType Lockdown{Enum::Lockdown};
+    constexpr TechType EMP_Shockwave{Enum::EMP_Shockwave};
+    constexpr TechType Spider_Mines{Enum::Spider_Mines};
+    constexpr TechType Scanner_Sweep{Enum::Scanner_Sweep};
+    constexpr TechType Tank_Siege_Mode{Enum::Tank_Siege_Mode};
+    constexpr TechType Defensive_Matrix{Enum::Defensive_Matrix};
+    constexpr TechType Irradiate{Enum::Irradiate};
+    constexpr TechType Yamato_Gun{Enum::Yamato_Gun};
+    constexpr TechType Cloaking_Field{Enum::Cloaking_Field};
+    constexpr TechType Personnel_Cloaking{Enum::Personnel_Cloaking};
+    constexpr TechType Restoration{Enum::Restoration};
+    constexpr TechType Optical_Flare{Enum::Optical_Flare};
+    constexpr TechType Healing{Enum::Healing};
+    constexpr TechType Nuclear_Strike{Enum::Nuclear_Strike};
     /// @}
     /// @name Zerg Abilities
     /// @{
-    constexpr TechType Burrowing(Enum::Burrowing);
-    constexpr TechType Infestation(Enum::Infestation);
-    constexpr TechType Spawn_Broodlings(Enum::Spawn_Broodlings);
-    constexpr TechType Dark_Swarm(Enum::Dark_Swarm);
-    constexpr TechType Plague(Enum::Plague);
-    constexpr TechType Consume(Enum::Consume);
-    constexpr TechType Ensnare(Enum::Ensnare);
-    constexpr TechType Parasite(Enum::Parasite);
-    constexpr TechType Lurker_Aspect(Enum::Lurker_Aspect);
+    constexpr TechType Burrowing{Enum::Burrowing};
+    constexpr TechType Infestation{Enum::Infestation};
+    constexpr TechType Spawn_Broodlings{Enum::Spawn_Broodlings};
+    constexpr TechType Dark_Swarm{Enum::Dark_Swarm};
+    constexpr TechType Plague{Enum::Plague};
+    constexpr TechType Consume{Enum::Consume};
+    constexpr TechType Ensnare{Enum::Ensnare};
+    constexpr TechType Parasite{Enum::Parasite};
+    constexpr TechType Lurker_Aspect{Enum::Lurker_Aspect};
     /// @}
     /// @name Protoss Abilities
     /// @{
-    constexpr TechType Psionic_Storm(Enum::Psionic_Storm);
-    constexpr TechType Hallucination(Enum::Hallucination);
-    constexpr TechType Recall(Enum::Recall);
-    constexpr TechType Stasis_Field(Enum::Stasis_Field);
-    constexpr TechType Archon_Warp(Enum::Archon_Warp);
-    constexpr TechType Disruption_Web(Enum::Disruption_Web);
-    constexpr TechType Mind_Control(Enum::Mind_Control);
-    constexpr TechType Dark_Archon_Meld(Enum::Dark_Archon_Meld);
-    constexpr TechType Feedback(Enum::Feedback);
-    constexpr TechType Maelstrom(Enum::Maelstrom);
+    constexpr TechType Psionic_Storm{Enum::Psionic_Storm};
+    constexpr TechType Hallucination{Enum::Hallucination};
+    constexpr TechType Recall{Enum::Recall};
+    constexpr TechType Stasis_Field{Enum::Stasis_Field};
+    constexpr TechType Archon_Warp{Enum::Archon_Warp};
+    constexpr TechType Disruption_Web{Enum::Disruption_Web};
+    constexpr TechType Mind_Control{Enum::Mind_Control};
+    constexpr TechType Dark_Archon_Meld{Enum::Dark_Archon_Meld};
+    constexpr TechType Feedback{Enum::Feedback};
+    constexpr TechType Maelstrom{Enum::Maelstrom};
     /// @}
 
-    constexpr TechType None(Enum::None);
-    constexpr TechType Unknown(Enum::Unknown);
+    constexpr TechType None{Enum::None};
+    constexpr TechType Unknown{Enum::Unknown};
   };
 
   static_assert(sizeof(TechType) == sizeof(int), "Expected type to resolve to primitive size.");

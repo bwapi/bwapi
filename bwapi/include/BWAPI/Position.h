@@ -16,7 +16,7 @@ namespace BWAPI
   template<int Scale> class Point<char, Scale> {};
   template<int Scale> class Point<unsigned char, Scale> {};
   template<int Scale> class Point<bool, Scale> {};
-  
+
   /// <summary>The Point class is a base class that implements convenience members and performs
   /// conversions for several different position scales.</summary> It is intended to be inherited
   /// or typedef'd for use with BWAPI. Users can extend the Point class, and implement their own
@@ -370,7 +370,11 @@ namespace BWAPI
     /// <summary>The x and y members for this class.</summary>
     ///
     /// Simply reference these members when retrieving a position's x and y values.
+#ifndef SWIG
     T x = T{}, y = T{};
+#else
+    T x, y;
+#endif
   };
 
   /// <summary>The scale of a @ref Position. Each position corresponds to a 1x1 pixel area.</summary>

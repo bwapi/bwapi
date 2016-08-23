@@ -87,8 +87,12 @@ namespace BWAPI
       Unit unit = nullptr;
       UnitCommandType type = UnitCommandTypes::None;
       Unit target = nullptr;
+#ifndef SWIG
       int x = Positions::None.x;
       int y = Positions::None.y;
+#else
+      int x, y;
+#endif
       int extra = 0;
   };
 }

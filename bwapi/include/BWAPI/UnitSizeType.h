@@ -52,12 +52,12 @@ namespace BWAPI
     /// @returns Set of all UnitSizeTypes.
     const UnitSizeType::set& allUnitSizeTypes();
     
-    constexpr UnitSizeType Independent(Enum::Independent);
-    constexpr UnitSizeType Small(Enum::Small);
-    constexpr UnitSizeType Medium(Enum::Medium);
-    constexpr UnitSizeType Large(Enum::Large);
-    constexpr UnitSizeType None(Enum::None);
-    constexpr UnitSizeType Unknown(Enum::Unknown);
+    constexpr UnitSizeType Independent{Enum::Independent};
+    constexpr UnitSizeType Small{Enum::Small};
+    constexpr UnitSizeType Medium{Enum::Medium};
+    constexpr UnitSizeType Large{Enum::Large};
+    constexpr UnitSizeType None{Enum::None};
+    constexpr UnitSizeType Unknown{Enum::Unknown};
   }
 
   static_assert(sizeof(UnitSizeType) == sizeof(int), "Expected type to resolve to primitive size.");
