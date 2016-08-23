@@ -48,7 +48,7 @@ namespace BWAPI
         // Make lowercase
         std::transform (n.begin (), n.end (), n.begin (), ::tolower);
 
-        result.insert( typeMapT::value_type(n, T(i)) );
+        result.insert( typename typeMapT::value_type(n, T(i)) );
       }
       return result;
     }
