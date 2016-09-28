@@ -48,10 +48,14 @@ void DevAIModule::onFrame()
   if ( bw->isReplay() ) // ignore everything if in a replay
     return;
 
-  Unitset a = self->getUnits();
-  Unitset b;
-
-  b = a;
+  for (Unit u : self->getUnits())
+  {
+    Unit buildUnit = u->getBuildUnit();
+    if (buildUnit != nullptr)
+    {
+      bw->drawTextMap(u->getPosition(), "%s", buildUnit->getType().c_str());
+    }
+  }
 }
 
 void DevAIModule::onSendText(std::string text)

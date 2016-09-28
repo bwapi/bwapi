@@ -615,13 +615,17 @@ namespace BWAPI
     /// @see upgrade, cancelUpgrade, isUpgrading, getUpgrade
     virtual int getRemainingUpgradeTime() const = 0;
 
-    /// <summary>Retrieves the corresponding paired unit for @SCVs and @Terran structures.</summary>
+    /// <summary>Retrieves the unit currently being trained, or the corresponding paired unit for
+    /// @SCVs and @Terran structures, depending on the context.</summary>
     /// For example, if this unit is a @Factory under construction, this function will return the
     /// @SCV that is constructing it. If this unit is a @SCV, then it will return the structure it
-    /// is currently constructing.
+    /// is currently constructing. If this unit is a @Nexus, and it is training a @Probe, then the
+    /// probe will be returned.
+    ///
+    /// @bug This will return an incorrect unit when called on @Reavers.
     /// 
-    /// @returns Paired build unit that is either constructing this unit, or being constructed by
-    /// this unit.
+    /// @returns Paired build unit that is either constructing this unit, structure being constructed by
+    /// this unit, or the unit that is being trained by this structure.
     /// @retval nullptr If there is no unit constructing this one, or this unit is not constructing
     /// another unit.
     virtual Unit getBuildUnit() const = 0;
