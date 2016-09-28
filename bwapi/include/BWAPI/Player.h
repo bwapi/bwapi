@@ -306,6 +306,9 @@ namespace BWAPI
     /// information about the player is limited, then this function will only return the number
     /// of visible units.
     ///
+    /// @note While in-progress @Protoss and @Terran units will be counted, in-progress @Zerg units
+    /// (i.e. inside of an egg) do not.
+    ///
     /// <param name="unit"> (optional)
     ///   The unit type to query. UnitType macros are accepted. If this parameter is omitted,
     ///   then it will use UnitTypes::AllUnits by default.
@@ -362,6 +365,8 @@ namespace BWAPI
     /// visible incomplete units.
     ///
     /// @note This function is a macro for allUnitCount() - completedUnitCount().
+    ///
+    /// @note Incomplete @Zerg units inside of eggs are not counted.
     ///
     /// <param name="unit"> (optional)
     ///   The unit type to query. UnitType macros are accepted. If this parameter is omitted,
