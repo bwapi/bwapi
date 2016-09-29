@@ -178,6 +178,7 @@ void AutoMenuManager::onMenuFrame()
   static DWORD waitJoinTimer;
   static DWORD waitSelRaceTimer;
   static DWORD waitRestartTimer;
+  static DWORD randomRestartTimer;
 
   // Don't attempt auto-menu if we run into 50 error message boxes
   if (this->autoMapTryCount > 50)
@@ -275,9 +276,14 @@ void AutoMenuManager::onMenuFrame()
         ++this->autoMapTryCount;
         pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
       }
-
-      pressDialogKey(tempDlg->findIndex(12));
-    } // if lastmapgen
+	  
+	  pressDialogKey(tempDlg->findIndex(12));
+	}
+	else if (waitJoinTimer + 3000 < GetTickCount()) { // Retry joining maps if we are stuck.
+		this->chooseNewRandomMap();
+		waitJoinTimer = 0;
+		pressDialogKey(tempDlg->findIndex(13));
+	}// if lastmapgen
     break;
   case BW::GLUE_CONNECT:
     tempDlg = BW::FindDialogGlobal("ConnSel");
@@ -294,11 +300,17 @@ void AutoMenuManager::onMenuFrame()
   case BW::GLUE_GAME_SELECT:  // Games listing
   {
     if (waitJoinTimer == 0)
-      waitJoinTimer = GetTickCount();
+      waitJoinTimer = GetTickCount() + std::rand() % 2000;  // Randomness breaks race conditions
 
     tempDlg = BW::FindDialogGlobal("GameSel");
     if (!tempDlg)
       break;
+
+	// if we encounter an unknown error when attempting to join the game
+	if (BW::FindDialogGlobal("gluPOk"))
+	{
+		pressDialogKey(BW::FindDialogGlobal("gluPOk")->findIndex(1));
+	}
 
     if (isJoining &&
       !tempDlg->findIndex(5)->setSelectedByString(this->autoMenuGameName) &&
@@ -317,6 +329,9 @@ void AutoMenuManager::onMenuFrame()
       this->lastMapGen.clear();
       pressDialogKey(tempDlg->findIndex(13));  // OK
     }
+
+	// Store this for next menu
+	randomRestartTimer = GetTickCount() + std::rand() % 5000; // Randomness breaks race conditions
   }
   break;
   case BW::GLUE_CHAT:
@@ -384,6 +399,12 @@ void AutoMenuManager::onMenuFrame()
         }
       } // if lobbyPlayerCount etc
     } // if isCreating etc
+
+	// If we've been in the game for a while and nobody joined, leave for a bit.
+	if (randomRestartTimer + 10000 < GetTickCount() &&
+		getLobbyPlayerReadyCount() <= 1) {
+		if (!BW::FindDialogGlobal("Chat")->findIndex(8)->isDisabled()) BW::FindDialogGlobal("Chat")->findIndex(8)->activate();
+	}
     break;
   case BW::GLUE_LOGIN:  // Registry/Character screen
     // Type in "BWAPI" if no characters available
