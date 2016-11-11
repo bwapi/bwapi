@@ -377,7 +377,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       break;
     case WM_ACTIVATEAPP:
       if ( wOriginalProc )
-        return wOriginalProc(hWnd, WM_ACTIVATEAPP, (WPARAM)1, NULL);
+        return CallWindowProc(wOriginalProc, hWnd, WM_ACTIVATEAPP, (WPARAM)1, NULL);
     case WM_SETCURSOR:
     case WM_ERASEBKGND:
       return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -456,7 +456,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
   // Call the original WndProc
   if ( wOriginalProc )
-    return wOriginalProc(hWnd, uMsg, wParam, lParam);
+    return CallWindowProc(wOriginalProc, hWnd, uMsg, wParam, lParam);
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
