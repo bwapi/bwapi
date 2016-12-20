@@ -19,16 +19,29 @@ inline void StrTerminate(char (&str)[N])
 };
 
 template <size_t N>
-inline void StrCopy(char (&dst)[N], const char *src)
+inline void StrCopy(char(&dst)[N], const char *src, int length = -1)
 {
-  strncpy(dst, src, N-1);
+  if (length == -1)
+  {
+	length = 0;
+ 	while (src[length] != '\0' &&
+		length < N)
+	{
+	  ++length;
+	}
+  }
+  else if (length > N)
+  {
+	length = N;
+  }
+  std::copy(src, src + length, dst);
   StrTerminate(dst);
 };
 
 template <size_t N>
-inline void StrCopy(char (&dst)[N], const std::string &src)
+inline void StrCopy(char(&dst)[N], const std::string &src)
 {
-  StrCopy(dst, src.c_str());
+	StrCopy(dst, src.c_str(), src.length());
 };
 
 
