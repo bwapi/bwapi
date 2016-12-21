@@ -19,9 +19,9 @@ inline void StrTerminate(char (&str)[N])
 };
 
 template <size_t N>
-inline void StrCopy(char(&dst)[N], char *src)
+inline void StrCopy(char(&dst)[N], const char *src)
 {
-	strncpy(src, dst, N - 1);
+	strncpy(dst, src, N - 1);
 	StrTerminate(dst);
 };
 
