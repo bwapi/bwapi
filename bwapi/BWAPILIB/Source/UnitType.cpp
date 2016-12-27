@@ -1465,7 +1465,7 @@ namespace BWAPI
     static const int zerg_melee[]         = { Zerg_Carapace, Zerg_Melee_Attacks };
     static const int zerg_range[]         = { Zerg_Carapace, Zerg_Missile_Attacks };
     static const int zergling[]           = { Zerg_Carapace, Zerg_Melee_Attacks, Metabolic_Boost, Adrenal_Glands };
-    static const int hydralisk[]          = { Zerg_Carapace, Zerg_Melee_Attacks, Muscular_Augments, Grooved_Spines };
+    static const int hydralisk[]          = { Zerg_Carapace, Zerg_Missile_Attacks, Muscular_Augments, Grooved_Spines };
     static const int defiler[]            = { Zerg_Carapace, Metasynaptic_Node };
     static const int ultralisk[]          = { Zerg_Carapace, Zerg_Melee_Attacks, Chitinous_Plating, Anabolic_Synthesis };
 
