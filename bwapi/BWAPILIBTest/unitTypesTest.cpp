@@ -2937,7 +2937,7 @@ namespace BWAPILIBTest
       Assert_requiredTech(None);
       Assert_cloakingTech(None);
       AssertSetEquals({ BWAPI::TechTypes::Burrowing }, t.abilities());
-      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Melee_Attacks, BWAPI::UpgradeTypes::Muscular_Augments, BWAPI::UpgradeTypes::Grooved_Spines }, t.upgrades());
+      AssertSetEquals({ BWAPI::UpgradeTypes::Zerg_Carapace, BWAPI::UpgradeTypes::Zerg_Missile_Attacks, BWAPI::UpgradeTypes::Muscular_Augments, BWAPI::UpgradeTypes::Grooved_Spines }, t.upgrades());
       Assert_armorUpgrade(Zerg_Carapace);
       Assert_maxHitPoints(80);
       Assert_maxShields(0);
