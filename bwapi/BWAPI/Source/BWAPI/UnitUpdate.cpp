@@ -26,6 +26,25 @@
 
 namespace BWAPI
 {
+  // Just hardcode some values that encompass the majority of the scanner graphic (as a hack for now)
+  // Note that scanner sweeps are tricky, since the scanning graphic isn't associated with the scanner unit
+  bool isScannerVisible(BW::Position position)
+  {
+    int left = (position.x - 64) / 32;
+    int top = (position.y - 64) / 32;
+    int right = (position.x + 64) / 32;
+    int bottom = (position.y + 64) / 32;
+    for (int x = left; x <= right; ++x)
+    {
+      for (int y = top; y <= bottom; ++y)
+      {
+        if (BroodwarImpl.isVisible(x, y))
+          return true;
+      }
+    }
+    return false;
+  }
+
   void UnitImpl::updateInternalData()
   {
     BW::CUnit *o = getOriginalRawData;
@@ -65,6 +84,11 @@ namespace BWAPI
         {
           self->isVisible[selfPlayerID] = true;
           self->isDetected              = true;
+        }
+        else if (o->unitType == UnitTypes::Spell_Scanner_Sweep)
+        {
+          self->isVisible[selfPlayerID] = isScannerVisible(o->position);
+          self->isDetected = true;
         }
         else
         {
