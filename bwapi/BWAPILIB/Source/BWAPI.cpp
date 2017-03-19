@@ -5,7 +5,7 @@
 
 int BWAPI::BWAPI_getRevision()
 {
-  return 4708;
+  return BWAPI_REVISION;
 }
 bool BWAPI::BWAPI_isDebug()
 {
