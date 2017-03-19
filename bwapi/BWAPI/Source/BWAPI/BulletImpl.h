@@ -40,7 +40,7 @@ namespace BWAPI
       BW::CBullet* getRawData() const;
       void        saveExists();
 
-      BulletData  data = {};
+      BulletData  data = BulletData();
       BulletData* self = &data;
 
       void        updateData();

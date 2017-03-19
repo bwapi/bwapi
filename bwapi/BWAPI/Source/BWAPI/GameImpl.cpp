@@ -807,7 +807,7 @@ namespace BWAPI
   //--------------------------------------------------- VERSION ----------------------------------------------
   int GameImpl::getRevision() const
   {
-    return SVN_REV;
+    return BWAPI_REVISION;
   }
   bool GameImpl::isDebug() const
   {

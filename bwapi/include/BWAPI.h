@@ -65,6 +65,8 @@ namespace BWAPI
   ///
   /// @threadsafe
   bool BWAPI_isDebug();
+
+  static int BWAPI_REVISION = 4708;
 }
 
 #endif

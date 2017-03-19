@@ -31,7 +31,7 @@ namespace BWAPI
     void UpdateRegionRelations();
     RegionData* getData();
   private:
-    RegionData  data = {};
+    RegionData  data = RegionData();
     RegionData* self = &data;
     
     Regionset neighbors;

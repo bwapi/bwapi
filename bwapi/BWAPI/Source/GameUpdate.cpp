@@ -433,6 +433,6 @@ void GameImpl::initializeAIModule()
   }
 
   if ( !hTournamentModule ) // If tournament mode wasn't initialized
-    sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str() );
+    sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, BWAPI_REVISION, BUILD_STR, moduleName.c_str() );
 }
 

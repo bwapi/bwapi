@@ -5,7 +5,7 @@
 
 int BWAPI::BWAPI_getRevision()
 {
-  return SVN_REV;
+  return BWAPI_REVISION;
 }
 bool BWAPI::BWAPI_isDebug()
 {
