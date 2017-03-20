@@ -3,6 +3,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/PositionUnit.h>
 #include <BWAPI/Filters.h>
+#include <iterator>
 
 namespace BWAPI
 {
@@ -23,6 +24,11 @@ namespace BWAPI
     /// return value for BWAPI interface functions that have encountered an error.
     static const Unitset none;
 
+    Unitset& operator = (const Unitset& other) {
+        clear();
+        std::copy(other.begin(), other.end(), std::inserter(*this, begin()));
+        return *this;
+    }
 
     /// <summary>Calculates the average of all valid Unit positions in this set.</summary>
     ///
