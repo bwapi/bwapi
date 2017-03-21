@@ -8,7 +8,7 @@
 #include <cmath>
 #include <fstream>
 
-#include <Util/clamp.h>
+#include <Util/Clamp.h>
 #include <Util/Convenience.h>
 
 #include <BWAPI/ForceImpl.h>

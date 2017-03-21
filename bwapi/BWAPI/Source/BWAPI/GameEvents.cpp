@@ -2,6 +2,7 @@
 #include <ctime>
 
 #include <Util/Path.h>
+#include <Util/StringUtil.h>
 
 #include "Detours.h"
 
@@ -13,7 +14,6 @@
 
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
-#include "Util/StringUtil.h"
 
 namespace BWAPI
 {
