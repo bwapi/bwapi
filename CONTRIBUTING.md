@@ -3,6 +3,9 @@
  - Trivial documentation issues welcome ([example](https://github.com/bwapi/bwapi/issues/616))
  - Non-trivial feature requests welcome ([example](https://github.com/bwapi/bwapi/issues/393))
 
+# Creating a Pull Request
+ - Do development on the [`develop`](https://github.com/bwapi/bwapi/tree/develop) branch.
+
 # Versioning
 BWAPI versioning is categorized as follows: `major.minor.patch [Beta]`
 
