@@ -37,40 +37,35 @@ AI tournaments). Changed defaults will be advertised when the match begins.
  - Want to help improve BWAPI? Fork the [`develop` branch](https://github.com/bwapi/bwapi/tree/develop).
 
 ## Quick Start {#quick-start}
-1. installation
-  1. install Visual Studio 2013
-  2. install StarCraft: Brood War
-  3. go to battle.net, just to get updates, don't need an account
-  4. install BWAPI
-2. compile
-  1. open ExampleProjects.sln in the BWAPI install directory
-  2. build ExampleAIModule project, release mode
-  3. copy ExampleAIModule.dll to bwapi-data/AI inside the StarCraft install folder
-3. run StarCraft through Chaoslauncher
-  1. run Chaoslauncher as administrator
-    - Chaoslauncher is found in Chaoslauncher directory of BWAPI install directory
-  3. check BWAPI 4.1.2 Injector [RELEASE]
-  4. Start
-    - make sure the thing between Start and Update is set to Starcraft 4.1.2, not ICCup 4.1.2
-4. run a game against Blizzard's AI
-  1. Single Player
-  2. Expansion
-  3. any user
-  4. Play Custom
-5. run a game against yourself
-  1. run Chaoslauncher - MultiInstance as administrator
-  2. Start
-    1. Multiplayer
-    2. Expansion
-    3. Local PC
-    4. any user
-    5. Create Game
-    6. any map
-  3. Start -- uncheck BWAPI 4.1.2 Injector [RELEASE] to let a human play, leave alone to make AI play itself
-    1. Multiplayer
-    2. Expansion
-    3. Local PC
-    4. join game
+1. Installation
+   1. Install **Visual Studio 2013**
+   2. Install **StarCraft: Brood War**
+   3. Update **StarCraft: Brood War** to `1.16.1`
+   4. Install **BWAPI**
+2. Compile
+   1. Open `ExampleProjects.sln` in the BWAPI install directory
+   2. Build the ExampleAIModule project in RELEASE mode
+   3. Copy `ExampleAIModule.dll` to `bwapi-data/AI` inside the StarCraft install folder
+3. Run StarCraft through Chaoslauncher
+   1. Run `Chaoslauncher.exe` as administrator
+      - Chaoslauncher is found in Chaoslauncher directory of BWAPI install directory
+   3. Check the *BWAPI Injector x.x.x [RELEASE]*
+   4. Click Start
+      - Make sure the version is set to Starcraft 1.16.1, not ICCup 1.16.1
+4. Run a game against Blizzard's AI
+   1. Go to **Single Player** -> **Expansion**
+   2. Select any user and click **OK**
+   3. Click **Play Custom**, select a map, and start a game
+5. Run a game against yourself
+   1. Run `Chaoslauncher - MultiInstance.exe` as administrator
+   2. Start
+      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+      2. Select any user and click **OK**
+      3. Click **Create Game**, select a map, and click **OK**
+   3. Start -- Uncheck *BWAPI Injector x.x.x [RELEASE]* to let a human play, leave alone to make AI play itself
+      1. Go to **Multiplayer** -> **Expansion** -> **Local PC**
+      2. Select any user and click **OK**
+      3. Join the existing game created by the other client
  
 ## Important Links & Contact Information {#contact}
 * **Documentation:**         http://bwapi.github.io/
