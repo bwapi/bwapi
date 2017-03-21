@@ -250,6 +250,7 @@ SET(BWAPI_BWAPI_SRC
     ${BWAPI_BWAPILIB_DIR}/UnitSizeType.cpp
     ${BWAPI_BWAPILIB_DIR}/UnitType.cpp
     ${BWAPI_BWAPILIB_DIR}/UpgradeType.cpp
+    ${BWAPI_BWAPILIB_DIR}/WeaponType.cpp
     ${BWAPI_ROOT}/BWAPICore/APMCounter.cpp
     ${BWAPI_ROOT}/BWAPICore/APMCounter.h
     ${BWAPI_ROOT}/BWAPICore/FPSCounter.cpp
