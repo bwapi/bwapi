@@ -1,8 +1,7 @@
 #include "GameImpl.h"
 #include <ctime>
 
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string_regex.hpp>
+#include <Util/Path.h>
 
 #include "Detours.h"
 
@@ -14,6 +13,7 @@
 
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
+#include "Util/StringUtil.h"
 
 namespace BWAPI
 {
@@ -375,10 +375,14 @@ namespace BWAPI
       std::string pathStr(szTmpPath);
 
       // Double any %'s remaining in the string so that strftime executes correctly
-      boost::algorithm::replace_all(pathStr, "%", "%%");
+      {
+        size_t tmp = std::string::npos;
+        while (tmp = pathStr.find_last_of('%', tmp - 1), tmp != std::string::npos)
+          pathStr.insert(tmp, "%");
+      }
 
       // Replace the placeholder $'s with %'s for the strftime call
-      boost::algorithm::replace_all(pathStr, "$", "%");
+      std::replace(pathStr.begin(), pathStr.end(), '$', '%');
 
       // Get time
       time_t tmpTime = std::time(nullptr);
@@ -392,9 +396,15 @@ namespace BWAPI
       pathStr = szTmpPath;
 
       // Remove illegal characters
-      boost::algorithm::erase_all_regex(pathStr, boost::regex("[[:cntrl:]?*<|>\":]"));
-      
-      boost::filesystem::create_directories(boost::filesystem::path(pathStr).parent_path());
+      pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(),
+                                   [](char c) {
+                                     return iscntrl(reinterpret_cast<unsigned char&>(c)) || c == '?' || c == '*' ||
+                                         c == '<' || c == '|' || c == '>' || c == '"' ||
+                                         c == ':';
+                                   }), pathStr.end());
+
+      Util::Path parent_p = Util::Path(pathStr).parent_path();
+      Util::create_directories(parent_p);
 
       // Copy to global desired replay name
       gDesiredReplayName = pathStr;

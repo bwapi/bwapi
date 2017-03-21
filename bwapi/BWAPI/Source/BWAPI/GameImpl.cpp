@@ -8,7 +8,7 @@
 #include <cmath>
 #include <fstream>
 
-#include <boost/algorithm/clamp.hpp>
+#include <Util/clamp.h>
 #include <Util/Convenience.h>
 
 #include <BWAPI/ForceImpl.h>
@@ -788,7 +788,7 @@ namespace BWAPI
       caps.dwSize = sizeof(CAPS);
       SNetGetProviderCaps(&caps);
 
-      dwCallDelay = boost::algorithm::clamp(caps.dwCallDelay, 2, 8);
+      dwCallDelay = Util::clamp<int>(caps.dwCallDelay, 2, 8);
     }
     return (BW::BWDATA::LatencyFrames[BW::BWDATA::GameSpeed]) * (BW::BWDATA::Latency + dwCallDelay + 1);
   }
@@ -862,7 +862,7 @@ namespace BWAPI
   //-------------------------------------- SET COMMAND OPTIMIZATION LEVEL ------------------------------------
   void GameImpl::setCommandOptimizationLevel(int level)
   {
-    level = boost::algorithm::clamp(level, 0, 4);
+    level = Util::clamp(level, 0, 4);
     if ( !this->tournamentCheck(Tournament::SetCommandOptimizationLevel, &level) )
       return;
     this->commandOptimizer.level = level;

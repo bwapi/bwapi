@@ -26,17 +26,12 @@ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BWAPI_ROOT}/lib)
 SET(BWAPI_INCL_DIR ${BWAPI_ROOT}/include)
 INCLUDE_DIRECTORIES(
     ${BWAPI_INCL_DIR}
+    ${BWAPI_ROOT}/BWAPICore
     ${BWAPI_ROOT}/Storm
     )
 
 SET(BWAPI_INCLUDES
     ${BWAPI_INCL_DIR}/BWAPI.h
-    ${BWAPI_INCL_DIR}/BWAPI/AIModule.h
-    ${BWAPI_INCL_DIR}/BWAPI/ArithmaticFilter.h
-    ${BWAPI_INCL_DIR}/BWAPI/BestFilter.h
-    ${BWAPI_INCL_DIR}/BWAPI/Bullet.h
-    ${BWAPI_INCL_DIR}/BWAPI/Bulletset.h
-    ${BWAPI_INCL_DIR}/BWAPI/BulletType.h
     ${BWAPI_INCL_DIR}/BWAPI/Client.h
     ${BWAPI_INCL_DIR}/BWAPI/Client/BulletData.h
     ${BWAPI_INCL_DIR}/BWAPI/Client/BulletImpl.h
@@ -58,6 +53,14 @@ SET(BWAPI_INCLUDES
     ${BWAPI_INCL_DIR}/BWAPI/Client/UnitCommand.h
     ${BWAPI_INCL_DIR}/BWAPI/Client/UnitData.h
     ${BWAPI_INCL_DIR}/BWAPI/Client/UnitImpl.h
+    ${BWAPI_INCL_DIR}/BWAPI/AIModule.h
+    ${BWAPI_INCL_DIR}/BWAPI/ArithmaticFilter.h
+    ${BWAPI_INCL_DIR}/BWAPI/BestFilter.h
+    ${BWAPI_INCL_DIR}/BWAPI/BroodwarOutputDevice.h
+    ${BWAPI_INCL_DIR}/BWAPI/Bullet.h
+    ${BWAPI_INCL_DIR}/BWAPI/Bulletset.h
+    ${BWAPI_INCL_DIR}/BWAPI/BulletType.h
+    ${BWAPI_INCL_DIR}/BWAPI/Client.h
     ${BWAPI_INCL_DIR}/BWAPI/Color.h
     ${BWAPI_INCL_DIR}/BWAPI/ComparisonFilter.h
     ${BWAPI_INCL_DIR}/BWAPI/Constants.h
@@ -82,24 +85,22 @@ SET(BWAPI_INCLUDES
     ${BWAPI_INCL_DIR}/BWAPI/Playerset.h
     ${BWAPI_INCL_DIR}/BWAPI/PlayerType.h
     ${BWAPI_INCL_DIR}/BWAPI/Position.h
-    ${BWAPI_INCL_DIR}/BWAPI/PositionUnit.h
-    ${BWAPI_INCL_DIR}/BWAPI/Race.h 
+    ${BWAPI_INCL_DIR}/BWAPI/Race.h
     ${BWAPI_INCL_DIR}/BWAPI/Region.h
     ${BWAPI_INCL_DIR}/BWAPI/Regionset.h
     ${BWAPI_INCL_DIR}/BWAPI/SetContainer.h
+    ${BWAPI_INCL_DIR}/BWAPI/Streams.h
     ${BWAPI_INCL_DIR}/BWAPI/TechType.h
     ${BWAPI_INCL_DIR}/BWAPI/TournamentAction.h
     ${BWAPI_INCL_DIR}/BWAPI/Type.h
     ${BWAPI_INCL_DIR}/BWAPI/UnaryFilter.h
     ${BWAPI_INCL_DIR}/BWAPI/Unit.h
-    ${BWAPI_INCL_DIR}/BWAPI/UnitCommand.h 
+    ${BWAPI_INCL_DIR}/BWAPI/UnitCommand.h
     ${BWAPI_INCL_DIR}/BWAPI/UnitCommandType.h
-    ${BWAPI_INCL_DIR}/BWAPI/Unitset.h 
-    ${BWAPI_INCL_DIR}/BWAPI/UnitSizeType.h 
+    ${BWAPI_INCL_DIR}/BWAPI/Unitset.h
+    ${BWAPI_INCL_DIR}/BWAPI/UnitSizeType.h
     ${BWAPI_INCL_DIR}/BWAPI/UnitType.h
-    ${BWAPI_INCL_DIR}/BWAPI/UpgradeType.h 
-    ${BWAPI_INCL_DIR}/BWAPI/WeaponType.h 
-    ${BWAPI_INCL_DIR}/BWAPI/WindowsTypes.h
+    ${BWAPI_INCL_DIR}/BWAPI/UpgradeType.h
     )
 SOURCE_GROUP("BWAPI" FILES ${BWAPI_INCLUDES})
 
@@ -167,27 +168,23 @@ SET(BWAPI_BWAPI_SRC
     ${BWAPI_BWAPI_DIR}/BW/UnitTarget.cpp
     ${BWAPI_BWAPI_DIR}/BW/UnitTarget.h 
     ${BWAPI_BWAPI_DIR}/BW/WeaponTargetFlags.h
-    ${BWAPI_BWAPI_DIR}/BWAPI/APMCounter.cpp
-    ${BWAPI_BWAPI_DIR}/BWAPI/APMCounter.h
     ${BWAPI_BWAPI_DIR}/BWAPI/AutoMenuManager.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/AutoMenuManager.h
     ${BWAPI_BWAPI_DIR}/BWAPI/BulletImpl.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/BulletImpl.h
-    ${BWAPI_BWAPI_DIR}/BWAPI/BWtoBWAPI.cpp 
+    ${BWAPI_BWAPI_DIR}/BWAPI/BWtoBWAPI.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/BWtoBWAPI.h
     ${BWAPI_BWAPI_DIR}/BWAPI/Command.h
     ${BWAPI_BWAPI_DIR}/BWAPI/CommandOptimizer.cpp
-    ${BWAPI_BWAPI_DIR}/BWAPI/CommandOptimizer.h 
+    ${BWAPI_BWAPI_DIR}/BWAPI/CommandOptimizer.h
     ${BWAPI_BWAPI_DIR}/BWAPI/CommandTemp.h
-    ${BWAPI_BWAPI_DIR}/BWAPI/ForceImpl.cpp 
+    ${BWAPI_BWAPI_DIR}/BWAPI/ForceImpl.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/ForceImpl.h
-    ${BWAPI_BWAPI_DIR}/BWAPI/FPSCounter.cpp 
-    ${BWAPI_BWAPI_DIR}/BWAPI/FPSCounter.h
     ${BWAPI_BWAPI_DIR}/BWAPI/GameBullets.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/GameCommands.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/GameDrawing.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/GameEvents.cpp
-    ${BWAPI_BWAPI_DIR}/BWAPI/GameImpl.cpp 
+    ${BWAPI_BWAPI_DIR}/BWAPI/GameImpl.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/GameImpl.h
     ${BWAPI_BWAPI_DIR}/BWAPI/GameInternals.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/GameMenu.cpp
@@ -199,7 +196,7 @@ SET(BWAPI_BWAPI_SRC
     ${BWAPI_BWAPI_DIR}/BWAPI/RegionImpl.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/RegionImpl.h
     ${BWAPI_BWAPI_DIR}/BWAPI/Server.cpp
-    ${BWAPI_BWAPI_DIR}/BWAPI/Server.h 
+    ${BWAPI_BWAPI_DIR}/BWAPI/Server.h
     ${BWAPI_BWAPI_DIR}/BWAPI/UnitImpl.cpp
     ${BWAPI_BWAPI_DIR}/BWAPI/UnitImpl.h
     ${BWAPI_BWAPI_DIR}/BWAPI/UnitUpdate.cpp
@@ -211,49 +208,52 @@ SET(BWAPI_BWAPI_SRC
     ${BWAPI_BWAPI_DIR}/Detours.h
     ${BWAPI_BWAPI_DIR}/DLLMain.cpp
     ${BWAPI_BWAPI_DIR}/DLLMain.h
-    ${BWAPI_BWAPI_DIR}/ExceptionFilter.cpp 
+    ${BWAPI_BWAPI_DIR}/ExceptionFilter.cpp
     ${BWAPI_BWAPI_DIR}/ExceptionFilter.h
     ${BWAPI_BWAPI_DIR}/GameUpdate.cpp
     ${BWAPI_BWAPI_DIR}/Graphics.cpp
-    ${BWAPI_BWAPI_DIR}/Graphics.h 
+    ${BWAPI_BWAPI_DIR}/Graphics.h
     ${BWAPI_BWAPI_DIR}/NewHackUtil.cpp
-    ${BWAPI_BWAPI_DIR}/NewHackUtil.h 
+    ${BWAPI_BWAPI_DIR}/NewHackUtil.h
     ${BWAPI_BWAPI_DIR}/Resolution.cpp
-    ${BWAPI_BWAPI_DIR}/Resolution.h 
-    ${BWAPI_BWAPI_DIR}/Thread.cpp    
-    ${BWAPI_BWAPI_DIR}/Thread.h 
-    ${BWAPI_BWAPI_DIR}/WMode.cpp 
+    ${BWAPI_BWAPI_DIR}/Resolution.h
+    ${BWAPI_BWAPI_DIR}/Thread.cpp
+    ${BWAPI_BWAPI_DIR}/Thread.h
+    ${BWAPI_BWAPI_DIR}/WMode.cpp
     ${BWAPI_BWAPI_DIR}/WMode.h
     ${BWAPI_BWAPILIB_DIR}/AIModule.cpp
+    ${BWAPI_BWAPILIB_DIR}/BroodwarOutputDevice.cpp
     ${BWAPI_BWAPILIB_DIR}/BulletType.cpp
-    ${BWAPI_BWAPILIB_DIR}/BWAPI.cpp    
+    ${BWAPI_BWAPILIB_DIR}/BWAPI.cpp
     ${BWAPI_BWAPILIB_DIR}/Color.cpp
-    ${BWAPI_BWAPILIB_DIR}/Common.h     
     ${BWAPI_BWAPILIB_DIR}/DamageType.cpp
-    ${BWAPI_BWAPILIB_DIR}/Error.cpp       
+    ${BWAPI_BWAPILIB_DIR}/Error.cpp
     ${BWAPI_BWAPILIB_DIR}/Event.cpp
     ${BWAPI_BWAPILIB_DIR}/ExplosionType.cpp
     ${BWAPI_BWAPILIB_DIR}/Filters.cpp
-    ${BWAPI_BWAPILIB_DIR}/Forceset.cpp    
+    ${BWAPI_BWAPILIB_DIR}/Forceset.cpp
     ${BWAPI_BWAPILIB_DIR}/Game.cpp
-    ${BWAPI_BWAPILIB_DIR}/GameType.cpp    
+    ${BWAPI_BWAPILIB_DIR}/GameType.cpp
     ${BWAPI_BWAPILIB_DIR}/Order.cpp
-    ${BWAPI_BWAPILIB_DIR}/Player.cpp       
+    ${BWAPI_BWAPILIB_DIR}/Player.cpp
     ${BWAPI_BWAPILIB_DIR}/Playerset.cpp
-    ${BWAPI_BWAPILIB_DIR}/PlayerType.cpp    
+    ${BWAPI_BWAPILIB_DIR}/PlayerType.cpp
     ${BWAPI_BWAPILIB_DIR}/Position.cpp
-    ${BWAPI_BWAPILIB_DIR}/PositionUnit.cpp  
     ${BWAPI_BWAPILIB_DIR}/Race.cpp
-    ${BWAPI_BWAPILIB_DIR}/Region.cpp       
+    ${BWAPI_BWAPILIB_DIR}/Region.cpp
     ${BWAPI_BWAPILIB_DIR}/Regionset.cpp
-    ${BWAPI_BWAPILIB_DIR}/TechType.cpp    
+    ${BWAPI_BWAPILIB_DIR}/Streams.cpp
+    ${BWAPI_BWAPILIB_DIR}/TechType.cpp
     ${BWAPI_BWAPILIB_DIR}/Unit.cpp
     ${BWAPI_BWAPILIB_DIR}/UnitCommandType.cpp
-    ${BWAPI_BWAPILIB_DIR}/Unitset.cpp     
+    ${BWAPI_BWAPILIB_DIR}/Unitset.cpp
     ${BWAPI_BWAPILIB_DIR}/UnitSizeType.cpp
-    ${BWAPI_BWAPILIB_DIR}/UnitType.cpp    
+    ${BWAPI_BWAPILIB_DIR}/UnitType.cpp
     ${BWAPI_BWAPILIB_DIR}/UpgradeType.cpp
-    ${BWAPI_BWAPILIB_DIR}/WeaponType.cpp  
+    ${BWAPI_ROOT}/BWAPICore/APMCounter.cpp
+    ${BWAPI_ROOT}/BWAPICore/APMCounter.h
+    ${BWAPI_ROOT}/BWAPICore/FPSCounter.cpp
+    ${BWAPI_ROOT}/BWAPICore/FPSCounter.h
     ${BWAPI_ROOT}/BWAPILib/UnitCommand.cpp
     )
 SOURCE_GROUP("BWAPI/BWAPI" FILES ${BWAPI_BWAPI_SRC})
@@ -263,7 +263,7 @@ INCLUDE_DIRECTORIES(${BWAPI_UTIL_DIR})
 SET(BWAPI_UTIL_SRC
     ${BWAPI_ROOT}/Storm/storm.cpp
     ${BWAPI_ROOT}/Storm/storm.h
-    ${BWAPI_UTIL_DIR}/Util/clamp.h
+    ${BWAPI_UTIL_DIR}/Util/Clamp.h
     ${BWAPI_UTIL_DIR}/Util/Convenience.h
     ${BWAPI_UTIL_DIR}/Util/Exceptions.cpp
     ${BWAPI_UTIL_DIR}/Util/Exceptions.h
@@ -271,6 +271,7 @@ SET(BWAPI_UTIL_SRC
     ${BWAPI_UTIL_DIR}/Util/MemoryFrame.h
     ${BWAPI_UTIL_DIR}/Util/Mutex.cpp
     ${BWAPI_UTIL_DIR}/Util/Mutex.h
+    ${BWAPI_UTIL_DIR}/Util/Path.h
     ${BWAPI_UTIL_DIR}/Util/RemoteProcess.cpp
     ${BWAPI_UTIL_DIR}/Util/RemoteProcess.h
     ${BWAPI_UTIL_DIR}/Util/RemoteProcessID.h
@@ -279,6 +280,7 @@ SET(BWAPI_UTIL_SRC
     ${BWAPI_UTIL_DIR}/Util/SharedMemory.cpp
     ${BWAPI_UTIL_DIR}/Util/SharedMemory.h
     ${BWAPI_UTIL_DIR}/Util/SharedStructure.h
+    ${BWAPI_UTIL_DIR}/Util/StringUtil.h
     ${BWAPI_UTIL_DIR}/Util/Types.h
     )
 SOURCE_GROUP("BWAPI/Util" FILES ${BWAPI_UTIL_SRC})

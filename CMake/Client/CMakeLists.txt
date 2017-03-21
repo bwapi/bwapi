@@ -48,7 +48,7 @@ INCLUDE_DIRECTORIES(${BWAPI_UTIL_DIR})
 SET(BWAPI_UTIL_SRC
         ${BWAPI_ROOT}/Storm/storm.cpp
         ${BWAPI_ROOT}/Storm/storm.h
-        ${BWAPI_UTIL_DIR}/Util/clamp.h
+        ${BWAPI_UTIL_DIR}/Util/Clamp.h
         ${BWAPI_UTIL_DIR}/Util/Convenience.h
         ${BWAPI_UTIL_DIR}/Util/Exceptions.cpp
         ${BWAPI_UTIL_DIR}/Util/Exceptions.h
@@ -56,6 +56,7 @@ SET(BWAPI_UTIL_SRC
         ${BWAPI_UTIL_DIR}/Util/MemoryFrame.h
         ${BWAPI_UTIL_DIR}/Util/Mutex.cpp
         ${BWAPI_UTIL_DIR}/Util/Mutex.h
+        ${BWAPI_UTIL_DIR}/Util/Path.h
         ${BWAPI_UTIL_DIR}/Util/RemoteProcess.cpp
         ${BWAPI_UTIL_DIR}/Util/RemoteProcess.h
         ${BWAPI_UTIL_DIR}/Util/RemoteProcessID.h
@@ -64,6 +65,7 @@ SET(BWAPI_UTIL_SRC
         ${BWAPI_UTIL_DIR}/Util/SharedMemory.cpp
         ${BWAPI_UTIL_DIR}/Util/SharedMemory.h
         ${BWAPI_UTIL_DIR}/Util/SharedStructure.h
+        ${BWAPI_UTIL_DIR}/Util/StringUtil.h
         ${BWAPI_UTIL_DIR}/Util/Types.h
         )
 SOURCE_GROUP("BWAPI/Util" FILES ${BWAPI_UTIL_SRC})
