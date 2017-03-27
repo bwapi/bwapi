@@ -508,7 +508,6 @@ namespace BWAPI
                                                               if ( newDistance < bestDistance )
                                                               {
                                                                 pBestUnit = u;
-                                                                // cppcheck-suppress unreadVariable
                                                                 bestDistance = newDistance;
                                                               }
                                                            } } );

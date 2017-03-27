@@ -102,7 +102,6 @@ namespace BW
           targets[targCount++] = UnitTarget(units[i]);
       }
     }
-    // cppcheck-suppress uninitMemberVar
     Select::Select(const std::vector<BWAPI::Unit>& units)
       : Select(static_cast<int>(units.size()), units.data())
     {
@@ -136,7 +135,6 @@ namespace BW
         break;
       }
     }
-    // cppcheck-suppress uninitMemberVar
     MakeBuilding::MakeBuilding(int tileX, int tileY, BWAPI::UnitType type)
       : MakeBuilding(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
@@ -147,7 +145,6 @@ namespace BW
         , type(static_cast<u16>(type))
     {
     }
-    // cppcheck-suppress uninitMemberVar
     PlaceCOP::PlaceCOP(int x, int y, BWAPI::UnitType type)
       : PlaceCOP(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {
@@ -168,7 +165,6 @@ namespace BW
         , type(static_cast<u16>(type))
     {
     }
-    // cppcheck-suppress uninitMemberVar
     MakeAddon::MakeAddon(int tileX, int tileY, BWAPI::UnitType type)
       : MakeAddon(BW::TilePosition(static_cast<s16>(tileX), static_cast<s16>(tileY)), type)
     {
@@ -227,7 +223,6 @@ namespace BW
         , type(static_cast<u16>(type))
     {
     }
-    // cppcheck-suppress uninitMemberVar
     Land::Land(int x, int y, BWAPI::UnitType type)
       : Land(BW::TilePosition(static_cast<s16>(x), static_cast<s16>(y)), type)
     {

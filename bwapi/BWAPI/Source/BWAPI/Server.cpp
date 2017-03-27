@@ -263,7 +263,7 @@ namespace BWAPI
     StrCopy(data->eventStrings[data->eventStringCount], text);
     return data->eventStringCount++;
   }
-  int Server::addEvent(BWAPI::Event e)
+  int Server::addEvent(const BWAPI::Event& e)
   {
     assert(data->eventCount < GameData::MAX_EVENTS);
     BWAPIC::Event* e2 = &(data->events[data->eventCount++]);

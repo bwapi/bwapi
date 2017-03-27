@@ -237,9 +237,7 @@ namespace BWAPILIBTest
       Assert::AreEqual(Position(0, 1), p2);
       Assert::AreEqual(Position(0, 1), p3);
 
-      // cppcheck-suppress zerodiv
       p2 = p1 / 0;
-      // cppcheck-suppress zerodiv
       p3 /= 0;
       Assert::AreEqual(Positions::Invalid, p2);
       Assert::AreEqual(Positions::Invalid, p3);
@@ -259,9 +257,7 @@ namespace BWAPILIBTest
       Assert::AreEqual(Position(1, 0), p2);
       Assert::AreEqual(Position(0, 0), p3);
 
-      // cppcheck-suppress zerodiv
       p2 = p1 % 0;
-      // cppcheck-suppress zerodiv
       p3 %= 0;
       Assert::AreEqual(Positions::Invalid, p2);
       Assert::AreEqual(Positions::Invalid, p3);

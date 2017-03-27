@@ -23,6 +23,7 @@ inline std::string to_upper_copy(const std::string& s) {
 }
 
 // Trims the left side of str, using predicate to decide trimming (while true)
+// cppcheck-suppress passedByValue
 inline void trim_left(std::string& str, std::function<bool(char)> pred) {
   auto it = str.begin();
   auto it_end = str.end();
@@ -35,6 +36,7 @@ inline void trim_left(std::string& str, std::function<bool(char)> pred) {
 }
 
 // Trims the right side of str, using pred to decide trimming (while true)
+// cppcheck-suppress passedByValue
 inline void trim_right(std::string& str, std::function<bool(char)> pred) {
   auto it = str.rbegin();
   auto it_end = str.rend();
@@ -48,6 +50,7 @@ inline void trim_right(std::string& str, std::function<bool(char)> pred) {
 
 // Trims left and right side of str, using predicate to check if the character
 // stays (false) or will be trimmed (true)
+// cppcheck-suppress passedByValue
 inline void trim(std::string& str, std::function<bool(char)> pred) {
   trim_left(str, pred);
   trim_right(str, pred);

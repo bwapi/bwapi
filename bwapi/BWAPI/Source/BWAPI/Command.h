@@ -8,6 +8,6 @@ namespace BWAPI
   class Command : public CommandTemp<BWAPI::UnitImpl,BWAPI::PlayerImpl>
   {
     public:
-      Command(UnitCommand command) : CommandTemp<BWAPI::UnitImpl,BWAPI::PlayerImpl>(command) {}
+      Command(const UnitCommand& command) : CommandTemp<BWAPI::UnitImpl,BWAPI::PlayerImpl>(command) {}
   };
 }
