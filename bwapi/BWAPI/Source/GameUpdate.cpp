@@ -1,6 +1,7 @@
 #include "GameImpl.h"
 
-#include <boost/filesystem.hpp>
+#include <Util/Path.h>
+#include <Util/StringUtil.h>
 
 #include "PlayerImpl.h"
 
@@ -16,7 +17,6 @@
 
 #include "../../../svnrev.h"
 #include "../../../Debug.h"
-#include <boost/algorithm/string/trim.hpp>
 
 using namespace BWAPI;
 
@@ -364,8 +364,8 @@ void GameImpl::initializeAIModule()
         std::getline(aiList, dll, ',');
 
       // trim whitespace outside quotations and then the quotations
-      boost::trim(dll);
-      boost::trim_if(dll, boost::is_any_of("\""));
+      Util::trim(dll, Util::is_whitespace_or_newline);
+      Util::trim(dll, [](char c) { return c == '"'; });
 
       hAIModule = LoadLibraryA(dll.c_str());
     }
@@ -400,7 +400,7 @@ void GameImpl::initializeAIModule()
         externalModuleConnected = true;
 
         // Strip the path from the module name
-        moduleName = boost::filesystem::path(dll).filename().string();
+        moduleName = Util::Path(dll).filename().string();
       }
       else  // If the AIModule function is not found
       {

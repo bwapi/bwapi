@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 #include <storm.h>
 
-#include <boost/algorithm/string.hpp>
+#include <Util/StringUtil.h>
 
 #include "Config.h"
 
@@ -41,7 +41,7 @@ DWORD getProcessCount(const char *pszProcName)
 //----------------------------- LOAD CONFIG FXNS ------------------------------------------
 std::string envKeyName(const char *pszKey, const char *pszItem)
 {
-  return "BWAPI_CONFIG_" + boost::to_upper_copy(std::string(pszKey)) + "__" + boost::to_upper_copy(std::string(pszItem));
+  return "BWAPI_CONFIG_" + Util::to_upper_copy(pszKey) + "__" + Util::to_upper_copy(pszItem);
 }
 std::string LoadConfigStringFromFile(const char *pszKey, const char *pszItem, const char *pszDefault)
 {
@@ -60,7 +60,7 @@ std::string LoadConfigString(const char *pszKey, const char *pszItem, const char
 // this version uppercase result string after loading, should be used for the most of enum-like strings
 std::string LoadConfigStringUCase (const char *pszKey, const char *pszItem, const char *pszDefault)
 {
-  return boost::to_upper_copy(LoadConfigString(pszKey, pszItem, pszDefault));
+  return Util::to_upper_copy(LoadConfigString(pszKey, pszItem, pszDefault));
 }
 int LoadConfigInt(const char *pszKey, const char *pszItem, const int iDefault)
 {

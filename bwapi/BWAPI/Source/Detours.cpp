@@ -5,7 +5,7 @@
 #include <cmath>
 #include <storm.h>
 
-#include <boost/filesystem.hpp>
+#include <Util/Path.h>
 
 #include "WMode.h"
 #include "DLLMain.h"
@@ -299,7 +299,7 @@ BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
   if ( !pszOutput )
     return FALSE;
 
-  boost::filesystem::path newScreenFilename(pszOutput);
+  Util::Path newScreenFilename(pszOutput);
 
   if ( !screenshotFmt.empty() ) // If an extension replacement was specified
     newScreenFilename.replace_extension(screenshotFmt);

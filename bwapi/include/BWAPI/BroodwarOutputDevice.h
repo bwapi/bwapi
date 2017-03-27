@@ -1,4 +1,6 @@
 #pragma once
+
+#if 0
 #include <BWAPI/Game.h>
 #include <sstream>
 #include <boost/circular_buffer.hpp>
@@ -83,3 +85,5 @@ namespace BWAPI
     }
   };
 }
+
+#endif // 0
