@@ -4,8 +4,8 @@
 
 #include <algorithm>
 #include <sstream>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string/trim.hpp>
+#include <Util/Path.h>
+#include <Util/StringUtil.h>
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
@@ -110,8 +110,8 @@ void AutoMenuManager::reloadConfig()
       std::getline(raceList, currentrace, ',');
 
   // trim whitespace outside quotations and then the quotations
-  boost::trim(currentrace);
-  boost::trim_if(currentrace, boost::is_any_of("\""));
+  Util::trim(currentrace, Util::is_whitespace_or_newline);
+  Util::trim(currentrace, [](char c) { return c == '"'; });
 
   this->autoMenuRace = currentrace;
 
@@ -495,7 +495,7 @@ const char* AutoMenuManager::interceptFindFirstFile(const char* lpFileName)
     lpFileName = lastMapGen.c_str();
 
     // Get the directory that the map is in
-    std::string directoryPath = boost::filesystem::path(installPath() + lastMapGen).parent_path().string();
+    std::string directoryPath = Util::Path(installPath() + lastMapGen).parent_path().string();
 
     // update map folder location
     SStrCopy(BW::BWDATA::CurrentMapFolder.data(), directoryPath.c_str(), MAX_PATH);

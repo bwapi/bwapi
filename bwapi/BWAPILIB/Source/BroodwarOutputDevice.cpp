@@ -1,3 +1,4 @@
+#if 0
 #include <BWAPI/BroodwarOutputDevice.h>
 
 namespace BWAPI
@@ -33,3 +34,4 @@ namespace BWAPI
     7, 7, 7, 7, 7, 7,10, 6, 7, 7, 7, 7, 4, 3, 5, 5, 7, 6, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 7, 7, 7,
   };
 }
+#endif // 0

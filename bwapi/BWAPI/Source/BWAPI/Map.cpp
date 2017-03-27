@@ -4,8 +4,7 @@
 #include <memory>
 #include <Util/Sha1.h>
 
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
+#include <Util/Path.h>
 
 #include "../DLLMain.h"
 #include "../Config.h"
@@ -36,13 +35,17 @@ namespace BWAPI
   std::string Map::getPathName()
   {
     std::string mapPath( BW::BWDATA::Game.mapFileName );
-    boost::erase_first(mapPath, installPath());     // Remove the install path to create a relative path
+
+    // If the install path is included in the map path, remove it, creating a relative path
+    if (!installPath().empty() && mapPath.compare(0, installPath().length(), installPath()) == 0)
+      mapPath.erase(0, installPath().length());
+
     return mapPath;
   }
   //---------------------------------------------- GET FILE NAME ---------------------------------------------
   std::string Map::getFileName()
   {
-    boost::filesystem::path mapPath( BW::BWDATA::Game.mapFileName );
+    Util::Path mapPath( BW::BWDATA::Game.mapFileName );
     return mapPath.filename().string();
   }
   //------------------------------------------------ GET NAME ------------------------------------------------
