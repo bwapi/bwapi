@@ -56,8 +56,8 @@
       <HintPath>..\packages\Fasm.NET.1.70.03.2\lib\Fasm.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MemorySharp">
-      <HintPath>..\packages\MemorySharp.1.1.0\lib\MemorySharp.dll</HintPath>
+    <Reference Include="MemorySharp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MemorySharp.1.2.0\lib\MemorySharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

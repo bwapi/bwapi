@@ -15,6 +15,7 @@ cppcheck.xml
 TestResults
 *.VC.db
 *.VC.opendb
+.vs
 
 Release_Binary/AIModuleLoader
 Release_Binary/Chaoslauncher/Plugins/BWAPI_*

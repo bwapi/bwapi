@@ -2,19 +2,23 @@
 
 #include <functional>
 #include <algorithm>
-#include <ctype.h>
+#include <cctype>
 
 namespace Util {
 
 inline std::string to_lower_copy(const std::string& s) {
   std::string result(s);
-  std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  std::transform(result.begin(), result.end(), result.begin(),
+    [](std::string::const_reference c) { return static_cast<char>(std::tolower(c)); }
+  );
   return result;
 }
 
 inline std::string to_upper_copy(const std::string& s) {
   std::string result(s);
-  std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+  std::transform(result.begin(), result.end(), result.begin(),
+    [](std::string::const_reference c) { return static_cast<char>(std::toupper(c)); }
+  );
   return result;
 }
 

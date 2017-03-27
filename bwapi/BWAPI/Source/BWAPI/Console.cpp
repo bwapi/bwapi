@@ -1,11 +1,11 @@
 #include "Console.h"
 #include <iostream>
 
-#pragma warning(push)
-#pragma warning(disable: 4127) //conditional expression is constant
-#pragma warning(disable: 4702) //unreachable code
-#include <boost/iostreams/filtering_streambuf.hpp>
-#pragma warning(pop)
+//#pragma warning(push)
+//#pragma warning(disable: 4127) //conditional expression is constant
+//#pragma warning(disable: 4702) //unreachable code
+//#include <boost/iostreams/filtering_streambuf.hpp>
+//#pragma warning(pop)
 
 #include <windows.h>
 #include <io.h>
@@ -15,6 +15,7 @@
 
 namespace BWAPI
 {
+#if 0
   namespace io = boost::iostreams;
 
   class OpenConsoleFilter : public io::multichar_dual_use_filter
@@ -42,8 +43,7 @@ namespace BWAPI
     }
   };
   BOOST_IOSTREAMS_PIPABLE(OpenConsoleFilter, 0)
-
-
+#endif
 
   bool openConsole(bool attach, bool alloc)
   {
@@ -64,6 +64,7 @@ namespace BWAPI
   {
     // putting cin in a filtering_ostreambuf makes it stop responding directly on Enter keypresses, and instead
     // you need to press Ctrl+C the same amount of times as the number of elements in the filter chain.
+    /*
     static std::streambuf& orig_cout_buf(*std::cout.rdbuf());
     static std::streambuf& orig_cerr_buf(*std::cerr.rdbuf());
     static std::unique_ptr<io::filtering_ostreambuf> auto_cout_buf;
@@ -72,5 +73,6 @@ namespace BWAPI
     auto_cerr_buf = std::make_unique<io::filtering_ostreambuf>(OpenConsoleFilter(attach, alloc) | boost::ref(orig_cerr_buf));
     std::cout.rdbuf(auto_cout_buf.get());
     std::cerr.rdbuf(auto_cerr_buf.get());
+    */
   }
 }

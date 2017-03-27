@@ -150,7 +150,7 @@ void GameImpl::update()
   {
     this->bTournamentMessageAppeared = true;
     this->isTournamentCall = true;
-    sendText("%s", getTournamentString());
+    sendText("%s", getTournamentString().c_str());
     if ( this->tournamentController )
       this->tournamentController->onFirstAdvertisement();
     this->isTournamentCall = false;
