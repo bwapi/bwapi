@@ -59,7 +59,7 @@ void MicroTest::onFrame()
   {
     if (maxCoolDown == 0)
     {
-      for (std::pair<Unit ,Unitset > p : targetGetAttackers)
+      for (std::pair<Unit, Unitset> p : targetGetAttackers)
       {
         Unit e = p.first;
         for (Unit s : p.second)

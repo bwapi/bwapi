@@ -71,7 +71,7 @@ namespace BWAPI
   bool Event::operator==(const Event& other) const
   {
     return std::tie(type, position, unit, player, winner) == std::tie(other.type, other.position, other.unit, other.player, other.winner)
-           && ((text==nullptr && other.text==nullptr) || (text!=nullptr && other.text!=nullptr && *text == *other.text));
+           && ((text == nullptr && other.text == nullptr) || (text != nullptr && other.text != nullptr && *text == *other.text));
   }
   Event Event::MatchStart()
   {
