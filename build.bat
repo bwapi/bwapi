@@ -21,7 +21,7 @@ if defined APPVEYOR (
 
 :: Build BWAPI's full stack
 cd bwapi
-nuget restore
+::nuget restore
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
 msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target bwapi.sln

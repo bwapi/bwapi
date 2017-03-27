@@ -46,7 +46,9 @@ namespace BWAPI
         n.erase( std::remove_if(n.begin(), n.end(), [](char const &c){ return isspace(c) || c == '_'; }), n.end() );
 
         // Make lowercase
-        std::transform (n.begin (), n.end (), n.begin (), ::tolower);
+        std::transform(n.begin(), n.end(), n.begin(), 
+          [](std::string::const_reference c) { return static_cast<char>(std::tolower(c)); }
+        );
 
         result.insert( typename typeMapT::value_type(n, T(i)) );
       }
@@ -145,7 +147,9 @@ namespace BWAPI
       name.erase( std::remove_if(name.begin(), name.end(), [](char const &c){ return isspace(c) || c == '_'; }), name.end() );
 
       // Make lowercase
-      std::transform (name.begin (), name.end (), name.begin (), ::tolower);
+      std::transform(name.begin(), name.end(), name.begin(),
+        [](std::string::const_reference c) { return static_cast<char>(std::tolower(c)); }
+      );
 
       // Find the type
       auto it = typeMap.find(name);
