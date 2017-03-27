@@ -55,6 +55,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -65,6 +66,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -76,15 +78,18 @@
     <ClCompile Include="Source\Util\SharedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Util\Clamp.h" />
     <ClInclude Include="Source\Util\Convenience.h" />
     <ClInclude Include="Source\Util\Exceptions.h" />
     <ClInclude Include="Source\Util\MemoryFrame.h" />
     <ClInclude Include="Source\Util\Mutex.h" />
+    <ClInclude Include="Source\Util\Path.h" />
     <ClInclude Include="Source\Util\RemoteProcess.h" />
     <ClInclude Include="Source\Util\RemoteProcessID.h" />
     <ClInclude Include="Source\Util\Sha1.h" />
     <ClInclude Include="Source\Util\SharedMemory.h" />
     <ClInclude Include="Source\Util\SharedStructure.h" />
+    <ClInclude Include="Source\Util\StringUtil.h" />
     <ClInclude Include="Source\Util\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
