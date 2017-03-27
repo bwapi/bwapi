@@ -13,24 +13,20 @@ namespace BWAPI
   class CommandTemp
   {
   public :
-    CommandTemp(UnitCommand command);
+    CommandTemp(const UnitCommand& command);
     void execute(int frame);
   protected:
     virtual ~CommandTemp() {};
   private :
-    int getUnitID(Unit unit);
+    static int getUnitID(Unit unit);
     UnitCommand command;
-    int savedExtra;
-    int savedExtra2;
-    PlayerImpl* player;
+    int savedExtra = -1;
+    int savedExtra2 = -1;
+    PlayerImpl* player = nullptr;
   };
   template <class UnitImpl, class PlayerImpl>
-  CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(UnitCommand command) : command(command)
-  {
-    savedExtra  = -1;
-    savedExtra2 = -1;
-    player      = nullptr;
-  }
+  CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(const UnitCommand& command) : command(command)
+  {}
   template <class UnitImpl, class PlayerImpl>
   int CommandTemp<UnitImpl, PlayerImpl>::getUnitID(Unit unit)
   {

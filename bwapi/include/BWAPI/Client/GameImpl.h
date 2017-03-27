@@ -65,7 +65,7 @@ namespace BWAPI
       Playerset _enemies;
       Playerset _observers;
       mutable Error lastError;
-      Text::Size::Enum textSize;
+      Text::Size::Enum textSize = Text::Size::Default;
 
     public :
       Event makeEvent(BWAPIC::Event e);

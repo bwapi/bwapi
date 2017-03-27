@@ -75,7 +75,7 @@ namespace Util
   //----------------------- IS EMPTY -----------------------------------
   bool MemoryFrame::isEmpty() const
   {
-    return this->frameSize <= 0;
+    return this->frameSize == 0;
   }
   //----------------------- IS MULTIPLE OF -----------------------------
   bool MemoryFrame::isMultipleOf(unsigned int bytes) const
