@@ -399,8 +399,7 @@ namespace BWAPI
       pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(),
                                    [](char c) {
                                      return iscntrl(reinterpret_cast<unsigned char&>(c)) || c == '?' || c == '*' ||
-                                         c == '<' || c == '|' || c == '>' || c == '"' ||
-                                         c == ':';
+                                         c == '<' || c == '|' || c == '>' || c == '"';
                                    }), pathStr.end());
 
       Util::Path parent_p = Util::Path(pathStr).parent_path();
