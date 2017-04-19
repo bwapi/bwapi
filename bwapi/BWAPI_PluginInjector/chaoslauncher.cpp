@@ -17,7 +17,7 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 {
   //BWL Gets version from Resource - VersionInfo
   Data.iPluginAPI      = 4;
-  Data.iStarCraftBuild = -1;
+  Data.iStarCraftBuild = 13;
   Data.bConfigDialog   = TRUE;
   Data.bNotSCBWmodule  = FALSE;
 }
