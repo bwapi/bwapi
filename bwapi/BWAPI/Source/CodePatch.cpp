@@ -50,9 +50,6 @@ void ApplyCodePatches()
   _CreateWindowExAOld      = HackUtil::PatchImport("user32.dll", "CreateWindowExA", &_CreateWindowEx);
   
   // Other Detours
-  _DeleteFileAOld        = HackUtil::PatchImport("kernel32.dll", "DeleteFileA", &_DeleteFile);
-  _GetFileAttributesAOld = HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
-  _CreateFileAOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
   _FindFirstFileAOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
   _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
   _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEventA", &_CreateEvent);

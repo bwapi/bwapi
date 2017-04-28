@@ -30,9 +30,6 @@ void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);
 
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData);
-BOOL   WINAPI _DeleteFile(LPCSTR lpFileName);
-DWORD  WINAPI _GetFileAttributes(LPCSTR lpFileName);
-HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
 HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
@@ -41,7 +38,6 @@ LPSTR WINAPI _GetCommandLineA();
 
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
-extern std::string gDesiredReplayName;
 
 extern DECL_OLDFXN(SNetLeaveGame);
 extern DECL_OLDFXN(SStrCopy);
@@ -51,9 +47,6 @@ extern DECL_OLDFXN(SFileOpenFile);
 extern DECL_OLDFXN(SMemAlloc);
 extern DECL_OLDFXN(SNetSendTurn);
 extern DECL_OLDFXN(FindFirstFileA);
-extern DECL_OLDFXN(DeleteFileA);
-extern DECL_OLDFXN(GetFileAttributesA);
-extern DECL_OLDFXN(CreateFileA);
 extern DECL_OLDFXN(CreateWindowExA);
 extern DECL_OLDFXN(CreateThread);
 extern DECL_OLDFXN(CreateEventA);
