@@ -97,16 +97,6 @@ namespace BW
       std::array<Font*, 4> IS_REF(FontBase, 0x006CE0F4);    // Can be worked around
       Bitmap IS_REF(GameScreenBuffer, 0x006CEFF0);
 
-      // Direct draw hacks
-      std::array<PALETTEENTRY, 256> IS_REF(GamePalette, 0x006CE320);
-      LPDIRECTDRAW IS_REF(DDInterface, 0x006D5E08);
-      LPDIRECTDRAWPALETTE IS_REF(PrimaryPalette, 0x006D5E0C);
-      LPDIRECTDRAWSURFACE IS_REF(PrimarySurface, 0x006D5E00);
-      LPDIRECTDRAWSURFACE IS_REF(BackSurface, 0x006D5E10);
-
-      static void(__cdecl * const BWFXN_DDrawDestroy)() = (void(__cdecl*)())0x0041D8B0;
-      const u32 DDrawInitCallPatch = 0x004DB0A2;
-
       std::array<layer, 8> IS_REF(ScreenLayers, 0x006CEF50);
 
       // Unit and CList offsets

@@ -7,9 +7,7 @@
 
 #include <Util/Path.h>
 
-#include "WMode.h"
 #include "DLLMain.h"
-#include "Resolution.h"
 #include "Thread.h"
 #include "Config.h"
 #include "NewHackUtil.h"
@@ -38,7 +36,6 @@ DECL_OLDFXN(SFileOpenFileEx);
 DECL_OLDFXN(SFileOpenFile);
 DECL_OLDFXN(SMemAlloc);
 DECL_OLDFXN(SNetSendTurn);
-DECL_OLDFXN(SDrawCaptureScreen);
 DECL_OLDFXN(FindFirstFileA);
 DECL_OLDFXN(DeleteFileA);
 DECL_OLDFXN(GetFileAttributesA);
@@ -169,23 +166,7 @@ HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwS
   return rval;
 }
 
-//------------------------------------------------ SLEEP ----------------------------------------------------
-VOID WINAPI _Sleep(DWORD dwMilliseconds)
-{
-  if ( dwMilliseconds == 1500 ) // Main menu timer
-    return;
-
-  auto SleepProc = _SleepOld ? _SleepOld : &Sleep;
-  SleepProc(dwMilliseconds);
-}
-
-//------------------------------------------- DIRECT DRAW INIT -----------------------------------------------
-void DDInit()
-{
-  DDrawInitialize(640, 480);
-}
 //--------------------------------------------- CREATE WINDOW ------------------------------------------------
-bool detourCreateWindow = false;
 HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
 {
   auto CreateWindowExProc = _CreateWindowExAOld ? _CreateWindowExAOld : &CreateWindowExA;
@@ -197,39 +178,7 @@ HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindow
     if (gdwProcNum > 1)
       newWindowName += " Instance " + std::to_string(gdwProcNum);
 
-    detourCreateWindow = true;
-    if ( switchToWMode )
-    {
-#ifndef SHADOW_BROODWAR
-      if (isCorrectVersion)
-      {
-        HackUtil::CallPatch(BW::BWDATA::DDrawInitCallPatch, &DDInit);
-      }
-#endif
-      hWndReturn = CreateWindowExProc(dwExStyle,
-                                        lpClassName,
-                                        newWindowName.c_str(),
-                                        dwStyle | WS_OVERLAPPEDWINDOW,
-                                        windowRect.left,
-                                        windowRect.top,
-                                        windowRect.right,
-                                        windowRect.bottom,
-                                        hWndParent,
-                                        hMenu,
-                                        hInstance,
-                                        lpParam);
-      ghMainWnd = hWndReturn;
-      SetWMode(windowRect.right, windowRect.bottom, true);
-    }
-    else
-    {
-      hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-      ghMainWnd = hWndReturn;
-    }
-    switchToWMode = false;
-    // Obtain/hack WndProc
-    wOriginalProc = (WNDPROC)GetWindowLong(hWndReturn, GWLP_WNDPROC);
-    SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
+    hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
   }
   else
   {
@@ -293,36 +242,6 @@ HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShar
   auto CreateFileProc = _CreateFileAOld ? _CreateFileAOld : &CreateFileA;
   return CreateFileProc( getReplayName(fileName).c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
-//--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
-BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
-{
-  if ( !pszOutput )
-    return FALSE;
-
-  Util::Path newScreenFilename(pszOutput);
-
-  if ( !screenshotFmt.empty() ) // If an extension replacement was specified
-    newScreenFilename.replace_extension(screenshotFmt);
-
-  // Save the screenshot in w-mode
-  if ( wmode && pBits && isCorrectVersion )
-  {
-    // Create compatible palette
-    PALETTEENTRY pal[256];
-    for ( int i = 0; i < 256; ++i )
-    {
-      pal[i].peRed    = wmodebmp.bmiColors[i].rgbRed;
-      pal[i].peGreen  = wmodebmp.bmiColors[i].rgbGreen;
-      pal[i].peBlue   = wmodebmp.bmiColors[i].rgbBlue;
-      pal[i].peFlags  = 0;
-    }
-    return SBmpSaveImage(newScreenFilename.string().c_str(), pal, pBits, BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height());
-  }
-  // Call the old fxn
-  auto SDrawCaptureScreenProc = _SDrawCaptureScreenOld ? _SDrawCaptureScreenOld : &SDrawCaptureScreen;
-  return SDrawCaptureScreenProc(newScreenFilename.string().c_str());
-}
-
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {
@@ -399,9 +318,6 @@ void __stdcall DrawHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
 
   if ( BW::BWDATA::GameScreenBuffer.isValid() )
   {
-    //if ( gdwHoliday )
-      //DrawHoliday();
-
     if (BWAPI::BroodwarImpl.drawShapes())
     {
       wantRefresh = true;
@@ -423,13 +339,6 @@ void __stdcall DrawDialogHook(BW::Bitmap *pSurface, BW::bounds *pBounds)
     BW::dialog *dropbtn = timeout->findIndex(2);
     if ( !dropbtn->isDisabled() && BWAPI::BroodwarImpl.wantDropPlayers )
       BWAPI::BroodwarImpl.dropPlayers();
-  }
-
-  // WMODE config option
-  if ( switchToWMode && ghMainWnd )
-  {
-    switchToWMode = false;
-    SetWMode(windowRect.right, windowRect.bottom, true);
   }
 
   //click the menu dialog that pops up when you win/lose a game

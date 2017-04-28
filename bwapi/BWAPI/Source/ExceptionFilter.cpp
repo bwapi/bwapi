@@ -14,7 +14,6 @@
 
 #include "Config.h"
 #include "NewHackUtil.h"
-#include "Resolution.h"
 
 BOOL  (WINAPI *_SymInitialize)(HANDLE hProcess,PCSTR UserSearchPath,BOOL fInvadeProcess);
 DWORD (WINAPI *_SymSetOptions)(DWORD SymOptions);
@@ -85,7 +84,6 @@ void GetCurrentProductVersion(WORD &w1, WORD &w2, WORD &w3, WORD &w4)
 LONG WINAPI BWAPIExceptionFilter(EXCEPTION_POINTERS *ep)
 {
   // Destroy fullscreen mode and show the cursor (something the original doesn't do!)
-  DDrawDestroy();
   ShowCursor(TRUE);
 
   // Create the log file path

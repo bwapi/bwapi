@@ -129,12 +129,6 @@
     <ClInclude Include="Source\NewHackUtil.h">
       <Filter>Hacks\Header FIles</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Resolution.h">
-      <Filter>Hacks\Header FIles</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WMode.h">
-      <Filter>Hacks\Header FIles</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DLLMain.h" />
     <ClInclude Include="..\Shared\Templates.h">
       <Filter>BWAPI\Header Files</Filter>
@@ -361,12 +355,6 @@
       <Filter>Hacks\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\NewHackUtil.cpp">
-      <Filter>Hacks\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Resolution.cpp">
-      <Filter>Hacks\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WMode.cpp">
       <Filter>Hacks\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\DLLMain.cpp" />
