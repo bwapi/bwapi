@@ -388,7 +388,6 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
   auto SMemAllocProc = _SMemAllocOld ? _SMemAllocOld : &SMemAlloc;
   void *rval = SMemAllocProc(amount, logfilename, logline, defaultValue);
 
-#ifndef SHADOW_BROODWAR
   if ( isCorrectVersion )
   {
     if ( lastFile == "dlgs\\protoss.grp" ||
@@ -413,7 +412,6 @@ void *__stdcall _SMemAlloc(size_t amount, char *logfilename, int logline, char d
       }
     }
   } // isCorrectVer
-#endif
   return rval;
 }
 
