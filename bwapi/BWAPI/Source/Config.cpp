@@ -7,10 +7,6 @@
 
 #include "Config.h"
 
-#include "WMode.h"
-
-std::string screenshotFmt;
-
 bool isCorrectVersion = true;
 bool showWarn         = true;
 bool serverEnabled    = true;
@@ -91,11 +87,6 @@ void InitPrimaryConfig()
   isPrimaryConfigInitialized = true;
 
   // ------------------------- GENERAL/GLOBAL CONFIG OPTIONS ----------------------------------
-  // Get screenshot format
-  screenshotFmt = LoadConfigString("starcraft", "screenshots", "gif");
-  if ( !screenshotFmt.empty() )
-    screenshotFmt.insert(0, ".");
-
   // Check if warning dialogs should be shown
   showWarn = LoadConfigStringUCase("config", "show_warnings", "YES") == "YES";
 
@@ -104,20 +95,5 @@ void InitPrimaryConfig()
 
   // Get process count
   gdwProcNum = getProcessCount("StarCraft.exe");
-
-  // ------------------------- WMODE CONFIG OPTIONS ----------------------------------
-  // Load windowed mode position and fullscreen setting
-  windowRect.left   = LoadConfigInt("window", "left");
-  windowRect.top    = LoadConfigInt("window", "top");
-  windowRect.right  = LoadConfigInt("window", "width");
-  windowRect.bottom = LoadConfigInt("window", "height");
-  switchToWMode     = LoadConfigStringUCase("window", "windowed", "OFF") == "ON";
-
-  // Limit minimum w-mode size
-  if ( windowRect.right < WMODE_MIN_WIDTH )
-    windowRect.right = WMODE_MIN_WIDTH;
-  if ( windowRect.bottom < WMODE_MIN_HEIGHT )
-    windowRect.bottom = WMODE_MIN_HEIGHT;
-
 }
 

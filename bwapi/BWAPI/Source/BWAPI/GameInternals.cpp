@@ -2,10 +2,8 @@
 #include <vector>
 #include <string>
 
-#include "../WMode.h"
 #include "../Detours.h"
 #include "../DLLMain.h"
-#include "../Resolution.h"
 
 #include <BWAPI/BWtoBWAPI.h>
 #include <BWAPI/UnitImpl.h>
@@ -197,11 +195,6 @@ namespace BWAPI
     {
       setGUI(!data->hasGUI);
       Broodwar << "GUI: " << (data->hasGUI ? "enabled" : "disabled") << std::endl;
-    }
-    else if (cmd == "/wmode")
-    {
-      SetWMode(BW::BWDATA::GameScreenBuffer.width(), BW::BWDATA::GameScreenBuffer.height(), !wmode);
-      Broodwar << "Toggled windowed mode." << std::endl;
     }
     else if (cmd == "/grid")
     {

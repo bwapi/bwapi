@@ -298,9 +298,7 @@ popd</Command>
     <ClInclude Include="Source\ExceptionFilter.h" />
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\NewHackUtil.h" />
-    <ClInclude Include="Source\Resolution.h" />
     <ClInclude Include="Source\Thread.h" />
-    <ClInclude Include="Source\WMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Shared\BulletShared.cpp" />
@@ -356,9 +354,7 @@ popd</Command>
     <ClCompile Include="Source\GameUpdate.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\NewHackUtil.cpp" />
-    <ClCompile Include="Source\Resolution.cpp" />
     <ClCompile Include="Source\Thread.cpp" />
-    <ClCompile Include="Source\WMode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

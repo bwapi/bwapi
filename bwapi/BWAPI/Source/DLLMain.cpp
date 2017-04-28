@@ -21,7 +21,6 @@
 #include "Detours.h"
 #include "CodePatch.h"
 #include "Config.h"
-#include "WMode.h"
 #include "Console.h"
 
 #include "../../Debug.h"
@@ -175,23 +174,6 @@ DWORD WINAPI PersistentPatch(LPVOID)
       {
         BW::pOldDrawGameProc = BW::BWDATA::ScreenLayers[5].pUpdate;
         BW::BWDATA::ScreenLayers[5].pUpdate = DrawHook;
-      }
-    }
-
-    // Only grab this info if we are not currently detouring the CreateWindowEx procedure
-    if ( !detourCreateWindow )
-    {
-      if ( !ghMainWnd )
-        ghMainWnd = SDrawGetFrameWindow();
-
-      if ( ghMainWnd )
-      {
-        WNDPROC thisProc = (WNDPROC)GetWindowLong(ghMainWnd, GWLP_WNDPROC);
-        if ( thisProc != &WindowProc )
-        {
-          wOriginalProc = thisProc;
-          SetWindowLong(ghMainWnd, GWLP_WNDPROC, (LONG)&WindowProc);
-        }
       }
     }
 

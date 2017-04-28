@@ -29,14 +29,11 @@ BOOL  STORMAPI   _SNetSendTurn(char *data, unsigned int databytes);
 void  __fastcall CommandFilter(BYTE *buffer, DWORD length);
 void __stdcall ExecuteGameTriggers(DWORD dwMillisecondsPerFrame);
 
-BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput);
-
 HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileData);
 BOOL   WINAPI _DeleteFile(LPCSTR lpFileName);
 DWORD  WINAPI _GetFileAttributes(LPCSTR lpFileName);
 HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 HWND   WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
-VOID   WINAPI _Sleep(DWORD dwMilliseconds);
 HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
 HANDLE WINAPI _CreateEvent(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
 void WINAPI _GetSystemTimeAsFileTime(LPFILETIME lpSystemTimeAsFileTime);
@@ -45,7 +42,6 @@ LPSTR WINAPI _GetCommandLineA();
 extern DWORD lastTurnTime;
 extern DWORD lastTurnFrame;
 extern std::string gDesiredReplayName;
-extern bool detourCreateWindow;
 
 extern DECL_OLDFXN(SNetLeaveGame);
 extern DECL_OLDFXN(SStrCopy);
@@ -54,13 +50,11 @@ extern DECL_OLDFXN(SFileOpenFileEx);
 extern DECL_OLDFXN(SFileOpenFile);
 extern DECL_OLDFXN(SMemAlloc);
 extern DECL_OLDFXN(SNetSendTurn);
-extern DECL_OLDFXN(SDrawCaptureScreen);
 extern DECL_OLDFXN(FindFirstFileA);
 extern DECL_OLDFXN(DeleteFileA);
 extern DECL_OLDFXN(GetFileAttributesA);
 extern DECL_OLDFXN(CreateFileA);
 extern DECL_OLDFXN(CreateWindowExA);
-extern DECL_OLDFXN(Sleep);
 extern DECL_OLDFXN(CreateThread);
 extern DECL_OLDFXN(CreateEventA);
 extern DECL_OLDFXN(GetSystemTimeAsFileTime);

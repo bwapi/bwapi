@@ -5,8 +5,6 @@
 #include "BW/MenuPosition.h"
 #include "BWAPI/GameImpl.h"
 #include "Detours.h"
-#include "Resolution.h"
-#include "WMode.h"
 #include "Assembly.h"
 
 #include "Config.h"
@@ -36,7 +34,6 @@ void ApplyCodePatches()
     HackUtil::JmpPatch(BW::BWFXN_RefundGas4, &_refundGas4Hook);
     HackUtil::JmpPatch(BW::BWFXN_RefundMinAndGas5, &_refundMinAndGas5Hook);
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_QueueCommand, &CommandFilter);
-    HackUtil::JmpPatch(BW::BWDATA::BWFXN_DDrawDestroy, &DDrawDestroy);
     HackUtil::CallPatch(BW::BWFXN_RandomizeRacePatch, &_RandomizePlayerRaces);
     HackUtil::CallPatch(BW::BWFXN_InitPlayerConsolePatch, &_InitializePlayerConsole);
     
@@ -62,17 +59,10 @@ void ApplyCodePatches()
   _SNetSendTurnOld        = HackUtil::PatchImport("storm.dll", 128, &_SNetSendTurn);
   _SFileOpenFileOld       = HackUtil::PatchImport("storm.dll", 267, &_SFileOpenFile);
   _SFileOpenFileExOld     = HackUtil::PatchImport("storm.dll", 268, &_SFileOpenFileEx);
-  _SDrawCaptureScreenOld  = HackUtil::PatchImport("storm.dll", 342, &_SDrawCaptureScreen);
   _SMemAllocOld           = HackUtil::PatchImport("storm.dll", 401, &_SMemAlloc);
   _SStrCopyOld            = HackUtil::PatchImport("storm.dll", 501, &_SStrCopy);
   
   // wmode/drawing detours
-  _GetCursorPosOld         = HackUtil::PatchImport("user32.dll", "GetCursorPos", &_GetCursorPos);
-  _SetCursorPosOld         = HackUtil::PatchImport("user32.dll", "SetCursorPos", &_SetCursorPos);
-  _ClipCursorOld           = HackUtil::PatchImport("user32.dll", "ClipCursor", &_ClipCursor);
-  _SDrawLockSurfaceOld     = HackUtil::PatchImport("storm.dll", 350, &_SDrawLockSurface);
-  _SDrawUnlockSurfaceOld   = HackUtil::PatchImport("storm.dll", 356, &_SDrawUnlockSurface);
-  _SDrawUpdatePaletteOld   = HackUtil::PatchImport("storm.dll", 357, &_SDrawUpdatePalette);
   _CreateWindowExAOld      = HackUtil::PatchImport("user32.dll", "CreateWindowExA", &_CreateWindowEx);
   
   // Other Detours
@@ -80,7 +70,6 @@ void ApplyCodePatches()
   _GetFileAttributesAOld = HackUtil::PatchImport("kernel32.dll", "GetFileAttributesA", &_GetFileAttributes);
   _CreateFileAOld        = HackUtil::PatchImport("kernel32.dll", "CreateFileA", &_CreateFile);
   _FindFirstFileAOld     = HackUtil::PatchImport("kernel32.dll", "FindFirstFileA", &_FindFirstFile);
-  _SleepOld              = HackUtil::PatchImport("kernel32.dll", "Sleep", &_Sleep);
   _CreateThreadOld       = HackUtil::PatchImport("kernel32.dll", "CreateThread", &_CreateThread);
   _CreateEventAOld       = HackUtil::PatchImport("kernel32.dll", "CreateEventA", &_CreateEvent);
   _GetSystemTimeAsFileTimeOld = HackUtil::PatchImport("kernel32.dll", "GetSystemTimeAsFileTime", &_GetSystemTimeAsFileTime);
