@@ -103,7 +103,7 @@ void MorphTest::update()
   nextFrame++;
   Broodwar->setScreenPosition(producer->getPosition() - Position(320, 240));
 
-  int correctRemainingTrainTime = startFrame + Broodwar->getLatency() + unitType.buildTime()/10 - thisFrame + 1;
+  int correctRemainingTrainTime = startFrame + Broodwar->getLatencyFrames() + unitType.buildTime()/10 - thisFrame + 1;
   if (correctRemainingTrainTime > unitType.buildTime()/10)
     correctRemainingTrainTime = unitType.buildTime()/10;
   if (correctRemainingTrainTime < 0)
@@ -179,12 +179,12 @@ void MorphTest::update()
     FAILTEST(producer->getBuildUnit()==NULL);
     FAILTEST(producer->getRemainingTrainTime()==0);
     FAILTEST(producer->getRemainingBuildTime()==0);
-    if (thisFrame > startFrame + Broodwar->getLatency() + unitType.buildTime()/10 + 32)
+    if (thisFrame > startFrame + Broodwar->getLatencyFrames() + unitType.buildTime()/10 + 32)
       running = false;
     return;
   }
 
-  finishFrame = startFrame + Broodwar->getLatency() + unitType.buildTime()/10 + 18;
+  finishFrame = startFrame + Broodwar->getLatencyFrames() + unitType.buildTime()/10 + 18;
   if (producerType.isBuilding()) finishFrame-=10;
   if (producerType==UnitTypes::Zerg_Mutalisk || producerType==UnitTypes::Zerg_Hydralisk) finishFrame-=16;
   if (thisFrame>finishFrame) //terminate condition
@@ -228,7 +228,7 @@ void MorphTest::update()
   FAILTEST(producer->getRemainingTrainTime()==0);
 
   // @TODO: Workaround
-  if ( thisFrame >= startFrame + Broodwar->getLatency() + 5 )
+  if ( thisFrame >= startFrame + Broodwar->getLatencyFrames() + 5 )
   {
     BWAssertF(abs(producer->getRemainingBuildTime() - correctRemainingTrainTime) < 5,{log("%d %d %s",producer->getRemainingBuildTime(), correctRemainingTrainTime, producer->getType().c_str());});
   }

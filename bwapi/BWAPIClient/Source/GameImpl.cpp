@@ -397,11 +397,6 @@ namespace BWAPI
   {
     return GameType(data->gameType);
   }
-  //---------------------------------------------- GET LATENCY -----------------------------------------------
-  int GameImpl::getLatency() const
-  {
-    return data->latency;
-  }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int GameImpl::getFrameCount() const
   {

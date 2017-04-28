@@ -59,7 +59,6 @@ namespace BWAPI
     BWAPIC::Position nukeDots[200];
 
     int gameType;
-    int latency;
     int latencyFrames;
     int latencyTime;
     int remainingLatencyFrames;

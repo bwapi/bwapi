@@ -22,7 +22,7 @@ namespace BWAPI
   void GameImpl::applyLatencyCompensation()
   {
     //apply latency compensation
-    while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
+    while ((int)(this->commandBuffer.size()) > this->getLatencyFrames()+15)
     {
       for (unsigned int i = 0; i < this->commandBuffer.front().size(); ++i)
         delete this->commandBuffer.front()[i];

@@ -241,7 +241,7 @@ void BuildTest::update()
     FAILTEST(building->isBeingConstructed() == true);
     if (building->getType().getRace() == Races::Protoss)
     {
-      if (thisFrame>startFrame + Broodwar->getLatency() + unitType.buildTime()/10 + 67)
+      if (thisFrame>startFrame + Broodwar->getLatencyFrames() + unitType.buildTime()/10 + 67)
       {
         finishingBuilding = true;
         finishFrame = thisFrame;

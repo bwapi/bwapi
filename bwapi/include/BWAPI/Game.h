@@ -188,15 +188,6 @@ namespace BWAPI
     /// @see GameType
     virtual GameType getGameType() const = 0;
 
-    /// <summary>Retrieves the current latency setting that the game is set to.</summary> Latency
-    /// indicates the delay between issuing a command and having it processed.
-    ///
-    /// @returns The latency setting of the game, which is of Latency::Enum.
-    /// @see Latency::Enum
-    ///
-    /// @todo Change return type to Latency::Enum without breaking everything.
-    virtual int getLatency() const = 0;
-
     /// <summary>Retrieves the number of logical frames since the beginning of the match.</summary>
     /// If the game is paused, then getFrameCount will not increase.
     ///

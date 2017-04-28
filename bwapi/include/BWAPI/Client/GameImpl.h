@@ -100,7 +100,6 @@ namespace BWAPI
       virtual Region  getRegion(int regionID) const override;
 
       virtual GameType getGameType() const override;
-      virtual int getLatency() const override;
       virtual int getFrameCount() const override;
       virtual int getReplayFrameCount() const override;
       virtual int getFPS() const override;

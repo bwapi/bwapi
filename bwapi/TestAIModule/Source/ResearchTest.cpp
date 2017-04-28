@@ -80,14 +80,14 @@ void ResearchTest::update()
   BWAssertF(researcher!=NULL,{fail=true;return;});
   nextUpdateFrame++;
   Broodwar->setScreenPosition(researcher->getPosition() - Position(320,240));
-  int correctRemainingResearchTime = startResearchFrame + Broodwar->getLatency() + techType.researchTime()/10 - thisFrame;
+  int correctRemainingResearchTime = startResearchFrame + Broodwar->getLatencyFrames() + techType.researchTime()/10 - thisFrame;
   if (correctRemainingResearchTime > techType.researchTime()/10)
     correctRemainingResearchTime = techType.researchTime()/10;
   if (correctRemainingResearchTime < 0)
     correctRemainingResearchTime = 0;
 
   // @TODO: Workaround
-  if ( thisFrame <= startResearchFrame + Broodwar->getLatency() )
+  if ( thisFrame <= startResearchFrame + Broodwar->getLatencyFrames() )
   {
     BWAssertF(researcher->getRemainingResearchTime()/10 == correctRemainingResearchTime,{log("%d %d",researcher->getRemainingResearchTime()/10, correctRemainingResearchTime);});
   }
@@ -96,7 +96,7 @@ void ResearchTest::update()
     BWAssertF(researcher->getRemainingResearchTime() == correctRemainingResearchTime,{log("%d %d",researcher->getRemainingResearchTime(), correctRemainingResearchTime);});
   }
 
-  int lastFrame = startResearchFrame + Broodwar->getLatency() + techType.researchTime()/10;
+  int lastFrame = startResearchFrame + Broodwar->getLatencyFrames() + techType.researchTime()/10;
   if (thisFrame > lastFrame) //terminate condition
   {
     running = false;

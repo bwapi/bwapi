@@ -172,9 +172,6 @@
     <ClInclude Include="..\include\BWAPI\CoordinateType.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Latency.h">
-      <Filter>Enums</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Filters.h">
       <Filter>Filters</Filter>
     </ClInclude>

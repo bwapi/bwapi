@@ -70,8 +70,8 @@ namespace BW
         std::array<u32, NUM_SPEEDS> gameSpeedModifiers;
         std::array<u32, NUM_SPEEDS> altSpeedModifiers;
       };
-      GameSpeeds IS_REF(GameSpeedModifiers, 0x005124D8);   // mac: 0x0014BF3C
-      u32 IS_REF(GameSpeed, 0x006CDFD4);  // mac: 0x00228458
+      GameSpeeds IS_REF(GameSpeedModifiers, 0x005124D8);
+      u32 IS_REF(GameSpeed, 0x006CDFD4);
 
       std::array<u32, NUM_SPEEDS> IS_REF(LatencyFrames, 0x0051CE70);
       s32 IS_REF(FrameSkip, 0x005124D4);

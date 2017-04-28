@@ -207,11 +207,6 @@ namespace BWAPI
       Broodwar << "FPS display " << (showfps ? "enabled" : "disabled") << std::endl;
     }
 #ifdef _DEBUG
-    else if (cmd == "/latency")
-    {
-      Broodwar << "Latency: " << getLatency() << std::endl;
-      Broodwar << "New latency: " << getLatencyFrames() << " frames (" << getLatencyTime() << "ms)" << std::endl;
-    }
     else if (cmd == "/test")
     {
     }
