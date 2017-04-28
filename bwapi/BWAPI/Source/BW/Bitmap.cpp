@@ -15,16 +15,6 @@ namespace BW
     , data(static_cast<u8*>(pBuffer != nullptr ? pBuffer : SMAlloc(width*height)))
   {}
 
-  void Bitmap::resize(int width, int height)
-  {
-    if ( !this || width <= 0 || height <= 0 )
-      return;
-
-    this->wid   = static_cast<u16>(width);
-    this->ht    = static_cast<u16>(height);
-    this->data  = static_cast<u8*>(SMReAlloc(this->data, width*height));
-  }
-
   bool Bitmap::isValid() const
   {
     return this && this->data && this->wid > 0 && this->ht > 0;
@@ -49,69 +39,6 @@ namespace BW
     if ( this )
       return this->ht;
     return 0;
-  }
-
-  void Bitmap::blitBitmap(const Bitmap *pSrc, int x, int y)
-  {
-    for ( int iy = 0; iy < std::min(this->height()-y, pSrc->height()); ++iy )
-      memcpy(&this->data[(y + iy)*this->width() + x], &pSrc->data[iy*pSrc->width()], std::min(this->width(),pSrc->width()) );
-  }
-
-  void Bitmap::BlitGrpFrame(const grpFrame *pGrp, int x, int y)
-  {
-    if ( !this->isValid() || !pGrp )
-      return;
-
-    // Get pointers to grp frame data
-    WORD *pwLineData = (WORD*)pGrp->dataOffset;
-    BYTE *pbBase = (BYTE*)pGrp->dataOffset;
-    
-    // Set GRP offsets
-    x += pGrp->x;
-    y += pGrp->y;
-
-    int yOff = y;
-    for ( int i = 0; i < pGrp->hgt; ++i )
-    {
-      // Get pointer to current line's byte code data
-      BYTE *pData = &pbBase[ pwLineData[i] ];
-
-      int xOff = x;
-      int pxRemaining = pGrp->wid;
-      do
-      {
-        //BWAPI::Broodwar << "Reading" << std::endl;
-        BYTE op = *pData++;
-
-        if ( op & 0x80 )
-        {
-          op &= 0x7F;
-          pxRemaining -= op;
-          xOff += op;
-        }
-        else if ( op & 0x40 )
-        {
-          op &= 0xBF;
-          pxRemaining -= op;
-          BYTE px = *pData++;
-          while ( op-- )    // @TODO: optimize to memset
-            this->plot(xOff++, yOff, px);
-        }
-        else
-        {
-          pxRemaining -= op;
-          while ( op-- )
-            this->plot(xOff++, yOff, *pData++);
-        }
-      } while ( pxRemaining > 0 );
-      ++yOff;
-    } // for each line
-  }
-
-  void Bitmap::BlitGraphic(const grpHead *pGrp, int frame, int x, int y)
-  {
-    if ( 0 <= frame && pGrp && frame < pGrp->wFrames && this->isValid() )
-      this->BlitGrpFrame(&pGrp->frames[frame], x, y);
   }
 
   BYTE gbColorTable[] = { 
@@ -263,44 +190,6 @@ namespace BW
   {
     this->data[ x + y*this->width() ] = col;
   }
-  /*
-  void Bitmap::intersection(int& x1, int& y1, int x2, int y2) const
-  {
-    // Line clipping source: http://gamebub.com/cpp_algorithms.php#lineclip
-    if ( y2 != y1 )
-    {
-      if ( y1 >= this->height() )
-      {
-        x1 += (x2 - x1) * ((this->height()-1) - y1) / (y2 - y1);
-        y1 = this->height()-1;
-      }
-      else if ( y1 < 0 )
-      {
-        x1 += (x2 - x1) * (0 - y1) / (y2 - y1);
-        y1 = 0;
-      }
-    }
-    if ( x2 != x1 )
-    {
-      if ( x1 >= this->width() )
-      {
-        y1 += (y2 - y1) * ((this->width()-1) - x1) / (x2 - x1);
-        x1 = this->width()-1;
-      }
-      else if ( x1 < 0 )
-      {
-        y1 += (y2 - y1) * (0 - x1) / (x2 - x1);
-        x1 = 0;
-      }
-    }
-  }
-  void Bitmap::clipping(int& x1, int& y1, int& x2, int& y2) const
-  {
-    // Line clipping source: http://gamebub.com/cpp_algorithms.php#lineclip
-    intersection(x1, y1, x2, y2);
-    intersection(x2, y2, x1, y1);
-  }*/
-
   void Bitmap::drawLine(int x1, int y1, int x2, int y2, u8 color)
   {
     // If the line doesn't intersect this rect

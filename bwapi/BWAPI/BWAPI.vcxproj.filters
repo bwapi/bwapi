@@ -54,9 +54,6 @@
     <ClInclude Include="Source\BW\Pathing.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BW\PlayerID.h">
-      <Filter>BW\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\Position.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
@@ -172,16 +169,7 @@
     <ClInclude Include="Source\BW\MiniTileFlags.h">
       <Filter>BW\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BW\GroupFlags.h">
-      <Filter>BW\Enumerations</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BW\FlingyID.h">
-      <Filter>BW\Enumerations</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\CheatFlags.h">
-      <Filter>BW\Enumerations</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BW\BNETCommands.h">
       <Filter>BW\Enumerations</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BWAPI\Region.h">
@@ -189,9 +177,6 @@
     </ClInclude>
     <ClInclude Include="..\include\BWAPI\AIModule.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BW\AIController.h">
-      <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BWAPI.h">
       <Filter>Interface</Filter>
@@ -218,12 +203,6 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\BW\CSprite.h">
-      <Filter>BW\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BW\CThingy.h">
-      <Filter>BW\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BW\Render.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\BW\Bitmap.h">
@@ -379,22 +358,7 @@
     <ClCompile Include="Source\Thread.cpp">
       <Filter>Hacks\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BW\Target.cpp">
-      <Filter>BW\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BW\CUnit.cpp">
-      <Filter>BW\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BW\CImage.cpp">
-      <Filter>BW\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BW\CThingy.cpp">
-      <Filter>BW\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BW\CSprite.cpp">
-      <Filter>BW\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BW\Render.cpp">
       <Filter>BW\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\BW\Bitmap.cpp">

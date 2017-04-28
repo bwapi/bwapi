@@ -28,7 +28,6 @@ namespace BW
   class  CUnit;
   class  CSprite;
   class  CImage;
-  class  CThingy;
   class  CBullet;
   class  TileType;
   class  dialog;
