@@ -36,21 +36,6 @@ void ApplyCodePatches()
     HackUtil::JmpPatch(BW::BWDATA::BWFXN_QueueCommand, &CommandFilter);
     HackUtil::CallPatch(BW::BWFXN_RandomizeRacePatch, &_RandomizePlayerRaces);
     HackUtil::CallPatch(BW::BWFXN_InitPlayerConsolePatch, &_InitializePlayerConsole);
-    
-    // Perform code patches
-    char zero = 0;
-    HackUtil::WriteMem(BW::BWDATA::ServerMenuIn, &zero, 1);        // BNET Server menu in speed
-    HackUtil::WriteMem(BW::BWDATA::ServerMenuOut, &zero, 1);       // BNET Server menu out speed
-    HackUtil::WriteMem(BW::BWDATA::OpponentStartHack, &zero, 1);   // Start without an opponent
-    HackUtil::WriteNops(BW::BWDATA::SingleSpeedHack, 11);          // Use multiplayer speed setting instead
-                                                                  // of always setting speed to "Normal" in
-                                                                  // single player
-    // Write menu animation speed hack
-    for (auto &it : BW::BWDATA::commonSwishControllers) it.wType = 4;
-    for (auto &it : BW::BWDATA::gluCustmSwishController) it.wType = 4;
-    for (auto &it : BW::BWDATA::gluCmpgnSwishController) it.wType = 4;
-    for (auto &it : BW::BWDATA::gluScoreSwishController) it.wType = 4;
-    for (auto &it : BW::BWDATA::gluChatSwishController) it.wType = 4;
   }
   // ---------------------------------- VERSION INDEPENDENT --------------------------------------------------
   // Storm detours

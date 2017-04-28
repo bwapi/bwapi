@@ -59,18 +59,6 @@ namespace BW
       u32 IS_REF(ReplayVision, 0x006D0F18);
       u32 IS_REF(ReplayRevealAll, 0x006D0F1C);
 
-      // Code Patches
-      const u32 ServerMenuIn = 0x004DD5A2;
-      const u32 ServerMenuOut = 0x004DD5C9;
-      const u32 OpponentStartHack = 0x004B995D;
-      const u32 SingleSpeedHack = 0x004D99FB;
-
-      std::array<swishTimer, 43> IS_REF(commonSwishControllers, 0x005129EC);
-      std::array<swishTimer, 5> IS_REF(gluCustmSwishController, 0x0051A9F0);
-      std::array<swishTimer, 2> IS_REF(gluCmpgnSwishController, 0x00512B10);
-      std::array<swishTimer, 1> IS_REF(gluScoreSwishController, 0x0051A844);
-      std::array<swishTimer, 5> IS_REF(gluChatSwishController, 0x0051A490);
-
       // Command queue data
       u32 IS_REF(sgdwBytesInCmdQueue, 0x00654AA0);
       std::array<u8, TURN_BUFFER_SIZE> IS_REF(TurnBuffer, 0x00654880);
@@ -134,11 +122,6 @@ namespace BW
       // Selected units
       std::array<CUnit*, MAX_SELECTION_COUNT> IS_REF(ClientSelectionGroup, 0x00597208);
       u8 IS_REF(ClientSelectionCount, 0x0059723D);
-
-      // Inputs
-      std::array<void(__fastcall *)(dlgEvent*), BW_EVN_MAX> IS_REF(InputProcedures, 0x005968A0);
-      std::array<dialog*, BW_EVN_MAX> IS_REF(EventDialogs, 0x006D5E40);
-      u8 IS_REF(InputFlags, 0x006CDDC0);
 
       //
       u32 IS_REF(isGamePaused, 0x006509C4);
