@@ -24,8 +24,6 @@
 
 #include "../../Debug.h"
 
-std::string gDesiredReplayName;
-
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
 
@@ -37,9 +35,6 @@ DECL_OLDFXN(SFileOpenFile);
 DECL_OLDFXN(SMemAlloc);
 DECL_OLDFXN(SNetSendTurn);
 DECL_OLDFXN(FindFirstFileA);
-DECL_OLDFXN(DeleteFileA);
-DECL_OLDFXN(GetFileAttributesA);
-DECL_OLDFXN(CreateFileA);
 DECL_OLDFXN(CreateWindowExA);
 DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
@@ -194,53 +189,6 @@ HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileDat
 
   auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);
-}
-std::string &getReplayName(std::string &sInFilename)
-{
-  // If it's an automatic replay save
-  if ( sInFilename.find("LastReplay.rep") != std::string::npos )
-  {
-    // If we're replacing the name
-    if ( !gDesiredReplayName.empty() )
-      sInFilename = gDesiredReplayName;
-
-    // If we have multiple instances, so no write conflicts
-    if (gdwProcNum > 1)
-    {
-      // Add the instance number before .rep
-      std::stringstream ss;
-      ss << sInFilename.substr(0, sInFilename.find(".rep") );
-      ss << '[' << gdwProcNum << ']' << ".rep";
-      sInFilename = ss.str();
-    }
-  }
-  return sInFilename;
-}
-
-BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
-{
-  std::string fileName(lpFileName);
-
-  // call the original function
-  auto DeleteFileProc = _DeleteFileAOld ? _DeleteFileAOld : &DeleteFileA;
-  return DeleteFileProc( getReplayName(fileName).c_str() );
-}
-DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
-{
-  std::string fileName(lpFileName);
-
-  // call the original function
-  auto GetFileAttributesProc = _GetFileAttributesAOld ? _GetFileAttributesAOld : GetFileAttributesA;
-  return GetFileAttributesProc( getReplayName(fileName).c_str() );
-}
-HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
-{
-  std::string fileName(lpFileName);
-  // @TODO: Check for read/write attributes
-
-  // call the original function
-  auto CreateFileProc = _CreateFileAOld ? _CreateFileAOld : &CreateFileA;
-  return CreateFileProc( getReplayName(fileName).c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
