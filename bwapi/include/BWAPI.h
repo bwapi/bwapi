@@ -23,7 +23,6 @@
 #include <BWAPI/Game.h>
 #include <BWAPI/GameType.h>
 #include <BWAPI/Input.h>
-#include <BWAPI/Latency.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Playerset.h>

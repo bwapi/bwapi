@@ -53,7 +53,7 @@ namespace BWAPI
       player = static_cast<PlayerImpl*>(unit ? unit->getPlayer() : Broodwar->self());
 
     // Latency test
-    if (frame > Broodwar->getLatency() &&
+    if (frame > Broodwar->getLatencyFrames() &&
         command.type != UnitCommandTypes::Cancel_Construction &&
         command.type != UnitCommandTypes::Cancel_Train_Slot &&
         command.type != UnitCommandTypes::Cancel_Morph &&
@@ -133,7 +133,7 @@ namespace BWAPI
       if (savedExtra == -1)
         savedExtra = unit->self->buildType;
       unitType = UnitType(savedExtra);
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         player->self->minerals += (int)(unitType.mineralPrice() * 0.75);
         player->self->gas      += (int)(unitType.gasPrice()     * 0.75);
@@ -152,8 +152,8 @@ namespace BWAPI
       if (savedExtra2 == -1)
         savedExtra2 = unit->self->buildUnit;
       unitType = UnitType(savedExtra);
-      if ((frame > Broodwar->getLatency() + 1 && Broodwar->getLatency() == 2) || 
-          (frame > Broodwar->getLatency() + 2 && Broodwar->getLatency() > 2))
+      if ((frame > Broodwar->getLatencyFrames() + 1 && Broodwar->getLatencyFrames() == 2) || 
+          (frame > Broodwar->getLatencyFrames() + 2 && Broodwar->getLatencyFrames() > 2))
         return;
       if (unitType.getRace() == Races::Terran)
       {
@@ -166,13 +166,13 @@ namespace BWAPI
           builder->self->order          = Orders::ResetCollision;
         }
       }
-      if (frame > Broodwar->getLatency())
+      if (frame > Broodwar->getLatencyFrames())
         return;
       if (!unit->self->exists)
         return;
       unit->self->buildUnit = -1;
-      if ((frame < Broodwar->getLatency() && Broodwar->getLatency()==2) ||
-          (frame <=Broodwar->getLatency() && Broodwar->getLatency()>2))
+      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames()==2) ||
+          (frame <=Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames()>2))
       {
         player->self->minerals += (int)(unitType.mineralPrice() * 0.75);
         player->self->gas      += (int)(unitType.gasPrice()     * 0.75);
@@ -187,7 +187,7 @@ namespace BWAPI
         unit->self->isIdle     = true;
 
         UnitType whatBuilds = unitType.whatBuilds().first;
-        if (frame < Broodwar->getLatency())
+        if (frame < Broodwar->getLatencyFrames())
           player->self->supplyUsed[unitType.getRace()] += whatBuilds.supplyRequired();
 
         if (whatBuilds.isBuilding())
@@ -211,9 +211,9 @@ namespace BWAPI
       if (savedExtra == -1)
         savedExtra = unit->self->buildType;
       unitType = UnitType(savedExtra);
-      if (frame > Broodwar->getLatency() + 12)
+      if (frame > Broodwar->getLatencyFrames() + 12)
         return;
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         if (unitType.whatBuilds().first.isBuilding())
         {
@@ -226,7 +226,7 @@ namespace BWAPI
           player->self->gas      += unitType.gasPrice();
         }
       }
-      if (frame<=Broodwar->getLatency())
+      if (frame<=Broodwar->getLatencyFrames())
       {
         if (unitType.isTwoUnitsInOneEgg())
           player->self->supplyUsed[Races::Zerg] -= unitType.supplyRequired() * 2 - unitType.whatBuilds().first.supplyRequired();
@@ -257,7 +257,7 @@ namespace BWAPI
       unit->self->tech                  = TechTypes::None;
       unit->self->isIdle                = true;
       unit->self->remainingResearchTime = 0;
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         player->self->minerals += techType.mineralPrice();
         player->self->gas      += techType.gasPrice();
@@ -269,8 +269,8 @@ namespace BWAPI
         savedExtra = unit->self->trainingQueue[unit->self->trainingQueueCount - 1];
       if (savedExtra2 == -1)
         savedExtra2 = unit->self->buildUnit;
-      if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
+      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
       {
         unit->self->trainingQueueCount--;
         if (unit->self->trainingQueueCount < 0)
@@ -289,12 +289,12 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
     {
-      if (frame > Broodwar->getLatency() + 2)
+      if (frame > Broodwar->getLatencyFrames() + 2)
         return;
       if (savedExtra == -1)
         savedExtra = unit->self->trainingQueue[command.extra];
-      if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
+      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
       {
         for(int i = command.extra; i < 4; ++i)
           unit->self->trainingQueue[i] = unit->self->trainingQueue[i+1];
@@ -307,8 +307,8 @@ namespace BWAPI
       if (command.extra == 0)
       {
         unit->self->buildUnit = -1;
-        if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-            (frame <= Broodwar->getLatency()-1 && Broodwar->getLatency() > 2))
+        if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+            (frame <= Broodwar->getLatencyFrames()-1 && Broodwar->getLatencyFrames() > 2))
         {
           player->self->supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
         }
@@ -322,8 +322,8 @@ namespace BWAPI
         {
           unit->self->remainingTrainTime = UnitType(unit->self->trainingQueue[0]).buildTime();  // @TODO: fix to real build time
           player->self->supplyUsed[unit->getType().getRace()] += UnitType(unit->self->trainingQueue[0]).supplyRequired();
-          if ((frame == Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-              (frame == Broodwar->getLatency()+1 && Broodwar->getLatency() > 2) )
+          if ((frame == Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+              (frame == Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2) )
           {
             player->self->supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
           }
@@ -345,7 +345,7 @@ namespace BWAPI
       unit->self->isIdle               = true;
       unit->self->remainingUpgradeTime = 0;
 
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         player->self->minerals += upgradeType.mineralPrice(level+1);
         player->self->gas      += upgradeType.gasPrice(level+1);
@@ -354,7 +354,7 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Cloak)
     {
       unit->self->order = Orders::Cloak;
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
         unit->self->energy -= unit->getType().cloakingTech().energyCost();
     }
     else if (command.type == UnitCommandTypes::Decloak)
@@ -370,8 +370,8 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Gather)
     {
-      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
-          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
+          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
       {
         unit->self->target      = getUnitID(target);
         unit->self->isIdle      = false;
@@ -387,7 +387,7 @@ namespace BWAPI
     {
       if (savedExtra == -1)
         savedExtra = unit->self->buildUnit;
-      if (frame > Broodwar->getLatency())
+      if (frame > Broodwar->getLatencyFrames())
         return;
       UnitImpl* buildUnit = static_cast<UnitImpl*>( Broodwar->getUnit(savedExtra) );
       if ( buildUnit )
@@ -435,7 +435,7 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Morph)
     {
-      if (frame > Broodwar->getLatency()+1)
+      if (frame > Broodwar->getLatencyFrames()+1)
         return;
       unit->self->isMorphing     = true;
       unit->self->isConstructing = true;
@@ -444,7 +444,7 @@ namespace BWAPI
       unit->self->buildType      = unitType;
       if (unit->self->remainingBuildTime < 50)
         unit->self->remainingBuildTime = unitType.buildTime();  // @TODO: Fix to real build time
-      if (frame > Broodwar->getLatency())
+      if (frame > Broodwar->getLatencyFrames())
         return;
       if (unitType.isBuilding())
       {
@@ -456,7 +456,7 @@ namespace BWAPI
       else
       {
         unit->self->order = Orders::ZergUnitMorph;
-        if (frame < Broodwar->getLatency())
+        if (frame < Broodwar->getLatencyFrames())
         {
           player->self->minerals -= unitType.mineralPrice();
           player->self->gas      -= unitType.gasPrice();
@@ -509,7 +509,7 @@ namespace BWAPI
       unit->self->tech                  = techType;
       unit->self->isIdle                = false;
       unit->self->remainingResearchTime = techType.researchTime();  // @TODO: Fix to real time
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         player->self->minerals -= techType.mineralPrice();
         player->self->gas      -= techType.gasPrice();
@@ -520,8 +520,8 @@ namespace BWAPI
     {
       if (unit->self->carryResourceType == 0)
         return;
-      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
-          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
+          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
       {
         if (unit->isCarryingGas())
           unit->self->order = Orders::ReturnGas;
@@ -533,8 +533,8 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
-      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
-          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
+          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
       {
         unit->self->order           = Orders::Move;
         unit->self->targetPositionX = position.x;
@@ -604,8 +604,8 @@ namespace BWAPI
     }
     else if (command.type == UnitCommandTypes::Stop)
     {
-      if ((frame<=Broodwar->getLatency()   && Broodwar->getLatency()==2) ||
-          (frame<=Broodwar->getLatency()+1 && Broodwar->getLatency()>2))
+      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
+          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
       {
         unit->self->order  = Orders::Stop;
         unit->self->isIdle = true;
@@ -615,15 +615,15 @@ namespace BWAPI
     {
       if (savedExtra == -1)
         savedExtra = unit->self->trainingQueueCount;
-      if ((frame < Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame <= Broodwar->getLatency() && Broodwar->getLatency() > 2))
+      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+          (frame <= Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() > 2))
       {
         unit->self->trainingQueue[unit->self->trainingQueueCount++] = unitType;
         player->self->minerals -= unitType.mineralPrice();
         player->self->gas      -= unitType.gasPrice();
       }
-      if ((frame <= Broodwar->getLatency() && Broodwar->getLatency() == 2) ||
-          (frame <= Broodwar->getLatency()+1 && Broodwar->getLatency() > 2))
+      if ((frame <= Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
+          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
       {
         if (savedExtra == 0)
         {
@@ -631,7 +631,7 @@ namespace BWAPI
           player->self->supplyUsed[unitType.getRace()] += unitType.supplyRequired();
         }
       }
-      if (frame <= Broodwar->getLatency())
+      if (frame <= Broodwar->getLatencyFrames())
       {
         unit->self->isTraining = true;
         unit->self->isIdle     = false;
@@ -682,7 +682,7 @@ namespace BWAPI
       unit->self->isIdle  = false;
       int level           = unit->getPlayer()->getUpgradeLevel(upgradeType);
       unit->self->remainingUpgradeTime = upgradeType.upgradeTime(level+1);  // @TODO: Fix to real time
-      if (frame < Broodwar->getLatency())
+      if (frame < Broodwar->getLatencyFrames())
       {
         player->self->minerals -= upgradeType.mineralPrice(level+1);
         player->self->gas      -= upgradeType.gasPrice(level+1);

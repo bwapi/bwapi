@@ -83,14 +83,14 @@ void UpgradeTest::update()
   // NOTE: /15*15 is to account for the editor not displaying the real times
   int expectedUpgradeTime = (upgradeType.upgradeTime()/15/10*15) + (upgradeType.upgradeTimeFactor()/15/10*15) * (std::max(0,previousUpgradeLevel+1-1));
 
-  int correctRemainingUpgradeTime = startUpgradeFrame + Broodwar->getLatency() + expectedUpgradeTime - thisFrame;
+  int correctRemainingUpgradeTime = startUpgradeFrame + Broodwar->getLatencyFrames() + expectedUpgradeTime - thisFrame;
   if (correctRemainingUpgradeTime > expectedUpgradeTime)
     correctRemainingUpgradeTime = expectedUpgradeTime;
   if (correctRemainingUpgradeTime < 0)
     correctRemainingUpgradeTime = 0;
 
   // @TODO: Workaround
-  if ( thisFrame <= startUpgradeFrame + Broodwar->getLatency() )
+  if ( thisFrame <= startUpgradeFrame + Broodwar->getLatencyFrames() )
   {
     BWAssertF(upgrader->getRemainingUpgradeTime() == upgradeType.upgradeTime(previousUpgradeLevel+1),{log("%d %d",upgrader->getRemainingUpgradeTime(), upgradeType.upgradeTime(previousUpgradeLevel+1));});
   }
@@ -99,7 +99,7 @@ void UpgradeTest::update()
     BWAssertF(upgrader->getRemainingUpgradeTime() == correctRemainingUpgradeTime,{log("%d %d",upgrader->getRemainingUpgradeTime(), correctRemainingUpgradeTime);});
   }
 
-  int lastFrame = startUpgradeFrame+Broodwar->getLatency() + expectedUpgradeTime;
+  int lastFrame = startUpgradeFrame + Broodwar->getLatencyFrames() + expectedUpgradeTime;
   if (thisFrame>lastFrame) //terminate condition
   {
     running = false;

@@ -508,7 +508,6 @@ namespace BWAPI
     if (Broodwar->isInGame())
     {
       data->gameType  = Broodwar->getGameType();
-      data->latency   = Broodwar->getLatency();
       
       // Copy the mouse states
       for(int i = 0; i < M_MAX; ++i)

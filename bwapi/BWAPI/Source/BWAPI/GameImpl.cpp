@@ -28,7 +28,6 @@
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
-#include <BWAPI/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/CheatType.h>
@@ -84,42 +83,6 @@ namespace BWAPI
     if (isReplay())
       return GameTypes::None;
     return GameType(BW::BWDATA::gameType);
-  }
-  //---------------------------------------------- GET LATENCY -----------------------------------------------
-  int GameImpl::getLatency() const
-  {
-    // Returns the real latency values
-    if ( !this->isMultiplayer() )
-      return BWAPI::Latency::SinglePlayer;
-
-    if ( this->isBattleNet() )
-    {
-      switch(BW::BWDATA::Latency)
-      {
-        case 0:
-          return BWAPI::Latency::BattlenetLow;
-        case 1:
-          return BWAPI::Latency::BattlenetMedium;
-        case 2:
-          return BWAPI::Latency::BattlenetHigh;
-        default:
-          return BWAPI::Latency::BattlenetLow;
-      }
-    }
-    else
-    {
-      switch(BW::BWDATA::Latency)
-      {
-        case 0:
-          return BWAPI::Latency::LanLow;
-        case 1:
-          return BWAPI::Latency::LanMedium;
-        case 2:
-          return BWAPI::Latency::LanHigh;
-        default:
-          return BWAPI::Latency::LanLow;
-      }
-    }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int GameImpl::getFrameCount() const

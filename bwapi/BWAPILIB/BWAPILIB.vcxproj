@@ -218,7 +218,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "..\lib\BWAPILibd.pdb"
     <ClInclude Include="..\include\BWAPI\Filters.h" />
     <ClInclude Include="..\include\BWAPI\Forceset.h" />
     <ClInclude Include="..\include\BWAPI\InterfaceEvent.h" />
-    <ClInclude Include="..\include\BWAPI\Latency.h" />
     <ClInclude Include="..\include\BWAPI\Playerset.h" />
     <ClInclude Include="..\include\BWAPI\Regionset.h" />
     <ClInclude Include="..\include\BWAPI\SetContainer.h" />
