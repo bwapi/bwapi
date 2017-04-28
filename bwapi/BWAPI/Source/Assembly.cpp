@@ -6,7 +6,6 @@
 // PLEASE LOOK AWAY. THIS IS SO BAD AND GROSS AND DISGUSTING AND SHAMEFUL. TURN AWAY NOW WHILE YOU STILL CAN.
 // TODO Get rid of this somehow.
 
-#ifndef SHADOW_BROODWAR
 unsigned d_eaxSave, d_ebxSave, d_ecxSave, d_edxSave, d_esiSave, d_ediSave, d_espSave, d_ebpSave;
 
 #define SAVE_REGISTERS() __asm {  __asm mov d_eaxSave, eax  \
@@ -169,4 +168,3 @@ void __declspec(naked) _refundMinAndGas5Hook()
 }
 
 #pragma warning( default: 4740 )
-#endif
