@@ -131,9 +131,6 @@ namespace BW
     typedef void __fastcall FnUpdate(dialog* dlg, int x, int y, rect* dst);
     typedef void __fastcall FnDrawItem(dialog* dlg, u8 selectedIndex, rect* dstRect, int x, int y);
 
-    //dialog(u16 ctrlType, short index, const char *text, u16 left, u16 top, u16 width, u16 height = 0, FnInteract* pfInteract = nullptr);
-    //~dialog();
-
     // global functions
     dialog  *findIndex(short wIndex);         // Searches for a control that matches the specified index
     dialog  *findDialog(const char *pszName); // Searches for a dialog that matches the name specified

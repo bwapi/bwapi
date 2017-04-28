@@ -62,12 +62,6 @@ namespace BW
   class CImage
   {
   public:
-    void updateGraphicData();
-    void drawImage();
-    
-    grpFrame      *getCurrentFrame() const;
-    BW::Position  getPosition() const;
-
     /*0x00*/ CImage*      prev;
     /*0x04*/ CImage*      next;
     /*0x08*/ u16          imageID;        // officially "uwNo"

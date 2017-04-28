@@ -36,7 +36,6 @@ namespace BW
     /*0x1C*/ CImage*    pImageHead;       // official
     /*0x20*/ CImage*    pImageTail;       // official
 
-    void draw();
     ////////////////////////////////////////////////////////////////////
     // Official Broodwar methods (from beta), ignore these
     /*
