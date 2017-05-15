@@ -64,10 +64,9 @@ namespace BWAPI
     return self->exists;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
-  bool BulletImpl::isVisible(BWAPI::Player player) const
+  bool BulletImpl::isVisible(const BWAPI::Player player_arg) const
   {
-    if ( player == nullptr )  // Default to self
-      player = Broodwar->self();
+    const BWAPI::Player player = player_arg ? player_arg : Broodwar->self(); // Default to self
 
     if ( player != nullptr ) // Only if player is valid
     {

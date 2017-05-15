@@ -28,6 +28,6 @@ namespace BWAPI
       virtual Unit getTarget() const override;
       virtual Position getTargetPosition() const override;
       virtual int getRemoveTimer() const override;
-      virtual bool isVisible(Player player = nullptr) const override;
+      virtual bool isVisible(const Player player = nullptr) const override;
   };
 }

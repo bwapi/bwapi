@@ -164,6 +164,6 @@ namespace BWAPI
     ///
     /// @retval true If the Bullet is visible to the specified player.
     /// @retval false If the Bullet is not visible to the specified player.
-    virtual bool isVisible(Player player = nullptr) const = 0;
+    virtual bool isVisible(const Player player = nullptr) const = 0;
   };
 }
