@@ -19,8 +19,9 @@ inline void StrTerminate(char (&str)[N])
 template <size_t N>
 inline void StrCopy(char (&dst)[N], const char *src)
 {
-  strncpy(dst, src, N - 1);
-  StrTerminate(dst);
+  auto src_end = std::find(src, src + N-1, '\0');
+  auto tail = std::copy(src, src_end, dst);
+  std::fill(tail, std::end(dst), '\0');
 };
 
 template <size_t N>
