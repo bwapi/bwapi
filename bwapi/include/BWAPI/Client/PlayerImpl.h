@@ -44,19 +44,19 @@ namespace BWAPI
       virtual int spentMinerals() const override;
       virtual int spentGas() const override;
 
-      virtual int supplyTotal(Race race = Races::None) const override;
-      virtual int supplyUsed(Race race = Races::None) const override;
+      virtual int supplyTotal(const Race race = Races::None) const override;
+      virtual int supplyUsed(const Race race = Races::None) const override;
 
-      virtual int allUnitCount(UnitType unit) const override;
-      virtual int visibleUnitCount(UnitType unit) const override;
-      virtual int completedUnitCount(UnitType unit) const override;
-      virtual int deadUnitCount(UnitType unit) const override;
-      virtual int killedUnitCount(UnitType unit) const override;
+      virtual int allUnitCount(const UnitType unit) const override;
+      virtual int visibleUnitCount(const UnitType unit) const override;
+      virtual int completedUnitCount(const UnitType unit) const override;
+      virtual int deadUnitCount(const UnitType unit) const override;
+      virtual int killedUnitCount(const UnitType unit) const override;
 
-      virtual int  getUpgradeLevel(UpgradeType upgrade) const override;
-      virtual bool hasResearched(TechType tech) const override;
-      virtual bool isResearching(TechType tech) const override;
-      virtual bool isUpgrading(UpgradeType upgrade) const override;
+      virtual int  getUpgradeLevel(const UpgradeType upgrade) const override;
+      virtual bool hasResearched(const TechType tech) const override;
+      virtual bool isResearching(const TechType tech) const override;
+      virtual bool isUpgrading(const UpgradeType upgrade) const override;
 
       virtual BWAPI::Color getColor() const override;
 
@@ -68,8 +68,8 @@ namespace BWAPI
 
       virtual bool isObserver() const override;
 
-      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const override;
-      virtual bool isResearchAvailable(TechType tech) const override;
-      virtual bool isUnitAvailable(UnitType unit) const override;
+      virtual int  getMaxUpgradeLevel(const UpgradeType upgrade) const override;
+      virtual bool isResearchAvailable(const TechType tech) const override;
+      virtual bool isUnitAvailable(const UnitType unit) const override;
   };
 };

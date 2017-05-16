@@ -289,7 +289,7 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @see supplyUsed
-    virtual int supplyTotal(Race race = Races::None) const = 0;
+    virtual int supplyTotal(const Race race = Races::None) const = 0;
 
     /// <summary>Retrieves the current amount of supply that the player is using for unit control.</summary>
     ///
@@ -300,7 +300,7 @@ namespace BWAPI
     ///
     /// @returns The supply that is in use for this player and the given \p race.
     /// @see supplyTotal
-    virtual int supplyUsed(Race race = Races::None) const = 0;
+    virtual int supplyUsed(const Race race = Races::None) const = 0;
 
     /// <summary>Retrieves the total number of units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number
@@ -316,7 +316,7 @@ namespace BWAPI
     ///
     /// @returns The total number of units of the given type that the player owns.
     /// @see visibleUnitCount, completedUnitCount, incompleteUnitCount
-    virtual int allUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    virtual int allUnitCount(const UnitType unit = UnitTypes::AllUnits) const = 0;
 
     /// <summary>Retrieves the total number of strictly visible units that the player has, even if
     /// information on the player is unrestricted.</summary>
@@ -329,7 +329,7 @@ namespace BWAPI
     /// @returns The total number of units of the given type that the player owns, and is visible
     ///   to the BWAPI player.
     /// @see allUnitCount, completedUnitCount, incompleteUnitCount
-    virtual int visibleUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    virtual int visibleUnitCount(const UnitType unit = UnitTypes::AllUnits) const = 0;
 
     /// <summary>Retrieves the number of completed units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number of
@@ -358,7 +358,7 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see allUnitCount, visibleUnitCount, incompleteUnitCount
-    virtual int completedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    virtual int completedUnitCount(const UnitType unit = UnitTypes::AllUnits) const = 0;
 
     /// <summary>Retrieves the number of incomplete units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number of
@@ -375,7 +375,7 @@ namespace BWAPI
     ///
     /// @returns The number of incomplete units of the given type that the player owns.
     /// @see allUnitCount, visibleUnitCount, completedUnitCount
-    int incompleteUnitCount(UnitType unit = UnitTypes::AllUnits) const;
+    int incompleteUnitCount(const UnitType unit = UnitTypes::AllUnits) const;
 
     /// <summary>Retrieves the number units that have died for this player.</summary>
     ///
@@ -385,7 +385,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The total number of units that have died throughout the game.
-    virtual int deadUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    virtual int deadUnitCount(const UnitType unit = UnitTypes::AllUnits) const = 0;
 
     /// <summary>Retrieves the number units that the player has killed.</summary>
     ///
@@ -395,7 +395,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The total number of units that the player has killed throughout the game.
-    virtual int killedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    virtual int killedUnitCount(const UnitType unit = UnitTypes::AllUnits) const = 0;
 
     /// <summary>Retrieves the current upgrade level that the player has attained for a given
     /// upgrade type.</summary>
@@ -422,7 +422,7 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see UnitInterface::upgrade, getMaxUpgradeLevel
-    virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
+    virtual int getUpgradeLevel(const UpgradeType upgrade) const = 0;
 
     /// <summary>Checks if the player has already researched a given technology.</summary>
     ///
@@ -432,7 +432,7 @@ namespace BWAPI
     ///
     /// @returns true if the player has obtained the given \p tech, or false if they have not
     /// @see isResearching, UnitInterface::research, isResearchAvailable
-    virtual bool hasResearched(TechType tech) const = 0;
+    virtual bool hasResearched(const TechType tech) const = 0;
 
     /// <summary>Checks if the player is researching a given technology type.</summary>
     ///
@@ -442,7 +442,7 @@ namespace BWAPI
     ///
     /// @returns true if the player is currently researching the \p tech, or false otherwise
     /// @see UnitInterface::research, hasResearched
-    virtual bool isResearching(TechType tech) const = 0;
+    virtual bool isResearching(const TechType tech) const = 0;
 
     /// <summary>Checks if the player is upgrading a given upgrade type.</summary>
     ///
@@ -468,7 +468,7 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see UnitInterface::upgrade
-    virtual bool isUpgrading(UpgradeType upgrade) const = 0;
+    virtual bool isUpgrading(const UpgradeType upgrade) const = 0;
 
     /// <summary>Retrieves the color value of the current player.</summary>
     ///
@@ -489,7 +489,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns Maximum amount of energy that the given unit type can have.
-    int maxEnergy(UnitType unit) const;
+    int maxEnergy(const UnitType unit) const;
 
     /// <summary>Retrieves the top speed of a unit type, taking the player's speed upgrades into
     /// consideration.</summary>
@@ -499,7 +499,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns Top speed of the provided unit type for this player.
-    double topSpeed(UnitType unit) const;
+    double topSpeed(const UnitType unit) const;
 
     /// <summary>Retrieves the maximum weapon range of a weapon type, taking the player's weapon
     /// upgrades into consideration.</summary>
@@ -509,7 +509,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns Maximum range of the given weapon type for units owned by this player.
-    int weaponMaxRange(WeaponType weapon) const;
+    int weaponMaxRange(const WeaponType weapon) const;
 
     /// <summary>Retrieves the sight range of a unit type, taking the player's sight range
     /// upgrades into consideration.</summary>
@@ -519,7 +519,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns Sight range of the provided unit type for this player.
-    int sightRange(UnitType unit) const;
+    int sightRange(const UnitType unit) const;
 
     /// <summary>Retrieves the weapon cooldown of a unit type, taking the player's attack speed
     /// upgrades into consideration.</summary>
@@ -529,7 +529,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns Weapon cooldown of the provided unit type for this player.
-    int weaponDamageCooldown(UnitType unit) const;
+    int weaponDamageCooldown(const UnitType unit) const;
 
     /// <summary>Calculates the armor that a given unit type will have, including upgrades.</summary>
     ///
@@ -538,7 +538,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The amount of armor that the unit will have with the player's upgrades.
-    int armor(UnitType unit) const;
+    int armor(const UnitType unit) const;
 
     /// <summary>Calculates the damage that a given weapon type can deal, including upgrades.</summary>
     ///
@@ -547,7 +547,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The amount of damage that the weapon deals with this player's upgrades.
-    int damage(WeaponType wpn) const;
+    int damage(const WeaponType wpn) const;
 
     /// <summary>Retrieves the total unit score, as seen in the end-game score screen.</summary>
     ///
@@ -605,7 +605,7 @@ namespace BWAPI
     ///     return false;
     ///   }
     /// @endcode
-    virtual int getMaxUpgradeLevel(UpgradeType upgrade) const = 0;
+    virtual int getMaxUpgradeLevel(const UpgradeType upgrade) const = 0;
 
     /// <summary>Checks if a technology can be researched by the player.</summary> Certain
     /// technologies may be disabled in @UMS game types.
@@ -615,7 +615,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the \p tech type is available to the player for research.
-    virtual bool isResearchAvailable(TechType tech) const = 0;
+    virtual bool isResearchAvailable(const TechType tech) const = 0;
 
     /// <summary>Checks if a unit type can be created by the player.</summary> Certain unit types
     /// may be disabled in @UMS game types.
@@ -625,7 +625,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the \p unit type is available to the player.
-    virtual bool isUnitAvailable(UnitType unit) const = 0;
+    virtual bool isUnitAvailable(const UnitType unit) const = 0;
 
     /// <summary>Verifies that this player satisfies a unit type requirement.</summary>
     /// This verifies complex type requirements involving morphable @Zerg structures. For example,
@@ -643,6 +643,6 @@ namespace BWAPI
     /// @returns true if the unit type requirements are met, and false otherwise.
     ///
     /// @since 4.1.2
-    bool hasUnitTypeRequirement(UnitType unit, int amount = 1) const;
+    bool hasUnitTypeRequirement(const UnitType unit, const int amount = 1) const;
   };
 };

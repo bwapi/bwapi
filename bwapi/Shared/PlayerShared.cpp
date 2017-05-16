@@ -66,20 +66,20 @@ namespace BWAPI
     return self->gatheredGas + self->refundedGas - self->gas - self->repairedGas;
   }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
-  int PlayerImpl::supplyTotal(Race race) const
+  int PlayerImpl::supplyTotal(const Race race_arg) const
   {
-    if ( race == Races::None )  // Get current race's supply if None is specified
-      race = this->getRace();
+    // Get current race's supply if None is specified
+    const auto& race = (race_arg != Races::None) ? race_arg : this->getRace();
 
     if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyTotal)>::value)
       return self->supplyTotal[race];
     return 0;
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
-  int PlayerImpl::supplyUsed(Race race) const
+  int PlayerImpl::supplyUsed(const Race race_arg) const
   {
-    if ( race == Races::None )  // Get current race's supply if None is specified
-      race = this->getRace();
+    // Get current race's supply if None is specified
+    const auto& race = (race_arg != Races::None) ? race_arg : this->getRace();
 
     if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyUsed)>::value)
       return self->supplyUsed[race];
@@ -132,22 +132,22 @@ namespace BWAPI
     return self->customScore;
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
-  int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
+  int PlayerImpl::getUpgradeLevel(const UpgradeType upgrade) const
   {
     return upgrade.isValid() ? self->upgradeLevel[upgrade] : 0;
   }
   //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
-  bool PlayerImpl::hasResearched(TechType tech) const
+  bool PlayerImpl::hasResearched(const TechType tech) const
   {
     return tech.isValid() ? self->hasResearched[tech] : false;
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
-  bool PlayerImpl::isResearching(TechType tech) const
+  bool PlayerImpl::isResearching(const TechType tech) const
   {
     return tech.isValid() ? self->isResearching[tech] : false;
   }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
-  bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
+  bool PlayerImpl::isUpgrading(const UpgradeType upgrade) const
   {
     return upgrade.isValid() ? self->isUpgrading[upgrade] : false;
   }
@@ -162,15 +162,15 @@ namespace BWAPI
     return !self->isParticipating;
   }
   //------------------------------------------------ AVAILABILITY --------------------------------------------
-  int PlayerImpl::getMaxUpgradeLevel(UpgradeType upgrade) const
+  int PlayerImpl::getMaxUpgradeLevel(const UpgradeType upgrade) const
   {
     return upgrade.isValid() ? self->maxUpgradeLevel[upgrade] : 0;
   }
-  bool PlayerImpl::isResearchAvailable(TechType tech) const
+  bool PlayerImpl::isResearchAvailable(const TechType tech) const
   {
     return tech.isValid() ? self->isResearchAvailable[tech] : false;
   }
-  bool PlayerImpl::isUnitAvailable(UnitType unit) const
+  bool PlayerImpl::isUnitAvailable(const UnitType unit) const
   {
     return unit.isValid() ? self->isUnitAvailable[unit] : false;
   }
