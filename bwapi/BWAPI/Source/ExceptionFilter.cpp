@@ -7,7 +7,13 @@
 #include <fstream>
 #include <cassert>
 
+#pragma warning (push)
+#pragma warning (disable:4091)
+// A microsoft header has warnings.
+// See http://connect.microsoft.com/VisualStudio/feedbackdetail/view/888527/warnings-on-dbghelp-h
 #include <Dbghelp.h>
+#pragma warning (pop)
+
 #include <tlhelp32.h>
 
 #include <BWAPI/GameImpl.h>
