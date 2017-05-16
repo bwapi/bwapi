@@ -22,9 +22,9 @@ if defined APPVEYOR (
 :: Build BWAPI's full stack
 cd bwapi
 ::nuget restore
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln
-msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target bwapi.sln
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Debug_Pipeline bwapi.sln || exit 1
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Release_Pipeline bwapi.sln || exit 1
+msbuild %MSBUILD_ADDITIONAL_OPTIONS% /verbosity:normal /p:Configuration=Installer_Target bwapi.sln || exit 1
 
 :: Run unit tests
 cd Debug
