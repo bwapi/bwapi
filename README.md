@@ -72,6 +72,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 * **Repository:**            https://github.com/bwapi/bwapi
 * **Issue Tracker:**         https://github.com/bwapi/bwapi/issues
 * **Releases:**              https://github.com/bwapi/bwapi/releases
+* **SSCAIT Discord:**        https://discord.gg/DqvHsq9
 * **IRC Channel:**           http://webchat.freenode.net/?channels=BWAPI
 * **Facebook:**              https://www.facebook.com/groups/bwapi/
 * **Links to competitions, bots, etc. :**    https://github.com/bwapi/bwapi/wiki/Useful-Links
