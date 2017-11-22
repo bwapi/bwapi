@@ -344,7 +344,7 @@ namespace BWAPI
     this->regionMap.clear();
 
     // Reset game speeds and text size
-    this->setLocalSpeedDirect(this->speedOverride);
+    this->setLocalSpeedDirect(std::numeric_limits<int>::min());
     this->setFrameSkip(1);
     this->setTextSize();
     this->setGUI(true);
