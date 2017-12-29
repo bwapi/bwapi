@@ -548,11 +548,11 @@ namespace BWAPI
     /// @todo Figure out the units this quantity is measured in.
     int haltDistance() const;
 
-    /// <summary>Retrieves a unit's turning radius.</summary> This determines how far a unit can
+    /// <summary>Retrieves a unit's turning rate.</summary> This determines how far a unit can
     /// rotate in one frame.
     /// 
-    /// @returns The units are N/256ths of a circle. So a unit with a turnRadius of 64 can turn a
-    /// full circle in 4 frames.
+    /// @returns The units are N/256ths of a circle per frame. So a unit with a turnRadius of 64
+    /// can turn a full circle in 4 frames.
     int turnRadius() const;
 
     /// <summary>Determines if a unit can train other units.</summary> For example,
