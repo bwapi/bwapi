@@ -534,9 +534,10 @@ namespace BWAPI
 
     /// <summary>Retrieves the unit's acceleration amount.</summary>
     ///
-    /// @returns If the value is 1: The unit has fixed or patterned velocity. Otherwise, returns
-    /// the unit's acceleration measured in N/256 pixels per frame per frame. So a unit with 64
-    /// acceleration would take 4 frames to reach 1 pixel per frame.
+    /// @returns If the value is 1: The unit has fixed or patterned velocity (for example, a
+    /// hopping Zergling). Otherwise, returns the unit's acceleration measured in N/256 pixels
+    /// per frame per frame. So a unit with 64 acceleration would take 4 frames to reach 1
+    /// pixel per frame.
     int acceleration() const;
 
     /// <summary>Retrieves the unit's halting distance.</summary> This determines how fast a unit
