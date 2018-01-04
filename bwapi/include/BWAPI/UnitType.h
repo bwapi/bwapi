@@ -540,12 +540,10 @@ namespace BWAPI
     /// pixel per frame.
     int acceleration() const;
 
-    /// <summary>Retrieves the unit's halting distance.</summary> This determines how fast a unit
-    /// can stop moving.
+    /// <summary>Retrieves the unit's halting distance.</summary> This is the distance from
+    /// the unit's destination at which point the unit starts decelerating.
     ///
-    /// @returns A halting distance value.
-    ///
-    /// @todo Figure out the units this quantity is measured in.
+    /// @returns The unit's halting distance, in 1/256ths of a pixel.
     int haltDistance() const;
 
     /// <summary>Retrieves a unit's turning rate.</summary> This determines how far a unit can
