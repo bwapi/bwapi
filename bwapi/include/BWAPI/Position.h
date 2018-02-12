@@ -100,7 +100,7 @@ namespace BWAPI
     {
       if(this->x == position.x)
         return this->y < position.y;
-      return this.x < position.x;
+      return this->x < position.x;
     };
 
     inline Point<T, Scale> &operator += (const Point<T, Scale> &p)
