@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPI", "BWAPI\BWAPI.vcxproj", "{001204EC-33B7-427D-AF9B-68F222C97349}"
 EndProject
@@ -41,8 +41,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Storm", "Storm\Storm.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIModule", "DevAIModule\DevAIModule.vcxproj", "{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWScriptEmulator", "BWScriptEmulator\BWScriptEmulator.vcxproj", "{9568B84C-42BE-4068-8775-FAEFB2DBC770}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{843656FD-9BFD-47BF-8460-7BFE9710EA2C} = {843656FD-9BFD-47BF-8460-7BFE9710EA2C}
@@ -63,15 +61,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocumentationGen", "Documen
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIBTest", "BWAPILIBTest\BWAPILIBTest.vcxproj", "{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWMemoryEdit", "BWMemoryEdit\BWMemoryEdit.csproj", "{6E693729-B778-4361-9668-FFEB3A22AB5B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPICoreTest", "BWAPICoreTest\BWAPICoreTest.vcxproj", "{22DF92EF-890D-42B7-A51B-39DD64B320F1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPICore", "BWAPICore\BWAPICore.vcxproj", "{B6097062-8179-4F1F-9185-381FC4980C47}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Documentation", "Documentation\Documentation.vcxproj", "{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer", "Installer\Installer.vcxproj", "{D5928E29-F115-474E-BA42-9AB710B0E892}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InstallerArchive", "Archive\Archive.vcxproj", "{7C035A16-F016-4F21-88EB-8DD3B9539219}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -176,13 +170,6 @@ Global
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.ActiveCfg = Release|Win32
 		{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}.Release|Win32.Build.0 = Release|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Debug|Win32.ActiveCfg = Debug|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Debug|Win32.Build.0 = Debug|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Installer_Target|Win32.ActiveCfg = Release|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Release|Win32.ActiveCfg = Release|Win32
-		{9568B84C-42BE-4068-8775-FAEFB2DBC770}.Release|Win32.Build.0 = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.Build.0 = Debug|Win32
@@ -222,13 +209,6 @@ Global
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.ActiveCfg = Release|Win32
 		{F0A49DFC-9FBD-43DA-9CD5-4F97DA9C8880}.Release|Win32.Build.0 = Release|Win32
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug_Pipeline|Win32.ActiveCfg = Debug|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Debug|Win32.Build.0 = Debug|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Installer_Target|Win32.ActiveCfg = Release|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release_Pipeline|Win32.ActiveCfg = Release|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release|Win32.ActiveCfg = Release|Any CPU
-		{6E693729-B778-4361-9668-FFEB3A22AB5B}.Release|Win32.Build.0 = Release|Any CPU
 		{22DF92EF-890D-42B7-A51B-39DD64B320F1}.Debug_Pipeline|Win32.ActiveCfg = Debug|Win32
 		{22DF92EF-890D-42B7-A51B-39DD64B320F1}.Debug_Pipeline|Win32.Build.0 = Debug|Win32
 		{22DF92EF-890D-42B7-A51B-39DD64B320F1}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -252,12 +232,6 @@ Global
 		{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}.Installer_Target|Win32.Build.0 = Release|Win32
 		{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
 		{2BED9E24-4DAE-43A1-8D7F-A4EC05E53DAE}.Release|Win32.ActiveCfg = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Debug_Pipeline|Win32.ActiveCfg = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Debug|Win32.ActiveCfg = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Installer_Target|Win32.ActiveCfg = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Installer_Target|Win32.Build.0 = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Release_Pipeline|Win32.ActiveCfg = Release|Win32
-		{D5928E29-F115-474E-BA42-9AB710B0E892}.Release|Win32.ActiveCfg = Release|Win32
 		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Debug_Pipeline|Win32.ActiveCfg = Release|Win32
 		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Debug|Win32.ActiveCfg = Release|Win32
 		{7C035A16-F016-4F21-88EB-8DD3B9539219}.Installer_Target|Win32.ActiveCfg = Release|Win32
@@ -267,5 +241,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {400E9D19-C5F4-491D-A809-3FB26965CD49}
 	EndGlobalSection
 EndGlobal
