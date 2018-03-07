@@ -11,23 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3CC5BA45-00B1-4B7C-BF07-341C90343F39}</ProjectGuid>
-    <RootNamespace>SVNRevGen</RootNamespace>
-    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{19E2598F-2EBA-4C11-ABE9-AC762CE449C9}</ProjectGuid>
+    <RootNamespace>DocumentationGen</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Makefile</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Makefile</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -39,52 +37,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakeBuildCommandLine>pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>del $(SolutionDir)/svnrev.h
-pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>del $(SolutionDir)/svnrev.h</NMakeCleanCommandLine>
-    <NMakeOutput>$(SolutionDir)/svnrev.h</NMakeOutput>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <NMakeBuildCommandLine>pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>del $(SolutionDir)/svnrev.h
-pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>del $(SolutionDir)/svnrev.h</NMakeCleanCommandLine>
-    <NMakeOutput>$(SolutionDir)/svnrev.h</NMakeOutput>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
     </Link>
-    <PreBuildEvent />
-    <CustomBuildStep>
-      <Command>pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <TreatOutputAsContent>true</TreatOutputAsContent>
-      <Message>Updating revision information.</Message>
-      <Outputs>../svnrev.h</Outputs>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -92,26 +59,46 @@ popd</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Console</SubSystem>
     </Link>
-    <PreBuildEvent />
-    <CustomBuildStep>
-      <Command>pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <TreatOutputAsContent>true</TreatOutputAsContent>
-      <Message>Updating revision information.</Message>
-      <Outputs>../svnrev.h</Outputs>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="helpers.h" />
+    <ClInclude Include="main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bullettypes.cpp" />
+    <ClCompile Include="colortypes.cpp" />
+    <ClCompile Include="damagetypes.cpp" />
+    <ClCompile Include="errors.cpp" />
+    <ClCompile Include="explosiontypes.cpp" />
+    <ClCompile Include="gametypes.cpp" />
+    <ClCompile Include="helpers.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="orders.cpp" />
+    <ClCompile Include="playertypes.cpp" />
+    <ClCompile Include="races.cpp" />
+    <ClCompile Include="techtypes.cpp" />
+    <ClCompile Include="unitcommandtypes.cpp" />
+    <ClCompile Include="unitsizetypes.cpp" />
+    <ClCompile Include="unittypes.cpp" />
+    <ClCompile Include="unittypestestgen.cpp" />
+    <ClCompile Include="upgradetypes.cpp" />
+    <ClCompile Include="weapontypes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Frontend\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
