@@ -65,7 +65,7 @@ namespace BWAPI
         addToBuffer(std::move(*this), Broodwar->getRemainingLatencyFrames());
 
         if (auto unit = reinterpret_cast<UnitImpl*>(command.unit);
-        unit && unit->getType().isBuilding())
+                 unit && unit->getType().isBuilding())
         {
           addToBuffer(std::move(orderEvent),  Broodwar->getRemainingLatencyFrames() + 1);
           addToBuffer(std::move(finishEvent), Broodwar->getRemainingLatencyFrames() + 15);
@@ -442,9 +442,10 @@ namespace BWAPI
           player->self->gas      += unitType.gasPrice();
 
           // Shift training queue back one slot after the cancelled unit
-          std::copy(unit->self->trainingQueue + command.extra + 1,
-           std::end(unit->self->trainingQueue),
-                    unit->self->trainingQueue + command.extra);
+          for (int i = command.extra; i < 4; ++i)
+          {
+            unit->self->trainingQueue[i] = unit->self->trainingQueue[i + 1];
+          }
 
           --unit->self->trainingQueueCount;
         }
