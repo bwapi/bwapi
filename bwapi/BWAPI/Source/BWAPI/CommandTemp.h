@@ -15,13 +15,14 @@ namespace BWAPI
   public:
     CommandTemp(const UnitCommand& command) : command(command) { }
 
-    void execute(bool isCurrentFrame, bool pastRLF);
+    void execute();
+    void execute(bool isCurrentFrame);
 
     template<typename Buf>
     void insertIntoCommandBuffer(Buf &buf) && {
       const auto addToBuffer = [&buf](auto &&command, int frames)
       {
-        command.execute(frames == 0, frames > Broodwar->getRemainingLatencyFrames());
+        command.execute(frames == 0);
 
         if (static_cast<decltype(frames)>(buf.size()) < frames)
         {
@@ -128,7 +129,21 @@ namespace BWAPI
   }
 
   template <class UnitImpl, class PlayerImpl>
-  void CommandTemp<UnitImpl, PlayerImpl>::execute(const bool isCurrentFrame, const bool pastRLF)
+  void CommandTemp<UnitImpl, PlayerImpl>::execute()
+  {
+    switch(command.type)
+    {
+    case UnitCommandTypes::Halt_Construction:
+      eventType = EventType::Order;
+      [[fallthrough]];
+    default:
+      execute(Broodwar->getRemainingLatencyFrames() == 0);
+      break;
+    }
+  }
+
+  template <class UnitImpl, class PlayerImpl>
+  void CommandTemp<UnitImpl, PlayerImpl>::execute(const bool isCurrentFrame)
   {
     // Immediately return if latency compensation is disabled or if the command was queued
     if (!Broodwar->isLatComEnabled() || command.isQueued()) return;

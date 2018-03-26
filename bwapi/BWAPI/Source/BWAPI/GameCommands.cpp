@@ -21,20 +21,30 @@ namespace BWAPI
   {
     // Remove the current frame from the buffer and execute the current frame
     // (only some actions execute on the current frame, like resource reserving)
-    if (!this->commandBuffer.empty()) {
+    if (!this->commandBuffer.empty())
+    {
       for (auto &command : this->commandBuffer.front())
-        command.execute(true, false);
+      {
+        command.execute(true);
+      }
       this->commandBuffer.erase(std::begin(this->commandBuffer));
     }
 
     // Apply latency compensation
-    for (auto buf = 0; buf < static_cast<int>(this->commandBuffer.size()); ++ buf)
-      for (auto &command : this->commandBuffer[buf])
-        command.execute(false, buf > getRemainingLatencyFrames());
+    for (auto buf = 0; buf < getRemainingLatencyFrames()
+                    && buf < static_cast<int>(commandBuffer.size()); ++buf)
+    {
+      for (auto &command : commandBuffer[buf])
+      {
+        command.execute();
+      }
+    }
 
     // Prepare buffer space for new commands
     if (this->commandBuffer.size() < static_cast<size_t>(getRemainingLatencyFrames() + 15))
+    {
       this->commandBuffer.resize(getRemainingLatencyFrames() + 15);
+    }
   }
 
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
