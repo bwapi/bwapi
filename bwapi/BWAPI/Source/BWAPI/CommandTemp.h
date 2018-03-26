@@ -689,6 +689,8 @@ namespace BWAPI
                 unit->self->type = UnitTypes::Zerg_Egg;
                 break;
               }
+
+              unit->self->trainingQueue[unit->self->trainingQueueCount++] = morphType;
             }
           }
           break;
