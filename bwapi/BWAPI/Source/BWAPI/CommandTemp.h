@@ -18,8 +18,7 @@ namespace BWAPI
     void execute();
     void execute(bool isCurrentFrame);
 
-    template<typename Buf>
-    void insertIntoCommandBuffer(Buf &buf) && {
+    void insertIntoCommandBuffer(std::vector<std::vector<CommandTemp<UnitImpl, PlayerImpl>>> &buf) && {
       const auto addToBuffer = [&buf](auto &&command, int frames)
       {
         command.execute(frames == 0);
