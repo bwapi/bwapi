@@ -32,9 +32,9 @@ namespace BWAPI
 
     // Apply latency compensation
     for (auto buf = 0; buf < getRemainingLatencyFrames()
-                    && buf < static_cast<int>(commandBuffer.size()); ++buf)
+                    && buf < static_cast<int>(this->commandBuffer.size()); ++buf)
     {
-      for (auto &command : commandBuffer[buf])
+      for (auto &command : this->commandBuffer[buf])
       {
         command.execute();
       }
