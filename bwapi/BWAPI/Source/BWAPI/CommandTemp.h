@@ -354,16 +354,6 @@ namespace BWAPI
             player->self->gas      += builtType.gasPrice();
           }
 
-          player->self->supplyUsed[builtType.getRace()] -=
-            builtType.supplyRequired() * (1 + static_cast<int>(builtType.isTwoUnitsInOneEgg()));
-
-          player->self->supplyUsed[newType.getRace()] += // Could these races be different? Probably not.
-                                                          // Should we handle it?            Definetely.
-            newType.supplyRequired() * builtType.whatBuilds().second;
-                              // Note: builtType.whatBuilds().second is always 1 but we
-                              // might as well handle the general case, in case Blizzard
-                              // all of a sudden allows you to cancel archon morphs
-
           if (newType.isBuilding() && newType.producesCreep())
           {
             unit->self->order = Orders::InitCreepGrowth;
@@ -392,6 +382,18 @@ namespace BWAPI
           { // Type should have updated during last event to the cancelled type
             unit->self->secondaryOrder = Orders::SpreadCreep;
           }
+        }
+        else
+        {
+          player->self->supplyUsed[unit->getType().getRace()] -=
+            unit->getType().supplyRequired() * (1 + static_cast<int>(unit->getType().isTwoUnitsInOneEgg()));
+
+          player->self->supplyUsed[unit->getType().getRace()] += // Could these races be different? Probably not.
+                                                                 // Should we handle it?            Definetely.
+            unit->getType().whatBuilds().first.supplyRequired() * unit->getType().whatBuilds().second;
+                                                         // Note: unit->getType().whatBuilds().second is always 1 but we
+                                                         // might as well handle the general case, in case Blizzard
+                                                         // all of a sudden allows you to cancel archon morphs
         }
 
         break;
