@@ -152,13 +152,9 @@ namespace BWAPI
     if (isCurrentFrame) {
       switch (command.type) // Commands which do things during the current frame
       {
-      case UnitCommandTypes::Morph:
-        if (!unit->getType().isBuilding())
-        {
-          return;
-        }                                 // Morph (building -> building) and Build_Addon orders may reserve resources
-      case UnitCommandTypes::Build_Addon: // that SC does not take until the next frame to protect bots from overspending.
-      case UnitCommandTypes::Train:       // Train does the same but for supply.
+      case UnitCommandTypes::Morph:       // Morph, Build_Addon and Train orders may reserve resources or supply that
+      case UnitCommandTypes::Build_Addon: // SC does not take until the next frame to protect bots from overspending.
+      case UnitCommandTypes::Train:
         if(eventType == EventType::Resource)
           break;
         return;
@@ -678,15 +674,15 @@ namespace BWAPI
           }
           else
           {
+            player->self->supplyUsed[morphType.getRace()] += morphType.supplyRequired() *
+              (1 + static_cast<int>(morphType.isTwoUnitsInOneEgg())) - unit->getType().supplyRequired();
+
             if(!isCurrentFrame)
             {
               unit->self->order       = Orders::ZergUnitMorph;
 
               player->self->minerals -= morphType.mineralPrice();
               player->self->gas      -= morphType.gasPrice();
-
-              player->self->supplyUsed[morphType.getRace()] += morphType.supplyRequired() *
-                (1 + static_cast<int>(morphType.isTwoUnitsInOneEgg())) - unit->getType().supplyRequired();
 
               switch(morphType)
               {
