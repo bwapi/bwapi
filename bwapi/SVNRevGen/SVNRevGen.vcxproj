@@ -64,7 +64,7 @@ popd
     </Link>
     <PreBuildEvent />
     <CustomBuildStep>
-      <Command>pushd "$(SolutionDir)"
+      <Command>pushd ".."
 cscript "./revisionUpdate.vbs"
 popd</Command>
     </CustomBuildStep>
@@ -89,7 +89,7 @@ popd</Command>
     </Link>
     <PreBuildEvent />
     <CustomBuildStep>
-      <Command>pushd "$(SolutionDir)"
+      <Command>pushd ".."
 cscript "./revisionUpdate.vbs"
 popd</Command>
     </CustomBuildStep>
