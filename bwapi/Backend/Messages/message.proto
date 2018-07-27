@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "init.proto";
+import "game.proto";
+
+package bwapi.message;
+
+// Wrapper used to distinguish which message is which.
+message Message {
+	oneof msg {
+		// Init
+		bwapi.init.ClientBroadcast initBroadcast = 1;
+		bwapi.init.ServerResponse initResponse = 2;
+		bwapi.init.ClientResolution initResolution = 3;
+
+		// Game
+		bwapi.game.FrameUpdate frameUpdate = 1000;
+	}
+}

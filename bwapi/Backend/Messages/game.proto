@@ -1,0 +1,7 @@
+syntax = "proto3";
+package bwapi.game;
+
+// TODO
+message FrameUpdate {
+	uint32 frameNumber = 1;
+}

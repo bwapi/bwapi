@@ -1,0 +1,55 @@
+syntax = "proto3";
+import "error.proto";
+
+package bwapi.init;
+
+// Supported protocols. This is my solution to a debate on Protobuf vs Flatbuffers.
+// Rather than spend time on experiments we can start with and continue supporting the more
+// popular solution and add more later. This allows some games to remain only on protobuf,
+// while others may be more flexible.
+enum Protocol {
+	PROTOBUF = 0;
+}
+
+// Initial client broadcast message (always Protobuf)
+message ClientBroadcast {
+	// The API version. Even if the BWAPI version changes, the API version might not
+	// change, so use API version for compatibility purposes.
+	uint32 apiVersion = 1;
+
+	// The BWAPI version string. I'm not sure what use case this could have yet.
+	string bwapiVersion = 2;
+
+	// Indicates whether the broadcast is coming from a tournament module, allows
+	// servers to prioritize tournament modules or treat them differently if needed.
+	bool tournament = 3;
+}
+
+// Response to initial message (always Protobuf)
+message ServerResponse {
+	// Server may be running a different API version.
+	uint32 apiVersion = 1;
+
+	// Engine type indicates which engine this is being run on. For example,
+	// "Classic", "Remastered", "OpenBW", etc.
+	string engineType = 2;
+
+	// The engine version. i.e. "1.16.1.1", etc.
+	string engineVersion = 3;
+
+	// Error message if any (i.e. refusing for a specific reason for debugging purposes)
+	bwapi.error.Error error = 4;
+
+	// List of protocols that the server supports. This must contain at least one item, which
+	// is expected to be PROTOBUF.
+	repeated Protocol supportedProtocols = 5;
+}
+
+// Client acceptance (always protobuf).
+message ClientResolution {
+	bwapi.error.Error result = 1;
+
+	// There was a quick discussion on whether maybe flatbuffers or another protocol
+	// may be faster, so this is the compromise. This is the REQUESTED protocol.
+	Protocol protocol = 2;
+}
