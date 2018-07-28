@@ -56,10 +56,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GOOGLE_PROTOBUF_CMAKE_BUILD;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\install;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest\include;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\install;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest\include;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -88,10 +88,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_CMAKE_BUILD;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\install;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest\include;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\install;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googletest\include;C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -103,53 +103,53 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\arena.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\arenastring.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\extension_set.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\generated_message_table_driven_lite.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\generated_message_util.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\implicit_weak_message.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\coded_stream.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\zero_copy_stream.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\message_lite.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\repeated_field.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\bytestream.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\common.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\int128.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\io_win32.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\status.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\statusor.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\stringpiece.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\stringprintf.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\structurally_valid.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\strutil.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\time.cc" />
-    <ClCompile Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\wire_format_lite.cc" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\arena.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\arenastring.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\extension_set.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\generated_message_util.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\implicit_weak_message.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\coded_stream.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\zero_copy_stream.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\io\zero_copy_stream_impl_lite.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\message_lite.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\repeated_field.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\bytestream.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\common.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\int128.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\once.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\status.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\statusor.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\stringpiece.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\stringprintf.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\strutil.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\stubs\time.h" />
-    <ClInclude Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\src\google\protobuf\wire_format_lite.h" />
+    <ClCompile Include="src\google\protobuf\arena.cc" />
+    <ClCompile Include="src\google\protobuf\arenastring.cc" />
+    <ClCompile Include="src\google\protobuf\extension_set.cc" />
+    <ClCompile Include="src\google\protobuf\generated_message_table_driven_lite.cc" />
+    <ClCompile Include="src\google\protobuf\generated_message_util.cc" />
+    <ClCompile Include="src\google\protobuf\implicit_weak_message.cc" />
+    <ClCompile Include="src\google\protobuf\io\coded_stream.cc" />
+    <ClCompile Include="src\google\protobuf\io\zero_copy_stream.cc" />
+    <ClCompile Include="src\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
+    <ClCompile Include="src\google\protobuf\message_lite.cc" />
+    <ClCompile Include="src\google\protobuf\repeated_field.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\bytestream.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\common.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\int128.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\io_win32.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\status.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\statusor.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\stringpiece.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\stringprintf.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\structurally_valid.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\strutil.cc" />
+    <ClCompile Include="src\google\protobuf\stubs\time.cc" />
+    <ClCompile Include="src\google\protobuf\wire_format_lite.cc" />
+    <ClInclude Include="src\google\protobuf\arena.h" />
+    <ClInclude Include="src\google\protobuf\arenastring.h" />
+    <ClInclude Include="src\google\protobuf\extension_set.h" />
+    <ClInclude Include="src\google\protobuf\generated_message_util.h" />
+    <ClInclude Include="src\google\protobuf\implicit_weak_message.h" />
+    <ClInclude Include="src\google\protobuf\io\coded_stream.h" />
+    <ClInclude Include="src\google\protobuf\io\zero_copy_stream.h" />
+    <ClInclude Include="src\google\protobuf\io\zero_copy_stream_impl_lite.h" />
+    <ClInclude Include="src\google\protobuf\message_lite.h" />
+    <ClInclude Include="src\google\protobuf\repeated_field.h" />
+    <ClInclude Include="src\google\protobuf\stubs\bytestream.h" />
+    <ClInclude Include="src\google\protobuf\stubs\common.h" />
+    <ClInclude Include="src\google\protobuf\stubs\int128.h" />
+    <ClInclude Include="src\google\protobuf\stubs\once.h" />
+    <ClInclude Include="src\google\protobuf\stubs\status.h" />
+    <ClInclude Include="src\google\protobuf\stubs\statusor.h" />
+    <ClInclude Include="src\google\protobuf\stubs\stringpiece.h" />
+    <ClInclude Include="src\google\protobuf\stubs\stringprintf.h" />
+    <ClInclude Include="src\google\protobuf\stubs\strutil.h" />
+    <ClInclude Include="src\google\protobuf\stubs\time.h" />
+    <ClInclude Include="src\google\protobuf\wire_format_lite.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\Adam Heinermann\Downloads\protobuf-cpp-3.6.0\protobuf-3.6.0\install\ZERO_CHECK.vcxproj">
+    <ProjectReference Include="install\ZERO_CHECK.vcxproj">
       <Project>{B1A41632-5847-30CA-8A72-74D0939427A8}</Project>
       <Name>ZERO_CHECK</Name>
     </ProjectReference>
