@@ -148,12 +148,6 @@
     <ClInclude Include="src\google\protobuf\stubs\time.h" />
     <ClInclude Include="src\google\protobuf\wire_format_lite.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="install\ZERO_CHECK.vcxproj">
-      <Project>{B1A41632-5847-30CA-8A72-74D0939427A8}</Project>
-      <Name>ZERO_CHECK</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
