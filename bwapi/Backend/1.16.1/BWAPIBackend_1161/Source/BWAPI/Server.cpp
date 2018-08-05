@@ -352,30 +352,30 @@ namespace BWAPI
   }
   void Server::onMatchStart()
   {
-    data->self          = getPlayerID(Broodwar->self());
-    data->enemy         = getPlayerID(Broodwar->enemy());
-    data->neutral       = getPlayerID(Broodwar->neutral());
-    data->isMultiplayer = Broodwar->isMultiplayer();
-    data->isBattleNet   = Broodwar->isBattleNet();
-    data->isReplay      = Broodwar->isReplay();
+    data->self          = getPlayerID(BroodwarImpl.self());
+    data->enemy         = getPlayerID(BroodwarImpl.enemy());
+    data->neutral       = getPlayerID(BroodwarImpl.neutral());
+    data->isMultiplayer = BroodwarImpl.isMultiplayer();
+    data->isBattleNet   = BroodwarImpl.isBattleNet();
+    data->isReplay      = BroodwarImpl.isReplay();
 
     // Locally store the map size
-    TilePosition mapSize( Broodwar->mapWidth(), Broodwar->mapHeight() );
+    TilePosition mapSize(BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight() );
     WalkPosition mapWalkSize( mapSize );
 
     // Load walkability
     for ( int x = 0; x < mapWalkSize.x; ++x )
       for ( int y = 0; y < mapWalkSize.y; ++y )
       {
-        data->isWalkable[x][y] = Broodwar->isWalkable(x, y);
+        data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
       }
 
     // Load buildability, ground height, tile region id
     for ( int x = 0; x < mapSize.x; ++x )
       for ( int y = 0; y < mapSize.y; ++y )
       {
-        data->isBuildable[x][y] = Broodwar->isBuildable(x, y);
-        data->getGroundHeight[x][y] = Broodwar->getGroundHeight(x, y);
+        data->isBuildable[x][y] = BroodwarImpl.isBuildable(x, y);
+        data->getGroundHeight[x][y] = BroodwarImpl.getGroundHeight(x, y);
         if (BW::BWDATA::SAIPathing )
           data->mapTileRegionId[x][y] = BW::BWDATA::SAIPathing->mapTileRegionId[y][x];
         else
@@ -392,10 +392,10 @@ namespace BWAPI
         data->mapSplitTilesRegion1[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn1;
         data->mapSplitTilesRegion2[i] = BW::BWDATA::SAIPathing->splitTiles[i].rgn2;
 
-        BWAPI::Region r = Broodwar->getRegion(i);
+        BWAPI::Region r = BroodwarImpl.getRegion(i);
         if (r)
         {
-          data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
+          data->regions[i] = static_cast<RegionImpl*>(r)->getData();
         }
         else
         {
@@ -409,14 +409,14 @@ namespace BWAPI
     data->mapHeight = mapSize.y;
 
     // Retrieve map strings
-    StrCopy(data->mapFileName, Broodwar->mapFileName());
-    StrCopy(data->mapPathName, Broodwar->mapPathName());
-    StrCopy(data->mapName, Broodwar->mapName());
-    StrCopy(data->mapHash, Broodwar->mapHash());
+    StrCopy(data->mapFileName, BroodwarImpl.mapFileName());
+    StrCopy(data->mapPathName, BroodwarImpl.mapPathName());
+    StrCopy(data->mapName, BroodwarImpl.mapName());
+    StrCopy(data->mapHash, BroodwarImpl.mapHash());
 
-    data->startLocationCount = Broodwar->getStartLocations().size();
+    data->startLocationCount = BroodwarImpl.getStartLocations().size();
     int idx = 0;
-    for (TilePosition t : Broodwar->getStartLocations())
+    for (TilePosition t : BroodwarImpl.getStartLocations())
     {
       data->startLocations[idx].x = t.x;
       data->startLocations[idx].y = t.y;
@@ -425,31 +425,31 @@ namespace BWAPI
 
     //static force data
     data->forces[0].name[0] = '\0';
-    for(Force i : Broodwar->getForces())
+    for(Force i : BroodwarImpl.getForces())
     {
       int id = getForceID(i);
       StrCopy(data->forces[id].name, i->getName());
     }
 
     //static player data
-    for(Player i : Broodwar->getPlayers())
+    for(Player i : BroodwarImpl.getPlayers())
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
-      PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
+      PlayerData &p2 = static_cast<PlayerImpl*>(i)->data;
 
       StrCopy(p->name, i->getName());
       p->race = i->getRace();
       p->type = i->getType();
       p->force = getForceID(i->getForce());
-      p->color = p2->color;
+      p->color = p2.color;
 
       for(int j = 0; j < 12; ++j)
       {
         p->isAlly[j] = false;
         p->isEnemy[j] = false;
       }
-      for(Player j : Broodwar->getPlayers())
+      for(Player j : BroodwarImpl.getPlayers())
       {
         p->isAlly[getPlayerID(j)] = i->isAlly(j);
         p->isEnemy[getPlayerID(j)] = i->isEnemy(j);
@@ -489,46 +489,46 @@ namespace BWAPI
     for (Unit u : BroodwarImpl.evadeUnits)
       data->units[getUnitID(u)] = static_cast<UnitImpl*>(u)->data;
 
-    data->frameCount              = Broodwar->getFrameCount();
-    data->replayFrameCount        = Broodwar->getReplayFrameCount();
-    data->randomSeed              = Broodwar->getRandomSeed();
-    data->fps                     = Broodwar->getFPS();
-    data->botAPM_noselects        = Broodwar->getAPM(false);
-    data->botAPM_selects          = Broodwar->getAPM(true);
-    data->latencyFrames           = Broodwar->getLatencyFrames();
-    data->latencyTime             = Broodwar->getLatencyTime();
-    data->remainingLatencyFrames  = Broodwar->getRemainingLatencyFrames();
-    data->remainingLatencyTime    = Broodwar->getRemainingLatencyTime();
-    data->elapsedTime             = Broodwar->elapsedTime();
-    data->countdownTimer          = Broodwar->countdownTimer();
-    data->averageFPS              = Broodwar->getAverageFPS();
-    data->mouseX                  = Broodwar->getMousePosition().x;
-    data->mouseY                  = Broodwar->getMousePosition().y;
-    data->isInGame                = Broodwar->isInGame();
-    if (Broodwar->isInGame())
+    data->frameCount              = BroodwarImpl.getFrameCount();
+    data->replayFrameCount        = BroodwarImpl.getReplayFrameCount();
+    data->randomSeed              = BroodwarImpl.getRandomSeed();
+    data->fps                     = BroodwarImpl.getFPS();
+    data->botAPM_noselects        = BroodwarImpl.getAPM(false);
+    data->botAPM_selects          = BroodwarImpl.getAPM(true);
+    data->latencyFrames           = BroodwarImpl.getLatencyFrames();
+    data->latencyTime             = BroodwarImpl.getLatencyTime();
+    data->remainingLatencyFrames  = BroodwarImpl.getRemainingLatencyFrames();
+    data->remainingLatencyTime    = BroodwarImpl.getRemainingLatencyTime();
+    data->elapsedTime             = BroodwarImpl.elapsedTime();
+    data->countdownTimer          = BroodwarImpl.countdownTimer();
+    data->averageFPS              = BroodwarImpl.getAverageFPS();
+    data->mouseX                  = BroodwarImpl.getMousePosition().x;
+    data->mouseY                  = BroodwarImpl.getMousePosition().y;
+    data->isInGame                = BroodwarImpl.isInGame();
+    if (BroodwarImpl.isInGame())
     {
-      data->gameType  = Broodwar->getGameType();
+      data->gameType  = BroodwarImpl.getGameType();
       
       // Copy the mouse states
       for(int i = 0; i < M_MAX; ++i)
-        data->mouseState[i]  = Broodwar->getMouseState((MouseButton)i);
+        data->mouseState[i]  = BroodwarImpl.getMouseState((MouseButton)i);
       
       // Copy the key states
       for(int i = 0; i < K_MAX; ++i)
-        data->keyState[i]  = Broodwar->getKeyState((Key)i);
+        data->keyState[i]  = BroodwarImpl.getKeyState((Key)i);
 
       // Copy the screen position
-      data->screenX  = Broodwar->getScreenPosition().x;
-      data->screenY  = Broodwar->getScreenPosition().y;
+      data->screenX  = BroodwarImpl.getScreenPosition().x;
+      data->screenY  = BroodwarImpl.getScreenPosition().y;
 
       for ( int i = 0; i < BWAPI::Flag::Max; ++i )
-        data->flags[i] = Broodwar->isFlagEnabled(i);
+        data->flags[i] = BroodwarImpl.isFlagEnabled(i);
 
-      data->isPaused = Broodwar->isPaused();
-      data->selectedUnitCount = Broodwar->getSelectedUnits().size();
+      data->isPaused = BroodwarImpl.isPaused();
+      data->selectedUnitCount = BroodwarImpl.getSelectedUnits().size();
 
       int idx = 0;
-      for(Unit t : Broodwar->getSelectedUnits())
+      for(Unit t : BroodwarImpl.getSelectedUnits())
         data->selectedUnits[idx++] = getUnitID(t);
 
       //dynamic map data
@@ -536,67 +536,67 @@ namespace BWAPI
       //(no dynamic force data)
 
       //dynamic player data
-      for(Player i : Broodwar->getPlayers())
+      for(Player i : BroodwarImpl.getPlayers())
       {
         int id         = getPlayerID(i);
         if ( id >= 12 )
           continue;
         PlayerData* p  = &(data->players[id]);
-        PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
+        PlayerData &p2 = static_cast<PlayerImpl*>(i)->data;
 
         p->isVictorious     = i->isVictorious();
         p->isDefeated       = i->isDefeated();
         p->leftGame         = i->leftGame();
-        p->minerals         = p2->minerals;
-        p->gas              = p2->gas;
-        p->gatheredMinerals = p2->gatheredMinerals;
-        p->gatheredGas      = p2->gatheredGas;
-        p->repairedMinerals = p2->repairedMinerals;
-        p->repairedGas      = p2->repairedGas;
-        p->refundedMinerals = p2->refundedMinerals;
-        p->refundedGas      = p2->refundedGas;
+        p->minerals         = p2.minerals;
+        p->gas              = p2.gas;
+        p->gatheredMinerals = p2.gatheredMinerals;
+        p->gatheredGas      = p2.gatheredGas;
+        p->repairedMinerals = p2.repairedMinerals;
+        p->repairedGas      = p2.repairedGas;
+        p->refundedMinerals = p2.refundedMinerals;
+        p->refundedGas      = p2.refundedGas;
         for(int j = 0; j < 3; ++j)
         {
-          p->supplyTotal[j]  = p2->supplyTotal[j];
-          p->supplyUsed[j]  = p2->supplyUsed[j];
+          p->supplyTotal[j]  = p2.supplyTotal[j];
+          p->supplyUsed[j]  = p2.supplyUsed[j];
         }
         for(int j = 0; j < UnitTypes::Enum::MAX; ++j)
         {
-          p->allUnitCount[j]        = p2->allUnitCount[j];
-          p->visibleUnitCount[j]    = p2->visibleUnitCount[j];
-          p->completedUnitCount[j]  = p2->completedUnitCount[j];
-          p->deadUnitCount[j]       = p2->deadUnitCount[j];
-          p->killedUnitCount[j]     = p2->killedUnitCount[j];
+          p->allUnitCount[j]        = p2.allUnitCount[j];
+          p->visibleUnitCount[j]    = p2.visibleUnitCount[j];
+          p->completedUnitCount[j]  = p2.completedUnitCount[j];
+          p->deadUnitCount[j]       = p2.deadUnitCount[j];
+          p->killedUnitCount[j]     = p2.killedUnitCount[j];
         }
-        p->totalUnitScore     = p2->totalUnitScore;
-        p->totalKillScore     = p2->totalKillScore;
-        p->totalBuildingScore = p2->totalBuildingScore;
-        p->totalRazingScore   = p2->totalRazingScore;
-        p->customScore        = p2->customScore;
+        p->totalUnitScore     = p2.totalUnitScore;
+        p->totalKillScore     = p2.totalKillScore;
+        p->totalBuildingScore = p2.totalBuildingScore;
+        p->totalRazingScore   = p2.totalRazingScore;
+        p->customScore        = p2.customScore;
 
         for(int j = 0; j < 63; ++j)
         {
-          p->upgradeLevel[j] = p2->upgradeLevel[j];
-          p->isUpgrading[j]  = p2->isUpgrading[j];
+          p->upgradeLevel[j] = p2.upgradeLevel[j];
+          p->isUpgrading[j]  = p2.isUpgrading[j];
         }
 
         for(int j = 0; j < 47; ++j)
         {
-          p->hasResearched[j] = p2->hasResearched[j];
-          p->isResearching[j] = p2->isResearching[j];
+          p->hasResearched[j] = p2.hasResearched[j];
+          p->isResearching[j] = p2.isResearching[j];
         }
-        memcpy(p->isResearchAvailable, p2->isResearchAvailable, sizeof(p->isResearchAvailable));
-        memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
-        memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
+        memcpy(p->isResearchAvailable, p2.isResearchAvailable, sizeof(p->isResearchAvailable));
+        memcpy(p->isUnitAvailable, p2.isUnitAvailable, sizeof(p->isUnitAvailable));
+        memcpy(p->maxUpgradeLevel, p2.maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
       }
 
       //dynamic unit data
-      for(Unit i : Broodwar->getAllUnits())
+      for(Unit i : BroodwarImpl.getAllUnits())
         data->units[getUnitID(i)] = static_cast<UnitImpl*>(i)->data;
 
       for(int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       {
-        Unit u = Broodwar->indexToUnit(i);
+        Unit u = BroodwarImpl.indexToUnit(i);
         int id = -1;
         if ( u )
           id = getUnitID(u);
@@ -645,8 +645,8 @@ namespace BWAPI
       
       //dynamic nuke dot data
       int j = 0;
-      data->nukeDotCount = Broodwar->getNukeDots().size();
-      for(Position const &nd : Broodwar->getNukeDots())
+      data->nukeDotCount = BroodwarImpl.getNukeDots().size();
+      for(Position const &nd : BroodwarImpl.getNukeDots())
       {
         data->nukeDots[j].x = nd.x;
         data->nukeDots[j].y = nd.y;
@@ -758,79 +758,79 @@ namespace BWAPI
       switch (c)
       {
       case BWAPIC::CommandType::SetScreenPosition:
-        if (Broodwar->isInGame())
-          Broodwar->setScreenPosition(v1,v2);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setScreenPosition(v1,v2);
         break;
       case BWAPIC::CommandType::PingMinimap:
-        if (Broodwar->isInGame())
-          Broodwar->pingMinimap(v1,v2);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.pingMinimap(v1,v2);
         break;
       case BWAPIC::CommandType::EnableFlag:
-        if (Broodwar->isInGame())
-          Broodwar->enableFlag(v1);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.enableFlag(v1);
         break;
       case BWAPIC::CommandType::Printf:
-        if (Broodwar->isInGame())
-          Broodwar->printf("%s", data->strings[v1]);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.printf("%s", data->strings[v1]);
         break;
       case BWAPIC::CommandType::SendText:
-        if (Broodwar->isInGame())
-          Broodwar->sendTextEx(v2 != 0, "%s", data->strings[v1]);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.sendTextEx(v2 != 0, "%s", data->strings[v1]);
         break;
       case BWAPIC::CommandType::PauseGame:
-        if (Broodwar->isInGame())
-          Broodwar->pauseGame();
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.pauseGame();
         break;
       case BWAPIC::CommandType::ResumeGame:
-        if (Broodwar->isInGame())
-          Broodwar->resumeGame();
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.resumeGame();
         break;
       case BWAPIC::CommandType::LeaveGame:
-        if (Broodwar->isInGame())
-          Broodwar->leaveGame();
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.leaveGame();
         break;
       case BWAPIC::CommandType::RestartGame:
-        if (Broodwar->isInGame())
-          Broodwar->restartGame();
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.restartGame();
         break;
       case BWAPIC::CommandType::SetLocalSpeed:
-        if (Broodwar->isInGame())
-          Broodwar->setLocalSpeed(v1);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setLocalSpeed(v1);
         break;
       case BWAPIC::CommandType::SetLatCom:
-        Broodwar->setLatCom(v1 == 1);
+        BroodwarImpl.setLatCom(v1 == 1);
         break;
       case BWAPIC::CommandType::SetGui:
-        Broodwar->setGUI(v1 == 1);
+        BroodwarImpl.setGUI(v1 == 1);
         break;
       case BWAPIC::CommandType::SetFrameSkip:
-        if (Broodwar->isInGame())
-          Broodwar->setFrameSkip(v1);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setFrameSkip(v1);
         break;
       case BWAPIC::CommandType::SetMap:
-        Broodwar->setMap(data->strings[v1]);
+        BroodwarImpl.setMap(data->strings[v1]);
         break;
       case BWAPIC::CommandType::SetAllies:
-        if (Broodwar->isInGame())
-          Broodwar->setAlliance(getPlayer(v1), v2 != 0, v2 == 2);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setAlliance(getPlayer(v1), v2 != 0, v2 == 2);
         break;
       case BWAPIC::CommandType::SetVision:
-        if (Broodwar->isInGame())
-          Broodwar->setVision(getPlayer(v1), v2 != 0);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setVision(getPlayer(v1), v2 != 0);
         break;
       case BWAPIC::CommandType::SetCommandOptimizerLevel:
-        if (Broodwar->isInGame())
-          Broodwar->setCommandOptimizationLevel(v1);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setCommandOptimizationLevel(v1);
         break;
       case BWAPIC::CommandType::SetRevealAll:
-        if ( Broodwar->isInGame() )
-          Broodwar->setRevealAll(v1 != 0);
+        if (BroodwarImpl.isInGame())
+          BroodwarImpl.setRevealAll(v1 != 0);
         break;
       default:
         break;
       }
     }
-    if ( Broodwar->isInGame() )
+    if (BroodwarImpl.isInGame())
     {
       for ( int i = 0; i < data->unitCommandCount; ++i )
       {

@@ -47,8 +47,8 @@ namespace BWAPI
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       {
-        int maxW = Broodwar->mapWidth()*32;
-        int maxH = Broodwar->mapHeight()*32;
+        int maxW = BroodwarImpl.mapWidth()*32;
+        int maxH = BroodwarImpl.mapHeight()*32;
         if ( (x1 < 0 && x2 < 0)         ||
              (y1 < 0 && y2 < 0)         ||
              (x1 >= maxW && x2 >= maxW) ||
@@ -87,8 +87,8 @@ namespace BWAPI
     {
     case BWAPI::CoordinateType::Map: // if we're using map coordinates, subtract the position of the screen to convert the coordinates into screen coordinates
       {
-        int maxW = Broodwar->mapWidth()*32;
-        int maxH = Broodwar->mapHeight()*32;
+        int maxW = BroodwarImpl.mapWidth()*32;
+        int maxH = BroodwarImpl.mapHeight()*32;
         if ( (x1 < 0 && x2 < 0 && x3 < 0)             ||
              (y1 < 0 && y2 < 0 && y3 < 0)             ||
              (x1 >= maxW && x2 >= maxW && x3 >= maxW) ||

@@ -14,7 +14,7 @@ namespace BWAPI
     for ( auto &r : *this )
     {
       Position p = r->getCenter();
-      if ( p )  // Only use if position is valid/known
+      if ( r->getGame().isValid(p) )  // Only use if position is valid/known
       {
         sum += p;
         ++count;

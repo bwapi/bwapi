@@ -129,7 +129,7 @@ void GameImpl::update()
 
   //iterate through the list of intercepted messages
   for(std::string &s : sentMessages)
-    BroodwarImpl.onSendText(s);
+    onSendText(s);
   this->sentMessages.clear();
 
   //on the first frame we check to see if the client process has connected.
@@ -211,7 +211,6 @@ void GameImpl::update()
   // Update any graphical/debug overlays
   updateOverlays();
   setTextSize(); // Reset text size
-  Broodwar.flush(); // Flush the Broodwar text buffer
 
   //finally return control to starcraft
 }
@@ -311,7 +310,7 @@ void GameImpl::initializeTournamentModule()
       missing += " function";
 
       // print error message
-      Broodwar << Text::Red << "ERROR: Failed to find the " << missing << " in tournament module." << std::endl;
+      printf("%cERROR: Failed to find the %s in tournament module.", Text::Red, missing.c_str());
     }
   }
   this->bTournamentMessageAppeared = false;
@@ -335,8 +334,8 @@ void GameImpl::initializeAIModule()
     // assign a blank AI module to our variable
     this->client = new AIModule();
     // Hide success strings in tournament mode
-    if ( !hTournamentModule )
-      Broodwar << "BWAPI: Connected to AI Client process" << std::endl;
+    if (!hTournamentModule)
+      printf("BWAPI: Connected to AI Client process");
     // Set the module string
     moduleName = "<Client Connection>";
     externalModuleConnected = true;
@@ -376,11 +375,11 @@ void GameImpl::initializeAIModule()
       this->client = new AIModule();
 
       // enable flags to allow interaction
-      Broodwar->enableFlag(Flag::CompleteMapInformation);
-      Broodwar->enableFlag(Flag::UserInput);
+      enableFlag(Flag::CompleteMapInformation);
+      enableFlag(Flag::UserInput);
 
       // print error string
-      Broodwar << Text::Red << "ERROR: Failed to load the AI Module \"" << dll << "\"." << std::endl;
+      printf("%cERROR: Failed to load the AI Module \"%s\".", Text::Red, dll.c_str());
       externalModuleConnected = false;
     }
     else
@@ -395,8 +394,8 @@ void GameImpl::initializeAIModule()
         this->client = newAIModule();
 
         // Hide success strings in tournament mode
-        if ( !hTournamentModule )
-          Broodwar << Text::Green << "Loaded the AI Module: " << dll << std::endl;
+        if (!hTournamentModule)
+          printf("%cLoaded the AI Module: %s", Text::Green, dll.c_str());
         externalModuleConnected = true;
 
         // Strip the path from the module name
@@ -408,8 +407,8 @@ void GameImpl::initializeAIModule()
         this->client = new AIModule();
 
         // Enable flags to allow interaction
-        Broodwar->enableFlag(Flag::CompleteMapInformation);
-        Broodwar->enableFlag(Flag::UserInput);
+        enableFlag(Flag::CompleteMapInformation);
+        enableFlag(Flag::UserInput);
 
         // Create error string
         std::string missing;
@@ -425,7 +424,7 @@ void GameImpl::initializeAIModule()
         missing += " function";
 
         // Print an error message
-        Broodwar << Text::Red << "ERROR: Failed to find the " << missing << " in " << dll << std::endl;
+        printf("%cERROR: Failed to find the %s in %s", Text::Red, missing.c_str(), dll.c_str());
         externalModuleConnected = false;
       }
     }

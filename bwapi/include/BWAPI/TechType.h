@@ -64,6 +64,7 @@ namespace BWAPI
       };
     };
   }
+
   /// <summary>The TechType (or Technology Type, also referred to as an Ability) represents a Unit's ability
   /// which can be researched with UnitInterface::research or used with UnitInterface::useTech.</summary>
   /// In order for a Unit to use its own specialized ability, it must first be available and researched.
@@ -74,7 +75,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr TechType(int id = TechTypes::Enum::None) : Type(id) {}
+      constexpr explicit TechType(int id = TechTypes::Enum::None) : Type(id) {}
 
       /// <summary>Retrieves the race that is required to research or use the TechType.</summary>
       ///

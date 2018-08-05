@@ -178,23 +178,19 @@ namespace BWAPI
 
     bool IsEnemyImpl(Unit u)
     {
-      if ( BWAPI::BroodwarPtr == nullptr )
-        return false;
-      BWAPI::Player self = BWAPI::Broodwar->self();
-      return self == nullptr ? false : self->isEnemy( u->getPlayer() );
+      auto const self = u->getGame().self();
+      return self == nullptr ? false : self->isEnemy(u->getPlayer());
     }
     const PtrUnitFilter IsEnemy( &IsEnemyImpl );
 
     bool IsAllyImpl(Unit u)
     {
-      if ( BWAPI::BroodwarPtr == nullptr )
-        return false;
-      BWAPI::Player self = BWAPI::Broodwar->self();
+      auto const self = u->getGame().self();
       return self == nullptr ? false : self->isAlly( u->getPlayer() );
     }
     const PtrUnitFilter IsAlly( &IsAllyImpl );
 
-    U_UFILTER(IsOwned, BWAPI::BroodwarPtr == nullptr ? false : u->getPlayer() == BWAPI::Broodwar->self() );
+    U_UFILTER(IsOwned, u->getPlayer() == u->getGame().self() );
   }
 }
 

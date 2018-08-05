@@ -45,7 +45,7 @@ bool CommandOptimizer::add(UnitCommand command)
   if (uct == UnitCommandTypes::Attack_Unit)
   {
     // Use Right Click for Attack Unit
-    if (thisType.canAttack() && utarg && Broodwar->self() && Broodwar->self()->isEnemy(utarg->getPlayer()))
+    if (thisType.canAttack() && utarg && BroodwarImpl.self() && BroodwarImpl.self()->isEnemy(utarg->getPlayer()))
       command.type = UnitCommandTypes::Right_Click_Unit;
   }
   else if (uct == UnitCommandTypes::Move)

@@ -75,7 +75,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    constexpr UnitCommandType(int id = UnitCommandTypes::Enum::None) : Type(id) {}
+    constexpr explicit UnitCommandType(int id = UnitCommandTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

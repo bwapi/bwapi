@@ -73,7 +73,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr BulletType(int id = BulletTypes::Enum::None) : Type(id) {}
+      constexpr explicit BulletType(int id = BulletTypes::Enum::None) : Type(id) {}
   };
   /// @ingroup Types
   namespace BulletTypes

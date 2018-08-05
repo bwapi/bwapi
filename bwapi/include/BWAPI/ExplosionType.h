@@ -54,7 +54,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr ExplosionType(int id = ExplosionTypes::Enum::None) : Type(id) {}
+      constexpr explicit ExplosionType(int id = ExplosionTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

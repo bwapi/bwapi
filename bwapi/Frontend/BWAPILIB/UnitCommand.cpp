@@ -8,7 +8,7 @@
 
 namespace BWAPI
 {
-  UnitCommand::UnitCommand(Unit _unit, UnitCommandType _type, Unit _target, int _x, int _y, int _extra)
+  UnitCommand::UnitCommand(UnitID _unit, UnitCommandType _type, UnitID _target, int _x, int _y, int _extra)
     : unit(_unit)
     , type(_type)
     , target(_target)
@@ -16,231 +16,231 @@ namespace BWAPI
     , y(_y)
     , extra(_extra)
   {}
-  UnitCommand::UnitCommand(Unit _unit, UnitCommandType _type)
+  UnitCommand::UnitCommand(UnitID _unit, UnitCommandType _type)
     : unit(_unit)
     , type(_type)
   {}
-  UnitCommand UnitCommand::attack(Unit unit, Position target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::attack(UnitID unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Attack_Move };
     c.assignTarget(target);
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::attack(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::attack(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Attack_Unit };
     c.target = target;
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::build(Unit unit, TilePosition target, UnitType type)
+  UnitCommand UnitCommand::build(UnitID unit, TilePosition target, UnitType type)
   {
     UnitCommand c{ unit, UnitCommandTypes::Build };
     c.assignTarget(target);
     c.extra = type;
     return c;
   }
-  UnitCommand UnitCommand::buildAddon(Unit unit, UnitType type)
+  UnitCommand UnitCommand::buildAddon(UnitID unit, UnitType type)
   {
     UnitCommand c{ unit, UnitCommandTypes::Build_Addon };
     c.extra = type;
     return c;
   }
-  UnitCommand UnitCommand::train(Unit unit, UnitType type)
+  UnitCommand UnitCommand::train(UnitID unit, UnitType type)
   {
     UnitCommand c{ unit, UnitCommandTypes::Train };
     c.extra = type;
     return c;
   }
-  UnitCommand UnitCommand::morph(Unit unit, UnitType type)
+  UnitCommand UnitCommand::morph(UnitID unit, UnitType type)
   {
     UnitCommand c{ unit, UnitCommandTypes::Morph };
     c.extra = type;
     return c;
   }
-  UnitCommand UnitCommand::research(Unit unit, TechType tech)
+  UnitCommand UnitCommand::research(UnitID unit, TechType tech)
   {
     UnitCommand c{ unit, UnitCommandTypes::Research };
     c.extra = tech;
     return c;
   }
-  UnitCommand UnitCommand::upgrade(Unit unit, UpgradeType upgrade)
+  UnitCommand UnitCommand::upgrade(UnitID unit, UpgradeType upgrade)
   {
     UnitCommand c{ unit, UnitCommandTypes::Upgrade };
     c.extra = upgrade;
     return c;
   }
-  UnitCommand UnitCommand::setRallyPoint(Unit unit, Position target)
+  UnitCommand UnitCommand::setRallyPoint(UnitID unit, Position target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Set_Rally_Position };
     c.assignTarget(target);
     return c;
   }
-  UnitCommand UnitCommand::setRallyPoint(Unit unit, Unit target)
+  UnitCommand UnitCommand::setRallyPoint(UnitID unit, UnitID target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Set_Rally_Unit };
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::move(Unit unit, Position target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::move(UnitID unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Move };
     c.assignTarget(target);
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::patrol(Unit unit, Position target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::patrol(UnitID unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Patrol };
     c.assignTarget(target);
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::holdPosition(Unit unit, bool shiftQueueCommand)
+  UnitCommand UnitCommand::holdPosition(UnitID unit, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Hold_Position };
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::stop(Unit unit, bool shiftQueueCommand)
+  UnitCommand UnitCommand::stop(UnitID unit, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Stop };
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::follow(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::follow(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Follow };
     c.target = target;
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::gather(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::gather(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Gather };
     c.target = target;
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::returnCargo(Unit unit, bool shiftQueueCommand)
+  UnitCommand UnitCommand::returnCargo(UnitID unit, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Return_Cargo };
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::repair(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::repair(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Repair };
     c.target = target;
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::burrow(Unit unit)
+  UnitCommand UnitCommand::burrow(UnitID unit)
   {
     return UnitCommand { unit, UnitCommandTypes::Burrow };
   }
-  UnitCommand UnitCommand::unburrow(Unit unit)
+  UnitCommand UnitCommand::unburrow(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Unburrow };
   }
-  UnitCommand UnitCommand::cloak(Unit unit)
+  UnitCommand UnitCommand::cloak(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cloak };
   }
-  UnitCommand UnitCommand::decloak(Unit unit)
+  UnitCommand UnitCommand::decloak(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Decloak };
   }
-  UnitCommand UnitCommand::siege(Unit unit)
+  UnitCommand UnitCommand::siege(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Siege };
   }
-  UnitCommand UnitCommand::unsiege(Unit unit)
+  UnitCommand UnitCommand::unsiege(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Unsiege };
   }
-  UnitCommand UnitCommand::lift(Unit unit)
+  UnitCommand UnitCommand::lift(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Lift };
   }
-  UnitCommand UnitCommand::land(Unit unit, TilePosition target)
+  UnitCommand UnitCommand::land(UnitID unit, TilePosition target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Land };
     c.assignTarget(target);
     return c;
   }
-  UnitCommand UnitCommand::load(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::load(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Load };
     c.target = target;
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::unload(Unit unit, Unit target)
+  UnitCommand UnitCommand::unload(UnitID unit, UnitID target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Unload };
     c.target = target;
     return c;
   }
-  UnitCommand UnitCommand::unloadAll(Unit unit, bool shiftQueueCommand)
+  UnitCommand UnitCommand::unloadAll(UnitID unit, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Unload_All };
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::unloadAll(Unit unit, Position target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::unloadAll(UnitID unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Unload_All_Position };
     c.assignTarget(target);
     c.extra  = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit unit, Position target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::rightClick(UnitID unit, Position target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Right_Click_Position };
     c.assignTarget(target);
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::rightClick(Unit unit, Unit target, bool shiftQueueCommand)
+  UnitCommand UnitCommand::rightClick(UnitID unit, UnitID target, bool shiftQueueCommand)
   {
     UnitCommand c{ unit, UnitCommandTypes::Right_Click_Unit };
     c.target = target;
     c.extra = shiftQueueCommand ? 1 : 0;
     return c;
   }
-  UnitCommand UnitCommand::haltConstruction(Unit unit)
+  UnitCommand UnitCommand::haltConstruction(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Halt_Construction };
   }
-  UnitCommand UnitCommand::cancelConstruction(Unit unit)
+  UnitCommand UnitCommand::cancelConstruction(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cancel_Construction };
   }
-  UnitCommand UnitCommand::cancelAddon(Unit unit)
+  UnitCommand UnitCommand::cancelAddon(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cancel_Addon };
   }
-  UnitCommand UnitCommand::cancelTrain(Unit unit, int slot)
+  UnitCommand UnitCommand::cancelTrain(UnitID unit, int slot)
   {
     UnitCommand c{ unit, slot >= 0 ? UnitCommandTypes::Cancel_Train_Slot : UnitCommandTypes::Cancel_Train };
     c.extra = slot;
     return c;
   }
-  UnitCommand UnitCommand::cancelMorph(Unit unit)
+  UnitCommand UnitCommand::cancelMorph(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cancel_Morph };
   }
-  UnitCommand UnitCommand::cancelResearch(Unit unit)
+  UnitCommand UnitCommand::cancelResearch(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cancel_Research };
   }
-  UnitCommand UnitCommand::cancelUpgrade(Unit unit)
+  UnitCommand UnitCommand::cancelUpgrade(UnitID unit)
   {
     return UnitCommand{ unit, UnitCommandTypes::Cancel_Upgrade };
   }
-  UnitCommand UnitCommand::useTech(Unit unit, TechType tech)
+  UnitCommand UnitCommand::useTech(UnitID unit, TechType tech)
   {
     UnitCommand c{ unit, UnitCommandTypes::Use_Tech };
     c.extra = tech;
@@ -252,21 +252,21 @@ namespace BWAPI
       c.type = unit->isSieged() ? UnitCommandTypes::Unsiege : UnitCommandTypes::Siege;
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit unit, TechType tech, Position target)
+  UnitCommand UnitCommand::useTech(UnitID unit, TechType tech, Position target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Use_Tech_Position };
     c.assignTarget(target);
     c.extra = tech;
     return c;
   }
-  UnitCommand UnitCommand::useTech(Unit unit, TechType tech, Unit target)
+  UnitCommand UnitCommand::useTech(UnitID unit, TechType tech, UnitID target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Use_Tech_Unit };
     c.target = target;
     c.extra = tech;
     return c;
   }
-  UnitCommand UnitCommand::placeCOP(Unit unit, TilePosition target)
+  UnitCommand UnitCommand::placeCOP(UnitID unit, TilePosition target)
   {
     UnitCommand c{ unit, UnitCommandTypes::Place_COP };
     c.assignTarget(target);
@@ -276,11 +276,11 @@ namespace BWAPI
   {
     return type;
   }
-  Unit UnitCommand::getUnit() const
+  UnitID UnitCommand::getUnit() const
   {
     return unit;
   }
-  Unit UnitCommand::getTarget() const
+  UnitID UnitCommand::getTarget() const
   {
     return target;
   }

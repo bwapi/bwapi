@@ -75,7 +75,7 @@ namespace BWAPI
     }
     else
     {
-      const bool completeMapInfo = Broodwar->isFlagEnabled(Flag::CompleteMapInformation);
+      const bool completeMapInfo = BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation);
       const u32 playerFlag = 1 << BroodwarImpl.BWAPIPlayer->getIndex();
       for(int x = 0; x < width; ++x)
       {

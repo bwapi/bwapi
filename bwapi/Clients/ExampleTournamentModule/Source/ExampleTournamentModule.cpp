@@ -7,7 +7,7 @@ bool leader = false;
 void ExampleTournamentAI::onStart()
 {
   // Set the command optimization level (reduces high APM, size of bloated replays, etc)
-  Broodwar->setCommandOptimizationLevel(MINIMUM_COMMAND_OPTIMIZATION);
+  //Broodwar->setCommandOptimizationLevel(MINIMUM_COMMAND_OPTIMIZATION);
 }
 
 int maxAPM;
@@ -18,21 +18,21 @@ void ExampleTournamentAI::onEnd(bool isWinner)
 
 void ExampleTournamentAI::onFrame()
 {
-  int thisAPM = Broodwar->getAPM();
+  /*int thisAPM = Broodwar->getAPM();
   if ( thisAPM > maxAPM )
     maxAPM = thisAPM;
 
   // If the elapsed game time has exceeded 20 minutes
   if ( Broodwar->elapsedTime() > 20 * 60 ) 
   {
-    /*// Possibly save the player's score
+    // * Possibly save the player's score
       Broodwar->self()->getUnitScore();
       Broodwar->self()->getKillScore();
       Broodwar->self()->getBuildingScore();
-      Broodwar->self()->getRazingScore();  */
+      Broodwar->self()->getRazingScore(); 
     Broodwar->sendText("DRAW");
     Broodwar->leaveGame();
-  }
+  } */
 }
 
 void ExampleTournamentAI::onSendText(std::string text)
@@ -127,6 +127,6 @@ bool ExampleTournamentModule::onAction(BWAPI::Tournament::ActionID actionType, v
 void ExampleTournamentModule::onFirstAdvertisement()
 {
   leader = true;
-  Broodwar->sendText("Welcome to " TOURNAMENT_NAME "!");
-  Broodwar->sendText("Brought to you by " SPONSORS ".");
+  //Broodwar->sendText("Welcome to " TOURNAMENT_NAME "!");
+  //Broodwar->sendText("Brought to you by " SPONSORS ".");
 }

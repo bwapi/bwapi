@@ -6,9 +6,6 @@
 namespace BWAPI
 {
   // Forward Declarations
-  class RegionInterface;
-  typedef RegionInterface *Region;
-
   class Unitset;
 
   /// <summary>A container that holds a set of Region objects.</summary>
@@ -16,10 +13,10 @@ namespace BWAPI
   {
   public:
 
-    /// @copydoc RegionInterface::getCenter
+    /// @copydoc Region::getCenter
     Position getCenter() const;
 
-    /// @copydoc RegionInterface::getUnits
+    /// @copydoc Region::getUnits
     Unitset getUnits(const UnitFilter &pred = nullptr) const;
   };
 }

@@ -13,11 +13,12 @@ namespace BWAPI
   class CommandTemp
   {
   public :
-    CommandTemp(const UnitCommand& command);
+    CommandTemp(Game &game, const UnitCommand& command);
     void execute(int frame);
   protected:
     virtual ~CommandTemp() {};
-  private :
+  private:
+    Game &game;
     static int getUnitID(Unit unit);
     UnitCommand command;
     int savedExtra = -1;
@@ -25,7 +26,7 @@ namespace BWAPI
     PlayerImpl* player = nullptr;
   };
   template <class UnitImpl, class PlayerImpl>
-  CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(const UnitCommand& command) : command(command)
+  CommandTemp<UnitImpl, PlayerImpl>::CommandTemp(Game &game, const UnitCommand& command): game(game), command(command)
   {}
   template <class UnitImpl, class PlayerImpl>
   int CommandTemp<UnitImpl, PlayerImpl>::getUnitID(Unit unit)
@@ -38,7 +39,7 @@ namespace BWAPI
   void CommandTemp<UnitImpl, PlayerImpl>::execute(int frame)
   {
     // Immediately return if latency compensation is disabled or if the command was queued
-    if ( !Broodwar->isLatComEnabled() || command.isQueued() ) return;
+    if ( !game.isLatComEnabled() || command.isQueued() ) return;
     UnitImpl* unit   = static_cast<UnitImpl*>(command.unit);
     UnitImpl* target = static_cast<UnitImpl*>(command.target);
 
@@ -50,10 +51,10 @@ namespace BWAPI
 
     // Get the player (usually the unit's owner)
     if ( !player )
-      player = static_cast<PlayerImpl*>(unit ? unit->getPlayer() : Broodwar->self());
+      player = static_cast<PlayerImpl*>(unit ? unit->getPlayer() : game.self());
 
     // Latency test
-    if (frame > Broodwar->getLatencyFrames() &&
+    if (frame > game.getLatencyFrames() &&
         command.type != UnitCommandTypes::Cancel_Construction &&
         command.type != UnitCommandTypes::Cancel_Train_Slot &&
         command.type != UnitCommandTypes::Cancel_Morph &&
@@ -73,7 +74,7 @@ namespace BWAPI
     case UnitCommandTypes::Enum::Cancel_Upgrade:
       break;
     default:
-      if ( !unit->self->exists )
+      if ( !unit->data.exists )
         return;
       break;
     }
@@ -95,237 +96,237 @@ namespace BWAPI
     // Apply command changes
     if (command.type == UnitCommandTypes::Attack_Move)
     {
-      unit->self->order           = Orders::AttackMove;
-      unit->self->targetPositionX = position.x;
-      unit->self->targetPositionY = position.y;
-      unit->self->orderTargetPositionX = position.x;
-      unit->self->orderTargetPositionY = position.y;
+      unit->data.order           = Orders::AttackMove;
+      unit->data.targetPositionX = position.x;
+      unit->data.targetPositionY = position.y;
+      unit->data.orderTargetPositionX = position.x;
+      unit->data.orderTargetPositionY = position.y;
     }
     else if (command.type == UnitCommandTypes::Attack_Unit)
     {
-      if ( !target || !target->self->exists)
+      if ( !target || !target->data.exists)
         return;
       if (!unit->getType().canAttack())
         return;
-      unit->self->order = Orders::AttackUnit;
-      unit->self->target = getUnitID(target);
+      unit->data.order = Orders::AttackUnit;
+      unit->data.target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Build)
     {
-      unit->self->order = Orders::PlaceBuilding;
-      unit->self->isConstructing = true;
-      unit->self->isIdle         = false;
-      unit->self->buildType      = command.extra;
+      unit->data.order = Orders::PlaceBuilding;
+      unit->data.isConstructing = true;
+      unit->data.isIdle         = false;
+      unit->data.buildType      = command.extra;
     }
     else if (command.type == UnitCommandTypes::Build_Addon)
     {
-      unit->self->secondaryOrder = Orders::BuildAddon;
-      unit->self->isConstructing = true;
-      unit->self->isIdle         = false;
-      unit->self->buildType      = command.extra;
+      unit->data.secondaryOrder = Orders::BuildAddon;
+      unit->data.isConstructing = true;
+      unit->data.isIdle         = false;
+      unit->data.buildType      = command.extra;
     }
     else if (command.type == UnitCommandTypes::Burrow)
     {
-      unit->self->order = Orders::Burrowing;
+      unit->data.order = Orders::Burrowing;
     }
     else if (command.type == UnitCommandTypes::Cancel_Addon)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->buildType;
+        savedExtra = unit->data.buildType;
       unitType = UnitType(savedExtra);
-      if (frame < Broodwar->getLatencyFrames())
+      if (frame < game.getLatencyFrames())
       {
-        player->self->minerals += (int)(unitType.mineralPrice() * 0.75);
-        player->self->gas      += (int)(unitType.gasPrice()     * 0.75);
+        player->data.minerals += (int)(unitType.mineralPrice() * 0.75);
+        player->data.gas      += (int)(unitType.gasPrice()     * 0.75);
       }
-      unit->self->remainingBuildTime = 0;
-      unit->self->isConstructing     = false;
-      unit->self->order              = Orders::Nothing;
-      unit->self->isIdle             = true;
-      unit->self->buildType          = UnitTypes::None;
-      unit->self->buildUnit          = -1;
+      unit->data.remainingBuildTime = 0;
+      unit->data.isConstructing     = false;
+      unit->data.order              = Orders::Nothing;
+      unit->data.isIdle             = true;
+      unit->data.buildType          = UnitTypes::None;
+      unit->data.buildUnit          = -1;
     }
     else if (command.type == UnitCommandTypes::Cancel_Construction)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->type;
+        savedExtra = unit->data.type;
       if (savedExtra2 == -1)
-        savedExtra2 = unit->self->buildUnit;
+        savedExtra2 = unit->data.buildUnit;
       unitType = UnitType(savedExtra);
-      if ((frame > Broodwar->getLatencyFrames() + 1 && Broodwar->getLatencyFrames() == 2) || 
-          (frame > Broodwar->getLatencyFrames() + 2 && Broodwar->getLatencyFrames() > 2))
+      if ((frame > game.getLatencyFrames() + 1 && game.getLatencyFrames() == 2) || 
+          (frame > game.getLatencyFrames() + 2 && game.getLatencyFrames() > 2))
         return;
       if (unitType.getRace() == Races::Terran)
       {
-        UnitImpl* builder = static_cast<UnitImpl*>( Broodwar->getUnit(savedExtra2) );
+        UnitImpl* builder = static_cast<UnitImpl*>( game.getUnit(savedExtra2) );
         if ( builder && builder->exists())
         {
-          builder->self->buildUnit      = -1;
-          builder->self->buildType      = UnitTypes::None;
-          builder->self->isConstructing = false;
-          builder->self->order          = Orders::ResetCollision;
+          builder->data.buildUnit      = -1;
+          builder->data.buildType      = UnitTypes::None;
+          builder->data.isConstructing = false;
+          builder->data.order          = Orders::ResetCollision;
         }
       }
-      if (frame > Broodwar->getLatencyFrames())
+      if (frame > game.getLatencyFrames())
         return;
-      if (!unit->self->exists)
+      if (!unit->data.exists)
         return;
-      unit->self->buildUnit = -1;
-      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames()==2) ||
-          (frame <=Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames()>2))
+      unit->data.buildUnit = -1;
+      if ((frame < game.getLatencyFrames() && game.getLatencyFrames()==2) ||
+          (frame <=game.getLatencyFrames() && game.getLatencyFrames()>2))
       {
-        player->self->minerals += (int)(unitType.mineralPrice() * 0.75);
-        player->self->gas      += (int)(unitType.gasPrice()     * 0.75);
+        player->data.minerals += (int)(unitType.mineralPrice() * 0.75);
+        player->data.gas      += (int)(unitType.gasPrice()     * 0.75);
       }
-      unit->self->remainingBuildTime = 0;
-      unit->self->isConstructing     = false;
+      unit->data.remainingBuildTime = 0;
+      unit->data.isConstructing     = false;
       if (unitType.getRace() == Races::Zerg)
       {
-        unit->self->type       = unitType.whatBuilds().first;
-        unit->self->buildType  = UnitTypes::None;
-        unit->self->isMorphing = false;
-        unit->self->isIdle     = true;
+        unit->data.type       = unitType.whatBuilds().first;
+        unit->data.buildType  = UnitTypes::None;
+        unit->data.isMorphing = false;
+        unit->data.isIdle     = true;
 
         UnitType whatBuilds = unitType.whatBuilds().first;
-        if (frame < Broodwar->getLatencyFrames())
-          player->self->supplyUsed[unitType.getRace()] += whatBuilds.supplyRequired();
+        if (frame < game.getLatencyFrames())
+          player->data.supplyUsed[unitType.getRace()] += whatBuilds.supplyRequired();
 
         if (whatBuilds.isBuilding())
         {
-          unit->self->order = Orders::Nothing;
+          unit->data.order = Orders::Nothing;
         }
         else
         {
-          unit->self->order = Orders::ResetCollision;
+          unit->data.order = Orders::ResetCollision;
         }
       }
       else
       {
-        unit->self->order       = Orders::Die;
-        unit->self->isCompleted = false;
-        unit->self->isIdle      = false;
+        unit->data.order       = Orders::Die;
+        unit->data.isCompleted = false;
+        unit->data.isIdle      = false;
       }
     }
     else if (command.type == UnitCommandTypes::Cancel_Morph)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->buildType;
+        savedExtra = unit->data.buildType;
       unitType = UnitType(savedExtra);
-      if (frame > Broodwar->getLatencyFrames() + 12)
+      if (frame > game.getLatencyFrames() + 12)
         return;
-      if (frame < Broodwar->getLatencyFrames())
+      if (frame < game.getLatencyFrames())
       {
         if (unitType.whatBuilds().first.isBuilding())
         {
-          player->self->minerals += (int)(unitType.mineralPrice()*0.75);
-          player->self->gas      += (int)(unitType.gasPrice()*0.75);
+          player->data.minerals += (int)(unitType.mineralPrice()*0.75);
+          player->data.gas      += (int)(unitType.gasPrice()*0.75);
         }
         else
         {
-          player->self->minerals += unitType.mineralPrice();
-          player->self->gas      += unitType.gasPrice();
+          player->data.minerals += unitType.mineralPrice();
+          player->data.gas      += unitType.gasPrice();
         }
       }
-      if (frame<=Broodwar->getLatencyFrames())
+      if (frame<=game.getLatencyFrames())
       {
         if (unitType.isTwoUnitsInOneEgg())
-          player->self->supplyUsed[Races::Zerg] -= unitType.supplyRequired() * 2 - unitType.whatBuilds().first.supplyRequired();
+          player->data.supplyUsed[Races::Zerg] -= unitType.supplyRequired() * 2 - unitType.whatBuilds().first.supplyRequired();
         else
-          player->self->supplyUsed[Races::Zerg] -= unitType.supplyRequired() - unitType.whatBuilds().first.supplyRequired();
+          player->data.supplyUsed[Races::Zerg] -= unitType.supplyRequired() - unitType.whatBuilds().first.supplyRequired();
       }
-      unit->self->buildType          = UnitTypes::None;
-      unit->self->remainingBuildTime = 0;
-      unit->self->isMorphing         = false;
-      unit->self->isConstructing     = false;
-      unit->self->isCompleted        = true;
-      unit->self->isIdle             = true;
-      unit->self->type               = unitType.whatBuilds().first;
+      unit->data.buildType          = UnitTypes::None;
+      unit->data.remainingBuildTime = 0;
+      unit->data.isMorphing         = false;
+      unit->data.isConstructing     = false;
+      unit->data.isCompleted        = true;
+      unit->data.isIdle             = true;
+      unit->data.type               = unitType.whatBuilds().first;
       if (unitType.whatBuilds().first.isBuilding())
-        unit->self->order = Orders::Nothing;
+        unit->data.order = Orders::Nothing;
       else
-        unit->self->order = Orders::PlayerGuard;
+        unit->data.order = Orders::PlayerGuard;
     }
     else if (command.type == UnitCommandTypes::Cancel_Research)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->tech;
+        savedExtra = unit->data.tech;
       techType = TechType(savedExtra);
 
-      if (!unit->self->exists)
+      if (!unit->data.exists)
         return;
-      unit->self->order                 = Orders::Nothing;
-      unit->self->tech                  = TechTypes::None;
-      unit->self->isIdle                = true;
-      unit->self->remainingResearchTime = 0;
-      if (frame < Broodwar->getLatencyFrames())
+      unit->data.order                 = Orders::Nothing;
+      unit->data.tech                  = TechTypes::None;
+      unit->data.isIdle                = true;
+      unit->data.remainingResearchTime = 0;
+      if (frame < game.getLatencyFrames())
       {
-        player->self->minerals += techType.mineralPrice();
-        player->self->gas      += techType.gasPrice();
+        player->data.minerals += techType.mineralPrice();
+        player->data.gas      += techType.gasPrice();
       }
     }
     else if (command.type == UnitCommandTypes::Cancel_Train)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->trainingQueue[unit->self->trainingQueueCount - 1];
+        savedExtra = unit->data.trainingQueue[unit->data.trainingQueueCount - 1];
       if (savedExtra2 == -1)
-        savedExtra2 = unit->self->buildUnit;
-      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
+        savedExtra2 = unit->data.buildUnit;
+      if ((frame < game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+          (frame <= game.getLatencyFrames()+1 && game.getLatencyFrames() > 2))
       {
-        unit->self->trainingQueueCount--;
-        if (unit->self->trainingQueueCount < 0)
-          unit->self->trainingQueueCount = 0;
-        player->self->minerals += UnitType(savedExtra).mineralPrice();
-        player->self->gas      += UnitType(savedExtra).gasPrice();
+        unit->data.trainingQueueCount--;
+        if (unit->data.trainingQueueCount < 0)
+          unit->data.trainingQueueCount = 0;
+        player->data.minerals += UnitType(savedExtra).mineralPrice();
+        player->data.gas      += UnitType(savedExtra).gasPrice();
       }
-      if (unit->self->trainingQueueCount == 0)
+      if (unit->data.trainingQueueCount == 0)
       {
-        unit->self->buildUnit          = -1;
-        unit->self->isTraining         = false;
-        unit->self->remainingTrainTime = 0;
-        unit->self->isIdle             = true;
-        player->self->supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
+        unit->data.buildUnit          = -1;
+        unit->data.isTraining         = false;
+        unit->data.remainingTrainTime = 0;
+        unit->data.isIdle             = true;
+        player->data.supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
       }
     }
     else if (command.type == UnitCommandTypes::Cancel_Train_Slot)
     {
-      if (frame > Broodwar->getLatencyFrames() + 2)
+      if (frame > game.getLatencyFrames() + 2)
         return;
       if (savedExtra == -1)
-        savedExtra = unit->self->trainingQueue[command.extra];
-      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
+        savedExtra = unit->data.trainingQueue[command.extra];
+      if ((frame < game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+          (frame <= game.getLatencyFrames()+1 && game.getLatencyFrames() > 2))
       {
         for(int i = command.extra; i < 4; ++i)
-          unit->self->trainingQueue[i] = unit->self->trainingQueue[i+1];
-        unit->self->trainingQueueCount--;
-        if (unit->self->trainingQueueCount < 0)
-          unit->self->trainingQueueCount = 0;
-        player->self->minerals += UnitType(savedExtra).mineralPrice();
-        player->self->gas      += UnitType(savedExtra).gasPrice();
+          unit->data.trainingQueue[i] = unit->data.trainingQueue[i+1];
+        unit->data.trainingQueueCount--;
+        if (unit->data.trainingQueueCount < 0)
+          unit->data.trainingQueueCount = 0;
+        player->data.minerals += UnitType(savedExtra).mineralPrice();
+        player->data.gas      += UnitType(savedExtra).gasPrice();
       }
       if (command.extra == 0)
       {
-        unit->self->buildUnit = -1;
-        if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-            (frame <= Broodwar->getLatencyFrames()-1 && Broodwar->getLatencyFrames() > 2))
+        unit->data.buildUnit = -1;
+        if ((frame < game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+            (frame <= game.getLatencyFrames()-1 && game.getLatencyFrames() > 2))
         {
-          player->self->supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
+          player->data.supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
         }
 
-        if (unit->self->trainingQueueCount == 0)
+        if (unit->data.trainingQueueCount == 0)
         {
-          unit->self->isTraining = false;
-          unit->self->isIdle     = true;
+          unit->data.isTraining = false;
+          unit->data.isIdle     = true;
         }
         else
         {
-          unit->self->remainingTrainTime = UnitType(unit->self->trainingQueue[0]).buildTime();  // @TODO: fix to real build time
-          player->self->supplyUsed[unit->getType().getRace()] += UnitType(unit->self->trainingQueue[0]).supplyRequired();
-          if ((frame == Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-              (frame == Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2) )
+          unit->data.remainingTrainTime = UnitType(unit->data.trainingQueue[0]).buildTime();  // @TODO: fix to real build time
+          player->data.supplyUsed[unit->getType().getRace()] += UnitType(unit->data.trainingQueue[0]).supplyRequired();
+          if ((frame == game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+              (frame == game.getLatencyFrames()+1 && game.getLatencyFrames() > 2) )
           {
-            player->self->supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
+            player->data.supplyUsed[unit->getType().getRace()] -= UnitType(savedExtra).supplyRequired();
           }
         }
       }
@@ -333,390 +334,390 @@ namespace BWAPI
     else if (command.type == UnitCommandTypes::Cancel_Upgrade)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->upgrade;
+        savedExtra = unit->data.upgrade;
       upgradeType = UpgradeType(savedExtra);
 
-      if (!unit->self->exists)
+      if (!unit->data.exists)
         return;
 
-      unit->self->order                = Orders::Nothing;
+      unit->data.order                = Orders::Nothing;
       int level                        = unit->getPlayer()->getUpgradeLevel(upgradeType);
-      unit->self->upgrade              = UpgradeTypes::None;
-      unit->self->isIdle               = true;
-      unit->self->remainingUpgradeTime = 0;
+      unit->data.upgrade              = UpgradeTypes::None;
+      unit->data.isIdle               = true;
+      unit->data.remainingUpgradeTime = 0;
 
-      if (frame < Broodwar->getLatencyFrames())
+      if (frame < game.getLatencyFrames())
       {
-        player->self->minerals += upgradeType.mineralPrice(level+1);
-        player->self->gas      += upgradeType.gasPrice(level+1);
+        player->data.minerals += upgradeType.mineralPrice(level+1);
+        player->data.gas      += upgradeType.gasPrice(level+1);
       }
     }
     else if (command.type == UnitCommandTypes::Cloak)
     {
-      unit->self->order = Orders::Cloak;
-      if (frame < Broodwar->getLatencyFrames())
-        unit->self->energy -= unit->getType().cloakingTech().energyCost();
+      unit->data.order = Orders::Cloak;
+      if (frame < game.getLatencyFrames())
+        unit->data.energy -= unit->getType().cloakingTech().energyCost();
     }
     else if (command.type == UnitCommandTypes::Decloak)
     {
-      unit->self->order = Orders::Decloak;
+      unit->data.order = Orders::Decloak;
     }
     else if (command.type == UnitCommandTypes::Follow)
     {
-      unit->self->order    = Orders::Follow;
-      unit->self->target   = getUnitID(target);
-      unit->self->isIdle   = false;
-      unit->self->isMoving = true;
+      unit->data.order    = Orders::Follow;
+      unit->data.target   = getUnitID(target);
+      unit->data.isIdle   = false;
+      unit->data.isMoving = true;
     }
     else if (command.type == UnitCommandTypes::Gather)
     {
-      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
-          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
+      if ((frame<=game.getLatencyFrames()   && game.getLatencyFrames()==2) ||
+          (frame<=game.getLatencyFrames()+1 && game.getLatencyFrames()>2))
       {
-        unit->self->target      = getUnitID(target);
-        unit->self->isIdle      = false;
-        unit->self->isMoving    = true;
-        unit->self->isGathering = true;
+        unit->data.target      = getUnitID(target);
+        unit->data.isIdle      = false;
+        unit->data.isMoving    = true;
+        unit->data.isGathering = true;
         if ( target->getType().isMineralField() )
-          unit->self->order = Orders::MoveToMinerals;
+          unit->data.order = Orders::MoveToMinerals;
         else if ( target->getType().isRefinery() )
-          unit->self->order = Orders::MoveToGas;
+          unit->data.order = Orders::MoveToGas;
       }
     }
     else if (command.type == UnitCommandTypes::Halt_Construction)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->buildUnit;
-      if (frame > Broodwar->getLatencyFrames())
+        savedExtra = unit->data.buildUnit;
+      if (frame > game.getLatencyFrames())
         return;
-      UnitImpl* buildUnit = static_cast<UnitImpl*>( Broodwar->getUnit(savedExtra) );
+      UnitImpl* buildUnit = static_cast<UnitImpl*>( game.getUnit(savedExtra) );
       if ( buildUnit )
-        buildUnit->self->buildUnit = -1;
+        buildUnit->data.buildUnit = -1;
 
-      unit->self->buildUnit      = -1;
-      unit->self->buildType      = UnitTypes::None;
-      unit->self->order          = Orders::ResetCollision;
-      unit->self->isConstructing = false;
+      unit->data.buildUnit      = -1;
+      unit->data.buildType      = UnitTypes::None;
+      unit->data.order          = Orders::ResetCollision;
+      unit->data.isConstructing = false;
     }
     else if (command.type == UnitCommandTypes::Hold_Position)
     {
-      unit->self->isMoving = false;
-      unit->self->isIdle   = false;
-      unit->self->order    = Orders::HoldPosition;
+      unit->data.isMoving = false;
+      unit->data.isIdle   = false;
+      unit->data.order    = Orders::HoldPosition;
     }
     else if (command.type == UnitCommandTypes::Land)
     {
-      unit->self->order  = Orders::BuildingLand;
-      unit->self->isIdle = false;
+      unit->data.order  = Orders::BuildingLand;
+      unit->data.isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Lift)
     {
-      unit->self->order  = Orders::BuildingLiftOff;
-      unit->self->isIdle = false;
+      unit->data.order  = Orders::BuildingLiftOff;
+      unit->data.isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Load)
     {
       if (unit->getType() == UnitTypes::Terran_Bunker)
       {
-        unit->self->order  = Orders::PickupBunker;
-        unit->self->target = getUnitID(target);
+        unit->data.order  = Orders::PickupBunker;
+        unit->data.target = getUnitID(target);
       }
       else if ( unit->getType().spaceProvided() )
       {
-        unit->self->order  = Orders::PickupTransport;
-        unit->self->target = getUnitID(target);
+        unit->data.order  = Orders::PickupTransport;
+        unit->data.target = getUnitID(target);
       }
       else if ( target->getType().spaceProvided() )
       {
-        unit->self->order  = Orders::EnterTransport;
-        unit->self->target = getUnitID(target);
+        unit->data.order  = Orders::EnterTransport;
+        unit->data.target = getUnitID(target);
       }
-      unit->self->isIdle = false;
+      unit->data.isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Morph)
     {
-      if (frame > Broodwar->getLatencyFrames()+1)
+      if (frame > game.getLatencyFrames()+1)
         return;
-      unit->self->isMorphing     = true;
-      unit->self->isConstructing = true;
-      unit->self->isCompleted    = false;
-      unit->self->isIdle         = false;
-      unit->self->buildType      = unitType;
-      if (unit->self->remainingBuildTime < 50)
-        unit->self->remainingBuildTime = unitType.buildTime();  // @TODO: Fix to real build time
-      if (frame > Broodwar->getLatencyFrames())
+      unit->data.isMorphing     = true;
+      unit->data.isConstructing = true;
+      unit->data.isCompleted    = false;
+      unit->data.isIdle         = false;
+      unit->data.buildType      = unitType;
+      if (unit->data.remainingBuildTime < 50)
+        unit->data.remainingBuildTime = unitType.buildTime();  // @TODO: Fix to real build time
+      if (frame > game.getLatencyFrames())
         return;
       if (unitType.isBuilding())
       {
-        unit->self->order       = Orders::ZergBuildingMorph;
-        player->self->minerals -= unitType.mineralPrice();
-        player->self->gas      -= unitType.gasPrice();
-        unit->self->type        = unitType;
+        unit->data.order       = Orders::ZergBuildingMorph;
+        player->data.minerals -= unitType.mineralPrice();
+        player->data.gas      -= unitType.gasPrice();
+        unit->data.type        = unitType;
       }
       else
       {
-        unit->self->order = Orders::ZergUnitMorph;
-        if (frame < Broodwar->getLatencyFrames())
+        unit->data.order = Orders::ZergUnitMorph;
+        if (frame < game.getLatencyFrames())
         {
-          player->self->minerals -= unitType.mineralPrice();
-          player->self->gas      -= unitType.gasPrice();
+          player->data.minerals -= unitType.mineralPrice();
+          player->data.gas      -= unitType.gasPrice();
         }
         if (unitType.isTwoUnitsInOneEgg())
-          player->self->supplyUsed[Races::Zerg] += unitType.supplyRequired()*2-unitType.whatBuilds().first.supplyRequired();
+          player->data.supplyUsed[Races::Zerg] += unitType.supplyRequired()*2-unitType.whatBuilds().first.supplyRequired();
         else
-          player->self->supplyUsed[Races::Zerg] += unitType.supplyRequired()-unitType.whatBuilds().first.supplyRequired();
+          player->data.supplyUsed[Races::Zerg] += unitType.supplyRequired()-unitType.whatBuilds().first.supplyRequired();
 
         if (unitType == UnitTypes::Zerg_Lurker)
-          unit->self->type = UnitTypes::Zerg_Lurker_Egg;
+          unit->data.type = UnitTypes::Zerg_Lurker_Egg;
         else if (unitType == UnitTypes::Zerg_Devourer ||
                  unitType == UnitTypes::Zerg_Guardian)
-          unit->self->type = UnitTypes::Zerg_Cocoon;
+          unit->data.type = UnitTypes::Zerg_Cocoon;
         else
-          unit->self->type = UnitTypes::Zerg_Egg;
+          unit->data.type = UnitTypes::Zerg_Egg;
       }
     }
     else if (command.type == UnitCommandTypes::Move)
     {
-      unit->self->order                 = Orders::Move;
-      unit->self->targetPositionX       = position.x;
-      unit->self->targetPositionY       = position.y;
-      unit->self->orderTargetPositionX  = position.x;
-      unit->self->orderTargetPositionY  = position.y;
-      unit->self->isMoving              = true;
-      unit->self->isIdle                = false;
+      unit->data.order                 = Orders::Move;
+      unit->data.targetPositionX       = position.x;
+      unit->data.targetPositionY       = position.y;
+      unit->data.orderTargetPositionX  = position.x;
+      unit->data.orderTargetPositionY  = position.y;
+      unit->data.isMoving              = true;
+      unit->data.isIdle                = false;
     }
     else if (command.type == UnitCommandTypes::Patrol)
     {
-      unit->self->order           = Orders::Patrol;
-      unit->self->isIdle          = false;
-      unit->self->isMoving        = true;
-      unit->self->targetPositionX = position.x;
-      unit->self->targetPositionY = position.y;
-      unit->self->orderTargetPositionX = position.x;
-      unit->self->orderTargetPositionY = position.y;
+      unit->data.order           = Orders::Patrol;
+      unit->data.isIdle          = false;
+      unit->data.isMoving        = true;
+      unit->data.targetPositionX = position.x;
+      unit->data.targetPositionY = position.y;
+      unit->data.orderTargetPositionX = position.x;
+      unit->data.orderTargetPositionY = position.y;
     }
     else if (command.type == UnitCommandTypes::Repair)
     {
       if (unit->getType() != UnitTypes::Terran_SCV)
         return;
-      unit->self->order  = Orders::Repair;
-      unit->self->target = getUnitID(target);
-      unit->self->isIdle = false;
+      unit->data.order  = Orders::Repair;
+      unit->data.target = getUnitID(target);
+      unit->data.isIdle = false;
     }
     else if (command.type == UnitCommandTypes::Research)
     {
-      unit->self->order                 = Orders::ResearchTech;
-      unit->self->tech                  = techType;
-      unit->self->isIdle                = false;
-      unit->self->remainingResearchTime = techType.researchTime();  // @TODO: Fix to real time
-      if (frame < Broodwar->getLatencyFrames())
+      unit->data.order                 = Orders::ResearchTech;
+      unit->data.tech                  = techType;
+      unit->data.isIdle                = false;
+      unit->data.remainingResearchTime = techType.researchTime();  // @TODO: Fix to real time
+      if (frame < game.getLatencyFrames())
       {
-        player->self->minerals -= techType.mineralPrice();
-        player->self->gas      -= techType.gasPrice();
+        player->data.minerals -= techType.mineralPrice();
+        player->data.gas      -= techType.gasPrice();
       }
-      player->self->isResearching[techType] = true;
+      player->data.isResearching[techType] = true;
     }
     else if (command.type == UnitCommandTypes::Return_Cargo)
     {
-      if (unit->self->carryResourceType == 0)
+      if (unit->data.carryResourceType == 0)
         return;
-      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
-          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
+      if ((frame<=game.getLatencyFrames()   && game.getLatencyFrames()==2) ||
+          (frame<=game.getLatencyFrames()+1 && game.getLatencyFrames()>2))
       {
         if (unit->isCarryingGas())
-          unit->self->order = Orders::ReturnGas;
+          unit->data.order = Orders::ReturnGas;
         else
-          unit->self->order = Orders::ReturnMinerals;
-        unit->self->isGathering = true;
-        unit->self->isIdle      = false;
+          unit->data.order = Orders::ReturnMinerals;
+        unit->data.isGathering = true;
+        unit->data.isIdle      = false;
       }
     }
     else if (command.type == UnitCommandTypes::Right_Click_Position)
     {
-      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
-          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
+      if ((frame<=game.getLatencyFrames()   && game.getLatencyFrames()==2) ||
+          (frame<=game.getLatencyFrames()+1 && game.getLatencyFrames()>2))
       {
-        unit->self->order           = Orders::Move;
-        unit->self->targetPositionX = position.x;
-        unit->self->targetPositionY = position.y;
-        unit->self->orderTargetPositionX = position.x;
-        unit->self->orderTargetPositionY = position.y;
-        unit->self->isMoving        = true;
-        unit->self->isIdle          = false;
+        unit->data.order           = Orders::Move;
+        unit->data.targetPositionX = position.x;
+        unit->data.targetPositionY = position.y;
+        unit->data.orderTargetPositionX = position.x;
+        unit->data.orderTargetPositionY = position.y;
+        unit->data.isMoving        = true;
+        unit->data.isIdle          = false;
       }
     }
     else if (command.type == UnitCommandTypes::Right_Click_Unit)
     {
-      unit->self->target   = getUnitID(target);
-      unit->self->isIdle   = false;
-      unit->self->isMoving = true;
+      unit->data.target   = getUnitID(target);
+      unit->data.isIdle   = false;
+      unit->data.isMoving = true;
       if (unit->getType().isWorker() && target->getType().isMineralField() )
       {
-        unit->self->isGathering = true;
-        unit->self->order       = Orders::MoveToMinerals;
+        unit->data.isGathering = true;
+        unit->data.order       = Orders::MoveToMinerals;
       }
       else if (unit->getType().isWorker() && target->getType().isRefinery() )
       {
-        unit->self->isGathering = true;
-        unit->self->order       = Orders::MoveToGas;
+        unit->data.isGathering = true;
+        unit->data.order       = Orders::MoveToGas;
       }
       else if (unit->getType().isWorker() &&
                target->getType().getRace() == Races::Terran &&
                target->getType().whatBuilds().first == unit->getType() &&
                !target->isCompleted())
       {
-        unit->self->order            = Orders::ConstructingBuilding;
-        unit->self->buildUnit        = getUnitID(target);
-        target->self->buildUnit      = getUnitID(unit);
-        unit->self->isConstructing   = true;
-        target->self->isConstructing = true;
+        unit->data.order            = Orders::ConstructingBuilding;
+        unit->data.buildUnit        = getUnitID(target);
+        target->data.buildUnit      = getUnitID(unit);
+        unit->data.isConstructing   = true;
+        target->data.isConstructing = true;
       }
       else if ( unit->getType().canAttack() && target->getPlayer() != unit->getPlayer() && !target->getType().isNeutral() )
       {
-        unit->self->order = Orders::AttackUnit;
+        unit->data.order = Orders::AttackUnit;
       }
       else if ( unit->getType().canMove() )
       {
-        unit->self->order = Orders::Follow;
+        unit->data.order = Orders::Follow;
       }
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Position)
     {
       if (!unit->getType().canProduce())
         return;
-      unit->self->order          = Orders::RallyPointTile;
-      unit->self->rallyPositionX = position.x;
-      unit->self->rallyPositionY = position.y;
-      unit->self->rallyUnit      = -1;
+      unit->data.order          = Orders::RallyPointTile;
+      unit->data.rallyPositionX = position.x;
+      unit->data.rallyPositionY = position.y;
+      unit->data.rallyUnit      = -1;
     }
     else if (command.type == UnitCommandTypes::Set_Rally_Unit)
     {
       if (!unit->getType().canProduce())
         return;
-      if ( !target || !target->self->exists )
+      if ( !target || !target->data.exists )
         return;
-      unit->self->order     = Orders::RallyPointUnit;
-      unit->self->rallyUnit = getUnitID(target);
+      unit->data.order     = Orders::RallyPointUnit;
+      unit->data.rallyUnit = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Siege)
     {
-      unit->self->order = Orders::Sieging;
+      unit->data.order = Orders::Sieging;
     }
     else if (command.type == UnitCommandTypes::Stop)
     {
-      if ((frame<=Broodwar->getLatencyFrames()   && Broodwar->getLatencyFrames()==2) ||
-          (frame<=Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames()>2))
+      if ((frame<=game.getLatencyFrames()   && game.getLatencyFrames()==2) ||
+          (frame<=game.getLatencyFrames()+1 && game.getLatencyFrames()>2))
       {
-        unit->self->order  = Orders::Stop;
-        unit->self->isIdle = true;
+        unit->data.order  = Orders::Stop;
+        unit->data.isIdle = true;
       }
     }
     else if (command.type == UnitCommandTypes::Train)
     {
       if (savedExtra == -1)
-        savedExtra = unit->self->trainingQueueCount;
-      if ((frame < Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-          (frame <= Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() > 2))
+        savedExtra = unit->data.trainingQueueCount;
+      if ((frame < game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+          (frame <= game.getLatencyFrames() && game.getLatencyFrames() > 2))
       {
-        unit->self->trainingQueue[unit->self->trainingQueueCount++] = unitType;
-        player->self->minerals -= unitType.mineralPrice();
-        player->self->gas      -= unitType.gasPrice();
+        unit->data.trainingQueue[unit->data.trainingQueueCount++] = unitType;
+        player->data.minerals -= unitType.mineralPrice();
+        player->data.gas      -= unitType.gasPrice();
       }
-      if ((frame <= Broodwar->getLatencyFrames() && Broodwar->getLatencyFrames() == 2) ||
-          (frame <= Broodwar->getLatencyFrames()+1 && Broodwar->getLatencyFrames() > 2))
+      if ((frame <= game.getLatencyFrames() && game.getLatencyFrames() == 2) ||
+          (frame <= game.getLatencyFrames()+1 && game.getLatencyFrames() > 2))
       {
         if (savedExtra == 0)
         {
-          unit->self->remainingTrainTime = unitType.buildTime();  // @TODO: fix to real build time
-          player->self->supplyUsed[unitType.getRace()] += unitType.supplyRequired();
+          unit->data.remainingTrainTime = unitType.buildTime();  // @TODO: fix to real build time
+          player->data.supplyUsed[unitType.getRace()] += unitType.supplyRequired();
         }
       }
-      if (frame <= Broodwar->getLatencyFrames())
+      if (frame <= game.getLatencyFrames())
       {
-        unit->self->isTraining = true;
-        unit->self->isIdle     = false;
+        unit->data.isTraining = true;
+        unit->data.isIdle     = false;
         if ( unitType == UnitTypes::Terran_Nuclear_Missile )
-          unit->self->secondaryOrder = Orders::Train;
+          unit->data.secondaryOrder = Orders::Train;
       }
     }
     else if (command.type == UnitCommandTypes::Unburrow)
     {
-      unit->self->order = Orders::Unburrowing;
+      unit->data.order = Orders::Unburrowing;
     }
     else if (command.type == UnitCommandTypes::Unload)
     {
-      unit->self->order  = Orders::Unload;
-      unit->self->target = getUnitID(target);
+      unit->data.order  = Orders::Unload;
+      unit->data.target = getUnitID(target);
     }
     else if (command.type == UnitCommandTypes::Unload_All)
     {
       if (unit->getType() == UnitTypes::Terran_Bunker)
       {
-        unit->self->order = Orders::Unload;
+        unit->data.order = Orders::Unload;
       }
       else
       {
-        unit->self->order                 = Orders::MoveUnload;
-        unit->self->targetPositionX       = position.x;
-        unit->self->targetPositionY       = position.y;
-        unit->self->orderTargetPositionX  = position.x;
-        unit->self->orderTargetPositionY  = position.y;
+        unit->data.order                 = Orders::MoveUnload;
+        unit->data.targetPositionX       = position.x;
+        unit->data.targetPositionY       = position.y;
+        unit->data.orderTargetPositionX  = position.x;
+        unit->data.orderTargetPositionY  = position.y;
       }
     }
     else if (command.type == UnitCommandTypes::Unload_All_Position)
     {
-      unit->self->order                 = Orders::MoveUnload;
-      unit->self->targetPositionX       = position.x;
-      unit->self->targetPositionY       = position.y;
-      unit->self->orderTargetPositionX  = position.x;
-      unit->self->orderTargetPositionY  = position.y;
+      unit->data.order                 = Orders::MoveUnload;
+      unit->data.targetPositionX       = position.x;
+      unit->data.targetPositionY       = position.y;
+      unit->data.orderTargetPositionX  = position.x;
+      unit->data.orderTargetPositionY  = position.y;
     }
     else if (command.type == UnitCommandTypes::Unsiege)
     {
-      unit->self->order = Orders::Unsieging;
+      unit->data.order = Orders::Unsieging;
     }
     else if (command.type == UnitCommandTypes::Upgrade)
     {
-      unit->self->order   = Orders::Upgrade;
-      unit->self->upgrade = upgradeType;
-      unit->self->isIdle  = false;
+      unit->data.order   = Orders::Upgrade;
+      unit->data.upgrade = upgradeType;
+      unit->data.isIdle  = false;
       int level           = unit->getPlayer()->getUpgradeLevel(upgradeType);
-      unit->self->remainingUpgradeTime = upgradeType.upgradeTime(level+1);  // @TODO: Fix to real time
-      if (frame < Broodwar->getLatencyFrames())
+      unit->data.remainingUpgradeTime = upgradeType.upgradeTime(level+1);  // @TODO: Fix to real time
+      if (frame < game.getLatencyFrames())
       {
-        player->self->minerals -= upgradeType.mineralPrice(level+1);
-        player->self->gas      -= upgradeType.gasPrice(level+1);
+        player->data.minerals -= upgradeType.mineralPrice(level+1);
+        player->data.gas      -= upgradeType.gasPrice(level+1);
       }
-      player->self->isUpgrading[upgradeType] = true;
+      player->data.isUpgrading[upgradeType] = true;
     }
     else if (command.type == UnitCommandTypes::Use_Tech)
     {
-      if ( techType == TechTypes::Stim_Packs && unit->self->hitPoints > 10 )
+      if ( techType == TechTypes::Stim_Packs && unit->data.hitPoints > 10 )
       {
-        unit->self->hitPoints -= 10;
-        unit->self->stimTimer = 17;
+        unit->data.hitPoints -= 10;
+        unit->data.stimTimer = 17;
       }
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Position)
     {
       if ( !techType.targetsPosition() )
         return;
-      unit->self->order                 = techType.getOrder();;
-      unit->self->targetPositionX       = position.x;
-      unit->self->targetPositionY       = position.y;
-      unit->self->orderTargetPositionX  = position.x;
-      unit->self->orderTargetPositionY  = position.y;
+      unit->data.order                 = techType.getOrder();;
+      unit->data.targetPositionX       = position.x;
+      unit->data.targetPositionY       = position.y;
+      unit->data.orderTargetPositionX  = position.x;
+      unit->data.orderTargetPositionY  = position.y;
     }
     else if (command.type == UnitCommandTypes::Use_Tech_Unit)
     {
       if ( !techType.targetsUnit() )
         return;
-      unit->self->order                 = techType.getOrder();
-      unit->self->orderTarget           = getUnitID(target);
-      unit->self->targetPositionX       = target->getPosition().x;
-      unit->self->targetPositionY       = target->getPosition().y;
-      unit->self->orderTargetPositionX  = target->getPosition().x;
-      unit->self->orderTargetPositionY  = target->getPosition().y;
+      unit->data.order                 = techType.getOrder();
+      unit->data.orderTarget           = getUnitID(target);
+      unit->data.targetPositionX       = target->getPosition().x;
+      unit->data.targetPositionY       = target->getPosition().y;
+      unit->data.orderTargetPositionX  = target->getPosition().x;
+      unit->data.orderTargetPositionY  = target->getPosition().y;
     }
   }
 

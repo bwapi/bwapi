@@ -40,7 +40,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr PlayerType(int id = PlayerTypes::Enum::None) : Type(id) {}
+      constexpr explicit PlayerType(int id = PlayerTypes::Enum::None) : Type(id) {}
 
       /// <summary>Identifies whether or not this type is used for the pre-game lobby.</summary>
       /// A type such as PlayerTypes::ComputerLeft would only appear in-game when a computer

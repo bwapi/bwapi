@@ -89,7 +89,8 @@ Global
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug|Win32.ActiveCfg = Debug|Win32
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug|Win32.Build.0 = Debug|Win32
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Debug|x64.ActiveCfg = Debug|Win32
-		{001204EC-33B7-427D-AF9B-68F222C97349}.Installer_Target|Win32.ActiveCfg = Release_Pipeline|Win32
+		{001204EC-33B7-427D-AF9B-68F222C97349}.Installer_Target|Win32.ActiveCfg = Release|Win32
+		{001204EC-33B7-427D-AF9B-68F222C97349}.Installer_Target|Win32.Build.0 = Release|Win32
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Installer_Target|x64.ActiveCfg = Release|Win32
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Installer_Target|x64.Build.0 = Release|Win32
 		{001204EC-33B7-427D-AF9B-68F222C97349}.Release|Win32.ActiveCfg = Release|Win32

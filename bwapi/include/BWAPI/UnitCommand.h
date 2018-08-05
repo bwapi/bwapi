@@ -1,4 +1,7 @@
 #pragma once
+
+#include <BWAPI/Game.h>
+#include <BWAPI/Unit.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitCommandType.h>
 
@@ -8,63 +11,61 @@ namespace BWAPI
   class UnitType;
   class TechType;
   class UpgradeType;
-  class UnitInterface;
-  typedef UnitInterface *Unit;
 
   class UnitCommand
   {
     public:
       UnitCommand() = default;
-      UnitCommand(Unit _unit, UnitCommandType _type, Unit _target, int _x, int _y, int _extra);
-      UnitCommand(Unit _unit, UnitCommandType _type);
+      UnitCommand(UnitID _unit, UnitCommandType _type, UnitID _target, int _x, int _y, int _extra);
+      UnitCommand(UnitID _unit, UnitCommandType _type);
 
-      static UnitCommand attack(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand attack(Unit unit, Position target, bool shiftQueueCommand = false);
-      static UnitCommand build(Unit unit, TilePosition target, UnitType type);
-      static UnitCommand buildAddon(Unit unit, UnitType type);
-      static UnitCommand train(Unit unit, UnitType type);
-      static UnitCommand morph(Unit unit, UnitType type);
-      static UnitCommand research(Unit unit, TechType tech);
-      static UnitCommand upgrade(Unit unit, UpgradeType upgrade);
-      static UnitCommand setRallyPoint(Unit unit, Position target);
-      static UnitCommand setRallyPoint(Unit unit, Unit target);
-      static UnitCommand move(Unit unit, Position target, bool shiftQueueCommand = false);
-      static UnitCommand patrol(Unit unit, Position target, bool shiftQueueCommand = false);
-      static UnitCommand holdPosition(Unit unit, bool shiftQueueCommand = false);
-      static UnitCommand stop(Unit unit, bool shiftQueueCommand = false);
-      static UnitCommand follow(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand gather(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand returnCargo(Unit unit, bool shiftQueueCommand = false);
-      static UnitCommand repair(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand burrow(Unit unit);
-      static UnitCommand unburrow(Unit unit);
-      static UnitCommand cloak(Unit unit);
-      static UnitCommand decloak(Unit unit);
-      static UnitCommand siege(Unit unit);
-      static UnitCommand unsiege(Unit unit);
-      static UnitCommand lift(Unit unit);
-      static UnitCommand land(Unit unit, TilePosition target);
-      static UnitCommand load(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand unload(Unit unit, Unit target);
-      static UnitCommand unloadAll(Unit unit, bool shiftQueueCommand = false);
-      static UnitCommand unloadAll(Unit unit, Position target, bool shiftQueueCommand = false);
-      static UnitCommand rightClick(Unit unit, Position target, bool shiftQueueCommand = false);
-      static UnitCommand rightClick(Unit unit, Unit target, bool shiftQueueCommand = false);
-      static UnitCommand haltConstruction(Unit unit);
-      static UnitCommand cancelConstruction(Unit unit);
-      static UnitCommand cancelAddon(Unit unit);
-      static UnitCommand cancelTrain(Unit unit, int slot = -2);
-      static UnitCommand cancelMorph(Unit unit);
-      static UnitCommand cancelResearch(Unit unit);
-      static UnitCommand cancelUpgrade(Unit unit);
-      static UnitCommand useTech(Unit unit,TechType tech);
-      static UnitCommand useTech(Unit unit, TechType tech, Position target);
-      static UnitCommand useTech(Unit unit, TechType tech, Unit target);
-      static UnitCommand placeCOP(Unit unit, TilePosition target);
+      static UnitCommand attack(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand attack(UnitID unit, Position target, bool shiftQueueCommand = false);
+      static UnitCommand build(UnitID unit, TilePosition target, UnitType type);
+      static UnitCommand buildAddon(UnitID unit, UnitType type);
+      static UnitCommand train(UnitID unit, UnitType type);
+      static UnitCommand morph(UnitID unit, UnitType type);
+      static UnitCommand research(UnitID unit, TechType tech);
+      static UnitCommand upgrade(UnitID unit, UpgradeType upgrade);
+      static UnitCommand setRallyPoint(UnitID unit, Position target);
+      static UnitCommand setRallyPoint(UnitID unit, UnitID target);
+      static UnitCommand move(UnitID unit, Position target, bool shiftQueueCommand = false);
+      static UnitCommand patrol(UnitID unit, Position target, bool shiftQueueCommand = false);
+      static UnitCommand holdPosition(UnitID unit, bool shiftQueueCommand = false);
+      static UnitCommand stop(UnitID unit, bool shiftQueueCommand = false);
+      static UnitCommand follow(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand gather(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand returnCargo(UnitID unit, bool shiftQueueCommand = false);
+      static UnitCommand repair(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand burrow(UnitID unit);
+      static UnitCommand unburrow(UnitID unit);
+      static UnitCommand cloak(UnitID unit);
+      static UnitCommand decloak(UnitID unit);
+      static UnitCommand siege(UnitID unit);
+      static UnitCommand unsiege(UnitID unit);
+      static UnitCommand lift(UnitID unit);
+      static UnitCommand land(UnitID unit, TilePosition target);
+      static UnitCommand load(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand unload(UnitID unit, UnitID target);
+      static UnitCommand unloadAll(UnitID unit, bool shiftQueueCommand = false);
+      static UnitCommand unloadAll(UnitID unit, Position target, bool shiftQueueCommand = false);
+      static UnitCommand rightClick(UnitID unit, Position target, bool shiftQueueCommand = false);
+      static UnitCommand rightClick(UnitID unit, UnitID target, bool shiftQueueCommand = false);
+      static UnitCommand haltConstruction(UnitID unit);
+      static UnitCommand cancelConstruction(UnitID unit);
+      static UnitCommand cancelAddon(UnitID unit);
+      static UnitCommand cancelTrain(UnitID unit, int slot = -2);
+      static UnitCommand cancelMorph(UnitID unit);
+      static UnitCommand cancelResearch(UnitID unit);
+      static UnitCommand cancelUpgrade(UnitID unit);
+      static UnitCommand useTech(UnitID unit,TechType tech);
+      static UnitCommand useTech(UnitID unit, TechType tech, Position target);
+      static UnitCommand useTech(UnitID unit, TechType tech, UnitID target);
+      static UnitCommand placeCOP(UnitID unit, TilePosition target);
 
       UnitCommandType getType() const;
-      Unit            getUnit() const;
-      Unit            getTarget() const;
+      UnitID          getUnit() const;
+      UnitID          getTarget() const;
       Position        getTargetPosition() const;
       TilePosition    getTargetTilePosition() const;
       UnitType        getUnitType() const;
@@ -77,16 +78,16 @@ namespace BWAPI
       bool operator!=(const UnitCommand& other) const;
 
       template <class T, int S>
-      void assignTarget(Point<T, S> target)
+      void assignTarget(Game &game, Point<T, S> target)
       {
-        target.makeValid();
+        game.makeValid(target);
         x = target.x;
         y = target.y;
       }
 
-      Unit unit = nullptr;
+      UnitID unit{-1};
       UnitCommandType type = UnitCommandTypes::None;
-      Unit target = nullptr;
+      UnitID target{-1};
 #ifndef SWIG
       int x = Positions::None.x;
       int y = Positions::None.y;

@@ -1,14 +1,13 @@
 #pragma once
 #include "SetContainer.h"
 
+#include <BWAPI/Game.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Filters.h>
 
 namespace BWAPI
 {
   // Forward Declarations
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
   class Unitset;
 
   /// <summary>A set containing Player objects.</summary>
@@ -38,7 +37,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see Game::setAlliance
-    void setAlliance(bool allies = true, bool alliedVictory = true);
+    void setAlliance(Game &game, bool allies = true, bool alliedVictory = true);
 
   };
 }

@@ -274,7 +274,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    constexpr UnitType(int id = UnitTypes::Enum::None) : Type(id) {}
+    constexpr explicit UnitType(int id = UnitTypes::Enum::None) : Type(id) {}
 
     /// <summary>Retrieves the Race that the unit type belongs to.</summary>
     ///

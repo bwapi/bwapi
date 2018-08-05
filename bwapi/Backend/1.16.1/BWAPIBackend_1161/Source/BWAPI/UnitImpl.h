@@ -24,51 +24,6 @@ namespace BWAPI
   class UnitImpl : public UnitInterface
   {
     public:
-      virtual int           getID() const override;
-      virtual bool          exists() const override;
-      virtual int           getReplayID() const override;
-      virtual Player        getPlayer() const override;
-      virtual UnitType      getType() const override;
-      virtual Position      getPosition() const override;
-      virtual double        getAngle() const override;
-      virtual double        getVelocityX() const override;
-      virtual double        getVelocityY() const override;
-      virtual int           getHitPoints() const override;
-      virtual int           getShields() const override;
-      virtual int           getEnergy() const override;
-      virtual int           getResources() const override;
-      virtual int           getResourceGroup() const override;
-
-      virtual int           getLastCommandFrame() const override;
-      virtual UnitCommand   getLastCommand() const override;
-      virtual BWAPI::Player getLastAttackingPlayer() const override;
-
-      virtual UnitType      getInitialType() const override;
-      virtual Position      getInitialPosition() const override;
-      virtual TilePosition  getInitialTilePosition() const override;
-      virtual int           getInitialHitPoints() const override;
-      virtual int           getInitialResources() const override;
-
-      virtual int getKillCount() const override;
-      virtual int getAcidSporeCount() const override;
-      virtual int getInterceptorCount() const override;
-      virtual int getScarabCount() const override;
-      virtual int getSpiderMineCount() const override;
-      virtual int getGroundWeaponCooldown() const override;
-      virtual int getAirWeaponCooldown() const override;
-      virtual int getSpellCooldown() const override;
-      virtual int getDefenseMatrixPoints() const override;
-
-      virtual int getDefenseMatrixTimer() const override;
-      virtual int getEnsnareTimer() const override;
-      virtual int getIrradiateTimer() const override;
-      virtual int getLockdownTimer() const override;
-      virtual int getMaelstromTimer() const override;
-      virtual int getOrderTimer() const override;
-      virtual int getPlagueTimer() const override;
-      virtual int getRemoveTimer() const override;
-      virtual int getStasisTimer() const override;
-      virtual int getStimTimer() const override;
 
       virtual UnitType      getBuildType() const override;
       virtual UnitType::list getTrainingQueue() const override;
@@ -283,8 +238,7 @@ namespace BWAPI
       /** Returns if the unit has empty building queue */
       bool hasEmptyBuildQueue;
 
-      UnitData  data;
-      UnitData* self = &data;
+      UnitData data;
 
       bool userSelected = false;
       bool nukeDetected = false;

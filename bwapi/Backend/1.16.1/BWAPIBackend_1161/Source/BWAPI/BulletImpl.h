@@ -41,7 +41,6 @@ namespace BWAPI
       void        saveExists();
 
       BulletData  data = BulletData();
-      BulletData* self = &data;
 
       void        updateData();
 

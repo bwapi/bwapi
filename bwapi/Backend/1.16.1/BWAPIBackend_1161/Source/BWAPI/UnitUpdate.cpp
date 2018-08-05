@@ -50,8 +50,8 @@ namespace BWAPI
     BW::CUnit *o = getOriginalRawData;
     if ( !o )
       return;
-    int selfPlayerID = BroodwarImpl.server.getPlayerID(Broodwar->self());
-    self->replayID   = BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ? BW::UnitTarget(o).getTarget() : 0;
+    int selfPlayerID = BroodwarImpl.server.getPlayerID(BroodwarImpl.self());
+    data.replayID   = BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) ? BW::UnitTarget(o).getTarget() : 0;
     if (isAlive)
     {
       _getPlayer = BroodwarImpl._getPlayer(getOriginalRawData->playerID); //_getPlayer
@@ -61,41 +61,41 @@ namespace BWAPI
       {
         if ( i == selfPlayerID )
           continue;
-        PlayerImpl* player = static_cast<PlayerImpl*>(Broodwar->getPlayer(i));
+        PlayerImpl* player = static_cast<PlayerImpl*>(BroodwarImpl.getPlayer(i));
         if ( !o->sprite || !player )
-          self->isVisible[i] = false;
+          data.isVisible[i] = false;
         else if (!BroodwarImpl.isReplay() && !BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation))
-          self->isVisible[i] = false;
+          data.isVisible[i] = false;
         else if ( _getPlayer == player )
-          self->isVisible[i] = true;
+          data.isVisible[i] = true;
         else if ( player->isNeutral() )
-          self->isVisible[i] = o->sprite->visibilityFlags > 0;
+          data.isVisible[i] = o->sprite->visibilityFlags > 0;
         else
-          self->isVisible[i] = (o->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
+          data.isVisible[i] = (o->sprite->visibilityFlags & (1 << player->getIndex())) != 0;
       }
       if (selfPlayerID >= 0)
       {
         if ( !o->sprite )
         {
-          self->isVisible[selfPlayerID] = false;
-          self->isDetected              = false;
+          data.isVisible[selfPlayerID] = false;
+          data.isDetected              = false;
         }
         else if (_getPlayer == BWAPI::BroodwarImpl.self())
         {
-          self->isVisible[selfPlayerID] = true;
-          self->isDetected              = true;
+          data.isVisible[selfPlayerID] = true;
+          data.isDetected              = true;
         }
         else if (o->unitType == UnitTypes::Spell_Scanner_Sweep)
         {
-          self->isVisible[selfPlayerID] = isScannerVisible(o->position);
-          self->isDetected = true;
+          data.isVisible[selfPlayerID] = isScannerVisible(o->position);
+          data.isDetected = true;
         }
         else
         {
-          self->isVisible[selfPlayerID] = (o->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
+          data.isVisible[selfPlayerID] = (o->sprite->visibilityFlags & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0;
           if (o->statusFlag(BW::StatusFlags::RequiresDetection))
           {
-            self->isVisible[selfPlayerID] &= ((o->visibilityStatus == -1) ||
+            data.isVisible[selfPlayerID] &= ((o->visibilityStatus == -1) ||
                                              ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0) ||
                                                o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
                                                o->orderID == Orders::Move ||
@@ -106,17 +106,17 @@ namespace BWAPI
           bool canDetect = !o->statusFlag(BW::StatusFlags::RequiresDetection) ||
                            o->visibilityStatus == -1 ||
                            ((o->visibilityStatus & (1 << BroodwarImpl.BWAPIPlayer->getIndex())) != 0);
-          self->isDetected = self->isVisible[selfPlayerID] & canDetect;
+          data.isDetected = data.isVisible[selfPlayerID] & canDetect;
         }
       }
       else
       {
-        self->isDetected = false;
+        data.isDetected = false;
         for(unsigned int i = 0; i < 9; ++i)
         {
-          if (self->isVisible[i])
+          if (data.isVisible[i])
           {
-            self->isDetected = true;
+            data.isDetected = true;
             break;
           }
         }
@@ -176,8 +176,8 @@ namespace BWAPI
     {
       //------------------------------------------------------------------------------------------------------
       //isVisible
-      MemZero(self->isVisible);
-      self->isDetected = false;
+      MemZero(data.isVisible);
+      data.isDetected = false;
 
       _getPlayer          = nullptr;               //_getPlayer
       _getType            = UnitTypes::Unknown; //_getType
@@ -196,12 +196,12 @@ namespace BWAPI
   void UnitImpl::updateData()
   {
     BW::CUnit *o = getOriginalRawData;
-    self->isUnderDarkSwarm = false;
-    self->isUnderDWeb      = false;
+    data.isUnderDarkSwarm = false;
+    data.isUnderDWeb      = false;
     if (canAccess())
     {
-      self->positionX = _getPosition.x; //getPosition
-      self->positionY = _getPosition.y; //getPosition
+      data.positionX = _getPosition.x; //getPosition
+      data.positionY = _getPosition.y; //getPosition
       //------------------------------------------------------------------------------------------------------
       //getAngle
       int d = o->currentDirection1;
@@ -209,15 +209,15 @@ namespace BWAPI
       if (d < 0)
         d += 256;
 
-      self->angle     = (double)d * 3.14159265358979323846 / 128.0;
-      self->velocityX = (double)o->current_speed.x / 256.0; //getVelocityX
-      self->velocityY = (double)o->current_speed.y / 256.0; //getVelocityY
+      data.angle     = (double)d * 3.14159265358979323846 / 128.0;
+      data.velocityX = (double)o->current_speed.x / 256.0; //getVelocityX
+      data.velocityY = (double)o->current_speed.y / 256.0; //getVelocityY
       //------------------------------------------------------------------------------------------------------
-      self->groundWeaponCooldown = o->getGroundWeaponCooldown(); //getGroundWeaponCooldown
-      self->airWeaponCooldown = o->getAirWeaponCooldown(); //getAirWeaponCooldown
-      self->spellCooldown = o->spellCooldown;  //getSpellCooldown
+      data.groundWeaponCooldown = o->getGroundWeaponCooldown(); //getGroundWeaponCooldown
+      data.airWeaponCooldown = o->getAirWeaponCooldown(); //getAirWeaponCooldown
+      data.spellCooldown = o->spellCooldown;  //getSpellCooldown
 
-      self->isAttacking = o->isAttacking();
+      data.isAttacking = o->isAttacking();
       
       // startingAttack
       int airWeaponCooldown = o->getAirWeaponCooldown();
@@ -226,216 +226,216 @@ namespace BWAPI
       lastAirWeaponCooldown = airWeaponCooldown;
       lastGroundWeaponCooldown = groundWeaponCooldown;
 
-      self->isStartingAttack = startingAttack;  //isStartingAttack
+      data.isStartingAttack = startingAttack;  //isStartingAttack
 
       //isAttackFrame
-      self->isAttackFrame = false;
+      data.isAttackFrame = false;
       const BW::CUnit* damageDealer = o->getDamageDealer();
       if (damageDealer->sprite && damageDealer->sprite->pImagePrimary)
       { 
         int restFrame = _getType.isValid() ? AttackAnimationRestFrame[_getType] : -1;
-        self->isAttackFrame = startingAttack || 
-                             (self->isAttacking && 
+        data.isAttackFrame = startingAttack || 
+                             (data.isAttacking && 
                               restFrame != -1 && 
                               (damageDealer->sprite->pImagePrimary->frameSet != restFrame ||
                               lastFrameSet != restFrame) );
         lastFrameSet = damageDealer->sprite->pImagePrimary->frameSet;
       }
 
-      self->isBurrowed  = o->statusFlag(BW::StatusFlags::Burrowed);  //isBurrowed
-      self->isCloaked   = o->statusFlag(BW::StatusFlags::Cloaked) && !o->statusFlag(BW::StatusFlags::Burrowed); //isCloaked
-      self->isCompleted = _isCompleted; //isCompleted
-      self->isMoving    = o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
-                          self->order == Orders::Move; //isMoving
+      data.isBurrowed  = o->statusFlag(BW::StatusFlags::Burrowed);  //isBurrowed
+      data.isCloaked   = o->statusFlag(BW::StatusFlags::Cloaked) && !o->statusFlag(BW::StatusFlags::Burrowed); //isCloaked
+      data.isCompleted = _isCompleted; //isCompleted
+      data.isMoving    = o->movementFlag(BW::MovementFlags::Moving | BW::MovementFlags::Accelerating) ||
+                          data.order == Orders::Move; //isMoving
     }
     else
     {
-      self->positionX             = BWAPI::Positions::Unknown.x;  //getPosition
-      self->positionY             = BWAPI::Positions::Unknown.y;  //getPosition
-      self->angle                 = 0;      //getAngle
-      self->velocityX             = 0;      //getVelocityX
-      self->velocityY             = 0;      //getVelocityY
-      self->groundWeaponCooldown  = 0;      //getGroundWeaponCooldown
-      self->airWeaponCooldown     = 0;      //getAirWeaponCooldown
-      self->spellCooldown         = 0;      //getSpellCooldown
-      self->isAttacking           = false;  //isAttacking
-      self->isBurrowed            = false;  //isBurrowed
-      self->isCloaked             = false;  //isCloaked
-      self->isCompleted           = false;  //isCompleted
-      self->isMoving              = false;  //isMoving
-      self->isStartingAttack      = false;  //isStartingAttac
+      data.positionX             = BWAPI::Positions::Unknown.x;  //getPosition
+      data.positionY             = BWAPI::Positions::Unknown.y;  //getPosition
+      data.angle                 = 0;      //getAngle
+      data.velocityX             = 0;      //getVelocityX
+      data.velocityY             = 0;      //getVelocityY
+      data.groundWeaponCooldown  = 0;      //getGroundWeaponCooldown
+      data.airWeaponCooldown     = 0;      //getAirWeaponCooldown
+      data.spellCooldown         = 0;      //getSpellCooldown
+      data.isAttacking           = false;  //isAttacking
+      data.isBurrowed            = false;  //isBurrowed
+      data.isCloaked             = false;  //isCloaked
+      data.isCompleted           = false;  //isCompleted
+      data.isMoving              = false;  //isMoving
+      data.isStartingAttack      = false;  //isStartingAttac
     }
 
-    self->scarabCount = 0;
-    self->interceptorCount = 0;
-    self->spiderMineCount = 0;
-    self->carrier = -1;
-    self->hatchery = -1;
+    data.scarabCount = 0;
+    data.interceptorCount = 0;
+    data.spiderMineCount = 0;
+    data.carrier = -1;
+    data.hatchery = -1;
     if (canAccessDetected())
     {
-      self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
-      self->hitPoints           = _getHitPoints;  //getHitPoints
-      self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
-      self->energy              = _getType.isSpellcaster()  ? (int)std::ceil(o->energy/256.0)       : 0;  //getEnergy
-      self->resources           = _getResources;                        //getResources
-      self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
-      self->killCount           = o->killCount;        //getKillCount
-      self->acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
-      self->defenseMatrixPoints = o->status.defenseMatrixDamage/256;  //getDefenseMatrixPoints
-      self->defenseMatrixTimer  = o->status.defenseMatrixTimer; //getDefenseMatrixTimer
-      self->ensnareTimer        = o->status.ensnareTimer;     //getEnsnareTimer
-      self->irradiateTimer      = o->status.irradiateTimer;   //getIrradiateTimer
-      self->lockdownTimer       = o->status.lockdownTimer;    //getLockdownTimer
-      self->maelstromTimer      = o->status.maelstromTimer;   //getMaelstromTimer
-      self->orderTimer          = o->mainOrderTimer;   //getOrderTimer
-      self->plagueTimer         = o->status.plagueTimer;      //getPlagueTimer
-      self->removeTimer         = o->status.removeTimer;      //getRemoveTimer
-      self->stasisTimer         = o->status.stasisTimer;      //getStasisTimer
-      self->stimTimer           = o->status.stimTimer;        //getStimTimer
-      self->order               = o->orderID;          //getOrder
-      self->secondaryOrder      = o->secondaryOrderID; //getSecondaryOrder
-      self->buildUnit           = o->currentBuildUnit ? BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->currentBuildUnit)) : -1; //getBuildUnit
+      data.lastHitPoints       = wasAccessible ? data.hitPoints : _getHitPoints;  //getHitPoints
+      data.hitPoints           = _getHitPoints;  //getHitPoints
+      data.shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
+      data.energy              = _getType.isSpellcaster()  ? (int)std::ceil(o->energy/256.0)       : 0;  //getEnergy
+      data.resources           = _getResources;                        //getResources
+      data.resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
+      data.killCount           = o->killCount;        //getKillCount
+      data.acidSporeCount      = o->status.acidSporeCount;   //getAcidSporeCount
+      data.defenseMatrixPoints = o->status.defenseMatrixDamage/256;  //getDefenseMatrixPoints
+      data.defenseMatrixTimer  = o->status.defenseMatrixTimer; //getDefenseMatrixTimer
+      data.ensnareTimer        = o->status.ensnareTimer;     //getEnsnareTimer
+      data.irradiateTimer      = o->status.irradiateTimer;   //getIrradiateTimer
+      data.lockdownTimer       = o->status.lockdownTimer;    //getLockdownTimer
+      data.maelstromTimer      = o->status.maelstromTimer;   //getMaelstromTimer
+      data.orderTimer          = o->mainOrderTimer;   //getOrderTimer
+      data.plagueTimer         = o->status.plagueTimer;      //getPlagueTimer
+      data.removeTimer         = o->status.removeTimer;      //getRemoveTimer
+      data.stasisTimer         = o->status.stasisTimer;      //getStasisTimer
+      data.stimTimer           = o->status.stimTimer;        //getStimTimer
+      data.order               = o->orderID;          //getOrder
+      data.secondaryOrder      = o->secondaryOrderID; //getSecondaryOrder
+      data.buildUnit           = o->currentBuildUnit ? BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->currentBuildUnit)) : -1; //getBuildUnit
       //------------------------------------------------------------------------------------------------------
       //isTraining
       if (_getType == UnitTypes::Terran_Nuclear_Silo &&
           o->secondaryOrderID == Orders::Train)
-        self->isTraining = true;
+        data.isTraining = true;
       else if (!_getType.canProduce())
-        self->isTraining = false;
+        data.isTraining = false;
       else if (_getType.getRace() == Races::Zerg && _getType.isResourceDepot())
-        self->isTraining = false;
+        data.isTraining = false;
       else
-        self->isTraining = !hasEmptyBuildQueue;
+        data.isTraining = !hasEmptyBuildQueue;
       //------------------------------------------------------------------------------------------------------
       //isMorphing
-      self->isMorphing = self->order == Orders::ZergBirth ||
-                         self->order == Orders::ZergBuildingMorph ||
-                         self->order == Orders::ZergUnitMorph ||
-                         self->order == Orders::Enum::IncompleteMorphing;
+      data.isMorphing = data.order == Orders::ZergBirth ||
+                         data.order == Orders::ZergBuildingMorph ||
+                         data.order == Orders::ZergUnitMorph ||
+                         data.order == Orders::Enum::IncompleteMorphing;
 
-      if (self->isCompleted && self->isMorphing)
+      if (data.isCompleted && data.isMorphing)
       {
-        self->isCompleted = false;
+        data.isCompleted = false;
         _isCompleted      = false;
       }
       //------------------------------------------------------------------------------------------------------
       //isConstructing
-      self->isConstructing =  self->isMorphing                                    ||
-                              self->order == Orders::ConstructingBuilding         ||
-                              self->order == Orders::PlaceBuilding                ||
-                              self->order == Orders::Enum::DroneBuild             ||
-                              self->order == Orders::Enum::DroneStartBuild        ||
-                              self->order == Orders::Enum::DroneLand              ||
-                              self->order == Orders::Enum::PlaceProtossBuilding   ||
-                              self->order == Orders::Enum::CreateProtossBuilding  ||
-                              self->order == Orders::Enum::IncompleteBuilding     ||
-                              self->order == Orders::Enum::IncompleteWarping      ||
-                              self->order == Orders::Enum::IncompleteMorphing     ||
-                              self->order == Orders::BuildNydusExit               ||
-                              self->order == Orders::BuildAddon                   ||
-                              self->secondaryOrder == Orders::BuildAddon          ||
-                              (!self->isCompleted && self->buildUnit != -1);
+      data.isConstructing =  data.isMorphing                                    ||
+                              data.order == Orders::ConstructingBuilding         ||
+                              data.order == Orders::PlaceBuilding                ||
+                              data.order == Orders::Enum::DroneBuild             ||
+                              data.order == Orders::Enum::DroneStartBuild        ||
+                              data.order == Orders::Enum::DroneLand              ||
+                              data.order == Orders::Enum::PlaceProtossBuilding   ||
+                              data.order == Orders::Enum::CreateProtossBuilding  ||
+                              data.order == Orders::Enum::IncompleteBuilding     ||
+                              data.order == Orders::Enum::IncompleteWarping      ||
+                              data.order == Orders::Enum::IncompleteMorphing     ||
+                              data.order == Orders::BuildNydusExit               ||
+                              data.order == Orders::BuildAddon                   ||
+                              data.secondaryOrder == Orders::BuildAddon          ||
+                              (!data.isCompleted && data.buildUnit != -1);
       //------------------------------------------------------------------------------------------------------
       //isIdle
-      if (self->isTraining ||
-          self->isConstructing ||
-          self->isMorphing ||
-          self->order == Orders::ResearchTech ||
-          self->order == Orders::Upgrade )
-        self->isIdle = false;
+      if (data.isTraining ||
+          data.isConstructing ||
+          data.isMorphing ||
+          data.order == Orders::ResearchTech ||
+          data.order == Orders::Upgrade )
+        data.isIdle = false;
       else
-        self->isIdle = self->order == Orders::PlayerGuard  ||
-                       self->order == Orders::Guard        ||
-                       self->order == Orders::Stop         ||
-                       self->order == Orders::PickupIdle   ||
-                       self->order == Orders::Nothing      ||
-                       self->order == Orders::Medic        ||
-                       self->order == Orders::Carrier      ||
-                       self->order == Orders::Reaver       ||
-                       self->order == Orders::Critter      ||
-                       self->order == Orders::Neutral      ||
-                       self->order == Orders::TowerGuard   ||
-                       self->order == Orders::Burrowed     ||
-                       self->order == Orders::NukeTrain    ||
-                       self->order == Orders::Larva;
-      self->target               = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->moveTarget.pUnit)); //getTarget
-      self->targetPositionX      = o->moveTarget.pt.x;  //getTargetPosition
-      self->targetPositionY      = o->moveTarget.pt.y;  //getTargetPosition
-      self->orderTargetPositionX = o->orderTarget.pt.x;
-      self->orderTargetPositionY = o->orderTarget.pt.y;
-      self->orderTarget          = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->orderTarget.pUnit));  //getOrderTarget
+        data.isIdle = data.order == Orders::PlayerGuard  ||
+                       data.order == Orders::Guard        ||
+                       data.order == Orders::Stop         ||
+                       data.order == Orders::PickupIdle   ||
+                       data.order == Orders::Nothing      ||
+                       data.order == Orders::Medic        ||
+                       data.order == Orders::Carrier      ||
+                       data.order == Orders::Reaver       ||
+                       data.order == Orders::Critter      ||
+                       data.order == Orders::Neutral      ||
+                       data.order == Orders::TowerGuard   ||
+                       data.order == Orders::Burrowed     ||
+                       data.order == Orders::NukeTrain    ||
+                       data.order == Orders::Larva;
+      data.target               = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->moveTarget.pUnit)); //getTarget
+      data.targetPositionX      = o->moveTarget.pt.x;  //getTargetPosition
+      data.targetPositionY      = o->moveTarget.pt.y;  //getTargetPosition
+      data.orderTargetPositionX = o->orderTarget.pt.x;
+      data.orderTargetPositionY = o->orderTarget.pt.y;
+      data.orderTarget          = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->orderTarget.pUnit));  //getOrderTarget
       //------------------------------------------------------------------------------------------------------
       //getAddon
-      self->addon = -1;
+      data.addon = -1;
       if (_getType.isBuilding())
       {
         UnitImpl* addon = UnitImpl::BWUnitToBWAPIUnit(o->currentBuildUnit);
         if ( addon && addon->isAlive && addon->getOriginalRawData->type().isAddon() )
-          self->addon = BroodwarImpl.server.getUnitID(addon);
+          data.addon = BroodwarImpl.server.getUnitID(addon);
         else
         {
           addon = UnitImpl::BWUnitToBWAPIUnit(o->building.addon);
           if ( addon && addon->isAlive && addon->getOriginalRawData->type().isAddon() )
-            self->addon = BroodwarImpl.server.getUnitID(addon);
+            data.addon = BroodwarImpl.server.getUnitID(addon);
         }
       }
       //------------------------------------------------------------------------------------------------------
       //getNydusExit
-      self->nydusExit = -1;
+      data.nydusExit = -1;
       if ( _getType == UnitTypes::Zerg_Nydus_Canal )
       {
         UnitImpl* nydus = UnitImpl::BWUnitToBWAPIUnit(o->nydus.exit);
         if ( nydus && nydus->isAlive && nydus->getOriginalRawData->unitType == UnitTypes::Zerg_Nydus_Canal )
-          self->nydusExit = BroodwarImpl.server.getUnitID(nydus);
+          data.nydusExit = BroodwarImpl.server.getUnitID(nydus);
       }
       //------------------------------------------------------------------------------------------------------
       //getPowerUp
-      self->powerUp = -1;
+      data.powerUp = -1;
       UnitImpl* powerUp = UnitImpl::BWUnitToBWAPIUnit(o->worker.pPowerup);
       if (powerUp && powerUp->isAlive)
-        self->powerUp = BroodwarImpl.server.getUnitID(powerUp);
+        data.powerUp = BroodwarImpl.server.getUnitID(powerUp);
 
-      self->isAccelerating  = o->movementFlag(BW::MovementFlags::Accelerating);  //isAccelerating
-      self->isBeingGathered = _getType.isResourceContainer() && (o->resource.gatherQueueCount || o->resource.nextGatherer);  //isBeingGathered
-      self->isBlind         = o->status.isBlind != 0;   //isBlind
-      self->isBraking       = o->movementFlag(BW::MovementFlags::Braking);   //isBraking
+      data.isAccelerating  = o->movementFlag(BW::MovementFlags::Accelerating);  //isAccelerating
+      data.isBeingGathered = _getType.isResourceContainer() && (o->resource.gatherQueueCount || o->resource.nextGatherer);  //isBeingGathered
+      data.isBlind         = o->status.isBlind != 0;   //isBlind
+      data.isBraking       = o->movementFlag(BW::MovementFlags::Braking);   //isBraking
       //------------------------------------------------------------------------------------------------------
       //isCarryingGas, isCarryingMinerals
-      self->carryResourceType = _getType.isWorker() ? o->resourceType : 0;
+      data.carryResourceType = _getType.isWorker() ? o->resourceType : 0;
 
-      self->isGathering     = _getType.isWorker() && o->statusFlag(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
-      self->isLifted        = o->statusFlag(BW::StatusFlags::InAir) &&
+      data.isGathering     = _getType.isWorker() && o->statusFlag(BW::StatusFlags::IsGathering);   //isGatheringMinerals; isGatheringGas
+      data.isLifted        = o->statusFlag(BW::StatusFlags::InAir) &&
                               o->type().isBuilding(); //isLifted
-      self->isParasited     = o->status.parasiteFlags != 0; //isParasited
-      self->isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
-      self->isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
-      self->isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
-      self->isStuck         = o->movementState == BW::UM_MoveToLegal;
-      self->isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
-      self->isInvincible    = o->statusFlag(BW::StatusFlags::Invincible); //isInvincible
-      self->buttonset       = o->currentButtonSet;
-      self->lastAttackerPlayer = o->lastAttackingPlayer;
-      self->recentlyAttacked = o->lastEventColor == 174 ? o->lastEventTimer != 0 : false;
+      data.isParasited     = o->status.parasiteFlags != 0; //isParasited
+      data.isSelected      = BWAPI::BroodwarImpl.isFlagEnabled(BWAPI::Flag::UserInput) && userSelected; //isSelected
+      data.isUnderStorm    = o->status.stormTimer != 0; //isUnderStorm
+      data.isPowered       = !(_getType.getRace() == Races::Protoss && _getType.isBuilding() && o->statusFlag(BW::StatusFlags::DoodadStatesThing)); // !isUnpowered
+      data.isStuck         = o->movementState == BW::UM_MoveToLegal;
+      data.isInterruptible = !o->statusFlag(BW::StatusFlags::CanNotReceiveOrders); //isInterruptible
+      data.isInvincible    = o->statusFlag(BW::StatusFlags::Invincible); //isInvincible
+      data.buttonset       = o->currentButtonSet;
+      data.lastAttackerPlayer = o->lastAttackingPlayer;
+      data.recentlyAttacked = o->lastEventColor == 174 ? o->lastEventTimer != 0 : false;
 
       switch (_getType)
       {
       case UnitTypes::Enum::Protoss_Reaver:
       case UnitTypes::Enum::Hero_Warbringer:
-        self->scarabCount = o->carrier.inHangerCount;
+        data.scarabCount = o->carrier.inHangerCount;
         break;
       case UnitTypes::Enum::Terran_Vulture:
       case UnitTypes::Enum::Hero_Jim_Raynor_Vulture:
-        self->spiderMineCount = o->vulture.spiderMineCount;
+        data.spiderMineCount = o->vulture.spiderMineCount;
         break;
       case UnitTypes::Enum::Protoss_Carrier:
       case UnitTypes::Enum::Hero_Gantrithor:
-        self->interceptorCount = o->carrier.inHangerCount + o->carrier.outHangerCount;
+        data.interceptorCount = o->carrier.inHangerCount + o->carrier.outHangerCount;
         break;
       case UnitTypes::Enum::Protoss_Interceptor:
-        self->carrier = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent));
+        data.carrier = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->fighter.parent));
         break;
       case UnitTypes::Enum::Zerg_Larva:
-        self->hatchery = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit));
+        data.hatchery = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->connectedUnit));
         break;
       default:
         break;
@@ -443,98 +443,98 @@ namespace BWAPI
     }
     else
     {
-      self->lastHitPoints       = 0;      //getHitPoints
-      self->hitPoints           = 0;      //getHitPoints
-      self->shields             = 0;      //getShields
-      self->energy              = 0;      //getEnergy
-      //self->resources           = 0;      //getResources
-      self->resourceGroup       = 0;      //getResourceGroup
-      self->killCount           = 0;      //getKillCount
-      self->defenseMatrixPoints = 0;      //getDefenseMatrixPoints
-      self->defenseMatrixTimer  = 0;      //getDefenseMatrixTimer
-      self->ensnareTimer        = 0;      //getEnsnareTimer
-      self->irradiateTimer      = 0;      //getIrradiateTimer
-      self->lockdownTimer       = 0;      //getLockdownTimer
-      self->maelstromTimer      = 0;      //getMaelstromTimer
-      self->orderTimer          = 0;      //getOrderTimer
-      self->plagueTimer         = 0;      //getPlagueTimer
-      self->removeTimer         = 0;      //getRemoveTimer
-      self->stasisTimer         = 0;      //getStasisTimer
-      self->stimTimer           = 0;      //getStimTimer
-      self->order               = Orders::Unknown;  //getOrder
-      self->secondaryOrder      = Orders::Unknown;  //getSecondaryOrder
-      self->buildUnit           = -1;     //getBuildUnit
-      self->isTraining          = false;  //isTraining
-      self->isMorphing          = false;  //isMorphing
-      self->isConstructing      = false;  //isConstructing
-      self->isIdle              = false;  //isIdle
-      self->target              = -1;     //getTarget
-      self->targetPositionX     = Positions::Unknown.x; //getTargetPosition
-      self->targetPositionY     = Positions::Unknown.y; //getTargetPosition
-      self->orderTarget         = -1;     //getOrderTarget
-      self->orderTargetPositionX = Positions::Unknown.x;
-      self->orderTargetPositionY = Positions::Unknown.y;
-      self->addon               = -1;     //getAddon
-      self->nydusExit           = -1;     //getNydusExit
-      self->powerUp             = -1;     //getPowerUp
-      self->isAccelerating      = false;  //isAccelerating
-      self->isBeingGathered     = false;  //isBeingGathered
-      self->isBlind             = false;  //isBlind
-      self->isBraking           = false;  //isBraking
-      self->carryResourceType   = 0;      //isCarryingMinerals;isCarryingGas
-      self->isLifted            = false;  //isLifted
-      self->isParasited         = false;  //isParasited
-      self->isSelected          = false;  //isSelected
-      self->isUnderStorm        = false;  //isUnderStorm
-      self->isUnderDarkSwarm    = false;
-      self->isUnderDWeb         = false;
-      self->isPowered            = true;   //!isUnpowered
-      self->isStuck             = false;  //isStuck
-      self->isInterruptible     = false;  //isInterruptible
-      self->buttonset           = UnitTypes::None;
-      self->lastAttackerPlayer  = -1;
-      self->recentlyAttacked    = false;
+      data.lastHitPoints       = 0;      //getHitPoints
+      data.hitPoints           = 0;      //getHitPoints
+      data.shields             = 0;      //getShields
+      data.energy              = 0;      //getEnergy
+      //data.resources           = 0;      //getResources
+      data.resourceGroup       = 0;      //getResourceGroup
+      data.killCount           = 0;      //getKillCount
+      data.defenseMatrixPoints = 0;      //getDefenseMatrixPoints
+      data.defenseMatrixTimer  = 0;      //getDefenseMatrixTimer
+      data.ensnareTimer        = 0;      //getEnsnareTimer
+      data.irradiateTimer      = 0;      //getIrradiateTimer
+      data.lockdownTimer       = 0;      //getLockdownTimer
+      data.maelstromTimer      = 0;      //getMaelstromTimer
+      data.orderTimer          = 0;      //getOrderTimer
+      data.plagueTimer         = 0;      //getPlagueTimer
+      data.removeTimer         = 0;      //getRemoveTimer
+      data.stasisTimer         = 0;      //getStasisTimer
+      data.stimTimer           = 0;      //getStimTimer
+      data.order               = Orders::Unknown;  //getOrder
+      data.secondaryOrder      = Orders::Unknown;  //getSecondaryOrder
+      data.buildUnit           = -1;     //getBuildUnit
+      data.isTraining          = false;  //isTraining
+      data.isMorphing          = false;  //isMorphing
+      data.isConstructing      = false;  //isConstructing
+      data.isIdle              = false;  //isIdle
+      data.target              = -1;     //getTarget
+      data.targetPositionX     = Positions::Unknown.x; //getTargetPosition
+      data.targetPositionY     = Positions::Unknown.y; //getTargetPosition
+      data.orderTarget         = -1;     //getOrderTarget
+      data.orderTargetPositionX = Positions::Unknown.x;
+      data.orderTargetPositionY = Positions::Unknown.y;
+      data.addon               = -1;     //getAddon
+      data.nydusExit           = -1;     //getNydusExit
+      data.powerUp             = -1;     //getPowerUp
+      data.isAccelerating      = false;  //isAccelerating
+      data.isBeingGathered     = false;  //isBeingGathered
+      data.isBlind             = false;  //isBlind
+      data.isBraking           = false;  //isBraking
+      data.carryResourceType   = 0;      //isCarryingMinerals;isCarryingGas
+      data.isLifted            = false;  //isLifted
+      data.isParasited         = false;  //isParasited
+      data.isSelected          = false;  //isSelected
+      data.isUnderStorm        = false;  //isUnderStorm
+      data.isUnderDarkSwarm    = false;
+      data.isUnderDWeb         = false;
+      data.isPowered            = true;   //!isUnpowered
+      data.isStuck             = false;  //isStuck
+      data.isInterruptible     = false;  //isInterruptible
+      data.buttonset           = UnitTypes::None;
+      data.lastAttackerPlayer  = -1;
+      data.recentlyAttacked    = false;
     }
     if (canAccess())
     {
-      self->exists = true;
-      self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
-      self->type   = _getType;
+      data.exists = true;
+      data.player = BroodwarImpl.server.getPlayerID(_getPlayer);
+      data.type   = _getType;
     }
     else
     {
-      self->exists = false;
-      self->player = BroodwarImpl.server.getPlayerID(BroodwarImpl._getPlayer(11));
-      self->type   = UnitTypes::Unknown;
+      data.exists = false;
+      data.player = BroodwarImpl.server.getPlayerID(BroodwarImpl._getPlayer(11));
+      data.type   = UnitTypes::Unknown;
     }
     if (canAccessInside())
     {
       // Default assignments
-      self->trainingQueueCount    = 0;
-      self->remainingTrainTime    = 0;
-      self->hasNuke               = false;
-      self->buildType             = UnitTypes::None;
-      self->tech                  = TechTypes::None;
-      self->remainingResearchTime = 0;
-      self->upgrade               = UpgradeTypes::None;
-      self->remainingUpgradeTime  = 0;
-      self->remainingBuildTime    = 0;
-      self->rallyUnit             = -1;
+      data.trainingQueueCount    = 0;
+      data.remainingTrainTime    = 0;
+      data.hasNuke               = false;
+      data.buildType             = UnitTypes::None;
+      data.tech                  = TechTypes::None;
+      data.remainingResearchTime = 0;
+      data.upgrade               = UpgradeTypes::None;
+      data.remainingUpgradeTime  = 0;
+      data.remainingBuildTime    = 0;
+      data.rallyUnit             = -1;
 
       //------------------------------------------------------------------------------------------------------
       // getTrainingQueue
       if ( !hasEmptyBuildQueue )
       {
-        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != UnitTypes::None && self->trainingQueueCount < 5; i = (i + 1) % 5)
+        for(int i = getBuildQueueSlot % 5; getBuildQueue[i] != UnitTypes::None && data.trainingQueueCount < 5; i = (i + 1) % 5)
         {
-          self->trainingQueue[self->trainingQueueCount] = getBuildQueue[i];
-          self->trainingQueueCount++;
+          data.trainingQueue[data.trainingQueueCount] = getBuildQueue[i];
+          data.trainingQueueCount++;
         }
       }
       //------------------------------------------------------------------------------------------------------
       // getRemainingTrainTime
       if ( o->currentBuildUnit )
-        self->remainingTrainTime = o->currentBuildUnit->remainingBuildTime;
+        data.remainingTrainTime = o->currentBuildUnit->remainingBuildTime;
 
       //------------------------------------------------------------------------------------------------------
       // Unit Type switch; special cases
@@ -543,18 +543,18 @@ namespace BWAPI
       case UnitTypes::Enum::Terran_Nuclear_Silo:
         if (o->secondaryOrderID == Orders::Train)
         {
-          self->trainingQueue[0]   = UnitTypes::Enum::Terran_Nuclear_Missile;
-          self->trainingQueueCount = 1;
+          data.trainingQueue[0]   = UnitTypes::Enum::Terran_Nuclear_Missile;
+          data.trainingQueueCount = 1;
         }
-        self->hasNuke = (o->silo.bReady != 0);
+        data.hasNuke = (o->silo.bReady != 0);
         break;
       case UnitTypes::Enum::Zerg_Hatchery:
       case UnitTypes::Enum::Zerg_Lair:
       case UnitTypes::Enum::Zerg_Hive:
-        if ( !self->isCompleted && self->buildType == UnitTypes::Enum::Zerg_Hatchery )
-          self->remainingTrainTime = self->remainingBuildTime;
+        if ( !data.isCompleted && data.buildType == UnitTypes::Enum::Zerg_Hatchery )
+          data.remainingTrainTime = data.remainingBuildTime;
         else
-          self->remainingTrainTime = o->building.larvaTimer * 9 + ((o->orderQueueTimer + 8) % 9);
+          data.remainingTrainTime = o->building.larvaTimer * 9 + ((o->orderQueueTimer + 8) % 9);
         break;
       default:
         break;
@@ -562,20 +562,20 @@ namespace BWAPI
 
       //------------------------------------------------------------------------------------------------------
       // Order Type switch; special cases
-      switch ( self->order )
+      switch ( data.order )
       {
         case Orders::Enum::IncompleteBuilding:
         case Orders::Enum::IncompleteWarping:
-          self->buildType = self->type;
+          data.buildType = data.type;
           break;
         case Orders::Enum::ConstructingBuilding:
-          if ( self->buildUnit != -1 )
-            self->buildType = static_cast<UnitImpl*>(getBuildUnit())->getOriginalRawData->unitType;
+          if ( data.buildUnit != -1 )
+            data.buildType = static_cast<UnitImpl*>(getBuildUnit())->getOriginalRawData->unitType;
           break;
         case Orders::Enum::IncompleteMorphing:
           {
             UnitType type = getBuildQueue[getBuildQueueSlot % 5];
-            self->buildType = type == UnitTypes::None ? self->type : type;
+            data.buildType = type == UnitTypes::None ? data.type : type;
           }
           break;
         case Orders::Enum::PlaceBuilding:
@@ -583,68 +583,68 @@ namespace BWAPI
         case Orders::Enum::ZergUnitMorph:
         case Orders::Enum::ZergBuildingMorph:
         case Orders::Enum::DroneLand:
-          self->buildType = getBuildQueue[(getBuildQueueSlot % 5)];
+          data.buildType = getBuildQueue[(getBuildQueueSlot % 5)];
           break;
         case Orders::Enum::ResearchTech:
-          self->tech = o->building.techType;
-          self->remainingResearchTime = o->building.upgradeResearchTime;
+          data.tech = o->building.techType;
+          data.remainingResearchTime = o->building.upgradeResearchTime;
           break;
         case Orders::Enum::Upgrade:
-          self->upgrade = o->building.upgradeType;
-          self->remainingUpgradeTime = o->building.upgradeResearchTime;
+          data.upgrade = o->building.upgradeType;
+          data.remainingUpgradeTime = o->building.upgradeResearchTime;
           break;
       }
 
       //getBuildType
       if ( !hasEmptyBuildQueue &&
-           !self->isIdle       &&
-           self->secondaryOrder == Orders::BuildAddon )
-        self->buildType = getBuildQueue[(getBuildQueueSlot % 5)];
+           !data.isIdle       &&
+           data.secondaryOrder == Orders::BuildAddon )
+        data.buildType = getBuildQueue[(getBuildQueueSlot % 5)];
 
       //------------------------------------------------------------------------------------------------------
       //getRemainingBuildTime
-      if ( !self->isCompleted && (!self->isMorphing || self->buildType != UnitTypes::None) )
-        self->remainingBuildTime = o->remainingBuildTime;
+      if ( !data.isCompleted && (!data.isMorphing || data.buildType != UnitTypes::None) )
+        data.remainingBuildTime = o->remainingBuildTime;
       //------------------------------------------------------------------------------------------------------
       //getRallyPosition
       if (this->_getType.canProduce())
       {
-        self->rallyPositionX = o->rally.position.x;
-        self->rallyPositionY = o->rally.position.y;
+        data.rallyPositionX = o->rally.position.x;
+        data.rallyPositionY = o->rally.position.y;
       }
       else
       {
-        self->rallyPositionX = Positions::None.x;
-        self->rallyPositionY = Positions::None.y;
+        data.rallyPositionX = Positions::None.x;
+        data.rallyPositionY = Positions::None.y;
       }
       //------------------------------------------------------------------------------------------------------
       //getRallyUnit
       if ( this->_getType.canProduce() )
-        self->rallyUnit = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->rally.unit));
+        data.rallyUnit = BroodwarImpl.server.getUnitID(UnitImpl::BWUnitToBWAPIUnit(o->rally.unit));
 
-      self->transport       = BroodwarImpl.server.getUnitID(_getTransport);   //getTransport
-      self->isHallucination = o->statusFlag(BW::StatusFlags::IsHallucination);  //isHallucination
+      data.transport       = BroodwarImpl.server.getUnitID(_getTransport);   //getTransport
+      data.isHallucination = o->statusFlag(BW::StatusFlags::IsHallucination);  //isHallucination
     }
     else
     {
-      self->buildType             = UnitTypes::None;     //getBuildType
-      self->trainingQueueCount    = 0;                    //getTrainingQueue
-      self->tech                  = TechTypes::None;     //getTech
-      self->upgrade               = UpgradeTypes::None;  //getUpgrade
-      self->remainingBuildTime    = 0;                    //getRemainingBuildTime
-      self->remainingTrainTime    = 0;                    //getRemainingTrainTime
-      self->remainingResearchTime = 0;                    //getRemainingResearchTime
-      self->remainingUpgradeTime  = 0;                    //getRemainingUpgradeTime
-      self->rallyPositionX        = Positions::None.x;  //getRallyPosition
-      self->rallyPositionY        = Positions::None.y;  //getRallyPosition
-      self->rallyUnit             = -1;                   //getRallyUnit
-      self->transport             = -1;                   //getTransport
-      self->hasNuke               = false;                //hasNuke
-      self->isHallucination       = false;                //isHallucination
+      data.buildType             = UnitTypes::None;     //getBuildType
+      data.trainingQueueCount    = 0;                    //getTrainingQueue
+      data.tech                  = TechTypes::None;     //getTech
+      data.upgrade               = UpgradeTypes::None;  //getUpgrade
+      data.remainingBuildTime    = 0;                    //getRemainingBuildTime
+      data.remainingTrainTime    = 0;                    //getRemainingTrainTime
+      data.remainingResearchTime = 0;                    //getRemainingResearchTime
+      data.remainingUpgradeTime  = 0;                    //getRemainingUpgradeTime
+      data.rallyPositionX        = Positions::None.x;  //getRallyPosition
+      data.rallyPositionY        = Positions::None.y;  //getRallyPosition
+      data.rallyUnit             = -1;                   //getRallyUnit
+      data.transport             = -1;                   //getTransport
+      data.hasNuke               = false;                //hasNuke
+      data.isHallucination       = false;                //isHallucination
     }
-    if ( self->order >= 0 && self->order < Orders::Enum::MAX )
-      self->order = BWtoBWAPI_Order[self->order];
-    if ( self->secondaryOrder >= 0 && self->secondaryOrder < Orders::Enum::MAX )
-      self->secondaryOrder = BWtoBWAPI_Order[self->secondaryOrder];
+    if ( data.order >= 0 && data.order < Orders::Enum::MAX )
+      data.order = BWtoBWAPI_Order[data.order];
+    if ( data.secondaryOrder >= 0 && data.secondaryOrder < Orders::Enum::MAX )
+      data.secondaryOrder = BWtoBWAPI_Order[data.secondaryOrder];
   }
 }

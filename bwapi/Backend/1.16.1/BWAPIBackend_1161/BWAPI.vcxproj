@@ -134,16 +134,14 @@ popd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\BWAPI.h" />
-    <ClInclude Include="..\include\BWAPI\AIModule.h" />
-    <ClInclude Include="..\include\BWAPI\Bullet.h" />
-    <ClInclude Include="..\include\BWAPI\Force.h" />
-    <ClInclude Include="..\include\BWAPI\Game.h" />
-    <ClInclude Include="..\include\BWAPI\Interface.h" />
-    <ClInclude Include="..\include\BWAPI\Player.h" />
-    <ClInclude Include="..\include\BWAPI\Region.h" />
-    <ClInclude Include="..\include\BWAPI\Unit.h" />
-    <ClInclude Include="..\Shared\Templates.h" />
+    <ClInclude Include="..\..\..\include\BWAPI.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\AIModule.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Bullet.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Force.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Game.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Player.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Region.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Unit.h" />
     <ClInclude Include="Source\Assembly.h" />
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h" />
     <ClInclude Include="Source\BWAPI\BulletImpl.h" />

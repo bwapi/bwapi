@@ -1,15 +1,28 @@
 #pragma once
 
+#include <BWAPI/IDs.h>
+#include <BWAPI/Order.h>
+#include <BWAPI/TechType.h>
+#include <BWAPI/UnitType.h>
+#include <BWAPI/UpgradeType.h>
+#include <BWAPI/UnitCommand.h>
+
+#include <array>
+#include "BWAPI/UnitCommandType.h"
+
 namespace BWAPI
 {
-  struct UnitData
-  {
+  struct UnitData {
+    UnitData(UnitID id) {
+      trainingQueue.reserve(5);
+      loadedUnits.reserve(8);
+    }
+
     int clearanceLevel;
-    int id;
-    int player;
-    int type;
-    int positionX;
-    int positionY;
+    BWAPI::UnitID id{-1};
+    BWAPI::PlayerID player{-1};
+    BWAPI::UnitType type;
+    BWAPI::Position position;
     double angle;
     double velocityX;
     double velocityY;
@@ -41,35 +54,32 @@ namespace BWAPI
     int stasisTimer;
     int stimTimer;
 
-    int buildType;
-    int trainingQueueCount;
-    int trainingQueue[5];
-    int tech;
-    int upgrade;
+    BWAPI::UnitType buildType;
+    BWAPI::UnitType::list trainingQueue;
+    BWAPI::UnitID::list loadedUnits;
+    BWAPI::TechType tech;
+    BWAPI::UpgradeType upgrade;
     int remainingBuildTime;
     int remainingTrainTime;
     int remainingResearchTime;
     int remainingUpgradeTime;
-    int buildUnit;
+    BWAPI::UnitID buildUnit{-1};
 
-    int target;
-    int targetPositionX;
-    int targetPositionY;
-    int order;
-    int orderTarget;
-    int orderTargetPositionX;
-    int orderTargetPositionY;
-    int secondaryOrder;
-    int rallyPositionX;
-    int rallyPositionY;
-    int rallyUnit;
-    int addon;
-    int nydusExit;
-    int powerUp;
+    BWAPI::UnitID target{-1};
+    BWAPI::Position targetPosition;
+    BWAPI::Order order;
+    BWAPI::UnitID orderTarget{-1};
+    BWAPI::Position orderTargetPosition;
+    BWAPI::Order secondaryOrder;
+    BWAPI::Position rallyPosition;
+    BWAPI::UnitID rallyUnit{-1};
+    BWAPI::UnitID addon{-1};
+    BWAPI::UnitID nydusExit{-1};
+    BWAPI::UnitID powerUp{-1};
 
-    int transport;
-    int carrier;
-    int hatchery;
+    BWAPI::UnitID transport{-1};
+    BWAPI::UnitID carrier{-1};
+    BWAPI::UnitID hatchery{-1};
     
     bool exists;
     bool hasNuke;
@@ -77,6 +87,7 @@ namespace BWAPI
     bool isAttacking;
     bool isAttackFrame;
     bool isBeingGathered;
+    bool isBeingHealed;
     bool isBlind;
     bool isBraking;
     bool isBurrowed;
@@ -105,8 +116,11 @@ namespace BWAPI
     bool isVisible[9];
     int  buttonset;
 
-    int  lastAttackerPlayer;
+    int lastCommandFrame;
+    BWAPI::UnitCommand lastCommand{};
+
+    BWAPI::PlayerID lastAttackerPlayer{-1};
+    BWAPI::UnitID replayID{-1};
     bool recentlyAttacked;
-    int  replayID;
   };
 }

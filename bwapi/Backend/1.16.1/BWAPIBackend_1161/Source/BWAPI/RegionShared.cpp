@@ -5,49 +5,49 @@ namespace BWAPI
   // -------------------------------- GET GROUP ID -----------------------------------------------------------
   int RegionImpl::getRegionGroupID() const
   {
-    return self->islandID;
+    return data.islandID;
   }
   // --------------------------------- GET CENTER ------------------------------------------------------------
   BWAPI::Position RegionImpl::getCenter() const
   {
-    return BWAPI::Position(self->center_x, self->center_y);
+    return BWAPI::Position(data.center_x, data.center_y);
   }
   // --------------------------------- HIGHER GRND -----------------------------------------------------------
   bool RegionImpl::isHigherGround() const
   {
-    return self->isHigherGround;
+    return data.isHigherGround;
   }
   // ------------------------------ DEFENSE PRIORITY ---------------------------------------------------------
   int RegionImpl::getDefensePriority() const
   {
-    return self->priority;
+    return data.priority;
   }
   // ----------------------------------- WALKABLE ------------------------------------------------------------
   bool RegionImpl::isAccessible() const
   {
-    return self->isAccessible;
+    return data.isAccessible;
   }
   // ------------------------------------ GET ID -------------------------------------------------------------
   int RegionImpl::getID() const
   {
-    return self->id;
+    return data.id;
   }
   // ------------------------------------ BOUNDS -------------------------------------------------------------
   int RegionImpl::getBoundsLeft() const
   {
-    return self->leftMost;
+    return data.leftMost;
   }
   int RegionImpl::getBoundsTop() const
   {
-    return self->topMost;
+    return data.topMost;
   }
   int RegionImpl::getBoundsRight() const
   {
-    return self->rightMost;
+    return data.rightMost;
   }
   int RegionImpl::getBoundsBottom() const
   {
-    return self->bottomMost;
+    return data.bottomMost;
   }
   // ---------------------------------- NEIGHBOURS -----------------------------------------------------------
   const Regionset &RegionImpl::getNeighbors() const

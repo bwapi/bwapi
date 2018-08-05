@@ -18,7 +18,7 @@ namespace BWAPI
       /// <param name="id">
       ///   The index of the color in the 256-color palette.
       /// </param>
-      constexpr Color(int id = 0) : Type(id) {}
+      constexpr explicit Color(int id = 0) : Type(id) {}
 
       /// <summary>A constructor that uses the color index in the palette that is closest to the
       /// given rgb values.</summary> On its first call, the colors in the palette will be sorted
