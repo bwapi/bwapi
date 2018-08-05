@@ -105,7 +105,6 @@ namespace BWAPI
     // data members
       ForceImpl*  force = nullptr;
       PlayerData  data = PlayerData();
-      PlayerData* self = &data;
       Unitset     units;
 
       s32 _repairedMinerals;

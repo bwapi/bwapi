@@ -2,6 +2,8 @@
 #include "SetContainer.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
+#include <BWAPI/Game.h>
+#include <BWAPI/Unit.h>
 #include <iterator>
 
 namespace BWAPI
@@ -16,38 +18,40 @@ namespace BWAPI
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  class Unitset : public SetContainer<BWAPI::Unit, std::hash<void*>>
+  using Container_Unitset = SetContainer < Unit, Unit::Hash >;
+  class Unitset : public Container_Unitset
   {
   public:
+    using Container_Unitset::Container_Unitset;
     /// <summary>A blank Unitset containing no elements.</summary> This is typically used as a
     /// return value for BWAPI interface functions that have encountered an error.
     static const Unitset none;
 
-    Unitset& operator = (const Unitset& other) {
-        clear();
-        std::copy(other.begin(), other.end(), std::inserter(*this, begin()));
-        return *this;
+    template<typename ...Ts>
+    Unitset &operator=(Ts &&...vals) {
+      Container_Unitset::operator=(std::forward<Ts>(vals)...);
+      return *this;
     }
 
     /// <summary>Calculates the average of all valid Unit positions in this set.</summary>
     ///
     /// @returns Average Position of all units in the set.
     ///
-    /// @see UnitInterface::getPosition
+    /// @see Unit::getPosition
     Position getPosition() const;
 
     /// <summary>Creates a single set containing all units that are loaded into units of this set.</summary>
     ///
     /// @returns The set of all loaded units.
     ///
-    /// @see UnitInterface::getLoadedUnits
+    /// @see Unit::getLoadedUnits
     Unitset getLoadedUnits() const;
 
     /// <summary>Creates a single set containing all the @Interceptors of all @Carriers in this set.</summary>
     ///
     /// @returns The set of all @Interceptors .
     /// 
-    /// @see UnitInterface::getInterceptors
+    /// @see Unit::getInterceptors
     Unitset getInterceptors() const;
 
     /// <summary>Creates a single set containing all the @Larvae of all @Hatcheries, @Lairs, and
@@ -55,7 +59,7 @@ namespace BWAPI
     ///
     /// @returns The set of all @Larvae .
     ///
-    /// @see UnitInterface::getLarva
+    /// @see Unit::getLarva
     Unitset getLarva() const;
 
     /// <summary>Sets the client info for every unit in this set.</summary>
@@ -69,132 +73,135 @@ namespace BWAPI
     ///   mapped to the same unit.
     /// </param>
     ///
-    /// @see UnitInterface::setClientInfo
+    /// @see Unit::setClientInfo
     void setClientInfo(void *clientInfo = nullptr, int index = 0) const;
     /// @overload
     void setClientInfo(int clientInfo = 0, int index = 0) const;
 
-    /// @copydoc UnitInterface::getUnitsInRadius
+    /// @copydoc Unit::getUnitsInRadius
     Unitset getUnitsInRadius(int radius, const UnitFilter &pred = nullptr) const;
 
-    /// @copydoc UnitInterface::getClosestUnit
+    /// @copydoc Unit::getClosestUnit
     Unit getClosestUnit(const UnitFilter &pred = nullptr, int radius = 999999) const;
 
     /// @name Unit Commands
     /// @{
 
-    /// @copydoc UnitInterface::issueCommand
+    /// @copydoc Unit::issueCommand
     bool issueCommand(UnitCommand command) const;
     
-    /// @copydoc UnitInterface::attack
+    /// @copydoc Unit::attack
     bool attack(Position target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::attack
+    /// @copydoc Unit::attack
     bool attack(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::build
+    /// @copydoc Unit::build
     bool build(UnitType type, TilePosition target = TilePositions::None) const;
 
-    /// @copydoc UnitInterface::buildAddon
+    /// @copydoc Unit::buildAddon
     bool buildAddon(UnitType type) const;
 
-    /// @copydoc UnitInterface::train
+    /// @copydoc Unit::train
     bool train(UnitType type) const;
 
-    /// @copydoc UnitInterface::morph
+    /// @copydoc Unit::morph
     bool morph(UnitType type) const;
 
-    /// @copydoc UnitInterface::setRallyPoint
+    /// @copydoc Unit::setRallyPoint
     bool setRallyPoint(Unit target) const;
 
-    /// @copydoc UnitInterface::setRallyPoint
+    /// @copydoc Unit::setRallyPoint
     bool setRallyPoint(Position target) const;
 
-    /// @copydoc UnitInterface::move
+    /// @copydoc Unit::move
     bool move(Position target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::patrol
+    /// @copydoc Unit::patrol
     bool patrol(Position target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::holdPosition
+    /// @copydoc Unit::holdPosition
     bool holdPosition(bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::stop
+    /// @copydoc Unit::stop
     bool stop(bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::follow
+    /// @copydoc Unit::follow
     bool follow(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::gather
+    /// @copydoc Unit::gather
     bool gather(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::returnCargo
+    /// @copydoc Unit::returnCargo
     bool returnCargo(bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::repair
+    /// @copydoc Unit::repair
     bool repair(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::burrow
+    /// @copydoc Unit::burrow
     bool burrow() const;
 
-    /// @copydoc UnitInterface::unburrow
+    /// @copydoc Unit::unburrow
     bool unburrow() const;
 
-    /// @copydoc UnitInterface::cloak
+    /// @copydoc Unit::cloak
     bool cloak() const;
 
-    /// @copydoc UnitInterface::decloak
+    /// @copydoc Unit::decloak
     bool decloak() const;
 
-    /// @copydoc UnitInterface::siege
+    /// @copydoc Unit::siege
     bool siege() const;
 
-    /// @copydoc UnitInterface::unsiege
+    /// @copydoc Unit::unsiege
     bool unsiege() const;
 
-    /// @copydoc UnitInterface::lift
+    /// @copydoc Unit::lift
     bool lift() const;
 
-    /// @copydoc UnitInterface::load
+    /// @copydoc Unit::load
     bool load(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::unloadAll(bool)
+    /// @copydoc Unit::unloadAll(bool)
     bool unloadAll(bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::unloadAll(Position,bool)
+    /// @copydoc Unit::unloadAll(Position,bool)
     bool unloadAll(Position target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::rightClick
+    /// @copydoc Unit::rightClick
     bool rightClick(Unit target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::rightClick
+    /// @copydoc Unit::rightClick
     bool rightClick(Position target, bool shiftQueueCommand = false) const;
 
-    /// @copydoc UnitInterface::haltConstruction
+    /// @copydoc Unit::haltConstruction
     bool haltConstruction() const;
 
-    /// @copydoc UnitInterface::cancelConstruction
+    /// @copydoc Unit::cancelConstruction
     bool cancelConstruction() const;
 
-    /// @copydoc UnitInterface::cancelAddon
+    /// @copydoc Unit::cancelAddon
     bool cancelAddon() const;
 
-    /// @copydoc UnitInterface::cancelTrain
+    /// @copydoc Unit::cancelTrain
     bool cancelTrain(int slot = -2) const;
 
-    /// @copydoc UnitInterface::cancelMorph
+    /// @copydoc Unit::cancelMorph
     bool cancelMorph() const;
 
-    /// @copydoc UnitInterface::cancelResearch
+    /// @copydoc Unit::cancelResearch
     bool cancelResearch() const;
 
-    /// @copydoc UnitInterface::cancelUpgrade
+    /// @copydoc Unit::cancelUpgrade
     bool cancelUpgrade() const;
-    
-    /// @copydoc UnitInterface::useTech
-    bool useTech(TechType tech, Unit target = nullptr) const;
 
-    /// @copydoc UnitInterface::useTech
+    /// @copydoc Unit::useTech
+    bool useTech(TechType tech) const;
+
+    /// @copydoc Unit::useTech
+    bool useTech(TechType tech, Unit target) const;
+
+    /// @copydoc Unit::useTech
     bool useTech(TechType tech, Position target) const;
 
     ///@}

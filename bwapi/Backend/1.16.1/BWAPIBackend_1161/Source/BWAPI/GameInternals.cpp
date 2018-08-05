@@ -30,8 +30,6 @@ namespace BWAPI
   //---------------------------------------------- CONSTRUCTOR -----------------------------------------------
   GameImpl::GameImpl()
   {
-    BWAPI::BroodwarPtr = static_cast<Game*>(this);
-
     BWtoBWAPI_init();
 
     // iterate through players and create PlayerImpl for each
@@ -160,14 +158,14 @@ namespace BWAPI
       n = -1;
       ss >> n;
       setLocalSpeedDirect(n);
-      Broodwar << "Changed game speed" << std::endl;
+      printf("Changed game speed");
     }
     else if (cmd == "/fs")
     {
       n = 1;
       ss >> n;
       setFrameSkip(n);
-      Broodwar << "Altered frame skip" << std::endl;
+      printf("Altered frame skip");
     }
     else if (cmd == "/cheats")
     {
@@ -194,23 +192,18 @@ namespace BWAPI
     else if (cmd == "/nogui")
     {
       setGUI(!data->hasGUI);
-      Broodwar << "GUI: " << (data->hasGUI ? "enabled" : "disabled") << std::endl;
+      printf("GUI: %s", data->hasGUI ? "enabled" : "disabled");
     }
     else if (cmd == "/grid")
     {
       grid = !grid;
-      Broodwar << "Matrix grid " << (grid ? "enabled" : "disabled") << std::endl;
+      printf("Matrix grid ", grid ? "enabled" : "disabled");
     }
     else if ( cmd == "/fps" )
     {
       this->showfps = !this->showfps;
-      Broodwar << "FPS display " << (showfps ? "enabled" : "disabled") << std::endl;
+      printf("FPS display ", showfps ? "enabled" : "disabled");
     }
-#ifdef _DEBUG
-    else if (cmd == "/test")
-    {
-    }
-#endif
     else
     {
       return false;

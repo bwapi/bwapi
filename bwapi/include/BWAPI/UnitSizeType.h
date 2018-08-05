@@ -41,7 +41,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    constexpr UnitSizeType(int id = UnitSizeTypes::Enum::None) : Type(id) {}
+    constexpr explicit UnitSizeType(int id = UnitSizeTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

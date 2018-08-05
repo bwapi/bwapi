@@ -46,7 +46,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr DamageType(int id = DamageTypes::Enum::None) : Type(id) {}
+      constexpr explicit DamageType(int id = DamageTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

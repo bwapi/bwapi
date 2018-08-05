@@ -103,27 +103,14 @@ namespace BWAPI
 
       virtual bool  isWalkable(int x, int y) const override;
       virtual int   getGroundHeight(int x, int y) const override;
-      virtual bool  isBuildable(int x, int y, bool includeBuildings = false) const override;
-      virtual bool  isVisible(int x, int y) const override;
-      virtual bool  isExplored(int x, int y) const override;
-      virtual bool  hasCreep(int x, int y) const override;
       virtual bool  hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const override;
-
-      virtual bool  canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) override;
-      virtual bool  canMake(UnitType type, Unit builder = nullptr) const override;
-      virtual bool  canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
-      virtual bool  canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) override;
 
       virtual const TilePosition::list& getStartLocations() const override;
 
-      virtual void vPrintf(const char *format, va_list arg) override;
+      virtual void vPrintf(const char *format, va_list arg) const override;
       virtual void vSendTextEx(bool toAllies, const char *format, va_list arg) override;
 
-      virtual bool isInGame() const override;
-      virtual bool isMultiplayer() const override;
       virtual bool isBattleNet() const override;
-      virtual bool isPaused() const override;
-      virtual bool isReplay() const override;
 
       virtual void pauseGame() override;
       virtual void resumeGame() override;
@@ -132,7 +119,6 @@ namespace BWAPI
       virtual void setLocalSpeed(int speed) override;
       virtual bool issueCommand(const Unitset& units, UnitCommand command) override;
       virtual const Unitset& getSelectedUnits() const override;
-      virtual Player self() const override;
       virtual Player enemy() const override;
       virtual Player neutral() const override;
       virtual Playerset& allies() override;
@@ -169,7 +155,6 @@ namespace BWAPI
       virtual void setFrameSkip(int frameSkip) override;
 
       virtual bool setAlliance(Player player, bool allied = true, bool alliedVictory = true) override;
-      virtual bool setVision(Player player, bool enabled = true) override;
       virtual int  elapsedTime() const override;
 
       virtual void setCommandOptimizationLevel(int level = 0) override;

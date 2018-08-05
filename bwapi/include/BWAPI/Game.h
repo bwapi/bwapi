@@ -3,8 +3,8 @@
 #include <string>
 #include <cstdarg>
 
-#include <BWAPI/Interface.h>
-#include <BWAPI/UnitType.h>
+#include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/Color.h>
 
@@ -14,6 +14,7 @@
 #include <BWAPI/CoordinateType.h>
 
 #include <sstream>
+#include <BWAPI/GameData.h>
 
 namespace BWAPI
 {
@@ -25,13 +26,8 @@ namespace BWAPI
   typedef ForceInterface *Force;
   class Forceset;
   class GameType;
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
   class Playerset;
   class Race;
-  
-  class RegionInterface;
-  typedef RegionInterface *Region;
 
   class Regionset;
   class TechType;
@@ -44,14 +40,21 @@ namespace BWAPI
   /// resources, players, forces, bullets, terrain, fog of war, regions, etc.
   ///
   /// @ingroup Interface
-  class Game : public Interface<Game>
-  {
-  protected:
-    virtual ~Game() {};
+  class Game {
+  public:
+    Game &operator=(Game const &other) = delete;
+    Game &operator=(Game &&other) = delete;
 
-    Game& operator=(const Game& other) = delete;
-    Game& operator=(Game&& other) = delete;
-  public :
+    UnitData &getUnitData(UnitID unit)
+    {
+        
+    }
+
+    UnitData &getInitialData(UnitID unit)
+    {
+      
+    }
+
     /// <summary>Retrieves the set of all teams/forces.</summary> Forces are commonly seen in @UMS
     /// game types and some others such as @TvB and the team versions of game types.
     ///
@@ -333,9 +336,17 @@ namespace BWAPI
     ///
     /// @returns A Unitset object consisting of all the units that have any part of them on the
     /// given build tile.
-    Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const;
+    Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const {
+      return getUnitsOnTile({ tileX, tileY }, pred);
+    }
     /// @overload
-    Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const;
+    Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const {
+      if(isValid(tile)) {
+        Position p{tile};
+        return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
+      }
+        return Unitset::none;
+    }
 
     /// <summary>Retrieves the set of accessible units that are in a given rectangle.</summary>
     ///
@@ -579,9 +590,18 @@ namespace BWAPI
     /// @returns boolean identifying if the given tile position is buildable (true) or not (false).
     /// If \p includeBuildings was provided, then it will return false if a structure is currently
     /// occupying the tile.
-    virtual bool isBuildable(int tileX, int tileY, bool includeBuildings = false) const = 0;
+    bool isBuildable(int tileX, int tileY, bool includeBuildings = false) const {
+      return isBuildable({ tileX, tileY }, includeBuildings);
+    }
     /// @overload
-    bool isBuildable(TilePosition position, bool includeBuildings = false) const;
+    bool isBuildable(TilePosition position, bool includeBuildings = false) const {
+      return isValid(position) &&
+             gameData.map.isBuildable[position.x][position.y] &&
+             (includeBuildings
+                  ? !(isVisible(position) &&
+                      gameData.map.isOccupied[position.x][position.y])
+                  : true);
+    }
 
     /// <summary>Checks if a given tile position is visible to the current player.</summary>
     ///
@@ -595,9 +615,14 @@ namespace BWAPI
     /// @returns boolean identifying the visibility of the tile. If the given tile is visible, then
     /// the value is true. If the given tile is concealed by the fog of war, then this value will
     /// be false.
-    virtual bool isVisible(int tileX, int tileY) const = 0;
+    bool isVisible(int tileX, int tileY) const {
+      return isVisible({tileX, tileY});
+    }
     /// @overload
-    bool isVisible(TilePosition position) const;
+    bool isVisible(TilePosition position) const {
+      return isValid(position) ? gameData.map.isVisible[position.x][position.y]
+                               : false;
+    }
 
     /// <summary>Checks if a given tile position has been explored by the player.</summary> An
     /// explored tile position indicates that the player has seen the location at some point in the
@@ -614,9 +639,14 @@ namespace BWAPI
     /// @retval false If the tile position was never explored (completely black fog).
     ///
     /// @see isVisible
-    virtual bool isExplored(int tileX, int tileY) const = 0;
+    bool isExplored(int tileX, int tileY) const {
+      return isExplored({tileX, tileY});
+    }
     /// @overload
-    bool isExplored(TilePosition position) const;
+    bool isExplored(TilePosition position) const {
+      return isValid(position) ? gameData.map.isExplored[position.x][position.y]
+                               : false;
+    }
 
     /// <summary>Checks if the given tile position has @Zerg creep on it.</summary>
     ///
@@ -629,9 +659,14 @@ namespace BWAPI
     ///
     /// @retval true If the given tile has creep on it.
     /// @retval false If the given tile does not have creep, or if it is concealed by the fog of war.
-    virtual bool hasCreep(int tileX, int tileY) const = 0;
+    bool hasCreep(int tileX, int tileY) const {
+      return hasCreep({tileX, tileY});
+    }
     /// @overload
-    bool hasCreep(TilePosition position) const;
+    bool hasCreep(TilePosition position) const {
+      return isValid(position) ? gameData.map.hasCreep[position.x][position.y]
+                               : false;
+    }
 
     /// <summary>Checks if the given pixel position is powered by an owned @Protoss_Pylon for an
     /// optional unit type.</summary>
@@ -709,7 +744,7 @@ namespace BWAPI
     ///
     /// @returns true indicating that the structure can be placed at the given tile position, and
     /// false if something may be obstructing the build location.
-    virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) = 0;
+    virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const = 0;
 
     /// <summary>Checks all the requirements in order to make a given unit type for the current
     /// player.</summary> These include resources, supply, technology tree, availability, and
@@ -746,7 +781,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be researched. If \p unit is provided, then it is
     /// only true if \p unit can research the \p type. Otherwise it will return false, indicating
     /// that the technology can not be researched.
-    virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) = 0;
+    virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Checks all the requirements in order to upgrade a given upgrade type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -766,7 +801,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be upgraded. If \p unit is provided, then it is
     /// only true if \p unit can upgrade the \p type. Otherwise it will return false, indicating
     /// that the upgrade can not be upgraded.
-    virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) = 0;
+    virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Retrieves the set of all starting locations for the current map.</summary> A
     /// starting location is essentially a candidate for a player's spawn point.
@@ -791,7 +826,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see Text::Enum, std::printf
-    void printf(const char *format, ...);
+    void printf(const char *format, ...) const;
 
     /// @copydoc printf
     ///
@@ -802,7 +837,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see printf
-    virtual void vPrintf(const char *format, va_list args) = 0;
+    virtual void vPrintf(const char *format, va_list args) const = 0;
     
     /// <summary>Sends a text message to all other players in the game.</summary> The behaviour of
     /// this function is the same as std::printf, located in header cstdio.
@@ -858,13 +893,13 @@ namespace BWAPI
     /// <summary>Checks if the current client is inside a game.</summary>
     ///
     /// @returns true if the client is in a game, and false if it is not.
-    virtual bool isInGame() const = 0;
+    bool isInGame() const { return gameData.isInGame; }
 
     /// <summary>Checks if the current client is inside a multiplayer game.</summary>
     ///
     /// @returns true if the client is in a multiplayer game, and false if it is a single player
     /// game, a replay, or some other state.
-    virtual bool isMultiplayer() const = 0;
+    bool isMultiplayer() const { return gameData.isMultiplayer; }
 
     /// <summary>Checks if the client is in a game that was created through the Battle.net
     /// multiplayer gaming service.</summary>
@@ -877,12 +912,12 @@ namespace BWAPI
     ///
     /// @returns true if the game is paused and false otherwise
     /// @see pauseGame, resumeGame
-    virtual bool isPaused() const = 0;
+    bool isPaused() const { return gameData.isPaused; }
 
     /// <summary>Checks if the client is watching a replay.</summary>
     ///
     /// @returns true if the client is watching a replay and false otherwise
-    virtual bool isReplay() const = 0;
+    bool isReplay() const { return gameData.isReplay; }
 
     /// <summary>Pauses the game.</summary> While paused, AIModule::onFrame will still be called.
     /// @see resumeGame
@@ -965,7 +1000,7 @@ namespace BWAPI
     ///       BWAPI::Broodwar->sendText("Hello, my name is %s.", BWAPI::Broodwar->self()->getName().c_str());
     ///   }
     /// @endcode
-    virtual Player self() const = 0;
+    Player self() const { return { *this, gameData.player }; }
 
     /// <summary>Retrieves the Player interface that represents the enemy player.</summary> If
     /// there is more than one enemy, and that enemy is destroyed, then this function will still
@@ -1717,18 +1752,72 @@ namespace BWAPI
     /// @returns This game's random seed.
     /// @since 4.2.0
     virtual unsigned getRandomSeed() const = 0;
+
+    /// <summary>Checks if this point is within the game's map bounds.</summary>
+    ///
+    /// @retval true If it is a valid position and on the map/playing field.
+    /// @retval false If this is not a valid position.
+    ///
+    /// @see makeValid
+    template<typename PositionT>
+    bool isValid(PositionT pos) const {
+      BWAPI::Position temp{ pos };
+      return temp.x < mapWidth() * 32 && temp.y < mapHeight() * 32;
+    }
+
+    /// <summary>Checks if this point is within the game's map bounds, if not, then it will set
+    /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
+    /// then x is set to 0.
+    ///
+    /// @returns A reference to itself.
+    /// @see isValid
+    template<typename PositionT>
+    void makeValid(PositionT &pos) const {
+      pos.setMin(0, 0);
+      pos.setMax(mapWidth(), mapHeight());
+    }
+
+    constexpr operator bool() const { return true; }
+    constexpr Game *operator->() { return this; }
+    constexpr Game const *operator->() const { return this; }
+
+  private:
+    mutable std::stringstream ss;
+  public:
+    template<typename T>
+    Game const &operator<<(T const &in) const {
+      ss << in;
+      return *this;
+    }
+
+    Game &operator<<(std::ostream &(*fn)(std::ostream &)) {
+      fn(ss);
+      return *this;
+    }
+
+    void flush() const {
+      printf("%s", ss.str().c_str());
+      ss.str("");
+    }
+
+    GameData gameData;
+    std::map<PlayerID, PlayerData> playerData;
+    std::unordered_map<UnitID, UnitData> unitData;
   };
 
-  extern Game *BroodwarPtr;
+  //extern Game *BroodwarPtr;
 
   /// <summary>Broodwar wrapper
   class GameWrapper
   {
   private:
-    std::ostringstream ss;
+    Game &bw;
+    std::stringstream ss;
   public:
+    GameWrapper(Game &game): bw{game} { }
+
     /// <summary>Definition of ostream_manipulator type for convenience.</summary>
-    typedef std::ostream& (*ostream_manipulator)(std::ostream&);
+    using ostream_manipulator = std::ostream&(*)(std::ostream&);
 
     /// <summary>Member access operator to retain the original Broodwar-> behaviour.</summary>
     Game *operator ->() const;
@@ -1751,7 +1840,7 @@ namespace BWAPI
 
   /// <summary>The primary Game interface, used to access any Game information or perform Game
   /// actions.</summary>
-  extern GameWrapper Broodwar;
+  //extern GameWrapper Broodwar;
 
 }
 

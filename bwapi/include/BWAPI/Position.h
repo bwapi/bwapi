@@ -81,10 +81,6 @@ namespace BWAPI
 #pragma warning( pop )
 
     // Operators
-    /// <summary>A convenience for use with if statements to identify if a position is valid.</summary>
-    /// @see isValid
-    explicit operator bool() const { return this->isValid(); };
-    
     bool operator == (const Point<T,Scale> &pos) const
     {
       return this->x == pos.x && this->y == pos.y;
@@ -234,28 +230,6 @@ namespace BWAPI
     {
       return in >> pt.x >> pt.y;
     };
-
-    /// <summary>Checks if this point is within the game's map bounds.</summary>
-    ///
-    /// @note If the Broodwar pointer is not initialized, this function will check validity
-    /// against the largest (256x256) map size.
-    ///
-    /// @retval true If it is a valid position and on the map/playing field.
-    /// @retval false If this is not a valid position.
-    ///
-    /// @see makeValid
-    bool isValid() const;
-
-    /// <summary>Checks if this point is within the game's map bounds, if not, then it will set
-    /// the x and y values to be within map bounds.</summary> For example, if x is less than 0,
-    /// then x is set to 0.
-    ///
-    /// @note If the Broodwar pointer is not initialized, this function will check validity
-    /// against the largest (256x256) map size.
-    ///
-    /// @returns A reference to itself.
-    /// @see isValid
-    Point &makeValid();
 
     /// <summary>Gets an accurate distance measurement from this point to the given position.</summary>
     ///

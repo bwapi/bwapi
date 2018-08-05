@@ -1,4 +1,6 @@
 #pragma once
+
+#include <BWAPI/Unit.h>
 #include <BWAPI/UnaryFilter.h>
 #include <BWAPI/ComparisonFilter.h>
 #include <BWAPI/BestFilter.h>
@@ -10,18 +12,11 @@
 
 namespace BWAPI
 {
-  // forwards
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
-  class UnitType;
-  class UnitInterface;
-  typedef UnitInterface *Unit;
-
   // typedefs
-  typedef UnaryFilter<Unit > UnitFilter;
-  typedef UnaryFilter<Unit ,bool (*)(Unit )> PtrUnitFilter;
-  typedef BestFilter<Unit >  BestUnitFilter;
-  typedef CompareFilter<Unit ,int,int(*)(Unit )> PtrIntCompareUnitFilter;
+  using UnitFilter = UnaryFilter<Unit>;
+  using PtrUnitFilter = UnaryFilter<Unit, bool(*)(Unit)>;
+  using BestUnitFilter = BestFilter<Unit>;
+  using PtrIntCompareUnitFilter = CompareFilter<Unit, int, int(*)(Unit)>;
 
   namespace Filter
   {

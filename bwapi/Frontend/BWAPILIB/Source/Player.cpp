@@ -6,31 +6,25 @@
 
 using namespace BWAPI;
 
-//--------------------------------------------- INCOMPLETE UNIT COUNT --------------------------------------
-int PlayerInterface::incompleteUnitCount(UnitType unit) const
-{
-  return this->allUnitCount(unit) - this->completedUnitCount(unit);
-}
 //--------------------------------------------- MAX ENERGY -------------------------------------------------
-int PlayerInterface::maxEnergy(UnitType unit) const
+int Player::maxEnergy(UnitType unit) const
 {
-  int energy = unit.maxEnergy();
-  if ((unit == UnitTypes::Protoss_Arbiter       && getUpgradeLevel(UpgradeTypes::Khaydarin_Core)    > 0) ||
-      (unit == UnitTypes::Protoss_Corsair       && getUpgradeLevel(UpgradeTypes::Argus_Jewel)       > 0) ||
-      (unit == UnitTypes::Protoss_Dark_Archon   && getUpgradeLevel(UpgradeTypes::Argus_Talisman)    > 0) ||
-      (unit == UnitTypes::Protoss_High_Templar  && getUpgradeLevel(UpgradeTypes::Khaydarin_Amulet)  > 0) ||
-      (unit == UnitTypes::Terran_Ghost          && getUpgradeLevel(UpgradeTypes::Moebius_Reactor)   > 0) ||
-      (unit == UnitTypes::Terran_Battlecruiser  && getUpgradeLevel(UpgradeTypes::Colossus_Reactor)  > 0) ||
-      (unit == UnitTypes::Terran_Science_Vessel && getUpgradeLevel(UpgradeTypes::Titan_Reactor)     > 0) ||
-      (unit == UnitTypes::Terran_Wraith         && getUpgradeLevel(UpgradeTypes::Apollo_Reactor)    > 0) ||
-      (unit == UnitTypes::Terran_Medic          && getUpgradeLevel(UpgradeTypes::Caduceus_Reactor)  > 0) ||
-      (unit == UnitTypes::Zerg_Defiler          && getUpgradeLevel(UpgradeTypes::Metasynaptic_Node) > 0) ||
-      (unit == UnitTypes::Zerg_Queen            && getUpgradeLevel(UpgradeTypes::Gamete_Meiosis)    > 0) )
-    energy += 50;
-  return energy;
+  return unit.maxEnergy() + 50 * static_cast<int>(
+    (unit == UnitTypes::Protoss_Arbiter       && getUpgradeLevel(UpgradeTypes::Khaydarin_Core)    > 0) ||
+    (unit == UnitTypes::Protoss_Corsair       && getUpgradeLevel(UpgradeTypes::Argus_Jewel)       > 0) ||
+    (unit == UnitTypes::Protoss_Dark_Archon   && getUpgradeLevel(UpgradeTypes::Argus_Talisman)    > 0) ||
+    (unit == UnitTypes::Protoss_High_Templar  && getUpgradeLevel(UpgradeTypes::Khaydarin_Amulet)  > 0) ||
+    (unit == UnitTypes::Terran_Ghost          && getUpgradeLevel(UpgradeTypes::Moebius_Reactor)   > 0) ||
+    (unit == UnitTypes::Terran_Battlecruiser  && getUpgradeLevel(UpgradeTypes::Colossus_Reactor)  > 0) ||
+    (unit == UnitTypes::Terran_Science_Vessel && getUpgradeLevel(UpgradeTypes::Titan_Reactor)     > 0) ||
+    (unit == UnitTypes::Terran_Wraith         && getUpgradeLevel(UpgradeTypes::Apollo_Reactor)    > 0) ||
+    (unit == UnitTypes::Terran_Medic          && getUpgradeLevel(UpgradeTypes::Caduceus_Reactor)  > 0) ||
+    (unit == UnitTypes::Zerg_Defiler          && getUpgradeLevel(UpgradeTypes::Metasynaptic_Node) > 0) ||
+    (unit == UnitTypes::Zerg_Queen            && getUpgradeLevel(UpgradeTypes::Gamete_Meiosis)    > 0)
+  );
 }
 //--------------------------------------------- TOP SPEED --------------------------------------------------
-double PlayerInterface::topSpeed(UnitType unit) const
+double Player::topSpeed(UnitType unit) const
 {
   double speed = unit.topSpeed();
   if ((unit == UnitTypes::Terran_Vulture   && getUpgradeLevel(UpgradeTypes::Ion_Thrusters)        > 0) ||
@@ -55,7 +49,7 @@ double PlayerInterface::topSpeed(UnitType unit) const
   return speed;
 }
 //----------------------------------------------- WEAPON MAX RANGE -----------------------------------------
-int PlayerInterface::weaponMaxRange(WeaponType weapon) const
+int Player::weaponMaxRange(WeaponType weapon) const
 {
   int range = weapon.maxRange();
   if ( (weapon == WeaponTypes::Gauss_Rifle   && getUpgradeLevel(UpgradeTypes::U_238_Shells)   > 0) ||
@@ -68,7 +62,7 @@ int PlayerInterface::weaponMaxRange(WeaponType weapon) const
   return range;
 }
 //--------------------------------------------- SIGHT RANGE ------------------------------------------------
-int PlayerInterface::sightRange(UnitType unit) const
+int Player::sightRange(UnitType unit) const
 {
   int range = unit.sightRange();
   if ((unit == UnitTypes::Terran_Ghost     && getUpgradeLevel(UpgradeTypes::Ocular_Implants) > 0) ||
@@ -79,7 +73,7 @@ int PlayerInterface::sightRange(UnitType unit) const
   return range;
 }
 //--------------------------------------------- GROUND WEAPON DAMAGE COOLDOWN ------------------------------
-int PlayerInterface::weaponDamageCooldown(UnitType unit) const
+int Player::weaponDamageCooldown(UnitType unit) const
 {
   int cooldown = unit.groundWeapon().damageCooldown();
   if (unit == UnitTypes::Zerg_Zergling && getUpgradeLevel(UpgradeTypes::Adrenal_Glands) > 0)
@@ -92,7 +86,7 @@ int PlayerInterface::weaponDamageCooldown(UnitType unit) const
   return cooldown;
 }
 //--------------------------------------------- ARMOR ------------------------------------------------------
-int PlayerInterface::armor(UnitType unit) const
+int Player::armor(UnitType unit) const
 {
   int armor = unit.armor();
   armor += getUpgradeLevel(unit.armorUpgrade());
@@ -103,7 +97,7 @@ int PlayerInterface::armor(UnitType unit) const
   return armor;
 }
 //-------------------------------------------- DAMAGE ------------------------------------------------------
-int PlayerInterface::damage(WeaponType wpn) const
+int Player::damage(WeaponType wpn) const
 {
   int dmg = wpn.damageAmount();
   dmg += getUpgradeLevel(wpn.upgradeType()) * wpn.damageBonus();
@@ -111,7 +105,7 @@ int PlayerInterface::damage(WeaponType wpn) const
   return dmg;
 }
 //-------------------------------------------- TEXT COLOR --------------------------------------------------
-char PlayerInterface::getTextColor() const
+char Player::getTextColor() const
 {
   switch ( this->getColor() )
   {
@@ -144,7 +138,7 @@ char PlayerInterface::getTextColor() const
   }
 }
 //-------------------------------------- UNIT TYPE REQUIREMENT ---------------------------------------------
-bool PlayerInterface::hasUnitTypeRequirement(UnitType unit, int amount) const
+bool Player::hasUnitTypeRequirement(UnitType unit, int amount) const
 {
   if (unit == UnitTypes::None)
     return true;

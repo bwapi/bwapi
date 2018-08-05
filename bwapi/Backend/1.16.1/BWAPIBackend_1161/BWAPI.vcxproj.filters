@@ -127,9 +127,6 @@
       <Filter>Hacks\Header FIles</Filter>
     </ClInclude>
     <ClInclude Include="Source\DLLMain.h" />
-    <ClInclude Include="..\Shared\Templates.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -183,9 +180,6 @@
     </ClInclude>
     <ClInclude Include="Source\Thread.h">
       <Filter>Hacks\Header FIles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Interface.h">
-      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Source\BW\Target.h">
       <Filter>BW\Header Files</Filter>

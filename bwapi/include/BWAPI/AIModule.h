@@ -7,8 +7,6 @@
 namespace BWAPI
 {
   // Forward declarations
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
   class Color;
 
   /// <summary>AIModule is a virtual class that is intended to be implemented or inherited by a

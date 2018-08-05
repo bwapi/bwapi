@@ -82,7 +82,7 @@ namespace BWAPI
     }
 
     // Add to command optimizer if possible, as well as the latency compensation buffer
-    BroodwarImpl.addToCommandBuffer(new Command(command));
+    BroodwarImpl.addToCommandBuffer(new Command(getGame(), command));
     return BroodwarImpl.commandOptimizer.add(command);
   }
   bool UnitImpl::issueCommand(UnitCommand command)
@@ -181,7 +181,7 @@ namespace BWAPI
       return true;
 
     // neutral units visible during AIModule::onStart
-    if ( Broodwar->getFrameCount() == 0 )
+    if (BroodwarImpl.getFrameCount() == 0)
       if (this->_getType.isNeutral() || (this->_getPlayer && this->_getPlayer->isNeutral()) )
         return true;
     return false;
@@ -196,11 +196,11 @@ namespace BWAPI
       return true;
 
     // neutral units visible during AIModule::onStart
-    if (Broodwar->getFrameCount() == 0)
+    if (BroodwarImpl.getFrameCount() == 0)
       if (this->_getType.isNeutral())
         return true;
 
-    return self->isDetected;
+    return data.isDetected;
   }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)

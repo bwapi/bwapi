@@ -1,15 +1,12 @@
 #pragma once
 #include <BWAPI.h>
+#include "Client/BulletData.h"
 
 namespace BWAPI
 {
   // Forward declarations
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
   class BulletType;
-
-  class BulletInterface;
-  typedef BulletInterface *Bullet;
+  class Game;
 
   /// <summary>An interface object representing a bullet or missile spawned from an attack.</summary>
   ///
@@ -31,17 +28,16 @@ namespace BWAPI
   /// in the game are accessible.
   /// @see Game::getBullets, BulletInterface::exists
   /// @ingroup Interface
-  class BulletInterface : public Interface<BulletInterface>
+  class Bullet: public BulletID
   {
-  protected:
-    virtual ~BulletInterface() {};
+    std::reference_wrapper<Game> game;
   public:
-    /// <summary>Retrieves a unique identifier for the current Bullet.</summary>
-    ///
-    /// @returns
-    ///   An integer value containing the identifier.
-    virtual int getID() const = 0;
-    
+    Bullet(Game &game, BulletID id): BulletID{id}, game{game} { }
+
+    Game &getGame() const;
+
+    BulletData &getBulletData() const;
+
     /// <summary>Checks if the Bullet exists in the view of the BWAPI player.</summary>
     ///
     /// @retval true If the bullet exists or is visible.
@@ -54,7 +50,7 @@ namespace BWAPI
     /// If Flag::CompleteMapInformation is enabled, then this function is accurate for all
     /// Bullet information.
     /// @see isVisible, UnitInterface::exists
-    virtual bool exists() const = 0;
+    bool exists() const { return *this && getBulletData().exists; }
 
     /// <summary>Retrieves the Player interface that owns the Bullet.</summary>
     ///
@@ -62,7 +58,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   The owning Player interface object.
-    virtual Player getPlayer() const = 0;
+    Player getPlayer() const;
 
     /// <summary>Retrieves the type of this Bullet.</summary>
     ///
@@ -70,7 +66,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   A BulletType representing the Bullet's type.
-    virtual BulletType getType() const = 0;
+    BulletType getType() const { return getBulletData().type; }
 
     /// <summary>Retrieves the Unit interface that the Bullet spawned from.</summary>
     ///

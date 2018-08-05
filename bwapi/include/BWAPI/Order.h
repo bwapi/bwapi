@@ -221,7 +221,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr Order(int id = Orders::Enum::None) : Type(id) {}
+      constexpr explicit Order(int id = Orders::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

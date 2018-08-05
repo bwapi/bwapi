@@ -48,7 +48,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr GameType(int id = GameTypes::Enum::None) : Type(id) {}
+      constexpr explicit GameType(int id = GameTypes::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

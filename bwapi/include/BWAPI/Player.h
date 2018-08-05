@@ -1,10 +1,12 @@
 #pragma once
-#include <string>
+
+#include <string_view>
+
+#include "Client/PlayerData.h"
 
 #include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Filters.h>
-#include <BWAPI/Interface.h>
 #include <BWAPI/UnitType.h>
 
 namespace BWAPI
@@ -21,25 +23,20 @@ namespace BWAPI
 
   struct PlayerData;
 
-  class PlayerInterface;
-  typedef PlayerInterface *Player;
-
   /// <summary>The Player represents a unique controller in the game.</summary> Each player in
   /// a match will have his or her own player instance. There is also a neutral player which owns
   /// all the neutral units (such as mineral patches and vespene geysers).
   ///
   /// @see Playerset, PlayerType, Race
   /// @ingroup Interface
-  class PlayerInterface : public Interface<PlayerInterface>
-  {
-  protected:
-    virtual ~PlayerInterface() {};
-  public :
-    /// <summary>Retrieves a unique ID that represents the player.</summary>
-    ///
-    /// @returns
-    ///   An integer representing the ID of the player.
-    virtual int getID() const = 0;
+  class Player: public PlayerID {
+    std::reference_wrapper<Game> game;
+  public:
+    Player(Game &game, PlayerID id): game{game}, PlayerID{id} { }
+
+    Game &getGame() const { return game; }
+
+    PlayerData &getPlayerData() const { return getGame().getPlayerData(id); }
 
     /// <summary>Retrieves the name of the player.</summary>
     ///
@@ -55,7 +52,7 @@ namespace BWAPI
     ///   if ( myEnemy != nullptr )   // Make sure there is an enemy!
     ///     BWAPI::Broodwar->sendText("Prepare to be crushed, %s!", myEnemy->getName().c_str());
     /// @endcode
-    virtual std::string getName() const = 0;
+    std::string_view getName() const { return getPlayerData().name; }
 
     /// <summary>Retrieves the set of all units that the player owns.</summary> This also includes
     /// incomplete units.
@@ -73,7 +70,7 @@ namespace BWAPI
     ///     // Do something with your units
     ///   }
     /// @endcode
-    virtual const Unitset &getUnits() const = 0;
+    Unitset &getUnits() const { return getPlayerData().ownedUnits; }
 
     /// <summary>Retrieves the race of the player.</summary> This allows you to change strategies
     /// against different races, or generalize some commands for yourself.
@@ -93,7 +90,7 @@ namespace BWAPI
     ///       BWAPI::Broodwar->sendText("Do you really think you can beat me with a zergling rush?");
     ///   }
     /// @endcode
-    virtual Race getRace() const = 0;
+    Race getRace() const { return getPlayerData().race; }
 
     /// <summary>Retrieves the player's controller type.</summary> This allows you to distinguish
     /// betweeen computer and human players.
@@ -111,18 +108,18 @@ namespace BWAPI
     ///       BWAPI::Broodwar << "Looks like something I can abuse!" << std::endl;
     ///   }
     /// @endcode
-    virtual PlayerType getType() const = 0;
+    PlayerType getType() const { return getPlayerData().type; }
 
     /// <summary>Retrieves the player's force.</summary> A force is the team that the player is
     /// playing on.
     ///
     /// @returns
     ///   The Force object that the player is part of.
-    virtual Force getForce() const = 0;
+    Force getForce() const { return getPlayerData().force; }
 
     /// <summary>Checks if this player is allied to the specified player.</summary>
     ///
-    /// <param name="player">
+    /// <param name="otherPlayer">
     ///     The player to check alliance with.
     /// </param>
     ///
@@ -130,14 +127,18 @@ namespace BWAPI
     /// @retval false if this player is not allied with \p player.
     ///
     /// @note This function will also return false if this player is neutral or an observer, or
-    /// if \p player is neutral or an observer.
+    /// if \p otherPlayer is neutral or an observer.
     ///
     /// @see isEnemy
-    virtual bool isAlly(const Player player) const = 0;
+    bool isAlly(Player otherPlayer) const {
+      if (!otherPlayer || isNeutral() || otherPlayer.isNeutral())
+        return false;
+      return getPlayerData().isAlly[static_cast<int>(otherPlayer.getID())];
+    }
 
     /// <summary>Checks if this player is unallied to the specified player.</summary>
     ///
-    /// <param name="player">
+    /// <param name="otherPlayer">
     ///     The player to check alliance with.
     /// </param>
     ///
@@ -145,16 +146,20 @@ namespace BWAPI
     /// @retval false if this player is not allied with \p player .
     ///
     /// @note This function will also return false if this player is neutral or an observer, or if
-    /// \p player is neutral or an observer.
+    /// \p otherPlayer is neutral or an observer.
     ///
     /// @see isAlly
-    virtual bool isEnemy(const Player player) const = 0;
+    bool isEnemy(Player otherPlayer) const {
+      if (!otherPlayer || isNeutral() || otherPlayer.isNeutral())
+        return false;
+      return getPlayerData().isEnemy[static_cast<int>(otherPlayer.getID())];
+    }
 
     /// <summary>Checks if this player is the neutral player.</summary>
     ///
     /// @retval true if this player is the neutral player.
     /// @retval false if this player is any other player.
-    virtual bool isNeutral() const = 0;
+    bool isNeutral() const { return getPlayerData().isNeutral; }
 
     /// <summary>Retrieve's the player's starting location.</summary>
     ///
@@ -166,36 +171,36 @@ namespace BWAPI
     /// location.
     ///
     /// @see Game::getStartLocations, Game::getLastError
-    virtual TilePosition getStartLocation() const = 0;
+    TilePosition getStartLocation() const { return getPlayerData().startPosition; }
 
     /// <summary>Checks if the player has achieved victory.</summary>
     ///
     /// @returns true if this player has achieved victory, otherwise false
-    virtual bool isVictorious() const = 0;
+    bool isVictorious() const { return getPlayerData().isVictorious; }
 
     /// <summary>Checks if the player has been defeated.</summary>
     ///
     /// @returns true if the player is defeated, otherwise false
-    virtual bool isDefeated() const = 0;
+    bool isDefeated() const { return getPlayerData().isDefeated; }
 
     /// <summary>Checks if the player has left the game.</summary>
     ///
     /// @returns true if the player has left the game, otherwise false
-    virtual bool leftGame() const = 0;
+    bool leftGame() const { return getPlayerData().leftGame; }
 
     /// <summary>Retrieves the current amount of minerals/ore that this player has.</summary>
     ///
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Amount of minerals that the player currently has for spending.
-    virtual int minerals() const = 0;
+    int minerals() const { return getPlayerData().minerals; }
 
     /// <summary>Retrieves the current amount of vespene gas that this player has.</summary>
     ///
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Amount of gas that the player currently has for spending.
-    virtual int gas() const = 0;
+    int gas() const { return getPlayerData().gas; }
 
     /// <summary>Retrieves the cumulative amount of minerals/ore that this player has gathered
     /// since the beginning of the game, including the amount that the player starts the game
@@ -204,7 +209,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of minerals that the player has gathered.
-    virtual int gatheredMinerals() const = 0;
+    int gatheredMinerals() const { return getPlayerData().gatheredMinerals; }
 
     /// <summary>Retrieves the cumulative amount of vespene gas that this player has gathered since
     /// the beginning of the game, including the amount that the player starts the game with (if
@@ -213,7 +218,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of gas that the player has gathered.
-    virtual int gatheredGas() const = 0;
+    int gatheredGas() const { return getPlayerData().gatheredGas; }
 
     /// <summary>Retrieves the cumulative amount of minerals/ore that this player has spent on
     /// repairing units since the beginning of the game.</summary> This function only applies to
@@ -222,7 +227,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of minerals that the player has spent repairing.
-    virtual int repairedMinerals() const = 0;
+    int repairedMinerals() const { return getPlayerData().repairedMinerals; }
 
     /// <summary>Retrieves the cumulative amount of vespene gas that this player has spent on
     /// repairing units since the beginning of the game.</summary> This function only applies to
@@ -231,7 +236,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of gas that the player has spent repairing.
-    virtual int repairedGas() const = 0;
+    int repairedGas() const { return getPlayerData().repairedGas; }
 
     /// <summary>Retrieves the cumulative amount of minerals/ore that this player has gained from
     /// refunding (cancelling) units and structures.</summary>
@@ -239,7 +244,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of minerals that the player has received from refunds.
-    virtual int refundedMinerals() const = 0;
+    int refundedMinerals() const { return getPlayerData().refundedMinerals; }
 
     /// <summary>Retrieves the cumulative amount of vespene gas that this player has gained from
     /// refunding (cancelling) units and structures.</summary>
@@ -247,7 +252,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of gas that the player has received from refunds.
-    virtual int refundedGas() const = 0;
+    int refundedGas() const { return getPlayerData().refundedGas; }
 
     /// <summary>Retrieves the cumulative amount of minerals/ore that this player has spent,
     /// excluding repairs.</summary>
@@ -255,7 +260,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of minerals that the player has spent.
-    virtual int spentMinerals() const = 0;
+    int spentMinerals() const { return gatheredMinerals() + refundedMinerals() - minerals() - repairedMinerals(); }
 
     /// <summary>Retrieves the cumulative amount of vespene gas that this player has spent,
     /// excluding repairs.</summary>
@@ -263,7 +268,7 @@ namespace BWAPI
     /// @note This function will return 0 if the player is inaccessible.
     ///
     /// @returns Cumulative amount of gas that the player has spent.
-    virtual int spentGas() const = 0;
+    int spentGas() const { return gatheredGas() + refundedGas() - gas() - repairedGas(); }
 
     /// <summary>Retrieves the total amount of supply the player has available for unit control.</summary>
     ///
@@ -289,7 +294,10 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @see supplyUsed
-    virtual int supplyTotal(Race race = Races::None) const = 0;
+    int supplyTotal(Race race = Races::None) const {
+      auto const irace = static_cast<int>(race);
+      return 0 <= irace && irace < 3 ? getPlayerData().supplyTotal[irace] : 0;
+    }
 
     /// <summary>Retrieves the current amount of supply that the player is using for unit control.</summary>
     ///
@@ -300,7 +308,10 @@ namespace BWAPI
     ///
     /// @returns The supply that is in use for this player and the given \p race.
     /// @see supplyTotal
-    virtual int supplyUsed(Race race = Races::None) const = 0;
+    int supplyUsed(Race race = Races::None) const {
+      auto const irace = static_cast<int>(race);
+      return 0 <= irace && irace < 3 ? getPlayerData().supplyUsed[irace] : 0;
+    }
 
     /// <summary>Retrieves the total number of units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number
@@ -316,7 +327,9 @@ namespace BWAPI
     ///
     /// @returns The total number of units of the given type that the player owns.
     /// @see visibleUnitCount, completedUnitCount, incompleteUnitCount
-    virtual int allUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    int allUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? getPlayerData().allUnitCount[static_cast<int>(unit)] : 0;
+    }
 
     /// <summary>Retrieves the total number of strictly visible units that the player has, even if
     /// information on the player is unrestricted.</summary>
@@ -329,7 +342,9 @@ namespace BWAPI
     /// @returns The total number of units of the given type that the player owns, and is visible
     ///   to the BWAPI player.
     /// @see allUnitCount, completedUnitCount, incompleteUnitCount
-    virtual int visibleUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    int visibleUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? getPlayerData().visibleUnitCount[static_cast<int>(unit)] : 0;
+    }
 
     /// <summary>Retrieves the number of completed units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number of
@@ -358,7 +373,9 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see allUnitCount, visibleUnitCount, incompleteUnitCount
-    virtual int completedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    int completedUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? getPlayerData().completedUnitCount[static_cast<int>(unit)] : 0;
+    }
 
     /// <summary>Retrieves the number of incomplete units that the player has.</summary> If the
     /// information about the player is limited, then this function will only return the number of
@@ -375,7 +392,9 @@ namespace BWAPI
     ///
     /// @returns The number of incomplete units of the given type that the player owns.
     /// @see allUnitCount, visibleUnitCount, completedUnitCount
-    int incompleteUnitCount(UnitType unit = UnitTypes::AllUnits) const;
+    int incompleteUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? allUnitCount(unit) - completedUnitCount(unit) : 0;
+    }
 
     /// <summary>Retrieves the number units that have died for this player.</summary>
     ///
@@ -385,7 +404,9 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The total number of units that have died throughout the game.
-    virtual int deadUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    int deadUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? getPlayerData().deadUnitCount[static_cast<int>(unit)] : 0;
+    }
 
     /// <summary>Retrieves the number units that the player has killed.</summary>
     ///
@@ -395,7 +416,9 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The total number of units that the player has killed throughout the game.
-    virtual int killedUnitCount(UnitType unit = UnitTypes::AllUnits) const = 0;
+    int killedUnitCount(UnitType unit = UnitTypes::AllUnits) const {
+      return unit ? getPlayerData().killedUnitCount[static_cast<int>(unit)] : 0;
+    }
 
     /// <summary>Retrieves the current upgrade level that the player has attained for a given
     /// upgrade type.</summary>
@@ -422,7 +445,9 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see UnitInterface::upgrade, getMaxUpgradeLevel
-    virtual int getUpgradeLevel(UpgradeType upgrade) const = 0;
+    int getUpgradeLevel(UpgradeType upgrade) const {
+      return upgrade ? getPlayerData().upgradeLevel[static_cast<int>(upgrade)] : 0;
+    }
 
     /// <summary>Checks if the player has already researched a given technology.</summary>
     ///
@@ -432,7 +457,9 @@ namespace BWAPI
     ///
     /// @returns true if the player has obtained the given \p tech, or false if they have not
     /// @see isResearching, UnitInterface::research, isResearchAvailable
-    virtual bool hasResearched(TechType tech) const = 0;
+    bool hasResearched(TechType tech) const {
+      return tech ? getPlayerData().hasResearched[static_cast<int>(tech)] : false;
+    }
 
     /// <summary>Checks if the player is researching a given technology type.</summary>
     ///
@@ -442,7 +469,9 @@ namespace BWAPI
     ///
     /// @returns true if the player is currently researching the \p tech, or false otherwise
     /// @see UnitInterface::research, hasResearched
-    virtual bool isResearching(TechType tech) const = 0;
+    bool isResearching(TechType tech) const {
+      return tech ? getPlayerData().isResearching[static_cast<int>(tech)] : false;
+    }
 
     /// <summary>Checks if the player is upgrading a given upgrade type.</summary>
     ///
@@ -468,12 +497,14 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see UnitInterface::upgrade
-    virtual bool isUpgrading(UpgradeType upgrade) const = 0;
+    bool isUpgrading(UpgradeType upgrade) const {
+      return upgrade ? getPlayerData().isUpgrading[static_cast<int>(upgrade)] : false;
+    }
 
     /// <summary>Retrieves the color value of the current player.</summary>
     ///
     /// @returns Color object that represents the color of the current player.
-    virtual BWAPI::Color getColor() const = 0;
+    BWAPI::Color getColor() const { return getPlayerData().color; }
 
     /// <summary>Retrieves the control code character that changes the color of text messages to
     /// represent this player.</summary>
@@ -552,35 +583,35 @@ namespace BWAPI
     /// <summary>Retrieves the total unit score, as seen in the end-game score screen.</summary>
     ///
     /// @returns The player's unit score.
-    virtual int getUnitScore() const = 0;
+    int getUnitScore() const { return getPlayerData().totalUnitScore; }
 
     /// <summary>Retrieves the total kill score, as seen in the end-game score screen.</summary>
     ///
     /// @returns The player's kill score.
-    virtual int getKillScore() const = 0;
+    int getKillScore() const { return getPlayerData().totalKillScore; }
 
     /// <summary>Retrieves the total building score, as seen in the end-game score screen.</summary>
     ///
     /// @returns The player's building score.
-    virtual int getBuildingScore() const = 0;
+    int getBuildingScore() const { return getPlayerData().totalBuildingScore; }
 
     /// <summary>Retrieves the total razing score, as seen in the end-game score screen.</summary>
     ///
     /// @returns The player's razing score.
-    virtual int getRazingScore() const = 0;
+    int getRazingScore() const { return getPlayerData().totalRazingScore; }
 
     /// <summary>Retrieves the player's custom score.</summary> This score is used in @UMS game
     /// types.
     ///
     /// @returns The player's custom score.
-    virtual int getCustomScore() const = 0;
+    int getCustomScore() const { return getPlayerData().customScore; }
 
     /// <summary>Checks if the player is an observer player, typically in a @UMS observer
     /// game.</summary> An observer player does not participate in the game.
     ///
     /// @returns true if the player is observing, or false if the player is capable of playing in
     /// the game.
-    virtual bool isObserver() const = 0;
+    bool isObserver() const { return !getPlayerData().isParticipating; }
 
     /// <summary>Retrieves the maximum upgrades available specific to the player.</summary> This
     /// value is only different from UpgradeType::maxRepeats in @UMS games.
@@ -605,7 +636,9 @@ namespace BWAPI
     ///     return false;
     ///   }
     /// @endcode
-    virtual int getMaxUpgradeLevel(UpgradeType upgrade) const = 0;
+    int getMaxUpgradeLevel(UpgradeType upgrade) const {
+      return upgrade ? getPlayerData().maxUpgradeLevel[static_cast<int>(upgrade)] : 0;
+    }
 
     /// <summary>Checks if a technology can be researched by the player.</summary> Certain
     /// technologies may be disabled in @UMS game types.
@@ -615,7 +648,9 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the \p tech type is available to the player for research.
-    virtual bool isResearchAvailable(TechType tech) const = 0;
+    bool isResearchAvailable(TechType tech) const {
+      return tech ? getPlayerData().isResearchAvailable[static_cast<int>(tech)] : false;
+    }
 
     /// <summary>Checks if a unit type can be created by the player.</summary> Certain unit types
     /// may be disabled in @UMS game types.
@@ -625,7 +660,9 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the \p unit type is available to the player.
-    virtual bool isUnitAvailable(UnitType unit) const = 0;
+    bool isUnitAvailable(UnitType unit) const {
+      return unit ? getPlayerData().isUnitAvailable[static_cast<int>(unit)] : false;
+    }
 
     /// <summary>Verifies that this player satisfies a unit type requirement.</summary>
     /// This verifies complex type requirements involving morphable @Zerg structures. For example,
@@ -644,5 +681,8 @@ namespace BWAPI
     ///
     /// @since 4.1.2
     bool hasUnitTypeRequirement(UnitType unit, int amount = 1) const;
+
+    constexpr Player *operator->() { return this; }
+    constexpr Player const *operator->() const { return this; }
   };
 };

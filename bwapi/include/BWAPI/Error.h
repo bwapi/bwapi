@@ -61,7 +61,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    constexpr Error(int id = Errors::Enum::None) : Type(id) {}
+    constexpr explicit Error(int id = Errors::Enum::None) : Type(id) {}
   };
 
   /// @ingroup Types

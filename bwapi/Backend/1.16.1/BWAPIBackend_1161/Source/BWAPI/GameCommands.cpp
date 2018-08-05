@@ -7,6 +7,8 @@
 
 #include <BW/OrderTypes.h>
 
+#include "GameImpl.h"
+
 #include "../../../Debug.h"
 
 namespace BWAPI
@@ -74,7 +76,8 @@ namespace BWAPI
     else if ( ct == UnitCommandTypes::Build_Addon && command.unit )
     {
       TilePosition target = command.unit->getTilePosition() + TilePosition(4, 1);
-      QUEUE_COMMAND(BW::Orders::MakeAddon, BW::TilePosition(target.makeValid()), command.getUnitType());
+      makeValid(target);
+      QUEUE_COMMAND(BW::Orders::MakeAddon, target, command.getUnitType());
     }
     else if ( ct == UnitCommandTypes::Train )
     {

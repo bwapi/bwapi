@@ -148,7 +148,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr WeaponType(int id = WeaponTypes::Enum::None) : Type(id) {}
+      constexpr explicit WeaponType(int id = WeaponTypes::Enum::None) : Type(id) {}
 
       /// <summary>Retrieves the technology type that must be researched before this weapon can
       /// be used.</summary>

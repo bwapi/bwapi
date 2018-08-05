@@ -2,34 +2,31 @@
 #include <BWAPI.h>
 #include <algorithm>
 
-#include "UnitImpl.h"
-#include "GameImpl.h"
-
 namespace BWAPI
 {
   using namespace Filter;
   namespace Templates
   {
     //--------------------------------------------- FORWARD DECLARATIONS -------------------------------------
-    static inline bool canAttackMove(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canAttackMoveGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canAttackUnit(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canAttackUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canAttackUnitGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canAttackUnitGrouped(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canSetRallyPosition(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canSetRallyUnit(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canSetRallyUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canMove(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canRightClickPosition(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canRightClickPositionGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canRightClickUnit(Unit thisUnit, bool checkCommandibility = true);
-    static inline bool canRightClickUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canRightClickUnitGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canRightClickUnitGrouped(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
-    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canAttackMove(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canAttackMoveGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canAttackUnit(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canAttackUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canAttackUnitGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canAttackUnitGrouped(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canSetRallyPosition(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canSetRallyUnit(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canSetRallyUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canMove(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canRightClickPosition(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canRightClickPositionGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canRightClickUnit(Game const &game, Unit thisUnit, bool checkCommandibility = true);
+    static inline bool canRightClickUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canRightClickUnitGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canRightClickUnitGrouped(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true);
+    static inline bool canUseTechWithoutTarget(Game const &game, Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canUseTechUnit(Game const &game, Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit = true, bool checkTargetsUnits = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
+    static inline bool canUseTechPosition(Game const &game, Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true);
     //--------------------------------------------- HAS POWER ------------------------------------------------
     const bool bPsiFieldMask[10][16] = {
       { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
@@ -68,7 +65,7 @@ namespace BWAPI
     }
     //-------------------------------------------- UNIT FINDER -----------------------------------------------
     template <class finder, typename _T>
-    void iterateUnitFinder(finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
+    void iterateUnitFinder(Game const &game, finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
     {
       // Note that the native finder in Broodwar uses an id between 1 and 1700, 0 being an unused entry
       // IDs provided by the client are BWAPI IDs, which are not bound
@@ -115,7 +112,7 @@ namespace BWAPI
         {
           if ( isWidthExtended )  // If width is small, check unit bounds
           {
-            Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+            Unit u = game.getUnit(iUnitIndex);
             if ( u && u->getLeft() <= right )
               finderFlags[iUnitIndex] = 1;
           }
@@ -131,7 +128,7 @@ namespace BWAPI
         {
           if ( isHeightExtended ) // If height is small, check unit bounds
           {
-            Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+            Unit u = game.getUnit(iUnitIndex);
             if ( u && u->getTop() <= bottom )
               finderFlags[iUnitIndex] = 2;
           }
@@ -145,7 +142,7 @@ namespace BWAPI
         int iUnitIndex = px->unitIndex;
         if ( finderFlags[iUnitIndex] == 2 )
         {
-          Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+          Unit u = game.getUnit(iUnitIndex);
           if ( u && u->exists() )
             callback(u);
         }
@@ -154,9 +151,9 @@ namespace BWAPI
       }
     }
     //------------------------------------------- CAN BUILD HERE ---------------------------------------------
-    static inline bool canBuildHere(Unit builder, TilePosition position, UnitType type, bool checkExplored)
+    static inline bool canBuildHere(Game const &game, Unit builder, TilePosition position, UnitType type, bool checkExplored)
     {
-      Broodwar->setLastError(Errors::Unbuildable_Location);
+      game.setLastError(Errors::Unbuildable_Location);
 
       if (builder && type.isAddon())
       {
@@ -168,20 +165,20 @@ namespace BWAPI
       TilePosition rb = lt + type.tileSize();
 
       // Map limit check
-      if ( !lt.isValid() || !(Position(rb) - Position(1,1)).isValid() )
+      if ( !game.isValid(lt) || !game.isValid(Position(rb) - Position(1,1)) )
         return false;
 
       //if the unit is a refinery, we just need to check the set of geysers to see if the position
       //matches one of them (and the type is still vespene geyser)
       if ( type.isRefinery() )
       {
-        for (Unit g : Broodwar->getGeysers())
+        for (Unit g : game.getGeysers())
         {
           if (g->getTilePosition() == position)
           {
             if (g->isVisible() && g->getType() != UnitTypes::Resource_Vespene_Geyser)
               return false;
-            return Broodwar->setLastError();
+            return game.setLastError();
           }
         }
         return false;
@@ -193,7 +190,7 @@ namespace BWAPI
         for ( int y = lt.y; y < rb.y; ++y )
         {
           // Check if tile is buildable/unoccupied and explored.
-          if ( !Broodwar->isBuildable(x, y) || ( checkExplored && !Broodwar->isExplored(x,y)) )
+          if ( !game.isBuildable(x, y) || ( checkExplored && !game.isExplored(x,y)) )
             return false; // @TODO: Error code for !isExplored ??
         }
       }
@@ -216,13 +213,13 @@ namespace BWAPI
       if ( type != UnitTypes::Special_Start_Location )
       {
         Position targPos = Position(lt) + Position( type.tileSize() )/2;
-        Unitset unitsInRect( Broodwar->getUnitsInRectangle(Position(lt), Position(rb), !IsFlying    &&
-                                                                                        !IsLoaded   &&
-                                                                                        [&builder, &type](Unit u){ return u != builder || type == UnitTypes::Zerg_Nydus_Canal;} &&
-                                                                                        GetLeft   <= targPos.x + type.dimensionRight()  &&
-                                                                                        GetTop    <= targPos.y + type.dimensionDown()   &&
-                                                                                        GetRight  >= targPos.x - type.dimensionLeft()   &&
-                                                                                        GetBottom >= targPos.y - type.dimensionUp() )    );
+        Unitset unitsInRect( game.getUnitsInRectangle(Position(lt), Position(rb), !IsFlying    &&
+                                                                                  !IsLoaded   &&
+                                                                                  [&builder, &type](Unit u){ return u != builder || type == UnitTypes::Zerg_Nydus_Canal;} &&
+                                                                                  GetLeft   <= targPos.x + type.dimensionRight()  &&
+                                                                                  GetTop    <= targPos.y + type.dimensionDown()   &&
+                                                                                  GetRight  >= targPos.x - type.dimensionLeft()   &&
+                                                                                  GetBottom >= targPos.y - type.dimensionUp() )    );
         for (Unit u : unitsInRect)
         {
           BWAPI::UnitType iterType = u->getType();
@@ -240,14 +237,14 @@ namespace BWAPI
           {
             for (int y = lt.y; y < rb.y; ++y)
             {
-              if (needsCreep != Broodwar->hasCreep(x, y))
+              if (needsCreep != game.hasCreep(x, y))
                 return false;
             }
           }
         }
 
         // Power Check
-        if ( type.requiresPsi() && !Broodwar->hasPower(lt, type) )
+        if ( type.requiresPsi() && !game.hasPower(lt, type) )
           return false;
 
       } //don't ignore units
@@ -255,10 +252,10 @@ namespace BWAPI
       // Resource Check (CC, Nex, Hatch)
       if ( type.isResourceDepot() )
       {
-        for (BWAPI::Unit m : Broodwar->getStaticMinerals())
+        for (BWAPI::Unit m : game.getStaticMinerals())
         {
           TilePosition tp = m->getInitialTilePosition();
-          if ( (Broodwar->isVisible(tp) || Broodwar->isVisible(tp.x + 1, tp.y)) && !m->isVisible() )
+          if ( (game.isVisible(tp) || game.isVisible(tp.x + 1, tp.y)) && !m->isVisible() )
               continue; // tile position is visible, but mineral is not => mineral does not exist
           if (tp.x > lt.x - 5 &&
               tp.y > lt.y - 4 &&
@@ -266,7 +263,7 @@ namespace BWAPI
               tp.y < lt.y + 6)
             return false;
         }
-        for (BWAPI::Unit g : Broodwar->getStaticGeysers())
+        for (BWAPI::Unit g : game.getStaticGeysers())
         {
           TilePosition tp = g->getInitialTilePosition();
           if (tp.x > lt.x - 7 &&
@@ -282,43 +279,43 @@ namespace BWAPI
       // location that the building will be when it builds the addon.
       if ( builder && !builder->getType().isAddon() && type.isAddon() )
       {
-        if (!canBuildHere(builder, lt - TilePosition(4, 1), builder->getType(), checkExplored))
+        if (!canBuildHere(game, builder, lt - TilePosition(4, 1), builder->getType(), checkExplored))
           return false;
       }
 
       //if the build site passes all these tests, return true.
-      return Broodwar->setLastError();
+      return game.setLastError();
     }
     //------------------------------------------- CAN MAKE ---------------------------------------------------
-    static inline bool canMake(Unit builder, UnitType type)
+    static inline bool canMake(Game const &game, Unit builder, UnitType type)
     {
       // Error checking
-      Broodwar->setLastError();
-      if ( !Broodwar->self() )
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+      game.setLastError();
+      if ( !game.self() )
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       // Check if the unit type is available (UMS game)
-      if ( !Broodwar->self()->isUnitAvailable(type) )
-        return Broodwar->setLastError(Errors::Access_Denied);
+      if ( !game.self()->isUnitAvailable(type) )
+        return game.setLastError(Errors::Access_Denied);
 
       // Get the required UnitType
       BWAPI::UnitType requiredType = type.whatBuilds().first;
 
-      Player pSelf = Broodwar->self();
+      Player pSelf = game.self();
       if ( builder != nullptr ) // do checks if a builder is provided
       {
         // Check if the owner of the unit is you
         if (builder->getPlayer() != pSelf)
-          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+          return game.setLastError(Errors::Unit_Not_Owned);
 
         BWAPI::UnitType builderType = builder->getType();
         if ( type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal )
         {
           if ( !builder->isCompleted() )
-            return Broodwar->setLastError(Errors::Unit_Busy);
+            return game.setLastError(Errors::Unit_Busy);
 
           if ( builder->getNydusExit() )
-            return Broodwar->setLastError(Errors::Unknown);
+            return game.setLastError(Errors::Unknown);
 
           return true;
         }
@@ -327,11 +324,11 @@ namespace BWAPI
         if ( requiredType == UnitTypes::Zerg_Larva && builderType.producesLarva() )
         {
           if ( builder->getLarva().size() == 0 )
-            return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+            return game.setLastError(Errors::Unit_Does_Not_Exist);
         }
         else if ( builderType != requiredType )
         {
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         }
 
         // Carrier/Reaver space checking
@@ -347,7 +344,7 @@ namespace BWAPI
 
           // Check if there is room
           if ( builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt )
-            return Broodwar->setLastError(Errors::Insufficient_Space);
+            return game.setLastError(Errors::Insufficient_Space);
           break;
         case UnitTypes::Enum::Protoss_Reaver:
         case UnitTypes::Enum::Hero_Warbringer:
@@ -358,24 +355,24 @@ namespace BWAPI
 
           // check if there is room
           if (builder->getScarabCount() + static_cast<int>(builder->getTrainingQueue().size()) >= max_amt)
-            return Broodwar->setLastError(Errors::Insufficient_Space);
+            return game.setLastError(Errors::Insufficient_Space);
           break;
         }
       } // if builder != nullptr
 
       // Check if player has enough minerals
       if ( pSelf->minerals() < type.mineralPrice() )
-        return Broodwar->setLastError(Errors::Insufficient_Minerals);
+        return game.setLastError(Errors::Insufficient_Minerals);
 
       // Check if player has enough gas
       if ( pSelf->gas() < type.gasPrice() )
-        return Broodwar->setLastError(Errors::Insufficient_Gas);
+        return game.setLastError(Errors::Insufficient_Gas);
       
       // Check if player has enough supplies
       BWAPI::Race typeRace = type.getRace();
       const int supplyRequired = type.supplyRequired() * (type.isTwoUnitsInOneEgg() ? 2 : 1);
       if (supplyRequired > 0 && pSelf->supplyTotal(typeRace) < pSelf->supplyUsed(typeRace) + supplyRequired - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0))
-        return Broodwar->setLastError(Errors::Insufficient_Supply);
+        return game.setLastError(Errors::Insufficient_Supply);
 
       UnitType addon = UnitTypes::None;
       for (auto &it : type.requiredUnits())
@@ -384,30 +381,30 @@ namespace BWAPI
           addon = it.first;
 
         if (!pSelf->hasUnitTypeRequirement(it.first, it.second))
-          return Broodwar->setLastError(Errors::Insufficient_Tech);
+          return game.setLastError(Errors::Insufficient_Tech);
       }
 
       if (type.requiredTech() != TechTypes::None && !pSelf->hasResearched(type.requiredTech()))
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+        return game.setLastError(Errors::Insufficient_Tech);
 
       if ( builder && 
            addon != UnitTypes::None &&
            addon.whatBuilds().first == type.whatBuilds().first &&
            (!builder->getAddon() || builder->getAddon()->getType() != addon) )
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+        return game.setLastError(Errors::Insufficient_Tech);
 
       return true;
     }
     //------------------------------------------- CAN COMMAND ------------------------------------------------
-    static inline bool canCommand(Unit thisUnit)
+    static inline bool canCommand(Game const &game, Unit thisUnit)
     {
       // Basic header
-      Broodwar->setLastError();
-      if ( thisUnit->getPlayer() != Broodwar->self() )
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+      game.setLastError();
+      if ( thisUnit->getPlayer() != game.self() )
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       if ( !thisUnit->exists() )
-        return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return game.setLastError(Errors::Unit_Does_Not_Exist);
 
       // Global can be ordered check
       if ( thisUnit->isLockedDown() || 
@@ -419,17 +416,17 @@ namespace BWAPI
       {
         if ( !thisUnit->getType().producesLarva() )
         {
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
         }
         else
         {
           Unitset larvae( thisUnit->getLarva() );
           for (Unit larva : larvae)
           {
-            if ( canCommand(larva) )
-              return Broodwar->setLastError();
+            if ( canCommand(game, larva) )
+              return game.setLastError();
           }
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
         }
       }
 
@@ -438,7 +435,7 @@ namespace BWAPI
            uType == UnitTypes::Terran_Vulture_Spider_Mine ||
            uType == UnitTypes::Spell_Scanner_Sweep ||
            uType == UnitTypes::Special_Map_Revealer )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isCompleted() &&
            ( uType == UnitTypes::Protoss_Pylon ||
              uType == UnitTypes::Terran_Supply_Depot ||
@@ -447,228 +444,228 @@ namespace BWAPI
              uType == UnitTypes::Terran_Nuclear_Missile ||
              uType.isPowerup() ||
              ( uType.isSpecialBuilding() && !uType.isFlagBeacon() ) ) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !thisUnit->isCompleted() &&
            !uType.isBuilding() &&
            !thisUnit->isMorphing() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
-      return Broodwar->setLastError();
+      return game.setLastError();
     }
-    static inline bool canCommandGrouped(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCommandGrouped(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getType().isBuilding() || thisUnit->getType().isCritter() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN TARGET -------------------------------------------------
-    static inline bool canTargetUnit(Unit targetUnit)
+    static inline bool canTargetUnit(Game const &game, Unit targetUnit)
     {
       if ( !targetUnit || !targetUnit->exists() )
-        return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return targetUnit->getGame().setLastError(Errors::Unit_Does_Not_Exist);
       if ( !targetUnit->isCompleted() &&
            !targetUnit->getType().isBuilding() &&
            !targetUnit->isMorphing() &&
            targetUnit->getType() != UnitTypes::Protoss_Archon &&
            targetUnit->getType() != UnitTypes::Protoss_Dark_Archon )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return targetUnit->getGame().setLastError(Errors::Incompatible_State);
       if ( targetUnit->getType() == UnitTypes::Spell_Scanner_Sweep ||
            targetUnit->getType() == UnitTypes::Spell_Dark_Swarm ||
            targetUnit->getType() == UnitTypes::Spell_Disruption_Web ||
            targetUnit->getType() == UnitTypes::Special_Map_Revealer )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return targetUnit->getGame().setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canTargetUnit(Unit thisUnit, Unit targetUnit, bool checkCommandibility = true)
+    static inline bool canTargetUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canTargetUnit(targetUnit) )
+      if ( !canTargetUnit(game, targetUnit) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN ATTACK -------------------------------------------------
-    static inline bool canAttack(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canAttack(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canAttackMove(thisUnit, false) && !canAttackUnit(thisUnit, false) )
+      if ( !canAttackMove(game, thisUnit, false) && !canAttackUnit(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canAttack(Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canAttack(Game const &game, Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if (!canAttackMove(thisUnit, false))
+      if (!canAttackMove(game, thisUnit, false))
         return false;
       
       return true;
     }
-    static inline bool canAttack(Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canAttack(Game const &game, Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( target == nullptr )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
-      if ( !canAttackUnit(thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false) )
+        return game.setLastError(Errors::Invalid_Parameter);
+      if ( !canAttackUnit(game, thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false) )
         return false;
       
       return true;
     }
-    static inline bool canAttackGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canAttackGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
-      if ( !canAttackMoveGrouped(thisUnit, false, false) && !canAttackUnitGrouped(thisUnit, false, false) )
+      if ( !canAttackMoveGrouped(game, thisUnit, false, false) && !canAttackUnitGrouped(game, thisUnit, false, false) )
         return false;
 
       return true;
     }
-    static inline bool canAttackGrouped(Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canAttackGrouped(Game const &game, Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if (checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false))
+      if (checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false))
         return false;
 
-      if (!canAttackMoveGrouped(thisUnit, false, false))
+      if (!canAttackMoveGrouped(game, thisUnit, false, false))
         return false;
 
       return true;
     }
-    static inline bool canAttackGrouped(Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canAttackGrouped(Game const &game, Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( target == nullptr )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
-      if ( !canAttackUnitGrouped(thisUnit, target, checkCanTargetUnit, checkCanIssueCommandTypeGrouped, false, false) )
+        return game.setLastError(Errors::Invalid_Parameter);
+      if ( !canAttackUnitGrouped(game, thisUnit, target, checkCanTargetUnit, checkCanIssueCommandTypeGrouped, false, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN ATTACK MOVE --------------------------------------------
-    static inline bool canAttackMove(Unit thisUnit, bool checkCommandibility)
+    static inline bool canAttackMove(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( ( thisUnit->getType() != UnitTypes::Terran_Medic && !canAttackUnit(thisUnit, false) ) || !canMove(thisUnit, false) )
+      if ( ( thisUnit->getType() != UnitTypes::Terran_Medic && !canAttackUnit(game, thisUnit, false) ) || !canMove(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canAttackMoveGrouped(Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canAttackMoveGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->getType().canMove() &&
            thisUnit->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode &&
            thisUnit->getType() != UnitTypes::Zerg_Cocoon &&
            thisUnit->getType() != UnitTypes::Zerg_Lurker_Egg )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN ATTACK UNIT --------------------------------------------
-    static inline bool canAttackUnit(Unit thisUnit, bool checkCommandibility)
+    static inline bool canAttackUnit(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->getType().groundWeapon() == WeaponTypes::None && thisUnit->getType().airWeapon() == WeaponTypes::None )
       {
         if ( thisUnit->getType() == UnitTypes::Protoss_Carrier || thisUnit->getType() == UnitTypes::Hero_Gantrithor )
         {
           if ( thisUnit->getInterceptorCount() <= 0 )
-            return Broodwar->setLastError(Errors::Unable_To_Hit);
+            return game.setLastError(Errors::Unable_To_Hit);
         }
         else if ( thisUnit->getType() == UnitTypes::Protoss_Reaver || thisUnit->getType() == UnitTypes::Hero_Warbringer )
         {
           if ( thisUnit->getScarabCount() <= 0 )
-            return Broodwar->setLastError(Errors::Unable_To_Hit);
+            return game.setLastError(Errors::Unable_To_Hit);
         }
         else
-          return Broodwar->setLastError(Errors::Unable_To_Hit);
+          return game.setLastError(Errors::Unable_To_Hit);
       }
       if ( thisUnit->getType() == UnitTypes::Zerg_Lurker )
       {
         if ( !thisUnit->isBurrowed() )
-          return Broodwar->setLastError(Errors::Unable_To_Hit);
+          return game.setLastError(Errors::Unable_To_Hit);
       }
       else if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Unable_To_Hit);
+        return game.setLastError(Errors::Unable_To_Hit);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canAttackUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canAttackUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canAttackUnit(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canAttackUnit(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( targetUnit->isInvincible() )
-        return Broodwar->setLastError(Errors::Unable_To_Hit);
+        return game.setLastError(Errors::Unable_To_Hit);
 
       UnitType type = thisUnit->getType();
       bool targetInAir = targetUnit->isFlying();
@@ -684,215 +681,215 @@ namespace BWAPI
         case UnitTypes::Enum::Protoss_Reaver:
         case UnitTypes::Enum::Hero_Warbringer:
           if (targetInAir)
-            Broodwar->setLastError(Errors::Unable_To_Hit);
+            game.setLastError(Errors::Unable_To_Hit);
           break;
         default:
-          return Broodwar->setLastError(Errors::Unable_To_Hit);
+          return game.setLastError(Errors::Unable_To_Hit);
         }
       }
 
       if ( !thisUnit->getType().canMove() && !thisUnit->isInWeaponRange(targetUnit) )
-        return Broodwar->setLastError(Errors::Out_Of_Range);
+        return game.setLastError(Errors::Out_Of_Range);
 
       if ( thisUnit->getType() == UnitTypes::Zerg_Lurker && !thisUnit->isInWeaponRange(targetUnit) )
-        return Broodwar->setLastError(Errors::Out_Of_Range);
+        return game.setLastError(Errors::Out_Of_Range);
 
       if ( targetUnit == thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
-    static inline bool canAttackUnitGrouped(Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canAttackUnitGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       if ( !thisUnit->getType().canMove() &&
            thisUnit->getType() != UnitTypes::Terran_Siege_Tank_Siege_Mode )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       if ( thisUnit->getType() == UnitTypes::Zerg_Lurker )
       {
         if ( !thisUnit->isBurrowed() )
-          return Broodwar->setLastError(Errors::Unable_To_Hit);
+          return game.setLastError(Errors::Unable_To_Hit);
       }
       else if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Unable_To_Hit);
+        return game.setLastError(Errors::Unable_To_Hit);
 
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canAttackUnitGrouped(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandTypeGrouped, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canAttackUnitGrouped(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandTypeGrouped, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
-      if ( checkCanIssueCommandTypeGrouped && !canAttackUnitGrouped(thisUnit, false, false) )
+      if ( checkCanIssueCommandTypeGrouped && !canAttackUnitGrouped(game, thisUnit, false, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( targetUnit->isInvincible() )
-        return Broodwar->setLastError(Errors::Unable_To_Hit);
+        return game.setLastError(Errors::Unable_To_Hit);
 
       if ( thisUnit->getType() == UnitTypes::Zerg_Lurker && !thisUnit->isInWeaponRange(targetUnit) )
-        return Broodwar->setLastError(Errors::Out_Of_Range);
+        return game.setLastError(Errors::Out_Of_Range);
 
       if ( thisUnit->getType() == UnitTypes::Zerg_Queen &&
            ( targetUnit->getType() != UnitTypes::Terran_Command_Center ||
              targetUnit->getHitPoints() >= 750 || targetUnit->getHitPoints() <= 0 ) )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       if ( targetUnit == thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
     //------------------------------------------- CAN BUILD --------------------------------------------------
-    static inline bool canBuild(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canBuild(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->isConstructing() ||
            !thisUnit->isCompleted()   ||
            (thisUnit->getType().isBuilding() && !thisUnit->isIdle()) )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canBuild(Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canBuild(Game const &game, Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canBuild(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canBuild(game, thisUnit, false) )
         return false;
 
-      if ( !Broodwar->canMake(uType, thisUnit) )
+      if ( !game.canMake(uType, thisUnit) )
         return false;
 
       if ( !uType.isBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->getAddon() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canBuild(Unit thisUnit, UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canBuild(Game const &game, Unit thisUnit, UnitType uType, BWAPI::TilePosition tilePos, bool checkTargetUnitType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canBuild(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canBuild(game, thisUnit, false) )
         return false;
 
-      if ( checkTargetUnitType && !canBuild(thisUnit, uType, false, false) )
+      if ( checkTargetUnitType && !canBuild(game, thisUnit, uType, false, false) )
         return false;
 
-      if ( tilePos.isValid() == false )
-        return Broodwar->setLastError(Errors::Invalid_Tile_Position);
+      if ( game.isValid(tilePos) == false )
+        return game.setLastError(Errors::Invalid_Tile_Position);
 
-      if ( !Broodwar->canBuildHere(tilePos, uType, thisUnit, true) )
+      if ( !game.canBuildHere(tilePos, uType, thisUnit, true) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN BUILD ADDON --------------------------------------------
-    static inline bool canBuildAddon(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canBuildAddon(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->isConstructing() ||
            !thisUnit->isCompleted()   ||
            thisUnit->isLifted() ||
            (thisUnit->getType().isBuilding() && !thisUnit->isIdle()) )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->getAddon() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !thisUnit->getType().canBuildAddon() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canBuildAddon(Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canBuildAddon(Game const &game, Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canBuildAddon(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canBuildAddon(game, thisUnit, false) )
         return false;
 
-      if ( !Broodwar->canMake(uType, thisUnit) )
+      if ( !game.canMake(uType, thisUnit) )
         return false;
 
       if ( !uType.isAddon() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
-      if ( !Broodwar->canBuildHere(thisUnit->getTilePosition(), uType, thisUnit) )
+      if ( !game.canBuildHere(thisUnit->getTilePosition(), uType, thisUnit) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN TRAIN --------------------------------------------------
-    static inline bool canTrain(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canTrain(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getType().producesLarva() )
       {
         if ( !thisUnit->isConstructing() && thisUnit->isCompleted() )
-          return Broodwar->setLastError();
+          return game.setLastError();
         Unitset larvae( thisUnit->getLarva() );
         for (Unit larva : larvae)
         {
-          if ( !larva->isConstructing() && larva->isCompleted() && canCommand(larva) )
-            return Broodwar->setLastError();
+          if ( !larva->isConstructing() && larva->isCompleted() && canCommand(game, larva) )
+            return game.setLastError();
         }
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       }
 
       if ( thisUnit->isConstructing() ||
            !thisUnit->isCompleted()   ||
            thisUnit->isLifted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( !thisUnit->getType().canProduce() &&
            thisUnit->getType() != UnitTypes::Enum::Terran_Nuclear_Silo &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Hydralisk &&
@@ -900,20 +897,20 @@ namespace BWAPI
            thisUnit->getType() != UnitTypes::Enum::Zerg_Creep_Colony &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Spire &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Larva )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canTrain(Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canTrain(Game const &game, Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canTrain(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canTrain(game, thisUnit, false) )
         return false;
 
       if ( thisUnit->getType().producesLarva() )
@@ -924,7 +921,7 @@ namespace BWAPI
           Unitset larvae( thisUnit->getLarva() );
           for (Unit larva : larvae)
           {
-            if ( canTrain(larva, true) )
+            if ( canTrain(game, larva, true) )
             {
               foundCommandableLarva = true;
               thisUnit = larva;
@@ -932,48 +929,48 @@ namespace BWAPI
             }
           }
           if (!foundCommandableLarva)
-            return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+            return game.setLastError(Errors::Unit_Does_Not_Exist);
         }
         else if ( thisUnit->isConstructing() ||
                   !thisUnit->isCompleted() )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
       }
 
-      if ( !Broodwar->canMake(uType, thisUnit) )
+      if ( !game.canMake(uType, thisUnit) )
         return false;
 
       if ( uType.isAddon() || ( uType.isBuilding() && !thisUnit->getType().isBuilding() ) )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( uType == UnitTypes::Enum::Zerg_Larva || uType == UnitTypes::Enum::Zerg_Egg || uType == UnitTypes::Enum::Zerg_Cocoon )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN MORPH --------------------------------------------------
-    static inline bool canMorph(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canMorph(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getType().producesLarva() )
       {
         if ( !thisUnit->isConstructing() && thisUnit->isCompleted() && ( !thisUnit->getType().isBuilding() || thisUnit->isIdle() ) )
-          return Broodwar->setLastError();
+          return game.setLastError();
         Unitset larvae( thisUnit->getLarva() );
         for (Unit larva : larvae)
         {
-          if ( !larva->isConstructing() && larva->isCompleted() && canCommand(larva) )
-            return Broodwar->setLastError();
+          if ( !larva->isConstructing() && larva->isCompleted() && canCommand(game, larva) )
+            return game.setLastError();
         }
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       }
 
       if ( thisUnit->isConstructing() ||
            !thisUnit->isCompleted()   ||
            (thisUnit->getType().isBuilding() && !thisUnit->isIdle()) )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->getType() != UnitTypes::Enum::Zerg_Hydralisk &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Mutalisk &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Creep_Colony &&
@@ -982,20 +979,20 @@ namespace BWAPI
            thisUnit->getType() != UnitTypes::Enum::Zerg_Lair &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Hive &&
            thisUnit->getType() != UnitTypes::Enum::Zerg_Larva )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canMorph(Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canMorph(Game const &game, Unit thisUnit, UnitType uType, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canMorph(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canMorph(game, thisUnit, false) )
         return false;
 
       if ( thisUnit->getType().producesLarva() )
@@ -1006,7 +1003,7 @@ namespace BWAPI
           Unitset larvae( thisUnit->getLarva() );
           for (Unit larva : larvae)
           {
-            if ( canMorph(larva, true) )
+            if ( canMorph(game, larva, true) )
             {
               foundCommandableLarva = true;
               thisUnit = larva;
@@ -1014,695 +1011,695 @@ namespace BWAPI
             }
           }
           if (!foundCommandableLarva)
-            return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+            return game.setLastError(Errors::Unit_Does_Not_Exist);
         }
         else if ( thisUnit->isConstructing() ||
                   !thisUnit->isCompleted()   ||
                   (thisUnit->getType().isBuilding() && !thisUnit->isIdle()) )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
       }
 
-      if ( !Broodwar->canMake(uType, thisUnit) )
+      if ( !game.canMake(uType, thisUnit) )
         return false;
       if ( uType == UnitTypes::Enum::Zerg_Larva || uType == UnitTypes::Enum::Zerg_Egg || uType == UnitTypes::Enum::Zerg_Cocoon )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN RESEARCH -----------------------------------------------
-    static inline bool canResearch(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canResearch(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canResearch(Unit thisUnit, TechType type, bool checkCanIssueCommandType = true)
+    static inline bool canResearch(Game const &game, Unit thisUnit, TechType type, bool checkCanIssueCommandType = true)
     {
       // Error checking
-      if ( !Broodwar->self() )
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+      if ( !game.self() )
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       if ( thisUnit )
       {
-        if (thisUnit->getPlayer() != Broodwar->self())
-          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+        if (thisUnit->getPlayer() != game.self())
+          return game.setLastError(Errors::Unit_Not_Owned);
 
         if (!thisUnit->getType().isSuccessorOf(type.whatResearches()))
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
 
         if ( checkCanIssueCommandType && ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() ) )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
       }
-      if (Broodwar->self()->isResearching(type))
-        return Broodwar->setLastError(Errors::Currently_Researching);
+      if (game.self()->isResearching(type))
+        return game.setLastError(Errors::Currently_Researching);
 
-      if (Broodwar->self()->hasResearched(type))
-        return Broodwar->setLastError(Errors::Already_Researched);
+      if (game.self()->hasResearched(type))
+        return game.setLastError(Errors::Already_Researched);
 
-      if ( !Broodwar->self()->isResearchAvailable(type) )
-        return Broodwar->setLastError(Errors::Access_Denied);
+      if ( !game.self()->isResearchAvailable(type) )
+        return game.setLastError(Errors::Access_Denied);
 
-      if (Broodwar->self()->minerals() < type.mineralPrice())
-        return Broodwar->setLastError(Errors::Insufficient_Minerals);
+      if (game.self()->minerals() < type.mineralPrice())
+        return game.setLastError(Errors::Insufficient_Minerals);
 
-      if (Broodwar->self()->gas() < type.gasPrice())
-        return Broodwar->setLastError(Errors::Insufficient_Gas);
+      if (game.self()->gas() < type.gasPrice())
+        return game.setLastError(Errors::Insufficient_Gas);
 
-      if (!Broodwar->self()->hasUnitTypeRequirement(type.requiredUnit()))
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+      if (!game.self()->hasUnitTypeRequirement(type.requiredUnit()))
+        return game.setLastError(Errors::Insufficient_Tech);
 
-      return Broodwar->setLastError();
+      return game.setLastError();
     }
     //------------------------------------------- CAN UPGRADE ------------------------------------------------
-    static inline bool canUpgrade(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUpgrade(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canUpgrade(Unit thisUnit, UpgradeType type, bool checkCanIssueCommandType = true)
+    static inline bool canUpgrade(Game const &game, Unit thisUnit, UpgradeType type, bool checkCanIssueCommandType = true)
     {
-      Player self = Broodwar->self();
+      Player self = game.self();
       if ( !self )
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       if ( thisUnit )
       {
         if (thisUnit->getPlayer() != self)
-          return Broodwar->setLastError(Errors::Unit_Not_Owned);
+          return game.setLastError(Errors::Unit_Not_Owned);
 
         if (!thisUnit->getType().isSuccessorOf(type.whatUpgrades()))
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
 
         if ( checkCanIssueCommandType && ( thisUnit->isLifted() || !thisUnit->isIdle() || !thisUnit->isCompleted() ) )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
       }
       int nextLvl = self->getUpgradeLevel(type) + 1;
       
       if (!self->hasUnitTypeRequirement(type.whatUpgrades()))
-        return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return game.setLastError(Errors::Unit_Does_Not_Exist);
       
       if (!self->hasUnitTypeRequirement(type.whatsRequired(nextLvl)))
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+        return game.setLastError(Errors::Insufficient_Tech);
       
       if (self->isUpgrading(type))
-        return Broodwar->setLastError(Errors::Currently_Upgrading);
+        return game.setLastError(Errors::Currently_Upgrading);
 
       if ( self->getUpgradeLevel(type) >= self->getMaxUpgradeLevel(type) )
-        return Broodwar->setLastError(Errors::Fully_Upgraded);
+        return game.setLastError(Errors::Fully_Upgraded);
 
       if ( self->minerals() < type.mineralPrice(nextLvl) )
-        return Broodwar->setLastError(Errors::Insufficient_Minerals);
+        return game.setLastError(Errors::Insufficient_Minerals);
 
       if ( self->gas() < type.gasPrice(nextLvl) )
-        return Broodwar->setLastError(Errors::Insufficient_Gas);
+        return game.setLastError(Errors::Insufficient_Gas);
 
-      return Broodwar->setLastError();
+      return game.setLastError();
     }
     //------------------------------------------- CAN SET RALLY POINT ----------------------------------------
-    static inline bool canSetRallyPoint(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canSetRallyPoint(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canSetRallyPosition(thisUnit, false) && !canSetRallyUnit(thisUnit, false) )
+      if ( !canSetRallyPosition(game, thisUnit, false) && !canSetRallyUnit(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canSetRallyPoint(Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canSetRallyPoint(Game const &game, Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
       if (target == nullptr)
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
-      if (!canSetRallyUnit(thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false))
+        return game.setLastError(Errors::Invalid_Parameter);
+      if (!canSetRallyUnit(game, thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false))
         return false;
 
       return true;
     }
-    static inline bool canSetRallyPoint(Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canSetRallyPoint(Game const &game, Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if (!canSetRallyPosition(thisUnit, false))
+      if (!canSetRallyPosition(game, thisUnit, false))
         return false;
 
       return true;
     }
     //------------------------------------------- CAN SET RALLY POSITION -------------------------------------
-    static inline bool canSetRallyPosition(Unit thisUnit, bool checkCommandibility)
+    static inline bool canSetRallyPosition(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().canProduce() || !thisUnit->getType().isBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isLifted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN SET RALLY UNIT -----------------------------------------
-    static inline bool canSetRallyUnit(Unit thisUnit, bool checkCommandibility)
+    static inline bool canSetRallyUnit(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().canProduce() || !thisUnit->getType().isBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isLifted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canSetRallyUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canSetRallyUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canSetRallyUnit(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canSetRallyUnit(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN MOVE ---------------------------------------------------
-    static inline bool canMove(Unit thisUnit, bool checkCommandibility)
+    static inline bool canMove(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() )
       {
         if ( !thisUnit->isInterruptible() )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
         if ( !thisUnit->getType().canMove() )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         if ( thisUnit->isBurrowed() )
-          return Broodwar->setLastError(Errors::Incompatible_State);
+          return game.setLastError(Errors::Incompatible_State);
         if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
         if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
       }
       else
       {
         if ( !thisUnit->getType().isFlyingBuilding() )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         if ( !thisUnit->isLifted() )
-          return Broodwar->setLastError(Errors::Incompatible_State);
+          return game.setLastError(Errors::Incompatible_State);
       }
 
       if (!thisUnit->isCompleted())
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canMoveGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canMoveGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->getType().canMove() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isCompleted() && !thisUnit->isMorphing() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN PATROL -------------------------------------------------
-    static inline bool canPatrol(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canPatrol(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canMove(thisUnit, false) )
+      if ( !canMove(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canPatrolGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canPatrolGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
-      if ( !canMoveGrouped(thisUnit, false, false) )
+      if ( !canMoveGrouped(game, thisUnit, false, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN FOLLOW -------------------------------------------------
-    static inline bool canFollow(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canFollow(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canMove(thisUnit, false) )
+      if ( !canMove(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canFollow(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canFollow(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canFollow(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canFollow(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( targetUnit == thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
     //------------------------------------------- CAN GATHER -------------------------------------------------
-    static inline bool canGather(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canGather(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( !thisUnit->getType().isWorker() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->getPowerUp() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canGather(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canGather(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canGather(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canGather(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       UnitType uType = targetUnit->getType();
       if ( !uType.isResourceContainer() || uType == UnitTypes::Resource_Vespene_Geyser )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       if ( !targetUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       if ( !thisUnit->hasPath(targetUnit->getPosition()) )
-        return Broodwar->setLastError(Errors::Unreachable_Location);
+        return game.setLastError(Errors::Unreachable_Location);
 
-      if ( uType.isRefinery() && targetUnit->getPlayer() != Broodwar->self() )
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+      if ( uType.isRefinery() && targetUnit->getPlayer() != game.self() )
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       return true;
     }
     //------------------------------------------- CAN RETURN CARGO -------------------------------------------
-    static inline bool canReturnCargo(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canReturnCargo(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( !thisUnit->getType().isWorker() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isCarryingGas() && !thisUnit->isCarryingMinerals() )
-        return Broodwar->setLastError(Errors::Insufficient_Ammo);
+        return game.setLastError(Errors::Insufficient_Ammo);
       if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
     //------------------------------------------- CAN HOLD POSITION ------------------------------------------
-    static inline bool canHoldPosition(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canHoldPosition(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() )
       {
         if ( !thisUnit->getType().canMove() )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         if ( thisUnit->isBurrowed() && thisUnit->getType() != UnitTypes::Zerg_Lurker )
-          return Broodwar->setLastError(Errors::Incompatible_State);
+          return game.setLastError(Errors::Incompatible_State);
         if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-          return Broodwar->setLastError(Errors::Unit_Busy);
+          return game.setLastError(Errors::Unit_Busy);
         if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
       }
       else
       {
         if ( !thisUnit->getType().isFlyingBuilding() )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         if ( !thisUnit->isLifted() )
-          return Broodwar->setLastError(Errors::Incompatible_State);
+          return game.setLastError(Errors::Incompatible_State);
       }
 
       if (!thisUnit->isCompleted())
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN STOP ---------------------------------------------------
-    static inline bool canStop(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canStop(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->isBurrowed() && thisUnit->getType() != UnitTypes::Zerg_Lurker )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getType().isBuilding() && !thisUnit->isLifted() &&
            thisUnit->getType() != UnitTypes::Protoss_Photon_Cannon &&
            thisUnit->getType() != UnitTypes::Zerg_Sunken_Colony &&
            thisUnit->getType() != UnitTypes::Zerg_Spore_Colony &&
            thisUnit->getType() != UnitTypes::Terran_Missile_Turret )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN REPAIR -------------------------------------------------
-    static inline bool canRepair(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canRepair(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->getType() != BWAPI::UnitTypes::Terran_SCV )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
-    static inline bool canRepair(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canRepair(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canRepair(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canRepair(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       UnitType targType = targetUnit->getType();
       if ( targType.getRace() != BWAPI::Races::Terran || !targType.isMechanical() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( targetUnit->getHitPoints() == targType.maxHitPoints() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !targetUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( targetUnit == thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
     //------------------------------------------- CAN BURROW -------------------------------------------------
-    static inline bool canBurrow(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canBurrow(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canUseTechWithoutTarget(thisUnit, BWAPI::TechTypes::Burrowing, true, false) )
+      if ( !canUseTechWithoutTarget(game, thisUnit, BWAPI::TechTypes::Burrowing, true, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN UNBURROW -----------------------------------------------
-    static inline bool canUnburrow(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnburrow(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBurrowable() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isBurrowed() || thisUnit->getOrder() == Orders::Unburrowing )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CLOAK --------------------------------------------------
-    static inline bool canCloak(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCloak(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canUseTechWithoutTarget(thisUnit, thisUnit->getType().cloakingTech(), true, false) )
+      if ( !canUseTechWithoutTarget(game, thisUnit, thisUnit->getType().cloakingTech(), true, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN DECLOAK ------------------------------------------------
-    static inline bool canDecloak(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canDecloak(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getType().cloakingTech() == TechTypes::None )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->getSecondaryOrder() != Orders::Cloak )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN SIEGE --------------------------------------------------
-    static inline bool canSiege(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canSiege(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canUseTechWithoutTarget(thisUnit, BWAPI::TechTypes::Tank_Siege_Mode, true, false) )
+      if ( !canUseTechWithoutTarget(game, thisUnit, BWAPI::TechTypes::Tank_Siege_Mode, true, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN UNSIEGE ------------------------------------------------
-    static inline bool canUnsiege(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnsiege(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->isSieged() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getOrder() == Orders::Sieging || thisUnit->getOrder() == Orders::Unsieging )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN LIFT ---------------------------------------------------
-    static inline bool canLift(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canLift(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isFlyingBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( thisUnit->isLifted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( !thisUnit->isIdle() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       return true;
     }
     //------------------------------------------- CAN LAND ---------------------------------------------------
-    static inline bool canLand(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canLand(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isFlyingBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !thisUnit->isLifted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canLand(Unit thisUnit, TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canLand(Game const &game, Unit thisUnit, TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if (checkCanIssueCommandType && !canLand(thisUnit, checkCommandibility) )
+      if (checkCanIssueCommandType && !canLand(game, thisUnit, checkCommandibility) )
         return false;
 
-      if ( !canBuildHere(nullptr, target, thisUnit->getType(), true) )
+      if ( !canBuildHere(game, nullptr, target, thisUnit->getType(), true) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN LOAD ---------------------------------------------------
-    static inline bool canLoad(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canLoad(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+        return game.setLastError(Errors::Unit_Busy);
+      if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && game.self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+        return game.setLastError(Errors::Insufficient_Tech);
       if ( thisUnit->isBurrowed() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->getOrder() == Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( thisUnit->getType() == UnitTypes::Zerg_Larva )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canLoad(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canLoad(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canLoad(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canLoad(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       //target must also be owned by self
-      if (targetUnit->getPlayer() != Broodwar->self())
-        return Broodwar->setLastError(Errors::Unit_Not_Owned);
+      if (targetUnit->getPlayer() != game.self())
+        return game.setLastError(Errors::Unit_Not_Owned);
 
       if ( targetUnit->isLoaded() || !targetUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       // verify upgrade for Zerg Overlord
-      if ( targetUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+      if ( targetUnit->getType() == UnitTypes::Zerg_Overlord && game.self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0 )
+        return game.setLastError(Errors::Insufficient_Tech);
 
       int thisUnitSpaceProvided = thisUnit->getType().spaceProvided();
       int targetSpaceProvided = targetUnit->getType().spaceProvided();
       if ( thisUnitSpaceProvided <= 0 && targetSpaceProvided <= 0 )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       const BWAPI::Unit unitToBeLoaded = ( thisUnitSpaceProvided > 0 ? targetUnit : thisUnit );
       if ( unitToBeLoaded->getType().canMove() == false || unitToBeLoaded->getType().isFlyer() || unitToBeLoaded->getType().spaceRequired() > 8 )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
       if ( !unitToBeLoaded->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( unitToBeLoaded->isBurrowed() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       const BWAPI::Unit unitThatLoads = ( thisUnitSpaceProvided > 0 ? thisUnit : targetUnit );
       if ( unitThatLoads->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       if ( unitThatLoads->getType() == UnitTypes::Terran_Bunker )
       {
         if ( !unitToBeLoaded->getType().isOrganic() || unitToBeLoaded->getType().getRace() != Races::Terran )
-          return Broodwar->setLastError(Errors::Incompatible_UnitType);
+          return game.setLastError(Errors::Incompatible_UnitType);
         if ( !unitToBeLoaded->hasPath(unitThatLoads->getPosition()) )
-          return Broodwar->setLastError(Errors::Unreachable_Location);
+          return game.setLastError(Errors::Unreachable_Location);
       }
 
       int freeSpace = ( thisUnitSpaceProvided > 0 ? thisUnitSpaceProvided : targetSpaceProvided );
@@ -1714,599 +1711,599 @@ namespace BWAPI
           freeSpace -= requiredSpace;
       }
       if ( unitToBeLoaded->getType().spaceRequired() > freeSpace )
-        return Broodwar->setLastError(Errors::Insufficient_Space);
+        return game.setLastError(Errors::Insufficient_Space);
 
       return true;
     }
     //------------------------------------------- CAN UNLOAD -------------------------------------------------
-    static inline bool canUnloadWithOrWithoutTarget(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnloadWithOrWithoutTarget(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
 
       if ( thisUnit->getLoadedUnits().size() == 0 )
-        return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
+        return game.setLastError(Errors::Unit_Does_Not_Exist);
 
       // Check overlord tech
-      if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && Broodwar->self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0)
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+      if ( thisUnit->getType() == UnitTypes::Zerg_Overlord && game.self()->getUpgradeLevel(UpgradeTypes::Ventral_Sacs) == 0)
+        return game.setLastError(Errors::Insufficient_Tech);
 
       if ( thisUnit->getType().spaceProvided() <= 0 )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canUnloadAtPosition(Unit thisUnit, Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUnloadAtPosition(Game const &game, Unit thisUnit, Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUnloadWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUnloadWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
       if ( thisUnit->getType() != UnitTypes::Terran_Bunker )
       {
-        if ( WalkPosition(targDropPos.x/8, targDropPos.y/8).isValid() == false )
-          return Broodwar->setLastError(Errors::Invalid_Tile_Position);
-        else if ( !Broodwar->isWalkable(targDropPos.x/8, targDropPos.y/8) )
-          return Broodwar->setLastError(Errors::Unreachable_Location);
+        if (!game.isValid(WalkPosition(targDropPos.x/8, targDropPos.y/8)))
+          return game.setLastError(Errors::Invalid_Tile_Position);
+        else if ( !game.isWalkable(targDropPos.x/8, targDropPos.y/8) )
+          return game.setLastError(Errors::Unreachable_Location);
       }
 
       return true;
     }
-    static inline bool canUnload(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnload(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
-      return canUnloadAtPosition(thisUnit, thisUnit->getPosition(), true, checkCommandibility);
+      return canUnloadAtPosition(game, thisUnit, thisUnit->getPosition(), true, checkCommandibility);
     }
-    static inline bool canUnload(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkPosition = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUnload(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit = true, bool checkPosition = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUnloadWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUnloadWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( checkPosition && !canUnloadAtPosition(thisUnit, thisUnit->getPosition(), false, false) )
+      if ( checkPosition && !canUnloadAtPosition(game, thisUnit, thisUnit->getPosition(), false, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( !targetUnit->isLoaded() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       if ( targetUnit->getTransport() != thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
     //------------------------------------------- CAN UNLOAD ALL ---------------------------------------------
-    static inline bool canUnloadAll(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnloadAll(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
-      return canUnloadAtPosition(thisUnit, thisUnit->getPosition(), true, checkCommandibility);
+      return canUnloadAtPosition(game, thisUnit, thisUnit->getPosition(), true, checkCommandibility);
     }
     //------------------------------------------- CAN UNLOAD ALL POSITION ------------------------------------
-    static inline bool canUnloadAllPosition(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUnloadAllPosition(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canUnloadWithOrWithoutTarget(thisUnit, false) )
+      if ( !canUnloadWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
       if ( thisUnit->getType() == UnitTypes::Terran_Bunker )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canUnloadAllPosition(Unit thisUnit, Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUnloadAllPosition(Game const &game, Unit thisUnit, Position targDropPos, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUnloadAllPosition(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUnloadAllPosition(game, thisUnit, false) )
         return false;
 
-      if ( !canUnloadAtPosition(thisUnit, targDropPos, false, false) )
+      if ( !canUnloadAtPosition(game, thisUnit, targDropPos, false, false) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN RIGHT CLICK --------------------------------------------
-    static inline bool canRightClick(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canRightClick(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( !canRightClickPosition(thisUnit, false) && !canRightClickUnit(thisUnit, false) )
-        return false;
-
-      return true;
-    }
-    static inline bool canRightClick(Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
-    {
-      if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
-        return false;
-
-      if (!canRightClickPosition(thisUnit, false))
+      if ( !canRightClickPosition(game, thisUnit, false) && !canRightClickUnit(game, thisUnit, false) )
         return false;
 
       return true;
     }
-    static inline bool canRightClick(Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canRightClick(Game const &game, Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
+        return false;
+
+      if (!canRightClickPosition(game, thisUnit, false))
+        return false;
+
+      return true;
+    }
+    static inline bool canRightClick(Game const &game, Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    {
+      if (!checkCommandibility)
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
       if (target == nullptr)
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
-      if (!canRightClickUnit(thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false))
+        return game.setLastError(Errors::Invalid_Parameter);
+      if (!canRightClickUnit(game, thisUnit, target, checkCanTargetUnit, checkCanIssueCommandType, false))
         return false;
 
       return true;
     }
-    static inline bool canRightClickGrouped(Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canRightClickGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
-      if ( !canRightClickPositionGrouped(thisUnit, false, false) && !canRightClickUnitGrouped(thisUnit, false, false) )
-        return false;
-
-      return true;
-    }
-    static inline bool canRightClickGrouped(Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
-    {
-      if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
-        return false;
-
-      if (checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false))
-        return false;
-
-      if (!canRightClickPositionGrouped(thisUnit, false, false))
+      if ( !canRightClickPositionGrouped(game, thisUnit, false, false) && !canRightClickUnitGrouped(game, thisUnit, false, false) )
         return false;
 
       return true;
     }
-    static inline bool canRightClickGrouped(Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canRightClickGrouped(Game const &game, Unit thisUnit, Position, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if (checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false))
+      if (checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false))
+        return false;
+
+      if (!canRightClickPositionGrouped(game, thisUnit, false, false))
+        return false;
+
+      return true;
+    }
+    static inline bool canRightClickGrouped(Game const &game, Unit thisUnit, Unit target, bool checkCanTargetUnit = true, bool checkCanIssueCommandTypeGrouped = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    {
+      if (!checkCommandibility)
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
+        return false;
+
+      if (checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false))
         return false;
 
       if (target == nullptr)
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
-      if (!canRightClickUnitGrouped(thisUnit, target, checkCanTargetUnit, checkCanIssueCommandTypeGrouped, false, false))
+        return game.setLastError(Errors::Invalid_Parameter);
+      if (!canRightClickUnitGrouped(game, thisUnit, target, checkCanTargetUnit, checkCanIssueCommandTypeGrouped, false, false))
         return false;
 
       return true;
     }
     //------------------------------------------- CAN RIGHT CLICK POSITION -----------------------------------
-    static inline bool canRightClickPosition(Unit thisUnit, bool checkCommandibility)
+    static inline bool canRightClickPosition(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( !canMove(thisUnit, false) && !canSetRallyPosition(thisUnit, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Unit_Busy);
+      if ( !canMove(game, thisUnit, false) && !canSetRallyPosition(game, thisUnit, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canRightClickPositionGrouped(Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canRightClickPositionGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( !canMoveGrouped(thisUnit, false, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Unit_Busy);
+      if ( !canMoveGrouped(game, thisUnit, false, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN RIGHT CLICK UNIT ---------------------------------------
-    static inline bool canRightClickUnit(Unit thisUnit, bool checkCommandibility)
+    static inline bool canRightClickUnit(Game const &game, Unit thisUnit, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( !canFollow(thisUnit, false) &&
-           !canAttackUnit(thisUnit, false) &&
-           !canLoad(thisUnit, false) &&
-           !canSetRallyUnit(thisUnit, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Unit_Busy);
+      if ( !canFollow(game, thisUnit, false) &&
+           !canAttackUnit(game, thisUnit, false) &&
+           !canLoad(game, thisUnit, false) &&
+           !canSetRallyUnit(game, thisUnit, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canRightClickUnit(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canRightClickUnit(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canRightClickUnit(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canRightClickUnit(game, thisUnit, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( !targetUnit->getPlayer()->isNeutral() && thisUnit->getPlayer()->isEnemy(targetUnit->getPlayer()) &&
-           !canAttackUnit(thisUnit, targetUnit, false, true, false) )
+           !canAttackUnit(game, thisUnit, targetUnit, false, true, false) )
         return false;
 
-      if ( !canFollow(thisUnit, targetUnit, false, true, false) &&
-           !canLoad(thisUnit, targetUnit, false, true, false) &&
-           !canSetRallyUnit(thisUnit, targetUnit, false, true, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+      if ( !canFollow(game, thisUnit, targetUnit, false, true, false) &&
+           !canLoad(game, thisUnit, targetUnit, false, true, false) &&
+           !canSetRallyUnit(game, thisUnit, targetUnit, false, true, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canRightClickUnitGrouped(Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canRightClickUnitGrouped(Game const &game, Unit thisUnit, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
-      if ( !canFollow(thisUnit, false) &&
-           !canAttackUnitGrouped(thisUnit, false, false) &&
-           !canLoad(thisUnit, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Unit_Busy);
+      if ( !canFollow(game, thisUnit, false) &&
+           !canAttackUnitGrouped(game, thisUnit, false, false) &&
+           !canLoad(game, thisUnit, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canRightClickUnitGrouped(Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility)
+    static inline bool canRightClickUnitGrouped(Game const &game, Unit thisUnit, Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueCommandType, bool checkCommandibilityGrouped, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
-      if ( checkCanIssueCommandType && !canRightClickUnitGrouped(thisUnit, false, false) )
+      if ( checkCanIssueCommandType && !canRightClickUnitGrouped(game, thisUnit, false, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       if ( !targetUnit->getPlayer()->isNeutral() && thisUnit->getPlayer()->isEnemy(targetUnit->getPlayer()) &&
-           !canAttackUnitGrouped(thisUnit, targetUnit, false, true, false, false) )
+           !canAttackUnitGrouped(game, thisUnit, targetUnit, false, true, false, false) )
         return false;
 
-      if ( !canFollow(thisUnit, targetUnit, false, true, false) &&
-           !canLoad(thisUnit, targetUnit, false, true, false) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+      if ( !canFollow(game, thisUnit, targetUnit, false, true, false) &&
+           !canLoad(game, thisUnit, targetUnit, false, true, false) )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN HALT CONSTRUCTION --------------------------------------
-    static inline bool canHaltConstruction(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canHaltConstruction(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getOrder() != Orders::ConstructingBuilding )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL CONSTRUCTION ------------------------------------
-    static inline bool canCancelConstruction(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelConstruction(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       if ( thisUnit->isCompleted() || (thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getNydusExit()) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL ADDON -------------------------------------------
-    static inline bool canCancelAddon(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelAddon(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getAddon() || thisUnit->getAddon()->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL TRAIN -------------------------------------------
-    static inline bool canCancelTrain(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelTrain(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->isTraining() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL TRAIN SLOT --------------------------------------
-    static inline bool canCancelTrainSlot(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelTrainSlot(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
-      return canCancelTrain(thisUnit, checkCommandibility);
+      return canCancelTrain(game, thisUnit, checkCommandibility);
     }
-    static inline bool canCancelTrainSlot(Unit thisUnit, int slot, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canCancelTrainSlot(Game const &game, Unit thisUnit, int slot, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canCancelTrainSlot(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canCancelTrainSlot(game, thisUnit, false) )
         return false;
 
       if ( !thisUnit->isTraining() || (thisUnit->getTrainingQueue().size() <= (unsigned int)slot && slot >= 0) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL MORPH -------------------------------------------
-    static inline bool canCancelMorph(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelMorph(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->isMorphing() || (!thisUnit->isCompleted() && thisUnit->getType() == UnitTypes::Zerg_Nydus_Canal && thisUnit->getNydusExit()) )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL RESEARCH ----------------------------------------
-    static inline bool canCancelResearch(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelResearch(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getOrder() != Orders::ResearchTech )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN CANCEL UPGRADE -----------------------------------------
-    static inline bool canCancelUpgrade(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canCancelUpgrade(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( thisUnit->getOrder() != Orders::Upgrade )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
     //------------------------------------------- CAN USE TECH -----------------------------------------------
-    static inline bool canUseTechWithOrWithoutTarget(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canUseTechWithOrWithoutTarget(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isBuilding() && !thisUnit->isInterruptible() )
-        return Broodwar->setLastError(Errors::Unit_Busy);
+        return game.setLastError(Errors::Unit_Busy);
       if ( !thisUnit->isCompleted() )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+        return game.setLastError(Errors::Incompatible_State);
       if ( thisUnit->isHallucination() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       return true;
     }
-    static inline bool canUseTechWithOrWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechWithOrWithoutTarget(Game const &game, Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
       // researched check
-      if ( !thisUnit->getType().isHero() && !Broodwar->self()->hasResearched(tech) && thisUnit->getType() != UnitTypes::Zerg_Lurker )
-        return Broodwar->setLastError(Errors::Insufficient_Tech);
+      if ( !thisUnit->getType().isHero() && !game.self()->hasResearched(tech) && thisUnit->getType() != UnitTypes::Zerg_Lurker )
+        return game.setLastError(Errors::Insufficient_Tech);
 
       // energy check
       if ( thisUnit->getEnergy() < tech.energyCost() )
-        return Broodwar->setLastError(Errors::Insufficient_Energy);
+        return game.setLastError(Errors::Insufficient_Energy);
 
       // unit check
       if ( tech != TechTypes::Burrowing && !tech.whatUses().contains(thisUnit->getType()) )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
       switch (tech)
       {
         case TechTypes::Enum::Spider_Mines:
           if ( thisUnit->getSpiderMineCount() <= 0 )
-            return Broodwar->setLastError(Errors::Insufficient_Ammo);
+            return game.setLastError(Errors::Insufficient_Ammo);
           return true;
 
         case TechTypes::Enum::Tank_Siege_Mode:
           if ( thisUnit->isSieged() )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           if ( thisUnit->getOrder() == Orders::Sieging || thisUnit->getOrder() == Orders::Unsieging )
-            return Broodwar->setLastError(Errors::Unit_Busy);
+            return game.setLastError(Errors::Unit_Busy);
           return true;
 
         case TechTypes::Enum::Cloaking_Field:
         case TechTypes::Enum::Personnel_Cloaking:
           if ( thisUnit->getSecondaryOrder() == Orders::Cloak )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           return true;
 
         case TechTypes::Enum::Burrowing:
           if ( !thisUnit->getType().isBurrowable() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           if ( thisUnit->isBurrowed() || thisUnit->getOrder() == Orders::Burrowing || thisUnit->getOrder() == Orders::Unburrowing )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           return true;
 
         case TechTypes::Enum::None:
-          return Broodwar->setLastError(Errors::Incompatible_TechType);
+          return game.setLastError(Errors::Incompatible_TechType);
 
         case TechTypes::Enum::Nuclear_Strike:
           if ( thisUnit->getPlayer()->completedUnitCount(UnitTypes::Terran_Nuclear_Missile) == 0 )
-            return Broodwar->setLastError(Errors::Insufficient_Ammo);
+            return game.setLastError(Errors::Insufficient_Ammo);
           return true;
 
         case TechTypes::Enum::Unknown:
-          return Broodwar->setLastError(Errors::Incompatible_TechType);
+          return game.setLastError(Errors::Incompatible_TechType);
       }
 
       return true;
     }
-    static inline bool canUseTech(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTech(Game const &game, Unit thisUnit, BWAPI::TechType tech, Position target, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
-      if (!canUseTechPosition(thisUnit, tech, target, checkTargetsType, checkCanIssueCommandType, false))
+      if (!canUseTechPosition(game, thisUnit, tech, target, checkTargetsType, checkCanIssueCommandType, false))
         return false;
 
       return true;
     }
-    static inline bool canUseTech(Unit thisUnit, BWAPI::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTech(Game const &game, Unit thisUnit, BWAPI::TechType tech, Unit target = nullptr, bool checkCanTargetUnit = true, bool checkTargetsType = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if (!checkCommandibility)
-        Broodwar->setLastError();
-      else if (!canCommand(thisUnit))
+        game.setLastError();
+      else if (!canCommand(game, thisUnit))
         return false;
 
       if (target == nullptr)
       {
-        if (!canUseTechWithoutTarget(thisUnit, tech, checkCanIssueCommandType, false))
+        if (!canUseTechWithoutTarget(game, thisUnit, tech, checkCanIssueCommandType, false))
           return false;
       }
       else
       {
-        if (!canUseTechUnit(thisUnit, tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, false))
+        if (!canUseTechUnit(game, thisUnit, tech, target, checkCanTargetUnit, checkTargetsType, checkCanIssueCommandType, false))
           return false;
       }
 
       return true;
     }
-    static inline bool canUseTechWithoutTarget(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechWithoutTarget(Game const &game, Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( !canUseTechWithOrWithoutTarget(thisUnit, tech, false, false) )
+      if ( !canUseTechWithOrWithoutTarget(game, thisUnit, tech, false, false) )
         return false;
       if ( tech.targetsUnit() || tech.targetsPosition() || tech == TechTypes::None || tech == TechTypes::Unknown || tech == TechTypes::Lurker_Aspect)
-        return Broodwar->setLastError(Errors::Incompatible_TechType);
+        return game.setLastError(Errors::Incompatible_TechType);
 
       return true;
     }
     //------------------------------------------- CAN USE TECH UNIT ------------------------------------------
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechUnit(Game const &game, Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( !canUseTechWithOrWithoutTarget(thisUnit, tech, false, false) )
+      if ( !canUseTechWithOrWithoutTarget(game, thisUnit, tech, false, false) )
         return false;
       if ( !tech.targetsUnit() )
-        return Broodwar->setLastError(Errors::Incompatible_TechType);
+        return game.setLastError(Errors::Incompatible_TechType);
 
       return true;
     }
-    static inline bool canUseTechUnit(Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechUnit(Game const &game, Unit thisUnit, BWAPI::TechType tech, Unit targetUnit, bool checkCanTargetUnit, bool checkTargetsUnits, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( checkTargetsUnits && !canUseTechUnit(thisUnit, tech, false, false) )
+      if ( checkTargetsUnits && !canUseTechUnit(game, thisUnit, tech, false, false) )
         return false;
 
-      if ( checkCanTargetUnit && !canTargetUnit(thisUnit, targetUnit, false) )
+      if ( checkCanTargetUnit && !canTargetUnit(game, thisUnit, targetUnit, false) )
         return false;
 
       UnitType targetType = targetUnit->getType();
@@ -2315,68 +2312,68 @@ namespace BWAPI
       {
         case TechTypes::Enum::Archon_Warp:
           if ( targetType != UnitTypes::Protoss_High_Templar )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           if ( targetUnit->getPlayer() != thisUnit->getPlayer() )
-            return Broodwar->setLastError(Errors::Unit_Not_Owned);
+            return game.setLastError(Errors::Unit_Not_Owned);
           break;
 
         case TechTypes::Enum::Dark_Archon_Meld:
           if ( targetType != UnitTypes::Protoss_Dark_Templar )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           if ( targetUnit->getPlayer() != thisUnit->getPlayer() )
-            return Broodwar->setLastError(Errors::Unit_Not_Owned);
+            return game.setLastError(Errors::Unit_Not_Owned);
           break;
 
         case TechTypes::Enum::Consume:
           if ( targetUnit->getPlayer() != thisUnit->getPlayer() )
-            return Broodwar->setLastError(Errors::Unit_Not_Owned);
+            return game.setLastError(Errors::Unit_Not_Owned);
           if ( targetType.getRace() != Races::Zerg || targetType == UnitTypes::Zerg_Larva )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
 
         case TechTypes::Enum::Spawn_Broodlings:
           if ( ( !targetType.isOrganic() && !targetType.isMechanical() ) ||
                targetType.isRobotic() ||
                targetType.isFlyer() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
 
         case TechTypes::Enum::Lockdown:
           if ( !targetType.isMechanical() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
 
         case TechTypes::Enum::Healing:
           if ( targetUnit->getHitPoints() == targetType.maxHitPoints() )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           if ( !targetType.isOrganic() ||
                targetType.isFlyer() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           if ( !targetUnit->getPlayer()->isNeutral() && thisUnit->getPlayer()->isEnemy(targetUnit->getPlayer()) )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           break;
 
         case TechTypes::Enum::Mind_Control:
           if ( targetUnit->getPlayer() == thisUnit->getPlayer() )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           if ( targetType == UnitTypes::Protoss_Interceptor ||
                targetType == UnitTypes::Terran_Vulture_Spider_Mine ||
                targetType == UnitTypes::Zerg_Lurker_Egg ||
                targetType == UnitTypes::Zerg_Cocoon ||
                targetType == UnitTypes::Zerg_Larva ||
                targetType == UnitTypes::Zerg_Egg )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
 
         case TechTypes::Enum::Feedback:
           if ( !targetType.isSpellcaster() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
 
         case TechTypes::Enum::Infestation:
           if ( targetType != UnitTypes::Terran_Command_Center ||
                targetUnit->getHitPoints() >= 750 || targetUnit->getHitPoints() <= 0 )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           break;
       }
 
@@ -2385,11 +2382,11 @@ namespace BWAPI
         case TechTypes::Enum::Archon_Warp:
         case TechTypes::Enum::Dark_Archon_Meld:
           if ( !thisUnit->hasPath(targetUnit->getPosition()) )
-            return Broodwar->setLastError(Errors::Unreachable_Location);
+            return game.setLastError(Errors::Unreachable_Location);
           if ( targetUnit->isHallucination() )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           if ( targetUnit->isMaelstrommed() )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           // Fall through (don't break).
         case TechTypes::Enum::Parasite:
         case TechTypes::Enum::Irradiate:
@@ -2405,7 +2402,7 @@ namespace BWAPI
         case TechTypes::Enum::Feedback:
         case TechTypes::Enum::Yamato_Gun:
           if ( targetUnit->isStasised() )
-            return Broodwar->setLastError(Errors::Incompatible_State);
+            return game.setLastError(Errors::Incompatible_State);
           break;
       }
 
@@ -2413,7 +2410,7 @@ namespace BWAPI
       {
         case TechTypes::Enum::Yamato_Gun:
           if ( targetUnit->isInvincible() )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           break;
 
         case TechTypes::Enum::Parasite:
@@ -2427,245 +2424,245 @@ namespace BWAPI
         case TechTypes::Enum::Restoration:
         case TechTypes::Enum::Mind_Control:
           if ( targetUnit->isInvincible() )
-            return Broodwar->setLastError(Errors::Invalid_Parameter);
+            return game.setLastError(Errors::Invalid_Parameter);
           // Fall through (don't break).
         case TechTypes::Enum::Consume:
         case TechTypes::Enum::Feedback:
           if ( targetType.isBuilding() )
-            return Broodwar->setLastError(Errors::Incompatible_UnitType);
+            return game.setLastError(Errors::Incompatible_UnitType);
           break;
       }
 
       if ( targetUnit == thisUnit )
-        return Broodwar->setLastError(Errors::Invalid_Parameter);
+        return game.setLastError(Errors::Invalid_Parameter);
 
       return true;
     }
     //------------------------------------------- CAN USE TECH POSITION --------------------------------------
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canUseTechPosition(Game const &game, Unit thisUnit, BWAPI::TechType tech, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( !canUseTechWithOrWithoutTarget(thisUnit, tech, false, false) )
+      if ( !canUseTechWithOrWithoutTarget(game, thisUnit, tech, false, false) )
         return false;
       if ( !tech.targetsPosition() )
-        return Broodwar->setLastError(Errors::Incompatible_TechType);
+        return game.setLastError(Errors::Incompatible_TechType);
 
       return true;
     }
-    static inline bool canUseTechPosition(Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility)
+    static inline bool canUseTechPosition(Game const &game, Unit thisUnit, BWAPI::TechType tech, Position target, bool checkTargetsPositions, bool checkCanIssueCommandType, bool checkCommandibility)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(thisUnit, false) )
+      if ( checkCanIssueCommandType && !canUseTechWithOrWithoutTarget(game, thisUnit, false) )
         return false;
 
-      if ( checkTargetsPositions && !canUseTechPosition(thisUnit, tech, false, false) )
+      if ( checkTargetsPositions && !canUseTechPosition(game, thisUnit, tech, false, false) )
         return false;
 
       if ( tech == TechTypes::Enum::Spider_Mines && !thisUnit->hasPath(target) )
-        return Broodwar->setLastError(Errors::Unreachable_Location);
+        return game.setLastError(Errors::Unreachable_Location);
 
       return true;
     }
     //------------------------------------------- CAN PLACE COP ----------------------------------------------
-    static inline bool canPlaceCOP(Unit thisUnit, bool checkCommandibility = true)
+    static inline bool canPlaceCOP(Game const &game, Unit thisUnit, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       if ( !thisUnit->getType().isFlagBeacon() )
-        return Broodwar->setLastError(Errors::Incompatible_UnitType);
+        return game.setLastError(Errors::Incompatible_UnitType);
 
-      if ( static_cast<UnitImpl*>(thisUnit)->self->buttonset == 228 || thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit )
-        return Broodwar->setLastError(Errors::Incompatible_State);
+      if ( /*@TODO: Put real condition here ||*/ thisUnit->getOrder() != BWAPI::Orders::CTFCOPInit )
+        return game.setLastError(Errors::Incompatible_State);
 
       return true;
     }
-    static inline bool canPlaceCOP(Unit thisUnit, TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canPlaceCOP(Game const &game, Unit thisUnit, TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if (checkCanIssueCommandType && !canPlaceCOP(thisUnit, checkCommandibility) )
+      if (checkCanIssueCommandType && !canPlaceCOP(game, thisUnit, checkCommandibility) )
         return false;
 
-      if ( !canBuildHere(thisUnit, target, thisUnit->getType(), true) )
+      if ( !canBuildHere(game, thisUnit, target, thisUnit->getType(), true) )
         return false;
 
       return true;
     }
     //------------------------------------------- CAN ISSUE COMMAND TYPE -------------------------------------
-    static inline bool canIssueCommandType(Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibility = true)
+    static inline bool canIssueCommandType(Game const &game, Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       switch (ct)
       {
         case UnitCommandTypes::Enum::Attack_Move:
-          return canAttackMove(thisUnit, false);
+          return canAttackMove(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Attack_Unit:
-          return canAttackUnit(thisUnit, false);
+          return canAttackUnit(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Build:
-          return canBuild(thisUnit, false);
+          return canBuild(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Build_Addon:
-          return canBuildAddon(thisUnit, false);
+          return canBuildAddon(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Train:
-          return canTrain(thisUnit, false);
+          return canTrain(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Morph:
-          return canMorph(thisUnit, false);
+          return canMorph(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Research:
-          return canResearch(thisUnit, false);
+          return canResearch(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Upgrade:
-          return canUpgrade(thisUnit, false);
+          return canUpgrade(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Set_Rally_Position:
-          return canSetRallyPosition(thisUnit, false);
+          return canSetRallyPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Set_Rally_Unit:
-          return canSetRallyUnit(thisUnit, false);
+          return canSetRallyUnit(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Move:
-          return canMove(thisUnit, false);
+          return canMove(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Patrol:
-          return canPatrol(thisUnit, false);
+          return canPatrol(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Hold_Position:
-          return canHoldPosition(thisUnit, false);
+          return canHoldPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Stop:
-          return canStop(thisUnit, false);
+          return canStop(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Follow:
-          return canFollow(thisUnit, false);
+          return canFollow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Gather:
-          return canGather(thisUnit, false);
+          return canGather(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Return_Cargo:
-          return canReturnCargo(thisUnit, false);
+          return canReturnCargo(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Repair:
-          return canRepair(thisUnit, false);
+          return canRepair(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Burrow:
-          return canBurrow(thisUnit, false);
+          return canBurrow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unburrow:
-          return canUnburrow(thisUnit, false);
+          return canUnburrow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cloak:
-          return canCloak(thisUnit, false);
+          return canCloak(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Decloak:
-          return canDecloak(thisUnit, false);
+          return canDecloak(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Siege:
-          return canSiege(thisUnit, false);
+          return canSiege(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unsiege:
-          return canUnsiege(thisUnit, false);
+          return canUnsiege(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Lift:
-          return canLift(thisUnit, false);
+          return canLift(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Land:
-          return canLand(thisUnit, false);
+          return canLand(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Load:
-          return canLoad(thisUnit, false);
+          return canLoad(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unload:
-          return canUnload(thisUnit, false);
+          return canUnload(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unload_All:
-          return canUnloadAll(thisUnit, false);
+          return canUnloadAll(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unload_All_Position:
-          return canUnloadAllPosition(thisUnit, false);
+          return canUnloadAllPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Right_Click_Position:
-          return canRightClickPosition(thisUnit, false);
+          return canRightClickPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Right_Click_Unit:
-          return canRightClickUnit(thisUnit, false);
+          return canRightClickUnit(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Halt_Construction:
-          return canHaltConstruction(thisUnit, false);
+          return canHaltConstruction(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Construction:
-          return canCancelConstruction(thisUnit, false);
+          return canCancelConstruction(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Addon:
-          return canCancelAddon(thisUnit, false);
+          return canCancelAddon(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Train:
-          return canCancelTrain(thisUnit, false);
+          return canCancelTrain(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Train_Slot:
-          return canCancelTrainSlot(thisUnit, false);
+          return canCancelTrainSlot(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Morph:
-          return canCancelMorph(thisUnit, false);
+          return canCancelMorph(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Research:
-          return canCancelResearch(thisUnit, false);
+          return canCancelResearch(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Upgrade:
-          return canCancelUpgrade(thisUnit, false);
+          return canCancelUpgrade(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Use_Tech:
         case UnitCommandTypes::Enum::Use_Tech_Unit:
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechWithOrWithoutTarget(thisUnit, false);
+          return canUseTechWithOrWithoutTarget(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Place_COP:
-          return canPlaceCOP(thisUnit, false);
+          return canPlaceCOP(game, thisUnit, false);
       }
 
       return true;
     }
-    static inline bool canIssueCommandTypeGrouped(Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canIssueCommandTypeGrouped(Game const &game, Unit thisUnit, BWAPI::UnitCommandType ct, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       switch (ct)
       {
         case UnitCommandTypes::Enum::Attack_Move:
-          return canAttackMoveGrouped(thisUnit, false, false);
+          return canAttackMoveGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Attack_Unit:
-          return canAttackUnitGrouped(thisUnit, false, false);
+          return canAttackUnitGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Build:
           return false;
@@ -2674,10 +2671,10 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Train:
-          return canTrain(thisUnit, false);
+          return canTrain(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Morph:
-          return canMorph(thisUnit, false);
+          return canMorph(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Research:
           return false;
@@ -2692,46 +2689,46 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Move:
-          return canMoveGrouped(thisUnit, false, false);
+          return canMoveGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Patrol:
-          return canPatrolGrouped(thisUnit, false, false);
+          return canPatrolGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Hold_Position:
-          return canHoldPosition(thisUnit, false);
+          return canHoldPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Stop:
-          return canStop(thisUnit, false);
+          return canStop(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Follow:
-          return canFollow(thisUnit, false);
+          return canFollow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Gather:
-          return canGather(thisUnit, false);
+          return canGather(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Return_Cargo:
-          return canReturnCargo(thisUnit, false);
+          return canReturnCargo(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Repair:
-          return canRepair(thisUnit, false);
+          return canRepair(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Burrow:
-          return canBurrow(thisUnit, false);
+          return canBurrow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unburrow:
-          return canUnburrow(thisUnit, false);
+          return canUnburrow(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cloak:
-          return canCloak(thisUnit, false);
+          return canCloak(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Decloak:
-          return canDecloak(thisUnit, false);
+          return canDecloak(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Siege:
-          return canSiege(thisUnit, false);
+          return canSiege(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unsiege:
-          return canUnsiege(thisUnit, false);
+          return canUnsiege(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Lift:
           return false;
@@ -2740,7 +2737,7 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Load:
-          return canLoad(thisUnit, false);
+          return canLoad(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Unload:
           return false;
@@ -2749,16 +2746,16 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Unload_All_Position:
-          return canUnloadAllPosition(thisUnit, false);
+          return canUnloadAllPosition(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Right_Click_Position:
-          return canRightClickPositionGrouped(thisUnit, false, false);
+          return canRightClickPositionGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Right_Click_Unit:
-          return canRightClickUnitGrouped(thisUnit, false, false);
+          return canRightClickUnitGrouped(game, thisUnit, false, false);
 
         case UnitCommandTypes::Enum::Halt_Construction:
-          return canHaltConstruction(thisUnit, false);
+          return canHaltConstruction(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Construction:
           return false;
@@ -2773,7 +2770,7 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Cancel_Morph:
-          return canCancelMorph(thisUnit, false);
+          return canCancelMorph(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Cancel_Research:
           return false;
@@ -2784,7 +2781,7 @@ namespace BWAPI
         case UnitCommandTypes::Enum::Use_Tech:
         case UnitCommandTypes::Enum::Use_Tech_Unit:
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechWithOrWithoutTarget(thisUnit, false);
+          return canUseTechWithOrWithoutTarget(game, thisUnit, false);
 
         case UnitCommandTypes::Enum::Place_COP:
           return false;
@@ -2793,15 +2790,15 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------- CAN ISSUE COMMAND ------------------------------------------
-    static inline bool canIssueCommand(Unit thisUnit, UnitCommand c, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanBuildUnitType = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
+    static inline bool canIssueCommand(Game const &game, Unit thisUnit, UnitCommand c, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanBuildUnitType = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
       BWAPI::UnitCommandType ct = c.type;
-      if ( checkCanIssueCommandType && !canIssueCommandType(thisUnit, ct, false) )
+      if ( checkCanIssueCommandType && !canIssueCommandType(game, thisUnit, ct, false) )
         return false;
 
       switch (ct)
@@ -2810,31 +2807,31 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Attack_Unit:
-          return canAttackUnit(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canAttackUnit(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Build:
-          return canBuild(thisUnit, c.getUnitType(), BWAPI::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
+          return canBuild(game, thisUnit, c.getUnitType(), BWAPI::TilePosition(c.x, c.y), checkCanBuildUnitType, false, false);
 
         case UnitCommandTypes::Enum::Build_Addon:
-          return canBuildAddon(thisUnit, c.getUnitType(), false, false);
+          return canBuildAddon(game, thisUnit, c.getUnitType(), false, false);
 
         case UnitCommandTypes::Enum::Train:
-          return canTrain(thisUnit, c.getUnitType(), false, false);
+          return canTrain(game, thisUnit, c.getUnitType(), false, false);
 
         case UnitCommandTypes::Enum::Morph:
-          return canMorph(thisUnit, c.getUnitType(), false, false);
+          return canMorph(game, thisUnit, c.getUnitType(), false, false);
 
         case UnitCommandTypes::Enum::Research:
-          return Broodwar->canResearch(c.getTechType(), thisUnit, false);
+          return game.canResearch(c.getTechType(), thisUnit, false);
 
         case UnitCommandTypes::Enum::Upgrade:
-          return Broodwar->canUpgrade(c.getUpgradeType(), thisUnit, false);
+          return game.canUpgrade(c.getUpgradeType(), thisUnit, false);
 
         case UnitCommandTypes::Enum::Set_Rally_Position:
           return true;
 
         case UnitCommandTypes::Enum::Set_Rally_Unit:
-          return canSetRallyUnit(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canSetRallyUnit(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Move:
           return true;
@@ -2849,16 +2846,16 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Follow:
-          return canFollow(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canFollow(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Gather:
-          return canGather(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canGather(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Return_Cargo:
           return true;
 
         case UnitCommandTypes::Enum::Repair:
-          return canRepair(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canRepair(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Burrow:
           return true;
@@ -2882,25 +2879,25 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Land:
-          return canLand(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
+          return canLand(game, thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
 
         case UnitCommandTypes::Enum::Load:
-          return canLoad(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canLoad(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Unload:
-          return canUnload(thisUnit, c.target, checkCanTargetUnit, false, false, false);
+          return canUnload(game, thisUnit, c.target, checkCanTargetUnit, false, false, false);
 
         case UnitCommandTypes::Enum::Unload_All:
           return true;
 
         case UnitCommandTypes::Enum::Unload_All_Position:
-          return canUnloadAllPosition(thisUnit, c.getTargetPosition(), false, false);
+          return canUnloadAllPosition(game, thisUnit, c.getTargetPosition(), false, false);
 
         case UnitCommandTypes::Enum::Right_Click_Position:
           return true;
 
         case UnitCommandTypes::Enum::Right_Click_Unit:
-          return canRightClickUnit(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canRightClickUnit(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Halt_Construction:
           return true;
@@ -2915,7 +2912,7 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Cancel_Train_Slot:
-          return canCancelTrainSlot(thisUnit, c.extra, false, false);
+          return canCancelTrainSlot(game, thisUnit, c.extra, false, false);
 
         case UnitCommandTypes::Enum::Cancel_Morph:
           return true;
@@ -2927,32 +2924,32 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Use_Tech:
-          return canUseTechWithoutTarget(thisUnit, c.extra, false, false);
+          return canUseTechWithoutTarget(game, thisUnit, c.extra, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Unit:
-          return canUseTechUnit(thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
+          return canUseTechUnit(game, thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechPosition(thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
+          return canUseTechPosition(game, thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
 
         case UnitCommandTypes::Enum::Place_COP:
-          return canPlaceCOP(thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
+          return canPlaceCOP(game, thisUnit, BWAPI::TilePosition(c.x, c.y), false, false);
       }
 
       return true;
     }
-    static inline bool canIssueCommandGrouped(Unit thisUnit, UnitCommand c, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
+    static inline bool canIssueCommandGrouped(Game const &game, Unit thisUnit, UnitCommand c, bool checkCanUseTechPositionOnPositions = true, bool checkCanUseTechUnitOnUnits = true, bool checkCanTargetUnit = true, bool checkCanIssueCommandType = true, bool checkCommandibilityGrouped = true, bool checkCommandibility = true)
     {
       if ( !checkCommandibility )
-        Broodwar->setLastError();
-      else if ( !canCommand(thisUnit) )
+        game.setLastError();
+      else if ( !canCommand(game, thisUnit) )
         return false;
 
-      if ( checkCommandibilityGrouped && !canCommandGrouped(thisUnit, false) )
+      if ( checkCommandibilityGrouped && !canCommandGrouped(game, thisUnit, false) )
         return false;
 
       BWAPI::UnitCommandType ct = c.type;
-      if ( checkCanIssueCommandType && !canIssueCommandTypeGrouped(thisUnit, ct, false, false) )
+      if ( checkCanIssueCommandType && !canIssueCommandTypeGrouped(game, thisUnit, ct, false, false) )
         return false;
 
       switch (ct)
@@ -2961,7 +2958,7 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Attack_Unit:
-          return canAttackUnitGrouped(thisUnit, c.target, checkCanTargetUnit, false, false, false);
+          return canAttackUnitGrouped(game, thisUnit, c.target, checkCanTargetUnit, false, false, false);
 
         case UnitCommandTypes::Enum::Build:
           return false;
@@ -2970,10 +2967,10 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Train:
-          return canTrain(thisUnit, c.getUnitType(), false, false);
+          return canTrain(game, thisUnit, c.getUnitType(), false, false);
 
         case UnitCommandTypes::Enum::Morph:
-          return canMorph(thisUnit, c.getUnitType(), false, false);
+          return canMorph(game, thisUnit, c.getUnitType(), false, false);
 
         case UnitCommandTypes::Enum::Research:
           return false;
@@ -3000,16 +2997,16 @@ namespace BWAPI
           return true;
 
         case UnitCommandTypes::Enum::Follow:
-          return canFollow(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canFollow(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Gather:
-          return canGather(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canGather(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Return_Cargo:
           return true;
 
         case UnitCommandTypes::Enum::Repair:
-          return canRepair(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canRepair(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Burrow:
           return true;
@@ -3036,7 +3033,7 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Load:
-          return canLoad(thisUnit, c.target, checkCanTargetUnit, false, false);
+          return canLoad(game, thisUnit, c.target, checkCanTargetUnit, false, false);
 
         case UnitCommandTypes::Enum::Unload:
           return false;
@@ -3045,13 +3042,13 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Unload_All_Position:
-          return canUnloadAllPosition(thisUnit, c.getTargetPosition(), false, false);
+          return canUnloadAllPosition(game, thisUnit, c.getTargetPosition(), false, false);
 
         case UnitCommandTypes::Enum::Right_Click_Position:
           return true;
 
         case UnitCommandTypes::Enum::Right_Click_Unit:
-          return canRightClickUnitGrouped(thisUnit, c.target, checkCanTargetUnit, false, false, false);
+          return canRightClickUnitGrouped(game, thisUnit, c.target, checkCanTargetUnit, false, false, false);
 
         case UnitCommandTypes::Enum::Halt_Construction:
           return true;
@@ -3078,13 +3075,13 @@ namespace BWAPI
           return false;
 
         case UnitCommandTypes::Enum::Use_Tech:
-          return canUseTechWithoutTarget(thisUnit, c.extra, false, false);
+          return canUseTechWithoutTarget(game, thisUnit, c.extra, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Unit:
-          return canUseTechUnit(thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
+          return canUseTechUnit(game, thisUnit, c.extra, c.target, checkCanTargetUnit, checkCanUseTechUnitOnUnits, false, false);
 
         case UnitCommandTypes::Enum::Use_Tech_Position:
-          return canUseTechPosition(thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
+          return canUseTechPosition(game, thisUnit, c.extra, c.getTargetPosition(), checkCanUseTechPositionOnPositions, false, false);
 
         case UnitCommandTypes::Enum::Place_COP:
           return false;

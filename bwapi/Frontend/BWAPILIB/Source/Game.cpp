@@ -23,12 +23,11 @@ namespace BWAPI
 {
   using namespace Filter;
 
-  GameWrapper Broodwar;
-  Game *BroodwarPtr;
+
 
   Game *GameWrapper::operator ->() const
   {
-    return BroodwarPtr;
+    return &bw;
   };
 
   GameWrapper &GameWrapper::operator <<(GameWrapper::ostream_manipulator fn)
@@ -46,10 +45,9 @@ namespace BWAPI
 
   void GameWrapper::flush()
   {
-    if (!BroodwarPtr) return;
     if (ss.str().empty()) return;
 
-    BroodwarPtr->printf("%s", ss.str().c_str() );
+    bw.printf("%s", ss.str().c_str());
     ss.str("");
   };
 
@@ -210,7 +208,7 @@ namespace BWAPI
     int maxSearch;
   };
 
-  void AssignBuildableLocations(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void AssignBuildableLocations(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
     
@@ -220,22 +218,22 @@ namespace BWAPI
     // Assign 1 to all buildable locations
     reserve.iterate( [&](PlacementReserve *pr, int x, int y)
                       { 
-                        if ( (!hasAddon || Broodwar->canBuildHere(start+TilePosition(x+4,y+1), UnitTypes::Terran_Missile_Turret) ) &&
-                          Broodwar->canBuildHere(start+TilePosition(x,y), type) )
+                        if ( (!hasAddon || game.canBuildHere(start+TilePosition(x+4,y+1), UnitTypes::Terran_Missile_Turret) ) &&
+                          game.canBuildHere(start+TilePosition(x,y), type) )
                         {
                           pr->setValue(x, y, 1);
                         }
                       });
   }
 
-  void RemoveDisconnected(PlacementReserve &reserve, TilePosition desiredPosition)
+  void RemoveDisconnected(Game const &game, PlacementReserve &reserve, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
 
     // Assign 0 to all locations that aren't connected
     reserve.iterate( [&](PlacementReserve *pr, int x, int y)
                       { 
-                        if ( !Broodwar->hasPath(Position(desiredPosition), Position(start + TilePosition(x,y)) ) )
+                        if ( !game.hasPath(Position(desiredPosition), Position(start + TilePosition(x,y)) ) )
                           pr->setValue(x, y, 0);
                       });
   }
@@ -272,16 +270,16 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }*/
 
-  void ReserveGroundHeight(PlacementReserve &reserve, TilePosition desiredPosition)
+  void ReserveGroundHeight(Game const &game, PlacementReserve &reserve, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
 
     // Exclude locations with a different ground height, but restore a backup in case there are no more build locations
     reserve.backup();
-    int targetHeight = Broodwar->getGroundHeight(desiredPosition);
+    int targetHeight = game.getGroundHeight(desiredPosition);
     reserve.iterate( [&](PlacementReserve *pr, int x, int y)
                       { 
-                        if ( Broodwar->getGroundHeight( start + TilePosition(x,y) ) != targetHeight )
+                        if (game.getGroundHeight( start + TilePosition(x,y) ) != targetHeight )
                           pr->setValue(x, y, 0);
                       });
 
@@ -289,13 +287,13 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReserveExistingAddonPlacement(PlacementReserve &reserve, TilePosition desiredPosition)
+  void ReserveExistingAddonPlacement(Game const &game, PlacementReserve &reserve, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
 
     //Exclude addon placement locations
     reserve.backup();
-    Unitset myUnits = Broodwar->self()->getUnits();
+    Unitset myUnits = game.self()->getUnits();
     myUnits.erase_if( !(Exists && CanBuildAddon) );
     for ( auto &u : myUnits )
     {
@@ -312,14 +310,14 @@ namespace BWAPI
     ReserveStructureWithPadding(reserve, TilePosition(pUnit->getPosition()), pUnit->getType().tileSize(), padding, type, desiredPosition);
   }
 
-  void ReserveAllStructures(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveAllStructures(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     if ( type.isAddon() )
       return;
     reserve.backup();
 
     // Reserve space around owned resource depots and resource containers
-    Unitset myUnits = Broodwar->self()->getUnits();
+    Unitset myUnits = game.self()->getUnits();
     myUnits.erase_if( !(Exists && (IsCompleted || (ProducesLarva && IsMorphing)) && IsBuilding && (IsResourceDepot || IsRefinery)) );
     for ( auto &u : myUnits)
       ReserveStructure(reserve, u, 2, type, desiredPosition);
@@ -327,7 +325,7 @@ namespace BWAPI
     // Reserve space around neutral resources
     if ( type != UnitTypes::Terran_Bunker )
     {
-      Unitset resources = Broodwar->getNeutralUnits();
+      Unitset resources = game.getNeutralUnits();
       resources.erase_if( !(Exists && IsResourceContainer) );
       for ( auto &u : resources)
         ReserveStructure(reserve, u, 2, type, desiredPosition);
@@ -345,14 +343,13 @@ namespace BWAPI
     TilePosition( 0,-1),
     TilePosition(-1,-1)
   };
-  void ReserveDefault(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveDefault(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     reserve.backup();
     auto original = reserve;
 
     // Reserve some space around some specific units
-    Unitset myUnits = Broodwar->self()->getUnits();
-    for ( auto &it : myUnits )
+    for ( auto &it : game.self()->getUnits() )
     {
       if ( !it->exists() )
         continue;
@@ -402,13 +399,13 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReservePlacement(PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
+  void ReservePlacement(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
   {
     // Reset the array
     reserve.reset();
 
-    AssignBuildableLocations(reserve, type, desiredPosition);
-    RemoveDisconnected(reserve, desiredPosition);
+    AssignBuildableLocations(game, reserve, type, desiredPosition);
+    RemoveDisconnected(game, reserve, desiredPosition);
     
     // @TODO: Assign 0 to all locations that have a ground distance > maxRange
 
@@ -416,7 +413,7 @@ namespace BWAPI
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
     reserve.iterate( [&](PlacementReserve *pr, int x, int y)
                       { 
-                        if ( !(start+TilePosition(x,y)).isValid() )
+                        if ( !game.isValid(start+TilePosition(x,y)) )
                           pr->setValue(x, y, 0);
                       } );
 
@@ -424,13 +421,13 @@ namespace BWAPI
     if ( !reserve.hasValidSpace() )
       return;
     
-    ReserveGroundHeight(reserve, desiredPosition);
+    ReserveGroundHeight(game, reserve, desiredPosition);
     //ReserveUnbuildable(reserve, type, desiredPosition); // NOTE: canBuildHere already includes this!
 
     if ( !type.isResourceDepot() )
     {
-      ReserveAllStructures(reserve, type, desiredPosition);
-      ReserveExistingAddonPlacement(reserve, desiredPosition);
+      ReserveAllStructures(game, reserve, type, desiredPosition);
+      ReserveExistingAddonPlacement(game, reserve, desiredPosition);
     }
 
     // Unit-specific reservations
@@ -457,7 +454,7 @@ namespace BWAPI
       break;
     default:
       if ( !type.isResourceDepot() )
-        ReserveDefault(reserve, type, desiredPosition);
+        ReserveDefault(game, reserve, type, desiredPosition);
       break;
     }
   }
@@ -542,7 +539,7 @@ namespace BWAPI
     }
     
     PlacementReserve reserve(maxRange);
-    ReservePlacement(reserve, type, desiredPosition, creep);
+    ReservePlacement(*this, reserve, type, desiredPosition, creep);
 
     if ( trimPlacement )
       reserveTemplateSpacing(reserve);
@@ -603,39 +600,39 @@ namespace BWAPI
   //------------------------------------------ ACTIONS -----------------------------------------------
   bool Game::setMap(const std::string &mapFileName)
   {
-    return this->setMap(mapFileName.c_str());
+    return setMap(mapFileName.c_str());
   }
   void Game::setScreenPosition(BWAPI::Position p)
   {
-    this->setScreenPosition(p.x, p.y);
+    setScreenPosition(p.x, p.y);
   }
   void Game::pingMinimap(BWAPI::Position p)
   {
-    this->pingMinimap(p.x, p.y);
+    pingMinimap(p.x, p.y);
   }
   void Game::vSendText(const char *format, va_list arg)
   {
-    this->vSendTextEx(false, format, arg);
+    vSendTextEx(false, format, arg);
   }
   void Game::sendText(const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vSendTextEx(false, format, ap);
+    vSendTextEx(false, format, ap);
     va_end(ap);
   }
   void Game::sendTextEx(bool toAllies, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vSendTextEx(toAllies, format, ap);
+    vSendTextEx(toAllies, format, ap);
     va_end(ap);
   };
-  void Game::printf(const char *format, ...)
+  void Game::printf(const char *format, ...) const
   {
     va_list ap;
     va_start(ap,format);
-    this->vPrintf(format, ap);
+    vPrintf(format, ap);
     va_end(ap);
   };
   //--------------------------------------------- HAS POWER --------------------------------------------------
@@ -664,280 +661,252 @@ namespace BWAPI
   //------------------------------------------ MAP DATA -----------------------------------------------
   bool Game::isWalkable(BWAPI::WalkPosition position) const
   {
-    return this->isWalkable(position.x, position.y);
+    return isWalkable(position.x, position.y);
   }
   int Game::getGroundHeight(TilePosition position) const
   {
-    return this->getGroundHeight(position.x, position.y);
-  }
-  bool Game::isBuildable(TilePosition position, bool includeBuildings) const
-  {
-    return this->isBuildable(position.x, position.y, includeBuildings);
-  }
-  bool Game::isVisible(TilePosition position) const
-  {
-    return this->isVisible(position.x, position.y);
-  }
-  bool Game::isExplored(TilePosition position) const
-  {
-    return this->isExplored(position.x, position.y);
-  }
-  bool Game::hasCreep(TilePosition position) const
-  {
-    return this->hasCreep(position.x, position.y);
-  }
-  Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const
-  {
-    return this->getUnitsOnTile(TilePosition(tileX,tileY), pred);
-  }
-  Unitset Game::getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred) const
-  {
-    if ( !tile )  // if tileposition not valid
-      return Unitset::none;
-
-    Position p(tile); // convert to pixel position
-    return this->getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
+    return getGroundHeight(position.x, position.y);
   }
   Unitset Game::getUnitsInRadius(int x, int y, int radius, const UnitFilter &pred) const
   {
-    return this->getUnitsInRectangle(x - radius,
+    return getUnitsInRectangle(x - radius,
                                      y - radius,
                                      x + radius,
                                      y + radius,
-                                     [&x,&y,&radius,&pred](Unit u){ return u->getDistance(Position(x,y)) <= radius && (!pred.isValid() || pred(u)); });
+                                     [&](Unit u){ return u->getDistance(Position(x,y)) <= radius && (!pred.isValid() || pred(u)); });
   }
   Unitset Game::getUnitsInRadius(Position center, int radius, const UnitFilter &pred) const
   {
-    return this->getUnitsInRadius(center.x, center.y, radius, pred);
+    return getUnitsInRadius(center.x, center.y, radius, pred);
   }
   Unitset Game::getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred) const
   {
-    return this->getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
+    return getUnitsInRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, pred);
   }
   Unit Game::getClosestUnit(Position center, const UnitFilter &pred, int radius) const
   {
-    return this->getClosestUnitInRectangle(center,
-                                            [&](Unit u){ return u->getDistance(center) <= radius && (!pred.isValid() || pred(u));},
-                                            center.x - radius,
-                                            center.y - radius,
-                                            center.x + radius,
-                                            center.y + radius);
+    return getClosestUnitInRectangle(center,
+                                      [&](Unit u){ return u->getDistance(center) <= radius && (!pred.isValid() || pred(u));},
+                                      center.x - radius,
+                                      center.y - radius,
+                                      center.x + radius,
+                                      center.y + radius);
   }
   //------------------------------------------ REGIONS -----------------------------------------------
   BWAPI::Region Game::getRegionAt(BWAPI::Position position) const
   {
-    return this->getRegionAt(position.x, position.y);
+    return getRegionAt(position.x, position.y);
   }
   bool Game::hasPath(Position source, Position destination) const
   {
-    if (source.isValid() && destination.isValid())
+    if (isValid(source) && isValid(destination))
     {
       Region rgnA = getRegionAt(source);
       Region rgnB = getRegionAt(destination);
       if (rgnA && rgnB && rgnA->getRegionGroupID() == rgnB->getRegionGroupID())
-        return this->setLastError();
+        return setLastError();
     }
-    return this->setLastError(Errors::Unreachable_Location);
+    return setLastError(Errors::Unreachable_Location);
   }
   //------------------------------------------ DRAW TEXT ----------------------------------------------
   void Game::drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(ctype, x, y, format, ap);
+    vDrawText(ctype, x, y, format, ap);
     va_end(ap);
   }
   void Game::drawTextMap(int x, int y, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Map, x, y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Map, x, y, format, ap);
     va_end(ap);
   }
   void Game::drawTextMouse(int x, int y, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Mouse, x, y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Mouse, x, y, format, ap);
     va_end(ap);
   }
   void Game::drawTextScreen(int x, int y, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Screen, x, y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Screen, x, y, format, ap);
     va_end(ap);
   }
   void Game::drawTextMap(Position p, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Map, p.x, p.y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Map, p.x, p.y, format, ap);
     va_end(ap);
   }
   void Game::drawTextMouse(Position p, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Mouse, p.x, p.y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Mouse, p.x, p.y, format, ap);
     va_end(ap);
   }
   void Game::drawTextScreen(Position p, const char *format, ...)
   {
     va_list ap;
     va_start(ap,format);
-    this->vDrawText(BWAPI::CoordinateType::Screen, p.x, p.y, format, ap);
+    vDrawText(BWAPI::CoordinateType::Screen, p.x, p.y, format, ap);
     va_end(ap);
   }
   //------------------------------------------ DRAW BOX -----------------------------------------------
   void Game::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    this->drawBox(CoordinateType::Map, left, top, right, bottom, color, isSolid);
+    drawBox(CoordinateType::Map, left, top, right, bottom, color, isSolid);
   }
   void Game::drawBoxMouse(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    this->drawBox(CoordinateType::Mouse, left, top, right, bottom, color, isSolid);
+    drawBox(CoordinateType::Mouse, left, top, right, bottom, color, isSolid);
   }
   void Game::drawBoxScreen(int left, int top, int right, int bottom, Color color, bool isSolid)
   {
-    this->drawBox(CoordinateType::Screen, left, top, right, bottom, color, isSolid);
+    drawBox(CoordinateType::Screen, left, top, right, bottom, color, isSolid);
   }
   void Game::drawBoxMap(Position leftTop, Position rightBottom, Color color, bool isSolid)
   {
-    this->drawBoxMap(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
+    drawBoxMap(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
   }
   void Game::drawBoxMouse(Position leftTop, Position rightBottom, Color color, bool isSolid)
   {
-    this->drawBoxMouse(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
+    drawBoxMouse(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
   }
   void Game::drawBoxScreen(Position leftTop, Position rightBottom, Color color, bool isSolid)
   {
-    this->drawBoxScreen(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
+    drawBoxScreen(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
   }
   //------------------------------------------ DRAW TRIANGLE -----------------------------------------------
   void Game::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    this->drawTriangle(CoordinateType::Map, ax, ay, bx, by, cx, cy, color, isSolid);
+    drawTriangle(CoordinateType::Map, ax, ay, bx, by, cx, cy, color, isSolid);
   }
   void Game::drawTriangleMouse(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    this->drawTriangle(CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color, isSolid);
+    drawTriangle(CoordinateType::Mouse, ax, ay, bx, by, cx, cy, color, isSolid);
   }
   void Game::drawTriangleScreen(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
   {
-    this->drawTriangle(CoordinateType::Screen, ax, ay, bx, by, cx, cy, color, isSolid);
+    drawTriangle(CoordinateType::Screen, ax, ay, bx, by, cx, cy, color, isSolid);
   }
   void Game::drawTriangleMap(Position a, Position b, Position c, Color color, bool isSolid)
   {
-    this->drawTriangleMap(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
+    drawTriangleMap(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
   }
   void Game::drawTriangleMouse(Position a, Position b, Position c, Color color, bool isSolid)
   {
-    this->drawTriangleMouse(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
+    drawTriangleMouse(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
   }
   void Game::drawTriangleScreen(Position a, Position b, Position c, Color color, bool isSolid)
   {
-    this->drawTriangleScreen(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
+    drawTriangleScreen(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
   }
   //------------------------------------------ DRAW CIRCLE -----------------------------------------------
   void Game::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
   {
-    this->drawCircle(CoordinateType::Map, x, y, radius, color, isSolid);
+    drawCircle(CoordinateType::Map, x, y, radius, color, isSolid);
   }
   void Game::drawCircleMouse(int x, int y, int radius, Color color, bool isSolid)
   {
-    this->drawCircle(CoordinateType::Mouse, x, y, radius, color, isSolid);
+    drawCircle(CoordinateType::Mouse, x, y, radius, color, isSolid);
   }
   void Game::drawCircleScreen(int x, int y, int radius, Color color, bool isSolid)
   {
-    this->drawCircle(CoordinateType::Screen, x, y, radius, color, isSolid);
+    drawCircle(CoordinateType::Screen, x, y, radius, color, isSolid);
   }
   void Game::drawCircleMap(Position p, int radius, Color color, bool isSolid)
   {
-    this->drawCircleMap(p.x, p.y, radius, color, isSolid);
+    drawCircleMap(p.x, p.y, radius, color, isSolid);
   }
   void Game::drawCircleMouse(Position p, int radius, Color color, bool isSolid)
   {
-    this->drawCircleMouse(p.x, p.y, radius, color, isSolid);
+    drawCircleMouse(p.x, p.y, radius, color, isSolid);
   }
   void Game::drawCircleScreen(Position p, int radius, Color color, bool isSolid)
   {
-    this->drawCircleScreen(p.x, p.y, radius, color, isSolid);
+    drawCircleScreen(p.x, p.y, radius, color, isSolid);
   }
   //------------------------------------------ DRAW ELLIPSE -----------------------------------------------
   void Game::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipse(CoordinateType::Map, x, y, xrad, yrad, color, isSolid);
+    drawEllipse(CoordinateType::Map, x, y, xrad, yrad, color, isSolid);
   }
   void Game::drawEllipseMouse(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipse(CoordinateType::Mouse, x, y, xrad, yrad, color, isSolid);
+    drawEllipse(CoordinateType::Mouse, x, y, xrad, yrad, color, isSolid);
   }
   void Game::drawEllipseScreen(int x, int y, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipse(CoordinateType::Screen, x, y, xrad, yrad, color, isSolid);
+    drawEllipse(CoordinateType::Screen, x, y, xrad, yrad, color, isSolid);
   }
   void Game::drawEllipseMap(Position p, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipseMap(p.x, p.y, xrad, yrad, color, isSolid);
+    drawEllipseMap(p.x, p.y, xrad, yrad, color, isSolid);
   }
   void Game::drawEllipseMouse(Position p, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipseMouse(p.x, p.y, xrad, yrad, color, isSolid);
+    drawEllipseMouse(p.x, p.y, xrad, yrad, color, isSolid);
   }
   void Game::drawEllipseScreen(Position p, int xrad, int yrad, Color color, bool isSolid)
   {
-    this->drawEllipseScreen(p.x, p.y, xrad, yrad, color, isSolid);
+    drawEllipseScreen(p.x, p.y, xrad, yrad, color, isSolid);
   }
   //------------------------------------------ DRAW DOT -----------------------------------------------
   void Game::drawDotMap(int x, int y, Color color)
   {
-    this->drawDot(CoordinateType::Map, x, y, color);
+    drawDot(CoordinateType::Map, x, y, color);
   }
   void Game::drawDotMouse(int x, int y, Color color)
   {
-    this->drawDot(CoordinateType::Mouse, x, y, color);
+    drawDot(CoordinateType::Mouse, x, y, color);
   }
   void Game::drawDotScreen(int x, int y, Color color)
   {
-    this->drawDot(CoordinateType::Screen, x, y, color);
+    drawDot(CoordinateType::Screen, x, y, color);
   }
   void Game::drawDotMap(Position p, Color color)
   {
-    this->drawDotMap(p.x, p.y, color);
+    drawDotMap(p.x, p.y, color);
   }
   void Game::drawDotMouse(Position p, Color color)
   {
-    this->drawDotMouse(p.x, p.y, color);
+    drawDotMouse(p.x, p.y, color);
   }
   void Game::drawDotScreen(Position p, Color color)
   {
-    this->drawDotScreen(p.x, p.y, color);
+    drawDotScreen(p.x, p.y, color);
   }
   //------------------------------------------ DRAW LINE -----------------------------------------------
   void Game::drawLineMap(int x1, int y1, int x2, int y2, Color color)
   {
-    this->drawLine(CoordinateType::Map, x1, y1, x2, y2, color);
+    drawLine(CoordinateType::Map, x1, y1, x2, y2, color);
   }
   void Game::drawLineMouse(int x1, int y1, int x2, int y2, Color color)
   {
-    this->drawLine(CoordinateType::Mouse, x1, y1, x2, y2, color);
+    drawLine(CoordinateType::Mouse, x1, y1, x2, y2, color);
   }
   void Game::drawLineScreen(int x1, int y1, int x2, int y2, Color color)
   {
-    this->drawLine(CoordinateType::Screen, x1, y1, x2, y2, color);
+    drawLine(CoordinateType::Screen, x1, y1, x2, y2, color);
   }
   void Game::drawLineMap(Position a, Position b, Color color)
   {
-    this->drawLineMap(a.x, a.y, b.x, b.y, color);
+    drawLineMap(a.x, a.y, b.x, b.y, color);
   }
   void Game::drawLineMouse(Position a, Position b, Color color)
   {
-    this->drawLineMouse(a.x, a.y, b.x, b.y, color);
+    drawLineMouse(a.x, a.y, b.x, b.y, color);
   }
   void Game::drawLineScreen(Position a, Position b, Color color)
   {
-    this->drawLineScreen(a.x, a.y, b.x, b.y, color);
+    drawLineScreen(a.x, a.y, b.x, b.y, color);
   }
 
 }

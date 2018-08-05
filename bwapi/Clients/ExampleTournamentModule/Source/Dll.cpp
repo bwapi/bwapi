@@ -3,7 +3,7 @@
 
 #include "ExampleTournamentModule.h"
 
-extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
+extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { /*BWAPI::BroodwarPtr = game;*/ }
 
 BOOL APIENTRY DllMain(HANDLE, DWORD, LPVOID)
 {

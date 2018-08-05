@@ -66,15 +66,23 @@ namespace BWAPI
     explicit constexpr Type(int id) : tid( id < 0 || id > UnknownId ? UnknownId : id ) {};
 
     /// <summary>A set type that contains the current type.</summary>
-    typedef SetContainer<T> set;
+    using set = SetContainer<T>;
 
     /// <summary>A list type that contains the current type.</summary>
-    typedef std::deque<T> list;
+    using list = std::vector<T>;
 
     /// <summary>Conversion/convenience operator to convert this type to its primitive type.</summary>
     ///
     /// @returns An integer representation of this type.
-    constexpr operator int() const { return this->tid; };
+    constexpr operator int() const { return tid; };
+
+    /// <summary>Conversion/convenience operator to validate this type.</summary>
+    ///
+    /// @returns The validity of the type.
+    /// @see isValid
+    constexpr explicit operator bool() const { return isValid(); }
+    constexpr bool operator==(Type const &other) { return tid == other.tid; }
+    constexpr bool operator!=(Type const &other) { return tid != other.tid; }
 
     /// <summary>Retrieves this type's identifier as an integer.</summary>
     ///

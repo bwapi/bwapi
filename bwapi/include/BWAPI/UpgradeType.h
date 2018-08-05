@@ -88,7 +88,7 @@ namespace BWAPI
   {
   public:
     /// @copydoc Type::Type(int)
-    constexpr UpgradeType(int id = UpgradeTypes::Enum::None) : Type(id) {}
+    constexpr explicit UpgradeType(int id = UpgradeTypes::Enum::None) : Type(id) {}
 
     /// <summary>Retrieves the race the upgrade is for.</summary>
     /// For example, UpgradeTypes::Terran_Infantry_Armor.getRace() will return Races::Terran.

@@ -8,8 +8,6 @@
 namespace BWAPI
 {
   // Forward Declarations
-  class PlayerInterface;
-  typedef PlayerInterface* Player;
 
   class Event
   {

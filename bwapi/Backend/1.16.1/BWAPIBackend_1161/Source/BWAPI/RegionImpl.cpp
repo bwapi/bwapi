@@ -4,6 +4,7 @@
 #include <BW/Pathing.h>
 
 #include <BWAPI/Game.h>
+#include <BWAPI/GameImpl.h>
 
 #include "../../../Debug.h"
 
@@ -15,20 +16,20 @@ namespace BWAPI
     const BW::region * const r = &BW::BWDATA::SAIPathing->regions[id];
 
     // Assign common region properties
-    self->islandID        = r->groupIndex;
-    self->center_x        = r->getCenter().x;
-    self->center_y        = r->getCenter().y;
+    data.islandID        = r->groupIndex;
+    data.center_x        = r->getCenter().x;
+    data.center_y        = r->getCenter().y;
 
-    self->isAccessible    = r->accessabilityFlags != 0x1FFD;
-    self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
-    self->priority        = r->defencePriority & 0x7F;
-    self->leftMost        = r->rgnBox.left;
-    self->rightMost       = r->rgnBox.right;
-    self->topMost         = r->rgnBox.top;
-    self->bottomMost      = r->rgnBox.bottom;
+    data.isAccessible    = r->accessabilityFlags != 0x1FFD;
+    data.isHigherGround  = r->accessabilityFlags == 0x1FF9;
+    data.priority        = r->defencePriority & 0x7F;
+    data.leftMost        = r->rgnBox.left;
+    data.rightMost       = r->rgnBox.right;
+    data.topMost         = r->rgnBox.top;
+    data.bottomMost      = r->rgnBox.bottom;
 
     // Connect the BWAPI Region and BW Region two ways
-    self->id  = id;
+    data.id  = id;
     
     this->closestAccessibleRgn    = nullptr;
     this->closestInaccessibleRgn  = nullptr;
@@ -36,7 +37,7 @@ namespace BWAPI
   void RegionImpl::UpdateRegionRelations()
   {
     // Assuming this is called via GameInternals, so no checks are made
-    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[self->id];
+    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[data.id];
 
     // Assign region neighbors
     this->neighbors.clear();
@@ -46,7 +47,7 @@ namespace BWAPI
     for ( int n = 0; n < r->neighborCount; ++n )
     {
       BW::region *neighbor = r->getNeighbor(static_cast<u8>(n));
-      BWAPI::Region bwapiNeighbor = Broodwar->getRegion(neighbor->getIndex());
+      BWAPI::Region bwapiNeighbor = BroodwarImpl.getRegion(neighbor->getIndex());
 
       // continue if this is null (but it shouldn't be)
       if ( !bwapiNeighbor )
@@ -72,12 +73,12 @@ namespace BWAPI
       }
 
       // Client compatibility for neighbors
-      ++self->neighborCount;
-      self->neighbors[n] = neighbor->getIndex();
+      ++data.neighborCount;
+      data.neighbors[n] = neighbor->getIndex();
     }
   }
-  RegionData *RegionImpl::getData()
+  RegionData &RegionImpl::getData()
   {
-    return self;
+    return data;
   }
 };

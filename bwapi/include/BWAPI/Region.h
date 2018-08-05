@@ -2,15 +2,12 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
-#include <BWAPI/Interface.h>
+#include <BWAPI/Game.h>
 
 namespace BWAPI
 {
   class Regionset;
   class Unitset;
-
-  class RegionInterface;
-  typedef RegionInterface *Region;
 
   /// <summary>Region objects are created by Starcraft: Broodwar to contain several tiles with the same
   /// properties, and create a node in pathfinding and other algorithms.</summary> Regions may not contain
@@ -22,18 +19,20 @@ namespace BWAPI
   ///
   /// @see Game::getAllRegions, Game::getRegionAt, UnitInterface::getRegion
   /// @ingroup Interface
-  class RegionInterface : public Interface<RegionInterface>
-  {
-  protected:
-    virtual ~RegionInterface() {};
+  class Region: public RegionID {
+    std::reference_wrapper<Game> game;
   public:
+    Region(Game &game, RegionID id): game{game}, RegionID{id} { }
+
+    Game &getGame() const;
+
     /// <summary>Retrieves a unique identifier for this region.</summary>
     ///
     /// @note This identifier is explicitly assigned by Broodwar.
     ///
     /// @returns An integer that represents this region.
     /// @see Game::getRegion
-    virtual int getID() const = 0;
+    RegionID getID() const { return RegionID{id}; }
 
     /// <summary>Retrieves a unique identifier for a group of regions that are all connected and
     /// accessible by each other.</summary> That is, all accessible regions will have the same
@@ -43,19 +42,19 @@ namespace BWAPI
     /// @note This identifier is explicitly assigned by Broodwar.
     ///
     /// @returns An integer that represents the group of regions that this one is attached to.
-    virtual int getRegionGroupID() const = 0;
+    int getRegionGroupID() const;
 
     /// <summary>Retrieves the center of the region.</summary> This position is used as the node
     /// of the region.
     ///
     /// @returns A Position indicating the center location of the Region, in pixels.
-    virtual BWAPI::Position getCenter() const = 0;
+    BWAPI::Position getCenter() const;
 
     /// <summary>Checks if this region is part of higher ground.</summary> Higher ground may be
     /// used in strategic placement of units and structures.
     ///
     /// @returns true if this region is part of strategic higher ground, and false otherwise.
-    virtual bool isHigherGround() const = 0;
+    bool isHigherGround() const;
 
     /// <summary>Retrieves a value that represents the strategic advantage of this region relative
     /// to other regions.</summary> A value of 2 may indicate a possible choke point, and a value
@@ -64,49 +63,49 @@ namespace BWAPI
     /// @note This value is explicitly assigned by Broodwar.
     ///
     /// @returns An integer indicating this region's strategic potential.
-    virtual int getDefensePriority() const = 0;
+    int getDefensePriority() const;
 
     /// <summary>Retrieves the state of accessibility of the region.</summary> The region is
     /// considered accessible if it can be accessed by ground units.
     ///
     /// @returns true if ground units can traverse this region, and false if the tiles in this
     /// region are inaccessible or unwalkable.
-    virtual bool isAccessible() const = 0;
+    bool isAccessible() const;
 
     /// <summary>Retrieves the set of neighbor Regions that this one is connected to.</summary>
     ///
     /// @returns A reference to a Regionset containing the neighboring Regions.
-    virtual const Regionset &getNeighbors() const = 0;
+    const Regionset &getNeighbors() const;
 
     /// <summary>Retrieves the approximate left boundary of the region.</summary>
     ///
     /// @returns The x coordinate, in pixels, of the approximate left boundary of the region.
-    virtual int getBoundsLeft() const = 0;
+    int getBoundsLeft() const;
 
     /// <summary>Retrieves the approximate top boundary of the region.</summary>
     ///
     /// @returns The y coordinate, in pixels, of the approximate top boundary of the region.
-    virtual int getBoundsTop() const = 0;
+    int getBoundsTop() const;
 
     /// <summary>Retrieves the approximate right boundary of the region.</summary>
     ///
     /// @returns The x coordinate, in pixels, of the approximate right boundary of the region.
-    virtual int getBoundsRight() const = 0;
+    int getBoundsRight() const;
 
     /// <summary>Retrieves the approximate bottom boundary of the region.</summary>
     ///
     /// @returns The y coordinate, in pixels, of the approximate bottom boundary of the region.
-    virtual int getBoundsBottom() const = 0;
+    int getBoundsBottom() const;
 
     /// <summary>Retrieves the closest accessible neighbor region.</summary>
     ///
     /// @returns The closest Region that is accessible.
-    virtual BWAPI::Region getClosestAccessibleRegion() const = 0;
+    BWAPI::Region getClosestAccessibleRegion() const;
 
     /// <summary>Retrieves the closest inaccessible neighbor region.</summary>
     ///
     /// @returns The closest Region that is inaccessible.
-    virtual BWAPI::Region getClosestInaccessibleRegion() const = 0;
+    BWAPI::Region getClosestInaccessibleRegion() const;
 
     /// <summary>Retrieves the center-to-center distance between two regions.</summary>
     ///
@@ -132,5 +131,8 @@ namespace BWAPI
     ///
     /// @see UnitFilter
     Unitset getUnits(const UnitFilter &pred = nullptr) const;
+
+    Region *operator->() { return this; }
+    Region const *operator->() const { return this; }
   };
 };

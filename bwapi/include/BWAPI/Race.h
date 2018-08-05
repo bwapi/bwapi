@@ -41,7 +41,7 @@ namespace BWAPI
   {
     public:
       /// @copydoc Type::Type(int)
-      constexpr Race(int id = Races::Enum::None) : Type(id) {}
+      constexpr explicit Race(int id = Races::Enum::None) : Type(id) {}
 
       /// <summary>Retrieves the default worker type for this Race.</summary>
       /// 

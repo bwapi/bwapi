@@ -14,50 +14,66 @@
 
 namespace BWAPI
 {
-  //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
-  Unitset UnitInterface::getUnitsInRadius(int radius, const UnitFilter &pred) const
+  UnitData const &Unit::getUnitData() const
   {
-    // Return if this unit does not exist
-    if ( !this->exists() )
-      return Unitset::none;
-
-    return Broodwar->getUnitsInRectangle(this->getLeft()   - radius,
-                                         this->getTop()    - radius,
-                                         this->getRight()  + radius,
-                                         this->getBottom() + radius,
-                                         [&](Unit u){ return this != u && this->getDistance(u) <= radius && (!pred.isValid() || pred(u)); });
+    return getGame().getUnitData(getID());
   }
 
-  Unit UnitInterface::getClosestUnit(const UnitFilter &pred, int radius) const
+  UnitData const &Unit::getInitialData() const
+  {
+    return getGame().getInitialData(getID());
+  }
+  
+  Player Unit::getPlayer() const
+  {
+    return {getGame(), getUnitData().player};
+  }
+//------------------------------------------------ GET UNITS IN RADIUS
+//-------------------------------------
+Unitset Unit::getUnitsInRadius(int radius, const UnitFilter &pred) const
+  {
+  // Return if this unit does not exist
+  if (!this->exists())
+    return Unitset::none;
+
+  return getGame().getUnitsInRectangle(
+      this->getLeft() - radius, this->getTop() - radius,
+      this->getRight() + radius, this->getBottom() + radius, [&](Unit u) {
+        return *this != u && getDistance(u) <= radius &&
+               (!pred.isValid() || pred(u));
+      });
+  }
+
+  Unit Unit::getClosestUnit(const UnitFilter &pred, int radius) const
   {
     // Return if this unit does not exist
-    if ( !this->exists() )
-      return nullptr;
+    if ( !exists() )
+      return {getGame(), UnitID{-1}};
     
-    return Broodwar->getClosestUnitInRectangle(this->getPosition(), 
-                                                [&](Unit u){ return this != u && this->getDistance(u) <= radius && (!pred.isValid() || pred(u)); }, 
+    return getGame().getClosestUnitInRectangle(this->getPosition(),
+                                                [&](Unit u){ return *this != u && getDistance(u) <= radius && (!pred.isValid() || pred(u)); }, 
                                                 this->getLeft()   - radius,
                                                 this->getTop()    - radius,
                                                 this->getRight()  + radius,
                                                 this->getBottom() + radius);
   }
   //--------------------------------------------- GET UNITS IN WEAPON RANGE ----------------------------------
-  Unitset UnitInterface::getUnitsInWeaponRange(WeaponType weapon, const UnitFilter &pred) const
+  Unitset Unit::getUnitsInWeaponRange(WeaponType weapon, const UnitFilter &pred) const
   {
     // Return if this unit does not exist
     if ( !this->exists() )
       return Unitset::none;
 
-    int max = this->getPlayer()->weaponMaxRange(weapon);
+    int max = getPlayer().weaponMaxRange(weapon);
 
-    return Broodwar->getUnitsInRectangle(this->getLeft()    - max,
+    return getGame().getUnitsInRectangle(this->getLeft()    - max,
                                          this->getTop()     - max,
                                          this->getRight()   + max,
                                          this->getBottom()  + max,
                                          [&](Unit u)->bool
                                          {
                                           // Unit check and unit status
-                                          if ( u == this || u->isInvincible() )
+                                          if ( u == *this || u->isInvincible() )
                                             return false;
 
                                           // Weapon distance check
@@ -80,17 +96,11 @@ namespace BWAPI
                                           return pred(u);
                                         });
   }
-  //--------------------------------------------- GET TILE POSITION ------------------------------------------
-  TilePosition UnitInterface::getTilePosition() const
-  {
-    return TilePosition( Position(abs(this->getPosition().x - this->getType().tileWidth()  * 32 / 2),
-                                  abs(this->getPosition().y - this->getType().tileHeight() * 32 / 2)) );
-  }
   //--------------------------------------------- GET DISTANCE -----------------------------------------------
-  int UnitInterface::getDistance(Position target) const
+  int Unit::getDistance(Position target) const
   {
     // If this unit does not exist or target is invalid
-    if (!exists() || !target)
+    if (!exists() || !getGame().isValid(target))
       return std::numeric_limits<int>::max();
 
     /////// Compute distance
@@ -122,14 +132,14 @@ namespace BWAPI
     // compute actual distance
     return Positions::Origin.getApproxDistance(Position(xDist, yDist));
   }
-  int UnitInterface::getDistance(Unit target) const
+  int Unit::getDistance(Unit target) const
   {
     // If this unit does not exist or target is invalid
     if (!exists() || !target || !target->exists())
       return std::numeric_limits<int>::max();
 
     // If target is the same as the source
-    if (this == target)
+    if (*this == target)
       return 0;
 
     /////// Compute distance
@@ -162,12 +172,12 @@ namespace BWAPI
     return Positions::Origin.getApproxDistance(Position(xDist, yDist));
   }
   //--------------------------------------------- HAS PATH ---------------------------------------------------
-  bool UnitInterface::hasPath(Position target) const
+  bool Unit::hasPath(Position target) const
   {
-    Broodwar->setLastError();
+    getGame().setLastError();
     // Return error if the position is invalid
-    if (!target)
-      return Broodwar->setLastError(Errors::Invalid_Parameter);
+    if (!getGame().isValid(target))
+      return getGame().setLastError(Errors::Invalid_Parameter);
 
     // Return true if this unit is an air unit
     if (this->isFlying())
@@ -175,103 +185,52 @@ namespace BWAPI
 
     // Return error if this does not exist
     if (!exists())
-      return Broodwar->setLastError(Errors::Unit_Not_Visible);
+      return getGame().setLastError(Errors::Unit_Not_Visible);
 
     // Check the center of the unit (most common behaviour)
-    if (Broodwar->hasPath(this->getPosition(), target))
+    if (getGame().hasPath(this->getPosition(), target))
       return true;
 
     // Otherwise check all four corners of the unit, in case it accidentally fell out of its region
-    if (Broodwar->hasPath(Position(getLeft(), getTop()), target))
+    if (getGame().hasPath(Position(getLeft(), getTop()), target))
       return true;
 
-    if (Broodwar->hasPath(Position(getRight(), getTop()), target))
+    if (getGame().hasPath(Position(getRight(), getTop()), target))
       return true;
 
-    if (Broodwar->hasPath(Position(getLeft(), getBottom()), target))
+    if (getGame().hasPath(Position(getLeft(), getBottom()), target))
       return true;
 
-    return Broodwar->hasPath(Position(getRight(), getBottom()), target);
+    return getGame().hasPath(Position(getRight(), getBottom()), target);
   }
-  bool UnitInterface::hasPath(Unit target) const
+  bool Unit::hasPath(Unit target) const
   {
-    Broodwar->setLastError();
+    getGame().setLastError();
     // Return error if the target is invalid
     if (!target)
-      return Broodwar->setLastError(Errors::Invalid_Parameter);
+      return getGame().setLastError(Errors::Invalid_Parameter);
 
     // Return error if target does not exist
     if (!target->exists())
-      return Broodwar->setLastError(Errors::Unit_Not_Visible);
+      return getGame().setLastError(Errors::Unit_Not_Visible);
 
     return hasPath(target->getPosition());
   }
+  Player Unit::getLastAttackingPlayer() const
+  {
+    return { getGame(), getUnitData().lastAttackerPlayer };
+  }
   //--------------------------------------------- GET REGION -------------------------------------------------
-  BWAPI::Region UnitInterface::getRegion() const
+  Region Unit::getRegion() const
   {
-    return Broodwar->getRegionAt(this->getPosition());
-  }
-  //--------------------------------------------- GET LEFT ---------------------------------------------------
-  int UnitInterface::getLeft() const
-  {
-    return this->getPosition().x - this->getType().dimensionLeft();
-  }
-  //--------------------------------------------- GET TOP ----------------------------------------------------
-  int UnitInterface::getTop() const
-  {
-    return this->getPosition().y - this->getType().dimensionUp();
-  }
-  //--------------------------------------------- GET RIGHT --------------------------------------------------
-  int UnitInterface::getRight() const
-  {
-    return this->getPosition().x + this->getType().dimensionRight();
-  }
-  //--------------------------------------------- GET BOTTOM -------------------------------------------------
-  int UnitInterface::getBottom() const
-  {
-    return this->getPosition().y + this->getType().dimensionDown();
-  }
-  //--------------------------------------------- IS BEING CONSTRUCTED ---------------------------------------
-  bool UnitInterface::isBeingConstructed() const
-  {
-    if ( this->isMorphing() )
-      return true;
-    if ( this->isCompleted() )
-      return false;
-    if ( this->getType().getRace() != Races::Terran )
-      return true;
-    return this->getBuildUnit() != nullptr;
-  }
-  // ------------------------------------------ STATUS ---------------------------------------------
-  bool UnitInterface::isDefenseMatrixed() const
-  {
-    return this->getDefenseMatrixTimer() != 0;
-  }
-
-  bool UnitInterface::isEnsnared() const
-  {
-    return this->getEnsnareTimer() != 0;
-  }
-
-  bool UnitInterface::isFollowing() const
-  {
-    return this->getOrder() == Orders::Follow;
-  }
-  bool UnitInterface::isFlying() const
-  {
-    return this->getType().isFlyer() || this->isLifted();
-  }
-
-  bool UnitInterface::isHoldingPosition() const
-  {
-    return this->getOrder() == Orders::HoldPosition;
+    return getGame().getRegionAt(this->getPosition());
   }
 
   //--------------------------------------------- IS IN WEAPON RANGE -----------------------------------------
-  bool UnitInterface::isInWeaponRange(Unit target) const
+  bool Unit::isInWeaponRange(Unit target) const
   {
     // Preliminary checks
-    if ( !this->exists() || !target || !target->exists() || this == target )
+    if ( !this->exists() || !target || !target->exists() || *this == target )
       return false;
 
     // Store the types as locals
@@ -294,301 +253,244 @@ namespace BWAPI
     return (minRange ? minRange < distance : true) && distance <= maxRange;
   }
 
-  bool UnitInterface::isIrradiated() const
-  {
-    return this->getIrradiateTimer() != 0;
-  }
-
-  bool UnitInterface::isLoaded() const
-  {
-    return this->getTransport() != nullptr;
-  }
-
-  bool UnitInterface::isLockedDown() const
+  bool Unit::isLockedDown() const
   {
     return this->getLockdownTimer() != 0;
   }
 
-  bool UnitInterface::isMaelstrommed() const
+  bool Unit::isMaelstrommed() const
   {
     return this->getMaelstromTimer() != 0;
   }
-
-  bool UnitInterface::isPatrolling() const
-  {
-    return this->getOrder() == Orders::Patrol;
-  }
-
-  bool UnitInterface::isPlagued() const
-  {
-    return this->getPlagueTimer() != 0;
-  }
-
-  bool UnitInterface::isRepairing() const
-  {
-    return this->getOrder() == Orders::Repair;
-  }
-
-  bool UnitInterface::isResearching() const
-  {
-    return this->getOrder() == Orders::ResearchTech;
-  }
-
-  bool UnitInterface::isSieged() const
-  {
-    UnitType t(this->getType());
-    return  t == UnitTypes::Terran_Siege_Tank_Siege_Mode || 
-            t == UnitTypes::Hero_Edmund_Duke_Siege_Mode;
-  }
-
-  bool UnitInterface::isStasised() const
-  {
-    return this->getStasisTimer() != 0;
-  }
-
-  bool UnitInterface::isStimmed() const
-  {
-    return this->getStimTimer() != 0;
-  }
-
-  bool UnitInterface::isUpgrading() const
-  {
-    return this->getOrder() == Orders::Upgrade;
-  }
-
-  int UnitInterface::getSpaceRemaining() const
-  {
-    int space = this->getType().spaceProvided();
-
-    // Decrease the space for each loaded unit
-    for (auto &u : getLoadedUnits())
-      space -= u->getType().spaceRequired();
-
-    return std::max(space, 0);
+  bool Unit::isVisible(Player player) const {
+    auto const iplayer = static_cast<int>(player.getID());
+    return player && iplayer < 9 && getUnitData().isVisible[iplayer];
   }
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
-  bool UnitInterface::attack(Position target, bool shiftQueueCommand)
+  bool Unit::attack(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::attack(getID(), target, shiftQueueCommand));
   }
-  bool UnitInterface::attack(Unit target, bool shiftQueueCommand)
+  bool Unit::attack(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::attack(this, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::attack(getID(), target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
-  bool UnitInterface::build(UnitType type, TilePosition target)
+  bool Unit::build(UnitType type, TilePosition target) const
   {
     if ( target == TilePositions::None )
       return this->train(type);
-    return this->issueCommand(UnitCommand::build(this, target, type));
+    return this->issueCommand(UnitCommand::build(getID(), target, type));
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
-  bool UnitInterface::buildAddon(UnitType type)
+  bool Unit::buildAddon(UnitType type) const
   {
-    return this->issueCommand(UnitCommand::buildAddon(this,type));
+    return issueCommand(UnitCommand::buildAddon(getID(),type));
   }
   //--------------------------------------------- TRAIN ------------------------------------------------------
-  bool UnitInterface::train(UnitType type)
+  bool Unit::train(UnitType type) const
   {
     // Carrier/Reaver specialization
     if ( type == UnitTypes::None )
     {
-      switch ( this->getType() )
+      switch (getType())
       {
-      case UnitTypes::Enum::Protoss_Carrier:
-      case UnitTypes::Enum::Hero_Gantrithor:
+      case UnitTypes::Protoss_Carrier:
+      case UnitTypes::Hero_Gantrithor:
         type = UnitTypes::Protoss_Interceptor;
         break;
-      case UnitTypes::Enum::Protoss_Reaver:
-      case UnitTypes::Enum::Hero_Warbringer:
+      case UnitTypes::Protoss_Reaver:
+      case UnitTypes::Hero_Warbringer:
         type = UnitTypes::Protoss_Scarab;
         break;
       }
     }
-    return this->issueCommand(UnitCommand::train(this,type));
+    return issueCommand(UnitCommand::train(getID(),type));
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
-  bool UnitInterface::morph(UnitType type)
+  bool Unit::morph(UnitType type) const
   {
-    return this->issueCommand(UnitCommand::morph(this,type));
+    return issueCommand(UnitCommand::morph(getID(),type));
   }
   //--------------------------------------------- RESEARCH ---------------------------------------------------
-  bool UnitInterface::research(TechType tech)
+  bool Unit::research(TechType tech) const
   {
-    return this->issueCommand(UnitCommand::research(this,tech));
+    return issueCommand(UnitCommand::research(getID(),tech));
   }
   //--------------------------------------------- UPGRADE ----------------------------------------------------
-  bool UnitInterface::upgrade(UpgradeType upgrade)
+  bool Unit::upgrade(UpgradeType upgrade) const
   {
-    return this->issueCommand(UnitCommand::upgrade(this,upgrade));
+    return issueCommand(UnitCommand::upgrade(getID(),upgrade));
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
-  bool UnitInterface::setRallyPoint(Unit target)
+  bool Unit::setRallyPoint(Unit target) const
   {
-    return this->issueCommand(UnitCommand::setRallyPoint(this, target));
+    return issueCommand(UnitCommand::setRallyPoint(getID(), target.getID()));
   }
-  bool UnitInterface::setRallyPoint(Position target)
+  bool Unit::setRallyPoint(Position target) const
   {
-    return this->issueCommand(UnitCommand::setRallyPoint(this, target));
+    return issueCommand(UnitCommand::setRallyPoint(getID(), target));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
-  bool UnitInterface::move(Position target, bool shiftQueueCommand)
+  bool Unit::move(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::move(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::move(getID(),target, shiftQueueCommand));
   }
   //--------------------------------------------- PATROL -----------------------------------------------------
-  bool UnitInterface::patrol(Position target, bool shiftQueueCommand)
+  bool Unit::patrol(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::patrol(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::patrol(getID(),target, shiftQueueCommand));
   }
   //--------------------------------------------- HOLD POSITION ----------------------------------------------
-  bool UnitInterface::holdPosition(bool shiftQueueCommand)
+  bool Unit::holdPosition(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::holdPosition(this, shiftQueueCommand));
+    return issueCommand(UnitCommand::holdPosition(getID(), shiftQueueCommand));
   }
   //--------------------------------------------- STOP -------------------------------------------------------
-  bool UnitInterface::stop(bool shiftQueueCommand)
+  bool Unit::stop(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::stop(this, shiftQueueCommand));
+    return issueCommand(UnitCommand::stop(getID(), shiftQueueCommand));
   }
   //--------------------------------------------- FOLLOW -----------------------------------------------------
-  bool UnitInterface::follow(Unit target, bool shiftQueueCommand)
+  bool Unit::follow(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::follow(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::follow(getID(),target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- GATHER -----------------------------------------------------
-  bool UnitInterface::gather(Unit target, bool shiftQueueCommand)
+  bool Unit::gather(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::gather(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::gather(getID(),target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
-  bool UnitInterface::returnCargo(bool shiftQueueCommand)
+  bool Unit::returnCargo(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::returnCargo(this, shiftQueueCommand));
+    return issueCommand(UnitCommand::returnCargo(getID(), shiftQueueCommand));
   }
   //--------------------------------------------- REPAIR -----------------------------------------------------
-  bool UnitInterface::repair(Unit target, bool shiftQueueCommand)
+  bool Unit::repair(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::repair(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::repair(getID(),target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- BURROW -----------------------------------------------------
-  bool UnitInterface::burrow()
+  bool Unit::burrow() const
   {
-    return this->issueCommand(UnitCommand::burrow(this));
+    return issueCommand(UnitCommand::burrow(getID()));
   }
   //--------------------------------------------- UNBURROW ---------------------------------------------------
-  bool UnitInterface::unburrow()
+  bool Unit::unburrow() const
   {
-    return this->issueCommand(UnitCommand::unburrow(this));
+    return issueCommand(UnitCommand::unburrow(getID()));
   }
   //--------------------------------------------- CLOAK ------------------------------------------------------
-  bool UnitInterface::cloak()
+  bool Unit::cloak() const
   {
-    return this->issueCommand(UnitCommand::cloak(this));
+    return issueCommand(UnitCommand::cloak(getID()));
   }
   //--------------------------------------------- DECLOAK ----------------------------------------------------
-  bool UnitInterface::decloak()
+  bool Unit::decloak() const
   {
-    return this->issueCommand(UnitCommand::decloak(this));
+    return issueCommand(UnitCommand::decloak(getID()));
   }
   //--------------------------------------------- SIEGE ------------------------------------------------------
-  bool UnitInterface::siege()
+  bool Unit::siege() const
   {
-    return this->issueCommand(UnitCommand::siege(this));
+    return issueCommand(UnitCommand::siege(getID()));
   }
   //--------------------------------------------- UNSIEGE ----------------------------------------------------
-  bool UnitInterface::unsiege()
+  bool Unit::unsiege() const
   {
-    return this->issueCommand(UnitCommand::unsiege(this));
+    return issueCommand(UnitCommand::unsiege(getID()));
   }
   //--------------------------------------------- LIFT -------------------------------------------------------
-  bool UnitInterface::lift()
+  bool Unit::lift() const
   {
-    return this->issueCommand(UnitCommand::lift(this));
+    return issueCommand(UnitCommand::lift(getID()));
   }
   //--------------------------------------------- LAND -------------------------------------------------------
-  bool UnitInterface::land(TilePosition target)
+  bool Unit::land(TilePosition target) const
   {
-    return this->issueCommand(UnitCommand::land(this,target));
+    return issueCommand(UnitCommand::land(getID(),target));
   }
   //--------------------------------------------- LOAD -------------------------------------------------------
-  bool UnitInterface::load(Unit target, bool shiftQueueCommand)
+  bool Unit::load(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::load(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::load(getID(),target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD -----------------------------------------------------
-  bool UnitInterface::unload(Unit target)
+  bool Unit::unload(Unit target) const
   {
-    return this->issueCommand(UnitCommand::unload(this,target));
+    return issueCommand(UnitCommand::unload(getID(),target.getID()));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitInterface::unloadAll(bool shiftQueueCommand)
+  bool Unit::unloadAll(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::unloadAll(this, shiftQueueCommand));
+    return issueCommand(UnitCommand::unloadAll(getID(), shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
-  bool UnitInterface::unloadAll(Position target, bool shiftQueueCommand)
+  bool Unit::unloadAll(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::unloadAll(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::unloadAll(getID(),target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
-  bool UnitInterface::rightClick(Position target, bool shiftQueueCommand)
+  bool Unit::rightClick(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::rightClick(this,target, shiftQueueCommand));
+    return issueCommand(UnitCommand::rightClick(getID(),target, shiftQueueCommand));
   }
-  bool UnitInterface::rightClick(Unit target, bool shiftQueueCommand)
+  bool Unit::rightClick(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::rightClick(this, target, shiftQueueCommand));
+    return issueCommand(UnitCommand::rightClick(getID(), target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
-  bool UnitInterface::haltConstruction()
+  bool Unit::haltConstruction() const
   {
-    return this->issueCommand(UnitCommand::haltConstruction(this));
+    return issueCommand(UnitCommand::haltConstruction(getID()));
   }
   //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
-  bool UnitInterface::cancelConstruction()
+  bool Unit::cancelConstruction() const
   {
-    return this->issueCommand(UnitCommand::cancelConstruction(this));
+    return issueCommand(UnitCommand::cancelConstruction(getID()));
   }
   //--------------------------------------------- CANCEL ADDON -----------------------------------------------
-  bool UnitInterface::cancelAddon()
+  bool Unit::cancelAddon() const
   {
-    return this->issueCommand(UnitCommand::cancelAddon(this));
+    return issueCommand(UnitCommand::cancelAddon(getID()));
   }
   //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
-  bool UnitInterface::cancelTrain(int slot)
+  bool Unit::cancelTrain(int slot) const
   {
-    return this->issueCommand(UnitCommand::cancelTrain(this, slot));
+    return issueCommand(UnitCommand::cancelTrain(getID(), slot));
   }
   //--------------------------------------------- CANCEL MORPH -----------------------------------------------
-  bool UnitInterface::cancelMorph()
+  bool Unit::cancelMorph() const
   {
-    return this->issueCommand(UnitCommand::cancelMorph(this));
+    return issueCommand(UnitCommand::cancelMorph(getID()));
   }
   //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
-  bool UnitInterface::cancelResearch()
+  bool Unit::cancelResearch() const
   {
-    return this->issueCommand(UnitCommand::cancelResearch(this));
+    return issueCommand(UnitCommand::cancelResearch(getID()));
   }
   //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
-  bool UnitInterface::cancelUpgrade()
+  bool Unit::cancelUpgrade() const
   {
-    return this->issueCommand(UnitCommand::cancelUpgrade(this));
+    return issueCommand(UnitCommand::cancelUpgrade(getID()));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
-  bool UnitInterface::useTech(TechType tech, Position target)
+  bool Unit::useTech(TechType tech, Position target) const
   {
-    return this->issueCommand(UnitCommand::useTech(this, tech, target));
+    return issueCommand(UnitCommand::useTech(getID(), tech, target));
   }
-  bool UnitInterface::useTech(TechType tech, Unit target)
+  bool Unit::useTech(TechType tech, Unit target) const
   {
-    if (target == nullptr)
-      return this->issueCommand(UnitCommand::useTech(this, tech));
-    return this->issueCommand(UnitCommand::useTech(this, tech, target));
+    return issueCommand(UnitCommand::useTech(getID(), tech, target.getID()));
+  }
+  bool Unit::useTech(TechType tech) const
+  {
+    return issueCommand(UnitCommand::useTech(getID(), tech));
   }
   //--------------------------------------------- PLACE COP --------------------------------------------------
-  bool UnitInterface::placeCOP(TilePosition target)
+  bool Unit::placeCOP(TilePosition target) const
   {
-    return this->issueCommand(UnitCommand::placeCOP(this, target));
+    return issueCommand(UnitCommand::placeCOP(getID(), target));
   }
 };

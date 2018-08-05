@@ -6,14 +6,14 @@
 
 namespace BWAPI
 {
-  int RegionInterface::getDistance(BWAPI::Region other) const
+  int Region::getDistance(BWAPI::Region other) const
   {
     return this->getCenter().getApproxDistance(other->getCenter());
   }
 
-  Unitset RegionInterface::getUnits(const UnitFilter &pred) const
+  Unitset Region::getUnits(const UnitFilter &pred) const
   {
-    return Broodwar->getUnitsInRectangle(this->getBoundsLeft(),
+    return getGame().getUnitsInRectangle(this->getBoundsLeft(),
                                          this->getBoundsTop(),
                                          this->getBoundsRight(),
                                          this->getBoundsBottom(),

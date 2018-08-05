@@ -3,11 +3,6 @@
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Player.h>
 
-#include <BWAPI/Filters.h>
-#include <BWAPI/Game.h>
-
-#include <utility>
-
 namespace BWAPI
 {
   Unitset Playerset::getUnits() const
@@ -31,11 +26,11 @@ namespace BWAPI
     return retSet;
   }
 
-  void Playerset::setAlliance(bool allies, bool alliedVictory)
+  void Playerset::setAlliance(Game &game, bool allies, bool alliedVictory)
   {
     for (auto &p : *this)
     {
-      Broodwar->setAlliance(p, allies, alliedVictory);
+      game.setAlliance(p, allies, alliedVictory);
     }
   }
 }

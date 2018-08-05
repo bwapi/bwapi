@@ -3,15 +3,16 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/TechType.h>
+#include <BWAPI/PlayerType.h>
 
 namespace BWAPI
 {
   struct PlayerData
   {
-    char name[25];
-    int  race;
-    int  type;
-    int  force;
+    std::string name;
+    BWAPI::Race race;
+    BWAPI::PlayerType type;
+    BWAPI::Force force;
     bool isAlly[12];
     bool isEnemy[12];
     bool isNeutral;
@@ -44,7 +45,7 @@ namespace BWAPI
     bool isResearching[TechTypes::Enum::MAX];
     bool isUpgrading[UpgradeTypes::Enum::MAX];
 
-    int color;
+    BWAPI::Color color;
 
     int totalUnitScore;
     int totalKillScore;
