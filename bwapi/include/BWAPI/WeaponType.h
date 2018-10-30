@@ -226,25 +226,22 @@ namespace BWAPI
       /// @returns Maximum attack range, in pixels.
       int maxRange() const;
 
-      /// <summary>Retrieves the inner radius used for splash damage calculations, in pixels.</summary>
+      /// <summary>Retrieves the inner radius used for splash damage calculations, in pixels.
+      /// Units in this area take 100% damage.</summary>
       /// 
       /// @returns Radius of the inner splash area, in pixels.
-      ///
-      /// @todo Add damage calculation.
       int innerSplashRadius() const;
 
-      /// <summary>Retrieves the middle radius used for splash damage calculations, in pixels.</summary>
+      /// <summary>Retrieves the middle radius used for splash damage calculations, in pixels.
+      /// Units in this area take 50% damage.</summary>
       /// 
       /// @returns Radius of the middle splash area, in pixels.
-      ///
-      /// @todo Add damage calculation.
       int medianSplashRadius() const;
 
       /// <summary>Retrieves the outer radius used for splash damage calculations, in pixels.</summary>
+      /// Units in this area take 25% damage.</summary>
       /// 
       /// @returns Radius of the outer splash area, in pixels.
-      ///
-      /// @todo Add damage calculation.
       int outerSplashRadius() const;
 
       /// <summary>Checks if this weapon type can target air units.</summary>

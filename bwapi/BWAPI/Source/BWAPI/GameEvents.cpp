@@ -23,6 +23,9 @@ namespace BWAPI
     // This function is called at the start of every match
     this->initializeData();
 
+    // Set the speed override
+    this->setLocalSpeedDirect(this->speedOverride);
+
     // initialize the variables
     //this->frameCount      = 0;
     this->onStartCalled   = true;

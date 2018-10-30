@@ -86,8 +86,8 @@ namespace BWAPI
     explicit operator bool() const { return this->isValid(); };
     
     bool operator == (const Point<T,Scale> &pos) const
-    { 
-      return std::tie(this->x, this->y) == std::tie(pos.x, pos.y);
+    {
+      return this->x == pos.x && this->y == pos.y;
     }; 
     bool operator != (const Point<T,Scale> &pos) const
     { 
@@ -98,7 +98,9 @@ namespace BWAPI
     /// Compares lexicographically the x position, followed by the y position.
     bool operator  < (const Point<T,Scale> &position) const
     {
-      return std::tie(this->x, this->y) < std::tie(position.x, position.y);
+      if(this->x == position.x)
+        return this->y < position.y;
+      return this->x < position.x;
     };
 
     inline Point<T, Scale> &operator += (const Point<T, Scale> &p)

@@ -14,6 +14,7 @@
 #include <BWAPI/CoordinateType.h>
 
 #include "CommandOptimizer.h"
+#include "Command.h"
 #include "APMCounter.h"
 #include "FPSCounter.h"
 #include "AutoMenuManager.h"
@@ -32,7 +33,6 @@ namespace BWAPI
 {
   // forwards
   class AIModule;
-  class Command;
   class BulletImpl;
   class Bulletset;
 
@@ -207,7 +207,7 @@ namespace BWAPI
       static void mouseDown(int x, int y);
       static void mouseUp(int x, int y);
 
-      void addToCommandBuffer(Command* command);
+      void addToCommandBuffer(Command command);
       void onGameStart();
       void onGameEnd();
       static int stormIdToPlayerId(int dwStormId);
@@ -316,7 +316,7 @@ namespace BWAPI
       std::unordered_map<int, Region> regionMap;
 
       std::array<BulletImpl*, BW::BULLET_ARRAY_MAX_LENGTH> bulletArray;
-      std::vector< std::vector<Command *> > commandBuffer;
+      std::vector<std::vector<Command>> commandBuffer;
 
       void updateUnits();
       void updateBullets();

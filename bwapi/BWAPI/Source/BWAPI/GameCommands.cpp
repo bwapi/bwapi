@@ -12,26 +12,39 @@
 namespace BWAPI
 {
   //----------------------------------------- ADD TO COMMAND BUFFER ------------------------------------------
-  void GameImpl::addToCommandBuffer(Command* command)
+  void GameImpl::addToCommandBuffer(Command command)
   {
-    //executes latency compensation code and added it to the buffer
-    command->execute(0);
-    this->commandBuffer[this->commandBuffer.size() - 1].push_back(command);
+    std::move(command).insertIntoCommandBuffer(this->commandBuffer);
   }
   //----------------------------------------- APPLY LATENCY COMPENSATION
   void GameImpl::applyLatencyCompensation()
   {
-    //apply latency compensation
-    while ((int)(this->commandBuffer.size()) > this->getLatency()+15)
+    // Remove the current frame from the buffer and execute the current frame
+    // (only some actions execute on the current frame, like resource reserving)
+    if (!this->commandBuffer.empty())
     {
-      for (unsigned int i = 0; i < this->commandBuffer.front().size(); ++i)
-        delete this->commandBuffer.front()[i];
-      this->commandBuffer.erase(this->commandBuffer.begin());
+      for (auto &command : this->commandBuffer.front())
+      {
+        command.execute(true);
+      }
+      this->commandBuffer.erase(std::begin(this->commandBuffer));
     }
-    this->commandBuffer.push_back(std::vector<Command *>());
-    for (unsigned int i = 0; i < this->commandBuffer.size(); ++i)
-      for (unsigned int j = 0; j < this->commandBuffer[i].size(); ++j)
-        this->commandBuffer[i][j]->execute(this->commandBuffer.size()-1-i);
+
+    // Apply latency compensation
+    for (auto buf = 0; buf < getRemainingLatencyFrames()
+                    && buf < static_cast<int>(this->commandBuffer.size()); ++buf)
+    {
+      for (auto &command : this->commandBuffer[buf])
+      {
+        command.execute();
+      }
+    }
+
+    // Prepare buffer space for new commands
+    if (this->commandBuffer.size() < static_cast<size_t>(getRemainingLatencyFrames() + 15))
+    {
+      this->commandBuffer.resize(getRemainingLatencyFrames() + 15);
+    }
   }
 
   //--------------------------------------------- EXECUTE COMMAND --------------------------------------------
