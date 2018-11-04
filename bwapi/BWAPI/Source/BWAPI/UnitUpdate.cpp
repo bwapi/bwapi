@@ -276,7 +276,6 @@ namespace BWAPI
       self->lastHitPoints       = wasAccessible ? self->hitPoints : _getHitPoints;  //getHitPoints
       self->hitPoints           = _getHitPoints;  //getHitPoints
       self->shields             = _getType.maxShields() > 0 ? (int)std::ceil(o->shieldPoints/256.0) : 0;  //getShields
-      self->energy              = _getType.isSpellcaster()  ? (int)std::ceil(o->energy/256.0)       : 0;  //getEnergy
       self->resources           = _getResources;                        //getResources
       self->resourceGroup       = _getType.isResourceContainer() ? o->resource.resourceGroup : 0; //getResourceGroup
       self->killCount           = o->killCount;        //getKillCount
@@ -446,7 +445,6 @@ namespace BWAPI
       self->lastHitPoints       = 0;      //getHitPoints
       self->hitPoints           = 0;      //getHitPoints
       self->shields             = 0;      //getShields
-      self->energy              = 0;      //getEnergy
       //self->resources           = 0;      //getResources
       self->resourceGroup       = 0;      //getResourceGroup
       self->killCount           = 0;      //getKillCount
@@ -520,6 +518,10 @@ namespace BWAPI
       self->remainingUpgradeTime  = 0;
       self->remainingBuildTime    = 0;
       self->rallyUnit             = -1;
+      
+      //------------------------------------------------------------------------------------------------------
+      // getEnergy
+      self->energy = _getType.isSpellcaster() ? (int)std::ceil(o->energy / 256.0) : 0;
 
       //------------------------------------------------------------------------------------------------------
       // getTrainingQueue
@@ -627,6 +629,7 @@ namespace BWAPI
     }
     else
     {
+      self->energy                = 0;                    //getEnergy
       self->buildType             = UnitTypes::None;     //getBuildType
       self->trainingQueueCount    = 0;                    //getTrainingQueue
       self->tech                  = TechTypes::None;     //getTech
