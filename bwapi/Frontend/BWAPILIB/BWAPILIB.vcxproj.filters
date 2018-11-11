@@ -125,6 +125,7 @@
     <ClInclude Include="..\..\include\BWAPI\UpgradeType.h" />
     <ClInclude Include="..\..\include\BWAPI\WeaponType.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />
+    <ClInclude Include="..\..\include\GameData.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">

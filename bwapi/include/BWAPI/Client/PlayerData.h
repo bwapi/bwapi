@@ -4,6 +4,9 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/PlayerType.h>
+#include <BWAPI/Race.h>
+#include <BWAPI/Force.h>
+#include <BWAPI/Color.h>
 
 namespace BWAPI
 {

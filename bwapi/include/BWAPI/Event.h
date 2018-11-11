@@ -3,21 +3,15 @@
 #include <BWAPI/EventType.h>
 #include <BWAPI/Unit.h>
 
+#include <optional>
 #include <string>
 
 namespace BWAPI
 {
-  // Forward Declarations
-
   class Event
   {
     public:
       Event() = default;
-      ~Event();
-      Event(const Event& other);
-      Event(Event&& other);
-      Event& operator=(const Event& other);
-      Event& operator=(Event &&other);
       bool operator==(const Event& other) const;
       static Event MatchStart();
       static Event MatchEnd(bool isWinner);
@@ -50,13 +44,12 @@ namespace BWAPI
       Event& setUnit(Unit unit);
       Event& setPlayer(Player player);
       Event& setWinner(bool isWinner);
-      //static Event TriggerAction();
     private:
-      Position        position = Positions::None;
-      std::string*    text = nullptr;
-      Unit            unit = nullptr;
-      Player          player = nullptr;
-      EventType::Enum type = EventType::None;
-      bool            winner = false;
+      std::optional<Position>    position;
+      std::optional<std::string> text;
+      std::optional<Unit>        unit;
+      std::optional<Player>      player;
+      EventType::Enum            type = EventType::None;
+      std::optional<bool>        winner = false;
   };
 }

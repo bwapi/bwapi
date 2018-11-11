@@ -32,4 +32,5 @@ namespace BWAPI {
   struct PlayerID : Identifier<PlayerID> { using Identifier<PlayerID>::Identifier; };
   struct RegionID : Identifier<RegionID> { using Identifier<RegionID>::Identifier; };
   struct BulletID : Identifier<BulletID> { using Identifier<BulletID>::Identifier; };
+  struct ForceID  : Identifier<ForceID>  { using Identifier<ForceID> ::Identifier; };
 } // namespace BWAPI

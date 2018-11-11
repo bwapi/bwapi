@@ -7,6 +7,7 @@
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
+#include <BWAPI/Player.h>
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>
 
@@ -14,9 +15,10 @@ namespace BWAPI
 {
   // typedefs
   using UnitFilter = UnaryFilter<Unit>;
-  using PtrUnitFilter = UnaryFilter<Unit, bool(*)(Unit)>;
+  using PtrUnitFilter = UnaryFilter<Unit, bool(*)(Unit const &)>;
   using BestUnitFilter = BestFilter<Unit>;
-  using PtrIntCompareUnitFilter = CompareFilter<Unit, int, int(*)(Unit)>;
+  template<typename T>
+  using PtrCompareUnitFilter = CompareFilter<Unit, T, T(*)(Unit const &)>;
 
   namespace Filter
   {
@@ -126,187 +128,187 @@ namespace BWAPI
     extern const PtrUnitFilter CanBuildAddon;
   
     /// @see BWAPI::UnitInterface::getHitPoints
-    extern const PtrIntCompareUnitFilter HP;
+    extern const PtrCompareUnitFilter<int> HP;
 
     /// @see BWAPI::UnitType::maxHitPoints
-    extern const PtrIntCompareUnitFilter MaxHP;
+    extern const PtrCompareUnitFilter<int> MaxHP;
 
     /// <summary>A comparison filter that retrieves the unit's HP percentage.</summary> The formula
     /// is HP*100/MaxHP.
-    extern const PtrIntCompareUnitFilter HP_Percent;
+    extern const PtrCompareUnitFilter<int> HP_Percent;
   
     /// @see BWAPI::UnitInterface::getShields
-    extern const PtrIntCompareUnitFilter Shields;
+    extern const PtrCompareUnitFilter<int> Shields;
 
     /// @see BWAPI::UnitType::maxShields
-    extern const PtrIntCompareUnitFilter MaxShields;
+    extern const PtrCompareUnitFilter<int> MaxShields;
 
     /// <summary>A comparison filter that retrieves the unit's shields percentage.</summary> The
     /// formula is Shields*100/MaxShields.
-    extern const PtrIntCompareUnitFilter Shields_Percent;
+    extern const PtrCompareUnitFilter<int> Shields_Percent;
   
     /// @see BWAPI::UnitInterface::getEnergy
-    extern const PtrIntCompareUnitFilter Energy;
+    extern const PtrCompareUnitFilter<int> Energy;
     
     /// @see BWAPI::PlayerInterface::maxEnergy
-    extern const PtrIntCompareUnitFilter MaxEnergy;
+    extern const PtrCompareUnitFilter<int> MaxEnergy;
     
     /// <summary>A comparison filter that retrieves the unit's energy percentage.</summary> The
     /// formula is Energy*100/MaxEnergy.
-    extern const PtrIntCompareUnitFilter Energy_Percent;
+    extern const PtrCompareUnitFilter<int> Energy_Percent;
 
     /// @see BWAPI::PlayerInterface::armor
-    extern const PtrIntCompareUnitFilter Armor;
+    extern const PtrCompareUnitFilter<int> Armor;
 
     /// @see BWAPI::UnitType::armorUpgrade
-    extern const CompareFilter<Unit ,UpgradeType,UpgradeType (*)(Unit )> ArmorUpgrade;
+    extern const PtrCompareUnitFilter<UpgradeType> ArmorUpgrade;
 
     /// @see BWAPI::UnitType::mineralPrice
-    extern const PtrIntCompareUnitFilter MineralPrice;
+    extern const PtrCompareUnitFilter<int> MineralPrice;
 
     /// @see BWAPI::UnitType::gasPrice
-    extern const PtrIntCompareUnitFilter GasPrice;
+    extern const PtrCompareUnitFilter<int> GasPrice;
 
     /// @see BWAPI::UnitType::buildTime
-    extern const PtrIntCompareUnitFilter BuildTime;
+    extern const PtrCompareUnitFilter<int> BuildTime;
 
     /// @see BWAPI::UnitType::supplyRequired
-    extern const PtrIntCompareUnitFilter SupplyRequired;
+    extern const PtrCompareUnitFilter<int> SupplyRequired;
 
     /// @see BWAPI::UnitType::supplyProvided
-    extern const PtrIntCompareUnitFilter SupplyProvided;
+    extern const PtrCompareUnitFilter<int> SupplyProvided;
 
     /// @see BWAPI::UnitType::spaceRequired
-    extern const PtrIntCompareUnitFilter SpaceRequired;
+    extern const PtrCompareUnitFilter<int> SpaceRequired;
 
     /// @see BWAPI::UnitInterface::getSpaceRemaining
-    extern const PtrIntCompareUnitFilter SpaceRemaining;
+    extern const PtrCompareUnitFilter<int> SpaceRemaining;
 
     /// @see BWAPI::UnitType::spaceProvided
-    extern const PtrIntCompareUnitFilter SpaceProvided;
+    extern const PtrCompareUnitFilter<int> SpaceProvided;
 
     /// @see BWAPI::UnitType::buildScore
-    extern const PtrIntCompareUnitFilter BuildScore;
+    extern const PtrCompareUnitFilter<int> BuildScore;
 
     /// @see BWAPI::UnitType::destroyScore
-    extern const PtrIntCompareUnitFilter DestroyScore;
+    extern const PtrCompareUnitFilter<int> DestroyScore;
 
     /// @see BWAPI::PlayerInterface::topSpeed
-    extern const CompareFilter<Unit ,double,double (*)(Unit )> TopSpeed;
+    extern const PtrCompareUnitFilter<double> TopSpeed;
 
     /// @see BWAPI::PlayerInterface::sightRange
-    extern const PtrIntCompareUnitFilter SightRange;
+    extern const PtrCompareUnitFilter<int> SightRange;
 
     /// @see BWAPI::PlayerInterface::weaponDamageCooldown
-    extern const PtrIntCompareUnitFilter WeaponCooldown;
+    extern const PtrCompareUnitFilter<int> WeaponCooldown;
 
     /// @see BWAPI::UnitType::size
-    extern const CompareFilter<Unit ,UnitSizeType,UnitSizeType (*)(Unit )> SizeType;
+    extern const PtrCompareUnitFilter<UnitSizeType> SizeType;
 
     /// @see BWAPI::UnitType::groundWeapon
-    extern const CompareFilter<Unit ,WeaponType,WeaponType (*)(Unit )> GroundWeapon;
+    extern const PtrCompareUnitFilter<WeaponType> GroundWeapon;
 
     /// @see BWAPI::UnitType::airWeapon
-    extern const CompareFilter<Unit ,WeaponType,WeaponType (*)(Unit )> AirWeapon;
+    extern const PtrCompareUnitFilter<WeaponType> AirWeapon;
 
     /// @see BWAPI::UnitInterface::getType
-    extern const CompareFilter<Unit ,UnitType,UnitType (*)(Unit )> GetType;
+    extern const PtrCompareUnitFilter<UnitType> GetType;
 
     /// @see BWAPI::UnitType::getRace
-    extern const CompareFilter<Unit ,Race,Race (*)(Unit )> GetRace;
+    extern const PtrCompareUnitFilter<Race> GetRace;
 
     /// @see BWAPI::UnitInterface::getPlayer
-    extern const CompareFilter<Unit ,Player,Player (*)(Unit )> GetPlayer;
+    extern const PtrCompareUnitFilter<Player> GetPlayer;
   
     /// @see BWAPI::UnitInterface::getResources
-    extern const PtrIntCompareUnitFilter Resources;
+    extern const PtrCompareUnitFilter<int> Resources;
 
     /// @see BWAPI::UnitInterface::getResourceGroup
-    extern const PtrIntCompareUnitFilter ResourceGroup;
+    extern const PtrCompareUnitFilter<int> ResourceGroup;
 
     /// @see BWAPI::UnitInterface::getAcidSporeCount
-    extern const PtrIntCompareUnitFilter AcidSporeCount;
+    extern const PtrCompareUnitFilter<int> AcidSporeCount;
 
     /// @see BWAPI::UnitInterface::getInterceptorCount
-    extern const PtrIntCompareUnitFilter InterceptorCount;
+    extern const PtrCompareUnitFilter<int> InterceptorCount;
 
     /// @see BWAPI::UnitInterface::getScarabCount
-    extern const PtrIntCompareUnitFilter ScarabCount;
+    extern const PtrCompareUnitFilter<int> ScarabCount;
 
     /// @see BWAPI::UnitInterface::getSpiderMineCount
-    extern const PtrIntCompareUnitFilter SpiderMineCount;
+    extern const PtrCompareUnitFilter<int> SpiderMineCount;
 
     /// @see BWAPI::UnitInterface::getGroundWeaponCooldown
-    extern const PtrIntCompareUnitFilter MaxWeaponCooldown;
+    extern const PtrCompareUnitFilter<int> MaxWeaponCooldown;
 
     /// @see BWAPI::UnitInterface::getSpellCooldown
-    extern const PtrIntCompareUnitFilter SpellCooldown;
+    extern const PtrCompareUnitFilter<int> SpellCooldown;
 
     /// @see BWAPI::UnitInterface::getDefenseMatrixPoints
-    extern const PtrIntCompareUnitFilter DefenseMatrixPoints;
+    extern const PtrCompareUnitFilter<int> DefenseMatrixPoints;
 
     /// @see BWAPI::UnitInterface::getDefenseMatrixTimer
-    extern const PtrIntCompareUnitFilter DefenseMatrixTime;
+    extern const PtrCompareUnitFilter<int> DefenseMatrixTime;
 
     /// @see BWAPI::UnitInterface::getEnsnareTimer
-    extern const PtrIntCompareUnitFilter EnsnareTime;
+    extern const PtrCompareUnitFilter<int> EnsnareTime;
 
     /// @see BWAPI::UnitInterface::getIrradiateTimer
-    extern const PtrIntCompareUnitFilter IrradiateTime;
+    extern const PtrCompareUnitFilter<int> IrradiateTime;
 
     /// @see BWAPI::UnitInterface::getLockdownTimer
-    extern const PtrIntCompareUnitFilter LockdownTime;
+    extern const PtrCompareUnitFilter<int> LockdownTime;
 
     /// @see BWAPI::UnitInterface::getMaelstromTimer
-    extern const PtrIntCompareUnitFilter MaelstromTime;
+    extern const PtrCompareUnitFilter<int> MaelstromTime;
 
     /// @see BWAPI::UnitInterface::getOrderTimer
-    extern const PtrIntCompareUnitFilter OrderTime;
+    extern const PtrCompareUnitFilter<int> OrderTime;
 
     /// @see BWAPI::UnitInterface::getPlagueTimer
-    extern const PtrIntCompareUnitFilter PlagueTimer;
+    extern const PtrCompareUnitFilter<int> PlagueTimer;
 
     /// @see BWAPI::UnitInterface::getRemoveTimer
-    extern const PtrIntCompareUnitFilter RemoveTime;
+    extern const PtrCompareUnitFilter<int> RemoveTime;
 
     /// @see BWAPI::UnitInterface::getStasisTimer
-    extern const PtrIntCompareUnitFilter StasisTime;
+    extern const PtrCompareUnitFilter<int> StasisTime;
 
     /// @see BWAPI::UnitInterface::getStimTimer
-    extern const PtrIntCompareUnitFilter StimTime;
+    extern const PtrCompareUnitFilter<int> StimTime;
 
     /// @see BWAPI::UnitInterface::getBuildType
-    extern const CompareFilter<Unit ,UnitType,UnitType (*)(Unit )> BuildType;
+    extern const PtrCompareUnitFilter<UnitType> BuildType;
 
     /// @see BWAPI::UnitInterface::getRemainingBuildTime
-    extern const PtrIntCompareUnitFilter RemainingBuildTime;
+    extern const PtrCompareUnitFilter<int> RemainingBuildTime;
 
     /// @see BWAPI::UnitInterface::getRemainingTrainTime
-    extern const PtrIntCompareUnitFilter RemainingTrainTime;
+    extern const PtrCompareUnitFilter<int> RemainingTrainTime;
 
     /// @see BWAPI::UnitInterface::getTarget
-    extern const CompareFilter<Unit ,Unit ,Unit (*)(Unit )> Target;
+    extern const PtrCompareUnitFilter<Unit> Target;
 
     /// @see BWAPI::UnitInterface::getOrder
-    extern const CompareFilter<Unit ,Order,Order (*)(Unit )> CurrentOrder;
+    extern const PtrCompareUnitFilter<Order> CurrentOrder;
 
     /// @see BWAPI::UnitInterface::getSecondaryOrder
-    extern const CompareFilter<Unit ,Order,Order (*)(Unit )> SecondaryOrder;
+    extern const PtrCompareUnitFilter<Order> SecondaryOrder;
 
     /// @see BWAPI::UnitInterface::getOrderTarget
-    extern const CompareFilter<Unit ,Unit ,Unit (*)(Unit )> OrderTarget;
+    extern const PtrCompareUnitFilter<Unit> OrderTarget;
 
     /// @see BWAPI::UnitInterface::getLeft
-    extern const PtrIntCompareUnitFilter GetLeft;
+    extern const PtrCompareUnitFilter<int> GetLeft;
 
     /// @see BWAPI::UnitInterface::getTop
-    extern const PtrIntCompareUnitFilter GetTop;
+    extern const PtrCompareUnitFilter<int> GetTop;
 
     /// @see BWAPI::UnitInterface::getRight
-    extern const PtrIntCompareUnitFilter GetRight;
+    extern const PtrCompareUnitFilter<int> GetRight;
 
     /// @see BWAPI::UnitInterface::getBottom
-    extern const PtrIntCompareUnitFilter GetBottom;
+    extern const PtrCompareUnitFilter<int> GetBottom;
 
     /// @see BWAPI::UnitInterface::exists
     extern const PtrUnitFilter Exists;

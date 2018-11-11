@@ -16,6 +16,8 @@
 #include <sstream>
 #include <BWAPI/GameData.h>
 
+#include "Client/UnitData.h"
+
 namespace BWAPI
 {
   // Forward Declarations
@@ -345,7 +347,6 @@ namespace BWAPI
         Position p{tile};
         return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
       }
-        return Unitset::none;
     }
 
     /// <summary>Retrieves the set of accessible units that are in a given rectangle.</summary>

@@ -9,12 +9,12 @@
 
 #include "UnaryFilter.h"
 
-#define BWAPI_COMPARE_FILTER_OP(op) UnaryFilter<PType> operator op(const RType &cmp) const               \
+#define BWAPI_COMPARE_FILTER_OP(op) UnaryFilter<PType> operator op(const RType &cmp) const          \
                                     {   return [=](PType v)->bool{ return (*this)(v) op cmp; };   }
 
-#define BWAPI_ARITHMATIC_FILTER_OP(op) template <typename T>                                            \
-                                       CompareFilter<PType,RType,std::function<RType(PType)> > operator op(const T &other) const     \
-                                       {   return [=](PType v)->int{ return (*this)(v) op other(v); };   }    \
+#define BWAPI_ARITHMATIC_FILTER_OP(op) template <typename T>                                                                      \
+                                       CompareFilter<PType,RType,std::function<RType(PType)> > operator op(const T &other) const  \
+                                       {   return [=](PType v)->int{ return (*this)(v) op other(v); };   }                        \
                                        CompareFilter<PType,RType,std::function<RType(PType)> > operator op(RType other) const     \
                                        {   return [=](PType v)->int{ return (*this)(v) op other; };   }
 

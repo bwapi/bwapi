@@ -10,8 +10,8 @@
 #include <BWAPI/WeaponType.h>
 
 #define U_UFILTER(n,x) bool n ## Impl(Unit u){ return(x); } const PtrUnitFilter n( &n ## Impl )
-#define U_CFILTER(n,x) int n ## Impl(Unit u){ return (x); } const PtrIntCompareUnitFilter n( &n ## Impl )
-#define U_CFILTERX(n,x,r) r n ## Impl(Unit u){ return (x); } const CompareFilter<Unit ,r,r (*)(Unit )> n( &n ## Impl )
+#define U_CFILTER(n,x) int n ## Impl(Unit u){ return (x); } const PtrCompareUnitFilter<int> n( &n ## Impl )
+#define U_CFILTERX(n,x,r) r n ## Impl(Unit u){ return (x); } const PtrCompareUnitFilter<r> n( &n ## Impl )
 
 namespace BWAPI
 {
