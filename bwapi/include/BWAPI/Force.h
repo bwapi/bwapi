@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <BWAPI/Interface.h>
+#include <BWAPI/IDs.h>
 
 namespace BWAPI
 {
@@ -17,7 +17,7 @@ namespace BWAPI
   /// to be allied at the beginning of a match.
   ///
   /// @ingroup Interface
-  class ForceInterface : public Interface<ForceInterface>
+  class ForceInterface : public ForceID
   {
   protected:
     virtual ~ForceInterface() {};

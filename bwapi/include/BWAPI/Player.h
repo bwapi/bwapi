@@ -20,6 +20,7 @@ namespace BWAPI
   class Unitset;
   class UpgradeType;
   class WeaponType;
+  class Game;
 
   struct PlayerData;
 
@@ -36,7 +37,7 @@ namespace BWAPI
 
     Game &getGame() const { return game; }
 
-    PlayerData &getPlayerData() const { return getGame().getPlayerData(id); }
+    PlayerData &getPlayerData() const;
 
     /// <summary>Retrieves the name of the player.</summary>
     ///
@@ -70,7 +71,7 @@ namespace BWAPI
     ///     // Do something with your units
     ///   }
     /// @endcode
-    Unitset &getUnits() const { return getPlayerData().ownedUnits; }
+    Unitset &getUnits() const;
 
     /// <summary>Retrieves the race of the player.</summary> This allows you to change strategies
     /// against different races, or generalize some commands for yourself.
@@ -171,7 +172,7 @@ namespace BWAPI
     /// location.
     ///
     /// @see Game::getStartLocations, Game::getLastError
-    TilePosition getStartLocation() const { return getPlayerData().startPosition; }
+    TilePosition getStartLocation() const { return { getPlayerData().startLocationX, getPlayerData().startLocationY }; }
 
     /// <summary>Checks if the player has achieved victory.</summary>
     ///

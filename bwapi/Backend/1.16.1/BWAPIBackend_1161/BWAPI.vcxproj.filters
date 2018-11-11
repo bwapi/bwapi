@@ -127,21 +127,6 @@
       <Filter>Hacks\Header FIles</Filter>
     </ClInclude>
     <ClInclude Include="Source\DLLMain.h" />
-    <ClInclude Include="..\include\BWAPI\Bullet.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Force.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Game.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Player.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Unit.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\WeaponTargetFlags.h">
       <Filter>BW\Enumerations</Filter>
     </ClInclude>
@@ -168,15 +153,6 @@
     </ClInclude>
     <ClInclude Include="Source\BW\CheatFlags.h">
       <Filter>BW\Enumerations</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\Region.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI\AIModule.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\BWAPI.h">
-      <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Source\Thread.h">
       <Filter>Hacks\Header FIles</Filter>
@@ -226,6 +202,14 @@
     <ClInclude Include="Source\BW\Replay.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\BWAPI.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\AIModule.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Bullet.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Force.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Game.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Player.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Region.h" />
+    <ClInclude Include="..\..\..\include\BWAPI\Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">

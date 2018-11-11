@@ -1,5 +1,7 @@
 #pragma once
 #include <BWAPI.h>
+#include <BWAPI/Unit.h>
+
 #include "Client/BulletData.h"
 
 namespace BWAPI
@@ -75,7 +77,7 @@ namespace BWAPI
     /// @returns
     ///   The owning Unit interface object.
     /// @see getTarget
-    virtual Unit getSource() const = 0;
+    Unit getSource() const;
 
     /// <summary>Retrieves the Bullet's current position.</summary>
     ///
@@ -84,7 +86,7 @@ namespace BWAPI
     /// @returns
     ///   A Position containing the Bullet's current coordinates.
     /// @see getTargetPosition
-    virtual Position getPosition() const = 0;
+    Position getPosition() const { return getBulletData().position; }
 
     /// <summary>Retrieve's the direction the Bullet is facing.</summary> If the angle is 0, then
     /// the Bullet is facing right.
@@ -93,7 +95,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   A double representing the direction the Bullet is facing.
-    virtual double getAngle() const = 0;
+    double getAngle() const { return getBulletData().angle; }
 
     /// <summary>Retrieves the X component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
@@ -103,7 +105,7 @@ namespace BWAPI
     ///   A double representing the number of pixels moved on the X axis per frame.
     ///
     /// @see getVelocityY, getAngle
-    virtual double getVelocityX() const = 0;
+    double getVelocityX() const { return getBulletData().velocityX; }
 
     /// <summary>Retrieves the Y component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
@@ -113,7 +115,7 @@ namespace BWAPI
     ///   A double representing the number of pixels moved on the Y axis per frame.
     ///
     /// @see getVelocityX, getAngle
-    virtual double getVelocityY() const = 0;
+    double getVelocityY() const { return getBulletData().velocityY; }
 
     /// <summary>Retrieves the Unit interface that the Bullet is heading to.</summary>
     ///
@@ -123,7 +125,7 @@ namespace BWAPI
     /// @returns
     ///   The target Unit interface object, if one exists.
     /// @see getTargetPosition, getSource
-    virtual Unit getTarget() const = 0;
+    Unit getTarget() const;
 
     /// <summary>Retrieves the target position that the Bullet is heading to.</summary>
     ///
@@ -132,7 +134,7 @@ namespace BWAPI
     /// @returns
     ///   A Position indicating where the Bullet is headed.
     /// @see getTarget, getPosition
-    virtual Position getTargetPosition() const = 0;
+    Position getTargetPosition() const { return getBulletData().targetPosition; }
 
     /// <summary>Retrieves the timer that indicates the Bullet's life span.</summary>
     ///
@@ -144,7 +146,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   An integer representing the remaining number of frames until the Bullet self-destructs.
-    virtual int getRemoveTimer() const = 0;
+    int getRemoveTimer() const { return getBulletData().removeTimer; }
 
     /// <summary>Retrieves the visibility state of the Bullet.</summary>
     ///
@@ -160,6 +162,6 @@ namespace BWAPI
     ///
     /// @retval true If the Bullet is visible to the specified player.
     /// @retval false If the Bullet is not visible to the specified player.
-    virtual bool isVisible(Player player = nullptr) const = 0;
+    bool isVisible(Player player = nullptr) const { return getBulletData().isVisible; }
   };
 }

@@ -71,11 +71,11 @@ namespace BWAPI
   }
   UnitType Race::getWorker() const
   {
-    return RaceInternal::workerTypes[this->getID()];
+    return UnitType{ RaceInternal::workerTypes[this->getID()] };
   }
   UnitType Race::getResourceDepot() const
   {
-    return RaceInternal::baseTypes[this->getID()];
+    return UnitType{ RaceInternal::baseTypes[this->getID()] };
   }
   UnitType Race::getCenter() const
   {
@@ -83,15 +83,15 @@ namespace BWAPI
   }
   UnitType Race::getRefinery() const
   {
-    return RaceInternal::refineryTypes[this->getID()];
+    return UnitType{ RaceInternal::refineryTypes[this->getID()] };
   }
   UnitType Race::getTransport() const
   {
-    return RaceInternal::transportTypes[this->getID()];
+    return UnitType{ RaceInternal::transportTypes[this->getID()] };
   }
   UnitType Race::getSupplyProvider() const
   {
-    return RaceInternal::supplyTypes[this->getID()];
+    return UnitType{ RaceInternal::supplyTypes[this->getID()] };
   }
   const Race::set& Races::allRaces()
   {
