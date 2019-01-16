@@ -345,7 +345,7 @@ namespace BWAPI
     ///
     /// @returns A UnitCommand object containing information about the command that was processed.
     /// @see getLastCommandFrame
-    UnitCommand getLastCommand() const { return getUnitData().lastCommand; }
+    UnitCommand getLastCommand() const;
 
     /// <summary>Retrieves the Player that last attacked this unit.</summary>
     /// 
@@ -761,27 +761,14 @@ namespace BWAPI
     ///
     /// @returns A Unitset object containing all of the units that are loaded inside of the
     /// current unit.
-    Unitset getLoadedUnits() const {
-      return {
-        getUnitData().loadedUnits.begin(),
-        getUnitData().loadedUnits.end()
-      };
-    }
+    Unitset getLoadedUnits() const;
 
     /// <summary>Retrieves the remaining unit-space available for @Bunkers and @Transports.</summary>
     ///
     /// @returns The number of spots available to transport a unit.
     ///
     /// @see getLoadedUnits
-    int getSpaceRemaining() const {
-      int space = getType().spaceProvided();
-
-      // Decrease the space for each loaded unit
-      for (auto &loadedUnit : getLoadedUnits())
-        space -= Unit{ getGame(), loadedUnit }.getType().spaceRequired();
-
-      return space;
-    }
+    int getSpaceRemaining() const;
 
     /// <summary>Retrieves the parent @Carrier that owns this @Interceptor.</summary>
     ///
@@ -794,7 +781,7 @@ namespace BWAPI
     ///
     /// @returns Unitset containing @Interceptor units owned by this carrier.
     /// @see getInterceptorCount
-    Unitset getInterceptors() const { return getUnitData().interceptors; }
+    Unitset getInterceptors() const;
 
     /// <summary>Retrieves the parent @Hatchery, @Lair, or @Hive that owns this particular unit.</summary>
     /// This is intended for @Larvae.
@@ -811,7 +798,7 @@ namespace BWAPI
     /// @returns Unitset containing @Larva units owned by this unit. The set will be empty if
     /// there are none.
     /// @see getHatchery
-    Unitset getLarva() const { return getUnitData().larva; }
+    Unitset getLarva() const;
 
     /// <summary>Retrieves the set of all units in a given radius of the current unit.</summary>
     ///

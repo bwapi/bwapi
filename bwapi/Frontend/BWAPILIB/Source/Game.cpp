@@ -23,8 +23,6 @@ namespace BWAPI
 {
   using namespace Filter;
 
-
-
   Game *GameWrapper::operator ->() const
   {
     return &bw;
@@ -51,7 +49,16 @@ namespace BWAPI
     ss.str("");
   };
 
-
+  //------------------------------------ ETC ------------------------------------------
+  Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const {
+    return getUnitsOnTile({ tileX, tileY }, pred);
+  }
+  Unitset Game::getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const {
+    if (isValid(tile)) {
+      Position p{ tile };
+      return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
+    }
+  }
   //------------------------------------ DAMAGE CALCULATION ------------------------------------------
   int damageRatio[DamageTypes::Enum::MAX][UnitSizeTypes::Enum::MAX] =
   {

@@ -17,6 +17,7 @@ namespace BWAPI
   using UnitFilter = UnaryFilter<Unit>;
   using PtrUnitFilter = UnaryFilter<Unit, bool(*)(Unit const &)>;
   using BestUnitFilter = BestFilter<Unit>;
+  
   template<typename T>
   using PtrCompareUnitFilter = CompareFilter<Unit, T, T(*)(Unit const &)>;
 

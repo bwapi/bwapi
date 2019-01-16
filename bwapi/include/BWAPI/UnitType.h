@@ -670,7 +670,7 @@ namespace BWAPI
     ///     {
     ///       if ( u->getType().isRefinery() )
     ///       {
-    ///         int nWorkersAssigned = u->getClientInfo<int>('work');
+    ///         int nWorkersAssigned = refineryWorkerCount[u];
     ///         if ( nWorkersAssigned < 3 )
     ///         {
     ///           Unit pClosestIdleWorker = u->getClosestUnit(BWAPI::Filter::IsWorker && BWAPI::Filter::IsIdle);
@@ -680,11 +680,11 @@ namespace BWAPI
     ///             if ( pClosestIdleWorker->gather(u) )
     ///             {
     ///               // set a back reference for when the unit is killed or re-assigned (code not provided)
-    ///               pClosestIdleWorker->setClientInfo(u, 'ref');
+    ///               workerRefineryMap[pClosestIdleWorker] = u;
     ///
     ///               // Increment the number of workers assigned and associate it with the refinery
     ///               ++nWorkersAssigned;
-    ///               u->setClientInfo(nWorkersAssigned, 'work');
+    ///               refineryWorkerCount[u] = nWorkersAssigned;
     ///             }
     ///           }
     ///         } // workers < 3

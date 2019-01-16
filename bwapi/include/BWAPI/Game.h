@@ -12,6 +12,7 @@
 #include <BWAPI/UnaryFilter.h>
 #include <BWAPI/Input.h>
 #include <BWAPI/CoordinateType.h>
+#include <BWAPI/Position.h>
 
 #include <sstream>
 #include <BWAPI/GameData.h>
@@ -30,6 +31,8 @@ namespace BWAPI
   class GameType;
   class Playerset;
   class Race;
+  class Unitset;
+  class Region;
 
   class Regionset;
   class TechType;
@@ -338,16 +341,10 @@ namespace BWAPI
     ///
     /// @returns A Unitset object consisting of all the units that have any part of them on the
     /// given build tile.
-    Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const {
-      return getUnitsOnTile({ tileX, tileY }, pred);
-    }
+    Unitset getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const;
+
     /// @overload
-    Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const {
-      if(isValid(tile)) {
-        Position p{tile};
-        return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
-      }
-    }
+    Unitset getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const;
 
     /// <summary>Retrieves the set of accessible units that are in a given rectangle.</summary>
     ///

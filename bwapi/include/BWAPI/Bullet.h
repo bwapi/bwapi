@@ -1,6 +1,7 @@
 #pragma once
 #include <BWAPI.h>
 #include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
 
 #include "Client/BulletData.h"
 

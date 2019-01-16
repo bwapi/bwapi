@@ -2,6 +2,7 @@
 #include "SetContainer.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
+#include <BWAPI/Region.h>
 
 namespace BWAPI
 {

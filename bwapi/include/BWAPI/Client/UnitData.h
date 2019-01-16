@@ -12,6 +12,8 @@
 
 namespace BWAPI
 {
+  class UnitCommand;
+
   struct UnitData {
     UnitData(UnitID id) {
       trainingQueue.reserve(5);

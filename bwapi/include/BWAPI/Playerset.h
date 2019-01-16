@@ -4,6 +4,7 @@
 #include <BWAPI/Game.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Filters.h>
+#include <BWAPI/Player.h>
 
 namespace BWAPI
 {

@@ -62,22 +62,6 @@ namespace BWAPI
     /// @see Unit::getLarva
     Unitset getLarva() const;
 
-    /// <summary>Sets the client info for every unit in this set.</summary>
-    ///
-    /// <param name="clientInfo"> (optional)
-    ///   A pointer to client information, managed by the AI module, or nullptr if client
-    ///   information is to be cleared.
-    /// </param>
-    /// <param name="index"> (optional)
-    ///   An key value for the client info mapping so that more than one piece of data can be
-    ///   mapped to the same unit.
-    /// </param>
-    ///
-    /// @see Unit::setClientInfo
-    void setClientInfo(void *clientInfo = nullptr, int index = 0) const;
-    /// @overload
-    void setClientInfo(int clientInfo = 0, int index = 0) const;
-
     /// @copydoc Unit::getUnitsInRadius
     Unitset getUnitsInRadius(int radius, const UnitFilter &pred = nullptr) const;
 

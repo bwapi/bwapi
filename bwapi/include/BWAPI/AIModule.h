@@ -2,6 +2,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/TournamentAction.h>
 #include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
 #include <string>
 
 namespace BWAPI
@@ -104,7 +105,7 @@ namespace BWAPI
       ///   This function INCLUDES the state of Flag::CompleteMapInformation.
       ///
       /// @see onUnitShow
-      virtual void onUnitDiscover(Unit unit);
+      virtual void onUnitDiscover(class Unit unit);
 
       /// <summary>Called when a Unit becomes inaccessible.</summary>
       ///
