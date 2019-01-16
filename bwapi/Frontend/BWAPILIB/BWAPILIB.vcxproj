@@ -176,7 +176,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModule.cpp" />
-    <ClCompile Include="Source\BroodwarOutputDevice.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -195,7 +194,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\Race.cpp" />
     <ClCompile Include="Source\Region.cpp" />
     <ClCompile Include="Source\Regionset.cpp" />
-    <ClCompile Include="Source\Streams.cpp" />
     <ClCompile Include="Source\TechType.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\Unitset.cpp" />
@@ -207,10 +205,11 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\WeaponType.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\BWAPI.h" />
+    <ClInclude Include="..\..\include\BWAPI\Game.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />
     <ClInclude Include="..\..\include\BWAPI\AIModule.h" />
     <ClInclude Include="..\..\include\BWAPI\BestFilter.h" />
-    <ClInclude Include="..\..\include\BWAPI\BroodwarOutputDevice.h" />
     <ClInclude Include="..\..\include\BWAPI\Bulletset.h" />
     <ClInclude Include="..\..\include\BWAPI\BulletType.h" />
     <ClInclude Include="..\..\include\BWAPI\Color.h" />
@@ -218,11 +217,13 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\CoordinateType.h" />
     <ClInclude Include="..\..\include\BWAPI\Filters.h" />
     <ClInclude Include="..\..\include\BWAPI\Forceset.h" />
+    <ClInclude Include="..\..\include\BWAPI\Player.h" />
     <ClInclude Include="..\..\include\BWAPI\Playerset.h" />
+    <ClInclude Include="..\..\include\BWAPI\Region.h" />
     <ClInclude Include="..\..\include\BWAPI\Regionset.h" />
     <ClInclude Include="..\..\include\BWAPI\SetContainer.h" />
-    <ClInclude Include="..\..\include\BWAPI\Streams.h" />
     <ClInclude Include="..\..\include\BWAPI\UnaryFilter.h" />
+    <ClInclude Include="..\..\include\BWAPI\Unit.h" />
     <ClInclude Include="..\..\include\BWAPI\Unitset.h" />
     <ClInclude Include="..\..\include\BWAPI\DamageType.h" />
     <ClInclude Include="..\..\include\BWAPI\Error.h" />

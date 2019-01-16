@@ -118,6 +118,7 @@
     <ClInclude Include="SNP\Output.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="SNP\SNPModule.def" />
   </ItemGroup>
   <ItemGroup>

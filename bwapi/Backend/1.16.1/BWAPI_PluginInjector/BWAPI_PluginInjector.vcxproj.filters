@@ -64,5 +64,6 @@
     <None Include="QDPlugin.def">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

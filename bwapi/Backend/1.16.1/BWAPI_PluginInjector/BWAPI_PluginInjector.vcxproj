@@ -135,6 +135,7 @@ COPY /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\Release_Binary\MP
   </ItemGroup>
   <ItemGroup>
     <None Include="QDPlugin.def" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\SVNRevGen\SVNRevGen.vcxproj">

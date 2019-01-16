@@ -67,5 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SNP\SNPModule.def" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>
