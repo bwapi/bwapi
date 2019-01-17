@@ -3,8 +3,8 @@
 #include <BWAPI/EventType.h>
 #include <BWAPI/Unit.h>
 
-#include <optional>
 #include <string>
+#include <optional>
 
 namespace BWAPI
 {

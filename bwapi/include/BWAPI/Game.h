@@ -2,7 +2,6 @@
 #include <list>
 #include <string>
 #include <cstdarg>
-#include <optional>
 
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
@@ -745,7 +744,7 @@ namespace BWAPI
     ///
     /// @returns true indicating that the structure can be placed at the given tile position, and
     /// false if something may be obstructing the build location.
-    virtual bool canBuildHere(TilePosition position, UnitType type, std::optional<Unit> builder = std::nullopt, bool checkExplored = false) const = 0;
+    virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const = 0;
 
     /// <summary>Checks all the requirements in order to make a given unit type for the current
     /// player.</summary> These include resources, supply, technology tree, availability, and
@@ -762,7 +761,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be made. If \p builder is provided, then it is
     /// only true if \p builder can make the \p type. Otherwise it will return false, indicating
     /// that the unit type can not be made.
-    virtual bool canMake(UnitType type, std::optional<Unit> builder = std::nullopt) const = 0;
+    virtual bool canMake(UnitType type, Unit builder = nullptr) const = 0;
 
     /// <summary>Checks all the requirements in order to research a given technology type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -782,7 +781,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be researched. If \p unit is provided, then it is
     /// only true if \p unit can research the \p type. Otherwise it will return false, indicating
     /// that the technology can not be researched.
-    virtual bool canResearch(TechType type, std::optional<Unit> unit = std::nullopt, bool checkCanIssueCommandType = true) const = 0;
+    virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Checks all the requirements in order to upgrade a given upgrade type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -802,7 +801,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be upgraded. If \p unit is provided, then it is
     /// only true if \p unit can upgrade the \p type. Otherwise it will return false, indicating
     /// that the upgrade can not be upgraded.
-    virtual bool canUpgrade(UpgradeType type, std::optional<Unit> unit = std::nullopt, bool checkCanIssueCommandType = true) const = 0;
+    virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Retrieves the set of all starting locations for the current map.</summary> A
     /// starting location is essentially a candidate for a player's spawn point.
@@ -1718,7 +1717,7 @@ namespace BWAPI
     ///
     /// @returns The amount of damage that fromType would deal to toType.
     /// @see getDamageTo
-    int getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer = std::nullopt, std::optional<Player> toPlayer = std::nullopt);
+    int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer = nullptr, Player toPlayer = nullptr);
 
     /// <summary>Calculates the damage dealt for a given player.</summary> It can be understood as
     /// the damage to \p toType from \p fromType. Does not include shields in calculation.
@@ -1744,7 +1743,7 @@ namespace BWAPI
     ///
     /// @returns The amount of damage that fromType would deal to toType.
     /// @see getDamageFrom
-    int getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer = std::nullopt, std::optional<Player> fromPlayer = std::nullopt);
+    int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer = nullptr, Player fromPlayer = nullptr);
 
     /// <summary>Retrieves the initial random seed that was used in this game's creation.</summary>
     /// This is used to identify the seed that started this game, in case an error occurred, so

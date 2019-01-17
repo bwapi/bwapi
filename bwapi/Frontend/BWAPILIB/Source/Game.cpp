@@ -71,7 +71,7 @@ namespace BWAPI
     {  0,   0,   0,   0,   0,   0 }, // None
     {  0,   0,   0,   0,   0,   0 }  // Unknown
   };
-  int getDamageFromImpl(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer)
+  int getDamageFromImpl(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer)
   {
     // Retrieve appropriate weapon
     WeaponType wpn = toType.isFlyer() ? fromType.airWeapon() : fromType.groundWeapon();
@@ -82,20 +82,20 @@ namespace BWAPI
     int dmg = fromPlayer ? fromPlayer->damage(wpn) : wpn.damageAmount() * wpn.damageFactor();
 
     // If we need to calculate using armor
-    if ( wpn.damageType() != DamageTypes::Ignore_Armor && toPlayer )
+    if ( wpn.damageType() != DamageTypes::Ignore_Armor && toPlayer != nullptr )
       dmg -= std::min(dmg, toPlayer->armor(toType));
     
     return dmg * damageRatio[wpn.damageType()][toType.size()] / 256;
   }
-  int Game::getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer)
+  int Game::getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer)
   {
     // Get self if toPlayer not provided
-    if ( !toPlayer )
+    if ( toPlayer == nullptr )
       toPlayer = this->self();
 
     return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
   }
-  int Game::getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer, std::optional<Player> fromPlayer)
+  int Game::getDamageTo(UnitType toType, UnitType fromType, Player toPlayer, Player fromPlayer)
   {
     // Get self if fromPlayer not provided
     if ( fromPlayer == nullptr )

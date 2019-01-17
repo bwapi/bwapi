@@ -12,8 +12,6 @@ namespace BWAPI
 {
   // Forwards
   class Color;
-  class ForceInterface;
-  typedef ForceInterface *Force;
   class PlayerType;
   class TechType;
   class Unitset;
