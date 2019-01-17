@@ -175,7 +175,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDs.cpp" />
     <ClCompile Include="Source\AIModule.cpp" />
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />

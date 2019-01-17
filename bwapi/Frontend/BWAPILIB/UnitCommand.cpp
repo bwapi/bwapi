@@ -244,12 +244,6 @@ namespace BWAPI
   {
     UnitCommand c{ unit, UnitCommandTypes::Use_Tech };
     c.extra = tech;
-    if ( tech == TechTypes::Burrowing )
-      c.type = unit->isBurrowed() ? UnitCommandTypes::Unburrow : UnitCommandTypes::Burrow;
-    else if ( tech == TechTypes::Cloaking_Field || tech == TechTypes::Personnel_Cloaking )
-      c.type = unit->isCloaked() ? UnitCommandTypes::Decloak : UnitCommandTypes::Cloak;
-    else if ( tech == TechTypes::Tank_Siege_Mode )
-      c.type = unit->isSieged() ? UnitCommandTypes::Unsiege : UnitCommandTypes::Siege;
     return c;
   }
   UnitCommand UnitCommand::useTech(UnitID unit, TechType tech, Position target)
@@ -358,15 +352,12 @@ namespace BWAPI
   {
     return !(*this == other);
   }
-  template<class T, int S>
-  void UnitCommand::assignTarget(Game &game, Point<T, S> target)
-  {
-    game.makeValid(target);
-    x = target.x;
-    y = target.y;
+  void UnitCommand::assignTarget(Position pos) {
+    x = pos.x;
+    y = pos.y;
   }
-
-  template void UnitCommand::assignTarget(Game &, BWAPI::Position);
-  template void UnitCommand::assignTarget(Game &, BWAPI::WalkPosition);
-  template void UnitCommand::assignTarget(Game &, BWAPI::TilePosition);
+  void UnitCommand::assignTarget(TilePosition tilePos) {
+    x = tilePos.x;
+    y = tilePos.y;
+  }
 }

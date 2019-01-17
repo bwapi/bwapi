@@ -10,7 +10,6 @@ namespace BWAPI
   class UnitType;
   class TechType;
   class UpgradeType;
-  class Game;
 
   class UnitCommand
   {
@@ -77,18 +76,14 @@ namespace BWAPI
       bool operator==(const UnitCommand& other) const;
       bool operator!=(const UnitCommand& other) const;
 
-      template <class T, int S>
-      void assignTarget(Game &game, Point<T, S> target);
+      void assignTarget(Position pos);
+      void assignTarget(TilePosition tilePos);
 
-      UnitID unit{-1};
+      UnitID unit = UnitID::None;
       UnitCommandType type = UnitCommandTypes::None;
-      UnitID target{-1};
-#ifndef SWIG
+      UnitID target = UnitID::None;
       int x = Positions::None.x;
       int y = Positions::None.y;
-#else
-      int x, y;
-#endif
       int extra = 0;
   };
 }
