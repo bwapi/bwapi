@@ -1,4 +1,6 @@
 #pragma once
+#include <optional>
+
 #include <BWAPI.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
@@ -163,6 +165,6 @@ namespace BWAPI
     ///
     /// @retval true If the Bullet is visible to the specified player.
     /// @retval false If the Bullet is not visible to the specified player.
-    bool isVisible(Player player = nullptr) const { return getBulletData().isVisible; }
+    bool isVisible(std::optional<Player> player = std::nullopt) const { return getBulletData().isVisible; }
   };
 }

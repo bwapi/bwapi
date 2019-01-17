@@ -66,7 +66,7 @@ namespace BWAPI
 
   namespace RaceSet
   {
-    using namespace Races::Enum;
+    using namespace Races;
     const Race::set raceSet = { Zerg, Terran, Protoss, None, Unknown };
   }
   UnitType Race::getWorker() const

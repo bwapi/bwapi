@@ -14,6 +14,7 @@
 #include <BWAPI/Input.h>
 #include <BWAPI/CoordinateType.h>
 #include <BWAPI/Position.h>
+#include <BWAPI/IDs.h>
 
 #include <sstream>
 #include <BWAPI/GameData.h>

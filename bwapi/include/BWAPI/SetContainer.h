@@ -13,7 +13,7 @@ namespace BWAPI
   ///     Type that this set contains.
   /// @tparam HashT
   ///     Hash type. Defaults to integral hashing for BWAPI usage.
-  template <class T, class HashT = std::hash<int>>
+  template <class T, class HashT = std::hash<T>>
   class SetContainer : public SetContainerUnderlyingT < T, HashT >
   {
   public:

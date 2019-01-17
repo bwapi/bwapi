@@ -24,7 +24,7 @@ namespace BWAPI
   };
   namespace PlayerTypeSet
   {
-    using namespace PlayerTypes::Enum;
+    using namespace PlayerTypes;
     const PlayerType::set playerTypeSet = { None, Computer, Player, RescuePassive, EitherPreferComputer, EitherPreferHuman,
       Neutral, Closed, PlayerLeft, ComputerLeft, Unknown };
   }

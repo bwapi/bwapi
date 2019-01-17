@@ -31,7 +31,7 @@ namespace BWAPI
 
   namespace BulletTypeSet
   {
-    using namespace BulletTypes::Enum;
+    using namespace BulletTypes;
     const BulletType::set bulletTypeSet = { Melee, Fusion_Cutter_Hit, Gauss_Rifle_Hit, C_10_Canister_Rifle_Hit,
       Gemini_Missiles, Fragmentation_Grenade, Longbolt_Missile, ATS_ATA_Laser_Battery,
       Burst_Lasers, Arclite_Shock_Cannon_Hit, EMP_Missile, Dual_Photon_Blasters_Hit,

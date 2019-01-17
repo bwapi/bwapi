@@ -20,7 +20,7 @@ namespace BWAPI
   namespace DamageTypes
   {
     static const DamageType::set typeSet = {
-      Enum::Independent, Enum::Explosive, Enum::Concussive, Enum::Normal, Enum::Ignore_Armor, Enum::None, Enum::Unknown
+      Independent, Explosive, Concussive, Normal, Ignore_Armor, None, Unknown
     };
   }
   const DamageType::set& DamageTypes::allDamageTypes()

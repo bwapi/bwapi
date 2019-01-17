@@ -39,7 +39,7 @@ namespace BWAPI
 
   namespace OrderSet
   {
-    using namespace Orders::Enum;
+    using namespace Orders;
     const Order::set orderSet{ Die, Stop, Guard, PlayerGuard, TurretGuard, BunkerGuard, Move, AttackUnit,
       AttackTile, Hover, AttackMove, InfestedCommandCenter, UnusedNothing, UnusedPowerup,
       TowerGuard, VultureMine, Nothing, CastInfestation, InfestingCommandCenter,

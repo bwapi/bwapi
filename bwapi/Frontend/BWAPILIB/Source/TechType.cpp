@@ -70,8 +70,8 @@ namespace BWAPI
 
   namespace techInternalResearches
   {
-    using namespace UnitTypes::Enum;
-    static const int whatResearches[TechTypes::Enum::MAX] =
+    using namespace UnitTypes;
+    static const UnitType whatResearches[TechTypes::Enum::MAX] =
     { Terran_Academy, Terran_Covert_Ops, Terran_Science_Facility, Terran_Machine_Shop,
     None, Terran_Machine_Shop, None, Terran_Science_Facility, Terran_Physics_Lab, 
     Terran_Control_Tower, Terran_Covert_Ops, Zerg_Hatchery, None, Zerg_Queens_Nest,
@@ -85,8 +85,8 @@ namespace BWAPI
   }
   namespace techInternalRaces
   {
-    using namespace Races::Enum;
-    static const int techRaces[TechTypes::Enum::MAX] =
+    using namespace Races;
+    static const Race techRaces[TechTypes::Enum::MAX] =
     { Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran,
     Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg,
     Protoss, Protoss, Protoss, Protoss, Protoss, 
@@ -96,8 +96,8 @@ namespace BWAPI
   }
   namespace techInternalWeapons
   {
-    using namespace WeaponTypes::Enum;
-    static const int techWeapons[TechTypes::Enum::MAX] =
+    using namespace WeaponTypes;
+    static const WeaponType techWeapons[TechTypes::Enum::MAX] =
     {
       None, Lockdown, EMP_Shockwave, Spider_Mines, None, None, None, Irradiate, Yamato_Gun,
       None, None, None, None, Spawn_Broodlings, Dark_Swarm, Plague, Consume, Ensnare, Parasite,
@@ -118,8 +118,8 @@ namespace BWAPI
 
   namespace techInternalOrders
   {
-    using namespace Orders::Enum;
-    static const int techOrders[TechTypes::Enum::MAX] =
+    using namespace Orders;
+    static const Order techOrders[TechTypes::Enum::MAX] =
     {  None, CastLockdown, CastEMPShockwave, PlaceMine, CastScannerSweep, None, CastDefensiveMatrix,
       CastIrradiate, FireYamatoGun, None, None, None, CastInfestation, CastSpawnBroodlings,
       CastDarkSwarm, CastPlague, CastConsume, CastEnsnare, CastParasite, CastPsionicStorm,
@@ -130,7 +130,7 @@ namespace BWAPI
   }
   namespace techInternalUsage
   {
-    using namespace UnitTypes::Enum;
+    using namespace UnitTypes;
 
     static const UnitType::set techWhatUses[TechTypes::Enum::MAX] =
     {
@@ -214,7 +214,7 @@ namespace BWAPI
 
   namespace TechTypeSet
   {
-    using namespace TechTypes::Enum;
+    using namespace TechTypes;
     const TechType::set techTypeSet = { Stim_Packs, Lockdown, EMP_Shockwave, Spider_Mines,
       Scanner_Sweep, Tank_Siege_Mode, Defensive_Matrix, Irradiate,
       Yamato_Gun, Cloaking_Field, Personnel_Cloaking, Burrowing,

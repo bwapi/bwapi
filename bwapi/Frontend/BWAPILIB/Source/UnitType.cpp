@@ -498,7 +498,7 @@ namespace BWAPI
 
   namespace unitRaces
   {
-    using namespace Races::Enum;
+    using namespace Races;
     static const Race unitRace[UnitTypes::Enum::MAX] = {
       Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, 
       Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, Terran, 
@@ -519,7 +519,7 @@ namespace BWAPI
 
   namespace unitArmorUpgrades
   {
-    using namespace UpgradeTypes::Enum;
+    using namespace UpgradeTypes;
     static const UpgradeType armorUpgrade[UnitTypes::Enum::MAX] = {
       Terran_Infantry_Armor, Terran_Infantry_Armor, Terran_Vehicle_Plating, Terran_Vehicle_Plating, Terran_Vehicle_Plating, 
       Terran_Vehicle_Plating, Terran_Vehicle_Plating, Terran_Infantry_Armor, Terran_Ship_Plating, Terran_Ship_Plating, 
@@ -991,7 +991,7 @@ namespace BWAPI
 
   namespace unitInternal
   {
-    using namespace UnitTypes::Enum;
+    using namespace UnitTypes;
 
     static const UnitType whatBuilds[UnitTypes::Enum::MAX] = {
       Terran_Barracks, Terran_Barracks, Terran_Factory, Terran_Factory, None, Terran_Factory, None, Terran_Command_Center, Terran_Starport,
@@ -1313,7 +1313,7 @@ namespace BWAPI
 
   namespace unitWeapons
   {
-    using namespace WeaponTypes::Enum;
+    using namespace WeaponTypes;
     static const WeaponType groundWeapon[UnitTypes::Enum::MAX] = {
       Gauss_Rifle, C_10_Canister_Rifle, Fragmentation_Grenade, Twin_Autocannons, Twin_Autocannons, Arclite_Cannon, Arclite_Cannon, 
       Fusion_Cutter, Burst_Lasers, None, Flame_Thrower_Gui_Montag, None, ATS_Laser_Battery, Spider_Mines, None, None,
@@ -1378,7 +1378,7 @@ namespace BWAPI
 
   namespace unitSizes
   {
-    using namespace UnitSizeTypes::Enum;
+    using namespace UnitSizeTypes;
     static const UnitSizeType unitSize[UnitTypes::Enum::MAX] = {
       Small, Small, Medium, Large, Independent, Large, Independent, Small, Large, Large, Small, Large, Large, Small, Independent, 
       Small, Small, Large, Independent, Medium, Small, Large, Large, Large, Independent, Large, Independent, Large, Large, Large, 
@@ -1443,7 +1443,7 @@ namespace BWAPI
   };
   namespace unitUpgrades
   {
-    using namespace UpgradeTypes::Enum;
+    using namespace UpgradeTypes;
 
     static const int infantry_no_wpn[]    = { Terran_Infantry_Armor };
     static const int infantry[]           = { Terran_Infantry_Armor, Terran_Infantry_Weapons };
@@ -1772,7 +1772,7 @@ namespace BWAPI
 
   namespace unitAbilities
   {
-    using namespace TechTypes::Enum;
+    using namespace TechTypes;
     
     static const int stim[] = { Stim_Packs };
     static const int ghost_full[] = { Lockdown, Personnel_Cloaking, Nuclear_Strike };
