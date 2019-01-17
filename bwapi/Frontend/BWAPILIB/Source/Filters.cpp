@@ -9,9 +9,9 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/WeaponType.h>
 
-#define U_UFILTER(n,x) bool n ## Impl(Unit u){ return(x); } const PtrUnitFilter n( &n ## Impl )
-#define U_CFILTER(n,x) int n ## Impl(Unit u){ return (x); } const PtrCompareUnitFilter<int> n( &n ## Impl )
-#define U_CFILTERX(n,x,r) r n ## Impl(Unit u){ return (x); } const PtrCompareUnitFilter<r> n( &n ## Impl )
+#define U_UFILTER(n,x) bool n ## Impl(const Unit &u){ return(x); } const PtrUnitFilter n( &n ## Impl )
+#define U_CFILTER(n,x) int n ## Impl(const Unit &u){ return (x); } const PtrCompareUnitFilter<int> n( &n ## Impl )
+#define U_CFILTERX(n,x,r) r n ## Impl(const Unit &u){ return (x); } const PtrCompareUnitFilter<r> n( &n ## Impl )
 
 namespace BWAPI
 {
