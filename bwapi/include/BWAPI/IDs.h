@@ -3,10 +3,13 @@
 #include <vector>
 
 namespace BWAPI {
+  struct NoneIdentifier {};
+
   template<typename T>
   struct Identifier {
     int id;
     constexpr explicit Identifier(int id_) : id{id_} { }
+    constexpr Identifier(NoneIdentifier none) : id{ -1 } { }
     T getID() const { return T{id}; }
     constexpr explicit operator bool() const { return id >= 0; }
     constexpr explicit operator int() const  { return id; }
@@ -26,6 +29,8 @@ namespace BWAPI {
     };
 
     using list = std::vector<Identifier>;
+
+    static constexpr NoneIdentifier None{};
   };
 
   struct UnitID   : Identifier<UnitID>   { using Identifier<UnitID>  ::Identifier; };

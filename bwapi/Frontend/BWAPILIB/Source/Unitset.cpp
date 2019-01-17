@@ -4,6 +4,7 @@
 #include <BWAPI/Unit.h>
 #include <BWAPI/Game.h>
 #include <BWAPI/TechType.h>
+#include <BWAPI/IDs.h>
 
 #include <utility>
 
@@ -95,18 +96,18 @@ namespace BWAPI
   //--------------------------------------------- ATTACK MOVE ------------------------------------------------
   bool Unitset::attack(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::attack({-1}, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::attack(UnitID::None, target, shiftQueueCommand));
   }
   bool Unitset::attack(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::attack({-1}, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::attack(UnitID::None, target, shiftQueueCommand));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool Unitset::build(UnitType type, TilePosition target) const
   {
     if ( target == TilePositions::None )
       return this->train(type);
-    return this->issueCommand(UnitCommand::build({-1}, target, type));
+    return this->issueCommand(UnitCommand::build(UnitID::None, target, type));
   }
   //--------------------------------------------- BUILD ADDON ------------------------------------------------
   bool Unitset::buildAddon(UnitType type) const
@@ -121,168 +122,168 @@ namespace BWAPI
   //--------------------------------------------- TRAIN ------------------------------------------------------
   bool Unitset::train(UnitType type) const
   {
-    return this->issueCommand(UnitCommand::train({-1},type));
+    return this->issueCommand(UnitCommand::train(UnitID::None, type));
   }
   //--------------------------------------------- MORPH ------------------------------------------------------
   bool Unitset::morph(UnitType type) const
   {
-    return this->issueCommand(UnitCommand::morph({-1},type));
+    return this->issueCommand(UnitCommand::morph(UnitID::None, type));
   }
   //--------------------------------------------- SET RALLY POSITION -----------------------------------------
   bool Unitset::setRallyPoint(Position target) const
   {
-    return this->issueCommand(UnitCommand::setRallyPoint({-1}, target));
+    return this->issueCommand(UnitCommand::setRallyPoint(UnitID::None, target));
   }
   bool Unitset::setRallyPoint(Unit target) const
   {
-    return this->issueCommand(UnitCommand::setRallyPoint({-1}, target.getID()));
+    return this->issueCommand(UnitCommand::setRallyPoint(UnitID::None, target.getID()));
   }
   //--------------------------------------------- MOVE -------------------------------------------------------
   bool Unitset::move(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::move({-1},target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::move(UnitID::None, target, shiftQueueCommand));
   }
   //--------------------------------------------- PATROL -----------------------------------------------------
   bool Unitset::patrol(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::patrol({-1},target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::patrol(UnitID::None, target, shiftQueueCommand));
   }
   //--------------------------------------------- HOLD POSITION ----------------------------------------------
   bool Unitset::holdPosition(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::holdPosition({-1}, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::holdPosition(UnitID::None, shiftQueueCommand));
   }
   //--------------------------------------------- STOP -------------------------------------------------------
   bool Unitset::stop(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::stop({-1}, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::stop(UnitID::None, shiftQueueCommand));
   }
   //--------------------------------------------- FOLLOW -----------------------------------------------------
   bool Unitset::follow(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::follow({-1},target.getID(), shiftQueueCommand));
+    return this->issueCommand(UnitCommand::follow(UnitID::None, target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- GATHER -----------------------------------------------------
   bool Unitset::gather(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::gather({-1},target.getID(), shiftQueueCommand));
+    return this->issueCommand(UnitCommand::gather(UnitID::None, target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- RETURN CARGO -----------------------------------------------
   bool Unitset::returnCargo(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::returnCargo({-1}, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::returnCargo(UnitID::None, shiftQueueCommand));
   }
   //--------------------------------------------- REPAIR -----------------------------------------------------
   bool Unitset::repair(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::repair({-1},target.getID(), shiftQueueCommand));
+    return this->issueCommand(UnitCommand::repair(UnitID::None, target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- BURROW -----------------------------------------------------
   bool Unitset::burrow() const
   {
-    return this->issueCommand(UnitCommand::burrow({-1}));
+    return this->issueCommand(UnitCommand::burrow(UnitID::None));
   }
   //--------------------------------------------- UNBURROW ---------------------------------------------------
   bool Unitset::unburrow() const
   {
-    return this->issueCommand(UnitCommand::unburrow({-1}));
+    return this->issueCommand(UnitCommand::unburrow(UnitID::None));
   }
   //--------------------------------------------- CLOAK ------------------------------------------------------
   bool Unitset::cloak() const
   {
-    return this->issueCommand(UnitCommand::cloak({-1}));
+    return this->issueCommand(UnitCommand::cloak(UnitID::None));
   }
   //--------------------------------------------- DECLOAK ----------------------------------------------------
   bool Unitset::decloak() const
   {
-    return this->issueCommand(UnitCommand::decloak({-1}));
+    return this->issueCommand(UnitCommand::decloak(UnitID::None));
   }
   //--------------------------------------------- SIEGE ------------------------------------------------------
   bool Unitset::siege() const
   {
-    return this->issueCommand(UnitCommand::siege({-1}));
+    return this->issueCommand(UnitCommand::siege(UnitID::None));
   }
   //--------------------------------------------- UNSIEGE ----------------------------------------------------
   bool Unitset::unsiege() const
   {
-    return this->issueCommand(UnitCommand::unsiege({-1}));
+    return this->issueCommand(UnitCommand::unsiege(UnitID::None));
   }
   //--------------------------------------------- LIFT -------------------------------------------------------
   bool Unitset::lift() const
   {
-    return this->issueCommand(UnitCommand::lift({-1}));
+    return this->issueCommand(UnitCommand::lift(UnitID::None));
   }
   //--------------------------------------------- LOAD -------------------------------------------------------
   bool Unitset::load(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::load({-1},target.getID(), shiftQueueCommand));
+    return this->issueCommand(UnitCommand::load(UnitID::None, target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool Unitset::unloadAll(bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::unloadAll({-1}, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::unloadAll(UnitID::None, shiftQueueCommand));
   }
   //--------------------------------------------- UNLOAD ALL -------------------------------------------------
   bool Unitset::unloadAll(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::unloadAll({-1},target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::unloadAll(UnitID::None, target, shiftQueueCommand));
   }
   //--------------------------------------------- RIGHT CLICK ------------------------------------------------
   bool Unitset::rightClick(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::rightClick({-1}, target.getID(), shiftQueueCommand));
+    return this->issueCommand(UnitCommand::rightClick(UnitID::None, target.getID(), shiftQueueCommand));
   }
   bool Unitset::rightClick(Position target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::rightClick({-1}, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::rightClick(UnitID::None, target, shiftQueueCommand));
   }
   //--------------------------------------------- HALT CONSTRUCTION ------------------------------------------
   bool Unitset::haltConstruction() const
   {
-    return this->issueCommand(UnitCommand::haltConstruction({-1}));
+    return this->issueCommand(UnitCommand::haltConstruction(UnitID::None));
   }
   //--------------------------------------------- CANCEL CONSTRUCTION ----------------------------------------
   bool Unitset::cancelConstruction() const
   {
-    return this->issueCommand(UnitCommand::cancelConstruction({-1}));
+    return this->issueCommand(UnitCommand::cancelConstruction(UnitID::None));
   }
   //--------------------------------------------- CANCEL ADDON -----------------------------------------------
   bool Unitset::cancelAddon() const
   {
-    return this->issueCommand(UnitCommand::cancelAddon({-1}));
+    return this->issueCommand(UnitCommand::cancelAddon(UnitID::None));
   }
   //--------------------------------------------- CANCEL TRAIN -----------------------------------------------
   bool Unitset::cancelTrain(int slot) const
   {
-    return this->issueCommand(UnitCommand::cancelTrain({-1}, slot));
+    return this->issueCommand(UnitCommand::cancelTrain(UnitID::None, slot));
   }
   //--------------------------------------------- CANCEL MORPH -----------------------------------------------
   bool Unitset::cancelMorph() const
   {
-    return this->issueCommand(UnitCommand::cancelMorph({-1}));
+    return this->issueCommand(UnitCommand::cancelMorph(UnitID::None));
   }
   //--------------------------------------------- CANCEL RESEARCH --------------------------------------------
   bool Unitset::cancelResearch() const
   {
-    return this->issueCommand(UnitCommand::cancelResearch({-1}));
+    return this->issueCommand(UnitCommand::cancelResearch(UnitID::None));
   }
   //--------------------------------------------- CANCEL UPGRADE ---------------------------------------------
   bool Unitset::cancelUpgrade() const
   {
-    return this->issueCommand(UnitCommand::cancelUpgrade({-1}));
+    return this->issueCommand(UnitCommand::cancelUpgrade(UnitID::None));
   }
   //--------------------------------------------- USE TECH ---------------------------------------------------
   bool Unitset::useTech(TechType tech) const
   {
-    return issueCommand(UnitCommand::useTech({-1}, tech));
+    return issueCommand(UnitCommand::useTech(UnitID::None, tech));
   }
   bool Unitset::useTech(TechType tech, Unit target) const
   {
-    return this->issueCommand(UnitCommand::useTech({-1}, tech, target));
+    return this->issueCommand(UnitCommand::useTech(UnitID::None, tech, target));
   }
   bool Unitset::useTech(TechType tech, Position target) const
   {
-    return this->issueCommand(UnitCommand::useTech({-1}, tech, target));
+    return this->issueCommand(UnitCommand::useTech(UnitID::None, tech, target));
   }
 }
 

@@ -149,68 +149,68 @@ namespace BWAPI
   }
   namespace upgradeInternalUsage
   {
-    using namespace UnitTypes::Enum;
+    using namespace UnitTypes;
 
-    static const int Infantry_Armor[] = { Terran_Marine, Terran_Ghost, Terran_SCV, Hero_Gui_Montag, Terran_Civilian, Hero_Sarah_Kerrigan,
+    static const UnitType Infantry_Armor[] = { Terran_Marine, Terran_Ghost, Terran_SCV, Hero_Gui_Montag, Terran_Civilian, Hero_Sarah_Kerrigan,
                                           Hero_Jim_Raynor_Marine, Terran_Firebat, Terran_Medic, Hero_Samir_Duran, Hero_Alexei_Stukov };
-    static const int Vehicle_Plating[] = { Terran_Vulture, Terran_Goliath, Terran_Siege_Tank_Tank_Mode, Hero_Alan_Schezar, Hero_Jim_Raynor_Vulture,
+    static const UnitType Vehicle_Plating[] = { Terran_Vulture, Terran_Goliath, Terran_Siege_Tank_Tank_Mode, Hero_Alan_Schezar, Hero_Jim_Raynor_Vulture,
                                             Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Terran_Siege_Tank_Siege_Mode };
-    static const int Ship_Plating[] = { Terran_Wraith, Terran_Science_Vessel, Terran_Dropship, Terran_Battlecruiser, Hero_Tom_Kazansky, Hero_Magellan,
+    static const UnitType Ship_Plating[] = { Terran_Wraith, Terran_Science_Vessel, Terran_Dropship, Terran_Battlecruiser, Hero_Tom_Kazansky, Hero_Magellan,
                                         Hero_Arcturus_Mengsk, Hero_Hyperion, Hero_Norad_II, Terran_Valkyrie, Hero_Gerard_DuGalle };
-    static const int Carapace[] = { Zerg_Larva, Zerg_Egg, Zerg_Zergling, Zerg_Hydralisk, Zerg_Ultralisk, Zerg_Broodling, Zerg_Drone, Zerg_Defiler, 
+    static const UnitType Carapace[] = { Zerg_Larva, Zerg_Egg, Zerg_Zergling, Zerg_Hydralisk, Zerg_Ultralisk, Zerg_Broodling, Zerg_Drone, Zerg_Defiler,
                                     Hero_Torrasque, Zerg_Infested_Terran, Hero_Infested_Kerrigan, Hero_Unclean_One, Hero_Hunter_Killer, Hero_Devouring_One,
                                     Zerg_Cocoon, Zerg_Lurker_Egg, Zerg_Lurker, Hero_Infested_Duran };
-    static const int Flyer_Carapace[] = { Zerg_Overlord, Zerg_Mutalisk, Zerg_Guardian, Zerg_Queen, Zerg_Scourge, Hero_Matriarch, Hero_Kukulza_Mutalisk,
+    static const UnitType Flyer_Carapace[] = { Zerg_Overlord, Zerg_Mutalisk, Zerg_Guardian, Zerg_Queen, Zerg_Scourge, Hero_Matriarch, Hero_Kukulza_Mutalisk,
                                           Hero_Kukulza_Guardian, Hero_Yggdrasill, Zerg_Devourer };
-    static const int Protoss_Armor[] = { Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
+    static const UnitType Protoss_Armor[] = { Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
                                           Protoss_Archon, Hero_Dark_Templar, Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon,
                                           Hero_Tassadar, Hero_Warbringer, Protoss_Reaver, Hero_Aldaris };
-    static const int Protoss_Plating[] = { Protoss_Corsair, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, Protoss_Interceptor, Hero_Mojo,
+    static const UnitType Protoss_Plating[] = { Protoss_Corsair, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, Protoss_Interceptor, Hero_Mojo,
                                             Hero_Gantrithor, Protoss_Observer, Hero_Danimoth, Hero_Artanis, Hero_Raszagal };
-    static const int Infantry_Weapons[] = { Terran_Marine, Hero_Jim_Raynor_Marine, Terran_Ghost, Hero_Sarah_Kerrigan, Terran_Firebat, Hero_Gui_Montag,
+    static const UnitType Infantry_Weapons[] = { Terran_Marine, Hero_Jim_Raynor_Marine, Terran_Ghost, Hero_Sarah_Kerrigan, Terran_Firebat, Hero_Gui_Montag,
                                             Special_Wall_Flame_Trap, Special_Right_Wall_Flame_Trap, Hero_Samir_Duran, Hero_Alexei_Stukov, Hero_Infested_Duran };
-    static const int Vehicle_Weapons[] = { Terran_Vulture, Hero_Jim_Raynor_Vulture, Terran_Goliath, Hero_Alan_Schezar, Terran_Siege_Tank_Tank_Mode,
+    static const UnitType Vehicle_Weapons[] = { Terran_Vulture, Hero_Jim_Raynor_Vulture, Terran_Goliath, Hero_Alan_Schezar, Terran_Siege_Tank_Tank_Mode,
                                             Terran_Siege_Tank_Siege_Mode, Hero_Edmund_Duke_Tank_Mode, Hero_Edmund_Duke_Siege_Mode, Special_Floor_Missile_Trap,
                                             Special_Floor_Gun_Trap, Special_Wall_Missile_Trap, Special_Right_Wall_Missile_Trap };
-    static const int Ship_Weapons[] = { Terran_Wraith, Hero_Tom_Kazansky, Terran_Battlecruiser, Hero_Hyperion, Hero_Norad_II, Hero_Arcturus_Mengsk,
+    static const UnitType Ship_Weapons[] = { Terran_Wraith, Hero_Tom_Kazansky, Terran_Battlecruiser, Hero_Hyperion, Hero_Norad_II, Hero_Arcturus_Mengsk,
                                         Hero_Gerard_DuGalle, Terran_Valkyrie };
-    static const int Zerg_MeleeAtk[] = { Zerg_Zergling, Hero_Devouring_One, Hero_Infested_Kerrigan, Zerg_Ultralisk, Hero_Torrasque, Zerg_Broodling };
-    static const int Zerg_RangeAtk[] = { Zerg_Hydralisk, Hero_Hunter_Killer, Zerg_Lurker };
-    static const int Zerg_FlyerAtk[] = { Zerg_Mutalisk, Hero_Kukulza_Mutalisk, Hero_Kukulza_Guardian, Zerg_Guardian, Zerg_Devourer };
-    static const int Protoss_GrndWpn[] = { Protoss_Zealot, Hero_Fenix_Zealot, Protoss_Dragoon, Hero_Fenix_Dragoon, Hero_Tassadar, Hero_Aldaris, Protoss_Archon,
+    static const UnitType Zerg_MeleeAtk[] = { Zerg_Zergling, Hero_Devouring_One, Hero_Infested_Kerrigan, Zerg_Ultralisk, Hero_Torrasque, Zerg_Broodling };
+    static const UnitType Zerg_RangeAtk[] = { Zerg_Hydralisk, Hero_Hunter_Killer, Zerg_Lurker };
+    static const UnitType Zerg_FlyerAtk[] = { Zerg_Mutalisk, Hero_Kukulza_Mutalisk, Hero_Kukulza_Guardian, Zerg_Guardian, Zerg_Devourer };
+    static const UnitType Protoss_GrndWpn[] = { Protoss_Zealot, Hero_Fenix_Zealot, Protoss_Dragoon, Hero_Fenix_Dragoon, Hero_Tassadar, Hero_Aldaris, Protoss_Archon,
                                             Hero_Tassadar_Zeratul_Archon, Hero_Dark_Templar, Hero_Zeratul, Protoss_Dark_Templar };
-    static const int Protoss_AirWpn[] = { Protoss_Scout, Hero_Mojo, Protoss_Arbiter, Hero_Danimoth, Protoss_Interceptor, Protoss_Carrier, Protoss_Corsair, Hero_Artanis };
-    static const int Shields[] = { Protoss_Corsair, Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
+    static const UnitType Protoss_AirWpn[] = { Protoss_Scout, Hero_Mojo, Protoss_Arbiter, Hero_Danimoth, Protoss_Interceptor, Protoss_Carrier, Protoss_Corsair, Hero_Artanis };
+    static const UnitType Shields[] = { Protoss_Corsair, Protoss_Dark_Templar, Protoss_Dark_Archon, Protoss_Probe, Protoss_Zealot, Protoss_Dragoon, Protoss_High_Templar,
                                     Protoss_Archon, Protoss_Shuttle, Protoss_Scout, Protoss_Arbiter, Protoss_Carrier, Protoss_Interceptor, Hero_Dark_Templar,
                                     Hero_Zeratul, Hero_Tassadar_Zeratul_Archon, Hero_Fenix_Zealot, Hero_Fenix_Dragoon, Hero_Tassadar, Hero_Mojo, Hero_Warbringer,
                                     Hero_Gantrithor, Protoss_Reaver, Protoss_Observer, Hero_Danimoth, Hero_Aldaris, Hero_Artanis, Hero_Raszagal };
-    static const int Shells[] = { Terran_Marine };
-    static const int Ion_Thrusters[] = { Terran_Vulture };
-    static const int Titan_Reactor[] = { Terran_Science_Vessel };
-    static const int Ghost_Upgrades[] = { Terran_Ghost };
-    static const int Apollo_Reactor[] = { Terran_Wraith };
-    static const int Colossus_Reactor[] = { Terran_Battlecruiser };
-    static const int Overlord_Upgrades[] = { Zerg_Overlord };
-    static const int Zergling_Upgrades[] = { Zerg_Zergling };
-    static const int Hydralisk_Upgrades[] = { Zerg_Hydralisk };
-    static const int Gamete_Meiosis[] = { Zerg_Queen };
-    static const int Metasynaptic_Node[] = { Zerg_Defiler };
-    static const int Singularity_Charge[] = { Protoss_Dragoon };
-    static const int Leg_Enhancements[] = { Protoss_Zealot };
-    static const int Reaver_Upgrades[] = { Protoss_Reaver };
-    static const int Gravitic_Drive[] = { Protoss_Shuttle };
-    static const int Observer_Upgrades[] = { Protoss_Observer };
-    static const int Khaydarin_Amulet[] = { Protoss_High_Templar };
-    static const int Scout_Upgrades[] = { Protoss_Scout };
-    static const int Carrier_Capacity[] = { Protoss_Carrier };
-    static const int Khaydarin_Core[] = { Protoss_Arbiter };
-    static const int Argus_Jewel[] = { Protoss_Corsair };
-    static const int Argus_Talisman[] = { Protoss_Dark_Archon };
-    static const int Caduceus_Reactor[] = { Terran_Medic };
-    static const int Ultralisk_Upgrades[] = { Zerg_Ultralisk };
-    static const int Charon_Boosters[] = { Terran_Goliath };
+    static const UnitType Shells[] = { Terran_Marine };
+    static const UnitType Ion_Thrusters[] = { Terran_Vulture };
+    static const UnitType Titan_Reactor[] = { Terran_Science_Vessel };
+    static const UnitType Ghost_Upgrades[] = { Terran_Ghost };
+    static const UnitType Apollo_Reactor[] = { Terran_Wraith };
+    static const UnitType Colossus_Reactor[] = { Terran_Battlecruiser };
+    static const UnitType Overlord_Upgrades[] = { Zerg_Overlord };
+    static const UnitType Zergling_Upgrades[] = { Zerg_Zergling };
+    static const UnitType Hydralisk_Upgrades[] = { Zerg_Hydralisk };
+    static const UnitType Gamete_Meiosis[] = { Zerg_Queen };
+    static const UnitType Metasynaptic_Node[] = { Zerg_Defiler };
+    static const UnitType Singularity_Charge[] = { Protoss_Dragoon };
+    static const UnitType Leg_Enhancements[] = { Protoss_Zealot };
+    static const UnitType Reaver_Upgrades[] = { Protoss_Reaver };
+    static const UnitType Gravitic_Drive[] = { Protoss_Shuttle };
+    static const UnitType Observer_Upgrades[] = { Protoss_Observer };
+    static const UnitType Khaydarin_Amulet[] = { Protoss_High_Templar };
+    static const UnitType Scout_Upgrades[] = { Protoss_Scout };
+    static const UnitType Carrier_Capacity[] = { Protoss_Carrier };
+    static const UnitType Khaydarin_Core[] = { Protoss_Arbiter };
+    static const UnitType Argus_Jewel[] = { Protoss_Corsair };
+    static const UnitType Argus_Talisman[] = { Protoss_Dark_Archon };
+    static const UnitType Caduceus_Reactor[] = { Terran_Medic };
+    static const UnitType Ultralisk_Upgrades[] = { Zerg_Ultralisk };
+    static const UnitType Charon_Boosters[] = { Terran_Goliath };
 
-    static const int Upgrade60[] = { Terran_Vulture_Spider_Mine, Critter_Ursadon, Critter_Scantid, Critter_Rhynadon, Critter_Ragnasaur, Critter_Kakaru, Critter_Bengalaas,
+    static const UnitType Upgrade60[] = { Terran_Vulture_Spider_Mine, Critter_Ursadon, Critter_Scantid, Critter_Rhynadon, Critter_Ragnasaur, Critter_Kakaru, Critter_Bengalaas,
       Special_Cargo_Ship, Special_Mercenary_Gunship, Terran_SCV, Protoss_Probe, Zerg_Drone, Zerg_Infested_Terran, Zerg_Scourge };
 
 #define TSET(x) {std::begin(x), std::end(x)}

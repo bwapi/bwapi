@@ -50,10 +50,10 @@ namespace BWAPI
   };
 
   //------------------------------------ ETC ------------------------------------------
-  Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred = nullptr) const {
+  Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const {
     return getUnitsOnTile({ tileX, tileY }, pred);
   }
-  Unitset Game::getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred = nullptr) const {
+  Unitset Game::getUnitsOnTile(BWAPI::TilePosition tile, const UnitFilter &pred) const {
     if (isValid(tile)) {
       Position p{ tile };
       return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
@@ -87,7 +87,7 @@ namespace BWAPI
     
     return dmg * damageRatio[wpn.damageType()][toType.size()] / 256;
   }
-  int Game::getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer) const
+  int Game::getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer)
   {
     // Get self if toPlayer not provided
     if ( !toPlayer )
@@ -95,7 +95,7 @@ namespace BWAPI
 
     return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
   }
-  int Game::getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer, std::optional<Player> fromPlayer) const
+  int Game::getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer, std::optional<Player> fromPlayer)
   {
     // Get self if fromPlayer not provided
     if ( fromPlayer == nullptr )
@@ -294,7 +294,7 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReserveExistingAddonPlacement(Game const &game, PlacementReserve &reserve, TilePosition desiredPosition)
+  void ReserveExistingAddonPlacement(Game &game, PlacementReserve &reserve, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
 
@@ -317,7 +317,7 @@ namespace BWAPI
     ReserveStructureWithPadding(reserve, TilePosition(pUnit->getPosition()), pUnit->getType().tileSize(), padding, type, desiredPosition);
   }
 
-  void ReserveAllStructures(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveAllStructures(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     if ( type.isAddon() )
       return;
@@ -406,7 +406,7 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReservePlacement(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
+  void ReservePlacement(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
   {
     // Reset the array
     reserve.reset();

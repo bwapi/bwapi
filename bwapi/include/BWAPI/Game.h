@@ -1718,7 +1718,7 @@ namespace BWAPI
     ///
     /// @returns The amount of damage that fromType would deal to toType.
     /// @see getDamageTo
-    int getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer = std::nullopt, std::optional<Player> toPlayer = std::nullopt) const;
+    int getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer = std::nullopt, std::optional<Player> toPlayer = std::nullopt);
 
     /// <summary>Calculates the damage dealt for a given player.</summary> It can be understood as
     /// the damage to \p toType from \p fromType. Does not include shields in calculation.
@@ -1744,7 +1744,7 @@ namespace BWAPI
     ///
     /// @returns The amount of damage that fromType would deal to toType.
     /// @see getDamageFrom
-    int getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer = std::nullopt, std::optional<Player> fromPlayer = std::nullopt) const;
+    int getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer = std::nullopt, std::optional<Player> fromPlayer = std::nullopt);
 
     /// <summary>Retrieves the initial random seed that was used in this game's creation.</summary>
     /// This is used to identify the seed that started this game, in case an error occurred, so
