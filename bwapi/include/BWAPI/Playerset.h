@@ -12,7 +12,7 @@ namespace BWAPI
   class Unitset;
 
   /// <summary>A set containing Player objects.</summary>
-  class Playerset : public SetContainer<BWAPI::Player, std::hash<void*>>
+  class Playerset : public SetContainer<BWAPI::Player>
   {
   public:
 

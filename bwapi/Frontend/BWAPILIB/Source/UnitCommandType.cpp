@@ -57,7 +57,7 @@ namespace BWAPI
   };
   namespace UnitCommandTypeSet
   {
-    using namespace UnitCommandTypes::Enum;
+    using namespace UnitCommandTypes;
     const UnitCommandType::set unitCommandTypeSet = { Attack_Move, Attack_Unit, Build, Build_Addon, Train, Morph, Research, Upgrade,
       Set_Rally_Position, Set_Rally_Unit, Move, Patrol, Hold_Position, Stop, Follow, Gather, Return_Cargo, Repair,
       Burrow, Unburrow, Cloak, Decloak, Siege, Unsiege, Lift, Land, Load, Unload, Unload_All, Unload_All_Position,

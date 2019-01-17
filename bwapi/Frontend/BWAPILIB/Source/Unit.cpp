@@ -31,10 +31,10 @@ Player Unit::getPlayer() const
 }
 //--------------------------------------------- ETC ----------------------------------
 Unitset Unit::getLoadedUnits() const {
-  return {
-    getUnitData().loadedUnits.begin(),
-    getUnitData().loadedUnits.end()
-  };
+  Unitset units;
+  for (auto &u : getUnitData().loadedUnits)
+    units.emplace(getGame(), u.getID());
+  return units;
 }
 
 int Unit::getSpaceRemaining() const {

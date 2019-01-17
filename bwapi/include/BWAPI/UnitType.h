@@ -1306,4 +1306,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(UnitType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::UnitType> {
+    auto operator()(BWAPI::UnitType id) const {
+      return BWAPI::UnitType::Hash{}(id);
+    }
+  };
+} // namespace std

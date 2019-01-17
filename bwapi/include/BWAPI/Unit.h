@@ -49,14 +49,15 @@ namespace BWAPI
   ///
   /// @ingroup Interface
   class Unit: public UnitID {
-    std::reference_wrapper<Game> game;
+    Game *game;
   public:
-    Unit(Game &game, UnitID id): UnitID{id}, game{game} { }
+    Unit(Game &game, UnitID id): game{&game}, UnitID{id} { }
+    Unit(std::nullptr_t): game{nullptr}, UnitID{-1} { }
 
     /// <summary>Retrieves the Game that the unit is from.</summary>
     ///
     /// @returns A reference to the aforementioned game.
-    Game &getGame() const { return game; }
+    Game &getGame() const { return *game; }
 
     UnitData const &getUnitData() const;
     UnitData const &getInitialData() const;
@@ -755,7 +756,7 @@ namespace BWAPI
     ///
     /// @returns Unit interface object representing the @Transport containing this unit.
     /// @retval nullptr if this unit is not in a @Transport.
-    Unit getTransport() const { return { game, getUnitData().transport }; }
+    Unit getTransport() const { return { *game, getUnitData().transport }; }
 
     /// <summary>Retrieves the set of units that are contained within this @Bunker or @Transport.</summary>
     ///
@@ -774,7 +775,7 @@ namespace BWAPI
     ///
     /// @returns The parent @Carrier unit that has ownership of this one.
     /// @retval nullptr if the current unit is not an @Interceptor.
-    Unit getCarrier() const { return { game, getUnitData().carrier }; }
+    Unit getCarrier() const { return { *game, getUnitData().carrier }; }
 
     /// <summary>Retrieves the set of @Interceptors controlled by this unit.</summary> This is
     /// intended for @Carriers and its hero.
@@ -789,7 +790,7 @@ namespace BWAPI
     /// @returns Hatchery unit that has ownership of this larva.
     /// @retval nullptr if the current unit is not a @Larva or has no parent.
     /// @see getLarva
-    Unit getHatchery() const { return { game, getUnitData().hatchery }; }
+    Unit getHatchery() const { return { *game, getUnitData().hatchery }; }
 
     /// <summary>Retrieves the set of @Larvae that were spawned by this unit.</summary> Only
     /// @Hatcheries, @Lairs, and @Hives are capable of spawning @Larvae. This is like clicking the
@@ -2612,4 +2613,13 @@ namespace BWAPI
     constexpr Unit *operator->() { return this; }
     constexpr Unit const *operator->() const { return this; }
   };
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::Unit> {
+    auto operator()(BWAPI::Unit unit) const {
+      return BWAPI::Unit::Hash{}(unit);
+    }
+  };
+} // namespace std

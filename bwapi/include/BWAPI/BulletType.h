@@ -122,4 +122,13 @@ namespace BWAPI
     constexpr BulletType Unknown{Enum::Unknown};
   };
   static_assert(sizeof(BulletType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::BulletType> {
+    auto operator()(BWAPI::BulletType id) const {
+      return BWAPI::BulletType::Hash{}(id);
+    }
+  };
+} // namespace std

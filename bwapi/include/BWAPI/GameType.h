@@ -77,4 +77,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(GameType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::GameType> {
+    auto operator()(BWAPI::GameType id) const {
+      return BWAPI::GameType::Hash{}(id);
+    }
+  };
+} // namespace std

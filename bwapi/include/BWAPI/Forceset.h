@@ -11,7 +11,7 @@ namespace BWAPI
   /// <summary>A container that holds a group of Forces.</summary>
   ///
   /// @see BWAPI::Force
-  class Forceset : public SetContainer<BWAPI::Force, std::hash<void*>>
+  class Forceset : public SetContainer<BWAPI::Force>
   {
   public:
 

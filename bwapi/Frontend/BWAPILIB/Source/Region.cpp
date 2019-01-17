@@ -17,6 +17,6 @@ namespace BWAPI
                                          this->getBoundsTop(),
                                          this->getBoundsRight(),
                                          this->getBoundsBottom(),
-                                         [&](Unit u){ return u->getRegion() == this && (!pred.isValid() || pred(u)); });
+                                         [&](Unit u){ return u->getRegion() == *this && (!pred.isValid() || pred(u)); });
   }
 }

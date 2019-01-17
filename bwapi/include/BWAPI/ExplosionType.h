@@ -93,4 +93,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(ExplosionType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::ExplosionType> {
+    auto operator()(BWAPI::ExplosionType id) const {
+      return BWAPI::ExplosionType::Hash{}(id);
+    }
+  };
+} // namespace std

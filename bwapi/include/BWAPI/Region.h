@@ -20,11 +20,12 @@ namespace BWAPI
   /// @see Game::getAllRegions, Game::getRegionAt, UnitInterface::getRegion
   /// @ingroup Interface
   class Region: public RegionID {
-    std::reference_wrapper<Game> game;
+    Game *game;
   public:
-    Region(Game &game, RegionID id): game{game}, RegionID{id} { }
+    Region(Game &game, RegionID id): game{&game}, RegionID{id} { }
+    Region(std::nullptr_t) : game{nullptr}, RegionID{-1} { }
 
-    Game &getGame() const;
+    Game &getGame() const { return *game; }
 
     /// <summary>Retrieves a unique identifier for this region.</summary>
     ///
@@ -135,4 +136,13 @@ namespace BWAPI
     Region *operator->() { return this; }
     Region const *operator->() const { return this; }
   };
-};
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::Region> {
+    auto operator()(BWAPI::Region region) const {
+      return BWAPI::Region::Hash{}(region);
+    }
+  };
+} // namespace std

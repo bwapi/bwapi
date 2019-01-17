@@ -55,6 +55,8 @@ namespace BWAPI
       return result;
     }
   public:
+    static constexpr int UnkID = UnknownId;
+    using BWAPIHashCast = int;
     /// <summary>Expected type constructor.</summary> If the type is an invalid type, then it
     /// becomes Types::Unknown. A type is invalid if its value is less than 0 or greater than
     /// Types::Unknown.
@@ -167,6 +169,12 @@ namespace BWAPI
       // Return unknown if it wasn't found
       return T(UnknownId);
     };
+
+    struct Hash {
+      auto operator()(Type tp) {
+        return std::hash<int>{}(tp.getID());
+      }
+    };
   };
 
-}
+} // namespace BWAPI

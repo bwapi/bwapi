@@ -246,4 +246,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(UpgradeType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::UpgradeType> {
+    auto operator()(BWAPI::UpgradeType id) const {
+      return BWAPI::UpgradeType::Hash{}(id);
+    }
+  };
+} // namespace std

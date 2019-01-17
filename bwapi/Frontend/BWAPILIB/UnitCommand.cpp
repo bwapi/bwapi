@@ -358,4 +358,15 @@ namespace BWAPI
   {
     return !(*this == other);
   }
+  template<class T, int S>
+  void UnitCommand::assignTarget(Game &game, Point<T, S> target)
+  {
+    game.makeValid(target);
+    x = target.x;
+    y = target.y;
+  }
+
+  template void UnitCommand::assignTarget(Game &, BWAPI::Position);
+  template void UnitCommand::assignTarget(Game &, BWAPI::WalkPosition);
+  template void UnitCommand::assignTarget(Game &, BWAPI::TilePosition);
 }

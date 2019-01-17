@@ -391,4 +391,13 @@ namespace BWAPI
   };
 
   static_assert(sizeof(Order) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::Order> {
+    auto operator()(BWAPI::Order id) const {
+      return BWAPI::Order::Hash{}(id);
+    }
+  };
+} // namespace std

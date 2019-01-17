@@ -17,7 +17,7 @@ namespace BWAPI
   };
   namespace UnitSizeTypeSet
   {
-    using namespace UnitSizeTypes::Enum;
+    using namespace UnitSizeTypes;
     const UnitSizeType::set unitSizeTypeSet = { Independent, Small, Medium, Large, None, Unknown };
   }
   const UnitSizeType::set& UnitSizeTypes::allUnitSizeTypes()

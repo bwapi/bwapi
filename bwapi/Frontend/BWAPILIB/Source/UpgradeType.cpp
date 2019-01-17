@@ -112,8 +112,8 @@ namespace BWAPI
 
   namespace upgradeInternalWhat
   {
-    using namespace UnitTypes::Enum;
-    static const int whatUpgrades[UpgradeTypes::Enum::MAX] =
+    using namespace UnitTypes;
+    static const UnitType whatUpgrades[UpgradeTypes::Enum::MAX] =
     {
       Terran_Engineering_Bay, Terran_Armory, Terran_Armory, Zerg_Evolution_Chamber, Zerg_Spire, Protoss_Forge, Protoss_Cybernetics_Core, Terran_Engineering_Bay,
       Terran_Armory, Terran_Armory, Zerg_Evolution_Chamber, Zerg_Evolution_Chamber, Zerg_Spire, Protoss_Forge, Protoss_Cybernetics_Core, Protoss_Forge, Terran_Academy,
@@ -126,8 +126,8 @@ namespace BWAPI
   }
   namespace upgradeInternalReqs
   {
-    using namespace UnitTypes::Enum;
-    static const int requirements[3][UpgradeTypes::Enum::MAX] =
+    using namespace UnitTypes;
+    static const UnitType requirements[3][UpgradeTypes::Enum::MAX] =
     {
       // Level 1
       { None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 
@@ -233,8 +233,8 @@ namespace BWAPI
 
   namespace upgradeInternalRace
   {
-    using namespace Races::Enum;
-    static const int upgradeRaces[UpgradeTypes::Enum::MAX] =
+    using namespace Races;
+    static const Race upgradeRaces[UpgradeTypes::Enum::MAX] =
     {
       Terran, Terran, Terran, Zerg, Zerg, Protoss, Protoss, Terran, Terran, Terran, Zerg, Zerg, Zerg, Protoss, Protoss, Protoss, Terran, Terran, Terran, Terran, Terran, 
       Terran, Terran, Terran, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Zerg, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, Protoss, 
@@ -244,7 +244,7 @@ namespace BWAPI
 
   namespace UpgradeTypeSet
   {
-    using namespace UpgradeTypes::Enum;
+    using namespace UpgradeTypes;
     const UpgradeType::set upgradeTypeSet = { Terran_Infantry_Armor, Terran_Vehicle_Plating, Terran_Ship_Plating,
       Zerg_Carapace, Zerg_Flyer_Carapace, Protoss_Ground_Armor, Protoss_Air_Armor,
       Terran_Infantry_Weapons, Terran_Vehicle_Weapons, Terran_Ship_Weapons,

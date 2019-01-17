@@ -402,6 +402,7 @@ namespace BWAPI
     constexpr WeaponType Warp_Blades{Enum::Warp_Blades};
     constexpr WeaponType Warp_Blades_Hero{Enum::Warp_Blades_Hero};
     constexpr WeaponType Warp_Blades_Zeratul{Enum::Warp_Blades_Zeratul};
+    constexpr WeaponType Platform_Laser_Battery{Enum::Platform_Laser_Battery};
     constexpr WeaponType Independant_Laser_Battery{Enum::Independant_Laser_Battery};
     constexpr WeaponType Twin_Autocannons_Floor_Trap{Enum::Twin_Autocannons_Floor_Trap};
     constexpr WeaponType Hellfire_Missile_Pack_Wall_Trap{Enum::Hellfire_Missile_Pack_Wall_Trap};
@@ -437,4 +438,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(WeaponType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::WeaponType> {
+    auto operator()(BWAPI::WeaponType id) const {
+      return BWAPI::WeaponType::Hash{}(id);
+    }
+  };
+} // namespace std

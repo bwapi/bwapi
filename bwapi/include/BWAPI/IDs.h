@@ -42,4 +42,4 @@ namespace std {
       return BWAPI::Identifier<T>::Hash{}(id);
     }
   };
-}
+} // namespace std

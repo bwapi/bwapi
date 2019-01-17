@@ -1,6 +1,5 @@
 #pragma once
 
-#include <BWAPI/Game.h>
 #include <BWAPI/IDs.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitCommandType.h>
@@ -11,6 +10,7 @@ namespace BWAPI
   class UnitType;
   class TechType;
   class UpgradeType;
+  class Game;
 
   class UnitCommand
   {
@@ -78,12 +78,7 @@ namespace BWAPI
       bool operator!=(const UnitCommand& other) const;
 
       template <class T, int S>
-      void assignTarget(Game &game, Point<T, S> target)
-      {
-        game.makeValid(target);
-        x = target.x;
-        y = target.y;
-      }
+      void assignTarget(Game &game, Point<T, S> target);
 
       UnitID unit{-1};
       UnitCommandType type = UnitCommandTypes::None;

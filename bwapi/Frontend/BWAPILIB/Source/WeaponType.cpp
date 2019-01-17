@@ -370,7 +370,7 @@ namespace BWAPI
 
   namespace wpnInternalUpgrades
   {
-    using namespace UpgradeTypes::Enum;
+    using namespace UpgradeTypes;
     const UpgradeType upgrade[WeaponTypes::Enum::MAX] =
     {
       Terran_Infantry_Weapons, Terran_Infantry_Weapons, Terran_Infantry_Weapons, Terran_Infantry_Weapons, Terran_Vehicle_Weapons, 
@@ -397,7 +397,7 @@ namespace BWAPI
   }
   namespace wpnInternalDamageType
   {
-    using namespace DamageTypes::Enum;
+    using namespace DamageTypes;
     const DamageType damageType[WeaponTypes::Enum::MAX] =
     {
       Normal, Normal, Concussive, Concussive, Concussive, Concussive, Explosive, Normal, Explosive, Normal, Explosive, Explosive,
@@ -414,7 +414,7 @@ namespace BWAPI
   }
   namespace wpnInternalExplosionType
   {
-    using namespace ExplosionTypes::Enum;
+    using namespace ExplosionTypes;
     const ExplosionType explosionType[WeaponTypes::Enum::MAX] =
     {
       Normal, Normal, Normal, Normal, Normal, Normal, Radial_Splash, Normal, Normal, Normal, Normal, Normal, Normal, Normal, None, 
@@ -431,7 +431,7 @@ namespace BWAPI
   }
   namespace wpnInternalWhatUses
   {
-    using namespace UnitTypes::Enum;
+    using namespace UnitTypes;
     const UnitType whatUses[WeaponTypes::Enum::MAX] =
     {
       Terran_Marine, Hero_Jim_Raynor_Marine, Terran_Ghost, Hero_Sarah_Kerrigan, Terran_Vulture, Hero_Jim_Raynor_Vulture,
@@ -456,7 +456,7 @@ namespace BWAPI
 
   namespace WeaponTypesSet
   {
-    using namespace WeaponTypes::Enum;
+    using namespace WeaponTypes;
     const WeaponType::set specialWeaponTypeSet = { Yamato_Gun, Nuclear_Strike, Lockdown, EMP_Shockwave,
       Irradiate, Parasite, Spawn_Broodlings, Ensnare, Dark_Swarm,
       Plague, Consume, Stasis_Field, Psionic_Storm, Disruption_Web,
@@ -498,7 +498,7 @@ namespace BWAPI
 
   namespace wpnInternalTechs
   {
-      using namespace TechTypes::Enum;
+      using namespace TechTypes;
       const TechType attachedTech[WeaponTypes::Enum::MAX] = 
       {
         // Terran

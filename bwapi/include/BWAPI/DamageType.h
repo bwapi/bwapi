@@ -67,4 +67,13 @@ namespace BWAPI
   }
 
   static_assert(sizeof(DamageType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::DamageType> {
+    auto operator()(BWAPI::DamageType id) const {
+      return BWAPI::DamageType::Hash{}(id);
+    }
+  };
+} // namespace std

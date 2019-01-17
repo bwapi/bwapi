@@ -212,4 +212,13 @@ namespace BWAPI
   };
 
   static_assert(sizeof(TechType) == sizeof(int), "Expected type to resolve to primitive size.");
-}
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::TechType> {
+    auto operator()(BWAPI::TechType id) const {
+      return BWAPI::TechType::Hash{}(id);
+    }
+  };
+} // namespace std

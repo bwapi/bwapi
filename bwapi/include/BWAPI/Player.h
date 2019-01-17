@@ -30,11 +30,12 @@ namespace BWAPI
   /// @see Playerset, PlayerType, Race
   /// @ingroup Interface
   class Player: public PlayerID {
-    std::reference_wrapper<Game> game;
+    Game *game;
   public:
-    Player(Game &game, PlayerID id): game{game}, PlayerID{id} { }
+    Player(Game &game, PlayerID id): game{&game}, PlayerID{id} { }
+    Player(std::nullptr_t) : game{nullptr}, PlayerID{-1} { }
 
-    Game &getGame() const { return game; }
+    Game &getGame() const { return *game; }
 
     PlayerData &getPlayerData() const;
 
@@ -685,4 +686,13 @@ namespace BWAPI
     constexpr Player *operator->() { return this; }
     constexpr Player const *operator->() const { return this; }
   };
-};
+} // namespace BWAPI
+
+namespace std {
+  template<>
+  struct hash<BWAPI::Player> {
+    auto operator()(BWAPI::Player player) const {
+      return BWAPI::Player::Hash{}(player);
+    }
+  };
+} // namespace std
