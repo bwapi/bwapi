@@ -34,3 +34,12 @@ namespace BWAPI {
   struct BulletID : Identifier<BulletID> { using Identifier<BulletID>::Identifier; };
   struct ForceID  : Identifier<ForceID>  { using Identifier<ForceID> ::Identifier; };
 } // namespace BWAPI
+
+namespace std {
+  template<typename T>
+  struct hash<BWAPI::Identifier<T>> {
+    auto operator()(BWAPI::Identifier<T> id) const {
+      return BWAPI::Identifier<T>::Hash{}(id);
+    }
+  };
+}

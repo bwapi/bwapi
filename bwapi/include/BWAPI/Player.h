@@ -6,7 +6,6 @@
 
 #include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/UnitType.h>
 
 namespace BWAPI

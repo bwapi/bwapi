@@ -1346,7 +1346,7 @@ namespace BWAPI
     /// @see exists
     bool isVisible(Player player) const;
     /// @overload
-    bool isVisible() const { return isVisible(getPlayer()); }
+    bool isVisible() const;
 
     /// <summary>Performs some cheap checks to attempt to quickly detect whether the unit is
     /// unable to be targetted as the target unit of an unspecified command.</summary>

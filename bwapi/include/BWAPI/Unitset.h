@@ -18,7 +18,7 @@ namespace BWAPI
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  using Container_Unitset = SetContainer < Unit, Unit::Hash >;
+  using Container_Unitset = SetContainer < Unit >;
   class Unitset : public Container_Unitset
   {
   public:

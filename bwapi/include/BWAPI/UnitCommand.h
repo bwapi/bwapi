@@ -1,7 +1,7 @@
 #pragma once
 
 #include <BWAPI/Game.h>
-#include <BWAPI/Unit.h>
+#include <BWAPI/IDs.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitCommandType.h>
 

@@ -71,7 +71,7 @@ namespace BWAPI
     {  0,   0,   0,   0,   0,   0 }, // None
     {  0,   0,   0,   0,   0,   0 }  // Unknown
   };
-  int getDamageFromImpl(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer)
+  int getDamageFromImpl(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer)
   {
     // Retrieve appropriate weapon
     WeaponType wpn = toType.isFlyer() ? fromType.airWeapon() : fromType.groundWeapon();
@@ -82,20 +82,20 @@ namespace BWAPI
     int dmg = fromPlayer ? fromPlayer->damage(wpn) : wpn.damageAmount() * wpn.damageFactor();
 
     // If we need to calculate using armor
-    if ( wpn.damageType() != DamageTypes::Ignore_Armor && toPlayer != nullptr )
+    if ( wpn.damageType() != DamageTypes::Ignore_Armor && toPlayer )
       dmg -= std::min(dmg, toPlayer->armor(toType));
     
     return dmg * damageRatio[wpn.damageType()][toType.size()] / 256;
   }
-  int Game::getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer, Player toPlayer) const
+  int Game::getDamageFrom(UnitType fromType, UnitType toType, std::optional<Player> fromPlayer, std::optional<Player> toPlayer) const
   {
     // Get self if toPlayer not provided
-    if ( toPlayer == nullptr )
+    if ( !toPlayer )
       toPlayer = this->self();
 
     return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
   }
-  int Game::getDamageTo(UnitType toType, UnitType fromType, Player toPlayer, Player fromPlayer) const
+  int Game::getDamageTo(UnitType toType, UnitType fromType, std::optional<Player> toPlayer, std::optional<Player> fromPlayer) const
   {
     // Get self if fromPlayer not provided
     if ( fromPlayer == nullptr )
@@ -350,7 +350,7 @@ namespace BWAPI
     TilePosition( 0,-1),
     TilePosition(-1,-1)
   };
-  void ReserveDefault(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveDefault(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     reserve.backup();
     auto original = reserve;

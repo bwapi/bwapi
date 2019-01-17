@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 
-#include <BWAPI.h>
+#include <BWAPI/IDs.h>
+#include <BWAPI/Position.h>
 
 namespace BWAPI
 {
@@ -44,7 +45,7 @@ namespace BWAPI
 
     std::vector<TilePosition> startPositions;
 
-    std::vector<Region> regions;
+    std::vector<RegionID> regions;
 
     PlayerID player;
 

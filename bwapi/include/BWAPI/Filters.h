@@ -1,18 +1,20 @@
 #pragma once
 
-#include <BWAPI/Unit.h>
 #include <BWAPI/UnaryFilter.h>
 #include <BWAPI/ComparisonFilter.h>
 #include <BWAPI/BestFilter.h>
-#include <BWAPI/UnitSizeType.h>
-#include <BWAPI/UpgradeType.h>
-#include <BWAPI/WeaponType.h>
-#include <BWAPI/Player.h>
-#include <BWAPI/Order.h>
-#include <BWAPI/Race.h>
 
 namespace BWAPI
 {
+  class Unit;
+  class UpgradeType;
+  class UnitType;
+  class Player;
+  class UnitSizeType;
+  class Race;
+  class WeaponType;
+  class Order;
+
   // typedefs
   using UnitFilter = UnaryFilter<Unit>;
   using PtrUnitFilter = UnaryFilter<Unit, bool(*)(Unit const &)>;

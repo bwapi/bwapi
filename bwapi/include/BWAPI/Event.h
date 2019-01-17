@@ -9,6 +9,7 @@
 namespace BWAPI
 {
   class Player;
+  class Unit;
   class Event
   {
     public:

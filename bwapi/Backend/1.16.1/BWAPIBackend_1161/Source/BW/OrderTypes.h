@@ -13,7 +13,6 @@
 
 namespace BWAPI
 { 
-  class UnitImpl;
   class UnitType;
   class Unitset;
 }

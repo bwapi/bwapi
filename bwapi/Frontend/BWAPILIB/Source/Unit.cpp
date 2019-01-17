@@ -5,6 +5,7 @@
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Game.h>
+#include <BWAPI/Region.h>
 #include <BWAPI/WeaponType.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Filters.h>
@@ -46,8 +47,10 @@ int Unit::getSpaceRemaining() const {
   return space;
 }
 
-Unitset Unit::getInterceptors() const { return getUnitData().interceptors; }
-Unitset Unit::getLarva() const { return getUnitData().larva; }
+//Unitset Unit::getInterceptors() const { return getUnitData().interceptors; }
+Unitset Unit::getInterceptors() const { return Unitset::none; }
+//Unitset Unit::getLarva() const { return getUnitData().larva; }
+Unitset Unit::getLarva() const { return Unitset::none; }
 
 UnitCommand Unit::getLastCommand() const { return getUnitData().lastCommand; }
 
@@ -287,6 +290,9 @@ bool Unit::isMaelstrommed() const
 bool Unit::isVisible(Player player) const {
   auto const iplayer = static_cast<int>(player.getID());
   return player && iplayer < 9 && getUnitData().isVisible[iplayer];
+}
+bool Unit::isVisible() const {
+  return isVisible(getPlayer());
 }
 //--------------------------------------------- ATTACK MOVE ------------------------------------------------
 bool Unit::attack(Position target, bool shiftQueueCommand) const
