@@ -176,14 +176,14 @@ namespace BWAPI
     U_UFILTER(IsPowered, u->isPowered() );
     U_UFILTER(IsVisible, u->isVisible() );
 
-    bool IsEnemyImpl(Unit u)
+    bool IsEnemyImpl(const Unit &u)
     {
       auto const self = u->getGame().self();
       return self == nullptr ? false : self->isEnemy(u->getPlayer());
     }
     const PtrUnitFilter IsEnemy( &IsEnemyImpl );
 
-    bool IsAllyImpl(Unit u)
+    bool IsAllyImpl(const Unit &u)
     {
       auto const self = u->getGame().self();
       return self == nullptr ? false : self->isAlly( u->getPlayer() );

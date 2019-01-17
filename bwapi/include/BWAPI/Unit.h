@@ -1001,7 +1001,7 @@ namespace BWAPI
     /// <summary>Checks if this unit has the @matrix effect.</summary>
     ///
     /// @returns true if the @matrix ability was used on this unit, and false otherwise.
-    bool isDefenseMatrixed() { return static_cast<bool>(getDefenseMatrixPoints()); }
+    bool isDefenseMatrixed() const { return static_cast<bool>(getDefenseMatrixPoints()); }
 
     /// <summary>Checks if this unit is visible or revealed by a detector unit.</summary> If this
     /// is false and #isVisible is true, then the unit is only partially visible and requires a
