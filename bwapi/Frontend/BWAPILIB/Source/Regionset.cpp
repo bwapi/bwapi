@@ -1,3 +1,6 @@
+#include <BWAPI/Game.h>
+#include <BWAPI/Force.h>
+#include <BWAPI/Player.h>
 #include <BWAPI/Regionset.h>
 #include <BWAPI/Region.h>
 #include <BWAPI/Unitset.h>

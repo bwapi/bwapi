@@ -2,9 +2,8 @@
 #include <list>
 #include <string>
 #include <cstdarg>
+#include <sstream>
 
-#include <BWAPI/Unit.h>
-#include <BWAPI/Player.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/Color.h>
 
@@ -15,11 +14,18 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/IDs.h>
 
-#include <sstream>
 #include <BWAPI/GameData.h>
 #include <BWAPI/Client/UnitData.h>
+#include <BWAPI/Client/PlayerData.h>
+#include <BWAPI/Client/RegionData.h>
+#include <BWAPI/Client/ForceData.h>
+#include <BWAPI/Client/BulletData.h>
 
-#include "Client/UnitData.h"
+#include <BWAPI/Unit.h>
+#include <BWAPI/Player.h>
+#include <BWAPI/Region.h>
+#include <BWAPI/Force.h>
+#include <BWAPI/Bullet.h>
 
 namespace BWAPI
 {
@@ -27,8 +33,6 @@ namespace BWAPI
   class Bulletset;
   class Color;
   class Event;
-  class ForceInterface;
-  typedef ForceInterface *Force;
   class Forceset;
   class GameType;
   class Playerset;
@@ -52,14 +56,46 @@ namespace BWAPI
     Game &operator=(Game const &other) = delete;
     Game &operator=(Game &&other) = delete;
 
-    UnitData &getUnitData(UnitID unit)
+    UnitData const *getUnitData(UnitID unit) const
     {
-        
+      if (auto const it = units.find(unit); it != units.end())
+        return &it->getData();
+      else return nullptr;
     }
 
-    UnitData &getInitialData(UnitID unit)
+    UnitData const *getInitialData(UnitID unit) const
     {
-      
+      if (auto const it = initialUnits.find(unit); it != units.end())
+        return &it->getData();
+      else return nullptr;
+    }
+
+    PlayerData const *getPlayerData(PlayerID player) const
+    {
+      if (auto const it = players.find(player); it != players.end())
+        return &it->getData();
+      else return nullptr;
+    }
+
+    RegionData const *getRegionData(RegionID region) const
+    {
+      if (auto const it = regions.find(region); it != regions.end())
+        return &it->getData();
+      else return nullptr;
+    }
+
+    ForceData const *getForceData(ForceID force) const
+    {
+      if (auto const it = forces.find(force); it != forces.end())
+        return &it->getData();
+      else return nullptr;
+    }
+
+    BulletData const *getBulletData(BulletID bullet) const
+    {
+      if (auto const it = bullets.find(bullet); it != bullets.end())
+        return &it->getData();
+      else return nullptr;
     }
 
     /// <summary>Retrieves the set of all teams/forces.</summary> Forces are commonly seen in @UMS
@@ -148,7 +184,12 @@ namespace BWAPI
     ///
     /// @returns Force interface object mapped to the given \p forceID.
     /// @retval nullptr if the given identifier is invalid.
-    virtual Force getForce(int forceID) const = 0;
+    Force getForce(ForceID forceID) const
+    {
+      if (auto const fp = getForceData(forceID); fp)
+        return *fp;
+      else return nullptr;
+    }
 
     /// <summary>Retrieves the Player interface object associated with a given identifier.</summary>
     ///
@@ -158,7 +199,12 @@ namespace BWAPI
     ///
     /// @returns Player interface object mapped to the given \p playerID.
     /// @retval nullptr if the given identifier is invalid.
-    virtual Player getPlayer(int playerID) const = 0;
+    Player getPlayer(PlayerID playerID) const
+    {
+      if (auto const pp = getPlayerData(playerID); pp)
+        return *pp;
+      else return nullptr;
+    };
 
     /// <summary>Retrieves the Unit interface object associated with a given identifier.</summary>
     ///
@@ -168,7 +214,12 @@ namespace BWAPI
     ///
     /// @returns Unit interface object mapped to the given \p unitID.
     /// @retval nullptr if the given identifier is invalid.
-    virtual Unit getUnit(int unitID) const = 0;
+    Unit getUnit(UnitID unitID) const
+    {
+      if (auto const up = getUnitData(unitID); up)
+        return *up;
+      else return nullptr;
+    }
 
     /// <summary>Retrieves a Unit interface object from a given unit index.</summary> The value
     /// given as an index maps directly to Broodwar's unit array index and matches the index found
@@ -1000,7 +1051,7 @@ namespace BWAPI
     ///       BWAPI::Broodwar->sendText("Hello, my name is %s.", BWAPI::Broodwar->self()->getName().c_str());
     ///   }
     /// @endcode
-    Player self() { return { *this, gameData.player }; }
+    Player self() const { return *getPlayerData(gameData.player); }
 
     /// <summary>Retrieves the Player interface that represents the enemy player.</summary> If
     /// there is more than one enemy, and that enemy is destroyed, then this function will still
@@ -1801,8 +1852,14 @@ namespace BWAPI
     }
 
     GameData gameData;
-    std::map<PlayerID, PlayerData> playerData;
-    std::unordered_map<UnitID, UnitData> unitData;
+
+    // We can't include bwapi sets here because they depend on Game
+    std::set<Player, IDCompare> players;
+    std::set<Unit,   IDCompare> units;
+    decltype(units)             initialUnits;
+    std::set<Region, IDCompare> regions;
+    std::set<Bullet, IDCompare> bullets;
+    std::set<Force,  IDCompare> forces;
   };
 
   //extern Game *BroodwarPtr;
@@ -1837,10 +1894,5 @@ namespace BWAPI
     /// <summary>Flushes the Broodwar stream, printing all text in the stream to the screen.</summary>
     void flush();
   };
-
-  /// <summary>The primary Game interface, used to access any Game information or perform Game
-  /// actions.</summary>
-  //extern GameWrapper Broodwar;
-
 }
 

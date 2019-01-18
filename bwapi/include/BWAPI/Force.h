@@ -1,14 +1,11 @@
 #pragma once
 #include <string>
 #include <BWAPI/IDs.h>
+#include <BWAPI/Client/ForceData.h>
 
 namespace BWAPI
 {
-  // Forward Declarations
   class Playerset;
-
-  class ForceInterface;
-  typedef ForceInterface *Force;
 
   /// <summary>The Force class is used to get information about each force in a match.</summary>
   /// Normally this is considered a team.
@@ -17,16 +14,15 @@ namespace BWAPI
   /// to be allied at the beginning of a match.
   ///
   /// @ingroup Interface
-  class ForceInterface : public ForceID
+  class Force : public InterfaceDataWrapper<Force, ForceData>
   {
-  protected:
-    virtual ~ForceInterface() {};
-  public :
+  public:
+    using InterfaceDataWrapper<Force, ForceData>::InterfaceDataWrapper;
     /// <summary>Retrieves the unique ID that represents this Force.</summary>
     ///
     /// @returns
     ///   An integer containing the ID for the Force.
-    virtual int getID() const = 0;
+    ForceID getID() const { return getData().id; }
 
     /// <summary>Retrieves the name of the Force.</summary>
     ///
@@ -42,7 +38,7 @@ namespace BWAPI
     ///
     /// @note Don't forget to use std::string::c_str() when passing this parameter to
     /// Game::sendText and other variadic functions.
-    virtual std::string getName() const = 0;
+    std::string_view getName() const { return getData().name; }
 
     /// <summary>Retrieves the set of players that belong to this Force.</summary>
     ///
@@ -60,6 +56,6 @@ namespace BWAPI
     ///       Broodwar << "  - " << i->getName() << std::endl;
     ///   }
     /// @endcode
-    virtual Playerset getPlayers() const = 0;
+    Playerset getPlayers() const;
   };
 }

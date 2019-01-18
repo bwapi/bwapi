@@ -14,26 +14,57 @@
 #include <limits>
 
 using namespace BWAPI;
-
-UnitData const &Unit::getUnitData() const
-{
-  return getGame().getUnitData(getID());
-}
-
-UnitData const &Unit::getInitialData() const
-{
-  return getGame().getInitialData(getID());
-}
   
 Player Unit::getPlayer() const
 {
-  return {getGame(), getUnitData().player};
+  return *getGame().getPlayerData(getData().player);
 }
+
+Unit Unit::getBuildUnit() const
+{
+  return *getGame().getUnitData(getData().buildUnit);
+}
+
+Unit Unit::getTarget() const
+{
+  return *getGame().getUnitData(getData().target);
+}
+
+Unit Unit::getOrderTarget() const
+{
+  return *getGame().getUnitData(getData().orderTarget);
+}
+
+Unit Unit::getRallyUnit() const
+{
+  return *getGame().getUnitData(getData().rallyUnit);
+}
+
+Unit Unit::getAddon() const
+{
+  return *getGame().getUnitData(getData().addon);
+}
+
+Unit Unit::getNydusExit() const
+{
+  return *getGame().getUnitData(getData().nydusExit);
+}
+
+Unit Unit::getPowerUp() const
+{
+  return *getGame().getUnitData(getData().powerUp);
+}
+
+Unit Unit::getTransport() const
+{
+  return *getGame().getUnitData(getData().transport);
+}
+
 //--------------------------------------------- ETC ----------------------------------
-Unitset Unit::getLoadedUnits() const {
+BWAPI::Unitset Unit::getLoadedUnits() const {
   Unitset units;
-  for (auto &u : getUnitData().loadedUnits)
-    units.emplace(getGame(), u.getID());
+  for (auto &id : getData().loadedUnits)
+    units.emplace(*getGame().getUnitData(id));
   return units;
 }
 
@@ -42,17 +73,38 @@ int Unit::getSpaceRemaining() const {
 
   // Decrease the space for each loaded unit
   for (auto &loadedUnit : getLoadedUnits())
-    space -= Unit{ getGame(), loadedUnit }.getType().spaceRequired();
+    space -= loadedUnit.getType().spaceRequired();
 
   return space;
 }
 
-//Unitset Unit::getInterceptors() const { return getUnitData().interceptors; }
-Unitset Unit::getInterceptors() const { return Unitset::none; }
-//Unitset Unit::getLarva() const { return getUnitData().larva; }
-Unitset Unit::getLarva() const { return Unitset::none; }
+Unit Unit::getCarrier() const
+{
+  return *getGame().getUnitData(getData().carrier);
+}
 
-UnitCommand Unit::getLastCommand() const { return getUnitData().lastCommand; }
+BWAPI::Unitset Unit::getInterceptors() const {
+  Unitset ret;
+  for (auto &id : getData().interceptors) {
+    ret.emplace(*getGame().getUnitData(id));
+  }
+  return ret;
+}
+
+Unit Unit::getHatchery() const
+{
+  return *getGame().getUnitData(getData().hatchery);
+}
+
+BWAPI::Unitset Unit::getLarva() const {
+  Unitset ret;
+  for (auto &id : getData().larva) {
+    ret.emplace(*getGame().getUnitData(id));
+  }
+  return ret;
+}
+
+UnitCommand Unit::getLastCommand() const { return getData().lastCommand; }
 
 //------------------------------------------------ GET UNITS IN RADIUS -------------------------------------
 Unitset Unit::getUnitsInRadius(int radius, const UnitFilter &pred) const
@@ -73,7 +125,7 @@ Unit Unit::getClosestUnit(const UnitFilter &pred, int radius) const
 {
   // Return if this unit does not exist
   if ( !exists() )
-    return {getGame(), UnitID{-1}};
+    return nullptr;
     
   return getGame().getClosestUnitInRectangle(this->getPosition(),
                                               [&](Unit u){ return *this != u && getDistance(u) <= radius && (!pred.isValid() || pred(u)); }, 
@@ -243,7 +295,7 @@ bool Unit::hasPath(Unit target) const
 }
 Player Unit::getLastAttackingPlayer() const
 {
-  return { getGame(), getUnitData().lastAttackerPlayer };
+  return *getGame().getPlayerData(getData().lastAttackerPlayer);
 }
 //--------------------------------------------- GET REGION -------------------------------------------------
 Region Unit::getRegion() const
@@ -289,7 +341,7 @@ bool Unit::isMaelstrommed() const
 }
 bool Unit::isVisible(Player player) const {
   auto const iplayer = static_cast<int>(player.getID());
-  return player && iplayer < 9 && getUnitData().isVisible[iplayer];
+  return player && iplayer < 9 && getData().isVisible[iplayer];
 }
 bool Unit::isVisible() const {
   return isVisible(getPlayer());

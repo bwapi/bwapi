@@ -48,19 +48,16 @@ namespace BWAPI
   /// that have been destroyed.
   ///
   /// @ingroup Interface
-  class Unit: public UnitID {
-    Game *game;
+  class Unit : public InterfaceDataWrapper<Unit, UnitData> {
   public:
-    Unit(Game &game, UnitID id): game{&game}, UnitID{id} { }
-    Unit(std::nullptr_t): game{nullptr}, UnitID{-1} { }
+    using InterfaceDataWrapper<Unit, UnitData>::InterfaceDataWrapper;
 
-    /// <summary>Retrieves the Game that the unit is from.</summary>
+    /// <summary>Retrieves a unique identifier for this unit.</summary>
     ///
-    /// @returns A reference to the aforementioned game.
-    Game &getGame() const { return *game; }
-
-    UnitData const &getUnitData() const;
-    UnitData const &getInitialData() const;
+    /// @returns An integer containing the unit's identifier.
+    ///
+    /// @see getReplayID
+    UnitID getID() const { return getData().id; }
 
     /// <summary>Checks if the Unit exists in the view of the BWAPI player.</summary>
     ///
@@ -78,7 +75,7 @@ namespace BWAPI
     ///      by polling onUnitDestroy.
     ///
     /// @see isVisible, isCompleted
-    bool exists() const { return *this && getUnitData().exists; }
+    bool exists() const { return *this && getData().exists; }
 
     /// <summary>Retrieves the unit identifier for this unit as seen in replay data.</summary>
     ///
@@ -87,7 +84,7 @@ namespace BWAPI
     /// @returns An integer containing the replay unit identifier.
     ///
     /// @see getID
-    UnitID getReplayID() const { return getUnitData().replayID; }
+    UnitID getReplayID() const { return getData().replayID; }
 
     /// <summary>Retrieves the player that owns this unit.</summary>
     ///
@@ -102,7 +99,7 @@ namespace BWAPI
     /// @returns A UnitType objects representing the unit's type.
     ///
     /// @see getInitialType
-    UnitType getType() const { return getUnitData().type; }
+    UnitType getType() const { return getData().type; }
 
     /// <summary>Retrieves the unit's position from the upper left corner of the map in pixels.
     /// </summary> The position returned is roughly the center if the unit.
@@ -117,7 +114,7 @@ namespace BWAPI
     /// @returns Position object representing the unit's current position.
     ///
     /// @see getTilePosition, getWalkPosition, getInitialPosition, getLeft, getTop
-    Position getPosition() const { return { getUnitData().position }; }
+    Position getPosition() const { return { getData().position }; }
 
     /// <summary>Retrieves the unit's build position from the upper left corner of the map in
     /// tiles.</summary>
@@ -138,21 +135,21 @@ namespace BWAPI
     /// @note A value of 0.0 means the unit is facing east.
     ///
     /// @returns A double with the angle measure in radians.
-    double getAngle() const { return getUnitData().angle; }
+    double getAngle() const { return getData().angle; }
 
     /// <summary>Retrieves the x component of the unit's velocity, measured in pixels per frame.</summary>
     ///
     /// @returns A double that represents the velocity's x component.
     ///
     /// @see getVelocityY
-    double getVelocityX() const { return getUnitData().velocityX; };
+    double getVelocityX() const { return getData().velocityX; };
 
     /// <summary>Retrieves the y component of the unit's velocity, measured in pixels per frame.</summary>
     ///
     /// @returns A double that represents the velocity's y component.
     ///
     /// @see getVelocityX
-    double getVelocityY() const { return getUnitData().velocityY; };
+    double getVelocityY() const { return getData().velocityY; };
 
     /// <summary>Retrieves the Region that the center of the unit is in.</summary>
     ///
@@ -183,7 +180,7 @@ namespace BWAPI
     ///
     /// @see getTop, getRight, getBottom
     int getLeft() const {
-      auto const &data = getUnitData();
+      auto const &data = getData();
       return data.position.x - data.type.dimensionLeft();
     }
 
@@ -194,7 +191,7 @@ namespace BWAPI
     ///
     /// @see getLeft, getRight, getBottom
     int getTop() const {
-      auto const &data = getUnitData();
+      auto const &data = getData();
       return data.position.y - data.type.dimensionUp();
     }
 
@@ -205,7 +202,7 @@ namespace BWAPI
     ///
     /// @see getLeft, getTop, getBottom
     int getRight() const {
-      auto const &data = getUnitData();
+      auto const &data = getData();
       return data.position.x + data.type.dimensionRight();
     }
 
@@ -216,7 +213,7 @@ namespace BWAPI
     ///
     /// @see getLeft, getTop, getRight
     int getBottom() const {
-      auto const &data = getUnitData();
+      auto const &data = getData();
       return data.position.y + data.type.dimensionDown();
     }
 
@@ -230,14 +227,14 @@ namespace BWAPI
     /// or even negative HP (death in one hit).
     ///
     /// @see UnitType::maxHitPoints, getShields, getInitialHitPoints
-    int getHitPoints() const { return getUnitData().hitPoints; }
+    int getHitPoints() const { return getData().hitPoints; }
 
     /// <summary>Retrieves the unit's current Shield Points (Shields) as seen in the game.</summary>
     ///
     /// @returns An integer representing the amount of shield points a unit currently has.
     ///
     /// @see UnitType::maxShields, getHitPoints
-    int getShields() const { return getUnitData().shields; }
+    int getShields() const { return getData().shields; }
 
     /// <summary>Retrieves the unit's current Energy Points (Energy) as seen in the game.</summary>
     ///
@@ -246,7 +243,7 @@ namespace BWAPI
     /// @note Energy is required in order for units to use abilities.
     ///
     /// @see UnitType::maxEnergy
-    int getEnergy() const { return getUnitData().energy; }
+    int getEnergy() const { return getData().energy; }
 
     /// <summary>Retrieves the resource amount from a resource container, such as a Mineral Field
     /// and Vespene Geyser.</summary> If the unit is inaccessible, then the last known resource
@@ -256,7 +253,7 @@ namespace BWAPI
     /// resource.
     ///
     /// @see getInitialResources
-    int getResources() const { return getUnitData().resources; }
+    int getResources() const { return getData().resources; }
 
     /// <summary>Retrieves a grouping index from a resource container.</summary> Other resource
     /// containers of the same value are considered part of one expansion location (group of
@@ -267,7 +264,7 @@ namespace BWAPI
     ///
     /// @returns An integer with an identifier between 0 and 250 that determine which resources
     /// are grouped together to form an expansion.
-    int getResourceGroup() const { return getUnitData().resourceGroup; }
+    int getResourceGroup() const { return getData().resourceGroup; }
 
     /// <summary>Retrieves the distance between this unit and a target position.</summary>
     ///
@@ -340,7 +337,7 @@ namespace BWAPI
     ///
     /// @returns The frame number that sent the last successfully processed command to BWAPI.
     /// @see Game::getFrameCount, getLastCommand
-    int getLastCommandFrame() const { return getUnitData().lastCommandFrame; }
+    int getLastCommandFrame() const { return getData().lastCommandFrame; }
 
     /// <summary>Retrieves the last successful command that was sent to BWAPI.</summary>
     ///
@@ -362,7 +359,7 @@ namespace BWAPI
     /// @returns UnitType of this unit as it was when it was created.
     /// @retval UnitTypes::Unknown if this unit was not a static neutral unit in the beginning of
     /// the game.
-    UnitType getInitialType() const { return getUnitData().type; }
+    UnitType getInitialType() const { return getData().type; }
 
     /// <summary>Retrieves the initial position of this unit.</summary> This is the position that
     /// the unit starts at in the beginning of the game. This is used to access the positions of
@@ -371,7 +368,7 @@ namespace BWAPI
     /// @returns Position indicating the unit's initial position when it was created.
     /// @retval Positions::Unknown if this unit was not a static neutral unit in the beginning of
     /// the game.
-    Position getInitialPosition() const { return getUnitData().position; }
+    Position getInitialPosition() const { return getData().position; }
 
     /// <summary>Retrieves the initial build tile position of this unit.</summary> This is the tile
     /// position that the unit starts at in the beginning of the game. This is used to access the
@@ -393,7 +390,7 @@ namespace BWAPI
     /// points.
     ///
     /// @see Game::getStaticNeutralUnits
-    int getInitialHitPoints() const { return getUnitData().hitPoints; }
+    int getInitialHitPoints() const { return getData().hitPoints; }
 
     /// <summary>Retrieves the amount of resources contained in the unit at the beginning of the
     /// game.</summary> The unit must be a neutral resource container.
@@ -403,19 +400,19 @@ namespace BWAPI
     /// unit does not contain resources. It is possible that the unit simply contains 0 resources.
     ///
     /// @see Game::getStaticNeutralUnits
-    int getInitialResources() const { return getUnitData().resources; };
+    int getInitialResources() const { return getData().resources; };
 
     /// <summary>Retrieves the number of units that this unit has killed in total.</summary>
     ///
     /// @note The maximum amount of recorded kills per unit is 255.
     ///
     /// @returns integer indicating this unit's kill count.
-    int getKillCount() const { return getUnitData().killCount; }
+    int getKillCount() const { return getData().killCount; }
 
     /// <summary>Retrieves the number of acid spores that this unit is inflicted with.</summary>
     ///
     /// @returns Number of acid spores on this unit.
-    int getAcidSporeCount() const { return getUnitData().acidSporeCount; }
+    int getAcidSporeCount() const { return getData().acidSporeCount; }
 
     /// <summary>Retrieves the number of interceptors that this unit manages.</summary> This
     /// function is only for the @Carrier and its hero.
@@ -426,19 +423,19 @@ namespace BWAPI
     ///
     /// @returns Number of interceptors in this unit.
     /// @see getInterceptors
-    int getInterceptorCount() const { return getUnitData().interceptorCount; }
+    int getInterceptorCount() const { return getData().interceptorCount; }
 
     /// <summary>Retrieves the number of scarabs that this unit has for use.</summary> This
     /// function is only for the @Reaver.
     ///
     /// @returns Number of scarabs this unit has ready.
-    int getScarabCount() const { return getUnitData().scarabCount; }
+    int getScarabCount() const { return getData().scarabCount; }
 
     /// <summary>Retrieves the amount of @mines this unit has available.</summary> This function
     /// is only for the @Vulture.
     ///
     /// @returns Number of spider mines available for placement.
-    int getSpiderMineCount() const { return getUnitData().spiderMineCount; }
+    int getSpiderMineCount() const { return getData().spiderMineCount; }
 
     /// <summary>Retrieves the unit's ground weapon cooldown.</summary> This value decreases every
     /// frame, until it reaches 0. When the value is 0, this indicates that the unit is capable of
@@ -448,7 +445,7 @@ namespace BWAPI
     /// (-1) and (+2) to the unit's weapon cooldown.
     ///
     /// @returns Number of frames needed for the unit's ground weapon to become available again.
-    int getGroundWeaponCooldown() const { return getUnitData().groundWeaponCooldown; }
+    int getGroundWeaponCooldown() const { return getData().groundWeaponCooldown; }
 
     /// <summary>Retrieves the unit's air weapon cooldown.</summary> This value decreases every
     /// frame, until it reaches 0. When the value is 0, this indicates that the unit is capable of
@@ -458,7 +455,7 @@ namespace BWAPI
     /// (-1) and (+2) to the unit's weapon cooldown.
     ///
     /// @returns Number of frames needed for the unit's air weapon to become available again.
-    int getAirWeaponCooldown() const { return getUnitData().airWeaponCooldown; }
+    int getAirWeaponCooldown() const { return getData().airWeaponCooldown; }
 
     /// <summary>Retrieves the unit's ability cooldown.</summary> This value decreases every frame,
     /// until it reaches 0. When the value is 0, this indicates that the unit is capable of using
@@ -468,7 +465,7 @@ namespace BWAPI
     /// (-1) and (+2) to the unit's ability cooldown.
     ///
     /// @returns Number of frames needed for the unit's abilities to become available again.
-    int getSpellCooldown() const { return getUnitData().spellCooldown; }
+    int getSpellCooldown() const { return getData().spellCooldown; }
 
     /// <summary>Retrieves the amount of hit points remaining on the @matrix created by a
     /// @Science_Vessel.</summary> The @matrix ability starts with 250 hit points when it is used.
@@ -476,7 +473,7 @@ namespace BWAPI
     /// @returns Number of hit points remaining on this unit's @matrix.
     ///
     /// @see getDefenseMatrixTimer, isDefenseMatrixed
-    int getDefenseMatrixPoints() const { return getUnitData().defenseMatrixPoints; }
+    int getDefenseMatrixPoints() const { return getData().defenseMatrixPoints; }
 
     /// <summary>Retrieves the time, in frames, that the @matrix will remain active on the current
     /// unit.</summary>
@@ -484,7 +481,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see getDefenseMatrixPoints, isDefenseMatrixed
-    int getDefenseMatrixTimer() const { return getUnitData().defenseMatrixTimer; }
+    int getDefenseMatrixTimer() const { return getData().defenseMatrixTimer; }
 
     /// <summary>Retrieves the time, in frames, that @ensnare will remain active on the current
     /// unit.</summary>
@@ -492,7 +489,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isEnsnared
-    int getEnsnareTimer() const { return getUnitData().ensnareTimer; }
+    int getEnsnareTimer() const { return getData().ensnareTimer; }
 
     /// <summary>Retrieves the time, in frames, that @irradiate will remain active on the current
     /// unit.</summary>
@@ -500,7 +497,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isIrradiated
-    int getIrradiateTimer() const { return getUnitData().irradiateTimer; }
+    int getIrradiateTimer() const { return getData().irradiateTimer; }
 
     /// <summary>Retrieves the time, in frames, that @lockdown will remain active on the current
     /// unit.</summary>
@@ -508,7 +505,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isLockdowned
-    int getLockdownTimer() const { return getUnitData().lockdownTimer; }
+    int getLockdownTimer() const { return getData().lockdownTimer; }
 
     /// <summary>Retrieves the time, in frames, that @maelstrom will remain active on the current
     /// unit.</summary>
@@ -516,14 +513,14 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isMaelstrommed
-    int getMaelstromTimer() const { return getUnitData().maelstromTimer; }
+    int getMaelstromTimer() const { return getData().maelstromTimer; }
 
     /// <summary>Retrieves an internal timer used for the primary order.</summary> Its use is
     /// specific to the order type that is currently assigned to the unit.
     ///
     /// @returns A value used as a timer for the primary order.
     /// @see getOrder
-    int getOrderTimer() const { return getUnitData().orderTimer; }
+    int getOrderTimer() const { return getData().orderTimer; }
 
     /// <summary>Retrieves the time, in frames, that @plague will remain active on the current
     /// unit.</summary>
@@ -531,7 +528,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isPlagued
-    int getPlagueTimer() const { return getUnitData().plagueTimer; }
+    int getPlagueTimer() const { return getData().plagueTimer; }
 
     /// <summary>Retrieves the time, in frames, until this temporary unit is destroyed or
     /// removed.</summary> This is used to determine the remaining time for the following units
@@ -543,7 +540,7 @@ namespace BWAPI
     ///   - @scanner
     ///   .
     /// Once this value reaches 0, the unit is destroyed.
-    int getRemoveTimer() const { return getUnitData().removeTimer; }
+    int getRemoveTimer() const { return getData().removeTimer; }
 
     /// <summary>Retrieves the time, in frames, that @stasis will remain active on the current
     /// unit.</summary>
@@ -551,7 +548,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isPlagued
-    int getStasisTimer() const { return getUnitData().stasisTimer; }
+    int getStasisTimer() const { return getData().stasisTimer; }
 
     /// <summary>Retrieves the time, in frames, that @stim will remain active on the current
     /// unit.</summary>
@@ -559,7 +556,7 @@ namespace BWAPI
     /// @returns Number of frames remaining until the effect is removed.
     ///
     /// @see isPlagued
-    int getStimTimer() const { return getUnitData().stimTimer; }
+    int getStimTimer() const { return getData().stimTimer; }
 
     /// <summary>Retrieves the building type that a @worker is about to construct.</summary> If
     /// the unit is morphing or is an incomplete structure, then this returns the UnitType that it
@@ -567,7 +564,7 @@ namespace BWAPI
     ///
     /// @returns UnitType indicating the type that a @worker is about to construct, or an
     /// incomplete unit will be when completed.
-    UnitType getBuildType() const { return getUnitData().buildType; }
+    UnitType getBuildType() const { return getData().buildType; }
 
     /// <summary>Retrieves the list of units queued up to be trained.</summary>
     ///
@@ -576,8 +573,8 @@ namespace BWAPI
     /// @see train, cancelTrain, isTraining
     UnitType::list getTrainingQueue() const {
       return {
-        getUnitData().trainingQueue.begin(),
-        getUnitData().trainingQueue.end()
+        getData().trainingQueue.begin(),
+        getData().trainingQueue.end()
       };
     }
 
@@ -587,7 +584,7 @@ namespace BWAPI
     /// @retval TechTypes::None if this unit is not researching anything.
     ///
     /// @see research, cancelResearch, isResearching, getRemainingResearchTime
-    TechType getTech() const { return getUnitData().tech; }
+    TechType getTech() const { return getData().tech; }
 
     /// <summary>Retrieves the upgrade that this unit is currently upgrading.</summary>
     ///
@@ -595,13 +592,13 @@ namespace BWAPI
     /// @retval UpgradeTypes::None if this unit is not upgrading anything.
     ///
     /// @see upgrade, cancelUpgrade, isUpgrading, getRemainingUpgradeTime
-    UpgradeType getUpgrade() const { return getUnitData().upgrade; }
+    UpgradeType getUpgrade() const { return getData().upgrade; }
 
     /// <summary>Retrieves the remaining build time for a unit or structure that is being trained
     /// or constructed.</summary>
     ///
     /// @returns Number of frames remaining until the unit's completion.
-    int getRemainingBuildTime() const { return getUnitData().remainingBuildTime; }
+    int getRemainingBuildTime() const { return getData().remainingBuildTime; }
 
     /// <summary>Retrieves the remaining time, in frames, of the unit that is currently being
     /// trained.</summary>
@@ -613,7 +610,7 @@ namespace BWAPI
     /// the number of frames remaining until the next larva spawns.
     /// @retval 0 If the unit is not training or has three larvae.
     /// @see train, getTrainingQueue
-    int getRemainingTrainTime() const { return getUnitData().remainingTrainTime; }
+    int getRemainingTrainTime() const { return getData().remainingTrainTime; }
 
     /// <summary>Retrieves the amount of time until the unit is done researching its currently
     /// assigned TechType.</summary>
@@ -623,7 +620,7 @@ namespace BWAPI
     /// @retval 0 If the unit is not researching anything.
     ///
     /// @see research, cancelResearch, isResearching, getTech
-    int getRemainingResearchTime() const { return getUnitData().remainingResearchTime; }
+    int getRemainingResearchTime() const { return getData().remainingResearchTime; }
 
     /// <summary>Retrieves the amount of time until the unit is done upgrading its current upgrade.</summary>
     ///
@@ -631,7 +628,7 @@ namespace BWAPI
     /// @retval 0 If the unit is not upgrading anything.
     ///
     /// @see upgrade, cancelUpgrade, isUpgrading, getUpgrade
-    int getRemainingUpgradeTime() const { return getUnitData().remainingUpgradeTime; }
+    int getRemainingUpgradeTime() const { return getData().remainingUpgradeTime; }
 
     /// <summary>Retrieves the unit currently being trained, or the corresponding paired unit for
     /// @SCVs and @Terran structures, depending on the context.</summary>
@@ -646,7 +643,7 @@ namespace BWAPI
     /// this unit, or the unit that is being trained by this structure.
     /// @retval nullptr If there is no unit constructing this one, or this unit is not constructing
     /// another unit.
-    Unit getBuildUnit() const { return Unit{ getGame(), getUnitData().buildUnit }; }
+    Unit getBuildUnit() const;
 
     /// <summary>Generally returns the appropriate target unit after issuing an order that accepts
     /// a target unit (i.e. attack, repair, gather, etc.).</summary> To get a target that has been
@@ -654,26 +651,26 @@ namespace BWAPI
     ///
     /// @returns Unit that is currently being targeted by this unit.
     /// @see getOrderTarget
-    Unit getTarget() const { return { getGame(), getUnitData().target }; }
+    Unit getTarget() const;
 
     /// <summary>Retrieves the target position the unit is moving to, provided a valid path to the
     /// target position exists.</summary>
     ///
     /// @returns Target position of a movement action.
-    Position getTargetPosition() const { return getUnitData().targetPosition; }
+    Position getTargetPosition() const { return getData().targetPosition; }
 
     /// <summary>Retrieves the primary Order that the unit is assigned.</summary> Primary orders
     /// are distinct actions such as Orders::AttackUnit and Orders::PlayerGuard.
     ///
     /// @returns The primary Order that the unit is executing.
-    Order getOrder() const { return getUnitData().order; }
+    Order getOrder() const { return getData().order; }
 
     /// <summary>Retrieves the secondary Order that the unit is assigned.</summary> Secondary
     /// orders are run in the background as a sub-order. An example would be Orders::TrainFighter,
     /// because a @Carrier can move and train fighters at the same time.
     ///
     /// @returns The secondary Order that the unit is executing.
-    Order getSecondaryOrder() const { return getUnitData().secondaryOrder; }
+    Order getSecondaryOrder() const { return getData().secondaryOrder; }
 
     /// <summary>Retrieves the unit's primary order target.</summary> This is usually set when the
     /// low level unit AI acquires a new target automatically. For example if an enemy @Probe
@@ -682,7 +679,7 @@ namespace BWAPI
     ///
     /// @returns The Unit that this unit is currently targetting.
     /// @see getTarget, getOrder
-    Unit getOrderTarget() const { return { getGame(), getUnitData().orderTarget }; }
+    Unit getOrderTarget() const;
 
     /// <summary>Retrieves the target position for the unit's order.</summary> For example, when
     /// Orders::Move is assigned, getTargetPosition returns the end of the unit's path, but this
@@ -690,7 +687,7 @@ namespace BWAPI
     ///
     /// @returns Position that this unit is currently targetting.
     /// @see getTargetPosition, getOrder
-    Position getOrderTargetPosition() const { return getUnitData().orderTargetPosition; }
+    Position getOrderTargetPosition() const { return getData().orderTargetPosition; }
 
     /// <summary>Retrieves the position the structure is rallying units to once they are
     /// completed.</summary>
@@ -701,7 +698,7 @@ namespace BWAPI
     /// @note If getRallyUnit is valid, then this value is ignored.
     ///
     /// @see setRallyPoint, getRallyUnit
-    Position getRallyPosition() const { return getUnitData().rallyPosition; }
+    Position getRallyPosition() const { return getData().rallyPosition; }
 
     /// <summary>Retrieves the unit the structure is rallying units to once they are completed.</summary>
     /// Units will then follow the targetted unit.
@@ -713,13 +710,13 @@ namespace BWAPI
     /// is valid(non-null), then getRallyPosition is ignored.
     ///
     /// @see setRallyPoint, getRallyPosition
-    Unit getRallyUnit() const { return { getGame(), getUnitData().rallyUnit }; }
+    Unit getRallyUnit() const;
 
     /// <summary>Retrieves the add-on that is attached to this unit.</summary>
     ///
     /// @returns Unit interface that represents the add-on that is attached to this unit.
     /// @retval nullptr if this unit does not have an add-on.
-    Unit getAddon() const { return { getGame(), getUnitData().addon }; }
+    Unit getAddon() const;
 
     /// <summary>Retrieves the @Nydus_Canal that is attached to this one.</summary> Every
     /// @Nydus_Canal can place a "Nydus Exit" which, when connected, can be travelled through by
@@ -728,7 +725,7 @@ namespace BWAPI
     /// @returns Unit interface representing the @Nydus_Canal connected to this one.
     /// @retval nullptr if the unit is not a @Nydus_Canal, is not owned, or has not placed a Nydus
     /// Exit.
-    Unit getNydusExit() const { return { getGame(), getUnitData().nydusExit }; };
+    Unit getNydusExit() const;
 
     /// <summary>Retrieves the power-up that the worker unit is holding.</summary> Power-ups are
     /// special units such as the @Flag in the @CTF game type, which can be picked up by worker
@@ -750,13 +747,13 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @implies getType().isWorker(), isCompleted()
-    Unit getPowerUp() const { return { getGame(), getUnitData().powerUp }; }
+    Unit getPowerUp() const;
 
     /// <summary>Retrieves the @Transport or @Bunker unit that has this unit loaded inside of it.</summary>
     ///
     /// @returns Unit interface object representing the @Transport containing this unit.
     /// @retval nullptr if this unit is not in a @Transport.
-    Unit getTransport() const { return { *game, getUnitData().transport }; }
+    Unit getTransport() const;
 
     /// <summary>Retrieves the set of units that are contained within this @Bunker or @Transport.</summary>
     ///
@@ -775,7 +772,7 @@ namespace BWAPI
     ///
     /// @returns The parent @Carrier unit that has ownership of this one.
     /// @retval nullptr if the current unit is not an @Interceptor.
-    Unit getCarrier() const { return { *game, getUnitData().carrier }; }
+    Unit getCarrier() const;
 
     /// <summary>Retrieves the set of @Interceptors controlled by this unit.</summary> This is
     /// intended for @Carriers and its hero.
@@ -790,7 +787,7 @@ namespace BWAPI
     /// @returns Hatchery unit that has ownership of this larva.
     /// @retval nullptr if the current unit is not a @Larva or has no parent.
     /// @see getLarva
-    Unit getHatchery() const { return { *game, getUnitData().hatchery }; }
+    Unit getHatchery() const;
 
     /// <summary>Retrieves the set of @Larvae that were spawned by this unit.</summary> Only
     /// @Hatcheries, @Lairs, and @Hives are capable of spawning @Larvae. This is like clicking the
@@ -872,17 +869,17 @@ namespace BWAPI
     /// for @Silos.
     ///
     /// @returns true if this unit has a @Nuke ready, and false if there is no @Nuke.
-    bool hasNuke() const { return getUnitData().hasNuke; }
+    bool hasNuke() const { return getData().hasNuke; }
 
     /// <summary>Checks if the current unit is accelerating.</summary>
     ///
     /// @returns true if this unit is accelerating, and false otherwise
-    bool isAccelerating() const { return getUnitData().isAccelerating; }
+    bool isAccelerating() const { return getData().isAccelerating; }
 
     /// <summary>Checks if this unit is currently attacking something.</summary>
     ///
     /// @returns true if this unit is attacking another unit, and false if it is not.
-    bool isAttacking() const { return getUnitData().isAttacking; }
+    bool isAttacking() const { return getData().isAttacking; }
 
     /// <summary>Checks if this unit is currently playing an attack animation.</summary> Issuing
     /// commands while this returns true may interrupt the unit's next attack sequence.
@@ -892,7 +889,7 @@ namespace BWAPI
     ///
     /// @note This function is only available to some unit types, specifically those that play
     /// special animations when they attack.
-    bool isAttackFrame() const { return getUnitData().isAttackFrame; }
+    bool isAttackFrame() const { return getData().isAttackFrame; }
 
     /// <summary>Checks if the current unit is being constructed.</summary> This is mostly
     /// applicable to Terran structures which require an SCV to be constructing a structure.
@@ -916,31 +913,31 @@ namespace BWAPI
     ///
     /// @returns true if this unit is a resource container and being harvested by a worker, and
     /// false otherwise
-    bool isBeingGathered() const { return getUnitData().isBeingGathered; }
+    bool isBeingGathered() const { return getData().isBeingGathered; }
 
     /// <summary>Checks if this unit is currently being healed by a @Medic or repaired by a @SCV.</summary>
     ///
     /// @returns true if this unit is being healed, and false otherwise.
-    bool isBeingHealed() const { return getUnitData().isBeingHealed; }
+    bool isBeingHealed() const { return getData().isBeingHealed; }
 
     /// <summary>Checks if this unit is currently blinded by a @Medic 's @Optical_Flare ability.</summary>
     /// Blinded units have reduced sight range and cannot detect other units.
     ///
     /// @returns true if this unit is blind, and false otherwise
-    bool isBlind() const { return getUnitData().isBlind; }
+    bool isBlind() const { return getData().isBlind; }
 
     /// <summary>Checks if the current unit is slowing down to come to a stop.</summary>
     ///
     /// @returns true if this unit is breaking, false if it has stopped or is still moving at full
     /// speed.
-    bool isBraking() const { return getUnitData().isBraking; }
+    bool isBraking() const { return getData().isBraking; }
 
     /// <summary>Checks if the current unit is burrowed, either using the @Burrow ability, or is
     /// an armed @Spider_Mine.</summary>
     ///
     /// @returns true if this unit is burrowed, and false otherwise
     /// @see burrow, unburrow
-    bool isBurrowed() const { return getUnitData().isBurrowed; }
+    bool isBurrowed() const { return getData().isBurrowed; }
 
     /// <summary>Checks if this worker unit is carrying some vespene gas.</summary>
     ///
@@ -958,7 +955,7 @@ namespace BWAPI
     /// @endcode
     /// @implies isCompleted(), getType().isWorker()
     /// @see returnCargo, isGatheringGas, isCarryingMinerals
-    bool isCarryingGas() const { return getUnitData().carryResourceType == 1; }
+    bool isCarryingGas() const { return getData().carryResourceType == 1; }
 
     /// <summary>Checks if this worker unit is carrying some minerals.</summary>
     ///
@@ -976,19 +973,19 @@ namespace BWAPI
     /// @endcode
     /// @implies isCompleted(), getType().isWorker()
     /// @see returnCargo, isGatheringMinerals, isCarryingMinerals
-    bool isCarryingMinerals() const { return getUnitData().carryResourceType == 2; }
+    bool isCarryingMinerals() const { return getData().carryResourceType == 2; }
 
     /// <summary>Checks if this unit is currently @cloaked.</summary>
     ///
     /// @returns true if this unit is cloaked, and false if it is visible.
     /// @see cloak, decloak
-    bool isCloaked() const { return getUnitData().isCloaked; }
+    bool isCloaked() const { return getData().isCloaked; }
 
     /// <summary>Checks if this unit has finished being constructed, trained, morphed, or warped
     /// in, and can now receive orders.</summary>
     ///
     /// @returns true if this unit is completed, and false if it is under construction or inaccessible.
-    bool isCompleted() const { return getUnitData().isCompleted; }
+    bool isCompleted() const { return getData().isCompleted; }
 
     /// <summary>Checks if a unit is either constructing something or moving to construct something.</summary>
     ///
@@ -996,7 +993,7 @@ namespace BWAPI
     /// the build location, or is currently constructing something.
     ///
     /// @see isBeingConstructed, build, cancelConstruction, haltConstruction
-    bool isConstructing() const { return getUnitData().isConstructing; }
+    bool isConstructing() const { return getData().isConstructing; }
 
     /// <summary>Checks if this unit has the @matrix effect.</summary>
     ///
@@ -1010,12 +1007,12 @@ namespace BWAPI
     /// @returns true if this unit is detected, and false if it needs a detector unit nearby in
     /// order to see it.
     /// @implies isVisible
-    bool isDetected() const { return getUnitData().isDetected; }
+    bool isDetected() const { return getData().isDetected; }
 
     /// <summary>Checks if the @Queen ability @Ensnare has been used on this unit.</summary>
     ///
     /// @returns true if the unit is ensnared, and false if it is not
-    bool isEnsnared() const { return static_cast<bool>(getUnitData().ensnareTimer); }
+    bool isEnsnared() const { return static_cast<bool>(getData().ensnareTimer); }
 
     /// <summary>This macro function checks if this unit is in the air. That is, the unit is
     /// either a flyer or a flying building.</summary>
@@ -1058,7 +1055,7 @@ namespace BWAPI
     ///
     /// @returns true if the unit is a hallucination and false otherwise.
     /// @see getRemoveTimer
-    bool isHallucination() const { return getUnitData().isHallucination; }
+    bool isHallucination() const { return getData().isHallucination; }
 
     /// <summary>Checks if the unit is currently holding position.</summary> A unit that is holding
     /// position will attack other units, but will not chase after them.
@@ -1108,17 +1105,17 @@ namespace BWAPI
     /// as moving or attacking
     /// @implies isCompleted
     /// @see UnitInterface::stop
-    bool isIdle() const { return getUnitData().isIdle; }
+    bool isIdle() const { return getData().isIdle; }
 
     /// <summary>Checks if the unit can be interrupted.</summary>
     ///
     /// @returns true if this unit can be interrupted, or false if this unit is uninterruptable
-    bool isInterruptible() const { return getUnitData().isInterruptible; }
+    bool isInterruptible() const { return getData().isInterruptible; }
 
     /// <summary>Checks the invincibility state for this unit.</summary>
     ///
     /// @returns true if this unit is currently invulnerable, and false if it is vulnerable
-    bool isInvincible() const { return getUnitData().isInvincible; }
+    bool isInvincible() const { return getData().isInvincible; }
 
     /// <summary>Checks if the target unit can immediately be attacked by this unit in the current
     /// frame.</summary>
@@ -1152,7 +1149,7 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @see getIrradiateTimer
-    bool isIrradiated() const { return static_cast<bool>(getUnitData().irradiateTimer); }
+    bool isIrradiated() const { return static_cast<bool>(getData().irradiateTimer); }
 
     /// <summary>Checks if this unit is a @Terran building and lifted off the ground.</summary>
     /// This function generally implies this->getType().isBuilding() and this->isCompleted() both
@@ -1161,14 +1158,14 @@ namespace BWAPI
     /// @returns true if this unit is a @Terran structure lifted off the ground.
     /// @implies isCompleted, getType().isFlyingBuilding()
     /// @see isFlying
-    bool isLifted() const { return getUnitData().isLifted; }
+    bool isLifted() const { return getData().isLifted; }
 
     /// <summary>Checks if this unit is currently loaded into another unit such as a @Transport.</summary>
     /// 
     /// @returns true if this unit is loaded in another one, and false otherwise
     /// @implies isCompleted
     /// @see load, unload, unloadAll
-    bool isLoaded() const { return static_cast<bool>(getUnitData().transport); }
+    bool isLoaded() const { return static_cast<bool>(getData().transport); }
 
     /// <summary>Checks if this unit is currently @locked by a @Ghost.</summary>
     ///
@@ -1190,18 +1187,18 @@ namespace BWAPI
     /// @retval false if the unit is not morphing
     ///
     /// @see morph, cancelMorph, getBuildType, getRemainingBuildTime
-    bool isMorphing() const { return getUnitData().isMorphing; }
+    bool isMorphing() const { return getData().isMorphing; }
 
     /// <summary>Checks if this unit is currently moving.</summary>
     ///
     /// @returns true if this unit is moving, and false if it is not
     /// @see stop
-    bool isMoving() const { return getUnitData().isMoving; }
+    bool isMoving() const { return getData().isMoving; }
 
     /// <summary>Checks if this unit has been parasited by some other player.</summary>
     /// 
     /// @returns true if this unit is inflicted with @parasite, and false if it is clean
-    bool isParasited() const { return getUnitData().isParasited; }
+    bool isParasited() const { return getData().isParasited; }
 
     /// <summary>Checks if this unit is patrolling between two positions.</summary>
     /// 
@@ -1236,7 +1233,7 @@ namespace BWAPI
     ///
     /// @returns true if this unit is currently selected, and false if this unit is not selected
     /// @see Game::getSelectedUnits
-    bool isSelected() const { return getUnitData().isSelected; }
+    bool isSelected() const { return getData().isSelected; }
 
     /// <summary>Checks if this unit is currently @sieged.</summary> This is only applicable to
     /// @Siege_Tanks.
@@ -1245,7 +1242,7 @@ namespace BWAPI
     /// not a @Siege_Tank
     /// @see siege, unsiege
     bool isSieged() const {
-      auto t = getUnitData().type;
+      auto t = getData().type;
       return  t == UnitTypes::Terran_Siege_Tank_Siege_Mode ||
               t == UnitTypes::Hero_Edmund_Duke_Siege_Mode;
     }
@@ -1255,7 +1252,7 @@ namespace BWAPI
     /// @returns true if this unit is starting an attack.
     ///
     /// @see attack, getGroundWeaponCooldown, getAirWeaponCooldown
-    bool isStartingAttack() const { return getUnitData().isStartingAttack; }
+    bool isStartingAttack() const { return getData().isStartingAttack; }
 
     /// <summary>Checks if this unit is inflicted with @Stasis by an @Arbiter.</summary>
     ///
@@ -1279,7 +1276,7 @@ namespace BWAPI
     ///
     /// @returns true if this unit is currently stuck and trying to resolve a collision, and false
     /// if this unit is free
-    bool isStuck() const { return getUnitData().isStuck; }
+    bool isStuck() const { return getData().isStuck; }
 
     /// <summary>Checks if this unit is training a new unit.</summary> For example, a @Barracks
     /// training a @Marine.
@@ -1290,7 +1287,7 @@ namespace BWAPI
     /// @returns true if this unit is currently training another unit, and false otherwise.
     ///
     /// @see train, getTrainingQueue, cancelTrain, getRemainingTrainTime
-    bool isTraining() const { return getUnitData().isTraining; }
+    bool isTraining() const { return getData().isTraining; }
 
     /// <summary>Checks if the current unit is being attacked.</summary> Has a small delay before
     /// this returns false
@@ -1298,22 +1295,22 @@ namespace BWAPI
     ///
     /// @returns true if this unit has been attacked within the past few frames, and false
     /// if it has not
-    bool isUnderAttack() const { return getUnitData().recentlyAttacked; }
+    bool isUnderAttack() const { return getData().recentlyAttacked; }
 
     /// <summary>Checks if this unit is under the cover of a @Dark_Swarm.</summary>
     ///
     /// @returns true if this unit is protected by a @Dark_Swarm, and false if it is not
-    bool isUnderDarkSwarm() const { return getUnitData().isUnderDarkSwarm; }
+    bool isUnderDarkSwarm() const { return getData().isUnderDarkSwarm; }
 
     /// <summary>Checks if this unit is currently being affected by a @Disruption_Web.</summary>
     ///
     /// @returns true if this unit is under the effects of @Disruption_Web.
-    bool isUnderDisruptionWeb() const { return getUnitData().isUnderDWeb; }
+    bool isUnderDisruptionWeb() const { return getData().isUnderDWeb; }
 
     /// <summary>Checks if this unit is currently taking damage from a @Psi_Storm.</summary>
     ///
     /// @returns true if this unit is losing hit points from a @Psi_Storm, and false otherwise.
-    bool isUnderStorm() const { return getUnitData().isUnderStorm; }
+    bool isUnderStorm() const { return getData().isUnderStorm; }
 
     /// <summary>Checks if this unit has power.</summary> Most structures are powered by default,
     /// but @Protoss structures require a @Pylon to be powered and functional.
@@ -1322,7 +1319,7 @@ namespace BWAPI
     /// unpowered.
     ///
     /// @since 4.0.1 Beta (previously isUnpowered)
-    bool isPowered() const { return getUnitData().isPowered; }
+    bool isPowered() const { return getData().isPowered; }
 
     /// <summary>Checks if this unit is a structure that is currently upgrading an upgrade.</summary>
     /// See UpgradeTypes for a full list of upgrades in Broodwar.
@@ -2608,10 +2605,6 @@ namespace BWAPI
     /// @see Game::getLastError, UnitInterface::canIssueCommand, UnitInterface::placeCOP
     bool canPlaceCOP(TilePosition target, bool checkCanIssueCommandType = true, bool checkCommandibility = true) const;
     ///@}
-
-    // Backwards compatibility with when BWAPI::Unit was a pointer
-    constexpr Unit *operator->() { return this; }
-    constexpr Unit const *operator->() const { return this; }
   };
 } // namespace BWAPI
 

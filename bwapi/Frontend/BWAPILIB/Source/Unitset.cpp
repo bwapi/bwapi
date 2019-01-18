@@ -100,7 +100,7 @@ namespace BWAPI
   }
   bool Unitset::attack(Unit target, bool shiftQueueCommand) const
   {
-    return this->issueCommand(UnitCommand::attack(UnitID::None, target, shiftQueueCommand));
+    return this->issueCommand(UnitCommand::attack(UnitID::None, target.getID(), shiftQueueCommand));
   }
   //--------------------------------------------- BUILD ------------------------------------------------------
   bool Unitset::build(UnitType type, TilePosition target) const
@@ -279,7 +279,7 @@ namespace BWAPI
   }
   bool Unitset::useTech(TechType tech, Unit target) const
   {
-    return this->issueCommand(UnitCommand::useTech(UnitID::None, tech, target));
+    return this->issueCommand(UnitCommand::useTech(UnitID::None, tech, target.getID()));
   }
   bool Unitset::useTech(TechType tech, Position target) const
   {

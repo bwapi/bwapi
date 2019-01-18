@@ -294,7 +294,7 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReserveExistingAddonPlacement(Game &game, PlacementReserve &reserve, TilePosition desiredPosition)
+  void ReserveExistingAddonPlacement(Game const &game, PlacementReserve &reserve, TilePosition desiredPosition)
   {
     TilePosition start = desiredPosition - TilePosition(MAX_RANGE,MAX_RANGE)/2;
 
@@ -317,7 +317,7 @@ namespace BWAPI
     ReserveStructureWithPadding(reserve, TilePosition(pUnit->getPosition()), pUnit->getType().tileSize(), padding, type, desiredPosition);
   }
 
-  void ReserveAllStructures(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveAllStructures(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     if ( type.isAddon() )
       return;
@@ -350,7 +350,7 @@ namespace BWAPI
     TilePosition( 0,-1),
     TilePosition(-1,-1)
   };
-  void ReserveDefault(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
+  void ReserveDefault(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition)
   {
     reserve.backup();
     auto original = reserve;
@@ -406,7 +406,7 @@ namespace BWAPI
     reserve.restoreIfInvalid(__FUNCTION__);
   }
 
-  void ReservePlacement(Game &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
+  void ReservePlacement(Game const &game, PlacementReserve &reserve, UnitType type, TilePosition desiredPosition, bool /*creep*/)
   {
     // Reset the array
     reserve.reset();

@@ -2,7 +2,8 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
-#include <BWAPI/Game.h>
+
+#include <BWAPI/Client/RegionData.h>
 
 namespace BWAPI
 {
@@ -19,13 +20,9 @@ namespace BWAPI
   ///
   /// @see Game::getAllRegions, Game::getRegionAt, UnitInterface::getRegion
   /// @ingroup Interface
-  class Region: public RegionID {
-    Game *game;
+  class Region: public InterfaceDataWrapper<Region, RegionData> {
   public:
-    Region(Game &game, RegionID id): game{&game}, RegionID{id} { }
-    Region(std::nullptr_t) : game{nullptr}, RegionID{-1} { }
-
-    Game &getGame() const { return *game; }
+    using InterfaceDataWrapper<Region, RegionData>::InterfaceDataWrapper;
 
     /// <summary>Retrieves a unique identifier for this region.</summary>
     ///
@@ -33,7 +30,7 @@ namespace BWAPI
     ///
     /// @returns An integer that represents this region.
     /// @see Game::getRegion
-    RegionID getID() const { return RegionID{id}; }
+    RegionID getID() const { return getID(); }
 
     /// <summary>Retrieves a unique identifier for a group of regions that are all connected and
     /// accessible by each other.</summary> That is, all accessible regions will have the same
@@ -132,9 +129,6 @@ namespace BWAPI
     ///
     /// @see UnitFilter
     Unitset getUnits(const UnitFilter &pred = nullptr) const;
-
-    Region *operator->() { return this; }
-    Region const *operator->() const { return this; }
   };
 } // namespace BWAPI
 

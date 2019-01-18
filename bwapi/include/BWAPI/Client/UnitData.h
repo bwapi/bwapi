@@ -12,14 +12,16 @@
 
 namespace BWAPI
 {
+  class Game;
   class UnitCommand;
 
   struct UnitData {
-    UnitData(UnitID id): id{id} {
+    UnitData(Game &g, UnitID id): game{g}, id { id } {
       trainingQueue.reserve(5);
       loadedUnits.reserve(8);
     }
 
+    Game &game;
     int clearanceLevel;
     BWAPI::UnitID id{-1};
     BWAPI::PlayerID player{-1};
@@ -59,6 +61,8 @@ namespace BWAPI
     BWAPI::UnitType buildType;
     BWAPI::UnitType::list trainingQueue;
     BWAPI::UnitID::list loadedUnits;
+    BWAPI::UnitID::list interceptors;
+    BWAPI::UnitID::list larva;
     BWAPI::TechType tech;
     BWAPI::UpgradeType upgrade;
     int remainingBuildTime;

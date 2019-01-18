@@ -2,6 +2,7 @@
 
 #include <BWAPI/Unitset.h>
 #include <BWAPI/Player.h>
+#include <BWAPI/Game.h>
 
 namespace BWAPI
 {
@@ -10,8 +11,7 @@ namespace BWAPI
     Unitset retSet;
     for (auto &p : *this)
     {
-      auto units = p->getUnits();
-      retSet.insert(units.begin(), units.end());
+      retSet.merge(p->getUnits());
     }
     return retSet;
   }
@@ -26,11 +26,11 @@ namespace BWAPI
     return retSet;
   }
 
-  void Playerset::setAlliance(Game &game, bool allies, bool alliedVictory)
+  void Playerset::setAlliance(bool allies, bool alliedVictory)
   {
     for (auto &p : *this)
     {
-      game.setAlliance(p, allies, alliedVictory);
+      p.getGame().setAlliance(p, allies, alliedVictory);
     }
   }
 }

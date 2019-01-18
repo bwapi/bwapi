@@ -1,9 +1,7 @@
 #pragma once
-#include "SetContainer.h"
-
-#include <BWAPI/Game.h>
+#include <BWAPI/IDs.h>
+#include <BWAPI/SetContainer.h>
 #include <BWAPI/Race.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/Player.h>
 
 namespace BWAPI
@@ -12,7 +10,7 @@ namespace BWAPI
   class Unitset;
 
   /// <summary>A set containing Player objects.</summary>
-  class Playerset : public SetContainer<BWAPI::Player>
+  class Playerset : public SetContainer<BWAPI::Player, IDCompare>
   {
   public:
 
@@ -38,7 +36,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see Game::setAlliance
-    void setAlliance(Game &game, bool allies = true, bool alliedVictory = true);
+    void setAlliance(bool allies = true, bool alliedVictory = true);
 
   };
 }

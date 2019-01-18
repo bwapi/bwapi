@@ -1,9 +1,8 @@
 #pragma once
-#include "SetContainer.h"
+#include <BWAPI/IDs.h>
+#include <BWAPI/SetContainer.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
-#include <BWAPI/Game.h>
-#include <BWAPI/Unit.h>
 #include <iterator>
 
 namespace BWAPI
@@ -13,12 +12,13 @@ namespace BWAPI
   class Regionset;
   class UnitCommand;
   class TechType;
+  class Unit;
 
   /// <summary>The Unitset is a container for a set of pointers to Unit objects. It is typically
   /// used for groups of units instead of having to manage each Unit individually.</summary>
   ///
   /// @see Unit
-  using Container_Unitset = SetContainer < Unit >;
+  using Container_Unitset = SetContainer<BWAPI::Unit, IDCompare>;
   class Unitset : public Container_Unitset
   {
   public:

@@ -1,8 +1,8 @@
 #pragma once
-#include "SetContainer.h"
+#include <BWAPI/Region.h>
+#include <BWAPI/SetContainer.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
-#include <BWAPI/Region.h>
 
 namespace BWAPI
 {
@@ -10,7 +10,7 @@ namespace BWAPI
   class Unitset;
 
   /// <summary>A container that holds a set of Region objects.</summary>
-  class Regionset : public SetContainer<BWAPI::Region>
+  class Regionset : public SetContainer<BWAPI::Region, IDCompare>
   {
   public:
 

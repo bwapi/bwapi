@@ -1,9 +1,8 @@
 #pragma once
-#include <BWAPI.h>
+#include <BWAPI/IDs.h>
 #include <BWAPI/Unit.h>
 #include <BWAPI/Player.h>
-
-#include "Client/BulletData.h"
+#include <BWAPI/Client/BulletData.h>
 
 namespace BWAPI
 {
@@ -31,15 +30,9 @@ namespace BWAPI
   /// in the game are accessible.
   /// @see Game::getBullets, BulletInterface::exists
   /// @ingroup Interface
-  class Bullet: public BulletID
+  class Bullet: public InterfaceDataWrapper<Bullet, BulletData>
   {
-    std::reference_wrapper<Game> game;
-  public:
-    Bullet(Game &game, BulletID id): BulletID{id}, game{game} { }
-
-    Game &getGame() const;
-
-    BulletData &getBulletData() const;
+    using InterfaceDataWrapper<Bullet, BulletData>::InterfaceDataWrapper;
 
     /// <summary>Checks if the Bullet exists in the view of the BWAPI player.</summary>
     ///
@@ -53,7 +46,7 @@ namespace BWAPI
     /// If Flag::CompleteMapInformation is enabled, then this function is accurate for all
     /// Bullet information.
     /// @see isVisible, UnitInterface::exists
-    bool exists() const { return *this && getBulletData().exists; }
+    bool exists() const { return *this && getData().exists; }
 
     /// <summary>Retrieves the Player interface that owns the Bullet.</summary>
     ///
@@ -69,7 +62,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   A BulletType representing the Bullet's type.
-    BulletType getType() const { return getBulletData().type; }
+    BulletType getType() const { return getData().type; }
 
     /// <summary>Retrieves the Unit interface that the Bullet spawned from.</summary>
     ///
@@ -87,7 +80,7 @@ namespace BWAPI
     /// @returns
     ///   A Position containing the Bullet's current coordinates.
     /// @see getTargetPosition
-    Position getPosition() const { return getBulletData().position; }
+    Position getPosition() const { return getData().position; }
 
     /// <summary>Retrieve's the direction the Bullet is facing.</summary> If the angle is 0, then
     /// the Bullet is facing right.
@@ -96,7 +89,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   A double representing the direction the Bullet is facing.
-    double getAngle() const { return getBulletData().angle; }
+    double getAngle() const { return getData().angle; }
 
     /// <summary>Retrieves the X component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
@@ -106,7 +99,7 @@ namespace BWAPI
     ///   A double representing the number of pixels moved on the X axis per frame.
     ///
     /// @see getVelocityY, getAngle
-    double getVelocityX() const { return getBulletData().velocityX; }
+    double getVelocityX() const { return getData().velocityX; }
 
     /// <summary>Retrieves the Y component of the Bullet's velocity, measured in pixels per frame.</summary>
     ///
@@ -116,7 +109,7 @@ namespace BWAPI
     ///   A double representing the number of pixels moved on the Y axis per frame.
     ///
     /// @see getVelocityX, getAngle
-    double getVelocityY() const { return getBulletData().velocityY; }
+    double getVelocityY() const { return getData().velocityY; }
 
     /// <summary>Retrieves the Unit interface that the Bullet is heading to.</summary>
     ///
@@ -135,7 +128,7 @@ namespace BWAPI
     /// @returns
     ///   A Position indicating where the Bullet is headed.
     /// @see getTarget, getPosition
-    Position getTargetPosition() const { return getBulletData().targetPosition; }
+    Position getTargetPosition() const { return getData().targetPosition; }
 
     /// <summary>Retrieves the timer that indicates the Bullet's life span.</summary>
     ///
@@ -147,7 +140,7 @@ namespace BWAPI
     ///
     /// @returns
     ///   An integer representing the remaining number of frames until the Bullet self-destructs.
-    int getRemoveTimer() const { return getBulletData().removeTimer; }
+    int getRemoveTimer() const { return getData().removeTimer; }
 
     /// <summary>Retrieves the visibility state of the Bullet.</summary>
     ///
@@ -163,6 +156,7 @@ namespace BWAPI
     ///
     /// @retval true If the Bullet is visible to the specified player.
     /// @retval false If the Bullet is not visible to the specified player.
-    bool isVisible(Player player = nullptr) const { return getBulletData().isVisible; }
+    bool isVisible(Player player = nullptr) const
+    { return getData().isVisible[static_cast<int>(player.getID())]; }
   };
 }

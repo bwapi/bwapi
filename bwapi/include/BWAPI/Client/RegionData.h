@@ -1,10 +1,13 @@
 #pragma once
 
+#include <BWAPI/IDs.h>
+
 namespace BWAPI
 {
   struct RegionData
   {
-    int   id;
+    RegionID id;
+    Game &game;
     int   islandID;
     int   center_x;
     int   center_y;

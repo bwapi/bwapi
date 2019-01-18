@@ -1,10 +1,11 @@
 #pragma once
-#include <unordered_set>
+#include <set>
 
 namespace BWAPI
 {
-  template <class T, class HashT>
-  using SetContainerUnderlyingT = std::unordered_set < T, HashT >;
+  template <class T, typename Compare>
+  // Transparent comparators for lookups from comparables, without constructing temporary objects
+  using SetContainerUnderlyingT = std::set < T, Compare >;
 
   /// <summary>This container is used to wrap convenience functions for BWAPI and be used as a
   /// bridge with a built-in set type.</summary>
@@ -13,12 +14,12 @@ namespace BWAPI
   ///     Type that this set contains.
   /// @tparam HashT
   ///     Hash type. Defaults to integral hashing for BWAPI usage.
-  template <class T, class HashT = std::hash<T>>
-  class SetContainer : public SetContainerUnderlyingT < T, HashT >
+  template <class T, typename Compare = std::less<>>
+  class SetContainer : public SetContainerUnderlyingT < T, Compare >
   {
   public:
 #ifndef SWIG
-    using SetContainerUnderlyingT<T, HashT>::SetContainerUnderlyingT;
+    using SetContainerUnderlyingT<T, Compare >::SetContainerUnderlyingT;
 #endif
 
     /// <summary>Iterates the set and erases each element x where pred(x) returns true.</summary>
@@ -28,7 +29,7 @@ namespace BWAPI
     /// </param>
     /// @see std::erase_if
     template<class Pred>
-    void erase_if(const Pred& pred) {
+    void erase_if(Pred &&pred) {
       auto it = this->begin();
       while (it != this->end()) {
         if (pred(*it)) it = this->erase(it);

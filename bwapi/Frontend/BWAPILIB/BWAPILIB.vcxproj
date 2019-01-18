@@ -184,6 +184,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\Event.cpp" />
     <ClCompile Include="Source\ExplosionType.cpp" />
     <ClCompile Include="Source\Filters.cpp" />
+    <ClCompile Include="Source\Force.cpp" />
     <ClCompile Include="Source\Forceset.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameType.cpp" />
@@ -206,6 +207,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI.h" />
+    <ClInclude Include="..\..\include\BWAPI\Force.h" />
     <ClInclude Include="..\..\include\BWAPI\Game.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />
     <ClInclude Include="..\..\include\BWAPI\AIModule.h" />

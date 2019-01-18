@@ -1,3 +1,4 @@
+#include <BWAPI/Game.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
@@ -5,6 +6,11 @@
 #include <BWAPI/Color.h>
 
 using namespace BWAPI;
+
+Force Player::getForce() const
+{
+  return getGame().getForce(getData().force);
+}
 
 //--------------------------------------------- MAX ENERGY -------------------------------------------------
 int Player::maxEnergy(UnitType unit) const

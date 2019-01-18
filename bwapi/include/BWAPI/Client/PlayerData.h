@@ -1,21 +1,25 @@
 #pragma once
 
+#include <BWAPI/IDs.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/PlayerType.h>
 #include <BWAPI/Race.h>
-#include <BWAPI/Force.h>
 #include <BWAPI/Color.h>
 
 namespace BWAPI
 {
+  class Game;
   struct PlayerData
   {
+    PlayerData(Game &g, PlayerID pid, ForceID force) : game{ g }, id{ pid }, force{ force } { }
+    BWAPI::PlayerID id;
+    BWAPI::Game &game;
     std::string name;
     BWAPI::Race race;
     BWAPI::PlayerType type;
-    BWAPI::Force force;
+    BWAPI::ForceID force;
     bool isAlly[12];
     bool isEnemy[12];
     bool isNeutral;
