@@ -193,9 +193,6 @@
     <ClInclude Include="Source\BW\Structures.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BWAPI\Console.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BW\BWGame.h">
       <Filter>BW\Header Files</Filter>
     </ClInclude>
@@ -334,9 +331,6 @@
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\Console.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BWAPI\BulletShared.cpp">
