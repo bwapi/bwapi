@@ -9,7 +9,6 @@
 
 bool isCorrectVersion = true;
 bool showWarn         = true;
-bool serverEnabled    = true;
 
 unsigned gdwProcNum = 1;
 
@@ -89,9 +88,6 @@ void InitPrimaryConfig()
   // ------------------------- GENERAL/GLOBAL CONFIG OPTIONS ----------------------------------
   // Check if warning dialogs should be shown
   showWarn = LoadConfigStringUCase("config", "show_warnings", "YES") == "YES";
-
-  // Check if shared memory should be enabled
-  serverEnabled = LoadConfigStringUCase("config", "shared_memory", "ON") == "ON";
 
   // Get process count
   gdwProcNum = getProcessCount("StarCraft.exe");

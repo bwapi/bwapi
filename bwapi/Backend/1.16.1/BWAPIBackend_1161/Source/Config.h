@@ -46,5 +46,4 @@ inline const std::string& configPath()
 }
 extern bool isCorrectVersion;
 extern bool showWarn;
-extern bool serverEnabled;
 extern unsigned gdwProcNum;

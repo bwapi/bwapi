@@ -34,76 +34,73 @@ namespace BWAPI
     // Local variables
     const DWORD processID = GetCurrentProcessId();
 
-    if ( serverEnabled )
+    // Try to open the game table
+    gameTableFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Local\\bwapi_shared_memory_game_list" );
+    DWORD dwFileMapErr = GetLastError();
+    if ( gameTableFileHandle )
     {
-      // Try to open the game table
-      gameTableFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameTable), "Local\\bwapi_shared_memory_game_list" );
-      DWORD dwFileMapErr = GetLastError();
-      if ( gameTableFileHandle )
+      gameTable = static_cast<GameTable*>(MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable)));
+
+      if ( gameTable )
       {
-        gameTable = static_cast<GameTable*>(MapViewOfFile(gameTableFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameTable)));
-
-        if ( gameTable )
+        if ( dwFileMapErr != ERROR_ALREADY_EXISTS )
         {
-          if ( dwFileMapErr != ERROR_ALREADY_EXISTS )
-          {
-            // If we created it, initialize it
-            for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
-              gameTable->gameInstances[i] = GameInstance_None;
-          } // If does not already exist
+          // If we created it, initialize it
+          for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
+            gameTable->gameInstances[i] = GameInstance_None;
+        } // If does not already exist
 
-          // Check to see if we are already in the table
+        // Check to see if we are already in the table
+        for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
+        {
+          if (gameTable->gameInstances[i].serverProcessID == processID)
+          {
+            gameTableIndex = i;
+            break;
+          }
+        }
+        // If not, try to find an empty row
+        if (gameTableIndex == -1)
+        {
           for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
           {
-            if (gameTable->gameInstances[i].serverProcessID == processID)
+            if (gameTable->gameInstances[i].serverProcessID == 0)
             {
               gameTableIndex = i;
               break;
             }
           }
-          // If not, try to find an empty row
-          if (gameTableIndex == -1)
+        }
+        // If we can't find an empty row, take over the row with the oldest keep alive time
+        if (gameTableIndex == -1)
+        {
+          DWORD oldest = gameTable->gameInstances[0].lastKeepAliveTime;
+          gameTableIndex = 0;
+          for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; ++i)
           {
-            for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; ++i)
+            if (gameTable->gameInstances[i].lastKeepAliveTime < oldest)
             {
-              if (gameTable->gameInstances[i].serverProcessID == 0)
-              {
-                gameTableIndex = i;
-                break;
-              }
+              oldest = gameTable->gameInstances[i].lastKeepAliveTime;
+              gameTableIndex = i;
             }
           }
-          // If we can't find an empty row, take over the row with the oldest keep alive time
-          if (gameTableIndex == -1)
-          {
-            DWORD oldest = gameTable->gameInstances[0].lastKeepAliveTime;
-            gameTableIndex = 0;
-            for(int i = 1; i < GameTable::MAX_GAME_INSTANCES; ++i)
-            {
-              if (gameTable->gameInstances[i].lastKeepAliveTime < oldest)
-              {
-                oldest = gameTable->gameInstances[i].lastKeepAliveTime;
-                gameTableIndex = i;
-              }
-            }
-          }
-          //We have a game table index now, initialize our row
-          gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
-          gameTable->gameInstances[gameTableIndex].isConnected = false;
-          gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
-        } // if gameTable
-      } // if gameTableFileHandle
+        }
+        //We have a game table index now, initialize our row
+        gameTable->gameInstances[gameTableIndex].serverProcessID = processID;
+        gameTable->gameInstances[gameTableIndex].isConnected = false;
+        gameTable->gameInstances[gameTableIndex].lastKeepAliveTime = GetTickCount();
+      } // if gameTable
+    } // if gameTableFileHandle
 
-      // Create the share name
-      std::stringstream ssShareName;
-      ssShareName << "Local\\bwapi_shared_memory_";
-      ssShareName << processID;
+    // Create the share name
+    std::stringstream ssShareName;
+    ssShareName << "Local\\bwapi_shared_memory_";
+    ssShareName << processID;
 
-      // Create the file mapping and shared memory
-      mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameData), ssShareName.str().c_str() );
-      if ( mapFileHandle )
-        data = static_cast<GameData*>(MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData)));
-    } // if serverEnabled
+    // Create the file mapping and shared memory
+    mapFileHandle = CreateFileMappingA( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(GameData), ssShareName.str().c_str() );
+    if ( mapFileHandle )
+      data = static_cast<GameData*>(MapViewOfFile(mapFileHandle, FILE_MAP_WRITE | FILE_MAP_READ, 0, 0, sizeof(GameData)));
 
     // check if memory was created or if we should create it locally
     if ( !data )
@@ -113,96 +110,93 @@ namespace BWAPI
     }
     initializeSharedMemory();
 
-    if ( serverEnabled )
-    {
-	    //--------------------------------------------------------------------------------------------------------
-	    // Security Structure hobbled together from this document:
-	    // http://msdn.microsoft.com/en-us/library/aa446595%28VS.85%29.aspx
-	    //
+    //--------------------------------------------------------------------------------------------------------
+    // Security Structure hobbled together from this document:
+    // http://msdn.microsoft.com/en-us/library/aa446595%28VS.85%29.aspx
+    //
 
-	    this->pEveryoneSID = NULL;
-	    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
-	    
-      // Create a well-known SID for the Everyone group.
-      if( !AllocateAndInitializeSid( &SIDAuthWorld, 
-                                    1,
-                                    SECURITY_WORLD_RID,
-                                    0, 0, 0, 0, 0, 0, 0,
-                                    &this->pEveryoneSID) )
-      {
-        // AllocateAndInitializeSid failed
-        //Util::Logger::globalLog->log("Error: AllocateAndInitializeSid");
-		    //printf("AllocateAndInitializeSid Error %u\n", GetLastError());
-      }
-
-      // Initialize an EXPLICIT_ACCESS structure for an ACE.
-      // The ACE will allow Everyone access.
-      EXPLICIT_ACCESS ea = {};
-      ea.grfAccessPermissions  = GENERIC_ALL;
-	    ea.grfAccessMode         = GRANT_ACCESS;
-      ea.grfInheritance        = NO_INHERITANCE;
-      ea.Trustee.TrusteeForm   = TRUSTEE_IS_SID;
-      ea.Trustee.TrusteeType   = TRUSTEE_IS_WELL_KNOWN_GROUP;
-      ea.Trustee.ptstrName     = (LPTSTR)this->pEveryoneSID;
-
-	    this->pACL = NULL;  //a NULL DACL is assigned to the security descriptor, which allows all access to the object
-
-      // Create a new ACL that contains the new ACEs.
-      DWORD dwRes = SetEntriesInAcl(1, &ea, NULL, &this->pACL);
-      if (ERROR_SUCCESS != dwRes) 
-      {
-        // SetEntriesInAcl failed
-        //Util::Logger::globalLog->log("Error: SetEntriesInAcl");
-		    //printf("SetEntriesInAcl Error %u\n", GetLastError());
-      }
-
-      // Initialize a security descriptor.  
-      this->pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
-      if ( NULL == this->pSD ) 
-      { 
-        // LocalAlloc failed
-        //Util::Logger::globalLog->log("Error: LocalAlloc");
-		    //printf("LocalAlloc Error %u\n", GetLastError()); 
-      } 
- 
-      if ( !InitializeSecurityDescriptor(this->pSD, SECURITY_DESCRIPTOR_REVISION) ) 
-      {
-        // InitializeSecurityDescriptor failed
-        //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
-		    //printf("InitializeSecurityDescriptor Error %u\n",GetLastError()); 
-      } 
-
-	    // Add the ACL to the security descriptor. 
-      if ( !SetSecurityDescriptorDacl(this->pSD, 
-									                    TRUE,     // bDaclPresent flag   
-									                    this->pACL, 
-									                    FALSE) )   // not a default DACL 
-      {
-        // SetSecurityDescriptorDacl failed
-		    //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
-		    //printf("SetSecurityDescriptorDacl Error %u\n",GetLastError());
-      } 
-
-      // Initialize a security attributes structure.
-      SECURITY_ATTRIBUTES sa = { 0 };
-	    sa.nLength = sizeof(sa);
-      sa.lpSecurityDescriptor = this->pSD;
-      sa.bInheritHandle = FALSE;
-	    //--------------------------------------------------------------------------------------------------------
-
-      std::stringstream communicationPipe;
-      communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
-      communicationPipe << processID;
+    this->pEveryoneSID = NULL;
+    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
       
-      pipeObjectHandle = CreateNamedPipeA(communicationPipe.str().c_str(),
-                                         PIPE_ACCESS_DUPLEX,
-                                         PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
-                                         PIPE_UNLIMITED_INSTANCES,
-                                         PIPE_SYSTEM_BUFFER_SIZE,
-                                         PIPE_SYSTEM_BUFFER_SIZE,
-                                         PIPE_TIMEOUT,
-                                         &sa);
+    // Create a well-known SID for the Everyone group.
+    if( !AllocateAndInitializeSid( &SIDAuthWorld, 
+                                  1,
+                                  SECURITY_WORLD_RID,
+                                  0, 0, 0, 0, 0, 0, 0,
+                                  &this->pEveryoneSID) )
+    {
+      // AllocateAndInitializeSid failed
+      //Util::Logger::globalLog->log("Error: AllocateAndInitializeSid");
+      //printf("AllocateAndInitializeSid Error %u\n", GetLastError());
     }
+
+    // Initialize an EXPLICIT_ACCESS structure for an ACE.
+    // The ACE will allow Everyone access.
+    EXPLICIT_ACCESS ea = {};
+    ea.grfAccessPermissions  = GENERIC_ALL;
+    ea.grfAccessMode         = GRANT_ACCESS;
+    ea.grfInheritance        = NO_INHERITANCE;
+    ea.Trustee.TrusteeForm   = TRUSTEE_IS_SID;
+    ea.Trustee.TrusteeType   = TRUSTEE_IS_WELL_KNOWN_GROUP;
+    ea.Trustee.ptstrName     = (LPTSTR)this->pEveryoneSID;
+
+    this->pACL = NULL;  //a NULL DACL is assigned to the security descriptor, which allows all access to the object
+
+    // Create a new ACL that contains the new ACEs.
+    DWORD dwRes = SetEntriesInAcl(1, &ea, NULL, &this->pACL);
+    if (ERROR_SUCCESS != dwRes) 
+    {
+      // SetEntriesInAcl failed
+      //Util::Logger::globalLog->log("Error: SetEntriesInAcl");
+      //printf("SetEntriesInAcl Error %u\n", GetLastError());
+    }
+
+    // Initialize a security descriptor.  
+    this->pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH); 
+    if ( NULL == this->pSD ) 
+    { 
+      // LocalAlloc failed
+      //Util::Logger::globalLog->log("Error: LocalAlloc");
+      //printf("LocalAlloc Error %u\n", GetLastError()); 
+    } 
+ 
+    if ( !InitializeSecurityDescriptor(this->pSD, SECURITY_DESCRIPTOR_REVISION) ) 
+    {
+      // InitializeSecurityDescriptor failed
+      //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
+      //printf("InitializeSecurityDescriptor Error %u\n",GetLastError()); 
+    } 
+
+    // Add the ACL to the security descriptor. 
+    if ( !SetSecurityDescriptorDacl(this->pSD, 
+                                    TRUE,     // bDaclPresent flag   
+                                    this->pACL, 
+                                    FALSE) )   // not a default DACL 
+    {
+      // SetSecurityDescriptorDacl failed
+      //Util::Logger::globalLog->log("Error: InitializeSecurityDescriptor");
+      //printf("SetSecurityDescriptorDacl Error %u\n",GetLastError());
+    } 
+
+    // Initialize a security attributes structure.
+    SECURITY_ATTRIBUTES sa = { 0 };
+    sa.nLength = sizeof(sa);
+    sa.lpSecurityDescriptor = this->pSD;
+    sa.bInheritHandle = FALSE;
+    //--------------------------------------------------------------------------------------------------------
+
+    std::stringstream communicationPipe;
+    communicationPipe << "\\\\.\\pipe\\bwapi_pipe_";
+    communicationPipe << processID;
+      
+    pipeObjectHandle = CreateNamedPipeA(communicationPipe.str().c_str(),
+                                        PIPE_ACCESS_DUPLEX,
+                                        PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
+                                        PIPE_UNLIMITED_INSTANCES,
+                                        PIPE_SYSTEM_BUFFER_SIZE,
+                                        PIPE_SYSTEM_BUFFER_SIZE,
+                                        PIPE_TIMEOUT,
+                                        &sa);
   }
   Server::~Server()
   {
