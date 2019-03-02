@@ -44,26 +44,14 @@
 cscript "./revisionUpdate.vbs"
 popd
 </NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>del $(SolutionDir)/svnrev.h
-pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>del $(SolutionDir)/svnrev.h</NMakeCleanCommandLine>
-    <NMakeOutput>$(SolutionDir)/svnrev.h</NMakeOutput>
+    <NMakeOutput>$(SolutionDir)/include/svnrev.h</NMakeOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>pushd "$(SolutionDir)"
 cscript "./revisionUpdate.vbs"
 popd
 </NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>del $(SolutionDir)/svnrev.h
-pushd "$(SolutionDir)"
-cscript "./revisionUpdate.vbs"
-popd
-</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>del $(SolutionDir)/svnrev.h</NMakeCleanCommandLine>
-    <NMakeOutput>$(SolutionDir)/svnrev.h</NMakeOutput>
+    <NMakeOutput>$(SolutionDir)/include/svnrev.h</NMakeOutput>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

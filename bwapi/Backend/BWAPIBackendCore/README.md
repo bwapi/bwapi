@@ -4,3 +4,4 @@ The BWAPI backend core contains features and functions common to all Starcraft b
 
 This may include
 - Creating and tracking UUIDs.
+- Server communication

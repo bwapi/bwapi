@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PreBuildEvent>
-      <Command>for %%f in (*.proto) do "$(SolutionDir)/../apps/protoc-3.6.0-win32/bin/protoc" %%f "--cpp_out=$(ProjectDir)/generated/cpp/"</Command>
+      <Command>for %%f in (*.proto) do "./proto/protoc-3.6.0-win32/bin/protoc" %%f "--cpp_out=$(ProjectDir)/generated/cpp/"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,7 +107,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>for %%f in (*.proto) do "$(SolutionDir)/../apps/protoc-3.6.0-win32/bin/protoc" %%f "--cpp_out=$(ProjectDir)/generated/cpp/"</Command>
+      <Command>for %%f in (*.proto) do "./proto/protoc-3.6.0-win32/bin/protoc" %%f "--cpp_out=$(ProjectDir)/generated/cpp/"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
