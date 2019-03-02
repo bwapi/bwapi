@@ -44,7 +44,6 @@ Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreve
 Source: "..\README.md"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion isreadme
 Source: "..\Release_Binary\vcredist_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
 Source: "..\Release_Binary\include\*"; DestDir: "{app}\include\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
-Source: "..\Release_Binary\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
 Source: "..\Release_Binary\Chaoslauncher\*"; DestDir: "{app}\Chaoslauncher\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Chaoslauncher
 Source: "..\Release_Binary\MPQdraft\*"; DestDir: "{app}\MPQDraft\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: MPQDraft
 Source: "..\Release_Binary\AIModuleLoader\*"; DestDir: "{app}\AIModuleLoader\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Examples
