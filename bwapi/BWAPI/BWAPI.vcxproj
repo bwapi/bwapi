@@ -346,7 +346,6 @@ popd</Command>
     <ClInclude Include="Source\BWAPI\BWtoBWAPI.h" />
     <ClInclude Include="Source\BWAPI\Command.h" />
     <ClInclude Include="Source\BWAPI\CommandOptimizer.h" />
-    <ClInclude Include="Source\BWAPI\CommandTemp.h" />
     <ClInclude Include="Source\BWAPI\Console.h" />
     <ClInclude Include="Source\BWAPI\ForceImpl.h" />
     <ClInclude Include="Source\BWAPI\GameImpl.h" />

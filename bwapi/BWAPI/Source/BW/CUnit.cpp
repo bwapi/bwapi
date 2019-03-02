@@ -5,7 +5,7 @@
 
 #include "CUnit.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BW
 {

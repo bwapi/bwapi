@@ -4,7 +4,7 @@
 #include "Pathing.h"
 #include "Offsets.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BW
 {

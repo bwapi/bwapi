@@ -11,7 +11,8 @@ If hasGitResult = 0 Then
   revNumber = 2383 + CInt(gitResult.StdOut.ReadAll())
 End If
 
-Set svnrev = objFS.CreateTextFile("svnrev.h")
+Set svnrev = objFS.CreateTextFile("include/svnrev.h")
+svnrev.WriteLine("#pragma once")
 svnrev.WriteLine("static const int SVN_REV = " & revNumber & ";")
 svnrev.WriteLine("")
 svnrev.WriteLine("#include ""starcraftver.h""")

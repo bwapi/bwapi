@@ -1,7 +1,7 @@
 #include <string>
 #include <BWAPI/GameType.h>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

@@ -4,7 +4,7 @@
 #include "../Detours.h"
 #include "../DLLMain.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BW
 {

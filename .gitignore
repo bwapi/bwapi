@@ -2,6 +2,7 @@
 *.sdf
 *.opensdf
 */svnrev.h
+*/include/svnrev.h
 *.suo
 *.log
 *.ncb

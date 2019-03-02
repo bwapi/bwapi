@@ -5,7 +5,7 @@
 #include <BWAPI/UnitImpl.h>
 #include <BW/CUnit.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BW
 {

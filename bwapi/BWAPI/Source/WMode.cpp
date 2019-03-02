@@ -10,7 +10,7 @@
 #include "Thread.h"
 
 #include <Util/Convenience.h>
-#include "../../Debug.h"
+#include <Debug.h>
 
 WNDPROC wOriginalProc;
 HWND ghMainWnd;

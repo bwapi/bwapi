@@ -5,7 +5,7 @@
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 namespace BW
 {
   namespace Orders

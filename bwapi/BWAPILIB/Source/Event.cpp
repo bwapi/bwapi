@@ -2,7 +2,7 @@
 #include <BWAPI/EventType.h>
 #include <tuple>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

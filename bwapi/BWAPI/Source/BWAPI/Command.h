@@ -1,5 +1,5 @@
 #pragma once
-#include "CommandTemp.h"
+#include <BWAPI/Client/CommandTemp.h>
 #include "UnitImpl.h"
 #include "PlayerImpl.h"
 

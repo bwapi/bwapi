@@ -9,7 +9,7 @@
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

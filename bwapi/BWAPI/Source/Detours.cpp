@@ -24,7 +24,7 @@
 #include <BW/Dialog.h>
 #include <BW/OrderTypes.h>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 std::string gDesiredReplayName;
 

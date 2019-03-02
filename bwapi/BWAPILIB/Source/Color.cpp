@@ -1,7 +1,7 @@
 #include <BWAPI/Color.h>
 #include <list>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 typedef unsigned char BYTE;
 typedef struct tagRGBQUAD {

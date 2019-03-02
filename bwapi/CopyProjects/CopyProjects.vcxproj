@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{D571C4C8-3978-41A9-8DBB-C4B5B84B0E6B}</ProjectGuid>
+    <RootNamespace>CopyProjects</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>XCOPY "$(SolutionDir)include\*.h" "$(SolutionDir)..\Release_Binary\include" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.h" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.h" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.h" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.vcxproj" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.cpp" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.h" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.h" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.h" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+</Command>
+      <Message>Copying include files, BWAPILIB project, and example projects to final release</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>XCOPY "$(SolutionDir)include\*.h" "$(SolutionDir)..\Release_Binary\include" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.h" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIModule\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleAIModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleAIClient\*.h" "$(SolutionDir)..\Release_Binary\ExampleAIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.vcxproj" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.cpp" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)ExampleTournamentModule\*.h" "$(SolutionDir)..\Release_Binary\ExampleTournamentModule" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.vcxproj" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.cpp" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)AIModuleLoader\*.h" "$(SolutionDir)..\Release_Binary\AIModuleLoader" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPILIB\*.h" "$(SolutionDir)..\Release_Binary\BWAPILIB" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.vcxproj.filters" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.cpp" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)BWAPIClient\*.h" "$(SolutionDir)..\Release_Binary\BWAPIClient" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.cpp" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+XCOPY "$(SolutionDir)Shared\*.h" "$(SolutionDir)..\Release_Binary\Shared" /S /C /I /R /Y
+</Command>
+      <Message>Copying include files, BWAPILIB project, and example projects to final release</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

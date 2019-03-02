@@ -5,7 +5,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/WeaponType.h>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

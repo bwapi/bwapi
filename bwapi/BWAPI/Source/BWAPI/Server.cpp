@@ -19,9 +19,9 @@
 #include <BW/Offsets.h>
 
 #include "../Config.h"
-#include "../../../svnrev.h"
+#include <svnrev.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

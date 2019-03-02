@@ -84,9 +84,6 @@
     <ClInclude Include="Source\BWAPI\Command.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BWAPI\CommandTemp.h">
-      <Filter>BWAPI\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BWAPI\ForceImpl.h">
       <Filter>BWAPI\Header Files</Filter>
     </ClInclude>

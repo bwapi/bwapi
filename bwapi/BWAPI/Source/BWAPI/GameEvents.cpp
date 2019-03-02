@@ -12,8 +12,7 @@
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/RegionImpl.h>
 
-#include "../../../svnrev.h"
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

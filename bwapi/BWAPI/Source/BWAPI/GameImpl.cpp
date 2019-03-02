@@ -1,4 +1,4 @@
-#include "../../../svnrev.h"
+#include <svnrev.h>
 #include "GameImpl.h"
 
 #include <cstdio>
@@ -43,7 +43,7 @@
 
 #include "../BW/Pathing.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

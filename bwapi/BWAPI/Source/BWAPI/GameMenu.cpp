@@ -12,7 +12,7 @@
 #include <BW/OrderTypes.h>
 #include <Util/Clamp.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

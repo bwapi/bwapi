@@ -1,7 +1,7 @@
 #include "PositionUnitTarget.h"
 #include "CUnit.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 #include "Offsets.h"
 
 namespace BW

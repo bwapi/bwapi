@@ -10,6 +10,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIModule", "ExampleA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIB", "BWAPILIB\BWAPILIB.vcxproj", "{843656FD-9BFD-47BF-8460-7BFE9710EA2C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPIClient", "BWAPIClient\BWAPIClient.vcxproj", "{C99ABF61-6716-4FC0-AA77-9A136EA61680}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,8 +35,19 @@ Global
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Debug|Win32.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.ActiveCfg = Release|Win32
 		{8D2682F5-7022-40E6-95E3-7257D43639F1}.Release|Win32.Build.0 = Release|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Debug|Win32.Build.0 = Debug|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.ActiveCfg = Release|Win32
+		{843656FD-9BFD-47BF-8460-7BFE9710EA2C}.Release|Win32.Build.0 = Release|Win32
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680}.Debug|Win32.Build.0 = Debug|Win32
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680}.Release|Win32.ActiveCfg = Release|Win32
+		{C99ABF61-6716-4FC0-AA77-9A136EA61680}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAE5753B-9456-4EF5-AAAA-F3AAF2130862}
 	EndGlobalSection
 EndGlobal

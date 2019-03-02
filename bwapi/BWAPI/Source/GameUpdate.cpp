@@ -15,8 +15,8 @@
 #include <BW/OrderTypes.h>
 #include <BW/Pathing.h>
 
-#include "../../../svnrev.h"
-#include "../../../Debug.h"
+#include <svnrev.h>
+#include <Debug.h>
 
 using namespace BWAPI;
 

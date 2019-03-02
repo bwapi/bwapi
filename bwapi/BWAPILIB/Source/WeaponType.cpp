@@ -6,7 +6,7 @@
 #include <BWAPI/DamageType.h>
 #include <BWAPI/ExplosionType.h>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

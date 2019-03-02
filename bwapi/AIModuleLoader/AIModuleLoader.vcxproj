@@ -60,7 +60,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>../lib/BWAPId.lib;../lib/BWAPIClientd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,11 +88,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>../lib/BWAPI.lib;../lib/BWAPIClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AIModuleLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BWAPIClient\BWAPIClient.vcxproj">
+      <Project>{c99abf61-6716-4fc0-aa77-9a136ea61680}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\BWAPILIB\BWAPILIB.vcxproj">
+      <Project>{843656fd-9bfd-47bf-8460-7bfe9710ea2c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,7 @@
 #include <BWAPI/Order.h>
 #include <cassert>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {
