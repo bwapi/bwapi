@@ -17,8 +17,6 @@
 #include <BW/Dialog.h>
 #include <BW/Offsets.h>
 
-#include "../../../Debug.h"
-
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.
  */
@@ -158,14 +156,14 @@ namespace BWAPI
       n = -1;
       ss >> n;
       setLocalSpeedDirect(n);
-      printf("Changed game speed");
+      BroodwarImpl.printf("Changed game speed");
     }
     else if (cmd == "/fs")
     {
       n = 1;
       ss >> n;
       setFrameSkip(n);
-      printf("Altered frame skip");
+      BroodwarImpl.printf("Altered frame skip");
     }
     else if (cmd == "/cheats")
     {
@@ -192,17 +190,17 @@ namespace BWAPI
     else if (cmd == "/nogui")
     {
       setGUI(!data->hasGUI);
-      printf("GUI: %s", data->hasGUI ? "enabled" : "disabled");
+      BroodwarImpl.printf("GUI: %s", data->hasGUI ? "enabled" : "disabled");
     }
     else if (cmd == "/grid")
     {
       grid = !grid;
-      printf("Matrix grid ", grid ? "enabled" : "disabled");
+      BroodwarImpl.printf("Matrix grid %s", grid ? "enabled" : "disabled");
     }
     else if ( cmd == "/fps" )
     {
       this->showfps = !this->showfps;
-      printf("FPS display ", showfps ? "enabled" : "disabled");
+      BroodwarImpl.printf("FPS display %s", showfps ? "enabled" : "disabled");
     }
     else
     {
@@ -305,9 +303,6 @@ namespace BWAPI
     flags.fill(false);
 
     // Clear the latency buffer
-    for(unsigned int j = 0; j < this->commandBuffer.size(); ++j)
-      for (unsigned int i = 0; i < this->commandBuffer[j].size(); ++i)
-        delete this->commandBuffer[j][i];
     this->commandBuffer.clear();
     this->commandBuffer.reserve(16);
 

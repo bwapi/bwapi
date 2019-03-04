@@ -1,11 +1,9 @@
 #include "OrderTypes.h"
 #include <BWAPI/Unit.h>
-#include <BWAPI/Unitset.h>
 
 #include <BWAPI/Order.h>
 #include <BWAPI/Race.h>
 
-#include "../../../Debug.h"
 namespace BW
 {
   namespace Orders

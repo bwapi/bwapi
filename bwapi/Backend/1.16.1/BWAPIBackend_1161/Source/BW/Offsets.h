@@ -56,6 +56,18 @@ namespace BW
       u32 IS_REF(ReplayVision, 0x006D0F18);
       u32 IS_REF(ReplayRevealAll, 0x006D0F1C);
 
+      // Code Patches
+      const u32 ServerMenuIn = 0x004DD5A2;
+      const u32 ServerMenuOut = 0x004DD5C9;
+      const u32 OpponentStartHack = 0x004B995D;
+      const u32 SingleSpeedHack = 0x004D99FB;
+
+      std::array<swishTimer, 43> IS_REF(commonSwishControllers, 0x005129EC);
+      std::array<swishTimer, 5> IS_REF(gluCustmSwishController, 0x0051A9F0);
+      std::array<swishTimer, 2> IS_REF(gluCmpgnSwishController, 0x00512B10);
+      std::array<swishTimer, 1> IS_REF(gluScoreSwishController, 0x0051A844);
+      std::array<swishTimer, 5> IS_REF(gluChatSwishController, 0x0051A490);
+
       // Command queue data
       u32 IS_REF(sgdwBytesInCmdQueue, 0x00654AA0);
       std::array<u8, TURN_BUFFER_SIZE> IS_REF(TurnBuffer, 0x00654880);
@@ -69,8 +81,8 @@ namespace BW
         std::array<u32, NUM_SPEEDS> gameSpeedModifiers;
         std::array<u32, NUM_SPEEDS> altSpeedModifiers;
       };
-      GameSpeeds IS_REF(GameSpeedModifiers, 0x005124D8);
-      u32 IS_REF(GameSpeed, 0x006CDFD4);
+      GameSpeeds IS_REF(GameSpeedModifiers, 0x005124D8);   // mac: 0x0014BF3C
+      u32 IS_REF(GameSpeed, 0x006CDFD4);  // mac: 0x00228458
 
       std::array<u32, NUM_SPEEDS> IS_REF(LatencyFrames, 0x0051CE70);
       s32 IS_REF(FrameSkip, 0x005124D4);

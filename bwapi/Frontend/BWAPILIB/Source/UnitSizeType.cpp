@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/UnitSizeType.h>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   template <>

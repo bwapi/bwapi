@@ -190,6 +190,7 @@ namespace BW
   {
     this->data[ x + y*this->width() ] = col;
   }
+
   void Bitmap::drawLine(int x1, int y1, int x2, int y2, u8 color)
   {
     // If the line doesn't intersect this rect

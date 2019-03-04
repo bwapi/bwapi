@@ -7,62 +7,62 @@ namespace BWAPI
   //------------------------------------------------- GET ID -------------------------------------------------
   int BulletImpl::getID() const
   {
-    return data.id;
+    return self->id;
   }
   //------------------------------------------------ GET PLAYER ----------------------------------------------
   Player BulletImpl::getPlayer() const
   {
-    return BroodwarImpl.getPlayer(data.player);
+    return BroodwarImpl.getPlayer(self->player);
   }
   //------------------------------------------------ GET TYPE ------------------------------------------------
   BulletType BulletImpl::getType() const
   {
-    return BulletType(data.type);
+    return BulletType(self->type);
   }
   //------------------------------------------------ GET SOURCE ----------------------------------------------
   Unit BulletImpl::getSource() const
   {
-    return BroodwarImpl.getUnit(data.source);
+    return BroodwarImpl.getUnit(self->source);
   }
   //---------------------------------------------- GET POSITION ----------------------------------------------
   Position BulletImpl::getPosition() const
   {
-    return Position(data.positionX, data.positionY);
+    return Position(self->positionX,self->positionY);
   }
   //----------------------------------------------- GET ANGLE ------------------------------------------------
   double BulletImpl::getAngle() const
   {
-    return data.angle;
+    return self->angle;
   }
   //--------------------------------------------- GET VELOCITY X ---------------------------------------------
   double BulletImpl::getVelocityX() const
   {
-    return data.velocityX;
+    return self->velocityX;
   }
   //--------------------------------------------- GET VELOCITY Y ---------------------------------------------
   double BulletImpl::getVelocityY() const
   {
-    return data.velocityY;
+    return self->velocityY;
   }
   //------------------------------------------------ GET TARGET ----------------------------------------------
   Unit BulletImpl::getTarget() const
   {
-    return BroodwarImpl.getUnit(data.target);
+    return BroodwarImpl.getUnit(self->target);
   }
   //-------------------------------------------- GET TARGET POSITION -----------------------------------------
   Position BulletImpl::getTargetPosition() const
   {
-    return Position(data.targetPositionX, data.targetPositionY);
+    return Position(self->targetPositionX,self->targetPositionY);
   }
   //-------------------------------------------- GET REMOVE TIMER --------------------------------------------
   int BulletImpl::getRemoveTimer() const
   {
-    return data.removeTimer;
+    return self->removeTimer;
   }
   //------------------------------------------------- EXISTS -------------------------------------------------
   bool BulletImpl::exists() const
   {
-    return data.exists;
+    return self->exists;
   }
   //----------------------------------------------- IS VISIBLE -----------------------------------------------
   bool BulletImpl::isVisible(BWAPI::Player player) const
@@ -74,13 +74,13 @@ namespace BWAPI
     {
       int id = player->getID();
       if ( id >= 0 && id < 9 ) // Check if ID is valid
-        return data.isVisible[id]; // return visibility
+        return self->isVisible[id]; // return visibility
     }
     else  // fallback for self also being null
     {
       for(int i = 0; i < 9; ++i) // check if the bullet is visible by ANY player
       {
-        if (data.isVisible[i] )
+        if ( self->isVisible[i] )
           return true;
       }
     }

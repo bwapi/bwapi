@@ -1,7 +1,5 @@
 #include <string>
 
-#include "../../../svnrev.h"
-
 #ifdef _DEBUG
 #define MODULE "BWAPId.dll"
 #else

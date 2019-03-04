@@ -1,7 +1,5 @@
 #include "BWtoBWAPI.h"
 
-#include "../../../Debug.h"
-
 namespace BWAPI
 {
   int BWtoBWAPI_Order[Orders::Enum::MAX];

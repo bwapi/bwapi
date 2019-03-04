@@ -5,8 +5,6 @@
 
 #include "CUnit.h"
 
-#include "../../../Debug.h"
-
 namespace BW
 {
   BWAPI::UnitType CUnit::type() const

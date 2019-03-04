@@ -17,8 +17,6 @@
 #include <BW/Offsets.h>
 #include <BW/OrderTypes.h>
 
-#include "../../../Debug.h"
-
 namespace BWAPI
 {
   //--------------------------------------------- CONSTRUCTOR ------------------------------------------------
@@ -82,7 +80,7 @@ namespace BWAPI
     }
 
     // Add to command optimizer if possible, as well as the latency compensation buffer
-    BroodwarImpl.addToCommandBuffer(new Command(getGame(), command));
+    BroodwarImpl.addToCommandBuffer(Command{ command });
     return BroodwarImpl.commandOptimizer.add(command);
   }
   bool UnitImpl::issueCommand(UnitCommand command)
@@ -181,7 +179,7 @@ namespace BWAPI
       return true;
 
     // neutral units visible during AIModule::onStart
-    if (BroodwarImpl.getFrameCount() == 0)
+    if ( BroodwarImpl.getFrameCount() == 0 )
       if (this->_getType.isNeutral() || (this->_getPlayer && this->_getPlayer->isNeutral()) )
         return true;
     return false;
@@ -200,7 +198,7 @@ namespace BWAPI
       if (this->_getType.isNeutral())
         return true;
 
-    return data.isDetected;
+    return self->isDetected;
   }
 
   //returns true if canAccess() is true and the unit is owned by self (or complete map info is turned on)

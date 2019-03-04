@@ -1,4 +1,5 @@
 #include "GameImpl.h"
+#include <ctime>
 
 #include <Util/Path.h>
 #include <Util/StringUtil.h>
@@ -10,9 +11,6 @@
 
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/RegionImpl.h>
-
-#include "../../../svnrev.h"
-#include "../../../Debug.h"
 
 namespace BWAPI
 {
@@ -356,6 +354,60 @@ namespace BWAPI
     //this is called at the end of every match
     if ( !this->onStartCalled )
       return;
+
+    if ( autoMenuManager.autoMenuSaveReplay != "" && !this->isReplay() )
+    {
+      // Set replay envvars
+      SetEnvironmentVariableA("BOTNAME",    rn_BWAPIName.c_str());
+      SetEnvironmentVariableA("BOTNAME6",   rn_BWAPIName.substr(0,6).c_str());
+      SetEnvironmentVariableA("BOTRACE",    rn_BWAPIRace.c_str());
+      SetEnvironmentVariableA("MAP",        rn_MapName.c_str());
+      SetEnvironmentVariableA("ALLYNAMES",  rn_AlliesNames.c_str());
+      SetEnvironmentVariableA("ALLYRACES",  rn_AlliesRaces.c_str());
+      SetEnvironmentVariableA("ENEMYNAMES", rn_EnemiesNames.c_str());
+      SetEnvironmentVariableA("ENEMYRACES", rn_EnemiesRaces.c_str());
+      SetEnvironmentVariableA("GAMERESULT", rn_GameResult.c_str ());
+
+      // Expand environment strings to szInterPath
+      char szTmpPath[MAX_PATH] = { 0 };
+      ExpandEnvironmentStringsA(autoMenuManager.autoMenuSaveReplay.c_str(), szTmpPath, MAX_PATH);
+
+      std::string pathStr(szTmpPath);
+
+      // Double any %'s remaining in the string so that strftime executes correctly
+      {
+        size_t tmp = std::string::npos;
+        while (tmp = pathStr.find_last_of('%', tmp - 1), tmp != std::string::npos)
+          pathStr.insert(tmp, "%");
+      }
+
+      // Replace the placeholder $'s with %'s for the strftime call
+      std::replace(pathStr.begin(), pathStr.end(), '$', '%');
+
+      // Get time
+      time_t tmpTime = std::time(nullptr);
+      tm *timeInfo = std::localtime(&tmpTime);
+
+      // Expand time strings, add a handler for this specific task to ignore errors in the format string
+      // TODO: Replace with boost time format
+      _invalid_parameter_handler old = _set_invalid_parameter_handler(&ignore_invalid_parameter);
+        std::strftime(szTmpPath, sizeof(szTmpPath), pathStr.c_str(), timeInfo);
+      _set_invalid_parameter_handler(old);
+      pathStr = szTmpPath;
+
+      // Remove illegal characters
+      pathStr.erase(std::remove_if(pathStr.begin(), pathStr.end(),
+                                   [](char c) {
+                                     return iscntrl(reinterpret_cast<unsigned char&>(c)) || c == '?' || c == '*' ||
+                                         c == '<' || c == '|' || c == '>' || c == '"';
+                                   }), pathStr.end());
+
+      Util::Path parent_p = Util::Path(pathStr).parent_path();
+      Util::create_directories(parent_p);
+
+      // Copy to global desired replay name
+      gDesiredReplayName = pathStr;
+    }
 
     if ( !this->calledMatchEnd )
     {

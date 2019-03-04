@@ -34,6 +34,9 @@
     <Filter Include="BW\Enumerations">
       <UniqueIdentifier>{691200ef-f84c-46fa-8897-50d4e7a08ea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Old_BWAPILIB">
+      <UniqueIdentifier>{334a62f3-ed4a-470f-a4e6-37c699568ad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BW\CheatType.h">
@@ -200,13 +203,25 @@
       <Filter>BW\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\BWAPI.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\AIModule.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Bullet.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Force.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Game.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Player.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Region.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Unit.h" />
+    <ClInclude Include="starcraftver.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Bullet.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Force.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Game.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Player.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Region.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Unit.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
@@ -350,6 +365,96 @@
     </ClCompile>
     <ClCompile Include="Source\BWAPI\UnitShared.cpp">
       <Filter>BWAPI\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Color.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Error.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Event.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Forceset.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Game.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Order.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Playerset.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Position.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Race.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Region.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Regionset.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Streams.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitSizeType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UpgradeType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

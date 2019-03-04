@@ -9,8 +9,6 @@
 #include <BWAPI/Order.h>
 #include <cassert>
 
-#include "../../../Debug.h"
-
 namespace BWAPI
 {
   using namespace Filter;
@@ -38,7 +36,7 @@ namespace BWAPI
     // Replica of official UnitInterface::IsDead function
     if ( !u->sprite || (u->orderID == Orders::Die && u->orderState == 1) )
     {
-      //Broodwar->printf("%s has met a true death", _getType.getName().c_str());
+      //BroodwarImpl.printf("%s has met a true death", _getType.getName().c_str());
       return false;
     }
     // The rest is garbage?
@@ -46,7 +44,7 @@ namespace BWAPI
     if ( u->orderID == Orders::Die && u->orderState != 1)
     { // Starcraft will keep a unit alive when order state is not 1
       // if for some reason the "die" order was interrupted, the unit will remain alive with 0 hp
-      //Broodwar->printf("Bad logic, %s would not die with order state %u", _getType.getName().c_str(), u->orderState);
+      //BroodwarImpl.printf("Bad logic, %s would not die with order state %u", _getType.getName().c_str(), u->orderState);
       return false;
     }
 
@@ -54,12 +52,12 @@ namespace BWAPI
     {
       if (_getType == UnitTypes::Unknown)
       { // Unknown units are not actually dead, idk why we assume so
-        //Broodwar->printf("Bad logic?, unknown unit type death");
+        //BroodwarImpl.printf("Bad logic?, unknown unit type death");
         return false;//skip subunits if they are in this list
       }
       else if (_getType == UnitTypes::Protoss_Scarab )
       { // some reason we decided all protoss scarabs are dead
-        //Broodwar->printf("Bad logic?, %s death", _getType.getName().c_str());
+        //BroodwarImpl.printf("Bad logic?, %s death", _getType.getName().c_str());
         return false;
       }
     }
@@ -134,7 +132,7 @@ namespace BWAPI
       else
       {
         // We can also set exists to false for units that will remain dying
-        static_cast<UnitImpl*>(*it)->data.exists = false;
+        static_cast<UnitImpl*>(*it)->self->exists = false;
         it++;
       }
     }
@@ -264,27 +262,27 @@ namespace BWAPI
       UnitImpl* orderTargetUnit = UnitImpl::BWUnitToBWAPIUnit(u->getOriginalRawData->orderTarget.pUnit);
       if ( orderTargetUnit && orderTargetUnit->exists() && u->getOrder() == Orders::ConstructingBuilding )
       {
-        UnitImpl* j            = orderTargetUnit;
-        u->data.buildUnit      = server.getUnitID(j);
-        u->data.isConstructing = true;
-        u->data.isIdle         = false;
-        u->data.buildType      = j->data.type;
-        j->data.buildUnit      = server.getUnitID(u);
-        j->data.isConstructing = true;
-        j->data.isIdle         = false;
-        j->data.buildType      = j->data.type;
+        UnitImpl* j             = orderTargetUnit;
+        u->self->buildUnit      = server.getUnitID(j);
+        u->self->isConstructing = true;
+        u->self->isIdle         = false;
+        u->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID(u);
+        j->self->isConstructing = true;
+        j->self->isIdle         = false;
+        j->self->buildType      = j->self->type;
       }
       else if ( u->getAddon() && !u->getAddon()->isCompleted() )
       {
-        UnitImpl* j            = static_cast<UnitImpl*>(u->getAddon());
-        u->data.buildUnit      = server.getUnitID(j);
-        u->data.isConstructing = true;
-        u->data.isIdle         = false;
-        u->data.buildType      = j->data.type;
-        j->data.buildUnit      = server.getUnitID(u);
-        j->data.isConstructing = true;
-        j->data.isIdle         = false;
-        j->data.buildType      = j->data.type;
+        UnitImpl* j             = static_cast<UnitImpl*>(u->getAddon());
+        u->self->buildUnit      = server.getUnitID(j);
+        u->self->isConstructing = true;
+        u->self->isIdle         = false;
+        u->self->buildType      = j->self->type;
+        j->self->buildUnit      = server.getUnitID(u);
+        j->self->isConstructing = true;
+        j->self->isIdle         = false;
+        j->self->buildType      = j->self->type;
       }
       if (u->getTransport())
       {
@@ -296,7 +294,7 @@ namespace BWAPI
         UnitImpl* hatchery = static_cast<UnitImpl*>(u->getHatchery());
         hatchery->connectedUnits.insert(u);
         if (hatchery->connectedUnits.size() >= 3)
-          hatchery->data.remainingTrainTime = 0;
+          hatchery->self->remainingTrainTime = 0;
       }
       if (u->getCarrier())
       {
@@ -311,10 +309,10 @@ namespace BWAPI
 
     for(PlayerImpl* p : players)
     {
-      PlayerData &pd = p->data;
-      MemZero(pd.allUnitCount);
-      MemZero(pd.visibleUnitCount);
-      MemZero(pd.completedUnitCount);
+      PlayerData *pd = p->self;
+      MemZero(pd->allUnitCount);
+      MemZero(pd->visibleUnitCount);
+      MemZero(pd->completedUnitCount);
     }
 
     for(Unit u : discoverUnits)
@@ -341,7 +339,7 @@ namespace BWAPI
       }
       else
       {
-        if ( unitPlayer == self() && type == UnitTypes::Protoss_Pylon )
+        if ( unitPlayer == BroodwarImpl.self() && type == UnitTypes::Protoss_Pylon )
           pylons.insert(u);
       }
     }
@@ -364,7 +362,7 @@ namespace BWAPI
         else if ( type == UnitTypes::Resource_Vespene_Geyser )
           geysers.erase(u);
       }
-      else if ( unitPlayer == self() && type == UnitTypes::Protoss_Pylon )
+      else if ( unitPlayer == BroodwarImpl.self() && type == UnitTypes::Protoss_Pylon )
       {
         pylons.erase(u);
       }
@@ -401,41 +399,41 @@ namespace BWAPI
       int thisUnit  = u->_getType;
       
       // Increment specific unit count
-      auto &pSelf = static_cast<PlayerImpl*>(u->_getPlayer)->data;
-      pSelf.allUnitCount[thisUnit]++;
+      BWAPI::PlayerData *pSelf = static_cast<PlayerImpl*>(u->_getPlayer)->self;
+      pSelf->allUnitCount[thisUnit]++;
       if (u->isVisible())
-        pSelf.visibleUnitCount[thisUnit]++;
+        pSelf->visibleUnitCount[thisUnit]++;
       if (u->isCompleted())
-        pSelf.completedUnitCount[thisUnit]++;
+        pSelf->completedUnitCount[thisUnit]++;
       // increment all unit count
-      pSelf.allUnitCount[allUnits]++;
+      pSelf->allUnitCount[allUnits]++;
       if (u->isVisible())
-        pSelf.visibleUnitCount[allUnits]++;
+        pSelf->visibleUnitCount[allUnits]++;
       if (u->isCompleted())
-        pSelf.completedUnitCount[allUnits]++;
+        pSelf->completedUnitCount[allUnits]++;
       if ( u->_getType.isBuilding() )
       { // increment buildings unit count
-        pSelf.allUnitCount[buildings]++;
+        pSelf->allUnitCount[buildings]++;
         if (u->isVisible())
-          pSelf.visibleUnitCount[buildings]++;
+          pSelf->visibleUnitCount[buildings]++;
         if (u->isCompleted())
-          pSelf.completedUnitCount[buildings]++;
+          pSelf->completedUnitCount[buildings]++;
         if ( (u->_getType.canProduce() || u->_getType.producesLarva()) ) // increment factories unit count
         {
-          pSelf.allUnitCount[factories]++;
+          pSelf->allUnitCount[factories]++;
         if (u->isVisible())
-          pSelf.visibleUnitCount[factories]++;
+          pSelf->visibleUnitCount[factories]++;
         if (u->isCompleted())
-          pSelf.completedUnitCount[factories]++;
+          pSelf->completedUnitCount[factories]++;
         }
       }
       else
       { // increment men unit count
-        pSelf.allUnitCount[men]++;
+        pSelf->allUnitCount[men]++;
         if ( u->isVisible() )
-          pSelf.visibleUnitCount[men]++;
+          pSelf->visibleUnitCount[men]++;
         if ( u->isCompleted() )
-          pSelf.completedUnitCount[men]++;
+          pSelf->completedUnitCount[men]++;
       }
       u->lastPlayer = u->_getPlayer;
       u->lastType   = u->_getType;
@@ -443,9 +441,9 @@ namespace BWAPI
 
     if (this->staticNeutralUnits.empty()) //if we haven't saved the set of static units, save them now
     {
-      for (auto ui : aliveUnits)
+      for (Unit ui : aliveUnits)
       {
-        auto u = static_cast<UnitImpl*>(ui);
+        UnitImpl *u = static_cast<UnitImpl*>(ui);
         if (u->_getPlayer->isNeutral())
         {
           u->saveInitialState();
@@ -482,7 +480,8 @@ namespace BWAPI
       else
       {
         u->setSelected(false);
-        u->data.isSelected = false;
+        if ( u->self )
+          u->self->isSelected = false;
       } // if exists
     } // for each in selectedU
 
@@ -504,9 +503,9 @@ namespace BWAPI
         UnitImpl *uInside = static_cast<UnitImpl*>(uInsidei);
         // Assign the boolean for whatever spell the unit is under
         if ( ut == UnitTypes::Spell_Dark_Swarm )
-          uInside->data.isUnderDarkSwarm = true;
+          uInside->self->isUnderDarkSwarm = true;
         else if ( ut == UnitTypes::Spell_Disruption_Web )
-          uInside->data.isUnderDWeb      = true;
+          uInside->self->isUnderDWeb    = true;
       }
     } // for each neutral units
   } // updateUnits
@@ -521,7 +520,7 @@ namespace BWAPI
     pos -= Position(BW::BWDATA::GameScreenBuffer.width() / 2, BW::BWDATA::GameScreenBuffer.height() / 2 - 40);
 
     // Make this position a valid position
-    makeValid(pos);
+    pos.makeValid();
 
     // Move to the screen position
     this->setScreenPosition(pos.x, pos.y);

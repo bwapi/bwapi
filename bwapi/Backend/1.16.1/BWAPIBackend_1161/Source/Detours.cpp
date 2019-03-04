@@ -22,7 +22,7 @@
 #include <BW/Dialog.h>
 #include <BW/OrderTypes.h>
 
-#include "../../Debug.h"
+std::string gDesiredReplayName;
 
 void *leakUIClassLoc;
 void *leakUIGrpLoc;
@@ -34,8 +34,11 @@ DECL_OLDFXN(SFileOpenFileEx);
 DECL_OLDFXN(SFileOpenFile);
 DECL_OLDFXN(SMemAlloc);
 DECL_OLDFXN(SNetSendTurn);
+DECL_OLDFXN(SDrawCaptureScreen);
 DECL_OLDFXN(FindFirstFileA);
-DECL_OLDFXN(CreateWindowExA);
+DECL_OLDFXN(DeleteFileA);
+DECL_OLDFXN(GetFileAttributesA);
+DECL_OLDFXN(CreateFileA);
 DECL_OLDFXN(Sleep);
 DECL_OLDFXN(CreateThread);
 DECL_OLDFXN(CreateEventA);
@@ -161,25 +164,14 @@ HANDLE WINAPI _CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwS
   return rval;
 }
 
-//--------------------------------------------- CREATE WINDOW ------------------------------------------------
-HWND WINAPI _CreateWindowEx(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
+//------------------------------------------------ SLEEP ----------------------------------------------------
+VOID WINAPI _Sleep(DWORD dwMilliseconds)
 {
-  auto CreateWindowExProc = _CreateWindowExAOld ? _CreateWindowExAOld : &CreateWindowExA;
+  if ( dwMilliseconds == 1500 ) // Main menu timer
+    return;
 
-  HWND hWndReturn = NULL;
-  if ( strcmp(lpClassName, "SWarClass") == 0 )
-  {
-    std::string newWindowName = lpWindowName;
-    if (gdwProcNum > 1)
-      newWindowName += " Instance " + std::to_string(gdwProcNum);
-
-    hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, newWindowName.c_str(), dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-  }
-  else
-  {
-    hWndReturn = CreateWindowExProc(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-  }
-  return hWndReturn;
+  auto SleepProc = _SleepOld ? _SleepOld : &Sleep;
+  SleepProc(dwMilliseconds);
 }
 
 //----------------------------------------------- FILE HOOKS -------------------------------------------------
@@ -190,6 +182,69 @@ HANDLE WINAPI _FindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATAA lpFindFileDat
   auto FindFirstFileProc = _FindFirstFileAOld ? _FindFirstFileAOld : &FindFirstFileA;
   return FindFirstFileProc(lpFileName, lpFindFileData);
 }
+std::string &getReplayName(std::string &sInFilename)
+{
+  // If it's an automatic replay save
+  if ( sInFilename.find("LastReplay.rep") != std::string::npos )
+  {
+    // If we're replacing the name
+    if ( !gDesiredReplayName.empty() )
+      sInFilename = gDesiredReplayName;
+
+    // If we have multiple instances, so no write conflicts
+    if (gdwProcNum > 1)
+    {
+      // Add the instance number before .rep
+      std::stringstream ss;
+      ss << sInFilename.substr(0, sInFilename.find(".rep") );
+      ss << '[' << gdwProcNum << ']' << ".rep";
+      sInFilename = ss.str();
+    }
+  }
+  return sInFilename;
+}
+
+BOOL WINAPI _DeleteFile(LPCSTR lpFileName)
+{
+  std::string fileName(lpFileName);
+
+  // call the original function
+  auto DeleteFileProc = _DeleteFileAOld ? _DeleteFileAOld : &DeleteFileA;
+  return DeleteFileProc( getReplayName(fileName).c_str() );
+}
+DWORD WINAPI _GetFileAttributes(LPCSTR lpFileName)
+{
+  std::string fileName(lpFileName);
+
+  // call the original function
+  auto GetFileAttributesProc = _GetFileAttributesAOld ? _GetFileAttributesAOld : GetFileAttributesA;
+  return GetFileAttributesProc( getReplayName(fileName).c_str() );
+}
+HANDLE WINAPI _CreateFile(LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
+{
+  std::string fileName(lpFileName);
+  // @TODO: Check for read/write attributes
+
+  // call the original function
+  auto CreateFileProc = _CreateFileAOld ? _CreateFileAOld : &CreateFileA;
+  return CreateFileProc( getReplayName(fileName).c_str(), dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+}
+//--------------------------------------------- CAPTURE SCREEN -----------------------------------------------
+BOOL STORMAPI _SDrawCaptureScreen(const char *pszOutput)
+{
+  if ( !pszOutput )
+    return FALSE;
+
+  Util::Path newScreenFilename(pszOutput);
+
+  if ( !screenshotFmt.empty() ) // If an extension replacement was specified
+    newScreenFilename.replace_extension(screenshotFmt);
+
+  // Call the old fxn
+  auto SDrawCaptureScreenProc = _SDrawCaptureScreenOld ? _SDrawCaptureScreenOld : &SDrawCaptureScreen;
+  return SDrawCaptureScreenProc(newScreenFilename.string().c_str());
+}
+
 //----------------------------------------------- ON GAME END ------------------------------------------------
 BOOL __stdcall _SNetLeaveGame(int type)
 {

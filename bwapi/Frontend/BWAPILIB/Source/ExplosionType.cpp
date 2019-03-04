@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/ExplosionType.h>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   template <>

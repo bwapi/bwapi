@@ -25,9 +25,9 @@ extern "C" __declspec(dllexport) void GetPluginAPI(ExchangeData& Data)
 extern "C" __declspec(dllexport) void GetData(char* name, char* description, char* updateurl)
 {
   std::stringstream ss_desc;
-  ss_desc << "Injects " << MODULE << " (" << BUILD_STR << ") into the Broodwar process.\r\n\r\n"
-     << "Version " << BWAPI_VER << " for Starcraft " << STARCRAFT_VER << ".\r\n"
-     << "Check for updates at " << BWAPI_HOME_URL << " \r\n\r\n"
+  ss_desc << "Injects " << MODULE << " into the Broodwar process.\r\n\r\n"
+     << "For Starcraft: BroodWar 1.16.1.\r\n"
+     << "Check for updates at https://bwapi.github.io/ \r\n\r\n"
      << "Created by the BWAPI Project Team.";
 
   strcpy(name, GetPluginName().substr(0, 64).c_str());

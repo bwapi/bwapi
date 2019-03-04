@@ -1,4 +1,4 @@
-#include "../../../svnrev.h"
+#include "../svnrev.h"
 #include "GameImpl.h"
 
 #include <cstdio>
@@ -28,6 +28,7 @@
 #include <BW/Offsets.h>
 #include <BW/UnitTarget.h>
 #include <BW/OrderTypes.h>
+#include <BWAPI/Latency.h>
 #include <BW/TileType.h>
 #include <BW/TileSet.h>
 #include <BW/CheatType.h>
@@ -41,8 +42,6 @@
 #include "BWtoBWAPI.h"
 
 #include "../BW/Pathing.h"
-
-#include "../../../Debug.h"
 
 namespace BWAPI
 {
@@ -83,6 +82,42 @@ namespace BWAPI
     if (isReplay())
       return GameTypes::None;
     return GameType(BW::BWDATA::gameType);
+  }
+  //---------------------------------------------- GET LATENCY -----------------------------------------------
+  int GameImpl::getLatency() const
+  {
+    // Returns the real latency values
+    if ( !this->isMultiplayer() )
+      return BWAPI::Latency::SinglePlayer;
+
+    if ( this->isBattleNet() )
+    {
+      switch(BW::BWDATA::Latency)
+      {
+        case 0:
+          return BWAPI::Latency::BattlenetLow;
+        case 1:
+          return BWAPI::Latency::BattlenetMedium;
+        case 2:
+          return BWAPI::Latency::BattlenetHigh;
+        default:
+          return BWAPI::Latency::BattlenetLow;
+      }
+    }
+    else
+    {
+      switch(BW::BWDATA::Latency)
+      {
+        case 0:
+          return BWAPI::Latency::LanLow;
+        case 1:
+          return BWAPI::Latency::LanMedium;
+        case 2:
+          return BWAPI::Latency::LanHigh;
+        default:
+          return BWAPI::Latency::LanLow;
+      }
+    }
   }
   //--------------------------------------------- GET FRAME COUNT --------------------------------------------
   int GameImpl::getFrameCount() const
@@ -241,8 +276,7 @@ namespace BWAPI
     Unitset unitFinderResults;
 
     // Have the unit finder do its stuff
-    Templates::iterateUnitFinder<BW::unitFinder>(*this,
-                                                 BW::BWDATA::UnitOrderingX.data(),
+    Templates::iterateUnitFinder<BW::unitFinder>(BW::BWDATA::UnitOrderingX.data(),
                                                  BW::BWDATA::UnitOrderingY.data(),
                                                  BW::BWDATA::UnitOrderingCount,
                                                  left,
@@ -260,8 +294,7 @@ namespace BWAPI
     int bestDistance = 99999999;
     Unit pBestUnit = nullptr;
 
-    Templates::iterateUnitFinder<BW::unitFinder>( *this,
-                                                  BW::BWDATA::UnitOrderingX.data(),
+    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
                                                   BW::BWDATA::UnitOrderingY.data(),
                                                   BW::BWDATA::UnitOrderingCount,
                                                   left,
@@ -287,11 +320,10 @@ namespace BWAPI
     Position topLeft(center - rad);
     Position botRight(center + rad);
 
-    makeValid(topLeft);
-    makeValid(botRight);
+    topLeft.makeValid();
+    botRight.makeValid();
 
-    Templates::iterateUnitFinder<BW::unitFinder>( *this,
-                                                  BW::BWDATA::UnitOrderingX.data(),
+    Templates::iterateUnitFinder<BW::unitFinder>( BW::BWDATA::UnitOrderingX.data(),
                                                   BW::BWDATA::UnitOrderingY.data(),
                                                   BW::BWDATA::UnitOrderingCount,
                                                   topLeft.x,
@@ -348,13 +380,41 @@ namespace BWAPI
   {
     return Map::groundHeight(x, y);
   }
+  //--------------------------------------------- IS BUILDABLE -----------------------------------------------
+  bool GameImpl::isBuildable(int x, int y, bool includeBuildings) const
+  {
+    if ( Map::buildable(x,y) )
+    {
+      if ( includeBuildings && this->isVisible(x,y) && Map::isOccupied(x,y) )
+        return false;
+      return true;
+    }
+    return false;
+  }
+  //--------------------------------------------- IS VISIBLE -------------------------------------------------
+  bool GameImpl::isVisible(int x, int y) const
+  {
+    return Map::visible(x, y);
+  }
+  //--------------------------------------------- IS EXPLORED ------------------------------------------------
+  bool GameImpl::isExplored(int x, int y) const
+  {
+    return Map::isExplored(x, y);
+  }
+  //--------------------------------------------- HAS CREEP --------------------------------------------------
+  bool GameImpl::hasCreep(int x, int y) const
+  {
+    if (!this->isFlagEnabled(Flag::CompleteMapInformation) && !this->isVisible(x, y))
+      return false;
+    return Map::hasCreep(x, y);
+  }
   //--------------------------------------------- HAS POWER --------------------------------------------------
   bool GameImpl::hasPowerPrecise(int x, int y, UnitType unitType) const
   {
     return Templates::hasPower(x, y, unitType, pylons);
   }
   //------------------------------------------------- PRINTF -------------------------------------------------
-  void GameImpl::vPrintf(const char *format, va_list arg) const
+  void GameImpl::vPrintf(const char *format, va_list arg)
   {
     // nogui & safety
     if ( !data->hasGUI ) return;
@@ -393,7 +453,7 @@ namespace BWAPI
 
     if ( this->isReplay() )  // Just print the text if in a replay
     {
-      printf("%s", buffer);
+      BroodwarImpl.printf("%s", buffer);
       return;
     }
 
@@ -413,8 +473,7 @@ namespace BWAPI
       }
       else  // Just print the message otherwise
       {
-        BroodwarImpl.printf("%c%s: %c%s",
-          BWAPIPlayer->getTextColor(), BWAPIPlayer->getName().c_str(), Text::Green, buffer);
+        BroodwarImpl.printf("%c%s: %c%s", this->BWAPIPlayer->getTextColor(), this->BWAPIPlayer->getName().c_str(), Text::Green, buffer);
       }
     } // single
     else  // multiplayer or lobby
@@ -445,10 +504,30 @@ namespace BWAPI
       } // isInGame
     } // multi
   }
+  //------------------------------------------------ IS IN GAME ----------------------------------------------
+  bool GameImpl::isInGame() const
+  {
+    return inGame;
+  }
+  //-------------------------------------------- IS SINGLE PLAYER --------------------------------------------
+  bool GameImpl::isMultiplayer() const
+  {
+    return BW::BWDATA::NetMode != 0 && BW::BWDATA::NetMode != -1;
+  }
   //--------------------------------------------- IS BATTLE NET ----------------------------------------------
   bool GameImpl::isBattleNet() const
   {
     return BW::BWDATA::NetMode == 'BNET';
+  }
+  //----------------------------------------------- IS PAUSED ------------------------------------------------
+  bool GameImpl::isPaused() const
+  {
+    return BW::BWDATA::isGamePaused != 0;
+  }
+  //----------------------------------------------- IN REPLAY ------------------------------------------------
+  bool  GameImpl::isReplay() const
+  {
+    return BW::BWDATA::InReplay != 0;
   }
   //----------------------------------------------- START GAME -----------------------------------------------
   void GameImpl::_startGame()
@@ -665,6 +744,21 @@ namespace BWAPI
     }
     return selectedUnitSet;
   }
+  //----------------------------------------------------- SELF -----------------------------------------------
+  Player GameImpl::self() const
+  {
+    return this->BWAPIPlayer;
+  }
+  //----------------------------------------------------- ENEMY ----------------------------------------------
+  Player GameImpl::enemy() const
+  {
+    return this->enemyPlayer;
+  }
+  //----------------------------------------------------- NEUTRAL --------------------------------------------
+  Player GameImpl::neutral() const
+  {
+    return players[11];
+  }
   //----------------------------------------------------- ALLIES ---------------------------------------------
   Playerset& GameImpl::allies()
   {
@@ -778,7 +872,7 @@ namespace BWAPI
   BWAPI::Region GameImpl::getRegionAt(int x, int y) const
   {
     this->setLastError();
-    if ( !isValid(Position(x, y)) )
+    if ( !Position(x, y) )
     {
       this->setLastError(BWAPI::Errors::Invalid_Parameter);
       return nullptr;

@@ -1,7 +1,6 @@
 #include "TileSet.h"
 #include "TileType.h"
 
-#include "../../../Debug.h"
 #include <BW/Offsets.h>
 
 namespace BW

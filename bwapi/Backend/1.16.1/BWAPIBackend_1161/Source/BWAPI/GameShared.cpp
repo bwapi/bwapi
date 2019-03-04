@@ -78,24 +78,24 @@ namespace BWAPI
     return e == Errors::None;
   }
   //--------------------------------------------- CAN BUILD HERE ---------------------------------------------
-  bool GameImpl::canBuildHere(TilePosition position, UnitType type, Unit builder, bool checkExplored) const
+  bool GameImpl::canBuildHere(TilePosition position, UnitType type, Unit builder, bool checkExplored)
   {
-    return Templates::canBuildHere(*this, builder,position,type,checkExplored);
+    return Templates::canBuildHere(builder,position,type,checkExplored);
   }
   //--------------------------------------------- CAN MAKE ---------------------------------------------------
   bool GameImpl::canMake(UnitType type, Unit builder) const
   {
-    return Templates::canMake(*this, builder,type);
+    return Templates::canMake(builder,type);
   }
   //--------------------------------------------- CAN RESEARCH -----------------------------------------------
-  bool GameImpl::canResearch(TechType type, Unit unit, bool checkCanIssueCommandType) const
+  bool GameImpl::canResearch(TechType type, Unit unit, bool checkCanIssueCommandType)
   {
-    return Templates::canResearch(*this, unit,type,checkCanIssueCommandType);
+    return Templates::canResearch(unit,type,checkCanIssueCommandType);
   }
   //--------------------------------------------- CAN UPGRADE ------------------------------------------------
-  bool GameImpl::canUpgrade(UpgradeType type, Unit unit, bool checkCanIssueCommandType) const
+  bool GameImpl::canUpgrade(UpgradeType type, Unit unit, bool checkCanIssueCommandType)
   {
-    return Templates::canUpgrade(*this, unit,type,checkCanIssueCommandType);
+    return Templates::canUpgrade(unit,type,checkCanIssueCommandType);
   }
   //--------------------------------------------- GET START LOCATIONS ----------------------------------------
   const TilePosition::list& GameImpl::getStartLocations() const

@@ -14,7 +14,6 @@
 namespace BWAPI
 { 
   class UnitType;
-  class Unitset;
 }
 #pragma pack(1)
 namespace BW

@@ -2,8 +2,6 @@
 #include <BWAPI/EventType.h>
 #include <tuple>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   namespace { std::string emptyString; }

@@ -16,8 +16,6 @@
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 
-#include "../../../Debug.h"
-
 using namespace std;
 namespace BWAPI
 {

@@ -8,9 +8,7 @@
 
 std::string GetPluginName()
 {
-  std::stringstream ss_name;
-  ss_name << "BWAPI " << BWAPI_VER << " Injector [" << BUILD_STR << "]";
-  return ss_name.str();
+  return "BWAPI Injector";
 }
 
 std::string GetBWAPITarget()

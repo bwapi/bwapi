@@ -2,6 +2,7 @@
 #include <Util/Types.h>
 #include <string>
 
+#include <BWAPI/Player.h>
 #include <BWAPI/Client/PlayerData.h>
 #include <BWAPI/Unitset.h>
 
@@ -20,65 +21,65 @@ namespace BWAPI
   class Race;
 
   /** Represents one player in game. Note that there is always player 12 who owns resources. */
-  class PlayerImpl
+  class PlayerImpl : public PlayerInterface
   {
     public:
-      int         getID() const;
-      std::string getName() const;
-      Race        getRace() const;
-      PlayerType  getType() const;
-      Force       getForce() const;
+      virtual int         getID() const override;
+      virtual std::string getName() const override;
+      virtual Race        getRace() const override;
+      virtual PlayerType  getType() const override;
+      virtual Force       getForce() const override;
 
-      bool isAlly(const Player player) const;
-      bool isEnemy(const Player player) const;
-      bool isNeutral() const;
+      virtual bool isAlly(const Player player) const override;
+      virtual bool isEnemy(const Player player) const override;
+      virtual bool isNeutral() const override;
 
-      bool isVictorious() const;
-      bool isDefeated() const;
-      bool leftGame() const;
+      virtual bool isVictorious() const override;
+      virtual bool isDefeated() const override;
+      virtual bool leftGame() const override;
 
-      const Unitset &getUnits() const;
-      TilePosition  getStartLocation() const;
+      virtual const Unitset &getUnits() const override;
+      virtual TilePosition  getStartLocation() const override;
 
-      int  minerals() const;
-      int  gas() const;
+      virtual int  minerals() const override;
+      virtual int  gas() const override;
 
-      int  gatheredMinerals() const;
-      int  gatheredGas() const;
-      int  repairedMinerals() const;
-      int  repairedGas() const;
-      int  refundedMinerals() const;
-      int  refundedGas() const;
-      int  spentMinerals() const;
-      int  spentGas() const;
+      virtual int  gatheredMinerals() const override;
+      virtual int  gatheredGas() const override;
+      virtual int  repairedMinerals() const override;
+      virtual int  repairedGas() const override;
+      virtual int  refundedMinerals() const override;
+      virtual int  refundedGas() const override;
+      virtual int  spentMinerals() const override;
+      virtual int  spentGas() const override;
 
-      int  supplyTotal(Race race = Races::None) const;
-      int  supplyUsed(Race race = Races::None) const;
+      virtual int  supplyTotal(Race race = Races::None) const override;
+      virtual int  supplyUsed(Race race = Races::None) const override;
 
-      int  allUnitCount(UnitType unit) const;
-      int  visibleUnitCount(UnitType unit) const;
-      int  completedUnitCount(UnitType unit) const;
-      int  deadUnitCount(UnitType unit) const;
-      int  killedUnitCount(UnitType unit) const;
+      virtual int  allUnitCount(UnitType unit) const override;
+      virtual int  visibleUnitCount(UnitType unit) const override;
+      virtual int  completedUnitCount(UnitType unit) const override;
+      virtual int  deadUnitCount(UnitType unit) const override;
+      virtual int  killedUnitCount(UnitType unit) const override;
 
-      int  getUpgradeLevel(UpgradeType upgrade) const;
-      bool hasResearched(TechType tech) const;
-      bool isResearching(TechType tech) const;
-      bool isUpgrading(UpgradeType upgrade) const;
+      virtual int  getUpgradeLevel(UpgradeType upgrade) const override;
+      virtual bool hasResearched(TechType tech) const override;
+      virtual bool isResearching(TechType tech) const override;
+      virtual bool isUpgrading(UpgradeType upgrade) const override;
 
-      BWAPI::Color getColor() const;
+      virtual BWAPI::Color getColor() const override;
 
-      int getUnitScore() const;
-      int getKillScore() const;
-      int getBuildingScore() const;
-      int getRazingScore() const;
-      int getCustomScore() const;
+      virtual int getUnitScore() const override;
+      virtual int getKillScore() const override;
+      virtual int getBuildingScore() const override;
+      virtual int getRazingScore() const override;
+      virtual int getCustomScore() const override;
 
-      bool isObserver() const;
+      virtual bool isObserver() const override;
 
-      int  getMaxUpgradeLevel(UpgradeType upgrade) const;
-      bool isResearchAvailable(TechType tech) const;
-      bool isUnitAvailable(UnitType unit) const;
+      virtual int  getMaxUpgradeLevel(UpgradeType upgrade) const override;
+      virtual bool isResearchAvailable(TechType tech) const override;
+      virtual bool isUnitAvailable(UnitType unit) const override;
 
       //Internal BWAPI commands:
       /**
@@ -104,6 +105,7 @@ namespace BWAPI
     // data members
       ForceImpl*  force = nullptr;
       PlayerData  data = PlayerData();
+      PlayerData* self = &data;
       Unitset     units;
 
       s32 _repairedMinerals;

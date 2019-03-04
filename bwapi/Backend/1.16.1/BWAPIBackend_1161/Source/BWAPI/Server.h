@@ -10,6 +10,12 @@ namespace BWAPI
   struct GameData;
   struct GameTable;
   class Event;
+  class ForceInterface;
+  typedef ForceInterface* Force;
+  class PlayerInterface;
+  typedef PlayerInterface* Player;
+  class UnitInterface;
+  typedef UnitInterface* Unit;
 
   class Server
   {

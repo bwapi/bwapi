@@ -43,7 +43,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Shared;Source/BWAPI;$(SolutionDir)/Util/Source;Source;$(SolutionDir)/include;../Storm;$(SolutionDir)/Frontend/BWAPICore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;$(SolutionDir)/Util/Source;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -81,7 +81,7 @@ popd</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Shared;Source/BWAPI;$(SolutionDir)/Util/Source;Source;$(SolutionDir)/include;../Storm;$(SolutionDir)/Frontend/BWAPICore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;$(SolutionDir)/Util/Source;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -137,13 +137,12 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\BWAPI.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\AIModule.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Bullet.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Force.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Game.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Player.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Region.h" />
-    <ClInclude Include="..\..\..\include\BWAPI\Unit.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Force.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Game.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Player.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Region.h" />
+    <ClInclude Include="bwapi4_include\BWAPI\Unit.h" />
     <ClInclude Include="Source\Assembly.h" />
     <ClInclude Include="Source\BWAPI\AutoMenuManager.h" />
     <ClInclude Include="Source\BWAPI\BulletImpl.h" />
@@ -199,8 +198,39 @@ popd</Command>
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\NewHackUtil.h" />
     <ClInclude Include="Source\Thread.h" />
+    <ClInclude Include="starcraftver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Color.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Error.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Event.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Forceset.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Game.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Order.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Playerset.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Position.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Race.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Region.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Regionset.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Streams.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\UnitSizeType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\UnitType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\UpgradeType.cpp" />
+    <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp" />
     <ClCompile Include="Source\Assembly.cpp" />
     <ClCompile Include="Source\BWAPI\AutoMenuManager.cpp" />
     <ClCompile Include="Source\BWAPI\BulletImpl.cpp" />

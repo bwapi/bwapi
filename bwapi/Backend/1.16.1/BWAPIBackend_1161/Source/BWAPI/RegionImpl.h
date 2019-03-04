@@ -1,4 +1,5 @@
 #pragma once
+#include <BWAPI/Region.h>
 #include <BWAPI/Regionset.h>
 #include <BWAPI/Position.h>
 
@@ -6,31 +7,32 @@
 
 namespace BWAPI
 {
-  class RegionImpl
+  class RegionImpl : public RegionInterface
   {
   public:
-    int getID() const;
-    int getRegionGroupID() const;
-    BWAPI::Position getCenter() const;
-    bool  isHigherGround() const;
-    int   getDefensePriority() const;
-    bool  isAccessible() const;
+    virtual int getID() const override;
+    virtual int getRegionGroupID() const override;
+    virtual BWAPI::Position getCenter() const override;
+    virtual bool  isHigherGround() const override;
+    virtual int   getDefensePriority() const override;
+    virtual bool  isAccessible() const override;
 
-    const Regionset &getNeighbors() const;
+    virtual const Regionset &getNeighbors() const override;
 
-    int getBoundsLeft() const;
-    int getBoundsTop() const;
-    int getBoundsRight() const;
-    int getBoundsBottom() const;
+    virtual int getBoundsLeft() const override;
+    virtual int getBoundsTop() const override;
+    virtual int getBoundsRight() const override;
+    virtual int getBoundsBottom() const override;
 
-    BWAPI::Region getClosestAccessibleRegion() const;
-    BWAPI::Region getClosestInaccessibleRegion() const;
+    virtual BWAPI::Region getClosestAccessibleRegion() const override;
+    virtual BWAPI::Region getClosestInaccessibleRegion() const override;
 
     RegionImpl(int id);
     void UpdateRegionRelations();
-    RegionData &getData();
+    RegionData* getData();
   private:
-    RegionData data = RegionData();
+    RegionData  data = RegionData();
+    RegionData* self = &data;
     
     Regionset neighbors;
     BWAPI::Region closestAccessibleRgn;

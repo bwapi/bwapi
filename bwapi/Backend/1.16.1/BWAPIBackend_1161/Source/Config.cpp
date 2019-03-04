@@ -7,6 +7,8 @@
 
 #include "Config.h"
 
+std::string screenshotFmt;
+
 bool isCorrectVersion = true;
 bool showWarn         = true;
 
@@ -86,6 +88,11 @@ void InitPrimaryConfig()
   isPrimaryConfigInitialized = true;
 
   // ------------------------- GENERAL/GLOBAL CONFIG OPTIONS ----------------------------------
+  // Get screenshot format
+  screenshotFmt = LoadConfigString("starcraft", "screenshots", "gif");
+  if ( !screenshotFmt.empty() )
+    screenshotFmt.insert(0, ".");
+
   // Check if warning dialogs should be shown
   showWarn = LoadConfigStringUCase("config", "show_warnings", "YES") == "YES";
 

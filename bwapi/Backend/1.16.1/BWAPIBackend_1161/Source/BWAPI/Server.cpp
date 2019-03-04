@@ -19,9 +19,7 @@
 #include <BW/Offsets.h>
 
 #include "../Config.h"
-#include "../../../svnrev.h"
-
-#include "../../../Debug.h"
+#include "../svnrev.h"
 
 namespace BWAPI
 {
@@ -354,7 +352,7 @@ namespace BWAPI
     data->isReplay      = BroodwarImpl.isReplay();
 
     // Locally store the map size
-    TilePosition mapSize(BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight() );
+    TilePosition mapSize( BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight() );
     WalkPosition mapWalkSize( mapSize );
 
     // Load walkability
@@ -389,7 +387,7 @@ namespace BWAPI
         BWAPI::Region r = BroodwarImpl.getRegion(i);
         if (r)
         {
-          data->regions[i] = static_cast<RegionImpl*>(r)->getData();
+          data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
         }
         else
         {
@@ -430,13 +428,14 @@ namespace BWAPI
     {
       int id = getPlayerID(i);
       PlayerData* p = &(data->players[id]);
-      PlayerData &p2 = static_cast<PlayerImpl*>(i)->data;
+      PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
 
       StrCopy(p->name, i->getName());
       p->race = i->getRace();
       p->type = i->getType();
       p->force = getForceID(i->getForce());
-      p->color = p2.color;
+      p->color = p2->color;
+      p->isParticipating = p2->isParticipating;
 
       for(int j = 0; j < 12; ++j)
       {
@@ -502,6 +501,7 @@ namespace BWAPI
     if (BroodwarImpl.isInGame())
     {
       data->gameType  = BroodwarImpl.getGameType();
+      data->latency   = BroodwarImpl.getLatency();
       
       // Copy the mouse states
       for(int i = 0; i < M_MAX; ++i)
@@ -536,52 +536,52 @@ namespace BWAPI
         if ( id >= 12 )
           continue;
         PlayerData* p  = &(data->players[id]);
-        PlayerData &p2 = static_cast<PlayerImpl*>(i)->data;
+        PlayerData* p2 = static_cast<PlayerImpl*>(i)->self;
 
         p->isVictorious     = i->isVictorious();
         p->isDefeated       = i->isDefeated();
         p->leftGame         = i->leftGame();
-        p->minerals         = p2.minerals;
-        p->gas              = p2.gas;
-        p->gatheredMinerals = p2.gatheredMinerals;
-        p->gatheredGas      = p2.gatheredGas;
-        p->repairedMinerals = p2.repairedMinerals;
-        p->repairedGas      = p2.repairedGas;
-        p->refundedMinerals = p2.refundedMinerals;
-        p->refundedGas      = p2.refundedGas;
+        p->minerals         = p2->minerals;
+        p->gas              = p2->gas;
+        p->gatheredMinerals = p2->gatheredMinerals;
+        p->gatheredGas      = p2->gatheredGas;
+        p->repairedMinerals = p2->repairedMinerals;
+        p->repairedGas      = p2->repairedGas;
+        p->refundedMinerals = p2->refundedMinerals;
+        p->refundedGas      = p2->refundedGas;
         for(int j = 0; j < 3; ++j)
         {
-          p->supplyTotal[j]  = p2.supplyTotal[j];
-          p->supplyUsed[j]  = p2.supplyUsed[j];
+          p->supplyTotal[j]  = p2->supplyTotal[j];
+          p->supplyUsed[j]  = p2->supplyUsed[j];
         }
         for(int j = 0; j < UnitTypes::Enum::MAX; ++j)
         {
-          p->allUnitCount[j]        = p2.allUnitCount[j];
-          p->visibleUnitCount[j]    = p2.visibleUnitCount[j];
-          p->completedUnitCount[j]  = p2.completedUnitCount[j];
-          p->deadUnitCount[j]       = p2.deadUnitCount[j];
-          p->killedUnitCount[j]     = p2.killedUnitCount[j];
+          p->allUnitCount[j]        = p2->allUnitCount[j];
+          p->visibleUnitCount[j]    = p2->visibleUnitCount[j];
+          p->completedUnitCount[j]  = p2->completedUnitCount[j];
+          p->deadUnitCount[j]       = p2->deadUnitCount[j];
+          p->killedUnitCount[j]     = p2->killedUnitCount[j];
         }
-        p->totalUnitScore     = p2.totalUnitScore;
-        p->totalKillScore     = p2.totalKillScore;
-        p->totalBuildingScore = p2.totalBuildingScore;
-        p->totalRazingScore   = p2.totalRazingScore;
-        p->customScore        = p2.customScore;
+        p->totalUnitScore     = p2->totalUnitScore;
+        p->totalKillScore     = p2->totalKillScore;
+        p->totalBuildingScore = p2->totalBuildingScore;
+        p->totalRazingScore   = p2->totalRazingScore;
+        p->customScore        = p2->customScore;
 
         for(int j = 0; j < 63; ++j)
         {
-          p->upgradeLevel[j] = p2.upgradeLevel[j];
-          p->isUpgrading[j]  = p2.isUpgrading[j];
+          p->upgradeLevel[j] = p2->upgradeLevel[j];
+          p->isUpgrading[j]  = p2->isUpgrading[j];
         }
 
         for(int j = 0; j < 47; ++j)
         {
-          p->hasResearched[j] = p2.hasResearched[j];
-          p->isResearching[j] = p2.isResearching[j];
+          p->hasResearched[j] = p2->hasResearched[j];
+          p->isResearching[j] = p2->isResearching[j];
         }
-        memcpy(p->isResearchAvailable, p2.isResearchAvailable, sizeof(p->isResearchAvailable));
-        memcpy(p->isUnitAvailable, p2.isUnitAvailable, sizeof(p->isUnitAvailable));
-        memcpy(p->maxUpgradeLevel, p2.maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
+        memcpy(p->isResearchAvailable, p2->isResearchAvailable, sizeof(p->isResearchAvailable));
+        memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
+        memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
       }
 
       //dynamic unit data
@@ -817,14 +817,14 @@ namespace BWAPI
           BroodwarImpl.setCommandOptimizationLevel(v1);
         break;
       case BWAPIC::CommandType::SetRevealAll:
-        if (BroodwarImpl.isInGame())
+        if ( BroodwarImpl.isInGame() )
           BroodwarImpl.setRevealAll(v1 != 0);
         break;
       default:
         break;
       }
     }
-    if (BroodwarImpl.isInGame())
+    if ( BroodwarImpl.isInGame() )
     {
       for ( int i = 0; i < data->unitCommandCount; ++i )
       {

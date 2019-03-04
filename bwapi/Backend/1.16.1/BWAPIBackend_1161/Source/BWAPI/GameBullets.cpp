@@ -5,8 +5,6 @@
 
 #include <BWAPI/BulletImpl.h>
 
-#include "../../../Debug.h"
-
 namespace BWAPI
 {
   //----------------------------------------------- GET BULLET FROM INDEX ------------------------------------

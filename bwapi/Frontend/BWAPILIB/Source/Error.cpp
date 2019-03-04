@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/Error.h>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   template <>

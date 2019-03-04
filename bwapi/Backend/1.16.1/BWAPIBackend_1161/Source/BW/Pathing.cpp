@@ -4,8 +4,6 @@
 #include "Pathing.h"
 #include "Offsets.h"
 
-#include "../../../Debug.h"
-
 namespace BW
 {
   bool region::isConnectedTo(region *target) const

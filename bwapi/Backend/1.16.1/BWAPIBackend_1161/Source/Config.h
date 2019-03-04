@@ -44,6 +44,8 @@ inline const std::string& configPath()
   }
   return path;
 }
+extern std::string screenshotFmt;
+
 extern bool isCorrectVersion;
 extern bool showWarn;
 extern unsigned gdwProcNum;

@@ -10,7 +10,7 @@
 
 #include <BWAPI.h>
 
-#include "../../svnrev.h"
+#include "../starcraftver.h"
 
 #include "BW/Offsets.h"
 #include "BW/MenuPosition.h"
@@ -21,9 +21,6 @@
 #include "Detours.h"
 #include "CodePatch.h"
 #include "Config.h"
-#include "Console.h"
-
-#include "../../Debug.h"
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)

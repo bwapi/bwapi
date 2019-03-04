@@ -1,8 +1,6 @@
 #include <string>
 #include <BWAPI/BulletType.h>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   template <>

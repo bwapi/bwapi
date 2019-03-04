@@ -18,52 +18,52 @@ namespace BWAPI
   //--------------------------------------------- MINERALS ---------------------------------------------------
   int PlayerImpl::minerals() const
   {
-    return data.minerals;
+    return self->minerals;
   }
   //--------------------------------------------- GAS --------------------------------------------------------
   int PlayerImpl::gas() const
   {
-    return data.gas;
+    return self->gas;
   }
   //--------------------------------------------- GATHERED MINERALS ------------------------------------------
   int PlayerImpl::gatheredMinerals() const
   {
-    return data.gatheredMinerals;
+    return self->gatheredMinerals;
   }
   //--------------------------------------------- GATHERED GAS -----------------------------------------------
   int PlayerImpl::gatheredGas() const
   {
-    return data.gatheredGas;
+    return self->gatheredGas;
   }
   //--------------------------------------------- REPAIRED MINERALS ------------------------------------------
   int PlayerImpl::repairedMinerals() const
   {
-    return data.repairedMinerals;
+    return self->repairedMinerals;
   }
   //--------------------------------------------- REPAIRED GAS -----------------------------------------------
   int PlayerImpl::repairedGas() const
   {
-    return data.repairedGas;
+    return self->repairedGas;
   }
   //--------------------------------------------- REFUNDED MINERALS ------------------------------------------
   int PlayerImpl::refundedMinerals() const
   {
-    return data.refundedMinerals;
+    return self->refundedMinerals;
   }
   //--------------------------------------------- REFUNDED GAS -----------------------------------------------
   int PlayerImpl::refundedGas() const
   {
-    return data.refundedGas;
+    return self->refundedGas;
   }
   //--------------------------------------------- SPENT MINERALS ---------------------------------------------
   int PlayerImpl::spentMinerals() const
   {
-    return data.gatheredMinerals + data.refundedMinerals - data.minerals - data.repairedMinerals;
+    return self->gatheredMinerals + self->refundedMinerals - self->minerals - self->repairedMinerals;
   }
   //--------------------------------------------- SPENT GAS --------------------------------------------------
   int PlayerImpl::spentGas() const
   {
-    return data.gatheredGas + data.refundedGas - data.gas - data.repairedGas;
+    return self->gatheredGas + self->refundedGas - self->gas - self->repairedGas;
   }
   //--------------------------------------------- SUPPLY TOTAL -----------------------------------------------
   int PlayerImpl::supplyTotal(Race race) const
@@ -71,8 +71,8 @@ namespace BWAPI
     if ( race == Races::None )  // Get current race's supply if None is specified
       race = this->getRace();
 
-    if (static_cast<unsigned>(race) < std::extent<decltype(data.supplyTotal)>::value)
-      return data.supplyTotal[race];
+    if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyTotal)>::value)
+      return self->supplyTotal[race];
     return 0;
   }
   //--------------------------------------------- SUPPLY USED ------------------------------------------------
@@ -81,103 +81,103 @@ namespace BWAPI
     if ( race == Races::None )  // Get current race's supply if None is specified
       race = this->getRace();
 
-    if (static_cast<unsigned>(race) < std::extent<decltype(data.supplyUsed)>::value)
-      return data.supplyUsed[race];
+    if (static_cast<unsigned>(race) < std::extent<decltype(self->supplyUsed)>::value)
+      return self->supplyUsed[race];
     return 0;
   }
   //--------------------------------------------- ALL UNIT COUNT ---------------------------------------------
   int PlayerImpl::allUnitCount(UnitType unit) const
   {
-    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? data.allUnitCount[unit] : 0;
+    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? self->allUnitCount[unit] : 0;
   }
   //--------------------------------------------- VISIBLE UNIT COUNT -----------------------------------------
   int PlayerImpl::visibleUnitCount(UnitType unit) const
   {
-    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? data.visibleUnitCount[unit] : 0;
+    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? self->visibleUnitCount[unit] : 0;
   }
   //--------------------------------------------- COMPLETED UNIT COUNT ---------------------------------------
   int PlayerImpl::completedUnitCount(UnitType unit) const
   {
-    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? data.completedUnitCount[unit] : 0;
+    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? self->completedUnitCount[unit] : 0;
   }
   //--------------------------------------------- DEAD UNIT COUNT --------------------------------------------
   int PlayerImpl::deadUnitCount(UnitType unit) const
   {
-    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? data.deadUnitCount[unit] : 0;
+    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? self->deadUnitCount[unit] : 0;
   }
   //--------------------------------------------- KILLED UNIT COUNT ------------------------------------------
   int PlayerImpl::killedUnitCount(UnitType unit) const
   {
-    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? data.killedUnitCount[unit] : 0;
+    return (unit >= 0 && unit < UnitTypes::Enum::MAX) ? self->killedUnitCount[unit] : 0;
   }
   //--------------------------------------------------- SCORE ------------------------------------------------
   int PlayerImpl::getUnitScore() const
   {
-    return data.totalUnitScore;
+    return self->totalUnitScore;
   }
   int PlayerImpl::getKillScore() const
   {
-    return data.totalKillScore;
+    return self->totalKillScore;
   }
   int PlayerImpl::getBuildingScore() const
   {
-    return data.totalBuildingScore;
+    return self->totalBuildingScore;
   }
   int PlayerImpl::getRazingScore() const
   {
-    return data.totalRazingScore;
+    return self->totalRazingScore;
   }
   int PlayerImpl::getCustomScore() const
   {
-    return data.customScore;
+    return self->customScore;
   }
   //--------------------------------------------- GET UPGRADE LEVEL ------------------------------------------
   int PlayerImpl::getUpgradeLevel(UpgradeType upgrade) const
   {
-    return upgrade.isValid() ? data.upgradeLevel[upgrade] : 0;
+    return upgrade.isValid() ? self->upgradeLevel[upgrade] : 0;
   }
   //--------------------------------------------- HAS RESEARCHED ---------------------------------------------
   bool PlayerImpl::hasResearched(TechType tech) const
   {
-    return tech.isValid() ? data.hasResearched[tech] : false;
+    return tech.isValid() ? self->hasResearched[tech] : false;
   }
   //--------------------------------------------- IS RESEARCHING ---------------------------------------------
   bool PlayerImpl::isResearching(TechType tech) const
   {
-    return tech.isValid() ? data.isResearching[tech] : false;
+    return tech.isValid() ? self->isResearching[tech] : false;
   }
   //--------------------------------------------- IS UPGRADING -----------------------------------------------
   bool PlayerImpl::isUpgrading(UpgradeType upgrade) const
   {
-    return upgrade.isValid() ? data.isUpgrading[upgrade] : false;
+    return upgrade.isValid() ? self->isUpgrading[upgrade] : false;
   }
   //-------------------------------------------------- COLOUR ------------------------------------------------
   BWAPI::Color PlayerImpl::getColor() const
   {
-    return BWAPI::Color(data.color);
+    return BWAPI::Color(self->color);
   }
   //------------------------------------------------- OBSERVER -----------------------------------------------
   bool PlayerImpl::isObserver() const
   {
-    return !data.isParticipating;
+    return !self->isParticipating;
   }
   //------------------------------------------------ AVAILABILITY --------------------------------------------
   int PlayerImpl::getMaxUpgradeLevel(UpgradeType upgrade) const
   {
-    return upgrade.isValid() ? data.maxUpgradeLevel[upgrade] : 0;
+    return upgrade.isValid() ? self->maxUpgradeLevel[upgrade] : 0;
   }
   bool PlayerImpl::isResearchAvailable(TechType tech) const
   {
-    return tech.isValid() ? data.isResearchAvailable[tech] : false;
+    return tech.isValid() ? self->isResearchAvailable[tech] : false;
   }
   bool PlayerImpl::isUnitAvailable(UnitType unit) const
   {
-    return unit.isValid() ? data.isUnitAvailable[unit] : false;
+    return unit.isValid() ? self->isUnitAvailable[unit] : false;
   }
   //--------------------------------------------- LEFT GAME --------------------------------------------------
   bool PlayerImpl::leftGame() const
   {
-    return data.leftGame;
+    return self->leftGame;
   }
 }
 

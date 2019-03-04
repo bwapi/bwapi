@@ -3,8 +3,6 @@
 #include <BWAPI/Race.h>
 #include <BWAPI/UnitType.h>
 
-#include "../../Debug.h"
-
 namespace BWAPI
 {
   template <>

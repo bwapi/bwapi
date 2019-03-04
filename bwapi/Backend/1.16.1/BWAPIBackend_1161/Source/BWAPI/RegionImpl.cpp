@@ -1,12 +1,9 @@
 #include "RegionImpl.h"
 
+#include "GameImpl.h"
+
 #include <BW/Offsets.h>
 #include <BW/Pathing.h>
-
-#include <BWAPI/Game.h>
-#include <BWAPI/GameImpl.h>
-
-#include "../../../Debug.h"
 
 namespace BWAPI
 {
@@ -16,20 +13,20 @@ namespace BWAPI
     const BW::region * const r = &BW::BWDATA::SAIPathing->regions[id];
 
     // Assign common region properties
-    data.islandID        = r->groupIndex;
-    data.center_x        = r->getCenter().x;
-    data.center_y        = r->getCenter().y;
+    self->islandID        = r->groupIndex;
+    self->center_x        = r->getCenter().x;
+    self->center_y        = r->getCenter().y;
 
-    data.isAccessible    = r->accessabilityFlags != 0x1FFD;
-    data.isHigherGround  = r->accessabilityFlags == 0x1FF9;
-    data.priority        = r->defencePriority & 0x7F;
-    data.leftMost        = r->rgnBox.left;
-    data.rightMost       = r->rgnBox.right;
-    data.topMost         = r->rgnBox.top;
-    data.bottomMost      = r->rgnBox.bottom;
+    self->isAccessible    = r->accessabilityFlags != 0x1FFD;
+    self->isHigherGround  = r->accessabilityFlags == 0x1FF9;
+    self->priority        = r->defencePriority & 0x7F;
+    self->leftMost        = r->rgnBox.left;
+    self->rightMost       = r->rgnBox.right;
+    self->topMost         = r->rgnBox.top;
+    self->bottomMost      = r->rgnBox.bottom;
 
     // Connect the BWAPI Region and BW Region two ways
-    data.id  = id;
+    self->id  = id;
     
     this->closestAccessibleRgn    = nullptr;
     this->closestInaccessibleRgn  = nullptr;
@@ -37,7 +34,7 @@ namespace BWAPI
   void RegionImpl::UpdateRegionRelations()
   {
     // Assuming this is called via GameInternals, so no checks are made
-    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[data.id];
+    const BW::region * const r = &BW::BWDATA::SAIPathing->regions[self->id];
 
     // Assign region neighbors
     this->neighbors.clear();
@@ -73,12 +70,12 @@ namespace BWAPI
       }
 
       // Client compatibility for neighbors
-      ++data.neighborCount;
-      data.neighbors[n] = neighbor->getIndex();
+      ++self->neighborCount;
+      self->neighbors[n] = neighbor->getIndex();
     }
   }
-  RegionData &RegionImpl::getData()
+  RegionData *RegionImpl::getData()
   {
-    return data;
+    return self;
   }
 };

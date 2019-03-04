@@ -9,8 +9,6 @@
 #include "PlayerImpl.h"
 #include "UnitImpl.h"
 
-#include "../../../Debug.h"
-
 namespace BWAPI
 {
   int BulletImpl::nextId = 0;
@@ -59,16 +57,16 @@ namespace BWAPI
         PlayerImpl* player = static_cast<PlayerImpl*>(BroodwarImpl.getPlayer(i));
 
         if ( !bwOriginalBullet->sprite || !player )
-          data.isVisible[i] = false;
+          self->isVisible[i] = false;
         else if ( BWAPI::BroodwarImpl.isFlagEnabled(Flag::CompleteMapInformation) )
-          data.isVisible[i] = true;
+          self->isVisible[i] = true;
         else
-          data.isVisible[i] = static_cast<Game *>(&BroodwarImpl)->isVisible( TilePosition(bwOriginalBullet->sprite->position) );
+          self->isVisible[i] = BroodwarImpl.isVisible( TilePosition(bwOriginalBullet->sprite->position) );
       }
     }
     else
     {
-      MemZero(data.isVisible);
+      MemZero(self->isVisible);
     }
 
     if ( _exists && 
@@ -81,50 +79,50 @@ namespace BWAPI
       Player   _getPlayer = _getSource ? _getSource->_getPlayer : nullptr;
 
       // id, player, type, source
-      data.id     = id;
-      data.player = (_getSource && _getSource->isAlive && _getPlayer) ? _getPlayer->getID() : -1;
-      data.type   = bwOriginalBullet->type;
-      data.source = (_getSource && _getSource->exists()) ? _getSource->getID() : -1;
+      self->id      = id;
+      self->player  = (_getSource && _getSource->isAlive && _getPlayer) ? _getPlayer->getID() : -1;
+      self->type    = bwOriginalBullet->type;
+      self->source  = (_getSource && _getSource->exists()) ? _getSource->getID() : -1;
 
       // position
-      data.positionX = bwOriginalBullet->position.x;
-      data.positionY = bwOriginalBullet->position.y;
+      self->positionX = bwOriginalBullet->position.x;
+      self->positionY = bwOriginalBullet->position.y;
 
       // angle, velocity
       int d = (int)bwOriginalBullet->currentDirection - 64;
       if ( d < 0 )
         d += 256;
-      data.angle     = (double)d * 3.14159265358979323846 / 128.0;
-      data.velocityX = (double)(bwOriginalBullet->current_speed.x / 256.0);
-      data.velocityY = (double)(bwOriginalBullet->current_speed.y / 256.0);
+      self->angle     = (double)d * 3.14159265358979323846 / 128.0;
+      self->velocityX = (double)(bwOriginalBullet->current_speed.x / 256.0);
+      self->velocityY = (double)(bwOriginalBullet->current_speed.y / 256.0);
 
       // target, targetPosition
-      data.target          = (_getTarget && _getTarget->exists()) ? _getTarget->getID() : -1;
-      data.targetPositionX = bwOriginalBullet->targetPosition.x;
-      data.targetPositionY = bwOriginalBullet->targetPosition.y;
+      self->target          = (_getTarget && _getTarget->exists()) ? _getTarget->getID() : -1;
+      self->targetPositionX = bwOriginalBullet->targetPosition.x;
+      self->targetPositionY = bwOriginalBullet->targetPosition.y;
 
       // removeTimer
-      data.removeTimer = bwOriginalBullet->time_remaining;
+      self->removeTimer = bwOriginalBullet->time_remaining;
 
       // exists
-      data.exists  = true;
+      self->exists  = true;
     }
     else
     {
-      data.id              = -1;
-      data.player          = -1;
-      data.type            = BulletTypes::Unknown;
-      data.source          = -1;
-      data.positionX       = Positions::Unknown.x;
-      data.positionY       = Positions::Unknown.y;
-      data.angle           = 0;
-      data.velocityX       = 0;
-      data.velocityY       = 0;
-      data.target          = -1;
-      data.targetPositionX = Positions::Unknown.x;
-      data.targetPositionY = Positions::Unknown.y;
-      data.removeTimer     = 0;
-      data.exists          = false;
+      self->id              = -1;
+      self->player          = -1;
+      self->type            = BulletTypes::Unknown;
+      self->source          = -1;
+      self->positionX       = Positions::Unknown.x;
+      self->positionY       = Positions::Unknown.y;
+      self->angle           = 0;
+      self->velocityX       = 0;
+      self->velocityY       = 0;
+      self->target          = -1;
+      self->targetPositionX = Positions::Unknown.x;
+      self->targetPositionY = Positions::Unknown.y;
+      self->removeTimer     = 0;
+      self->exists          = false;
     }
 
   }
