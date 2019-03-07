@@ -180,6 +180,7 @@ namespace BWAPI
       virtual BWAPI::Region   getRegionAt(int x, int y) const override;
 
       virtual int getLastEventTime() const override;
+      void setLastEventTime(int lastEventTime);
 
       virtual bool setRevealAll(bool reveal = true) override;
 

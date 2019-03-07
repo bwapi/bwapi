@@ -892,6 +892,10 @@ namespace BWAPI
   {
     return this->lastEventTime;
   }
+  void GameImpl::setLastEventTime(int lastEventTime)
+  {
+    this->lastEventTime = lastEventTime;
+  }
   bool GameImpl::setRevealAll(bool reveal)
   {
     if ( !isReplay() )

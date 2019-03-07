@@ -238,7 +238,9 @@ namespace BWAPI
     {
       // Update BWAPI Client
       updateSharedMemory();
+      auto const onFrameStart = GetTickCount();
       callOnFrame();
+      BroodwarImpl.setLastEventTime(GetTickCount() - onFrameStart);
       processCommands();
     }
     else
