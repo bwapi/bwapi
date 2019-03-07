@@ -124,23 +124,23 @@ char Player::getTextColor() const
 {
   switch ( this->getColor() )
   {
-  case 111: // red
+  case Colors::Red:
     return Text::BrightRed;
-  case 165: // blue
+  case Colors::Blue:
     return Text::Blue;
-  case 159: // teal
+  case Colors::Teal:
     return Text::Teal;
-  case 164: // purp
+  case Colors::Purple:
     return Text::Purple;
-  case 179: // oj
+  case Colors::Orange:
     return Text::Orange;
-  case 19:  // brown
+  case Colors::Brown:
     return Text::Brown;
-  case 84:  // white
+  case Colors::White:
     return Text::PlayerWhite;
-  case 135: // yellow
+  case Colors::Yellow:
     return Text::PlayerYellow;
-  case 185: // green p9
+  case Colors::Green:
     return Text::DarkGreen;
   case 136: // p10
     return Text::LightYellow;
