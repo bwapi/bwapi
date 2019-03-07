@@ -3,6 +3,7 @@
 #include "../DLLMain.h"
 
 #include <algorithm>
+#include <random>
 #include <sstream>
 #include "../Path.h"
 #include "../StringUtil.h"
@@ -16,8 +17,16 @@
 
 using namespace BWAPI4;
 
+namespace
+{
+  std::mt19937 mt{ static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()) };
+}
+
 AutoMenuManager::AutoMenuManager()
 {
+  auto const seedOverride = LoadConfigInt("starcraft", "seed_override", std::numeric_limits<decltype(GameImpl::seedOverride)>::max());
+  if (seedOverride != std::numeric_limits<decltype(seedOverride)>::max())
+    mt.seed(seedOverride);
   this->reloadConfig();
 }
 
@@ -142,19 +151,18 @@ void AutoMenuManager::chooseNewRandomMap()
 {
   if (!this->autoMapPool.empty())
   {
-    int chosenEntry = 0;
+    std::string chosen;
     if (this->autoMapIteration == "RANDOM")
     {
       // Obtain a random map file
-      chosenEntry = rand() % this->autoMapPool.size();
+      std::sample(autoMapPool.begin(), autoMapPool.end(), &chosen, 1, mt);
     }
     else if (this->autoMapIteration == "SEQUENCE")
     {
       if (this->lastAutoMapEntry >= this->autoMapPool.size())
         this->lastAutoMapEntry = 0;
-      chosenEntry = this->lastAutoMapEntry++;
+      chosen = this->autoMapPool[this->lastAutoMapEntry++];
     }
-    std::string chosen = this->autoMapPool[chosenEntry];
     this->lastMapGen = this->autoMenuMapPath + chosen;
   }
 }
