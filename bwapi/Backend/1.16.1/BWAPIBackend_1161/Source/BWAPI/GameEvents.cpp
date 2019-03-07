@@ -296,13 +296,13 @@ namespace BWAPI4
   {
     if ( text.empty() ) return;
 
-    if ( !parseText(text) && isFlagEnabled(BWAPI4::Flag::UserInput) )
+    if ( !parseText(text) )
     {
       if ( externalModuleConnected )
       {
         events.push_back(Event::SendText(text));
       }
-      else
+      else if( isFlagEnabled(BWAPI4::Flag::UserInput) )
       {
         sendText("%s", text.c_str());
       }
