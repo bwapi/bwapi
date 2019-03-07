@@ -1308,26 +1308,20 @@ namespace BWAPI4
 
     /////// Compute distance
 
-    // retrieve left/top/right/bottom values for calculations
-    int left = target.x - 1;
-    int top = target.y - 1;
-    int right = target.x + 1;
-    int bottom = target.y + 1;
-
     // compute x distance
-    int xDist = this->getLeft() - right;
+    int xDist = this->getLeft() - target.x;
     if (xDist < 0)
     {
-      xDist = left - this->getRight();
+      xDist = target.x - (this->getRight() + 1);
       if (xDist < 0)
         xDist = 0;
     }
 
     // compute y distance
-    int yDist = this->getTop() - bottom;
+    int yDist = this->getTop() - target.y;
     if (yDist < 0)
     {
-      yDist = top - this->getBottom();
+      yDist = target.y - (this->getBottom() + 1);
       if (yDist < 0)
         yDist = 0;
     }

@@ -275,12 +275,12 @@ namespace BWAPI
     /// @see getDistance
     int getApproxDistance(const Point<T,Scale> &position) const
     {
-      unsigned int min = abs((int)(this->x - position.x));
-      unsigned int max = abs((int)(this->y - position.y));
+      unsigned int max = abs((int)(this->x - position.x));
+      unsigned int min = abs((int)(this->y - position.y));
       if ( max < min )
         std::swap(min, max);
 
-      if ( min < (max >> 2) )
+      if ( min <= (max >> 2) )
         return max;
 
       unsigned int minCalc = (3*min) >> 3;
