@@ -470,8 +470,6 @@ namespace BWAPI
     //------------------------------------------- CAN TARGET -------------------------------------------------
     static inline bool canTargetUnit(Unit targetUnit)
     {
-      if ( !targetUnit->isVisible() && !Broodwar->isFlagEnabled(Flag::CompleteMapInformation) )
-        return false;
       if ( !targetUnit || !targetUnit->exists() )
         return Broodwar->setLastError(Errors::Unit_Does_Not_Exist);
       if ( !targetUnit->isVisible() && !Broodwar->isFlagEnabled(Flag::CompleteMapInformation) )
