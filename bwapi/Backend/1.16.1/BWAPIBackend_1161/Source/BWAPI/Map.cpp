@@ -155,7 +155,8 @@ namespace BWAPI
   //------------------------------------------------ BUILDABLE -----------------------------------------------
   bool Map::buildable(int x, int y)
   {
-    return getActiveTile(x, y).bAlwaysUnbuildable == 0;
+    auto const tile = getActiveTile(x, y);
+    return !(tile.bAlwaysUnbuildable | tile.bUnwalkable);
   }
   //------------------------------------------------ WALKABLE ------------------------------------------------
   bool Map::walkable(int x, int y)
