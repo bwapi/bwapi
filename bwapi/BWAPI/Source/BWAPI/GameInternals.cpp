@@ -19,7 +19,7 @@
 #include <BW/Dialog.h>
 #include <BW/Offsets.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 /*
   This files holds all functions of the GameImpl class that are not part of the Game interface.

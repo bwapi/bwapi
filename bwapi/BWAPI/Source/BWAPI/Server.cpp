@@ -19,9 +19,9 @@
 #include <BW/Offsets.h>
 
 #include "../Config.h"
-#include "../../../svnrev.h"
+#include <svnrev.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {
@@ -238,7 +238,9 @@ namespace BWAPI
     {
       // Update BWAPI Client
       updateSharedMemory();
+      auto const onFrameStart = GetTickCount();
       callOnFrame();
+      BroodwarImpl.setLastEventTime(GetTickCount() - onFrameStart);
       processCommands();
     }
     else

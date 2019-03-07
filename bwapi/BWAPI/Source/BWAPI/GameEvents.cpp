@@ -12,8 +12,7 @@
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/RegionImpl.h>
 
-#include "../../../svnrev.h"
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {
@@ -296,14 +295,14 @@ namespace BWAPI
   {
     if ( text.empty() ) return;
 
-    if ( !parseText(text) && isFlagEnabled(BWAPI::Flag::UserInput) )
+    if ( !parseText(text) )
     {
       if ( externalModuleConnected )
       {
         events.push_back(Event::SendText());
         events.back().setText(text.c_str());
       }
-      else
+      else if( isFlagEnabled(BWAPI::Flag::UserInput) )
         sendText("%s", text.c_str());
     }
   }

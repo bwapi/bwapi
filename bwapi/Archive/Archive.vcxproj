@@ -41,7 +41,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 cd $(SolutionDir)/../
-7z a -r -mx=9 -myx=9 BWAPI.7z Release_Binary
+7z a -r BWAPI.7z Release_Binary
 cd $(SolutionDir)
 </NMakeBuildCommandLine>
   </PropertyGroup>

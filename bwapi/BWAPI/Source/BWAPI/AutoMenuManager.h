@@ -39,7 +39,7 @@ namespace BWAPI
     std::string lastMapGen;
     std::vector<std::string> autoMapPool;
     std::string autoMenuMapPath;
-    std::string autoMapIteration;
+    std::string autoMapIteration = "RANDOM";
 
     std::string autoMenuRace;
     std::array<std::string, BW::PLAYABLE_PLAYER_COUNT> autoMenuEnemyRace;

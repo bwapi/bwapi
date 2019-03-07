@@ -7,7 +7,7 @@
 
 #include <BW/OrderTypes.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {

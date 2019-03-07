@@ -10,7 +10,7 @@
 
 #include "NewHackUtil.h"
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 HMODULE ddLib;
 void DDrawDestroy()

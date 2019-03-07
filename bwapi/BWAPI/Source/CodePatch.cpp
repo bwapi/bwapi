@@ -11,8 +11,8 @@
 
 #include "Config.h"
 
-#include "../../starcraftver.h"
-#include "../../Debug.h"
+#include <starcraftver.h>
+#include <Debug.h>
 #include <windows.h>
 
 void ApplyCodePatches()

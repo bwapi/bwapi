@@ -1,6 +1,6 @@
 #include <string>
 
-#include "../svnrev.h"
+#include "../include/svnrev.h"
 
 #ifdef _DEBUG
 #define MODULE "BWAPId.dll"

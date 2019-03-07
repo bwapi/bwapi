@@ -10,7 +10,7 @@
 
 #include <BWAPI.h>
 
-#include "../../svnrev.h"
+#include <svnrev.h>
 
 #include "BW/Offsets.h"
 #include "BW/MenuPosition.h"
@@ -24,7 +24,7 @@
 #include "WMode.h"
 #include "Console.h"
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 //---------------------------------------------- QUEUE COMMAND -----------------------------------------------
 void __fastcall QueueGameCommand(void *pBuffer, size_t dwLength)

@@ -1,4 +1,4 @@
-#include "../../../svnrev.h"
+#include <svnrev.h>
 #include "GameImpl.h"
 
 #include <cstdio>
@@ -43,7 +43,7 @@
 
 #include "../BW/Pathing.h"
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {
@@ -891,6 +891,10 @@ namespace BWAPI
   int GameImpl::getLastEventTime() const
   {
     return this->lastEventTime;
+  }
+  void GameImpl::setLastEventTime(int lastEventTime)
+  {
+    this->lastEventTime = lastEventTime;
   }
   bool GameImpl::setRevealAll(bool reveal)
   {

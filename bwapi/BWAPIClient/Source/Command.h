@@ -1,8 +1,7 @@
 #pragma once
 #include <BWAPI/Client/UnitImpl.h>
 #include <BWAPI/Client/PlayerImpl.h>
-
-#include "../../BWAPI/Source/BWAPI/CommandTemp.h"
+#include <BWAPI/Client/CommandTemp.h>
 
 namespace BWAPI
 {

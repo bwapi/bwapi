@@ -1,7 +1,7 @@
 ;This is an INNO Setup script
 ;You should download INNO Setup and INNO Script Studio v2 to modify and compile it
 
-#define BWAPI_VERSION "4.3.0"
+#define BWAPI_VERSION "4.4.0"
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -42,9 +42,8 @@ Source: "..\Release_Binary\Starcraft\bwapi-data\data\Broodwar.map"; DestDir: "{c
 Source: "..\Release_Binary\Starcraft\bwapi-data\data\Broodwar.map"; DestDir: "{app}\Starcraft\bwapi-data\data\"; Flags: ignoreversion; Components: Binaries\BWAPI
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion isreadme
-Source: "..\Release_Binary\vcredist_x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
+Source: "..\Release_Binary\vc_redist.x86.exe"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
 Source: "..\Release_Binary\include\*"; DestDir: "{app}\include\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
-Source: "..\Release_Binary\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Headers
 Source: "..\Release_Binary\Chaoslauncher\*"; DestDir: "{app}\Chaoslauncher\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Chaoslauncher
 Source: "..\Release_Binary\MPQdraft\*"; DestDir: "{app}\MPQDraft\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: MPQDraft
 Source: "..\Release_Binary\AIModuleLoader\*"; DestDir: "{app}\AIModuleLoader\"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: Library\Examples
@@ -101,7 +100,7 @@ DisableReadyPage=True
 Name: "Binaries"; Description: "Binaries"; Types: custom full
 Name: "Binaries\BWAPI"; Description: "BWAPI Binaries (Requires Starcraft: Broodwar)"; Types: full custom; Check: GetBroodwarPath
 Name: "Binaries\Gateways"; Description: "The Abyss Battle.net Gateway"; Types: custom full
-Name: "Binaries\vcredist"; Description: "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.21005"; Types: custom full
+Name: "Binaries\vcredist"; Description: "Microsoft Visual C++ Redistributable for Visual Studio 2017 (x86) - 14.16.27027.1"; Types: custom full
 Name: "Library"; Description: "Interface"; Types: custom full
 Name: "Library\Documentation"; Description: "Documentation"; Types: custom full
 Name: "Library\Examples"; Description: "Example Projects"; Types: custom full
@@ -112,7 +111,7 @@ Name: "MPQDraft"; Description: "MPQDraft (Mod Manager & Plugin Loader)"; Types: 
 [Run]
 Filename: "{app}\Chaoslauncher\Chaoslauncher.exe"; WorkingDir: "{app}\Chaoslauncher\"; Flags: nowait postinstall skipifdoesntexist; Description: "Run Chaoslauncher"; Components: Chaoslauncher
 Filename: "{app}\MPQdraft\MPQDraft.exe"; WorkingDir: "{app}\MPQdraft\"; Flags: nowait postinstall unchecked skipifdoesntexist; Description: "Run MPQDraft"; Components: MPQDraft
-Filename: "{app}\vcredist_x86.exe"; Parameters: "-quiet"; WorkingDir: "{app}"; Description: "Visual C++ 2010 Redistributable"; Components: Binaries\vcredist
+Filename: "{app}\vc_redist.x86.exe"; Parameters: "-quiet"; WorkingDir: "{app}"; Description: "Microsoft Visual C++ Redistributable for Visual Studio 2017 (x86)"; Components: Binaries\vcredist
 
 [ThirdParty]
 UseRelativePaths=True

@@ -1,7 +1,7 @@
 #include <BWAPI.h>
-#include "../../svnrev.h"
+#include <svnrev.h>
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 int BWAPI::BWAPI_getRevision()
 {

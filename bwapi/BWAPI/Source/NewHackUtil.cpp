@@ -1,6 +1,6 @@
 #include "NewHackUtil.h"
 
-#include "../../Debug.h"
+#include <Debug.h>
 
 namespace HackUtil
 {

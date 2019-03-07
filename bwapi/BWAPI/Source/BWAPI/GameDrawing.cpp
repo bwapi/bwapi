@@ -7,7 +7,7 @@
 
 #include <BW/Dialog.h>
 
-#include "../../../Debug.h"
+#include <Debug.h>
 
 namespace BWAPI
 {
