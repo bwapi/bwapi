@@ -71,7 +71,7 @@ namespace BWAPI
   ///
   /// @note This value is purposely high to avoid collisions with revision values.
   /// @since 4.2.0
-  const int CLIENT_VERSION = 10002;
+  const int CLIENT_VERSION = 10003;
 }
 
 #endif
