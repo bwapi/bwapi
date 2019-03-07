@@ -498,8 +498,6 @@ namespace BWAPI
       self->exists = true;
       self->player = BroodwarImpl.server.getPlayerID(_getPlayer);
       self->type   = _getType;
-
-      self->isCloaked |= (!self->isDetected && !self->isBurrowed);
     }
     else
     {
