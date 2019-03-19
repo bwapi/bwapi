@@ -102,13 +102,13 @@ namespace BWAPI
     /// game types and some others such as @TvB and the team versions of game types.
     ///
     /// @returns Forceset containing all forces in the game.
-    virtual const Forceset& getForces() const = 0;
+    //virtual const Forceset& getForces() const = 0;
 
     /// <summary>Retrieves the set of all players in the match.</summary> This includes the neutral
     /// player, which owns all the resources and critters by default.
     ///
     /// @returns Playerset containing all players in the game.
-    virtual const Playerset& getPlayers() const = 0;
+    //virtual const Playerset& getPlayers() const = 0;
 
     /// <summary>Retrieves the set of all accessible units.</summary> If
     /// Flag::CompleteMapInformation is enabled, then the set also includes units that are not
@@ -117,23 +117,23 @@ namespace BWAPI
     /// @note Units that are inside refineries are not included in this set.
     ///
     /// @returns Unitset containing all known units in the game.
-    virtual const Unitset& getAllUnits() const = 0;
+    //virtual const Unitset& getAllUnits() const = 0;
 
     /// <summary>Retrieves the set of all accessible @minerals in the game.</summary>
     ///
     /// @returns Unitset containing @minerals
-    virtual const Unitset& getMinerals() const = 0;
+    //virtual const Unitset& getMinerals() const = 0;
 
     /// <summary>Retrieves the set of all accessible @geysers in the game.</summary>
     ///
     /// @returns Unitset containing @geysers
-    virtual const Unitset& getGeysers() const = 0;
+    //virtual const Unitset& getGeysers() const = 0;
 
     /// <summary>Retrieves the set of all accessible neutral units in the game.</summary> This
     /// includes @minerals, @geysers, and @critters.
     ///
     /// @returns Unitset containing all neutral units.
-    virtual const Unitset& getNeutralUnits() const = 0;
+    //virtual const Unitset& getNeutralUnits() const = 0;
 
     /// <summary>Retrieves the set of all @minerals that were available at the beginning of the
     /// game.</summary>
@@ -141,7 +141,7 @@ namespace BWAPI
     /// @note This set includes resources that have been mined out or are inaccessible.
     ///
     /// @returns Unitset containing static @minerals
-    virtual const Unitset& getStaticMinerals() const = 0;
+    //virtual const Unitset& getStaticMinerals() const = 0;
 
     /// <summary>Retrieves the set of all @geysers that were available at the beginning of the
     /// game.</summary>
@@ -149,7 +149,7 @@ namespace BWAPI
     /// @note This set includes resources that are inaccessible.
     ///
     /// @returns Unitset containing static @geysers
-    virtual const Unitset& getStaticGeysers() const = 0;
+    //virtual const Unitset& getStaticGeysers() const = 0;
 
     /// <summary>Retrieves the set of all units owned by the neutral player (resources, critters,
     /// etc.) that were available at the beginning of the game.</summary>
@@ -157,24 +157,24 @@ namespace BWAPI
     /// @note This set includes units that are inaccessible.
     ///
     /// @returns Unitset containing static neutral units
-    virtual const Unitset& getStaticNeutralUnits() const = 0;
+    //virtual const Unitset& getStaticNeutralUnits() const = 0;
 
     /// <summary>Retrieves the set of all accessible bullets.</summary>
     ///
     /// @returns Bulletset containing all accessible Bullet objects.
-    virtual const Bulletset& getBullets() const = 0;
+    //virtual const Bulletset& getBullets() const = 0;
 
     /// <summary>Retrieves the set of all accessible @Nuke dots.</summary>
     ///
     /// @note Nuke dots are the red dots painted by a @Ghost when using the nuclear strike ability.
     ///
     /// @returns Set of Positions giving the coordinates of nuke locations.
-    virtual const Position::list& getNukeDots() const = 0;
+    //virtual const Position::list& getNukeDots() const = 0;
 
     /// <summary>Retrieves the list of all unhandled game events.</summary>
     ///
     /// @returns std::list containing Event objects.
-    virtual const std::list< Event >& getEvents() const = 0;
+    //virtual const std::list< Event >& getEvents() const = 0;
 
     /// <summary>Retrieves the Force interface object associated with a given identifier.</summary>
     ///
@@ -231,7 +231,7 @@ namespace BWAPI
     ///
     /// @returns Unit interface object that matches the given \p unitIndex.
     /// @retval nullptr if the given index is invalid.
-    virtual Unit indexToUnit(int unitIndex) const = 0;
+    //virtual Unit indexToUnit(int unitIndex) const = 0;
 
     /// <summary>Retrieves the Region interface object associated with a given identifier.</summary>
     ///
@@ -241,25 +241,25 @@ namespace BWAPI
     ///
     /// @returns Region interface object mapped to the given \p regionID.
     /// @retval nullptr if the given ID is invalid.
-    virtual Region getRegion(int regionID) const = 0;
+    //virtual Region getRegion(int regionID) const = 0;
 
     /// <summary>Retrieves the GameType of the current game.</summary>
     ///
     /// @returns GameType indicating the rules of the match.
     /// @see GameType
-    virtual GameType getGameType() const = 0;
+    //virtual GameType getGameType() const = 0;
 
     /// <summary>Retrieves the number of logical frames since the beginning of the match.</summary>
     /// If the game is paused, then getFrameCount will not increase.
     ///
     /// @returns Number of logical frames that have elapsed since the game started as an integer.
-    virtual int getFrameCount() const = 0;
+    //virtual int getFrameCount() const = 0;
 
     /// <summary>Retrieves the maximum number of logical frames that have been recorded in a
     /// replay.</summary> If the game is not a replay, then the value returned is undefined.
     ///
     /// @returns The number of logical frames that the replay contains.
-    virtual int getReplayFrameCount() const = 0;
+    //virtual int getReplayFrameCount() const = 0;
 
     /// <summary>Retrieves the logical frame rate of the game in frames per second (FPS).</summary>
     ///
@@ -274,20 +274,20 @@ namespace BWAPI
     /// @endcode
     /// @returns Logical frames per second that the game is currently running at as an integer.
     /// @see getAverageFPS
-    virtual int getFPS() const = 0;
+    //virtual int getFPS() const = 0;
 
     /// <summary>Retrieves the average logical frame rate of the game in frames per second (FPS).</summary>
     ///
     /// @returns Average logical frames per second that the game is currently running at as a
     /// double.
     /// @see getFPS
-    virtual double getAverageFPS() const = 0;
+    //virtual double getAverageFPS() const = 0;
 
     /// <summary>Retrieves the position of the user's mouse on the screen, in Position coordinates.</summary>
     ///
     /// @returns Position indicating the location of the mouse.
     /// @retval Positions::Unknown if Flag::UserInput is disabled.
-    virtual Position getMousePosition() const = 0;
+    //virtual Position getMousePosition() const = 0;
 
     /// <summary>Retrieves the state of the given mouse button.</summary>
     ///
@@ -300,7 +300,7 @@ namespace BWAPI
     /// @retval false always if Flag::UserInput is disabled.
     ///
     /// @see MouseButton
-    virtual bool getMouseState(MouseButton button) const = 0;
+    //virtual bool getMouseState(MouseButton button) const = 0;
 
     /// <summary>Retrieves the state of the given keyboard key.</summary>
     ///
@@ -313,7 +313,7 @@ namespace BWAPI
     /// @retval false always if Flag::UserInput is disabled.
     ///
     /// @see Key
-    virtual bool getKeyState(Key key) const = 0;
+    //virtual bool getKeyState(Key key) const = 0;
 
     /// <summary>Retrieves the top left position of the viewport from the top left corner of the
     /// map, in pixels.</summary>
@@ -321,7 +321,7 @@ namespace BWAPI
     /// @returns Position containing the coordinates of the top left corner of the game's viewport.
     /// @retval Positions::Unknown always if Flag::UserInput is disabled.
     /// @see setScreenPosition
-    virtual BWAPI::Position getScreenPosition() const = 0;
+    //virtual BWAPI::Position getScreenPosition() const = 0;
 
     /// <summary>Moves the top left corner of the viewport to the provided position relative to
     /// the map's origin (top left (0,0)).</summary>
@@ -333,7 +333,7 @@ namespace BWAPI
     ///   The y coordinate to move the screen to, in pixels.
     /// </param>
     /// @see getScreenPosition
-    virtual void setScreenPosition(int x, int y) = 0;
+    //virtual void setScreenPosition(int x, int y) = 0;
     /// @overload
     void setScreenPosition(BWAPI::Position p);
 
@@ -346,7 +346,7 @@ namespace BWAPI
     /// <param name="y">
     ///   The y coordinate to ping at, in pixels, from the map's origin (top).
     /// </param>
-    virtual void pingMinimap(int x, int y) = 0;
+    //virtual void pingMinimap(int x, int y) = 0;
     /// @overload
     void pingMinimap(BWAPI::Position p);
 
@@ -364,7 +364,7 @@ namespace BWAPI
     /// @see Flag::Enum
     ///
     /// @todo Take Flag::Enum as parameter instead of int
-    virtual bool isFlagEnabled(int flag) const = 0;
+    //virtual bool isFlagEnabled(int flag) const = 0;
 
     /// <summary>Enables the state of a given flag.</summary>
     ///
@@ -378,7 +378,7 @@ namespace BWAPI
     /// @see Flag::Enum
     ///
     /// @todo Take Flag::Enum as parameter instead of int
-    virtual void enableFlag(int flag) = 0;
+    //virtual void enableFlag(int flag) = 0;
 
     /// <summary>Retrieves the set of accessible units that are on a given build tile.</summary>
     ///
@@ -419,7 +419,7 @@ namespace BWAPI
     ///
     /// @returns A Unitset object consisting of all the units that have any part of them within the
     /// given rectangle bounds.
-    virtual Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const = 0;
+    //virtual Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const = 0;
     /// @overload
     Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred = nullptr) const;
 
@@ -489,7 +489,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see UnitFilter
-    virtual Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const = 0;
+    //virtual Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const = 0;
 
     /// <summary>Compares all units with pred to determine which of them is the best.</summary>
     /// All units are checked. If center and radius are specified, then it will check all units
@@ -514,7 +514,7 @@ namespace BWAPI
     /// @retval nullptr if a suitable unit was not found.
     ///
     /// @see getClosestUnit, BestUnitFilter, UnitFilter
-    virtual Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::Origin, int radius = 999999) const = 0;
+    //virtual Unit getBestUnit(const BestUnitFilter &best, const UnitFilter &pred, Position center = Positions::Origin, int radius = 999999) const = 0;
 
     /// <summary>Returns the last error that was set using setLastError.</summary> If a function
     /// call in BWAPI has failed, you can use this function to retrieve the reason it failed.
@@ -522,7 +522,7 @@ namespace BWAPI
     /// @returns Error type containing the reason for failure.
     ///
     /// @see setLastError, Errors
-    virtual Error getLastError() const = 0;
+    //virtual Error getLastError() const = 0;
 
     /// <summary>Sets the last error so that future calls to getLastError will return the value
     /// that was set.</summary>
@@ -534,19 +534,19 @@ namespace BWAPI
     /// @retval true If the type passed was Errors::None, clearing the last error.
     /// @retval false If any other error type was passed.
     /// @see getLastError, Errors
-    virtual bool setLastError(BWAPI::Error e = Errors::None) const = 0;
+    //virtual bool setLastError(BWAPI::Error e = Errors::None) const = 0;
 
     /// <summary>Retrieves the width of the map in build tile units.</summary>
     ///
     /// @returns Width of the map in tiles.
     /// @see mapHeight
-    virtual int mapWidth() const = 0;
+    //virtual int mapWidth() const = 0;
 
     /// <summary>Retrieves the height of the map in build tile units.</summary>
     ///
     /// @returns Height of the map in tiles.
     /// @see mapHeight
-    virtual int mapHeight() const = 0;
+    //virtual int mapHeight() const = 0;
 
     /// <summary>Retrieves the file name of the currently loaded map.</summary>
     ///
@@ -555,7 +555,7 @@ namespace BWAPI
     /// @see mapPathName, mapName
     ///
     /// @TODO: Note on campaign files.
-    virtual std::string mapFileName() const = 0;
+    //virtual std::string mapFileName() const = 0;
 
     /// <summary>Retrieves the full path name of the currently loaded map.</summary>
     ///
@@ -564,14 +564,14 @@ namespace BWAPI
     /// @see mapFileName, mapName
     ///
     /// @TODO: Note on campaign files.
-    virtual std::string mapPathName() const = 0;
+    //virtual std::string mapPathName() const = 0;
 
     /// <summary>Retrieves the title of the currently loaded map.</summary>
     ///
     /// @returns Map title as std::string object.
     ///
     /// @see mapFileName, mapPathName
-    virtual std::string mapName() const = 0;
+    //virtual std::string mapName() const = 0;
 
     /// <summary>Calculates the SHA-1 hash of the currently loaded map file.</summary>
     ///
@@ -581,7 +581,7 @@ namespace BWAPI
     /// standard maps will return a hash of their entire map archive (.scm,.scx).
     ///
     /// @TODO: Note on replays.
-    virtual std::string mapHash() const = 0;
+    //virtual std::string mapHash() const = 0;
 
     /// <summary>Checks if the given mini-tile position is walkable.</summary>
     ///
@@ -597,7 +597,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the mini-tile is walkable and false if it is impassable for ground units.
-    virtual bool isWalkable(int walkX, int walkY) const = 0;
+    //virtual bool isWalkable(int walkX, int walkY) const = 0;
     /// @overload
     bool isWalkable(BWAPI::WalkPosition position) const;
 
@@ -618,7 +618,7 @@ namespace BWAPI
     ///     - 4: Very high ground
     ///     - 5: Very high ground doodad
     ///     .
-    virtual int  getGroundHeight(int tileX, int tileY) const = 0;
+    //virtual int  getGroundHeight(int tileX, int tileY) const = 0;
     /// @overload
     int  getGroundHeight(TilePosition position) const;
 
@@ -735,7 +735,7 @@ namespace BWAPI
     ///
     /// @retval true if the type at the given position will have power.
     /// @retval false if the type at the given position will be unpowered.
-    virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const = 0;
+    //virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const = 0;
     /// @overload
     bool hasPowerPrecise(Position position, UnitType unitType = UnitTypes::None) const;
 
@@ -795,7 +795,7 @@ namespace BWAPI
     ///
     /// @returns true indicating that the structure can be placed at the given tile position, and
     /// false if something may be obstructing the build location.
-    virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const = 0;
+    //virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const = 0;
 
     /// <summary>Checks all the requirements in order to make a given unit type for the current
     /// player.</summary> These include resources, supply, technology tree, availability, and
@@ -812,7 +812,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be made. If \p builder is provided, then it is
     /// only true if \p builder can make the \p type. Otherwise it will return false, indicating
     /// that the unit type can not be made.
-    virtual bool canMake(UnitType type, Unit builder = nullptr) const = 0;
+    //virtual bool canMake(UnitType type, Unit builder = nullptr) const = 0;
 
     /// <summary>Checks all the requirements in order to research a given technology type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -832,7 +832,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be researched. If \p unit is provided, then it is
     /// only true if \p unit can research the \p type. Otherwise it will return false, indicating
     /// that the technology can not be researched.
-    virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
+    //virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Checks all the requirements in order to upgrade a given upgrade type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -852,7 +852,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be upgraded. If \p unit is provided, then it is
     /// only true if \p unit can upgrade the \p type. Otherwise it will return false, indicating
     /// that the upgrade can not be upgraded.
-    virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
+    //virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
 
     /// <summary>Retrieves the set of all starting locations for the current map.</summary> A
     /// starting location is essentially a candidate for a player's spawn point.
@@ -860,7 +860,7 @@ namespace BWAPI
     /// @returns A TilePosition::list containing all the TilePosition objects that indicate a start
     /// location.
     /// @see PlayerInterface::getStartLocation
-    virtual const TilePosition::list& getStartLocations() const = 0;
+    //virtual const TilePosition::list& getStartLocations() const = 0;
 
     /// <summary>Prints text to the screen as a notification.</summary> This function allows text
     /// formatting using Text::Enum members. The behaviour of this function is the same as printf,
@@ -888,7 +888,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see printf
-    virtual void vPrintf(const char *format, va_list args) const = 0;
+    //virtual void vPrintf(const char *format, va_list args) const = 0;
     
     /// <summary>Sends a text message to all other players in the game.</summary> The behaviour of
     /// this function is the same as std::printf, located in header cstdio.
@@ -939,7 +939,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see sendTextEx
-    virtual void vSendTextEx(bool toAllies, const char *format, va_list args) = 0;
+    //virtual void vSendTextEx(bool toAllies, const char *format, va_list args) = 0;
 
     /// <summary>Checks if the current client is inside a game.</summary>
     ///
@@ -956,7 +956,7 @@ namespace BWAPI
     /// multiplayer gaming service.</summary>
     ///
     /// @returns true if the client is in a multiplayer Battle.net game and false if it is not.
-    virtual bool isBattleNet() const = 0;
+    //virtual bool isBattleNet() const = 0;
 
     /// <summary>Checks if the current game is paused.</summary> While paused, AIModule::onFrame
     /// will still be called.
@@ -972,21 +972,21 @@ namespace BWAPI
 
     /// <summary>Pauses the game.</summary> While paused, AIModule::onFrame will still be called.
     /// @see resumeGame
-    virtual void pauseGame() = 0;
+    //virtual void pauseGame() = 0;
 
     /// <summary>Resumes the game from a paused state.</summary>
     /// @see pauseGame
-    virtual void resumeGame() = 0;
+    //virtual void resumeGame() = 0;
 
     /// <summary>Leaves the current game by surrendering and enters the post-game statistics/score
     /// screen.</summary>
-    virtual void leaveGame() = 0;
+    //virtual void leaveGame() = 0;
 
     /// <summary>Restarts the match.</summary> Works the same as if the match was restarted from
     /// the in-game menu (F10). This option is only available in single player games.
     ///
     /// @todo return a bool indicating success, document error code for invalid state
-    virtual void restartGame() = 0;
+    //virtual void restartGame() = 0;
 
     /// <summary>Sets the number of milliseconds Broodwar spends in each frame.</summary> The
     /// default values are as follows:
@@ -1011,7 +1011,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see setFrameSkip, getFPS
-    virtual void setLocalSpeed(int speed) = 0;
+    //virtual void setLocalSpeed(int speed) = 0;
 
     /// <summary>Issues a given command to a set of units.</summary> This function automatically
     /// splits the set into groups of 12 and issues the same command to each of them. If a unit
@@ -1027,7 +1027,7 @@ namespace BWAPI
     ///
     /// @returns true if any one of the units in the Unitset were capable of executing the
     /// command, and false if none of the units were capable of executing the command.
-    virtual bool issueCommand(const Unitset& units, UnitCommand command) = 0;
+    //virtual bool issueCommand(const Unitset& units, UnitCommand command) = 0;
 
     /// <summary>Retrieves the set of units that are currently selected by the user outside of
     /// BWAPI.</summary> This function requires that Flag::UserInput be enabled.
@@ -1036,7 +1036,7 @@ namespace BWAPI
     /// then this set is always empty.
     ///
     /// @see enableFlag
-    virtual const Unitset& getSelectedUnits() const = 0;
+    //virtual const Unitset& getSelectedUnits() const = 0;
 
     /// <summary>Retrieves the player object that BWAPI is controlling.</summary> 
     ///
@@ -1061,23 +1061,23 @@ namespace BWAPI
     /// @returns Player interface representing an enemy player.
     /// @retval nullptr If there is no enemy or the current game is a replay.
     /// @see enemies
-    virtual Player enemy() const = 0;
+    //virtual Player enemy() const = 0;
 
     /// <summary>Retrieves the Player interface object representing the neutral player.</summary>
     /// The neutral player owns all the resources and critters on the map by default.
     ///
     /// @returns Player interface indicating the neutral player.
-    virtual Player neutral() const = 0;
+    //virtual Player neutral() const = 0;
 
     /// <summary>Retrieves a set of all the current player's remaining allies.</summary>
     ///
     /// @returns Playerset containing all allied players.
-    virtual Playerset& allies() = 0;
+    //virtual Playerset& allies() = 0;
 
     /// <summary>Retrieves a set of all the current player's remaining enemies.</summary>
     ///
     /// @returns Playerset containing all enemy players.
-    virtual Playerset& enemies() = 0;
+    //virtual Playerset& enemies() = 0;
 
     /// <summary>Retrieves a set of all players currently observing the game.</summary> An observer
     /// is defined typically in a @UMS game type as not having any impact on the game. This means
@@ -1085,7 +1085,7 @@ namespace BWAPI
     /// create units for it.
     ///
     /// @returns Playerset containing all currently active observer players
-    virtual Playerset& observers() = 0;
+    //virtual Playerset& observers() = 0;
 
     /// @name Debugging Members
     /// @{
@@ -1111,7 +1111,7 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @see Text::Size::Enum
-    virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) = 0;
+    //virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) = 0;
 
     /// <summary>Draws text on the screen at the given coordinates.</summary> Text can be drawn in
     /// different colors or formatted using the Text::Enum members.
@@ -1132,7 +1132,7 @@ namespace BWAPI
     ///   Arglist containing the intermediate list of arguments to format before finally sending
     ///   the string to Broodwar.
     /// </param>
-    virtual void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg) = 0;
+    //virtual void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg) = 0;
     /// @overload
     void drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...);
     /// @overload
@@ -1172,7 +1172,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
+    //virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
     /// @overload
     void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
     /// @overload
@@ -1216,7 +1216,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
+    //virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
     /// @overload
     void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
     /// @overload
@@ -1251,7 +1251,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false) = 0;
+    //virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false) = 0;
     /// @overload
     void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
     /// @overload
@@ -1289,7 +1289,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
+    //virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
     /// @overload
     void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
     /// @overload
@@ -1317,7 +1317,7 @@ namespace BWAPI
     /// <param name="color">
     ///   The color of the dot.
     /// </param>
-    virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color) = 0;
+    //virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color) = 0;
     /// @overload
     void drawDotMap(int x, int y, Color color);
     /// @overload
@@ -1351,7 +1351,7 @@ namespace BWAPI
     /// <param name="color">
     ///   The color of the line.
     /// </param>
-    virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color) = 0;
+    //virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color) = 0;
     /// @overload
     void drawLineMap(int x1, int y1, int x2, int y2, Color color);
     /// @overload
@@ -1375,14 +1375,14 @@ namespace BWAPI
     ///
     /// @returns Difference in frames between commands being sent and executed.
     /// @see getLatencyTime, getRemainingLatencyFrames
-    virtual int getLatencyFrames() const = 0;
+    //virtual int getLatencyFrames() const = 0;
 
     /// <summary>Retrieves the maximum delay, in milliseconds, between a command being issued and
     /// the command being executed by Broodwar.</summary>
     ///
     /// @returns Difference in milliseconds between commands being sent and executed.
     /// @see getLatencyFrames, getRemainingLatencyTime
-    virtual int getLatencyTime() const = 0;
+    //virtual int getLatencyTime() const = 0;
 
     /// <summary>Retrieves the number of frames it will take before a command sent in the current
     /// frame will be executed by the game.</summary>
@@ -1390,7 +1390,7 @@ namespace BWAPI
     /// @returns Number of frames until a command is executed if it were sent in the current
     /// frame.
     /// @see getRemainingLatencyTime, getLatencyFrames
-    virtual int getRemainingLatencyFrames() const = 0;
+    //virtual int getRemainingLatencyFrames() const = 0;
     
     /// <summary>Retrieves the number of milliseconds it will take before a command sent in the
     /// current frame will be executed by Broodwar.</summary>
@@ -1398,14 +1398,14 @@ namespace BWAPI
     /// @returns Amount of time, in milliseconds, until a command is executed if it were sent in
     /// the current frame.
     /// @see getRemainingLatencyFrames, getLatencyTime
-    virtual int getRemainingLatencyTime() const = 0;
+    //virtual int getRemainingLatencyTime() const = 0;
 
     /// <summary>Retrieves the current revision of BWAPI.</summary>
     ///
     /// @returns The revision number of the current BWAPI interface.
     ///
     /// @threadsafe
-    virtual int getRevision() const = 0;
+    //virtual int getRevision() const = 0;
 
     /// <summary>Retrieves the version that the BWAPI client is using for compatibility checks.</summary>
     ///
@@ -1413,20 +1413,20 @@ namespace BWAPI
     ///
     /// @threadsafe
     /// @since 4.2.0
-    virtual int getClientVersion() const = 0;
+    //virtual int getClientVersion() const = 0;
 
     /// <summary>Retrieves the debug state of the BWAPI build.</summary>
     ///
     /// @returns true if the BWAPI module is a DEBUG build, and false if it is a RELEASE build.
     ///
     /// @threadsafe
-    virtual bool isDebug() const = 0;
+    //virtual bool isDebug() const = 0;
 
     /// <summary>Checks the state of latency compensation.</summary>
     ///
     /// @returns true if latency compensation is enabled, false if it is disabled.
     /// @see setLatCom
-    virtual bool isLatComEnabled() const = 0;
+    //virtual bool isLatComEnabled() const = 0;
 
     /// <summary>Changes the state of latency compensation.</summary> Latency compensation
     /// modifies the state of BWAPI's representation of units to reflect the implications of
@@ -1438,7 +1438,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see isLatComEnabled.
-    virtual void setLatCom(bool isEnabled) = 0;
+    //virtual void setLatCom(bool isEnabled) = 0;
 
     /// <summary>Checks if the GUI is enabled.</summary> The GUI includes all drawing functions of
     /// BWAPI, as well as screen updates from Broodwar.
@@ -1447,7 +1447,7 @@ namespace BWAPI
     /// @retval false If the GUI is disabled and drawing functions are rejected
     ///
     /// @see setGUI
-    virtual bool isGUIEnabled() const = 0;
+    //virtual bool isGUIEnabled() const = 0;
 
     /// <summary>Sets the rendering state of the Starcraft GUI.</summary> This typically gives
     /// Starcraft a very low graphical frame rate and disables all drawing functionality in BWAPI.
@@ -1467,7 +1467,7 @@ namespace BWAPI
     /// @endcode
     ///
     /// @see isGUIEnabled
-    virtual void setGUI(bool enabled) = 0;
+    //virtual void setGUI(bool enabled) = 0;
 
     /// <summary>Retrieves the Starcraft instance number recorded by BWAPI to identify which
     /// Starcraft instance an AI module belongs to.</summary> The very first instance should
@@ -1477,7 +1477,7 @@ namespace BWAPI
     ///   An integer value representing the instance number.
     ///
     /// @threadsafe
-    virtual int getInstanceNumber() const = 0;
+    //virtual int getInstanceNumber() const = 0;
 
     /// <summary>Retrieves the Actions Per Minute (APM) that the bot is producing.</summary>
     ///
@@ -1487,7 +1487,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The number of actions that the bot has executed per minute, on average.
-    virtual int getAPM(bool includeSelects = false) const = 0;
+    //virtual int getAPM(bool includeSelects = false) const = 0;
 
     /// <summary>Changes the map to the one specified.</summary> Once restarted, the game will
     /// load the map that was provided. Changes do not take effect unless the game is restarted.
@@ -1499,7 +1499,7 @@ namespace BWAPI
     /// @retval true if the function succeeded and has changed the map.
     /// @retval false if the function failed, does not have permission from the tournament module,
     ///               failed to find the map specified, or received an invalid parameter.
-    virtual bool setMap(const char *mapFileName) = 0;
+    //virtual bool setMap(const char *mapFileName) = 0;
     /// @overload
     bool setMap(const std::string &mapFileName);
 
@@ -1513,7 +1513,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see setLocalSpeed
-    virtual void setFrameSkip(int frameSkip) = 0;
+    //virtual void setFrameSkip(int frameSkip) = 0;
 
     /// <summary>Checks if there is a path from source to destination.</summary> This only checks
     /// if the source position is connected to the destination position. This function does not
@@ -1549,7 +1549,7 @@ namespace BWAPI
     ///   allied players have eliminated their opponents. Otherwise, the game will only end if
     ///   no other players are remaining in the game. This value is true by default.
     /// </param>
-    virtual bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true) = 0;
+    //virtual bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true) = 0;
 
     /// <summary>In a game, this function sets the vision of the current BWAPI player with the
     /// target player.</summary> In a replay, this function toggles the visibility of the target
@@ -1564,12 +1564,12 @@ namespace BWAPI
     ///   of the target player will be shown, otherwise the target player will be hidden. This
     ///   value is true by default.
     /// </param>
-    virtual bool setVision(BWAPI::Player player, bool enabled = true) = 0;
+    //virtual bool setVision(BWAPI::Player player, bool enabled = true) = 0;
 
     /// <summary>Retrieves current amount of time in seconds that the game has elapsed.</summary>
     ///
     /// @returns Time, in seconds, that the game has elapsed as an integer.
-    virtual int elapsedTime() const = 0;
+    //virtual int elapsedTime() const = 0;
 
     /// <summary>Sets the command optimization level.</summary> Command optimization is a feature
     /// in BWAPI that tries to reduce the APM of the bot by grouping or eliminating unnecessary
@@ -1664,7 +1664,7 @@ namespace BWAPI
     ///       .
     ///     .
     ///
-    virtual void setCommandOptimizationLevel(int level) = 0;
+    //virtual void setCommandOptimizationLevel(int level) = 0;
 
     /// <summary>Returns the remaining countdown time.</summary> The countdown timer is used in
     /// @CTF and @UMS game types.
@@ -1685,12 +1685,12 @@ namespace BWAPI
     /// @endcode
     ///
     /// @returns Integer containing the time (in game seconds) on the countdown timer.
-    virtual int countdownTimer() const = 0;
+    //virtual int countdownTimer() const = 0;
 
     /// <summary>Retrieves the set of all regions on the map.</summary>
     ///
     /// @returns Regionset containing all map regions.
-    virtual const Regionset &getAllRegions() const = 0;
+    //virtual const Regionset &getAllRegions() const = 0;
 
     /// <summary>Retrieves the region at a given position.</summary>
     ///
@@ -1706,7 +1706,7 @@ namespace BWAPI
     ///
     /// @note If the provided position is invalid, the error Errors::Invalid_Parameter is set.
     /// @see getAllRegions, getRegion
-    virtual BWAPI::Region getRegionAt(int x, int y) const = 0;
+    //virtual BWAPI::Region getRegionAt(int x, int y) const = 0;
     /// @overload
     BWAPI::Region getRegionAt(BWAPI::Position position) const;
 
@@ -1716,7 +1716,7 @@ namespace BWAPI
     ///
     /// @retval 0 When called from an AI module.
     /// @returns Time in milliseconds spent in last AI module call.
-    virtual int getLastEventTime() const = 0;
+    //virtual int getLastEventTime() const = 0;
 
     /// <summary>Sets the state of the fog of war when watching a replay.</summary>
     ///
@@ -1724,7 +1724,7 @@ namespace BWAPI
     ///   The state of the reveal all flag. If false, all fog of war will be enabled. If true,
     ///   then the fog of war will be revealed. It is true by default.
     /// </param>
-    virtual bool setRevealAll(bool reveal = true) = 0;
+    //virtual bool setRevealAll(bool reveal = true) = 0;
 
     /// <summary>Retrieves a basic build position just as the default Computer AI would.</summary>
     /// This allows users to find simple build locations without relying on external libraries.
@@ -1802,7 +1802,7 @@ namespace BWAPI
     ///
     /// @returns This game's random seed.
     /// @since 4.2.0
-    virtual unsigned getRandomSeed() const = 0;
+    //virtual unsigned getRandomSeed() const = 0;
 
     /// <summary>Checks if this point is within the game's map bounds.</summary>
     ///
