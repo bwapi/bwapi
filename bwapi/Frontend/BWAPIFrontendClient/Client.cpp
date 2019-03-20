@@ -6,6 +6,8 @@
 #include <thread>
 #include <chrono>
 
+#undef max
+
 namespace BWAPI
 {
   Client BWAPIClient;
@@ -403,12 +405,13 @@ namespace BWAPI
     clearAll();
   }
 
-  void bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData)
+  void Client::bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData, int id)
   {
+    newData.id = PlayerID(id);
     newData.name = oldData.name;
     newData.race = BWAPI::Race(oldData.race);
     newData.type = BWAPI::PlayerType(oldData.type);
-    //newData.force = oldData.force; fuck
+    newData.force = ForceID(oldData.force);
     std::copy(std::begin(oldData.isAlly), std::end(oldData.isAlly), newData.isAlly);
     std::copy(std::begin(oldData.isEnemy), std::end(oldData.isEnemy), newData.isEnemy);
     newData.isNeutral = oldData.isNeutral;
@@ -457,20 +460,155 @@ namespace BWAPI
     std::copy(std::begin(oldData.isResearchAvailable), std::end(oldData.isResearchAvailable), newData.isResearchAvailable);
     std::copy(std::begin(oldData.isUnitAvailable), std::end(oldData.isUnitAvailable), newData.isUnitAvailable);
   }
-  void bwapi4To5(BWAPI4::UnitData& oldData, UnitData& newData)
+  void Client::bwapi4To5(BWAPI4::UnitData& oldData, UnitData& newData)
   {
+    newData.clearanceLevel = oldData.clearanceLevel;
+    newData.id = UnitID(oldData.id);
+    newData.player = PlayerID(oldData.player);
+    newData.type = UnitType(oldData.type);
+    newData.position = Position(oldData.positionX, oldData.positionY);
+    newData.angle = oldData.angle;
+    newData.velocityX = oldData.velocityX;
+    newData.velocityY = oldData.velocityY;
+    newData.hitPoints = oldData.hitPoints;
+    newData.lastHitPoints = oldData.lastHitPoints;
+    newData.shields = oldData.shields;
+    newData.energy = oldData.energy;
+    newData.resources = oldData.resources;
+    newData.resourceGroup = oldData.resourceGroup;
 
+    newData.killCount = oldData.killCount;
+    newData.acidSporeCount = oldData.acidSporeCount;
+    newData.scarabCount = oldData.scarabCount;
+    newData.interceptorCount = oldData.interceptorCount;
+    newData.spiderMineCount = oldData.spiderMineCount;
+    newData.groundWeaponCooldown = oldData.groundWeaponCooldown;
+    newData.airWeaponCooldown = oldData.airWeaponCooldown;
+    newData.spellCooldown = oldData.spellCooldown;
+    newData.defenseMatrixPoints = oldData.defenseMatrixPoints;
+
+    newData.defenseMatrixTimer = oldData.defenseMatrixTimer;
+    newData.ensnareTimer = oldData.ensnareTimer;
+    newData.irradiateTimer = oldData.irradiateTimer;
+    newData.lockdownTimer = oldData.lockdownTimer;
+    newData.maelstromTimer = oldData.maelstromTimer;
+    newData.orderTimer = oldData.orderTimer;
+    newData.plagueTimer = oldData.plagueTimer;
+    newData.removeTimer = oldData.removeTimer;
+    newData.stasisTimer = oldData.stasisTimer;
+    newData.stimTimer = oldData.stimTimer;
+
+    newData.buildType = UnitType(oldData.buildType);
+
+    newData.trainingQueue.assign(oldData.trainingQueue, oldData.trainingQueue + oldData.trainingQueueCount);
+    // newData.loadedUnits = oldData.loadedUnits;  // no equivalent
+    // newData.interceptors = oldData.interceptors; // no equivalent
+    // newData.larva = oldData.larva; // no equivalent
+    newData.tech = TechType(oldData.tech);
+    newData.upgrade = UpgradeType(oldData.upgrade);
+    newData.remainingBuildTime = oldData.remainingBuildTime;
+    newData.remainingTrainTime = oldData.remainingTrainTime;
+    newData.remainingResearchTime = oldData.remainingResearchTime;
+    newData.remainingUpgradeTime = oldData.remainingUpgradeTime;
+    newData.buildUnit = UnitID(oldData.buildUnit);
+
+    newData.target = UnitID(oldData.target);
+    newData.targetPosition = Position(oldData.targetPositionX, oldData.targetPositionY);
+    newData.order = Order(oldData.order);
+    newData.orderTarget = UnitID(oldData.orderTarget);
+    newData.orderTargetPosition = Position(oldData.orderTargetPositionX, oldData.orderTargetPositionY);
+    newData.secondaryOrder = Order(oldData.secondaryOrder);
+    newData.rallyPosition = Position(oldData.rallyPositionX, oldData.rallyPositionY);
+    newData.rallyUnit = UnitID(oldData.rallyUnit);
+    newData.addon = UnitID(oldData.addon);
+    newData.nydusExit = UnitID(oldData.nydusExit);
+    newData.powerUp = UnitID(oldData.powerUp);
+
+    newData.transport = UnitID(oldData.transport);
+    newData.carrier = UnitID(oldData.carrier);
+    newData.hatchery = UnitID(oldData.hatchery);
+
+    newData.exists = oldData.exists;
+    newData.hasNuke = oldData.hasNuke;
+    newData.isAccelerating = oldData.isAccelerating;
+    newData.isAttacking = oldData.isAttacking;
+    newData.isAttackFrame = oldData.isAttackFrame;
+    newData.isBeingGathered = oldData.isBeingGathered;
+    // newData.isBeingHealed = oldData.isBeingHealed; // No equivalent
+    newData.isBlind = oldData.isBlind;
+    newData.isBraking = oldData.isBraking;
+    newData.isBurrowed = oldData.isBurrowed;
+    newData.carryResourceType = oldData.carryResourceType;
+    newData.isCloaked = oldData.isCloaked;
+    newData.isCompleted = oldData.isCompleted;
+    newData.isConstructing = oldData.isConstructing;
+    newData.isDetected = oldData.isDetected;
+    newData.isGathering = oldData.isGathering;
+    newData.isHallucination = oldData.isHallucination;
+    newData.isIdle = oldData.isIdle;
+    newData.isInterruptible = oldData.isInterruptible;
+    newData.isInvincible = oldData.isInvincible;
+    newData.isLifted = oldData.isLifted;
+    newData.isMorphing = oldData.isMorphing;
+    newData.isMoving = oldData.isMoving;
+    newData.isParasited = oldData.isParasited;
+    newData.isSelected = oldData.isSelected;
+    newData.isStartingAttack = oldData.isStartingAttack;
+    newData.isStuck = oldData.isStuck;
+    newData.isTraining = oldData.isTraining;
+    newData.isUnderStorm = oldData.isUnderStorm;
+    newData.isUnderDarkSwarm = oldData.isUnderDarkSwarm;
+    newData.isUnderDWeb = oldData.isUnderDWeb;
+    newData.isPowered = oldData.isPowered;
+    newData.isVisible[9] = oldData.isVisible[9];
+    newData.buttonset = oldData.buttonset;
+
+    // newData.lastCommandFrame = oldData.lastCommandFrame;  // no equivalent
+    // newData.lastCommand = oldData.lastCommand;  // no equivalent
+
+    newData.lastAttackerPlayer = PlayerID(oldData.lastAttackerPlayer);
+    newData.replayID = UnitID(oldData.replayID);
+    newData.recentlyAttacked = oldData.recentlyAttacked;
   }
-  void bwapi4To5(BWAPI4::RegionData& oldData, RegionData& newData)
+  void Client::bwapi4To5(BWAPI4::RegionData& oldData, RegionData& newData)
   {
-
+    newData.id = RegionID(oldData.id);
+    newData.islandID = oldData.islandID;
+    newData.center_x = oldData.center_x;
+    newData.center_y = oldData.center_y;
+    newData.priority = oldData.priority;
+    
+    newData.leftMost = oldData.leftMost;
+    newData.rightMost = oldData.rightMost;
+    newData.topMost = oldData.topMost;
+    newData.bottomMost = oldData.bottomMost;
+    
+    newData.neighborCount = oldData.neighborCount;
+    std::copy(std::begin(oldData.neighbors), std::end(oldData.neighbors), newData.neighbors);
+    
+    newData.isAccessible = oldData.isAccessible;
+    newData.isHigherGround = oldData.isHigherGround;
   }
-  void bwapi4To5(BWAPI4::BulletData& oldData, BulletData& newData)
+  void Client::bwapi4To5(BWAPI4::BulletData& oldData, BulletData& newData)
   {
-
+    newData.id = BulletID(oldData.id);
+    newData.player = PlayerID(oldData.player);
+    newData.type = BulletType(oldData.type);
+    newData.source = UnitID(oldData.source);
+    newData.position = Position(oldData.positionX, oldData.positionY);
+    newData.angle = oldData.angle;
+    newData.velocityX = oldData.velocityX;
+    newData.velocityY = oldData.velocityY;
+    newData.target = UnitID(oldData.target);
+    newData.targetPosition = Position(oldData.targetPositionX, oldData.targetPositionY);
+    newData.removeTimer = oldData.removeTimer;
+    newData.exists = oldData.exists;
+    std::copy(std::begin(oldData.isVisible), std::end(oldData.isVisible), newData.isVisible);
   }
-  void bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData)
+  void Client::bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData, int id)
   {
-
+    newData.id = ForceID(id);
+    newData.name = oldData.name;
+    // newData.players = oldData.players; // no equivalent
   }
 }

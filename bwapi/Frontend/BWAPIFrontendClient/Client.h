@@ -36,11 +36,11 @@ namespace BWAPI
 
     bool connected = false;
 
-    void bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData);
+    void bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData, int id);
     void bwapi4To5(BWAPI4::UnitData& oldData, UnitData& newData);
     void bwapi4To5(BWAPI4::RegionData& oldData, RegionData& newData);
     void bwapi4To5(BWAPI4::BulletData& oldData, BulletData& newData);
-    void bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData);
+    void bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData, int id);
 
     std::map<int, PlayerData> players;
     std::map<int, UnitData> units;
