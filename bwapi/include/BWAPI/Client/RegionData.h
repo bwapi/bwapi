@@ -4,8 +4,10 @@
 
 namespace BWAPI
 {
+  class Game;
   struct RegionData
   {
+    RegionData(Game &g, RegionID rid) : game{ g }, id{ rid } { }
     RegionID id;
     Game &game;
     int   islandID;

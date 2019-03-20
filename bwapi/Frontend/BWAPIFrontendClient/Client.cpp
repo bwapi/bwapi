@@ -334,18 +334,58 @@ namespace BWAPI
   }
   void Client::clearAll()
   {
-
+    players.clear();
+    units.clear();
+    regions.clear();
+    bullets.clear();
+    forces.clear();
   }
   void Client::onMatchStart(Game& game)
   {
     clearAll();
     wasInGame = true;
 
-    //load forces, players, and initial units from shared memory
+    initGame(game.gameData);
+
+    initForces(game);
+    initPlayers(game);
+    initInitialUnits(game);
+    initRegions(game);
+
+    onMatchFrame(game);
+    // staticMinerals = minerals;
+    // staticGeysers = geysers;
+    // staticNeutralUnits = neutralUnits;
+    // textSize = Text::Size::Default;
+  }
+  void Client::initForces(Game& game)
+  {
     for (int i = 1; i < data->forceCount; ++i)
-      forces.insert(&forceVector[i]);
+    {
+      forces.emplace(std::make_pair(i, ForceData{ game, ForceID(i) }));
+      ForceData& newForceData = forces[i];
+      bwapi4To5(data->forces[i], newForceData);
+
+      game.forces.emplace(newForceData);
+    }
+  }
+  void Client::initPlayers(Game& game)
+  {
     for (int i = 0; i < data->playerCount; ++i)
-      playerSet.insert(&playerVector[i]);
+    {
+      ForceData force = forces[data->players[i].force];
+      players.emplace(std::make_pair(i, PlayerData{ game, PlayerID(i), force.id }));
+      PlayerData& newPlayerData = players[i];
+      bwapi4To5(data->players[i], newPlayerData);
+
+      game.players.emplace(newPlayerData);
+
+      force.players.emplace_back(newPlayerData.id);
+    }
+  }
+  void Client::initInitialUnits(Game& game)
+  {
+    // TODO figure out where these things come from
     for (int i = 0; i < data->initialUnitCount; ++i)
     {
       if (unitVector[i].exists())
@@ -353,61 +393,92 @@ namespace BWAPI
       //save the initial state of each initial unit
       unitVector[i].saveInitialState();
     }
-
-    //load start locations from shared memory
-    for (int i = 0; i < data->startLocationCount; ++i)
-    {
-      game.gameData.startPositions.emplace_back(data->startLocations[i].x, data->startLocations[i].y);
-    }
-
+  }
+  void Client::initRegions(Game& game)
+  {
     for (int i = 0; i < data->regionCount; ++i)
     {
-      this->regionArray[i] = new RegionImpl(i);
-      regionsList.insert(this->regionArray[i]);
-    }
-    for (int i = 0; i < data->regionCount; ++i)
-      this->regionArray[i]->setNeighbors();
+      regions.emplace(std::make_pair(i, RegionData{ game, i });
+      RegionData& newRegionData = regions[i];
+      bwapi4To5(data->regions[i], newRegionData);
 
-    thePlayer = getPlayer(data->self);
-    theEnemy = getPlayer(data->enemy);
-    theNeutral = getPlayer(data->neutral);
-    _allies.clear();
-    _enemies.clear();
-    _observers.clear();
-    // check if the current player exists
-    if (thePlayer)
-    {
-      // iterate each player
-      for (Player p : playerSet)
-      {
-        // check if the player should not be updated
-        if (!p || p->leftGame() || p->isDefeated() || p == thePlayer)
-          continue;
-        // add player to allies set
-        if (thePlayer->isAlly(p))
-          _allies.insert(p);
-        // add player to enemies set
-        if (thePlayer->isEnemy(p))
-          _enemies.insert(p);
-        // add player to observers set
-        if (p->isObserver())
-          _observers.insert(p);
-      }
+      game.regions.emplace(newRegionData);
     }
-    onMatchFrame(game);
-    staticMinerals = minerals;
-    staticGeysers = geysers;
-    staticNeutralUnits = neutralUnits;
-    textSize = Text::Size::Default;
   }
   void Client::onMatchEnd(Game& game)
   {
     clearAll();
   }
 
-  void Client::bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData, int id)
+  void Client::initGame(GameData& newData)
   {
-    newData.id = PlayerID(id);
+    // newData.apiVersion = data->apiVersion;
+    // newData.engine = data->engine;
+    // newData.engineVersion = data->engineVersion;
+    // newData.tournament = data->tournament;
+
+    newData.gameType = data->gameType;
+    newData.frame = data->frameCount;
+    newData.latencyFrames = data->latencyFrames;
+    // newData.turnSize = data->turnSize;
+    // newData.gameSpeed = data->gameSpeed;
+    // newData.frameSkip = data->frameSkip;
+    newData.remainingLatencyFrames = data->remainingLatencyFrames;
+
+    // newData.replayVisionPlayers = data->replayVisionPlayers;
+
+    newData.remainingLatencyTime = data->remainingLatencyTime;
+    newData.elapsedTime = data->elapsedTime;
+    // newData.millisecondsPerFrame = data->millisecondsPerFrame;
+    newData.averageFPS = data->averageFPS;
+
+    newData.countdownTimer = data->countdownTimer;
+    newData.isPaused = data->isPaused;
+    newData.isInGame = data->isInGame;
+    newData.isMultiplayer = data->isMultiplayer;
+    newData.isReplay = data->isReplay;
+    // newData.clientUnitSelection = data->clientUnitSelection;
+    newData.hasGUI = data->hasGUI;
+
+    newData.mapPath = data->mapPathName;
+    newData.mapName = data->mapName;
+    // newData.gameName = data->gameName;
+    newData.randomSeed = data->randomSeed;
+
+    newData.startPositions.clear();
+    for (int i = 0; i < data->startLocationCount; ++i)
+    {
+      newData.startPositions.emplace_back(data->startLocations[i].x, data->startLocations[i].y);
+    }
+
+    newData.regions.clear();
+    for (int i = 0; i < data->regionCount; ++i)
+    {
+      newData.regions.emplace_back(data->regions[i].id);
+    }
+
+    newData.player = PlayerID(data->self);
+
+    // newData.screenSize = data->screenSize;
+    newData.screenPosition = Position(data->screenX, data->screenY);
+
+    newData.map.size = TilePosition(data->mapWidth, data->mapHeight);
+    // newData.map.tileset = data->tileset;
+
+    std::memcpy(newData.map.groundHeight, data->getGroundHeight, sizeof(data->getGroundHeight));
+    std::memcpy(newData.map.isBuildable, data->isBuildable, sizeof(data->isBuildable));
+    std::memcpy(newData.map.isVisible, data->isVisible, sizeof(data->isVisible));
+    std::memcpy(newData.map.isExplored, data->isExplored, sizeof(data->isExplored));
+    std::memcpy(newData.map.hasCreep, data->hasCreep, sizeof(data->hasCreep));
+    std::memcpy(newData.map.isOccupied, data->isOccupied, sizeof(data->isOccupied));
+    std::memcpy(newData.map.isWalkable, data->isWalkable, sizeof(data->isWalkable));
+  }
+  void Client::updateGame(GameData& newData)
+  {
+
+  }
+  void Client::bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData)
+  {
     newData.name = oldData.name;
     newData.race = BWAPI::Race(oldData.race);
     newData.type = BWAPI::PlayerType(oldData.type);
@@ -605,9 +676,8 @@ namespace BWAPI
     newData.exists = oldData.exists;
     std::copy(std::begin(oldData.isVisible), std::end(oldData.isVisible), newData.isVisible);
   }
-  void Client::bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData, int id)
+  void Client::bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData)
   {
-    newData.id = ForceID(id);
     newData.name = oldData.name;
     // newData.players = oldData.players; // no equivalent
   }
