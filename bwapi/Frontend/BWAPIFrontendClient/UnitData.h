@@ -4,7 +4,6 @@ namespace BWAPI4
 {
   struct UnitData
   {
-    int clearanceLevel;
     int id;
     int player;
     int type;

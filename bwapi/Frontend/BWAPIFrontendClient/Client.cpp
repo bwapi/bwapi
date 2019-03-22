@@ -533,7 +533,6 @@ namespace BWAPI
   }
   void Client::bwapi4To5(BWAPI4::UnitData& oldData, UnitData& newData)
   {
-    newData.clearanceLevel = oldData.clearanceLevel;
     newData.id = UnitID(oldData.id);
     newData.player = PlayerID(oldData.player);
     newData.type = UnitType(oldData.type);
