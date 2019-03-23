@@ -16,7 +16,7 @@ namespace BWAPI
     bool tournament;
 
     int gameType;
-    int frame;
+    int frameCount;
     int latencyFrames;
     int turnSize;
     int gameSpeed;

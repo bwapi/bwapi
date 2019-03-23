@@ -38,31 +38,29 @@ namespace BWAPI4
       std::vector<BulletImpl> bulletVector;
       std::array<RegionImpl*,5000> regionArray;
 
-      Forceset forces;
-      Playerset playerSet;
-      Unitset accessibleUnits;//all units that are accessible (and definitely alive)
+      
+      
       //notDestroyedUnits - accessibleUnits = all units that may or may not be alive (status unknown)
-      Unitset minerals;
-      Unitset geysers;
-      Unitset neutralUnits;
-      Unitset staticMinerals;
-      Unitset staticGeysers;
-      Unitset staticNeutralUnits;
-      Bulletset bullets;
-      Position::list nukeDots;
+      
+      
+      
+      
+      
+      
+      
+      
       Unitset selectedUnits;
       Unitset pylons;
       Regionset regionsList;
 
       TilePosition::list startLocations;
-      std::list< Event > events;
+      
       Player thePlayer;
       Player theEnemy;
       Player theNeutral;
       Playerset _allies;
       Playerset _enemies;
       Playerset _observers;
-      mutable Error lastError;
       Text::Size::Enum textSize = Text::Size::Default;
 
     public :

@@ -26,6 +26,7 @@
 #include <BWAPI/Region.h>
 #include <BWAPI/Force.h>
 #include <BWAPI/Bullet.h>
+#include <BWAPI/GameType.h>
 
 namespace BWAPI
 {
@@ -102,13 +103,14 @@ namespace BWAPI
     /// game types and some others such as @TvB and the team versions of game types.
     ///
     /// @returns Forceset containing all forces in the game.
-    //virtual const Forceset& getForces() const = 0;
+    const Forceset& getForces() const;
+    
 
     /// <summary>Retrieves the set of all players in the match.</summary> This includes the neutral
     /// player, which owns all the resources and critters by default.
     ///
     /// @returns Playerset containing all players in the game.
-    //virtual const Playerset& getPlayers() const = 0;
+    const Playerset& getPlayers() const;
 
     /// <summary>Retrieves the set of all accessible units.</summary> If
     /// Flag::CompleteMapInformation is enabled, then the set also includes units that are not
@@ -117,23 +119,23 @@ namespace BWAPI
     /// @note Units that are inside refineries are not included in this set.
     ///
     /// @returns Unitset containing all known units in the game.
-    //virtual const Unitset& getAllUnits() const = 0;
+    const Unitset& getAllUnits() const;
 
     /// <summary>Retrieves the set of all accessible @minerals in the game.</summary>
     ///
     /// @returns Unitset containing @minerals
-    //virtual const Unitset& getMinerals() const = 0;
+    const Unitset& getMinerals() const;
 
     /// <summary>Retrieves the set of all accessible @geysers in the game.</summary>
     ///
     /// @returns Unitset containing @geysers
-    //virtual const Unitset& getGeysers() const = 0;
+    const Unitset& getGeysers() const;
 
     /// <summary>Retrieves the set of all accessible neutral units in the game.</summary> This
     /// includes @minerals, @geysers, and @critters.
     ///
     /// @returns Unitset containing all neutral units.
-    //virtual const Unitset& getNeutralUnits() const = 0;
+    const Unitset& getNeutralUnits() const;
 
     /// <summary>Retrieves the set of all @minerals that were available at the beginning of the
     /// game.</summary>
@@ -141,7 +143,7 @@ namespace BWAPI
     /// @note This set includes resources that have been mined out or are inaccessible.
     ///
     /// @returns Unitset containing static @minerals
-    //virtual const Unitset& getStaticMinerals() const = 0;
+    const Unitset& getStaticMinerals() const;
 
     /// <summary>Retrieves the set of all @geysers that were available at the beginning of the
     /// game.</summary>
@@ -149,7 +151,7 @@ namespace BWAPI
     /// @note This set includes resources that are inaccessible.
     ///
     /// @returns Unitset containing static @geysers
-    //virtual const Unitset& getStaticGeysers() const = 0;
+    const Unitset& getStaticGeysers() const;
 
     /// <summary>Retrieves the set of all units owned by the neutral player (resources, critters,
     /// etc.) that were available at the beginning of the game.</summary>
@@ -157,24 +159,24 @@ namespace BWAPI
     /// @note This set includes units that are inaccessible.
     ///
     /// @returns Unitset containing static neutral units
-    //virtual const Unitset& getStaticNeutralUnits() const = 0;
+    const Unitset& getStaticNeutralUnits() const;
 
     /// <summary>Retrieves the set of all accessible bullets.</summary>
     ///
     /// @returns Bulletset containing all accessible Bullet objects.
-    //virtual const Bulletset& getBullets() const = 0;
+    const Bulletset& getBullets() const;
 
     /// <summary>Retrieves the set of all accessible @Nuke dots.</summary>
     ///
     /// @note Nuke dots are the red dots painted by a @Ghost when using the nuclear strike ability.
     ///
     /// @returns Set of Positions giving the coordinates of nuke locations.
-    //virtual const Position::list& getNukeDots() const = 0;
+    const Position::list& getNukeDots() const;
 
     /// <summary>Retrieves the list of all unhandled game events.</summary>
     ///
     /// @returns std::list containing Event objects.
-    //virtual const std::list< Event >& getEvents() const = 0;
+    const std::list< Event >& getEvents() const;
 
     /// <summary>Retrieves the Force interface object associated with a given identifier.</summary>
     ///
@@ -221,18 +223,6 @@ namespace BWAPI
       else return nullptr;
     }
 
-    /// <summary>Retrieves a Unit interface object from a given unit index.</summary> The value
-    /// given as an index maps directly to Broodwar's unit array index and matches the index found
-    /// in replay files. In order to use this function, CompleteMapInformation must be enabled.
-    ///
-    /// <param name="unitIndex">
-    ///   The unitIndex to identify the Unit with. A valid index is 0 <= unitIndex & 0x7FF < 1700.
-    /// </param>
-    ///
-    /// @returns Unit interface object that matches the given \p unitIndex.
-    /// @retval nullptr if the given index is invalid.
-    //virtual Unit indexToUnit(int unitIndex) const = 0;
-
     /// <summary>Retrieves the Region interface object associated with a given identifier.</summary>
     ///
     /// <param name="regionID">
@@ -241,25 +231,19 @@ namespace BWAPI
     ///
     /// @returns Region interface object mapped to the given \p regionID.
     /// @retval nullptr if the given ID is invalid.
-    //virtual Region getRegion(int regionID) const = 0;
+    Region getRegion(int regionID) const;
 
     /// <summary>Retrieves the GameType of the current game.</summary>
     ///
     /// @returns GameType indicating the rules of the match.
     /// @see GameType
-    //virtual GameType getGameType() const = 0;
+    GameType getGameType() const;
 
     /// <summary>Retrieves the number of logical frames since the beginning of the match.</summary>
     /// If the game is paused, then getFrameCount will not increase.
     ///
     /// @returns Number of logical frames that have elapsed since the game started as an integer.
-    //virtual int getFrameCount() const = 0;
-
-    /// <summary>Retrieves the maximum number of logical frames that have been recorded in a
-    /// replay.</summary> If the game is not a replay, then the value returned is undefined.
-    ///
-    /// @returns The number of logical frames that the replay contains.
-    //virtual int getReplayFrameCount() const = 0;
+    int getFrameCount() const;
 
     /// <summary>Retrieves the logical frame rate of the game in frames per second (FPS).</summary>
     ///
@@ -274,14 +258,14 @@ namespace BWAPI
     /// @endcode
     /// @returns Logical frames per second that the game is currently running at as an integer.
     /// @see getAverageFPS
-    //virtual int getFPS() const = 0;
+    int getFPS() const;
 
     /// <summary>Retrieves the average logical frame rate of the game in frames per second (FPS).</summary>
     ///
     /// @returns Average logical frames per second that the game is currently running at as a
     /// double.
     /// @see getFPS
-    //virtual double getAverageFPS() const = 0;
+    double getAverageFPS() const;
 
     /// <summary>Retrieves the position of the user's mouse on the screen, in Position coordinates.</summary>
     ///
@@ -321,7 +305,7 @@ namespace BWAPI
     /// @returns Position containing the coordinates of the top left corner of the game's viewport.
     /// @retval Positions::Unknown always if Flag::UserInput is disabled.
     /// @see setScreenPosition
-    //virtual BWAPI::Position getScreenPosition() const = 0;
+    BWAPI::Position getScreenPosition() const;
 
     /// <summary>Moves the top left corner of the viewport to the provided position relative to
     /// the map's origin (top left (0,0)).</summary>
@@ -333,7 +317,7 @@ namespace BWAPI
     ///   The y coordinate to move the screen to, in pixels.
     /// </param>
     /// @see getScreenPosition
-    //virtual void setScreenPosition(int x, int y) = 0;
+    //virutal void setScreenPosition(int x, int y) = 0;
     /// @overload
     void setScreenPosition(BWAPI::Position p);
 
@@ -419,7 +403,7 @@ namespace BWAPI
     ///
     /// @returns A Unitset object consisting of all the units that have any part of them within the
     /// given rectangle bounds.
-    //virtual Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const = 0;
+    //virutal Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const = 0;
     /// @overload
     Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred = nullptr) const;
 
@@ -522,7 +506,7 @@ namespace BWAPI
     /// @returns Error type containing the reason for failure.
     ///
     /// @see setLastError, Errors
-    //virtual Error getLastError() const = 0;
+    Error getLastError() const;
 
     /// <summary>Sets the last error so that future calls to getLastError will return the value
     /// that was set.</summary>
@@ -534,19 +518,19 @@ namespace BWAPI
     /// @retval true If the type passed was Errors::None, clearing the last error.
     /// @retval false If any other error type was passed.
     /// @see getLastError, Errors
-    //virtual bool setLastError(BWAPI::Error e = Errors::None) const = 0;
+    bool setLastError(BWAPI::Error e = Errors::None) const;
 
     /// <summary>Retrieves the width of the map in build tile units.</summary>
     ///
     /// @returns Width of the map in tiles.
     /// @see mapHeight
-    //virtual int mapWidth() const = 0;
+    int mapWidth() const;
 
     /// <summary>Retrieves the height of the map in build tile units.</summary>
     ///
     /// @returns Height of the map in tiles.
     /// @see mapHeight
-    //virtual int mapHeight() const = 0;
+    int mapHeight() const;
 
     /// <summary>Retrieves the file name of the currently loaded map.</summary>
     ///
@@ -555,7 +539,7 @@ namespace BWAPI
     /// @see mapPathName, mapName
     ///
     /// @TODO: Note on campaign files.
-    //virtual std::string mapFileName() const = 0;
+    std::string mapFileName() const;
 
     /// <summary>Retrieves the full path name of the currently loaded map.</summary>
     ///
@@ -564,14 +548,14 @@ namespace BWAPI
     /// @see mapFileName, mapName
     ///
     /// @TODO: Note on campaign files.
-    //virtual std::string mapPathName() const = 0;
+    std::string mapPathName() const;
 
     /// <summary>Retrieves the title of the currently loaded map.</summary>
     ///
     /// @returns Map title as std::string object.
     ///
     /// @see mapFileName, mapPathName
-    //virtual std::string mapName() const = 0;
+    std::string mapName() const;
 
     /// <summary>Calculates the SHA-1 hash of the currently loaded map file.</summary>
     ///
@@ -597,7 +581,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns true if the mini-tile is walkable and false if it is impassable for ground units.
-    //virtual bool isWalkable(int walkX, int walkY) const = 0;
+    bool isWalkable(int walkX, int walkY) const;
     /// @overload
     bool isWalkable(BWAPI::WalkPosition position) const;
 
@@ -618,7 +602,7 @@ namespace BWAPI
     ///     - 4: Very high ground
     ///     - 5: Very high ground doodad
     ///     .
-    //virtual int  getGroundHeight(int tileX, int tileY) const = 0;
+    int  getGroundHeight(int tileX, int tileY) const;
     /// @overload
     int  getGroundHeight(TilePosition position) const;
 
@@ -1375,14 +1359,14 @@ namespace BWAPI
     ///
     /// @returns Difference in frames between commands being sent and executed.
     /// @see getLatencyTime, getRemainingLatencyFrames
-    //virtual int getLatencyFrames() const = 0;
+    int getLatencyFrames() const;
 
     /// <summary>Retrieves the maximum delay, in milliseconds, between a command being issued and
     /// the command being executed by Broodwar.</summary>
     ///
     /// @returns Difference in milliseconds between commands being sent and executed.
     /// @see getLatencyFrames, getRemainingLatencyTime
-    //virtual int getLatencyTime() const = 0;
+    int getLatencyTime() const;
 
     /// <summary>Retrieves the number of frames it will take before a command sent in the current
     /// frame will be executed by the game.</summary>
@@ -1390,7 +1374,7 @@ namespace BWAPI
     /// @returns Number of frames until a command is executed if it were sent in the current
     /// frame.
     /// @see getRemainingLatencyTime, getLatencyFrames
-    //virtual int getRemainingLatencyFrames() const = 0;
+    int getRemainingLatencyFrames() const;
     
     /// <summary>Retrieves the number of milliseconds it will take before a command sent in the
     /// current frame will be executed by Broodwar.</summary>
@@ -1398,14 +1382,14 @@ namespace BWAPI
     /// @returns Amount of time, in milliseconds, until a command is executed if it were sent in
     /// the current frame.
     /// @see getRemainingLatencyFrames, getLatencyTime
-    //virtual int getRemainingLatencyTime() const = 0;
+    int getRemainingLatencyTime() const;
 
     /// <summary>Retrieves the current revision of BWAPI.</summary>
     ///
     /// @returns The revision number of the current BWAPI interface.
     ///
     /// @threadsafe
-    //virtual int getRevision() const = 0;
+    int getRevision() const;
 
     /// <summary>Retrieves the version that the BWAPI client is using for compatibility checks.</summary>
     ///
@@ -1413,20 +1397,20 @@ namespace BWAPI
     ///
     /// @threadsafe
     /// @since 4.2.0
-    //virtual int getClientVersion() const = 0;
+    int getClientVersion() const;
 
     /// <summary>Retrieves the debug state of the BWAPI build.</summary>
     ///
     /// @returns true if the BWAPI module is a DEBUG build, and false if it is a RELEASE build.
     ///
     /// @threadsafe
-    //virtual bool isDebug() const = 0;
+    bool isDebug() const;
 
     /// <summary>Checks the state of latency compensation.</summary>
     ///
     /// @returns true if latency compensation is enabled, false if it is disabled.
     /// @see setLatCom
-    //virtual bool isLatComEnabled() const = 0;
+    bool isLatComEnabled() const;
 
     /// <summary>Changes the state of latency compensation.</summary> Latency compensation
     /// modifies the state of BWAPI's representation of units to reflect the implications of
@@ -1447,7 +1431,7 @@ namespace BWAPI
     /// @retval false If the GUI is disabled and drawing functions are rejected
     ///
     /// @see setGUI
-    //virtual bool isGUIEnabled() const = 0;
+    bool isGUIEnabled() const;
 
     /// <summary>Sets the rendering state of the Starcraft GUI.</summary> This typically gives
     /// Starcraft a very low graphical frame rate and disables all drawing functionality in BWAPI.

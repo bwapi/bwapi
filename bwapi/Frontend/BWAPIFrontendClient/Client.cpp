@@ -418,7 +418,7 @@ namespace BWAPI
     // newData.tournament = data->tournament;
 
     newData.gameType = data->gameType;
-    newData.frame = data->frameCount;
+    newData.frameCount = data->frameCount;
     newData.latencyFrames = data->latencyFrames;
     // newData.turnSize = data->turnSize;
     // newData.gameSpeed = data->gameSpeed;
