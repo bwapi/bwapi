@@ -1089,11 +1089,6 @@ namespace BWAPI
         return gameData.remainingLatencyTime;
     }
     //----------------------------------------------- VERSION --------------------------------------------------
-    int Game::getRevision() const
-    {
-        return gameData.apiVersion; //This is wrong
-    }
-    //----------------------------------------------- VERSION --------------------------------------------------
     int Game::getClientVersion() const
     {
         return gameData.apiVersion;

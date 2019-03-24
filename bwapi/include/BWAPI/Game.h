@@ -1387,13 +1387,6 @@ namespace BWAPI
     /// @see getRemainingLatencyFrames, getLatencyTime
     int getRemainingLatencyTime() const;
 
-    /// <summary>Retrieves the current revision of BWAPI.</summary>
-    ///
-    /// @returns The revision number of the current BWAPI interface.
-    ///
-    /// @threadsafe
-    int getRevision() const;
-
     /// <summary>Retrieves the version that the BWAPI client is using for compatibility checks.</summary>
     ///
     /// @returns The version number for the BWAPI client.
