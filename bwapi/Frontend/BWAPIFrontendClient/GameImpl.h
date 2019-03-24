@@ -51,16 +51,16 @@ namespace BWAPI4
       
       Unitset selectedUnits;
       Unitset pylons;
-      Regionset regionsList;
+      
 
       TilePosition::list startLocations;
       
       Player thePlayer;
       Player theEnemy;
       Player theNeutral;
-      Playerset _allies;
+      
       Playerset _enemies;
-      Playerset _observers;
+      
       Text::Size::Enum textSize = Text::Size::Default;
 
     public :

@@ -22,9 +22,11 @@ namespace BWAPI
     int gameSpeed;
     int frameSkip;
     int remainingLatencyFrames;
+    int lastEventTime;
 
     std::vector<PlayerID> replayVisionPlayers;
 
+    float latencyTime;
     float remainingLatencyTime;
     float elapsedTime;
     float millisecondsPerFrame;
@@ -40,10 +42,11 @@ namespace BWAPI
 
     std::string mapPath;
     std::string mapName;
+    std::string mapFileName;
     std::string gameName;
     std::string randomSeed;
 
-    std::vector<TilePosition> startPositions;
+    TilePosition::list startPositions;
 
     std::vector<RegionID> regions;
 
@@ -56,6 +59,7 @@ namespace BWAPI
     {
       TilePosition size;
       int tileset;
+      std::string mapHash;
 
       int groundHeight[256][256];
       bool isBuildable[256][256];

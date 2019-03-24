@@ -1017,12 +1017,12 @@ namespace BWAPI
     //------------------------------------------------ GET FPS -------------------------------------------------
     int Game::getFPS() const
     {
-        return static_cast<int>(std::round(gameData.averageFPS)); //is 5.X averageFPS == 4.x fps? Because there is also a 4.x averageFPS
+        return fpsCounter.getFps();
     }
     //-------------------------------------------- GET Average FPS ---------------------------------------------
     double Game::getAverageFPS() const
     {
-        return gameData.averageFPS; //will need fpscounter class here.
+        return fpsCounter.getAverageFps();
     }
     //------------------------------------------- GET SCREEN POSITION ------------------------------------------
     BWAPI::Position Game::getScreenPosition() const
@@ -1076,7 +1076,7 @@ namespace BWAPI
     //----------------------------------------------- LATENCY TIME ---------------------------------------------
     int Game::getLatencyTime() const
     {
-        return gameData.remainingLatencyTime;
+        return gameData.latencyTime;
     }
     //----------------------------------------------- LATENCY FRAMES REMAINING ---------------------------------
     int Game::getRemainingLatencyFrames() const
@@ -1091,17 +1091,20 @@ namespace BWAPI
     //----------------------------------------------- VERSION --------------------------------------------------
     int Game::getRevision() const
     {
-        return gameData.apiVersion;
+        return gameData.apiVersion; //This is wrong
     }
     //----------------------------------------------- VERSION --------------------------------------------------
     int Game::getClientVersion() const
     {
-        //return gameData.engineVersion;
+        return gameData.apiVersion;
     }
     //----------------------------------------------- DEBUG ----------------------------------------------------
     bool Game::isDebug() const
     {
-        //return gameData.???
+        #ifdef _DEBUG
+            return true;
+        #endif
+        return false;
     }
     //----------------------------------------------- LATCOM ENABLED -------------------------------------------
     bool Game::isLatComEnabled() const
@@ -1113,6 +1116,410 @@ namespace BWAPI
     {
         return gameData.hasGUI;
     }
+    //----------------------------------------------- INSTANCE NUMBER ------------------------------------------
+    int Game::getInstanceNumber() const
+    {
+        //return gameData.in
+        return 0;
+    }
+    //----------------------------------------------- ENEMY ----------------------------------------------------
+    Player Game::enemy() const
+    {
+        for (auto p : players)
+            if (p.isEnemy(*getPlayerData(gameData.player)))
+                return p;
+    }
+    //----------------------------------------------- NEUTRAL --------------------------------------------------
+    Player Game::neutral() const
+    {
+        for (auto p : players)
+            if (p.isNeutral())
+                return p;
+    }
+    //----------------------------------------------- ALLIES ---------------------------------------------------
+    Playerset _allies;
+    Playerset& Game::allies()
+    {
+        return _allies;
+    }
+    //----------------------------------------------- ENEMIES --------------------------------------------------
+    Playerset _enemies;
+    Playerset& Game::enemies()
+    {
+        return _enemies;
+    }
+    //----------------------------------------------- OBSERVERS ------------------------------------------------
+    Playerset _observers;
+    Playerset& Game::observers()
+    {
+        return _observers;
+    }
+    //----------------------------------------------- APM ------------------------------------------------------
+    int Game::getAPM(bool includeSelects = false) const
+    {
+        return apmCounter.apm(includeSelects);
+    }
+    //----------------------------------------------- ELAPSED TIME ---------------------------------------------
+    int Game::elapsedTime() const
+    {
+        return gameData.elapsedTime;
+    }
+    //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
+    int Game::countdownTimer() const
+    {
+        return gameData.countdownTimer;
+    }
+    //----------------------------------------------- GET ALL REGIONS ------------------------------------------
+    Regionset regionsList;
+    const Regionset& Game::getAllRegions() const
+    {
+        return regionsList;
+    }
+    //----------------------------------------------- LAST EVENT TIME ------------------------------------------
+    int Game::getLastEventTime() const
+    {
+        return gameData.lastEventTime;
+    }
+    //----------------------------------------------- RANDOM SEED-----------------------------------------------
+    unsigned Game::getRandomSeed() const
+    {
+        return std::stoi(gameData.randomSeed);
+    }
+    //----------------------------------------------- MAP HASH -------------------------------------------------
+    std::string Game::mapHash() const
+    {
+        return gameData.map.mapHash;
+    }
+    //----------------------------------------------- CAN RESEARCH ---------------------------------------------
+    bool Game::canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const
+    {
+        auto player = getPlayer(gameData.player);
+        // Error checking
+        if (!player)
+            return setLastError(Errors::Unit_Not_Owned);
 
-}
+        if (unit)
+        {
+            if (unit->getPlayer() != player)
+                return setLastError(Errors::Unit_Not_Owned);
+
+            if (!unit->getType().isSuccessorOf(type.whatResearches()))
+                return setLastError(Errors::Incompatible_UnitType);
+
+            if (checkCanIssueCommandType && (unit->isLifted() || !unit->isIdle() || !unit->isCompleted()))
+                return setLastError(Errors::Unit_Busy);
+        }
+        if (player->isResearching(type))
+            return setLastError(Errors::Currently_Researching);
+
+        if (player->hasResearched(type))
+            return setLastError(Errors::Already_Researched);
+
+        if (!player->isResearchAvailable(type))
+            return setLastError(Errors::Access_Denied);
+
+        if (player->minerals() < type.mineralPrice())
+            return setLastError(Errors::Insufficient_Minerals);
+
+        if (player->gas() < type.gasPrice())
+            return setLastError(Errors::Insufficient_Gas);
+
+        if (!player->hasUnitTypeRequirement(type.requiredUnit()))
+            return setLastError(Errors::Insufficient_Tech);
+
+        return setLastError();
+    }
+    //----------------------------------------------- CAN UPGRADE ----------------------------------------------
+    bool Game::canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const
+    {
+        Player player = getPlayer(gameData.player);
+        if (!player)
+            return setLastError(Errors::Unit_Not_Owned);
+
+        if (unit)
+        {
+            if (unit->getPlayer() != player)
+                return setLastError(Errors::Unit_Not_Owned);
+
+            if (!unit->getType().isSuccessorOf(type.whatUpgrades()))
+                return setLastError(Errors::Incompatible_UnitType);
+
+            if (checkCanIssueCommandType && (unit->isLifted() || !unit->isIdle() || !unit->isCompleted()))
+                return setLastError(Errors::Unit_Busy);
+        }
+        int nextLvl = player->getUpgradeLevel(type) + 1;
+
+        if (!player->hasUnitTypeRequirement(type.whatUpgrades()))
+            return setLastError(Errors::Unit_Does_Not_Exist);
+
+        if (!player->hasUnitTypeRequirement(type.whatsRequired(nextLvl)))
+            return setLastError(Errors::Insufficient_Tech);
+
+        if (player->isUpgrading(type))
+            return setLastError(Errors::Currently_Upgrading);
+
+        if (player->getUpgradeLevel(type) >= player->getMaxUpgradeLevel(type))
+            return setLastError(Errors::Fully_Upgraded);
+
+        if (player->minerals() < type.mineralPrice(nextLvl))
+            return setLastError(Errors::Insufficient_Minerals);
+
+        if (player->gas() < type.gasPrice(nextLvl))
+            return setLastError(Errors::Insufficient_Gas);
+
+        return setLastError();
+    }
+    //----------------------------------------------- START LOCATIONS ------------------------------------------
+    const TilePosition::list& Game::getStartLocations() const
+    {
+        return gameData.startPositions;
+    }
+    //----------------------------------------------- CAN BUILD HERE -------------------------------------------
+    bool Game::canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const
+    {
+        setLastError(Errors::Unbuildable_Location);
+
+        if (builder && type.isAddon())
+        {
+            position += TilePosition(4, 1); // addon build offset
+        }
+
+        // lt = left top, rb = right bottom
+        TilePosition lt = position;
+        TilePosition rb = lt + type.tileSize();
+
+        // Map limit check
+        if (!isValid(lt) || !isValid(Position(rb) - Position(1, 1)))
+            return false;
+
+        //if the unit is a refinery, we just need to check the set of geysers to see if the position
+        //matches one of them (and the type is still vespene geyser)
+        if (type.isRefinery())
+        {
+            for (Unit g : getGeysers())
+            {
+                if (g->getTilePosition() == position)
+                {
+                    if (g->isVisible() && g->getType() != UnitTypes::Resource_Vespene_Geyser)
+                        return false;
+                    return setLastError();
+                }
+            }
+            return false;
+        }
+
+        // Tile buildability check
+        for (int x = lt.x; x < rb.x; ++x)
+        {
+            for (int y = lt.y; y < rb.y; ++y)
+            {
+                // Check if tile is buildable/unoccupied and explored.
+                if (!isBuildable(x, y) || (checkExplored && !isExplored(x, y)))
+                    return false; // @TODO: Error code for !isExplored ??
+            }
+        }
+
+        // Check if builder is capable of reaching the building site
+        if (builder)
+        {
+            if (!builder->getType().isBuilding())
+            {
+                if (!builder->hasPath(Position(lt) + Position(type.tileSize()) / 2))
+                    return false;
+            }
+            else if (!builder->getType().isFlyingBuilding() && type != UnitTypes::Zerg_Nydus_Canal && !type.isFlagBeacon())
+            {
+                return false;
+            }
+        }
+
+        // Ground unit dimension check
+        if (type != UnitTypes::Special_Start_Location)
+        {
+            Position targPos = Position(lt) + Position(type.tileSize()) / 2;
+            Unitset unitsInRect(getUnitsInRectangle(Position(lt), Position(rb), !IsFlying &&
+                !IsLoaded   &&
+                [&builder, &type](Unit u) { return u != builder || type == UnitTypes::Zerg_Nydus_Canal; } &&
+                GetLeft <= targPos.x + type.dimensionRight() &&
+                GetTop <= targPos.y + type.dimensionDown() &&
+                GetRight >= targPos.x - type.dimensionLeft() &&
+                GetBottom >= targPos.y - type.dimensionUp()));
+            for (Unit u : unitsInRect)
+            {
+                BWAPI::UnitType iterType = u->getType();
+                // Addons can be placed over units that can move, pushing them out of the way
+                if (!(type.isAddon() && iterType.canMove()))
+                    return false;
+            }
+
+            // Creep Check
+            // Note: Zerg structures that don't require creep can still be placed on creep
+            bool needsCreep = type.requiresCreep();
+            if (type.getRace() != Races::Zerg || needsCreep)
+            {
+                for (int x = lt.x; x < rb.x; ++x)
+                {
+                    for (int y = lt.y; y < rb.y; ++y)
+                    {
+                        if (needsCreep != hasCreep(x, y))
+                            return false;
+                    }
+                }
+            }
+
+            // Power Check
+            if (type.requiresPsi() && !hasPower(lt, type))
+                return false;
+
+        } //don't ignore units
+
+        // Resource Check (CC, Nex, Hatch)
+        if (type.isResourceDepot())
+        {
+            for (BWAPI::Unit m : getStaticMinerals())
+            {
+                TilePosition tp = m->getInitialTilePosition();
+                if ((isVisible(tp) || isVisible(tp.x + 1, tp.y)) && !m->exists())
+                    continue; // tile position is visible, but mineral is not => mineral does not exist
+                if (tp.x > lt.x - 5 &&
+                    tp.y > lt.y - 4 &&
+                    tp.x < lt.x + 7 &&
+                    tp.y < lt.y + 6)
+                    return false;
+            }
+            for (BWAPI::Unit g : getStaticGeysers())
+            {
+                TilePosition tp = g->getInitialTilePosition();
+                if (tp.x > lt.x - 7 &&
+                    tp.y > lt.y - 5 &&
+                    tp.x < lt.x + 7 &&
+                    tp.y < lt.y + 6)
+                    return false;
+            }
+        }
+
+        // A building can build an addon at a different location (i.e. automatically lifts (if not already lifted)
+        // then lands at the new location before building the addon), so we need to do similar checks for the
+        // location that the building will be when it builds the addon.
+        if (builder && !builder->getType().isAddon() && type.isAddon())
+        {
+            if (!canBuildHere(lt - TilePosition(4, 1), builder->getType(), builder, checkExplored))
+                return false;
+        }
+
+        //if the build site passes all these tests, return true.
+        return setLastError();
+    }
+    //----------------------------------------------- CAN MAKE -------------------------------------------
+    bool Game::canMake(UnitType type, Unit builder = nullptr) const
+    {
+        Player player = getPlayer(gameData.player);
+        // Error checking
+        setLastError();
+        if (!player)
+            return setLastError(Errors::Unit_Not_Owned);
+
+        // Check if the unit type is available (UMS game)
+        if (!player->isUnitAvailable(type))
+            return setLastError(Errors::Access_Denied);
+
+        // Get the required UnitType
+        BWAPI::UnitType requiredType = type.whatBuilds().first;
+
+        Player pSelf = player;
+        if (builder != nullptr) // do checks if a builder is provided
+        {
+            // Check if the owner of the unit is you
+            if (builder->getPlayer() != pSelf)
+                return setLastError(Errors::Unit_Not_Owned);
+
+            BWAPI::UnitType builderType = builder->getType();
+            if (type == UnitTypes::Zerg_Nydus_Canal && builderType == UnitTypes::Zerg_Nydus_Canal)
+            {
+                if (!builder->isCompleted())
+                    return setLastError(Errors::Unit_Busy);
+
+                if (builder->getNydusExit())
+                    return setLastError(Errors::Unknown);
+
+                return true;
+            }
+
+            // Check if this unit can actually build the unit type
+            if (requiredType == UnitTypes::Zerg_Larva && builderType.producesLarva())
+            {
+                if (builder->getLarva().size() == 0)
+                    return setLastError(Errors::Unit_Does_Not_Exist);
+            }
+            else if (builderType != requiredType)
+            {
+                return setLastError(Errors::Incompatible_UnitType);
+            }
+
+            // Carrier/Reaver space checking
+            int max_amt;
+            switch (builderType)
+            {
+            case UnitTypes::Enum::Protoss_Carrier:
+            case UnitTypes::Enum::Hero_Gantrithor:
+                // Get max interceptors
+                max_amt = 4;
+                if (pSelf->getUpgradeLevel(UpgradeTypes::Carrier_Capacity) > 0 || builderType == UnitTypes::Hero_Gantrithor)
+                    max_amt += 4;
+
+                // Check if there is room
+                if (builder->getInterceptorCount() + (int)builder->getTrainingQueue().size() >= max_amt)
+                    return setLastError(Errors::Insufficient_Space);
+                break;
+            case UnitTypes::Enum::Protoss_Reaver:
+            case UnitTypes::Enum::Hero_Warbringer:
+                // Get max scarabs
+                max_amt = 5;
+                if (pSelf->getUpgradeLevel(UpgradeTypes::Reaver_Capacity) > 0 || builderType == UnitTypes::Hero_Warbringer)
+                    max_amt += 5;
+
+                // check if there is room
+                if (builder->getScarabCount() + static_cast<int>(builder->getTrainingQueue().size()) >= max_amt)
+                    return setLastError(Errors::Insufficient_Space);
+                break;
+            }
+        } // if builder != nullptr
+
+        // Check if player has enough minerals
+        if (pSelf->minerals() < type.mineralPrice())
+            return setLastError(Errors::Insufficient_Minerals);
+
+        // Check if player has enough gas
+        if (pSelf->gas() < type.gasPrice())
+            return setLastError(Errors::Insufficient_Gas);
+
+        // Check if player has enough supplies
+        BWAPI::Race typeRace = type.getRace();
+        const int supplyRequired = type.supplyRequired() * (type.isTwoUnitsInOneEgg() ? 2 : 1);
+        if (supplyRequired > 0 && pSelf->supplyTotal(typeRace) < pSelf->supplyUsed(typeRace) + supplyRequired - (requiredType.getRace() == typeRace ? requiredType.supplyRequired() : 0))
+            return setLastError(Errors::Insufficient_Supply);
+
+        UnitType addon = UnitTypes::None;
+        for (auto &it : type.requiredUnits())
+        {
+            if (it.first.isAddon())
+                addon = it.first;
+
+            if (!pSelf->hasUnitTypeRequirement(it.first, it.second))
+                return setLastError(Errors::Insufficient_Tech);
+        }
+
+        if (type.requiredTech() != TechTypes::None && !pSelf->hasResearched(type.requiredTech()))
+            return setLastError(Errors::Insufficient_Tech);
+
+        if (builder &&
+            addon != UnitTypes::None &&
+            addon.whatBuilds().first == type.whatBuilds().first &&
+            (!builder->getAddon() || builder->getAddon()->getType() != addon))
+            return setLastError(Errors::Insufficient_Tech);
+
+        return true;
+    }
+
+
 

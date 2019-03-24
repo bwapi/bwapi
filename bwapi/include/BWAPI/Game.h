@@ -28,6 +28,9 @@
 #include <BWAPI/Bullet.h>
 #include <BWAPI/GameType.h>
 
+#include "../Frontend/BWAPICore/FPSCounter.h"
+#include "../Frontend/BWAPICore/APMCounter.h"
+
 namespace BWAPI
 {
   // Forward Declarations
@@ -565,7 +568,7 @@ namespace BWAPI
     /// standard maps will return a hash of their entire map archive (.scm,.scx).
     ///
     /// @TODO: Note on replays.
-    //virtual std::string mapHash() const = 0;
+    std::string mapHash() const;
 
     /// <summary>Checks if the given mini-tile position is walkable.</summary>
     ///
@@ -779,7 +782,7 @@ namespace BWAPI
     ///
     /// @returns true indicating that the structure can be placed at the given tile position, and
     /// false if something may be obstructing the build location.
-    //virtual bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const = 0;
+    bool canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const;
 
     /// <summary>Checks all the requirements in order to make a given unit type for the current
     /// player.</summary> These include resources, supply, technology tree, availability, and
@@ -796,7 +799,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be made. If \p builder is provided, then it is
     /// only true if \p builder can make the \p type. Otherwise it will return false, indicating
     /// that the unit type can not be made.
-    //virtual bool canMake(UnitType type, Unit builder = nullptr) const = 0;
+    bool canMake(UnitType type, Unit builder = nullptr) const;
 
     /// <summary>Checks all the requirements in order to research a given technology type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -816,7 +819,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be researched. If \p unit is provided, then it is
     /// only true if \p unit can research the \p type. Otherwise it will return false, indicating
     /// that the technology can not be researched.
-    //virtual bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
+    bool canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const;
 
     /// <summary>Checks all the requirements in order to upgrade a given upgrade type for the
     /// current player.</summary> These include resources, technology tree, availability, and
@@ -836,7 +839,7 @@ namespace BWAPI
     /// @returns true indicating that the type can be upgraded. If \p unit is provided, then it is
     /// only true if \p unit can upgrade the \p type. Otherwise it will return false, indicating
     /// that the upgrade can not be upgraded.
-    //virtual bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const = 0;
+    bool canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const;
 
     /// <summary>Retrieves the set of all starting locations for the current map.</summary> A
     /// starting location is essentially a candidate for a player's spawn point.
@@ -844,7 +847,7 @@ namespace BWAPI
     /// @returns A TilePosition::list containing all the TilePosition objects that indicate a start
     /// location.
     /// @see PlayerInterface::getStartLocation
-    //virtual const TilePosition::list& getStartLocations() const = 0;
+    const TilePosition::list& getStartLocations() const;
 
     /// <summary>Prints text to the screen as a notification.</summary> This function allows text
     /// formatting using Text::Enum members. The behaviour of this function is the same as printf,
@@ -1045,23 +1048,23 @@ namespace BWAPI
     /// @returns Player interface representing an enemy player.
     /// @retval nullptr If there is no enemy or the current game is a replay.
     /// @see enemies
-    //virtual Player enemy() const = 0;
+    Player enemy() const;
 
     /// <summary>Retrieves the Player interface object representing the neutral player.</summary>
     /// The neutral player owns all the resources and critters on the map by default.
     ///
     /// @returns Player interface indicating the neutral player.
-    //virtual Player neutral() const = 0;
+    Player neutral() const;
 
     /// <summary>Retrieves a set of all the current player's remaining allies.</summary>
     ///
     /// @returns Playerset containing all allied players.
-    //virtual Playerset& allies() = 0;
+    Playerset& allies();
 
     /// <summary>Retrieves a set of all the current player's remaining enemies.</summary>
     ///
     /// @returns Playerset containing all enemy players.
-    //virtual Playerset& enemies() = 0;
+    Playerset& enemies();
 
     /// <summary>Retrieves a set of all players currently observing the game.</summary> An observer
     /// is defined typically in a @UMS game type as not having any impact on the game. This means
@@ -1069,7 +1072,7 @@ namespace BWAPI
     /// create units for it.
     ///
     /// @returns Playerset containing all currently active observer players
-    //virtual Playerset& observers() = 0;
+    Playerset& observers();
 
     /// @name Debugging Members
     /// @{
@@ -1461,7 +1464,7 @@ namespace BWAPI
     ///   An integer value representing the instance number.
     ///
     /// @threadsafe
-    //virtual int getInstanceNumber() const = 0;
+    int getInstanceNumber() const;
 
     /// <summary>Retrieves the Actions Per Minute (APM) that the bot is producing.</summary>
     ///
@@ -1471,7 +1474,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @returns The number of actions that the bot has executed per minute, on average.
-    //virtual int getAPM(bool includeSelects = false) const = 0;
+    int getAPM(bool includeSelects = false) const;
 
     /// <summary>Changes the map to the one specified.</summary> Once restarted, the game will
     /// load the map that was provided. Changes do not take effect unless the game is restarted.
@@ -1553,7 +1556,7 @@ namespace BWAPI
     /// <summary>Retrieves current amount of time in seconds that the game has elapsed.</summary>
     ///
     /// @returns Time, in seconds, that the game has elapsed as an integer.
-    //virtual int elapsedTime() const = 0;
+    int elapsedTime() const;
 
     /// <summary>Sets the command optimization level.</summary> Command optimization is a feature
     /// in BWAPI that tries to reduce the APM of the bot by grouping or eliminating unnecessary
@@ -1669,12 +1672,12 @@ namespace BWAPI
     /// @endcode
     ///
     /// @returns Integer containing the time (in game seconds) on the countdown timer.
-    //virtual int countdownTimer() const = 0;
+    int countdownTimer() const;
 
     /// <summary>Retrieves the set of all regions on the map.</summary>
     ///
     /// @returns Regionset containing all map regions.
-    //virtual const Regionset &getAllRegions() const = 0;
+    const Regionset& getAllRegions() const;
 
     /// <summary>Retrieves the region at a given position.</summary>
     ///
@@ -1700,7 +1703,7 @@ namespace BWAPI
     ///
     /// @retval 0 When called from an AI module.
     /// @returns Time in milliseconds spent in last AI module call.
-    //virtual int getLastEventTime() const = 0;
+    int getLastEventTime() const;
 
     /// <summary>Sets the state of the fog of war when watching a replay.</summary>
     ///
@@ -1786,7 +1789,7 @@ namespace BWAPI
     ///
     /// @returns This game's random seed.
     /// @since 4.2.0
-    //virtual unsigned getRandomSeed() const = 0;
+    unsigned getRandomSeed() const;
 
     /// <summary>Checks if this point is within the game's map bounds.</summary>
     ///
@@ -1836,6 +1839,8 @@ namespace BWAPI
     }
 
     GameData gameData;
+    FPSCounter fpsCounter;
+    APMCounter apmCounter;
 
     // We can't include bwapi sets here because they depend on Game
     std::set<Player, IDCompare> players;
