@@ -27,6 +27,9 @@
     <None Include="init.proto">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data.proto">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generated\cpp\error.pb.h">

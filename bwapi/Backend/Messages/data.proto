@@ -1,0 +1,5 @@
+syntax = "protocol 3";
+
+message GameData {
+    int apiVersion = 1; //API Version
+}

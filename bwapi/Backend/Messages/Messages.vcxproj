@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="data.proto" />
     <None Include="error.proto" />
     <None Include="game.proto" />
     <None Include="init.proto" />
