@@ -1,5 +1,264 @@
 syntax = "protocol 3";
 
+message Point {
+    int32 x = 1;
+    int32 y = 2;
+    int32 scale = 3;
+}
+
+struct MapData
+{
+    Point size = 1;
+    int32 tileset = 2;
+    string mapHash = 3;
+
+    repeated int32 groundHeight = 4;
+    repeated bool isBuildable = 5;
+    repeated bool isVisible = 6;
+    repeated bool isExplored = 7;
+    repeated bool hasCreep = 8;
+    repeated bool isOccupied = 9;
+
+    repeated bool isWalkable = 10;
+}
+
 message GameData {
-    int apiVersion = 1; //API Version
+    int32 apiVersion = 1;
+    string engine = 2;
+    string engineVersion = 3;
+    bool tournament = 4;
+
+    int32 gameType = 5;
+    int32 frameCount = 6;
+    int32 latencyFrames = 7;
+    int32 turnSize = 8;
+    int32 gameSpeed = 9;
+    int32 frameSkip = 10;
+    int32 remainingLatencyFrames = 11;
+    int32 lastEventTime = 12;
+
+    repeated int32 replayVisionPlayers = 13;
+
+    float latencyTime = 14;
+    float remainingLatencyTime = 15;
+    float elapsedTime = 16;
+    float millisecondsPerFrame = 17;
+    float averageFPS = 18;
+
+    int32 countdownTimer = 19;
+    bool isPaused = 20;
+    bool isInGame = 21;
+    bool isMultiplayer = 22;
+    bool isReplay = 23;
+    bool clientUnitSelection = 24;
+    bool hasGUI = 25;
+
+    string mapPath = 26;
+    string mapName = 27;
+    string mapFileName = 28;
+    string gameName = 29;
+    string randomSeed = 30;
+
+    repeated Point startPositions = 31;
+
+    repeated int32 regions = 32;
+
+    int32 player = 33;
+
+    Point screenSize = 34;
+    Point screenPosition = 35;
+
+    MapData map = 36;
+}
+
+Message Player {
+    int32 id = 1;
+    string name = 2;
+    Race race = 3;
+
+    int32 type = 4;
+    int32 force = 5;
+    repeated bool isAlly = 6;
+    repeated bool isEnemy = 7;
+    repeated bool isNeutral = 8;
+    int32 startLocationX = 9;
+    int32 startLocationY = 10;
+    bool isVictorious = 11;
+    bool isDefeated = 12;
+    bool leftGame = 13;
+    bool isParticipating = 14;
+
+    int32 minerals = 15;
+    int32 gas = 16;
+    int32 gatheredMinerals = 17;
+    int32 gatheredGas = 18;
+    int32 repairedMinerals = 19;
+    int32 repairedGas = 20;
+    int32 refundedMinerals = 21;
+    int32 refundedGas = 22;
+    repeated int32 supplyTotal = 23;
+    repeated int32 supplyUsed = 24;
+
+    repeated int32 allUnitCount = 25;
+    repeated int32 visibleUnitCount = 26;
+    repeated int32 completedUnitCount = 27;
+    repeated int32 deadUnitCount = 28;
+    repeated int32 killedUnitCount = 29;
+
+    repeated int32 upgradeLevel = 30;
+    repeated bool hasResearched = 31;
+    repeated bool isResearching = 32;
+    repeated bool isUpgrading = 33;
+
+    int32 color = 34;
+
+    int32 totalUnitScore = 35;
+    int32 totalKillScore = 36;
+    int32 totalBuildingScore = 37;
+    int32 totalRazingScore = 38;
+    int32 customScore = 39;
+
+    repeated int32 maxUpgradeLevel = 40;
+    repeated bool isResearchAvailable = 41;
+    repeated bool isUnitAvailable = 42;
+}
+
+Message Unit {
+    int32 id = 1;
+    int32 player = 2;
+    int32 type = 3;
+    Point position = 4;
+    double angle = 5;
+    double velocityX = 6;
+    double velocityY = 7;
+    int32 hitPoints = 8;
+    int32 lastHitPoints = 9;
+    int32 shields = 10;
+    int32 energy = 11;
+    int32 resources = 12;
+    int32 resourceGroup = 13;
+
+    int32 killCount = 14;
+    int32 acidSporeCount = 15;
+    int32 scarabCount = 16;
+    int32 int32erceptorCount = 17;
+    int32 spiderMineCount = 18;
+    int32 groundWeaponCooldown = 19;
+    int32 airWeaponCooldown = 20;
+    int32 spellCooldown = 21;
+    int32 defenseMatrixPoints = 22;
+
+    int32 defenseMatrixTimer = 23;
+    int32 ensnareTimer = 24;
+    int32 irradiateTimer = 25;
+    int32 lockdownTimer = 26;
+    int32 maelstromTimer = 27;
+    int32 orderTimer = 28;
+    int32 plagueTimer = 29;
+    int32 removeTimer = 30;
+    int32 stasisTimer = 31;
+    int32 stimTimer = 32;
+
+    int32 buildType = 33;
+    repeated int32 trainingQueue = 34;
+    repeated int32 loadedUnits = 35;
+    repeated int32 int32erceptors = 36;
+    repeated int32 larva = 37;
+    int32 tech = 38;
+    int32 upgrade = 39;
+    int32 remainingBuildTime = 40;
+    int32 remainingTraint32ime = 41;
+    int32 remainingResearchTime = 42;
+    int32 remainingUpgradeTime = 43;
+    int32 buildUnit = 44;
+
+    int32 target = 45;
+    Point targetPosition = 46;
+    int32 order = 47;
+    int32 orderTarget = 48;
+    Point orderTargetPosition = 49;
+    int32 secondaryOrder = 50;
+    Point rallyPosition = 51;
+    int32 rallyUnit = 52;
+    int32 addon = 53;
+    int32 nydusExit = 54;
+    int32 powerUp = 55;
+
+    int32 transport = 56;
+    int32 carrier = 57;
+    int32 hatchery = 58;
+    
+    bool exists = 59;
+    bool hasNuke = 60;
+    bool isAccelerating = 61;
+    bool isAttacking = 62;
+    bool isAttackFrame = 63;
+    bool isBeingGathered = 64;
+    bool isBeingHealed = 65;
+    bool isBlind = 66;
+    bool isBraking = 67;
+    bool isBurrowed = 68;
+    int32 carryResourceType = 69;
+    bool isCloaked = 70;
+    bool isCompleted = 71;
+    bool isConstructing = 72;
+    bool isDetected = 73;
+    bool isGathering = 74;
+    bool isHallucination = 75;
+    bool isIdle = 76;
+    bool isint32erruptible = 77;
+    bool isInvincible = 78;
+    bool isLifted = 79;
+    bool isMorphing = 80;
+    bool isMoving = 81;
+    bool isParasited = 82;
+    bool isSelected = 83;
+    bool isStartingAttack = 84;
+    bool isStuck = 85;
+    bool isTraining = 86;
+    bool isUnderStorm = 87;
+    bool isUnderDarkSwarm = 88;
+    bool isUnderDWeb = 89;
+    bool isPowered = 90;
+    repeated bool isVisible = 91;
+    int32  buttonset = 92;
+
+    int32 lastCommandFrame = 93;
+    int32 lastCommand = 94;
+
+    int32 lastAttackerPlayer = 95;
+    int32 replayID = 96;
+    bool recentlyAttacked = 97;
+}
+
+Message Region {
+    int32 id = 1;
+    int32 islandID = 2;
+    int32 center_x = 3;
+    int32 center_y = 4;
+    int32 priority = 5;
+
+    int32 leftMost = 6;
+    int32 rightMost = 7;
+    int32 topMost = 8;
+    int32 bottomMost = 9;
+
+    int32 neighborCount = 10;
+    repeated int32 neighbors = 11;
+
+    bool isAccessible = 12;
+    bool isHigherGround = 13;
+}
+
+Message Bullet {
+
+}
+
+Message Game {
+    GameData gameData = 1;
+    repeated Player players = 2;
+    repeated Unit units = 3;
+    repeated Region regions = 4;
+    repeated Bullet bullets = 5;
+    //std::set<Force,  IDCompare> forces;
 }
