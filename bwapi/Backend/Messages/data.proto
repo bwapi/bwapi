@@ -1,4 +1,4 @@
-syntax = "protocol 3";
+syntax = "proto3";
 
 message Point {
     int32 x = 1;
@@ -6,7 +6,7 @@ message Point {
     int32 scale = 3;
 }
 
-struct MapData
+message MapData
 {
     Point size = 1;
     int32 tileset = 2;
@@ -71,10 +71,10 @@ message GameData {
     MapData map = 36;
 }
 
-Message Player {
+message Player {
     int32 id = 1;
     string name = 2;
-    Race race = 3;
+    int32 race = 3;
 
     int32 type = 4;
     int32 force = 5;
@@ -123,7 +123,7 @@ Message Player {
     repeated bool isUnitAvailable = 42;
 }
 
-Message Unit {
+message Unit {
     int32 id = 1;
     int32 player = 2;
     int32 type = 3;
@@ -231,7 +231,7 @@ Message Unit {
     bool recentlyAttacked = 97;
 }
 
-Message Region {
+message Region {
     int32 id = 1;
     int32 islandID = 2;
     int32 center_x = 3;
@@ -250,7 +250,7 @@ Message Region {
     bool isHigherGround = 13;
 }
 
-Message Bullet {
+message Bullet {
     int32 id = 1;
     int32 player = 2;
     int32 type = 3;
@@ -260,19 +260,19 @@ Message Bullet {
     double velocityX = 7;
     double velocityY = 8;
     int32 target = 9;
-    Position targetPosition = 10;
+    Point targetPosition = 10;
     int32 removeTimer = 11;
     bool exists = 12;
     repeated bool isVisible = 13;
 }
 
-Message Force {
+message Force {
     int32 id = 1;
     repeated int32 players = 2;
     string name = 3;
 }
 
-Message Game {
+message Game {
     GameData gameData = 1;
     repeated Player players = 2;
     repeated Unit units = 3;
