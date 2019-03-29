@@ -251,7 +251,25 @@ Message Region {
 }
 
 Message Bullet {
+    int32 id = 1;
+    int32 player = 2;
+    int32 type = 3;
+    int32 source = 4;
+    Point position = 5;
+    double angle = 6;
+    double velocityX = 7;
+    double velocityY = 8;
+    int32 target = 9;
+    Position targetPosition = 10;
+    int32 removeTimer = 11;
+    bool exists = 12;
+    repeated bool isVisible = 13;
+}
 
+Message Force {
+    int32 id = 1;
+    repeated int32 players = 2;
+    string name = 3;
 }
 
 Message Game {
@@ -260,5 +278,5 @@ Message Game {
     repeated Unit units = 3;
     repeated Region regions = 4;
     repeated Bullet bullets = 5;
-    //std::set<Force,  IDCompare> forces;
+    repeated Force forces = 6;
 }
