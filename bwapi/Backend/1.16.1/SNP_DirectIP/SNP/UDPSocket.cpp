@@ -60,7 +60,10 @@ void UDPSocket::bind(int port)
   {
     throw GeneralException("::bind failed");
   }
-  _bound = port;
+  sockaddr_in addr;
+  int val = sizeof(sockaddr_in);
+  ::getsockname(_s, (sockaddr *)&addr, &val);
+  _bound = addr.sin_port;
 }
 
 void UDPSocket::sendPacket(const UDPAddr &target, Util::MemoryFrame data)
