@@ -20,9 +20,14 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_command_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_LeaveGame;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_PauseGame;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_PingMiniMap;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Printf;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RestartGame;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ResumeGame;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SendText;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetLocalSpeed;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetScreenPosition;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Shape;
 }  // namespace protobuf_command_2eproto
@@ -53,6 +58,31 @@ class ShapeDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<Shape>
       _instance;
 } _Shape_default_instance_;
+class PauseGameDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<PauseGame>
+      _instance;
+} _PauseGame_default_instance_;
+class ResumeGameDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ResumeGame>
+      _instance;
+} _ResumeGame_default_instance_;
+class LeaveGameDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<LeaveGame>
+      _instance;
+} _LeaveGame_default_instance_;
+class RestartGameDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<RestartGame>
+      _instance;
+} _RestartGame_default_instance_;
+class SetLocalSpeedDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SetLocalSpeed>
+      _instance;
+} _SetLocalSpeed_default_instance_;
 class CommandDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Command>
@@ -62,6 +92,11 @@ class CommandDefaultTypeInternal {
   const ::bwapi::command::PingMiniMap* pingminimap_;
   const ::bwapi::command::Printf* printf_;
   const ::bwapi::command::Shape* shape_;
+  const ::bwapi::command::PauseGame* pausegame_;
+  const ::bwapi::command::ResumeGame* resumegame_;
+  const ::bwapi::command::LeaveGame* leavegame_;
+  const ::bwapi::command::RestartGame* restartgame_;
+  const ::bwapi::command::SetLocalSpeed* setlocalspeed_;
 } _Command_default_instance_;
 }  // namespace command
 }  // namespace bwapi
@@ -136,6 +171,76 @@ static void InitDefaultsShape() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_Shape =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsShape}, {}};
 
+static void InitDefaultsPauseGame() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_PauseGame_default_instance_;
+    new (ptr) ::bwapi::command::PauseGame();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::PauseGame::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_PauseGame =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPauseGame}, {}};
+
+static void InitDefaultsResumeGame() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_ResumeGame_default_instance_;
+    new (ptr) ::bwapi::command::ResumeGame();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::ResumeGame::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_ResumeGame =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsResumeGame}, {}};
+
+static void InitDefaultsLeaveGame() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_LeaveGame_default_instance_;
+    new (ptr) ::bwapi::command::LeaveGame();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::LeaveGame::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_LeaveGame =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsLeaveGame}, {}};
+
+static void InitDefaultsRestartGame() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_RestartGame_default_instance_;
+    new (ptr) ::bwapi::command::RestartGame();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::RestartGame::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_RestartGame =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsRestartGame}, {}};
+
+static void InitDefaultsSetLocalSpeed() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_SetLocalSpeed_default_instance_;
+    new (ptr) ::bwapi::command::SetLocalSpeed();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::SetLocalSpeed::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_SetLocalSpeed =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetLocalSpeed}, {}};
+
 static void InitDefaultsCommand() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -147,13 +252,18 @@ static void InitDefaultsCommand() {
   ::bwapi::command::Command::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<5> scc_info_Command =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 5, InitDefaultsCommand}, {
+::google::protobuf::internal::SCCInfo<10> scc_info_Command =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 10, InitDefaultsCommand}, {
       &protobuf_command_2eproto::scc_info_SendText.base,
       &protobuf_command_2eproto::scc_info_SetScreenPosition.base,
       &protobuf_command_2eproto::scc_info_PingMiniMap.base,
       &protobuf_command_2eproto::scc_info_Printf.base,
-      &protobuf_command_2eproto::scc_info_Shape.base,}};
+      &protobuf_command_2eproto::scc_info_Shape.base,
+      &protobuf_command_2eproto::scc_info_PauseGame.base,
+      &protobuf_command_2eproto::scc_info_ResumeGame.base,
+      &protobuf_command_2eproto::scc_info_LeaveGame.base,
+      &protobuf_command_2eproto::scc_info_RestartGame.base,
+      &protobuf_command_2eproto::scc_info_SetLocalSpeed.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_SendText.base);
@@ -161,10 +271,15 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_PingMiniMap.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Printf.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Shape.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_PauseGame.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ResumeGame.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_LeaveGame.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_RestartGame.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetLocalSpeed.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Command.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[6];
+::google::protobuf::Metadata file_level_metadata[11];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -212,6 +327,32 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Shape, issolid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Shape, text_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::PauseGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::ResumeGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::LeaveGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::RestartGame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetLocalSpeed, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetLocalSpeed, speed_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, _internal_metadata_),
   ~0u,  // no _extensions_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, _oneof_case_[0]),
@@ -221,6 +362,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::bwapi::command::CommandDefaultTypeInternal, pingminimap_),
   offsetof(::bwapi::command::CommandDefaultTypeInternal, printf_),
   offsetof(::bwapi::command::CommandDefaultTypeInternal, shape_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, pausegame_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, resumegame_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, leavegame_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, restartgame_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, setlocalspeed_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, cmd_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -229,7 +375,12 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 14, -1, sizeof(::bwapi::command::PingMiniMap)},
   { 21, -1, sizeof(::bwapi::command::Printf)},
   { 27, -1, sizeof(::bwapi::command::Shape)},
-  { 43, -1, sizeof(::bwapi::command::Command)},
+  { 43, -1, sizeof(::bwapi::command::PauseGame)},
+  { 48, -1, sizeof(::bwapi::command::ResumeGame)},
+  { 53, -1, sizeof(::bwapi::command::LeaveGame)},
+  { 58, -1, sizeof(::bwapi::command::RestartGame)},
+  { 63, -1, sizeof(::bwapi::command::SetLocalSpeed)},
+  { 69, -1, sizeof(::bwapi::command::Command)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -238,6 +389,11 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_PingMiniMap_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_Printf_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_Shape_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_PauseGame_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_ResumeGame_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_LeaveGame_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_RestartGame_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_SetLocalSpeed_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_Command_default_instance_),
 };
 
@@ -256,7 +412,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
 }
 
 void AddDescriptorsImpl() {
@@ -272,21 +428,29 @@ void AddDescriptorsImpl() {
       "\030\003 \001(\005\022\n\n\002y1\030\004 \001(\005\022\n\n\002x2\030\005 \001(\005\022\n\n\002y2\030\006 \001"
       "(\005\022\016\n\006extra1\030\007 \001(\005\022\016\n\006extra2\030\010 \001(\005\022\r\n\005co"
       "lor\030\t \001(\005\022\017\n\007isSolid\030\n \001(\010\022\014\n\004text\030\013 \001(\t"
-      "\"\377\001\n\007Command\022+\n\010sendText\030\001 \001(\0132\027.bwapi.c"
-      "ommand.SendTextH\000\022=\n\021setScreenPosition\030\002"
-      " \001(\0132 .bwapi.command.SetScreenPositionH\000"
-      "\0221\n\013pingMiniMap\030\003 \001(\0132\032.bwapi.command.Pi"
-      "ngMiniMapH\000\022\'\n\006printf\030\004 \001(\0132\025.bwapi.comm"
-      "and.PrintfH\000\022%\n\005shape\030\005 \001(\0132\024.bwapi.comm"
-      "and.ShapeH\000B\005\n\003cmd*i\n\tShapeType\022\017\n\013NoSha"
-      "peType\020\000\022\010\n\004Text\020\001\022\007\n\003Box\020\002\022\014\n\010Triangle\020"
-      "\003\022\n\n\006Circle\020\004\022\013\n\007Ellipse\020\005\022\007\n\003Dot\020\006\022\010\n\004L"
-      "ine\020\007*F\n\016CoordinateType\022\024\n\020NoCoordinateT"
-      "ype\020\000\022\n\n\006Screen\020\001\022\007\n\003Map\020\002\022\t\n\005Mouse\020\003b\006p"
-      "roto3"
+      "\"\013\n\tPauseGame\"\014\n\nResumeGame\"\013\n\tLeaveGame"
+      "\"\r\n\013RestartGame\"\036\n\rSetLocalSpeed\022\r\n\005spee"
+      "d\030\001 \001(\005\"\370\003\n\007Command\022+\n\010sendText\030\001 \001(\0132\027."
+      "bwapi.command.SendTextH\000\022=\n\021setScreenPos"
+      "ition\030\002 \001(\0132 .bwapi.command.SetScreenPos"
+      "itionH\000\0221\n\013pingMiniMap\030\003 \001(\0132\032.bwapi.com"
+      "mand.PingMiniMapH\000\022\'\n\006printf\030\004 \001(\0132\025.bwa"
+      "pi.command.PrintfH\000\022%\n\005shape\030\005 \001(\0132\024.bwa"
+      "pi.command.ShapeH\000\022-\n\tpauseGame\030\006 \001(\0132\030."
+      "bwapi.command.PauseGameH\000\022/\n\nresumeGame\030"
+      "\007 \001(\0132\031.bwapi.command.ResumeGameH\000\022-\n\tle"
+      "aveGame\030\010 \001(\0132\030.bwapi.command.LeaveGameH"
+      "\000\0221\n\013restartGame\030\t \001(\0132\032.bwapi.command.R"
+      "estartGameH\000\0225\n\rsetLocalSpeed\030\n \001(\0132\034.bw"
+      "api.command.SetLocalSpeedH\000B\005\n\003cmd*i\n\tSh"
+      "apeType\022\017\n\013NoShapeType\020\000\022\010\n\004Text\020\001\022\007\n\003Bo"
+      "x\020\002\022\014\n\010Triangle\020\003\022\n\n\006Circle\020\004\022\013\n\007Ellipse"
+      "\020\005\022\007\n\003Dot\020\006\022\010\n\004Line\020\007*F\n\016CoordinateType\022"
+      "\024\n\020NoCoordinateType\020\000\022\n\n\006Screen\020\001\022\007\n\003Map"
+      "\020\002\022\t\n\005Mouse\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 845);
+      descriptor, 1181);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "command.proto", &protobuf_RegisterTypes);
 }
@@ -2007,6 +2171,945 @@ void Shape::InternalSwap(Shape* other) {
 
 // ===================================================================
 
+void PauseGame::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PauseGame::PauseGame()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_PauseGame.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.PauseGame)
+}
+PauseGame::PauseGame(const PauseGame& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.PauseGame)
+}
+
+void PauseGame::SharedCtor() {
+}
+
+PauseGame::~PauseGame() {
+  // @@protoc_insertion_point(destructor:bwapi.command.PauseGame)
+  SharedDtor();
+}
+
+void PauseGame::SharedDtor() {
+}
+
+void PauseGame::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* PauseGame::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const PauseGame& PauseGame::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_PauseGame.base);
+  return *internal_default_instance();
+}
+
+
+void PauseGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.PauseGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool PauseGame::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.PauseGame)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.PauseGame)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.PauseGame)
+  return false;
+#undef DO_
+}
+
+void PauseGame::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.PauseGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.PauseGame)
+}
+
+::google::protobuf::uint8* PauseGame::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.PauseGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.PauseGame)
+  return target;
+}
+
+size_t PauseGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.PauseGame)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PauseGame::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.PauseGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PauseGame* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const PauseGame>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.PauseGame)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.PauseGame)
+    MergeFrom(*source);
+  }
+}
+
+void PauseGame::MergeFrom(const PauseGame& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.PauseGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void PauseGame::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.PauseGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PauseGame::CopyFrom(const PauseGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.PauseGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PauseGame::IsInitialized() const {
+  return true;
+}
+
+void PauseGame::Swap(PauseGame* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PauseGame::InternalSwap(PauseGame* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata PauseGame::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void ResumeGame::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ResumeGame::ResumeGame()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_ResumeGame.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.ResumeGame)
+}
+ResumeGame::ResumeGame(const ResumeGame& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.ResumeGame)
+}
+
+void ResumeGame::SharedCtor() {
+}
+
+ResumeGame::~ResumeGame() {
+  // @@protoc_insertion_point(destructor:bwapi.command.ResumeGame)
+  SharedDtor();
+}
+
+void ResumeGame::SharedDtor() {
+}
+
+void ResumeGame::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* ResumeGame::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const ResumeGame& ResumeGame::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_ResumeGame.base);
+  return *internal_default_instance();
+}
+
+
+void ResumeGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.ResumeGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool ResumeGame::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.ResumeGame)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.ResumeGame)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.ResumeGame)
+  return false;
+#undef DO_
+}
+
+void ResumeGame::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.ResumeGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.ResumeGame)
+}
+
+::google::protobuf::uint8* ResumeGame::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.ResumeGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.ResumeGame)
+  return target;
+}
+
+size_t ResumeGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.ResumeGame)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ResumeGame::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.ResumeGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ResumeGame* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ResumeGame>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.ResumeGame)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.ResumeGame)
+    MergeFrom(*source);
+  }
+}
+
+void ResumeGame::MergeFrom(const ResumeGame& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.ResumeGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void ResumeGame::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.ResumeGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ResumeGame::CopyFrom(const ResumeGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.ResumeGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ResumeGame::IsInitialized() const {
+  return true;
+}
+
+void ResumeGame::Swap(ResumeGame* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ResumeGame::InternalSwap(ResumeGame* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata ResumeGame::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void LeaveGame::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+LeaveGame::LeaveGame()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_LeaveGame.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.LeaveGame)
+}
+LeaveGame::LeaveGame(const LeaveGame& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.LeaveGame)
+}
+
+void LeaveGame::SharedCtor() {
+}
+
+LeaveGame::~LeaveGame() {
+  // @@protoc_insertion_point(destructor:bwapi.command.LeaveGame)
+  SharedDtor();
+}
+
+void LeaveGame::SharedDtor() {
+}
+
+void LeaveGame::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* LeaveGame::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const LeaveGame& LeaveGame::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_LeaveGame.base);
+  return *internal_default_instance();
+}
+
+
+void LeaveGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.LeaveGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool LeaveGame::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.LeaveGame)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.LeaveGame)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.LeaveGame)
+  return false;
+#undef DO_
+}
+
+void LeaveGame::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.LeaveGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.LeaveGame)
+}
+
+::google::protobuf::uint8* LeaveGame::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.LeaveGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.LeaveGame)
+  return target;
+}
+
+size_t LeaveGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.LeaveGame)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void LeaveGame::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.LeaveGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  const LeaveGame* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const LeaveGame>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.LeaveGame)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.LeaveGame)
+    MergeFrom(*source);
+  }
+}
+
+void LeaveGame::MergeFrom(const LeaveGame& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.LeaveGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void LeaveGame::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.LeaveGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void LeaveGame::CopyFrom(const LeaveGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.LeaveGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LeaveGame::IsInitialized() const {
+  return true;
+}
+
+void LeaveGame::Swap(LeaveGame* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void LeaveGame::InternalSwap(LeaveGame* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata LeaveGame::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void RestartGame::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+RestartGame::RestartGame()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_RestartGame.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.RestartGame)
+}
+RestartGame::RestartGame(const RestartGame& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.RestartGame)
+}
+
+void RestartGame::SharedCtor() {
+}
+
+RestartGame::~RestartGame() {
+  // @@protoc_insertion_point(destructor:bwapi.command.RestartGame)
+  SharedDtor();
+}
+
+void RestartGame::SharedDtor() {
+}
+
+void RestartGame::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* RestartGame::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const RestartGame& RestartGame::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_RestartGame.base);
+  return *internal_default_instance();
+}
+
+
+void RestartGame::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.RestartGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool RestartGame::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.RestartGame)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.RestartGame)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.RestartGame)
+  return false;
+#undef DO_
+}
+
+void RestartGame::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.RestartGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.RestartGame)
+}
+
+::google::protobuf::uint8* RestartGame::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.RestartGame)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.RestartGame)
+  return target;
+}
+
+size_t RestartGame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.RestartGame)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void RestartGame::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.RestartGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  const RestartGame* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const RestartGame>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.RestartGame)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.RestartGame)
+    MergeFrom(*source);
+  }
+}
+
+void RestartGame::MergeFrom(const RestartGame& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.RestartGame)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void RestartGame::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.RestartGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void RestartGame::CopyFrom(const RestartGame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.RestartGame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RestartGame::IsInitialized() const {
+  return true;
+}
+
+void RestartGame::Swap(RestartGame* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void RestartGame::InternalSwap(RestartGame* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata RestartGame::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void SetLocalSpeed::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SetLocalSpeed::kSpeedFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SetLocalSpeed::SetLocalSpeed()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_SetLocalSpeed.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.SetLocalSpeed)
+}
+SetLocalSpeed::SetLocalSpeed(const SetLocalSpeed& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  speed_ = from.speed_;
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.SetLocalSpeed)
+}
+
+void SetLocalSpeed::SharedCtor() {
+  speed_ = 0;
+}
+
+SetLocalSpeed::~SetLocalSpeed() {
+  // @@protoc_insertion_point(destructor:bwapi.command.SetLocalSpeed)
+  SharedDtor();
+}
+
+void SetLocalSpeed::SharedDtor() {
+}
+
+void SetLocalSpeed::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* SetLocalSpeed::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SetLocalSpeed& SetLocalSpeed::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_SetLocalSpeed.base);
+  return *internal_default_instance();
+}
+
+
+void SetLocalSpeed::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.SetLocalSpeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  speed_ = 0;
+  _internal_metadata_.Clear();
+}
+
+bool SetLocalSpeed::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.SetLocalSpeed)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 speed = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &speed_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.SetLocalSpeed)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.SetLocalSpeed)
+  return false;
+#undef DO_
+}
+
+void SetLocalSpeed::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.SetLocalSpeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 speed = 1;
+  if (this->speed() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->speed(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.SetLocalSpeed)
+}
+
+::google::protobuf::uint8* SetLocalSpeed::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.SetLocalSpeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 speed = 1;
+  if (this->speed() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->speed(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.SetLocalSpeed)
+  return target;
+}
+
+size_t SetLocalSpeed::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.SetLocalSpeed)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // int32 speed = 1;
+  if (this->speed() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->speed());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SetLocalSpeed::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.SetLocalSpeed)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SetLocalSpeed* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetLocalSpeed>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.SetLocalSpeed)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.SetLocalSpeed)
+    MergeFrom(*source);
+  }
+}
+
+void SetLocalSpeed::MergeFrom(const SetLocalSpeed& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.SetLocalSpeed)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.speed() != 0) {
+    set_speed(from.speed());
+  }
+}
+
+void SetLocalSpeed::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.SetLocalSpeed)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SetLocalSpeed::CopyFrom(const SetLocalSpeed& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.SetLocalSpeed)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetLocalSpeed::IsInitialized() const {
+  return true;
+}
+
+void SetLocalSpeed::Swap(SetLocalSpeed* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SetLocalSpeed::InternalSwap(SetLocalSpeed* other) {
+  using std::swap;
+  swap(speed_, other->speed_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata SetLocalSpeed::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void Command::InitAsDefaultInstance() {
   ::bwapi::command::_Command_default_instance_.sendtext_ = const_cast< ::bwapi::command::SendText*>(
       ::bwapi::command::SendText::internal_default_instance());
@@ -2018,6 +3121,16 @@ void Command::InitAsDefaultInstance() {
       ::bwapi::command::Printf::internal_default_instance());
   ::bwapi::command::_Command_default_instance_.shape_ = const_cast< ::bwapi::command::Shape*>(
       ::bwapi::command::Shape::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.pausegame_ = const_cast< ::bwapi::command::PauseGame*>(
+      ::bwapi::command::PauseGame::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.resumegame_ = const_cast< ::bwapi::command::ResumeGame*>(
+      ::bwapi::command::ResumeGame::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.leavegame_ = const_cast< ::bwapi::command::LeaveGame*>(
+      ::bwapi::command::LeaveGame::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.restartgame_ = const_cast< ::bwapi::command::RestartGame*>(
+      ::bwapi::command::RestartGame::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.setlocalspeed_ = const_cast< ::bwapi::command::SetLocalSpeed*>(
+      ::bwapi::command::SetLocalSpeed::internal_default_instance());
 }
 void Command::set_allocated_sendtext(::bwapi::command::SendText* sendtext) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -2089,12 +3202,87 @@ void Command::set_allocated_shape(::bwapi::command::Shape* shape) {
   }
   // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.shape)
 }
+void Command::set_allocated_pausegame(::bwapi::command::PauseGame* pausegame) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (pausegame) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      pausegame = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, pausegame, submessage_arena);
+    }
+    set_has_pausegame();
+    cmd_.pausegame_ = pausegame;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.pauseGame)
+}
+void Command::set_allocated_resumegame(::bwapi::command::ResumeGame* resumegame) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (resumegame) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      resumegame = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, resumegame, submessage_arena);
+    }
+    set_has_resumegame();
+    cmd_.resumegame_ = resumegame;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.resumeGame)
+}
+void Command::set_allocated_leavegame(::bwapi::command::LeaveGame* leavegame) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (leavegame) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      leavegame = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, leavegame, submessage_arena);
+    }
+    set_has_leavegame();
+    cmd_.leavegame_ = leavegame;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.leaveGame)
+}
+void Command::set_allocated_restartgame(::bwapi::command::RestartGame* restartgame) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (restartgame) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      restartgame = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, restartgame, submessage_arena);
+    }
+    set_has_restartgame();
+    cmd_.restartgame_ = restartgame;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.restartGame)
+}
+void Command::set_allocated_setlocalspeed(::bwapi::command::SetLocalSpeed* setlocalspeed) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (setlocalspeed) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      setlocalspeed = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, setlocalspeed, submessage_arena);
+    }
+    set_has_setlocalspeed();
+    cmd_.setlocalspeed_ = setlocalspeed;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setLocalSpeed)
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Command::kSendTextFieldNumber;
 const int Command::kSetScreenPositionFieldNumber;
 const int Command::kPingMiniMapFieldNumber;
 const int Command::kPrintfFieldNumber;
 const int Command::kShapeFieldNumber;
+const int Command::kPauseGameFieldNumber;
+const int Command::kResumeGameFieldNumber;
+const int Command::kLeaveGameFieldNumber;
+const int Command::kRestartGameFieldNumber;
+const int Command::kSetLocalSpeedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Command::Command()
@@ -2128,6 +3316,26 @@ Command::Command(const Command& from)
     }
     case kShape: {
       mutable_shape()->::bwapi::command::Shape::MergeFrom(from.shape());
+      break;
+    }
+    case kPauseGame: {
+      mutable_pausegame()->::bwapi::command::PauseGame::MergeFrom(from.pausegame());
+      break;
+    }
+    case kResumeGame: {
+      mutable_resumegame()->::bwapi::command::ResumeGame::MergeFrom(from.resumegame());
+      break;
+    }
+    case kLeaveGame: {
+      mutable_leavegame()->::bwapi::command::LeaveGame::MergeFrom(from.leavegame());
+      break;
+    }
+    case kRestartGame: {
+      mutable_restartgame()->::bwapi::command::RestartGame::MergeFrom(from.restartgame());
+      break;
+    }
+    case kSetLocalSpeed: {
+      mutable_setlocalspeed()->::bwapi::command::SetLocalSpeed::MergeFrom(from.setlocalspeed());
       break;
     }
     case CMD_NOT_SET: {
@@ -2187,6 +3395,26 @@ void Command::clear_cmd() {
     }
     case kShape: {
       delete cmd_.shape_;
+      break;
+    }
+    case kPauseGame: {
+      delete cmd_.pausegame_;
+      break;
+    }
+    case kResumeGame: {
+      delete cmd_.resumegame_;
+      break;
+    }
+    case kLeaveGame: {
+      delete cmd_.leavegame_;
+      break;
+    }
+    case kRestartGame: {
+      delete cmd_.restartgame_;
+      break;
+    }
+    case kSetLocalSpeed: {
+      delete cmd_.setlocalspeed_;
       break;
     }
     case CMD_NOT_SET: {
@@ -2277,6 +3505,66 @@ bool Command::MergePartialFromCodedStream(
         break;
       }
 
+      // .bwapi.command.PauseGame pauseGame = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_pausegame()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.ResumeGame resumeGame = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_resumegame()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.LeaveGame leaveGame = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_leavegame()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.RestartGame restartGame = 9;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_restartgame()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(82u /* 82 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_setlocalspeed()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -2333,6 +3621,36 @@ void Command::SerializeWithCachedSizes(
       5, this->_internal_shape(), output);
   }
 
+  // .bwapi.command.PauseGame pauseGame = 6;
+  if (has_pausegame()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, this->_internal_pausegame(), output);
+  }
+
+  // .bwapi.command.ResumeGame resumeGame = 7;
+  if (has_resumegame()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, this->_internal_resumegame(), output);
+  }
+
+  // .bwapi.command.LeaveGame leaveGame = 8;
+  if (has_leavegame()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      8, this->_internal_leavegame(), output);
+  }
+
+  // .bwapi.command.RestartGame restartGame = 9;
+  if (has_restartgame()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      9, this->_internal_restartgame(), output);
+  }
+
+  // .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+  if (has_setlocalspeed()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      10, this->_internal_setlocalspeed(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -2380,6 +3698,41 @@ void Command::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         5, this->_internal_shape(), deterministic, target);
+  }
+
+  // .bwapi.command.PauseGame pauseGame = 6;
+  if (has_pausegame()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        6, this->_internal_pausegame(), deterministic, target);
+  }
+
+  // .bwapi.command.ResumeGame resumeGame = 7;
+  if (has_resumegame()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        7, this->_internal_resumegame(), deterministic, target);
+  }
+
+  // .bwapi.command.LeaveGame leaveGame = 8;
+  if (has_leavegame()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        8, this->_internal_leavegame(), deterministic, target);
+  }
+
+  // .bwapi.command.RestartGame restartGame = 9;
+  if (has_restartgame()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        9, this->_internal_restartgame(), deterministic, target);
+  }
+
+  // .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+  if (has_setlocalspeed()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        10, this->_internal_setlocalspeed(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2435,6 +3788,41 @@ size_t Command::ByteSizeLong() const {
           *cmd_.shape_);
       break;
     }
+    // .bwapi.command.PauseGame pauseGame = 6;
+    case kPauseGame: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.pausegame_);
+      break;
+    }
+    // .bwapi.command.ResumeGame resumeGame = 7;
+    case kResumeGame: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.resumegame_);
+      break;
+    }
+    // .bwapi.command.LeaveGame leaveGame = 8;
+    case kLeaveGame: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.leavegame_);
+      break;
+    }
+    // .bwapi.command.RestartGame restartGame = 9;
+    case kRestartGame: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.restartgame_);
+      break;
+    }
+    // .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+    case kSetLocalSpeed: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.setlocalspeed_);
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -2485,6 +3873,26 @@ void Command::MergeFrom(const Command& from) {
     }
     case kShape: {
       mutable_shape()->::bwapi::command::Shape::MergeFrom(from.shape());
+      break;
+    }
+    case kPauseGame: {
+      mutable_pausegame()->::bwapi::command::PauseGame::MergeFrom(from.pausegame());
+      break;
+    }
+    case kResumeGame: {
+      mutable_resumegame()->::bwapi::command::ResumeGame::MergeFrom(from.resumegame());
+      break;
+    }
+    case kLeaveGame: {
+      mutable_leavegame()->::bwapi::command::LeaveGame::MergeFrom(from.leavegame());
+      break;
+    }
+    case kRestartGame: {
+      mutable_restartgame()->::bwapi::command::RestartGame::MergeFrom(from.restartgame());
+      break;
+    }
+    case kSetLocalSpeed: {
+      mutable_setlocalspeed()->::bwapi::command::SetLocalSpeed::MergeFrom(from.setlocalspeed());
       break;
     }
     case CMD_NOT_SET: {
@@ -2547,6 +3955,21 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::Printf* Arena::C
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::Shape* Arena::CreateMaybeMessage< ::bwapi::command::Shape >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::Shape >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::PauseGame* Arena::CreateMaybeMessage< ::bwapi::command::PauseGame >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::PauseGame >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::ResumeGame* Arena::CreateMaybeMessage< ::bwapi::command::ResumeGame >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::ResumeGame >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::LeaveGame* Arena::CreateMaybeMessage< ::bwapi::command::LeaveGame >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::LeaveGame >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::RestartGame* Arena::CreateMaybeMessage< ::bwapi::command::RestartGame >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::RestartGame >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetLocalSpeed* Arena::CreateMaybeMessage< ::bwapi::command::SetLocalSpeed >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::SetLocalSpeed >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::Command* Arena::CreateMaybeMessage< ::bwapi::command::Command >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::Command >(arena);

@@ -21,10 +21,10 @@ message MapData
 
     repeated bool isWalkable = 10;
     
-    repeated uint16 mapTileRegionId;
-    repeated uint16 mapSplitTilesMiniTileMask;
-    repeated uint16 mapSplitTilesRegion1;
-    repeated uint16 mapSplitTilesRegion2;
+    repeated uint32 mapTileRegionId = 11;
+    repeated uint32 mapSplitTilesMiniTileMask = 12;
+    repeated uint32 mapSplitTilesRegion1 = 13;
+    repeated uint32 mapSplitTilesRegion2 = 14;
 }
 
 message GameData {
@@ -54,26 +54,27 @@ message GameData {
     bool isPaused = 20;
     bool isInGame = 21;
     bool isMultiplayer = 22;
-    bool isReplay = 23;
-    bool clientUnitSelection = 24;
-    bool hasGUI = 25;
+    bool isBattleNet = 23;
+    bool isReplay = 24;
+    bool clientUnitSelection = 25;
+    bool hasGUI = 26;
 
-    string mapPath = 26;
-    string mapName = 27;
-    string mapFileName = 28;
-    string gameName = 29;
-    string randomSeed = 30;
+    string mapPath = 27;
+    string mapName = 28;
+    string mapFileName = 29;
+    string gameName = 30;
+    string randomSeed = 31;
 
-    repeated Point startPositions = 31;
+    repeated Point startPositions = 32;
 
-    repeated int32 regions = 32;
+    repeated int32 regions = 33;
 
-    int32 player = 33;
+    int32 player = 34;
 
-    Point screenSize = 34;
-    Point screenPosition = 35;
+    Point screenSize = 35;
+    Point screenPosition = 36;
 
-    MapData map = 36;
+    MapData map = 37;
 }
 
 message Player {

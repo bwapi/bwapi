@@ -250,6 +250,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, hascreep_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, isoccupied_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, iswalkable_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, maptileregionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, mapsplittilesminitilemask_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, mapsplittilesregion1_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MapData, mapsplittilesregion2_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -277,6 +281,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, ispaused_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, isingame_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, ismultiplayer_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, isbattlenet_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, isreplay_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, clientunitselection_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::GameData, hasgui_),
@@ -499,13 +504,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Point)},
   { 8, -1, sizeof(::MapData)},
-  { 23, -1, sizeof(::GameData)},
-  { 64, -1, sizeof(::Player)},
-  { 111, -1, sizeof(::Unit)},
-  { 213, -1, sizeof(::Region)},
-  { 231, -1, sizeof(::Bullet)},
-  { 249, -1, sizeof(::Force)},
-  { 257, -1, sizeof(::Game)},
+  { 27, -1, sizeof(::GameData)},
+  { 69, -1, sizeof(::Player)},
+  { 116, -1, sizeof(::Unit)},
+  { 218, -1, sizeof(::Region)},
+  { 236, -1, sizeof(::Bullet)},
+  { 254, -1, sizeof(::Force)},
+  { 262, -1, sizeof(::Game)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -542,12 +547,15 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\ndata.proto\",\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 "
-      "\001(\005\022\r\n\005scale\030\003 \001(\005\"\315\001\n\007MapData\022\024\n\004size\030\001"
+      "\001(\005\022\r\n\005scale\030\003 \001(\005\"\305\002\n\007MapData\022\024\n\004size\030\001"
       " \001(\0132\006.Point\022\017\n\007tileset\030\002 \001(\005\022\017\n\007mapHash"
       "\030\003 \001(\t\022\024\n\014groundHeight\030\004 \003(\005\022\023\n\013isBuilda"
       "ble\030\005 \003(\010\022\021\n\tisVisible\030\006 \003(\010\022\022\n\nisExplor"
       "ed\030\007 \003(\010\022\020\n\010hasCreep\030\010 \003(\010\022\022\n\nisOccupied"
-      "\030\t \003(\010\022\022\n\nisWalkable\030\n \003(\010\"\237\006\n\010GameData\022"
+      "\030\t \003(\010\022\022\n\nisWalkable\030\n \003(\010\022\027\n\017mapTileReg"
+      "ionId\030\013 \003(\r\022!\n\031mapSplitTilesMiniTileMask"
+      "\030\014 \003(\r\022\034\n\024mapSplitTilesRegion1\030\r \003(\r\022\034\n\024"
+      "mapSplitTilesRegion2\030\016 \003(\r\"\264\006\n\010GameData\022"
       "\022\n\napiVersion\030\001 \001(\005\022\016\n\006engine\030\002 \001(\t\022\025\n\re"
       "ngineVersion\030\003 \001(\t\022\022\n\ntournament\030\004 \001(\010\022\020"
       "\n\010gameType\030\005 \001(\005\022\022\n\nframeCount\030\006 \001(\005\022\025\n\r"
@@ -560,111 +568,111 @@ void AddDescriptorsImpl() {
       "secondsPerFrame\030\021 \001(\002\022\022\n\naverageFPS\030\022 \001("
       "\002\022\026\n\016countdownTimer\030\023 \001(\005\022\020\n\010isPaused\030\024 "
       "\001(\010\022\020\n\010isInGame\030\025 \001(\010\022\025\n\risMultiplayer\030\026"
-      " \001(\010\022\020\n\010isReplay\030\027 \001(\010\022\033\n\023clientUnitSele"
-      "ction\030\030 \001(\010\022\016\n\006hasGUI\030\031 \001(\010\022\017\n\007mapPath\030\032"
-      " \001(\t\022\017\n\007mapName\030\033 \001(\t\022\023\n\013mapFileName\030\034 \001"
-      "(\t\022\020\n\010gameName\030\035 \001(\t\022\022\n\nrandomSeed\030\036 \001(\t"
-      "\022\036\n\016startPositions\030\037 \003(\0132\006.Point\022\017\n\007regi"
-      "ons\030  \003(\005\022\016\n\006player\030! \001(\005\022\032\n\nscreenSize\030"
-      "\" \001(\0132\006.Point\022\036\n\016screenPosition\030# \001(\0132\006."
-      "Point\022\025\n\003map\030$ \001(\0132\010.MapData\"\211\007\n\006Player\022"
-      "\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\014\n\004race\030\003 \001(\005\022"
-      "\014\n\004type\030\004 \001(\005\022\r\n\005force\030\005 \001(\005\022\016\n\006isAlly\030\006"
-      " \003(\010\022\017\n\007isEnemy\030\007 \003(\010\022\021\n\tisNeutral\030\010 \003(\010"
-      "\022\026\n\016startLocationX\030\t \001(\005\022\026\n\016startLocatio"
-      "nY\030\n \001(\005\022\024\n\014isVictorious\030\013 \001(\010\022\022\n\nisDefe"
-      "ated\030\014 \001(\010\022\020\n\010leftGame\030\r \001(\010\022\027\n\017isPartic"
-      "ipating\030\016 \001(\010\022\020\n\010minerals\030\017 \001(\005\022\013\n\003gas\030\020"
-      " \001(\005\022\030\n\020gatheredMinerals\030\021 \001(\005\022\023\n\013gather"
-      "edGas\030\022 \001(\005\022\030\n\020repairedMinerals\030\023 \001(\005\022\023\n"
-      "\013repairedGas\030\024 \001(\005\022\030\n\020refundedMinerals\030\025"
-      " \001(\005\022\023\n\013refundedGas\030\026 \001(\005\022\023\n\013supplyTotal"
-      "\030\027 \003(\005\022\022\n\nsupplyUsed\030\030 \003(\005\022\024\n\014allUnitCou"
-      "nt\030\031 \003(\005\022\030\n\020visibleUnitCount\030\032 \003(\005\022\032\n\022co"
-      "mpletedUnitCount\030\033 \003(\005\022\025\n\rdeadUnitCount\030"
-      "\034 \003(\005\022\027\n\017killedUnitCount\030\035 \003(\005\022\024\n\014upgrad"
-      "eLevel\030\036 \003(\005\022\025\n\rhasResearched\030\037 \003(\010\022\025\n\ri"
-      "sResearching\030  \003(\010\022\023\n\013isUpgrading\030! \003(\010\022"
-      "\r\n\005color\030\" \001(\005\022\026\n\016totalUnitScore\030# \001(\005\022\026"
-      "\n\016totalKillScore\030$ \001(\005\022\032\n\022totalBuildingS"
-      "core\030% \001(\005\022\030\n\020totalRazingScore\030& \001(\005\022\023\n\013"
-      "customScore\030\' \001(\005\022\027\n\017maxUpgradeLevel\030( \003"
-      "(\005\022\033\n\023isResearchAvailable\030) \003(\010\022\027\n\017isUni"
-      "tAvailable\030* \003(\010\"\260\020\n\004Unit\022\n\n\002id\030\001 \001(\005\022\016\n"
-      "\006player\030\002 \001(\005\022\014\n\004type\030\003 \001(\005\022\030\n\010position\030"
-      "\004 \001(\0132\006.Point\022\r\n\005angle\030\005 \001(\001\022\021\n\tvelocity"
-      "X\030\006 \001(\001\022\021\n\tvelocityY\030\007 \001(\001\022\021\n\thitPoints\030"
-      "\010 \001(\005\022\025\n\rlastHitPoints\030\t \001(\005\022\017\n\007shields\030"
-      "\n \001(\005\022\016\n\006energy\030\013 \001(\005\022\021\n\tresources\030\014 \001(\005"
-      "\022\025\n\rresourceGroup\030\r \001(\005\022\021\n\tkillCount\030\016 \001"
-      "(\005\022\026\n\016acidSporeCount\030\017 \001(\005\022\023\n\013scarabCoun"
-      "t\030\020 \001(\005\022\032\n\022int32erceptorCount\030\021 \001(\005\022\027\n\017s"
-      "piderMineCount\030\022 \001(\005\022\034\n\024groundWeaponCool"
-      "down\030\023 \001(\005\022\031\n\021airWeaponCooldown\030\024 \001(\005\022\025\n"
-      "\rspellCooldown\030\025 \001(\005\022\033\n\023defenseMatrixPoi"
-      "nts\030\026 \001(\005\022\032\n\022defenseMatrixTimer\030\027 \001(\005\022\024\n"
-      "\014ensnareTimer\030\030 \001(\005\022\026\n\016irradiateTimer\030\031 "
-      "\001(\005\022\025\n\rlockdownTimer\030\032 \001(\005\022\026\n\016maelstromT"
-      "imer\030\033 \001(\005\022\022\n\norderTimer\030\034 \001(\005\022\023\n\013plague"
-      "Timer\030\035 \001(\005\022\023\n\013removeTimer\030\036 \001(\005\022\023\n\013stas"
-      "isTimer\030\037 \001(\005\022\021\n\tstimTimer\030  \001(\005\022\021\n\tbuil"
-      "dType\030! \001(\005\022\025\n\rtrainingQueue\030\" \003(\005\022\023\n\013lo"
-      "adedUnits\030# \003(\005\022\026\n\016int32erceptors\030$ \003(\005\022"
-      "\r\n\005larva\030% \003(\005\022\014\n\004tech\030& \001(\005\022\017\n\007upgrade\030"
-      "\' \001(\005\022\032\n\022remainingBuildTime\030( \001(\005\022\034\n\024rem"
-      "ainingTraint32ime\030) \001(\005\022\035\n\025remainingRese"
-      "archTime\030* \001(\005\022\034\n\024remainingUpgradeTime\030+"
-      " \001(\005\022\021\n\tbuildUnit\030, \001(\005\022\016\n\006target\030- \001(\005\022"
-      "\036\n\016targetPosition\030. \001(\0132\006.Point\022\r\n\005order"
-      "\030/ \001(\005\022\023\n\013orderTarget\0300 \001(\005\022#\n\023orderTarg"
-      "etPosition\0301 \001(\0132\006.Point\022\026\n\016secondaryOrd"
-      "er\0302 \001(\005\022\035\n\rrallyPosition\0303 \001(\0132\006.Point\022"
-      "\021\n\trallyUnit\0304 \001(\005\022\r\n\005addon\0305 \001(\005\022\021\n\tnyd"
-      "usExit\0306 \001(\005\022\017\n\007powerUp\0307 \001(\005\022\021\n\ttranspo"
-      "rt\0308 \001(\005\022\017\n\007carrier\0309 \001(\005\022\020\n\010hatchery\030: "
-      "\001(\005\022\016\n\006exists\030; \001(\010\022\017\n\007hasNuke\030< \001(\010\022\026\n\016"
-      "isAccelerating\030= \001(\010\022\023\n\013isAttacking\030> \001("
-      "\010\022\025\n\risAttackFrame\030\? \001(\010\022\027\n\017isBeingGathe"
-      "red\030@ \001(\010\022\025\n\risBeingHealed\030A \001(\010\022\017\n\007isBl"
-      "ind\030B \001(\010\022\021\n\tisBraking\030C \001(\010\022\022\n\nisBurrow"
-      "ed\030D \001(\010\022\031\n\021carryResourceType\030E \001(\005\022\021\n\ti"
-      "sCloaked\030F \001(\010\022\023\n\013isCompleted\030G \001(\010\022\026\n\016i"
-      "sConstructing\030H \001(\010\022\022\n\nisDetected\030I \001(\010\022"
-      "\023\n\013isGathering\030J \001(\010\022\027\n\017isHallucination\030"
-      "K \001(\010\022\016\n\006isIdle\030L \001(\010\022\031\n\021isint32erruptib"
-      "le\030M \001(\010\022\024\n\014isInvincible\030N \001(\010\022\020\n\010isLift"
-      "ed\030O \001(\010\022\022\n\nisMorphing\030P \001(\010\022\020\n\010isMoving"
-      "\030Q \001(\010\022\023\n\013isParasited\030R \001(\010\022\022\n\nisSelecte"
-      "d\030S \001(\010\022\030\n\020isStartingAttack\030T \001(\010\022\017\n\007isS"
-      "tuck\030U \001(\010\022\022\n\nisTraining\030V \001(\010\022\024\n\014isUnde"
-      "rStorm\030W \001(\010\022\030\n\020isUnderDarkSwarm\030X \001(\010\022\023"
-      "\n\013isUnderDWeb\030Y \001(\010\022\021\n\tisPowered\030Z \001(\010\022\021"
-      "\n\tisVisible\030[ \003(\010\022\021\n\tbuttonset\030\\ \001(\005\022\030\n\020"
-      "lastCommandFrame\030] \001(\005\022\023\n\013lastCommand\030^ "
-      "\001(\005\022\032\n\022lastAttackerPlayer\030_ \001(\005\022\020\n\010repla"
-      "yID\030` \001(\005\022\030\n\020recentlyAttacked\030a \001(\010\"\376\001\n\006"
-      "Region\022\n\n\002id\030\001 \001(\005\022\020\n\010islandID\030\002 \001(\005\022\020\n\010"
-      "center_x\030\003 \001(\005\022\020\n\010center_y\030\004 \001(\005\022\020\n\010prio"
-      "rity\030\005 \001(\005\022\020\n\010leftMost\030\006 \001(\005\022\021\n\trightMos"
-      "t\030\007 \001(\005\022\017\n\007topMost\030\010 \001(\005\022\022\n\nbottomMost\030\t"
-      " \001(\005\022\025\n\rneighborCount\030\n \001(\005\022\021\n\tneighbors"
-      "\030\013 \003(\005\022\024\n\014isAccessible\030\014 \001(\010\022\026\n\016isHigher"
-      "Ground\030\r \001(\010\"\371\001\n\006Bullet\022\n\n\002id\030\001 \001(\005\022\016\n\006p"
-      "layer\030\002 \001(\005\022\014\n\004type\030\003 \001(\005\022\016\n\006source\030\004 \001("
-      "\005\022\030\n\010position\030\005 \001(\0132\006.Point\022\r\n\005angle\030\006 \001"
-      "(\001\022\021\n\tvelocityX\030\007 \001(\001\022\021\n\tvelocityY\030\010 \001(\001"
-      "\022\016\n\006target\030\t \001(\005\022\036\n\016targetPosition\030\n \001(\013"
-      "2\006.Point\022\023\n\013removeTimer\030\013 \001(\005\022\016\n\006exists\030"
-      "\014 \001(\010\022\021\n\tisVisible\030\r \003(\010\"2\n\005Force\022\n\n\002id\030"
-      "\001 \001(\005\022\017\n\007players\030\002 \003(\005\022\014\n\004name\030\003 \001(\t\"\237\001\n"
-      "\004Game\022\033\n\010gameData\030\001 \001(\0132\t.GameData\022\030\n\007pl"
-      "ayers\030\002 \003(\0132\007.Player\022\024\n\005units\030\003 \003(\0132\005.Un"
-      "it\022\030\n\007regions\030\004 \003(\0132\007.Region\022\030\n\007bullets\030"
-      "\005 \003(\0132\007.Bullet\022\026\n\006forces\030\006 \003(\0132\006.Forceb\006"
-      "proto3"
+      " \001(\010\022\023\n\013isBattleNet\030\027 \001(\010\022\020\n\010isReplay\030\030 "
+      "\001(\010\022\033\n\023clientUnitSelection\030\031 \001(\010\022\016\n\006hasG"
+      "UI\030\032 \001(\010\022\017\n\007mapPath\030\033 \001(\t\022\017\n\007mapName\030\034 \001"
+      "(\t\022\023\n\013mapFileName\030\035 \001(\t\022\020\n\010gameName\030\036 \001("
+      "\t\022\022\n\nrandomSeed\030\037 \001(\t\022\036\n\016startPositions\030"
+      "  \003(\0132\006.Point\022\017\n\007regions\030! \003(\005\022\016\n\006player"
+      "\030\" \001(\005\022\032\n\nscreenSize\030# \001(\0132\006.Point\022\036\n\016sc"
+      "reenPosition\030$ \001(\0132\006.Point\022\025\n\003map\030% \001(\0132"
+      "\010.MapData\"\211\007\n\006Player\022\n\n\002id\030\001 \001(\005\022\014\n\004name"
+      "\030\002 \001(\t\022\014\n\004race\030\003 \001(\005\022\014\n\004type\030\004 \001(\005\022\r\n\005fo"
+      "rce\030\005 \001(\005\022\016\n\006isAlly\030\006 \003(\010\022\017\n\007isEnemy\030\007 \003"
+      "(\010\022\021\n\tisNeutral\030\010 \003(\010\022\026\n\016startLocationX\030"
+      "\t \001(\005\022\026\n\016startLocationY\030\n \001(\005\022\024\n\014isVicto"
+      "rious\030\013 \001(\010\022\022\n\nisDefeated\030\014 \001(\010\022\020\n\010leftG"
+      "ame\030\r \001(\010\022\027\n\017isParticipating\030\016 \001(\010\022\020\n\010mi"
+      "nerals\030\017 \001(\005\022\013\n\003gas\030\020 \001(\005\022\030\n\020gatheredMin"
+      "erals\030\021 \001(\005\022\023\n\013gatheredGas\030\022 \001(\005\022\030\n\020repa"
+      "iredMinerals\030\023 \001(\005\022\023\n\013repairedGas\030\024 \001(\005\022"
+      "\030\n\020refundedMinerals\030\025 \001(\005\022\023\n\013refundedGas"
+      "\030\026 \001(\005\022\023\n\013supplyTotal\030\027 \003(\005\022\022\n\nsupplyUse"
+      "d\030\030 \003(\005\022\024\n\014allUnitCount\030\031 \003(\005\022\030\n\020visible"
+      "UnitCount\030\032 \003(\005\022\032\n\022completedUnitCount\030\033 "
+      "\003(\005\022\025\n\rdeadUnitCount\030\034 \003(\005\022\027\n\017killedUnit"
+      "Count\030\035 \003(\005\022\024\n\014upgradeLevel\030\036 \003(\005\022\025\n\rhas"
+      "Researched\030\037 \003(\010\022\025\n\risResearching\030  \003(\010\022"
+      "\023\n\013isUpgrading\030! \003(\010\022\r\n\005color\030\" \001(\005\022\026\n\016t"
+      "otalUnitScore\030# \001(\005\022\026\n\016totalKillScore\030$ "
+      "\001(\005\022\032\n\022totalBuildingScore\030% \001(\005\022\030\n\020total"
+      "RazingScore\030& \001(\005\022\023\n\013customScore\030\' \001(\005\022\027"
+      "\n\017maxUpgradeLevel\030( \003(\005\022\033\n\023isResearchAva"
+      "ilable\030) \003(\010\022\027\n\017isUnitAvailable\030* \003(\010\"\260\020"
+      "\n\004Unit\022\n\n\002id\030\001 \001(\005\022\016\n\006player\030\002 \001(\005\022\014\n\004ty"
+      "pe\030\003 \001(\005\022\030\n\010position\030\004 \001(\0132\006.Point\022\r\n\005an"
+      "gle\030\005 \001(\001\022\021\n\tvelocityX\030\006 \001(\001\022\021\n\tvelocity"
+      "Y\030\007 \001(\001\022\021\n\thitPoints\030\010 \001(\005\022\025\n\rlastHitPoi"
+      "nts\030\t \001(\005\022\017\n\007shields\030\n \001(\005\022\016\n\006energy\030\013 \001"
+      "(\005\022\021\n\tresources\030\014 \001(\005\022\025\n\rresourceGroup\030\r"
+      " \001(\005\022\021\n\tkillCount\030\016 \001(\005\022\026\n\016acidSporeCoun"
+      "t\030\017 \001(\005\022\023\n\013scarabCount\030\020 \001(\005\022\032\n\022int32erc"
+      "eptorCount\030\021 \001(\005\022\027\n\017spiderMineCount\030\022 \001("
+      "\005\022\034\n\024groundWeaponCooldown\030\023 \001(\005\022\031\n\021airWe"
+      "aponCooldown\030\024 \001(\005\022\025\n\rspellCooldown\030\025 \001("
+      "\005\022\033\n\023defenseMatrixPoints\030\026 \001(\005\022\032\n\022defens"
+      "eMatrixTimer\030\027 \001(\005\022\024\n\014ensnareTimer\030\030 \001(\005"
+      "\022\026\n\016irradiateTimer\030\031 \001(\005\022\025\n\rlockdownTime"
+      "r\030\032 \001(\005\022\026\n\016maelstromTimer\030\033 \001(\005\022\022\n\norder"
+      "Timer\030\034 \001(\005\022\023\n\013plagueTimer\030\035 \001(\005\022\023\n\013remo"
+      "veTimer\030\036 \001(\005\022\023\n\013stasisTimer\030\037 \001(\005\022\021\n\tst"
+      "imTimer\030  \001(\005\022\021\n\tbuildType\030! \001(\005\022\025\n\rtrai"
+      "ningQueue\030\" \003(\005\022\023\n\013loadedUnits\030# \003(\005\022\026\n\016"
+      "int32erceptors\030$ \003(\005\022\r\n\005larva\030% \003(\005\022\014\n\004t"
+      "ech\030& \001(\005\022\017\n\007upgrade\030\' \001(\005\022\032\n\022remainingB"
+      "uildTime\030( \001(\005\022\034\n\024remainingTraint32ime\030)"
+      " \001(\005\022\035\n\025remainingResearchTime\030* \001(\005\022\034\n\024r"
+      "emainingUpgradeTime\030+ \001(\005\022\021\n\tbuildUnit\030,"
+      " \001(\005\022\016\n\006target\030- \001(\005\022\036\n\016targetPosition\030."
+      " \001(\0132\006.Point\022\r\n\005order\030/ \001(\005\022\023\n\013orderTarg"
+      "et\0300 \001(\005\022#\n\023orderTargetPosition\0301 \001(\0132\006."
+      "Point\022\026\n\016secondaryOrder\0302 \001(\005\022\035\n\rrallyPo"
+      "sition\0303 \001(\0132\006.Point\022\021\n\trallyUnit\0304 \001(\005\022"
+      "\r\n\005addon\0305 \001(\005\022\021\n\tnydusExit\0306 \001(\005\022\017\n\007pow"
+      "erUp\0307 \001(\005\022\021\n\ttransport\0308 \001(\005\022\017\n\007carrier"
+      "\0309 \001(\005\022\020\n\010hatchery\030: \001(\005\022\016\n\006exists\030; \001(\010"
+      "\022\017\n\007hasNuke\030< \001(\010\022\026\n\016isAccelerating\030= \001("
+      "\010\022\023\n\013isAttacking\030> \001(\010\022\025\n\risAttackFrame\030"
+      "\? \001(\010\022\027\n\017isBeingGathered\030@ \001(\010\022\025\n\risBein"
+      "gHealed\030A \001(\010\022\017\n\007isBlind\030B \001(\010\022\021\n\tisBrak"
+      "ing\030C \001(\010\022\022\n\nisBurrowed\030D \001(\010\022\031\n\021carryRe"
+      "sourceType\030E \001(\005\022\021\n\tisCloaked\030F \001(\010\022\023\n\013i"
+      "sCompleted\030G \001(\010\022\026\n\016isConstructing\030H \001(\010"
+      "\022\022\n\nisDetected\030I \001(\010\022\023\n\013isGathering\030J \001("
+      "\010\022\027\n\017isHallucination\030K \001(\010\022\016\n\006isIdle\030L \001"
+      "(\010\022\031\n\021isint32erruptible\030M \001(\010\022\024\n\014isInvin"
+      "cible\030N \001(\010\022\020\n\010isLifted\030O \001(\010\022\022\n\nisMorph"
+      "ing\030P \001(\010\022\020\n\010isMoving\030Q \001(\010\022\023\n\013isParasit"
+      "ed\030R \001(\010\022\022\n\nisSelected\030S \001(\010\022\030\n\020isStarti"
+      "ngAttack\030T \001(\010\022\017\n\007isStuck\030U \001(\010\022\022\n\nisTra"
+      "ining\030V \001(\010\022\024\n\014isUnderStorm\030W \001(\010\022\030\n\020isU"
+      "nderDarkSwarm\030X \001(\010\022\023\n\013isUnderDWeb\030Y \001(\010"
+      "\022\021\n\tisPowered\030Z \001(\010\022\021\n\tisVisible\030[ \003(\010\022\021"
+      "\n\tbuttonset\030\\ \001(\005\022\030\n\020lastCommandFrame\030] "
+      "\001(\005\022\023\n\013lastCommand\030^ \001(\005\022\032\n\022lastAttacker"
+      "Player\030_ \001(\005\022\020\n\010replayID\030` \001(\005\022\030\n\020recent"
+      "lyAttacked\030a \001(\010\"\376\001\n\006Region\022\n\n\002id\030\001 \001(\005\022"
+      "\020\n\010islandID\030\002 \001(\005\022\020\n\010center_x\030\003 \001(\005\022\020\n\010c"
+      "enter_y\030\004 \001(\005\022\020\n\010priority\030\005 \001(\005\022\020\n\010leftM"
+      "ost\030\006 \001(\005\022\021\n\trightMost\030\007 \001(\005\022\017\n\007topMost\030"
+      "\010 \001(\005\022\022\n\nbottomMost\030\t \001(\005\022\025\n\rneighborCou"
+      "nt\030\n \001(\005\022\021\n\tneighbors\030\013 \003(\005\022\024\n\014isAccessi"
+      "ble\030\014 \001(\010\022\026\n\016isHigherGround\030\r \001(\010\"\371\001\n\006Bu"
+      "llet\022\n\n\002id\030\001 \001(\005\022\016\n\006player\030\002 \001(\005\022\014\n\004type"
+      "\030\003 \001(\005\022\016\n\006source\030\004 \001(\005\022\030\n\010position\030\005 \001(\013"
+      "2\006.Point\022\r\n\005angle\030\006 \001(\001\022\021\n\tvelocityX\030\007 \001"
+      "(\001\022\021\n\tvelocityY\030\010 \001(\001\022\016\n\006target\030\t \001(\005\022\036\n"
+      "\016targetPosition\030\n \001(\0132\006.Point\022\023\n\013removeT"
+      "imer\030\013 \001(\005\022\016\n\006exists\030\014 \001(\010\022\021\n\tisVisible\030"
+      "\r \003(\010\"2\n\005Force\022\n\n\002id\030\001 \001(\005\022\017\n\007players\030\002 "
+      "\003(\005\022\014\n\004name\030\003 \001(\t\"\237\001\n\004Game\022\033\n\010gameData\030\001"
+      " \001(\0132\t.GameData\022\030\n\007players\030\002 \003(\0132\007.Playe"
+      "r\022\024\n\005units\030\003 \003(\0132\005.Unit\022\030\n\007regions\030\004 \003(\013"
+      "2\007.Region\022\030\n\007bullets\030\005 \003(\0132\007.Bullet\022\026\n\006f"
+      "orces\030\006 \003(\0132\006.Forceb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 4806);
+      descriptor, 4947);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "data.proto", &protobuf_RegisterTypes);
 }
@@ -999,6 +1007,10 @@ const int MapData::kIsExploredFieldNumber;
 const int MapData::kHasCreepFieldNumber;
 const int MapData::kIsOccupiedFieldNumber;
 const int MapData::kIsWalkableFieldNumber;
+const int MapData::kMapTileRegionIdFieldNumber;
+const int MapData::kMapSplitTilesMiniTileMaskFieldNumber;
+const int MapData::kMapSplitTilesRegion1FieldNumber;
+const int MapData::kMapSplitTilesRegion2FieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MapData::MapData()
@@ -1017,7 +1029,11 @@ MapData::MapData(const MapData& from)
       isexplored_(from.isexplored_),
       hascreep_(from.hascreep_),
       isoccupied_(from.isoccupied_),
-      iswalkable_(from.iswalkable_) {
+      iswalkable_(from.iswalkable_),
+      maptileregionid_(from.maptileregionid_),
+      mapsplittilesminitilemask_(from.mapsplittilesminitilemask_),
+      mapsplittilesregion1_(from.mapsplittilesregion1_),
+      mapsplittilesregion2_(from.mapsplittilesregion2_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   maphash_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.maphash().size() > 0) {
@@ -1076,6 +1092,10 @@ void MapData::Clear() {
   hascreep_.Clear();
   isoccupied_.Clear();
   iswalkable_.Clear();
+  maptileregionid_.Clear();
+  mapsplittilesminitilemask_.Clear();
+  mapsplittilesregion1_.Clear();
+  mapsplittilesregion2_.Clear();
   maphash_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && size_ != NULL) {
     delete size_;
@@ -1270,6 +1290,82 @@ bool MapData::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated uint32 mapTileRegionId = 11;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_maptileregionid())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 90u, input, this->mutable_maptileregionid())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated uint32 mapSplitTilesMiniTileMask = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_mapsplittilesminitilemask())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 98u, input, this->mutable_mapsplittilesminitilemask())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated uint32 mapSplitTilesRegion1 = 13;
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_mapsplittilesregion1())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 106u, input, this->mutable_mapsplittilesregion1())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated uint32 mapSplitTilesRegion2 = 14;
+      case 14: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_mapsplittilesregion2())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 114u, input, this->mutable_mapsplittilesregion2())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1380,6 +1476,50 @@ void MapData::SerializeWithCachedSizes(
         _iswalkable_cached_byte_size_));
     ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
       this->iswalkable().data(), this->iswalkable_size(), output);
+  }
+
+  // repeated uint32 mapTileRegionId = 11;
+  if (this->maptileregionid_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(11, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _maptileregionid_cached_byte_size_));
+  }
+  for (int i = 0, n = this->maptileregionid_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->maptileregionid(i), output);
+  }
+
+  // repeated uint32 mapSplitTilesMiniTileMask = 12;
+  if (this->mapsplittilesminitilemask_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(12, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _mapsplittilesminitilemask_cached_byte_size_));
+  }
+  for (int i = 0, n = this->mapsplittilesminitilemask_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->mapsplittilesminitilemask(i), output);
+  }
+
+  // repeated uint32 mapSplitTilesRegion1 = 13;
+  if (this->mapsplittilesregion1_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(13, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _mapsplittilesregion1_cached_byte_size_));
+  }
+  for (int i = 0, n = this->mapsplittilesregion1_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->mapsplittilesregion1(i), output);
+  }
+
+  // repeated uint32 mapSplitTilesRegion2 = 14;
+  if (this->mapsplittilesregion2_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(14, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _mapsplittilesregion2_cached_byte_size_));
+  }
+  for (int i = 0, n = this->mapsplittilesregion2_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->mapsplittilesregion2(i), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1508,6 +1648,58 @@ void MapData::SerializeWithCachedSizes(
             _iswalkable_cached_byte_size_), target);
     target = ::google::protobuf::internal::WireFormatLite::
       WriteBoolNoTagToArray(this->iswalkable_, target);
+  }
+
+  // repeated uint32 mapTileRegionId = 11;
+  if (this->maptileregionid_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      11,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _maptileregionid_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->maptileregionid_, target);
+  }
+
+  // repeated uint32 mapSplitTilesMiniTileMask = 12;
+  if (this->mapsplittilesminitilemask_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      12,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _mapsplittilesminitilemask_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->mapsplittilesminitilemask_, target);
+  }
+
+  // repeated uint32 mapSplitTilesRegion1 = 13;
+  if (this->mapsplittilesregion1_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      13,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _mapsplittilesregion1_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->mapsplittilesregion1_, target);
+  }
+
+  // repeated uint32 mapSplitTilesRegion2 = 14;
+  if (this->mapsplittilesregion2_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      14,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _mapsplittilesregion2_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->mapsplittilesregion2_, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1639,6 +1831,70 @@ size_t MapData::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated uint32 mapTileRegionId = 11;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->maptileregionid_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _maptileregionid_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated uint32 mapSplitTilesMiniTileMask = 12;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->mapsplittilesminitilemask_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _mapsplittilesminitilemask_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated uint32 mapSplitTilesRegion1 = 13;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->mapsplittilesregion1_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _mapsplittilesregion1_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated uint32 mapSplitTilesRegion2 = 14;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->mapsplittilesregion2_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _mapsplittilesregion2_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
   // string mapHash = 3;
   if (this->maphash().size() > 0) {
     total_size += 1 +
@@ -1694,6 +1950,10 @@ void MapData::MergeFrom(const MapData& from) {
   hascreep_.MergeFrom(from.hascreep_);
   isoccupied_.MergeFrom(from.isoccupied_);
   iswalkable_.MergeFrom(from.iswalkable_);
+  maptileregionid_.MergeFrom(from.maptileregionid_);
+  mapsplittilesminitilemask_.MergeFrom(from.mapsplittilesminitilemask_);
+  mapsplittilesregion1_.MergeFrom(from.mapsplittilesregion1_);
+  mapsplittilesregion2_.MergeFrom(from.mapsplittilesregion2_);
   if (from.maphash().size() > 0) {
 
     maphash_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.maphash_);
@@ -1737,6 +1997,10 @@ void MapData::InternalSwap(MapData* other) {
   hascreep_.InternalSwap(&other->hascreep_);
   isoccupied_.InternalSwap(&other->isoccupied_);
   iswalkable_.InternalSwap(&other->iswalkable_);
+  maptileregionid_.InternalSwap(&other->maptileregionid_);
+  mapsplittilesminitilemask_.InternalSwap(&other->mapsplittilesminitilemask_);
+  mapsplittilesregion1_.InternalSwap(&other->mapsplittilesregion1_);
+  mapsplittilesregion2_.InternalSwap(&other->mapsplittilesregion2_);
   maphash_.Swap(&other->maphash_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(size_, other->size_);
@@ -1783,6 +2047,7 @@ const int GameData::kCountdownTimerFieldNumber;
 const int GameData::kIsPausedFieldNumber;
 const int GameData::kIsInGameFieldNumber;
 const int GameData::kIsMultiplayerFieldNumber;
+const int GameData::kIsBattleNetFieldNumber;
 const int GameData::kIsReplayFieldNumber;
 const int GameData::kClientUnitSelectionFieldNumber;
 const int GameData::kHasGUIFieldNumber;
@@ -2268,10 +2533,24 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // bool isReplay = 23;
+      // bool isBattleNet = 23;
       case 23: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(184u /* 184 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &isbattlenet_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool isReplay = 24;
+      case 24: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(192u /* 192 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -2282,10 +2561,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // bool clientUnitSelection = 24;
-      case 24: {
+      // bool clientUnitSelection = 25;
+      case 25: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(192u /* 192 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(200u /* 200 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -2296,10 +2575,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // bool hasGUI = 25;
-      case 25: {
+      // bool hasGUI = 26;
+      case 26: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(200u /* 200 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(208u /* 208 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -2310,10 +2589,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // string mapPath = 26;
-      case 26: {
+      // string mapPath = 27;
+      case 27: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(210u /* 210 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(218u /* 218 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_mappath()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -2326,10 +2605,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // string mapName = 27;
-      case 27: {
+      // string mapName = 28;
+      case 28: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(218u /* 218 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(226u /* 226 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_mapname()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -2342,10 +2621,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // string mapFileName = 28;
-      case 28: {
+      // string mapFileName = 29;
+      case 29: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(226u /* 226 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(234u /* 234 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_mapfilename()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -2358,10 +2637,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // string gameName = 29;
-      case 29: {
+      // string gameName = 30;
+      case 30: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(234u /* 234 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(242u /* 242 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_gamename()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -2374,10 +2653,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // string randomSeed = 30;
-      case 30: {
+      // string randomSeed = 31;
+      case 31: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(242u /* 242 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(250u /* 250 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_randomseed()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -2390,10 +2669,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .Point startPositions = 31;
-      case 31: {
+      // repeated .Point startPositions = 32;
+      case 32: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(250u /* 250 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(2u /* 258 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                 input, add_startpositions()));
         } else {
@@ -2402,29 +2681,29 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 regions = 32;
-      case 32: {
+      // repeated int32 regions = 33;
+      case 33: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(2u /* 258 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(10u /* 266 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_regions())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(0u /* 256 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(8u /* 264 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 258u, input, this->mutable_regions())));
+                 2, 266u, input, this->mutable_regions())));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // int32 player = 33;
-      case 33: {
+      // int32 player = 34;
+      case 34: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 264 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(16u /* 272 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -2435,10 +2714,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .Point screenSize = 34;
-      case 34: {
+      // .Point screenSize = 35;
+      case 35: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 274 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(26u /* 282 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_screensize()));
         } else {
@@ -2447,10 +2726,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .Point screenPosition = 35;
-      case 35: {
+      // .Point screenPosition = 36;
+      case 36: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 282 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 290 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_screenposition()));
         } else {
@@ -2459,10 +2738,10 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // .MapData map = 36;
-      case 36: {
+      // .MapData map = 37;
+      case 37: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 290 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 298 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_map()));
         } else {
@@ -2623,83 +2902,88 @@ void GameData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(22, this->ismultiplayer(), output);
   }
 
-  // bool isReplay = 23;
+  // bool isBattleNet = 23;
+  if (this->isbattlenet() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(23, this->isbattlenet(), output);
+  }
+
+  // bool isReplay = 24;
   if (this->isreplay() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(23, this->isreplay(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(24, this->isreplay(), output);
   }
 
-  // bool clientUnitSelection = 24;
+  // bool clientUnitSelection = 25;
   if (this->clientunitselection() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(24, this->clientunitselection(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(25, this->clientunitselection(), output);
   }
 
-  // bool hasGUI = 25;
+  // bool hasGUI = 26;
   if (this->hasgui() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(25, this->hasgui(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(26, this->hasgui(), output);
   }
 
-  // string mapPath = 26;
+  // string mapPath = 27;
   if (this->mappath().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mappath().data(), static_cast<int>(this->mappath().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "GameData.mapPath");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      26, this->mappath(), output);
+      27, this->mappath(), output);
   }
 
-  // string mapName = 27;
+  // string mapName = 28;
   if (this->mapname().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mapname().data(), static_cast<int>(this->mapname().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "GameData.mapName");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      27, this->mapname(), output);
+      28, this->mapname(), output);
   }
 
-  // string mapFileName = 28;
+  // string mapFileName = 29;
   if (this->mapfilename().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mapfilename().data(), static_cast<int>(this->mapfilename().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "GameData.mapFileName");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      28, this->mapfilename(), output);
+      29, this->mapfilename(), output);
   }
 
-  // string gameName = 29;
+  // string gameName = 30;
   if (this->gamename().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->gamename().data(), static_cast<int>(this->gamename().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "GameData.gameName");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      29, this->gamename(), output);
+      30, this->gamename(), output);
   }
 
-  // string randomSeed = 30;
+  // string randomSeed = 31;
   if (this->randomseed().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->randomseed().data(), static_cast<int>(this->randomseed().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "GameData.randomSeed");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      30, this->randomseed(), output);
+      31, this->randomseed(), output);
   }
 
-  // repeated .Point startPositions = 31;
+  // repeated .Point startPositions = 32;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->startpositions_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      31,
+      32,
       this->startpositions(static_cast<int>(i)),
       output);
   }
 
-  // repeated int32 regions = 32;
+  // repeated int32 regions = 33;
   if (this->regions_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(32, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(33, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
         _regions_cached_byte_size_));
   }
@@ -2708,27 +2992,27 @@ void GameData::SerializeWithCachedSizes(
       this->regions(i), output);
   }
 
-  // int32 player = 33;
+  // int32 player = 34;
   if (this->player() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(33, this->player(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(34, this->player(), output);
   }
 
-  // .Point screenSize = 34;
+  // .Point screenSize = 35;
   if (this->has_screensize()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      34, this->_internal_screensize(), output);
+      35, this->_internal_screensize(), output);
   }
 
-  // .Point screenPosition = 35;
+  // .Point screenPosition = 36;
   if (this->has_screenposition()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      35, this->_internal_screenposition(), output);
+      36, this->_internal_screenposition(), output);
   }
 
-  // .MapData map = 36;
+  // .MapData map = 37;
   if (this->has_map()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      36, this->_internal_map(), output);
+      37, this->_internal_map(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2875,22 +3159,27 @@ void GameData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(22, this->ismultiplayer(), target);
   }
 
-  // bool isReplay = 23;
+  // bool isBattleNet = 23;
+  if (this->isbattlenet() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(23, this->isbattlenet(), target);
+  }
+
+  // bool isReplay = 24;
   if (this->isreplay() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(23, this->isreplay(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(24, this->isreplay(), target);
   }
 
-  // bool clientUnitSelection = 24;
+  // bool clientUnitSelection = 25;
   if (this->clientunitselection() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(24, this->clientunitselection(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(25, this->clientunitselection(), target);
   }
 
-  // bool hasGUI = 25;
+  // bool hasGUI = 26;
   if (this->hasgui() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(25, this->hasgui(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(26, this->hasgui(), target);
   }
 
-  // string mapPath = 26;
+  // string mapPath = 27;
   if (this->mappath().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mappath().data(), static_cast<int>(this->mappath().length()),
@@ -2898,10 +3187,10 @@ void GameData::SerializeWithCachedSizes(
       "GameData.mapPath");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        26, this->mappath(), target);
+        27, this->mappath(), target);
   }
 
-  // string mapName = 27;
+  // string mapName = 28;
   if (this->mapname().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mapname().data(), static_cast<int>(this->mapname().length()),
@@ -2909,10 +3198,10 @@ void GameData::SerializeWithCachedSizes(
       "GameData.mapName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        27, this->mapname(), target);
+        28, this->mapname(), target);
   }
 
-  // string mapFileName = 28;
+  // string mapFileName = 29;
   if (this->mapfilename().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mapfilename().data(), static_cast<int>(this->mapfilename().length()),
@@ -2920,10 +3209,10 @@ void GameData::SerializeWithCachedSizes(
       "GameData.mapFileName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        28, this->mapfilename(), target);
+        29, this->mapfilename(), target);
   }
 
-  // string gameName = 29;
+  // string gameName = 30;
   if (this->gamename().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->gamename().data(), static_cast<int>(this->gamename().length()),
@@ -2931,10 +3220,10 @@ void GameData::SerializeWithCachedSizes(
       "GameData.gameName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        29, this->gamename(), target);
+        30, this->gamename(), target);
   }
 
-  // string randomSeed = 30;
+  // string randomSeed = 31;
   if (this->randomseed().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->randomseed().data(), static_cast<int>(this->randomseed().length()),
@@ -2942,21 +3231,21 @@ void GameData::SerializeWithCachedSizes(
       "GameData.randomSeed");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        30, this->randomseed(), target);
+        31, this->randomseed(), target);
   }
 
-  // repeated .Point startPositions = 31;
+  // repeated .Point startPositions = 32;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->startpositions_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        31, this->startpositions(static_cast<int>(i)), deterministic, target);
+        32, this->startpositions(static_cast<int>(i)), deterministic, target);
   }
 
-  // repeated int32 regions = 32;
+  // repeated int32 regions = 33;
   if (this->regions_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      32,
+      33,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
@@ -2966,30 +3255,30 @@ void GameData::SerializeWithCachedSizes(
       WriteInt32NoTagToArray(this->regions_, target);
   }
 
-  // int32 player = 33;
+  // int32 player = 34;
   if (this->player() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(33, this->player(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(34, this->player(), target);
   }
 
-  // .Point screenSize = 34;
+  // .Point screenSize = 35;
   if (this->has_screensize()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        34, this->_internal_screensize(), deterministic, target);
+        35, this->_internal_screensize(), deterministic, target);
   }
 
-  // .Point screenPosition = 35;
+  // .Point screenPosition = 36;
   if (this->has_screenposition()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        35, this->_internal_screenposition(), deterministic, target);
+        36, this->_internal_screenposition(), deterministic, target);
   }
 
-  // .MapData map = 36;
+  // .MapData map = 37;
   if (this->has_map()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        36, this->_internal_map(), deterministic, target);
+        37, this->_internal_map(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3025,7 +3314,7 @@ size_t GameData::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated .Point startPositions = 31;
+  // repeated .Point startPositions = 32;
   {
     unsigned int count = static_cast<unsigned int>(this->startpositions_size());
     total_size += 2UL * count;
@@ -3036,7 +3325,7 @@ size_t GameData::ByteSizeLong() const {
     }
   }
 
-  // repeated int32 regions = 32;
+  // repeated int32 regions = 33;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       Int32Size(this->regions_);
@@ -3066,56 +3355,56 @@ size_t GameData::ByteSizeLong() const {
         this->engineversion());
   }
 
-  // string mapPath = 26;
+  // string mapPath = 27;
   if (this->mappath().size() > 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->mappath());
   }
 
-  // string mapName = 27;
+  // string mapName = 28;
   if (this->mapname().size() > 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->mapname());
   }
 
-  // string mapFileName = 28;
+  // string mapFileName = 29;
   if (this->mapfilename().size() > 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->mapfilename());
   }
 
-  // string gameName = 29;
+  // string gameName = 30;
   if (this->gamename().size() > 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->gamename());
   }
 
-  // string randomSeed = 30;
+  // string randomSeed = 31;
   if (this->randomseed().size() > 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->randomseed());
   }
 
-  // .Point screenSize = 34;
+  // .Point screenSize = 35;
   if (this->has_screensize()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *screensize_);
   }
 
-  // .Point screenPosition = 35;
+  // .Point screenPosition = 36;
   if (this->has_screenposition()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *screenposition_);
   }
 
-  // .MapData map = 36;
+  // .MapData map = 37;
   if (this->has_map()) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -3237,22 +3526,27 @@ size_t GameData::ByteSizeLong() const {
         this->countdowntimer());
   }
 
-  // bool isReplay = 23;
+  // bool isBattleNet = 23;
+  if (this->isbattlenet() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool isReplay = 24;
   if (this->isreplay() != 0) {
     total_size += 2 + 1;
   }
 
-  // bool clientUnitSelection = 24;
+  // bool clientUnitSelection = 25;
   if (this->clientunitselection() != 0) {
     total_size += 2 + 1;
   }
 
-  // bool hasGUI = 25;
+  // bool hasGUI = 26;
   if (this->hasgui() != 0) {
     total_size += 2 + 1;
   }
 
-  // int32 player = 33;
+  // int32 player = 34;
   if (this->player() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -3383,6 +3677,9 @@ void GameData::MergeFrom(const GameData& from) {
   if (from.countdowntimer() != 0) {
     set_countdowntimer(from.countdowntimer());
   }
+  if (from.isbattlenet() != 0) {
+    set_isbattlenet(from.isbattlenet());
+  }
   if (from.isreplay() != 0) {
     set_isreplay(from.isreplay());
   }
@@ -3460,6 +3757,7 @@ void GameData::InternalSwap(GameData* other) {
   swap(millisecondsperframe_, other->millisecondsperframe_);
   swap(averagefps_, other->averagefps_);
   swap(countdowntimer_, other->countdowntimer_);
+  swap(isbattlenet_, other->isbattlenet_);
   swap(isreplay_, other->isreplay_);
   swap(clientunitselection_, other->clientunitselection_);
   swap(hasgui_, other->hasgui_);

@@ -36,6 +36,7 @@ namespace BWAPI
     bool isPaused;
     bool isInGame;
     bool isMultiplayer;
+    bool isBattleNet;
     bool isReplay;
     bool clientUnitSelection;
     bool hasGUI;

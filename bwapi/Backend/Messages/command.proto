@@ -52,6 +52,23 @@ message Shape {
     bool isSolid = 10;
     string text = 11;
 }
+
+message PauseGame {
+}
+
+message ResumeGame {
+}
+
+message LeaveGame {
+}
+
+message RestartGame {
+}
+
+message SetLocalSpeed {
+    int32 speed = 1;
+}
+
 //Command wrapper, will contain one of the types of commands
 message Command {
     oneof cmd {
@@ -60,5 +77,10 @@ message Command {
         PingMiniMap pingMiniMap = 3;
         Printf printf = 4;
         Shape shape = 5;
+        PauseGame pauseGame = 6;
+        ResumeGame resumeGame = 7;
+        LeaveGame leaveGame = 8;
+        RestartGame restartGame = 9;
+        SetLocalSpeed setLocalSpeed = 10;
     }
 }

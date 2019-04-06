@@ -376,6 +376,54 @@ class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< bool >*
       mutable_iswalkable();
 
+  // repeated uint32 mapTileRegionId = 11;
+  int maptileregionid_size() const;
+  void clear_maptileregionid();
+  static const int kMapTileRegionIdFieldNumber = 11;
+  ::google::protobuf::uint32 maptileregionid(int index) const;
+  void set_maptileregionid(int index, ::google::protobuf::uint32 value);
+  void add_maptileregionid(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      maptileregionid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_maptileregionid();
+
+  // repeated uint32 mapSplitTilesMiniTileMask = 12;
+  int mapsplittilesminitilemask_size() const;
+  void clear_mapsplittilesminitilemask();
+  static const int kMapSplitTilesMiniTileMaskFieldNumber = 12;
+  ::google::protobuf::uint32 mapsplittilesminitilemask(int index) const;
+  void set_mapsplittilesminitilemask(int index, ::google::protobuf::uint32 value);
+  void add_mapsplittilesminitilemask(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      mapsplittilesminitilemask() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_mapsplittilesminitilemask();
+
+  // repeated uint32 mapSplitTilesRegion1 = 13;
+  int mapsplittilesregion1_size() const;
+  void clear_mapsplittilesregion1();
+  static const int kMapSplitTilesRegion1FieldNumber = 13;
+  ::google::protobuf::uint32 mapsplittilesregion1(int index) const;
+  void set_mapsplittilesregion1(int index, ::google::protobuf::uint32 value);
+  void add_mapsplittilesregion1(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      mapsplittilesregion1() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_mapsplittilesregion1();
+
+  // repeated uint32 mapSplitTilesRegion2 = 14;
+  int mapsplittilesregion2_size() const;
+  void clear_mapsplittilesregion2();
+  static const int kMapSplitTilesRegion2FieldNumber = 14;
+  ::google::protobuf::uint32 mapsplittilesregion2(int index) const;
+  void set_mapsplittilesregion2(int index, ::google::protobuf::uint32 value);
+  void add_mapsplittilesregion2(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      mapsplittilesregion2() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_mapsplittilesregion2();
+
   // string mapHash = 3;
   void clear_maphash();
   static const int kMapHashFieldNumber = 3;
@@ -426,6 +474,14 @@ class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   mutable int _isoccupied_cached_byte_size_;
   ::google::protobuf::RepeatedField< bool > iswalkable_;
   mutable int _iswalkable_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > maptileregionid_;
+  mutable int _maptileregionid_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesminitilemask_;
+  mutable int _mapsplittilesminitilemask_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesregion1_;
+  mutable int _mapsplittilesregion1_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesregion2_;
+  mutable int _mapsplittilesregion2_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr maphash_;
   ::Point* size_;
   ::google::protobuf::int32 tileset_;
@@ -533,10 +589,10 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_replayvisionplayers();
 
-  // repeated .Point startPositions = 31;
+  // repeated .Point startPositions = 32;
   int startpositions_size() const;
   void clear_startpositions();
-  static const int kStartPositionsFieldNumber = 31;
+  static const int kStartPositionsFieldNumber = 32;
   ::Point* mutable_startpositions(int index);
   ::google::protobuf::RepeatedPtrField< ::Point >*
       mutable_startpositions();
@@ -545,10 +601,10 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   const ::google::protobuf::RepeatedPtrField< ::Point >&
       startpositions() const;
 
-  // repeated int32 regions = 32;
+  // repeated int32 regions = 33;
   int regions_size() const;
   void clear_regions();
-  static const int kRegionsFieldNumber = 32;
+  static const int kRegionsFieldNumber = 33;
   ::google::protobuf::int32 regions(int index) const;
   void set_regions(int index, ::google::protobuf::int32 value);
   void add_regions(::google::protobuf::int32 value);
@@ -585,9 +641,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_engineversion();
   void set_allocated_engineversion(::std::string* engineversion);
 
-  // string mapPath = 26;
+  // string mapPath = 27;
   void clear_mappath();
-  static const int kMapPathFieldNumber = 26;
+  static const int kMapPathFieldNumber = 27;
   const ::std::string& mappath() const;
   void set_mappath(const ::std::string& value);
   #if LANG_CXX11
@@ -599,9 +655,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_mappath();
   void set_allocated_mappath(::std::string* mappath);
 
-  // string mapName = 27;
+  // string mapName = 28;
   void clear_mapname();
-  static const int kMapNameFieldNumber = 27;
+  static const int kMapNameFieldNumber = 28;
   const ::std::string& mapname() const;
   void set_mapname(const ::std::string& value);
   #if LANG_CXX11
@@ -613,9 +669,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_mapname();
   void set_allocated_mapname(::std::string* mapname);
 
-  // string mapFileName = 28;
+  // string mapFileName = 29;
   void clear_mapfilename();
-  static const int kMapFileNameFieldNumber = 28;
+  static const int kMapFileNameFieldNumber = 29;
   const ::std::string& mapfilename() const;
   void set_mapfilename(const ::std::string& value);
   #if LANG_CXX11
@@ -627,9 +683,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_mapfilename();
   void set_allocated_mapfilename(::std::string* mapfilename);
 
-  // string gameName = 29;
+  // string gameName = 30;
   void clear_gamename();
-  static const int kGameNameFieldNumber = 29;
+  static const int kGameNameFieldNumber = 30;
   const ::std::string& gamename() const;
   void set_gamename(const ::std::string& value);
   #if LANG_CXX11
@@ -641,9 +697,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_gamename();
   void set_allocated_gamename(::std::string* gamename);
 
-  // string randomSeed = 30;
+  // string randomSeed = 31;
   void clear_randomseed();
-  static const int kRandomSeedFieldNumber = 30;
+  static const int kRandomSeedFieldNumber = 31;
   const ::std::string& randomseed() const;
   void set_randomseed(const ::std::string& value);
   #if LANG_CXX11
@@ -655,10 +711,10 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_randomseed();
   void set_allocated_randomseed(::std::string* randomseed);
 
-  // .Point screenSize = 34;
+  // .Point screenSize = 35;
   bool has_screensize() const;
   void clear_screensize();
-  static const int kScreenSizeFieldNumber = 34;
+  static const int kScreenSizeFieldNumber = 35;
   private:
   const ::Point& _internal_screensize() const;
   public:
@@ -667,10 +723,10 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::Point* mutable_screensize();
   void set_allocated_screensize(::Point* screensize);
 
-  // .Point screenPosition = 35;
+  // .Point screenPosition = 36;
   bool has_screenposition() const;
   void clear_screenposition();
-  static const int kScreenPositionFieldNumber = 35;
+  static const int kScreenPositionFieldNumber = 36;
   private:
   const ::Point& _internal_screenposition() const;
   public:
@@ -679,10 +735,10 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::Point* mutable_screenposition();
   void set_allocated_screenposition(::Point* screenposition);
 
-  // .MapData map = 36;
+  // .MapData map = 37;
   bool has_map() const;
   void clear_map();
-  static const int kMapFieldNumber = 36;
+  static const int kMapFieldNumber = 37;
   private:
   const ::MapData& _internal_map() const;
   public:
@@ -805,27 +861,33 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 countdowntimer() const;
   void set_countdowntimer(::google::protobuf::int32 value);
 
-  // bool isReplay = 23;
+  // bool isBattleNet = 23;
+  void clear_isbattlenet();
+  static const int kIsBattleNetFieldNumber = 23;
+  bool isbattlenet() const;
+  void set_isbattlenet(bool value);
+
+  // bool isReplay = 24;
   void clear_isreplay();
-  static const int kIsReplayFieldNumber = 23;
+  static const int kIsReplayFieldNumber = 24;
   bool isreplay() const;
   void set_isreplay(bool value);
 
-  // bool clientUnitSelection = 24;
+  // bool clientUnitSelection = 25;
   void clear_clientunitselection();
-  static const int kClientUnitSelectionFieldNumber = 24;
+  static const int kClientUnitSelectionFieldNumber = 25;
   bool clientunitselection() const;
   void set_clientunitselection(bool value);
 
-  // bool hasGUI = 25;
+  // bool hasGUI = 26;
   void clear_hasgui();
-  static const int kHasGUIFieldNumber = 25;
+  static const int kHasGUIFieldNumber = 26;
   bool hasgui() const;
   void set_hasgui(bool value);
 
-  // int32 player = 33;
+  // int32 player = 34;
   void clear_player();
-  static const int kPlayerFieldNumber = 33;
+  static const int kPlayerFieldNumber = 34;
   ::google::protobuf::int32 player() const;
   void set_player(::google::protobuf::int32 value);
 
@@ -867,6 +929,7 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float millisecondsperframe_;
   float averagefps_;
   ::google::protobuf::int32 countdowntimer_;
+  bool isbattlenet_;
   bool isreplay_;
   bool clientunitselection_;
   bool hasgui_;
@@ -3319,6 +3382,126 @@ MapData::mutable_iswalkable() {
   return &iswalkable_;
 }
 
+// repeated uint32 mapTileRegionId = 11;
+inline int MapData::maptileregionid_size() const {
+  return maptileregionid_.size();
+}
+inline void MapData::clear_maptileregionid() {
+  maptileregionid_.Clear();
+}
+inline ::google::protobuf::uint32 MapData::maptileregionid(int index) const {
+  // @@protoc_insertion_point(field_get:MapData.mapTileRegionId)
+  return maptileregionid_.Get(index);
+}
+inline void MapData::set_maptileregionid(int index, ::google::protobuf::uint32 value) {
+  maptileregionid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MapData.mapTileRegionId)
+}
+inline void MapData::add_maptileregionid(::google::protobuf::uint32 value) {
+  maptileregionid_.Add(value);
+  // @@protoc_insertion_point(field_add:MapData.mapTileRegionId)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+MapData::maptileregionid() const {
+  // @@protoc_insertion_point(field_list:MapData.mapTileRegionId)
+  return maptileregionid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+MapData::mutable_maptileregionid() {
+  // @@protoc_insertion_point(field_mutable_list:MapData.mapTileRegionId)
+  return &maptileregionid_;
+}
+
+// repeated uint32 mapSplitTilesMiniTileMask = 12;
+inline int MapData::mapsplittilesminitilemask_size() const {
+  return mapsplittilesminitilemask_.size();
+}
+inline void MapData::clear_mapsplittilesminitilemask() {
+  mapsplittilesminitilemask_.Clear();
+}
+inline ::google::protobuf::uint32 MapData::mapsplittilesminitilemask(int index) const {
+  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesMiniTileMask)
+  return mapsplittilesminitilemask_.Get(index);
+}
+inline void MapData::set_mapsplittilesminitilemask(int index, ::google::protobuf::uint32 value) {
+  mapsplittilesminitilemask_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesMiniTileMask)
+}
+inline void MapData::add_mapsplittilesminitilemask(::google::protobuf::uint32 value) {
+  mapsplittilesminitilemask_.Add(value);
+  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesMiniTileMask)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+MapData::mapsplittilesminitilemask() const {
+  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesMiniTileMask)
+  return mapsplittilesminitilemask_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+MapData::mutable_mapsplittilesminitilemask() {
+  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesMiniTileMask)
+  return &mapsplittilesminitilemask_;
+}
+
+// repeated uint32 mapSplitTilesRegion1 = 13;
+inline int MapData::mapsplittilesregion1_size() const {
+  return mapsplittilesregion1_.size();
+}
+inline void MapData::clear_mapsplittilesregion1() {
+  mapsplittilesregion1_.Clear();
+}
+inline ::google::protobuf::uint32 MapData::mapsplittilesregion1(int index) const {
+  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesRegion1)
+  return mapsplittilesregion1_.Get(index);
+}
+inline void MapData::set_mapsplittilesregion1(int index, ::google::protobuf::uint32 value) {
+  mapsplittilesregion1_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesRegion1)
+}
+inline void MapData::add_mapsplittilesregion1(::google::protobuf::uint32 value) {
+  mapsplittilesregion1_.Add(value);
+  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesRegion1)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+MapData::mapsplittilesregion1() const {
+  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesRegion1)
+  return mapsplittilesregion1_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+MapData::mutable_mapsplittilesregion1() {
+  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesRegion1)
+  return &mapsplittilesregion1_;
+}
+
+// repeated uint32 mapSplitTilesRegion2 = 14;
+inline int MapData::mapsplittilesregion2_size() const {
+  return mapsplittilesregion2_.size();
+}
+inline void MapData::clear_mapsplittilesregion2() {
+  mapsplittilesregion2_.Clear();
+}
+inline ::google::protobuf::uint32 MapData::mapsplittilesregion2(int index) const {
+  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesRegion2)
+  return mapsplittilesregion2_.Get(index);
+}
+inline void MapData::set_mapsplittilesregion2(int index, ::google::protobuf::uint32 value) {
+  mapsplittilesregion2_.Set(index, value);
+  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesRegion2)
+}
+inline void MapData::add_mapsplittilesregion2(::google::protobuf::uint32 value) {
+  mapsplittilesregion2_.Add(value);
+  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesRegion2)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+MapData::mapsplittilesregion2() const {
+  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesRegion2)
+  return mapsplittilesregion2_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+MapData::mutable_mapsplittilesregion2() {
+  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesRegion2)
+  return &mapsplittilesregion2_;
+}
+
 // -------------------------------------------------------------------
 
 // GameData
@@ -3725,7 +3908,21 @@ inline void GameData::set_ismultiplayer(bool value) {
   // @@protoc_insertion_point(field_set:GameData.isMultiplayer)
 }
 
-// bool isReplay = 23;
+// bool isBattleNet = 23;
+inline void GameData::clear_isbattlenet() {
+  isbattlenet_ = false;
+}
+inline bool GameData::isbattlenet() const {
+  // @@protoc_insertion_point(field_get:GameData.isBattleNet)
+  return isbattlenet_;
+}
+inline void GameData::set_isbattlenet(bool value) {
+  
+  isbattlenet_ = value;
+  // @@protoc_insertion_point(field_set:GameData.isBattleNet)
+}
+
+// bool isReplay = 24;
 inline void GameData::clear_isreplay() {
   isreplay_ = false;
 }
@@ -3739,7 +3936,7 @@ inline void GameData::set_isreplay(bool value) {
   // @@protoc_insertion_point(field_set:GameData.isReplay)
 }
 
-// bool clientUnitSelection = 24;
+// bool clientUnitSelection = 25;
 inline void GameData::clear_clientunitselection() {
   clientunitselection_ = false;
 }
@@ -3753,7 +3950,7 @@ inline void GameData::set_clientunitselection(bool value) {
   // @@protoc_insertion_point(field_set:GameData.clientUnitSelection)
 }
 
-// bool hasGUI = 25;
+// bool hasGUI = 26;
 inline void GameData::clear_hasgui() {
   hasgui_ = false;
 }
@@ -3767,7 +3964,7 @@ inline void GameData::set_hasgui(bool value) {
   // @@protoc_insertion_point(field_set:GameData.hasGUI)
 }
 
-// string mapPath = 26;
+// string mapPath = 27;
 inline void GameData::clear_mappath() {
   mappath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3820,7 +4017,7 @@ inline void GameData::set_allocated_mappath(::std::string* mappath) {
   // @@protoc_insertion_point(field_set_allocated:GameData.mapPath)
 }
 
-// string mapName = 27;
+// string mapName = 28;
 inline void GameData::clear_mapname() {
   mapname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3873,7 +4070,7 @@ inline void GameData::set_allocated_mapname(::std::string* mapname) {
   // @@protoc_insertion_point(field_set_allocated:GameData.mapName)
 }
 
-// string mapFileName = 28;
+// string mapFileName = 29;
 inline void GameData::clear_mapfilename() {
   mapfilename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3926,7 +4123,7 @@ inline void GameData::set_allocated_mapfilename(::std::string* mapfilename) {
   // @@protoc_insertion_point(field_set_allocated:GameData.mapFileName)
 }
 
-// string gameName = 29;
+// string gameName = 30;
 inline void GameData::clear_gamename() {
   gamename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3979,7 +4176,7 @@ inline void GameData::set_allocated_gamename(::std::string* gamename) {
   // @@protoc_insertion_point(field_set_allocated:GameData.gameName)
 }
 
-// string randomSeed = 30;
+// string randomSeed = 31;
 inline void GameData::clear_randomseed() {
   randomseed_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4032,7 +4229,7 @@ inline void GameData::set_allocated_randomseed(::std::string* randomseed) {
   // @@protoc_insertion_point(field_set_allocated:GameData.randomSeed)
 }
 
-// repeated .Point startPositions = 31;
+// repeated .Point startPositions = 32;
 inline int GameData::startpositions_size() const {
   return startpositions_.size();
 }
@@ -4062,7 +4259,7 @@ GameData::startpositions() const {
   return startpositions_;
 }
 
-// repeated int32 regions = 32;
+// repeated int32 regions = 33;
 inline int GameData::regions_size() const {
   return regions_.size();
 }
@@ -4092,7 +4289,7 @@ GameData::mutable_regions() {
   return &regions_;
 }
 
-// int32 player = 33;
+// int32 player = 34;
 inline void GameData::clear_player() {
   player_ = 0;
 }
@@ -4106,7 +4303,7 @@ inline void GameData::set_player(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:GameData.player)
 }
 
-// .Point screenSize = 34;
+// .Point screenSize = 35;
 inline bool GameData::has_screensize() const {
   return this != internal_default_instance() && screensize_ != NULL;
 }
@@ -4160,7 +4357,7 @@ inline void GameData::set_allocated_screensize(::Point* screensize) {
   // @@protoc_insertion_point(field_set_allocated:GameData.screenSize)
 }
 
-// .Point screenPosition = 35;
+// .Point screenPosition = 36;
 inline bool GameData::has_screenposition() const {
   return this != internal_default_instance() && screenposition_ != NULL;
 }
@@ -4214,7 +4411,7 @@ inline void GameData::set_allocated_screenposition(::Point* screenposition) {
   // @@protoc_insertion_point(field_set_allocated:GameData.screenPosition)
 }
 
-// .MapData map = 36;
+// .MapData map = 37;
 inline bool GameData::has_map() const {
   return this != internal_default_instance() && map_ != NULL;
 }

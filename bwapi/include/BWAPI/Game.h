@@ -946,7 +946,7 @@ namespace BWAPI
     /// multiplayer gaming service.</summary>
     ///
     /// @returns true if the client is in a multiplayer Battle.net game and false if it is not.
-    //virtual bool isBattleNet() const = 0;
+    bool isBattleNet() const { return gameData.isBattleNet; }
 
     /// <summary>Checks if the current game is paused.</summary> While paused, AIModule::onFrame
     /// will still be called.
@@ -962,21 +962,21 @@ namespace BWAPI
 
     /// <summary>Pauses the game.</summary> While paused, AIModule::onFrame will still be called.
     /// @see resumeGame
-    //virtual void pauseGame() = 0;
+    void pauseGame();
 
     /// <summary>Resumes the game from a paused state.</summary>
     /// @see pauseGame
-    //virtual void resumeGame() = 0;
+    void resumeGame();
 
     /// <summary>Leaves the current game by surrendering and enters the post-game statistics/score
     /// screen.</summary>
-    //virtual void leaveGame() = 0;
+    void leaveGame();
 
     /// <summary>Restarts the match.</summary> Works the same as if the match was restarted from
     /// the in-game menu (F10). This option is only available in single player games.
     ///
     /// @todo return a bool indicating success, document error code for invalid state
-    //virtual void restartGame() = 0;
+    void restartGame();
 
     /// <summary>Sets the number of milliseconds Broodwar spends in each frame.</summary> The
     /// default values are as follows:
@@ -1001,7 +1001,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see setFrameSkip, getFPS
-    //virtual void setLocalSpeed(int speed) = 0;
+    void setLocalSpeed(int speed);
 
     /// <summary>Issues a given command to a set of units.</summary> This function automatically
     /// splits the set into groups of 12 and issues the same command to each of them. If a unit
@@ -1017,7 +1017,7 @@ namespace BWAPI
     ///
     /// @returns true if any one of the units in the Unitset were capable of executing the
     /// command, and false if none of the units were capable of executing the command.
-    //virtual bool issueCommand(const Unitset& units, UnitCommand command) = 0;
+    bool issueCommand(const Unitset& units, UnitCommand command);
 
     /// <summary>Retrieves the set of units that are currently selected by the user outside of
     /// BWAPI.</summary> This function requires that Flag::UserInput be enabled.
@@ -1026,7 +1026,7 @@ namespace BWAPI
     /// then this set is always empty.
     ///
     /// @see enableFlag
-    //virtual const Unitset& getSelectedUnits() const = 0;
+    const Unitset& getSelectedUnits() const;
 
     /// <summary>Retrieves the player object that BWAPI is controlling.</summary> 
     ///
@@ -1101,7 +1101,7 @@ namespace BWAPI
     ///   }
     /// @endcode
     /// @see Text::Size::Enum
-    //virtual void setTextSize(Text::Size::Enum size = Text::Size::Default) = 0;
+    void setTextSize(Text::Size::Enum size = Text::Size::Default);
 
     /// <summary>Draws text on the screen at the given coordinates.</summary> Text can be drawn in
     /// different colors or formatted using the Text::Enum members.
@@ -1421,7 +1421,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see isLatComEnabled.
-    //virtual void setLatCom(bool isEnabled) = 0;
+    //void setLatCom(bool isEnabled);
 
     /// <summary>Checks if the GUI is enabled.</summary> The GUI includes all drawing functions of
     /// BWAPI, as well as screen updates from Broodwar.
@@ -1840,6 +1840,7 @@ namespace BWAPI
     std::set<bwapi::message::Message> messageQueue;
 
     Unitset pylons;
+    Text::Size::Enum textSize = Text::Size::Default;
 
     // We can't include bwapi sets here because they depend on Game
     std::set<Player, IDCompare> players;

@@ -1908,14 +1908,88 @@ namespace BWAPI
         newShape->set_x2(0);
         newShape->set_y2(0);
         newShape->set_extra1(0);
-        //TODO bring back textSize var?
-        newShape->set_extra2(Text::Size::Default);
+        newShape->set_extra2(textSize);
         newShape->set_color(0);
         newShape->set_issolid(false);
         newShape->set_text(buffer);
         newCommand->set_allocated_shape(newShape.release());
         newMessage.set_allocated_command(newCommand.release());
         messageQueue.emplace(newMessage);
+    }
+    //----------------------------------------------- PAUSE GAME -----------------------------------------------
+    void Game::pauseGame()
+    {
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newPauseGame = std::make_unique<bwapi::command::PauseGame>();
+        newCommand->set_allocated_pausegame(newPauseGame.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+    //---------------------------------------------- RESUME GAME -----------------------------------------------
+    void Game::resumeGame()
+    {
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newResumeGame = std::make_unique<bwapi::command::ResumeGame>();
+        newCommand->set_allocated_resumegame(newResumeGame.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+    //---------------------------------------------- LEAVE GAME ------------------------------------------------
+    void Game::leaveGame()
+    {
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newLeaveGame = std::make_unique<bwapi::command::LeaveGame>();
+        newCommand->set_allocated_leavegame(newLeaveGame.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+    //--------------------------------------------- RESTART GAME -----------------------------------------------
+    void Game::restartGame()
+    {
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newRestartGame = std::make_unique<bwapi::command::RestartGame>();
+        newCommand->set_allocated_restartgame(newRestartGame.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+    //---------------------------------------------- SET GAME SPEED --------------------------------------------
+    void Game::setLocalSpeed(int speed)
+    {
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newSetLocalSpeed = std::make_unique<bwapi::command::SetLocalSpeed>();
+        newSetLocalSpeed->set_speed(speed);
+        newCommand->set_allocated_setlocalspeed(newSetLocalSpeed.release());
+        newMessage.set_allocated_command(newCommand.release());
+    }
+    //------------------------------------------- ISSUE COMMAND ------------------------------------------------
+    bool Game::issueCommand(const Unitset& units, UnitCommand command)
+    {
+        bool success = false;
+        //FIX FIX FIX naive implementation
+        for (Unit u : units)
+        {
+            success |= u->issueCommand(command);
+        }
+        return success;
+    }
+    //------------------------------------------ GET SELECTED UNITS --------------------------------------------
+    Unitset selectedUnits;
+    const Unitset& Game::getSelectedUnits() const
+    {
+        lastError = Errors::None;
+        return selectedUnits;
+    }
+    //---------------------------------------------- SET TEXT SIZE ---------------------------------------------
+    void Game::setTextSize(Text::Size::Enum size)
+    {
+        if (size < Text::Size::Small) size = Text::Size::Small;
+        if (size > Text::Size::Huge) size = Text::Size::Huge;
+        textSize = size;
     }
 
 

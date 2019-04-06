@@ -39,7 +39,7 @@ namespace protobuf_command_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[6];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -51,15 +51,30 @@ namespace command {
 class Command;
 class CommandDefaultTypeInternal;
 extern CommandDefaultTypeInternal _Command_default_instance_;
+class LeaveGame;
+class LeaveGameDefaultTypeInternal;
+extern LeaveGameDefaultTypeInternal _LeaveGame_default_instance_;
+class PauseGame;
+class PauseGameDefaultTypeInternal;
+extern PauseGameDefaultTypeInternal _PauseGame_default_instance_;
 class PingMiniMap;
 class PingMiniMapDefaultTypeInternal;
 extern PingMiniMapDefaultTypeInternal _PingMiniMap_default_instance_;
 class Printf;
 class PrintfDefaultTypeInternal;
 extern PrintfDefaultTypeInternal _Printf_default_instance_;
+class RestartGame;
+class RestartGameDefaultTypeInternal;
+extern RestartGameDefaultTypeInternal _RestartGame_default_instance_;
+class ResumeGame;
+class ResumeGameDefaultTypeInternal;
+extern ResumeGameDefaultTypeInternal _ResumeGame_default_instance_;
 class SendText;
 class SendTextDefaultTypeInternal;
 extern SendTextDefaultTypeInternal _SendText_default_instance_;
+class SetLocalSpeed;
+class SetLocalSpeedDefaultTypeInternal;
+extern SetLocalSpeedDefaultTypeInternal _SetLocalSpeed_default_instance_;
 class SetScreenPosition;
 class SetScreenPositionDefaultTypeInternal;
 extern SetScreenPositionDefaultTypeInternal _SetScreenPosition_default_instance_;
@@ -71,9 +86,14 @@ extern ShapeDefaultTypeInternal _Shape_default_instance_;
 namespace google {
 namespace protobuf {
 template<> ::bwapi::command::Command* Arena::CreateMaybeMessage<::bwapi::command::Command>(Arena*);
+template<> ::bwapi::command::LeaveGame* Arena::CreateMaybeMessage<::bwapi::command::LeaveGame>(Arena*);
+template<> ::bwapi::command::PauseGame* Arena::CreateMaybeMessage<::bwapi::command::PauseGame>(Arena*);
 template<> ::bwapi::command::PingMiniMap* Arena::CreateMaybeMessage<::bwapi::command::PingMiniMap>(Arena*);
 template<> ::bwapi::command::Printf* Arena::CreateMaybeMessage<::bwapi::command::Printf>(Arena*);
+template<> ::bwapi::command::RestartGame* Arena::CreateMaybeMessage<::bwapi::command::RestartGame>(Arena*);
+template<> ::bwapi::command::ResumeGame* Arena::CreateMaybeMessage<::bwapi::command::ResumeGame>(Arena*);
 template<> ::bwapi::command::SendText* Arena::CreateMaybeMessage<::bwapi::command::SendText>(Arena*);
+template<> ::bwapi::command::SetLocalSpeed* Arena::CreateMaybeMessage<::bwapi::command::SetLocalSpeed>(Arena*);
 template<> ::bwapi::command::SetScreenPosition* Arena::CreateMaybeMessage<::bwapi::command::SetScreenPosition>(Arena*);
 template<> ::bwapi::command::Shape* Arena::CreateMaybeMessage<::bwapi::command::Shape>(Arena*);
 }  // namespace protobuf
@@ -763,6 +783,493 @@ class Shape : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
+class PauseGame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.PauseGame) */ {
+ public:
+  PauseGame();
+  virtual ~PauseGame();
+
+  PauseGame(const PauseGame& from);
+
+  inline PauseGame& operator=(const PauseGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  PauseGame(PauseGame&& from) noexcept
+    : PauseGame() {
+    *this = ::std::move(from);
+  }
+
+  inline PauseGame& operator=(PauseGame&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PauseGame& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PauseGame* internal_default_instance() {
+    return reinterpret_cast<const PauseGame*>(
+               &_PauseGame_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(PauseGame* other);
+  friend void swap(PauseGame& a, PauseGame& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PauseGame* New() const final {
+    return CreateMaybeMessage<PauseGame>(NULL);
+  }
+
+  PauseGame* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<PauseGame>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const PauseGame& from);
+  void MergeFrom(const PauseGame& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PauseGame* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.PauseGame)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ResumeGame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.ResumeGame) */ {
+ public:
+  ResumeGame();
+  virtual ~ResumeGame();
+
+  ResumeGame(const ResumeGame& from);
+
+  inline ResumeGame& operator=(const ResumeGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ResumeGame(ResumeGame&& from) noexcept
+    : ResumeGame() {
+    *this = ::std::move(from);
+  }
+
+  inline ResumeGame& operator=(ResumeGame&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ResumeGame& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ResumeGame* internal_default_instance() {
+    return reinterpret_cast<const ResumeGame*>(
+               &_ResumeGame_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(ResumeGame* other);
+  friend void swap(ResumeGame& a, ResumeGame& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ResumeGame* New() const final {
+    return CreateMaybeMessage<ResumeGame>(NULL);
+  }
+
+  ResumeGame* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ResumeGame>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ResumeGame& from);
+  void MergeFrom(const ResumeGame& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ResumeGame* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.ResumeGame)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class LeaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.LeaveGame) */ {
+ public:
+  LeaveGame();
+  virtual ~LeaveGame();
+
+  LeaveGame(const LeaveGame& from);
+
+  inline LeaveGame& operator=(const LeaveGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LeaveGame(LeaveGame&& from) noexcept
+    : LeaveGame() {
+    *this = ::std::move(from);
+  }
+
+  inline LeaveGame& operator=(LeaveGame&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LeaveGame& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LeaveGame* internal_default_instance() {
+    return reinterpret_cast<const LeaveGame*>(
+               &_LeaveGame_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(LeaveGame* other);
+  friend void swap(LeaveGame& a, LeaveGame& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LeaveGame* New() const final {
+    return CreateMaybeMessage<LeaveGame>(NULL);
+  }
+
+  LeaveGame* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<LeaveGame>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const LeaveGame& from);
+  void MergeFrom(const LeaveGame& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LeaveGame* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.LeaveGame)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class RestartGame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.RestartGame) */ {
+ public:
+  RestartGame();
+  virtual ~RestartGame();
+
+  RestartGame(const RestartGame& from);
+
+  inline RestartGame& operator=(const RestartGame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RestartGame(RestartGame&& from) noexcept
+    : RestartGame() {
+    *this = ::std::move(from);
+  }
+
+  inline RestartGame& operator=(RestartGame&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RestartGame& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RestartGame* internal_default_instance() {
+    return reinterpret_cast<const RestartGame*>(
+               &_RestartGame_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  void Swap(RestartGame* other);
+  friend void swap(RestartGame& a, RestartGame& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RestartGame* New() const final {
+    return CreateMaybeMessage<RestartGame>(NULL);
+  }
+
+  RestartGame* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<RestartGame>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const RestartGame& from);
+  void MergeFrom(const RestartGame& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RestartGame* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.RestartGame)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetLocalSpeed : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.SetLocalSpeed) */ {
+ public:
+  SetLocalSpeed();
+  virtual ~SetLocalSpeed();
+
+  SetLocalSpeed(const SetLocalSpeed& from);
+
+  inline SetLocalSpeed& operator=(const SetLocalSpeed& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetLocalSpeed(SetLocalSpeed&& from) noexcept
+    : SetLocalSpeed() {
+    *this = ::std::move(from);
+  }
+
+  inline SetLocalSpeed& operator=(SetLocalSpeed&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetLocalSpeed& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetLocalSpeed* internal_default_instance() {
+    return reinterpret_cast<const SetLocalSpeed*>(
+               &_SetLocalSpeed_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(SetLocalSpeed* other);
+  friend void swap(SetLocalSpeed& a, SetLocalSpeed& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetLocalSpeed* New() const final {
+    return CreateMaybeMessage<SetLocalSpeed>(NULL);
+  }
+
+  SetLocalSpeed* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SetLocalSpeed>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const SetLocalSpeed& from);
+  void MergeFrom(const SetLocalSpeed& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SetLocalSpeed* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 speed = 1;
+  void clear_speed();
+  static const int kSpeedFieldNumber = 1;
+  ::google::protobuf::int32 speed() const;
+  void set_speed(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.SetLocalSpeed)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 speed_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.Command) */ {
  public:
   Command();
@@ -798,6 +1305,11 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kPingMiniMap = 3,
     kPrintf = 4,
     kShape = 5,
+    kPauseGame = 6,
+    kResumeGame = 7,
+    kLeaveGame = 8,
+    kRestartGame = 9,
+    kSetLocalSpeed = 10,
     CMD_NOT_SET = 0,
   };
 
@@ -807,7 +1319,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Command_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    10;
 
   void Swap(Command* other);
   friend void swap(Command& a, Command& b) {
@@ -919,6 +1431,66 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::bwapi::command::Shape* mutable_shape();
   void set_allocated_shape(::bwapi::command::Shape* shape);
 
+  // .bwapi.command.PauseGame pauseGame = 6;
+  bool has_pausegame() const;
+  void clear_pausegame();
+  static const int kPauseGameFieldNumber = 6;
+  private:
+  const ::bwapi::command::PauseGame& _internal_pausegame() const;
+  public:
+  const ::bwapi::command::PauseGame& pausegame() const;
+  ::bwapi::command::PauseGame* release_pausegame();
+  ::bwapi::command::PauseGame* mutable_pausegame();
+  void set_allocated_pausegame(::bwapi::command::PauseGame* pausegame);
+
+  // .bwapi.command.ResumeGame resumeGame = 7;
+  bool has_resumegame() const;
+  void clear_resumegame();
+  static const int kResumeGameFieldNumber = 7;
+  private:
+  const ::bwapi::command::ResumeGame& _internal_resumegame() const;
+  public:
+  const ::bwapi::command::ResumeGame& resumegame() const;
+  ::bwapi::command::ResumeGame* release_resumegame();
+  ::bwapi::command::ResumeGame* mutable_resumegame();
+  void set_allocated_resumegame(::bwapi::command::ResumeGame* resumegame);
+
+  // .bwapi.command.LeaveGame leaveGame = 8;
+  bool has_leavegame() const;
+  void clear_leavegame();
+  static const int kLeaveGameFieldNumber = 8;
+  private:
+  const ::bwapi::command::LeaveGame& _internal_leavegame() const;
+  public:
+  const ::bwapi::command::LeaveGame& leavegame() const;
+  ::bwapi::command::LeaveGame* release_leavegame();
+  ::bwapi::command::LeaveGame* mutable_leavegame();
+  void set_allocated_leavegame(::bwapi::command::LeaveGame* leavegame);
+
+  // .bwapi.command.RestartGame restartGame = 9;
+  bool has_restartgame() const;
+  void clear_restartgame();
+  static const int kRestartGameFieldNumber = 9;
+  private:
+  const ::bwapi::command::RestartGame& _internal_restartgame() const;
+  public:
+  const ::bwapi::command::RestartGame& restartgame() const;
+  ::bwapi::command::RestartGame* release_restartgame();
+  ::bwapi::command::RestartGame* mutable_restartgame();
+  void set_allocated_restartgame(::bwapi::command::RestartGame* restartgame);
+
+  // .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+  bool has_setlocalspeed() const;
+  void clear_setlocalspeed();
+  static const int kSetLocalSpeedFieldNumber = 10;
+  private:
+  const ::bwapi::command::SetLocalSpeed& _internal_setlocalspeed() const;
+  public:
+  const ::bwapi::command::SetLocalSpeed& setlocalspeed() const;
+  ::bwapi::command::SetLocalSpeed* release_setlocalspeed();
+  ::bwapi::command::SetLocalSpeed* mutable_setlocalspeed();
+  void set_allocated_setlocalspeed(::bwapi::command::SetLocalSpeed* setlocalspeed);
+
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:bwapi.command.Command)
@@ -928,6 +1500,11 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_pingminimap();
   void set_has_printf();
   void set_has_shape();
+  void set_has_pausegame();
+  void set_has_resumegame();
+  void set_has_leavegame();
+  void set_has_restartgame();
+  void set_has_setlocalspeed();
 
   inline bool has_cmd() const;
   inline void clear_has_cmd();
@@ -940,6 +1517,11 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::bwapi::command::PingMiniMap* pingminimap_;
     ::bwapi::command::Printf* printf_;
     ::bwapi::command::Shape* shape_;
+    ::bwapi::command::PauseGame* pausegame_;
+    ::bwapi::command::ResumeGame* resumegame_;
+    ::bwapi::command::LeaveGame* leavegame_;
+    ::bwapi::command::RestartGame* restartgame_;
+    ::bwapi::command::SetLocalSpeed* setlocalspeed_;
   } cmd_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1344,6 +1926,40 @@ inline void Shape::set_allocated_text(::std::string* text) {
 
 // -------------------------------------------------------------------
 
+// PauseGame
+
+// -------------------------------------------------------------------
+
+// ResumeGame
+
+// -------------------------------------------------------------------
+
+// LeaveGame
+
+// -------------------------------------------------------------------
+
+// RestartGame
+
+// -------------------------------------------------------------------
+
+// SetLocalSpeed
+
+// int32 speed = 1;
+inline void SetLocalSpeed::clear_speed() {
+  speed_ = 0;
+}
+inline ::google::protobuf::int32 SetLocalSpeed::speed() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.SetLocalSpeed.speed)
+  return speed_;
+}
+inline void SetLocalSpeed::set_speed(::google::protobuf::int32 value) {
+  
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.SetLocalSpeed.speed)
+}
+
+// -------------------------------------------------------------------
+
 // Command
 
 // .bwapi.command.SendText sendText = 1;
@@ -1566,6 +2182,226 @@ inline ::bwapi::command::Shape* Command::mutable_shape() {
   return cmd_.shape_;
 }
 
+// .bwapi.command.PauseGame pauseGame = 6;
+inline bool Command::has_pausegame() const {
+  return cmd_case() == kPauseGame;
+}
+inline void Command::set_has_pausegame() {
+  _oneof_case_[0] = kPauseGame;
+}
+inline void Command::clear_pausegame() {
+  if (has_pausegame()) {
+    delete cmd_.pausegame_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::PauseGame& Command::_internal_pausegame() const {
+  return *cmd_.pausegame_;
+}
+inline ::bwapi::command::PauseGame* Command::release_pausegame() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.pauseGame)
+  if (has_pausegame()) {
+    clear_has_cmd();
+      ::bwapi::command::PauseGame* temp = cmd_.pausegame_;
+    cmd_.pausegame_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::PauseGame& Command::pausegame() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.pauseGame)
+  return has_pausegame()
+      ? *cmd_.pausegame_
+      : *reinterpret_cast< ::bwapi::command::PauseGame*>(&::bwapi::command::_PauseGame_default_instance_);
+}
+inline ::bwapi::command::PauseGame* Command::mutable_pausegame() {
+  if (!has_pausegame()) {
+    clear_cmd();
+    set_has_pausegame();
+    cmd_.pausegame_ = CreateMaybeMessage< ::bwapi::command::PauseGame >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.pauseGame)
+  return cmd_.pausegame_;
+}
+
+// .bwapi.command.ResumeGame resumeGame = 7;
+inline bool Command::has_resumegame() const {
+  return cmd_case() == kResumeGame;
+}
+inline void Command::set_has_resumegame() {
+  _oneof_case_[0] = kResumeGame;
+}
+inline void Command::clear_resumegame() {
+  if (has_resumegame()) {
+    delete cmd_.resumegame_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::ResumeGame& Command::_internal_resumegame() const {
+  return *cmd_.resumegame_;
+}
+inline ::bwapi::command::ResumeGame* Command::release_resumegame() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.resumeGame)
+  if (has_resumegame()) {
+    clear_has_cmd();
+      ::bwapi::command::ResumeGame* temp = cmd_.resumegame_;
+    cmd_.resumegame_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::ResumeGame& Command::resumegame() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.resumeGame)
+  return has_resumegame()
+      ? *cmd_.resumegame_
+      : *reinterpret_cast< ::bwapi::command::ResumeGame*>(&::bwapi::command::_ResumeGame_default_instance_);
+}
+inline ::bwapi::command::ResumeGame* Command::mutable_resumegame() {
+  if (!has_resumegame()) {
+    clear_cmd();
+    set_has_resumegame();
+    cmd_.resumegame_ = CreateMaybeMessage< ::bwapi::command::ResumeGame >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.resumeGame)
+  return cmd_.resumegame_;
+}
+
+// .bwapi.command.LeaveGame leaveGame = 8;
+inline bool Command::has_leavegame() const {
+  return cmd_case() == kLeaveGame;
+}
+inline void Command::set_has_leavegame() {
+  _oneof_case_[0] = kLeaveGame;
+}
+inline void Command::clear_leavegame() {
+  if (has_leavegame()) {
+    delete cmd_.leavegame_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::LeaveGame& Command::_internal_leavegame() const {
+  return *cmd_.leavegame_;
+}
+inline ::bwapi::command::LeaveGame* Command::release_leavegame() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.leaveGame)
+  if (has_leavegame()) {
+    clear_has_cmd();
+      ::bwapi::command::LeaveGame* temp = cmd_.leavegame_;
+    cmd_.leavegame_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::LeaveGame& Command::leavegame() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.leaveGame)
+  return has_leavegame()
+      ? *cmd_.leavegame_
+      : *reinterpret_cast< ::bwapi::command::LeaveGame*>(&::bwapi::command::_LeaveGame_default_instance_);
+}
+inline ::bwapi::command::LeaveGame* Command::mutable_leavegame() {
+  if (!has_leavegame()) {
+    clear_cmd();
+    set_has_leavegame();
+    cmd_.leavegame_ = CreateMaybeMessage< ::bwapi::command::LeaveGame >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.leaveGame)
+  return cmd_.leavegame_;
+}
+
+// .bwapi.command.RestartGame restartGame = 9;
+inline bool Command::has_restartgame() const {
+  return cmd_case() == kRestartGame;
+}
+inline void Command::set_has_restartgame() {
+  _oneof_case_[0] = kRestartGame;
+}
+inline void Command::clear_restartgame() {
+  if (has_restartgame()) {
+    delete cmd_.restartgame_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::RestartGame& Command::_internal_restartgame() const {
+  return *cmd_.restartgame_;
+}
+inline ::bwapi::command::RestartGame* Command::release_restartgame() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.restartGame)
+  if (has_restartgame()) {
+    clear_has_cmd();
+      ::bwapi::command::RestartGame* temp = cmd_.restartgame_;
+    cmd_.restartgame_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::RestartGame& Command::restartgame() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.restartGame)
+  return has_restartgame()
+      ? *cmd_.restartgame_
+      : *reinterpret_cast< ::bwapi::command::RestartGame*>(&::bwapi::command::_RestartGame_default_instance_);
+}
+inline ::bwapi::command::RestartGame* Command::mutable_restartgame() {
+  if (!has_restartgame()) {
+    clear_cmd();
+    set_has_restartgame();
+    cmd_.restartgame_ = CreateMaybeMessage< ::bwapi::command::RestartGame >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.restartGame)
+  return cmd_.restartgame_;
+}
+
+// .bwapi.command.SetLocalSpeed setLocalSpeed = 10;
+inline bool Command::has_setlocalspeed() const {
+  return cmd_case() == kSetLocalSpeed;
+}
+inline void Command::set_has_setlocalspeed() {
+  _oneof_case_[0] = kSetLocalSpeed;
+}
+inline void Command::clear_setlocalspeed() {
+  if (has_setlocalspeed()) {
+    delete cmd_.setlocalspeed_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::SetLocalSpeed& Command::_internal_setlocalspeed() const {
+  return *cmd_.setlocalspeed_;
+}
+inline ::bwapi::command::SetLocalSpeed* Command::release_setlocalspeed() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.setLocalSpeed)
+  if (has_setlocalspeed()) {
+    clear_has_cmd();
+      ::bwapi::command::SetLocalSpeed* temp = cmd_.setlocalspeed_;
+    cmd_.setlocalspeed_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::SetLocalSpeed& Command::setlocalspeed() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.setLocalSpeed)
+  return has_setlocalspeed()
+      ? *cmd_.setlocalspeed_
+      : *reinterpret_cast< ::bwapi::command::SetLocalSpeed*>(&::bwapi::command::_SetLocalSpeed_default_instance_);
+}
+inline ::bwapi::command::SetLocalSpeed* Command::mutable_setlocalspeed() {
+  if (!has_setlocalspeed()) {
+    clear_cmd();
+    set_has_setlocalspeed();
+    cmd_.setlocalspeed_ = CreateMaybeMessage< ::bwapi::command::SetLocalSpeed >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.setLocalSpeed)
+  return cmd_.setlocalspeed_;
+}
+
 inline bool Command::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -1578,6 +2414,16 @@ inline Command::CmdCase Command::cmd_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
