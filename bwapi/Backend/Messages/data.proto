@@ -20,6 +20,11 @@ message MapData
     repeated bool isOccupied = 9;
 
     repeated bool isWalkable = 10;
+    
+    repeated uint16 mapTileRegionId;
+    repeated uint16 mapSplitTilesMiniTileMask;
+    repeated uint16 mapSplitTilesRegion1;
+    repeated uint16 mapSplitTilesRegion2;
 }
 
 message GameData {

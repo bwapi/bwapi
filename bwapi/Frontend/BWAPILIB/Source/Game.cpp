@@ -777,29 +777,29 @@ namespace BWAPI
             this->setLastError(BWAPI::Errors::Invalid_Parameter);
             return nullptr;
         }
-        unsigned short idx = gameData.mapTileRegionId[x / 32][y / 32];
+        unsigned short idx = gameData.map.mapTileRegionId[x / 32][y / 32];
         if (idx & 0x2000)
         {
             const int minitilePosX = (x & 0x1F) / 8;
             const int minitilePosY = (y & 0x1F) / 8;
             const int minitileShift = minitilePosX + minitilePosY * 4;
             const int index = idx & 0x1FFF;
-            if (index >= std::extent<decltype(data->mapSplitTilesMiniTileMask)>::value)
+            if (index >= std::extent<decltype(gameData.map.mapSplitTilesMiniTileMask)>::value)
                 return nullptr;
 
-            unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[index];
+            unsigned short miniTileMask = gameData.map.mapSplitTilesMiniTileMask[index];
 
-            if (index >= std::extent<decltype(data->mapSplitTilesRegion1)>::value)
+            if (index >= std::extent<decltype(gameData.map.mapSplitTilesRegion1)>::value)
                 return nullptr;
 
             if ((miniTileMask >> minitileShift) & 1)
             {
-                unsigned short rgn2 = data->mapSplitTilesRegion2[index];
+                unsigned short rgn2 = gameData.map.mapSplitTilesRegion2[index];
                 return this->getRegion(rgn2);
             }
             else
             {
-                unsigned short rgn1 = data->mapSplitTilesRegion1[index];
+                unsigned short rgn1 = gameData.map.mapSplitTilesRegion1[index];
                 return this->getRegion(rgn1);
             }
         }

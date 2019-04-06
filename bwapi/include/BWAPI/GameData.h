@@ -69,6 +69,11 @@ namespace BWAPI
       bool isOccupied[256][256];
 
       bool isWalkable[1024][1024];
+
+      unsigned short mapTileRegionId[256][256];
+      unsigned short mapSplitTilesMiniTileMask[5000];
+      unsigned short mapSplitTilesRegion1[5000];
+      unsigned short mapSplitTilesRegion2[5000];
     };
 
     MapData map;
