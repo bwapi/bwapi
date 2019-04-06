@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package bwapi.command;
+
+message SendText {
+    bool toAllies = 1;
+    string text = 2;
+}
+
+message SetScreenPosition {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message PingMiniMap {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message Printf {
+    string text = 1;
+}
+
+enum ShapeType {
+    NoShapeType = 0;
+    Text = 1;
+    Box = 2;
+    Triangle = 3;
+    Circle = 4;
+    Ellipse = 5;
+    Dot = 6;
+    Line = 7;
+}
+
+enum CoordinateType {
+    NoCoordinateType = 0;
+    Screen = 1;
+    Map = 2;
+    Mouse = 3;
+}
+
+message Shape {
+    ShapeType type = 1;
+    CoordinateType ctype = 2;
+    int32 x1 = 3;
+    int32 y1 = 4;
+    int32 x2 = 5;
+    int32 y2 = 6;
+    int32 extra1 = 7;
+    int32 extra2 = 8;
+    int32 color = 9;
+    bool isSolid = 10;
+    string text = 11;
+}
+//Command wrapper, will contain one of the types of commands
+message Command {
+    oneof cmd {
+        SendText sendText = 1;
+        SetScreenPosition setScreenPosition = 2;
+        PingMiniMap pingMiniMap = 3;
+        Printf printf = 4;
+        Shape shape = 5;
+    }
+}

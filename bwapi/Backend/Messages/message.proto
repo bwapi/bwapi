@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "init.proto";
 import "game.proto";
+import "command.proto";
 
 package bwapi.message;
 
@@ -14,5 +15,8 @@ message Message {
 
 		// Game
 		bwapi.game.FrameUpdate frameUpdate = 1000;
+
+        //Command
+        bwapi.command.Command command = 4;
 	}
 }

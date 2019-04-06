@@ -50,7 +50,7 @@ namespace BWAPI4
       
       
       Unitset selectedUnits;
-      Unitset pylons;
+
       
 
       TilePosition::list startLocations;

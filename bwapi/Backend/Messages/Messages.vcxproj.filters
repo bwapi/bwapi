@@ -30,6 +30,9 @@
     <None Include="data.proto">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="command.proto">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generated\cpp\error.pb.h">
@@ -44,6 +47,9 @@
     <ClInclude Include="generated\cpp\message.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="generated\cpp\command.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="generated\cpp\error.pb.cc">
@@ -56,6 +62,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="generated\cpp\message.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="generated\cpp\command.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,8 @@
 #pragma once
 #include <windows.h>
 
+#include "../../BWAPIBackendCore/BWAPIProtoClient.h"
+
 #include <vector>
 #include <unordered_map>
 

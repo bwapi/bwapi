@@ -5,62 +5,88 @@ namespace BWAPI
     BWAPIProtoClient::BWAPIProtoClient()
     {
         connected = false;
-        connection = nullptr;
+        tcpListener.listen(8045);
+        socketSelector.add(tcpListener);
     }
 
-    void BWAPIProtoClient::listenForConnection()
+    void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)
     {
-        auto onDataRecieved = [=](const std::string& message)
+        if (!socketSelector.isReady(tcpListener))
         {
-            bwapi::message::Message* response = new bwapi::message::Message();
-            response->ParseFromString(message);
-            if (response->has_initbroadcast())
-            {
-                bwapi::init::ServerResponse* serverResponse = new bwapi::init::ServerResponse();
-                serverResponse->set_apiversion(5000);
-                bwapi::message::Message* broadcast = new bwapi::message::Message();
-                broadcast->set_allocated_initresponse(serverResponse);
-                std::string serverResponseString;
-                broadcast->SerializeToString(&serverResponseString);
-                connection->send(serverResponseString);
-            }
-        };
-
-        if (connection == nullptr)
-        {
-            std::string url = "ws://localhost:8045/bwapi";
-            //connection = easywsclient::WebSocket::from_url(url);
+            return;
         }
-        while (!connected)
+        tcpListener.accept(tcpSocket);
+        sf::Packet packet;
+        std::string packetContents;
+        bwapi::message::Message receivedMessage;
+        bwapi::message::Message sendMessage;
+        tcpSocket.receive(packet);
+        packet >> packetContents;
+        receivedMessage.ParseFromString(packetContents);
+        bwapi::init::ServerResponse serverResponse;
+        //Check if this is a client broadcast
+        if (!receivedMessage.has_initbroadcast())
         {
-            bwapi::message::Message* response = new bwapi::message::Message();
-            connection->poll();
-            connection->dispatch(onDataRecieved);
+            //Construct error message and send prior to disconnecting the socket
+            bwapi::error::Error error;
+            error.set_code(bwapi::error::ErrorCode::REFUSED);
+            error.set_reason("Missing Init Broadcast.");
+            serverResponse.set_allocated_error(&error);
+            sendMessage.set_allocated_initresponse(&serverResponse);
+            packetContents = sendMessage.SerializeAsString();
+            packet.clear();
+            packet << packetContents;
+            tcpSocket.send(packet);
+            tcpSocket.disconnect();
         }
+        serverResponse.set_apiversion(apiVersion);
+        serverResponse.set_enginetype(enginetype);
+        serverResponse.set_engineversion(engineVersion);
+        serverResponse.set_supportedprotocols(1, bwapi::init::Protocol::PROTOBUF);
+        sendMessage.set_allocated_initresponse(&serverResponse);
+        packetContents = sendMessage.SerializeAsString();
+        packet.clear();
+        packet << packetContents;
+        tcpSocket.send(packet);
+        
     }
 
     void BWAPI::BWAPIProtoClient::lookForServer(std::string* allocatedbwapiversion, int apiversion, char* bwapiversion, bool tournament)
     {
-        if (connection == nullptr)
+        if (tcpSocket.connect("127.0.0.1", 8045) != sf::Socket::Done)
         {
-            std::string url = "ws://localhost:8045/bwapi";
-            //connection = easywsclient::WebSocket::from_url(url);
+            std::fprintf(stderr,"%s", "Could not connect to server.");
+            return;
         }
-        while (!connected)
-        {
-            bwapi::init::ClientBroadcast* broadcast = new bwapi::init::ClientBroadcast;
-            broadcast->set_allocated_bwapiversion(allocatedbwapiversion);
-            broadcast->set_apiversion(apiversion);
-            broadcast->set_bwapiversion(bwapiversion);
-            broadcast->set_tournament(tournament);
-            bwapi::message::Message* message = new bwapi::message::Message();
-            message->set_allocated_initbroadcast(broadcast);
-            std::string messageString;
-            message->SerializeToString(&messageString);
-            connection->send(messageString);
+        bwapi::init::ClientBroadcast broadcast;
+        broadcast.set_allocated_bwapiversion(allocatedbwapiversion);
+        broadcast.set_apiversion(apiversion);
+        broadcast.set_bwapiversion(bwapiversion);
+        broadcast.set_tournament(tournament);
+        bwapi::message::Message message;
+        message.set_allocated_initbroadcast(&broadcast);
+        std::string packetContents;
+        message.SerializeToString(&packetContents);
+        sf::Packet packet;
+        packet << packetContents;
+        tcpSocket.send(packet);
 
-            connection->poll(5000);
-            //connection
+        if (tcpSocket.receive(packet) != sf::Socket::Done)
+        {
+            std::fprintf(stderr, "%s", "Failed to receive server response.");
+            tcpSocket.disconnect();
+            return;
         }
+        packet >> packetContents;
+        message.ParseFromString(packetContents);
+        if (!message.has_initresponse)
+        {
+            std::fprintf(stderr, "Unexpected server response.");
+            tcpSocket.disconnect();
+            return;
+        }
+        //What are we going to do with this?
+        bwapi::init::ServerResponse serverResponse = message.initresponse;
+        //we are technically connected.
     }
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdarg>
 #include <sstream>
+#include <assert.h>
 
 #include <BWAPI/Error.h>
 #include <BWAPI/Color.h>
@@ -30,6 +31,8 @@
 
 #include "../Frontend/BWAPICore/FPSCounter.h"
 #include "../Frontend/BWAPICore/APMCounter.h"
+#include "../Backend/Messages/generated/cpp/message.pb.h"
+#include "../Frontend/BWAPIFrontendClient/Convenience.h"
 
 namespace BWAPI
 {
@@ -320,7 +323,7 @@ namespace BWAPI
     ///   The y coordinate to move the screen to, in pixels.
     /// </param>
     /// @see getScreenPosition
-    //virutal void setScreenPosition(int x, int y) = 0;
+    void setScreenPosition(int x, int y);
     /// @overload
     void setScreenPosition(BWAPI::Position p);
 
@@ -333,7 +336,7 @@ namespace BWAPI
     /// <param name="y">
     ///   The y coordinate to ping at, in pixels, from the map's origin (top).
     /// </param>
-    //virtual void pingMinimap(int x, int y) = 0;
+    void pingMinimap(int x, int y);
     /// @overload
     void pingMinimap(BWAPI::Position p);
 
@@ -406,7 +409,7 @@ namespace BWAPI
     ///
     /// @returns A Unitset object consisting of all the units that have any part of them within the
     /// given rectangle bounds.
-    //virutal Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const = 0;
+    Unitset getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred = nullptr) const;
     /// @overload
     Unitset getUnitsInRectangle(BWAPI::Position topLeft, BWAPI::Position bottomRight, const UnitFilter &pred = nullptr) const;
 
@@ -476,7 +479,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see UnitFilter
-    //virtual Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const = 0;
+    Unit getClosestUnitInRectangle(Position center, const UnitFilter &pred = nullptr, int left = 0, int top = 0, int right = 999999, int bottom = 999999) const;
 
     /// <summary>Compares all units with pred to determine which of them is the best.</summary>
     /// All units are checked. If center and radius are specified, then it will check all units
@@ -722,7 +725,7 @@ namespace BWAPI
     ///
     /// @retval true if the type at the given position will have power.
     /// @retval false if the type at the given position will be unpowered.
-    //virtual bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const = 0;
+    bool hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None ) const;
     /// @overload
     bool hasPowerPrecise(Position position, UnitType unitType = UnitTypes::None) const;
 
@@ -875,7 +878,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see printf
-    //virtual void vPrintf(const char *format, va_list args) const = 0;
+    void vPrintf(const char *format, va_list args) const;
     
     /// <summary>Sends a text message to all other players in the game.</summary> The behaviour of
     /// this function is the same as std::printf, located in header cstdio.
@@ -926,7 +929,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see sendTextEx
-    //virtual void vSendTextEx(bool toAllies, const char *format, va_list args) = 0;
+    void vSendTextEx(bool toAllies, const char *format, va_list args);
 
     /// <summary>Checks if the current client is inside a game.</summary>
     ///
@@ -1119,7 +1122,7 @@ namespace BWAPI
     ///   Arglist containing the intermediate list of arguments to format before finally sending
     ///   the string to Broodwar.
     /// </param>
-    //virtual void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg) = 0;
+    void vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg);
     /// @overload
     void drawText(CoordinateType::Enum ctype, int x, int y, const char *format, ...);
     /// @overload
@@ -1159,7 +1162,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    //virtual void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false) = 0;
+    void drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid = false);
     /// @overload
     void drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid = false);
     /// @overload
@@ -1203,7 +1206,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    //virtual void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false) = 0;
+    void drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
     /// @overload
     void drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid = false);
     /// @overload
@@ -1238,7 +1241,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    //virtual void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false) = 0;
+    void drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid = false);
     /// @overload
     void drawCircleMap(int x, int y, int radius, Color color, bool isSolid = false);
     /// @overload
@@ -1276,7 +1279,7 @@ namespace BWAPI
     ///   If true, then the shape will be filled and drawn as a solid, otherwise it will be drawn
     ///   as an outline. If omitted, this value will default to false.
     /// </param>
-    //virtual void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false) = 0;
+    void drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
     /// @overload
     void drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid = false);
     /// @overload
@@ -1304,7 +1307,7 @@ namespace BWAPI
     /// <param name="color">
     ///   The color of the dot.
     /// </param>
-    //virtual void drawDot(CoordinateType::Enum ctype, int x, int y, Color color) = 0;
+    void drawDot(CoordinateType::Enum ctype, int x, int y, Color color);
     /// @overload
     void drawDotMap(int x, int y, Color color);
     /// @overload
@@ -1338,7 +1341,7 @@ namespace BWAPI
     /// <param name="color">
     ///   The color of the line.
     /// </param>
-    //virtual void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color) = 0;
+    void drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color);
     /// @overload
     void drawLineMap(int x1, int y1, int x2, int y2, Color color);
     /// @overload
@@ -1686,7 +1689,7 @@ namespace BWAPI
     ///
     /// @note If the provided position is invalid, the error Errors::Invalid_Parameter is set.
     /// @see getAllRegions, getRegion
-    //virtual BWAPI::Region getRegionAt(int x, int y) const = 0;
+    BWAPI::Region getRegionAt(int x, int y) const;
     /// @overload
     BWAPI::Region getRegionAt(BWAPI::Position position) const;
 
@@ -1834,6 +1837,9 @@ namespace BWAPI
     GameData gameData;
     FPSCounter fpsCounter;
     APMCounter apmCounter;
+    std::set<bwapi::message::Message> messageQueue;
+
+    Unitset pylons;
 
     // We can't include bwapi sets here because they depend on Game
     std::set<Player, IDCompare> players;
@@ -1842,6 +1848,7 @@ namespace BWAPI
     std::set<Region, IDCompare> regions;
     std::set<Bullet, IDCompare> bullets;
     std::set<Force,  IDCompare> forces;
+   
   };
 
   //extern Game *BroodwarPtr;

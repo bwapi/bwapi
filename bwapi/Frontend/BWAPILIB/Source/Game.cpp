@@ -609,9 +609,31 @@ namespace BWAPI
     {
         return setMap(mapFileName.c_str());
     }
+    void Game::setScreenPosition(int x, int y)
+    {
+        auto newSetScreenPosition = std::make_unique<bwapi::command::SetScreenPosition>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        bwapi::message::Message newMessage;
+        newSetScreenPosition->set_x(x);
+        newSetScreenPosition->set_y(y);
+        newCommand->set_allocated_setscreenposition(newSetScreenPosition.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::setScreenPosition(BWAPI::Position p)
     {
         setScreenPosition(p.x, p.y);
+    }
+    void Game::pingMinimap(int x, int y)
+    {
+        auto newPingMiniMap = std::make_unique<bwapi::command::PingMiniMap>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        bwapi::message::Message newMessage;
+        newPingMiniMap->set_x(x);
+        newPingMiniMap->set_y(y);
+        newCommand->set_allocated_pingminimap(newPingMiniMap.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
     }
     void Game::pingMinimap(BWAPI::Position p)
     {
@@ -660,6 +682,41 @@ namespace BWAPI
     bool Game::hasPower(TilePosition position, int tileWidth, int tileHeight, UnitType unitType) const
     {
         return hasPower(position.x, position.y, tileWidth, tileHeight, unitType);
+    }
+    const bool bPsiFieldMask[10][16] = {
+      { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
+      { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+      { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+      { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+      { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+      { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 }
+        };
+    bool Game::hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None) const
+    {
+        if (unitType >= 0 && unitType < UnitTypes::None && (!unitType.requiresPsi() || !unitType.isBuilding()))
+            return true;
+
+        // Loop through all pylons for the current player
+        for (Unit i : pylons)
+        {
+            if (!i->exists() || !i->isCompleted())
+                continue;
+
+            Position p = i->getPosition();
+            if (abs(p.x - x) >= 256)
+                continue;
+
+            if (abs(p.y - y) >= 160)
+                continue;
+
+            if (bPsiFieldMask[(y - p.y + 160) / 32][(x - p.x + 256) / 32])
+                return true;
+        }
+        return false;
     }
     bool Game::hasPowerPrecise(Position position, UnitType unitType) const
     {
@@ -712,6 +769,42 @@ namespace BWAPI
             center.y + radius);
     }
     //------------------------------------------ REGIONS -----------------------------------------------
+    BWAPI::Region Game::getRegionAt(int x, int y) const
+    {
+        //TODO need to add region info to gameData and convert this function.
+        if (!isValid(Position(x, y)))
+        {
+            this->setLastError(BWAPI::Errors::Invalid_Parameter);
+            return nullptr;
+        }
+        unsigned short idx = gameData.mapTileRegionId[x / 32][y / 32];
+        if (idx & 0x2000)
+        {
+            const int minitilePosX = (x & 0x1F) / 8;
+            const int minitilePosY = (y & 0x1F) / 8;
+            const int minitileShift = minitilePosX + minitilePosY * 4;
+            const int index = idx & 0x1FFF;
+            if (index >= std::extent<decltype(data->mapSplitTilesMiniTileMask)>::value)
+                return nullptr;
+
+            unsigned short miniTileMask = data->mapSplitTilesMiniTileMask[index];
+
+            if (index >= std::extent<decltype(data->mapSplitTilesRegion1)>::value)
+                return nullptr;
+
+            if ((miniTileMask >> minitileShift) & 1)
+            {
+                unsigned short rgn2 = data->mapSplitTilesRegion2[index];
+                return this->getRegion(rgn2);
+            }
+            else
+            {
+                unsigned short rgn1 = data->mapSplitTilesRegion1[index];
+                return this->getRegion(rgn1);
+            }
+        }
+        return this->getRegion(idx);
+    }
     BWAPI::Region Game::getRegionAt(BWAPI::Position position) const
     {
         return getRegionAt(position.x, position.y);
@@ -778,6 +871,26 @@ namespace BWAPI
         va_end(ap);
     }
     //------------------------------------------ DRAW BOX -----------------------------------------------
+    void Game::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Box);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(left);
+        newShape->set_y1(top);
+        newShape->set_x2(right);
+        newShape->set_y2(bottom);
+        newShape->set_extra1(0);
+        newShape->set_extra2(0);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(isSolid);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
         drawBox(CoordinateType::Map, left, top, right, bottom, color, isSolid);
@@ -803,6 +916,26 @@ namespace BWAPI
         drawBoxScreen(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y, color, isSolid);
     }
     //------------------------------------------ DRAW TRIANGLE -----------------------------------------------
+    void Game::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Triangle);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(ax);
+        newShape->set_y1(ay);
+        newShape->set_x2(bx);
+        newShape->set_y2(by);
+        newShape->set_extra1(cx);
+        newShape->set_extra2(cy);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(isSolid);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
         drawTriangle(CoordinateType::Map, ax, ay, bx, by, cx, cy, color, isSolid);
@@ -828,6 +961,26 @@ namespace BWAPI
         drawTriangleScreen(a.x, a.y, b.x, b.y, c.x, c.y, color, isSolid);
     }
     //------------------------------------------ DRAW CIRCLE -----------------------------------------------
+    void Game::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Circle);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(x);
+        newShape->set_y1(y);
+        newShape->set_x2(0);
+        newShape->set_y2(0);
+        newShape->set_extra1(radius);
+        newShape->set_extra2(0);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(isSolid);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
         drawCircle(CoordinateType::Map, x, y, radius, color, isSolid);
@@ -853,6 +1006,26 @@ namespace BWAPI
         drawCircleScreen(p.x, p.y, radius, color, isSolid);
     }
     //------------------------------------------ DRAW ELLIPSE -----------------------------------------------
+    void Game::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Ellipse);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(x);
+        newShape->set_y1(y);
+        newShape->set_x2(0);
+        newShape->set_y2(0);
+        newShape->set_extra1(xrad);
+        newShape->set_extra2(yrad);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(isSolid);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
         drawEllipse(CoordinateType::Map, x, y, xrad, yrad, color, isSolid);
@@ -878,6 +1051,26 @@ namespace BWAPI
         drawEllipseScreen(p.x, p.y, xrad, yrad, color, isSolid);
     }
     //------------------------------------------ DRAW DOT -----------------------------------------------
+    void Game::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Dot);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(x);
+        newShape->set_y1(y);
+        newShape->set_x2(0);
+        newShape->set_y2(0);
+        newShape->set_extra1(0);
+        newShape->set_extra2(0);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(false);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawDotMap(int x, int y, Color color)
     {
         drawDot(CoordinateType::Map, x, y, color);
@@ -903,6 +1096,26 @@ namespace BWAPI
         drawDotScreen(p.x, p.y, color);
     }
     //------------------------------------------ DRAW LINE -----------------------------------------------
+    void Game::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
+    {
+        if (!gameData.hasGUI) return;
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Line);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(x1);
+        newShape->set_y1(y1);
+        newShape->set_x2(x2);
+        newShape->set_y2(y2);
+        newShape->set_extra1(0);
+        newShape->set_extra2(0);
+        newShape->set_color(static_cast<int>(color));
+        newShape->set_issolid(false);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
     void Game::drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
         drawLine(CoordinateType::Map, x1, y1, x2, y2, color);
@@ -1516,5 +1729,193 @@ namespace BWAPI
         return true;
     }
 
+    //--------------------------------------------- SEND TEXT EX -----------------------------------------------
+    void Game::vSendTextEx(bool toAllies, const char *format, va_list arg)
+    {
+        char buffer[256];
+        VSNPrintf(buffer, format, arg);
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newSendText = std::make_unique<bwapi::command::SendText>();
+        newSendText->set_text(buffer);
+        newSendText->set_toallies(toAllies);
+        newCommand->set_allocated_sendtext(newSendText.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+
+    //------------------------------------------------ PRINTF --------------------------------------------------
+    void Game::vPrintf(const char *format, va_list arg) const
+    {
+        char buffer[256];
+        VSNPrintf(buffer, format, arg);
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newPrintf = std::make_unique<bwapi::command::Printf>();
+        newPrintf->set_text(buffer);
+        newCommand->set_allocated_printf(newPrintf.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
+
+    //-------------------------------------------- UNIT FINDER -----------------------------------------------
+    template <class finder, typename _T>
+    void iterateUnitFinder(finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
+    {
+        // Note that the native finder in Broodwar uses an id between 1 and 1700, 0 being an unused entry
+        // IDs provided by the client are BWAPI IDs, which are not bound
+        std::unordered_map<unsigned, unsigned> finderFlags;
+
+        // Declare some variables
+        int r = right, b = bottom;
+        bool isWidthExtended = right - left + 1 < UnitTypes::maxUnitWidth();
+        bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
+
+        // Check if the location is smaller than the largest unit
+        if (isWidthExtended)
+            r += UnitTypes::maxUnitWidth();
+        if (isHeightExtended)
+            b += UnitTypes::maxUnitHeight();
+
+        // Obtain finder indexes for all bounds
+        finder *p_xend = finder_x + finderCount;
+        finder *p_yend = finder_y + finderCount;
+
+        // Create finder elements for compatibility with stl functions
+        finder finderVal;
+
+        // Search for the values using built-in binary search algorithm and comparator
+        const auto cmp = [](const finder& a, const finder& b) { return a.searchValue < b.searchValue; };
+
+        finderVal.searchValue = left;
+        finder *pLeft = std::lower_bound(finder_x, p_xend, finderVal, cmp);
+
+        finderVal.searchValue = top;
+        finder *pTop = std::lower_bound(finder_y, p_yend, finderVal, cmp);
+
+        finderVal.searchValue = r + 1;
+        finder *pRight = std::upper_bound(pLeft, p_xend, finderVal, cmp);
+
+        finderVal.searchValue = b + 1;
+        finder *pBottom = std::upper_bound(pTop, p_yend, finderVal, cmp);
+
+        // Iterate the X entries of the finder
+        for (finder *px = pLeft; px < pRight; ++px)
+        {
+            int iUnitIndex = px->unitIndex;
+            if (finderFlags[iUnitIndex] == 0)
+            {
+                if (isWidthExtended)  // If width is small, check unit bounds
+                {
+                    Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+                    if (u && u->getLeft() <= right)
+                        finderFlags[iUnitIndex] = 1;
+                }
+                else
+                    finderFlags[iUnitIndex] = 1;
+            }
+        }
+        // Iterate the Y entries of the finder
+        for (finder *py = pTop; py < pBottom; ++py)
+        {
+            int iUnitIndex = py->unitIndex;
+            if (finderFlags[iUnitIndex] == 1)
+            {
+                if (isHeightExtended) // If height is small, check unit bounds
+                {
+                    Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+                    if (u && u->getTop() <= bottom)
+                        finderFlags[iUnitIndex] = 2;
+                }
+                else
+                    finderFlags[iUnitIndex] = 2;
+            }
+        }
+        // Final Iteration
+        for (finder *px = pLeft; px < pRight; ++px)
+        {
+            int iUnitIndex = px->unitIndex;
+            if (finderFlags[iUnitIndex] == 2)
+            {
+                Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
+                if (u && u->exists())
+                    callback(u);
+            }
+            // Reset finderFlags so that callback isn't called for duplicates
+            finderFlags[iUnitIndex] = 0;
+        }
+    }
+
+    //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
+    Unitset Game::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const
+    {
+        //TODO this needs to be written
+        /*Unitset unitFinderResults;
+
+        // Have the unit finder do its stuff
+        iterateUnitFinder<unitFinder>(gameData.xUnitSearch,
+            data->yUnitSearch,
+            data->unitSearchSize,
+            left,
+            top,
+            right,
+            bottom,
+            [&](Unit u) { if (!pred.isValid() || pred(u))
+            unitFinderResults.insert(u); });
+        // Return results
+        return unitFinderResults;*/
+    }
+
+    Unit Game::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
+    {
+        //TODO this needs to be written
+        /*// cppcheck-suppress variableScope
+        int bestDistance = 99999999;
+        Unit pBestUnit = nullptr;
+
+        iterateUnitFinder<unitFinder>(data->xUnitSearch,
+            data->yUnitSearch,
+            data->unitSearchSize,
+            left,
+            top,
+            right,
+            bottom,
+            [&](Unit u) { if (!pred.isValid() || pred(u))
+        {
+            int newDistance = u->getDistance(center);
+            if (newDistance < bestDistance)
+            {
+                pBestUnit = u;
+                bestDistance = newDistance;
+            }
+        } });
+        return pBestUnit;*/
+    }
+
+    //-------------------------------------------------- DRAW TEXT ---------------------------------------------
+    void Game::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
+    {
+        if (!gameData.hasGUI) return;
+        char buffer[2048];
+        VSNPrintf(buffer, format, arg);
+        bwapi::message::Message newMessage;
+        auto newShape = std::make_unique<bwapi::command::Shape>();
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        newShape->set_type(bwapi::command::ShapeType::Text);
+        newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(ctype));
+        newShape->set_x1(x);
+        newShape->set_y1(y);
+        newShape->set_x2(0);
+        newShape->set_y2(0);
+        newShape->set_extra1(0);
+        //TODO bring back textSize var?
+        newShape->set_extra2(Text::Size::Default);
+        newShape->set_color(0);
+        newShape->set_issolid(false);
+        newShape->set_text(buffer);
+        newCommand->set_allocated_shape(newShape.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+    }
 
 

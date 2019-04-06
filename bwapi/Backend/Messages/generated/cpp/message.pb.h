@@ -32,6 +32,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "init.pb.h"
 #include "game.pb.h"
+#include "command.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_message_2eproto 
 
@@ -98,6 +99,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kInitResponse = 2,
     kInitResolution = 3,
     kFrameUpdate = 1000,
+    kCommand = 4,
     MSG_NOT_SET = 0,
   };
 
@@ -207,6 +209,18 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::bwapi::game::FrameUpdate* mutable_frameupdate();
   void set_allocated_frameupdate(::bwapi::game::FrameUpdate* frameupdate);
 
+  // .bwapi.command.Command command = 4;
+  bool has_command() const;
+  void clear_command();
+  static const int kCommandFieldNumber = 4;
+  private:
+  const ::bwapi::command::Command& _internal_command() const;
+  public:
+  const ::bwapi::command::Command& command() const;
+  ::bwapi::command::Command* release_command();
+  ::bwapi::command::Command* mutable_command();
+  void set_allocated_command(::bwapi::command::Command* command);
+
   void clear_msg();
   MsgCase msg_case() const;
   // @@protoc_insertion_point(class_scope:bwapi.message.Message)
@@ -215,6 +229,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_initresponse();
   void set_has_initresolution();
   void set_has_frameupdate();
+  void set_has_command();
 
   inline bool has_msg() const;
   inline void clear_has_msg();
@@ -226,6 +241,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::bwapi::init::ServerResponse* initresponse_;
     ::bwapi::init::ClientResolution* initresolution_;
     ::bwapi::game::FrameUpdate* frameupdate_;
+    ::bwapi::command::Command* command_;
   } msg_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -393,6 +409,44 @@ inline ::bwapi::game::FrameUpdate* Message::mutable_frameupdate() {
   }
   // @@protoc_insertion_point(field_mutable:bwapi.message.Message.frameUpdate)
   return msg_.frameupdate_;
+}
+
+// .bwapi.command.Command command = 4;
+inline bool Message::has_command() const {
+  return msg_case() == kCommand;
+}
+inline void Message::set_has_command() {
+  _oneof_case_[0] = kCommand;
+}
+inline const ::bwapi::command::Command& Message::_internal_command() const {
+  return *msg_.command_;
+}
+inline ::bwapi::command::Command* Message::release_command() {
+  // @@protoc_insertion_point(field_release:bwapi.message.Message.command)
+  if (has_command()) {
+    clear_has_msg();
+      ::bwapi::command::Command* temp = msg_.command_;
+    msg_.command_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::Command& Message::command() const {
+  // @@protoc_insertion_point(field_get:bwapi.message.Message.command)
+  return has_command()
+      ? *msg_.command_
+      : *reinterpret_cast< ::bwapi::command::Command*>(&::bwapi::command::_Command_default_instance_);
+}
+inline ::bwapi::command::Command* Message::mutable_command() {
+  if (!has_command()) {
+    clear_msg();
+    set_has_command();
+    msg_.command_ = CreateMaybeMessage< ::bwapi::command::Command >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.message.Message.command)
+  return msg_.command_;
 }
 
 inline bool Message::has_msg() const {
