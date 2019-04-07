@@ -16,13 +16,17 @@ namespace BWAPI
 
         void checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion);
         void lookForServer(std::string* allocatedbwapiversion, int apiversion, char* bwapiversion, bool tournament);
+        void transmitMessages();
+        void receiveMessages();
+
+        void queueMessage(std::unique_ptr<bwapi::message::Message> newMessage);
 
 
     private:
         sf::TcpSocket tcpSocket;
         sf::TcpListener tcpListener;
         sf::SocketSelector socketSelector;
-        std::deque<bwapi::message::Message*> messageQueue;
+        std::deque<std::unique_ptr<bwapi::message::Message>> messageQueue;
 
         bool connected;
     };

@@ -33,6 +33,8 @@
 #include "../Frontend/BWAPICore/APMCounter.h"
 #include "../Backend/Messages/generated/cpp/message.pb.h"
 #include "../Frontend/BWAPIFrontendClient/Convenience.h"
+#include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
+
 
 namespace BWAPI
 {
@@ -1837,7 +1839,8 @@ namespace BWAPI
     GameData gameData;
     FPSCounter fpsCounter;
     APMCounter apmCounter;
-    std::set<bwapi::message::Message> messageQueue;
+    BWAPIProtoClient protoClient;
+    
 
     Unitset pylons;
     Text::Size::Enum textSize = Text::Size::Default;

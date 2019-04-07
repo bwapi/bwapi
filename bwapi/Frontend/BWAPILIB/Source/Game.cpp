@@ -2035,8 +2035,10 @@ namespace BWAPI
         //queue up command for server so it also applies the change
         bwapi::message::Message newMessage;
         auto newCommand = std::make_unique<bwapi::command::Command>();
-        
-        addCommand(BWAPIC::Command(BWAPIC::CommandType::SetCommandOptimizerLevel, level));
+        auto newSetCommandOptimizationLevel = std::make_unique<bwapi::command::SetCommandOptimizationLevel>();
+        newSetCommandOptimizationLevel->set_commandoptimizationlevel(level);
+        newCommand->set_allocated_setcommandoptimizationlevel(newSetCommandOptimizationLevel.release());
+        newMessage.set_allocated_command(newCommand.release());
     }
 
 

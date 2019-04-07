@@ -5,3 +5,6 @@ package bwapi.game;
 message FrameUpdate {
 	uint32 frameNumber = 1;
 }
+
+message EndOfQueue {
+}

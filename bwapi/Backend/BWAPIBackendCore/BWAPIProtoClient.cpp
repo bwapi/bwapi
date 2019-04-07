@@ -89,4 +89,56 @@ namespace BWAPI
         bwapi::init::ServerResponse serverResponse = message.initresponse;
         //we are technically connected.
     }
+
+    void BWAPIProtoClient::transmitMessages()
+    {
+        //Check that we are connected to a game server.
+        if (!connected)
+            return;
+        std::unique_ptr<bwapi::message::Message> currentMessage;
+        sf::Packet packet;
+        //loop until the message queue is empty.
+        while (messageQueue.size())
+        {
+            packet.clear();
+            currentMessage = std::move(messageQueue.front());
+            packet << currentMessage->SerializeAsString();
+            if (tcpSocket.send(packet) != sf::Socket::Done)
+            {
+                //Error sending command, we should do something here?
+                fprintf(stderr, "Failed to send a command to the server.\n");
+            }
+        }
+    }
+
+    void BWAPIProtoClient::receiveMessages()
+    {
+        //Check that we are connected to a game server or client.
+        if (!connected)
+            return;
+        std::unique_ptr<bwapi::message::Message> currentMessage;
+        sf::Packet packet;
+        std::string packetContents;
+        //loop until the end of queue message or a frame update is received.
+        while (true)
+        {
+            packet.clear();
+            packetContents.clear();
+            currentMessage = std::make_unique<bwapi::message::Message>();
+            if (tcpSocket.receive(packet) != sf::Socket::Done)
+            {
+                fprintf(stderr, "Failed to receive messages from the server.\n");
+                return;
+            }
+            packet >> packetContents;
+            currentMessage->ParseFromString(packetContents);
+            if (currentMessage->has_frameupdate() || currentMessage->has)
+            messageQueue.push_back(std::move(currentMessage));
+        }
+
+    }
+
+    void BWAPIProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> newMessage) {
+        messageQueue.push_back(std::move(newMessage));
+    }
 }

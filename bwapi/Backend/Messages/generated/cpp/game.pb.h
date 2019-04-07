@@ -38,7 +38,7 @@ namespace protobuf_game_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[1];
+  static const ::google::protobuf::internal::ParseTable schema[2];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -47,6 +47,9 @@ void AddDescriptors();
 }  // namespace protobuf_game_2eproto
 namespace bwapi {
 namespace game {
+class EndOfQueue;
+class EndOfQueueDefaultTypeInternal;
+extern EndOfQueueDefaultTypeInternal _EndOfQueue_default_instance_;
 class FrameUpdate;
 class FrameUpdateDefaultTypeInternal;
 extern FrameUpdateDefaultTypeInternal _FrameUpdate_default_instance_;
@@ -54,6 +57,7 @@ extern FrameUpdateDefaultTypeInternal _FrameUpdate_default_instance_;
 }  // namespace bwapi
 namespace google {
 namespace protobuf {
+template<> ::bwapi::game::EndOfQueue* Arena::CreateMaybeMessage<::bwapi::game::EndOfQueue>(Arena*);
 template<> ::bwapi::game::FrameUpdate* Arena::CreateMaybeMessage<::bwapi::game::FrameUpdate>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -163,6 +167,102 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.game.EndOfQueue) */ {
+ public:
+  EndOfQueue();
+  virtual ~EndOfQueue();
+
+  EndOfQueue(const EndOfQueue& from);
+
+  inline EndOfQueue& operator=(const EndOfQueue& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EndOfQueue(EndOfQueue&& from) noexcept
+    : EndOfQueue() {
+    *this = ::std::move(from);
+  }
+
+  inline EndOfQueue& operator=(EndOfQueue&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EndOfQueue& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EndOfQueue* internal_default_instance() {
+    return reinterpret_cast<const EndOfQueue*>(
+               &_EndOfQueue_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(EndOfQueue* other);
+  friend void swap(EndOfQueue& a, EndOfQueue& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EndOfQueue* New() const final {
+    return CreateMaybeMessage<EndOfQueue>(NULL);
+  }
+
+  EndOfQueue* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<EndOfQueue>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const EndOfQueue& from);
+  void MergeFrom(const EndOfQueue& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EndOfQueue* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:bwapi.game.EndOfQueue)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_game_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -188,9 +288,15 @@ inline void FrameUpdate::set_framenumber(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:bwapi.game.FrameUpdate.frameNumber)
 }
 
+// -------------------------------------------------------------------
+
+// EndOfQueue
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

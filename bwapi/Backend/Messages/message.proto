@@ -15,8 +15,9 @@ message Message {
 
 		// Game
 		bwapi.game.FrameUpdate frameUpdate = 1000;
+        bwapi.game.EndOfQueue endOfQueue = 4;
 
         //Command
-        bwapi.command.Command command = 4;
+        bwapi.command.Command command = 5;
 	}
 }

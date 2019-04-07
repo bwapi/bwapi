@@ -99,7 +99,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kInitResponse = 2,
     kInitResolution = 3,
     kFrameUpdate = 1000,
-    kCommand = 4,
+    kEndOfQueue = 4,
+    kCommand = 5,
     MSG_NOT_SET = 0,
   };
 
@@ -209,10 +210,22 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::bwapi::game::FrameUpdate* mutable_frameupdate();
   void set_allocated_frameupdate(::bwapi::game::FrameUpdate* frameupdate);
 
-  // .bwapi.command.Command command = 4;
+  // .bwapi.game.EndOfQueue endOfQueue = 4;
+  bool has_endofqueue() const;
+  void clear_endofqueue();
+  static const int kEndOfQueueFieldNumber = 4;
+  private:
+  const ::bwapi::game::EndOfQueue& _internal_endofqueue() const;
+  public:
+  const ::bwapi::game::EndOfQueue& endofqueue() const;
+  ::bwapi::game::EndOfQueue* release_endofqueue();
+  ::bwapi::game::EndOfQueue* mutable_endofqueue();
+  void set_allocated_endofqueue(::bwapi::game::EndOfQueue* endofqueue);
+
+  // .bwapi.command.Command command = 5;
   bool has_command() const;
   void clear_command();
-  static const int kCommandFieldNumber = 4;
+  static const int kCommandFieldNumber = 5;
   private:
   const ::bwapi::command::Command& _internal_command() const;
   public:
@@ -229,6 +242,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_initresponse();
   void set_has_initresolution();
   void set_has_frameupdate();
+  void set_has_endofqueue();
   void set_has_command();
 
   inline bool has_msg() const;
@@ -241,6 +255,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::bwapi::init::ServerResponse* initresponse_;
     ::bwapi::init::ClientResolution* initresolution_;
     ::bwapi::game::FrameUpdate* frameupdate_;
+    ::bwapi::game::EndOfQueue* endofqueue_;
     ::bwapi::command::Command* command_;
   } msg_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -411,7 +426,45 @@ inline ::bwapi::game::FrameUpdate* Message::mutable_frameupdate() {
   return msg_.frameupdate_;
 }
 
-// .bwapi.command.Command command = 4;
+// .bwapi.game.EndOfQueue endOfQueue = 4;
+inline bool Message::has_endofqueue() const {
+  return msg_case() == kEndOfQueue;
+}
+inline void Message::set_has_endofqueue() {
+  _oneof_case_[0] = kEndOfQueue;
+}
+inline const ::bwapi::game::EndOfQueue& Message::_internal_endofqueue() const {
+  return *msg_.endofqueue_;
+}
+inline ::bwapi::game::EndOfQueue* Message::release_endofqueue() {
+  // @@protoc_insertion_point(field_release:bwapi.message.Message.endOfQueue)
+  if (has_endofqueue()) {
+    clear_has_msg();
+      ::bwapi::game::EndOfQueue* temp = msg_.endofqueue_;
+    msg_.endofqueue_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::game::EndOfQueue& Message::endofqueue() const {
+  // @@protoc_insertion_point(field_get:bwapi.message.Message.endOfQueue)
+  return has_endofqueue()
+      ? *msg_.endofqueue_
+      : *reinterpret_cast< ::bwapi::game::EndOfQueue*>(&::bwapi::game::_EndOfQueue_default_instance_);
+}
+inline ::bwapi::game::EndOfQueue* Message::mutable_endofqueue() {
+  if (!has_endofqueue()) {
+    clear_msg();
+    set_has_endofqueue();
+    msg_.endofqueue_ = CreateMaybeMessage< ::bwapi::game::EndOfQueue >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.message.Message.endOfQueue)
+  return msg_.endofqueue_;
+}
+
+// .bwapi.command.Command command = 5;
 inline bool Message::has_command() const {
   return msg_case() == kCommand;
 }
