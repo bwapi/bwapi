@@ -1854,38 +1854,5 @@ namespace BWAPI
     std::set<Force,  IDCompare> forces;
    
   };
-
-  //extern Game *BroodwarPtr;
-
-  /// <summary>Broodwar wrapper
-  class GameWrapper
-  {
-  private:
-    Game &bw;
-    std::stringstream ss;
-  public:
-    GameWrapper(Game &game): bw{game} { }
-
-    /// <summary>Definition of ostream_manipulator type for convenience.</summary>
-    using ostream_manipulator = std::ostream&(*)(std::ostream&);
-
-    /// <summary>Member access operator to retain the original Broodwar-> behaviour.</summary>
-    Game *operator ->() const;
-
-    /// <summary>Output stream operator for printing text to Broodwar.</summary> Using this
-    /// operator invokes Game::printf when a newline character is encountered.
-    template < class T >
-    inline GameWrapper &operator <<(const T &in)
-    {
-      // Pass whatever into the stream
-      ss << in;
-      return *this;
-    };
-    /// @overload
-    GameWrapper &operator <<(ostream_manipulator fn);
-    
-    /// <summary>Flushes the Broodwar stream, printing all text in the stream to the screen.</summary>
-    void flush();
-  };
 }
 

@@ -23,32 +23,6 @@ namespace BWAPI
 {
     using namespace Filter;
 
-    Game *GameWrapper::operator ->() const
-    {
-        return &bw;
-    };
-
-    GameWrapper &GameWrapper::operator <<(GameWrapper::ostream_manipulator fn)
-    {
-        // Pass manipulator into the stream
-        ss << fn;
-
-        // Flush to Broodwar's printf if we see endl or ends
-        if (fn == &std::endl<char, std::char_traits<char>> || fn == &std::ends<char, std::char_traits<char>>)
-        {
-            this->flush();
-        }
-        return *this;
-    };
-
-    void GameWrapper::flush()
-    {
-        if (ss.str().empty()) return;
-
-        bw.printf("%s", ss.str().c_str());
-        ss.str("");
-    };
-
     //------------------------------------ ETC ------------------------------------------
     Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const {
         return getUnitsOnTile({ tileX, tileY }, pred);
