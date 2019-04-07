@@ -1,9 +1,10 @@
 #pragma once
 #include <list>
+#include <set>
+#include <unordered_set>
 #include <string>
 #include <cstdarg>
 #include <sstream>
-#include <assert.h>
 
 #include <BWAPI/Error.h>
 #include <BWAPI/Color.h>
@@ -1852,7 +1853,56 @@ namespace BWAPI
     std::set<Region, IDCompare> regions;
     std::set<Bullet, IDCompare> bullets;
     std::set<Force,  IDCompare> forces;
-   
+
+    private:
+      template <typename Fn>
+      void iterateUnitFinder(int left, int top, int right, int bottom, Fn &&callback) const
+      {
+        int searchRight = right, searchBottom = bottom;
+
+        // Extension is to take into account units whose dimensions completely eclipse the location being searched.
+        // The unit with the largest width/height can't eclipse the search 
+        if (right - left <= UnitTypes::maxUnitWidth())
+          searchRight = left + UnitTypes::maxUnitWidth();
+        if (top - bottom <= UnitTypes::maxUnitHeight())
+          searchBottom = top + UnitTypes::maxUnitHeight();
+
+        std::unordered_set<Unit> foundUnitsX;
+        auto lowerXIter = unitFinderX.lower_bound(UnitCompare{ left, 0 });
+        // We add 1 to right and bottom search because upper_bound is not inclusive - we want it to be
+        auto upperXIter = unitFinderX.upper_bound(UnitCompare{ searchRight + 1, 0 });
+        for (auto it = lowerXIter; it != upperXIter; ++it)
+        {
+          if (it->unit.getLeft() <= right)
+            foundUnitsX.insert(it->unit);
+        }
+
+        auto lowerYIter = unitFinderY.lower_bound(UnitCompare{ top, 0 });
+        auto upperYIter = unitFinderY.upper_bound(UnitCompare{ searchBottom + 1, 0 });
+        for (auto it = lowerYIter; it != upperYIter; ++it)
+        {
+          // Ignore if the unit isn't within the X-bound
+          if (foundUnitsX.count(it->unit) == 0) continue;
+
+          if (it->unit.getTop() <= bottom && it->unit.exists())
+            callback(it->unit);
+        }
+      }
+
+      struct UnitCompare
+      {
+        int value;
+        Unit unit;
+
+        bool operator <(UnitCompare const &other)
+        {
+          return value < other.value;
+        }
+      };
+
+      // TODO: Populate these each onFrame
+      std::multiset<UnitCompare> unitFinderX;
+      std::multiset<UnitCompare> unitFinderY;
   };
 }
 

@@ -1732,138 +1732,42 @@ namespace BWAPI
         messageQueue.emplace(newMessage);
     }
 
-    //-------------------------------------------- UNIT FINDER -----------------------------------------------
-    template <class finder, typename _T>
-    void iterateUnitFinder(finder *finder_x, finder *finder_y, int finderCount, int left, int top, int right, int bottom, const _T &callback)
-    {
-        // Note that the native finder in Broodwar uses an id between 1 and 1700, 0 being an unused entry
-        // IDs provided by the client are BWAPI IDs, which are not bound
-        std::unordered_map<unsigned, unsigned> finderFlags;
-
-        // Declare some variables
-        int r = right, b = bottom;
-        bool isWidthExtended = right - left + 1 < UnitTypes::maxUnitWidth();
-        bool isHeightExtended = top - bottom + 1 < UnitTypes::maxUnitHeight();
-
-        // Check if the location is smaller than the largest unit
-        if (isWidthExtended)
-            r += UnitTypes::maxUnitWidth();
-        if (isHeightExtended)
-            b += UnitTypes::maxUnitHeight();
-
-        // Obtain finder indexes for all bounds
-        finder *p_xend = finder_x + finderCount;
-        finder *p_yend = finder_y + finderCount;
-
-        // Create finder elements for compatibility with stl functions
-        finder finderVal;
-
-        // Search for the values using built-in binary search algorithm and comparator
-        const auto cmp = [](const finder& a, const finder& b) { return a.searchValue < b.searchValue; };
-
-        finderVal.searchValue = left;
-        finder *pLeft = std::lower_bound(finder_x, p_xend, finderVal, cmp);
-
-        finderVal.searchValue = top;
-        finder *pTop = std::lower_bound(finder_y, p_yend, finderVal, cmp);
-
-        finderVal.searchValue = r + 1;
-        finder *pRight = std::upper_bound(pLeft, p_xend, finderVal, cmp);
-
-        finderVal.searchValue = b + 1;
-        finder *pBottom = std::upper_bound(pTop, p_yend, finderVal, cmp);
-
-        // Iterate the X entries of the finder
-        for (finder *px = pLeft; px < pRight; ++px)
-        {
-            int iUnitIndex = px->unitIndex;
-            if (finderFlags[iUnitIndex] == 0)
-            {
-                if (isWidthExtended)  // If width is small, check unit bounds
-                {
-                    Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
-                    if (u && u->getLeft() <= right)
-                        finderFlags[iUnitIndex] = 1;
-                }
-                else
-                    finderFlags[iUnitIndex] = 1;
-            }
-        }
-        // Iterate the Y entries of the finder
-        for (finder *py = pTop; py < pBottom; ++py)
-        {
-            int iUnitIndex = py->unitIndex;
-            if (finderFlags[iUnitIndex] == 1)
-            {
-                if (isHeightExtended) // If height is small, check unit bounds
-                {
-                    Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
-                    if (u && u->getTop() <= bottom)
-                        finderFlags[iUnitIndex] = 2;
-                }
-                else
-                    finderFlags[iUnitIndex] = 2;
-            }
-        }
-        // Final Iteration
-        for (finder *px = pLeft; px < pRight; ++px)
-        {
-            int iUnitIndex = px->unitIndex;
-            if (finderFlags[iUnitIndex] == 2)
-            {
-                Unit u = static_cast<GameImpl*>(BroodwarPtr)->_unitFromIndex(iUnitIndex);
-                if (u && u->exists())
-                    callback(u);
-            }
-            // Reset finderFlags so that callback isn't called for duplicates
-            finderFlags[iUnitIndex] = 0;
-        }
-    }
-
     //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
     Unitset Game::getUnitsInRectangle(int left, int top, int right, int bottom, const UnitFilter &pred) const
     {
-        //TODO this needs to be written
-        /*Unitset unitFinderResults;
+        Unitset unitFinderResults;
 
-        // Have the unit finder do its stuff
-        iterateUnitFinder<unitFinder>(gameData.xUnitSearch,
-            data->yUnitSearch,
-            data->unitSearchSize,
-            left,
-            top,
-            right,
-            bottom,
-            [&](Unit u) { if (!pred.isValid() || pred(u))
-            unitFinderResults.insert(u); });
-        // Return results
-        return unitFinderResults;*/
+        auto callback = [&](Unit u) {
+          if (!pred.isValid() || pred(u))
+          {
+            unitFinderResults.insert(u);
+          }
+        };
+
+        iterateUnitFinder(left, top, right, bottom, callback);
+        return unitFinderResults;
     }
 
     Unit Game::getClosestUnitInRectangle(Position center, const UnitFilter &pred, int left, int top, int right, int bottom) const
     {
-        //TODO this needs to be written
-        /*// cppcheck-suppress variableScope
-        int bestDistance = 99999999;
+        // cppcheck-suppress variableScope
+        int bestDistance = std::numeric_limits<int>::max();
         Unit pBestUnit = nullptr;
 
-        iterateUnitFinder<unitFinder>(data->xUnitSearch,
-            data->yUnitSearch,
-            data->unitSearchSize,
-            left,
-            top,
-            right,
-            bottom,
-            [&](Unit u) { if (!pred.isValid() || pred(u))
-        {
+        auto callback = [&](Unit u){
+          if (!pred.isValid() || pred(u))
+          {
             int newDistance = u->getDistance(center);
             if (newDistance < bestDistance)
             {
-                pBestUnit = u;
-                bestDistance = newDistance;
+              pBestUnit = u;
+              bestDistance = newDistance;
             }
-        } });
-        return pBestUnit;*/
+          }
+        };
+
+        iterateUnitFinder(left, top, right, bottom, callback);
+        return pBestUnit;
     }
 
     //-------------------------------------------------- DRAW TEXT ---------------------------------------------
