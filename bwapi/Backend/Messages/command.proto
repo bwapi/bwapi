@@ -69,6 +69,20 @@ message SetLocalSpeed {
     int32 speed = 1;
 }
 
+message SetAlliance {
+    int32 playerID = 1;
+    int32 settings = 2;
+}
+
+message SetVision {
+    int32 playerID = 1;
+    int32 settings = 2;
+}
+
+message SetCommandOptimizationLevel {
+    int32 commandOptimizationLevel = 1;
+}
+
 //Command wrapper, will contain one of the types of commands
 message Command {
     oneof cmd {
@@ -82,5 +96,8 @@ message Command {
         LeaveGame leaveGame = 8;
         RestartGame restartGame = 9;
         SetLocalSpeed setLocalSpeed = 10;
+        SetAlliance setAlliance = 11;
+        SetVision setVision = 12;
+        SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
     }
 }

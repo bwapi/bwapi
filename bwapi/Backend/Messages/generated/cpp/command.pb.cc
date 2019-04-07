@@ -27,8 +27,11 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::int
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RestartGame;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ResumeGame;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SendText;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetAlliance;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetCommandOptimizationLevel;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetLocalSpeed;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetScreenPosition;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetVision;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Shape;
 }  // namespace protobuf_command_2eproto
 namespace bwapi {
@@ -83,6 +86,21 @@ class SetLocalSpeedDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<SetLocalSpeed>
       _instance;
 } _SetLocalSpeed_default_instance_;
+class SetAllianceDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SetAlliance>
+      _instance;
+} _SetAlliance_default_instance_;
+class SetVisionDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SetVision>
+      _instance;
+} _SetVision_default_instance_;
+class SetCommandOptimizationLevelDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SetCommandOptimizationLevel>
+      _instance;
+} _SetCommandOptimizationLevel_default_instance_;
 class CommandDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Command>
@@ -97,6 +115,9 @@ class CommandDefaultTypeInternal {
   const ::bwapi::command::LeaveGame* leavegame_;
   const ::bwapi::command::RestartGame* restartgame_;
   const ::bwapi::command::SetLocalSpeed* setlocalspeed_;
+  const ::bwapi::command::SetAlliance* setalliance_;
+  const ::bwapi::command::SetVision* setvision_;
+  const ::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel_;
 } _Command_default_instance_;
 }  // namespace command
 }  // namespace bwapi
@@ -241,6 +262,48 @@ static void InitDefaultsSetLocalSpeed() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_SetLocalSpeed =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetLocalSpeed}, {}};
 
+static void InitDefaultsSetAlliance() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_SetAlliance_default_instance_;
+    new (ptr) ::bwapi::command::SetAlliance();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::SetAlliance::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_SetAlliance =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetAlliance}, {}};
+
+static void InitDefaultsSetVision() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_SetVision_default_instance_;
+    new (ptr) ::bwapi::command::SetVision();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::SetVision::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_SetVision =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetVision}, {}};
+
+static void InitDefaultsSetCommandOptimizationLevel() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::bwapi::command::_SetCommandOptimizationLevel_default_instance_;
+    new (ptr) ::bwapi::command::SetCommandOptimizationLevel();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::bwapi::command::SetCommandOptimizationLevel::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_SetCommandOptimizationLevel =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetCommandOptimizationLevel}, {}};
+
 static void InitDefaultsCommand() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -252,8 +315,8 @@ static void InitDefaultsCommand() {
   ::bwapi::command::Command::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<10> scc_info_Command =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 10, InitDefaultsCommand}, {
+::google::protobuf::internal::SCCInfo<13> scc_info_Command =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 13, InitDefaultsCommand}, {
       &protobuf_command_2eproto::scc_info_SendText.base,
       &protobuf_command_2eproto::scc_info_SetScreenPosition.base,
       &protobuf_command_2eproto::scc_info_PingMiniMap.base,
@@ -263,7 +326,10 @@ static void InitDefaultsCommand() {
       &protobuf_command_2eproto::scc_info_ResumeGame.base,
       &protobuf_command_2eproto::scc_info_LeaveGame.base,
       &protobuf_command_2eproto::scc_info_RestartGame.base,
-      &protobuf_command_2eproto::scc_info_SetLocalSpeed.base,}};
+      &protobuf_command_2eproto::scc_info_SetLocalSpeed.base,
+      &protobuf_command_2eproto::scc_info_SetAlliance.base,
+      &protobuf_command_2eproto::scc_info_SetVision.base,
+      &protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_SendText.base);
@@ -276,10 +342,13 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LeaveGame.base);
   ::google::protobuf::internal::InitSCC(&scc_info_RestartGame.base);
   ::google::protobuf::internal::InitSCC(&scc_info_SetLocalSpeed.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetAlliance.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetVision.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetCommandOptimizationLevel.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Command.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[11];
+::google::protobuf::Metadata file_level_metadata[14];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -353,6 +422,26 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetLocalSpeed, speed_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetAlliance, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetAlliance, playerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetAlliance, settings_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetVision, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetVision, playerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetVision, settings_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetCommandOptimizationLevel, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::SetCommandOptimizationLevel, commandoptimizationlevel_),
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, _internal_metadata_),
   ~0u,  // no _extensions_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, _oneof_case_[0]),
@@ -367,6 +456,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::bwapi::command::CommandDefaultTypeInternal, leavegame_),
   offsetof(::bwapi::command::CommandDefaultTypeInternal, restartgame_),
   offsetof(::bwapi::command::CommandDefaultTypeInternal, setlocalspeed_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, setalliance_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, setvision_),
+  offsetof(::bwapi::command::CommandDefaultTypeInternal, setcommandoptimizationlevel_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::command::Command, cmd_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -380,7 +472,10 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 53, -1, sizeof(::bwapi::command::LeaveGame)},
   { 58, -1, sizeof(::bwapi::command::RestartGame)},
   { 63, -1, sizeof(::bwapi::command::SetLocalSpeed)},
-  { 69, -1, sizeof(::bwapi::command::Command)},
+  { 69, -1, sizeof(::bwapi::command::SetAlliance)},
+  { 76, -1, sizeof(::bwapi::command::SetVision)},
+  { 83, -1, sizeof(::bwapi::command::SetCommandOptimizationLevel)},
+  { 89, -1, sizeof(::bwapi::command::Command)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -394,6 +489,9 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_LeaveGame_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_RestartGame_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_SetLocalSpeed_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_SetAlliance_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_SetVision_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_SetCommandOptimizationLevel_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::bwapi::command::_Command_default_instance_),
 };
 
@@ -412,7 +510,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 14);
 }
 
 void AddDescriptorsImpl() {
@@ -430,27 +528,36 @@ void AddDescriptorsImpl() {
       "lor\030\t \001(\005\022\017\n\007isSolid\030\n \001(\010\022\014\n\004text\030\013 \001(\t"
       "\"\013\n\tPauseGame\"\014\n\nResumeGame\"\013\n\tLeaveGame"
       "\"\r\n\013RestartGame\"\036\n\rSetLocalSpeed\022\r\n\005spee"
-      "d\030\001 \001(\005\"\370\003\n\007Command\022+\n\010sendText\030\001 \001(\0132\027."
-      "bwapi.command.SendTextH\000\022=\n\021setScreenPos"
-      "ition\030\002 \001(\0132 .bwapi.command.SetScreenPos"
-      "itionH\000\0221\n\013pingMiniMap\030\003 \001(\0132\032.bwapi.com"
-      "mand.PingMiniMapH\000\022\'\n\006printf\030\004 \001(\0132\025.bwa"
-      "pi.command.PrintfH\000\022%\n\005shape\030\005 \001(\0132\024.bwa"
-      "pi.command.ShapeH\000\022-\n\tpauseGame\030\006 \001(\0132\030."
-      "bwapi.command.PauseGameH\000\022/\n\nresumeGame\030"
-      "\007 \001(\0132\031.bwapi.command.ResumeGameH\000\022-\n\tle"
-      "aveGame\030\010 \001(\0132\030.bwapi.command.LeaveGameH"
-      "\000\0221\n\013restartGame\030\t \001(\0132\032.bwapi.command.R"
-      "estartGameH\000\0225\n\rsetLocalSpeed\030\n \001(\0132\034.bw"
-      "api.command.SetLocalSpeedH\000B\005\n\003cmd*i\n\tSh"
-      "apeType\022\017\n\013NoShapeType\020\000\022\010\n\004Text\020\001\022\007\n\003Bo"
-      "x\020\002\022\014\n\010Triangle\020\003\022\n\n\006Circle\020\004\022\013\n\007Ellipse"
-      "\020\005\022\007\n\003Dot\020\006\022\010\n\004Line\020\007*F\n\016CoordinateType\022"
-      "\024\n\020NoCoordinateType\020\000\022\n\n\006Screen\020\001\022\007\n\003Map"
-      "\020\002\022\t\n\005Mouse\020\003b\006proto3"
+      "d\030\001 \001(\005\"1\n\013SetAlliance\022\020\n\010playerID\030\001 \001(\005"
+      "\022\020\n\010settings\030\002 \001(\005\"/\n\tSetVision\022\020\n\010playe"
+      "rID\030\001 \001(\005\022\020\n\010settings\030\002 \001(\005\"\?\n\033SetComman"
+      "dOptimizationLevel\022 \n\030commandOptimizatio"
+      "nLevel\030\001 \001(\005\"\255\005\n\007Command\022+\n\010sendText\030\001 \001"
+      "(\0132\027.bwapi.command.SendTextH\000\022=\n\021setScre"
+      "enPosition\030\002 \001(\0132 .bwapi.command.SetScre"
+      "enPositionH\000\0221\n\013pingMiniMap\030\003 \001(\0132\032.bwap"
+      "i.command.PingMiniMapH\000\022\'\n\006printf\030\004 \001(\0132"
+      "\025.bwapi.command.PrintfH\000\022%\n\005shape\030\005 \001(\0132"
+      "\024.bwapi.command.ShapeH\000\022-\n\tpauseGame\030\006 \001"
+      "(\0132\030.bwapi.command.PauseGameH\000\022/\n\nresume"
+      "Game\030\007 \001(\0132\031.bwapi.command.ResumeGameH\000\022"
+      "-\n\tleaveGame\030\010 \001(\0132\030.bwapi.command.Leave"
+      "GameH\000\0221\n\013restartGame\030\t \001(\0132\032.bwapi.comm"
+      "and.RestartGameH\000\0225\n\rsetLocalSpeed\030\n \001(\013"
+      "2\034.bwapi.command.SetLocalSpeedH\000\0221\n\013setA"
+      "lliance\030\013 \001(\0132\032.bwapi.command.SetAllianc"
+      "eH\000\022-\n\tsetVision\030\014 \001(\0132\030.bwapi.command.S"
+      "etVisionH\000\022Q\n\033setCommandOptimizationLeve"
+      "l\030\r \001(\0132*.bwapi.command.SetCommandOptimi"
+      "zationLevelH\000B\005\n\003cmd*i\n\tShapeType\022\017\n\013NoS"
+      "hapeType\020\000\022\010\n\004Text\020\001\022\007\n\003Box\020\002\022\014\n\010Triangl"
+      "e\020\003\022\n\n\006Circle\020\004\022\013\n\007Ellipse\020\005\022\007\n\003Dot\020\006\022\010\n"
+      "\004Line\020\007*F\n\016CoordinateType\022\024\n\020NoCoordinat"
+      "eType\020\000\022\n\n\006Screen\020\001\022\007\n\003Map\020\002\022\t\n\005Mouse\020\003b"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1181);
+      descriptor, 1527);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "command.proto", &protobuf_RegisterTypes);
 }
@@ -3110,6 +3217,759 @@ void SetLocalSpeed::InternalSwap(SetLocalSpeed* other) {
 
 // ===================================================================
 
+void SetAlliance::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SetAlliance::kPlayerIDFieldNumber;
+const int SetAlliance::kSettingsFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SetAlliance::SetAlliance()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_SetAlliance.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.SetAlliance)
+}
+SetAlliance::SetAlliance(const SetAlliance& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&playerid_, &from.playerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&settings_) -
+    reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.SetAlliance)
+}
+
+void SetAlliance::SharedCtor() {
+  ::memset(&playerid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&settings_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+}
+
+SetAlliance::~SetAlliance() {
+  // @@protoc_insertion_point(destructor:bwapi.command.SetAlliance)
+  SharedDtor();
+}
+
+void SetAlliance::SharedDtor() {
+}
+
+void SetAlliance::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* SetAlliance::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SetAlliance& SetAlliance::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_SetAlliance.base);
+  return *internal_default_instance();
+}
+
+
+void SetAlliance::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.SetAlliance)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&playerid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&settings_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+  _internal_metadata_.Clear();
+}
+
+bool SetAlliance::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.SetAlliance)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 playerID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &playerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 settings = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &settings_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.SetAlliance)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.SetAlliance)
+  return false;
+#undef DO_
+}
+
+void SetAlliance::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.SetAlliance)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->playerid(), output);
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->settings(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.SetAlliance)
+}
+
+::google::protobuf::uint8* SetAlliance::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.SetAlliance)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->playerid(), target);
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->settings(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.SetAlliance)
+  return target;
+}
+
+size_t SetAlliance::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.SetAlliance)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->playerid());
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->settings());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SetAlliance::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.SetAlliance)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SetAlliance* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetAlliance>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.SetAlliance)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.SetAlliance)
+    MergeFrom(*source);
+  }
+}
+
+void SetAlliance::MergeFrom(const SetAlliance& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.SetAlliance)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.playerid() != 0) {
+    set_playerid(from.playerid());
+  }
+  if (from.settings() != 0) {
+    set_settings(from.settings());
+  }
+}
+
+void SetAlliance::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.SetAlliance)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SetAlliance::CopyFrom(const SetAlliance& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.SetAlliance)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetAlliance::IsInitialized() const {
+  return true;
+}
+
+void SetAlliance::Swap(SetAlliance* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SetAlliance::InternalSwap(SetAlliance* other) {
+  using std::swap;
+  swap(playerid_, other->playerid_);
+  swap(settings_, other->settings_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata SetAlliance::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void SetVision::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SetVision::kPlayerIDFieldNumber;
+const int SetVision::kSettingsFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SetVision::SetVision()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_SetVision.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.SetVision)
+}
+SetVision::SetVision(const SetVision& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&playerid_, &from.playerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&settings_) -
+    reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.SetVision)
+}
+
+void SetVision::SharedCtor() {
+  ::memset(&playerid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&settings_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+}
+
+SetVision::~SetVision() {
+  // @@protoc_insertion_point(destructor:bwapi.command.SetVision)
+  SharedDtor();
+}
+
+void SetVision::SharedDtor() {
+}
+
+void SetVision::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* SetVision::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SetVision& SetVision::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_SetVision.base);
+  return *internal_default_instance();
+}
+
+
+void SetVision::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.SetVision)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&playerid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&settings_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(settings_));
+  _internal_metadata_.Clear();
+}
+
+bool SetVision::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.SetVision)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 playerID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &playerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 settings = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &settings_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.SetVision)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.SetVision)
+  return false;
+#undef DO_
+}
+
+void SetVision::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.SetVision)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->playerid(), output);
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->settings(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.SetVision)
+}
+
+::google::protobuf::uint8* SetVision::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.SetVision)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->playerid(), target);
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->settings(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.SetVision)
+  return target;
+}
+
+size_t SetVision::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.SetVision)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // int32 playerID = 1;
+  if (this->playerid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->playerid());
+  }
+
+  // int32 settings = 2;
+  if (this->settings() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->settings());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SetVision::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.SetVision)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SetVision* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetVision>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.SetVision)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.SetVision)
+    MergeFrom(*source);
+  }
+}
+
+void SetVision::MergeFrom(const SetVision& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.SetVision)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.playerid() != 0) {
+    set_playerid(from.playerid());
+  }
+  if (from.settings() != 0) {
+    set_settings(from.settings());
+  }
+}
+
+void SetVision::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.SetVision)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SetVision::CopyFrom(const SetVision& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.SetVision)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetVision::IsInitialized() const {
+  return true;
+}
+
+void SetVision::Swap(SetVision* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SetVision::InternalSwap(SetVision* other) {
+  using std::swap;
+  swap(playerid_, other->playerid_);
+  swap(settings_, other->settings_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata SetVision::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void SetCommandOptimizationLevel::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SetCommandOptimizationLevel::kCommandOptimizationLevelFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SetCommandOptimizationLevel::SetCommandOptimizationLevel()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:bwapi.command.SetCommandOptimizationLevel)
+}
+SetCommandOptimizationLevel::SetCommandOptimizationLevel(const SetCommandOptimizationLevel& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  commandoptimizationlevel_ = from.commandoptimizationlevel_;
+  // @@protoc_insertion_point(copy_constructor:bwapi.command.SetCommandOptimizationLevel)
+}
+
+void SetCommandOptimizationLevel::SharedCtor() {
+  commandoptimizationlevel_ = 0;
+}
+
+SetCommandOptimizationLevel::~SetCommandOptimizationLevel() {
+  // @@protoc_insertion_point(destructor:bwapi.command.SetCommandOptimizationLevel)
+  SharedDtor();
+}
+
+void SetCommandOptimizationLevel::SharedDtor() {
+}
+
+void SetCommandOptimizationLevel::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* SetCommandOptimizationLevel::descriptor() {
+  ::protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SetCommandOptimizationLevel& SetCommandOptimizationLevel::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base);
+  return *internal_default_instance();
+}
+
+
+void SetCommandOptimizationLevel::Clear() {
+// @@protoc_insertion_point(message_clear_start:bwapi.command.SetCommandOptimizationLevel)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  commandoptimizationlevel_ = 0;
+  _internal_metadata_.Clear();
+}
+
+bool SetCommandOptimizationLevel::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:bwapi.command.SetCommandOptimizationLevel)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 commandOptimizationLevel = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &commandoptimizationlevel_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:bwapi.command.SetCommandOptimizationLevel)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:bwapi.command.SetCommandOptimizationLevel)
+  return false;
+#undef DO_
+}
+
+void SetCommandOptimizationLevel::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:bwapi.command.SetCommandOptimizationLevel)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 commandOptimizationLevel = 1;
+  if (this->commandoptimizationlevel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->commandoptimizationlevel(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:bwapi.command.SetCommandOptimizationLevel)
+}
+
+::google::protobuf::uint8* SetCommandOptimizationLevel::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:bwapi.command.SetCommandOptimizationLevel)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 commandOptimizationLevel = 1;
+  if (this->commandoptimizationlevel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->commandoptimizationlevel(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:bwapi.command.SetCommandOptimizationLevel)
+  return target;
+}
+
+size_t SetCommandOptimizationLevel::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:bwapi.command.SetCommandOptimizationLevel)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // int32 commandOptimizationLevel = 1;
+  if (this->commandoptimizationlevel() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->commandoptimizationlevel());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SetCommandOptimizationLevel::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:bwapi.command.SetCommandOptimizationLevel)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SetCommandOptimizationLevel* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetCommandOptimizationLevel>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:bwapi.command.SetCommandOptimizationLevel)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:bwapi.command.SetCommandOptimizationLevel)
+    MergeFrom(*source);
+  }
+}
+
+void SetCommandOptimizationLevel::MergeFrom(const SetCommandOptimizationLevel& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.SetCommandOptimizationLevel)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.commandoptimizationlevel() != 0) {
+    set_commandoptimizationlevel(from.commandoptimizationlevel());
+  }
+}
+
+void SetCommandOptimizationLevel::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:bwapi.command.SetCommandOptimizationLevel)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SetCommandOptimizationLevel::CopyFrom(const SetCommandOptimizationLevel& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.SetCommandOptimizationLevel)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetCommandOptimizationLevel::IsInitialized() const {
+  return true;
+}
+
+void SetCommandOptimizationLevel::Swap(SetCommandOptimizationLevel* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SetCommandOptimizationLevel::InternalSwap(SetCommandOptimizationLevel* other) {
+  using std::swap;
+  swap(commandoptimizationlevel_, other->commandoptimizationlevel_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata SetCommandOptimizationLevel::GetMetadata() const {
+  protobuf_command_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_command_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void Command::InitAsDefaultInstance() {
   ::bwapi::command::_Command_default_instance_.sendtext_ = const_cast< ::bwapi::command::SendText*>(
       ::bwapi::command::SendText::internal_default_instance());
@@ -3131,6 +3991,12 @@ void Command::InitAsDefaultInstance() {
       ::bwapi::command::RestartGame::internal_default_instance());
   ::bwapi::command::_Command_default_instance_.setlocalspeed_ = const_cast< ::bwapi::command::SetLocalSpeed*>(
       ::bwapi::command::SetLocalSpeed::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.setalliance_ = const_cast< ::bwapi::command::SetAlliance*>(
+      ::bwapi::command::SetAlliance::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.setvision_ = const_cast< ::bwapi::command::SetVision*>(
+      ::bwapi::command::SetVision::internal_default_instance());
+  ::bwapi::command::_Command_default_instance_.setcommandoptimizationlevel_ = const_cast< ::bwapi::command::SetCommandOptimizationLevel*>(
+      ::bwapi::command::SetCommandOptimizationLevel::internal_default_instance());
 }
 void Command::set_allocated_sendtext(::bwapi::command::SendText* sendtext) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -3272,6 +4138,48 @@ void Command::set_allocated_setlocalspeed(::bwapi::command::SetLocalSpeed* setlo
   }
   // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setLocalSpeed)
 }
+void Command::set_allocated_setalliance(::bwapi::command::SetAlliance* setalliance) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (setalliance) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      setalliance = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, setalliance, submessage_arena);
+    }
+    set_has_setalliance();
+    cmd_.setalliance_ = setalliance;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setAlliance)
+}
+void Command::set_allocated_setvision(::bwapi::command::SetVision* setvision) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (setvision) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      setvision = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, setvision, submessage_arena);
+    }
+    set_has_setvision();
+    cmd_.setvision_ = setvision;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setVision)
+}
+void Command::set_allocated_setcommandoptimizationlevel(::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_cmd();
+  if (setcommandoptimizationlevel) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      setcommandoptimizationlevel = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, setcommandoptimizationlevel, submessage_arena);
+    }
+    set_has_setcommandoptimizationlevel();
+    cmd_.setcommandoptimizationlevel_ = setcommandoptimizationlevel;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setCommandOptimizationLevel)
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Command::kSendTextFieldNumber;
 const int Command::kSetScreenPositionFieldNumber;
@@ -3283,6 +4191,9 @@ const int Command::kResumeGameFieldNumber;
 const int Command::kLeaveGameFieldNumber;
 const int Command::kRestartGameFieldNumber;
 const int Command::kSetLocalSpeedFieldNumber;
+const int Command::kSetAllianceFieldNumber;
+const int Command::kSetVisionFieldNumber;
+const int Command::kSetCommandOptimizationLevelFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Command::Command()
@@ -3336,6 +4247,18 @@ Command::Command(const Command& from)
     }
     case kSetLocalSpeed: {
       mutable_setlocalspeed()->::bwapi::command::SetLocalSpeed::MergeFrom(from.setlocalspeed());
+      break;
+    }
+    case kSetAlliance: {
+      mutable_setalliance()->::bwapi::command::SetAlliance::MergeFrom(from.setalliance());
+      break;
+    }
+    case kSetVision: {
+      mutable_setvision()->::bwapi::command::SetVision::MergeFrom(from.setvision());
+      break;
+    }
+    case kSetCommandOptimizationLevel: {
+      mutable_setcommandoptimizationlevel()->::bwapi::command::SetCommandOptimizationLevel::MergeFrom(from.setcommandoptimizationlevel());
       break;
     }
     case CMD_NOT_SET: {
@@ -3415,6 +4338,18 @@ void Command::clear_cmd() {
     }
     case kSetLocalSpeed: {
       delete cmd_.setlocalspeed_;
+      break;
+    }
+    case kSetAlliance: {
+      delete cmd_.setalliance_;
+      break;
+    }
+    case kSetVision: {
+      delete cmd_.setvision_;
+      break;
+    }
+    case kSetCommandOptimizationLevel: {
+      delete cmd_.setcommandoptimizationlevel_;
       break;
     }
     case CMD_NOT_SET: {
@@ -3565,6 +4500,42 @@ bool Command::MergePartialFromCodedStream(
         break;
       }
 
+      // .bwapi.command.SetAlliance setAlliance = 11;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_setalliance()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.SetVision setVision = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_setvision()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_setcommandoptimizationlevel()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -3651,6 +4622,24 @@ void Command::SerializeWithCachedSizes(
       10, this->_internal_setlocalspeed(), output);
   }
 
+  // .bwapi.command.SetAlliance setAlliance = 11;
+  if (has_setalliance()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      11, this->_internal_setalliance(), output);
+  }
+
+  // .bwapi.command.SetVision setVision = 12;
+  if (has_setvision()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      12, this->_internal_setvision(), output);
+  }
+
+  // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
+  if (has_setcommandoptimizationlevel()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      13, this->_internal_setcommandoptimizationlevel(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -3733,6 +4722,27 @@ void Command::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         10, this->_internal_setlocalspeed(), deterministic, target);
+  }
+
+  // .bwapi.command.SetAlliance setAlliance = 11;
+  if (has_setalliance()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        11, this->_internal_setalliance(), deterministic, target);
+  }
+
+  // .bwapi.command.SetVision setVision = 12;
+  if (has_setvision()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        12, this->_internal_setvision(), deterministic, target);
+  }
+
+  // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
+  if (has_setcommandoptimizationlevel()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        13, this->_internal_setcommandoptimizationlevel(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3823,6 +4833,27 @@ size_t Command::ByteSizeLong() const {
           *cmd_.setlocalspeed_);
       break;
     }
+    // .bwapi.command.SetAlliance setAlliance = 11;
+    case kSetAlliance: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.setalliance_);
+      break;
+    }
+    // .bwapi.command.SetVision setVision = 12;
+    case kSetVision: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.setvision_);
+      break;
+    }
+    // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
+    case kSetCommandOptimizationLevel: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *cmd_.setcommandoptimizationlevel_);
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -3893,6 +4924,18 @@ void Command::MergeFrom(const Command& from) {
     }
     case kSetLocalSpeed: {
       mutable_setlocalspeed()->::bwapi::command::SetLocalSpeed::MergeFrom(from.setlocalspeed());
+      break;
+    }
+    case kSetAlliance: {
+      mutable_setalliance()->::bwapi::command::SetAlliance::MergeFrom(from.setalliance());
+      break;
+    }
+    case kSetVision: {
+      mutable_setvision()->::bwapi::command::SetVision::MergeFrom(from.setvision());
+      break;
+    }
+    case kSetCommandOptimizationLevel: {
+      mutable_setcommandoptimizationlevel()->::bwapi::command::SetCommandOptimizationLevel::MergeFrom(from.setcommandoptimizationlevel());
       break;
     }
     case CMD_NOT_SET: {
@@ -3970,6 +5013,15 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::RestartGame* Are
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetLocalSpeed* Arena::CreateMaybeMessage< ::bwapi::command::SetLocalSpeed >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::SetLocalSpeed >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetAlliance* Arena::CreateMaybeMessage< ::bwapi::command::SetAlliance >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::SetAlliance >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetVision* Arena::CreateMaybeMessage< ::bwapi::command::SetVision >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::SetVision >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetCommandOptimizationLevel* Arena::CreateMaybeMessage< ::bwapi::command::SetCommandOptimizationLevel >(Arena* arena) {
+  return Arena::CreateInternal< ::bwapi::command::SetCommandOptimizationLevel >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::Command* Arena::CreateMaybeMessage< ::bwapi::command::Command >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::Command >(arena);

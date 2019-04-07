@@ -1532,7 +1532,7 @@ namespace BWAPI
     ///   allied players have eliminated their opponents. Otherwise, the game will only end if
     ///   no other players are remaining in the game. This value is true by default.
     /// </param>
-    //virtual bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true) = 0;
+    bool setAlliance(BWAPI::Player player, bool allied = true, bool alliedVictory = true);
 
     /// <summary>In a game, this function sets the vision of the current BWAPI player with the
     /// target player.</summary> In a replay, this function toggles the visibility of the target
@@ -1547,7 +1547,7 @@ namespace BWAPI
     ///   of the target player will be shown, otherwise the target player will be hidden. This
     ///   value is true by default.
     /// </param>
-    //virtual bool setVision(BWAPI::Player player, bool enabled = true) = 0;
+    bool setVision(BWAPI::Player player, bool enabled = true);
 
     /// <summary>Retrieves current amount of time in seconds that the game has elapsed.</summary>
     ///
@@ -1647,7 +1647,7 @@ namespace BWAPI
     ///       .
     ///     .
     ///
-    //virtual void setCommandOptimizationLevel(int level) = 0;
+    void setCommandOptimizationLevel(int level);
 
     /// <summary>Returns the remaining countdown time.</summary> The countdown timer is used in
     /// @CTF and @UMS game types.

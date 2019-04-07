@@ -1991,5 +1991,52 @@ namespace BWAPI
         if (size > Text::Size::Huge) size = Text::Size::Huge;
         textSize = size;
     }
+    //--------------------------------------------- SET ALLIANCE -----------------------------------------------
+    bool Game::setAlliance(BWAPI::Player player, bool allied, bool alliedVictory)
+    {
+        /* Set the current player's alliance status */
+        if (!self() || isReplay() || !player || player == self())
+        {
+            lastError = Errors::Invalid_Parameter;
+            return false;
+        }
+        
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newSetAlliance = std::make_unique<bwapi::command::SetAlliance>();
+        newSetAlliance->set_playerid(player->getID());
+        newSetAlliance->set_settings(allied ? (alliedVictory ? 2 : 1) : 0);
+        newCommand->set_allocated_setalliance(newSetAlliance.release());
+        newMessage.set_allocated_command(newCommand.release());
+        messageQueue.emplace(newMessage);
+        lastError = Errors::None;
+        return true;
+    }
+    //----------------------------------------------- SET VISION -----------------------------------------------
+    bool Game::setVision(BWAPI::Player player, bool enabled)
+    {
+        // Param check
+        if (!player)
+            return setLastError(Errors::Invalid_Parameter);
+
+        if (!isReplay() && (!self() || player == self()))
+            return setLastError(Errors::Invalid_Parameter);
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        auto newSetVision = std::make_unique<bwapi::command::SetVision>();
+        newSetVision->set_playerid(player->getID());
+        newSetVision->set_settings(enabled ? 1 : 0);
+        messageQueue.emplace(newMessage);
+        return setLastError();
+    }
+    //----------------------------------------------- SET COMMAND OPTIMIZATION LEVEL ---------------------------
+    void Game::setCommandOptimizationLevel(int level)
+    {
+        //queue up command for server so it also applies the change
+        bwapi::message::Message newMessage;
+        auto newCommand = std::make_unique<bwapi::command::Command>();
+        
+        addCommand(BWAPIC::Command(BWAPIC::CommandType::SetCommandOptimizerLevel, level));
+    }
 
 
