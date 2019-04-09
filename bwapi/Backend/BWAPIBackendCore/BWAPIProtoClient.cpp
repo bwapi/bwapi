@@ -119,7 +119,7 @@ namespace BWAPI
         std::unique_ptr<bwapi::message::Message> currentMessage;
         sf::Packet packet;
         std::string packetContents;
-        //loop until the end of queue message or a frame update is received.
+        //loop until the end of queue message is received.
         while (true)
         {
             packet.clear();
@@ -132,13 +132,15 @@ namespace BWAPI
             }
             packet >> packetContents;
             currentMessage->ParseFromString(packetContents);
-            if (currentMessage->has_frameupdate() || currentMessage->has)
+            if (currentMessage->has_endofqueue())
+              return;
             messageQueue.push_back(std::move(currentMessage));
         }
 
     }
 
-    void BWAPIProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> newMessage) {
+    void BWAPIProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> newMessage)
+    {
         messageQueue.push_back(std::move(newMessage));
     }
 }

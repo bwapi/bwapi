@@ -587,12 +587,12 @@ namespace BWAPI
     {
         auto newSetScreenPosition = std::make_unique<bwapi::command::SetScreenPosition>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         newSetScreenPosition->set_x(x);
         newSetScreenPosition->set_y(y);
         newCommand->set_allocated_setscreenposition(newSetScreenPosition.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::setScreenPosition(BWAPI::Position p)
     {
@@ -602,12 +602,12 @@ namespace BWAPI
     {
         auto newPingMiniMap = std::make_unique<bwapi::command::PingMiniMap>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         newPingMiniMap->set_x(x);
         newPingMiniMap->set_y(y);
         newCommand->set_allocated_pingminimap(newPingMiniMap.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::pingMinimap(BWAPI::Position p)
     {
@@ -848,7 +848,7 @@ namespace BWAPI
     void Game::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Box);
@@ -862,8 +862,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
@@ -893,7 +893,7 @@ namespace BWAPI
     void Game::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Triangle);
@@ -907,8 +907,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
@@ -938,7 +938,7 @@ namespace BWAPI
     void Game::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Circle);
@@ -952,8 +952,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
@@ -983,7 +983,7 @@ namespace BWAPI
     void Game::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Ellipse);
@@ -997,8 +997,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
@@ -1028,7 +1028,7 @@ namespace BWAPI
     void Game::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Dot);
@@ -1042,8 +1042,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(false);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawDotMap(int x, int y, Color color)
     {
@@ -1073,7 +1073,7 @@ namespace BWAPI
     void Game::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
     {
         if (!gameData.hasGUI) return;
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Line);
@@ -1087,8 +1087,8 @@ namespace BWAPI
         newShape->set_color(static_cast<int>(color));
         newShape->set_issolid(false);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     void Game::drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
@@ -1708,14 +1708,14 @@ namespace BWAPI
     {
         char buffer[256];
         VSNPrintf(buffer, format, arg);
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSendText = std::make_unique<bwapi::command::SendText>();
         newSendText->set_text(buffer);
         newSendText->set_toallies(toAllies);
         newCommand->set_allocated_sendtext(newSendText.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
 
     //------------------------------------------------ PRINTF --------------------------------------------------
@@ -1723,13 +1723,13 @@ namespace BWAPI
     {
         char buffer[256];
         VSNPrintf(buffer, format, arg);
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newPrintf = std::make_unique<bwapi::command::Printf>();
         newPrintf->set_text(buffer);
         newCommand->set_allocated_printf(newPrintf.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(&newMessage);
     }
 
     //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
@@ -1776,7 +1776,7 @@ namespace BWAPI
         if (!gameData.hasGUI) return;
         char buffer[2048];
         VSNPrintf(buffer, format, arg);
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         newShape->set_type(bwapi::command::ShapeType::Text);
@@ -1791,69 +1791,78 @@ namespace BWAPI
         newShape->set_issolid(false);
         newShape->set_text(buffer);
         newCommand->set_allocated_shape(newShape.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //----------------------------------------------- PAUSE GAME -----------------------------------------------
     void Game::pauseGame()
     {
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newPauseGame = std::make_unique<bwapi::command::PauseGame>();
         newCommand->set_allocated_pausegame(newPauseGame.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- RESUME GAME -----------------------------------------------
     void Game::resumeGame()
     {
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newResumeGame = std::make_unique<bwapi::command::ResumeGame>();
         newCommand->set_allocated_resumegame(newResumeGame.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- LEAVE GAME ------------------------------------------------
     void Game::leaveGame()
     {
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newLeaveGame = std::make_unique<bwapi::command::LeaveGame>();
         newCommand->set_allocated_leavegame(newLeaveGame.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //--------------------------------------------- RESTART GAME -----------------------------------------------
     void Game::restartGame()
     {
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newRestartGame = std::make_unique<bwapi::command::RestartGame>();
         newCommand->set_allocated_restartgame(newRestartGame.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- SET GAME SPEED --------------------------------------------
     void Game::setLocalSpeed(int speed)
     {
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetLocalSpeed = std::make_unique<bwapi::command::SetLocalSpeed>();
         newSetLocalSpeed->set_speed(speed);
         newCommand->set_allocated_setlocalspeed(newSetLocalSpeed.release());
-        newMessage.set_allocated_command(newCommand.release());
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
     }
     //------------------------------------------- ISSUE COMMAND ------------------------------------------------
     bool Game::issueCommand(const Unitset& units, UnitCommand command)
     {
-        bool success = false;
-        //FIX FIX FIX naive implementation
-        for (Unit u : units)
-        {
-            success |= u->issueCommand(command);
-        }
-        return success;
+      auto newMessage = std::make_unique<bwapi::message::Message>();
+      auto newCommand = std::make_unique<bwapi::command::Command>();
+      auto newUnitCommand = std::make_unique<bwapi::command::UnitCommand>();      
+      for (auto unit : units)
+      {
+        newUnitCommand->add_unitid(unit);
+      }
+      newUnitCommand->set_unitcommandtype(command.getType());
+      newUnitCommand->set_targetid(command.getTarget());
+      newUnitCommand->set_x(command.x);
+      newUnitCommand->set_y(command.y);
+      newUnitCommand->set_extra(command.extra);
+      newCommand->set_allocated_unitcommand(newUnitCommand.release());
+      newMessage->set_allocated_command(newCommand.release());
+      protoClient.queueMessage(std::move(newMessage));
     }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
     Unitset selectedUnits;
@@ -1879,14 +1888,14 @@ namespace BWAPI
             return false;
         }
         
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetAlliance = std::make_unique<bwapi::command::SetAlliance>();
         newSetAlliance->set_playerid(player->getID());
         newSetAlliance->set_settings(allied ? (alliedVictory ? 2 : 1) : 0);
         newCommand->set_allocated_setalliance(newSetAlliance.release());
-        newMessage.set_allocated_command(newCommand.release());
-        messageQueue.emplace(newMessage);
+        newMessage->set_allocated_command(newCommand.release());
+        protoClient.queueMessage(std::move(newMessage));
         lastError = Errors::None;
         return true;
     }
@@ -1899,24 +1908,25 @@ namespace BWAPI
 
         if (!isReplay() && (!self() || player == self()))
             return setLastError(Errors::Invalid_Parameter);
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetVision = std::make_unique<bwapi::command::SetVision>();
         newSetVision->set_playerid(player->getID());
         newSetVision->set_settings(enabled ? 1 : 0);
-        messageQueue.emplace(newMessage);
+        newCommand->set_allocated_setvision(newSetVision.release());
+        protoClient.queueMessage(std::move(newMessage));
         return setLastError();
     }
     //----------------------------------------------- SET COMMAND OPTIMIZATION LEVEL ---------------------------
     void Game::setCommandOptimizationLevel(int level)
     {
         //queue up command for server so it also applies the change
-        bwapi::message::Message newMessage;
+        auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetCommandOptimizationLevel = std::make_unique<bwapi::command::SetCommandOptimizationLevel>();
         newSetCommandOptimizationLevel->set_commandoptimizationlevel(level);
         newCommand->set_allocated_setcommandoptimizationlevel(newSetCommandOptimizationLevel.release());
-        newMessage.set_allocated_command(newCommand.release());
+        newMessage->set_allocated_command(newCommand.release());
     }
 
 

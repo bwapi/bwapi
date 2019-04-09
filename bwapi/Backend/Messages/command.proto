@@ -83,6 +83,15 @@ message SetCommandOptimizationLevel {
     int32 commandOptimizationLevel = 1;
 }
 
+message UnitCommand {
+    repeated int32 unitID = 1;
+    uint32 unitCommandType = 2;
+    int32 targetID = 3;
+    int32 x = 4;
+    int32 y = 5;
+    int32 extra = 6;
+}
+
 //Command wrapper, will contain one of the types of commands
 message Command {
     oneof cmd {
@@ -99,5 +108,6 @@ message Command {
         SetAlliance setAlliance = 11;
         SetVision setVision = 12;
         SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
+        UnitCommand unitCommand = 14;
     }
 }

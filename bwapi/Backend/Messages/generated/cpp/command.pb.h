@@ -39,7 +39,7 @@ namespace protobuf_command_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[14];
+  static const ::google::protobuf::internal::ParseTable schema[15];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -90,6 +90,9 @@ extern SetVisionDefaultTypeInternal _SetVision_default_instance_;
 class Shape;
 class ShapeDefaultTypeInternal;
 extern ShapeDefaultTypeInternal _Shape_default_instance_;
+class UnitCommand;
+class UnitCommandDefaultTypeInternal;
+extern UnitCommandDefaultTypeInternal _UnitCommand_default_instance_;
 }  // namespace command
 }  // namespace bwapi
 namespace google {
@@ -108,6 +111,7 @@ template<> ::bwapi::command::SetLocalSpeed* Arena::CreateMaybeMessage<::bwapi::c
 template<> ::bwapi::command::SetScreenPosition* Arena::CreateMaybeMessage<::bwapi::command::SetScreenPosition>(Arena*);
 template<> ::bwapi::command::SetVision* Arena::CreateMaybeMessage<::bwapi::command::SetVision>(Arena*);
 template<> ::bwapi::command::Shape* Arena::CreateMaybeMessage<::bwapi::command::Shape>(Arena*);
+template<> ::bwapi::command::UnitCommand* Arena::CreateMaybeMessage<::bwapi::command::UnitCommand>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace bwapi {
@@ -1605,6 +1609,151 @@ class SetCommandOptimizationLevel : public ::google::protobuf::Message /* @@prot
 };
 // -------------------------------------------------------------------
 
+class UnitCommand : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.UnitCommand) */ {
+ public:
+  UnitCommand();
+  virtual ~UnitCommand();
+
+  UnitCommand(const UnitCommand& from);
+
+  inline UnitCommand& operator=(const UnitCommand& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UnitCommand(UnitCommand&& from) noexcept
+    : UnitCommand() {
+    *this = ::std::move(from);
+  }
+
+  inline UnitCommand& operator=(UnitCommand&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UnitCommand& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UnitCommand* internal_default_instance() {
+    return reinterpret_cast<const UnitCommand*>(
+               &_UnitCommand_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  void Swap(UnitCommand* other);
+  friend void swap(UnitCommand& a, UnitCommand& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UnitCommand* New() const final {
+    return CreateMaybeMessage<UnitCommand>(NULL);
+  }
+
+  UnitCommand* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<UnitCommand>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const UnitCommand& from);
+  void MergeFrom(const UnitCommand& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UnitCommand* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated int32 unitID = 1;
+  int unitid_size() const;
+  void clear_unitid();
+  static const int kUnitIDFieldNumber = 1;
+  ::google::protobuf::int32 unitid(int index) const;
+  void set_unitid(int index, ::google::protobuf::int32 value);
+  void add_unitid(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      unitid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_unitid();
+
+  // uint32 unitCommandType = 2;
+  void clear_unitcommandtype();
+  static const int kUnitCommandTypeFieldNumber = 2;
+  ::google::protobuf::uint32 unitcommandtype() const;
+  void set_unitcommandtype(::google::protobuf::uint32 value);
+
+  // int32 targetID = 3;
+  void clear_targetid();
+  static const int kTargetIDFieldNumber = 3;
+  ::google::protobuf::int32 targetid() const;
+  void set_targetid(::google::protobuf::int32 value);
+
+  // int32 x = 4;
+  void clear_x();
+  static const int kXFieldNumber = 4;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // int32 y = 5;
+  void clear_y();
+  static const int kYFieldNumber = 5;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // int32 extra = 6;
+  void clear_extra();
+  static const int kExtraFieldNumber = 6;
+  ::google::protobuf::int32 extra() const;
+  void set_extra(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.UnitCommand)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > unitid_;
+  mutable int _unitid_cached_byte_size_;
+  ::google::protobuf::uint32 unitcommandtype_;
+  ::google::protobuf::int32 targetid_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  ::google::protobuf::int32 extra_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.command.Command) */ {
  public:
   Command();
@@ -1648,6 +1797,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kSetAlliance = 11,
     kSetVision = 12,
     kSetCommandOptimizationLevel = 13,
+    kUnitCommand = 14,
     CMD_NOT_SET = 0,
   };
 
@@ -1657,7 +1807,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Command_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    14;
 
   void Swap(Command* other);
   friend void swap(Command& a, Command& b) {
@@ -1865,6 +2015,18 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::bwapi::command::SetCommandOptimizationLevel* mutable_setcommandoptimizationlevel();
   void set_allocated_setcommandoptimizationlevel(::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel);
 
+  // .bwapi.command.UnitCommand unitCommand = 14;
+  bool has_unitcommand() const;
+  void clear_unitcommand();
+  static const int kUnitCommandFieldNumber = 14;
+  private:
+  const ::bwapi::command::UnitCommand& _internal_unitcommand() const;
+  public:
+  const ::bwapi::command::UnitCommand& unitcommand() const;
+  ::bwapi::command::UnitCommand* release_unitcommand();
+  ::bwapi::command::UnitCommand* mutable_unitcommand();
+  void set_allocated_unitcommand(::bwapi::command::UnitCommand* unitcommand);
+
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:bwapi.command.Command)
@@ -1882,6 +2044,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_setalliance();
   void set_has_setvision();
   void set_has_setcommandoptimizationlevel();
+  void set_has_unitcommand();
 
   inline bool has_cmd() const;
   inline void clear_has_cmd();
@@ -1902,6 +2065,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::bwapi::command::SetAlliance* setalliance_;
     ::bwapi::command::SetVision* setvision_;
     ::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel_;
+    ::bwapi::command::UnitCommand* unitcommand_;
   } cmd_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -2418,6 +2582,110 @@ inline void SetCommandOptimizationLevel::set_commandoptimizationlevel(::google::
   
   commandoptimizationlevel_ = value;
   // @@protoc_insertion_point(field_set:bwapi.command.SetCommandOptimizationLevel.commandOptimizationLevel)
+}
+
+// -------------------------------------------------------------------
+
+// UnitCommand
+
+// repeated int32 unitID = 1;
+inline int UnitCommand::unitid_size() const {
+  return unitid_.size();
+}
+inline void UnitCommand::clear_unitid() {
+  unitid_.Clear();
+}
+inline ::google::protobuf::int32 UnitCommand::unitid(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.unitID)
+  return unitid_.Get(index);
+}
+inline void UnitCommand::set_unitid(int index, ::google::protobuf::int32 value) {
+  unitid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.unitID)
+}
+inline void UnitCommand::add_unitid(::google::protobuf::int32 value) {
+  unitid_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.command.UnitCommand.unitID)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+UnitCommand::unitid() const {
+  // @@protoc_insertion_point(field_list:bwapi.command.UnitCommand.unitID)
+  return unitid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+UnitCommand::mutable_unitid() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.command.UnitCommand.unitID)
+  return &unitid_;
+}
+
+// uint32 unitCommandType = 2;
+inline void UnitCommand::clear_unitcommandtype() {
+  unitcommandtype_ = 0u;
+}
+inline ::google::protobuf::uint32 UnitCommand::unitcommandtype() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.unitCommandType)
+  return unitcommandtype_;
+}
+inline void UnitCommand::set_unitcommandtype(::google::protobuf::uint32 value) {
+  
+  unitcommandtype_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.unitCommandType)
+}
+
+// int32 targetID = 3;
+inline void UnitCommand::clear_targetid() {
+  targetid_ = 0;
+}
+inline ::google::protobuf::int32 UnitCommand::targetid() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.targetID)
+  return targetid_;
+}
+inline void UnitCommand::set_targetid(::google::protobuf::int32 value) {
+  
+  targetid_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.targetID)
+}
+
+// int32 x = 4;
+inline void UnitCommand::clear_x() {
+  x_ = 0;
+}
+inline ::google::protobuf::int32 UnitCommand::x() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.x)
+  return x_;
+}
+inline void UnitCommand::set_x(::google::protobuf::int32 value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.x)
+}
+
+// int32 y = 5;
+inline void UnitCommand::clear_y() {
+  y_ = 0;
+}
+inline ::google::protobuf::int32 UnitCommand::y() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.y)
+  return y_;
+}
+inline void UnitCommand::set_y(::google::protobuf::int32 value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.y)
+}
+
+// int32 extra = 6;
+inline void UnitCommand::clear_extra() {
+  extra_ = 0;
+}
+inline ::google::protobuf::int32 UnitCommand::extra() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.UnitCommand.extra)
+  return extra_;
+}
+inline void UnitCommand::set_extra(::google::protobuf::int32 value) {
+  
+  extra_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.UnitCommand.extra)
 }
 
 // -------------------------------------------------------------------
@@ -2996,6 +3264,50 @@ inline ::bwapi::command::SetCommandOptimizationLevel* Command::mutable_setcomman
   return cmd_.setcommandoptimizationlevel_;
 }
 
+// .bwapi.command.UnitCommand unitCommand = 14;
+inline bool Command::has_unitcommand() const {
+  return cmd_case() == kUnitCommand;
+}
+inline void Command::set_has_unitcommand() {
+  _oneof_case_[0] = kUnitCommand;
+}
+inline void Command::clear_unitcommand() {
+  if (has_unitcommand()) {
+    delete cmd_.unitcommand_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::UnitCommand& Command::_internal_unitcommand() const {
+  return *cmd_.unitcommand_;
+}
+inline ::bwapi::command::UnitCommand* Command::release_unitcommand() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.unitCommand)
+  if (has_unitcommand()) {
+    clear_has_cmd();
+      ::bwapi::command::UnitCommand* temp = cmd_.unitcommand_;
+    cmd_.unitcommand_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::UnitCommand& Command::unitcommand() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.unitCommand)
+  return has_unitcommand()
+      ? *cmd_.unitcommand_
+      : *reinterpret_cast< ::bwapi::command::UnitCommand*>(&::bwapi::command::_UnitCommand_default_instance_);
+}
+inline ::bwapi::command::UnitCommand* Command::mutable_unitcommand() {
+  if (!has_unitcommand()) {
+    clear_cmd();
+    set_has_unitcommand();
+    cmd_.unitcommand_ = CreateMaybeMessage< ::bwapi::command::UnitCommand >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.unitCommand)
+  return cmd_.unitcommand_;
+}
+
 inline bool Command::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -3008,6 +3320,8 @@ inline Command::CmdCase Command::cmd_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
