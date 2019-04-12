@@ -20,7 +20,7 @@ namespace BWAPI
         void receiveMessages();
 
         void queueMessage(std::unique_ptr<bwapi::message::Message> newMessage);
-        void queueMessage(bwapi::message::Message *newMessage) const;
+        //void queueMessage(bwapi::message::Message *newMessage) const;
 
 
     private:

@@ -631,7 +631,7 @@ namespace BWAPI
         vSendTextEx(toAllies, format, ap);
         va_end(ap);
     };
-    void Game::printf(const char *format, ...) const
+    void Game::printf(const char *format, ...)
     {
         va_list ap;
         va_start(ap, format);
@@ -1708,7 +1708,7 @@ namespace BWAPI
     {
         char buffer[256];
         VSNPrintf(buffer, format, arg);
-        auto newMessage = std::make_unique<bwapi::message::Message>();;
+        auto newMessage = std::make_unique<bwapi::message::Message>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSendText = std::make_unique<bwapi::command::SendText>();
         newSendText->set_text(buffer);
@@ -1719,7 +1719,7 @@ namespace BWAPI
     }
 
     //------------------------------------------------ PRINTF --------------------------------------------------
-    void Game::vPrintf(const char *format, va_list arg) const
+    void Game::vPrintf(const char *format, va_list arg)
     {
         char buffer[256];
         VSNPrintf(buffer, format, arg);
@@ -1729,7 +1729,7 @@ namespace BWAPI
         newPrintf->set_text(buffer);
         newCommand->set_allocated_printf(newPrintf.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(&newMessage);
+        protoClient.queueMessage(std::move(newMessage));
     }
 
     //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------

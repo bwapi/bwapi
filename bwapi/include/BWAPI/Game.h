@@ -870,7 +870,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see Text::Enum, std::printf
-    void printf(const char *format, ...) const;
+    void printf(const char *format, ...);
 
     /// @copydoc printf
     ///
@@ -881,7 +881,7 @@ namespace BWAPI
     /// </param>
     ///
     /// @see printf
-    void vPrintf(const char *format, va_list args) const;
+    void vPrintf(const char *format, va_list args);
     
     /// <summary>Sends a text message to all other players in the game.</summary> The behaviour of
     /// this function is the same as std::printf, located in header cstdio.
@@ -1832,7 +1832,7 @@ namespace BWAPI
       return *this;
     }
 
-    void flush() const {
+    void flush() {
       printf("%s", ss.str().c_str());
       ss.str("");
     }
