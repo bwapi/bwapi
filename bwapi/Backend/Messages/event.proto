@@ -1,0 +1,97 @@
+syntax = "proto3";
+import "data.proto";
+
+package bwapi.event;
+
+message MatchStart {
+}
+
+message MatchEnd {
+    bool winner = 1;
+}
+
+message MatchFrame {
+}
+
+message MenuFrame {
+}
+
+message SendText {
+    string text = 1;
+}
+
+message ReceiveText {
+    Player player = 1;
+    string text = 2;
+}
+
+message PlayerLeft {
+    Player player = 1;
+}
+
+message NukeDetect {
+    Point target = 1;
+}
+
+message UnitDiscover {
+    Unit unit = 1;
+}
+
+message UnitEvade {
+    Unit unit = 1;
+}
+
+message UnitShow {
+    Unit unit = 1;
+}
+
+message UnitHide {
+    Unit unit = 1;
+}
+
+message UnitCreate {
+    Unit unit = 1;
+}
+
+message UnitDestroy {
+    Unit unit = 1;
+}
+
+message UnitMorph {
+    Unit unit = 1;
+}
+
+message UnitRenegade {
+    Unit unit = 1;
+}
+
+message SaveGame {
+    string text = 1;
+}
+
+message UnitComplete {
+    Unit unit = 1;
+}
+
+message Event {
+    oneof event {
+      MatchStart matchStart = 1;
+      MatchEnd matchEnd = 2;
+      MatchFrame matchFrame = 3;
+      MenuFrame menuFrame = 4;
+      SendText sendText = 5;
+      ReceiveText receiveText = 6;
+      PlayerLeft playerLeft = 7;
+      NukeDetect nukeDetect = 8;
+      UnitDiscover unitDiscover = 9;
+      UnitEvade unitEvade = 10;
+      UnitShow unitShow = 11;
+      UnitHide unitHite = 12;
+      UnitCreate unitCreate = 13;
+      UnitDestroy unitDestroy = 14;
+      UnitMorph unitMorph = 15;
+      UnitRenegade unitRenegade = 16;
+      SaveGame saveGame = 17;
+      UnitComplete unitComplete = 18;
+    }
+}

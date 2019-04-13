@@ -2,6 +2,7 @@ syntax = "proto3";
 import "init.proto";
 import "game.proto";
 import "command.proto";
+import "event.proto";
 
 package bwapi.message;
 
@@ -19,5 +20,8 @@ message Message {
 
         //Command
         bwapi.command.Command command = 5;
+
+        //Event
+        bwapi.event.Event event = 6;
 	}
 }

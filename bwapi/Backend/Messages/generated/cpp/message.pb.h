@@ -33,6 +33,7 @@
 #include "init.pb.h"
 #include "game.pb.h"
 #include "command.pb.h"
+#include "event.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_message_2eproto 
 
@@ -101,6 +102,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kFrameUpdate = 1000,
     kEndOfQueue = 4,
     kCommand = 5,
+    kEvent = 6,
     MSG_NOT_SET = 0,
   };
 
@@ -234,6 +236,18 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::bwapi::command::Command* mutable_command();
   void set_allocated_command(::bwapi::command::Command* command);
 
+  // .bwapi.event.Event event = 6;
+  bool has_event() const;
+  void clear_event();
+  static const int kEventFieldNumber = 6;
+  private:
+  const ::bwapi::event::Event& _internal_event() const;
+  public:
+  const ::bwapi::event::Event& event() const;
+  ::bwapi::event::Event* release_event();
+  ::bwapi::event::Event* mutable_event();
+  void set_allocated_event(::bwapi::event::Event* event);
+
   void clear_msg();
   MsgCase msg_case() const;
   // @@protoc_insertion_point(class_scope:bwapi.message.Message)
@@ -244,6 +258,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_frameupdate();
   void set_has_endofqueue();
   void set_has_command();
+  void set_has_event();
 
   inline bool has_msg() const;
   inline void clear_has_msg();
@@ -257,6 +272,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::bwapi::game::FrameUpdate* frameupdate_;
     ::bwapi::game::EndOfQueue* endofqueue_;
     ::bwapi::command::Command* command_;
+    ::bwapi::event::Event* event_;
   } msg_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -500,6 +516,44 @@ inline ::bwapi::command::Command* Message::mutable_command() {
   }
   // @@protoc_insertion_point(field_mutable:bwapi.message.Message.command)
   return msg_.command_;
+}
+
+// .bwapi.event.Event event = 6;
+inline bool Message::has_event() const {
+  return msg_case() == kEvent;
+}
+inline void Message::set_has_event() {
+  _oneof_case_[0] = kEvent;
+}
+inline const ::bwapi::event::Event& Message::_internal_event() const {
+  return *msg_.event_;
+}
+inline ::bwapi::event::Event* Message::release_event() {
+  // @@protoc_insertion_point(field_release:bwapi.message.Message.event)
+  if (has_event()) {
+    clear_has_msg();
+      ::bwapi::event::Event* temp = msg_.event_;
+    msg_.event_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::event::Event& Message::event() const {
+  // @@protoc_insertion_point(field_get:bwapi.message.Message.event)
+  return has_event()
+      ? *msg_.event_
+      : *reinterpret_cast< ::bwapi::event::Event*>(&::bwapi::event::_Event_default_instance_);
+}
+inline ::bwapi::event::Event* Message::mutable_event() {
+  if (!has_event()) {
+    clear_msg();
+    set_has_event();
+    msg_.event_ = CreateMaybeMessage< ::bwapi::event::Event >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.message.Message.event)
+  return msg_.event_;
 }
 
 inline bool Message::has_msg() const {

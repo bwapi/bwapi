@@ -128,6 +128,7 @@
     <None Include="command.proto" />
     <None Include="data.proto" />
     <None Include="error.proto" />
+    <None Include="event.proto" />
     <None Include="game.proto" />
     <None Include="init.proto" />
     <None Include="message.proto" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="generated\cpp\command.pb.h" />
     <ClInclude Include="generated\cpp\error.pb.h" />
+    <ClInclude Include="generated\cpp\event.pb.h" />
     <ClInclude Include="generated\cpp\game.pb.h" />
     <ClInclude Include="generated\cpp\init.pb.h" />
     <ClInclude Include="generated\cpp\message.pb.h" />
@@ -142,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="generated\cpp\command.pb.cc" />
     <ClCompile Include="generated\cpp\error.pb.cc" />
+    <ClCompile Include="generated\cpp\event.pb.cc" />
     <ClCompile Include="generated\cpp\game.pb.cc" />
     <ClCompile Include="generated\cpp\init.pb.cc" />
     <ClCompile Include="generated\cpp\message.pb.cc" />

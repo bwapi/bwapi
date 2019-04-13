@@ -22,6 +22,9 @@
 namespace protobuf_command_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<14> scc_info_Command;
 }  // namespace protobuf_command_2eproto
+namespace protobuf_event_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto ::google::protobuf::internal::SCCInfo<18> scc_info_Event;
+}  // namespace protobuf_event_2eproto
 namespace protobuf_game_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_EndOfQueue;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_FrameUpdate;
@@ -43,6 +46,7 @@ class MessageDefaultTypeInternal {
   const ::bwapi::game::FrameUpdate* frameupdate_;
   const ::bwapi::game::EndOfQueue* endofqueue_;
   const ::bwapi::command::Command* command_;
+  const ::bwapi::event::Event* event_;
 } _Message_default_instance_;
 }  // namespace message
 }  // namespace bwapi
@@ -58,14 +62,15 @@ static void InitDefaultsMessage() {
   ::bwapi::message::Message::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<6> scc_info_Message =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 6, InitDefaultsMessage}, {
+::google::protobuf::internal::SCCInfo<7> scc_info_Message =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 7, InitDefaultsMessage}, {
       &protobuf_init_2eproto::scc_info_ClientBroadcast.base,
       &protobuf_init_2eproto::scc_info_ServerResponse.base,
       &protobuf_init_2eproto::scc_info_ClientResolution.base,
       &protobuf_game_2eproto::scc_info_FrameUpdate.base,
       &protobuf_game_2eproto::scc_info_EndOfQueue.base,
-      &protobuf_command_2eproto::scc_info_Command.base,}};
+      &protobuf_command_2eproto::scc_info_Command.base,
+      &protobuf_event_2eproto::scc_info_Event.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Message.base);
@@ -85,6 +90,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::bwapi::message::MessageDefaultTypeInternal, frameupdate_),
   offsetof(::bwapi::message::MessageDefaultTypeInternal, endofqueue_),
   offsetof(::bwapi::message::MessageDefaultTypeInternal, command_),
+  offsetof(::bwapi::message::MessageDefaultTypeInternal, event_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::message::Message, msg_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -117,23 +123,26 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\rmessage.proto\022\rbwapi.message\032\ninit.pro"
-      "to\032\ngame.proto\032\rcommand.proto\"\274\002\n\007Messag"
-      "e\0224\n\rinitBroadcast\030\001 \001(\0132\033.bwapi.init.Cl"
-      "ientBroadcastH\000\0222\n\014initResponse\030\002 \001(\0132\032."
-      "bwapi.init.ServerResponseH\000\0226\n\016initResol"
-      "ution\030\003 \001(\0132\034.bwapi.init.ClientResolutio"
-      "nH\000\022/\n\013frameUpdate\030\350\007 \001(\0132\027.bwapi.game.F"
-      "rameUpdateH\000\022,\n\nendOfQueue\030\004 \001(\0132\026.bwapi"
-      ".game.EndOfQueueH\000\022)\n\007command\030\005 \001(\0132\026.bw"
-      "api.command.CommandH\000B\005\n\003msgb\006proto3"
+      "to\032\ngame.proto\032\rcommand.proto\032\013event.pro"
+      "to\"\341\002\n\007Message\0224\n\rinitBroadcast\030\001 \001(\0132\033."
+      "bwapi.init.ClientBroadcastH\000\0222\n\014initResp"
+      "onse\030\002 \001(\0132\032.bwapi.init.ServerResponseH\000"
+      "\0226\n\016initResolution\030\003 \001(\0132\034.bwapi.init.Cl"
+      "ientResolutionH\000\022/\n\013frameUpdate\030\350\007 \001(\0132\027"
+      ".bwapi.game.FrameUpdateH\000\022,\n\nendOfQueue\030"
+      "\004 \001(\0132\026.bwapi.game.EndOfQueueH\000\022)\n\007comma"
+      "nd\030\005 \001(\0132\026.bwapi.command.CommandH\000\022#\n\005ev"
+      "ent\030\006 \001(\0132\022.bwapi.event.EventH\000B\005\n\003msgb\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 396);
+      descriptor, 446);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   ::protobuf_init_2eproto::AddDescriptors();
   ::protobuf_game_2eproto::AddDescriptors();
   ::protobuf_command_2eproto::AddDescriptors();
+  ::protobuf_event_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -165,6 +174,8 @@ void Message::InitAsDefaultInstance() {
       ::bwapi::game::EndOfQueue::internal_default_instance());
   ::bwapi::message::_Message_default_instance_.command_ = const_cast< ::bwapi::command::Command*>(
       ::bwapi::command::Command::internal_default_instance());
+  ::bwapi::message::_Message_default_instance_.event_ = const_cast< ::bwapi::event::Event*>(
+      ::bwapi::event::Event::internal_default_instance());
 }
 void Message::set_allocated_initbroadcast(::bwapi::init::ClientBroadcast* initbroadcast) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -286,6 +297,26 @@ void Message::clear_command() {
     clear_has_msg();
   }
 }
+void Message::set_allocated_event(::bwapi::event::Event* event) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_msg();
+  if (event) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      event = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, event, submessage_arena);
+    }
+    set_has_event();
+    msg_.event_ = event;
+  }
+  // @@protoc_insertion_point(field_set_allocated:bwapi.message.Message.event)
+}
+void Message::clear_event() {
+  if (has_event()) {
+    delete msg_.event_;
+    clear_has_msg();
+  }
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Message::kInitBroadcastFieldNumber;
 const int Message::kInitResponseFieldNumber;
@@ -293,6 +324,7 @@ const int Message::kInitResolutionFieldNumber;
 const int Message::kFrameUpdateFieldNumber;
 const int Message::kEndOfQueueFieldNumber;
 const int Message::kCommandFieldNumber;
+const int Message::kEventFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Message::Message()
@@ -330,6 +362,10 @@ Message::Message(const Message& from)
     }
     case kCommand: {
       mutable_command()->::bwapi::command::Command::MergeFrom(from.command());
+      break;
+    }
+    case kEvent: {
+      mutable_event()->::bwapi::event::Event::MergeFrom(from.event());
       break;
     }
     case MSG_NOT_SET: {
@@ -393,6 +429,10 @@ void Message::clear_msg() {
     }
     case kCommand: {
       delete msg_.command_;
+      break;
+    }
+    case kEvent: {
+      delete msg_.event_;
       break;
     }
     case MSG_NOT_SET: {
@@ -483,6 +523,18 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
+      // .bwapi.event.Event event = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_event()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .bwapi.game.FrameUpdate frameUpdate = 1000;
       case 1000: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -551,6 +603,12 @@ void Message::SerializeWithCachedSizes(
       5, this->_internal_command(), output);
   }
 
+  // .bwapi.event.Event event = 6;
+  if (has_event()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, this->_internal_event(), output);
+  }
+
   // .bwapi.game.FrameUpdate frameUpdate = 1000;
   if (has_frameupdate()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -604,6 +662,13 @@ void Message::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         5, this->_internal_command(), deterministic, target);
+  }
+
+  // .bwapi.event.Event event = 6;
+  if (has_event()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        6, this->_internal_event(), deterministic, target);
   }
 
   // .bwapi.game.FrameUpdate frameUpdate = 1000;
@@ -673,6 +738,13 @@ size_t Message::ByteSizeLong() const {
           *msg_.command_);
       break;
     }
+    // .bwapi.event.Event event = 6;
+    case kEvent: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *msg_.event_);
+      break;
+    }
     case MSG_NOT_SET: {
       break;
     }
@@ -727,6 +799,10 @@ void Message::MergeFrom(const Message& from) {
     }
     case kCommand: {
       mutable_command()->::bwapi::command::Command::MergeFrom(from.command());
+      break;
+    }
+    case kEvent: {
+      mutable_event()->::bwapi::event::Event::MergeFrom(from.event());
       break;
     }
     case MSG_NOT_SET: {
