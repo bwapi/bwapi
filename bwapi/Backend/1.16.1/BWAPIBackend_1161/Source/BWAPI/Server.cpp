@@ -308,18 +308,34 @@ namespace BWAPI
     DWORD dwMode = PIPE_READMODE_MESSAGE | (wait ? PIPE_WAIT : PIPE_NOWAIT);
     SetNamedPipeHandleState(pipeObjectHandle, &dwMode, NULL, NULL);
   }
+  void Server::receiveData()
+  {
+    if (!protoClient.isConnected())
+      return;
+    protoClient.receiveMessages();
+  }
+  void Server::sendData()
+  {
+    if (!protoClient.isConnected())
+      return;
+    protoClient.transmitMessages();
+  }
   void Server::checkForConnections()
   {
     if (connected || localOnly || !pipeObjectHandle || pipeObjectHandle == INVALID_HANDLE_VALUE )
       return;
-    BOOL success = ConnectNamedPipe(pipeObjectHandle, nullptr);
-    if (!success && GetLastError() != ERROR_PIPE_CONNECTED)
+    protoClient.checkForConnection(data->client_version, "x", "x");
+    if (!protoClient.isConnected())
       return;
-    if (GetLastError() == ERROR_PIPE_CONNECTED)
-      connected = true;
-    if (!connected)
-      return;
-    setWaitForResponse(true);
+    connected = true;
+    //BOOL success = ConnectNamedPipe(pipeObjectHandle, nullptr);
+    //if (!success && GetLastError() != ERROR_PIPE_CONNECTED)
+    //  return;
+    //if (GetLastError() == ERROR_PIPE_CONNECTED)
+    //  connected = true;
+    //if (!connected)
+    //  return;
+    //setWaitForResponse(true);
   }
   void Server::initializeSharedMemory()
   {
@@ -739,6 +755,41 @@ namespace BWAPI
         connected = false;
         setWaitForResponse(false);
         break;
+      }
+    }
+  }
+  void Server::proccessMessages()
+  {
+    while (protoClient.messageQueueSize())
+    {
+      auto message = protoClient.getNextMessage();
+      if (message.get() == nullptr)
+        return;
+      if (message->has_endofqueue)
+        return;
+      if (message->has_initbroadcast)
+      {
+        //Logic to decide if we want to connect or disconnect is needed,
+        //for now, just constructing the server response.
+        auto newMessage = std::make_unique<bwapi::message::Message>();
+        auto newServerResponse = std::make_unique<bwapi::init::ServerResponse>();
+        newServerResponse->set_enginetype("Fun");
+        newServerResponse->set_engineversion("Happy");
+        newServerResponse->set_apiversion(1);
+        newServerResponse->set_supportedprotocols(0, static_cast<bwapi::init::Protocol>(0));
+        newMessage->set_allocated_initresponse(newServerResponse.release());
+        protoClient.queueMessage(std::move(newMessage));
+      }
+      else if (message->has_command())
+      {
+        //process command - should we queue them and call process commands later, or process them as we go through the message queue?
+        //For now, just handling the print command here. All others will be ignored.
+        auto command = message->command();
+        if (command.has_sendtext())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.sendTextEx(command.sendtext().toallies() != 0, "%s", command.sendtext().text());
+        }
       }
     }
   }

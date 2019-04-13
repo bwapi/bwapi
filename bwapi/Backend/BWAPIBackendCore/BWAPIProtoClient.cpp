@@ -155,4 +155,23 @@ namespace BWAPI
     {
         messageQueue.push_back(std::move(newMessage));
     }
+    
+    bool BWAPIProtoClient::isConnected() const
+    {
+      return connected;
+    }
+
+    int BWAPIProtoClient::messageQueueSize() const
+    {
+      return messageQueue.size();
+    }
+
+    std::unique_ptr<bwapi::message::Message> BWAPIProtoClient::getNextMessage()
+    {
+      if (!messageQueue.size())
+        return std::make_unique<bwapi::message::Message>(nullptr);
+      auto nextMessage = std::move(messageQueue.front());
+      messageQueue.pop_front();
+      return nextMessage;
+    }
 }

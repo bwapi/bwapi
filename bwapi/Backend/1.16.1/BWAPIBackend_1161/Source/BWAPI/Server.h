@@ -52,6 +52,9 @@ namespace BWAPI
     void callOnFrame();
     void processCommands();
     void setWaitForResponse(bool wait);
+    void receiveData();
+    void sendData();
+    void proccessMessages();
 
     HANDLE pipeObjectHandle = nullptr;
     HANDLE mapFileHandle = nullptr;
@@ -73,5 +76,7 @@ namespace BWAPI
     PSID pEveryoneSID = nullptr;
     PACL pACL = nullptr;
     PSECURITY_DESCRIPTOR pSD = nullptr;
+
+    BWAPIProtoClient protoClient;
   };
 }
