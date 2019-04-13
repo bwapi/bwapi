@@ -106,9 +106,21 @@ namespace BWAPI
             if (tcpSocket.send(packet) != sf::Socket::Done)
             {
                 //Error sending command, we should do something here?
-                fprintf(stderr, "Failed to send a command to the server.\n");
+                fprintf(stderr, "Failed to send a Message.\n");
             }
         }
+        //Finished with queue, send the EndOfQueue message
+        auto endOfQueue = std::make_unique<bwapi::game::EndOfQueue>();
+        currentMessage = std::make_unique<bwapi::message::Message>();
+        currentMessage->set_allocated_endofqueue(endOfQueue.release());
+        packet.clear();
+        packet << currentMessage->SerializeAsString();
+        if (tcpSocket.send(packet) != sf::Socket::Done)
+        {
+          //Error sending EndofQueue
+          fprintf(stderr, "Failed to send end of queue command.");
+        }
+
     }
 
     void BWAPIProtoClient::receiveMessages()
