@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generated\cpp\command.pb.h" />
+    <ClInclude Include="generated\cpp\data.pb.h" />
     <ClInclude Include="generated\cpp\error.pb.h" />
     <ClInclude Include="generated\cpp\event.pb.h" />
     <ClInclude Include="generated\cpp\game.pb.h" />
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="generated\cpp\command.pb.cc" />
+    <ClCompile Include="generated\cpp\data.pb.cc" />
     <ClCompile Include="generated\cpp\error.pb.cc" />
     <ClCompile Include="generated\cpp\event.pb.cc" />
     <ClCompile Include="generated\cpp\game.pb.cc" />

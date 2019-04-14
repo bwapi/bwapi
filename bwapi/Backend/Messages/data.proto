@@ -1,4 +1,5 @@
 syntax = "proto3";
+package bwapi.data;
 
 message Point {
     int32 x = 1;

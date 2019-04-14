@@ -682,43 +682,47 @@ void AddDescriptorsImpl() {
       "\n\013event.proto\022\013bwapi.event\032\ndata.proto\"\014"
       "\n\nMatchStart\"\032\n\010MatchEnd\022\016\n\006winner\030\001 \001(\010"
       "\"\014\n\nMatchFrame\"\013\n\tMenuFrame\"\030\n\010SendText\022"
-      "\014\n\004text\030\001 \001(\t\"4\n\013ReceiveText\022\027\n\006player\030\001"
-      " \001(\0132\007.Player\022\014\n\004text\030\002 \001(\t\"%\n\nPlayerLef"
-      "t\022\027\n\006player\030\001 \001(\0132\007.Player\"$\n\nNukeDetect"
-      "\022\026\n\006target\030\001 \001(\0132\006.Point\"#\n\014UnitDiscover"
-      "\022\023\n\004unit\030\001 \001(\0132\005.Unit\" \n\tUnitEvade\022\023\n\004un"
-      "it\030\001 \001(\0132\005.Unit\"\037\n\010UnitShow\022\023\n\004unit\030\001 \001("
-      "\0132\005.Unit\"\037\n\010UnitHide\022\023\n\004unit\030\001 \001(\0132\005.Uni"
-      "t\"!\n\nUnitCreate\022\023\n\004unit\030\001 \001(\0132\005.Unit\"\"\n\013"
-      "UnitDestroy\022\023\n\004unit\030\001 \001(\0132\005.Unit\" \n\tUnit"
-      "Morph\022\023\n\004unit\030\001 \001(\0132\005.Unit\"#\n\014UnitRenega"
-      "de\022\023\n\004unit\030\001 \001(\0132\005.Unit\"\030\n\010SaveGame\022\014\n\004t"
-      "ext\030\001 \001(\t\"#\n\014UnitComplete\022\023\n\004unit\030\001 \001(\0132"
-      "\005.Unit\"\324\006\n\005Event\022-\n\nmatchStart\030\001 \001(\0132\027.b"
-      "wapi.event.MatchStartH\000\022)\n\010matchEnd\030\002 \001("
-      "\0132\025.bwapi.event.MatchEndH\000\022-\n\nmatchFrame"
-      "\030\003 \001(\0132\027.bwapi.event.MatchFrameH\000\022+\n\tmen"
-      "uFrame\030\004 \001(\0132\026.bwapi.event.MenuFrameH\000\022)"
-      "\n\010sendText\030\005 \001(\0132\025.bwapi.event.SendTextH"
-      "\000\022/\n\013receiveText\030\006 \001(\0132\030.bwapi.event.Rec"
-      "eiveTextH\000\022-\n\nplayerLeft\030\007 \001(\0132\027.bwapi.e"
-      "vent.PlayerLeftH\000\022-\n\nnukeDetect\030\010 \001(\0132\027."
-      "bwapi.event.NukeDetectH\000\0221\n\014unitDiscover"
-      "\030\t \001(\0132\031.bwapi.event.UnitDiscoverH\000\022+\n\tu"
-      "nitEvade\030\n \001(\0132\026.bwapi.event.UnitEvadeH\000"
-      "\022)\n\010unitShow\030\013 \001(\0132\025.bwapi.event.UnitSho"
-      "wH\000\022)\n\010unitHite\030\014 \001(\0132\025.bwapi.event.Unit"
-      "HideH\000\022-\n\nunitCreate\030\r \001(\0132\027.bwapi.event"
-      ".UnitCreateH\000\022/\n\013unitDestroy\030\016 \001(\0132\030.bwa"
-      "pi.event.UnitDestroyH\000\022+\n\tunitMorph\030\017 \001("
-      "\0132\026.bwapi.event.UnitMorphH\000\0221\n\014unitReneg"
-      "ade\030\020 \001(\0132\031.bwapi.event.UnitRenegadeH\000\022)"
-      "\n\010saveGame\030\021 \001(\0132\025.bwapi.event.SaveGameH"
-      "\000\0221\n\014unitComplete\030\022 \001(\0132\031.bwapi.event.Un"
-      "itCompleteH\000B\007\n\005eventb\006proto3"
+      "\014\n\004text\030\001 \001(\t\"\?\n\013ReceiveText\022\"\n\006player\030\001"
+      " \001(\0132\022.bwapi.data.Player\022\014\n\004text\030\002 \001(\t\"0"
+      "\n\nPlayerLeft\022\"\n\006player\030\001 \001(\0132\022.bwapi.dat"
+      "a.Player\"/\n\nNukeDetect\022!\n\006target\030\001 \001(\0132\021"
+      ".bwapi.data.Point\".\n\014UnitDiscover\022\036\n\004uni"
+      "t\030\001 \001(\0132\020.bwapi.data.Unit\"+\n\tUnitEvade\022\036"
+      "\n\004unit\030\001 \001(\0132\020.bwapi.data.Unit\"*\n\010UnitSh"
+      "ow\022\036\n\004unit\030\001 \001(\0132\020.bwapi.data.Unit\"*\n\010Un"
+      "itHide\022\036\n\004unit\030\001 \001(\0132\020.bwapi.data.Unit\","
+      "\n\nUnitCreate\022\036\n\004unit\030\001 \001(\0132\020.bwapi.data."
+      "Unit\"-\n\013UnitDestroy\022\036\n\004unit\030\001 \001(\0132\020.bwap"
+      "i.data.Unit\"+\n\tUnitMorph\022\036\n\004unit\030\001 \001(\0132\020"
+      ".bwapi.data.Unit\".\n\014UnitRenegade\022\036\n\004unit"
+      "\030\001 \001(\0132\020.bwapi.data.Unit\"\030\n\010SaveGame\022\014\n\004"
+      "text\030\001 \001(\t\".\n\014UnitComplete\022\036\n\004unit\030\001 \001(\013"
+      "2\020.bwapi.data.Unit\"\324\006\n\005Event\022-\n\nmatchSta"
+      "rt\030\001 \001(\0132\027.bwapi.event.MatchStartH\000\022)\n\010m"
+      "atchEnd\030\002 \001(\0132\025.bwapi.event.MatchEndH\000\022-"
+      "\n\nmatchFrame\030\003 \001(\0132\027.bwapi.event.MatchFr"
+      "ameH\000\022+\n\tmenuFrame\030\004 \001(\0132\026.bwapi.event.M"
+      "enuFrameH\000\022)\n\010sendText\030\005 \001(\0132\025.bwapi.eve"
+      "nt.SendTextH\000\022/\n\013receiveText\030\006 \001(\0132\030.bwa"
+      "pi.event.ReceiveTextH\000\022-\n\nplayerLeft\030\007 \001"
+      "(\0132\027.bwapi.event.PlayerLeftH\000\022-\n\nnukeDet"
+      "ect\030\010 \001(\0132\027.bwapi.event.NukeDetectH\000\0221\n\014"
+      "unitDiscover\030\t \001(\0132\031.bwapi.event.UnitDis"
+      "coverH\000\022+\n\tunitEvade\030\n \001(\0132\026.bwapi.event"
+      ".UnitEvadeH\000\022)\n\010unitShow\030\013 \001(\0132\025.bwapi.e"
+      "vent.UnitShowH\000\022)\n\010unitHite\030\014 \001(\0132\025.bwap"
+      "i.event.UnitHideH\000\022-\n\nunitCreate\030\r \001(\0132\027"
+      ".bwapi.event.UnitCreateH\000\022/\n\013unitDestroy"
+      "\030\016 \001(\0132\030.bwapi.event.UnitDestroyH\000\022+\n\tun"
+      "itMorph\030\017 \001(\0132\026.bwapi.event.UnitMorphH\000\022"
+      "1\n\014unitRenegade\030\020 \001(\0132\031.bwapi.event.Unit"
+      "RenegadeH\000\022)\n\010saveGame\030\021 \001(\0132\025.bwapi.eve"
+      "nt.SaveGameH\000\0221\n\014unitComplete\030\022 \001(\0132\031.bw"
+      "api.event.UnitCompleteH\000B\007\n\005eventb\006proto"
+      "3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1469);
+      descriptor, 1601);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "event.proto", &protobuf_RegisterTypes);
   ::protobuf_data_2eproto::AddDescriptors();
@@ -1741,8 +1745,8 @@ void SendText::InternalSwap(SendText* other) {
 // ===================================================================
 
 void ReceiveText::InitAsDefaultInstance() {
-  ::bwapi::event::_ReceiveText_default_instance_._instance.get_mutable()->player_ = const_cast< ::Player*>(
-      ::Player::internal_default_instance());
+  ::bwapi::event::_ReceiveText_default_instance_._instance.get_mutable()->player_ = const_cast< ::bwapi::data::Player*>(
+      ::bwapi::data::Player::internal_default_instance());
 }
 void ReceiveText::clear_player() {
   if (GetArenaNoVirtual() == NULL && player_ != NULL) {
@@ -1771,7 +1775,7 @@ ReceiveText::ReceiveText(const ReceiveText& from)
     text_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.text_);
   }
   if (from.has_player()) {
-    player_ = new ::Player(*from.player_);
+    player_ = new ::bwapi::data::Player(*from.player_);
   } else {
     player_ = NULL;
   }
@@ -1831,7 +1835,7 @@ bool ReceiveText::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Player player = 1;
+      // .bwapi.data.Player player = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -1885,7 +1889,7 @@ void ReceiveText::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_player(), output);
@@ -1915,7 +1919,7 @@ void ReceiveText::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -1957,7 +1961,7 @@ size_t ReceiveText::ByteSizeLong() const {
         this->text());
   }
 
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -1996,7 +2000,7 @@ void ReceiveText::MergeFrom(const ReceiveText& from) {
     text_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.text_);
   }
   if (from.has_player()) {
-    mutable_player()->::Player::MergeFrom(from.player());
+    mutable_player()->::bwapi::data::Player::MergeFrom(from.player());
   }
 }
 
@@ -2039,8 +2043,8 @@ void ReceiveText::InternalSwap(ReceiveText* other) {
 // ===================================================================
 
 void PlayerLeft::InitAsDefaultInstance() {
-  ::bwapi::event::_PlayerLeft_default_instance_._instance.get_mutable()->player_ = const_cast< ::Player*>(
-      ::Player::internal_default_instance());
+  ::bwapi::event::_PlayerLeft_default_instance_._instance.get_mutable()->player_ = const_cast< ::bwapi::data::Player*>(
+      ::bwapi::data::Player::internal_default_instance());
 }
 void PlayerLeft::clear_player() {
   if (GetArenaNoVirtual() == NULL && player_ != NULL) {
@@ -2064,7 +2068,7 @@ PlayerLeft::PlayerLeft(const PlayerLeft& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_player()) {
-    player_ = new ::Player(*from.player_);
+    player_ = new ::bwapi::data::Player(*from.player_);
   } else {
     player_ = NULL;
   }
@@ -2121,7 +2125,7 @@ bool PlayerLeft::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Player player = 1;
+      // .bwapi.data.Player player = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -2159,7 +2163,7 @@ void PlayerLeft::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_player(), output);
@@ -2179,7 +2183,7 @@ void PlayerLeft::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -2203,7 +2207,7 @@ size_t PlayerLeft::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Player player = 1;
+  // .bwapi.data.Player player = 1;
   if (this->has_player()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2238,7 +2242,7 @@ void PlayerLeft::MergeFrom(const PlayerLeft& from) {
   (void) cached_has_bits;
 
   if (from.has_player()) {
-    mutable_player()->::Player::MergeFrom(from.player());
+    mutable_player()->::bwapi::data::Player::MergeFrom(from.player());
   }
 }
 
@@ -2279,8 +2283,8 @@ void PlayerLeft::InternalSwap(PlayerLeft* other) {
 // ===================================================================
 
 void NukeDetect::InitAsDefaultInstance() {
-  ::bwapi::event::_NukeDetect_default_instance_._instance.get_mutable()->target_ = const_cast< ::Point*>(
-      ::Point::internal_default_instance());
+  ::bwapi::event::_NukeDetect_default_instance_._instance.get_mutable()->target_ = const_cast< ::bwapi::data::Point*>(
+      ::bwapi::data::Point::internal_default_instance());
 }
 void NukeDetect::clear_target() {
   if (GetArenaNoVirtual() == NULL && target_ != NULL) {
@@ -2304,7 +2308,7 @@ NukeDetect::NukeDetect(const NukeDetect& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_target()) {
-    target_ = new ::Point(*from.target_);
+    target_ = new ::bwapi::data::Point(*from.target_);
   } else {
     target_ = NULL;
   }
@@ -2361,7 +2365,7 @@ bool NukeDetect::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Point target = 1;
+      // .bwapi.data.Point target = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -2399,7 +2403,7 @@ void NukeDetect::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Point target = 1;
+  // .bwapi.data.Point target = 1;
   if (this->has_target()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_target(), output);
@@ -2419,7 +2423,7 @@ void NukeDetect::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Point target = 1;
+  // .bwapi.data.Point target = 1;
   if (this->has_target()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -2443,7 +2447,7 @@ size_t NukeDetect::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Point target = 1;
+  // .bwapi.data.Point target = 1;
   if (this->has_target()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2478,7 +2482,7 @@ void NukeDetect::MergeFrom(const NukeDetect& from) {
   (void) cached_has_bits;
 
   if (from.has_target()) {
-    mutable_target()->::Point::MergeFrom(from.target());
+    mutable_target()->::bwapi::data::Point::MergeFrom(from.target());
   }
 }
 
@@ -2519,8 +2523,8 @@ void NukeDetect::InternalSwap(NukeDetect* other) {
 // ===================================================================
 
 void UnitDiscover::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitDiscover_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitDiscover_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitDiscover::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -2544,7 +2548,7 @@ UnitDiscover::UnitDiscover(const UnitDiscover& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -2601,7 +2605,7 @@ bool UnitDiscover::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -2639,7 +2643,7 @@ void UnitDiscover::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -2659,7 +2663,7 @@ void UnitDiscover::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -2683,7 +2687,7 @@ size_t UnitDiscover::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2718,7 +2722,7 @@ void UnitDiscover::MergeFrom(const UnitDiscover& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -2759,8 +2763,8 @@ void UnitDiscover::InternalSwap(UnitDiscover* other) {
 // ===================================================================
 
 void UnitEvade::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitEvade_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitEvade_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitEvade::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -2784,7 +2788,7 @@ UnitEvade::UnitEvade(const UnitEvade& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -2841,7 +2845,7 @@ bool UnitEvade::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -2879,7 +2883,7 @@ void UnitEvade::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -2899,7 +2903,7 @@ void UnitEvade::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -2923,7 +2927,7 @@ size_t UnitEvade::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2958,7 +2962,7 @@ void UnitEvade::MergeFrom(const UnitEvade& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -2999,8 +3003,8 @@ void UnitEvade::InternalSwap(UnitEvade* other) {
 // ===================================================================
 
 void UnitShow::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitShow_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitShow_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitShow::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -3024,7 +3028,7 @@ UnitShow::UnitShow(const UnitShow& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -3081,7 +3085,7 @@ bool UnitShow::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -3119,7 +3123,7 @@ void UnitShow::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -3139,7 +3143,7 @@ void UnitShow::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -3163,7 +3167,7 @@ size_t UnitShow::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -3198,7 +3202,7 @@ void UnitShow::MergeFrom(const UnitShow& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -3239,8 +3243,8 @@ void UnitShow::InternalSwap(UnitShow* other) {
 // ===================================================================
 
 void UnitHide::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitHide_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitHide_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitHide::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -3264,7 +3268,7 @@ UnitHide::UnitHide(const UnitHide& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -3321,7 +3325,7 @@ bool UnitHide::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -3359,7 +3363,7 @@ void UnitHide::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -3379,7 +3383,7 @@ void UnitHide::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -3403,7 +3407,7 @@ size_t UnitHide::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -3438,7 +3442,7 @@ void UnitHide::MergeFrom(const UnitHide& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -3479,8 +3483,8 @@ void UnitHide::InternalSwap(UnitHide* other) {
 // ===================================================================
 
 void UnitCreate::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitCreate_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitCreate_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitCreate::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -3504,7 +3508,7 @@ UnitCreate::UnitCreate(const UnitCreate& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -3561,7 +3565,7 @@ bool UnitCreate::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -3599,7 +3603,7 @@ void UnitCreate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -3619,7 +3623,7 @@ void UnitCreate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -3643,7 +3647,7 @@ size_t UnitCreate::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -3678,7 +3682,7 @@ void UnitCreate::MergeFrom(const UnitCreate& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -3719,8 +3723,8 @@ void UnitCreate::InternalSwap(UnitCreate* other) {
 // ===================================================================
 
 void UnitDestroy::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitDestroy_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitDestroy_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitDestroy::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -3744,7 +3748,7 @@ UnitDestroy::UnitDestroy(const UnitDestroy& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -3801,7 +3805,7 @@ bool UnitDestroy::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -3839,7 +3843,7 @@ void UnitDestroy::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -3859,7 +3863,7 @@ void UnitDestroy::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -3883,7 +3887,7 @@ size_t UnitDestroy::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -3918,7 +3922,7 @@ void UnitDestroy::MergeFrom(const UnitDestroy& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -3959,8 +3963,8 @@ void UnitDestroy::InternalSwap(UnitDestroy* other) {
 // ===================================================================
 
 void UnitMorph::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitMorph_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitMorph_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitMorph::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -3984,7 +3988,7 @@ UnitMorph::UnitMorph(const UnitMorph& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -4041,7 +4045,7 @@ bool UnitMorph::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -4079,7 +4083,7 @@ void UnitMorph::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -4099,7 +4103,7 @@ void UnitMorph::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -4123,7 +4127,7 @@ size_t UnitMorph::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -4158,7 +4162,7 @@ void UnitMorph::MergeFrom(const UnitMorph& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -4199,8 +4203,8 @@ void UnitMorph::InternalSwap(UnitMorph* other) {
 // ===================================================================
 
 void UnitRenegade::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitRenegade_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitRenegade_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitRenegade::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -4224,7 +4228,7 @@ UnitRenegade::UnitRenegade(const UnitRenegade& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -4281,7 +4285,7 @@ bool UnitRenegade::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -4319,7 +4323,7 @@ void UnitRenegade::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -4339,7 +4343,7 @@ void UnitRenegade::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -4363,7 +4367,7 @@ size_t UnitRenegade::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -4398,7 +4402,7 @@ void UnitRenegade::MergeFrom(const UnitRenegade& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 
@@ -4681,8 +4685,8 @@ void SaveGame::InternalSwap(SaveGame* other) {
 // ===================================================================
 
 void UnitComplete::InitAsDefaultInstance() {
-  ::bwapi::event::_UnitComplete_default_instance_._instance.get_mutable()->unit_ = const_cast< ::Unit*>(
-      ::Unit::internal_default_instance());
+  ::bwapi::event::_UnitComplete_default_instance_._instance.get_mutable()->unit_ = const_cast< ::bwapi::data::Unit*>(
+      ::bwapi::data::Unit::internal_default_instance());
 }
 void UnitComplete::clear_unit() {
   if (GetArenaNoVirtual() == NULL && unit_ != NULL) {
@@ -4706,7 +4710,7 @@ UnitComplete::UnitComplete(const UnitComplete& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_unit()) {
-    unit_ = new ::Unit(*from.unit_);
+    unit_ = new ::bwapi::data::Unit(*from.unit_);
   } else {
     unit_ = NULL;
   }
@@ -4763,7 +4767,7 @@ bool UnitComplete::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .Unit unit = 1;
+      // .bwapi.data.Unit unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -4801,7 +4805,7 @@ void UnitComplete::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_unit(), output);
@@ -4821,7 +4825,7 @@ void UnitComplete::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -4845,7 +4849,7 @@ size_t UnitComplete::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .Unit unit = 1;
+  // .bwapi.data.Unit unit = 1;
   if (this->has_unit()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -4880,7 +4884,7 @@ void UnitComplete::MergeFrom(const UnitComplete& from) {
   (void) cached_has_bits;
 
   if (from.has_unit()) {
-    mutable_unit()->::Unit::MergeFrom(from.unit());
+    mutable_unit()->::bwapi::data::Unit::MergeFrom(from.unit());
   }
 }
 

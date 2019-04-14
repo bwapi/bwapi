@@ -30,6 +30,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "data.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto 
 
@@ -153,17 +154,23 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // uint32 frameNumber = 1;
-  void clear_framenumber();
-  static const int kFrameNumberFieldNumber = 1;
-  ::google::protobuf::uint32 framenumber() const;
-  void set_framenumber(::google::protobuf::uint32 value);
+  // .bwapi.data.GameData gameData = 1;
+  bool has_gamedata() const;
+  void clear_gamedata();
+  static const int kGameDataFieldNumber = 1;
+  private:
+  const ::bwapi::data::GameData& _internal_gamedata() const;
+  public:
+  const ::bwapi::data::GameData& gamedata() const;
+  ::bwapi::data::GameData* release_gamedata();
+  ::bwapi::data::GameData* mutable_gamedata();
+  void set_allocated_gamedata(::bwapi::data::GameData* gamedata);
 
   // @@protoc_insertion_point(class_scope:bwapi.game.FrameUpdate)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 framenumber_;
+  ::bwapi::data::GameData* gamedata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
 };
@@ -274,18 +281,52 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
 #endif  // __GNUC__
 // FrameUpdate
 
-// uint32 frameNumber = 1;
-inline void FrameUpdate::clear_framenumber() {
-  framenumber_ = 0u;
+// .bwapi.data.GameData gameData = 1;
+inline bool FrameUpdate::has_gamedata() const {
+  return this != internal_default_instance() && gamedata_ != NULL;
 }
-inline ::google::protobuf::uint32 FrameUpdate::framenumber() const {
-  // @@protoc_insertion_point(field_get:bwapi.game.FrameUpdate.frameNumber)
-  return framenumber_;
+inline const ::bwapi::data::GameData& FrameUpdate::_internal_gamedata() const {
+  return *gamedata_;
 }
-inline void FrameUpdate::set_framenumber(::google::protobuf::uint32 value) {
+inline const ::bwapi::data::GameData& FrameUpdate::gamedata() const {
+  const ::bwapi::data::GameData* p = gamedata_;
+  // @@protoc_insertion_point(field_get:bwapi.game.FrameUpdate.gameData)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::GameData*>(
+      &::bwapi::data::_GameData_default_instance_);
+}
+inline ::bwapi::data::GameData* FrameUpdate::release_gamedata() {
+  // @@protoc_insertion_point(field_release:bwapi.game.FrameUpdate.gameData)
   
-  framenumber_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.game.FrameUpdate.frameNumber)
+  ::bwapi::data::GameData* temp = gamedata_;
+  gamedata_ = NULL;
+  return temp;
+}
+inline ::bwapi::data::GameData* FrameUpdate::mutable_gamedata() {
+  
+  if (gamedata_ == NULL) {
+    auto* p = CreateMaybeMessage<::bwapi::data::GameData>(GetArenaNoVirtual());
+    gamedata_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.game.FrameUpdate.gameData)
+  return gamedata_;
+}
+inline void FrameUpdate::set_allocated_gamedata(::bwapi::data::GameData* gamedata) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(gamedata_);
+  }
+  if (gamedata) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      gamedata = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, gamedata, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  gamedata_ = gamedata;
+  // @@protoc_insertion_point(field_set_allocated:bwapi.game.FrameUpdate.gameData)
 }
 
 // -------------------------------------------------------------------

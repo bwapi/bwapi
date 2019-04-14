@@ -27,7 +27,7 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto ::google::protobuf::inter
 }  // namespace protobuf_event_2eproto
 namespace protobuf_game_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_EndOfQueue;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_FrameUpdate;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_FrameUpdate;
 }  // namespace protobuf_game_2eproto
 namespace protobuf_init_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_init_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ClientBroadcast;

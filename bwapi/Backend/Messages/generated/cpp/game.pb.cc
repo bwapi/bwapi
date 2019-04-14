@@ -19,6 +19,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
+namespace protobuf_data_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_data_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_GameData;
+}  // namespace protobuf_data_2eproto
 namespace bwapi {
 namespace game {
 class FrameUpdateDefaultTypeInternal {
@@ -45,8 +48,9 @@ static void InitDefaultsFrameUpdate() {
   ::bwapi::game::FrameUpdate::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_FrameUpdate =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsFrameUpdate}, {}};
+::google::protobuf::internal::SCCInfo<1> scc_info_FrameUpdate =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsFrameUpdate}, {
+      &protobuf_data_2eproto::scc_info_GameData.base,}};
 
 static void InitDefaultsEndOfQueue() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -75,7 +79,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::game::FrameUpdate, framenumber_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::game::FrameUpdate, gamedata_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::bwapi::game::EndOfQueue, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -113,14 +117,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\ngame.proto\022\nbwapi.game\"\"\n\013FrameUpdate\022"
-      "\023\n\013frameNumber\030\001 \001(\r\"\014\n\nEndOfQueueb\006prot"
-      "o3"
+      "\n\ngame.proto\022\nbwapi.game\032\ndata.proto\"5\n\013"
+      "FrameUpdate\022&\n\010gameData\030\001 \001(\0132\024.bwapi.da"
+      "ta.GameData\"\014\n\nEndOfQueueb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 82);
+      descriptor, 113);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "game.proto", &protobuf_RegisterTypes);
+  ::protobuf_data_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -140,9 +145,17 @@ namespace game {
 // ===================================================================
 
 void FrameUpdate::InitAsDefaultInstance() {
+  ::bwapi::game::_FrameUpdate_default_instance_._instance.get_mutable()->gamedata_ = const_cast< ::bwapi::data::GameData*>(
+      ::bwapi::data::GameData::internal_default_instance());
+}
+void FrameUpdate::clear_gamedata() {
+  if (GetArenaNoVirtual() == NULL && gamedata_ != NULL) {
+    delete gamedata_;
+  }
+  gamedata_ = NULL;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int FrameUpdate::kFrameNumberFieldNumber;
+const int FrameUpdate::kGameDataFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FrameUpdate::FrameUpdate()
@@ -156,12 +169,16 @@ FrameUpdate::FrameUpdate(const FrameUpdate& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  framenumber_ = from.framenumber_;
+  if (from.has_gamedata()) {
+    gamedata_ = new ::bwapi::data::GameData(*from.gamedata_);
+  } else {
+    gamedata_ = NULL;
+  }
   // @@protoc_insertion_point(copy_constructor:bwapi.game.FrameUpdate)
 }
 
 void FrameUpdate::SharedCtor() {
-  framenumber_ = 0u;
+  gamedata_ = NULL;
 }
 
 FrameUpdate::~FrameUpdate() {
@@ -170,6 +187,7 @@ FrameUpdate::~FrameUpdate() {
 }
 
 void FrameUpdate::SharedDtor() {
+  if (this != internal_default_instance()) delete gamedata_;
 }
 
 void FrameUpdate::SetCachedSize(int size) const {
@@ -192,7 +210,10 @@ void FrameUpdate::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  framenumber_ = 0u;
+  if (GetArenaNoVirtual() == NULL && gamedata_ != NULL) {
+    delete gamedata_;
+  }
+  gamedata_ = NULL;
   _internal_metadata_.Clear();
 }
 
@@ -206,14 +227,12 @@ bool FrameUpdate::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 frameNumber = 1;
+      // .bwapi.data.GameData gameData = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &framenumber_)));
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_gamedata()));
         } else {
           goto handle_unusual;
         }
@@ -246,9 +265,10 @@ void FrameUpdate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 frameNumber = 1;
-  if (this->framenumber() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->framenumber(), output);
+  // .bwapi.data.GameData gameData = 1;
+  if (this->has_gamedata()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->_internal_gamedata(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -265,9 +285,11 @@ void FrameUpdate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 frameNumber = 1;
-  if (this->framenumber() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->framenumber(), target);
+  // .bwapi.data.GameData gameData = 1;
+  if (this->has_gamedata()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        1, this->_internal_gamedata(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -287,11 +309,11 @@ size_t FrameUpdate::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 frameNumber = 1;
-  if (this->framenumber() != 0) {
+  // .bwapi.data.GameData gameData = 1;
+  if (this->has_gamedata()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->framenumber());
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *gamedata_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -321,8 +343,8 @@ void FrameUpdate::MergeFrom(const FrameUpdate& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.framenumber() != 0) {
-    set_framenumber(from.framenumber());
+  if (from.has_gamedata()) {
+    mutable_gamedata()->::bwapi::data::GameData::MergeFrom(from.gamedata());
   }
 }
 
@@ -350,7 +372,7 @@ void FrameUpdate::Swap(FrameUpdate* other) {
 }
 void FrameUpdate::InternalSwap(FrameUpdate* other) {
   using std::swap;
-  swap(framenumber_, other->framenumber_);
+  swap(gamedata_, other->gamedata_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

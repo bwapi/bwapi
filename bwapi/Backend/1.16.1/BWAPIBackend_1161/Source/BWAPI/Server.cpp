@@ -231,7 +231,8 @@ namespace BWAPI
       // Update BWAPI Client
       updateSharedMemory();
       callOnFrame();
-      processCommands();
+      processMessages();
+      //processCommands();
     }
     else
     {
@@ -493,6 +494,79 @@ namespace BWAPI
     unitLookup.clear();
   }
 
+  std::unique_ptr<bwapi::data::GameData> Server::makeGameDataMessage()
+  {
+    auto newGameData = std::make_unique<bwapi::data::GameData>();
+    //newGameData->set_apiversion();
+    //newGameData->set_engine();
+    //newGameData->set_engineversion();
+    newGameData->set_tournament(false);
+    
+    newGameData->set_gametype(data->gameType);
+    newGameData->set_framecount(data->frameCount);
+    newGameData->set_latencyframes(data->latencyFrames);
+    //newGameData->set_turnsize();
+    //newGameData->set_gamespeed();
+    //newGameData->set_frameskip();
+    newGameData->set_remaininglatencyframes(data->remainingLatencyFrames);
+    //newGameData->set_lasteventtime();
+    /* Loop for replayvisionplayers
+    for ()
+    {
+      newGameData->add_replayvisionplayers();
+    }
+    */
+
+    newGameData->set_latencytime(data->latencyTime);
+    newGameData->set_remaininglatencytime(data->remainingLatencyTime);
+    newGameData->set_elapsedtime(data->elapsedTime);
+    //newGameData->set_millisecondsperframe();
+    newGameData->set_averagefps = data->averageFPS;
+
+    newGameData->set_countdowntimer(data->countdownTimer);
+    newGameData->set_ispaused(data->isPaused);
+    newGameData->set_isingame(data->isInGame);
+    newGameData->set_ismultiplayer(data->isMultiplayer);
+    newGameData->set_isbattlenet(data->isBattleNet);
+    newGameData->set_isreplay(data->isReplay);
+    //newGameData->set_clientunitselection();
+    newGameData->set_hasgui(data->hasGUI);
+
+    newGameData->set_mappath(data->mapPathName);
+    newGameData->set_mapname(data->mapName);
+    //newGameData->set_gamename();
+    //newGameData->set_randomseed(data->randomSeed);
+
+    for (auto location : data->startLocations)
+    {
+      auto newStartLocation = newGameData->add_startpositions();
+      newStartLocation->set_scale(1);
+      newStartLocation->set_x(location.x);
+      newStartLocation->set_y(location.y);
+    }
+
+    for (auto region : data->regions)
+    {
+      newGameData->add_regions(region.id);
+    }
+
+    //newGameData->set_player();
+
+    //auto newScreenSize = std::make_unique<bwapi::data::Point>();
+    //newScreenSize->set_scale();
+    //newScreenSize->set_x();
+    //newScreenSize->set_y();
+    //newGameData->set_allocated_screensize(newScreenSize.release());
+
+    auto newScreenPosition = std::make_unique<bwapi::data::Point>();
+    newScreenPosition->set_scale(1);
+    newScreenPosition->set_x(data->screenX);
+    newScreenPosition->set_y(data->screenY);
+    newGameData->set_allocated_screenposition(newScreenPosition.release());
+
+    return newGameData;
+  }
+
   void Server::updateSharedMemory()
   {
     for (Unit u : BroodwarImpl.evadeUnits)
@@ -662,6 +736,13 @@ namespace BWAPI
         data->nukeDots[j].y = nd.y;
         ++j;
       }
+      //Create update Message.
+      auto newMessage = std::make_unique<bwapi::message::Message>();
+      auto newFrameUpdate = std::make_unique<bwapi::game::FrameUpdate>();
+      auto newGameData = makeGameDataMessage();
+      newFrameUpdate->set_allocated_gamedata(newGameData.release());
+      newMessage->set_allocated_frameupdate(newFrameUpdate.release());
+      protoClient.queueMessage(std::move(newMessage));      
     }
 
     // iterate events
@@ -742,7 +823,9 @@ namespace BWAPI
 
   void Server::callOnFrame()
   { 
-    DWORD writtenByteCount;
+    sendData();
+    receiveData();
+    /*DWORD writtenByteCount;
     int code = 2;
     WriteFile(pipeObjectHandle, &code, sizeof(int), &writtenByteCount, NULL);
     while (code != 1)
@@ -756,9 +839,9 @@ namespace BWAPI
         setWaitForResponse(false);
         break;
       }
-    }
+    }*/
   }
-  void Server::proccessMessages()
+  void Server::processMessages()
   {
     while (protoClient.messageQueueSize())
     {

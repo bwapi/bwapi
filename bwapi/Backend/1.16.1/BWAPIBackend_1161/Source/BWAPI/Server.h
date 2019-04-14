@@ -54,7 +54,8 @@ namespace BWAPI
     void setWaitForResponse(bool wait);
     void receiveData();
     void sendData();
-    void proccessMessages();
+    void processMessages();
+    std::unique_ptr<bwapi::data::GameData> makeGameDataMessage();
 
     HANDLE pipeObjectHandle = nullptr;
     HANDLE mapFileHandle = nullptr;

@@ -1,9 +1,11 @@
 syntax = "proto3";
+import "data.proto";
 package bwapi.game;
+
 
 // TODO
 message FrameUpdate {
-	uint32 frameNumber = 1;
+	bwapi.data.GameData gameData = 1;
 }
 
 message EndOfQueue {

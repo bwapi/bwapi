@@ -45,6 +45,8 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_data_2eproto
+namespace bwapi {
+namespace data {
 class Bullet;
 class BulletDefaultTypeInternal;
 extern BulletDefaultTypeInternal _Bullet_default_instance_;
@@ -72,23 +74,27 @@ extern RegionDefaultTypeInternal _Region_default_instance_;
 class Unit;
 class UnitDefaultTypeInternal;
 extern UnitDefaultTypeInternal _Unit_default_instance_;
+}  // namespace data
+}  // namespace bwapi
 namespace google {
 namespace protobuf {
-template<> ::Bullet* Arena::CreateMaybeMessage<::Bullet>(Arena*);
-template<> ::Force* Arena::CreateMaybeMessage<::Force>(Arena*);
-template<> ::Game* Arena::CreateMaybeMessage<::Game>(Arena*);
-template<> ::GameData* Arena::CreateMaybeMessage<::GameData>(Arena*);
-template<> ::MapData* Arena::CreateMaybeMessage<::MapData>(Arena*);
-template<> ::Player* Arena::CreateMaybeMessage<::Player>(Arena*);
-template<> ::Point* Arena::CreateMaybeMessage<::Point>(Arena*);
-template<> ::Region* Arena::CreateMaybeMessage<::Region>(Arena*);
-template<> ::Unit* Arena::CreateMaybeMessage<::Unit>(Arena*);
+template<> ::bwapi::data::Bullet* Arena::CreateMaybeMessage<::bwapi::data::Bullet>(Arena*);
+template<> ::bwapi::data::Force* Arena::CreateMaybeMessage<::bwapi::data::Force>(Arena*);
+template<> ::bwapi::data::Game* Arena::CreateMaybeMessage<::bwapi::data::Game>(Arena*);
+template<> ::bwapi::data::GameData* Arena::CreateMaybeMessage<::bwapi::data::GameData>(Arena*);
+template<> ::bwapi::data::MapData* Arena::CreateMaybeMessage<::bwapi::data::MapData>(Arena*);
+template<> ::bwapi::data::Player* Arena::CreateMaybeMessage<::bwapi::data::Player>(Arena*);
+template<> ::bwapi::data::Point* Arena::CreateMaybeMessage<::bwapi::data::Point>(Arena*);
+template<> ::bwapi::data::Region* Arena::CreateMaybeMessage<::bwapi::data::Region>(Arena*);
+template<> ::bwapi::data::Unit* Arena::CreateMaybeMessage<::bwapi::data::Unit>(Arena*);
 }  // namespace protobuf
 }  // namespace google
+namespace bwapi {
+namespace data {
 
 // ===================================================================
 
-class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Point) */ {
+class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Point) */ {
  public:
   Point();
   virtual ~Point();
@@ -193,7 +199,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 scale() const;
   void set_scale(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:Point)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Point)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -205,7 +211,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MapData) */ {
+class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.MapData) */ {
  public:
   MapData();
   virtual ~MapData();
@@ -438,17 +444,17 @@ class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::std::string* release_maphash();
   void set_allocated_maphash(::std::string* maphash);
 
-  // .Point size = 1;
+  // .bwapi.data.Point size = 1;
   bool has_size() const;
   void clear_size();
   static const int kSizeFieldNumber = 1;
   private:
-  const ::Point& _internal_size() const;
+  const ::bwapi::data::Point& _internal_size() const;
   public:
-  const ::Point& size() const;
-  ::Point* release_size();
-  ::Point* mutable_size();
-  void set_allocated_size(::Point* size);
+  const ::bwapi::data::Point& size() const;
+  ::bwapi::data::Point* release_size();
+  ::bwapi::data::Point* mutable_size();
+  void set_allocated_size(::bwapi::data::Point* size);
 
   // int32 tileset = 2;
   void clear_tileset();
@@ -456,7 +462,7 @@ class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 tileset() const;
   void set_tileset(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:MapData)
+  // @@protoc_insertion_point(class_scope:bwapi.data.MapData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -483,14 +489,14 @@ class MapData : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mapsplittilesregion2_;
   mutable int _mapsplittilesregion2_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr maphash_;
-  ::Point* size_;
+  ::bwapi::data::Point* size_;
   ::google::protobuf::int32 tileset_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:GameData) */ {
+class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.GameData) */ {
  public:
   GameData();
   virtual ~GameData();
@@ -589,16 +595,16 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_replayvisionplayers();
 
-  // repeated .Point startPositions = 32;
+  // repeated .bwapi.data.Point startPositions = 32;
   int startpositions_size() const;
   void clear_startpositions();
   static const int kStartPositionsFieldNumber = 32;
-  ::Point* mutable_startpositions(int index);
-  ::google::protobuf::RepeatedPtrField< ::Point >*
+  ::bwapi::data::Point* mutable_startpositions(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
       mutable_startpositions();
-  const ::Point& startpositions(int index) const;
-  ::Point* add_startpositions();
-  const ::google::protobuf::RepeatedPtrField< ::Point >&
+  const ::bwapi::data::Point& startpositions(int index) const;
+  ::bwapi::data::Point* add_startpositions();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
       startpositions() const;
 
   // repeated int32 regions = 33;
@@ -711,41 +717,41 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_randomseed();
   void set_allocated_randomseed(::std::string* randomseed);
 
-  // .Point screenSize = 35;
+  // .bwapi.data.Point screenSize = 35;
   bool has_screensize() const;
   void clear_screensize();
   static const int kScreenSizeFieldNumber = 35;
   private:
-  const ::Point& _internal_screensize() const;
+  const ::bwapi::data::Point& _internal_screensize() const;
   public:
-  const ::Point& screensize() const;
-  ::Point* release_screensize();
-  ::Point* mutable_screensize();
-  void set_allocated_screensize(::Point* screensize);
+  const ::bwapi::data::Point& screensize() const;
+  ::bwapi::data::Point* release_screensize();
+  ::bwapi::data::Point* mutable_screensize();
+  void set_allocated_screensize(::bwapi::data::Point* screensize);
 
-  // .Point screenPosition = 36;
+  // .bwapi.data.Point screenPosition = 36;
   bool has_screenposition() const;
   void clear_screenposition();
   static const int kScreenPositionFieldNumber = 36;
   private:
-  const ::Point& _internal_screenposition() const;
+  const ::bwapi::data::Point& _internal_screenposition() const;
   public:
-  const ::Point& screenposition() const;
-  ::Point* release_screenposition();
-  ::Point* mutable_screenposition();
-  void set_allocated_screenposition(::Point* screenposition);
+  const ::bwapi::data::Point& screenposition() const;
+  ::bwapi::data::Point* release_screenposition();
+  ::bwapi::data::Point* mutable_screenposition();
+  void set_allocated_screenposition(::bwapi::data::Point* screenposition);
 
-  // .MapData map = 37;
+  // .bwapi.data.MapData map = 37;
   bool has_map() const;
   void clear_map();
   static const int kMapFieldNumber = 37;
   private:
-  const ::MapData& _internal_map() const;
+  const ::bwapi::data::MapData& _internal_map() const;
   public:
-  const ::MapData& map() const;
-  ::MapData* release_map();
-  ::MapData* mutable_map();
-  void set_allocated_map(::MapData* map);
+  const ::bwapi::data::MapData& map() const;
+  ::bwapi::data::MapData* release_map();
+  ::bwapi::data::MapData* mutable_map();
+  void set_allocated_map(::bwapi::data::MapData* map);
 
   // int32 apiVersion = 1;
   void clear_apiversion();
@@ -891,13 +897,13 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 player() const;
   void set_player(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:GameData)
+  // @@protoc_insertion_point(class_scope:bwapi.data.GameData)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > replayvisionplayers_;
   mutable int _replayvisionplayers_cached_byte_size_;
-  ::google::protobuf::RepeatedPtrField< ::Point > startpositions_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point > startpositions_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > regions_;
   mutable int _regions_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr engine_;
@@ -907,9 +913,9 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::internal::ArenaStringPtr mapfilename_;
   ::google::protobuf::internal::ArenaStringPtr gamename_;
   ::google::protobuf::internal::ArenaStringPtr randomseed_;
-  ::Point* screensize_;
-  ::Point* screenposition_;
-  ::MapData* map_;
+  ::bwapi::data::Point* screensize_;
+  ::bwapi::data::Point* screenposition_;
+  ::bwapi::data::MapData* map_;
   ::google::protobuf::int32 apiversion_;
   ::google::protobuf::int32 gametype_;
   ::google::protobuf::int32 framecount_;
@@ -939,7 +945,7 @@ class GameData : public ::google::protobuf::Message /* @@protoc_insertion_point(
 };
 // -------------------------------------------------------------------
 
-class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Player) */ {
+class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Player) */ {
  public:
   Player();
   virtual ~Player();
@@ -1388,7 +1394,7 @@ class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::int32 customscore() const;
   void set_customscore(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:Player)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Player)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1456,7 +1462,7 @@ class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
-class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Unit) */ {
+class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Unit) */ {
  public:
   Unit();
   virtual ~Unit();
@@ -1603,53 +1609,53 @@ class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   ::google::protobuf::RepeatedField< bool >*
       mutable_isvisible();
 
-  // .Point position = 4;
+  // .bwapi.data.Point position = 4;
   bool has_position() const;
   void clear_position();
   static const int kPositionFieldNumber = 4;
   private:
-  const ::Point& _internal_position() const;
+  const ::bwapi::data::Point& _internal_position() const;
   public:
-  const ::Point& position() const;
-  ::Point* release_position();
-  ::Point* mutable_position();
-  void set_allocated_position(::Point* position);
+  const ::bwapi::data::Point& position() const;
+  ::bwapi::data::Point* release_position();
+  ::bwapi::data::Point* mutable_position();
+  void set_allocated_position(::bwapi::data::Point* position);
 
-  // .Point targetPosition = 46;
+  // .bwapi.data.Point targetPosition = 46;
   bool has_targetposition() const;
   void clear_targetposition();
   static const int kTargetPositionFieldNumber = 46;
   private:
-  const ::Point& _internal_targetposition() const;
+  const ::bwapi::data::Point& _internal_targetposition() const;
   public:
-  const ::Point& targetposition() const;
-  ::Point* release_targetposition();
-  ::Point* mutable_targetposition();
-  void set_allocated_targetposition(::Point* targetposition);
+  const ::bwapi::data::Point& targetposition() const;
+  ::bwapi::data::Point* release_targetposition();
+  ::bwapi::data::Point* mutable_targetposition();
+  void set_allocated_targetposition(::bwapi::data::Point* targetposition);
 
-  // .Point orderTargetPosition = 49;
+  // .bwapi.data.Point orderTargetPosition = 49;
   bool has_ordertargetposition() const;
   void clear_ordertargetposition();
   static const int kOrderTargetPositionFieldNumber = 49;
   private:
-  const ::Point& _internal_ordertargetposition() const;
+  const ::bwapi::data::Point& _internal_ordertargetposition() const;
   public:
-  const ::Point& ordertargetposition() const;
-  ::Point* release_ordertargetposition();
-  ::Point* mutable_ordertargetposition();
-  void set_allocated_ordertargetposition(::Point* ordertargetposition);
+  const ::bwapi::data::Point& ordertargetposition() const;
+  ::bwapi::data::Point* release_ordertargetposition();
+  ::bwapi::data::Point* mutable_ordertargetposition();
+  void set_allocated_ordertargetposition(::bwapi::data::Point* ordertargetposition);
 
-  // .Point rallyPosition = 51;
+  // .bwapi.data.Point rallyPosition = 51;
   bool has_rallyposition() const;
   void clear_rallyposition();
   static const int kRallyPositionFieldNumber = 51;
   private:
-  const ::Point& _internal_rallyposition() const;
+  const ::bwapi::data::Point& _internal_rallyposition() const;
   public:
-  const ::Point& rallyposition() const;
-  ::Point* release_rallyposition();
-  ::Point* mutable_rallyposition();
-  void set_allocated_rallyposition(::Point* rallyposition);
+  const ::bwapi::data::Point& rallyposition() const;
+  ::bwapi::data::Point* release_rallyposition();
+  ::bwapi::data::Point* mutable_rallyposition();
+  void set_allocated_rallyposition(::bwapi::data::Point* rallyposition);
 
   // int32 id = 1;
   void clear_id();
@@ -2179,7 +2185,7 @@ class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   ::google::protobuf::int32 replayid() const;
   void set_replayid(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:Unit)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Unit)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -2193,10 +2199,10 @@ class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   mutable int _larva_cached_byte_size_;
   ::google::protobuf::RepeatedField< bool > isvisible_;
   mutable int _isvisible_cached_byte_size_;
-  ::Point* position_;
-  ::Point* targetposition_;
-  ::Point* ordertargetposition_;
-  ::Point* rallyposition_;
+  ::bwapi::data::Point* position_;
+  ::bwapi::data::Point* targetposition_;
+  ::bwapi::data::Point* ordertargetposition_;
+  ::bwapi::data::Point* rallyposition_;
   ::google::protobuf::int32 id_;
   ::google::protobuf::int32 player_;
   double angle_;
@@ -2290,7 +2296,7 @@ class Unit : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 };
 // -------------------------------------------------------------------
 
-class Region : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Region) */ {
+class Region : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Region) */ {
  public:
   Region();
   virtual ~Region();
@@ -2461,7 +2467,7 @@ class Region : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   bool ishigherground() const;
   void set_ishigherground(bool value);
 
-  // @@protoc_insertion_point(class_scope:Region)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Region)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -2484,7 +2490,7 @@ class Region : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
-class Bullet : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Bullet) */ {
+class Bullet : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Bullet) */ {
  public:
   Bullet();
   virtual ~Bullet();
@@ -2583,29 +2589,29 @@ class Bullet : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::RepeatedField< bool >*
       mutable_isvisible();
 
-  // .Point position = 5;
+  // .bwapi.data.Point position = 5;
   bool has_position() const;
   void clear_position();
   static const int kPositionFieldNumber = 5;
   private:
-  const ::Point& _internal_position() const;
+  const ::bwapi::data::Point& _internal_position() const;
   public:
-  const ::Point& position() const;
-  ::Point* release_position();
-  ::Point* mutable_position();
-  void set_allocated_position(::Point* position);
+  const ::bwapi::data::Point& position() const;
+  ::bwapi::data::Point* release_position();
+  ::bwapi::data::Point* mutable_position();
+  void set_allocated_position(::bwapi::data::Point* position);
 
-  // .Point targetPosition = 10;
+  // .bwapi.data.Point targetPosition = 10;
   bool has_targetposition() const;
   void clear_targetposition();
   static const int kTargetPositionFieldNumber = 10;
   private:
-  const ::Point& _internal_targetposition() const;
+  const ::bwapi::data::Point& _internal_targetposition() const;
   public:
-  const ::Point& targetposition() const;
-  ::Point* release_targetposition();
-  ::Point* mutable_targetposition();
-  void set_allocated_targetposition(::Point* targetposition);
+  const ::bwapi::data::Point& targetposition() const;
+  ::bwapi::data::Point* release_targetposition();
+  ::bwapi::data::Point* mutable_targetposition();
+  void set_allocated_targetposition(::bwapi::data::Point* targetposition);
 
   // int32 id = 1;
   void clear_id();
@@ -2667,14 +2673,14 @@ class Bullet : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   bool exists() const;
   void set_exists(bool value);
 
-  // @@protoc_insertion_point(class_scope:Bullet)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Bullet)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< bool > isvisible_;
   mutable int _isvisible_cached_byte_size_;
-  ::Point* position_;
-  ::Point* targetposition_;
+  ::bwapi::data::Point* position_;
+  ::bwapi::data::Point* targetposition_;
   ::google::protobuf::int32 id_;
   ::google::protobuf::int32 player_;
   ::google::protobuf::int32 type_;
@@ -2690,7 +2696,7 @@ class Bullet : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
-class Force : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Force) */ {
+class Force : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Force) */ {
  public:
   Force();
   virtual ~Force();
@@ -2809,7 +2815,7 @@ class Force : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 id() const;
   void set_id(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:Force)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Force)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -2822,7 +2828,7 @@ class Force : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class Game : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Game) */ {
+class Game : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.data.Game) */ {
  public:
   Game();
   virtual ~Game();
@@ -2909,88 +2915,88 @@ class Game : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 
   // accessors -------------------------------------------------------
 
-  // repeated .Player players = 2;
+  // repeated .bwapi.data.Player players = 2;
   int players_size() const;
   void clear_players();
   static const int kPlayersFieldNumber = 2;
-  ::Player* mutable_players(int index);
-  ::google::protobuf::RepeatedPtrField< ::Player >*
+  ::bwapi::data::Player* mutable_players(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Player >*
       mutable_players();
-  const ::Player& players(int index) const;
-  ::Player* add_players();
-  const ::google::protobuf::RepeatedPtrField< ::Player >&
+  const ::bwapi::data::Player& players(int index) const;
+  ::bwapi::data::Player* add_players();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Player >&
       players() const;
 
-  // repeated .Unit units = 3;
+  // repeated .bwapi.data.Unit units = 3;
   int units_size() const;
   void clear_units();
   static const int kUnitsFieldNumber = 3;
-  ::Unit* mutable_units(int index);
-  ::google::protobuf::RepeatedPtrField< ::Unit >*
+  ::bwapi::data::Unit* mutable_units(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Unit >*
       mutable_units();
-  const ::Unit& units(int index) const;
-  ::Unit* add_units();
-  const ::google::protobuf::RepeatedPtrField< ::Unit >&
+  const ::bwapi::data::Unit& units(int index) const;
+  ::bwapi::data::Unit* add_units();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Unit >&
       units() const;
 
-  // repeated .Region regions = 4;
+  // repeated .bwapi.data.Region regions = 4;
   int regions_size() const;
   void clear_regions();
   static const int kRegionsFieldNumber = 4;
-  ::Region* mutable_regions(int index);
-  ::google::protobuf::RepeatedPtrField< ::Region >*
+  ::bwapi::data::Region* mutable_regions(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Region >*
       mutable_regions();
-  const ::Region& regions(int index) const;
-  ::Region* add_regions();
-  const ::google::protobuf::RepeatedPtrField< ::Region >&
+  const ::bwapi::data::Region& regions(int index) const;
+  ::bwapi::data::Region* add_regions();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Region >&
       regions() const;
 
-  // repeated .Bullet bullets = 5;
+  // repeated .bwapi.data.Bullet bullets = 5;
   int bullets_size() const;
   void clear_bullets();
   static const int kBulletsFieldNumber = 5;
-  ::Bullet* mutable_bullets(int index);
-  ::google::protobuf::RepeatedPtrField< ::Bullet >*
+  ::bwapi::data::Bullet* mutable_bullets(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Bullet >*
       mutable_bullets();
-  const ::Bullet& bullets(int index) const;
-  ::Bullet* add_bullets();
-  const ::google::protobuf::RepeatedPtrField< ::Bullet >&
+  const ::bwapi::data::Bullet& bullets(int index) const;
+  ::bwapi::data::Bullet* add_bullets();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Bullet >&
       bullets() const;
 
-  // repeated .Force forces = 6;
+  // repeated .bwapi.data.Force forces = 6;
   int forces_size() const;
   void clear_forces();
   static const int kForcesFieldNumber = 6;
-  ::Force* mutable_forces(int index);
-  ::google::protobuf::RepeatedPtrField< ::Force >*
+  ::bwapi::data::Force* mutable_forces(int index);
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Force >*
       mutable_forces();
-  const ::Force& forces(int index) const;
-  ::Force* add_forces();
-  const ::google::protobuf::RepeatedPtrField< ::Force >&
+  const ::bwapi::data::Force& forces(int index) const;
+  ::bwapi::data::Force* add_forces();
+  const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Force >&
       forces() const;
 
-  // .GameData gameData = 1;
+  // .bwapi.data.GameData gameData = 1;
   bool has_gamedata() const;
   void clear_gamedata();
   static const int kGameDataFieldNumber = 1;
   private:
-  const ::GameData& _internal_gamedata() const;
+  const ::bwapi::data::GameData& _internal_gamedata() const;
   public:
-  const ::GameData& gamedata() const;
-  ::GameData* release_gamedata();
-  ::GameData* mutable_gamedata();
-  void set_allocated_gamedata(::GameData* gamedata);
+  const ::bwapi::data::GameData& gamedata() const;
+  ::bwapi::data::GameData* release_gamedata();
+  ::bwapi::data::GameData* mutable_gamedata();
+  void set_allocated_gamedata(::bwapi::data::GameData* gamedata);
 
-  // @@protoc_insertion_point(class_scope:Game)
+  // @@protoc_insertion_point(class_scope:bwapi.data.Game)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::Player > players_;
-  ::google::protobuf::RepeatedPtrField< ::Unit > units_;
-  ::google::protobuf::RepeatedPtrField< ::Region > regions_;
-  ::google::protobuf::RepeatedPtrField< ::Bullet > bullets_;
-  ::google::protobuf::RepeatedPtrField< ::Force > forces_;
-  ::GameData* gamedata_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Player > players_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Unit > units_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Region > regions_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Bullet > bullets_;
+  ::google::protobuf::RepeatedPtrField< ::bwapi::data::Force > forces_;
+  ::bwapi::data::GameData* gamedata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
@@ -3010,13 +3016,13 @@ inline void Point::clear_x() {
   x_ = 0;
 }
 inline ::google::protobuf::int32 Point::x() const {
-  // @@protoc_insertion_point(field_get:Point.x)
+  // @@protoc_insertion_point(field_get:bwapi.data.Point.x)
   return x_;
 }
 inline void Point::set_x(::google::protobuf::int32 value) {
   
   x_ = value;
-  // @@protoc_insertion_point(field_set:Point.x)
+  // @@protoc_insertion_point(field_set:bwapi.data.Point.x)
 }
 
 // int32 y = 2;
@@ -3024,13 +3030,13 @@ inline void Point::clear_y() {
   y_ = 0;
 }
 inline ::google::protobuf::int32 Point::y() const {
-  // @@protoc_insertion_point(field_get:Point.y)
+  // @@protoc_insertion_point(field_get:bwapi.data.Point.y)
   return y_;
 }
 inline void Point::set_y(::google::protobuf::int32 value) {
   
   y_ = value;
-  // @@protoc_insertion_point(field_set:Point.y)
+  // @@protoc_insertion_point(field_set:bwapi.data.Point.y)
 }
 
 // int32 scale = 3;
@@ -3038,20 +3044,20 @@ inline void Point::clear_scale() {
   scale_ = 0;
 }
 inline ::google::protobuf::int32 Point::scale() const {
-  // @@protoc_insertion_point(field_get:Point.scale)
+  // @@protoc_insertion_point(field_get:bwapi.data.Point.scale)
   return scale_;
 }
 inline void Point::set_scale(::google::protobuf::int32 value) {
   
   scale_ = value;
-  // @@protoc_insertion_point(field_set:Point.scale)
+  // @@protoc_insertion_point(field_set:bwapi.data.Point.scale)
 }
 
 // -------------------------------------------------------------------
 
 // MapData
 
-// .Point size = 1;
+// .bwapi.data.Point size = 1;
 inline bool MapData::has_size() const {
   return this != internal_default_instance() && size_ != NULL;
 }
@@ -3061,32 +3067,32 @@ inline void MapData::clear_size() {
   }
   size_ = NULL;
 }
-inline const ::Point& MapData::_internal_size() const {
+inline const ::bwapi::data::Point& MapData::_internal_size() const {
   return *size_;
 }
-inline const ::Point& MapData::size() const {
-  const ::Point* p = size_;
-  // @@protoc_insertion_point(field_get:MapData.size)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& MapData::size() const {
+  const ::bwapi::data::Point* p = size_;
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.size)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* MapData::release_size() {
-  // @@protoc_insertion_point(field_release:MapData.size)
+inline ::bwapi::data::Point* MapData::release_size() {
+  // @@protoc_insertion_point(field_release:bwapi.data.MapData.size)
   
-  ::Point* temp = size_;
+  ::bwapi::data::Point* temp = size_;
   size_ = NULL;
   return temp;
 }
-inline ::Point* MapData::mutable_size() {
+inline ::bwapi::data::Point* MapData::mutable_size() {
   
   if (size_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     size_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:MapData.size)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.size)
   return size_;
 }
-inline void MapData::set_allocated_size(::Point* size) {
+inline void MapData::set_allocated_size(::bwapi::data::Point* size) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete size_;
@@ -3102,7 +3108,7 @@ inline void MapData::set_allocated_size(::Point* size) {
     
   }
   size_ = size;
-  // @@protoc_insertion_point(field_set_allocated:MapData.size)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.MapData.size)
 }
 
 // int32 tileset = 2;
@@ -3110,13 +3116,13 @@ inline void MapData::clear_tileset() {
   tileset_ = 0;
 }
 inline ::google::protobuf::int32 MapData::tileset() const {
-  // @@protoc_insertion_point(field_get:MapData.tileset)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.tileset)
   return tileset_;
 }
 inline void MapData::set_tileset(::google::protobuf::int32 value) {
   
   tileset_ = value;
-  // @@protoc_insertion_point(field_set:MapData.tileset)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.tileset)
 }
 
 // string mapHash = 3;
@@ -3124,41 +3130,41 @@ inline void MapData::clear_maphash() {
   maphash_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& MapData::maphash() const {
-  // @@protoc_insertion_point(field_get:MapData.mapHash)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.mapHash)
   return maphash_.GetNoArena();
 }
 inline void MapData::set_maphash(const ::std::string& value) {
   
   maphash_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:MapData.mapHash)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.mapHash)
 }
 #if LANG_CXX11
 inline void MapData::set_maphash(::std::string&& value) {
   
   maphash_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:MapData.mapHash)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.MapData.mapHash)
 }
 #endif
 inline void MapData::set_maphash(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   maphash_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:MapData.mapHash)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.MapData.mapHash)
 }
 inline void MapData::set_maphash(const char* value, size_t size) {
   
   maphash_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:MapData.mapHash)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.MapData.mapHash)
 }
 inline ::std::string* MapData::mutable_maphash() {
   
-  // @@protoc_insertion_point(field_mutable:MapData.mapHash)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.MapData.mapHash)
   return maphash_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* MapData::release_maphash() {
-  // @@protoc_insertion_point(field_release:MapData.mapHash)
+  // @@protoc_insertion_point(field_release:bwapi.data.MapData.mapHash)
   
   return maphash_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3169,7 +3175,7 @@ inline void MapData::set_allocated_maphash(::std::string* maphash) {
     
   }
   maphash_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), maphash);
-  // @@protoc_insertion_point(field_set_allocated:MapData.mapHash)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.MapData.mapHash)
 }
 
 // repeated int32 groundHeight = 4;
@@ -3180,25 +3186,25 @@ inline void MapData::clear_groundheight() {
   groundheight_.Clear();
 }
 inline ::google::protobuf::int32 MapData::groundheight(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.groundHeight)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.groundHeight)
   return groundheight_.Get(index);
 }
 inline void MapData::set_groundheight(int index, ::google::protobuf::int32 value) {
   groundheight_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.groundHeight)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.groundHeight)
 }
 inline void MapData::add_groundheight(::google::protobuf::int32 value) {
   groundheight_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.groundHeight)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.groundHeight)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 MapData::groundheight() const {
-  // @@protoc_insertion_point(field_list:MapData.groundHeight)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.groundHeight)
   return groundheight_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 MapData::mutable_groundheight() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.groundHeight)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.groundHeight)
   return &groundheight_;
 }
 
@@ -3210,25 +3216,25 @@ inline void MapData::clear_isbuildable() {
   isbuildable_.Clear();
 }
 inline bool MapData::isbuildable(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.isBuildable)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isBuildable)
   return isbuildable_.Get(index);
 }
 inline void MapData::set_isbuildable(int index, bool value) {
   isbuildable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.isBuildable)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isBuildable)
 }
 inline void MapData::add_isbuildable(bool value) {
   isbuildable_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.isBuildable)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isBuildable)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::isbuildable() const {
-  // @@protoc_insertion_point(field_list:MapData.isBuildable)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isBuildable)
   return isbuildable_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_isbuildable() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.isBuildable)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isBuildable)
   return &isbuildable_;
 }
 
@@ -3240,25 +3246,25 @@ inline void MapData::clear_isvisible() {
   isvisible_.Clear();
 }
 inline bool MapData::isvisible(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.isVisible)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isVisible)
   return isvisible_.Get(index);
 }
 inline void MapData::set_isvisible(int index, bool value) {
   isvisible_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.isVisible)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isVisible)
 }
 inline void MapData::add_isvisible(bool value) {
   isvisible_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.isVisible)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isVisible)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::isvisible() const {
-  // @@protoc_insertion_point(field_list:MapData.isVisible)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isVisible)
   return isvisible_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_isvisible() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.isVisible)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isVisible)
   return &isvisible_;
 }
 
@@ -3270,25 +3276,25 @@ inline void MapData::clear_isexplored() {
   isexplored_.Clear();
 }
 inline bool MapData::isexplored(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.isExplored)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isExplored)
   return isexplored_.Get(index);
 }
 inline void MapData::set_isexplored(int index, bool value) {
   isexplored_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.isExplored)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isExplored)
 }
 inline void MapData::add_isexplored(bool value) {
   isexplored_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.isExplored)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isExplored)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::isexplored() const {
-  // @@protoc_insertion_point(field_list:MapData.isExplored)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isExplored)
   return isexplored_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_isexplored() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.isExplored)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isExplored)
   return &isexplored_;
 }
 
@@ -3300,25 +3306,25 @@ inline void MapData::clear_hascreep() {
   hascreep_.Clear();
 }
 inline bool MapData::hascreep(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.hasCreep)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.hasCreep)
   return hascreep_.Get(index);
 }
 inline void MapData::set_hascreep(int index, bool value) {
   hascreep_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.hasCreep)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.hasCreep)
 }
 inline void MapData::add_hascreep(bool value) {
   hascreep_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.hasCreep)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.hasCreep)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::hascreep() const {
-  // @@protoc_insertion_point(field_list:MapData.hasCreep)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.hasCreep)
   return hascreep_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_hascreep() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.hasCreep)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.hasCreep)
   return &hascreep_;
 }
 
@@ -3330,25 +3336,25 @@ inline void MapData::clear_isoccupied() {
   isoccupied_.Clear();
 }
 inline bool MapData::isoccupied(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.isOccupied)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isOccupied)
   return isoccupied_.Get(index);
 }
 inline void MapData::set_isoccupied(int index, bool value) {
   isoccupied_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.isOccupied)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isOccupied)
 }
 inline void MapData::add_isoccupied(bool value) {
   isoccupied_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.isOccupied)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isOccupied)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::isoccupied() const {
-  // @@protoc_insertion_point(field_list:MapData.isOccupied)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isOccupied)
   return isoccupied_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_isoccupied() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.isOccupied)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isOccupied)
   return &isoccupied_;
 }
 
@@ -3360,25 +3366,25 @@ inline void MapData::clear_iswalkable() {
   iswalkable_.Clear();
 }
 inline bool MapData::iswalkable(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.isWalkable)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.isWalkable)
   return iswalkable_.Get(index);
 }
 inline void MapData::set_iswalkable(int index, bool value) {
   iswalkable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.isWalkable)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.isWalkable)
 }
 inline void MapData::add_iswalkable(bool value) {
   iswalkable_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.isWalkable)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.isWalkable)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 MapData::iswalkable() const {
-  // @@protoc_insertion_point(field_list:MapData.isWalkable)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.isWalkable)
   return iswalkable_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 MapData::mutable_iswalkable() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.isWalkable)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.isWalkable)
   return &iswalkable_;
 }
 
@@ -3390,25 +3396,25 @@ inline void MapData::clear_maptileregionid() {
   maptileregionid_.Clear();
 }
 inline ::google::protobuf::uint32 MapData::maptileregionid(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.mapTileRegionId)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.mapTileRegionId)
   return maptileregionid_.Get(index);
 }
 inline void MapData::set_maptileregionid(int index, ::google::protobuf::uint32 value) {
   maptileregionid_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.mapTileRegionId)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.mapTileRegionId)
 }
 inline void MapData::add_maptileregionid(::google::protobuf::uint32 value) {
   maptileregionid_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.mapTileRegionId)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.mapTileRegionId)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 MapData::maptileregionid() const {
-  // @@protoc_insertion_point(field_list:MapData.mapTileRegionId)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.mapTileRegionId)
   return maptileregionid_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 MapData::mutable_maptileregionid() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.mapTileRegionId)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.mapTileRegionId)
   return &maptileregionid_;
 }
 
@@ -3420,25 +3426,25 @@ inline void MapData::clear_mapsplittilesminitilemask() {
   mapsplittilesminitilemask_.Clear();
 }
 inline ::google::protobuf::uint32 MapData::mapsplittilesminitilemask(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesMiniTileMask)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.mapSplitTilesMiniTileMask)
   return mapsplittilesminitilemask_.Get(index);
 }
 inline void MapData::set_mapsplittilesminitilemask(int index, ::google::protobuf::uint32 value) {
   mapsplittilesminitilemask_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesMiniTileMask)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.mapSplitTilesMiniTileMask)
 }
 inline void MapData::add_mapsplittilesminitilemask(::google::protobuf::uint32 value) {
   mapsplittilesminitilemask_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesMiniTileMask)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.mapSplitTilesMiniTileMask)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 MapData::mapsplittilesminitilemask() const {
-  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesMiniTileMask)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.mapSplitTilesMiniTileMask)
   return mapsplittilesminitilemask_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 MapData::mutable_mapsplittilesminitilemask() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesMiniTileMask)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.mapSplitTilesMiniTileMask)
   return &mapsplittilesminitilemask_;
 }
 
@@ -3450,25 +3456,25 @@ inline void MapData::clear_mapsplittilesregion1() {
   mapsplittilesregion1_.Clear();
 }
 inline ::google::protobuf::uint32 MapData::mapsplittilesregion1(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesRegion1)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.mapSplitTilesRegion1)
   return mapsplittilesregion1_.Get(index);
 }
 inline void MapData::set_mapsplittilesregion1(int index, ::google::protobuf::uint32 value) {
   mapsplittilesregion1_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesRegion1)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.mapSplitTilesRegion1)
 }
 inline void MapData::add_mapsplittilesregion1(::google::protobuf::uint32 value) {
   mapsplittilesregion1_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesRegion1)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.mapSplitTilesRegion1)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 MapData::mapsplittilesregion1() const {
-  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesRegion1)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.mapSplitTilesRegion1)
   return mapsplittilesregion1_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 MapData::mutable_mapsplittilesregion1() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesRegion1)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.mapSplitTilesRegion1)
   return &mapsplittilesregion1_;
 }
 
@@ -3480,25 +3486,25 @@ inline void MapData::clear_mapsplittilesregion2() {
   mapsplittilesregion2_.Clear();
 }
 inline ::google::protobuf::uint32 MapData::mapsplittilesregion2(int index) const {
-  // @@protoc_insertion_point(field_get:MapData.mapSplitTilesRegion2)
+  // @@protoc_insertion_point(field_get:bwapi.data.MapData.mapSplitTilesRegion2)
   return mapsplittilesregion2_.Get(index);
 }
 inline void MapData::set_mapsplittilesregion2(int index, ::google::protobuf::uint32 value) {
   mapsplittilesregion2_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MapData.mapSplitTilesRegion2)
+  // @@protoc_insertion_point(field_set:bwapi.data.MapData.mapSplitTilesRegion2)
 }
 inline void MapData::add_mapsplittilesregion2(::google::protobuf::uint32 value) {
   mapsplittilesregion2_.Add(value);
-  // @@protoc_insertion_point(field_add:MapData.mapSplitTilesRegion2)
+  // @@protoc_insertion_point(field_add:bwapi.data.MapData.mapSplitTilesRegion2)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 MapData::mapsplittilesregion2() const {
-  // @@protoc_insertion_point(field_list:MapData.mapSplitTilesRegion2)
+  // @@protoc_insertion_point(field_list:bwapi.data.MapData.mapSplitTilesRegion2)
   return mapsplittilesregion2_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 MapData::mutable_mapsplittilesregion2() {
-  // @@protoc_insertion_point(field_mutable_list:MapData.mapSplitTilesRegion2)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.MapData.mapSplitTilesRegion2)
   return &mapsplittilesregion2_;
 }
 
@@ -3511,13 +3517,13 @@ inline void GameData::clear_apiversion() {
   apiversion_ = 0;
 }
 inline ::google::protobuf::int32 GameData::apiversion() const {
-  // @@protoc_insertion_point(field_get:GameData.apiVersion)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.apiVersion)
   return apiversion_;
 }
 inline void GameData::set_apiversion(::google::protobuf::int32 value) {
   
   apiversion_ = value;
-  // @@protoc_insertion_point(field_set:GameData.apiVersion)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.apiVersion)
 }
 
 // string engine = 2;
@@ -3525,41 +3531,41 @@ inline void GameData::clear_engine() {
   engine_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::engine() const {
-  // @@protoc_insertion_point(field_get:GameData.engine)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.engine)
   return engine_.GetNoArena();
 }
 inline void GameData::set_engine(const ::std::string& value) {
   
   engine_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.engine)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.engine)
 }
 #if LANG_CXX11
 inline void GameData::set_engine(::std::string&& value) {
   
   engine_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.engine)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.engine)
 }
 #endif
 inline void GameData::set_engine(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   engine_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.engine)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.engine)
 }
 inline void GameData::set_engine(const char* value, size_t size) {
   
   engine_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.engine)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.engine)
 }
 inline ::std::string* GameData::mutable_engine() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.engine)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.engine)
   return engine_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_engine() {
-  // @@protoc_insertion_point(field_release:GameData.engine)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.engine)
   
   return engine_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3570,7 +3576,7 @@ inline void GameData::set_allocated_engine(::std::string* engine) {
     
   }
   engine_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), engine);
-  // @@protoc_insertion_point(field_set_allocated:GameData.engine)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.engine)
 }
 
 // string engineVersion = 3;
@@ -3578,41 +3584,41 @@ inline void GameData::clear_engineversion() {
   engineversion_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::engineversion() const {
-  // @@protoc_insertion_point(field_get:GameData.engineVersion)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.engineVersion)
   return engineversion_.GetNoArena();
 }
 inline void GameData::set_engineversion(const ::std::string& value) {
   
   engineversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.engineVersion)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.engineVersion)
 }
 #if LANG_CXX11
 inline void GameData::set_engineversion(::std::string&& value) {
   
   engineversion_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.engineVersion)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.engineVersion)
 }
 #endif
 inline void GameData::set_engineversion(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   engineversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.engineVersion)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.engineVersion)
 }
 inline void GameData::set_engineversion(const char* value, size_t size) {
   
   engineversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.engineVersion)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.engineVersion)
 }
 inline ::std::string* GameData::mutable_engineversion() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.engineVersion)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.engineVersion)
   return engineversion_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_engineversion() {
-  // @@protoc_insertion_point(field_release:GameData.engineVersion)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.engineVersion)
   
   return engineversion_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3623,7 +3629,7 @@ inline void GameData::set_allocated_engineversion(::std::string* engineversion) 
     
   }
   engineversion_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), engineversion);
-  // @@protoc_insertion_point(field_set_allocated:GameData.engineVersion)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.engineVersion)
 }
 
 // bool tournament = 4;
@@ -3631,13 +3637,13 @@ inline void GameData::clear_tournament() {
   tournament_ = false;
 }
 inline bool GameData::tournament() const {
-  // @@protoc_insertion_point(field_get:GameData.tournament)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.tournament)
   return tournament_;
 }
 inline void GameData::set_tournament(bool value) {
   
   tournament_ = value;
-  // @@protoc_insertion_point(field_set:GameData.tournament)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.tournament)
 }
 
 // int32 gameType = 5;
@@ -3645,13 +3651,13 @@ inline void GameData::clear_gametype() {
   gametype_ = 0;
 }
 inline ::google::protobuf::int32 GameData::gametype() const {
-  // @@protoc_insertion_point(field_get:GameData.gameType)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.gameType)
   return gametype_;
 }
 inline void GameData::set_gametype(::google::protobuf::int32 value) {
   
   gametype_ = value;
-  // @@protoc_insertion_point(field_set:GameData.gameType)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.gameType)
 }
 
 // int32 frameCount = 6;
@@ -3659,13 +3665,13 @@ inline void GameData::clear_framecount() {
   framecount_ = 0;
 }
 inline ::google::protobuf::int32 GameData::framecount() const {
-  // @@protoc_insertion_point(field_get:GameData.frameCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.frameCount)
   return framecount_;
 }
 inline void GameData::set_framecount(::google::protobuf::int32 value) {
   
   framecount_ = value;
-  // @@protoc_insertion_point(field_set:GameData.frameCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.frameCount)
 }
 
 // int32 latencyFrames = 7;
@@ -3673,13 +3679,13 @@ inline void GameData::clear_latencyframes() {
   latencyframes_ = 0;
 }
 inline ::google::protobuf::int32 GameData::latencyframes() const {
-  // @@protoc_insertion_point(field_get:GameData.latencyFrames)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.latencyFrames)
   return latencyframes_;
 }
 inline void GameData::set_latencyframes(::google::protobuf::int32 value) {
   
   latencyframes_ = value;
-  // @@protoc_insertion_point(field_set:GameData.latencyFrames)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.latencyFrames)
 }
 
 // int32 turnSize = 8;
@@ -3687,13 +3693,13 @@ inline void GameData::clear_turnsize() {
   turnsize_ = 0;
 }
 inline ::google::protobuf::int32 GameData::turnsize() const {
-  // @@protoc_insertion_point(field_get:GameData.turnSize)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.turnSize)
   return turnsize_;
 }
 inline void GameData::set_turnsize(::google::protobuf::int32 value) {
   
   turnsize_ = value;
-  // @@protoc_insertion_point(field_set:GameData.turnSize)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.turnSize)
 }
 
 // int32 gameSpeed = 9;
@@ -3701,13 +3707,13 @@ inline void GameData::clear_gamespeed() {
   gamespeed_ = 0;
 }
 inline ::google::protobuf::int32 GameData::gamespeed() const {
-  // @@protoc_insertion_point(field_get:GameData.gameSpeed)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.gameSpeed)
   return gamespeed_;
 }
 inline void GameData::set_gamespeed(::google::protobuf::int32 value) {
   
   gamespeed_ = value;
-  // @@protoc_insertion_point(field_set:GameData.gameSpeed)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.gameSpeed)
 }
 
 // int32 frameSkip = 10;
@@ -3715,13 +3721,13 @@ inline void GameData::clear_frameskip() {
   frameskip_ = 0;
 }
 inline ::google::protobuf::int32 GameData::frameskip() const {
-  // @@protoc_insertion_point(field_get:GameData.frameSkip)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.frameSkip)
   return frameskip_;
 }
 inline void GameData::set_frameskip(::google::protobuf::int32 value) {
   
   frameskip_ = value;
-  // @@protoc_insertion_point(field_set:GameData.frameSkip)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.frameSkip)
 }
 
 // int32 remainingLatencyFrames = 11;
@@ -3729,13 +3735,13 @@ inline void GameData::clear_remaininglatencyframes() {
   remaininglatencyframes_ = 0;
 }
 inline ::google::protobuf::int32 GameData::remaininglatencyframes() const {
-  // @@protoc_insertion_point(field_get:GameData.remainingLatencyFrames)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.remainingLatencyFrames)
   return remaininglatencyframes_;
 }
 inline void GameData::set_remaininglatencyframes(::google::protobuf::int32 value) {
   
   remaininglatencyframes_ = value;
-  // @@protoc_insertion_point(field_set:GameData.remainingLatencyFrames)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.remainingLatencyFrames)
 }
 
 // int32 lastEventTime = 12;
@@ -3743,13 +3749,13 @@ inline void GameData::clear_lasteventtime() {
   lasteventtime_ = 0;
 }
 inline ::google::protobuf::int32 GameData::lasteventtime() const {
-  // @@protoc_insertion_point(field_get:GameData.lastEventTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.lastEventTime)
   return lasteventtime_;
 }
 inline void GameData::set_lasteventtime(::google::protobuf::int32 value) {
   
   lasteventtime_ = value;
-  // @@protoc_insertion_point(field_set:GameData.lastEventTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.lastEventTime)
 }
 
 // repeated int32 replayVisionPlayers = 13;
@@ -3760,25 +3766,25 @@ inline void GameData::clear_replayvisionplayers() {
   replayvisionplayers_.Clear();
 }
 inline ::google::protobuf::int32 GameData::replayvisionplayers(int index) const {
-  // @@protoc_insertion_point(field_get:GameData.replayVisionPlayers)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.replayVisionPlayers)
   return replayvisionplayers_.Get(index);
 }
 inline void GameData::set_replayvisionplayers(int index, ::google::protobuf::int32 value) {
   replayvisionplayers_.Set(index, value);
-  // @@protoc_insertion_point(field_set:GameData.replayVisionPlayers)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.replayVisionPlayers)
 }
 inline void GameData::add_replayvisionplayers(::google::protobuf::int32 value) {
   replayvisionplayers_.Add(value);
-  // @@protoc_insertion_point(field_add:GameData.replayVisionPlayers)
+  // @@protoc_insertion_point(field_add:bwapi.data.GameData.replayVisionPlayers)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 GameData::replayvisionplayers() const {
-  // @@protoc_insertion_point(field_list:GameData.replayVisionPlayers)
+  // @@protoc_insertion_point(field_list:bwapi.data.GameData.replayVisionPlayers)
   return replayvisionplayers_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 GameData::mutable_replayvisionplayers() {
-  // @@protoc_insertion_point(field_mutable_list:GameData.replayVisionPlayers)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.GameData.replayVisionPlayers)
   return &replayvisionplayers_;
 }
 
@@ -3787,13 +3793,13 @@ inline void GameData::clear_latencytime() {
   latencytime_ = 0;
 }
 inline float GameData::latencytime() const {
-  // @@protoc_insertion_point(field_get:GameData.latencyTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.latencyTime)
   return latencytime_;
 }
 inline void GameData::set_latencytime(float value) {
   
   latencytime_ = value;
-  // @@protoc_insertion_point(field_set:GameData.latencyTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.latencyTime)
 }
 
 // float remainingLatencyTime = 15;
@@ -3801,13 +3807,13 @@ inline void GameData::clear_remaininglatencytime() {
   remaininglatencytime_ = 0;
 }
 inline float GameData::remaininglatencytime() const {
-  // @@protoc_insertion_point(field_get:GameData.remainingLatencyTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.remainingLatencyTime)
   return remaininglatencytime_;
 }
 inline void GameData::set_remaininglatencytime(float value) {
   
   remaininglatencytime_ = value;
-  // @@protoc_insertion_point(field_set:GameData.remainingLatencyTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.remainingLatencyTime)
 }
 
 // float elapsedTime = 16;
@@ -3815,13 +3821,13 @@ inline void GameData::clear_elapsedtime() {
   elapsedtime_ = 0;
 }
 inline float GameData::elapsedtime() const {
-  // @@protoc_insertion_point(field_get:GameData.elapsedTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.elapsedTime)
   return elapsedtime_;
 }
 inline void GameData::set_elapsedtime(float value) {
   
   elapsedtime_ = value;
-  // @@protoc_insertion_point(field_set:GameData.elapsedTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.elapsedTime)
 }
 
 // float millisecondsPerFrame = 17;
@@ -3829,13 +3835,13 @@ inline void GameData::clear_millisecondsperframe() {
   millisecondsperframe_ = 0;
 }
 inline float GameData::millisecondsperframe() const {
-  // @@protoc_insertion_point(field_get:GameData.millisecondsPerFrame)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.millisecondsPerFrame)
   return millisecondsperframe_;
 }
 inline void GameData::set_millisecondsperframe(float value) {
   
   millisecondsperframe_ = value;
-  // @@protoc_insertion_point(field_set:GameData.millisecondsPerFrame)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.millisecondsPerFrame)
 }
 
 // float averageFPS = 18;
@@ -3843,13 +3849,13 @@ inline void GameData::clear_averagefps() {
   averagefps_ = 0;
 }
 inline float GameData::averagefps() const {
-  // @@protoc_insertion_point(field_get:GameData.averageFPS)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.averageFPS)
   return averagefps_;
 }
 inline void GameData::set_averagefps(float value) {
   
   averagefps_ = value;
-  // @@protoc_insertion_point(field_set:GameData.averageFPS)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.averageFPS)
 }
 
 // int32 countdownTimer = 19;
@@ -3857,13 +3863,13 @@ inline void GameData::clear_countdowntimer() {
   countdowntimer_ = 0;
 }
 inline ::google::protobuf::int32 GameData::countdowntimer() const {
-  // @@protoc_insertion_point(field_get:GameData.countdownTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.countdownTimer)
   return countdowntimer_;
 }
 inline void GameData::set_countdowntimer(::google::protobuf::int32 value) {
   
   countdowntimer_ = value;
-  // @@protoc_insertion_point(field_set:GameData.countdownTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.countdownTimer)
 }
 
 // bool isPaused = 20;
@@ -3871,13 +3877,13 @@ inline void GameData::clear_ispaused() {
   ispaused_ = false;
 }
 inline bool GameData::ispaused() const {
-  // @@protoc_insertion_point(field_get:GameData.isPaused)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.isPaused)
   return ispaused_;
 }
 inline void GameData::set_ispaused(bool value) {
   
   ispaused_ = value;
-  // @@protoc_insertion_point(field_set:GameData.isPaused)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.isPaused)
 }
 
 // bool isInGame = 21;
@@ -3885,13 +3891,13 @@ inline void GameData::clear_isingame() {
   isingame_ = false;
 }
 inline bool GameData::isingame() const {
-  // @@protoc_insertion_point(field_get:GameData.isInGame)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.isInGame)
   return isingame_;
 }
 inline void GameData::set_isingame(bool value) {
   
   isingame_ = value;
-  // @@protoc_insertion_point(field_set:GameData.isInGame)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.isInGame)
 }
 
 // bool isMultiplayer = 22;
@@ -3899,13 +3905,13 @@ inline void GameData::clear_ismultiplayer() {
   ismultiplayer_ = false;
 }
 inline bool GameData::ismultiplayer() const {
-  // @@protoc_insertion_point(field_get:GameData.isMultiplayer)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.isMultiplayer)
   return ismultiplayer_;
 }
 inline void GameData::set_ismultiplayer(bool value) {
   
   ismultiplayer_ = value;
-  // @@protoc_insertion_point(field_set:GameData.isMultiplayer)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.isMultiplayer)
 }
 
 // bool isBattleNet = 23;
@@ -3913,13 +3919,13 @@ inline void GameData::clear_isbattlenet() {
   isbattlenet_ = false;
 }
 inline bool GameData::isbattlenet() const {
-  // @@protoc_insertion_point(field_get:GameData.isBattleNet)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.isBattleNet)
   return isbattlenet_;
 }
 inline void GameData::set_isbattlenet(bool value) {
   
   isbattlenet_ = value;
-  // @@protoc_insertion_point(field_set:GameData.isBattleNet)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.isBattleNet)
 }
 
 // bool isReplay = 24;
@@ -3927,13 +3933,13 @@ inline void GameData::clear_isreplay() {
   isreplay_ = false;
 }
 inline bool GameData::isreplay() const {
-  // @@protoc_insertion_point(field_get:GameData.isReplay)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.isReplay)
   return isreplay_;
 }
 inline void GameData::set_isreplay(bool value) {
   
   isreplay_ = value;
-  // @@protoc_insertion_point(field_set:GameData.isReplay)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.isReplay)
 }
 
 // bool clientUnitSelection = 25;
@@ -3941,13 +3947,13 @@ inline void GameData::clear_clientunitselection() {
   clientunitselection_ = false;
 }
 inline bool GameData::clientunitselection() const {
-  // @@protoc_insertion_point(field_get:GameData.clientUnitSelection)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.clientUnitSelection)
   return clientunitselection_;
 }
 inline void GameData::set_clientunitselection(bool value) {
   
   clientunitselection_ = value;
-  // @@protoc_insertion_point(field_set:GameData.clientUnitSelection)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.clientUnitSelection)
 }
 
 // bool hasGUI = 26;
@@ -3955,13 +3961,13 @@ inline void GameData::clear_hasgui() {
   hasgui_ = false;
 }
 inline bool GameData::hasgui() const {
-  // @@protoc_insertion_point(field_get:GameData.hasGUI)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.hasGUI)
   return hasgui_;
 }
 inline void GameData::set_hasgui(bool value) {
   
   hasgui_ = value;
-  // @@protoc_insertion_point(field_set:GameData.hasGUI)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.hasGUI)
 }
 
 // string mapPath = 27;
@@ -3969,41 +3975,41 @@ inline void GameData::clear_mappath() {
   mappath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::mappath() const {
-  // @@protoc_insertion_point(field_get:GameData.mapPath)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.mapPath)
   return mappath_.GetNoArena();
 }
 inline void GameData::set_mappath(const ::std::string& value) {
   
   mappath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.mapPath)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.mapPath)
 }
 #if LANG_CXX11
 inline void GameData::set_mappath(::std::string&& value) {
   
   mappath_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.mapPath)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.mapPath)
 }
 #endif
 inline void GameData::set_mappath(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   mappath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.mapPath)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.mapPath)
 }
 inline void GameData::set_mappath(const char* value, size_t size) {
   
   mappath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.mapPath)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.mapPath)
 }
 inline ::std::string* GameData::mutable_mappath() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.mapPath)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.mapPath)
   return mappath_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_mappath() {
-  // @@protoc_insertion_point(field_release:GameData.mapPath)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.mapPath)
   
   return mappath_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4014,7 +4020,7 @@ inline void GameData::set_allocated_mappath(::std::string* mappath) {
     
   }
   mappath_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mappath);
-  // @@protoc_insertion_point(field_set_allocated:GameData.mapPath)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.mapPath)
 }
 
 // string mapName = 28;
@@ -4022,41 +4028,41 @@ inline void GameData::clear_mapname() {
   mapname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::mapname() const {
-  // @@protoc_insertion_point(field_get:GameData.mapName)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.mapName)
   return mapname_.GetNoArena();
 }
 inline void GameData::set_mapname(const ::std::string& value) {
   
   mapname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.mapName)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.mapName)
 }
 #if LANG_CXX11
 inline void GameData::set_mapname(::std::string&& value) {
   
   mapname_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.mapName)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.mapName)
 }
 #endif
 inline void GameData::set_mapname(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   mapname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.mapName)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.mapName)
 }
 inline void GameData::set_mapname(const char* value, size_t size) {
   
   mapname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.mapName)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.mapName)
 }
 inline ::std::string* GameData::mutable_mapname() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.mapName)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.mapName)
   return mapname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_mapname() {
-  // @@protoc_insertion_point(field_release:GameData.mapName)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.mapName)
   
   return mapname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4067,7 +4073,7 @@ inline void GameData::set_allocated_mapname(::std::string* mapname) {
     
   }
   mapname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mapname);
-  // @@protoc_insertion_point(field_set_allocated:GameData.mapName)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.mapName)
 }
 
 // string mapFileName = 29;
@@ -4075,41 +4081,41 @@ inline void GameData::clear_mapfilename() {
   mapfilename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::mapfilename() const {
-  // @@protoc_insertion_point(field_get:GameData.mapFileName)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.mapFileName)
   return mapfilename_.GetNoArena();
 }
 inline void GameData::set_mapfilename(const ::std::string& value) {
   
   mapfilename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.mapFileName)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.mapFileName)
 }
 #if LANG_CXX11
 inline void GameData::set_mapfilename(::std::string&& value) {
   
   mapfilename_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.mapFileName)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.mapFileName)
 }
 #endif
 inline void GameData::set_mapfilename(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   mapfilename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.mapFileName)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.mapFileName)
 }
 inline void GameData::set_mapfilename(const char* value, size_t size) {
   
   mapfilename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.mapFileName)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.mapFileName)
 }
 inline ::std::string* GameData::mutable_mapfilename() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.mapFileName)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.mapFileName)
   return mapfilename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_mapfilename() {
-  // @@protoc_insertion_point(field_release:GameData.mapFileName)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.mapFileName)
   
   return mapfilename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4120,7 +4126,7 @@ inline void GameData::set_allocated_mapfilename(::std::string* mapfilename) {
     
   }
   mapfilename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mapfilename);
-  // @@protoc_insertion_point(field_set_allocated:GameData.mapFileName)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.mapFileName)
 }
 
 // string gameName = 30;
@@ -4128,41 +4134,41 @@ inline void GameData::clear_gamename() {
   gamename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::gamename() const {
-  // @@protoc_insertion_point(field_get:GameData.gameName)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.gameName)
   return gamename_.GetNoArena();
 }
 inline void GameData::set_gamename(const ::std::string& value) {
   
   gamename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.gameName)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.gameName)
 }
 #if LANG_CXX11
 inline void GameData::set_gamename(::std::string&& value) {
   
   gamename_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.gameName)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.gameName)
 }
 #endif
 inline void GameData::set_gamename(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   gamename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.gameName)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.gameName)
 }
 inline void GameData::set_gamename(const char* value, size_t size) {
   
   gamename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.gameName)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.gameName)
 }
 inline ::std::string* GameData::mutable_gamename() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.gameName)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.gameName)
   return gamename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_gamename() {
-  // @@protoc_insertion_point(field_release:GameData.gameName)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.gameName)
   
   return gamename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4173,7 +4179,7 @@ inline void GameData::set_allocated_gamename(::std::string* gamename) {
     
   }
   gamename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), gamename);
-  // @@protoc_insertion_point(field_set_allocated:GameData.gameName)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.gameName)
 }
 
 // string randomSeed = 31;
@@ -4181,41 +4187,41 @@ inline void GameData::clear_randomseed() {
   randomseed_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GameData::randomseed() const {
-  // @@protoc_insertion_point(field_get:GameData.randomSeed)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.randomSeed)
   return randomseed_.GetNoArena();
 }
 inline void GameData::set_randomseed(const ::std::string& value) {
   
   randomseed_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:GameData.randomSeed)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.randomSeed)
 }
 #if LANG_CXX11
 inline void GameData::set_randomseed(::std::string&& value) {
   
   randomseed_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:GameData.randomSeed)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.GameData.randomSeed)
 }
 #endif
 inline void GameData::set_randomseed(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   randomseed_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:GameData.randomSeed)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.GameData.randomSeed)
 }
 inline void GameData::set_randomseed(const char* value, size_t size) {
   
   randomseed_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:GameData.randomSeed)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.GameData.randomSeed)
 }
 inline ::std::string* GameData::mutable_randomseed() {
   
-  // @@protoc_insertion_point(field_mutable:GameData.randomSeed)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.randomSeed)
   return randomseed_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GameData::release_randomseed() {
-  // @@protoc_insertion_point(field_release:GameData.randomSeed)
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.randomSeed)
   
   return randomseed_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4226,36 +4232,36 @@ inline void GameData::set_allocated_randomseed(::std::string* randomseed) {
     
   }
   randomseed_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), randomseed);
-  // @@protoc_insertion_point(field_set_allocated:GameData.randomSeed)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.randomSeed)
 }
 
-// repeated .Point startPositions = 32;
+// repeated .bwapi.data.Point startPositions = 32;
 inline int GameData::startpositions_size() const {
   return startpositions_.size();
 }
 inline void GameData::clear_startpositions() {
   startpositions_.Clear();
 }
-inline ::Point* GameData::mutable_startpositions(int index) {
-  // @@protoc_insertion_point(field_mutable:GameData.startPositions)
+inline ::bwapi::data::Point* GameData::mutable_startpositions(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.startPositions)
   return startpositions_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Point >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >*
 GameData::mutable_startpositions() {
-  // @@protoc_insertion_point(field_mutable_list:GameData.startPositions)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.GameData.startPositions)
   return &startpositions_;
 }
-inline const ::Point& GameData::startpositions(int index) const {
-  // @@protoc_insertion_point(field_get:GameData.startPositions)
+inline const ::bwapi::data::Point& GameData::startpositions(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.startPositions)
   return startpositions_.Get(index);
 }
-inline ::Point* GameData::add_startpositions() {
-  // @@protoc_insertion_point(field_add:GameData.startPositions)
+inline ::bwapi::data::Point* GameData::add_startpositions() {
+  // @@protoc_insertion_point(field_add:bwapi.data.GameData.startPositions)
   return startpositions_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Point >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Point >&
 GameData::startpositions() const {
-  // @@protoc_insertion_point(field_list:GameData.startPositions)
+  // @@protoc_insertion_point(field_list:bwapi.data.GameData.startPositions)
   return startpositions_;
 }
 
@@ -4267,25 +4273,25 @@ inline void GameData::clear_regions() {
   regions_.Clear();
 }
 inline ::google::protobuf::int32 GameData::regions(int index) const {
-  // @@protoc_insertion_point(field_get:GameData.regions)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.regions)
   return regions_.Get(index);
 }
 inline void GameData::set_regions(int index, ::google::protobuf::int32 value) {
   regions_.Set(index, value);
-  // @@protoc_insertion_point(field_set:GameData.regions)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.regions)
 }
 inline void GameData::add_regions(::google::protobuf::int32 value) {
   regions_.Add(value);
-  // @@protoc_insertion_point(field_add:GameData.regions)
+  // @@protoc_insertion_point(field_add:bwapi.data.GameData.regions)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 GameData::regions() const {
-  // @@protoc_insertion_point(field_list:GameData.regions)
+  // @@protoc_insertion_point(field_list:bwapi.data.GameData.regions)
   return regions_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 GameData::mutable_regions() {
-  // @@protoc_insertion_point(field_mutable_list:GameData.regions)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.GameData.regions)
   return &regions_;
 }
 
@@ -4294,16 +4300,16 @@ inline void GameData::clear_player() {
   player_ = 0;
 }
 inline ::google::protobuf::int32 GameData::player() const {
-  // @@protoc_insertion_point(field_get:GameData.player)
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.player)
   return player_;
 }
 inline void GameData::set_player(::google::protobuf::int32 value) {
   
   player_ = value;
-  // @@protoc_insertion_point(field_set:GameData.player)
+  // @@protoc_insertion_point(field_set:bwapi.data.GameData.player)
 }
 
-// .Point screenSize = 35;
+// .bwapi.data.Point screenSize = 35;
 inline bool GameData::has_screensize() const {
   return this != internal_default_instance() && screensize_ != NULL;
 }
@@ -4313,32 +4319,32 @@ inline void GameData::clear_screensize() {
   }
   screensize_ = NULL;
 }
-inline const ::Point& GameData::_internal_screensize() const {
+inline const ::bwapi::data::Point& GameData::_internal_screensize() const {
   return *screensize_;
 }
-inline const ::Point& GameData::screensize() const {
-  const ::Point* p = screensize_;
-  // @@protoc_insertion_point(field_get:GameData.screenSize)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& GameData::screensize() const {
+  const ::bwapi::data::Point* p = screensize_;
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.screenSize)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* GameData::release_screensize() {
-  // @@protoc_insertion_point(field_release:GameData.screenSize)
+inline ::bwapi::data::Point* GameData::release_screensize() {
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.screenSize)
   
-  ::Point* temp = screensize_;
+  ::bwapi::data::Point* temp = screensize_;
   screensize_ = NULL;
   return temp;
 }
-inline ::Point* GameData::mutable_screensize() {
+inline ::bwapi::data::Point* GameData::mutable_screensize() {
   
   if (screensize_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     screensize_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:GameData.screenSize)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.screenSize)
   return screensize_;
 }
-inline void GameData::set_allocated_screensize(::Point* screensize) {
+inline void GameData::set_allocated_screensize(::bwapi::data::Point* screensize) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete screensize_;
@@ -4354,10 +4360,10 @@ inline void GameData::set_allocated_screensize(::Point* screensize) {
     
   }
   screensize_ = screensize;
-  // @@protoc_insertion_point(field_set_allocated:GameData.screenSize)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.screenSize)
 }
 
-// .Point screenPosition = 36;
+// .bwapi.data.Point screenPosition = 36;
 inline bool GameData::has_screenposition() const {
   return this != internal_default_instance() && screenposition_ != NULL;
 }
@@ -4367,32 +4373,32 @@ inline void GameData::clear_screenposition() {
   }
   screenposition_ = NULL;
 }
-inline const ::Point& GameData::_internal_screenposition() const {
+inline const ::bwapi::data::Point& GameData::_internal_screenposition() const {
   return *screenposition_;
 }
-inline const ::Point& GameData::screenposition() const {
-  const ::Point* p = screenposition_;
-  // @@protoc_insertion_point(field_get:GameData.screenPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& GameData::screenposition() const {
+  const ::bwapi::data::Point* p = screenposition_;
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.screenPosition)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* GameData::release_screenposition() {
-  // @@protoc_insertion_point(field_release:GameData.screenPosition)
+inline ::bwapi::data::Point* GameData::release_screenposition() {
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.screenPosition)
   
-  ::Point* temp = screenposition_;
+  ::bwapi::data::Point* temp = screenposition_;
   screenposition_ = NULL;
   return temp;
 }
-inline ::Point* GameData::mutable_screenposition() {
+inline ::bwapi::data::Point* GameData::mutable_screenposition() {
   
   if (screenposition_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     screenposition_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:GameData.screenPosition)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.screenPosition)
   return screenposition_;
 }
-inline void GameData::set_allocated_screenposition(::Point* screenposition) {
+inline void GameData::set_allocated_screenposition(::bwapi::data::Point* screenposition) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete screenposition_;
@@ -4408,10 +4414,10 @@ inline void GameData::set_allocated_screenposition(::Point* screenposition) {
     
   }
   screenposition_ = screenposition;
-  // @@protoc_insertion_point(field_set_allocated:GameData.screenPosition)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.screenPosition)
 }
 
-// .MapData map = 37;
+// .bwapi.data.MapData map = 37;
 inline bool GameData::has_map() const {
   return this != internal_default_instance() && map_ != NULL;
 }
@@ -4421,32 +4427,32 @@ inline void GameData::clear_map() {
   }
   map_ = NULL;
 }
-inline const ::MapData& GameData::_internal_map() const {
+inline const ::bwapi::data::MapData& GameData::_internal_map() const {
   return *map_;
 }
-inline const ::MapData& GameData::map() const {
-  const ::MapData* p = map_;
-  // @@protoc_insertion_point(field_get:GameData.map)
-  return p != NULL ? *p : *reinterpret_cast<const ::MapData*>(
-      &::_MapData_default_instance_);
+inline const ::bwapi::data::MapData& GameData::map() const {
+  const ::bwapi::data::MapData* p = map_;
+  // @@protoc_insertion_point(field_get:bwapi.data.GameData.map)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::MapData*>(
+      &::bwapi::data::_MapData_default_instance_);
 }
-inline ::MapData* GameData::release_map() {
-  // @@protoc_insertion_point(field_release:GameData.map)
+inline ::bwapi::data::MapData* GameData::release_map() {
+  // @@protoc_insertion_point(field_release:bwapi.data.GameData.map)
   
-  ::MapData* temp = map_;
+  ::bwapi::data::MapData* temp = map_;
   map_ = NULL;
   return temp;
 }
-inline ::MapData* GameData::mutable_map() {
+inline ::bwapi::data::MapData* GameData::mutable_map() {
   
   if (map_ == NULL) {
-    auto* p = CreateMaybeMessage<::MapData>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::MapData>(GetArenaNoVirtual());
     map_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:GameData.map)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.GameData.map)
   return map_;
 }
-inline void GameData::set_allocated_map(::MapData* map) {
+inline void GameData::set_allocated_map(::bwapi::data::MapData* map) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete map_;
@@ -4462,7 +4468,7 @@ inline void GameData::set_allocated_map(::MapData* map) {
     
   }
   map_ = map;
-  // @@protoc_insertion_point(field_set_allocated:GameData.map)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.GameData.map)
 }
 
 // -------------------------------------------------------------------
@@ -4474,13 +4480,13 @@ inline void Player::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 Player::id() const {
-  // @@protoc_insertion_point(field_get:Player.id)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.id)
   return id_;
 }
 inline void Player::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:Player.id)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.id)
 }
 
 // string name = 2;
@@ -4488,41 +4494,41 @@ inline void Player::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Player::name() const {
-  // @@protoc_insertion_point(field_get:Player.name)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.name)
   return name_.GetNoArena();
 }
 inline void Player::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:Player.name)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.name)
 }
 #if LANG_CXX11
 inline void Player::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:Player.name)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.Player.name)
 }
 #endif
 inline void Player::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Player.name)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.Player.name)
 }
 inline void Player::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Player.name)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.Player.name)
 }
 inline ::std::string* Player::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:Player.name)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Player.name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Player::release_name() {
-  // @@protoc_insertion_point(field_release:Player.name)
+  // @@protoc_insertion_point(field_release:bwapi.data.Player.name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4533,7 +4539,7 @@ inline void Player::set_allocated_name(::std::string* name) {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:Player.name)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Player.name)
 }
 
 // int32 race = 3;
@@ -4541,13 +4547,13 @@ inline void Player::clear_race() {
   race_ = 0;
 }
 inline ::google::protobuf::int32 Player::race() const {
-  // @@protoc_insertion_point(field_get:Player.race)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.race)
   return race_;
 }
 inline void Player::set_race(::google::protobuf::int32 value) {
   
   race_ = value;
-  // @@protoc_insertion_point(field_set:Player.race)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.race)
 }
 
 // int32 type = 4;
@@ -4555,13 +4561,13 @@ inline void Player::clear_type() {
   type_ = 0;
 }
 inline ::google::protobuf::int32 Player::type() const {
-  // @@protoc_insertion_point(field_get:Player.type)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.type)
   return type_;
 }
 inline void Player::set_type(::google::protobuf::int32 value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:Player.type)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.type)
 }
 
 // int32 force = 5;
@@ -4569,13 +4575,13 @@ inline void Player::clear_force() {
   force_ = 0;
 }
 inline ::google::protobuf::int32 Player::force() const {
-  // @@protoc_insertion_point(field_get:Player.force)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.force)
   return force_;
 }
 inline void Player::set_force(::google::protobuf::int32 value) {
   
   force_ = value;
-  // @@protoc_insertion_point(field_set:Player.force)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.force)
 }
 
 // repeated bool isAlly = 6;
@@ -4586,25 +4592,25 @@ inline void Player::clear_isally() {
   isally_.Clear();
 }
 inline bool Player::isally(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isAlly)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isAlly)
   return isally_.Get(index);
 }
 inline void Player::set_isally(int index, bool value) {
   isally_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isAlly)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isAlly)
 }
 inline void Player::add_isally(bool value) {
   isally_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isAlly)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isAlly)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isally() const {
-  // @@protoc_insertion_point(field_list:Player.isAlly)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isAlly)
   return isally_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isally() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isAlly)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isAlly)
   return &isally_;
 }
 
@@ -4616,25 +4622,25 @@ inline void Player::clear_isenemy() {
   isenemy_.Clear();
 }
 inline bool Player::isenemy(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isEnemy)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isEnemy)
   return isenemy_.Get(index);
 }
 inline void Player::set_isenemy(int index, bool value) {
   isenemy_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isEnemy)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isEnemy)
 }
 inline void Player::add_isenemy(bool value) {
   isenemy_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isEnemy)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isEnemy)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isenemy() const {
-  // @@protoc_insertion_point(field_list:Player.isEnemy)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isEnemy)
   return isenemy_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isenemy() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isEnemy)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isEnemy)
   return &isenemy_;
 }
 
@@ -4646,25 +4652,25 @@ inline void Player::clear_isneutral() {
   isneutral_.Clear();
 }
 inline bool Player::isneutral(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isNeutral)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isNeutral)
   return isneutral_.Get(index);
 }
 inline void Player::set_isneutral(int index, bool value) {
   isneutral_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isNeutral)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isNeutral)
 }
 inline void Player::add_isneutral(bool value) {
   isneutral_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isNeutral)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isNeutral)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isneutral() const {
-  // @@protoc_insertion_point(field_list:Player.isNeutral)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isNeutral)
   return isneutral_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isneutral() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isNeutral)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isNeutral)
   return &isneutral_;
 }
 
@@ -4673,13 +4679,13 @@ inline void Player::clear_startlocationx() {
   startlocationx_ = 0;
 }
 inline ::google::protobuf::int32 Player::startlocationx() const {
-  // @@protoc_insertion_point(field_get:Player.startLocationX)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.startLocationX)
   return startlocationx_;
 }
 inline void Player::set_startlocationx(::google::protobuf::int32 value) {
   
   startlocationx_ = value;
-  // @@protoc_insertion_point(field_set:Player.startLocationX)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.startLocationX)
 }
 
 // int32 startLocationY = 10;
@@ -4687,13 +4693,13 @@ inline void Player::clear_startlocationy() {
   startlocationy_ = 0;
 }
 inline ::google::protobuf::int32 Player::startlocationy() const {
-  // @@protoc_insertion_point(field_get:Player.startLocationY)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.startLocationY)
   return startlocationy_;
 }
 inline void Player::set_startlocationy(::google::protobuf::int32 value) {
   
   startlocationy_ = value;
-  // @@protoc_insertion_point(field_set:Player.startLocationY)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.startLocationY)
 }
 
 // bool isVictorious = 11;
@@ -4701,13 +4707,13 @@ inline void Player::clear_isvictorious() {
   isvictorious_ = false;
 }
 inline bool Player::isvictorious() const {
-  // @@protoc_insertion_point(field_get:Player.isVictorious)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isVictorious)
   return isvictorious_;
 }
 inline void Player::set_isvictorious(bool value) {
   
   isvictorious_ = value;
-  // @@protoc_insertion_point(field_set:Player.isVictorious)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isVictorious)
 }
 
 // bool isDefeated = 12;
@@ -4715,13 +4721,13 @@ inline void Player::clear_isdefeated() {
   isdefeated_ = false;
 }
 inline bool Player::isdefeated() const {
-  // @@protoc_insertion_point(field_get:Player.isDefeated)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isDefeated)
   return isdefeated_;
 }
 inline void Player::set_isdefeated(bool value) {
   
   isdefeated_ = value;
-  // @@protoc_insertion_point(field_set:Player.isDefeated)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isDefeated)
 }
 
 // bool leftGame = 13;
@@ -4729,13 +4735,13 @@ inline void Player::clear_leftgame() {
   leftgame_ = false;
 }
 inline bool Player::leftgame() const {
-  // @@protoc_insertion_point(field_get:Player.leftGame)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.leftGame)
   return leftgame_;
 }
 inline void Player::set_leftgame(bool value) {
   
   leftgame_ = value;
-  // @@protoc_insertion_point(field_set:Player.leftGame)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.leftGame)
 }
 
 // bool isParticipating = 14;
@@ -4743,13 +4749,13 @@ inline void Player::clear_isparticipating() {
   isparticipating_ = false;
 }
 inline bool Player::isparticipating() const {
-  // @@protoc_insertion_point(field_get:Player.isParticipating)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isParticipating)
   return isparticipating_;
 }
 inline void Player::set_isparticipating(bool value) {
   
   isparticipating_ = value;
-  // @@protoc_insertion_point(field_set:Player.isParticipating)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isParticipating)
 }
 
 // int32 minerals = 15;
@@ -4757,13 +4763,13 @@ inline void Player::clear_minerals() {
   minerals_ = 0;
 }
 inline ::google::protobuf::int32 Player::minerals() const {
-  // @@protoc_insertion_point(field_get:Player.minerals)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.minerals)
   return minerals_;
 }
 inline void Player::set_minerals(::google::protobuf::int32 value) {
   
   minerals_ = value;
-  // @@protoc_insertion_point(field_set:Player.minerals)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.minerals)
 }
 
 // int32 gas = 16;
@@ -4771,13 +4777,13 @@ inline void Player::clear_gas() {
   gas_ = 0;
 }
 inline ::google::protobuf::int32 Player::gas() const {
-  // @@protoc_insertion_point(field_get:Player.gas)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.gas)
   return gas_;
 }
 inline void Player::set_gas(::google::protobuf::int32 value) {
   
   gas_ = value;
-  // @@protoc_insertion_point(field_set:Player.gas)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.gas)
 }
 
 // int32 gatheredMinerals = 17;
@@ -4785,13 +4791,13 @@ inline void Player::clear_gatheredminerals() {
   gatheredminerals_ = 0;
 }
 inline ::google::protobuf::int32 Player::gatheredminerals() const {
-  // @@protoc_insertion_point(field_get:Player.gatheredMinerals)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.gatheredMinerals)
   return gatheredminerals_;
 }
 inline void Player::set_gatheredminerals(::google::protobuf::int32 value) {
   
   gatheredminerals_ = value;
-  // @@protoc_insertion_point(field_set:Player.gatheredMinerals)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.gatheredMinerals)
 }
 
 // int32 gatheredGas = 18;
@@ -4799,13 +4805,13 @@ inline void Player::clear_gatheredgas() {
   gatheredgas_ = 0;
 }
 inline ::google::protobuf::int32 Player::gatheredgas() const {
-  // @@protoc_insertion_point(field_get:Player.gatheredGas)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.gatheredGas)
   return gatheredgas_;
 }
 inline void Player::set_gatheredgas(::google::protobuf::int32 value) {
   
   gatheredgas_ = value;
-  // @@protoc_insertion_point(field_set:Player.gatheredGas)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.gatheredGas)
 }
 
 // int32 repairedMinerals = 19;
@@ -4813,13 +4819,13 @@ inline void Player::clear_repairedminerals() {
   repairedminerals_ = 0;
 }
 inline ::google::protobuf::int32 Player::repairedminerals() const {
-  // @@protoc_insertion_point(field_get:Player.repairedMinerals)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.repairedMinerals)
   return repairedminerals_;
 }
 inline void Player::set_repairedminerals(::google::protobuf::int32 value) {
   
   repairedminerals_ = value;
-  // @@protoc_insertion_point(field_set:Player.repairedMinerals)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.repairedMinerals)
 }
 
 // int32 repairedGas = 20;
@@ -4827,13 +4833,13 @@ inline void Player::clear_repairedgas() {
   repairedgas_ = 0;
 }
 inline ::google::protobuf::int32 Player::repairedgas() const {
-  // @@protoc_insertion_point(field_get:Player.repairedGas)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.repairedGas)
   return repairedgas_;
 }
 inline void Player::set_repairedgas(::google::protobuf::int32 value) {
   
   repairedgas_ = value;
-  // @@protoc_insertion_point(field_set:Player.repairedGas)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.repairedGas)
 }
 
 // int32 refundedMinerals = 21;
@@ -4841,13 +4847,13 @@ inline void Player::clear_refundedminerals() {
   refundedminerals_ = 0;
 }
 inline ::google::protobuf::int32 Player::refundedminerals() const {
-  // @@protoc_insertion_point(field_get:Player.refundedMinerals)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.refundedMinerals)
   return refundedminerals_;
 }
 inline void Player::set_refundedminerals(::google::protobuf::int32 value) {
   
   refundedminerals_ = value;
-  // @@protoc_insertion_point(field_set:Player.refundedMinerals)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.refundedMinerals)
 }
 
 // int32 refundedGas = 22;
@@ -4855,13 +4861,13 @@ inline void Player::clear_refundedgas() {
   refundedgas_ = 0;
 }
 inline ::google::protobuf::int32 Player::refundedgas() const {
-  // @@protoc_insertion_point(field_get:Player.refundedGas)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.refundedGas)
   return refundedgas_;
 }
 inline void Player::set_refundedgas(::google::protobuf::int32 value) {
   
   refundedgas_ = value;
-  // @@protoc_insertion_point(field_set:Player.refundedGas)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.refundedGas)
 }
 
 // repeated int32 supplyTotal = 23;
@@ -4872,25 +4878,25 @@ inline void Player::clear_supplytotal() {
   supplytotal_.Clear();
 }
 inline ::google::protobuf::int32 Player::supplytotal(int index) const {
-  // @@protoc_insertion_point(field_get:Player.supplyTotal)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyTotal)
   return supplytotal_.Get(index);
 }
 inline void Player::set_supplytotal(int index, ::google::protobuf::int32 value) {
   supplytotal_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.supplyTotal)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.supplyTotal)
 }
 inline void Player::add_supplytotal(::google::protobuf::int32 value) {
   supplytotal_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.supplyTotal)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyTotal)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::supplytotal() const {
-  // @@protoc_insertion_point(field_list:Player.supplyTotal)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyTotal)
   return supplytotal_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_supplytotal() {
-  // @@protoc_insertion_point(field_mutable_list:Player.supplyTotal)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.supplyTotal)
   return &supplytotal_;
 }
 
@@ -4902,25 +4908,25 @@ inline void Player::clear_supplyused() {
   supplyused_.Clear();
 }
 inline ::google::protobuf::int32 Player::supplyused(int index) const {
-  // @@protoc_insertion_point(field_get:Player.supplyUsed)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.supplyUsed)
   return supplyused_.Get(index);
 }
 inline void Player::set_supplyused(int index, ::google::protobuf::int32 value) {
   supplyused_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.supplyUsed)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.supplyUsed)
 }
 inline void Player::add_supplyused(::google::protobuf::int32 value) {
   supplyused_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.supplyUsed)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.supplyUsed)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::supplyused() const {
-  // @@protoc_insertion_point(field_list:Player.supplyUsed)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.supplyUsed)
   return supplyused_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_supplyused() {
-  // @@protoc_insertion_point(field_mutable_list:Player.supplyUsed)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.supplyUsed)
   return &supplyused_;
 }
 
@@ -4932,25 +4938,25 @@ inline void Player::clear_allunitcount() {
   allunitcount_.Clear();
 }
 inline ::google::protobuf::int32 Player::allunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:Player.allUnitCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.allUnitCount)
   return allunitcount_.Get(index);
 }
 inline void Player::set_allunitcount(int index, ::google::protobuf::int32 value) {
   allunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.allUnitCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.allUnitCount)
 }
 inline void Player::add_allunitcount(::google::protobuf::int32 value) {
   allunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.allUnitCount)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.allUnitCount)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::allunitcount() const {
-  // @@protoc_insertion_point(field_list:Player.allUnitCount)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.allUnitCount)
   return allunitcount_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_allunitcount() {
-  // @@protoc_insertion_point(field_mutable_list:Player.allUnitCount)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.allUnitCount)
   return &allunitcount_;
 }
 
@@ -4962,25 +4968,25 @@ inline void Player::clear_visibleunitcount() {
   visibleunitcount_.Clear();
 }
 inline ::google::protobuf::int32 Player::visibleunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:Player.visibleUnitCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.visibleUnitCount)
   return visibleunitcount_.Get(index);
 }
 inline void Player::set_visibleunitcount(int index, ::google::protobuf::int32 value) {
   visibleunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.visibleUnitCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.visibleUnitCount)
 }
 inline void Player::add_visibleunitcount(::google::protobuf::int32 value) {
   visibleunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.visibleUnitCount)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.visibleUnitCount)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::visibleunitcount() const {
-  // @@protoc_insertion_point(field_list:Player.visibleUnitCount)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.visibleUnitCount)
   return visibleunitcount_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_visibleunitcount() {
-  // @@protoc_insertion_point(field_mutable_list:Player.visibleUnitCount)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.visibleUnitCount)
   return &visibleunitcount_;
 }
 
@@ -4992,25 +4998,25 @@ inline void Player::clear_completedunitcount() {
   completedunitcount_.Clear();
 }
 inline ::google::protobuf::int32 Player::completedunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:Player.completedUnitCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.completedUnitCount)
   return completedunitcount_.Get(index);
 }
 inline void Player::set_completedunitcount(int index, ::google::protobuf::int32 value) {
   completedunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.completedUnitCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.completedUnitCount)
 }
 inline void Player::add_completedunitcount(::google::protobuf::int32 value) {
   completedunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.completedUnitCount)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.completedUnitCount)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::completedunitcount() const {
-  // @@protoc_insertion_point(field_list:Player.completedUnitCount)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.completedUnitCount)
   return completedunitcount_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_completedunitcount() {
-  // @@protoc_insertion_point(field_mutable_list:Player.completedUnitCount)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.completedUnitCount)
   return &completedunitcount_;
 }
 
@@ -5022,25 +5028,25 @@ inline void Player::clear_deadunitcount() {
   deadunitcount_.Clear();
 }
 inline ::google::protobuf::int32 Player::deadunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:Player.deadUnitCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.deadUnitCount)
   return deadunitcount_.Get(index);
 }
 inline void Player::set_deadunitcount(int index, ::google::protobuf::int32 value) {
   deadunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.deadUnitCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.deadUnitCount)
 }
 inline void Player::add_deadunitcount(::google::protobuf::int32 value) {
   deadunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.deadUnitCount)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.deadUnitCount)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::deadunitcount() const {
-  // @@protoc_insertion_point(field_list:Player.deadUnitCount)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.deadUnitCount)
   return deadunitcount_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_deadunitcount() {
-  // @@protoc_insertion_point(field_mutable_list:Player.deadUnitCount)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.deadUnitCount)
   return &deadunitcount_;
 }
 
@@ -5052,25 +5058,25 @@ inline void Player::clear_killedunitcount() {
   killedunitcount_.Clear();
 }
 inline ::google::protobuf::int32 Player::killedunitcount(int index) const {
-  // @@protoc_insertion_point(field_get:Player.killedUnitCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.killedUnitCount)
   return killedunitcount_.Get(index);
 }
 inline void Player::set_killedunitcount(int index, ::google::protobuf::int32 value) {
   killedunitcount_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.killedUnitCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.killedUnitCount)
 }
 inline void Player::add_killedunitcount(::google::protobuf::int32 value) {
   killedunitcount_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.killedUnitCount)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.killedUnitCount)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::killedunitcount() const {
-  // @@protoc_insertion_point(field_list:Player.killedUnitCount)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.killedUnitCount)
   return killedunitcount_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_killedunitcount() {
-  // @@protoc_insertion_point(field_mutable_list:Player.killedUnitCount)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.killedUnitCount)
   return &killedunitcount_;
 }
 
@@ -5082,25 +5088,25 @@ inline void Player::clear_upgradelevel() {
   upgradelevel_.Clear();
 }
 inline ::google::protobuf::int32 Player::upgradelevel(int index) const {
-  // @@protoc_insertion_point(field_get:Player.upgradeLevel)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.upgradeLevel)
   return upgradelevel_.Get(index);
 }
 inline void Player::set_upgradelevel(int index, ::google::protobuf::int32 value) {
   upgradelevel_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.upgradeLevel)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.upgradeLevel)
 }
 inline void Player::add_upgradelevel(::google::protobuf::int32 value) {
   upgradelevel_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.upgradeLevel)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.upgradeLevel)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::upgradelevel() const {
-  // @@protoc_insertion_point(field_list:Player.upgradeLevel)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.upgradeLevel)
   return upgradelevel_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_upgradelevel() {
-  // @@protoc_insertion_point(field_mutable_list:Player.upgradeLevel)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.upgradeLevel)
   return &upgradelevel_;
 }
 
@@ -5112,25 +5118,25 @@ inline void Player::clear_hasresearched() {
   hasresearched_.Clear();
 }
 inline bool Player::hasresearched(int index) const {
-  // @@protoc_insertion_point(field_get:Player.hasResearched)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.hasResearched)
   return hasresearched_.Get(index);
 }
 inline void Player::set_hasresearched(int index, bool value) {
   hasresearched_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.hasResearched)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.hasResearched)
 }
 inline void Player::add_hasresearched(bool value) {
   hasresearched_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.hasResearched)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.hasResearched)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::hasresearched() const {
-  // @@protoc_insertion_point(field_list:Player.hasResearched)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.hasResearched)
   return hasresearched_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_hasresearched() {
-  // @@protoc_insertion_point(field_mutable_list:Player.hasResearched)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.hasResearched)
   return &hasresearched_;
 }
 
@@ -5142,25 +5148,25 @@ inline void Player::clear_isresearching() {
   isresearching_.Clear();
 }
 inline bool Player::isresearching(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isResearching)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearching)
   return isresearching_.Get(index);
 }
 inline void Player::set_isresearching(int index, bool value) {
   isresearching_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isResearching)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isResearching)
 }
 inline void Player::add_isresearching(bool value) {
   isresearching_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isResearching)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearching)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isresearching() const {
-  // @@protoc_insertion_point(field_list:Player.isResearching)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearching)
   return isresearching_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isresearching() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isResearching)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isResearching)
   return &isresearching_;
 }
 
@@ -5172,25 +5178,25 @@ inline void Player::clear_isupgrading() {
   isupgrading_.Clear();
 }
 inline bool Player::isupgrading(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isUpgrading)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUpgrading)
   return isupgrading_.Get(index);
 }
 inline void Player::set_isupgrading(int index, bool value) {
   isupgrading_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isUpgrading)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isUpgrading)
 }
 inline void Player::add_isupgrading(bool value) {
   isupgrading_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isUpgrading)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUpgrading)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isupgrading() const {
-  // @@protoc_insertion_point(field_list:Player.isUpgrading)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUpgrading)
   return isupgrading_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isupgrading() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isUpgrading)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isUpgrading)
   return &isupgrading_;
 }
 
@@ -5199,13 +5205,13 @@ inline void Player::clear_color() {
   color_ = 0;
 }
 inline ::google::protobuf::int32 Player::color() const {
-  // @@protoc_insertion_point(field_get:Player.color)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.color)
   return color_;
 }
 inline void Player::set_color(::google::protobuf::int32 value) {
   
   color_ = value;
-  // @@protoc_insertion_point(field_set:Player.color)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.color)
 }
 
 // int32 totalUnitScore = 35;
@@ -5213,13 +5219,13 @@ inline void Player::clear_totalunitscore() {
   totalunitscore_ = 0;
 }
 inline ::google::protobuf::int32 Player::totalunitscore() const {
-  // @@protoc_insertion_point(field_get:Player.totalUnitScore)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.totalUnitScore)
   return totalunitscore_;
 }
 inline void Player::set_totalunitscore(::google::protobuf::int32 value) {
   
   totalunitscore_ = value;
-  // @@protoc_insertion_point(field_set:Player.totalUnitScore)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.totalUnitScore)
 }
 
 // int32 totalKillScore = 36;
@@ -5227,13 +5233,13 @@ inline void Player::clear_totalkillscore() {
   totalkillscore_ = 0;
 }
 inline ::google::protobuf::int32 Player::totalkillscore() const {
-  // @@protoc_insertion_point(field_get:Player.totalKillScore)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.totalKillScore)
   return totalkillscore_;
 }
 inline void Player::set_totalkillscore(::google::protobuf::int32 value) {
   
   totalkillscore_ = value;
-  // @@protoc_insertion_point(field_set:Player.totalKillScore)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.totalKillScore)
 }
 
 // int32 totalBuildingScore = 37;
@@ -5241,13 +5247,13 @@ inline void Player::clear_totalbuildingscore() {
   totalbuildingscore_ = 0;
 }
 inline ::google::protobuf::int32 Player::totalbuildingscore() const {
-  // @@protoc_insertion_point(field_get:Player.totalBuildingScore)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.totalBuildingScore)
   return totalbuildingscore_;
 }
 inline void Player::set_totalbuildingscore(::google::protobuf::int32 value) {
   
   totalbuildingscore_ = value;
-  // @@protoc_insertion_point(field_set:Player.totalBuildingScore)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.totalBuildingScore)
 }
 
 // int32 totalRazingScore = 38;
@@ -5255,13 +5261,13 @@ inline void Player::clear_totalrazingscore() {
   totalrazingscore_ = 0;
 }
 inline ::google::protobuf::int32 Player::totalrazingscore() const {
-  // @@protoc_insertion_point(field_get:Player.totalRazingScore)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.totalRazingScore)
   return totalrazingscore_;
 }
 inline void Player::set_totalrazingscore(::google::protobuf::int32 value) {
   
   totalrazingscore_ = value;
-  // @@protoc_insertion_point(field_set:Player.totalRazingScore)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.totalRazingScore)
 }
 
 // int32 customScore = 39;
@@ -5269,13 +5275,13 @@ inline void Player::clear_customscore() {
   customscore_ = 0;
 }
 inline ::google::protobuf::int32 Player::customscore() const {
-  // @@protoc_insertion_point(field_get:Player.customScore)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.customScore)
   return customscore_;
 }
 inline void Player::set_customscore(::google::protobuf::int32 value) {
   
   customscore_ = value;
-  // @@protoc_insertion_point(field_set:Player.customScore)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.customScore)
 }
 
 // repeated int32 maxUpgradeLevel = 40;
@@ -5286,25 +5292,25 @@ inline void Player::clear_maxupgradelevel() {
   maxupgradelevel_.Clear();
 }
 inline ::google::protobuf::int32 Player::maxupgradelevel(int index) const {
-  // @@protoc_insertion_point(field_get:Player.maxUpgradeLevel)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.maxUpgradeLevel)
   return maxupgradelevel_.Get(index);
 }
 inline void Player::set_maxupgradelevel(int index, ::google::protobuf::int32 value) {
   maxupgradelevel_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.maxUpgradeLevel)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.maxUpgradeLevel)
 }
 inline void Player::add_maxupgradelevel(::google::protobuf::int32 value) {
   maxupgradelevel_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.maxUpgradeLevel)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.maxUpgradeLevel)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Player::maxupgradelevel() const {
-  // @@protoc_insertion_point(field_list:Player.maxUpgradeLevel)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.maxUpgradeLevel)
   return maxupgradelevel_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Player::mutable_maxupgradelevel() {
-  // @@protoc_insertion_point(field_mutable_list:Player.maxUpgradeLevel)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.maxUpgradeLevel)
   return &maxupgradelevel_;
 }
 
@@ -5316,25 +5322,25 @@ inline void Player::clear_isresearchavailable() {
   isresearchavailable_.Clear();
 }
 inline bool Player::isresearchavailable(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isResearchAvailable)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isResearchAvailable)
   return isresearchavailable_.Get(index);
 }
 inline void Player::set_isresearchavailable(int index, bool value) {
   isresearchavailable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isResearchAvailable)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isResearchAvailable)
 }
 inline void Player::add_isresearchavailable(bool value) {
   isresearchavailable_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isResearchAvailable)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isResearchAvailable)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isresearchavailable() const {
-  // @@protoc_insertion_point(field_list:Player.isResearchAvailable)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isResearchAvailable)
   return isresearchavailable_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isresearchavailable() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isResearchAvailable)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isResearchAvailable)
   return &isresearchavailable_;
 }
 
@@ -5346,25 +5352,25 @@ inline void Player::clear_isunitavailable() {
   isunitavailable_.Clear();
 }
 inline bool Player::isunitavailable(int index) const {
-  // @@protoc_insertion_point(field_get:Player.isUnitAvailable)
+  // @@protoc_insertion_point(field_get:bwapi.data.Player.isUnitAvailable)
   return isunitavailable_.Get(index);
 }
 inline void Player::set_isunitavailable(int index, bool value) {
   isunitavailable_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Player.isUnitAvailable)
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isUnitAvailable)
 }
 inline void Player::add_isunitavailable(bool value) {
   isunitavailable_.Add(value);
-  // @@protoc_insertion_point(field_add:Player.isUnitAvailable)
+  // @@protoc_insertion_point(field_add:bwapi.data.Player.isUnitAvailable)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Player::isunitavailable() const {
-  // @@protoc_insertion_point(field_list:Player.isUnitAvailable)
+  // @@protoc_insertion_point(field_list:bwapi.data.Player.isUnitAvailable)
   return isunitavailable_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Player::mutable_isunitavailable() {
-  // @@protoc_insertion_point(field_mutable_list:Player.isUnitAvailable)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isUnitAvailable)
   return &isunitavailable_;
 }
 
@@ -5377,13 +5383,13 @@ inline void Unit::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 Unit::id() const {
-  // @@protoc_insertion_point(field_get:Unit.id)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.id)
   return id_;
 }
 inline void Unit::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:Unit.id)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.id)
 }
 
 // int32 player = 2;
@@ -5391,13 +5397,13 @@ inline void Unit::clear_player() {
   player_ = 0;
 }
 inline ::google::protobuf::int32 Unit::player() const {
-  // @@protoc_insertion_point(field_get:Unit.player)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.player)
   return player_;
 }
 inline void Unit::set_player(::google::protobuf::int32 value) {
   
   player_ = value;
-  // @@protoc_insertion_point(field_set:Unit.player)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.player)
 }
 
 // int32 type = 3;
@@ -5405,16 +5411,16 @@ inline void Unit::clear_type() {
   type_ = 0;
 }
 inline ::google::protobuf::int32 Unit::type() const {
-  // @@protoc_insertion_point(field_get:Unit.type)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.type)
   return type_;
 }
 inline void Unit::set_type(::google::protobuf::int32 value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:Unit.type)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.type)
 }
 
-// .Point position = 4;
+// .bwapi.data.Point position = 4;
 inline bool Unit::has_position() const {
   return this != internal_default_instance() && position_ != NULL;
 }
@@ -5424,32 +5430,32 @@ inline void Unit::clear_position() {
   }
   position_ = NULL;
 }
-inline const ::Point& Unit::_internal_position() const {
+inline const ::bwapi::data::Point& Unit::_internal_position() const {
   return *position_;
 }
-inline const ::Point& Unit::position() const {
-  const ::Point* p = position_;
-  // @@protoc_insertion_point(field_get:Unit.position)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Unit::position() const {
+  const ::bwapi::data::Point* p = position_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.position)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Unit::release_position() {
-  // @@protoc_insertion_point(field_release:Unit.position)
+inline ::bwapi::data::Point* Unit::release_position() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Unit.position)
   
-  ::Point* temp = position_;
+  ::bwapi::data::Point* temp = position_;
   position_ = NULL;
   return temp;
 }
-inline ::Point* Unit::mutable_position() {
+inline ::bwapi::data::Point* Unit::mutable_position() {
   
   if (position_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     position_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Unit.position)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Unit.position)
   return position_;
 }
-inline void Unit::set_allocated_position(::Point* position) {
+inline void Unit::set_allocated_position(::bwapi::data::Point* position) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete position_;
@@ -5465,7 +5471,7 @@ inline void Unit::set_allocated_position(::Point* position) {
     
   }
   position_ = position;
-  // @@protoc_insertion_point(field_set_allocated:Unit.position)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Unit.position)
 }
 
 // double angle = 5;
@@ -5473,13 +5479,13 @@ inline void Unit::clear_angle() {
   angle_ = 0;
 }
 inline double Unit::angle() const {
-  // @@protoc_insertion_point(field_get:Unit.angle)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.angle)
   return angle_;
 }
 inline void Unit::set_angle(double value) {
   
   angle_ = value;
-  // @@protoc_insertion_point(field_set:Unit.angle)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.angle)
 }
 
 // double velocityX = 6;
@@ -5487,13 +5493,13 @@ inline void Unit::clear_velocityx() {
   velocityx_ = 0;
 }
 inline double Unit::velocityx() const {
-  // @@protoc_insertion_point(field_get:Unit.velocityX)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.velocityX)
   return velocityx_;
 }
 inline void Unit::set_velocityx(double value) {
   
   velocityx_ = value;
-  // @@protoc_insertion_point(field_set:Unit.velocityX)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.velocityX)
 }
 
 // double velocityY = 7;
@@ -5501,13 +5507,13 @@ inline void Unit::clear_velocityy() {
   velocityy_ = 0;
 }
 inline double Unit::velocityy() const {
-  // @@protoc_insertion_point(field_get:Unit.velocityY)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.velocityY)
   return velocityy_;
 }
 inline void Unit::set_velocityy(double value) {
   
   velocityy_ = value;
-  // @@protoc_insertion_point(field_set:Unit.velocityY)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.velocityY)
 }
 
 // int32 hitPoints = 8;
@@ -5515,13 +5521,13 @@ inline void Unit::clear_hitpoints() {
   hitpoints_ = 0;
 }
 inline ::google::protobuf::int32 Unit::hitpoints() const {
-  // @@protoc_insertion_point(field_get:Unit.hitPoints)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.hitPoints)
   return hitpoints_;
 }
 inline void Unit::set_hitpoints(::google::protobuf::int32 value) {
   
   hitpoints_ = value;
-  // @@protoc_insertion_point(field_set:Unit.hitPoints)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.hitPoints)
 }
 
 // int32 lastHitPoints = 9;
@@ -5529,13 +5535,13 @@ inline void Unit::clear_lasthitpoints() {
   lasthitpoints_ = 0;
 }
 inline ::google::protobuf::int32 Unit::lasthitpoints() const {
-  // @@protoc_insertion_point(field_get:Unit.lastHitPoints)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lastHitPoints)
   return lasthitpoints_;
 }
 inline void Unit::set_lasthitpoints(::google::protobuf::int32 value) {
   
   lasthitpoints_ = value;
-  // @@protoc_insertion_point(field_set:Unit.lastHitPoints)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastHitPoints)
 }
 
 // int32 shields = 10;
@@ -5543,13 +5549,13 @@ inline void Unit::clear_shields() {
   shields_ = 0;
 }
 inline ::google::protobuf::int32 Unit::shields() const {
-  // @@protoc_insertion_point(field_get:Unit.shields)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.shields)
   return shields_;
 }
 inline void Unit::set_shields(::google::protobuf::int32 value) {
   
   shields_ = value;
-  // @@protoc_insertion_point(field_set:Unit.shields)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.shields)
 }
 
 // int32 energy = 11;
@@ -5557,13 +5563,13 @@ inline void Unit::clear_energy() {
   energy_ = 0;
 }
 inline ::google::protobuf::int32 Unit::energy() const {
-  // @@protoc_insertion_point(field_get:Unit.energy)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.energy)
   return energy_;
 }
 inline void Unit::set_energy(::google::protobuf::int32 value) {
   
   energy_ = value;
-  // @@protoc_insertion_point(field_set:Unit.energy)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.energy)
 }
 
 // int32 resources = 12;
@@ -5571,13 +5577,13 @@ inline void Unit::clear_resources() {
   resources_ = 0;
 }
 inline ::google::protobuf::int32 Unit::resources() const {
-  // @@protoc_insertion_point(field_get:Unit.resources)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.resources)
   return resources_;
 }
 inline void Unit::set_resources(::google::protobuf::int32 value) {
   
   resources_ = value;
-  // @@protoc_insertion_point(field_set:Unit.resources)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.resources)
 }
 
 // int32 resourceGroup = 13;
@@ -5585,13 +5591,13 @@ inline void Unit::clear_resourcegroup() {
   resourcegroup_ = 0;
 }
 inline ::google::protobuf::int32 Unit::resourcegroup() const {
-  // @@protoc_insertion_point(field_get:Unit.resourceGroup)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.resourceGroup)
   return resourcegroup_;
 }
 inline void Unit::set_resourcegroup(::google::protobuf::int32 value) {
   
   resourcegroup_ = value;
-  // @@protoc_insertion_point(field_set:Unit.resourceGroup)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.resourceGroup)
 }
 
 // int32 killCount = 14;
@@ -5599,13 +5605,13 @@ inline void Unit::clear_killcount() {
   killcount_ = 0;
 }
 inline ::google::protobuf::int32 Unit::killcount() const {
-  // @@protoc_insertion_point(field_get:Unit.killCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.killCount)
   return killcount_;
 }
 inline void Unit::set_killcount(::google::protobuf::int32 value) {
   
   killcount_ = value;
-  // @@protoc_insertion_point(field_set:Unit.killCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.killCount)
 }
 
 // int32 acidSporeCount = 15;
@@ -5613,13 +5619,13 @@ inline void Unit::clear_acidsporecount() {
   acidsporecount_ = 0;
 }
 inline ::google::protobuf::int32 Unit::acidsporecount() const {
-  // @@protoc_insertion_point(field_get:Unit.acidSporeCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.acidSporeCount)
   return acidsporecount_;
 }
 inline void Unit::set_acidsporecount(::google::protobuf::int32 value) {
   
   acidsporecount_ = value;
-  // @@protoc_insertion_point(field_set:Unit.acidSporeCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.acidSporeCount)
 }
 
 // int32 scarabCount = 16;
@@ -5627,13 +5633,13 @@ inline void Unit::clear_scarabcount() {
   scarabcount_ = 0;
 }
 inline ::google::protobuf::int32 Unit::scarabcount() const {
-  // @@protoc_insertion_point(field_get:Unit.scarabCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.scarabCount)
   return scarabcount_;
 }
 inline void Unit::set_scarabcount(::google::protobuf::int32 value) {
   
   scarabcount_ = value;
-  // @@protoc_insertion_point(field_set:Unit.scarabCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.scarabCount)
 }
 
 // int32 int32erceptorCount = 17;
@@ -5641,13 +5647,13 @@ inline void Unit::clear_int32erceptorcount() {
   int32erceptorcount_ = 0;
 }
 inline ::google::protobuf::int32 Unit::int32erceptorcount() const {
-  // @@protoc_insertion_point(field_get:Unit.int32erceptorCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.int32erceptorCount)
   return int32erceptorcount_;
 }
 inline void Unit::set_int32erceptorcount(::google::protobuf::int32 value) {
   
   int32erceptorcount_ = value;
-  // @@protoc_insertion_point(field_set:Unit.int32erceptorCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.int32erceptorCount)
 }
 
 // int32 spiderMineCount = 18;
@@ -5655,13 +5661,13 @@ inline void Unit::clear_spiderminecount() {
   spiderminecount_ = 0;
 }
 inline ::google::protobuf::int32 Unit::spiderminecount() const {
-  // @@protoc_insertion_point(field_get:Unit.spiderMineCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.spiderMineCount)
   return spiderminecount_;
 }
 inline void Unit::set_spiderminecount(::google::protobuf::int32 value) {
   
   spiderminecount_ = value;
-  // @@protoc_insertion_point(field_set:Unit.spiderMineCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.spiderMineCount)
 }
 
 // int32 groundWeaponCooldown = 19;
@@ -5669,13 +5675,13 @@ inline void Unit::clear_groundweaponcooldown() {
   groundweaponcooldown_ = 0;
 }
 inline ::google::protobuf::int32 Unit::groundweaponcooldown() const {
-  // @@protoc_insertion_point(field_get:Unit.groundWeaponCooldown)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.groundWeaponCooldown)
   return groundweaponcooldown_;
 }
 inline void Unit::set_groundweaponcooldown(::google::protobuf::int32 value) {
   
   groundweaponcooldown_ = value;
-  // @@protoc_insertion_point(field_set:Unit.groundWeaponCooldown)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.groundWeaponCooldown)
 }
 
 // int32 airWeaponCooldown = 20;
@@ -5683,13 +5689,13 @@ inline void Unit::clear_airweaponcooldown() {
   airweaponcooldown_ = 0;
 }
 inline ::google::protobuf::int32 Unit::airweaponcooldown() const {
-  // @@protoc_insertion_point(field_get:Unit.airWeaponCooldown)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.airWeaponCooldown)
   return airweaponcooldown_;
 }
 inline void Unit::set_airweaponcooldown(::google::protobuf::int32 value) {
   
   airweaponcooldown_ = value;
-  // @@protoc_insertion_point(field_set:Unit.airWeaponCooldown)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.airWeaponCooldown)
 }
 
 // int32 spellCooldown = 21;
@@ -5697,13 +5703,13 @@ inline void Unit::clear_spellcooldown() {
   spellcooldown_ = 0;
 }
 inline ::google::protobuf::int32 Unit::spellcooldown() const {
-  // @@protoc_insertion_point(field_get:Unit.spellCooldown)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.spellCooldown)
   return spellcooldown_;
 }
 inline void Unit::set_spellcooldown(::google::protobuf::int32 value) {
   
   spellcooldown_ = value;
-  // @@protoc_insertion_point(field_set:Unit.spellCooldown)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.spellCooldown)
 }
 
 // int32 defenseMatrixPoints = 22;
@@ -5711,13 +5717,13 @@ inline void Unit::clear_defensematrixpoints() {
   defensematrixpoints_ = 0;
 }
 inline ::google::protobuf::int32 Unit::defensematrixpoints() const {
-  // @@protoc_insertion_point(field_get:Unit.defenseMatrixPoints)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.defenseMatrixPoints)
   return defensematrixpoints_;
 }
 inline void Unit::set_defensematrixpoints(::google::protobuf::int32 value) {
   
   defensematrixpoints_ = value;
-  // @@protoc_insertion_point(field_set:Unit.defenseMatrixPoints)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.defenseMatrixPoints)
 }
 
 // int32 defenseMatrixTimer = 23;
@@ -5725,13 +5731,13 @@ inline void Unit::clear_defensematrixtimer() {
   defensematrixtimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::defensematrixtimer() const {
-  // @@protoc_insertion_point(field_get:Unit.defenseMatrixTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.defenseMatrixTimer)
   return defensematrixtimer_;
 }
 inline void Unit::set_defensematrixtimer(::google::protobuf::int32 value) {
   
   defensematrixtimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.defenseMatrixTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.defenseMatrixTimer)
 }
 
 // int32 ensnareTimer = 24;
@@ -5739,13 +5745,13 @@ inline void Unit::clear_ensnaretimer() {
   ensnaretimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::ensnaretimer() const {
-  // @@protoc_insertion_point(field_get:Unit.ensnareTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.ensnareTimer)
   return ensnaretimer_;
 }
 inline void Unit::set_ensnaretimer(::google::protobuf::int32 value) {
   
   ensnaretimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.ensnareTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.ensnareTimer)
 }
 
 // int32 irradiateTimer = 25;
@@ -5753,13 +5759,13 @@ inline void Unit::clear_irradiatetimer() {
   irradiatetimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::irradiatetimer() const {
-  // @@protoc_insertion_point(field_get:Unit.irradiateTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.irradiateTimer)
   return irradiatetimer_;
 }
 inline void Unit::set_irradiatetimer(::google::protobuf::int32 value) {
   
   irradiatetimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.irradiateTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.irradiateTimer)
 }
 
 // int32 lockdownTimer = 26;
@@ -5767,13 +5773,13 @@ inline void Unit::clear_lockdowntimer() {
   lockdowntimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::lockdowntimer() const {
-  // @@protoc_insertion_point(field_get:Unit.lockdownTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lockdownTimer)
   return lockdowntimer_;
 }
 inline void Unit::set_lockdowntimer(::google::protobuf::int32 value) {
   
   lockdowntimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.lockdownTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lockdownTimer)
 }
 
 // int32 maelstromTimer = 27;
@@ -5781,13 +5787,13 @@ inline void Unit::clear_maelstromtimer() {
   maelstromtimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::maelstromtimer() const {
-  // @@protoc_insertion_point(field_get:Unit.maelstromTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.maelstromTimer)
   return maelstromtimer_;
 }
 inline void Unit::set_maelstromtimer(::google::protobuf::int32 value) {
   
   maelstromtimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.maelstromTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.maelstromTimer)
 }
 
 // int32 orderTimer = 28;
@@ -5795,13 +5801,13 @@ inline void Unit::clear_ordertimer() {
   ordertimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::ordertimer() const {
-  // @@protoc_insertion_point(field_get:Unit.orderTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.orderTimer)
   return ordertimer_;
 }
 inline void Unit::set_ordertimer(::google::protobuf::int32 value) {
   
   ordertimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.orderTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.orderTimer)
 }
 
 // int32 plagueTimer = 29;
@@ -5809,13 +5815,13 @@ inline void Unit::clear_plaguetimer() {
   plaguetimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::plaguetimer() const {
-  // @@protoc_insertion_point(field_get:Unit.plagueTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.plagueTimer)
   return plaguetimer_;
 }
 inline void Unit::set_plaguetimer(::google::protobuf::int32 value) {
   
   plaguetimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.plagueTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.plagueTimer)
 }
 
 // int32 removeTimer = 30;
@@ -5823,13 +5829,13 @@ inline void Unit::clear_removetimer() {
   removetimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::removetimer() const {
-  // @@protoc_insertion_point(field_get:Unit.removeTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.removeTimer)
   return removetimer_;
 }
 inline void Unit::set_removetimer(::google::protobuf::int32 value) {
   
   removetimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.removeTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.removeTimer)
 }
 
 // int32 stasisTimer = 31;
@@ -5837,13 +5843,13 @@ inline void Unit::clear_stasistimer() {
   stasistimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::stasistimer() const {
-  // @@protoc_insertion_point(field_get:Unit.stasisTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.stasisTimer)
   return stasistimer_;
 }
 inline void Unit::set_stasistimer(::google::protobuf::int32 value) {
   
   stasistimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.stasisTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.stasisTimer)
 }
 
 // int32 stimTimer = 32;
@@ -5851,13 +5857,13 @@ inline void Unit::clear_stimtimer() {
   stimtimer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::stimtimer() const {
-  // @@protoc_insertion_point(field_get:Unit.stimTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.stimTimer)
   return stimtimer_;
 }
 inline void Unit::set_stimtimer(::google::protobuf::int32 value) {
   
   stimtimer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.stimTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.stimTimer)
 }
 
 // int32 buildType = 33;
@@ -5865,13 +5871,13 @@ inline void Unit::clear_buildtype() {
   buildtype_ = 0;
 }
 inline ::google::protobuf::int32 Unit::buildtype() const {
-  // @@protoc_insertion_point(field_get:Unit.buildType)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.buildType)
   return buildtype_;
 }
 inline void Unit::set_buildtype(::google::protobuf::int32 value) {
   
   buildtype_ = value;
-  // @@protoc_insertion_point(field_set:Unit.buildType)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.buildType)
 }
 
 // repeated int32 trainingQueue = 34;
@@ -5882,25 +5888,25 @@ inline void Unit::clear_trainingqueue() {
   trainingqueue_.Clear();
 }
 inline ::google::protobuf::int32 Unit::trainingqueue(int index) const {
-  // @@protoc_insertion_point(field_get:Unit.trainingQueue)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.trainingQueue)
   return trainingqueue_.Get(index);
 }
 inline void Unit::set_trainingqueue(int index, ::google::protobuf::int32 value) {
   trainingqueue_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Unit.trainingQueue)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.trainingQueue)
 }
 inline void Unit::add_trainingqueue(::google::protobuf::int32 value) {
   trainingqueue_.Add(value);
-  // @@protoc_insertion_point(field_add:Unit.trainingQueue)
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.trainingQueue)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Unit::trainingqueue() const {
-  // @@protoc_insertion_point(field_list:Unit.trainingQueue)
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.trainingQueue)
   return trainingqueue_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Unit::mutable_trainingqueue() {
-  // @@protoc_insertion_point(field_mutable_list:Unit.trainingQueue)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.trainingQueue)
   return &trainingqueue_;
 }
 
@@ -5912,25 +5918,25 @@ inline void Unit::clear_loadedunits() {
   loadedunits_.Clear();
 }
 inline ::google::protobuf::int32 Unit::loadedunits(int index) const {
-  // @@protoc_insertion_point(field_get:Unit.loadedUnits)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.loadedUnits)
   return loadedunits_.Get(index);
 }
 inline void Unit::set_loadedunits(int index, ::google::protobuf::int32 value) {
   loadedunits_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Unit.loadedUnits)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.loadedUnits)
 }
 inline void Unit::add_loadedunits(::google::protobuf::int32 value) {
   loadedunits_.Add(value);
-  // @@protoc_insertion_point(field_add:Unit.loadedUnits)
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.loadedUnits)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Unit::loadedunits() const {
-  // @@protoc_insertion_point(field_list:Unit.loadedUnits)
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.loadedUnits)
   return loadedunits_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Unit::mutable_loadedunits() {
-  // @@protoc_insertion_point(field_mutable_list:Unit.loadedUnits)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.loadedUnits)
   return &loadedunits_;
 }
 
@@ -5942,25 +5948,25 @@ inline void Unit::clear_int32erceptors() {
   int32erceptors_.Clear();
 }
 inline ::google::protobuf::int32 Unit::int32erceptors(int index) const {
-  // @@protoc_insertion_point(field_get:Unit.int32erceptors)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.int32erceptors)
   return int32erceptors_.Get(index);
 }
 inline void Unit::set_int32erceptors(int index, ::google::protobuf::int32 value) {
   int32erceptors_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Unit.int32erceptors)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.int32erceptors)
 }
 inline void Unit::add_int32erceptors(::google::protobuf::int32 value) {
   int32erceptors_.Add(value);
-  // @@protoc_insertion_point(field_add:Unit.int32erceptors)
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.int32erceptors)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Unit::int32erceptors() const {
-  // @@protoc_insertion_point(field_list:Unit.int32erceptors)
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.int32erceptors)
   return int32erceptors_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Unit::mutable_int32erceptors() {
-  // @@protoc_insertion_point(field_mutable_list:Unit.int32erceptors)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.int32erceptors)
   return &int32erceptors_;
 }
 
@@ -5972,25 +5978,25 @@ inline void Unit::clear_larva() {
   larva_.Clear();
 }
 inline ::google::protobuf::int32 Unit::larva(int index) const {
-  // @@protoc_insertion_point(field_get:Unit.larva)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.larva)
   return larva_.Get(index);
 }
 inline void Unit::set_larva(int index, ::google::protobuf::int32 value) {
   larva_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Unit.larva)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.larva)
 }
 inline void Unit::add_larva(::google::protobuf::int32 value) {
   larva_.Add(value);
-  // @@protoc_insertion_point(field_add:Unit.larva)
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.larva)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Unit::larva() const {
-  // @@protoc_insertion_point(field_list:Unit.larva)
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.larva)
   return larva_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Unit::mutable_larva() {
-  // @@protoc_insertion_point(field_mutable_list:Unit.larva)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.larva)
   return &larva_;
 }
 
@@ -5999,13 +6005,13 @@ inline void Unit::clear_tech() {
   tech_ = 0;
 }
 inline ::google::protobuf::int32 Unit::tech() const {
-  // @@protoc_insertion_point(field_get:Unit.tech)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.tech)
   return tech_;
 }
 inline void Unit::set_tech(::google::protobuf::int32 value) {
   
   tech_ = value;
-  // @@protoc_insertion_point(field_set:Unit.tech)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.tech)
 }
 
 // int32 upgrade = 39;
@@ -6013,13 +6019,13 @@ inline void Unit::clear_upgrade() {
   upgrade_ = 0;
 }
 inline ::google::protobuf::int32 Unit::upgrade() const {
-  // @@protoc_insertion_point(field_get:Unit.upgrade)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.upgrade)
   return upgrade_;
 }
 inline void Unit::set_upgrade(::google::protobuf::int32 value) {
   
   upgrade_ = value;
-  // @@protoc_insertion_point(field_set:Unit.upgrade)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.upgrade)
 }
 
 // int32 remainingBuildTime = 40;
@@ -6027,13 +6033,13 @@ inline void Unit::clear_remainingbuildtime() {
   remainingbuildtime_ = 0;
 }
 inline ::google::protobuf::int32 Unit::remainingbuildtime() const {
-  // @@protoc_insertion_point(field_get:Unit.remainingBuildTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingBuildTime)
   return remainingbuildtime_;
 }
 inline void Unit::set_remainingbuildtime(::google::protobuf::int32 value) {
   
   remainingbuildtime_ = value;
-  // @@protoc_insertion_point(field_set:Unit.remainingBuildTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingBuildTime)
 }
 
 // int32 remainingTraint32ime = 41;
@@ -6041,13 +6047,13 @@ inline void Unit::clear_remainingtraint32ime() {
   remainingtraint32ime_ = 0;
 }
 inline ::google::protobuf::int32 Unit::remainingtraint32ime() const {
-  // @@protoc_insertion_point(field_get:Unit.remainingTraint32ime)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingTraint32ime)
   return remainingtraint32ime_;
 }
 inline void Unit::set_remainingtraint32ime(::google::protobuf::int32 value) {
   
   remainingtraint32ime_ = value;
-  // @@protoc_insertion_point(field_set:Unit.remainingTraint32ime)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingTraint32ime)
 }
 
 // int32 remainingResearchTime = 42;
@@ -6055,13 +6061,13 @@ inline void Unit::clear_remainingresearchtime() {
   remainingresearchtime_ = 0;
 }
 inline ::google::protobuf::int32 Unit::remainingresearchtime() const {
-  // @@protoc_insertion_point(field_get:Unit.remainingResearchTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingResearchTime)
   return remainingresearchtime_;
 }
 inline void Unit::set_remainingresearchtime(::google::protobuf::int32 value) {
   
   remainingresearchtime_ = value;
-  // @@protoc_insertion_point(field_set:Unit.remainingResearchTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingResearchTime)
 }
 
 // int32 remainingUpgradeTime = 43;
@@ -6069,13 +6075,13 @@ inline void Unit::clear_remainingupgradetime() {
   remainingupgradetime_ = 0;
 }
 inline ::google::protobuf::int32 Unit::remainingupgradetime() const {
-  // @@protoc_insertion_point(field_get:Unit.remainingUpgradeTime)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingUpgradeTime)
   return remainingupgradetime_;
 }
 inline void Unit::set_remainingupgradetime(::google::protobuf::int32 value) {
   
   remainingupgradetime_ = value;
-  // @@protoc_insertion_point(field_set:Unit.remainingUpgradeTime)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingUpgradeTime)
 }
 
 // int32 buildUnit = 44;
@@ -6083,13 +6089,13 @@ inline void Unit::clear_buildunit() {
   buildunit_ = 0;
 }
 inline ::google::protobuf::int32 Unit::buildunit() const {
-  // @@protoc_insertion_point(field_get:Unit.buildUnit)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.buildUnit)
   return buildunit_;
 }
 inline void Unit::set_buildunit(::google::protobuf::int32 value) {
   
   buildunit_ = value;
-  // @@protoc_insertion_point(field_set:Unit.buildUnit)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.buildUnit)
 }
 
 // int32 target = 45;
@@ -6097,16 +6103,16 @@ inline void Unit::clear_target() {
   target_ = 0;
 }
 inline ::google::protobuf::int32 Unit::target() const {
-  // @@protoc_insertion_point(field_get:Unit.target)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.target)
   return target_;
 }
 inline void Unit::set_target(::google::protobuf::int32 value) {
   
   target_ = value;
-  // @@protoc_insertion_point(field_set:Unit.target)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.target)
 }
 
-// .Point targetPosition = 46;
+// .bwapi.data.Point targetPosition = 46;
 inline bool Unit::has_targetposition() const {
   return this != internal_default_instance() && targetposition_ != NULL;
 }
@@ -6116,32 +6122,32 @@ inline void Unit::clear_targetposition() {
   }
   targetposition_ = NULL;
 }
-inline const ::Point& Unit::_internal_targetposition() const {
+inline const ::bwapi::data::Point& Unit::_internal_targetposition() const {
   return *targetposition_;
 }
-inline const ::Point& Unit::targetposition() const {
-  const ::Point* p = targetposition_;
-  // @@protoc_insertion_point(field_get:Unit.targetPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Unit::targetposition() const {
+  const ::bwapi::data::Point* p = targetposition_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.targetPosition)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Unit::release_targetposition() {
-  // @@protoc_insertion_point(field_release:Unit.targetPosition)
+inline ::bwapi::data::Point* Unit::release_targetposition() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Unit.targetPosition)
   
-  ::Point* temp = targetposition_;
+  ::bwapi::data::Point* temp = targetposition_;
   targetposition_ = NULL;
   return temp;
 }
-inline ::Point* Unit::mutable_targetposition() {
+inline ::bwapi::data::Point* Unit::mutable_targetposition() {
   
   if (targetposition_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     targetposition_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Unit.targetPosition)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Unit.targetPosition)
   return targetposition_;
 }
-inline void Unit::set_allocated_targetposition(::Point* targetposition) {
+inline void Unit::set_allocated_targetposition(::bwapi::data::Point* targetposition) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete targetposition_;
@@ -6157,7 +6163,7 @@ inline void Unit::set_allocated_targetposition(::Point* targetposition) {
     
   }
   targetposition_ = targetposition;
-  // @@protoc_insertion_point(field_set_allocated:Unit.targetPosition)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Unit.targetPosition)
 }
 
 // int32 order = 47;
@@ -6165,13 +6171,13 @@ inline void Unit::clear_order() {
   order_ = 0;
 }
 inline ::google::protobuf::int32 Unit::order() const {
-  // @@protoc_insertion_point(field_get:Unit.order)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.order)
   return order_;
 }
 inline void Unit::set_order(::google::protobuf::int32 value) {
   
   order_ = value;
-  // @@protoc_insertion_point(field_set:Unit.order)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.order)
 }
 
 // int32 orderTarget = 48;
@@ -6179,16 +6185,16 @@ inline void Unit::clear_ordertarget() {
   ordertarget_ = 0;
 }
 inline ::google::protobuf::int32 Unit::ordertarget() const {
-  // @@protoc_insertion_point(field_get:Unit.orderTarget)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.orderTarget)
   return ordertarget_;
 }
 inline void Unit::set_ordertarget(::google::protobuf::int32 value) {
   
   ordertarget_ = value;
-  // @@protoc_insertion_point(field_set:Unit.orderTarget)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.orderTarget)
 }
 
-// .Point orderTargetPosition = 49;
+// .bwapi.data.Point orderTargetPosition = 49;
 inline bool Unit::has_ordertargetposition() const {
   return this != internal_default_instance() && ordertargetposition_ != NULL;
 }
@@ -6198,32 +6204,32 @@ inline void Unit::clear_ordertargetposition() {
   }
   ordertargetposition_ = NULL;
 }
-inline const ::Point& Unit::_internal_ordertargetposition() const {
+inline const ::bwapi::data::Point& Unit::_internal_ordertargetposition() const {
   return *ordertargetposition_;
 }
-inline const ::Point& Unit::ordertargetposition() const {
-  const ::Point* p = ordertargetposition_;
-  // @@protoc_insertion_point(field_get:Unit.orderTargetPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Unit::ordertargetposition() const {
+  const ::bwapi::data::Point* p = ordertargetposition_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.orderTargetPosition)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Unit::release_ordertargetposition() {
-  // @@protoc_insertion_point(field_release:Unit.orderTargetPosition)
+inline ::bwapi::data::Point* Unit::release_ordertargetposition() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Unit.orderTargetPosition)
   
-  ::Point* temp = ordertargetposition_;
+  ::bwapi::data::Point* temp = ordertargetposition_;
   ordertargetposition_ = NULL;
   return temp;
 }
-inline ::Point* Unit::mutable_ordertargetposition() {
+inline ::bwapi::data::Point* Unit::mutable_ordertargetposition() {
   
   if (ordertargetposition_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     ordertargetposition_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Unit.orderTargetPosition)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Unit.orderTargetPosition)
   return ordertargetposition_;
 }
-inline void Unit::set_allocated_ordertargetposition(::Point* ordertargetposition) {
+inline void Unit::set_allocated_ordertargetposition(::bwapi::data::Point* ordertargetposition) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete ordertargetposition_;
@@ -6239,7 +6245,7 @@ inline void Unit::set_allocated_ordertargetposition(::Point* ordertargetposition
     
   }
   ordertargetposition_ = ordertargetposition;
-  // @@protoc_insertion_point(field_set_allocated:Unit.orderTargetPosition)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Unit.orderTargetPosition)
 }
 
 // int32 secondaryOrder = 50;
@@ -6247,16 +6253,16 @@ inline void Unit::clear_secondaryorder() {
   secondaryorder_ = 0;
 }
 inline ::google::protobuf::int32 Unit::secondaryorder() const {
-  // @@protoc_insertion_point(field_get:Unit.secondaryOrder)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.secondaryOrder)
   return secondaryorder_;
 }
 inline void Unit::set_secondaryorder(::google::protobuf::int32 value) {
   
   secondaryorder_ = value;
-  // @@protoc_insertion_point(field_set:Unit.secondaryOrder)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.secondaryOrder)
 }
 
-// .Point rallyPosition = 51;
+// .bwapi.data.Point rallyPosition = 51;
 inline bool Unit::has_rallyposition() const {
   return this != internal_default_instance() && rallyposition_ != NULL;
 }
@@ -6266,32 +6272,32 @@ inline void Unit::clear_rallyposition() {
   }
   rallyposition_ = NULL;
 }
-inline const ::Point& Unit::_internal_rallyposition() const {
+inline const ::bwapi::data::Point& Unit::_internal_rallyposition() const {
   return *rallyposition_;
 }
-inline const ::Point& Unit::rallyposition() const {
-  const ::Point* p = rallyposition_;
-  // @@protoc_insertion_point(field_get:Unit.rallyPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Unit::rallyposition() const {
+  const ::bwapi::data::Point* p = rallyposition_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.rallyPosition)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Unit::release_rallyposition() {
-  // @@protoc_insertion_point(field_release:Unit.rallyPosition)
+inline ::bwapi::data::Point* Unit::release_rallyposition() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Unit.rallyPosition)
   
-  ::Point* temp = rallyposition_;
+  ::bwapi::data::Point* temp = rallyposition_;
   rallyposition_ = NULL;
   return temp;
 }
-inline ::Point* Unit::mutable_rallyposition() {
+inline ::bwapi::data::Point* Unit::mutable_rallyposition() {
   
   if (rallyposition_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     rallyposition_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Unit.rallyPosition)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Unit.rallyPosition)
   return rallyposition_;
 }
-inline void Unit::set_allocated_rallyposition(::Point* rallyposition) {
+inline void Unit::set_allocated_rallyposition(::bwapi::data::Point* rallyposition) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete rallyposition_;
@@ -6307,7 +6313,7 @@ inline void Unit::set_allocated_rallyposition(::Point* rallyposition) {
     
   }
   rallyposition_ = rallyposition;
-  // @@protoc_insertion_point(field_set_allocated:Unit.rallyPosition)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Unit.rallyPosition)
 }
 
 // int32 rallyUnit = 52;
@@ -6315,13 +6321,13 @@ inline void Unit::clear_rallyunit() {
   rallyunit_ = 0;
 }
 inline ::google::protobuf::int32 Unit::rallyunit() const {
-  // @@protoc_insertion_point(field_get:Unit.rallyUnit)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.rallyUnit)
   return rallyunit_;
 }
 inline void Unit::set_rallyunit(::google::protobuf::int32 value) {
   
   rallyunit_ = value;
-  // @@protoc_insertion_point(field_set:Unit.rallyUnit)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.rallyUnit)
 }
 
 // int32 addon = 53;
@@ -6329,13 +6335,13 @@ inline void Unit::clear_addon() {
   addon_ = 0;
 }
 inline ::google::protobuf::int32 Unit::addon() const {
-  // @@protoc_insertion_point(field_get:Unit.addon)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.addon)
   return addon_;
 }
 inline void Unit::set_addon(::google::protobuf::int32 value) {
   
   addon_ = value;
-  // @@protoc_insertion_point(field_set:Unit.addon)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.addon)
 }
 
 // int32 nydusExit = 54;
@@ -6343,13 +6349,13 @@ inline void Unit::clear_nydusexit() {
   nydusexit_ = 0;
 }
 inline ::google::protobuf::int32 Unit::nydusexit() const {
-  // @@protoc_insertion_point(field_get:Unit.nydusExit)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.nydusExit)
   return nydusexit_;
 }
 inline void Unit::set_nydusexit(::google::protobuf::int32 value) {
   
   nydusexit_ = value;
-  // @@protoc_insertion_point(field_set:Unit.nydusExit)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.nydusExit)
 }
 
 // int32 powerUp = 55;
@@ -6357,13 +6363,13 @@ inline void Unit::clear_powerup() {
   powerup_ = 0;
 }
 inline ::google::protobuf::int32 Unit::powerup() const {
-  // @@protoc_insertion_point(field_get:Unit.powerUp)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.powerUp)
   return powerup_;
 }
 inline void Unit::set_powerup(::google::protobuf::int32 value) {
   
   powerup_ = value;
-  // @@protoc_insertion_point(field_set:Unit.powerUp)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.powerUp)
 }
 
 // int32 transport = 56;
@@ -6371,13 +6377,13 @@ inline void Unit::clear_transport() {
   transport_ = 0;
 }
 inline ::google::protobuf::int32 Unit::transport() const {
-  // @@protoc_insertion_point(field_get:Unit.transport)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.transport)
   return transport_;
 }
 inline void Unit::set_transport(::google::protobuf::int32 value) {
   
   transport_ = value;
-  // @@protoc_insertion_point(field_set:Unit.transport)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.transport)
 }
 
 // int32 carrier = 57;
@@ -6385,13 +6391,13 @@ inline void Unit::clear_carrier() {
   carrier_ = 0;
 }
 inline ::google::protobuf::int32 Unit::carrier() const {
-  // @@protoc_insertion_point(field_get:Unit.carrier)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.carrier)
   return carrier_;
 }
 inline void Unit::set_carrier(::google::protobuf::int32 value) {
   
   carrier_ = value;
-  // @@protoc_insertion_point(field_set:Unit.carrier)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.carrier)
 }
 
 // int32 hatchery = 58;
@@ -6399,13 +6405,13 @@ inline void Unit::clear_hatchery() {
   hatchery_ = 0;
 }
 inline ::google::protobuf::int32 Unit::hatchery() const {
-  // @@protoc_insertion_point(field_get:Unit.hatchery)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.hatchery)
   return hatchery_;
 }
 inline void Unit::set_hatchery(::google::protobuf::int32 value) {
   
   hatchery_ = value;
-  // @@protoc_insertion_point(field_set:Unit.hatchery)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.hatchery)
 }
 
 // bool exists = 59;
@@ -6413,13 +6419,13 @@ inline void Unit::clear_exists() {
   exists_ = false;
 }
 inline bool Unit::exists() const {
-  // @@protoc_insertion_point(field_get:Unit.exists)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.exists)
   return exists_;
 }
 inline void Unit::set_exists(bool value) {
   
   exists_ = value;
-  // @@protoc_insertion_point(field_set:Unit.exists)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.exists)
 }
 
 // bool hasNuke = 60;
@@ -6427,13 +6433,13 @@ inline void Unit::clear_hasnuke() {
   hasnuke_ = false;
 }
 inline bool Unit::hasnuke() const {
-  // @@protoc_insertion_point(field_get:Unit.hasNuke)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.hasNuke)
   return hasnuke_;
 }
 inline void Unit::set_hasnuke(bool value) {
   
   hasnuke_ = value;
-  // @@protoc_insertion_point(field_set:Unit.hasNuke)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.hasNuke)
 }
 
 // bool isAccelerating = 61;
@@ -6441,13 +6447,13 @@ inline void Unit::clear_isaccelerating() {
   isaccelerating_ = false;
 }
 inline bool Unit::isaccelerating() const {
-  // @@protoc_insertion_point(field_get:Unit.isAccelerating)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isAccelerating)
   return isaccelerating_;
 }
 inline void Unit::set_isaccelerating(bool value) {
   
   isaccelerating_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isAccelerating)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isAccelerating)
 }
 
 // bool isAttacking = 62;
@@ -6455,13 +6461,13 @@ inline void Unit::clear_isattacking() {
   isattacking_ = false;
 }
 inline bool Unit::isattacking() const {
-  // @@protoc_insertion_point(field_get:Unit.isAttacking)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isAttacking)
   return isattacking_;
 }
 inline void Unit::set_isattacking(bool value) {
   
   isattacking_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isAttacking)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isAttacking)
 }
 
 // bool isAttackFrame = 63;
@@ -6469,13 +6475,13 @@ inline void Unit::clear_isattackframe() {
   isattackframe_ = false;
 }
 inline bool Unit::isattackframe() const {
-  // @@protoc_insertion_point(field_get:Unit.isAttackFrame)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isAttackFrame)
   return isattackframe_;
 }
 inline void Unit::set_isattackframe(bool value) {
   
   isattackframe_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isAttackFrame)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isAttackFrame)
 }
 
 // bool isBeingGathered = 64;
@@ -6483,13 +6489,13 @@ inline void Unit::clear_isbeinggathered() {
   isbeinggathered_ = false;
 }
 inline bool Unit::isbeinggathered() const {
-  // @@protoc_insertion_point(field_get:Unit.isBeingGathered)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isBeingGathered)
   return isbeinggathered_;
 }
 inline void Unit::set_isbeinggathered(bool value) {
   
   isbeinggathered_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isBeingGathered)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isBeingGathered)
 }
 
 // bool isBeingHealed = 65;
@@ -6497,13 +6503,13 @@ inline void Unit::clear_isbeinghealed() {
   isbeinghealed_ = false;
 }
 inline bool Unit::isbeinghealed() const {
-  // @@protoc_insertion_point(field_get:Unit.isBeingHealed)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isBeingHealed)
   return isbeinghealed_;
 }
 inline void Unit::set_isbeinghealed(bool value) {
   
   isbeinghealed_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isBeingHealed)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isBeingHealed)
 }
 
 // bool isBlind = 66;
@@ -6511,13 +6517,13 @@ inline void Unit::clear_isblind() {
   isblind_ = false;
 }
 inline bool Unit::isblind() const {
-  // @@protoc_insertion_point(field_get:Unit.isBlind)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isBlind)
   return isblind_;
 }
 inline void Unit::set_isblind(bool value) {
   
   isblind_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isBlind)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isBlind)
 }
 
 // bool isBraking = 67;
@@ -6525,13 +6531,13 @@ inline void Unit::clear_isbraking() {
   isbraking_ = false;
 }
 inline bool Unit::isbraking() const {
-  // @@protoc_insertion_point(field_get:Unit.isBraking)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isBraking)
   return isbraking_;
 }
 inline void Unit::set_isbraking(bool value) {
   
   isbraking_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isBraking)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isBraking)
 }
 
 // bool isBurrowed = 68;
@@ -6539,13 +6545,13 @@ inline void Unit::clear_isburrowed() {
   isburrowed_ = false;
 }
 inline bool Unit::isburrowed() const {
-  // @@protoc_insertion_point(field_get:Unit.isBurrowed)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isBurrowed)
   return isburrowed_;
 }
 inline void Unit::set_isburrowed(bool value) {
   
   isburrowed_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isBurrowed)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isBurrowed)
 }
 
 // int32 carryResourceType = 69;
@@ -6553,13 +6559,13 @@ inline void Unit::clear_carryresourcetype() {
   carryresourcetype_ = 0;
 }
 inline ::google::protobuf::int32 Unit::carryresourcetype() const {
-  // @@protoc_insertion_point(field_get:Unit.carryResourceType)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.carryResourceType)
   return carryresourcetype_;
 }
 inline void Unit::set_carryresourcetype(::google::protobuf::int32 value) {
   
   carryresourcetype_ = value;
-  // @@protoc_insertion_point(field_set:Unit.carryResourceType)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.carryResourceType)
 }
 
 // bool isCloaked = 70;
@@ -6567,13 +6573,13 @@ inline void Unit::clear_iscloaked() {
   iscloaked_ = false;
 }
 inline bool Unit::iscloaked() const {
-  // @@protoc_insertion_point(field_get:Unit.isCloaked)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isCloaked)
   return iscloaked_;
 }
 inline void Unit::set_iscloaked(bool value) {
   
   iscloaked_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isCloaked)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isCloaked)
 }
 
 // bool isCompleted = 71;
@@ -6581,13 +6587,13 @@ inline void Unit::clear_iscompleted() {
   iscompleted_ = false;
 }
 inline bool Unit::iscompleted() const {
-  // @@protoc_insertion_point(field_get:Unit.isCompleted)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isCompleted)
   return iscompleted_;
 }
 inline void Unit::set_iscompleted(bool value) {
   
   iscompleted_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isCompleted)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isCompleted)
 }
 
 // bool isConstructing = 72;
@@ -6595,13 +6601,13 @@ inline void Unit::clear_isconstructing() {
   isconstructing_ = false;
 }
 inline bool Unit::isconstructing() const {
-  // @@protoc_insertion_point(field_get:Unit.isConstructing)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isConstructing)
   return isconstructing_;
 }
 inline void Unit::set_isconstructing(bool value) {
   
   isconstructing_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isConstructing)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isConstructing)
 }
 
 // bool isDetected = 73;
@@ -6609,13 +6615,13 @@ inline void Unit::clear_isdetected() {
   isdetected_ = false;
 }
 inline bool Unit::isdetected() const {
-  // @@protoc_insertion_point(field_get:Unit.isDetected)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isDetected)
   return isdetected_;
 }
 inline void Unit::set_isdetected(bool value) {
   
   isdetected_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isDetected)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isDetected)
 }
 
 // bool isGathering = 74;
@@ -6623,13 +6629,13 @@ inline void Unit::clear_isgathering() {
   isgathering_ = false;
 }
 inline bool Unit::isgathering() const {
-  // @@protoc_insertion_point(field_get:Unit.isGathering)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isGathering)
   return isgathering_;
 }
 inline void Unit::set_isgathering(bool value) {
   
   isgathering_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isGathering)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isGathering)
 }
 
 // bool isHallucination = 75;
@@ -6637,13 +6643,13 @@ inline void Unit::clear_ishallucination() {
   ishallucination_ = false;
 }
 inline bool Unit::ishallucination() const {
-  // @@protoc_insertion_point(field_get:Unit.isHallucination)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isHallucination)
   return ishallucination_;
 }
 inline void Unit::set_ishallucination(bool value) {
   
   ishallucination_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isHallucination)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isHallucination)
 }
 
 // bool isIdle = 76;
@@ -6651,13 +6657,13 @@ inline void Unit::clear_isidle() {
   isidle_ = false;
 }
 inline bool Unit::isidle() const {
-  // @@protoc_insertion_point(field_get:Unit.isIdle)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isIdle)
   return isidle_;
 }
 inline void Unit::set_isidle(bool value) {
   
   isidle_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isIdle)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isIdle)
 }
 
 // bool isint32erruptible = 77;
@@ -6665,13 +6671,13 @@ inline void Unit::clear_isint32erruptible() {
   isint32erruptible_ = false;
 }
 inline bool Unit::isint32erruptible() const {
-  // @@protoc_insertion_point(field_get:Unit.isint32erruptible)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isint32erruptible)
   return isint32erruptible_;
 }
 inline void Unit::set_isint32erruptible(bool value) {
   
   isint32erruptible_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isint32erruptible)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isint32erruptible)
 }
 
 // bool isInvincible = 78;
@@ -6679,13 +6685,13 @@ inline void Unit::clear_isinvincible() {
   isinvincible_ = false;
 }
 inline bool Unit::isinvincible() const {
-  // @@protoc_insertion_point(field_get:Unit.isInvincible)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isInvincible)
   return isinvincible_;
 }
 inline void Unit::set_isinvincible(bool value) {
   
   isinvincible_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isInvincible)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isInvincible)
 }
 
 // bool isLifted = 79;
@@ -6693,13 +6699,13 @@ inline void Unit::clear_islifted() {
   islifted_ = false;
 }
 inline bool Unit::islifted() const {
-  // @@protoc_insertion_point(field_get:Unit.isLifted)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isLifted)
   return islifted_;
 }
 inline void Unit::set_islifted(bool value) {
   
   islifted_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isLifted)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isLifted)
 }
 
 // bool isMorphing = 80;
@@ -6707,13 +6713,13 @@ inline void Unit::clear_ismorphing() {
   ismorphing_ = false;
 }
 inline bool Unit::ismorphing() const {
-  // @@protoc_insertion_point(field_get:Unit.isMorphing)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isMorphing)
   return ismorphing_;
 }
 inline void Unit::set_ismorphing(bool value) {
   
   ismorphing_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isMorphing)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isMorphing)
 }
 
 // bool isMoving = 81;
@@ -6721,13 +6727,13 @@ inline void Unit::clear_ismoving() {
   ismoving_ = false;
 }
 inline bool Unit::ismoving() const {
-  // @@protoc_insertion_point(field_get:Unit.isMoving)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isMoving)
   return ismoving_;
 }
 inline void Unit::set_ismoving(bool value) {
   
   ismoving_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isMoving)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isMoving)
 }
 
 // bool isParasited = 82;
@@ -6735,13 +6741,13 @@ inline void Unit::clear_isparasited() {
   isparasited_ = false;
 }
 inline bool Unit::isparasited() const {
-  // @@protoc_insertion_point(field_get:Unit.isParasited)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isParasited)
   return isparasited_;
 }
 inline void Unit::set_isparasited(bool value) {
   
   isparasited_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isParasited)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isParasited)
 }
 
 // bool isSelected = 83;
@@ -6749,13 +6755,13 @@ inline void Unit::clear_isselected() {
   isselected_ = false;
 }
 inline bool Unit::isselected() const {
-  // @@protoc_insertion_point(field_get:Unit.isSelected)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isSelected)
   return isselected_;
 }
 inline void Unit::set_isselected(bool value) {
   
   isselected_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isSelected)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isSelected)
 }
 
 // bool isStartingAttack = 84;
@@ -6763,13 +6769,13 @@ inline void Unit::clear_isstartingattack() {
   isstartingattack_ = false;
 }
 inline bool Unit::isstartingattack() const {
-  // @@protoc_insertion_point(field_get:Unit.isStartingAttack)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isStartingAttack)
   return isstartingattack_;
 }
 inline void Unit::set_isstartingattack(bool value) {
   
   isstartingattack_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isStartingAttack)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isStartingAttack)
 }
 
 // bool isStuck = 85;
@@ -6777,13 +6783,13 @@ inline void Unit::clear_isstuck() {
   isstuck_ = false;
 }
 inline bool Unit::isstuck() const {
-  // @@protoc_insertion_point(field_get:Unit.isStuck)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isStuck)
   return isstuck_;
 }
 inline void Unit::set_isstuck(bool value) {
   
   isstuck_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isStuck)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isStuck)
 }
 
 // bool isTraining = 86;
@@ -6791,13 +6797,13 @@ inline void Unit::clear_istraining() {
   istraining_ = false;
 }
 inline bool Unit::istraining() const {
-  // @@protoc_insertion_point(field_get:Unit.isTraining)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isTraining)
   return istraining_;
 }
 inline void Unit::set_istraining(bool value) {
   
   istraining_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isTraining)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isTraining)
 }
 
 // bool isUnderStorm = 87;
@@ -6805,13 +6811,13 @@ inline void Unit::clear_isunderstorm() {
   isunderstorm_ = false;
 }
 inline bool Unit::isunderstorm() const {
-  // @@protoc_insertion_point(field_get:Unit.isUnderStorm)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isUnderStorm)
   return isunderstorm_;
 }
 inline void Unit::set_isunderstorm(bool value) {
   
   isunderstorm_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isUnderStorm)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isUnderStorm)
 }
 
 // bool isUnderDarkSwarm = 88;
@@ -6819,13 +6825,13 @@ inline void Unit::clear_isunderdarkswarm() {
   isunderdarkswarm_ = false;
 }
 inline bool Unit::isunderdarkswarm() const {
-  // @@protoc_insertion_point(field_get:Unit.isUnderDarkSwarm)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isUnderDarkSwarm)
   return isunderdarkswarm_;
 }
 inline void Unit::set_isunderdarkswarm(bool value) {
   
   isunderdarkswarm_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isUnderDarkSwarm)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isUnderDarkSwarm)
 }
 
 // bool isUnderDWeb = 89;
@@ -6833,13 +6839,13 @@ inline void Unit::clear_isunderdweb() {
   isunderdweb_ = false;
 }
 inline bool Unit::isunderdweb() const {
-  // @@protoc_insertion_point(field_get:Unit.isUnderDWeb)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isUnderDWeb)
   return isunderdweb_;
 }
 inline void Unit::set_isunderdweb(bool value) {
   
   isunderdweb_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isUnderDWeb)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isUnderDWeb)
 }
 
 // bool isPowered = 90;
@@ -6847,13 +6853,13 @@ inline void Unit::clear_ispowered() {
   ispowered_ = false;
 }
 inline bool Unit::ispowered() const {
-  // @@protoc_insertion_point(field_get:Unit.isPowered)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isPowered)
   return ispowered_;
 }
 inline void Unit::set_ispowered(bool value) {
   
   ispowered_ = value;
-  // @@protoc_insertion_point(field_set:Unit.isPowered)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isPowered)
 }
 
 // repeated bool isVisible = 91;
@@ -6864,25 +6870,25 @@ inline void Unit::clear_isvisible() {
   isvisible_.Clear();
 }
 inline bool Unit::isvisible(int index) const {
-  // @@protoc_insertion_point(field_get:Unit.isVisible)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isVisible)
   return isvisible_.Get(index);
 }
 inline void Unit::set_isvisible(int index, bool value) {
   isvisible_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Unit.isVisible)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isVisible)
 }
 inline void Unit::add_isvisible(bool value) {
   isvisible_.Add(value);
-  // @@protoc_insertion_point(field_add:Unit.isVisible)
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.isVisible)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Unit::isvisible() const {
-  // @@protoc_insertion_point(field_list:Unit.isVisible)
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.isVisible)
   return isvisible_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Unit::mutable_isvisible() {
-  // @@protoc_insertion_point(field_mutable_list:Unit.isVisible)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.isVisible)
   return &isvisible_;
 }
 
@@ -6891,13 +6897,13 @@ inline void Unit::clear_buttonset() {
   buttonset_ = 0;
 }
 inline ::google::protobuf::int32 Unit::buttonset() const {
-  // @@protoc_insertion_point(field_get:Unit.buttonset)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.buttonset)
   return buttonset_;
 }
 inline void Unit::set_buttonset(::google::protobuf::int32 value) {
   
   buttonset_ = value;
-  // @@protoc_insertion_point(field_set:Unit.buttonset)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.buttonset)
 }
 
 // int32 lastCommandFrame = 93;
@@ -6905,13 +6911,13 @@ inline void Unit::clear_lastcommandframe() {
   lastcommandframe_ = 0;
 }
 inline ::google::protobuf::int32 Unit::lastcommandframe() const {
-  // @@protoc_insertion_point(field_get:Unit.lastCommandFrame)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lastCommandFrame)
   return lastcommandframe_;
 }
 inline void Unit::set_lastcommandframe(::google::protobuf::int32 value) {
   
   lastcommandframe_ = value;
-  // @@protoc_insertion_point(field_set:Unit.lastCommandFrame)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastCommandFrame)
 }
 
 // int32 lastCommand = 94;
@@ -6919,13 +6925,13 @@ inline void Unit::clear_lastcommand() {
   lastcommand_ = 0;
 }
 inline ::google::protobuf::int32 Unit::lastcommand() const {
-  // @@protoc_insertion_point(field_get:Unit.lastCommand)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lastCommand)
   return lastcommand_;
 }
 inline void Unit::set_lastcommand(::google::protobuf::int32 value) {
   
   lastcommand_ = value;
-  // @@protoc_insertion_point(field_set:Unit.lastCommand)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastCommand)
 }
 
 // int32 lastAttackerPlayer = 95;
@@ -6933,13 +6939,13 @@ inline void Unit::clear_lastattackerplayer() {
   lastattackerplayer_ = 0;
 }
 inline ::google::protobuf::int32 Unit::lastattackerplayer() const {
-  // @@protoc_insertion_point(field_get:Unit.lastAttackerPlayer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.lastAttackerPlayer)
   return lastattackerplayer_;
 }
 inline void Unit::set_lastattackerplayer(::google::protobuf::int32 value) {
   
   lastattackerplayer_ = value;
-  // @@protoc_insertion_point(field_set:Unit.lastAttackerPlayer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.lastAttackerPlayer)
 }
 
 // int32 replayID = 96;
@@ -6947,13 +6953,13 @@ inline void Unit::clear_replayid() {
   replayid_ = 0;
 }
 inline ::google::protobuf::int32 Unit::replayid() const {
-  // @@protoc_insertion_point(field_get:Unit.replayID)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.replayID)
   return replayid_;
 }
 inline void Unit::set_replayid(::google::protobuf::int32 value) {
   
   replayid_ = value;
-  // @@protoc_insertion_point(field_set:Unit.replayID)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.replayID)
 }
 
 // bool recentlyAttacked = 97;
@@ -6961,13 +6967,13 @@ inline void Unit::clear_recentlyattacked() {
   recentlyattacked_ = false;
 }
 inline bool Unit::recentlyattacked() const {
-  // @@protoc_insertion_point(field_get:Unit.recentlyAttacked)
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.recentlyAttacked)
   return recentlyattacked_;
 }
 inline void Unit::set_recentlyattacked(bool value) {
   
   recentlyattacked_ = value;
-  // @@protoc_insertion_point(field_set:Unit.recentlyAttacked)
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.recentlyAttacked)
 }
 
 // -------------------------------------------------------------------
@@ -6979,13 +6985,13 @@ inline void Region::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 Region::id() const {
-  // @@protoc_insertion_point(field_get:Region.id)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.id)
   return id_;
 }
 inline void Region::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:Region.id)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.id)
 }
 
 // int32 islandID = 2;
@@ -6993,13 +6999,13 @@ inline void Region::clear_islandid() {
   islandid_ = 0;
 }
 inline ::google::protobuf::int32 Region::islandid() const {
-  // @@protoc_insertion_point(field_get:Region.islandID)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.islandID)
   return islandid_;
 }
 inline void Region::set_islandid(::google::protobuf::int32 value) {
   
   islandid_ = value;
-  // @@protoc_insertion_point(field_set:Region.islandID)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.islandID)
 }
 
 // int32 center_x = 3;
@@ -7007,13 +7013,13 @@ inline void Region::clear_center_x() {
   center_x_ = 0;
 }
 inline ::google::protobuf::int32 Region::center_x() const {
-  // @@protoc_insertion_point(field_get:Region.center_x)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.center_x)
   return center_x_;
 }
 inline void Region::set_center_x(::google::protobuf::int32 value) {
   
   center_x_ = value;
-  // @@protoc_insertion_point(field_set:Region.center_x)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.center_x)
 }
 
 // int32 center_y = 4;
@@ -7021,13 +7027,13 @@ inline void Region::clear_center_y() {
   center_y_ = 0;
 }
 inline ::google::protobuf::int32 Region::center_y() const {
-  // @@protoc_insertion_point(field_get:Region.center_y)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.center_y)
   return center_y_;
 }
 inline void Region::set_center_y(::google::protobuf::int32 value) {
   
   center_y_ = value;
-  // @@protoc_insertion_point(field_set:Region.center_y)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.center_y)
 }
 
 // int32 priority = 5;
@@ -7035,13 +7041,13 @@ inline void Region::clear_priority() {
   priority_ = 0;
 }
 inline ::google::protobuf::int32 Region::priority() const {
-  // @@protoc_insertion_point(field_get:Region.priority)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.priority)
   return priority_;
 }
 inline void Region::set_priority(::google::protobuf::int32 value) {
   
   priority_ = value;
-  // @@protoc_insertion_point(field_set:Region.priority)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.priority)
 }
 
 // int32 leftMost = 6;
@@ -7049,13 +7055,13 @@ inline void Region::clear_leftmost() {
   leftmost_ = 0;
 }
 inline ::google::protobuf::int32 Region::leftmost() const {
-  // @@protoc_insertion_point(field_get:Region.leftMost)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.leftMost)
   return leftmost_;
 }
 inline void Region::set_leftmost(::google::protobuf::int32 value) {
   
   leftmost_ = value;
-  // @@protoc_insertion_point(field_set:Region.leftMost)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.leftMost)
 }
 
 // int32 rightMost = 7;
@@ -7063,13 +7069,13 @@ inline void Region::clear_rightmost() {
   rightmost_ = 0;
 }
 inline ::google::protobuf::int32 Region::rightmost() const {
-  // @@protoc_insertion_point(field_get:Region.rightMost)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.rightMost)
   return rightmost_;
 }
 inline void Region::set_rightmost(::google::protobuf::int32 value) {
   
   rightmost_ = value;
-  // @@protoc_insertion_point(field_set:Region.rightMost)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.rightMost)
 }
 
 // int32 topMost = 8;
@@ -7077,13 +7083,13 @@ inline void Region::clear_topmost() {
   topmost_ = 0;
 }
 inline ::google::protobuf::int32 Region::topmost() const {
-  // @@protoc_insertion_point(field_get:Region.topMost)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.topMost)
   return topmost_;
 }
 inline void Region::set_topmost(::google::protobuf::int32 value) {
   
   topmost_ = value;
-  // @@protoc_insertion_point(field_set:Region.topMost)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.topMost)
 }
 
 // int32 bottomMost = 9;
@@ -7091,13 +7097,13 @@ inline void Region::clear_bottommost() {
   bottommost_ = 0;
 }
 inline ::google::protobuf::int32 Region::bottommost() const {
-  // @@protoc_insertion_point(field_get:Region.bottomMost)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.bottomMost)
   return bottommost_;
 }
 inline void Region::set_bottommost(::google::protobuf::int32 value) {
   
   bottommost_ = value;
-  // @@protoc_insertion_point(field_set:Region.bottomMost)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.bottomMost)
 }
 
 // int32 neighborCount = 10;
@@ -7105,13 +7111,13 @@ inline void Region::clear_neighborcount() {
   neighborcount_ = 0;
 }
 inline ::google::protobuf::int32 Region::neighborcount() const {
-  // @@protoc_insertion_point(field_get:Region.neighborCount)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.neighborCount)
   return neighborcount_;
 }
 inline void Region::set_neighborcount(::google::protobuf::int32 value) {
   
   neighborcount_ = value;
-  // @@protoc_insertion_point(field_set:Region.neighborCount)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.neighborCount)
 }
 
 // repeated int32 neighbors = 11;
@@ -7122,25 +7128,25 @@ inline void Region::clear_neighbors() {
   neighbors_.Clear();
 }
 inline ::google::protobuf::int32 Region::neighbors(int index) const {
-  // @@protoc_insertion_point(field_get:Region.neighbors)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.neighbors)
   return neighbors_.Get(index);
 }
 inline void Region::set_neighbors(int index, ::google::protobuf::int32 value) {
   neighbors_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Region.neighbors)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.neighbors)
 }
 inline void Region::add_neighbors(::google::protobuf::int32 value) {
   neighbors_.Add(value);
-  // @@protoc_insertion_point(field_add:Region.neighbors)
+  // @@protoc_insertion_point(field_add:bwapi.data.Region.neighbors)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Region::neighbors() const {
-  // @@protoc_insertion_point(field_list:Region.neighbors)
+  // @@protoc_insertion_point(field_list:bwapi.data.Region.neighbors)
   return neighbors_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Region::mutable_neighbors() {
-  // @@protoc_insertion_point(field_mutable_list:Region.neighbors)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Region.neighbors)
   return &neighbors_;
 }
 
@@ -7149,13 +7155,13 @@ inline void Region::clear_isaccessible() {
   isaccessible_ = false;
 }
 inline bool Region::isaccessible() const {
-  // @@protoc_insertion_point(field_get:Region.isAccessible)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.isAccessible)
   return isaccessible_;
 }
 inline void Region::set_isaccessible(bool value) {
   
   isaccessible_ = value;
-  // @@protoc_insertion_point(field_set:Region.isAccessible)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.isAccessible)
 }
 
 // bool isHigherGround = 13;
@@ -7163,13 +7169,13 @@ inline void Region::clear_ishigherground() {
   ishigherground_ = false;
 }
 inline bool Region::ishigherground() const {
-  // @@protoc_insertion_point(field_get:Region.isHigherGround)
+  // @@protoc_insertion_point(field_get:bwapi.data.Region.isHigherGround)
   return ishigherground_;
 }
 inline void Region::set_ishigherground(bool value) {
   
   ishigherground_ = value;
-  // @@protoc_insertion_point(field_set:Region.isHigherGround)
+  // @@protoc_insertion_point(field_set:bwapi.data.Region.isHigherGround)
 }
 
 // -------------------------------------------------------------------
@@ -7181,13 +7187,13 @@ inline void Bullet::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::id() const {
-  // @@protoc_insertion_point(field_get:Bullet.id)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.id)
   return id_;
 }
 inline void Bullet::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.id)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.id)
 }
 
 // int32 player = 2;
@@ -7195,13 +7201,13 @@ inline void Bullet::clear_player() {
   player_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::player() const {
-  // @@protoc_insertion_point(field_get:Bullet.player)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.player)
   return player_;
 }
 inline void Bullet::set_player(::google::protobuf::int32 value) {
   
   player_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.player)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.player)
 }
 
 // int32 type = 3;
@@ -7209,13 +7215,13 @@ inline void Bullet::clear_type() {
   type_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::type() const {
-  // @@protoc_insertion_point(field_get:Bullet.type)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.type)
   return type_;
 }
 inline void Bullet::set_type(::google::protobuf::int32 value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.type)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.type)
 }
 
 // int32 source = 4;
@@ -7223,16 +7229,16 @@ inline void Bullet::clear_source() {
   source_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::source() const {
-  // @@protoc_insertion_point(field_get:Bullet.source)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.source)
   return source_;
 }
 inline void Bullet::set_source(::google::protobuf::int32 value) {
   
   source_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.source)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.source)
 }
 
-// .Point position = 5;
+// .bwapi.data.Point position = 5;
 inline bool Bullet::has_position() const {
   return this != internal_default_instance() && position_ != NULL;
 }
@@ -7242,32 +7248,32 @@ inline void Bullet::clear_position() {
   }
   position_ = NULL;
 }
-inline const ::Point& Bullet::_internal_position() const {
+inline const ::bwapi::data::Point& Bullet::_internal_position() const {
   return *position_;
 }
-inline const ::Point& Bullet::position() const {
-  const ::Point* p = position_;
-  // @@protoc_insertion_point(field_get:Bullet.position)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Bullet::position() const {
+  const ::bwapi::data::Point* p = position_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.position)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Bullet::release_position() {
-  // @@protoc_insertion_point(field_release:Bullet.position)
+inline ::bwapi::data::Point* Bullet::release_position() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Bullet.position)
   
-  ::Point* temp = position_;
+  ::bwapi::data::Point* temp = position_;
   position_ = NULL;
   return temp;
 }
-inline ::Point* Bullet::mutable_position() {
+inline ::bwapi::data::Point* Bullet::mutable_position() {
   
   if (position_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     position_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Bullet.position)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Bullet.position)
   return position_;
 }
-inline void Bullet::set_allocated_position(::Point* position) {
+inline void Bullet::set_allocated_position(::bwapi::data::Point* position) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete position_;
@@ -7283,7 +7289,7 @@ inline void Bullet::set_allocated_position(::Point* position) {
     
   }
   position_ = position;
-  // @@protoc_insertion_point(field_set_allocated:Bullet.position)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Bullet.position)
 }
 
 // double angle = 6;
@@ -7291,13 +7297,13 @@ inline void Bullet::clear_angle() {
   angle_ = 0;
 }
 inline double Bullet::angle() const {
-  // @@protoc_insertion_point(field_get:Bullet.angle)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.angle)
   return angle_;
 }
 inline void Bullet::set_angle(double value) {
   
   angle_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.angle)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.angle)
 }
 
 // double velocityX = 7;
@@ -7305,13 +7311,13 @@ inline void Bullet::clear_velocityx() {
   velocityx_ = 0;
 }
 inline double Bullet::velocityx() const {
-  // @@protoc_insertion_point(field_get:Bullet.velocityX)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.velocityX)
   return velocityx_;
 }
 inline void Bullet::set_velocityx(double value) {
   
   velocityx_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.velocityX)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.velocityX)
 }
 
 // double velocityY = 8;
@@ -7319,13 +7325,13 @@ inline void Bullet::clear_velocityy() {
   velocityy_ = 0;
 }
 inline double Bullet::velocityy() const {
-  // @@protoc_insertion_point(field_get:Bullet.velocityY)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.velocityY)
   return velocityy_;
 }
 inline void Bullet::set_velocityy(double value) {
   
   velocityy_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.velocityY)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.velocityY)
 }
 
 // int32 target = 9;
@@ -7333,16 +7339,16 @@ inline void Bullet::clear_target() {
   target_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::target() const {
-  // @@protoc_insertion_point(field_get:Bullet.target)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.target)
   return target_;
 }
 inline void Bullet::set_target(::google::protobuf::int32 value) {
   
   target_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.target)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.target)
 }
 
-// .Point targetPosition = 10;
+// .bwapi.data.Point targetPosition = 10;
 inline bool Bullet::has_targetposition() const {
   return this != internal_default_instance() && targetposition_ != NULL;
 }
@@ -7352,32 +7358,32 @@ inline void Bullet::clear_targetposition() {
   }
   targetposition_ = NULL;
 }
-inline const ::Point& Bullet::_internal_targetposition() const {
+inline const ::bwapi::data::Point& Bullet::_internal_targetposition() const {
   return *targetposition_;
 }
-inline const ::Point& Bullet::targetposition() const {
-  const ::Point* p = targetposition_;
-  // @@protoc_insertion_point(field_get:Bullet.targetPosition)
-  return p != NULL ? *p : *reinterpret_cast<const ::Point*>(
-      &::_Point_default_instance_);
+inline const ::bwapi::data::Point& Bullet::targetposition() const {
+  const ::bwapi::data::Point* p = targetposition_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.targetPosition)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Point*>(
+      &::bwapi::data::_Point_default_instance_);
 }
-inline ::Point* Bullet::release_targetposition() {
-  // @@protoc_insertion_point(field_release:Bullet.targetPosition)
+inline ::bwapi::data::Point* Bullet::release_targetposition() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Bullet.targetPosition)
   
-  ::Point* temp = targetposition_;
+  ::bwapi::data::Point* temp = targetposition_;
   targetposition_ = NULL;
   return temp;
 }
-inline ::Point* Bullet::mutable_targetposition() {
+inline ::bwapi::data::Point* Bullet::mutable_targetposition() {
   
   if (targetposition_ == NULL) {
-    auto* p = CreateMaybeMessage<::Point>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::Point>(GetArenaNoVirtual());
     targetposition_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Bullet.targetPosition)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Bullet.targetPosition)
   return targetposition_;
 }
-inline void Bullet::set_allocated_targetposition(::Point* targetposition) {
+inline void Bullet::set_allocated_targetposition(::bwapi::data::Point* targetposition) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete targetposition_;
@@ -7393,7 +7399,7 @@ inline void Bullet::set_allocated_targetposition(::Point* targetposition) {
     
   }
   targetposition_ = targetposition;
-  // @@protoc_insertion_point(field_set_allocated:Bullet.targetPosition)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Bullet.targetPosition)
 }
 
 // int32 removeTimer = 11;
@@ -7401,13 +7407,13 @@ inline void Bullet::clear_removetimer() {
   removetimer_ = 0;
 }
 inline ::google::protobuf::int32 Bullet::removetimer() const {
-  // @@protoc_insertion_point(field_get:Bullet.removeTimer)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.removeTimer)
   return removetimer_;
 }
 inline void Bullet::set_removetimer(::google::protobuf::int32 value) {
   
   removetimer_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.removeTimer)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.removeTimer)
 }
 
 // bool exists = 12;
@@ -7415,13 +7421,13 @@ inline void Bullet::clear_exists() {
   exists_ = false;
 }
 inline bool Bullet::exists() const {
-  // @@protoc_insertion_point(field_get:Bullet.exists)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.exists)
   return exists_;
 }
 inline void Bullet::set_exists(bool value) {
   
   exists_ = value;
-  // @@protoc_insertion_point(field_set:Bullet.exists)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.exists)
 }
 
 // repeated bool isVisible = 13;
@@ -7432,25 +7438,25 @@ inline void Bullet::clear_isvisible() {
   isvisible_.Clear();
 }
 inline bool Bullet::isvisible(int index) const {
-  // @@protoc_insertion_point(field_get:Bullet.isVisible)
+  // @@protoc_insertion_point(field_get:bwapi.data.Bullet.isVisible)
   return isvisible_.Get(index);
 }
 inline void Bullet::set_isvisible(int index, bool value) {
   isvisible_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Bullet.isVisible)
+  // @@protoc_insertion_point(field_set:bwapi.data.Bullet.isVisible)
 }
 inline void Bullet::add_isvisible(bool value) {
   isvisible_.Add(value);
-  // @@protoc_insertion_point(field_add:Bullet.isVisible)
+  // @@protoc_insertion_point(field_add:bwapi.data.Bullet.isVisible)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
 Bullet::isvisible() const {
-  // @@protoc_insertion_point(field_list:Bullet.isVisible)
+  // @@protoc_insertion_point(field_list:bwapi.data.Bullet.isVisible)
   return isvisible_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
 Bullet::mutable_isvisible() {
-  // @@protoc_insertion_point(field_mutable_list:Bullet.isVisible)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Bullet.isVisible)
   return &isvisible_;
 }
 
@@ -7463,13 +7469,13 @@ inline void Force::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 Force::id() const {
-  // @@protoc_insertion_point(field_get:Force.id)
+  // @@protoc_insertion_point(field_get:bwapi.data.Force.id)
   return id_;
 }
 inline void Force::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:Force.id)
+  // @@protoc_insertion_point(field_set:bwapi.data.Force.id)
 }
 
 // repeated int32 players = 2;
@@ -7480,25 +7486,25 @@ inline void Force::clear_players() {
   players_.Clear();
 }
 inline ::google::protobuf::int32 Force::players(int index) const {
-  // @@protoc_insertion_point(field_get:Force.players)
+  // @@protoc_insertion_point(field_get:bwapi.data.Force.players)
   return players_.Get(index);
 }
 inline void Force::set_players(int index, ::google::protobuf::int32 value) {
   players_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Force.players)
+  // @@protoc_insertion_point(field_set:bwapi.data.Force.players)
 }
 inline void Force::add_players(::google::protobuf::int32 value) {
   players_.Add(value);
-  // @@protoc_insertion_point(field_add:Force.players)
+  // @@protoc_insertion_point(field_add:bwapi.data.Force.players)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
 Force::players() const {
-  // @@protoc_insertion_point(field_list:Force.players)
+  // @@protoc_insertion_point(field_list:bwapi.data.Force.players)
   return players_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 Force::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:Force.players)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Force.players)
   return &players_;
 }
 
@@ -7507,41 +7513,41 @@ inline void Force::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Force::name() const {
-  // @@protoc_insertion_point(field_get:Force.name)
+  // @@protoc_insertion_point(field_get:bwapi.data.Force.name)
   return name_.GetNoArena();
 }
 inline void Force::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:Force.name)
+  // @@protoc_insertion_point(field_set:bwapi.data.Force.name)
 }
 #if LANG_CXX11
 inline void Force::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:Force.name)
+  // @@protoc_insertion_point(field_set_rvalue:bwapi.data.Force.name)
 }
 #endif
 inline void Force::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Force.name)
+  // @@protoc_insertion_point(field_set_char:bwapi.data.Force.name)
 }
 inline void Force::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Force.name)
+  // @@protoc_insertion_point(field_set_pointer:bwapi.data.Force.name)
 }
 inline ::std::string* Force::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:Force.name)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Force.name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Force::release_name() {
-  // @@protoc_insertion_point(field_release:Force.name)
+  // @@protoc_insertion_point(field_release:bwapi.data.Force.name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -7552,14 +7558,14 @@ inline void Force::set_allocated_name(::std::string* name) {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:Force.name)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Force.name)
 }
 
 // -------------------------------------------------------------------
 
 // Game
 
-// .GameData gameData = 1;
+// .bwapi.data.GameData gameData = 1;
 inline bool Game::has_gamedata() const {
   return this != internal_default_instance() && gamedata_ != NULL;
 }
@@ -7569,32 +7575,32 @@ inline void Game::clear_gamedata() {
   }
   gamedata_ = NULL;
 }
-inline const ::GameData& Game::_internal_gamedata() const {
+inline const ::bwapi::data::GameData& Game::_internal_gamedata() const {
   return *gamedata_;
 }
-inline const ::GameData& Game::gamedata() const {
-  const ::GameData* p = gamedata_;
-  // @@protoc_insertion_point(field_get:Game.gameData)
-  return p != NULL ? *p : *reinterpret_cast<const ::GameData*>(
-      &::_GameData_default_instance_);
+inline const ::bwapi::data::GameData& Game::gamedata() const {
+  const ::bwapi::data::GameData* p = gamedata_;
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.gameData)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::GameData*>(
+      &::bwapi::data::_GameData_default_instance_);
 }
-inline ::GameData* Game::release_gamedata() {
-  // @@protoc_insertion_point(field_release:Game.gameData)
+inline ::bwapi::data::GameData* Game::release_gamedata() {
+  // @@protoc_insertion_point(field_release:bwapi.data.Game.gameData)
   
-  ::GameData* temp = gamedata_;
+  ::bwapi::data::GameData* temp = gamedata_;
   gamedata_ = NULL;
   return temp;
 }
-inline ::GameData* Game::mutable_gamedata() {
+inline ::bwapi::data::GameData* Game::mutable_gamedata() {
   
   if (gamedata_ == NULL) {
-    auto* p = CreateMaybeMessage<::GameData>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::bwapi::data::GameData>(GetArenaNoVirtual());
     gamedata_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:Game.gameData)
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.gameData)
   return gamedata_;
 }
-inline void Game::set_allocated_gamedata(::GameData* gamedata) {
+inline void Game::set_allocated_gamedata(::bwapi::data::GameData* gamedata) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete gamedata_;
@@ -7610,156 +7616,156 @@ inline void Game::set_allocated_gamedata(::GameData* gamedata) {
     
   }
   gamedata_ = gamedata;
-  // @@protoc_insertion_point(field_set_allocated:Game.gameData)
+  // @@protoc_insertion_point(field_set_allocated:bwapi.data.Game.gameData)
 }
 
-// repeated .Player players = 2;
+// repeated .bwapi.data.Player players = 2;
 inline int Game::players_size() const {
   return players_.size();
 }
 inline void Game::clear_players() {
   players_.Clear();
 }
-inline ::Player* Game::mutable_players(int index) {
-  // @@protoc_insertion_point(field_mutable:Game.players)
+inline ::bwapi::data::Player* Game::mutable_players(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.players)
   return players_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Player >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Player >*
 Game::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:Game.players)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Game.players)
   return &players_;
 }
-inline const ::Player& Game::players(int index) const {
-  // @@protoc_insertion_point(field_get:Game.players)
+inline const ::bwapi::data::Player& Game::players(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.players)
   return players_.Get(index);
 }
-inline ::Player* Game::add_players() {
-  // @@protoc_insertion_point(field_add:Game.players)
+inline ::bwapi::data::Player* Game::add_players() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Game.players)
   return players_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Player >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Player >&
 Game::players() const {
-  // @@protoc_insertion_point(field_list:Game.players)
+  // @@protoc_insertion_point(field_list:bwapi.data.Game.players)
   return players_;
 }
 
-// repeated .Unit units = 3;
+// repeated .bwapi.data.Unit units = 3;
 inline int Game::units_size() const {
   return units_.size();
 }
 inline void Game::clear_units() {
   units_.Clear();
 }
-inline ::Unit* Game::mutable_units(int index) {
-  // @@protoc_insertion_point(field_mutable:Game.units)
+inline ::bwapi::data::Unit* Game::mutable_units(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.units)
   return units_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Unit >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Unit >*
 Game::mutable_units() {
-  // @@protoc_insertion_point(field_mutable_list:Game.units)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Game.units)
   return &units_;
 }
-inline const ::Unit& Game::units(int index) const {
-  // @@protoc_insertion_point(field_get:Game.units)
+inline const ::bwapi::data::Unit& Game::units(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.units)
   return units_.Get(index);
 }
-inline ::Unit* Game::add_units() {
-  // @@protoc_insertion_point(field_add:Game.units)
+inline ::bwapi::data::Unit* Game::add_units() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Game.units)
   return units_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Unit >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Unit >&
 Game::units() const {
-  // @@protoc_insertion_point(field_list:Game.units)
+  // @@protoc_insertion_point(field_list:bwapi.data.Game.units)
   return units_;
 }
 
-// repeated .Region regions = 4;
+// repeated .bwapi.data.Region regions = 4;
 inline int Game::regions_size() const {
   return regions_.size();
 }
 inline void Game::clear_regions() {
   regions_.Clear();
 }
-inline ::Region* Game::mutable_regions(int index) {
-  // @@protoc_insertion_point(field_mutable:Game.regions)
+inline ::bwapi::data::Region* Game::mutable_regions(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.regions)
   return regions_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Region >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Region >*
 Game::mutable_regions() {
-  // @@protoc_insertion_point(field_mutable_list:Game.regions)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Game.regions)
   return &regions_;
 }
-inline const ::Region& Game::regions(int index) const {
-  // @@protoc_insertion_point(field_get:Game.regions)
+inline const ::bwapi::data::Region& Game::regions(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.regions)
   return regions_.Get(index);
 }
-inline ::Region* Game::add_regions() {
-  // @@protoc_insertion_point(field_add:Game.regions)
+inline ::bwapi::data::Region* Game::add_regions() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Game.regions)
   return regions_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Region >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Region >&
 Game::regions() const {
-  // @@protoc_insertion_point(field_list:Game.regions)
+  // @@protoc_insertion_point(field_list:bwapi.data.Game.regions)
   return regions_;
 }
 
-// repeated .Bullet bullets = 5;
+// repeated .bwapi.data.Bullet bullets = 5;
 inline int Game::bullets_size() const {
   return bullets_.size();
 }
 inline void Game::clear_bullets() {
   bullets_.Clear();
 }
-inline ::Bullet* Game::mutable_bullets(int index) {
-  // @@protoc_insertion_point(field_mutable:Game.bullets)
+inline ::bwapi::data::Bullet* Game::mutable_bullets(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.bullets)
   return bullets_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Bullet >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Bullet >*
 Game::mutable_bullets() {
-  // @@protoc_insertion_point(field_mutable_list:Game.bullets)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Game.bullets)
   return &bullets_;
 }
-inline const ::Bullet& Game::bullets(int index) const {
-  // @@protoc_insertion_point(field_get:Game.bullets)
+inline const ::bwapi::data::Bullet& Game::bullets(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.bullets)
   return bullets_.Get(index);
 }
-inline ::Bullet* Game::add_bullets() {
-  // @@protoc_insertion_point(field_add:Game.bullets)
+inline ::bwapi::data::Bullet* Game::add_bullets() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Game.bullets)
   return bullets_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Bullet >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Bullet >&
 Game::bullets() const {
-  // @@protoc_insertion_point(field_list:Game.bullets)
+  // @@protoc_insertion_point(field_list:bwapi.data.Game.bullets)
   return bullets_;
 }
 
-// repeated .Force forces = 6;
+// repeated .bwapi.data.Force forces = 6;
 inline int Game::forces_size() const {
   return forces_.size();
 }
 inline void Game::clear_forces() {
   forces_.Clear();
 }
-inline ::Force* Game::mutable_forces(int index) {
-  // @@protoc_insertion_point(field_mutable:Game.forces)
+inline ::bwapi::data::Force* Game::mutable_forces(int index) {
+  // @@protoc_insertion_point(field_mutable:bwapi.data.Game.forces)
   return forces_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Force >*
+inline ::google::protobuf::RepeatedPtrField< ::bwapi::data::Force >*
 Game::mutable_forces() {
-  // @@protoc_insertion_point(field_mutable_list:Game.forces)
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Game.forces)
   return &forces_;
 }
-inline const ::Force& Game::forces(int index) const {
-  // @@protoc_insertion_point(field_get:Game.forces)
+inline const ::bwapi::data::Force& Game::forces(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Game.forces)
   return forces_.Get(index);
 }
-inline ::Force* Game::add_forces() {
-  // @@protoc_insertion_point(field_add:Game.forces)
+inline ::bwapi::data::Force* Game::add_forces() {
+  // @@protoc_insertion_point(field_add:bwapi.data.Game.forces)
   return forces_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Force >&
+inline const ::google::protobuf::RepeatedPtrField< ::bwapi::data::Force >&
 Game::forces() const {
-  // @@protoc_insertion_point(field_list:Game.forces)
+  // @@protoc_insertion_point(field_list:bwapi.data.Game.forces)
   return forces_;
 }
 
@@ -7785,6 +7791,8 @@ Game::forces() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace data
+}  // namespace bwapi
 
 // @@protoc_insertion_point(global_scope)
 
