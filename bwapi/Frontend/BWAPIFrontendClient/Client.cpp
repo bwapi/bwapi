@@ -26,10 +26,21 @@ namespace BWAPI
   }
   bool Client::connect()
   {
-    if ( this->connected )
+    if ( protoClient.isConnected() )
     {
       std::cout << "Already connected." << std::endl;
       return true;
+    }
+
+    while (true)
+    {
+      std::cout << "Connecting..." << std::endl;
+      protoClient.lookForServer("x", 0, "x", false);
+      if (protoClient.isConnected())
+      {
+        connected = true;
+        return;
+      }
     }
 
     int serverProcID    = -1;

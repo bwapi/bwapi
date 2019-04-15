@@ -51,7 +51,7 @@ namespace BWAPI
         
     }
 
-    void BWAPI::BWAPIProtoClient::lookForServer(std::string* allocatedbwapiversion, int apiversion, char* bwapiversion, bool tournament)
+    void BWAPI::BWAPIProtoClient::lookForServer(std::string allocatedbwapiversion, int apiversion, std::string bwapiversion, bool tournament)
     {
         if (tcpSocket.connect("127.0.0.1", 8045) != sf::Socket::Done)
         {
@@ -59,7 +59,7 @@ namespace BWAPI
             return;
         }
         bwapi::init::ClientBroadcast broadcast;
-        broadcast.set_allocated_bwapiversion(allocatedbwapiversion);
+        broadcast.set_bwapiversion(allocatedbwapiversion);
         broadcast.set_apiversion(apiversion);
         broadcast.set_bwapiversion(bwapiversion);
         broadcast.set_tournament(tournament);

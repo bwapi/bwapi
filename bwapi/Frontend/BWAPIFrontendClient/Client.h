@@ -3,6 +3,7 @@
 #include <BWAPI/Game.h>
 #include "GameTable.h"
 #include <map>
+#include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
 
 #include <Windows.h>
 
@@ -54,6 +55,9 @@ namespace BWAPI
     std::map<int, RegionData> regions;
     std::map<int, BulletData> bullets;
     std::map<int, ForceData>  forces;
+
+    BWAPIProtoClient protoClient;
+
   };
   extern Client BWAPIClient;
 }
