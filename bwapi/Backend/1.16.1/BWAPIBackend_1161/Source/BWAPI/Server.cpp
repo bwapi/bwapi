@@ -521,7 +521,7 @@ namespace BWAPI
     newGameData->set_remaininglatencytime(data->remainingLatencyTime);
     newGameData->set_elapsedtime(data->elapsedTime);
     //newGameData->set_millisecondsperframe();
-    newGameData->set_averagefps = data->averageFPS;
+    newGameData->set_averagefps(data->averageFPS);
 
     newGameData->set_countdowntimer(data->countdownTimer);
     newGameData->set_ispaused(data->isPaused);
@@ -848,9 +848,9 @@ namespace BWAPI
       auto message = protoClient.getNextMessage();
       if (message.get() == nullptr)
         return;
-      if (message->has_endofqueue)
+      if (message->has_endofqueue())
         return;
-      if (message->has_initbroadcast)
+      if (message->has_initbroadcast())
       {
         //Logic to decide if we want to connect or disconnect is needed,
         //for now, just constructing the server response.

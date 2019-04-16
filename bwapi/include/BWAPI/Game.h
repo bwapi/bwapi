@@ -29,6 +29,12 @@
 #include <BWAPI/Force.h>
 #include <BWAPI/Bullet.h>
 #include <BWAPI/GameType.h>
+#include <BWAPI/Unitset.h>
+#include <BWAPI/Forceset.h>
+#include <BWAPI/Playerset.h>
+#include <BWAPI/Bulletset.h>
+#include <BWAPI/Regionset.h>
+#include <BWAPI/Event.h>
 
 #include "../Frontend/BWAPICore/FPSCounter.h"
 #include "../Frontend/BWAPICore/APMCounter.h"
@@ -1894,7 +1900,7 @@ namespace BWAPI
         int value;
         Unit unit;
 
-        bool operator <(UnitCompare const &other)
+        bool operator <(UnitCompare const &other) const
         {
           return value < other.value;
         }

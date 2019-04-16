@@ -58,6 +58,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Backend/libprotobuf-lite/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
@@ -74,6 +75,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Backend/libprotobuf-lite/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

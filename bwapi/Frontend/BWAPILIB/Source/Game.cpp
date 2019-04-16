@@ -669,7 +669,7 @@ namespace BWAPI
       { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
       { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 }
         };
-    bool Game::hasPowerPrecise(int x, int y, UnitType unitType = UnitTypes::None) const
+    bool Game::hasPowerPrecise(int x, int y, UnitType unitType) const
     {
         if (unitType >= 0 && unitType < UnitTypes::None && (!unitType.requiresPsi() || !unitType.isBuilding()))
             return true;
@@ -1292,6 +1292,7 @@ namespace BWAPI
     bool Game::isLatComEnabled() const
     {
         //return gameData.???
+      return true;
     }
     //----------------------------------------------- GUI ENABLED ----------------------------------------------
     bool Game::isGUIEnabled() const
@@ -1337,7 +1338,7 @@ namespace BWAPI
         return _observers;
     }
     //----------------------------------------------- APM ------------------------------------------------------
-    int Game::getAPM(bool includeSelects = false) const
+    int Game::getAPM(bool includeSelects) const
     {
         return apmCounter.apm(includeSelects);
     }
@@ -1373,7 +1374,7 @@ namespace BWAPI
         return gameData.map.mapHash;
     }
     //----------------------------------------------- CAN RESEARCH ---------------------------------------------
-    bool Game::canResearch(TechType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const
+    bool Game::canResearch(TechType type, Unit unit, bool checkCanIssueCommandType) const
     {
         auto player = getPlayer(gameData.player);
         // Error checking
@@ -1412,7 +1413,7 @@ namespace BWAPI
         return setLastError();
     }
     //----------------------------------------------- CAN UPGRADE ----------------------------------------------
-    bool Game::canUpgrade(UpgradeType type, Unit unit = nullptr, bool checkCanIssueCommandType = true) const
+    bool Game::canUpgrade(UpgradeType type, Unit unit, bool checkCanIssueCommandType) const
     {
         Player player = getPlayer(gameData.player);
         if (!player)
@@ -1457,7 +1458,7 @@ namespace BWAPI
         return gameData.startPositions;
     }
     //----------------------------------------------- CAN BUILD HERE -------------------------------------------
-    bool Game::canBuildHere(TilePosition position, UnitType type, Unit builder = nullptr, bool checkExplored = false) const
+    bool Game::canBuildHere(TilePosition position, UnitType type, Unit builder, bool checkExplored) const
     {
         setLastError(Errors::Unbuildable_Location);
 
@@ -1593,7 +1594,7 @@ namespace BWAPI
         return setLastError();
     }
     //----------------------------------------------- CAN MAKE -------------------------------------------
-    bool Game::canMake(UnitType type, Unit builder = nullptr) const
+    bool Game::canMake(UnitType type, Unit builder) const
     {
         Player player = getPlayer(gameData.player);
         // Error checking
@@ -1853,16 +1854,17 @@ namespace BWAPI
       auto newUnitCommand = std::make_unique<bwapi::command::UnitCommand>();      
       for (auto unit : units)
       {
-        newUnitCommand->add_unitid(unit);
+        newUnitCommand->add_unitid(unit.getID().id);
       }
       newUnitCommand->set_unitcommandtype(command.getType());
-      newUnitCommand->set_targetid(command.getTarget());
+      newUnitCommand->set_targetid(command.getTarget().id);
       newUnitCommand->set_x(command.x);
       newUnitCommand->set_y(command.y);
       newUnitCommand->set_extra(command.extra);
       newCommand->set_allocated_unitcommand(newUnitCommand.release());
       newMessage->set_allocated_command(newCommand.release());
       protoClient.queueMessage(std::move(newMessage));
+      return true;
     }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
     Unitset selectedUnits;
@@ -1891,7 +1893,7 @@ namespace BWAPI
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetAlliance = std::make_unique<bwapi::command::SetAlliance>();
-        newSetAlliance->set_playerid(player->getID());
+        newSetAlliance->set_playerid(player->getID().id);
         newSetAlliance->set_settings(allied ? (alliedVictory ? 2 : 1) : 0);
         newCommand->set_allocated_setalliance(newSetAlliance.release());
         newMessage->set_allocated_command(newCommand.release());
@@ -1911,7 +1913,7 @@ namespace BWAPI
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newCommand = std::make_unique<bwapi::command::Command>();
         auto newSetVision = std::make_unique<bwapi::command::SetVision>();
-        newSetVision->set_playerid(player->getID());
+        newSetVision->set_playerid(player->getID().id);
         newSetVision->set_settings(enabled ? 1 : 0);
         newCommand->set_allocated_setvision(newSetVision.release());
         protoClient.queueMessage(std::move(newMessage));
@@ -1928,5 +1930,5 @@ namespace BWAPI
         newCommand->set_allocated_setcommandoptimizationlevel(newSetCommandOptimizationLevel.release());
         newMessage->set_allocated_command(newCommand.release());
     }
-
+}
 
