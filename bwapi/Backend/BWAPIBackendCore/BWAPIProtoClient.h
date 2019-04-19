@@ -12,7 +12,6 @@ namespace BWAPI
     {
     public:
         BWAPIProtoClient();
-        ~BWAPIProtoClient();
 
         void checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion);
         void lookForServer(std::string allocatedbwapiversion, int apiversion, std::string bwapiversion, bool tournament);

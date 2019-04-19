@@ -79,14 +79,14 @@ namespace BWAPI
         }
         packet >> packetContents;
         message.ParseFromString(packetContents);
-        if (!message.has_initresponse)
+        if (!message.has_initresponse())
         {
             std::fprintf(stderr, "Unexpected server response.");
             tcpSocket.disconnect();
             return;
         }
         //What are we going to do with this?
-        bwapi::init::ServerResponse serverResponse = message.initresponse;
+        bwapi::init::ServerResponse serverResponse = message.initresponse();
         //we are technically connected.
     }
 
@@ -168,8 +168,8 @@ namespace BWAPI
 
     std::unique_ptr<bwapi::message::Message> BWAPIProtoClient::getNextMessage()
     {
-      if (!messageQueue.size())
-        return std::make_unique<bwapi::message::Message>(nullptr);
+      //if (!messageQueue.size())
+      //  return std::make_unique<bwapi::message::Message>(nullptr);
       auto nextMessage = std::move(messageQueue.front());
       messageQueue.pop_front();
       return nextMessage;
