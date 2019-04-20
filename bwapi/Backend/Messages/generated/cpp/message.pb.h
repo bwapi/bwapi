@@ -25,11 +25,10 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
 #include "init.pb.h"
 #include "game.pb.h"
 #include "command.pb.h"
@@ -47,7 +46,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_message_2eproto
 namespace bwapi {
 namespace message {
@@ -66,7 +64,7 @@ namespace message {
 
 // ===================================================================
 
-class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.message.Message) */ {
+class Message : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.message.Message) */ {
  public:
   Message();
   virtual ~Message();
@@ -92,7 +90,6 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Message& default_instance();
 
   enum MsgCase {
@@ -128,8 +125,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   Message* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<Message>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const Message& from);
   void MergeFrom(const Message& from);
   void Clear() final;
@@ -140,14 +137,13 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(Message* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -158,7 +154,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -263,7 +259,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   inline bool has_msg() const;
   inline void clear_has_msg();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   union MsgUnion {
     MsgUnion() {}
     ::bwapi::init::ClientBroadcast* initbroadcast_;

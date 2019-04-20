@@ -1,4 +1,5 @@
 syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
 import "init.proto";
 import "game.proto";
 import "command.proto";

@@ -25,12 +25,11 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
-#include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/generated_enum_util.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_error_2eproto 
 
@@ -44,7 +43,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_error_2eproto
 namespace bwapi {
 namespace error {
@@ -72,19 +70,9 @@ const ErrorCode ErrorCode_MIN = NONE;
 const ErrorCode ErrorCode_MAX = REFUSED;
 const int ErrorCode_ARRAYSIZE = ErrorCode_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ErrorCode_descriptor();
-inline const ::std::string& ErrorCode_Name(ErrorCode value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ErrorCode_descriptor(), value);
-}
-inline bool ErrorCode_Parse(
-    const ::std::string& name, ErrorCode* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ErrorCode>(
-    ErrorCode_descriptor(), name, value);
-}
 // ===================================================================
 
-class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.error.Error) */ {
+class Error : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.error.Error) */ {
  public:
   Error();
   virtual ~Error();
@@ -110,7 +98,6 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Error& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -135,8 +122,8 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   Error* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<Error>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const Error& from);
   void MergeFrom(const Error& from);
   void Clear() final;
@@ -147,14 +134,13 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(Error* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -165,7 +151,7 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -194,7 +180,7 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   // @@protoc_insertion_point(class_scope:bwapi.error.Error)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr reason_;
   int code_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -291,10 +277,6 @@ namespace google {
 namespace protobuf {
 
 template <> struct is_proto_enum< ::bwapi::error::ErrorCode> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::bwapi::error::ErrorCode>() {
-  return ::bwapi::error::ErrorCode_descriptor();
-}
 
 }  // namespace protobuf
 }  // namespace google

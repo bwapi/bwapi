@@ -25,12 +25,11 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
-#include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/generated_enum_util.h>
 #include "error.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_init_2eproto 
@@ -45,7 +44,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_init_2eproto
 namespace bwapi {
 namespace init {
@@ -80,19 +78,9 @@ const Protocol Protocol_MIN = PROTOBUF;
 const Protocol Protocol_MAX = PROTOBUF;
 const int Protocol_ARRAYSIZE = Protocol_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Protocol_descriptor();
-inline const ::std::string& Protocol_Name(Protocol value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Protocol_descriptor(), value);
-}
-inline bool Protocol_Parse(
-    const ::std::string& name, Protocol* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Protocol>(
-    Protocol_descriptor(), name, value);
-}
 // ===================================================================
 
-class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.init.ClientBroadcast) */ {
+class ClientBroadcast : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.init.ClientBroadcast) */ {
  public:
   ClientBroadcast();
   virtual ~ClientBroadcast();
@@ -118,7 +106,6 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ClientBroadcast& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -143,8 +130,8 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
   ClientBroadcast* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ClientBroadcast>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ClientBroadcast& from);
   void MergeFrom(const ClientBroadcast& from);
   void Clear() final;
@@ -155,14 +142,13 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ClientBroadcast* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -173,7 +159,7 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -208,7 +194,7 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
   // @@protoc_insertion_point(class_scope:bwapi.init.ClientBroadcast)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr bwapiversion_;
   ::google::protobuf::uint32 apiversion_;
   bool tournament_;
@@ -217,7 +203,7 @@ class ClientBroadcast : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.init.ServerResponse) */ {
+class ServerResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.init.ServerResponse) */ {
  public:
   ServerResponse();
   virtual ~ServerResponse();
@@ -243,7 +229,6 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ServerResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -268,8 +253,8 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
   ServerResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ServerResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ServerResponse& from);
   void MergeFrom(const ServerResponse& from);
   void Clear() final;
@@ -280,14 +265,13 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ServerResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -298,7 +282,7 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -363,7 +347,7 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
   // @@protoc_insertion_point(class_scope:bwapi.init.ServerResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedField<int> supportedprotocols_;
   mutable int _supportedprotocols_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr enginetype_;
@@ -375,7 +359,7 @@ class ServerResponse : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
-class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.init.ClientResolution) */ {
+class ClientResolution : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.init.ClientResolution) */ {
  public:
   ClientResolution();
   virtual ~ClientResolution();
@@ -401,7 +385,6 @@ class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertio
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ClientResolution& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -426,8 +409,8 @@ class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertio
   ClientResolution* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ClientResolution>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ClientResolution& from);
   void MergeFrom(const ClientResolution& from);
   void Clear() final;
@@ -438,14 +421,13 @@ class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertio
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ClientResolution* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -456,7 +438,7 @@ class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertio
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -483,7 +465,7 @@ class ClientResolution : public ::google::protobuf::Message /* @@protoc_insertio
   // @@protoc_insertion_point(class_scope:bwapi.init.ClientResolution)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::error::Error* result_;
   int protocol_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -866,10 +848,6 @@ namespace google {
 namespace protobuf {
 
 template <> struct is_proto_enum< ::bwapi::init::Protocol> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::bwapi::init::Protocol>() {
-  return ::bwapi::init::Protocol_descriptor();
-}
 
 }  // namespace protobuf
 }  // namespace google

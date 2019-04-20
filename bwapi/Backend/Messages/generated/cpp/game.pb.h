@@ -25,11 +25,10 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
 #include "data.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_game_2eproto 
@@ -44,7 +43,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_game_2eproto
 namespace bwapi {
 namespace game {
@@ -67,7 +65,7 @@ namespace game {
 
 // ===================================================================
 
-class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.game.FrameUpdate) */ {
+class FrameUpdate : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.game.FrameUpdate) */ {
  public:
   FrameUpdate();
   virtual ~FrameUpdate();
@@ -93,7 +91,6 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const FrameUpdate& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -118,8 +115,8 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
   FrameUpdate* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<FrameUpdate>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const FrameUpdate& from);
   void MergeFrom(const FrameUpdate& from);
   void Clear() final;
@@ -130,14 +127,13 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(FrameUpdate* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -148,7 +144,7 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -169,14 +165,14 @@ class FrameUpdate : public ::google::protobuf::Message /* @@protoc_insertion_poi
   // @@protoc_insertion_point(class_scope:bwapi.game.FrameUpdate)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::GameData* gamedata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.game.EndOfQueue) */ {
+class EndOfQueue : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.game.EndOfQueue) */ {
  public:
   EndOfQueue();
   virtual ~EndOfQueue();
@@ -202,7 +198,6 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const EndOfQueue& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -227,8 +222,8 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
   EndOfQueue* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<EndOfQueue>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const EndOfQueue& from);
   void MergeFrom(const EndOfQueue& from);
   void Clear() final;
@@ -239,14 +234,13 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(EndOfQueue* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -257,7 +251,7 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -266,7 +260,7 @@ class EndOfQueue : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.game.EndOfQueue)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
 };

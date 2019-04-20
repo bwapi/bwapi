@@ -25,11 +25,10 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
 #include "data.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto 
@@ -44,7 +43,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_event_2eproto
 namespace bwapi {
 namespace event {
@@ -135,7 +133,7 @@ namespace event {
 
 // ===================================================================
 
-class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.MatchStart) */ {
+class MatchStart : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.MatchStart) */ {
  public:
   MatchStart();
   virtual ~MatchStart();
@@ -161,7 +159,6 @@ class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MatchStart& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -186,8 +183,8 @@ class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_poin
   MatchStart* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MatchStart>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MatchStart& from);
   void MergeFrom(const MatchStart& from);
   void Clear() final;
@@ -198,14 +195,13 @@ class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MatchStart* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -216,7 +212,7 @@ class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -225,13 +221,13 @@ class MatchStart : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.event.MatchStart)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.MatchEnd) */ {
+class MatchEnd : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.MatchEnd) */ {
  public:
   MatchEnd();
   virtual ~MatchEnd();
@@ -257,7 +253,6 @@ class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MatchEnd& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -282,8 +277,8 @@ class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(
   MatchEnd* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MatchEnd>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MatchEnd& from);
   void MergeFrom(const MatchEnd& from);
   void Clear() final;
@@ -294,14 +289,13 @@ class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MatchEnd* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -312,7 +306,7 @@ class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -327,14 +321,14 @@ class MatchEnd : public ::google::protobuf::Message /* @@protoc_insertion_point(
   // @@protoc_insertion_point(class_scope:bwapi.event.MatchEnd)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   bool winner_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.MatchFrame) */ {
+class MatchFrame : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.MatchFrame) */ {
  public:
   MatchFrame();
   virtual ~MatchFrame();
@@ -360,7 +354,6 @@ class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MatchFrame& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -385,8 +378,8 @@ class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_poin
   MatchFrame* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MatchFrame>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MatchFrame& from);
   void MergeFrom(const MatchFrame& from);
   void Clear() final;
@@ -397,14 +390,13 @@ class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MatchFrame* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -415,7 +407,7 @@ class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -424,13 +416,13 @@ class MatchFrame : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.event.MatchFrame)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.MenuFrame) */ {
+class MenuFrame : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.MenuFrame) */ {
  public:
   MenuFrame();
   virtual ~MenuFrame();
@@ -456,7 +448,6 @@ class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MenuFrame& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -481,8 +472,8 @@ class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point
   MenuFrame* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MenuFrame>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MenuFrame& from);
   void MergeFrom(const MenuFrame& from);
   void Clear() final;
@@ -493,14 +484,13 @@ class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MenuFrame* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -511,7 +501,7 @@ class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -520,13 +510,13 @@ class MenuFrame : public ::google::protobuf::Message /* @@protoc_insertion_point
   // @@protoc_insertion_point(class_scope:bwapi.event.MenuFrame)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.SendText) */ {
+class SendText : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.SendText) */ {
  public:
   SendText();
   virtual ~SendText();
@@ -552,7 +542,6 @@ class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SendText& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -577,8 +566,8 @@ class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(
   SendText* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<SendText>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const SendText& from);
   void MergeFrom(const SendText& from);
   void Clear() final;
@@ -589,14 +578,13 @@ class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(SendText* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -607,7 +595,7 @@ class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -630,14 +618,14 @@ class SendText : public ::google::protobuf::Message /* @@protoc_insertion_point(
   // @@protoc_insertion_point(class_scope:bwapi.event.SendText)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr text_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.ReceiveText) */ {
+class ReceiveText : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.ReceiveText) */ {
  public:
   ReceiveText();
   virtual ~ReceiveText();
@@ -663,7 +651,6 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ReceiveText& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -688,8 +675,8 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ReceiveText* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ReceiveText>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ReceiveText& from);
   void MergeFrom(const ReceiveText& from);
   void Clear() final;
@@ -700,14 +687,13 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ReceiveText* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -718,7 +704,7 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -753,7 +739,7 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
   // @@protoc_insertion_point(class_scope:bwapi.event.ReceiveText)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr text_;
   ::bwapi::data::Player* player_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -761,7 +747,7 @@ class ReceiveText : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.PlayerLeft) */ {
+class PlayerLeft : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.PlayerLeft) */ {
  public:
   PlayerLeft();
   virtual ~PlayerLeft();
@@ -787,7 +773,6 @@ class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerLeft& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -812,8 +797,8 @@ class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_poin
   PlayerLeft* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<PlayerLeft>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const PlayerLeft& from);
   void MergeFrom(const PlayerLeft& from);
   void Clear() final;
@@ -824,14 +809,13 @@ class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(PlayerLeft* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -842,7 +826,7 @@ class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -863,14 +847,14 @@ class PlayerLeft : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.event.PlayerLeft)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Player* player_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.NukeDetect) */ {
+class NukeDetect : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.NukeDetect) */ {
  public:
   NukeDetect();
   virtual ~NukeDetect();
@@ -896,7 +880,6 @@ class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const NukeDetect& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -921,8 +904,8 @@ class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_poin
   NukeDetect* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<NukeDetect>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const NukeDetect& from);
   void MergeFrom(const NukeDetect& from);
   void Clear() final;
@@ -933,14 +916,13 @@ class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(NukeDetect* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -951,7 +933,7 @@ class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -972,14 +954,14 @@ class NukeDetect : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.event.NukeDetect)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Point* target_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitDiscover) */ {
+class UnitDiscover : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitDiscover) */ {
  public:
   UnitDiscover();
   virtual ~UnitDiscover();
@@ -1005,7 +987,6 @@ class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_po
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitDiscover& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1030,8 +1011,8 @@ class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_po
   UnitDiscover* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitDiscover>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitDiscover& from);
   void MergeFrom(const UnitDiscover& from);
   void Clear() final;
@@ -1042,14 +1023,13 @@ class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitDiscover* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1060,7 +1040,7 @@ class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1081,14 +1061,14 @@ class UnitDiscover : public ::google::protobuf::Message /* @@protoc_insertion_po
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitDiscover)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitEvade) */ {
+class UnitEvade : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitEvade) */ {
  public:
   UnitEvade();
   virtual ~UnitEvade();
@@ -1114,7 +1094,6 @@ class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitEvade& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1139,8 +1118,8 @@ class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point
   UnitEvade* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitEvade>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitEvade& from);
   void MergeFrom(const UnitEvade& from);
   void Clear() final;
@@ -1151,14 +1130,13 @@ class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitEvade* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1169,7 +1147,7 @@ class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1190,14 +1168,14 @@ class UnitEvade : public ::google::protobuf::Message /* @@protoc_insertion_point
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitEvade)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitShow) */ {
+class UnitShow : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitShow) */ {
  public:
   UnitShow();
   virtual ~UnitShow();
@@ -1223,7 +1201,6 @@ class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitShow& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1248,8 +1225,8 @@ class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(
   UnitShow* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitShow>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitShow& from);
   void MergeFrom(const UnitShow& from);
   void Clear() final;
@@ -1260,14 +1237,13 @@ class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitShow* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1278,7 +1254,7 @@ class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1299,14 +1275,14 @@ class UnitShow : public ::google::protobuf::Message /* @@protoc_insertion_point(
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitShow)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitHide) */ {
+class UnitHide : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitHide) */ {
  public:
   UnitHide();
   virtual ~UnitHide();
@@ -1332,7 +1308,6 @@ class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitHide& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1357,8 +1332,8 @@ class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(
   UnitHide* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitHide>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitHide& from);
   void MergeFrom(const UnitHide& from);
   void Clear() final;
@@ -1369,14 +1344,13 @@ class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitHide* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1387,7 +1361,7 @@ class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1408,14 +1382,14 @@ class UnitHide : public ::google::protobuf::Message /* @@protoc_insertion_point(
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitHide)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitCreate) */ {
+class UnitCreate : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitCreate) */ {
  public:
   UnitCreate();
   virtual ~UnitCreate();
@@ -1441,7 +1415,6 @@ class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitCreate& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1466,8 +1439,8 @@ class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_poin
   UnitCreate* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitCreate>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitCreate& from);
   void MergeFrom(const UnitCreate& from);
   void Clear() final;
@@ -1478,14 +1451,13 @@ class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitCreate* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1496,7 +1468,7 @@ class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1517,14 +1489,14 @@ class UnitCreate : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitCreate)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitDestroy) */ {
+class UnitDestroy : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitDestroy) */ {
  public:
   UnitDestroy();
   virtual ~UnitDestroy();
@@ -1550,7 +1522,6 @@ class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_poi
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitDestroy& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1575,8 +1546,8 @@ class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_poi
   UnitDestroy* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitDestroy>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitDestroy& from);
   void MergeFrom(const UnitDestroy& from);
   void Clear() final;
@@ -1587,14 +1558,13 @@ class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_poi
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitDestroy* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1605,7 +1575,7 @@ class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1626,14 +1596,14 @@ class UnitDestroy : public ::google::protobuf::Message /* @@protoc_insertion_poi
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitDestroy)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitMorph) */ {
+class UnitMorph : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitMorph) */ {
  public:
   UnitMorph();
   virtual ~UnitMorph();
@@ -1659,7 +1629,6 @@ class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitMorph& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1684,8 +1653,8 @@ class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point
   UnitMorph* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitMorph>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitMorph& from);
   void MergeFrom(const UnitMorph& from);
   void Clear() final;
@@ -1696,14 +1665,13 @@ class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitMorph* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1714,7 +1682,7 @@ class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1735,14 +1703,14 @@ class UnitMorph : public ::google::protobuf::Message /* @@protoc_insertion_point
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitMorph)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitRenegade) */ {
+class UnitRenegade : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitRenegade) */ {
  public:
   UnitRenegade();
   virtual ~UnitRenegade();
@@ -1768,7 +1736,6 @@ class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_po
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitRenegade& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1793,8 +1760,8 @@ class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_po
   UnitRenegade* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitRenegade>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitRenegade& from);
   void MergeFrom(const UnitRenegade& from);
   void Clear() final;
@@ -1805,14 +1772,13 @@ class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitRenegade* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1823,7 +1789,7 @@ class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1844,14 +1810,14 @@ class UnitRenegade : public ::google::protobuf::Message /* @@protoc_insertion_po
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitRenegade)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.SaveGame) */ {
+class SaveGame : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.SaveGame) */ {
  public:
   SaveGame();
   virtual ~SaveGame();
@@ -1877,7 +1843,6 @@ class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SaveGame& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1902,8 +1867,8 @@ class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(
   SaveGame* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<SaveGame>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const SaveGame& from);
   void MergeFrom(const SaveGame& from);
   void Clear() final;
@@ -1914,14 +1879,13 @@ class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(SaveGame* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1932,7 +1896,7 @@ class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1955,14 +1919,14 @@ class SaveGame : public ::google::protobuf::Message /* @@protoc_insertion_point(
   // @@protoc_insertion_point(class_scope:bwapi.event.SaveGame)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr text_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.UnitComplete) */ {
+class UnitComplete : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.UnitComplete) */ {
  public:
   UnitComplete();
   virtual ~UnitComplete();
@@ -1988,7 +1952,6 @@ class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_po
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnitComplete& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -2013,8 +1976,8 @@ class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_po
   UnitComplete* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UnitComplete>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UnitComplete& from);
   void MergeFrom(const UnitComplete& from);
   void Clear() final;
@@ -2025,14 +1988,13 @@ class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UnitComplete* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -2043,7 +2005,7 @@ class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -2064,14 +2026,14 @@ class UnitComplete : public ::google::protobuf::Message /* @@protoc_insertion_po
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitComplete)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::bwapi::data::Unit* unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:bwapi.event.Event) */ {
+class Event : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.event.Event) */ {
  public:
   Event();
   virtual ~Event();
@@ -2097,7 +2059,6 @@ class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Event& default_instance();
 
   enum EventCase {
@@ -2144,8 +2105,8 @@ class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   Event* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<Event>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const Event& from);
   void MergeFrom(const Event& from);
   void Clear() final;
@@ -2156,14 +2117,13 @@ class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(Event* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -2174,7 +2134,7 @@ class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -2422,7 +2382,7 @@ class Event : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   inline bool has_event() const;
   inline void clear_has_event();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   union EventUnion {
     EventUnion() {}
     ::bwapi::event::MatchStart* matchstart_;

@@ -59,7 +59,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BWAPIBackendCore.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;BWAPIBackendCore.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +130,9 @@ popd</Command>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Util\Util.vcxproj">
       <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libprotobuf-lite\libprotobuf-lite.vcxproj">
+      <Project>{fb5da788-0a09-3724-85d8-f80903ad1474}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Storm\Storm.vcxproj">
       <Project>{08c0c784-f586-4caa-8951-8adf1586c0e9}</Project>
