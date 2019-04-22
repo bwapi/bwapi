@@ -62,7 +62,7 @@
       <ProgramDataBaseFileName>$(OutDir)BWAPILib.pdb</ProgramDataBaseFileName>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <PreLinkEvent>
@@ -128,7 +128,7 @@ COPY /y "$(OutDir)BWAPILib.pdb" "$(SolutionDir)\lib\BWAPILib.pdb"
       <ProgramDataBaseFileName>$(OutDir)BWAPILibd.pdb</ProgramDataBaseFileName>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
     </ClCompile>
     <PreLinkEvent>
