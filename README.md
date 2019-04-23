@@ -38,7 +38,7 @@ AI tournaments). Changed defaults will be advertised when the match begins.
 
 ## Quick Start {#quick-start}
 1. Installation
-   1. Install **Visual Studio 2013**
+   1. Install **Visual Studio 2017**
    2. Install **StarCraft: Brood War**
    3. Update **StarCraft: Brood War** to `1.16.1`
    4. Install **BWAPI**
