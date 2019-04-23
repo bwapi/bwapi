@@ -25,7 +25,7 @@ namespace BWAPI
     int unitIndex;
     int searchValue;
   };
-  struct GameData
+  /*struct GameData
   {
     //revision and debug will stay at the top of struct so they don't move in memory from revision to revision.
     int client_version;
@@ -160,5 +160,5 @@ namespace BWAPI
     int unitSearchSize;
     unitFinder xUnitSearch[1700*2];
     unitFinder yUnitSearch[1700*2];
-  };
+  };*/
 }
