@@ -6,10 +6,11 @@
 using namespace BWAPI;
 
 Client client;
-Game broodwar;
+
 
 int main()
 {
+  Game broodwar;
   std::cout << "Connecting..." << std::endl;
   client.connect();
   while (true)

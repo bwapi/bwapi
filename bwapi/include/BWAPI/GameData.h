@@ -51,7 +51,7 @@ namespace BWAPI
 
     std::vector<RegionID> regions;
 
-    PlayerID player;
+    PlayerID player = PlayerID::None;
 
     Position screenSize;
     Position screenPosition;

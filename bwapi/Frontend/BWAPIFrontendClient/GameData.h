@@ -7,7 +7,6 @@
 #include "UnitData.h"
 #include "BulletData.h"
 #include "Event.h"
-#include "Command.h"
 #include "Shape.h"
 namespace BWAPIC
 {
@@ -77,8 +76,8 @@ namespace BWAPI4
     // user input
     int mouseX;
     int mouseY;
-    bool mouseState[M_MAX];
-    bool keyState[K_MAX];
+    //bool mouseState[M_MAX];
+    //bool keyState[K_MAX];
     int screenX;
     int screenY;
 
@@ -151,9 +150,6 @@ namespace BWAPI4
     //shapes, commands, unitCommands, from client to server
     int shapeCount;
     BWAPIC::Shape shapes[MAX_SHAPES];
-
-    int commandCount;
-    BWAPIC::Command commands[MAX_COMMANDS];
 
     int unitCommandCount;
     BWAPIC::UnitCommand unitCommands[MAX_UNIT_COMMANDS];
