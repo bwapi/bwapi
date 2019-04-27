@@ -12,7 +12,10 @@ int main()
 {
   Game broodwar;
   std::cout << "Connecting..." << std::endl;
-  client.connect();
+  while (!client.connect())
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
+  }
   while (true)
   {
     client.update(broodwar);
