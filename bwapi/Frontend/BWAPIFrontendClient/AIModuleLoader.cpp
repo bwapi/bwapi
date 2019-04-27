@@ -6,7 +6,8 @@
 
 #include <Windows.h>
 
-#include <BWAPI/Client.h>
+#include "Client.h"
+//#include <BWAPI/Client.h>
 #include <BWAPI.h>
 
 // This is just a repurposed AIModuleLoader
@@ -26,7 +27,7 @@ bool BWAPI::ProcessEvents(Game& game, AIModule& client)
 
   while ( !Broodwar->isInGame() )
   {
-    BWAPIClient.update();
+    BWAPIClient.update(game);
     if (!BWAPIClient.isConnected())
     {
       reconnect();
@@ -41,68 +42,69 @@ bool BWAPI::ProcessEvents(Game& game, AIModule& client)
       switch (et)
       {
         case EventType::MatchStart:
-          client->onStart();
+          client.onStart();
           break;
         case EventType::MatchEnd:
-          client->onEnd(e->isWinner());
+          client.onEnd(e->isWinner());
           break;
         case EventType::MatchFrame:
-          client->onFrame();
+          client.onFrame();
           break;
         case EventType::MenuFrame:
           break;
         case EventType::SendText:
-          client->onSendText(e->getText());
+          client.onSendText(e->getText());
           break;
         case EventType::ReceiveText:
-          client->onReceiveText(e->getPlayer(), e->getText());
+          client.onReceiveText(e->getPlayer(), e->getText());
           break;
         case EventType::PlayerLeft:
-          client->onPlayerLeft(e->getPlayer());
+          client.onPlayerLeft(e->getPlayer());
           break;
         case EventType::NukeDetect:
-          client->onNukeDetect(e->getPosition());
+          client.onNukeDetect(e->getPosition());
           break;
         case EventType::UnitDiscover:
-          client->onUnitDiscover(e->getUnit());
+          client.onUnitDiscover(e->getUnit());
           break;
         case EventType::UnitEvade:
-          client->onUnitEvade(e->getUnit());
+          client.onUnitEvade(e->getUnit());
           break;
         case EventType::UnitShow:
-          client->onUnitShow(e->getUnit());
+          client.onUnitShow(e->getUnit());
           break;
         case EventType::UnitHide:
-          client->onUnitHide(e->getUnit());
+          client.onUnitHide(e->getUnit());
           break;
         case EventType::UnitCreate:
-          client->onUnitCreate(e->getUnit());
+          client.onUnitCreate(e->getUnit());
           break;
         case EventType::UnitDestroy:
-          client->onUnitDestroy(e->getUnit());
+          client.onUnitDestroy(e->getUnit());
           break;
         case EventType::UnitMorph:
-          client->onUnitMorph(e->getUnit());
+          client.onUnitMorph(e->getUnit());
           break;
         case EventType::UnitRenegade:
-          client->onUnitRenegade(e->getUnit());
+          client.onUnitRenegade(e->getUnit());
           break;
         case EventType::SaveGame:
-          client->onSaveGame(e->getText());
+          client.onSaveGame(e->getText());
           break;
         case EventType::UnitComplete:
-          client->onUnitComplete(e->getUnit());
+          client.onUnitComplete(e->getUnit());
           break;
         default:
           break;
       }
     }
-    BWAPI::BWAPIClient.update();
+    BWAPI::BWAPIClient.update(game);
     if (!BWAPI::BWAPIClient.isConnected())
     {
       std::cout << "Reconnecting..." << std::endl;
       reconnect();
     }
   }
+  return true;
 }
 

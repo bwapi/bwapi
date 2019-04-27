@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="AIModuleLoader.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="GameImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -120,6 +119,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)/include;$(SolutionDir)/Backend/libprotobuf-lite/src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -44,17 +44,17 @@ namespace BWAPI
 
     bool connected = false;
 
-    void bwapi4To5(BWAPI4::PlayerData& oldData, PlayerData& newData);
-    void bwapi4To5(BWAPI4::UnitData& oldData, UnitData& newData);
-    void bwapi4To5(BWAPI4::RegionData& oldData, RegionData& newData);
-    void bwapi4To5(BWAPI4::BulletData& oldData, BulletData& newData);
-    void bwapi4To5(BWAPI4::ForceData& oldData, ForceData& newData);
+    std::set<PlayerData, IDCompare> players;
+    std::set<UnitData, IDCompare> units;
+    std::set<RegionData, IDCompare> regions;
+    std::set<BulletData, IDCompare> bullets;
+    std::set<ForceData, IDCompare> forces;
 
-    std::map<int, PlayerData> players;
+    /*std::map<int, PlayerData> players;
     std::map<int, UnitData>   units;
     std::map<int, RegionData> regions;
     std::map<int, BulletData> bullets;
-    std::map<int, ForceData>  forces;
+    std::map<int, ForceData>  forces;*/
 
     BWAPIProtoClient protoClient;
 

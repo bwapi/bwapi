@@ -91,6 +91,11 @@ namespace BWAPI {
     {
       return Lhs::IdT{ lhs } < Rhs::IdT{ rhs };
     }
+    template<typename T>
+    auto operator()(T const &lhs, T const &rhs) const
+    {
+      return IDCompare{}(lhs.id, rhs.id);
+    }
   };
 } // namespace BWAPI
 
