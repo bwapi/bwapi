@@ -41,6 +41,7 @@
 #include "../Backend/Messages/generated/cpp/message.pb.h"
 #include "../Frontend/BWAPIFrontendClient/Convenience.h"
 #include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
+//#include "../Frontend/BWAPIFrontendClient/Client.h"
 
 
 namespace BWAPI
@@ -62,6 +63,8 @@ namespace BWAPI
   class Unitset;
   class UpgradeType;
 
+  class Client;
+
   /// <summary>The abstract Game class is implemented by BWAPI and is the primary means of obtaining all
   /// game state information from Starcraft Broodwar.</summary> Game state information includes all units,
   /// resources, players, forces, bullets, terrain, fog of war, regions, etc.
@@ -71,6 +74,8 @@ namespace BWAPI
   public:
     Game &operator=(Game const &other) = delete;
     Game &operator=(Game &&other) = delete;
+
+    Game(Client& newClient);
 
     UnitData const *getUnitData(UnitID unit) const
     {
@@ -1844,21 +1849,12 @@ namespace BWAPI
     }
 
     GameData gameData;
-    FPSCounter fpsCounter;
-    APMCounter apmCounter;
+
+    Client& client;
     BWAPIProtoClient protoClient;
     
+    Unitset const &getUnits(Player player) const;
 
-    Unitset pylons;
-    Text::Size::Enum textSize = Text::Size::Default;
-
-    // We can't include bwapi sets here because they depend on Game
-    std::set<Player, IDCompare> players;
-    std::set<Unit,   IDCompare> units;
-    decltype(units)             initialUnits;
-    std::set<Region, IDCompare> regions;
-    std::set<Bullet, IDCompare> bullets;
-    std::set<Force,  IDCompare> forces;
 
     private:
       template <typename Fn>
@@ -1906,9 +1902,24 @@ namespace BWAPI
         }
       };
 
+      FPSCounter fpsCounter;
+      APMCounter apmCounter;
+
+      Unitset pylons;
+      Text::Size::Enum textSize = Text::Size::Default;
+
+      // We can't include bwapi sets here because they depend on Game
+      std::set<Player, IDCompare> players;
+      std::set<Unit, IDCompare> units;
+      decltype(units)             initialUnits;
+      std::set<Region, IDCompare> regions;
+      std::set<Bullet, IDCompare> bullets;
+      std::set<Force, IDCompare> forces;
+
       // TODO: Populate these each onFrame
       std::multiset<UnitCompare> unitFinderX;
       std::multiset<UnitCompare> unitFinderY;
+      std::map<Player, Unitset> playerUnits;
   };
 }
 

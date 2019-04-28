@@ -10,7 +10,7 @@
 
 namespace BWAPI
 {
-  Client BWAPIClient;
+  //Client BWAPIClient;
   Client::Client()
     : pipeObjectHandle(INVALID_HANDLE_VALUE)
     , mapFileHandle(INVALID_HANDLE_VALUE)

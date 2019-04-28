@@ -6,11 +6,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\DevAIModule.h">
-      <Filter>Header FIles</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Header FIles">
       <UniqueIdentifier>{eb1a22b6-9d37-4d6b-aab4-edcd678dfd4d}</UniqueIdentifier>
     </Filter>

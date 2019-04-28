@@ -70,7 +70,7 @@ namespace BWAPI
     ///     // Do something with your units
     ///   }
     /// @endcode
-    Unitset &getUnits() const;
+    Unitset const &getUnits() const;
 
     /// <summary>Retrieves the race of the player.</summary> This allows you to change strategies
     /// against different races, or generalize some commands for yourself.

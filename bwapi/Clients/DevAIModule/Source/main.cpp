@@ -5,20 +5,19 @@
 
 using namespace BWAPI;
 
-Client client;
-
 
 int main()
 {
-  Game broodwar;
+  Client BWAPIClient;
+  Game broodwar(BWAPIClient);
   std::cout << "Connecting..." << std::endl;
-  while (!client.connect())
+  while (!BWAPIClient.connect())
   {
     std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
   }
   while (true)
   {
-    client.update(broodwar);
+    BWAPIClient.update(broodwar);
     std::cout << "waiting to enter match" << std::endl;
   }
   return 1;

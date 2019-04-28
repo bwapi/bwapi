@@ -23,6 +23,10 @@ namespace BWAPI
 {
     using namespace Filter;
 
+    Game::Game(Client& newClient)
+      :client(newClient)
+    { }
+
     //------------------------------------ ETC ------------------------------------------
     Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const {
         return getUnitsOnTile({ tileX, tileY }, pred);
@@ -1929,6 +1933,19 @@ namespace BWAPI
         newSetCommandOptimizationLevel->set_commandoptimizationlevel(level);
         newCommand->set_allocated_setcommandoptimizationlevel(newSetCommandOptimizationLevel.release());
         newMessage->set_allocated_command(newCommand.release());
+    }
+    namespace
+    {
+      Unitset const emptyUnitset;
+    }
+    Unitset const &Game::getUnits(Player player) const
+    {
+      if (auto it = playerUnits.find(player); it != playerUnits.end()) {
+        return it->second;
+      }
+      else {
+        return emptyUnitset;
+      }
     }
 }
 

@@ -5,8 +5,8 @@ namespace BWAPI
     BWAPIProtoClient::BWAPIProtoClient()
     {
         connected = false;
-        tcpListener.listen(8045);
-        socketSelector.add(tcpListener);
+        //tcpListener.listen(10500, "127.0.0.1");
+        //socketSelector.add(tcpListener);
     }
 
     void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)

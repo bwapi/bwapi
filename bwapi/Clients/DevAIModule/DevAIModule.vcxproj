@@ -101,9 +101,9 @@
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\DevAIModule.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\BWAPIBackendCore\BWAPIBackendCore.vcxproj">
+      <Project>{fa39dbc2-7ea3-4a6b-b125-b1f50a5da824}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Frontend\BWAPIFrontendClient\BWAPIFrontendClient.vcxproj">
       <Project>{760e9359-ec46-48f7-ae1d-e238b17c4797}</Project>
     </ProjectReference>

@@ -12,6 +12,10 @@ Force Player::getForce() const
   return getGame().getForce(getData().force);
 }
 
+Unitset const &Player::getUnits() const {
+  return getGame().getUnits(*this);
+}
+
 //--------------------------------------------- MAX ENERGY -------------------------------------------------
 int Player::maxEnergy(UnitType unit) const
 {

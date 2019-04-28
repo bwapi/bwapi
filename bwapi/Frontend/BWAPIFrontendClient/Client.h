@@ -50,14 +50,8 @@ namespace BWAPI
     std::set<BulletData, IDCompare> bullets;
     std::set<ForceData, IDCompare> forces;
 
-    /*std::map<int, PlayerData> players;
-    std::map<int, UnitData>   units;
-    std::map<int, RegionData> regions;
-    std::map<int, BulletData> bullets;
-    std::map<int, ForceData>  forces;*/
-
     BWAPIProtoClient protoClient;
 
   };
-  extern Client BWAPIClient;
+  //static inline Client BWAPIClient;
 }
