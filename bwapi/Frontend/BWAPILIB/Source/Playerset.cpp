@@ -11,7 +11,10 @@ namespace BWAPI
     Unitset retSet;
     for (auto &p : *this)
     {
-      retSet.merge(p->getUnits());
+      for (auto &u : p->getUnits())
+      {
+        retSet.emplace(u);
+      }
     }
     return retSet;
   }
