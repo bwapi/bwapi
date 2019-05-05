@@ -1049,7 +1049,7 @@ namespace BWAPI
       // Error checking
       if ( !BroodwarImpl.self() )
         return BroodwarImpl.setLastError(Errors::Unit_Not_Owned);
-
+        
       if ( thisUnit )
       {
         if (thisUnit->getPlayer() != BroodwarImpl.self())
