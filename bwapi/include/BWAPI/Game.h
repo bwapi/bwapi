@@ -651,10 +651,10 @@ namespace BWAPI
     /// @overload
     bool isBuildable(TilePosition position, bool includeBuildings = false) const {
       return isValid(position) &&
-             gameData.map.isBuildable[position.x][position.y] &&
+             gameData->map.isBuildable[position.x][position.y] &&
              (includeBuildings
                   ? !(isVisible(position) &&
-                      gameData.map.isOccupied[position.x][position.y])
+                      gameData->map.isOccupied[position.x][position.y])
                   : true);
     }
 
@@ -675,7 +675,7 @@ namespace BWAPI
     }
     /// @overload
     bool isVisible(TilePosition position) const {
-      return isValid(position) ? gameData.map.isVisible[position.x][position.y]
+      return isValid(position) ? gameData->map.isVisible[position.x][position.y]
                                : false;
     }
 
@@ -699,7 +699,7 @@ namespace BWAPI
     }
     /// @overload
     bool isExplored(TilePosition position) const {
-      return isValid(position) ? gameData.map.isExplored[position.x][position.y]
+      return isValid(position) ? gameData->map.isExplored[position.x][position.y]
                                : false;
     }
 
@@ -719,7 +719,7 @@ namespace BWAPI
     }
     /// @overload
     bool hasCreep(TilePosition position) const {
-      return isValid(position) ? gameData.map.hasCreep[position.x][position.y]
+      return isValid(position) ? gameData->map.hasCreep[position.x][position.y]
                                : false;
     }
 
@@ -948,31 +948,31 @@ namespace BWAPI
     /// <summary>Checks if the current client is inside a game.</summary>
     ///
     /// @returns true if the client is in a game, and false if it is not.
-    bool isInGame() const { return gameData.isInGame; }
+    bool isInGame() const { return gameData->isInGame; }
 
     /// <summary>Checks if the current client is inside a multiplayer game.</summary>
     ///
     /// @returns true if the client is in a multiplayer game, and false if it is a single player
     /// game, a replay, or some other state.
-    bool isMultiplayer() const { return gameData.isMultiplayer; }
+    bool isMultiplayer() const { return gameData->isMultiplayer; }
 
     /// <summary>Checks if the client is in a game that was created through the Battle.net
     /// multiplayer gaming service.</summary>
     ///
     /// @returns true if the client is in a multiplayer Battle.net game and false if it is not.
-    bool isBattleNet() const { return gameData.isBattleNet; }
+    bool isBattleNet() const { return gameData->isBattleNet; }
 
     /// <summary>Checks if the current game is paused.</summary> While paused, AIModule::onFrame
     /// will still be called.
     ///
     /// @returns true if the game is paused and false otherwise
     /// @see pauseGame, resumeGame
-    bool isPaused() const { return gameData.isPaused; }
+    bool isPaused() const { return gameData->isPaused; }
 
     /// <summary>Checks if the client is watching a replay.</summary>
     ///
     /// @returns true if the client is watching a replay and false otherwise
-    bool isReplay() const { return gameData.isReplay; }
+    bool isReplay() const { return gameData->isReplay; }
 
     /// <summary>Pauses the game.</summary> While paused, AIModule::onFrame will still be called.
     /// @see resumeGame
@@ -1055,7 +1055,7 @@ namespace BWAPI
     ///       BWAPI::Broodwar->sendText("Hello, my name is %s.", BWAPI::Broodwar->self()->getName().c_str());
     ///   }
     /// @endcode
-    Player self() const { return *getPlayerData(gameData.player); }
+    Player self() const { return *getPlayerData(gameData->player); }
 
     /// <summary>Retrieves the Player interface that represents the enemy player.</summary> If
     /// there is more than one enemy, and that enemy is destroyed, then this function will still
@@ -1848,7 +1848,7 @@ namespace BWAPI
       ss.str("");
     }
 
-    GameData gameData;
+    std::unique_ptr<GameData> gameData;
 
     Client& client;
     BWAPIProtoClient protoClient;

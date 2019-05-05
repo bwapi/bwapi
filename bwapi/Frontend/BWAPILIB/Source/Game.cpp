@@ -25,7 +25,9 @@ namespace BWAPI
 
     Game::Game(Client& newClient)
       :client(newClient)
-    { }
+    {
+      gameData = std::make_unique<GameData>();
+    }
 
     //------------------------------------ ETC ------------------------------------------
     Unitset Game::getUnitsOnTile(int tileX, int tileY, const UnitFilter &pred) const {
@@ -707,13 +709,13 @@ namespace BWAPI
     }
     bool Game::isWalkable(BWAPI::WalkPosition position) const
     {
-        return isValid(position) ? gameData.map.isWalkable[position.x][position.y]
+        return isValid(position) ? gameData->map.isWalkable[position.x][position.y]
             : false;
     }
     int Game::getGroundHeight(int tileX, int tileY) const
     {
         if (isValid(TilePosition{ tileX, tileY }))
-            return gameData.map.groundHeight[tileX][tileY];
+            return gameData->map.groundHeight[tileX][tileY];
         else
             return -1; //What should we return for invalid tiles?
     }
@@ -755,29 +757,29 @@ namespace BWAPI
             this->setLastError(BWAPI::Errors::Invalid_Parameter);
             return nullptr;
         }
-        unsigned short idx = gameData.map.mapTileRegionId[x / 32][y / 32];
+        unsigned short idx = gameData->map.mapTileRegionId[x / 32][y / 32];
         if (idx & 0x2000)
         {
             const int minitilePosX = (x & 0x1F) / 8;
             const int minitilePosY = (y & 0x1F) / 8;
             const int minitileShift = minitilePosX + minitilePosY * 4;
             const int index = idx & 0x1FFF;
-            if (index >= std::extent<decltype(gameData.map.mapSplitTilesMiniTileMask)>::value)
+            if (index >= std::extent<decltype(gameData->map.mapSplitTilesMiniTileMask)>::value)
                 return nullptr;
 
-            unsigned short miniTileMask = gameData.map.mapSplitTilesMiniTileMask[index];
+            unsigned short miniTileMask = gameData->map.mapSplitTilesMiniTileMask[index];
 
-            if (index >= std::extent<decltype(gameData.map.mapSplitTilesRegion1)>::value)
+            if (index >= std::extent<decltype(gameData->map.mapSplitTilesRegion1)>::value)
                 return nullptr;
 
             if ((miniTileMask >> minitileShift) & 1)
             {
-                unsigned short rgn2 = gameData.map.mapSplitTilesRegion2[index];
+                unsigned short rgn2 = gameData->map.mapSplitTilesRegion2[index];
                 return this->getRegion(rgn2);
             }
             else
             {
-                unsigned short rgn1 = gameData.map.mapSplitTilesRegion1[index];
+                unsigned short rgn1 = gameData->map.mapSplitTilesRegion1[index];
                 return this->getRegion(rgn1);
             }
         }
@@ -851,7 +853,7 @@ namespace BWAPI
     //------------------------------------------ DRAW BOX -----------------------------------------------
     void Game::drawBox(CoordinateType::Enum ctype, int left, int top, int right, int bottom, Color color, bool isSolid)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -896,7 +898,7 @@ namespace BWAPI
     //------------------------------------------ DRAW TRIANGLE -----------------------------------------------
     void Game::drawTriangle(CoordinateType::Enum ctype, int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -941,7 +943,7 @@ namespace BWAPI
     //------------------------------------------ DRAW CIRCLE -----------------------------------------------
     void Game::drawCircle(CoordinateType::Enum ctype, int x, int y, int radius, Color color, bool isSolid)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -986,7 +988,7 @@ namespace BWAPI
     //------------------------------------------ DRAW ELLIPSE -----------------------------------------------
     void Game::drawEllipse(CoordinateType::Enum ctype, int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -1031,7 +1033,7 @@ namespace BWAPI
     //------------------------------------------ DRAW DOT -----------------------------------------------
     void Game::drawDot(CoordinateType::Enum ctype, int x, int y, Color color)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -1076,7 +1078,7 @@ namespace BWAPI
     //------------------------------------------ DRAW LINE -----------------------------------------------
     void Game::drawLine(CoordinateType::Enum ctype, int x1, int y1, int x2, int y2, Color color)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         auto newMessage = std::make_unique<bwapi::message::Message>();;
         auto newShape = std::make_unique<bwapi::command::Shape>();
         auto newCommand = std::make_unique<bwapi::command::Command>();
@@ -1198,12 +1200,12 @@ namespace BWAPI
     //--------------------------------------------- GET GAME TYPE ----------------------------------------------
     GameType Game::getGameType() const
     {
-        return GameType(gameData.gameType);
+        return GameType(gameData->gameType);
     }
     //--------------------------------------------- GET FRAME COUNT --------------------------------------------
     int Game::getFrameCount() const
     {
-        return gameData.frameCount;
+        return gameData->frameCount;
     }
     //------------------------------------------------ GET FPS -------------------------------------------------
     int Game::getFPS() const
@@ -1218,7 +1220,7 @@ namespace BWAPI
     //------------------------------------------- GET SCREEN POSITION ------------------------------------------
     BWAPI::Position Game::getScreenPosition() const
     {
-        return gameData.screenPosition;
+        return gameData->screenPosition;
     }
     //--------------------------------------------- SET LAST ERROR ---------------------------------------------
     Error lastError;
@@ -1237,52 +1239,52 @@ namespace BWAPI
     //----------------------------------------------- MAP WIDTH ------------------------------------------------
     int Game::mapWidth() const
     {
-        return gameData.map.size.x;
+        return gameData->map.size.x;
     }
     //----------------------------------------------- MAP HEIGHT -----------------------------------------------
     int Game::mapHeight() const
     {
-        return gameData.map.size.y;
+        return gameData->map.size.y;
     }
     //----------------------------------------------- MAP FILE NAME --------------------------------------------
     std::string Game::mapFileName() const
     {
-        return gameData.mapName; //needs a different var?
+        return gameData->mapName; //needs a different var?
     }
     //----------------------------------------------- MAP PATH NAME --------------------------------------------
     std::string Game::mapPathName() const
     {
-        return gameData.mapPath;
+        return gameData->mapPath;
     }
     //----------------------------------------------- MAP NAME -------------------------------------------------
     std::string Game::mapName() const
     {
-        return gameData.mapName;
+        return gameData->mapName;
     }
     //----------------------------------------------- LATENCY FRAMES -------------------------------------------
     int Game::getLatencyFrames() const
     {
-        return gameData.latencyFrames;
+        return gameData->latencyFrames;
     }
     //----------------------------------------------- LATENCY TIME ---------------------------------------------
     int Game::getLatencyTime() const
     {
-        return gameData.latencyTime;
+        return gameData->latencyTime;
     }
     //----------------------------------------------- LATENCY FRAMES REMAINING ---------------------------------
     int Game::getRemainingLatencyFrames() const
     {
-        return gameData.remainingLatencyFrames;
+        return gameData->remainingLatencyFrames;
     }
     //----------------------------------------------- LATENCY TIME REMAINING -----------------------------------
     int Game::getRemainingLatencyTime() const
     {
-        return gameData.remainingLatencyTime;
+        return gameData->remainingLatencyTime;
     }
     //----------------------------------------------- VERSION --------------------------------------------------
     int Game::getClientVersion() const
     {
-        return gameData.apiVersion;
+        return gameData->apiVersion;
     }
     //----------------------------------------------- DEBUG ----------------------------------------------------
     bool Game::isDebug() const
@@ -1295,25 +1297,25 @@ namespace BWAPI
     //----------------------------------------------- LATCOM ENABLED -------------------------------------------
     bool Game::isLatComEnabled() const
     {
-        //return gameData.???
+        //return gameData->???
       return true;
     }
     //----------------------------------------------- GUI ENABLED ----------------------------------------------
     bool Game::isGUIEnabled() const
     {
-        return gameData.hasGUI;
+        return gameData->hasGUI;
     }
     //----------------------------------------------- INSTANCE NUMBER ------------------------------------------
     int Game::getInstanceNumber() const
     {
-        //return gameData.in
+        //return gameData->in
         return 0;
     }
     //----------------------------------------------- ENEMY ----------------------------------------------------
     Player Game::enemy() const
     {
         for (auto p : players)
-            if (p.isEnemy(*getPlayerData(gameData.player)))
+            if (p.isEnemy(*getPlayerData(gameData->player)))
                 return p;
     }
     //----------------------------------------------- NEUTRAL --------------------------------------------------
@@ -1349,12 +1351,12 @@ namespace BWAPI
     //----------------------------------------------- ELAPSED TIME ---------------------------------------------
     int Game::elapsedTime() const
     {
-        return gameData.elapsedTime;
+        return gameData->elapsedTime;
     }
     //----------------------------------------------- COUNTDOWN TIMER ------------------------------------------
     int Game::countdownTimer() const
     {
-        return gameData.countdownTimer;
+        return gameData->countdownTimer;
     }
     //----------------------------------------------- GET ALL REGIONS ------------------------------------------
     Regionset regionsList;
@@ -1365,22 +1367,22 @@ namespace BWAPI
     //----------------------------------------------- LAST EVENT TIME ------------------------------------------
     int Game::getLastEventTime() const
     {
-        return gameData.lastEventTime;
+        return gameData->lastEventTime;
     }
     //----------------------------------------------- RANDOM SEED-----------------------------------------------
     unsigned Game::getRandomSeed() const
     {
-        return std::stoi(gameData.randomSeed);
+        return std::stoi(gameData->randomSeed);
     }
     //----------------------------------------------- MAP HASH -------------------------------------------------
     std::string Game::mapHash() const
     {
-        return gameData.map.mapHash;
+        return gameData->map.mapHash;
     }
     //----------------------------------------------- CAN RESEARCH ---------------------------------------------
     bool Game::canResearch(TechType type, Unit unit, bool checkCanIssueCommandType) const
     {
-        auto player = getPlayer(gameData.player);
+        auto player = getPlayer(gameData->player);
         // Error checking
         if (!player)
             return setLastError(Errors::Unit_Not_Owned);
@@ -1419,7 +1421,7 @@ namespace BWAPI
     //----------------------------------------------- CAN UPGRADE ----------------------------------------------
     bool Game::canUpgrade(UpgradeType type, Unit unit, bool checkCanIssueCommandType) const
     {
-        Player player = getPlayer(gameData.player);
+        Player player = getPlayer(gameData->player);
         if (!player)
             return setLastError(Errors::Unit_Not_Owned);
 
@@ -1459,7 +1461,7 @@ namespace BWAPI
     //----------------------------------------------- START LOCATIONS ------------------------------------------
     const TilePosition::list& Game::getStartLocations() const
     {
-        return gameData.startPositions;
+        return gameData->startPositions;
     }
     //----------------------------------------------- CAN BUILD HERE -------------------------------------------
     bool Game::canBuildHere(TilePosition position, UnitType type, Unit builder, bool checkExplored) const
@@ -1600,7 +1602,7 @@ namespace BWAPI
     //----------------------------------------------- CAN MAKE -------------------------------------------
     bool Game::canMake(UnitType type, Unit builder) const
     {
-        Player player = getPlayer(gameData.player);
+        Player player = getPlayer(gameData->player);
         // Error checking
         setLastError();
         if (!player)
@@ -1778,7 +1780,7 @@ namespace BWAPI
     //-------------------------------------------------- DRAW TEXT ---------------------------------------------
     void Game::vDrawText(CoordinateType::Enum ctype, int x, int y, const char *format, va_list arg)
     {
-        if (!gameData.hasGUI) return;
+        if (!gameData->hasGUI) return;
         char buffer[2048];
         VSNPrintf(buffer, format, arg);
         auto newMessage = std::make_unique<bwapi::message::Message>();;

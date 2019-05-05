@@ -33,8 +33,8 @@ namespace BWAPI
     void onMatchEnd(Game& game);
     void clearAll();
 
-    void initGame(GameData& newData);
-    void updateGame(GameData& newData);
+    void initGame(Game& game);
+    void updateGame(Game& game);
     void initForces(Game& game);
     void initPlayers(Game& game);
     void initInitialUnits(Game& game);

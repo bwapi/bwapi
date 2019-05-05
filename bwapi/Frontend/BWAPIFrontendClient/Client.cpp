@@ -356,7 +356,7 @@ namespace BWAPI
     clearAll();
     wasInGame = true;
 
-    initGame(game.gameData);
+    initGame(game);
 
     initForces(game);
     initPlayers(game);
@@ -420,70 +420,70 @@ namespace BWAPI
     clearAll();
   }
 
-  void Client::initGame(GameData& newData)
+  void Client::initGame(Game& game)
   {
-    // newData.apiVersion = data->apiVersion;
-    // newData.engine = data->engine;
-    // newData.engineVersion = data->engineVersion;
-    // newData.tournament = data->tournament;
+    // game.gameData->apiVersion = data->apiVersion;
+    // game.gameData->engine = data->engine;
+    // game.gameData->engineVersion = data->engineVersion;
+    // game.gameData->tournament = data->tournament;
 
-    newData.gameType = data->gameType;
-    newData.frameCount = data->frameCount;
-    newData.latencyFrames = data->latencyFrames;
-    // newData.turnSize = data->turnSize;
-    // newData.gameSpeed = data->gameSpeed;
-    // newData.frameSkip = data->frameSkip;
-    newData.remainingLatencyFrames = data->remainingLatencyFrames;
+    game.gameData->gameType = data->gameType;
+    game.gameData->frameCount = data->frameCount;
+    game.gameData->latencyFrames = data->latencyFrames;
+    // game.gameData->turnSize = data->turnSize;
+    // game.gameData->gameSpeed = data->gameSpeed;
+    // game.gameData->frameSkip = data->frameSkip;
+    game.gameData->remainingLatencyFrames = data->remainingLatencyFrames;
 
-    // newData.replayVisionPlayers = data->replayVisionPlayers;
+    // game.gameData->replayVisionPlayers = data->replayVisionPlayers;
 
-    newData.remainingLatencyTime = data->remainingLatencyTime;
-    newData.elapsedTime = data->elapsedTime;
-    // newData.millisecondsPerFrame = data->millisecondsPerFrame;
-    newData.averageFPS = data->averageFPS;
+    game.gameData->remainingLatencyTime = data->remainingLatencyTime;
+    game.gameData->elapsedTime = data->elapsedTime;
+    // game.gameData->millisecondsPerFrame = data->millisecondsPerFrame;
+    game.gameData->averageFPS = data->averageFPS;
 
-    newData.countdownTimer = data->countdownTimer;
-    newData.isPaused = data->isPaused;
-    newData.isInGame = data->isInGame;
-    newData.isMultiplayer = data->isMultiplayer;
-    newData.isReplay = data->isReplay;
-    // newData.clientUnitSelection = data->clientUnitSelection;
-    newData.hasGUI = data->hasGUI;
+    game.gameData->countdownTimer = data->countdownTimer;
+    game.gameData->isPaused = data->isPaused;
+    game.gameData->isInGame = data->isInGame;
+    game.gameData->isMultiplayer = data->isMultiplayer;
+    game.gameData->isReplay = data->isReplay;
+    // game.gameData->clientUnitSelection = data->clientUnitSelection;
+    game.gameData->hasGUI = data->hasGUI;
 
-    newData.mapPath = data->mapPathName;
-    newData.mapName = data->mapName;
-    // newData.gameName = data->gameName;
-    newData.randomSeed = data->randomSeed;
+    game.gameData->mapPath = data->mapPathName;
+    game.gameData->mapName = data->mapName;
+    // game.gameData->gameName = data->gameName;
+    game.gameData->randomSeed = data->randomSeed;
 
-    newData.startPositions.clear();
+    game.gameData->startPositions.clear();
     for (int i = 0; i < data->startLocationCount; ++i)
     {
-      newData.startPositions.emplace_back(data->startLocations[i].x, data->startLocations[i].y);
+      game.gameData->startPositions.emplace_back(data->startLocations[i].x, data->startLocations[i].y);
     }
 
-    newData.regions.clear();
+    game.gameData->regions.clear();
     for (int i = 0; i < data->regionCount; ++i)
     {
-      newData.regions.emplace_back(data->regions[i].id);
+      game.gameData->regions.emplace_back(data->regions[i].id);
     }
 
-    newData.player = PlayerID(data->self);
+    game.gameData->player = PlayerID(data->self);
 
-    // newData.screenSize = data->screenSize;
-    newData.screenPosition = Position(data->screenX, data->screenY);
+    // game.gameData->screenSize = data->screenSize;
+    game.gameData->screenPosition = Position(data->screenX, data->screenY);
 
-    newData.map.size = TilePosition(data->mapWidth, data->mapHeight);
-    // newData.map.tileset = data->tileset;
+    game.gameData->map.size = TilePosition(data->mapWidth, data->mapHeight);
+    // game.gameData->map.tileset = data->tileset;
 
-    std::memcpy(newData.map.groundHeight, data->getGroundHeight, sizeof(data->getGroundHeight));
-    std::memcpy(newData.map.isBuildable, data->isBuildable, sizeof(data->isBuildable));
-    std::memcpy(newData.map.isVisible, data->isVisible, sizeof(data->isVisible));
-    std::memcpy(newData.map.isExplored, data->isExplored, sizeof(data->isExplored));
-    std::memcpy(newData.map.hasCreep, data->hasCreep, sizeof(data->hasCreep));
-    std::memcpy(newData.map.isOccupied, data->isOccupied, sizeof(data->isOccupied));
-    std::memcpy(newData.map.isWalkable, data->isWalkable, sizeof(data->isWalkable));
+    std::memcpy(game.gameData->map.groundHeight, data->getGroundHeight, sizeof(data->getGroundHeight));
+    std::memcpy(game.gameData->map.isBuildable, data->isBuildable, sizeof(data->isBuildable));
+    std::memcpy(game.gameData->map.isVisible, data->isVisible, sizeof(data->isVisible));
+    std::memcpy(game.gameData->map.isExplored, data->isExplored, sizeof(data->isExplored));
+    std::memcpy(game.gameData->map.hasCreep, data->hasCreep, sizeof(data->hasCreep));
+    std::memcpy(game.gameData->map.isOccupied, data->isOccupied, sizeof(data->isOccupied));
+    std::memcpy(game.gameData->map.isWalkable, data->isWalkable, sizeof(data->isWalkable));
   }
-  void Client::updateGame(GameData& newData)
+  void Client::updateGame(Game& game)
   {
 
   }
