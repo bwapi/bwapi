@@ -41,7 +41,6 @@
 #include "../Backend/Messages/generated/cpp/message.pb.h"
 #include "../Frontend/BWAPIFrontendClient/Convenience.h"
 #include "../Backend/BWAPIBackendCore/BWAPIProtoClient.h"
-//#include "../Frontend/BWAPIFrontendClient/Client.h"
 
 
 namespace BWAPI

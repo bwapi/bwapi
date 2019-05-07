@@ -13,6 +13,8 @@
 #include <BWAPI/ExplosionType.h>
 #include <BWAPI/WeaponType.h>
 
+#include "../Frontend/BWAPIFrontendClient/Client.h"
+
 #include <cstdarg>
 
 // Needed by other compilers.
@@ -1869,6 +1871,7 @@ namespace BWAPI
       newUnitCommand->set_extra(command.extra);
       newCommand->set_allocated_unitcommand(newUnitCommand.release());
       newMessage->set_allocated_command(newCommand.release());
+      client.isConnected();
       protoClient.queueMessage(std::move(newMessage));
       return true;
     }

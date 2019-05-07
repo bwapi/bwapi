@@ -35,7 +35,7 @@ namespace BWAPI
     while (true)
     {
       std::cout << "Connecting..." << std::endl;
-      protoClient.lookForServer("x", 0, "x", false);
+      protoClient.lookForServer(0, "x", false);
       if (protoClient.isConnected())
       {
         connected = true;

@@ -5,12 +5,13 @@ namespace BWAPI
     BWAPIProtoClient::BWAPIProtoClient()
     {
         connected = false;
-        //tcpListener.listen(10500, "127.0.0.1");
-        //socketSelector.add(tcpListener);
+        //tcpListener.listen(8045, "127.0.0.1");
+        socketSelector.add(tcpListener);
     }
 
     void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)
     {
+      tcpListener.listen(8045, "127.0.0.1");
         if (!socketSelector.isReady(tcpListener))
         {
             return;
@@ -48,46 +49,69 @@ namespace BWAPI
         packet.clear();
         packet << packetContents;
         tcpSocket.send(packet);
-        
+        connected = true;
     }
 
-    void BWAPI::BWAPIProtoClient::lookForServer(std::string allocatedbwapiversion, int apiversion, std::string bwapiversion, bool tournament)
+    void BWAPI::BWAPIProtoClient::lookForServer(int apiversion, std::string bwapiversion, bool tournament)
     {
-        if (tcpSocket.connect("127.0.0.1", 8045) != sf::Socket::Done)
-        {
-            std::fprintf(stderr,"%s", "Could not connect to server.");
-            return;
-        }
-        bwapi::init::ClientBroadcast broadcast;
-        broadcast.set_bwapiversion(allocatedbwapiversion);
-        broadcast.set_apiversion(apiversion);
-        broadcast.set_bwapiversion(bwapiversion);
-        broadcast.set_tournament(tournament);
-        bwapi::message::Message message;
-        message.set_allocated_initbroadcast(&broadcast);
-        std::string packetContents;
-        message.SerializeToString(&packetContents);
-        sf::Packet packet;
-        packet << packetContents;
-        tcpSocket.send(packet);
-
-        if (tcpSocket.receive(packet) != sf::Socket::Done)
-        {
-            std::fprintf(stderr, "%s", "Failed to receive server response.");
-            tcpSocket.disconnect();
-            return;
-        }
-        packet >> packetContents;
-        message.ParseFromString(packetContents);
-        if (!message.has_initresponse())
-        {
-            std::fprintf(stderr, "Unexpected server response.");
-            tcpSocket.disconnect();
-            return;
-        }
-        //What are we going to do with this?
-        bwapi::init::ServerResponse serverResponse = message.initresponse();
-        //we are technically connected.
+      tcpSocket.setBlocking(true);
+      if (tcpSocket.connect("127.0.0.1", 8045) != sf::Socket::Done)
+      {
+          std::fprintf(stderr,"%s", "Could not connect to server.\n");
+          return;
+      }
+      auto broadcast = std::make_unique<bwapi::init::ClientBroadcast>();
+      broadcast->set_apiversion(apiversion);
+      broadcast->set_bwapiversion(bwapiversion);
+      broadcast->set_tournament(tournament);
+      bwapi::message::Message message;
+      message.set_allocated_initbroadcast(broadcast.release());
+      std::string packetContents;
+      message.SerializeToString(&packetContents);
+      sf::Packet packet;
+      packet << packetContents;
+      tcpSocket.send(packet);
+      tcpSocket.setBlocking(true);
+      packet.clear();
+      auto status = tcpSocket.receive(packet);
+      switch (status)
+      {
+      case sf::Socket::Status::Disconnected:
+        std::fprintf(stderr, "%s", "Status: Disconnected.\n");
+        break;
+      case sf::Socket::Status::Done:
+        std::fprintf(stderr, "%s", "Status: Done.\n");
+        break;
+      case sf::Socket::Status::Error:
+        std::fprintf(stderr, "%s", "Status: Error.\n");
+        break;
+      case sf::Socket::Status::NotReady:
+        std::fprintf(stderr, "%s", "Status: Not Ready.\n");
+        break;
+      case sf::Socket::Status::Partial:
+        std::fprintf(stderr, "%s", "Status: Partial.\n");
+        break;
+      default:
+        std::fprintf(stderr, "%s", "Status: Something else.\n");
+        break;
+      }
+      if (status != sf::Socket::Done)
+      {
+          std::fprintf(stderr, "%s", "Failed to receive server response.\n");
+          tcpSocket.disconnect();
+          return;
+      }
+      packet >> packetContents;
+      message.ParseFromString(packetContents);
+      if (!message.has_initresponse())
+      {
+          std::fprintf(stderr, "Unexpected server response.");
+          tcpSocket.disconnect();
+          return;
+      }
+      //What are we going to do with this?
+      bwapi::init::ServerResponse serverResponse = message.initresponse();
+      //we are technically connected.
     }
 
     void BWAPIProtoClient::transmitMessages()

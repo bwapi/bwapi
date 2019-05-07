@@ -237,10 +237,10 @@ namespace BWAPI
     else
     {
       // Update BWAPI DLL
-      BroodwarImpl.processEvents();
+      //BroodwarImpl.processEvents();
 
-      BroodwarImpl.events.clear();
-      if (!BroodwarImpl.startedClient)
+      //BroodwarImpl.events.clear();
+      //if (!BroodwarImpl.startedClient)
         checkForConnections();
     }
     // Reset data going out to client
