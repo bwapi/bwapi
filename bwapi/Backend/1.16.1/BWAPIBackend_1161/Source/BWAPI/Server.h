@@ -1,5 +1,4 @@
 #pragma once
-#include <windows.h>
 
 #include "../../BWAPIBackendCore/BWAPIProtoClient.h"
 
@@ -43,23 +42,20 @@ namespace BWAPI
     int       getUnitID(Unit unit);
     Unit      getUnit(int id) const;
 
-    GameData  *data = nullptr;
+    //std::unique_ptr<GameData> data;
+    GameData* data;
   private:
     void onMatchStart();
     void checkForConnections();
-    void initializeSharedMemory();
-    void updateSharedMemory();
+    void initializeGameData();
+    void updateGameData();
     void callOnFrame();
-    void processCommands();
+    void processMessages();
     void setWaitForResponse(bool wait);
     void receiveData();
     void sendData();
-    void processMessages();
-    std::unique_ptr<bwapi::data::GameData> makeGameDataMessage();
+    //std::unique_ptr<bwapi::data::GameData> makeGameDataMessage();
 
-    HANDLE pipeObjectHandle = nullptr;
-    HANDLE mapFileHandle = nullptr;
-    HANDLE gameTableFileHandle = nullptr;
     GameTable* gameTable = nullptr;
     int gameTableIndex = -1;
     bool connected = false;
@@ -74,9 +70,6 @@ namespace BWAPI
     std::vector<Unit> unitVector;
     std::unordered_map<Unit, int> unitLookup;
 
-    PSID pEveryoneSID = nullptr;
-    PACL pACL = nullptr;
-    PSECURITY_DESCRIPTOR pSD = nullptr;
 
     BWAPIProtoClient protoClient;
   };
