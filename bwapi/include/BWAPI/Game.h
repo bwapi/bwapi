@@ -1850,7 +1850,6 @@ namespace BWAPI
     std::unique_ptr<GameData> gameData;
 
     Client& client;
-    BWAPIProtoClient protoClient;
     
     Unitset const &getUnits(Player player) const;
 

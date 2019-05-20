@@ -19,15 +19,11 @@ namespace BWAPI
     bool isConnected() const;
     bool connect();
     void disconnect();
+    void queueMessage(std::unique_ptr<bwapi::message::Message> message);
     void update(Game& game);
 
     BWAPI4::GameData* data = nullptr;
   private:
-    HANDLE      pipeObjectHandle;
-    HANDLE      mapFileHandle;
-    HANDLE      gameTableFileHandle;
-    GameTable*  gameTable = nullptr;
-
     void onMatchFrame(Game& game);
     void onMatchStart(Game& game);
     void onMatchEnd(Game& game);

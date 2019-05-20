@@ -600,7 +600,7 @@ namespace BWAPI
         newSetScreenPosition->set_y(y);
         newCommand->set_allocated_setscreenposition(newSetScreenPosition.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::setScreenPosition(BWAPI::Position p)
     {
@@ -615,7 +615,7 @@ namespace BWAPI
         newPingMiniMap->set_y(y);
         newCommand->set_allocated_pingminimap(newPingMiniMap.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::pingMinimap(BWAPI::Position p)
     {
@@ -871,7 +871,7 @@ namespace BWAPI
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawBoxMap(int left, int top, int right, int bottom, Color color, bool isSolid)
     {
@@ -916,7 +916,7 @@ namespace BWAPI
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawTriangleMap(int ax, int ay, int bx, int by, int cx, int cy, Color color, bool isSolid)
     {
@@ -961,7 +961,7 @@ namespace BWAPI
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawCircleMap(int x, int y, int radius, Color color, bool isSolid)
     {
@@ -1006,7 +1006,7 @@ namespace BWAPI
         newShape->set_issolid(isSolid);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawEllipseMap(int x, int y, int xrad, int yrad, Color color, bool isSolid)
     {
@@ -1051,7 +1051,7 @@ namespace BWAPI
         newShape->set_issolid(false);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawDotMap(int x, int y, Color color)
     {
@@ -1096,7 +1096,7 @@ namespace BWAPI
         newShape->set_issolid(false);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     void Game::drawLineMap(int x1, int y1, int x2, int y2, Color color)
     {
@@ -1724,7 +1724,7 @@ namespace BWAPI
         newSendText->set_toallies(toAllies);
         newCommand->set_allocated_sendtext(newSendText.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
 
     //------------------------------------------------ PRINTF --------------------------------------------------
@@ -1738,7 +1738,7 @@ namespace BWAPI
         newPrintf->set_text(buffer);
         newCommand->set_allocated_printf(newPrintf.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
 
     //----------------------------------------------- GET UNITS IN RECTANGLE -----------------------------------
@@ -1801,7 +1801,7 @@ namespace BWAPI
         newShape->set_text(buffer);
         newCommand->set_allocated_shape(newShape.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //----------------------------------------------- PAUSE GAME -----------------------------------------------
     void Game::pauseGame()
@@ -1811,7 +1811,7 @@ namespace BWAPI
         auto newPauseGame = std::make_unique<bwapi::command::PauseGame>();
         newCommand->set_allocated_pausegame(newPauseGame.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- RESUME GAME -----------------------------------------------
     void Game::resumeGame()
@@ -1821,7 +1821,7 @@ namespace BWAPI
         auto newResumeGame = std::make_unique<bwapi::command::ResumeGame>();
         newCommand->set_allocated_resumegame(newResumeGame.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- LEAVE GAME ------------------------------------------------
     void Game::leaveGame()
@@ -1831,7 +1831,7 @@ namespace BWAPI
         auto newLeaveGame = std::make_unique<bwapi::command::LeaveGame>();
         newCommand->set_allocated_leavegame(newLeaveGame.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //--------------------------------------------- RESTART GAME -----------------------------------------------
     void Game::restartGame()
@@ -1841,7 +1841,7 @@ namespace BWAPI
         auto newRestartGame = std::make_unique<bwapi::command::RestartGame>();
         newCommand->set_allocated_restartgame(newRestartGame.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //---------------------------------------------- SET GAME SPEED --------------------------------------------
     void Game::setLocalSpeed(int speed)
@@ -1852,7 +1852,7 @@ namespace BWAPI
         newSetLocalSpeed->set_speed(speed);
         newCommand->set_allocated_setlocalspeed(newSetLocalSpeed.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
     }
     //------------------------------------------- ISSUE COMMAND ------------------------------------------------
     bool Game::issueCommand(const Unitset& units, UnitCommand command)
@@ -1872,7 +1872,7 @@ namespace BWAPI
       newCommand->set_allocated_unitcommand(newUnitCommand.release());
       newMessage->set_allocated_command(newCommand.release());
       client.isConnected();
-      protoClient.queueMessage(std::move(newMessage));
+      client.queueMessage(std::move(newMessage));
       return true;
     }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
@@ -1906,7 +1906,7 @@ namespace BWAPI
         newSetAlliance->set_settings(allied ? (alliedVictory ? 2 : 1) : 0);
         newCommand->set_allocated_setalliance(newSetAlliance.release());
         newMessage->set_allocated_command(newCommand.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
         lastError = Errors::None;
         return true;
     }
@@ -1925,7 +1925,7 @@ namespace BWAPI
         newSetVision->set_playerid(player->getID().id);
         newSetVision->set_settings(enabled ? 1 : 0);
         newCommand->set_allocated_setvision(newSetVision.release());
-        protoClient.queueMessage(std::move(newMessage));
+        client.queueMessage(std::move(newMessage));
         return setLastError();
     }
     //----------------------------------------------- SET COMMAND OPTIMIZATION LEVEL ---------------------------

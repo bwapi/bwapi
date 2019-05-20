@@ -3,6 +3,7 @@
 #include<iostream>
 #include<deque>
 #include<SFML\Network.hpp>
+#include<fstream>
 
 #include "..\Messages\generated\cpp\message.pb.h"
 
@@ -17,6 +18,9 @@ namespace BWAPI
         void lookForServer(int apiversion, std::string bwapiversion, bool tournament);
         void transmitMessages();
         void receiveMessages();
+        void disconnect();
+        void initListen();
+        void stopListen();
 
         void queueMessage(std::unique_ptr<bwapi::message::Message> newMessage);
         std::unique_ptr<bwapi::message::Message> getNextMessage();

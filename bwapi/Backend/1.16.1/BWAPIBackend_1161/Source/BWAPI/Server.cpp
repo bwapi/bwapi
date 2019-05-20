@@ -20,6 +20,7 @@ namespace BWAPI
   Server::Server()
   {
     data = new GameData;
+    oldData = new GameData;
     //data = std::make_unique<GameData>();
     initializeGameData();
   }
@@ -27,10 +28,11 @@ namespace BWAPI
   {
     //Do we need to disconect the protoclient here?
     delete data;
+    delete oldData;
   }
   void Server::update()
   {
-    if (connected)
+    if (isConnected())
     {
       // Update BWAPI Client
       updateGameData();
@@ -41,10 +43,13 @@ namespace BWAPI
     {
       checkForConnections();
     }
+    // Reset these variables.
+    data->eventCount = 0;
+    data->stringCount = 0;
   }
   bool Server::isConnected() const
   {
-    return connected;
+    return protoClient.isConnected();
   }
   int Server::addEvent(const BWAPI::Event& e)
   {
@@ -281,10 +286,19 @@ namespace BWAPI
   {
     if (connected || localOnly)
       return;
+    if (!listening)
+    {
+      protoClient.initListen();
+      listening = true;
+    }
     protoClient.checkForConnection(data->client_version, "x", "x");
     if (!protoClient.isConnected())
       return;
-    connected = true;
+    std::ofstream output;
+    output.open("c.txt");
+    output << "I stopped listening." << std::endl;
+    output.close();
+    protoClient.stopListen();
   }
   void Server::initializeGameData()
   {
@@ -305,6 +319,7 @@ namespace BWAPI
     data->mapHash[0] = 0;
     data->hasGUI = true;
     data->hasLatCom = true;
+    *oldData = *data;
     clearAll();
   }
   void Server::updateGameData()
@@ -499,10 +514,40 @@ namespace BWAPI
       BroodwarImpl.isTournamentCall = false;
     }
     BroodwarImpl.events.clear();
+    auto message = std::make_unique<bwapi::message::Message>();
+    auto frameUpdate = std::make_unique<bwapi::game::FrameUpdate>();
+    auto gameData = std::make_unique<bwapi::data::GameData>();
+    //Diff data and oldData
+    if (oldData->gameType != data->gameType)
+      gameData->set_gametype(data->gameType);
+    gameData->set_framecount(data->frameCount);
+    if (oldData->latencyFrames != data->latencyFrames)
+      gameData->set_latencyframes(data->latencyFrames);
+    //turnsize
+    //gamespeed
+    //frameskip
+    if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
+      gameData->set_remaininglatencyframes(data->remainingLatencyFrames);
+    gameData->set_lasteventtime(BroodwarImpl.getLastEventTime());
+    //replayvisionplayers
+    if (oldData->latencyTime != data->latencyTime)
+      gameData->set_latencytime(data->latencyTime);
+    if (oldData->remainingLatencyTime != data->remainingLatencyTime)
+      gameData->set_remaininglatencytime(data->remainingLatencyTime);
+    if (oldData->elapsedTime != data->elapsedTime)
+      gameData->set_elapsedtime(data->elapsedTime);
+
+    gameData->set_isingame(data->isInGame);
+    frameUpdate->set_allocated_gamedata(gameData.release());
+    message->set_allocated_frameupdate(frameUpdate.release());
+    protoClient.queueMessage(std::move(message));
+    *oldData = *data;
   }
   void Server::callOnFrame()
   {
-    //What should we do here?
+    protoClient.transmitMessages();
+    protoClient.receiveMessages();
+    processMessages();
   }
   void Server::processMessages()
   {
@@ -528,10 +573,83 @@ namespace BWAPI
       {
         //proccess command
         auto command = message->command();
-        if (command.has_sendtext())
+        if (command.has_setscreenposition())
         {
           if (BroodwarImpl.isInGame())
-            BroodwarImpl.sendTextEx(command.sendtext().toallies() != 0, "%s", command.sendtext().text());
+            BroodwarImpl.setScreenPosition(command.setscreenposition().x(), command.setscreenposition().y());
+        }
+        else if (command.has_pingminimap())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.pingMinimap(command.pingminimap().x(), command.pingminimap().y());
+        }
+        else if (command.has_printf())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.printf("%s", command.printf().text().c_str());
+        }
+        else if (command.has_sendtext())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.sendTextEx(command.sendtext().toallies() != 0, "%s", command.sendtext().text().c_str());
+        }
+        else if (command.has_pausegame())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.pauseGame();
+        }
+        else if (command.has_resumegame())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.resumeGame();
+        }
+        else if (command.has_leavegame())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.leaveGame();
+        }
+        else if (command.has_restartgame())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.restartGame();
+        }
+        else if (command.has_setlocalspeed())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.setLocalSpeed(command.setlocalspeed().speed());
+        }
+        else if (command.has_setalliance())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.setAlliance(getPlayer(command.setalliance().playerid()),
+                                               command.setalliance().settings() != 0,
+                                               command.setalliance().settings() == 2);
+        }
+        else if (command.has_setvision())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.setVision(getPlayer(command.setvision().playerid()),
+                                             command.setvision().settings() != 0);
+        }
+        else if (command.has_setcommandoptimizationlevel())
+        {
+          if (BroodwarImpl.isInGame())
+            BroodwarImpl.setCommandOptimizationLevel(command.setcommandoptimizationlevel().commandoptimizationlevel());
+        }
+        else if (command.has_unitcommand() && BroodwarImpl.isInGame())
+        {
+          Unit target = nullptr;
+          if (command.unitcommand().targetid() >= 0 && command.unitcommand().targetid() < (int)unitVector.size())
+            target = unitVector[command.unitcommand().targetid()];
+          for (auto unitID : command.unitcommand().unitid())
+          {
+            auto unit = unitVector[unitID];
+            unit->issueCommand(UnitCommand(unit, 
+                                           command.unitcommand().unitcommandtype(),
+                                           target, command.unitcommand().x(),
+                                           command.unitcommand().y(),
+                                           command.unitcommand().extra()));
+          }
         }
       }
     }

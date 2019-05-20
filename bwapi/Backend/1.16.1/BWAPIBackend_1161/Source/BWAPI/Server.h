@@ -44,6 +44,7 @@ namespace BWAPI
 
     //std::unique_ptr<GameData> data;
     GameData* data;
+    GameData* oldData;
   private:
     void onMatchStart();
     void checkForConnections();
@@ -59,6 +60,7 @@ namespace BWAPI
     GameTable* gameTable = nullptr;
     int gameTableIndex = -1;
     bool connected = false;
+    bool listening = false;
     bool localOnly = false;
 
     std::vector<Force> forceVector;

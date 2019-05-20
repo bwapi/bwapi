@@ -10,15 +10,32 @@ int main()
 {
   Client BWAPIClient;
   Game broodwar(BWAPIClient);
+  int i = 0;
   std::cout << "Connecting..." << std::endl;
   while (!BWAPIClient.connect())
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
   }
-  while (true)
+  BWAPIClient.update(broodwar);
+  std::cout << "waiting to enter match" << std::endl;
+  while (BWAPIClient.isConnected())
   {
-    BWAPIClient.update(broodwar);
-    std::cout << "waiting to enter match" << std::endl;
+    while (!broodwar.isInGame())
+    {
+      BWAPIClient.update(broodwar);
+    }
+    std::cout << "Starting match!" << std::endl;
+    while (broodwar.isInGame())
+    {
+      for (auto e : broodwar.getEvents())
+      {
+        switch (e.getType())
+        {
+        default:
+          break;
+        }
+      }
+      BWAPIClient.update(broodwar);
+    }
   }
   return 1;
 }
