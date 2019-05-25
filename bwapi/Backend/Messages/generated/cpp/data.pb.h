@@ -1561,17 +1561,17 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_loadedunits();
 
-  // repeated int32 int32erceptors = 36;
-  int int32erceptors_size() const;
-  void clear_int32erceptors();
-  static const int kInt32ErceptorsFieldNumber = 36;
-  ::google::protobuf::int32 int32erceptors(int index) const;
-  void set_int32erceptors(int index, ::google::protobuf::int32 value);
-  void add_int32erceptors(::google::protobuf::int32 value);
+  // repeated int32 interceptors = 36;
+  int interceptors_size() const;
+  void clear_interceptors();
+  static const int kInterceptorsFieldNumber = 36;
+  ::google::protobuf::int32 interceptors(int index) const;
+  void set_interceptors(int index, ::google::protobuf::int32 value);
+  void add_interceptors(::google::protobuf::int32 value);
   const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      int32erceptors() const;
+      interceptors() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_int32erceptors();
+      mutable_interceptors();
 
   // repeated int32 larva = 37;
   int larva_size() const;
@@ -1584,18 +1584,6 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
       larva() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_larva();
-
-  // repeated bool isVisible = 91;
-  int isvisible_size() const;
-  void clear_isvisible();
-  static const int kIsVisibleFieldNumber = 91;
-  bool isvisible(int index) const;
-  void set_isvisible(int index, bool value);
-  void add_isvisible(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isvisible() const;
-  ::google::protobuf::RepeatedField< bool >*
-      mutable_isvisible();
 
   // .bwapi.data.Point position = 4;
   bool has_position() const;
@@ -1735,11 +1723,11 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 scarabcount() const;
   void set_scarabcount(::google::protobuf::int32 value);
 
-  // int32 int32erceptorCount = 17;
-  void clear_int32erceptorcount();
-  static const int kInt32ErceptorCountFieldNumber = 17;
-  ::google::protobuf::int32 int32erceptorcount() const;
-  void set_int32erceptorcount(::google::protobuf::int32 value);
+  // int32 interceptorCount = 17;
+  void clear_interceptorcount();
+  static const int kInterceptorCountFieldNumber = 17;
+  ::google::protobuf::int32 interceptorcount() const;
+  void set_interceptorcount(::google::protobuf::int32 value);
 
   // int32 spiderMineCount = 18;
   void clear_spiderminecount();
@@ -1855,11 +1843,11 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 remainingbuildtime() const;
   void set_remainingbuildtime(::google::protobuf::int32 value);
 
-  // int32 remainingTraint32ime = 41;
-  void clear_remainingtraint32ime();
-  static const int kRemainingTraint32ImeFieldNumber = 41;
-  ::google::protobuf::int32 remainingtraint32ime() const;
-  void set_remainingtraint32ime(::google::protobuf::int32 value);
+  // int32 remainingTraintime = 41;
+  void clear_remainingtraintime();
+  static const int kRemainingTraintimeFieldNumber = 41;
+  ::google::protobuf::int32 remainingtraintime() const;
+  void set_remainingtraintime(::google::protobuf::int32 value);
 
   // int32 remainingResearchTime = 42;
   void clear_remainingresearchtime();
@@ -2053,11 +2041,11 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool isidle() const;
   void set_isidle(bool value);
 
-  // bool isint32erruptible = 77;
-  void clear_isint32erruptible();
-  static const int kIsint32ErruptibleFieldNumber = 77;
-  bool isint32erruptible() const;
-  void set_isint32erruptible(bool value);
+  // bool isinterruptible = 77;
+  void clear_isinterruptible();
+  static const int kIsinterruptibleFieldNumber = 77;
+  bool isinterruptible() const;
+  void set_isinterruptible(bool value);
 
   // bool isInvincible = 78;
   void clear_isinvincible();
@@ -2137,11 +2125,11 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool ispowered() const;
   void set_ispowered(bool value);
 
-  // bool recentlyAttacked = 97;
-  void clear_recentlyattacked();
-  static const int kRecentlyAttackedFieldNumber = 97;
-  bool recentlyattacked() const;
-  void set_recentlyattacked(bool value);
+  // bool isVisible = 91;
+  void clear_isvisible();
+  static const int kIsVisibleFieldNumber = 91;
+  bool isvisible() const;
+  void set_isvisible(bool value);
 
   // int32 buttonset = 92;
   void clear_buttonset();
@@ -2173,6 +2161,12 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 replayid() const;
   void set_replayid(::google::protobuf::int32 value);
 
+  // bool recentlyAttacked = 97;
+  void clear_recentlyattacked();
+  static const int kRecentlyAttackedFieldNumber = 97;
+  bool recentlyattacked() const;
+  void set_recentlyattacked(bool value);
+
   // @@protoc_insertion_point(class_scope:bwapi.data.Unit)
  private:
 
@@ -2181,12 +2175,10 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   mutable int _trainingqueue_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > loadedunits_;
   mutable int _loadedunits_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > int32erceptors_;
-  mutable int _int32erceptors_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > interceptors_;
+  mutable int _interceptors_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > larva_;
   mutable int _larva_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isvisible_;
-  mutable int _isvisible_cached_byte_size_;
   ::bwapi::data::Point* position_;
   ::bwapi::data::Point* targetposition_;
   ::bwapi::data::Point* ordertargetposition_;
@@ -2206,7 +2198,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 killcount_;
   ::google::protobuf::int32 acidsporecount_;
   ::google::protobuf::int32 scarabcount_;
-  ::google::protobuf::int32 int32erceptorcount_;
+  ::google::protobuf::int32 interceptorcount_;
   ::google::protobuf::int32 spiderminecount_;
   ::google::protobuf::int32 groundweaponcooldown_;
   ::google::protobuf::int32 airweaponcooldown_;
@@ -2226,7 +2218,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 tech_;
   ::google::protobuf::int32 upgrade_;
   ::google::protobuf::int32 remainingbuildtime_;
-  ::google::protobuf::int32 remainingtraint32ime_;
+  ::google::protobuf::int32 remainingtraintime_;
   ::google::protobuf::int32 remainingresearchtime_;
   ::google::protobuf::int32 remainingupgradetime_;
   ::google::protobuf::int32 buildunit_;
@@ -2259,7 +2251,7 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool isgathering_;
   bool ishallucination_;
   bool isidle_;
-  bool isint32erruptible_;
+  bool isinterruptible_;
   bool isinvincible_;
   bool islifted_;
   bool ismorphing_;
@@ -2273,12 +2265,13 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool isunderdarkswarm_;
   bool isunderdweb_;
   bool ispowered_;
-  bool recentlyattacked_;
+  bool isvisible_;
   ::google::protobuf::int32 buttonset_;
   ::google::protobuf::int32 lastcommandframe_;
   ::google::protobuf::int32 lastcommand_;
   ::google::protobuf::int32 lastattackerplayer_;
   ::google::protobuf::int32 replayid_;
+  bool recentlyattacked_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
@@ -5622,18 +5615,18 @@ inline void Unit::set_scarabcount(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.scarabCount)
 }
 
-// int32 int32erceptorCount = 17;
-inline void Unit::clear_int32erceptorcount() {
-  int32erceptorcount_ = 0;
+// int32 interceptorCount = 17;
+inline void Unit::clear_interceptorcount() {
+  interceptorcount_ = 0;
 }
-inline ::google::protobuf::int32 Unit::int32erceptorcount() const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Unit.int32erceptorCount)
-  return int32erceptorcount_;
+inline ::google::protobuf::int32 Unit::interceptorcount() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.interceptorCount)
+  return interceptorcount_;
 }
-inline void Unit::set_int32erceptorcount(::google::protobuf::int32 value) {
+inline void Unit::set_interceptorcount(::google::protobuf::int32 value) {
   
-  int32erceptorcount_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.int32erceptorCount)
+  interceptorcount_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.interceptorCount)
 }
 
 // int32 spiderMineCount = 18;
@@ -5920,34 +5913,34 @@ Unit::mutable_loadedunits() {
   return &loadedunits_;
 }
 
-// repeated int32 int32erceptors = 36;
-inline int Unit::int32erceptors_size() const {
-  return int32erceptors_.size();
+// repeated int32 interceptors = 36;
+inline int Unit::interceptors_size() const {
+  return interceptors_.size();
 }
-inline void Unit::clear_int32erceptors() {
-  int32erceptors_.Clear();
+inline void Unit::clear_interceptors() {
+  interceptors_.Clear();
 }
-inline ::google::protobuf::int32 Unit::int32erceptors(int index) const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Unit.int32erceptors)
-  return int32erceptors_.Get(index);
+inline ::google::protobuf::int32 Unit::interceptors(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.interceptors)
+  return interceptors_.Get(index);
 }
-inline void Unit::set_int32erceptors(int index, ::google::protobuf::int32 value) {
-  int32erceptors_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.int32erceptors)
+inline void Unit::set_interceptors(int index, ::google::protobuf::int32 value) {
+  interceptors_.Set(index, value);
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.interceptors)
 }
-inline void Unit::add_int32erceptors(::google::protobuf::int32 value) {
-  int32erceptors_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Unit.int32erceptors)
+inline void Unit::add_interceptors(::google::protobuf::int32 value) {
+  interceptors_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.interceptors)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Unit::int32erceptors() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Unit.int32erceptors)
-  return int32erceptors_;
+Unit::interceptors() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.interceptors)
+  return interceptors_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-Unit::mutable_int32erceptors() {
-  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.int32erceptors)
-  return &int32erceptors_;
+Unit::mutable_interceptors() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.interceptors)
+  return &interceptors_;
 }
 
 // repeated int32 larva = 37;
@@ -6022,18 +6015,18 @@ inline void Unit::set_remainingbuildtime(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingBuildTime)
 }
 
-// int32 remainingTraint32ime = 41;
-inline void Unit::clear_remainingtraint32ime() {
-  remainingtraint32ime_ = 0;
+// int32 remainingTraintime = 41;
+inline void Unit::clear_remainingtraintime() {
+  remainingtraintime_ = 0;
 }
-inline ::google::protobuf::int32 Unit::remainingtraint32ime() const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingTraint32ime)
-  return remainingtraint32ime_;
+inline ::google::protobuf::int32 Unit::remainingtraintime() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.remainingTraintime)
+  return remainingtraintime_;
 }
-inline void Unit::set_remainingtraint32ime(::google::protobuf::int32 value) {
+inline void Unit::set_remainingtraintime(::google::protobuf::int32 value) {
   
-  remainingtraint32ime_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingTraint32ime)
+  remainingtraintime_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.remainingTraintime)
 }
 
 // int32 remainingResearchTime = 42;
@@ -6646,18 +6639,18 @@ inline void Unit::set_isidle(bool value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.isIdle)
 }
 
-// bool isint32erruptible = 77;
-inline void Unit::clear_isint32erruptible() {
-  isint32erruptible_ = false;
+// bool isinterruptible = 77;
+inline void Unit::clear_isinterruptible() {
+  isinterruptible_ = false;
 }
-inline bool Unit::isint32erruptible() const {
-  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isint32erruptible)
-  return isint32erruptible_;
+inline bool Unit::isinterruptible() const {
+  // @@protoc_insertion_point(field_get:bwapi.data.Unit.isinterruptible)
+  return isinterruptible_;
 }
-inline void Unit::set_isint32erruptible(bool value) {
+inline void Unit::set_isinterruptible(bool value) {
   
-  isint32erruptible_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isint32erruptible)
+  isinterruptible_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isinterruptible)
 }
 
 // bool isInvincible = 78;
@@ -6842,34 +6835,18 @@ inline void Unit::set_ispowered(bool value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.isPowered)
 }
 
-// repeated bool isVisible = 91;
-inline int Unit::isvisible_size() const {
-  return isvisible_.size();
-}
+// bool isVisible = 91;
 inline void Unit::clear_isvisible() {
-  isvisible_.Clear();
+  isvisible_ = false;
 }
-inline bool Unit::isvisible(int index) const {
+inline bool Unit::isvisible() const {
   // @@protoc_insertion_point(field_get:bwapi.data.Unit.isVisible)
-  return isvisible_.Get(index);
-}
-inline void Unit::set_isvisible(int index, bool value) {
-  isvisible_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isVisible)
-}
-inline void Unit::add_isvisible(bool value) {
-  isvisible_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Unit.isVisible)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Unit::isvisible() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Unit.isVisible)
   return isvisible_;
 }
-inline ::google::protobuf::RepeatedField< bool >*
-Unit::mutable_isvisible() {
-  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.isVisible)
-  return &isvisible_;
+inline void Unit::set_isvisible(bool value) {
+  
+  isvisible_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isVisible)
 }
 
 // int32 buttonset = 92;

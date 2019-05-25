@@ -4586,7 +4586,7 @@ const int Unit::kResourceGroupFieldNumber;
 const int Unit::kKillCountFieldNumber;
 const int Unit::kAcidSporeCountFieldNumber;
 const int Unit::kScarabCountFieldNumber;
-const int Unit::kInt32ErceptorCountFieldNumber;
+const int Unit::kInterceptorCountFieldNumber;
 const int Unit::kSpiderMineCountFieldNumber;
 const int Unit::kGroundWeaponCooldownFieldNumber;
 const int Unit::kAirWeaponCooldownFieldNumber;
@@ -4605,12 +4605,12 @@ const int Unit::kStimTimerFieldNumber;
 const int Unit::kBuildTypeFieldNumber;
 const int Unit::kTrainingQueueFieldNumber;
 const int Unit::kLoadedUnitsFieldNumber;
-const int Unit::kInt32ErceptorsFieldNumber;
+const int Unit::kInterceptorsFieldNumber;
 const int Unit::kLarvaFieldNumber;
 const int Unit::kTechFieldNumber;
 const int Unit::kUpgradeFieldNumber;
 const int Unit::kRemainingBuildTimeFieldNumber;
-const int Unit::kRemainingTraint32ImeFieldNumber;
+const int Unit::kRemainingTraintimeFieldNumber;
 const int Unit::kRemainingResearchTimeFieldNumber;
 const int Unit::kRemainingUpgradeTimeFieldNumber;
 const int Unit::kBuildUnitFieldNumber;
@@ -4646,7 +4646,7 @@ const int Unit::kIsDetectedFieldNumber;
 const int Unit::kIsGatheringFieldNumber;
 const int Unit::kIsHallucinationFieldNumber;
 const int Unit::kIsIdleFieldNumber;
-const int Unit::kIsint32ErruptibleFieldNumber;
+const int Unit::kIsinterruptibleFieldNumber;
 const int Unit::kIsInvincibleFieldNumber;
 const int Unit::kIsLiftedFieldNumber;
 const int Unit::kIsMorphingFieldNumber;
@@ -4681,9 +4681,8 @@ Unit::Unit(const Unit& from)
       _internal_metadata_(NULL),
       trainingqueue_(from.trainingqueue_),
       loadedunits_(from.loadedunits_),
-      int32erceptors_(from.int32erceptors_),
-      larva_(from.larva_),
-      isvisible_(from.isvisible_) {
+      interceptors_(from.interceptors_),
+      larva_(from.larva_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_position()) {
     position_ = new ::bwapi::data::Point(*from.position_);
@@ -4706,15 +4705,15 @@ Unit::Unit(const Unit& from)
     rallyposition_ = NULL;
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&replayid_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(replayid_));
+    static_cast<size_t>(reinterpret_cast<char*>(&recentlyattacked_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(recentlyattacked_));
   // @@protoc_insertion_point(copy_constructor:bwapi.data.Unit)
 }
 
 void Unit::SharedCtor() {
   ::memset(&position_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&replayid_) -
-      reinterpret_cast<char*>(&position_)) + sizeof(replayid_));
+      reinterpret_cast<char*>(&recentlyattacked_) -
+      reinterpret_cast<char*>(&position_)) + sizeof(recentlyattacked_));
 }
 
 Unit::~Unit() {
@@ -4746,9 +4745,8 @@ void Unit::Clear() {
 
   trainingqueue_.Clear();
   loadedunits_.Clear();
-  int32erceptors_.Clear();
+  interceptors_.Clear();
   larva_.Clear();
-  isvisible_.Clear();
   if (GetArenaNoVirtual() == NULL && position_ != NULL) {
     delete position_;
   }
@@ -4766,8 +4764,8 @@ void Unit::Clear() {
   }
   rallyposition_ = NULL;
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&replayid_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(replayid_));
+      reinterpret_cast<char*>(&recentlyattacked_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(recentlyattacked_));
   _internal_metadata_.Clear();
 }
 
@@ -5009,14 +5007,14 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 int32erceptorCount = 17;
+      // int32 interceptorCount = 17;
       case 17: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(136u /* 136 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &int32erceptorcount_)));
+                 input, &interceptorcount_)));
         } else {
           goto handle_unusual;
         }
@@ -5285,19 +5283,19 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 int32erceptors = 36;
+      // repeated int32 interceptors = 36;
       case 36: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 290 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_int32erceptors())));
+                 input, this->mutable_interceptors())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 288 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 2, 290u, input, this->mutable_int32erceptors())));
+                 2, 290u, input, this->mutable_interceptors())));
         } else {
           goto handle_unusual;
         }
@@ -5365,14 +5363,14 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 remainingTraint32ime = 41;
+      // int32 remainingTraintime = 41;
       case 41: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(72u /* 328 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &remainingtraint32ime_)));
+                 input, &remainingtraintime_)));
         } else {
           goto handle_unusual;
         }
@@ -5863,14 +5861,14 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // bool isint32erruptible = 77;
+      // bool isinterruptible = 77;
       case 77: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(104u /* 616 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &isint32erruptible_)));
+                 input, &isinterruptible_)));
         } else {
           goto handle_unusual;
         }
@@ -6059,19 +6057,14 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated bool isVisible = 91;
+      // bool isVisible = 91;
       case 91: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(218u /* 730 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_isvisible())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(216u /* 728 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 2, 730u, input, this->mutable_isvisible())));
+                 input, &isvisible_)));
         } else {
           goto handle_unusual;
         }
@@ -6269,9 +6262,9 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->scarabcount(), output);
   }
 
-  // int32 int32erceptorCount = 17;
-  if (this->int32erceptorcount() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->int32erceptorcount(), output);
+  // int32 interceptorCount = 17;
+  if (this->interceptorcount() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->interceptorcount(), output);
   }
 
   // int32 spiderMineCount = 18;
@@ -6376,15 +6369,15 @@ void Unit::SerializeWithCachedSizes(
       this->loadedunits(i), output);
   }
 
-  // repeated int32 int32erceptors = 36;
-  if (this->int32erceptors_size() > 0) {
+  // repeated int32 interceptors = 36;
+  if (this->interceptors_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(36, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _int32erceptors_cached_byte_size_));
+        _interceptors_cached_byte_size_));
   }
-  for (int i = 0, n = this->int32erceptors_size(); i < n; i++) {
+  for (int i = 0, n = this->interceptors_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
-      this->int32erceptors(i), output);
+      this->interceptors(i), output);
   }
 
   // repeated int32 larva = 37;
@@ -6413,9 +6406,9 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(40, this->remainingbuildtime(), output);
   }
 
-  // int32 remainingTraint32ime = 41;
-  if (this->remainingtraint32ime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(41, this->remainingtraint32ime(), output);
+  // int32 remainingTraintime = 41;
+  if (this->remainingtraintime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(41, this->remainingtraintime(), output);
   }
 
   // int32 remainingResearchTime = 42;
@@ -6596,9 +6589,9 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(76, this->isidle(), output);
   }
 
-  // bool isint32erruptible = 77;
-  if (this->isint32erruptible() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(77, this->isint32erruptible(), output);
+  // bool isinterruptible = 77;
+  if (this->isinterruptible() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(77, this->isinterruptible(), output);
   }
 
   // bool isInvincible = 78;
@@ -6666,13 +6659,9 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->ispowered(), output);
   }
 
-  // repeated bool isVisible = 91;
-  if (this->isvisible_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(91, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _isvisible_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->isvisible().data(), this->isvisible_size(), output);
+  // bool isVisible = 91;
+  if (this->isvisible() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(91, this->isvisible(), output);
   }
 
   // int32 buttonset = 92;
@@ -6748,10 +6737,10 @@ size_t Unit::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated int32 int32erceptors = 36;
+  // repeated int32 interceptors = 36;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      Int32Size(this->int32erceptors_);
+      Int32Size(this->interceptors_);
     if (data_size > 0) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -6759,7 +6748,7 @@ size_t Unit::ByteSizeLong() const {
     }
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _int32erceptors_cached_byte_size_ = cached_size;
+    _interceptors_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -6776,22 +6765,6 @@ size_t Unit::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _larva_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
-  // repeated bool isVisible = 91;
-  {
-    unsigned int count = static_cast<unsigned int>(this->isvisible_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _isvisible_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -6923,11 +6896,11 @@ size_t Unit::ByteSizeLong() const {
         this->scarabcount());
   }
 
-  // int32 int32erceptorCount = 17;
-  if (this->int32erceptorcount() != 0) {
+  // int32 interceptorCount = 17;
+  if (this->interceptorcount() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->int32erceptorcount());
+        this->interceptorcount());
   }
 
   // int32 spiderMineCount = 18;
@@ -7063,11 +7036,11 @@ size_t Unit::ByteSizeLong() const {
         this->remainingbuildtime());
   }
 
-  // int32 remainingTraint32ime = 41;
-  if (this->remainingtraint32ime() != 0) {
+  // int32 remainingTraintime = 41;
+  if (this->remainingtraintime() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->remainingtraint32ime());
+        this->remainingtraintime());
   }
 
   // int32 remainingResearchTime = 42;
@@ -7260,8 +7233,8 @@ size_t Unit::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // bool isint32erruptible = 77;
-  if (this->isint32erruptible() != 0) {
+  // bool isinterruptible = 77;
+  if (this->isinterruptible() != 0) {
     total_size += 2 + 1;
   }
 
@@ -7330,8 +7303,8 @@ size_t Unit::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // bool recentlyAttacked = 97;
-  if (this->recentlyattacked() != 0) {
+  // bool isVisible = 91;
+  if (this->isvisible() != 0) {
     total_size += 2 + 1;
   }
 
@@ -7370,6 +7343,11 @@ size_t Unit::ByteSizeLong() const {
         this->replayid());
   }
 
+  // bool recentlyAttacked = 97;
+  if (this->recentlyattacked() != 0) {
+    total_size += 2 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -7389,9 +7367,8 @@ void Unit::MergeFrom(const Unit& from) {
 
   trainingqueue_.MergeFrom(from.trainingqueue_);
   loadedunits_.MergeFrom(from.loadedunits_);
-  int32erceptors_.MergeFrom(from.int32erceptors_);
+  interceptors_.MergeFrom(from.interceptors_);
   larva_.MergeFrom(from.larva_);
-  isvisible_.MergeFrom(from.isvisible_);
   if (from.has_position()) {
     mutable_position()->::bwapi::data::Point::MergeFrom(from.position());
   }
@@ -7449,8 +7426,8 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.scarabcount() != 0) {
     set_scarabcount(from.scarabcount());
   }
-  if (from.int32erceptorcount() != 0) {
-    set_int32erceptorcount(from.int32erceptorcount());
+  if (from.interceptorcount() != 0) {
+    set_interceptorcount(from.interceptorcount());
   }
   if (from.spiderminecount() != 0) {
     set_spiderminecount(from.spiderminecount());
@@ -7509,8 +7486,8 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.remainingbuildtime() != 0) {
     set_remainingbuildtime(from.remainingbuildtime());
   }
-  if (from.remainingtraint32ime() != 0) {
-    set_remainingtraint32ime(from.remainingtraint32ime());
+  if (from.remainingtraintime() != 0) {
+    set_remainingtraintime(from.remainingtraintime());
   }
   if (from.remainingresearchtime() != 0) {
     set_remainingresearchtime(from.remainingresearchtime());
@@ -7608,8 +7585,8 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.isidle() != 0) {
     set_isidle(from.isidle());
   }
-  if (from.isint32erruptible() != 0) {
-    set_isint32erruptible(from.isint32erruptible());
+  if (from.isinterruptible() != 0) {
+    set_isinterruptible(from.isinterruptible());
   }
   if (from.isinvincible() != 0) {
     set_isinvincible(from.isinvincible());
@@ -7650,8 +7627,8 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.ispowered() != 0) {
     set_ispowered(from.ispowered());
   }
-  if (from.recentlyattacked() != 0) {
-    set_recentlyattacked(from.recentlyattacked());
+  if (from.isvisible() != 0) {
+    set_isvisible(from.isvisible());
   }
   if (from.buttonset() != 0) {
     set_buttonset(from.buttonset());
@@ -7667,6 +7644,9 @@ void Unit::MergeFrom(const Unit& from) {
   }
   if (from.replayid() != 0) {
     set_replayid(from.replayid());
+  }
+  if (from.recentlyattacked() != 0) {
+    set_recentlyattacked(from.recentlyattacked());
   }
 }
 
@@ -7689,9 +7669,8 @@ void Unit::InternalSwap(Unit* other) {
   using std::swap;
   trainingqueue_.InternalSwap(&other->trainingqueue_);
   loadedunits_.InternalSwap(&other->loadedunits_);
-  int32erceptors_.InternalSwap(&other->int32erceptors_);
+  interceptors_.InternalSwap(&other->interceptors_);
   larva_.InternalSwap(&other->larva_);
-  isvisible_.InternalSwap(&other->isvisible_);
   swap(position_, other->position_);
   swap(targetposition_, other->targetposition_);
   swap(ordertargetposition_, other->ordertargetposition_);
@@ -7711,7 +7690,7 @@ void Unit::InternalSwap(Unit* other) {
   swap(killcount_, other->killcount_);
   swap(acidsporecount_, other->acidsporecount_);
   swap(scarabcount_, other->scarabcount_);
-  swap(int32erceptorcount_, other->int32erceptorcount_);
+  swap(interceptorcount_, other->interceptorcount_);
   swap(spiderminecount_, other->spiderminecount_);
   swap(groundweaponcooldown_, other->groundweaponcooldown_);
   swap(airweaponcooldown_, other->airweaponcooldown_);
@@ -7731,7 +7710,7 @@ void Unit::InternalSwap(Unit* other) {
   swap(tech_, other->tech_);
   swap(upgrade_, other->upgrade_);
   swap(remainingbuildtime_, other->remainingbuildtime_);
-  swap(remainingtraint32ime_, other->remainingtraint32ime_);
+  swap(remainingtraintime_, other->remainingtraintime_);
   swap(remainingresearchtime_, other->remainingresearchtime_);
   swap(remainingupgradetime_, other->remainingupgradetime_);
   swap(buildunit_, other->buildunit_);
@@ -7764,7 +7743,7 @@ void Unit::InternalSwap(Unit* other) {
   swap(isgathering_, other->isgathering_);
   swap(ishallucination_, other->ishallucination_);
   swap(isidle_, other->isidle_);
-  swap(isint32erruptible_, other->isint32erruptible_);
+  swap(isinterruptible_, other->isinterruptible_);
   swap(isinvincible_, other->isinvincible_);
   swap(islifted_, other->islifted_);
   swap(ismorphing_, other->ismorphing_);
@@ -7778,12 +7757,13 @@ void Unit::InternalSwap(Unit* other) {
   swap(isunderdarkswarm_, other->isunderdarkswarm_);
   swap(isunderdweb_, other->isunderdweb_);
   swap(ispowered_, other->ispowered_);
-  swap(recentlyattacked_, other->recentlyattacked_);
+  swap(isvisible_, other->isvisible_);
   swap(buttonset_, other->buttonset_);
   swap(lastcommandframe_, other->lastcommandframe_);
   swap(lastcommand_, other->lastcommand_);
   swap(lastattackerplayer_, other->lastattackerplayer_);
   swap(replayid_, other->replayid_);
+  swap(recentlyattacked_, other->recentlyattacked_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

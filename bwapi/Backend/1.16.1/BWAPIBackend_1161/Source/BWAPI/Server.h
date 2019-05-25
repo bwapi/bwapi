@@ -29,7 +29,7 @@ namespace BWAPI
     
     void      update();
     bool      isConnected() const;
-    int       addEvent(const BWAPI::Event& e);
+    void       addEvent(const BWAPI::Event& e);
     int       addString(const char* text);
     void      clearAll();
 

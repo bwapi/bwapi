@@ -724,24 +724,18 @@ class ReceiveText : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::std::string* release_text();
   void set_allocated_text(::std::string* text);
 
-  // .bwapi.data.Player player = 1;
-  bool has_player() const;
+  // int32 player = 1;
   void clear_player();
   static const int kPlayerFieldNumber = 1;
-  private:
-  const ::bwapi::data::Player& _internal_player() const;
-  public:
-  const ::bwapi::data::Player& player() const;
-  ::bwapi::data::Player* release_player();
-  ::bwapi::data::Player* mutable_player();
-  void set_allocated_player(::bwapi::data::Player* player);
+  ::google::protobuf::int32 player() const;
+  void set_player(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.ReceiveText)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr text_;
-  ::bwapi::data::Player* player_;
+  ::google::protobuf::int32 player_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -832,23 +826,17 @@ class PlayerLeft : public ::google::protobuf::MessageLite /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Player player = 1;
-  bool has_player() const;
+  // int32 player = 1;
   void clear_player();
   static const int kPlayerFieldNumber = 1;
-  private:
-  const ::bwapi::data::Player& _internal_player() const;
-  public:
-  const ::bwapi::data::Player& player() const;
-  ::bwapi::data::Player* release_player();
-  ::bwapi::data::Player* mutable_player();
-  void set_allocated_player(::bwapi::data::Player* player);
+  ::google::protobuf::int32 player() const;
+  void set_player(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.PlayerLeft)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Player* player_;
+  ::google::protobuf::int32 player_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1046,23 +1034,17 @@ class UnitDiscover : public ::google::protobuf::MessageLite /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitDiscover)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1153,23 +1135,17 @@ class UnitEvade : public ::google::protobuf::MessageLite /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitEvade)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1260,23 +1236,17 @@ class UnitShow : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitShow)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1367,23 +1337,17 @@ class UnitHide : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitHide)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1474,23 +1438,17 @@ class UnitCreate : public ::google::protobuf::MessageLite /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitCreate)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1581,23 +1539,17 @@ class UnitDestroy : public ::google::protobuf::MessageLite /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitDestroy)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1688,23 +1640,17 @@ class UnitMorph : public ::google::protobuf::MessageLite /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitMorph)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -1795,23 +1741,17 @@ class UnitRenegade : public ::google::protobuf::MessageLite /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitRenegade)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -2011,23 +1951,17 @@ class UnitComplete : public ::google::protobuf::MessageLite /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.Unit unit = 1;
-  bool has_unit() const;
+  // int32 unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  private:
-  const ::bwapi::data::Unit& _internal_unit() const;
-  public:
-  const ::bwapi::data::Unit& unit() const;
-  ::bwapi::data::Unit* release_unit();
-  ::bwapi::data::Unit* mutable_unit();
-  void set_allocated_unit(::bwapi::data::Unit* unit);
+  ::google::protobuf::int32 unit() const;
+  void set_unit(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:bwapi.event.UnitComplete)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::Unit* unit_;
+  ::google::protobuf::int32 unit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_event_2eproto::TableStruct;
 };
@@ -2073,7 +2007,7 @@ class Event : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
     kUnitDiscover = 9,
     kUnitEvade = 10,
     kUnitShow = 11,
-    kUnitHite = 12,
+    kUnitHide = 12,
     kUnitCreate = 13,
     kUnitDestroy = 14,
     kUnitMorph = 15,
@@ -2272,17 +2206,17 @@ class Event : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
   ::bwapi::event::UnitShow* mutable_unitshow();
   void set_allocated_unitshow(::bwapi::event::UnitShow* unitshow);
 
-  // .bwapi.event.UnitHide unitHite = 12;
-  bool has_unithite() const;
-  void clear_unithite();
-  static const int kUnitHiteFieldNumber = 12;
+  // .bwapi.event.UnitHide unitHide = 12;
+  bool has_unithide() const;
+  void clear_unithide();
+  static const int kUnitHideFieldNumber = 12;
   private:
-  const ::bwapi::event::UnitHide& _internal_unithite() const;
+  const ::bwapi::event::UnitHide& _internal_unithide() const;
   public:
-  const ::bwapi::event::UnitHide& unithite() const;
-  ::bwapi::event::UnitHide* release_unithite();
-  ::bwapi::event::UnitHide* mutable_unithite();
-  void set_allocated_unithite(::bwapi::event::UnitHide* unithite);
+  const ::bwapi::event::UnitHide& unithide() const;
+  ::bwapi::event::UnitHide* release_unithide();
+  ::bwapi::event::UnitHide* mutable_unithide();
+  void set_allocated_unithide(::bwapi::event::UnitHide* unithide);
 
   // .bwapi.event.UnitCreate unitCreate = 13;
   bool has_unitcreate() const;
@@ -2371,7 +2305,7 @@ class Event : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
   void set_has_unitdiscover();
   void set_has_unitevade();
   void set_has_unitshow();
-  void set_has_unithite();
+  void set_has_unithide();
   void set_has_unitcreate();
   void set_has_unitdestroy();
   void set_has_unitmorph();
@@ -2396,7 +2330,7 @@ class Event : public ::google::protobuf::MessageLite /* @@protoc_insertion_point
     ::bwapi::event::UnitDiscover* unitdiscover_;
     ::bwapi::event::UnitEvade* unitevade_;
     ::bwapi::event::UnitShow* unitshow_;
-    ::bwapi::event::UnitHide* unithite_;
+    ::bwapi::event::UnitHide* unithide_;
     ::bwapi::event::UnitCreate* unitcreate_;
     ::bwapi::event::UnitDestroy* unitdestroy_;
     ::bwapi::event::UnitMorph* unitmorph_;
@@ -2507,52 +2441,18 @@ inline void SendText::set_allocated_text(::std::string* text) {
 
 // ReceiveText
 
-// .bwapi.data.Player player = 1;
-inline bool ReceiveText::has_player() const {
-  return this != internal_default_instance() && player_ != NULL;
+// int32 player = 1;
+inline void ReceiveText::clear_player() {
+  player_ = 0;
 }
-inline const ::bwapi::data::Player& ReceiveText::_internal_player() const {
-  return *player_;
-}
-inline const ::bwapi::data::Player& ReceiveText::player() const {
-  const ::bwapi::data::Player* p = player_;
+inline ::google::protobuf::int32 ReceiveText::player() const {
   // @@protoc_insertion_point(field_get:bwapi.event.ReceiveText.player)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Player*>(
-      &::bwapi::data::_Player_default_instance_);
-}
-inline ::bwapi::data::Player* ReceiveText::release_player() {
-  // @@protoc_insertion_point(field_release:bwapi.event.ReceiveText.player)
-  
-  ::bwapi::data::Player* temp = player_;
-  player_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Player* ReceiveText::mutable_player() {
-  
-  if (player_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Player>(GetArenaNoVirtual());
-    player_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.ReceiveText.player)
   return player_;
 }
-inline void ReceiveText::set_allocated_player(::bwapi::data::Player* player) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(player_);
-  }
-  if (player) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      player = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, player, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  player_ = player;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.ReceiveText.player)
+inline void ReceiveText::set_player(::google::protobuf::int32 value) {
+  
+  player_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.ReceiveText.player)
 }
 
 // string text = 2;
@@ -2612,52 +2512,18 @@ inline void ReceiveText::set_allocated_text(::std::string* text) {
 
 // PlayerLeft
 
-// .bwapi.data.Player player = 1;
-inline bool PlayerLeft::has_player() const {
-  return this != internal_default_instance() && player_ != NULL;
+// int32 player = 1;
+inline void PlayerLeft::clear_player() {
+  player_ = 0;
 }
-inline const ::bwapi::data::Player& PlayerLeft::_internal_player() const {
-  return *player_;
-}
-inline const ::bwapi::data::Player& PlayerLeft::player() const {
-  const ::bwapi::data::Player* p = player_;
+inline ::google::protobuf::int32 PlayerLeft::player() const {
   // @@protoc_insertion_point(field_get:bwapi.event.PlayerLeft.player)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Player*>(
-      &::bwapi::data::_Player_default_instance_);
-}
-inline ::bwapi::data::Player* PlayerLeft::release_player() {
-  // @@protoc_insertion_point(field_release:bwapi.event.PlayerLeft.player)
-  
-  ::bwapi::data::Player* temp = player_;
-  player_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Player* PlayerLeft::mutable_player() {
-  
-  if (player_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Player>(GetArenaNoVirtual());
-    player_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.PlayerLeft.player)
   return player_;
 }
-inline void PlayerLeft::set_allocated_player(::bwapi::data::Player* player) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(player_);
-  }
-  if (player) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      player = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, player, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  player_ = player;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.PlayerLeft.player)
+inline void PlayerLeft::set_player(::google::protobuf::int32 value) {
+  
+  player_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.PlayerLeft.player)
 }
 
 // -------------------------------------------------------------------
@@ -2716,416 +2582,144 @@ inline void NukeDetect::set_allocated_target(::bwapi::data::Point* target) {
 
 // UnitDiscover
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitDiscover::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitDiscover::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitDiscover::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitDiscover::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitDiscover::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitDiscover.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitDiscover::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitDiscover.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitDiscover::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitDiscover.unit)
   return unit_;
 }
-inline void UnitDiscover::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitDiscover.unit)
+inline void UnitDiscover::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitDiscover.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitEvade
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitEvade::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitEvade::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitEvade::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitEvade::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitEvade::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitEvade.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitEvade::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitEvade.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitEvade::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitEvade.unit)
   return unit_;
 }
-inline void UnitEvade::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitEvade.unit)
+inline void UnitEvade::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitEvade.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitShow
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitShow::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitShow::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitShow::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitShow::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitShow::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitShow.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitShow::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitShow.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitShow::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitShow.unit)
   return unit_;
 }
-inline void UnitShow::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitShow.unit)
+inline void UnitShow::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitShow.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitHide
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitHide::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitHide::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitHide::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitHide::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitHide::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitHide.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitHide::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitHide.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitHide::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitHide.unit)
   return unit_;
 }
-inline void UnitHide::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitHide.unit)
+inline void UnitHide::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitHide.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitCreate
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitCreate::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitCreate::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitCreate::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitCreate::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitCreate::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitCreate.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitCreate::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitCreate.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitCreate::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitCreate.unit)
   return unit_;
 }
-inline void UnitCreate::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitCreate.unit)
+inline void UnitCreate::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitCreate.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitDestroy
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitDestroy::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitDestroy::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitDestroy::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitDestroy::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitDestroy::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitDestroy.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitDestroy::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitDestroy.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitDestroy::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitDestroy.unit)
   return unit_;
 }
-inline void UnitDestroy::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitDestroy.unit)
+inline void UnitDestroy::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitDestroy.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitMorph
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitMorph::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitMorph::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitMorph::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitMorph::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitMorph::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitMorph.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitMorph::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitMorph.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitMorph::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitMorph.unit)
   return unit_;
 }
-inline void UnitMorph::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitMorph.unit)
+inline void UnitMorph::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitMorph.unit)
 }
 
 // -------------------------------------------------------------------
 
 // UnitRenegade
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitRenegade::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitRenegade::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitRenegade::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitRenegade::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitRenegade::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitRenegade.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitRenegade::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitRenegade.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitRenegade::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitRenegade.unit)
   return unit_;
 }
-inline void UnitRenegade::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitRenegade.unit)
+inline void UnitRenegade::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitRenegade.unit)
 }
 
 // -------------------------------------------------------------------
@@ -3189,52 +2783,18 @@ inline void SaveGame::set_allocated_text(::std::string* text) {
 
 // UnitComplete
 
-// .bwapi.data.Unit unit = 1;
-inline bool UnitComplete::has_unit() const {
-  return this != internal_default_instance() && unit_ != NULL;
+// int32 unit = 1;
+inline void UnitComplete::clear_unit() {
+  unit_ = 0;
 }
-inline const ::bwapi::data::Unit& UnitComplete::_internal_unit() const {
-  return *unit_;
-}
-inline const ::bwapi::data::Unit& UnitComplete::unit() const {
-  const ::bwapi::data::Unit* p = unit_;
+inline ::google::protobuf::int32 UnitComplete::unit() const {
   // @@protoc_insertion_point(field_get:bwapi.event.UnitComplete.unit)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Unit*>(
-      &::bwapi::data::_Unit_default_instance_);
-}
-inline ::bwapi::data::Unit* UnitComplete::release_unit() {
-  // @@protoc_insertion_point(field_release:bwapi.event.UnitComplete.unit)
-  
-  ::bwapi::data::Unit* temp = unit_;
-  unit_ = NULL;
-  return temp;
-}
-inline ::bwapi::data::Unit* UnitComplete::mutable_unit() {
-  
-  if (unit_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::Unit>(GetArenaNoVirtual());
-    unit_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.UnitComplete.unit)
   return unit_;
 }
-inline void UnitComplete::set_allocated_unit(::bwapi::data::Unit* unit) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(unit_);
-  }
-  if (unit) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      unit = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, unit, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  unit_ = unit;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.event.UnitComplete.unit)
+inline void UnitComplete::set_unit(::google::protobuf::int32 value) {
+  
+  unit_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.event.UnitComplete.unit)
 }
 
 // -------------------------------------------------------------------
@@ -3725,48 +3285,48 @@ inline ::bwapi::event::UnitShow* Event::mutable_unitshow() {
   return event_.unitshow_;
 }
 
-// .bwapi.event.UnitHide unitHite = 12;
-inline bool Event::has_unithite() const {
-  return event_case() == kUnitHite;
+// .bwapi.event.UnitHide unitHide = 12;
+inline bool Event::has_unithide() const {
+  return event_case() == kUnitHide;
 }
-inline void Event::set_has_unithite() {
-  _oneof_case_[0] = kUnitHite;
+inline void Event::set_has_unithide() {
+  _oneof_case_[0] = kUnitHide;
 }
-inline void Event::clear_unithite() {
-  if (has_unithite()) {
-    delete event_.unithite_;
+inline void Event::clear_unithide() {
+  if (has_unithide()) {
+    delete event_.unithide_;
     clear_has_event();
   }
 }
-inline const ::bwapi::event::UnitHide& Event::_internal_unithite() const {
-  return *event_.unithite_;
+inline const ::bwapi::event::UnitHide& Event::_internal_unithide() const {
+  return *event_.unithide_;
 }
-inline ::bwapi::event::UnitHide* Event::release_unithite() {
-  // @@protoc_insertion_point(field_release:bwapi.event.Event.unitHite)
-  if (has_unithite()) {
+inline ::bwapi::event::UnitHide* Event::release_unithide() {
+  // @@protoc_insertion_point(field_release:bwapi.event.Event.unitHide)
+  if (has_unithide()) {
     clear_has_event();
-      ::bwapi::event::UnitHide* temp = event_.unithite_;
-    event_.unithite_ = NULL;
+      ::bwapi::event::UnitHide* temp = event_.unithide_;
+    event_.unithide_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::bwapi::event::UnitHide& Event::unithite() const {
-  // @@protoc_insertion_point(field_get:bwapi.event.Event.unitHite)
-  return has_unithite()
-      ? *event_.unithite_
+inline const ::bwapi::event::UnitHide& Event::unithide() const {
+  // @@protoc_insertion_point(field_get:bwapi.event.Event.unitHide)
+  return has_unithide()
+      ? *event_.unithide_
       : *reinterpret_cast< ::bwapi::event::UnitHide*>(&::bwapi::event::_UnitHide_default_instance_);
 }
-inline ::bwapi::event::UnitHide* Event::mutable_unithite() {
-  if (!has_unithite()) {
+inline ::bwapi::event::UnitHide* Event::mutable_unithide() {
+  if (!has_unithide()) {
     clear_event();
-    set_has_unithite();
-    event_.unithite_ = CreateMaybeMessage< ::bwapi::event::UnitHide >(
+    set_has_unithide();
+    event_.unithide_ = CreateMaybeMessage< ::bwapi::event::UnitHide >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:bwapi.event.Event.unitHite)
-  return event_.unithite_;
+  // @@protoc_insertion_point(field_mutable:bwapi.event.Event.unitHide)
+  return event_.unithide_;
 }
 
 // .bwapi.event.UnitCreate unitCreate = 13;

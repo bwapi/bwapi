@@ -1189,7 +1189,6 @@ namespace BWAPI
         return nukeDots;
     }
     //------------------------------------------------ GET EVENTS ----------------------------------------------
-    std::list< Event > events;
     const std::list< Event >& Game::getEvents() const
     {
         return events;

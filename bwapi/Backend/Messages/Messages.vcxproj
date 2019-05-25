@@ -134,15 +134,6 @@
     <None Include="message.proto" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="generated\cpp\command.pb.h" />
-    <ClInclude Include="generated\cpp\data.pb.h" />
-    <ClInclude Include="generated\cpp\error.pb.h" />
-    <ClInclude Include="generated\cpp\event.pb.h" />
-    <ClInclude Include="generated\cpp\game.pb.h" />
-    <ClInclude Include="generated\cpp\init.pb.h" />
-    <ClInclude Include="generated\cpp\message.pb.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="generated\cpp\command.pb.cc" />
     <ClCompile Include="generated\cpp\data.pb.cc" />
     <ClCompile Include="generated\cpp\error.pb.cc" />
@@ -150,6 +141,15 @@
     <ClCompile Include="generated\cpp\game.pb.cc" />
     <ClCompile Include="generated\cpp\init.pb.cc" />
     <ClCompile Include="generated\cpp\message.pb.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="generated\cpp\command.pb.h" />
+    <ClInclude Include="generated\cpp\data.pb.h" />
+    <ClInclude Include="generated\cpp\error.pb.h" />
+    <ClInclude Include="generated\cpp\event.pb.h" />
+    <ClInclude Include="generated\cpp\game.pb.h" />
+    <ClInclude Include="generated\cpp\init.pb.h" />
+    <ClInclude Include="generated\cpp\message.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

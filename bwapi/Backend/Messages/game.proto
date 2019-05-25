@@ -6,7 +6,7 @@ package bwapi.game;
 
 // TODO
 message FrameUpdate {
-	bwapi.data.GameData gameData = 1;
+	bwapi.data.Game game = 1;
 }
 
 message EndOfQueue {

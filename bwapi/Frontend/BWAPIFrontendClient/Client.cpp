@@ -51,6 +51,8 @@ namespace BWAPI
   }
   void Client::update(Game& game)
   {
+    
+    game.flush();
     protoClient.transmitMessages();
     protoClient.receiveMessages();
     while (protoClient.messageQueueSize())
@@ -59,12 +61,79 @@ namespace BWAPI
       if (message->has_frameupdate())
       {
         //update game here
-        if (message->frameupdate().has_gamedata())
+        if (message->frameupdate().has_game())
         {
-          game.gameData->isInGame = message->frameupdate().gamedata().isingame();
+          auto gameMessage = message->frameupdate().game();
+          if (gameMessage.has_gamedata())
+          {
+            auto gameUpdate = gameMessage.gamedata();
+            game.gameData->isInGame = gameUpdate.isingame();
+            game.gameData->randomSeed = gameUpdate.randomseed();
+          }
+          for (auto& u : gameMessage.units())
+          {
+            bool found = false;
+            UnitData newUnit(game, static_cast<UnitID>(u.id()));
+            //newUnit.type = static_cast<UnitType>(u.type());
+            units.emplace(newUnit);
+            /*for (auto itr = units.begin(); itr != units.end(); itr++)
+            {
+              if (itr->id == static_cast<UnitID>(u.id()))
+              {
+                auto unitCopy = *itr;
+                unitCopy.exists = u.exists();
+                unitCopy.type = static_cast<UnitType>(u.type());
+                units.erase(itr);
+                units.insert(unitCopy);
+                itr = units.end();
+                found = true;
+              }
+              if (!found)
+              {
+                UnitData newUnit(game, static_cast<UnitID>(u.id()));
+                newUnit.type = static_cast<UnitType>(u.type());
+                units.insert(newUnit);
+              }
+            }*/
+          }
         }
       }
-      if (message->has_endofqueue())
+      else if (message->has_event())
+      {
+        Event e2;
+        auto e = message->event();
+        if (e.has_matchend())
+        {
+          e2.setType(EventType::MatchEnd);
+          e2.setWinner(e.matchend().winner());
+          game.addEvent(e2);
+        }
+        else if (e.has_sendtext())
+        {
+          e2.setType(EventType::SendText);
+          e2.setText(e.sendtext().text().c_str());
+          game.addEvent(e2);
+        }
+        else if (e.has_savegame())
+        {
+          e2.setType(EventType::SaveGame);
+          e2.setText(e.savegame().text().c_str());
+          game.addEvent(e2);
+        }
+        else if (e.has_playerleft())
+        {
+          e2.setType(EventType::PlayerLeft);
+          e2.setPlayer(game.getPlayer(PlayerID{ e.playerleft().player() }));
+          game.addEvent(e2);
+        }
+        else if (e.has_receivetext())
+        {
+          e2.setType(EventType::ReceiveText);
+          e2.setText(e.receivetext().text().c_str());
+          game.addEvent(e2);
+        }
+      }
+      else if (message->has_endofqueue())
         return;
     }
   }

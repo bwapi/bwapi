@@ -149,7 +149,7 @@ message Unit {
     int32 killCount = 14;
     int32 acidSporeCount = 15;
     int32 scarabCount = 16;
-    int32 int32erceptorCount = 17;
+    int32 interceptorCount = 17;
     int32 spiderMineCount = 18;
     int32 groundWeaponCooldown = 19;
     int32 airWeaponCooldown = 20;
@@ -170,12 +170,12 @@ message Unit {
     int32 buildType = 33;
     repeated int32 trainingQueue = 34;
     repeated int32 loadedUnits = 35;
-    repeated int32 int32erceptors = 36;
+    repeated int32 interceptors = 36;
     repeated int32 larva = 37;
     int32 tech = 38;
     int32 upgrade = 39;
     int32 remainingBuildTime = 40;
-    int32 remainingTraint32ime = 41;
+    int32 remainingTraintime = 41;
     int32 remainingResearchTime = 42;
     int32 remainingUpgradeTime = 43;
     int32 buildUnit = 44;
@@ -214,7 +214,7 @@ message Unit {
     bool isGathering = 74;
     bool isHallucination = 75;
     bool isIdle = 76;
-    bool isint32erruptible = 77;
+    bool isinterruptible = 77;
     bool isInvincible = 78;
     bool isLifted = 79;
     bool isMorphing = 80;
@@ -228,7 +228,7 @@ message Unit {
     bool isUnderDarkSwarm = 88;
     bool isUnderDWeb = 89;
     bool isPowered = 90;
-    repeated bool isVisible = 91;
+    bool isVisible = 91;
     int32  buttonset = 92;
 
     int32 lastCommandFrame = 93;

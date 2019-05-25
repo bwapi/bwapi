@@ -51,49 +51,111 @@ namespace BWAPI
   {
     return protoClient.isConnected();
   }
-  int Server::addEvent(const BWAPI::Event& e)
+  void Server::addEvent(const BWAPI::Event& e)
   {
-    assert(data->eventCount < GameData::MAX_EVENTS);
-    BWAPIC::Event* e2 = &(data->events[data->eventCount++]);
-    int id = data->eventCount;
-    e2->type = e.getType();
-    e2->v1 = 0;
-    e2->v2 = 0;
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newEvent = std::make_unique<bwapi::event::Event>();// newMessage->mutable_event();
     switch (e.getType())
     {
     case BWAPI::EventType::MatchEnd:
-      e2->v1 = e.isWinner();
+    {
+      auto newMatchEnd = newEvent->mutable_matchend();
+      newMatchEnd->set_winner(e.isWinner());
+    }
       break;
     case BWAPI::EventType::SendText:
+    {
+      auto newSendText = newEvent->mutable_sendtext();
+      newSendText->set_text(e.getText().c_str());
+    }
+    break;
     case BWAPI::EventType::SaveGame:
-      e2->v1 = addString(e.getText().c_str());
+    {
+      auto newSaveGame = newEvent->mutable_savegame();
+      newSaveGame->set_text(e.getText());
+    }
       break;
     case BWAPI::EventType::PlayerLeft:
-      e2->v1 = getPlayerID(e.getPlayer());
+    {
+      auto newPlayerLeft = newEvent->mutable_playerleft();
+      newPlayerLeft->set_player(getPlayerID(e.getPlayer()));
+    }
       break;
     case BWAPI::EventType::ReceiveText:
-      e2->v1 = getPlayerID(e.getPlayer());
-      e2->v2 = addString(e.getText().c_str());
+    {
+      auto newReceiveText = newEvent->mutable_receivetext();
+      newReceiveText->set_player(getPlayerID(e.getPlayer()));
+      newReceiveText->set_text(e.getText());
+    }
       break;
     case BWAPI::EventType::NukeDetect:
-      e2->v1 = e.getPosition().x;
-      e2->v2 = e.getPosition().y;
+    {
+      auto newNukeDetect = newEvent->mutable_nukedetect();
+      auto target = newNukeDetect->mutable_target();
+      target->set_x(e.getPosition().x);
+      target->set_y(e.getPosition().y);
+      target->set_scale(1);
+    }
       break;
     case BWAPI::EventType::UnitDiscover:
+    {
+      auto newUnitDiscover = newEvent->mutable_unitdiscover();
+      newUnitDiscover->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitEvade:
+    {
+      auto newUnitEvade = newEvent->mutable_unitevade();
+      newUnitEvade->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitCreate:
+    {
+      auto newUnitCreate = newEvent->mutable_unitcreate();
+      newUnitCreate->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitDestroy:
+    {
+      auto newUnitDestroy = newEvent->mutable_unitdestroy();
+      newUnitDestroy->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitMorph:
+    {
+      auto newUnitMorph = newEvent->mutable_unitmorph();
+      newUnitMorph->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitShow:
+    {
+      auto newUnitShow = newEvent->mutable_unitshow();
+      newUnitShow->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitHide:
+    {
+      auto newUnitHide = newEvent->mutable_unithide();
+      newUnitHide->set_unit(getUnitID(e.getUnit()));
+    }
+      break;
     case BWAPI::EventType::UnitRenegade:
+    {
+      auto newUnitRenegade = newEvent->mutable_unitrenegade();
+      newUnitRenegade->set_unit(getUnitID(e.getUnit()));
+    }
+    break;
     case BWAPI::EventType::UnitComplete:
-      e2->v1 = getUnitID(e.getUnit());
+    {
+      auto newUnitComplete = newEvent->mutable_unitcomplete();
+      newUnitComplete->set_unit(getUnitID(e.getUnit()));
+    }
       break;
     default:
       break;
     }
-    return id;
+    newMessage->set_allocated_event(newEvent.release());
+    protoClient.queueMessage(std::move(newMessage));
   }
   int Server::addString(const char* text)
   {
@@ -515,33 +577,194 @@ namespace BWAPI
     }
     BroodwarImpl.events.clear();
     auto message = std::make_unique<bwapi::message::Message>();
-    auto frameUpdate = std::make_unique<bwapi::game::FrameUpdate>();
-    auto gameData = std::make_unique<bwapi::data::GameData>();
+    auto frameUpdate = message->mutable_frameupdate();
+    auto game = frameUpdate->mutable_game();
+    auto gameData = game->mutable_gamedata();
     //Diff data and oldData
-    if (oldData->gameType != data->gameType)
+    //if (oldData->gameType != data->gameType)
       gameData->set_gametype(data->gameType);
     gameData->set_framecount(data->frameCount);
-    if (oldData->latencyFrames != data->latencyFrames)
+    //if (oldData->latencyFrames != data->latencyFrames)
       gameData->set_latencyframes(data->latencyFrames);
     //turnsize
     //gamespeed
     //frameskip
-    if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
+    //if (oldData->remainingLatencyFrames != data->remainingLatencyFrames)
       gameData->set_remaininglatencyframes(data->remainingLatencyFrames);
     gameData->set_lasteventtime(BroodwarImpl.getLastEventTime());
     //replayvisionplayers
-    if (oldData->latencyTime != data->latencyTime)
+    //if (oldData->latencyTime != data->latencyTime)
       gameData->set_latencytime(data->latencyTime);
-    if (oldData->remainingLatencyTime != data->remainingLatencyTime)
+    //if (oldData->remainingLatencyTime != data->remainingLatencyTime)
       gameData->set_remaininglatencytime(data->remainingLatencyTime);
-    if (oldData->elapsedTime != data->elapsedTime)
+    //if (oldData->elapsedTime != data->elapsedTime)
       gameData->set_elapsedtime(data->elapsedTime);
-
+    //millisecondsperframe
+    gameData->set_averagefps(data->averageFPS);
+    gameData->set_countdowntimer(data->countdownTimer);
+    gameData->set_ispaused(data->isPaused);
     gameData->set_isingame(data->isInGame);
-    frameUpdate->set_allocated_gamedata(gameData.release());
-    message->set_allocated_frameupdate(frameUpdate.release());
+    gameData->set_ismultiplayer(data->isMultiplayer);
+    gameData->set_isbattlenet(data->isBattleNet);
+    gameData->set_isreplay(data->isReplay);
+    //clientunitselection
+    gameData->set_hasgui(data->hasGUI);
+    gameData->set_mappath(data->mapPathName);
+    gameData->set_mapname(data->mapName);
+    gameData->set_mapfilename(data->mapFileName);
+    //gamename
+    std::stringstream randomSeed;
+    randomSeed << data->randomSeed;
+    gameData->set_randomseed(randomSeed.str());
+    if (data->isInGame)
+    {
+      for (auto location : data->startLocations)
+      {
+        auto startLocation = gameData->add_startpositions();
+        startLocation->set_x(location.x);
+        startLocation->set_y(location.y);
+        startLocation->set_scale(1);
+      }
+
+      for (auto region : data->regions)
+      {
+        gameData->add_regions(region.id);
+      }
+    
+      if (BroodwarImpl.self())
+        gameData->set_player(BroodwarImpl.self()->getID());
+
+      //screensize
+      //screenposition
+      auto mapData = gameData->mutable_map();
+      auto size = mapData->mutable_size();
+      size->set_x(data->mapWidth);
+      size->set_y(data->mapHeight);
+      //tileset
+      mapData->set_maphash(data->mapHash);
+      
+      for (auto& i : data->getGroundHeight)
+      {
+        for (auto& j : i)
+          mapData->add_groundheight(j);
+      }
+      for (auto& i : data->isBuildable)
+      {
+        for (auto& j : i)
+          mapData->add_isbuildable(j);
+      }
+      for (auto& i : data->isVisible)
+      {
+        for (auto& j : i)
+          mapData->add_isvisible(j);
+      }
+      for (auto& i : data->isExplored)
+      {
+        for (auto& j : i)
+          mapData->add_isexplored(j);
+      }
+      for (auto& i : data->hasCreep)
+      {
+        for (auto& j : i)
+          mapData->add_hascreep(j);
+      }
+      for (auto& i : data->isOccupied)
+      {
+        for (auto& j : i)
+          mapData->add_isoccupied(i);
+      }
+      for (auto& i : data->isWalkable)
+      {
+        for (auto& j : i)
+          mapData->add_iswalkable(j);
+      }
+      for (auto& i : data->mapTileRegionId)
+      {
+        for (auto& j : i)
+          mapData->add_maptileregionid(j);
+      }
+      for (auto i : data->mapSplitTilesMiniTileMask)
+        mapData->add_mapsplittilesminitilemask(i);
+      for (auto i : data->mapSplitTilesRegion1)
+        mapData->add_mapsplittilesregion1(i);
+      for (auto i : data->mapSplitTilesRegion2)
+        mapData->add_mapsplittilesregion2(i);
+
+      auto setPosition = [](auto& p, auto& x, auto& y, auto s)
+      {
+        p->set_x(x);
+        p->set_y(y);
+        p->set_scale(s);
+      };
+
+      for (auto& u : data->units)
+      {
+        auto unit = game->add_units();
+        unit->set_acidsporecount(u.acidSporeCount);
+        unit->set_addon(u.addon);
+        unit->set_airweaponcooldown(u.airWeaponCooldown);
+        auto orderTargetPosition = unit->mutable_ordertargetposition();
+        setPosition(orderTargetPosition, u.orderTargetPositionX, u.orderTargetPositionY, 1);
+        auto position = unit->mutable_position();
+        setPosition(position, u.positionX, u.positionY, 1);
+        auto rallyPosition = unit->mutable_rallyposition();
+        setPosition(rallyPosition, u.rallyPositionX, u.rallyPositionY, 1);
+        auto targetPosition = unit->mutable_targetposition();
+        setPosition(targetPosition, u.targetPositionX, u.targetPositionY, 1);
+        unit->set_angle(u.angle);
+        unit->set_buildtype(u.buildType);
+        unit->set_buildunit(u.buildUnit);
+        unit->set_buttonset(u.buttonset);
+        unit->set_carrier(u.carrier);
+        unit->set_carryresourcetype(u.carryResourceType);
+        unit->set_defensematrixpoints(u.defenseMatrixPoints);
+        unit->set_defensematrixtimer(u.defenseMatrixTimer);
+        unit->set_energy(u.energy);
+        unit->set_ensnaretimer(u.ensnareTimer);
+        unit->set_exists(u.exists);
+        unit->set_groundweaponcooldown(u.groundWeaponCooldown);
+        unit->set_hasnuke(u.hasNuke);
+        unit->set_hatchery(u.hatchery);
+        unit->set_hitpoints(u.hitPoints);
+        unit->set_id(u.id);
+        unit->set_interceptorcount(u.interceptorCount);
+        unit->set_irradiatetimer(u.irradiateTimer);
+        unit->set_isaccelerating(u.isAccelerating);
+        unit->set_isattackframe(u.isAttackFrame);
+        unit->set_isattacking(u.isAttacking);
+        unit->set_isbeinggathered(u.isBeingGathered);
+        unit->set_isblind(u.isBlind);
+        unit->set_isbraking(u.isBraking);
+        unit->set_isburrowed(u.isBurrowed);
+        unit->set_iscloaked(u.isCloaked);
+        unit->set_iscompleted(u.isCompleted);
+        unit->set_isconstructing(u.isConstructing);
+        unit->set_isdetected(u.isDetected);
+        unit->set_isgathering(u.isGathering);
+        unit->set_ishallucination(u.isHallucination);
+        unit->set_isidle(u.isIdle);
+        unit->set_isinterruptible(u.isInterruptible);
+        //unit->set_isbeinghealed()
+        unit->set_isinvincible(u.isInvincible);
+        unit->set_islifted(u.isLifted);
+        unit->set_ismorphing(u.isMorphing);
+        unit->set_ismoving(u.isMoving);
+        unit->set_isparasited(u.isParasited);
+        unit->set_ispowered(u.isPowered);
+        unit->set_isselected(u.isSelected);
+        unit->set_isstartingattack(u.isStartingAttack);
+        unit->set_isstuck(u.isStuck);
+        unit->set_istraining(u.isTraining);
+        unit->set_isunderdarkswarm(u.isUnderDarkSwarm);
+        unit->set_isunderdweb(u.isUnderDWeb);
+        unit->set_isunderstorm(u.isUnderStorm);
+        unit->set_isvisible(u.isVisible);
+        unit->set_killcount(u.killCount);
+        unit->set_type(u.type);
+      }
+    }
     protoClient.queueMessage(std::move(message));
-    *oldData = *data;
+    //*oldData = *data;
   }
   void Server::callOnFrame()
   {

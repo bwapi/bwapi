@@ -22,12 +22,12 @@ message SendText {
 }
 
 message ReceiveText {
-    bwapi.data.Player player = 1;
+    int32 player = 1;
     string text = 2;
 }
 
 message PlayerLeft {
-    bwapi.data.Player player = 1;
+    int32 player = 1;
 }
 
 message NukeDetect {
@@ -35,35 +35,35 @@ message NukeDetect {
 }
 
 message UnitDiscover {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitEvade {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitShow {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitHide {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitCreate {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitDestroy {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitMorph {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message UnitRenegade {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message SaveGame {
@@ -71,7 +71,7 @@ message SaveGame {
 }
 
 message UnitComplete {
-    bwapi.data.Unit unit = 1;
+    int32 unit = 1;
 }
 
 message Event {
@@ -87,7 +87,7 @@ message Event {
       UnitDiscover unitDiscover = 9;
       UnitEvade unitEvade = 10;
       UnitShow unitShow = 11;
-      UnitHide unitHite = 12;
+      UnitHide unitHide = 12;
       UnitCreate unitCreate = 13;
       UnitDestroy unitDestroy = 14;
       UnitMorph unitMorph = 15;

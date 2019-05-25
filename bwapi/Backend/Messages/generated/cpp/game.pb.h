@@ -150,23 +150,23 @@ class FrameUpdate : public ::google::protobuf::MessageLite /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // .bwapi.data.GameData gameData = 1;
-  bool has_gamedata() const;
-  void clear_gamedata();
-  static const int kGameDataFieldNumber = 1;
+  // .bwapi.data.Game game = 1;
+  bool has_game() const;
+  void clear_game();
+  static const int kGameFieldNumber = 1;
   private:
-  const ::bwapi::data::GameData& _internal_gamedata() const;
+  const ::bwapi::data::Game& _internal_game() const;
   public:
-  const ::bwapi::data::GameData& gamedata() const;
-  ::bwapi::data::GameData* release_gamedata();
-  ::bwapi::data::GameData* mutable_gamedata();
-  void set_allocated_gamedata(::bwapi::data::GameData* gamedata);
+  const ::bwapi::data::Game& game() const;
+  ::bwapi::data::Game* release_game();
+  ::bwapi::data::Game* mutable_game();
+  void set_allocated_game(::bwapi::data::Game* game);
 
   // @@protoc_insertion_point(class_scope:bwapi.game.FrameUpdate)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::bwapi::data::GameData* gamedata_;
+  ::bwapi::data::Game* game_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
 };
@@ -275,52 +275,52 @@ class EndOfQueue : public ::google::protobuf::MessageLite /* @@protoc_insertion_
 #endif  // __GNUC__
 // FrameUpdate
 
-// .bwapi.data.GameData gameData = 1;
-inline bool FrameUpdate::has_gamedata() const {
-  return this != internal_default_instance() && gamedata_ != NULL;
+// .bwapi.data.Game game = 1;
+inline bool FrameUpdate::has_game() const {
+  return this != internal_default_instance() && game_ != NULL;
 }
-inline const ::bwapi::data::GameData& FrameUpdate::_internal_gamedata() const {
-  return *gamedata_;
+inline const ::bwapi::data::Game& FrameUpdate::_internal_game() const {
+  return *game_;
 }
-inline const ::bwapi::data::GameData& FrameUpdate::gamedata() const {
-  const ::bwapi::data::GameData* p = gamedata_;
-  // @@protoc_insertion_point(field_get:bwapi.game.FrameUpdate.gameData)
-  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::GameData*>(
-      &::bwapi::data::_GameData_default_instance_);
+inline const ::bwapi::data::Game& FrameUpdate::game() const {
+  const ::bwapi::data::Game* p = game_;
+  // @@protoc_insertion_point(field_get:bwapi.game.FrameUpdate.game)
+  return p != NULL ? *p : *reinterpret_cast<const ::bwapi::data::Game*>(
+      &::bwapi::data::_Game_default_instance_);
 }
-inline ::bwapi::data::GameData* FrameUpdate::release_gamedata() {
-  // @@protoc_insertion_point(field_release:bwapi.game.FrameUpdate.gameData)
+inline ::bwapi::data::Game* FrameUpdate::release_game() {
+  // @@protoc_insertion_point(field_release:bwapi.game.FrameUpdate.game)
   
-  ::bwapi::data::GameData* temp = gamedata_;
-  gamedata_ = NULL;
+  ::bwapi::data::Game* temp = game_;
+  game_ = NULL;
   return temp;
 }
-inline ::bwapi::data::GameData* FrameUpdate::mutable_gamedata() {
+inline ::bwapi::data::Game* FrameUpdate::mutable_game() {
   
-  if (gamedata_ == NULL) {
-    auto* p = CreateMaybeMessage<::bwapi::data::GameData>(GetArenaNoVirtual());
-    gamedata_ = p;
+  if (game_ == NULL) {
+    auto* p = CreateMaybeMessage<::bwapi::data::Game>(GetArenaNoVirtual());
+    game_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:bwapi.game.FrameUpdate.gameData)
-  return gamedata_;
+  // @@protoc_insertion_point(field_mutable:bwapi.game.FrameUpdate.game)
+  return game_;
 }
-inline void FrameUpdate::set_allocated_gamedata(::bwapi::data::GameData* gamedata) {
+inline void FrameUpdate::set_allocated_game(::bwapi::data::Game* game) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(gamedata_);
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(game_);
   }
-  if (gamedata) {
+  if (game) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      gamedata = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, gamedata, submessage_arena);
+      game = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, game, submessage_arena);
     }
     
   } else {
     
   }
-  gamedata_ = gamedata;
-  // @@protoc_insertion_point(field_set_allocated:bwapi.game.FrameUpdate.gameData)
+  game_ = game;
+  // @@protoc_insertion_point(field_set_allocated:bwapi.game.FrameUpdate.game)
 }
 
 // -------------------------------------------------------------------

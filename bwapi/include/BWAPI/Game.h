@@ -197,6 +197,8 @@ namespace BWAPI
     /// @returns std::list containing Event objects.
     const std::list< Event >& getEvents() const;
 
+    const void addEvent(const Event& e) { events.push_back(e); }
+
     /// <summary>Retrieves the Force interface object associated with a given identifier.</summary>
     ///
     /// <param name="forceID">
@@ -1832,7 +1834,7 @@ namespace BWAPI
     mutable std::stringstream ss;
   public:
     template<typename T>
-    Game const &operator<<(T const &in) const {
+    Game &operator<<(T const &in) {
       ss << in;
       return *this;
     }
@@ -1843,7 +1845,8 @@ namespace BWAPI
     }
 
     void flush() {
-      printf("%s", ss.str().c_str());
+      if (ss.str().empty()) return;
+      this->printf("%s", ss.str().c_str());
       ss.str("");
     }
 
@@ -1904,6 +1907,7 @@ namespace BWAPI
       APMCounter apmCounter;
 
       Unitset pylons;
+      std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 
       // We can't include bwapi sets here because they depend on Game
