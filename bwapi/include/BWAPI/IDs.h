@@ -89,12 +89,19 @@ namespace BWAPI {
     template<typename Lhs, typename Rhs>
     auto operator()(Lhs const &lhs, Rhs const &rhs) const
     {
-      return Lhs::IdT{ lhs } < Rhs::IdT{ rhs };
+      return getID(lhs) < getID(rhs);
     }
-    template<typename T, typename = std::enable_if_t<decltype(T::id)>>
-    auto operator()(T const &lhs, T const &rhs) const
+  private:
+    template<typename T, typename = std::void_t<>> struct hasIdT : std::false_type {};
+    template<typename T> struct hasIdT<T, std::void_t<typename T::IdT>> : std::true_type {};
+
+    template<typename T>
+    auto getID(T const &val) const
     {
-      return IDCompare{}(lhs.id, rhs.id);
+      if constexpr (!hasIdT<T>::value)
+        return val.id;
+      else
+        return typename T::IdT{ val };
     }
   };
 } // namespace BWAPI

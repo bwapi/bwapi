@@ -74,8 +74,11 @@ namespace BWAPI
           {
             bool found = false;
             UnitData newUnit(game, static_cast<UnitID>(u.id()));
+            newUnit.type = static_cast<UnitType>(u.type());
+            units.insert(newUnit);
             //newUnit.type = static_cast<UnitType>(u.type());
-            units.emplace(newUnit);
+            //units.emplace(game, static_cast<UnitID>(u.id()));
+            //newUnit.id
             /*for (auto itr = units.begin(); itr != units.end(); itr++)
             {
               if (itr->id == static_cast<UnitID>(u.id()))
