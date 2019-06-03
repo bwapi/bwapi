@@ -1856,6 +1856,9 @@ namespace BWAPI
     
     Unitset const &getUnits(Player player) const;
 
+    void addUnit(const UnitData& unitdata);
+    void updatePlayer(const PlayerData& playerdata);
+    void update();
 
     private:
       template <typename Fn>
@@ -1906,9 +1909,12 @@ namespace BWAPI
       FPSCounter fpsCounter;
       APMCounter apmCounter;
 
+      Unitset accessibleUnits;//all units that are accessible (and definitely alive)
       Unitset pylons;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
+
+      void computePrimaryUnitSets();
 
       // We can't include bwapi sets here because they depend on Game
       std::set<Player, IDCompare> players;

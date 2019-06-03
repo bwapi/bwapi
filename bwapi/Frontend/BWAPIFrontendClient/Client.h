@@ -13,6 +13,7 @@ namespace BWAPI
   class Client
   {
   public:
+    friend class Game;
     Client();
     ~Client();
 

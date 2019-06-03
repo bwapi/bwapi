@@ -490,11 +490,19 @@ namespace BWAPI
         memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
         memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
       }
-
+      std::ofstream output;
+      output.open("a.csv");
       //dynamic unit data
       for (Unit i : BroodwarImpl.getAllUnits())
+      {
+        output << i->getID() << ",";
         data->units[getUnitID(i)] = static_cast<UnitImpl*>(i)->data;
-
+        output << static_cast<UnitImpl*>(i)->id << ",";
+        output << getUnitID(i) << ",";
+        output << static_cast<UnitImpl*>(i)->data.type << ",";
+        output << data->units[getUnitID(i)].id << std::endl;
+      }
+      output.close();
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       {
         Unit u = BroodwarImpl.indexToUnit(i);
@@ -642,7 +650,7 @@ namespace BWAPI
       size->set_y(data->mapHeight);
       //tileset
       mapData->set_maphash(data->mapHash);
-      
+      /*
       for (auto& i : data->getGroundHeight)
       {
         for (auto& j : i)
@@ -689,7 +697,7 @@ namespace BWAPI
         mapData->add_mapsplittilesregion1(i);
       for (auto i : data->mapSplitTilesRegion2)
         mapData->add_mapsplittilesregion2(i);
-
+      */
       auto setPosition = [](auto& p, auto& x, auto& y, auto s)
       {
         p->set_x(x);
@@ -697,9 +705,25 @@ namespace BWAPI
         p->set_scale(s);
       };
 
-      for (auto& u : data->units)
+      auto playersMessage = std::make_unique<bwapi::message::Message>();
+      auto playersFrameUpdate = playersMessage->mutable_frameupdate();
+      auto playersGame = playersFrameUpdate->mutable_game();
+      for (int p = 0; p < data->playerCount; p++)
       {
-        auto unit = game->add_units();
+        auto player = playersGame->add_players();
+        player->set_id(p);
+        auto &pdata = data->players[p];
+        player->set_color(pdata.color);
+      }
+      protoClient.queueMessage(std::move(playersMessage));
+
+      auto unitsMessage = std::make_unique<bwapi::message::Message>();
+      auto unitsFrameUpdate = unitsMessage->mutable_frameupdate();
+      auto unitsGame = unitsFrameUpdate->mutable_game();
+      for (auto bwunit : BroodwarImpl.getAllUnits())
+      {
+        auto &u = data->units[getUnitID(bwunit)];
+        auto unit = unitsGame->add_units();
         unit->set_acidsporecount(u.acidSporeCount);
         unit->set_addon(u.addon);
         unit->set_airweaponcooldown(u.airWeaponCooldown);
@@ -762,6 +786,7 @@ namespace BWAPI
         unit->set_killcount(u.killCount);
         unit->set_type(u.type);
       }
+      protoClient.queueMessage(std::move(unitsMessage));
     }
     protoClient.queueMessage(std::move(message));
     //*oldData = *data;

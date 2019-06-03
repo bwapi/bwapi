@@ -1135,7 +1135,6 @@ namespace BWAPI
         return playerSet;
     }
     //------------------------------------------------- GET UNITS ----------------------------------------------
-    Unitset accessibleUnits;//all units that are accessible (and definitely alive)
     const Unitset& Game::getAllUnits() const
     {
         return accessibleUnits;
@@ -1950,6 +1949,118 @@ namespace BWAPI
       else {
         return emptyUnitset;
       }
+    }
+    void Game::addUnit(const UnitData& unitdata)
+    {
+      auto itr = units.find(unitdata.id);
+      if (itr == units.end())
+      {
+        units.emplace(unitdata);
+      }
+      /*
+      auto unitID = UnitID{ unitdata.id() };
+      auto playerID = PlayerID{ unitdata.player() };
+      //auto player = getPlayer(playerID);
+      auto unit = units.find(unitID);
+
+      if (unit == units.end())
+      {
+        UnitData newData(*this, UnitID{ unitdata.id() });
+        Unit newUnit(newData);
+        auto itr = units.emplace(newUnit);
+        unit = itr.first;
+      }
+      auto data = const_cast<UnitData*>(unit->dataptr);
+      data->acidSporeCount = unitdata.acidsporecount();
+      data->addon = UnitID{ unitdata.addon() };
+      data->airWeaponCooldown = unitdata.airweaponcooldown();
+      data->angle = unitdata.angle();
+      data->buildType = UnitType{ unitdata.buildtype() };
+      data->buildUnit = UnitID{ unitdata.buildunit() };
+      data->buttonset = unitdata.buttonset();
+      data->carrier = UnitID{ unitdata.carrier() };
+      data->carryResourceType = unitdata.carryresourcetype();
+      //data->clearanceLevel =
+      data->defenseMatrixPoints = unitdata.defensematrixpoints();
+      data->defenseMatrixTimer = unitdata.defensematrixtimer();
+      data->energy = unitdata.energy();
+      data->ensnareTimer = unitdata.ensnaretimer();
+      data->exists = unitdata.exists();
+      data->groundWeaponCooldown = unitdata.groundweaponcooldown();
+      data->hasNuke = unitdata.hasnuke();
+      data->hatchery = UnitID{ unitdata.hatchery() };
+      data->hitPoints = unitdata.hitpoints();
+      data->interceptorCount = unitdata.interceptorcount();
+      for (auto &i : unitdata.interceptors())
+        data->interceptors.push_back(UnitID{ i });
+      data->irradiateTimer = unitdata.irradiatetimer();
+      data->isAccelerating = unitdata.isaccelerating();
+      data->isAttackFrame = unitdata.isattackframe();
+      data->isAttacking = unitdata.isattacking();
+      data->isBeingGathered = unitdata.isbeinggathered();
+      data->isBeingHealed = unitdata.isbeinggathered();
+      data->isBlind = unitdata.isblind();
+      data->isBraking = unitdata.isbraking();
+      data->isBurrowed = unitdata.isburrowed();
+      data->isCloaked = unitdata.iscloaked();
+      data->isCompleted = unitdata.iscompleted();
+      data->isConstructing = unitdata.isconstructing();
+      data->isDetected = unitdata.isdetected();
+      data->isGathering = unitdata.isgathering();
+      data->isHallucination = unitdata.ishallucination();
+      data->isIdle = unitdata.isidle();
+      data->isInterruptible = unitdata.isinterruptible();
+      data->isInvincible = unitdata.isinvincible();
+      data->isLifted = unitdata.islifted();
+      data->isMorphing = unitdata.ismorphing();
+      data->isMoving = unitdata.ismoving();
+      data->isParasited = unitdata.isparasited();
+      data->isPowered = unitdata.ispowered();
+      data->isSelected = unitdata.isselected();
+      data->isStartingAttack = unitdata.isstartingattack();
+      data->isStuck = unitdata.isstuck();
+      data->isTraining = unitdata.istraining();
+      data->isUnderDarkSwarm = unitdata.isunderdarkswarm();
+      data->isUnderDWeb = unitdata.isunderdweb();
+      data->isUnderStorm = unitdata.isunderstorm();
+      data->isVisible[self()->getID().id] = unitdata.isvisible();
+      data->killCount = unitdata.killcount();
+      for (auto &l : unitdata.larva())
+        data->larva.push_back(UnitID{ l });
+      data->lastAttackerPlayer = PlayerID{ unitdata.lastattackerplayer() };
+      //data->lastCommand = unitdata.lastcommand();
+      data->position = Position{ unitdata.position().x(), unitdata.position().y() };      */
+    }
+    void Game::updatePlayer(const PlayerData& playerdata)
+    {
+      auto itr = players.find(playerdata.id);
+      Player player = nullptr;
+      if (itr == players.end())
+      {
+        player = *players.emplace(playerdata).first;
+        playerUnits[player];
+      }
+    }
+    void Game::computePrimaryUnitSets()
+    {
+      //this frame computes the set of accessible units.
+      accessibleUnits.clear();
+      pylons.clear();
+      
+      //computes sets
+      for (Unit u : units)
+      {
+        if (u->exists())
+        {
+          accessibleUnits.insert(u);
+          if (u->getType() == UnitTypes::Protoss_Pylon && u->getPlayer() == self())
+            pylons.insert(u);
+        }
+      }
+    }
+    void Game::update()
+    {
+      computePrimaryUnitSets();
     }
 }
 

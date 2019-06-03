@@ -193,6 +193,7 @@ namespace BWAPI
   /// @todo TODO Refactor this entirely
   void UnitImpl::updateData()
   {
+    self->id = id;
     BW::CUnit *o = getOriginalRawData;
     self->isUnderDarkSwarm = false;
     self->isUnderDWeb      = false;

@@ -63,6 +63,8 @@ int main()
           {
             broodwar << "discover @ " << e.getUnit()->getPosition() << std::endl;
           }
+          else
+            broodwar << "Something discovered!";
           break;
         case EventType::UnitEvade:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
