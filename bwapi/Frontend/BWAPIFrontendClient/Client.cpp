@@ -73,28 +73,56 @@ namespace BWAPI
           for (auto &p : gameMessage.players())
           {
             auto fillPlayerData = [](PlayerData& playerData, const bwapi::data::Player& p) {
-              //playerData.allUnitCount = p.allunitcount();
+              auto &allUnitCount = p.allunitcount();
+              auto &allCompletedUnitCount = p.completedunitcount();
+              auto &deadUnitCount = p.deadunitcount();
+              auto &isUnitAvailable = p.isunitavailable();
+              auto &killedUnitCount = p.killedunitcount();
+              auto &visibleUnitCount = p.visibleunitcount();
+              for (int i = 0; i < 234; i++)
+              {
+                playerData.allUnitCount[i] = allUnitCount[i];
+                playerData.completedUnitCount[i] = allCompletedUnitCount[i];
+                playerData.deadUnitCount[i] = deadUnitCount[i];
+                playerData.isUnitAvailable[i] = isUnitAvailable[i];
+                playerData.killedUnitCount[i] = killedUnitCount[i];
+                playerData.visibleUnitCount[i] = visibleUnitCount[i];
+              }
               playerData.color = Color{ p.color() };
-              //playerData.completedUnitCount
               playerData.customScore = p.customscore();
-              //playerData.deadUnitCount
               playerData.gas = p.gas();
               playerData.gatheredGas = p.gatheredgas();
               playerData.gatheredMinerals = p.gatheredminerals();
-              //playerData.hasResearched
-              //playerData.isAlly
+              auto &hasResearched = p.hasresearched();
+              auto &isResearchAvailable = p.isresearchavailable();
+              auto &isResearching = p.isresearching();
+              for (int i = 0; i < 47; i++)
+              {
+                playerData.hasResearched[i] = hasResearched[i];
+                playerData.isResearchAvailable[i] = isResearchAvailable[i];
+                playerData.isResearching[i] = isResearching[i];
+              }
+              auto &isAlly = p.isally();
+              auto &isEnemy = p.isenemy();
+              for (int i = 0; i < 12; i++)
+              {
+                playerData.isAlly[i] = isAlly[i];
+                playerData.isEnemy[i] = isEnemy[i];
+              }
               playerData.isDefeated = p.isdefeated();
-              //playerData.isEnemy
-              //playerData.isNeutral
+              playerData.isNeutral = p.isneutral();     
               playerData.isParticipating = p.isparticipating();
-              //playerData.isResearchAvailable
-              //playerData.isResearching
-              //playerData.isUnitAvailable
-              //playerData.isUpgrading
+              auto &isUpgrading = p.isupgrading();
+              auto &maxUpgradeLevel = p.maxupgradelevel();
+              auto &upgradeLevel = p.upgradelevel();
+              for (int i = 0; i < 63; i++)
+              {
+                playerData.isUpgrading[i] = isUpgrading[i];
+                playerData.maxUpgradeLevel[i] = maxUpgradeLevel[i];
+                playerData.upgradeLevel[i] = upgradeLevel[i];
+              }
               playerData.isVictorious = p.isvictorious();
-              //playerData.killedUnitCount
               playerData.leftGame = p.leftgame();
-              //playerData.maxUpgradeLevel
               playerData.minerals = p.minerals();
               playerData.name = p.name();
               playerData.race = Race{ p.race() };
@@ -104,15 +132,18 @@ namespace BWAPI
               playerData.repairedMinerals = p.repairedminerals();
               playerData.startLocationX = p.startlocationx();
               playerData.startLocationY = p.startlocationy();
-              //playerData.supplyTotal
-              //playerData.supplyUsed
+              auto &supplyTotal = p.supplytotal();
+              auto &supplyUsed = p.supplyused();
+              for (int i = 0; i < 3; i++)
+              {
+                playerData.supplyTotal[i] = supplyTotal[i];
+                playerData.supplyUsed[i] = supplyUsed[i];
+              }
               playerData.totalBuildingScore = p.totalbuildingscore();
               playerData.totalKillScore = p.totalkillscore();
               playerData.totalRazingScore = p.totalrazingscore();
               playerData.totalUnitScore = p.totalunitscore();
               playerData.type = PlayerType{ p.type() };
-              //playerData.upgradeLevel
-              //playerData.visibleUnitCount
             };
             auto playerID = PlayerID{ p.id() };
             auto itr = players.find(playerID);

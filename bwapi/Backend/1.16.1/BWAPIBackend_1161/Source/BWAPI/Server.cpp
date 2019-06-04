@@ -677,7 +677,61 @@ namespace BWAPI
         auto player = playersGame->add_players();
         player->set_id(p);
         auto &pdata = data->players[p];
+        for (int i = 0; i < 234; i++)
+        {
+          player->add_allunitcount(pdata.allUnitCount[i]);
+          player->add_completedunitcount(pdata.completedUnitCount[i]);
+          player->add_deadunitcount(pdata.deadUnitCount[i]);
+          player->add_isunitavailable(pdata.isUnitAvailable[i]);
+          player->add_killedunitcount(pdata.killedUnitCount[i]);
+          player->add_visibleunitcount(pdata.visibleUnitCount[i]);
+        }
         player->set_color(pdata.color);
+        player->set_customscore(pdata.customScore);
+        player->set_gas(pdata.gas);
+        player->set_gatheredgas(pdata.gatheredGas);
+        player->set_gatheredminerals(pdata.gatheredMinerals);
+        for (int i = 0; i < 47; i++)
+        {
+          player->add_hasresearched(pdata.hasResearched[i]);
+          player->add_isresearchavailable(pdata.isResearchAvailable[i]);
+          player->add_isresearching(pdata.isResearching[i]);
+        }
+        for (int i = 0; i < 12; i++)
+        {
+          player->add_isally(pdata.isAlly[i]);
+          player->add_isenemy(pdata.isEnemy[i]);
+        }
+        player->set_isdefeated(pdata.isDefeated);
+        player->set_isneutral(pdata.isNeutral);
+        player->set_isparticipating(pdata.isParticipating);
+        for (int i = 0; i < 63; i++)
+        {
+          player->add_isupgrading(pdata.isUpgrading[i]);
+          player->add_maxupgradelevel(pdata.maxUpgradeLevel[i]);
+          player->add_upgradelevel(pdata.upgradeLevel[i]);
+        }
+        player->set_isvictorious(pdata.isVictorious);
+        player->set_leftgame(pdata.leftGame);
+        player->set_minerals(pdata.minerals);
+        player->set_name(pdata.name);
+        player->set_race(pdata.race);
+        player->set_refundedgas(pdata.refundedGas);
+        player->set_refundedminerals(pdata.refundedMinerals);
+        player->set_repairedgas(pdata.repairedGas);
+        player->set_repairedminerals(pdata.repairedMinerals);
+        player->set_startlocationx(pdata.startLocationX);
+        player->set_startlocationy(pdata.startLocationY);
+        for (int i = 0; i < 3; i++)
+        {
+          player->add_supplytotal(pdata.supplyTotal[i]);
+          player->add_supplyused(pdata.supplyUsed[i]);
+        }
+        player->set_totalbuildingscore(pdata.totalBuildingScore);
+        player->set_totalkillscore(pdata.totalKillScore);
+        player->set_totalrazingscore(pdata.totalRazingScore);
+        player->set_totalunitscore(pdata.totalUnitScore);
+        player->set_type(pdata.type);
       }
       protoClient.queueMessage(std::move(playersMessage));
 

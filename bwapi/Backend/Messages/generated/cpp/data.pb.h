@@ -1046,18 +1046,6 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
   ::google::protobuf::RepeatedField< bool >*
       mutable_isenemy();
 
-  // repeated bool isNeutral = 8;
-  int isneutral_size() const;
-  void clear_isneutral();
-  static const int kIsNeutralFieldNumber = 8;
-  bool isneutral(int index) const;
-  void set_isneutral(int index, bool value);
-  void add_isneutral(bool value);
-  const ::google::protobuf::RepeatedField< bool >&
-      isneutral() const;
-  ::google::protobuf::RepeatedField< bool >*
-      mutable_isneutral();
-
   // repeated int32 supplyTotal = 23;
   int supplytotal_size() const;
   void clear_supplytotal();
@@ -1276,6 +1264,12 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
   ::google::protobuf::int32 startlocationy() const;
   void set_startlocationy(::google::protobuf::int32 value);
 
+  // bool isNeutral = 8;
+  void clear_isneutral();
+  static const int kIsNeutralFieldNumber = 8;
+  bool isneutral() const;
+  void set_isneutral(bool value);
+
   // bool isVictorious = 11;
   void clear_isvictorious();
   static const int kIsVictoriousFieldNumber = 11;
@@ -1392,8 +1386,6 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
   mutable int _isally_cached_byte_size_;
   ::google::protobuf::RepeatedField< bool > isenemy_;
   mutable int _isenemy_cached_byte_size_;
-  ::google::protobuf::RepeatedField< bool > isneutral_;
-  mutable int _isneutral_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > supplytotal_;
   mutable int _supplytotal_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > supplyused_;
@@ -1429,6 +1421,7 @@ class Player : public ::google::protobuf::MessageLite /* @@protoc_insertion_poin
   ::google::protobuf::int32 force_;
   ::google::protobuf::int32 startlocationx_;
   ::google::protobuf::int32 startlocationy_;
+  bool isneutral_;
   bool isvictorious_;
   bool isdefeated_;
   bool leftgame_;
@@ -4617,34 +4610,18 @@ Player::mutable_isenemy() {
   return &isenemy_;
 }
 
-// repeated bool isNeutral = 8;
-inline int Player::isneutral_size() const {
-  return isneutral_.size();
-}
+// bool isNeutral = 8;
 inline void Player::clear_isneutral() {
-  isneutral_.Clear();
+  isneutral_ = false;
 }
-inline bool Player::isneutral(int index) const {
+inline bool Player::isneutral() const {
   // @@protoc_insertion_point(field_get:bwapi.data.Player.isNeutral)
-  return isneutral_.Get(index);
-}
-inline void Player::set_isneutral(int index, bool value) {
-  isneutral_.Set(index, value);
-  // @@protoc_insertion_point(field_set:bwapi.data.Player.isNeutral)
-}
-inline void Player::add_isneutral(bool value) {
-  isneutral_.Add(value);
-  // @@protoc_insertion_point(field_add:bwapi.data.Player.isNeutral)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-Player::isneutral() const {
-  // @@protoc_insertion_point(field_list:bwapi.data.Player.isNeutral)
   return isneutral_;
 }
-inline ::google::protobuf::RepeatedField< bool >*
-Player::mutable_isneutral() {
-  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Player.isNeutral)
-  return &isneutral_;
+inline void Player::set_isneutral(bool value) {
+  
+  isneutral_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.data.Player.isNeutral)
 }
 
 // int32 startLocationX = 9;

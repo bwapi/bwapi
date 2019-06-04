@@ -88,7 +88,7 @@ message Player {
     int32 force = 5;
     repeated bool isAlly = 6;
     repeated bool isEnemy = 7;
-    repeated bool isNeutral = 8;
+    bool isNeutral = 8;
     int32 startLocationX = 9;
     int32 startLocationY = 10;
     bool isVictorious = 11;

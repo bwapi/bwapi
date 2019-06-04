@@ -2828,7 +2828,6 @@ Player::Player(const Player& from)
       _internal_metadata_(NULL),
       isally_(from.isally_),
       isenemy_(from.isenemy_),
-      isneutral_(from.isneutral_),
       supplytotal_(from.supplytotal_),
       supplyused_(from.supplyused_),
       allunitcount_(from.allunitcount_),
@@ -2887,7 +2886,6 @@ void Player::Clear() {
 
   isally_.Clear();
   isenemy_.Clear();
-  isneutral_.Clear();
   supplytotal_.Clear();
   supplyused_.Clear();
   allunitcount_.Clear();
@@ -3035,19 +3033,14 @@ bool Player::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated bool isNeutral = 8;
+      // bool isNeutral = 8;
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, this->mutable_isneutral())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 1, 66u, input, this->mutable_isneutral())));
+                 input, &isneutral_)));
         } else {
           goto handle_unusual;
         }
@@ -3674,13 +3667,9 @@ void Player::SerializeWithCachedSizes(
       this->isenemy().data(), this->isenemy_size(), output);
   }
 
-  // repeated bool isNeutral = 8;
-  if (this->isneutral_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(8, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _isneutral_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
-      this->isneutral().data(), this->isneutral_size(), output);
+  // bool isNeutral = 8;
+  if (this->isneutral() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->isneutral(), output);
   }
 
   // int32 startLocationX = 9;
@@ -3970,22 +3959,6 @@ size_t Player::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated bool isNeutral = 8;
-  {
-    unsigned int count = static_cast<unsigned int>(this->isneutral_size());
-    size_t data_size = 1UL * count;
-    if (data_size > 0) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _isneutral_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
   // repeated int32 supplyTotal = 23;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
@@ -4259,6 +4232,11 @@ size_t Player::ByteSizeLong() const {
         this->startlocationy());
   }
 
+  // bool isNeutral = 8;
+  if (this->isneutral() != 0) {
+    total_size += 1 + 1;
+  }
+
   // bool isVictorious = 11;
   if (this->isvictorious() != 0) {
     total_size += 1 + 1;
@@ -4396,7 +4374,6 @@ void Player::MergeFrom(const Player& from) {
 
   isally_.MergeFrom(from.isally_);
   isenemy_.MergeFrom(from.isenemy_);
-  isneutral_.MergeFrom(from.isneutral_);
   supplytotal_.MergeFrom(from.supplytotal_);
   supplyused_.MergeFrom(from.supplyused_);
   allunitcount_.MergeFrom(from.allunitcount_);
@@ -4432,6 +4409,9 @@ void Player::MergeFrom(const Player& from) {
   }
   if (from.startlocationy() != 0) {
     set_startlocationy(from.startlocationy());
+  }
+  if (from.isneutral() != 0) {
+    set_isneutral(from.isneutral());
   }
   if (from.isvictorious() != 0) {
     set_isvictorious(from.isvictorious());
@@ -4508,7 +4488,6 @@ void Player::InternalSwap(Player* other) {
   using std::swap;
   isally_.InternalSwap(&other->isally_);
   isenemy_.InternalSwap(&other->isenemy_);
-  isneutral_.InternalSwap(&other->isneutral_);
   supplytotal_.InternalSwap(&other->supplytotal_);
   supplyused_.InternalSwap(&other->supplyused_);
   allunitcount_.InternalSwap(&other->allunitcount_);
@@ -4531,6 +4510,7 @@ void Player::InternalSwap(Player* other) {
   swap(force_, other->force_);
   swap(startlocationx_, other->startlocationx_);
   swap(startlocationy_, other->startlocationy_);
+  swap(isneutral_, other->isneutral_);
   swap(isvictorious_, other->isvictorious_);
   swap(isdefeated_, other->isdefeated_);
   swap(leftgame_, other->leftgame_);
