@@ -45,13 +45,9 @@ namespace BWAPI
   {
     if (isConnected())
       return;
-    std::ofstream output;
-    output.open("b.txt");
     tcpSocket.connect("127.0.0.1", 8045);
     if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
       fprintf(stderr, "%s", "Connection failed.\n");
-    output << "IP address: " << tcpSocket.getRemoteAddress() << std::endl;
-    output.close();
   }
 
   void BWAPIProtoClient::transmitMessages()
