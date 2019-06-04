@@ -356,10 +356,6 @@ namespace BWAPI
     protoClient.checkForConnection(data->client_version, "x", "x");
     if (!protoClient.isConnected())
       return;
-    std::ofstream output;
-    output.open("c.txt");
-    output << "I stopped listening." << std::endl;
-    output.close();
     protoClient.stopListen();
   }
   void Server::initializeGameData()
@@ -490,19 +486,13 @@ namespace BWAPI
         memcpy(p->isUnitAvailable, p2->isUnitAvailable, sizeof(p->isUnitAvailable));
         memcpy(p->maxUpgradeLevel, p2->maxUpgradeLevel, sizeof(p->maxUpgradeLevel));
       }
-      std::ofstream output;
-      output.open("a.csv");
+
       //dynamic unit data
       for (Unit i : BroodwarImpl.getAllUnits())
       {
-        output << i->getID() << ",";
         data->units[getUnitID(i)] = static_cast<UnitImpl*>(i)->data;
-        output << static_cast<UnitImpl*>(i)->id << ",";
-        output << getUnitID(i) << ",";
-        output << static_cast<UnitImpl*>(i)->data.type << ",";
-        output << data->units[getUnitID(i)].id << std::endl;
       }
-      output.close();
+
       for (int i = 0; i < BW::UNIT_ARRAY_MAX_LENGTH; ++i)
       {
         Unit u = BroodwarImpl.indexToUnit(i);
