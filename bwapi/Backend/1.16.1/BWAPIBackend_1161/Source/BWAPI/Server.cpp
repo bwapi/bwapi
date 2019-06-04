@@ -553,27 +553,6 @@ namespace BWAPI
       }
     }
 
-    // iterate events
-    for (Event &e : BroodwarImpl.events)
-    {
-      if (e.getType() == EventType::MatchStart)
-      {
-        onMatchStart();
-      }
-
-      // Add the event to the server queue
-      addEvent(e);
-
-      // ignore if tournament AI not loaded
-      if (!BroodwarImpl.tournamentAI)
-        continue;
-
-      // call the tournament module callbacks for server/client
-      BroodwarImpl.isTournamentCall = true;
-      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
-      BroodwarImpl.isTournamentCall = false;
-    }
-    BroodwarImpl.events.clear();
     auto message = std::make_unique<bwapi::message::Message>();
     auto frameUpdate = message->mutable_frameupdate();
     auto game = frameUpdate->mutable_game();
@@ -790,6 +769,28 @@ namespace BWAPI
       protoClient.queueMessage(std::move(unitsMessage));
     }
     protoClient.queueMessage(std::move(message));
+
+    // iterate events
+    for (Event &e : BroodwarImpl.events)
+    {
+      if (e.getType() == EventType::MatchStart)
+      {
+        onMatchStart();
+      }
+
+      // Add the event to the server queue
+      addEvent(e);
+
+      // ignore if tournament AI not loaded
+      if (!BroodwarImpl.tournamentAI)
+        continue;
+
+      // call the tournament module callbacks for server/client
+      BroodwarImpl.isTournamentCall = true;
+      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
+      BroodwarImpl.isTournamentCall = false;
+    }
+    BroodwarImpl.events.clear();
     //*oldData = *data;
   }
   void Server::callOnFrame()

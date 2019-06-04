@@ -51,7 +51,7 @@ namespace BWAPI
   }
   void Client::update(Game& game)
   {
-    
+    game.clearEvents();
     game.flush();
     protoClient.transmitMessages();
     protoClient.receiveMessages();
@@ -283,6 +283,7 @@ namespace BWAPI
         }
         else if (e.has_unitdiscover())
         {
+          e2.setType(EventType::UnitDiscover);
           e2.setUnit(game.getUnit(UnitID{ e.unitdiscover().unit() }));
           game.addEvent(e2);
         }

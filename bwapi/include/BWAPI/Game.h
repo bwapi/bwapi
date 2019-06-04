@@ -1859,6 +1859,7 @@ namespace BWAPI
     void addUnit(const UnitData& unitdata);
     void updatePlayer(const PlayerData& playerdata);
     void update();
+    void clearEvents();
 
     private:
       template <typename Fn>
