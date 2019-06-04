@@ -688,12 +688,7 @@ namespace BWAPI
       for (auto i : data->mapSplitTilesRegion2)
         mapData->add_mapsplittilesregion2(i);
       */
-      auto setPosition = [](auto& p, auto& x, auto& y, auto s)
-      {
-        p->set_x(x);
-        p->set_y(y);
-        p->set_scale(s);
-      };
+
 
       auto playersMessage = std::make_unique<bwapi::message::Message>();
       auto playersFrameUpdate = playersMessage->mutable_frameupdate();
@@ -707,13 +702,13 @@ namespace BWAPI
       }
       protoClient.queueMessage(std::move(playersMessage));
 
-      auto unitsMessage = std::make_unique<bwapi::message::Message>();
-      auto unitsFrameUpdate = unitsMessage->mutable_frameupdate();
-      auto unitsGame = unitsFrameUpdate->mutable_game();
-      for (auto bwunit : BroodwarImpl.getAllUnits())
-      {
-        auto &u = data->units[getUnitID(bwunit)];
-        auto unit = unitsGame->add_units();
+      auto fillUnitMessage = [](const UnitData &u, bwapi::data::Unit *unit) {
+        auto setPosition = [](auto& p, auto& x, auto& y, auto s)
+        {
+          p->set_x(x);
+          p->set_y(y);
+          p->set_scale(s);
+        };
         unit->set_acidsporecount(u.acidSporeCount);
         unit->set_addon(u.addon);
         unit->set_airweaponcooldown(u.airWeaponCooldown);
@@ -775,6 +770,22 @@ namespace BWAPI
         unit->set_isvisible(u.isVisible);
         unit->set_killcount(u.killCount);
         unit->set_type(u.type);
+      };
+
+      auto unitsMessage = std::make_unique<bwapi::message::Message>();
+      auto unitsFrameUpdate = unitsMessage->mutable_frameupdate();
+      auto unitsGame = unitsFrameUpdate->mutable_game();
+      for (auto &bwunit : BroodwarImpl.getAllUnits())
+      {
+        auto &u = data->units[getUnitID(bwunit)];
+        auto unit = unitsGame->add_units();
+        fillUnitMessage(u, unit);
+      }
+      for (auto &bwunit : BroodwarImpl.evadeUnits)
+      {
+        auto &u = data->units[getUnitID(bwunit)];
+        auto unit = unitsGame->add_units();
+        fillUnitMessage(u, unit);
       }
       protoClient.queueMessage(std::move(unitsMessage));
     }
