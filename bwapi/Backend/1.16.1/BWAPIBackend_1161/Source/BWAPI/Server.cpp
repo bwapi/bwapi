@@ -668,7 +668,7 @@ namespace BWAPI
         mapData->add_mapsplittilesregion2(i);
       */
 
-
+      
       auto playersMessage = std::make_unique<bwapi::message::Message>();
       auto playersFrameUpdate = playersMessage->mutable_frameupdate();
       auto playersGame = playersFrameUpdate->mutable_game();
@@ -677,15 +677,13 @@ namespace BWAPI
         auto player = playersGame->add_players();
         player->set_id(p);
         auto &pdata = data->players[p];
-        for (int i = 0; i < 234; i++)
-        {
-          player->add_allunitcount(pdata.allUnitCount[i]);
-          player->add_completedunitcount(pdata.completedUnitCount[i]);
-          player->add_deadunitcount(pdata.deadUnitCount[i]);
-          player->add_isunitavailable(pdata.isUnitAvailable[i]);
-          player->add_killedunitcount(pdata.killedUnitCount[i]);
-          player->add_visibleunitcount(pdata.visibleUnitCount[i]);
-        }
+        auto array_size = sizeof(pdata.allUnitCount) / sizeof(int);
+        *player->mutable_allunitcount() = { pdata.allUnitCount, pdata.allUnitCount + array_size };
+        *player->mutable_completedunitcount() = { pdata.completedUnitCount, pdata.completedUnitCount + array_size };
+        *player->mutable_deadunitcount() = { pdata.deadUnitCount, pdata.deadUnitCount + array_size };
+        *player->mutable_isunitavailable() = { pdata.isUnitAvailable, pdata.isUnitAvailable+ array_size };
+        *player->mutable_killedunitcount() = { pdata.killedUnitCount, pdata.killedUnitCount + array_size };
+        *player->mutable_visibleunitcount() = { pdata.visibleUnitCount, pdata.visibleUnitCount + array_size };
         player->set_color(pdata.color);
         player->set_customscore(pdata.customScore);
         player->set_gas(pdata.gas);

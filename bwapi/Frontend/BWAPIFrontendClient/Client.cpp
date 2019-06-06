@@ -74,20 +74,17 @@ namespace BWAPI
           {
             auto fillPlayerData = [](PlayerData& playerData, const bwapi::data::Player& p) {
               auto &allUnitCount = p.allunitcount();
-              auto &allCompletedUnitCount = p.completedunitcount();
+              auto &completedUnitCount = p.completedunitcount();
               auto &deadUnitCount = p.deadunitcount();
               auto &isUnitAvailable = p.isunitavailable();
               auto &killedUnitCount = p.killedunitcount();
               auto &visibleUnitCount = p.visibleunitcount();
-              for (int i = 0; i < 234; i++)
-              {
-                playerData.allUnitCount[i] = allUnitCount[i];
-                playerData.completedUnitCount[i] = allCompletedUnitCount[i];
-                playerData.deadUnitCount[i] = deadUnitCount[i];
-                playerData.isUnitAvailable[i] = isUnitAvailable[i];
-                playerData.killedUnitCount[i] = killedUnitCount[i];
-                playerData.visibleUnitCount[i] = visibleUnitCount[i];
-              }
+              std::copy(allUnitCount.begin(), allUnitCount.end(), playerData.allUnitCount);
+              std::copy(completedUnitCount.begin(), completedUnitCount.end(), playerData.completedUnitCount);
+              std::copy(deadUnitCount.begin(), deadUnitCount.end(), playerData.deadUnitCount);
+              std::copy(isUnitAvailable.begin(), isUnitAvailable.end(), playerData.isUnitAvailable);
+              std::copy(killedUnitCount.begin(), killedUnitCount.end(), playerData.killedUnitCount);
+              std::copy(visibleUnitCount.begin(), visibleUnitCount.end(), playerData.visibleUnitCount);
               playerData.color = Color{ p.color() };
               playerData.customScore = p.customscore();
               playerData.gas = p.gas();
@@ -96,31 +93,22 @@ namespace BWAPI
               auto &hasResearched = p.hasresearched();
               auto &isResearchAvailable = p.isresearchavailable();
               auto &isResearching = p.isresearching();
-              for (int i = 0; i < 47; i++)
-              {
-                playerData.hasResearched[i] = hasResearched[i];
-                playerData.isResearchAvailable[i] = isResearchAvailable[i];
-                playerData.isResearching[i] = isResearching[i];
-              }
+              std::copy(hasResearched.begin(), hasResearched.end(), playerData.hasResearched);
+              std::copy(isResearchAvailable.begin(), isResearchAvailable.end(), playerData.isResearchAvailable);
+              std::copy(isResearching.begin(), isResearching.end(), playerData.isResearching);
               auto &isAlly = p.isally();
               auto &isEnemy = p.isenemy();
-              for (int i = 0; i < 12; i++)
-              {
-                playerData.isAlly[i] = isAlly[i];
-                playerData.isEnemy[i] = isEnemy[i];
-              }
+              std::copy(isAlly.begin(), isAlly.end(), playerData.isAlly);
+              std::copy(isEnemy.begin(), isEnemy.end(), playerData.isEnemy);
               playerData.isDefeated = p.isdefeated();
               playerData.isNeutral = p.isneutral();     
               playerData.isParticipating = p.isparticipating();
               auto &isUpgrading = p.isupgrading();
               auto &maxUpgradeLevel = p.maxupgradelevel();
               auto &upgradeLevel = p.upgradelevel();
-              for (int i = 0; i < 63; i++)
-              {
-                playerData.isUpgrading[i] = isUpgrading[i];
-                playerData.maxUpgradeLevel[i] = maxUpgradeLevel[i];
-                playerData.upgradeLevel[i] = upgradeLevel[i];
-              }
+              std::copy(isUpgrading.begin(), isUpgrading.end(), playerData.isUpgrading);
+              std::copy(maxUpgradeLevel.begin(), maxUpgradeLevel.end(), playerData.maxUpgradeLevel);
+              std::copy(upgradeLevel.begin(), upgradeLevel.end(), playerData.upgradeLevel);
               playerData.isVictorious = p.isvictorious();
               playerData.leftGame = p.leftgame();
               playerData.minerals = p.minerals();
@@ -134,11 +122,8 @@ namespace BWAPI
               playerData.startLocationY = p.startlocationy();
               auto &supplyTotal = p.supplytotal();
               auto &supplyUsed = p.supplyused();
-              for (int i = 0; i < 3; i++)
-              {
-                playerData.supplyTotal[i] = supplyTotal[i];
-                playerData.supplyUsed[i] = supplyUsed[i];
-              }
+              std::copy(supplyTotal.begin(), supplyTotal.end(), playerData.supplyTotal);
+              std::copy(supplyUsed.begin(), supplyUsed.end(), playerData.supplyUsed);
               playerData.totalBuildingScore = p.totalbuildingscore();
               playerData.totalKillScore = p.totalkillscore();
               playerData.totalRazingScore = p.totalrazingscore();
