@@ -69,6 +69,34 @@ namespace BWAPI
             auto gameUpdate = gameMessage.gamedata();
             game.gameData->isInGame = gameUpdate.isingame();
             game.gameData->randomSeed = gameUpdate.randomseed();
+            if (gameUpdate.has_map())
+            {
+              auto map = gameUpdate.map();
+              game.gameData->map.size = { map.size().x(), map.size().y() };
+              auto array_size = sizeof(game.gameData->map.groundHeight);
+              if (map.groundheight().data())
+              {
+                memcpy(&game.gameData->map.groundHeight[0], map.groundheight().data(), array_size);
+                /*memcpy(game.gameData->map.hasCreep, map.hascreep().data(), array_size);
+                memcpy(game.gameData->map.isBuildable, map.isbuildable().data(), array_size);
+                memcpy(game.gameData->map.isExplored, map.isexplored().data(), array_size);
+                memcpy(game.gameData->map.isOccupied, map.isoccupied().data(), array_size);
+                memcpy(game.gameData->map.isVisible, map.isvisible().data(), array_size);
+                array_size = sizeof(game.gameData->map.isWalkable);
+                memcpy(game.gameData->map.isWalkable, map.iswalkable().data(), array_size);
+                game.gameData->map.mapHash = map.maphash();
+                auto mapSplitTilesMiniTileMask = map.mapsplittilesminitilemask();
+                auto mapSplitTilesRegion1 = map.mapsplittilesregion1();
+                auto mapSplitTilesRegion2 = map.mapsplittilesregion2();
+                std::copy(mapSplitTilesMiniTileMask.begin(), mapSplitTilesMiniTileMask.end(), game.gameData->map.mapSplitTilesMiniTileMask);
+                std::copy(mapSplitTilesRegion1.begin(), mapSplitTilesRegion1.end(), game.gameData->map.mapSplitTilesRegion1);
+                std::copy(mapSplitTilesRegion2.begin(), mapSplitTilesRegion2.end(), game.gameData->map.mapSplitTilesRegion2);
+                array_size = sizeof(game.gameData->map.mapTileRegionId);
+                memcpy(game.gameData->map.mapTileRegionId, map.maptileregionid().data(), array_size);
+                game.gameData->map.size = TilePosition{ map.size().x(), map.size().y() };
+                game.gameData->map.tileset = map.tileset();*/
+              }
+            }
           }
           for (auto &p : gameMessage.players())
           {

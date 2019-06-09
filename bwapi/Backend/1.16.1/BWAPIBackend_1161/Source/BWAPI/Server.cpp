@@ -607,7 +607,7 @@ namespace BWAPI
       {
         gameData->add_regions(region.id);
       }
-    
+
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
 
@@ -619,6 +619,35 @@ namespace BWAPI
       size->set_y(data->mapHeight);
       //tileset
       mapData->set_maphash(data->mapHash);
+      auto array_size = sizeof(data->getGroundHeight);
+      mapData->mutable_groundheight()->Resize(array_size, 0);
+      memcpy(mapData->mutable_groundheight()->mutable_data(), &data->getGroundHeight[0], array_size);
+      int other[256][256];
+      memcpy(&other[0], mapData->mutable_groundheight()->mutable_data(), array_size);
+      std::ofstream output;
+      output.open("groundheight2.txt");
+      output << other[0][0] << std::endl;
+      output.close();
+      /*array_size = sizeof(data->isBuildable);
+      mapData->mutable_isbuildable()->Resize(array_size, false);
+      memcpy(mapData->mutable_isbuildable()->mutable_data(), &data->isBuildable[0], array_size);
+      mapData->mutable_isvisible()->Resize(array_size, false);
+      memcpy(mapData->mutable_isvisible()->mutable_data(), &data->isVisible[0], array_size);
+      mapData->mutable_isexplored()->Resize(array_size, false);
+      memcpy(mapData->mutable_isexplored()->mutable_data(), &data->isExplored[0], array_size);
+      mapData->mutable_hascreep()->Resize(array_size, false);
+      memcpy(mapData->mutable_hascreep()->mutable_data(), &data->hasCreep[0], array_size);
+      mapData->mutable_isoccupied()->Resize(array_size, false);
+      memcpy(mapData->mutable_isoccupied()->mutable_data(), &data->isOccupied[0], array_size);
+      mapData->mutable_iswalkable()->Resize(array_size, false);
+      memcpy(mapData->mutable_iswalkable()->mutable_data(), &data->isWalkable[0], array_size);
+      array_size = sizeof(data->mapTileRegionId);
+      mapData->mutable_maptileregionid()->Resize(array_size, 0);
+      memcpy(mapData->mutable_maptileregionid()->mutable_data(), &data->mapTileRegionId[0], array_size);
+      array_size = sizeof(data->mapSplitTilesMiniTileMask) / sizeof(unsigned short);
+      *mapData->mutable_mapsplittilesregion1() = { data->mapSplitTilesRegion1, data->mapSplitTilesRegion1 + array_size };
+      *mapData->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + array_size };*/
+    
       /*
       for (auto& i : data->getGroundHeight)
       {
@@ -677,11 +706,11 @@ namespace BWAPI
         auto player = playersGame->add_players();
         player->set_id(p);
         auto &pdata = data->players[p];
-        auto array_size = sizeof(pdata.allUnitCount) / sizeof(int);
+        array_size = sizeof(pdata.allUnitCount) / sizeof(int);
         *player->mutable_allunitcount() = { pdata.allUnitCount, pdata.allUnitCount + array_size };
         *player->mutable_completedunitcount() = { pdata.completedUnitCount, pdata.completedUnitCount + array_size };
         *player->mutable_deadunitcount() = { pdata.deadUnitCount, pdata.deadUnitCount + array_size };
-        *player->mutable_isunitavailable() = { pdata.isUnitAvailable, pdata.isUnitAvailable+ array_size };
+        *player->mutable_isunitavailable() = { pdata.isUnitAvailable, pdata.isUnitAvailable + array_size };
         *player->mutable_killedunitcount() = { pdata.killedUnitCount, pdata.killedUnitCount + array_size };
         *player->mutable_visibleunitcount() = { pdata.visibleUnitCount, pdata.visibleUnitCount + array_size };
         player->set_color(pdata.color);

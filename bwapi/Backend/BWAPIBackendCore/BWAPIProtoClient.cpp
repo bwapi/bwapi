@@ -145,30 +145,8 @@ namespace BWAPI
   }
   void BWAPIProtoClient::initListen()
   {
-    std::ofstream output;
-    output.open("d.txt");
-    output << "I am going to listen now. " << std::endl;
     tcpListener.setBlocking(false);
     auto status = tcpListener.listen(8045);
-    switch (status)
-    {
-    case sf::Socket::Status::Disconnected:
-      output << "Disconnected" << std::endl;
-      break;
-    case sf::Socket::Status::Done:
-      output << "Done" << std::endl;
-      break;
-    case sf::Socket::Status::Error:
-      output << "Error" << std::endl;
-      break;
-    case sf::Socket::Status::NotReady:
-      output << "NotReady" << std::endl;
-      break;
-    case sf::Socket::Status::Partial:
-      output << "Partial" << std::endl;
-      break;
-    }
-    output.close();
   }
   void BWAPIProtoClient::stopListen()
   {
