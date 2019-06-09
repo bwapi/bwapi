@@ -619,15 +619,20 @@ namespace BWAPI
       size->set_y(data->mapHeight);
       //tileset
       mapData->set_maphash(data->mapHash);
-      auto array_size = sizeof(data->getGroundHeight);
-      mapData->mutable_groundheight()->Resize(array_size, 0);
-      memcpy(mapData->mutable_groundheight()->mutable_data(), &data->getGroundHeight[0], array_size);
-      int other[256][256];
-      memcpy(&other[0], mapData->mutable_groundheight()->mutable_data(), array_size);
+      /*auto groundHeightArr = &data->getGroundHeight[0][0];
+      *mapData->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
       std::ofstream output;
-      output.open("groundheight2.txt");
-      output << other[0][0] << std::endl;
+      output.open("groundheight3.txt");
+      int i = 0;
+      for (auto value : *mapData->mutable_groundheight())
+        output << value << " ";
+      output << std::endl;
       output.close();
+      */
+
+      //auto array_size = sizeof(data->getGroundHeight);
+      //mapData->mutable_groundheight()->Resize(65536, 0);
+      //memcpy(mapData->mutable_groundheight()->mutable_data(), &data->getGroundHeight[0][0], array_size);
       /*array_size = sizeof(data->isBuildable);
       mapData->mutable_isbuildable()->Resize(array_size, false);
       memcpy(mapData->mutable_isbuildable()->mutable_data(), &data->isBuildable[0], array_size);
@@ -706,7 +711,7 @@ namespace BWAPI
         auto player = playersGame->add_players();
         player->set_id(p);
         auto &pdata = data->players[p];
-        array_size = sizeof(pdata.allUnitCount) / sizeof(int);
+        auto array_size = sizeof(pdata.allUnitCount) / sizeof(int);
         *player->mutable_allunitcount() = { pdata.allUnitCount, pdata.allUnitCount + array_size };
         *player->mutable_completedunitcount() = { pdata.completedUnitCount, pdata.completedUnitCount + array_size };
         *player->mutable_deadunitcount() = { pdata.deadUnitCount, pdata.deadUnitCount + array_size };

@@ -63,7 +63,10 @@ namespace BWAPI
       packet.clear();
       currentMessage = std::move(messageQueue.front());
       messageQueue.pop_front();
-      packet << currentMessage->SerializeAsString();
+      auto size = currentMessage->ByteSize();
+      std::unique_ptr<char[]> buffer(new char[size]);
+      currentMessage->SerializeToArray(&buffer[0], size);
+      packet.append(buffer.get(), size);
       if (tcpSocket.send(packet) != sf::Socket::Done)
       {
         //Error sending command, we should do something here?
@@ -75,13 +78,15 @@ namespace BWAPI
     currentMessage = std::make_unique<bwapi::message::Message>();
     currentMessage->set_allocated_endofqueue(endOfQueue.release());
     packet.clear();
-    packet << currentMessage->SerializeAsString();
+    auto size = currentMessage->ByteSize();
+    std::unique_ptr<char[]> buffer(new char[size]);
+    currentMessage->SerializeToArray(&buffer[0], size);
+    packet.append(buffer.get(), size);
     if (tcpSocket.send(packet) != sf::Socket::Done)
     {
       //Error sending EndofQueue
       fprintf(stderr, "Failed to send end of queue command.");
     }
-
   }
 
   void BWAPIProtoClient::receiveMessages()
@@ -91,27 +96,26 @@ namespace BWAPI
       return;
     std::unique_ptr<bwapi::message::Message> currentMessage;
     sf::Packet packet;
-    std::string packetContents;
     //loop until the end of queue message is received.
     while (true)
     {
       packet.clear();
-      packetContents.clear();
       currentMessage = std::make_unique<bwapi::message::Message>();
       if (tcpSocket.receive(packet) != sf::Socket::Done)
       {
         fprintf(stderr, "Failed to receive messages.\n");
         return;
       }
-      packet >> packetContents;
-      currentMessage->ParseFromString(packetContents);
+      auto size = packet.getDataSize();
+      std::unique_ptr<char[]> packetContents(new char[size]);
+      memcpy(packetContents.get(), packet.getData(), size);
+      currentMessage->ParseFromArray(packetContents.get(), packet.getDataSize());
       if (currentMessage->has_endofqueue())
         return;
       if (currentMessage->has_frameupdate())
         std::cout << packet.getDataSize() << std::endl;
       messageQueue.push_back(std::move(currentMessage));
     }
-
   }
 
   void BWAPIProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> newMessage)

@@ -76,7 +76,8 @@ namespace BWAPI
               auto array_size = sizeof(game.gameData->map.groundHeight);
               if (map.groundheight().data())
               {
-                memcpy(&game.gameData->map.groundHeight[0], map.groundheight().data(), array_size);
+                std::copy(map.groundheight().begin(), map.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
+                //memcpy(&game.gameData->map.groundHeight[0][0], map.groundheight().data(), array_size);
                 /*memcpy(game.gameData->map.hasCreep, map.hascreep().data(), array_size);
                 memcpy(game.gameData->map.isBuildable, map.isbuildable().data(), array_size);
                 memcpy(game.gameData->map.isExplored, map.isexplored().data(), array_size);
