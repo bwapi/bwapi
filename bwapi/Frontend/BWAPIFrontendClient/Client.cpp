@@ -72,31 +72,20 @@ namespace BWAPI
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
-              game.gameData->map.size = { map.size().x(), map.size().y() };
-              auto array_size = sizeof(game.gameData->map.groundHeight);
-              if (map.groundheight().data())
-              {
-                std::copy(map.groundheight().begin(), map.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
-                //memcpy(&game.gameData->map.groundHeight[0][0], map.groundheight().data(), array_size);
-                /*memcpy(game.gameData->map.hasCreep, map.hascreep().data(), array_size);
-                memcpy(game.gameData->map.isBuildable, map.isbuildable().data(), array_size);
-                memcpy(game.gameData->map.isExplored, map.isexplored().data(), array_size);
-                memcpy(game.gameData->map.isOccupied, map.isoccupied().data(), array_size);
-                memcpy(game.gameData->map.isVisible, map.isvisible().data(), array_size);
-                array_size = sizeof(game.gameData->map.isWalkable);
-                memcpy(game.gameData->map.isWalkable, map.iswalkable().data(), array_size);
-                game.gameData->map.mapHash = map.maphash();
-                auto mapSplitTilesMiniTileMask = map.mapsplittilesminitilemask();
-                auto mapSplitTilesRegion1 = map.mapsplittilesregion1();
-                auto mapSplitTilesRegion2 = map.mapsplittilesregion2();
-                std::copy(mapSplitTilesMiniTileMask.begin(), mapSplitTilesMiniTileMask.end(), game.gameData->map.mapSplitTilesMiniTileMask);
-                std::copy(mapSplitTilesRegion1.begin(), mapSplitTilesRegion1.end(), game.gameData->map.mapSplitTilesRegion1);
-                std::copy(mapSplitTilesRegion2.begin(), mapSplitTilesRegion2.end(), game.gameData->map.mapSplitTilesRegion2);
-                array_size = sizeof(game.gameData->map.mapTileRegionId);
-                memcpy(game.gameData->map.mapTileRegionId, map.maptileregionid().data(), array_size);
-                game.gameData->map.size = TilePosition{ map.size().x(), map.size().y() };
-                game.gameData->map.tileset = map.tileset();*/
-              }
+              std::copy(map.groundheight().begin(), map.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
+              std::copy(map.hascreep().begin(), map.hascreep().end(), &game.gameData->map.hasCreep[0][0]);
+              std::copy(map.isbuildable().begin(), map.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
+              std::copy(map.isexplored().begin(), map.isexplored().end(), &game.gameData->map.isExplored[0][0]);
+              std::copy(map.isoccupied().begin(), map.isoccupied().end(), &game.gameData->map.isOccupied[0][0]);
+              std::copy(map.isvisible().begin(), map.isvisible().end(), &game.gameData->map.isVisible[0][0]);
+              std::copy(map.iswalkable().begin(), map.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
+              game.gameData->map.mapHash = map.maphash();
+              std::copy(map.mapsplittilesminitilemask().begin(), map.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
+              std::copy(map.mapsplittilesregion1().begin(), map.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
+              std::copy(map.mapsplittilesregion2().begin(), map.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
+              std::copy(map.maptileregionid().begin(), map.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
+              game.gameData->map.size = TilePosition{ map.size().x(), map.size().y() };
+              game.gameData->map.tileset = map.tileset();
             }
           }
           for (auto &p : gameMessage.players())

@@ -593,7 +593,7 @@ namespace BWAPI
     std::stringstream randomSeed;
     randomSeed << data->randomSeed;
     gameData->set_randomseed(randomSeed.str());
-    if (data->isInGame)
+    if (BroodwarImpl.isInGame())
     {
       for (auto location : data->startLocations)
       {
@@ -611,98 +611,6 @@ namespace BWAPI
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
 
-      //screensize
-      //screenposition
-      auto mapData = gameData->mutable_map();
-      auto size = mapData->mutable_size();
-      size->set_x(data->mapWidth);
-      size->set_y(data->mapHeight);
-      //tileset
-      mapData->set_maphash(data->mapHash);
-      /*auto groundHeightArr = &data->getGroundHeight[0][0];
-      *mapData->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
-      std::ofstream output;
-      output.open("groundheight3.txt");
-      int i = 0;
-      for (auto value : *mapData->mutable_groundheight())
-        output << value << " ";
-      output << std::endl;
-      output.close();
-      */
-
-      //auto array_size = sizeof(data->getGroundHeight);
-      //mapData->mutable_groundheight()->Resize(65536, 0);
-      //memcpy(mapData->mutable_groundheight()->mutable_data(), &data->getGroundHeight[0][0], array_size);
-      /*array_size = sizeof(data->isBuildable);
-      mapData->mutable_isbuildable()->Resize(array_size, false);
-      memcpy(mapData->mutable_isbuildable()->mutable_data(), &data->isBuildable[0], array_size);
-      mapData->mutable_isvisible()->Resize(array_size, false);
-      memcpy(mapData->mutable_isvisible()->mutable_data(), &data->isVisible[0], array_size);
-      mapData->mutable_isexplored()->Resize(array_size, false);
-      memcpy(mapData->mutable_isexplored()->mutable_data(), &data->isExplored[0], array_size);
-      mapData->mutable_hascreep()->Resize(array_size, false);
-      memcpy(mapData->mutable_hascreep()->mutable_data(), &data->hasCreep[0], array_size);
-      mapData->mutable_isoccupied()->Resize(array_size, false);
-      memcpy(mapData->mutable_isoccupied()->mutable_data(), &data->isOccupied[0], array_size);
-      mapData->mutable_iswalkable()->Resize(array_size, false);
-      memcpy(mapData->mutable_iswalkable()->mutable_data(), &data->isWalkable[0], array_size);
-      array_size = sizeof(data->mapTileRegionId);
-      mapData->mutable_maptileregionid()->Resize(array_size, 0);
-      memcpy(mapData->mutable_maptileregionid()->mutable_data(), &data->mapTileRegionId[0], array_size);
-      array_size = sizeof(data->mapSplitTilesMiniTileMask) / sizeof(unsigned short);
-      *mapData->mutable_mapsplittilesregion1() = { data->mapSplitTilesRegion1, data->mapSplitTilesRegion1 + array_size };
-      *mapData->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + array_size };*/
-    
-      /*
-      for (auto& i : data->getGroundHeight)
-      {
-        for (auto& j : i)
-          mapData->add_groundheight(j);
-      }
-      for (auto& i : data->isBuildable)
-      {
-        for (auto& j : i)
-          mapData->add_isbuildable(j);
-      }
-      for (auto& i : data->isVisible)
-      {
-        for (auto& j : i)
-          mapData->add_isvisible(j);
-      }
-      for (auto& i : data->isExplored)
-      {
-        for (auto& j : i)
-          mapData->add_isexplored(j);
-      }
-      for (auto& i : data->hasCreep)
-      {
-        for (auto& j : i)
-          mapData->add_hascreep(j);
-      }
-      for (auto& i : data->isOccupied)
-      {
-        for (auto& j : i)
-          mapData->add_isoccupied(i);
-      }
-      for (auto& i : data->isWalkable)
-      {
-        for (auto& j : i)
-          mapData->add_iswalkable(j);
-      }
-      for (auto& i : data->mapTileRegionId)
-      {
-        for (auto& j : i)
-          mapData->add_maptileregionid(j);
-      }
-      for (auto i : data->mapSplitTilesMiniTileMask)
-        mapData->add_mapsplittilesminitilemask(i);
-      for (auto i : data->mapSplitTilesRegion1)
-        mapData->add_mapsplittilesregion1(i);
-      for (auto i : data->mapSplitTilesRegion2)
-        mapData->add_mapsplittilesregion2(i);
-      */
-
-      
       auto playersMessage = std::make_unique<bwapi::message::Message>();
       auto playersFrameUpdate = playersMessage->mutable_frameupdate();
       auto playersGame = playersFrameUpdate->mutable_game();
@@ -854,7 +762,6 @@ namespace BWAPI
       }
       protoClient.queueMessage(std::move(unitsMessage));
     }
-    protoClient.queueMessage(std::move(message));
 
     // iterate events
     for (Event &e : BroodwarImpl.events)
@@ -877,6 +784,38 @@ namespace BWAPI
       BroodwarImpl.isTournamentCall = false;
     }
     BroodwarImpl.events.clear();
+
+    if (data->isInGame)
+    {
+      //screensize
+      //screenposition
+      auto mapData = gameData->mutable_map();
+      auto size = mapData->mutable_size();
+      size->set_x(data->mapWidth);
+      size->set_y(data->mapHeight);
+
+      //tileset
+      mapData->set_maphash(data->mapHash);
+      auto groundHeightArr = &data->getGroundHeight[0][0];
+      *mapData->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
+      auto isBuildableArr = &data->isBuildable[0][0];
+      *mapData->mutable_isbuildable() = { isBuildableArr, isBuildableArr + 256 * 256 };
+      auto isVisibleArr = &data->isVisible[0][0];
+      *mapData->mutable_isvisible() = { isVisibleArr, isVisibleArr + 256 * 256 };
+      auto isExploredArr = &data->isExplored[0][0];
+      *mapData->mutable_isexplored() = { isExploredArr, isExploredArr + 256 * 256 };
+      auto hasCreepArr = &data->hasCreep[0][0];
+      *mapData->mutable_hascreep() = { hasCreepArr, hasCreepArr + 256 * 256 };
+      auto isOccupiedArr = &data->isOccupied[0][0];
+      *mapData->mutable_isoccupied() = { isOccupiedArr, isOccupiedArr + 256 * 256 };
+      auto isWalkableArr = &data->isWalkable[0][0];
+      *mapData->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };
+      auto mapTileRegionIdArr = &data->mapTileRegionId[0][0];
+      *mapData->mutable_maptileregionid() = { mapTileRegionIdArr, mapTileRegionIdArr + 256 * 256 };
+      *mapData->mutable_mapsplittilesregion1() = { data->mapSplitTilesRegion1, data->mapSplitTilesRegion1 + 5000 };
+      *mapData->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + 5000 };
+    }
+    protoClient.queueMessage(std::move(message));
     //*oldData = *data;
   }
   void Server::callOnFrame()
