@@ -84,6 +84,9 @@
     <ClCompile Include="Source\Force.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Bullet.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI\Event.h" />
@@ -197,6 +200,9 @@
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Force.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

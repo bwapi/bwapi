@@ -593,7 +593,116 @@ namespace BWAPI
     std::stringstream randomSeed;
     randomSeed << data->randomSeed;
     gameData->set_randomseed(randomSeed.str());
-    if (BroodwarImpl.isInGame())
+
+    auto fillUnitMessage = [](const UnitData &u, bwapi::data::Unit *unit) {
+      auto setPosition = [](auto& p, auto& x, auto& y, auto s)
+      {
+        p->set_x(x);
+        p->set_y(y);
+        p->set_scale(s);
+      };
+      unit->set_acidsporecount(u.acidSporeCount);
+      unit->set_addon(u.addon);
+      unit->set_airweaponcooldown(u.airWeaponCooldown);
+      auto orderTargetPosition = unit->mutable_ordertargetposition();
+      setPosition(orderTargetPosition, u.orderTargetPositionX, u.orderTargetPositionY, 1);
+      auto position = unit->mutable_position();
+      setPosition(position, u.positionX, u.positionY, 1);
+      auto rallyPosition = unit->mutable_rallyposition();
+      setPosition(rallyPosition, u.rallyPositionX, u.rallyPositionY, 1);
+      auto targetPosition = unit->mutable_targetposition();
+      setPosition(targetPosition, u.targetPositionX, u.targetPositionY, 1);
+      unit->set_angle(u.angle);
+      unit->set_buildtype(u.buildType);
+      unit->set_buildunit(u.buildUnit);
+      unit->set_buttonset(u.buttonset);
+      unit->set_carrier(u.carrier);
+      unit->set_carryresourcetype(u.carryResourceType);
+      unit->set_defensematrixpoints(u.defenseMatrixPoints);
+      unit->set_defensematrixtimer(u.defenseMatrixTimer);
+      unit->set_energy(u.energy);
+      unit->set_ensnaretimer(u.ensnareTimer);
+      unit->set_exists(u.exists);
+      unit->set_groundweaponcooldown(u.groundWeaponCooldown);
+      unit->set_hasnuke(u.hasNuke);
+      unit->set_hatchery(u.hatchery);
+      unit->set_hitpoints(u.hitPoints);
+      unit->set_id(u.id);
+      unit->set_interceptorcount(u.interceptorCount);
+      unit->set_irradiatetimer(u.irradiateTimer);
+      unit->set_isaccelerating(u.isAccelerating);
+      unit->set_isattackframe(u.isAttackFrame);
+      unit->set_isattacking(u.isAttacking);
+      unit->set_isbeinggathered(u.isBeingGathered);
+      unit->set_isblind(u.isBlind);
+      unit->set_isbraking(u.isBraking);
+      unit->set_isburrowed(u.isBurrowed);
+      unit->set_iscloaked(u.isCloaked);
+      unit->set_iscompleted(u.isCompleted);
+      unit->set_isconstructing(u.isConstructing);
+      unit->set_isdetected(u.isDetected);
+      unit->set_isgathering(u.isGathering);
+      unit->set_ishallucination(u.isHallucination);
+      unit->set_isidle(u.isIdle);
+      unit->set_isinterruptible(u.isInterruptible);
+      //unit->set_isbeinghealed()
+      unit->set_isinvincible(u.isInvincible);
+      unit->set_islifted(u.isLifted);
+      unit->set_ismorphing(u.isMorphing);
+      unit->set_ismoving(u.isMoving);
+      unit->set_isparasited(u.isParasited);
+      unit->set_ispowered(u.isPowered);
+      unit->set_isselected(u.isSelected);
+      unit->set_isstartingattack(u.isStartingAttack);
+      unit->set_isstuck(u.isStuck);
+      unit->set_istraining(u.isTraining);
+      unit->set_isunderdarkswarm(u.isUnderDarkSwarm);
+      unit->set_isunderdweb(u.isUnderDWeb);
+      unit->set_isunderstorm(u.isUnderStorm);
+      unit->set_isvisible(u.isVisible);
+      unit->set_killcount(u.killCount);
+      unit->set_type(u.type);
+    };
+
+    auto unitsMessage = std::make_unique<bwapi::message::Message>();
+    auto unitsFrameUpdate = unitsMessage->mutable_frameupdate();
+    auto unitsGame = unitsFrameUpdate->mutable_game();
+    for (auto &bwunit : BroodwarImpl.getAllUnits())
+    {
+      auto &u = data->units[getUnitID(bwunit)];
+      auto unit = unitsGame->add_units();
+      fillUnitMessage(u, unit);
+    }
+    for (auto &bwunit : BroodwarImpl.evadeUnits)
+    {
+      auto &u = data->units[getUnitID(bwunit)];
+      auto unit = unitsGame->add_units();
+      fillUnitMessage(u, unit);
+    }
+    protoClient.queueMessage(std::move(unitsMessage));
+
+    // iterate events
+    for (Event &e : BroodwarImpl.events)
+    {
+      if (e.getType() == EventType::MatchStart)
+      {
+        onMatchStart();
+      }
+
+      // Add the event to the server queue
+      addEvent(e);
+
+      // ignore if tournament AI not loaded
+      if (!BroodwarImpl.tournamentAI)
+        continue;
+
+      // call the tournament module callbacks for server/client
+      BroodwarImpl.isTournamentCall = true;
+      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
+      BroodwarImpl.isTournamentCall = false;
+    }
+    BroodwarImpl.events.clear();
+    if (data->isInGame)
     {
       for (auto location : data->startLocations)
       {
@@ -674,119 +783,7 @@ namespace BWAPI
         player->set_type(pdata.type);
       }
       protoClient.queueMessage(std::move(playersMessage));
-
-      auto fillUnitMessage = [](const UnitData &u, bwapi::data::Unit *unit) {
-        auto setPosition = [](auto& p, auto& x, auto& y, auto s)
-        {
-          p->set_x(x);
-          p->set_y(y);
-          p->set_scale(s);
-        };
-        unit->set_acidsporecount(u.acidSporeCount);
-        unit->set_addon(u.addon);
-        unit->set_airweaponcooldown(u.airWeaponCooldown);
-        auto orderTargetPosition = unit->mutable_ordertargetposition();
-        setPosition(orderTargetPosition, u.orderTargetPositionX, u.orderTargetPositionY, 1);
-        auto position = unit->mutable_position();
-        setPosition(position, u.positionX, u.positionY, 1);
-        auto rallyPosition = unit->mutable_rallyposition();
-        setPosition(rallyPosition, u.rallyPositionX, u.rallyPositionY, 1);
-        auto targetPosition = unit->mutable_targetposition();
-        setPosition(targetPosition, u.targetPositionX, u.targetPositionY, 1);
-        unit->set_angle(u.angle);
-        unit->set_buildtype(u.buildType);
-        unit->set_buildunit(u.buildUnit);
-        unit->set_buttonset(u.buttonset);
-        unit->set_carrier(u.carrier);
-        unit->set_carryresourcetype(u.carryResourceType);
-        unit->set_defensematrixpoints(u.defenseMatrixPoints);
-        unit->set_defensematrixtimer(u.defenseMatrixTimer);
-        unit->set_energy(u.energy);
-        unit->set_ensnaretimer(u.ensnareTimer);
-        unit->set_exists(u.exists);
-        unit->set_groundweaponcooldown(u.groundWeaponCooldown);
-        unit->set_hasnuke(u.hasNuke);
-        unit->set_hatchery(u.hatchery);
-        unit->set_hitpoints(u.hitPoints);
-        unit->set_id(u.id);
-        unit->set_interceptorcount(u.interceptorCount);
-        unit->set_irradiatetimer(u.irradiateTimer);
-        unit->set_isaccelerating(u.isAccelerating);
-        unit->set_isattackframe(u.isAttackFrame);
-        unit->set_isattacking(u.isAttacking);
-        unit->set_isbeinggathered(u.isBeingGathered);
-        unit->set_isblind(u.isBlind);
-        unit->set_isbraking(u.isBraking);
-        unit->set_isburrowed(u.isBurrowed);
-        unit->set_iscloaked(u.isCloaked);
-        unit->set_iscompleted(u.isCompleted);
-        unit->set_isconstructing(u.isConstructing);
-        unit->set_isdetected(u.isDetected);
-        unit->set_isgathering(u.isGathering);
-        unit->set_ishallucination(u.isHallucination);
-        unit->set_isidle(u.isIdle);
-        unit->set_isinterruptible(u.isInterruptible);
-        //unit->set_isbeinghealed()
-        unit->set_isinvincible(u.isInvincible);
-        unit->set_islifted(u.isLifted);
-        unit->set_ismorphing(u.isMorphing);
-        unit->set_ismoving(u.isMoving);
-        unit->set_isparasited(u.isParasited);
-        unit->set_ispowered(u.isPowered);
-        unit->set_isselected(u.isSelected);
-        unit->set_isstartingattack(u.isStartingAttack);
-        unit->set_isstuck(u.isStuck);
-        unit->set_istraining(u.isTraining);
-        unit->set_isunderdarkswarm(u.isUnderDarkSwarm);
-        unit->set_isunderdweb(u.isUnderDWeb);
-        unit->set_isunderstorm(u.isUnderStorm);
-        unit->set_isvisible(u.isVisible);
-        unit->set_killcount(u.killCount);
-        unit->set_type(u.type);
-      };
-
-      auto unitsMessage = std::make_unique<bwapi::message::Message>();
-      auto unitsFrameUpdate = unitsMessage->mutable_frameupdate();
-      auto unitsGame = unitsFrameUpdate->mutable_game();
-      for (auto &bwunit : BroodwarImpl.getAllUnits())
-      {
-        auto &u = data->units[getUnitID(bwunit)];
-        auto unit = unitsGame->add_units();
-        fillUnitMessage(u, unit);
-      }
-      for (auto &bwunit : BroodwarImpl.evadeUnits)
-      {
-        auto &u = data->units[getUnitID(bwunit)];
-        auto unit = unitsGame->add_units();
-        fillUnitMessage(u, unit);
-      }
-      protoClient.queueMessage(std::move(unitsMessage));
-    }
-
-    // iterate events
-    for (Event &e : BroodwarImpl.events)
-    {
-      if (e.getType() == EventType::MatchStart)
-      {
-        onMatchStart();
-      }
-
-      // Add the event to the server queue
-      addEvent(e);
-
-      // ignore if tournament AI not loaded
-      if (!BroodwarImpl.tournamentAI)
-        continue;
-
-      // call the tournament module callbacks for server/client
-      BroodwarImpl.isTournamentCall = true;
-      GameImpl::SendClientEvent(BroodwarImpl.tournamentAI, e);
-      BroodwarImpl.isTournamentCall = false;
-    }
-    BroodwarImpl.events.clear();
-
-    if (data->isInGame)
-    {
+    
       //screensize
       //screenposition
       auto mapData = gameData->mutable_map();

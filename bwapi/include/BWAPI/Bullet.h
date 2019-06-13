@@ -32,6 +32,7 @@ namespace BWAPI
   /// @ingroup Interface
   class Bullet: public InterfaceDataWrapper<Bullet, BulletData>
   {
+  public:
     using InterfaceDataWrapper<Bullet, BulletData>::InterfaceDataWrapper;
 
     /// <summary>Checks if the Bullet exists in the view of the BWAPI player.</summary>

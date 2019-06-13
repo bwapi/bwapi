@@ -69,6 +69,7 @@ namespace BWAPI
             auto gameUpdate = gameMessage.gamedata();
             game.gameData->isInGame = gameUpdate.isingame();
             game.gameData->randomSeed = gameUpdate.randomseed();
+            game.gameData->player = PlayerID{ gameUpdate.player() };
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
