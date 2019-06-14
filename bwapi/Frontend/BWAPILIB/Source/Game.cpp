@@ -1140,7 +1140,6 @@ namespace BWAPI
         return accessibleUnits;
     }
     //------------------------------------------------- GET MINERALS -------------------------------------------
-    Unitset minerals;
     const Unitset& Game::getMinerals() const
     {
         return minerals;
@@ -1973,6 +1972,9 @@ namespace BWAPI
       //this frame computes the set of accessible units.
       accessibleUnits.clear();
       pylons.clear();
+      minerals.clear();
+      for (auto itr = playerUnits.begin(); itr != playerUnits.end(); itr++)
+        itr->second.clear();
       
       //computes sets
       for (Unit u : units)
@@ -1980,14 +1982,19 @@ namespace BWAPI
         if (u->exists())
         {
           accessibleUnits.insert(u);
-          if (u->getType() == UnitTypes::Protoss_Pylon && u->getPlayer() == self())
+          auto player = u->getPlayer();
+          if (u->getType() == UnitTypes::Protoss_Pylon && player == self())
             pylons.insert(u);
+          playerUnits[player].emplace(u);
+          if (u->getType().isMineralField())
+            minerals.emplace(u);
         }
       }
     }
     void Game::update()
     {
-      computePrimaryUnitSets();
+      if (gameData->isInGame)
+        computePrimaryUnitSets();
     }
     void Game::clearEvents()
     {

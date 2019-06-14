@@ -661,7 +661,47 @@ namespace BWAPI
       unit->set_isunderstorm(u.isUnderStorm);
       unit->set_isvisible(u.isVisible);
       unit->set_killcount(u.killCount);
+      //unit->add_larva() <-- where is this stored?
+      unit->set_lastattackerplayer(u.lastAttackerPlayer);
+      //unit->set_lastcommand() <-- where is this stored?
+      //unit->set_lastcommandframe() <-- where is this stored?
+      unit->set_lasthitpoints(u.lastHitPoints);
+      //unit->set_loadedunits() <-- where is this stored?
+      unit->set_lockdowntimer(u.lockdownTimer);
+      unit->set_maelstromtimer(u.maelstromTimer);
+      unit->set_nydusexit(u.nydusExit);
+      unit->set_order(u.order);
+      unit->set_ordertarget(u.orderTarget);
+      unit->set_ordertimer(u.orderTimer);
+      unit->set_plaguetimer(u.plagueTimer);
+      unit->set_player(u.player);
+      unit->set_powerup(u.powerUp);
+      unit->set_rallyunit(u.rallyUnit);
+      unit->set_recentlyattacked(u.recentlyAttacked);
+      unit->set_remainingbuildtime(u.remainingBuildTime);
+      unit->set_remainingresearchtime(u.remainingResearchTime);
+      unit->set_remainingtraintime(u.remainingTrainTime);
+      unit->set_remainingupgradetime(u.remainingUpgradeTime);
+      unit->set_removetimer(u.removeTimer);
+      unit->set_replayid(u.replayID);
+      unit->set_resourcegroup(u.resourceGroup);
+      unit->set_resources(u.resources);
+      unit->set_scarabcount(u.scarabCount);
+      unit->set_secondaryorder(u.secondaryOrder);
+      unit->set_shields(u.shields);
+      unit->set_spellcooldown(u.spellCooldown);
+      unit->set_spiderminecount(u.spiderMineCount);
+      unit->set_stasistimer(u.stasisTimer);
+      unit->set_stimtimer(u.stimTimer);
+      unit->set_target(u.target);
+      unit->set_tech(u.tech);
+      for (int i = 0; i < 5; i++)
+        unit->add_trainingqueue(u.trainingQueue[i]);
+      unit->set_transport(u.transport);
       unit->set_type(u.type);
+      unit->set_upgrade(u.upgrade);
+      unit->set_velocityx(u.velocityX);
+      unit->set_velocityy(u.velocityY);
     };
 
     auto unitsMessage = std::make_unique<bwapi::message::Message>();
