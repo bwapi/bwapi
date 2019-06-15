@@ -659,7 +659,7 @@ namespace BWAPI
       unit->set_isunderdarkswarm(u.isUnderDarkSwarm);
       unit->set_isunderdweb(u.isUnderDWeb);
       unit->set_isunderstorm(u.isUnderStorm);
-      unit->set_isvisible(u.isVisible);
+      *unit->mutable_isvisible() = { u.isVisible, u.isVisible + 9 };
       unit->set_killcount(u.killCount);
       //unit->add_larva() <-- where is this stored?
       unit->set_lastattackerplayer(u.lastAttackerPlayer);

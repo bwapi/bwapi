@@ -228,7 +228,7 @@ message Unit {
     bool isUnderDarkSwarm = 88;
     bool isUnderDWeb = 89;
     bool isPowered = 90;
-    bool isVisible = 91;
+    repeated bool isVisible = 91;
     int32  buttonset = 92;
 
     int32 lastCommandFrame = 93;

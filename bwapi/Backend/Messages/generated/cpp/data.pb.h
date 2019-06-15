@@ -1578,6 +1578,18 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_larva();
 
+  // repeated bool isVisible = 91;
+  int isvisible_size() const;
+  void clear_isvisible();
+  static const int kIsVisibleFieldNumber = 91;
+  bool isvisible(int index) const;
+  void set_isvisible(int index, bool value);
+  void add_isvisible(bool value);
+  const ::google::protobuf::RepeatedField< bool >&
+      isvisible() const;
+  ::google::protobuf::RepeatedField< bool >*
+      mutable_isvisible();
+
   // .bwapi.data.Point position = 4;
   bool has_position() const;
   void clear_position();
@@ -2118,11 +2130,11 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool ispowered() const;
   void set_ispowered(bool value);
 
-  // bool isVisible = 91;
-  void clear_isvisible();
-  static const int kIsVisibleFieldNumber = 91;
-  bool isvisible() const;
-  void set_isvisible(bool value);
+  // bool recentlyAttacked = 97;
+  void clear_recentlyattacked();
+  static const int kRecentlyAttackedFieldNumber = 97;
+  bool recentlyattacked() const;
+  void set_recentlyattacked(bool value);
 
   // int32 buttonset = 92;
   void clear_buttonset();
@@ -2154,12 +2166,6 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   ::google::protobuf::int32 replayid() const;
   void set_replayid(::google::protobuf::int32 value);
 
-  // bool recentlyAttacked = 97;
-  void clear_recentlyattacked();
-  static const int kRecentlyAttackedFieldNumber = 97;
-  bool recentlyattacked() const;
-  void set_recentlyattacked(bool value);
-
   // @@protoc_insertion_point(class_scope:bwapi.data.Unit)
  private:
 
@@ -2172,6 +2178,8 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   mutable int _interceptors_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > larva_;
   mutable int _larva_cached_byte_size_;
+  ::google::protobuf::RepeatedField< bool > isvisible_;
+  mutable int _isvisible_cached_byte_size_;
   ::bwapi::data::Point* position_;
   ::bwapi::data::Point* targetposition_;
   ::bwapi::data::Point* ordertargetposition_;
@@ -2258,13 +2266,12 @@ class Unit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(
   bool isunderdarkswarm_;
   bool isunderdweb_;
   bool ispowered_;
-  bool isvisible_;
+  bool recentlyattacked_;
   ::google::protobuf::int32 buttonset_;
   ::google::protobuf::int32 lastcommandframe_;
   ::google::protobuf::int32 lastcommand_;
   ::google::protobuf::int32 lastattackerplayer_;
   ::google::protobuf::int32 replayid_;
-  bool recentlyattacked_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_data_2eproto::TableStruct;
 };
@@ -6812,18 +6819,34 @@ inline void Unit::set_ispowered(bool value) {
   // @@protoc_insertion_point(field_set:bwapi.data.Unit.isPowered)
 }
 
-// bool isVisible = 91;
-inline void Unit::clear_isvisible() {
-  isvisible_ = false;
+// repeated bool isVisible = 91;
+inline int Unit::isvisible_size() const {
+  return isvisible_.size();
 }
-inline bool Unit::isvisible() const {
+inline void Unit::clear_isvisible() {
+  isvisible_.Clear();
+}
+inline bool Unit::isvisible(int index) const {
   // @@protoc_insertion_point(field_get:bwapi.data.Unit.isVisible)
+  return isvisible_.Get(index);
+}
+inline void Unit::set_isvisible(int index, bool value) {
+  isvisible_.Set(index, value);
+  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isVisible)
+}
+inline void Unit::add_isvisible(bool value) {
+  isvisible_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.data.Unit.isVisible)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+Unit::isvisible() const {
+  // @@protoc_insertion_point(field_list:bwapi.data.Unit.isVisible)
   return isvisible_;
 }
-inline void Unit::set_isvisible(bool value) {
-  
-  isvisible_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.data.Unit.isVisible)
+inline ::google::protobuf::RepeatedField< bool >*
+Unit::mutable_isvisible() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.data.Unit.isVisible)
+  return &isvisible_;
 }
 
 // int32 buttonset = 92;

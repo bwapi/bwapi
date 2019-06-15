@@ -344,7 +344,7 @@ bool Unit::isVisible(Player player) const {
   return player && iplayer < 9 && getData().isVisible[iplayer];
 }
 bool Unit::isVisible() const {
-  return isVisible(getPlayer());
+  return isVisible(getGame().self());
 }
 //--------------------------------------------- ATTACK MOVE ------------------------------------------------
 bool Unit::attack(Position target, bool shiftQueueCommand) const

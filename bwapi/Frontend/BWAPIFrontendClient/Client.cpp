@@ -217,7 +217,7 @@ namespace BWAPI
               unitData.isUnderDarkSwarm = u.isunderdarkswarm();
               unitData.isUnderDWeb = u.isunderdweb();
               unitData.isUnderStorm = u.isunderstorm();
-              //unitData.isVisible = u.isvisible();
+              std::copy(u.isvisible().begin(), u.isvisible().end(), unitData.isVisible);
               unitData.killCount = u.killcount();
               for (auto &l : u.larva())
                 unitData.larva.push_back(UnitID{ l });

@@ -4662,7 +4662,8 @@ Unit::Unit(const Unit& from)
       trainingqueue_(from.trainingqueue_),
       loadedunits_(from.loadedunits_),
       interceptors_(from.interceptors_),
-      larva_(from.larva_) {
+      larva_(from.larva_),
+      isvisible_(from.isvisible_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_position()) {
     position_ = new ::bwapi::data::Point(*from.position_);
@@ -4685,15 +4686,15 @@ Unit::Unit(const Unit& from)
     rallyposition_ = NULL;
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&recentlyattacked_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(recentlyattacked_));
+    static_cast<size_t>(reinterpret_cast<char*>(&replayid_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(replayid_));
   // @@protoc_insertion_point(copy_constructor:bwapi.data.Unit)
 }
 
 void Unit::SharedCtor() {
   ::memset(&position_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&recentlyattacked_) -
-      reinterpret_cast<char*>(&position_)) + sizeof(recentlyattacked_));
+      reinterpret_cast<char*>(&replayid_) -
+      reinterpret_cast<char*>(&position_)) + sizeof(replayid_));
 }
 
 Unit::~Unit() {
@@ -4727,6 +4728,7 @@ void Unit::Clear() {
   loadedunits_.Clear();
   interceptors_.Clear();
   larva_.Clear();
+  isvisible_.Clear();
   if (GetArenaNoVirtual() == NULL && position_ != NULL) {
     delete position_;
   }
@@ -4744,8 +4746,8 @@ void Unit::Clear() {
   }
   rallyposition_ = NULL;
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&recentlyattacked_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(recentlyattacked_));
+      reinterpret_cast<char*>(&replayid_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(replayid_));
   _internal_metadata_.Clear();
 }
 
@@ -6037,14 +6039,19 @@ bool Unit::MergePartialFromCodedStream(
         break;
       }
 
-      // bool isVisible = 91;
+      // repeated bool isVisible = 91;
       case 91: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(216u /* 728 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+            static_cast< ::google::protobuf::uint8>(218u /* 730 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &isvisible_)));
+                 input, this->mutable_isvisible())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(216u /* 728 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 2, 730u, input, this->mutable_isvisible())));
         } else {
           goto handle_unusual;
         }
@@ -6639,9 +6646,13 @@ void Unit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->ispowered(), output);
   }
 
-  // bool isVisible = 91;
-  if (this->isvisible() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(91, this->isvisible(), output);
+  // repeated bool isVisible = 91;
+  if (this->isvisible_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(91, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _isvisible_cached_byte_size_));
+    ::google::protobuf::internal::WireFormatLite::WriteBoolArray(
+      this->isvisible().data(), this->isvisible_size(), output);
   }
 
   // int32 buttonset = 92;
@@ -6745,6 +6756,22 @@ size_t Unit::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _larva_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  // repeated bool isVisible = 91;
+  {
+    unsigned int count = static_cast<unsigned int>(this->isvisible_size());
+    size_t data_size = 1UL * count;
+    if (data_size > 0) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _isvisible_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -7283,8 +7310,8 @@ size_t Unit::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // bool isVisible = 91;
-  if (this->isvisible() != 0) {
+  // bool recentlyAttacked = 97;
+  if (this->recentlyattacked() != 0) {
     total_size += 2 + 1;
   }
 
@@ -7323,11 +7350,6 @@ size_t Unit::ByteSizeLong() const {
         this->replayid());
   }
 
-  // bool recentlyAttacked = 97;
-  if (this->recentlyattacked() != 0) {
-    total_size += 2 + 1;
-  }
-
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -7349,6 +7371,7 @@ void Unit::MergeFrom(const Unit& from) {
   loadedunits_.MergeFrom(from.loadedunits_);
   interceptors_.MergeFrom(from.interceptors_);
   larva_.MergeFrom(from.larva_);
+  isvisible_.MergeFrom(from.isvisible_);
   if (from.has_position()) {
     mutable_position()->::bwapi::data::Point::MergeFrom(from.position());
   }
@@ -7607,8 +7630,8 @@ void Unit::MergeFrom(const Unit& from) {
   if (from.ispowered() != 0) {
     set_ispowered(from.ispowered());
   }
-  if (from.isvisible() != 0) {
-    set_isvisible(from.isvisible());
+  if (from.recentlyattacked() != 0) {
+    set_recentlyattacked(from.recentlyattacked());
   }
   if (from.buttonset() != 0) {
     set_buttonset(from.buttonset());
@@ -7624,9 +7647,6 @@ void Unit::MergeFrom(const Unit& from) {
   }
   if (from.replayid() != 0) {
     set_replayid(from.replayid());
-  }
-  if (from.recentlyattacked() != 0) {
-    set_recentlyattacked(from.recentlyattacked());
   }
 }
 
@@ -7651,6 +7671,7 @@ void Unit::InternalSwap(Unit* other) {
   loadedunits_.InternalSwap(&other->loadedunits_);
   interceptors_.InternalSwap(&other->interceptors_);
   larva_.InternalSwap(&other->larva_);
+  isvisible_.InternalSwap(&other->isvisible_);
   swap(position_, other->position_);
   swap(targetposition_, other->targetposition_);
   swap(ordertargetposition_, other->ordertargetposition_);
@@ -7737,13 +7758,12 @@ void Unit::InternalSwap(Unit* other) {
   swap(isunderdarkswarm_, other->isunderdarkswarm_);
   swap(isunderdweb_, other->isunderdweb_);
   swap(ispowered_, other->ispowered_);
-  swap(isvisible_, other->isvisible_);
+  swap(recentlyattacked_, other->recentlyattacked_);
   swap(buttonset_, other->buttonset_);
   swap(lastcommandframe_, other->lastcommandframe_);
   swap(lastcommand_, other->lastcommand_);
   swap(lastattackerplayer_, other->lastattackerplayer_);
   swap(replayid_, other->replayid_);
-  swap(recentlyattacked_, other->recentlyattacked_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
