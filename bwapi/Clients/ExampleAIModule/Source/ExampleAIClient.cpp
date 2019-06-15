@@ -84,6 +84,7 @@ int main(int argc, const char* argv[])
           }
           if (closestMineral)
             u->rightClick(closestMineral);
+
         }
         else if (u->getType().isResourceDepot())
         {

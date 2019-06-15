@@ -101,13 +101,14 @@ popd</Command>
       </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Messages.lib;libprotobuf-lite.lib;BWAPIBackendCore.lib;sfml-network-s.lib;sfml-system-s.lib;ws2_32.lib;winmm.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)Release;$(SolutionDir)contrib\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Copying BWAPI.dll to Release_Binary and bwapi-data.</Message>

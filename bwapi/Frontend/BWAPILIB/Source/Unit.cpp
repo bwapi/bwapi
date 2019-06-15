@@ -601,7 +601,7 @@ bool Unit::issueCommand(UnitCommand command) const
   //dataptr->lastCommand = command;
   //dataptr->lastCommandFrame = this->getGame().getFrameCount();
 
-  getGame().issueCommand(Unitset{ *this }, command);
+  return getGame().issueCommand(Unitset{ *this }, command);
 
   //Start of latCom work below:
   //Proceed if latcom is enabled or if command is not queued.
