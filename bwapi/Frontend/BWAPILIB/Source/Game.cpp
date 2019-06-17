@@ -1967,6 +1967,12 @@ namespace BWAPI
         playerUnits[player];
       }
     }
+    void Game::addForce(const ForceData& forceData)
+    {
+      auto itr = forces.find(forceData.id);
+      if (itr == forces.end())
+        forces.emplace(forceData).first;
+    }
     void Game::computePrimaryUnitSets()
     {
       //this frame computes the set of accessible units.

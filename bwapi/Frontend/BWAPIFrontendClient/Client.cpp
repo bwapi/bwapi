@@ -70,6 +70,7 @@ namespace BWAPI
             game.gameData->isInGame = gameUpdate.isingame();
             game.gameData->randomSeed = gameUpdate.randomseed();
             game.gameData->player = PlayerID{ gameUpdate.player() };
+            game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
@@ -106,6 +107,7 @@ namespace BWAPI
               std::copy(visibleUnitCount.begin(), visibleUnitCount.end(), playerData.visibleUnitCount);
               playerData.color = Color{ p.color() };
               playerData.customScore = p.customscore();
+              playerData.force = ForceID{ p.force() };
               playerData.gas = p.gas();
               playerData.gatheredGas = p.gatheredgas();
               playerData.gatheredMinerals = p.gatheredminerals();
@@ -279,6 +281,25 @@ namespace BWAPI
             {
               fillUnitData(const_cast<UnitData &>(*itr), u);
             }
+          }
+          for (auto f : gameMessage.forces())
+          {
+            auto fillForceData = [](ForceData &forceData, const bwapi::data::Force f)
+            {
+              forceData.name = f.name();
+              for (auto p : f.players())
+                forceData.players.push_back(PlayerID{ p });
+            };
+            auto forceID = ForceID{ f.id() };
+            auto itr = forces.find(forceID);
+            if (itr == forces.end())
+            {
+              auto &newForce = *forces.emplace(game, forceID).first;
+              fillForceData(const_cast<ForceData &>(newForce), f);
+              game.addForce(newForce);
+            }
+            else
+              fillForceData(const_cast<ForceData &>(*itr), f);
           }
         }
       }

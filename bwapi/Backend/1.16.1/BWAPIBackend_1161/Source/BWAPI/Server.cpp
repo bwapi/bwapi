@@ -341,6 +341,25 @@ namespace BWAPI
     data->playerCount = playerVector.size();
     data->initialUnitCount = unitVector.size();
 
+    auto fillForceMessage = [&](const Force &f, bwapi::data::Force *force)
+    {
+      *force->mutable_name() = f->getName();
+      force->set_id(getForceID(f));
+      for (auto p : f->getPlayers())
+        force->add_players(p->getID());
+    };
+
+    auto forceMessage = std::make_unique<bwapi::message::Message>();
+    auto forceFrameUpdate = forceMessage->mutable_frameupdate();
+    auto forceGame = forceFrameUpdate->mutable_game();
+
+    for (auto f : BroodwarImpl.getForces())
+    {
+      auto force = forceGame->add_forces();
+      fillForceMessage(f, force);
+    }
+    protoClient.queueMessage(std::move(forceMessage));
+
     data->botAPM_noselects = 0;
     data->botAPM_selects = 0;
   }
@@ -594,7 +613,7 @@ namespace BWAPI
     randomSeed << data->randomSeed;
     gameData->set_randomseed(randomSeed.str());
 
-    auto fillUnitMessage = [](const UnitData &u, bwapi::data::Unit *unit) {
+    auto fillUnitMessage = [](const Unit &bwu, const UnitData &u, bwapi::data::Unit *unit) {
       auto setPosition = [](auto& p, auto& x, auto& y, auto s)
       {
         p->set_x(x);
@@ -661,12 +680,14 @@ namespace BWAPI
       unit->set_isunderstorm(u.isUnderStorm);
       *unit->mutable_isvisible() = { u.isVisible, u.isVisible + 9 };
       unit->set_killcount(u.killCount);
-      //unit->add_larva() <-- where is this stored?
+      for (auto &l : bwu->getLarva())
+        unit->add_larva(l->getID());
       unit->set_lastattackerplayer(u.lastAttackerPlayer);
-      //unit->set_lastcommand() <-- where is this stored?
-      //unit->set_lastcommandframe() <-- where is this stored?
+      //unit->set_lastcommand() <-- Do we want to pass this?
+      //unit->set_lastcommandframe() <-- Do we want to pass this?
       unit->set_lasthitpoints(u.lastHitPoints);
-      //unit->set_loadedunits() <-- where is this stored?
+      for (auto &lu : bwu->getLoadedUnits())
+        unit->add_loadedunits(lu->getID());
       unit->set_lockdowntimer(u.lockdownTimer);
       unit->set_maelstromtimer(u.maelstromTimer);
       unit->set_nydusexit(u.nydusExit);
@@ -711,13 +732,13 @@ namespace BWAPI
     {
       auto &u = data->units[getUnitID(bwunit)];
       auto unit = unitsGame->add_units();
-      fillUnitMessage(u, unit);
+      fillUnitMessage(bwunit, u, unit);
     }
     for (auto &bwunit : BroodwarImpl.evadeUnits)
     {
       auto &u = data->units[getUnitID(bwunit)];
       auto unit = unitsGame->add_units();
-      fillUnitMessage(u, unit);
+      fillUnitMessage(bwunit, u, unit);
     }
     protoClient.queueMessage(std::move(unitsMessage));
 
@@ -823,13 +844,16 @@ namespace BWAPI
         player->set_type(pdata.type);
       }
       protoClient.queueMessage(std::move(playersMessage));
-    
+ 
       //screensize
-      //screenposition
+      auto screenPosition = gameData->mutable_screenposition();
+      screenPosition->set_x(BroodwarImpl.getScreenPosition().x);
+      screenPosition->set_y(BroodwarImpl.getScreenPosition().y);
       auto mapData = gameData->mutable_map();
       auto size = mapData->mutable_size();
       size->set_x(data->mapWidth);
       size->set_y(data->mapHeight);
+      
 
       //tileset
       mapData->set_maphash(data->mapHash);

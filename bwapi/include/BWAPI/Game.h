@@ -1858,6 +1858,7 @@ namespace BWAPI
 
     void addUnit(const UnitData& unitdata);
     void updatePlayer(const PlayerData& playerdata);
+    void addForce(const ForceData& forceData);
     void update();
     void clearEvents();
 
