@@ -301,6 +301,34 @@ namespace BWAPI
             else
               fillForceData(const_cast<ForceData &>(*itr), f);
           }
+          for (auto r : gameMessage.regions())
+          {
+            auto fillRegionData = [](RegionData &regionData, const bwapi::data::Region r)
+            {
+              regionData.bottomMost = r.bottommost();
+              regionData.center_x = r.center_x();
+              regionData.center_y = r.center_y();
+              regionData.isAccessible = r.isaccessible();
+              regionData.isHigherGround = r.ishigherground();
+              regionData.islandID = r.islandid();
+              regionData.leftMost = r.leftmost();
+              regionData.neighborCount = r.neighborcount();
+              std::copy(r.neighbors().begin(), r.neighbors().end(), regionData.neighbors);
+              regionData.priority = r.priority();
+              regionData.rightMost = r.rightmost();
+              regionData.topMost = r.topmost();
+            };
+            auto regionID = RegionID{ r.id() };
+            auto itr = regions.find(regionID);
+            if (itr == regions.end())
+            {
+              auto &newRegion = *regions.emplace(game, regionID).first;
+              fillRegionData(const_cast<RegionData &>(newRegion), r);
+              game.addRegion(newRegion);
+            }
+            else
+              fillRegionData(const_cast<RegionData &>(*itr), r);
+          }
         }
       }
       else if (message->has_event())

@@ -1859,6 +1859,7 @@ namespace BWAPI
     void addUnit(const UnitData& unitdata);
     void updatePlayer(const PlayerData& playerdata);
     void addForce(const ForceData& forceData);
+    void addRegion(const RegionData& regionData);
     void update();
     void clearEvents();
 
@@ -1914,6 +1915,7 @@ namespace BWAPI
       Unitset accessibleUnits;//all units that are accessible (and definitely alive)
       Unitset pylons;
       Unitset minerals;
+      Regionset regionsList;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 

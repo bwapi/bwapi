@@ -30,7 +30,7 @@ namespace BWAPI
     ///
     /// @returns An integer that represents this region.
     /// @see Game::getRegion
-    RegionID getID() const { return getID(); }
+    RegionID getID() const { return getData().id; }
 
     /// <summary>Retrieves a unique identifier for a group of regions that are all connected and
     /// accessible by each other.</summary> That is, all accessible regions will have the same
@@ -73,7 +73,7 @@ namespace BWAPI
     /// <summary>Retrieves the set of neighbor Regions that this one is connected to.</summary>
     ///
     /// @returns A reference to a Regionset containing the neighboring Regions.
-    const Regionset &getNeighbors() const;
+    const Regionset getNeighbors() const;
 
     /// <summary>Retrieves the approximate left boundary of the region.</summary>
     ///

@@ -31,7 +31,7 @@ namespace BWAPI
     return dataptr->isAccessible;
   }
 
-  const Regionset &Region::getNeighbors() const
+  const Regionset Region::getNeighbors() const
   {
     Regionset retSet;
     for (auto r : dataptr->neighbors)

@@ -1358,7 +1358,6 @@ namespace BWAPI
         return gameData->countdownTimer;
     }
     //----------------------------------------------- GET ALL REGIONS ------------------------------------------
-    Regionset regionsList;
     const Regionset& Game::getAllRegions() const
     {
         return regionsList;
@@ -1971,7 +1970,13 @@ namespace BWAPI
     {
       auto itr = forces.find(forceData.id);
       if (itr == forces.end())
-        forces.emplace(forceData).first;
+        forces.emplace(forceData);
+    }
+    void Game::addRegion(const RegionData& regionData)
+    {
+      auto itr = regions.find(regionData.id);
+      if (itr == regions.end())
+        regions.emplace(regionData);
     }
     void Game::computePrimaryUnitSets()
     {
@@ -2000,7 +2005,14 @@ namespace BWAPI
     void Game::update()
     {
       if (gameData->isInGame)
+      {
+        if (regionsList.empty())
+        {
+          for (auto r : regions)
+            regionsList.emplace(r);
+        }
         computePrimaryUnitSets();
+      }
     }
     void Game::clearEvents()
     {

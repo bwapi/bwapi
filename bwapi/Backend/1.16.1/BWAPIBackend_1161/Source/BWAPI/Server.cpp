@@ -263,6 +263,9 @@ namespace BWAPI
     if (BW::BWDATA::SAIPathing)
     {
       data->regionCount = BW::BWDATA::SAIPathing->regionCount;
+      auto regionMessage = std::make_unique<bwapi::message::Message>();
+      auto regionUpdate = regionMessage->mutable_frameupdate();
+      auto regionGame = regionUpdate->mutable_game();
       for (int i = 0; i < 5000; ++i)
       {
         data->mapSplitTilesMiniTileMask[i] = BW::BWDATA::SAIPathing->splitTiles[i].minitileMask;
@@ -272,13 +275,33 @@ namespace BWAPI
         BWAPI::Region r = BroodwarImpl.getRegion(i);
         if (r)
         {
+          auto fillRegionData = [](const RegionData &regionData, bwapi::data::Region *r)
+          {
+            r->set_bottommost(regionData.bottomMost);
+            r->set_center_x(regionData.center_x);
+            r->set_center_y(regionData.center_y);
+            r->set_id(regionData.id);
+            r->set_isaccessible(regionData.isAccessible);
+            r->set_ishigherground(regionData.isHigherGround);
+            r->set_islandid(regionData.islandID);
+            r->set_leftmost(regionData.leftMost);
+            r->set_neighborcount(regionData.neighborCount);
+            *r->mutable_neighbors() = { regionData.neighbors, &regionData.neighbors[0] + 256 };            
+            r->set_priority(regionData.priority);
+            r->set_rightmost(regionData.rightMost);
+            r->set_topmost(regionData.topMost);
+          };
           data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
+          auto &r = data->regions[i];
+          auto region = regionGame->add_regions();
+          fillRegionData(r, region);
         }
         else
         {
           MemZero(data->regions[i]);
         }
       }
+      protoClient.queueMessage(std::move(regionMessage));
     }
 
     // Store the map size
