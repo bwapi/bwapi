@@ -71,6 +71,7 @@ namespace BWAPI
             game.gameData->randomSeed = gameUpdate.randomseed();
             game.gameData->player = PlayerID{ gameUpdate.player() };
             game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
+            game.gameData->hasGUI = gameUpdate.hasgui();
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
@@ -282,7 +283,7 @@ namespace BWAPI
               fillUnitData(const_cast<UnitData &>(*itr), u);
             }
           }
-          for (auto f : gameMessage.forces())
+          for (auto &f : gameMessage.forces())
           {
             auto fillForceData = [](ForceData &forceData, const bwapi::data::Force f)
             {
@@ -301,7 +302,7 @@ namespace BWAPI
             else
               fillForceData(const_cast<ForceData &>(*itr), f);
           }
-          for (auto r : gameMessage.regions())
+          for (auto &r : gameMessage.regions())
           {
             auto fillRegionData = [](RegionData &regionData, const bwapi::data::Region r)
             {
@@ -328,6 +329,34 @@ namespace BWAPI
             }
             else
               fillRegionData(const_cast<RegionData &>(*itr), r);
+          }
+          for (auto &b : gameMessage.bullets())
+          {
+            auto fillBulletData = [](BulletData &bulletData, const bwapi::data::Bullet b)
+            {
+              bulletData.angle = b.angle();
+              bulletData.exists = b.exists();
+              std::copy(b.isvisible().begin(), b.isvisible().end(), bulletData.isVisible);
+              bulletData.player = PlayerID{ b.player() };
+              bulletData.position = Position{ b.position().x(), b.position().y() };
+              bulletData.removeTimer = b.removetimer();
+              bulletData.source = UnitID{ b.source() };
+              bulletData.target = UnitID{ b.target() };
+              bulletData.targetPosition = Position{ b.targetposition().x(), b.targetposition().y() };
+              bulletData.type = BulletType{ b.type() };
+              bulletData.velocityX = b.velocityx();
+              bulletData.velocityY = b.velocityy();
+            };
+            auto bulletID = BulletID{ b.id() };
+            auto itr = bullets.find(bulletID);
+            if (itr == bullets.end())
+            {
+              auto &newBullet = *bullets.emplace(game, bulletID).first;
+              fillBulletData(const_cast<BulletData &>(newBullet), b);
+              game.addBullet(newBullet);
+            }
+            else
+              fillBulletData(const_cast<BulletData &>(*itr), b);
           }
         }
       }

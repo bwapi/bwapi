@@ -796,11 +796,6 @@ namespace BWAPI
         startLocation->set_scale(1);
       }
 
-      for (auto region : data->regions)
-      {
-        gameData->add_regions(region.id);
-      }
-
       if (BroodwarImpl.self())
         gameData->set_player(BroodwarImpl.self()->getID());
 
@@ -877,6 +872,37 @@ namespace BWAPI
       size->set_x(data->mapWidth);
       size->set_y(data->mapHeight);
       
+      auto bulletsMessage = std::make_unique<bwapi::message::Message>();
+      auto fillBulletData = [](const BulletData &b, bwapi::data::Bullet *bulletData)
+      {
+        auto setPosition = [](auto& p, auto& x, auto& y, auto s)
+        {
+          p->set_x(x);
+          p->set_y(y);
+          p->set_scale(s);
+        };
+        auto position = bulletData->mutable_position();
+        setPosition(position, b.positionX, b.positionY, 1);
+        auto targetPosition = bulletData->mutable_targetposition();
+        setPosition(targetPosition, b.targetPositionX, b.targetPositionY, 1);
+        bulletData->set_angle(b.angle);
+        bulletData->set_exists(b.exists);
+        bulletData->set_id(b.id);
+        *bulletData->mutable_isvisible() = { b.isVisible, b.isVisible + 9 };
+        bulletData->set_player(b.player);
+        bulletData->set_removetimer(b.removeTimer);
+        bulletData->set_source(b.source);
+        bulletData->set_target(b.target);
+        bulletData->set_type(b.type);
+        bulletData->set_velocityx(b.velocityX);
+        bulletData->set_velocityy(b.velocityY);
+      };
+      for (auto bd : data->bullets)
+      {
+        auto bulletData = bulletsMessage->mutable_frameupdate()->mutable_game()->add_bullets();
+        fillBulletData(bd, bulletData);
+      }
+      protoClient.queueMessage(std::move(bulletsMessage));
 
       //tileset
       mapData->set_maphash(data->mapHash);

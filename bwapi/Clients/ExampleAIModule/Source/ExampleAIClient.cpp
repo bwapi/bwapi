@@ -50,7 +50,7 @@ int main(int argc, const char* argv[])
     // Uncomment to enable complete map information
     //Broodwar->enableFlag(Flag::CompleteMapInformation);
 
-    show_bullets = false;
+    show_bullets = true;
     show_visibility_data = false;
 
     if (Broodwar->isReplay())

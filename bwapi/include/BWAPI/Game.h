@@ -1860,6 +1860,7 @@ namespace BWAPI
     void updatePlayer(const PlayerData& playerdata);
     void addForce(const ForceData& forceData);
     void addRegion(const RegionData& regionData);
+    void addBullet(const BulletData& bulletData);
     void update();
     void clearEvents();
 
@@ -1916,6 +1917,7 @@ namespace BWAPI
       Unitset pylons;
       Unitset minerals;
       Regionset regionsList;
+      Bulletset bulletsset;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 

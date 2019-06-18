@@ -1175,7 +1175,6 @@ namespace BWAPI
         return staticNeutralUnits;
     }
     //------------------------------------------------ GET BULLETS ---------------------------------------------
-    Bulletset bulletsset;
     const Bulletset& Game::getBullets() const
     {
         return bulletsset;
@@ -1978,6 +1977,12 @@ namespace BWAPI
       if (itr == regions.end())
         regions.emplace(regionData);
     }
+    void Game::addBullet(const BulletData& bulletData)
+    {
+      auto itr = bullets.find(bulletData.id);
+      if (itr == bullets.end())
+        bullets.emplace(bulletData);
+    }
     void Game::computePrimaryUnitSets()
     {
       //this frame computes the set of accessible units.
@@ -1986,7 +1991,7 @@ namespace BWAPI
       minerals.clear();
       for (auto itr = playerUnits.begin(); itr != playerUnits.end(); itr++)
         itr->second.clear();
-      
+      bulletsset.clear();
       //computes sets
       for (Unit u : units)
       {
@@ -2000,6 +2005,11 @@ namespace BWAPI
           if (u->getType().isMineralField())
             minerals.emplace(u);
         }
+      }
+      for (auto b : bullets)
+      {
+        if (b.exists())
+          bulletsset.emplace(b);
       }
     }
     void Game::update()
