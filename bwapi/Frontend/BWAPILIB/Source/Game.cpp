@@ -2023,6 +2023,7 @@ namespace BWAPI
         }
         computePrimaryUnitSets();
       }
+      
     }
     void Game::clearEvents()
     {

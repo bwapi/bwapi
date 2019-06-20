@@ -32,6 +32,10 @@ namespace BWAPI
   }
   void Server::update()
   {
+    // Reset these variables.
+    data->eventCount = 0;
+    data->stringCount = 0;
+    data->shapeCount = 0;
     if (isConnected())
     {
       // Update BWAPI Client
@@ -43,9 +47,6 @@ namespace BWAPI
     {
       checkForConnections();
     }
-    // Reset these variables.
-    data->eventCount = 0;
-    data->stringCount = 0;
   }
   bool Server::isConnected() const
   {
@@ -1036,9 +1037,17 @@ namespace BWAPI
                                            command.unitcommand().extra()));
           }
         }
+        else if (command.has_shape() && BroodwarImpl.isInGame())
+        {
+          assert(data->shapeCount < GameData::MAX_SHAPES);
+          auto shape = command.shape();
+          data->shapes[data->shapeCount] = BWAPIC::Shape{ static_cast<BWAPIC::ShapeType::Enum>(shape.type()), static_cast<BWAPI::CoordinateType::Enum>(shape.ctype()), shape.x1(), shape.y1(), shape.x2(), shape.y2(), shape.extra1(), shape.extra2(), shape.color(), shape.issolid() };
+          data->shapeCount++;
+        }
       }
     }
   }
+
   void Server::setWaitForResponse(bool wait)
   {
 

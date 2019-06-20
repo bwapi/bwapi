@@ -227,11 +227,14 @@ void drawBullets(Game &Broodwar)
 {
   for (auto &b : Broodwar->getBullets())
   {
-    Position p = b->getPosition();
-    double velocityX = b->getVelocityX();
-    double velocityY = b->getVelocityY();
-    Broodwar.drawLineMap(p, p + Position{ static_cast<int>(velocityX), static_cast<int>(velocityY) }, b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
-    Broodwar.drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
+    if (b.exists())
+    {
+      Position p = b->getPosition();
+      double velocityX = b->getVelocityX();
+      double velocityY = b->getVelocityY();
+      Broodwar.drawLineMap(p, p + Position{ static_cast<int>(velocityX), static_cast<int>(velocityY) }, b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
+      Broodwar.drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
+    }
   }
 }
 
