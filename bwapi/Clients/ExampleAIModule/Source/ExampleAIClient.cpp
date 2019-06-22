@@ -50,7 +50,7 @@ int main(int argc, const char* argv[])
     // Uncomment to enable complete map information
     //Broodwar->enableFlag(Flag::CompleteMapInformation);
 
-    show_bullets = true;
+    show_bullets = false;
     show_visibility_data = false;
 
     if (Broodwar->isReplay())
@@ -225,17 +225,18 @@ void drawStats(Game &Broodwar)
 
 void drawBullets(Game &Broodwar)
 {
+  std::ofstream output;
+  output.open("test.txt");
   for (auto &b : Broodwar->getBullets())
   {
-    if (b.exists())
-    {
-      Position p = b->getPosition();
-      double velocityX = b->getVelocityX();
-      double velocityY = b->getVelocityY();
-      Broodwar.drawLineMap(p, p + Position{ static_cast<int>(velocityX), static_cast<int>(velocityY) }, b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
-      Broodwar.drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
-    }
+    output << "Drawing bullet: " << static_cast<int>(b->dataptr->id.getID()) << std::endl;
+    Position p = b->getPosition();
+    double velocityX = b->getVelocityX();
+    double velocityY = b->getVelocityY();
+    Broodwar.drawLineMap(p, p + Position{ static_cast<int>(velocityX), static_cast<int>(velocityY) }, b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
+    Broodwar.drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
   }
+  output.close();
 }
 
 void drawVisibilityData(Game &Broodwar)

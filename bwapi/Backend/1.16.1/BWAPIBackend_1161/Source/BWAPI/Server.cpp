@@ -874,7 +874,7 @@ namespace BWAPI
       size->set_y(data->mapHeight);
       
       auto bulletsMessage = std::make_unique<bwapi::message::Message>();
-      auto fillBulletData = [](const BulletData &b, bwapi::data::Bullet *bulletData)
+      auto fillBulletData = [](const BulletData &b, bwapi::data::Bullet *bulletData, int id)
       {
         auto setPosition = [](auto& p, auto& x, auto& y, auto s)
         {
@@ -888,7 +888,7 @@ namespace BWAPI
         setPosition(targetPosition, b.targetPositionX, b.targetPositionY, 1);
         bulletData->set_angle(b.angle);
         bulletData->set_exists(b.exists);
-        bulletData->set_id(b.id);
+        bulletData->set_id(id);
         *bulletData->mutable_isvisible() = { b.isVisible, b.isVisible + 9 };
         bulletData->set_player(b.player);
         bulletData->set_removetimer(b.removeTimer);
@@ -898,10 +898,10 @@ namespace BWAPI
         bulletData->set_velocityx(b.velocityX);
         bulletData->set_velocityy(b.velocityY);
       };
-      for (auto bd : data->bullets)
+      for (int i = 0; i < 100; i++)
       {
         auto bulletData = bulletsMessage->mutable_frameupdate()->mutable_game()->add_bullets();
-        fillBulletData(bd, bulletData);
+        fillBulletData(data->bullets[i], bulletData, i);
       }
       protoClient.queueMessage(std::move(bulletsMessage));
 
