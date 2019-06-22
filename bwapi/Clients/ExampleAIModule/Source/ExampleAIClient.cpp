@@ -225,18 +225,14 @@ void drawStats(Game &Broodwar)
 
 void drawBullets(Game &Broodwar)
 {
-  std::ofstream output;
-  output.open("test.txt");
   for (auto &b : Broodwar->getBullets())
   {
-    output << "Drawing bullet: " << static_cast<int>(b->dataptr->id.getID()) << std::endl;
     Position p = b->getPosition();
     double velocityX = b->getVelocityX();
     double velocityY = b->getVelocityY();
     Broodwar.drawLineMap(p, p + Position{ static_cast<int>(velocityX), static_cast<int>(velocityY) }, b->getPlayer() == Broodwar->self() ? Colors::Green : Colors::Red);
     Broodwar.drawTextMap(p, "%c%s", b->getPlayer() == Broodwar->self() ? Text::Green : Text::Red, b->getType().c_str());
   }
-  output.close();
 }
 
 void drawVisibilityData(Game &Broodwar)
