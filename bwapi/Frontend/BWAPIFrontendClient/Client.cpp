@@ -364,42 +364,99 @@ namespace BWAPI
       {
         Event e2;
         auto e = message->event();
-        if (e.has_matchend())
+        if (e.has_matchstart())
+        {
+          e2.setType(EventType::MatchStart);
+        }
+        else if (e.has_matchframe())
+        {
+          e2.setType(EventType::MatchFrame);
+        }
+        else if (e.has_matchend())
         {
           e2.setType(EventType::MatchEnd);
           e2.setWinner(e.matchend().winner());
-          game.addEvent(e2);
+        }
+        else if (e.has_menuframe())
+        {
+          e2.setType(EventType::MenuFrame);
         }
         else if (e.has_sendtext())
         {
           e2.setType(EventType::SendText);
           e2.setText(e.sendtext().text().c_str());
-          game.addEvent(e2);
-        }
-        else if (e.has_savegame())
-        {
-          e2.setType(EventType::SaveGame);
-          e2.setText(e.savegame().text().c_str());
-          game.addEvent(e2);
-        }
-        else if (e.has_playerleft())
-        {
-          e2.setType(EventType::PlayerLeft);
-          e2.setPlayer(game.getPlayer(PlayerID{ e.playerleft().player() }));
-          game.addEvent(e2);
         }
         else if (e.has_receivetext())
         {
           e2.setType(EventType::ReceiveText);
           e2.setText(e.receivetext().text().c_str());
-          game.addEvent(e2);
+        }
+        else if (e.has_savegame())
+        {
+          e2.setType(EventType::SaveGame);
+          e2.setText(e.savegame().text().c_str());
+        }
+        else if (e.has_playerleft())
+        {
+          e2.setType(EventType::PlayerLeft);
+          e2.setPlayer(game.getPlayer(PlayerID{ e.playerleft().player() }));
+        }
+        else if (e.has_nukedetect())
+        {
+          auto target = e.nukedetect().target();
+          e2.setPosition(Position{ target.x(),target.y() });
         }
         else if (e.has_unitdiscover())
         {
           e2.setType(EventType::UnitDiscover);
           e2.setUnit(game.getUnit(UnitID{ e.unitdiscover().unit() }));
-          game.addEvent(e2);
         }
+        else if (e.has_unitevade())
+        {
+          e2.setType(EventType::UnitEvade);
+          e2.setUnit(game.getUnit(UnitID{ e.unitevade().unit() }));
+        }
+        else if (e.has_unitshow())
+        {
+          e2.setType(EventType::UnitShow);
+          e2.setUnit(game.getUnit(UnitID{ e.unitshow().unit() }));
+        }
+        else if (e.has_unithide())
+        {
+          e2.setType(EventType::UnitHide);
+          e2.setUnit(game.getUnit(UnitID{ e.unithide().unit() }));
+        }
+        else if (e.has_unitcreate())
+        {
+          e2.setType(EventType::UnitCreate);
+          e2.setUnit(game.getUnit(UnitID{ e.unitcreate().unit() }));
+        }
+        else if (e.has_unitdestroy())
+        {
+          e2.setType(EventType::UnitDestroy);
+          e2.setUnit(game.getUnit(UnitID{ e.unitdestroy().unit() }));
+        }
+        else if (e.has_unitmorph())
+        {
+          e2.setType(EventType::UnitMorph);
+          e2.setUnit(game.getUnit(UnitID{ e.unitmorph().unit() }));
+        }
+        else if (e.has_unitrenegade())
+        {
+          e2.setType(EventType::UnitRenegade);
+          e2.setUnit(game.getUnit(UnitID{ e.unitrenegade().unit() }));
+        }
+        else if (e.has_savegame())
+        {
+          e2.setType(EventType::SaveGame);
+          e2.setText(e.savegame().text().c_str());
+        }
+        else if (e.has_unitcomplete())
+        {
+          e2.setType(EventType::UnitComplete);
+          e2.setUnit(game.getUnit(UnitID{ e.unitcomplete().unit() }));
+        }
+        game.addEvent(e2);
       }
       else if (message->has_endofqueue())
         break;

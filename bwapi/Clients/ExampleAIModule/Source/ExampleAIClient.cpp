@@ -133,7 +133,7 @@ int main(int argc, const char* argv[])
           break;
         case EventType::UnitCreate:
           if (!Broodwar->isReplay())
-            ;//Broodwar << "A " << e.getUnit()->getType() << " [" << e.getUnit() << "] has been created at " << e.getUnit()->getPosition() << std::endl;
+            Broodwar << "A " << e.getUnit()->getType().c_str() << " [" << e.getUnit().getID().id << "] has been created at " << e.getUnit()->getPosition() << std::endl;
           else
           {
             // if we are in a replay, then we will print out the build order
