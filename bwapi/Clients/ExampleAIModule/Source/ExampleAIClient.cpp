@@ -45,10 +45,6 @@ int main(int argc, const char* argv[])
     std::cout << "starting match!" << std::endl;
     Broodwar->sendText("Hello world!");
     Broodwar << "The map is " << Broodwar->mapName() << ", a " << Broodwar->getStartLocations().size() << " player map" << std::endl;
-    // enable some cheat flags - These are not available yet
-    //Broodwar->enableFlag(Flag::UserInput)
-    // Uncomment to enable complete map information
-    //Broodwar->enableFlag(Flag::CompleteMapInformation);
 
     show_bullets = false;
     show_visibility_data = false;
