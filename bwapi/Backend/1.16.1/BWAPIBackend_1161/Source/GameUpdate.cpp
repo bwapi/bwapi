@@ -347,97 +347,18 @@ void GameImpl::initializeAIModule()
     if (!userinput.compare("ON"))
       BroodwarImpl.enableFlag(Flag::UserInput);
   }
-  else // if not, load the AI module DLL
+  else // if not, allow interaction and print error message
   {
-    // declare/assign variables
-    hAIModule         = nullptr;
+    this->client = new AIModule();
 
-    std::string dll;
-    std::string aicfg = LoadConfigString("ai", BUILD_DEBUG ? "ai_dbg" : "ai", "_NULL");
-    if (aicfg == "_NULL")
-    {
-      BWAPIError("Could not find %s under ai in \"%s\".", BUILD_DEBUG ? "ai_dbg" : "ai", configPath().c_str());
-    }
-    else
-    {
-      std::stringstream aiList(aicfg);
+    // enable flags to allow interaction
+    BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
+    BroodwarImpl.enableFlag(Flag::UserInput);
 
-      // Get DLL name
-      dll = aicfg.substr(0, aicfg.find_first_of(','));
-
-      // Skip to current intended instance
-      for (int i = 0; i < (int)gdwProcNum && aiList; ++i)
-        std::getline(aiList, dll, ',');
-
-      // trim whitespace outside quotations and then the quotations
-      Util::trim(dll, Util::is_whitespace_or_newline);
-      Util::trim(dll, [](char c) { return c == '"'; });
-
-      hAIModule = LoadLibraryA(dll.c_str());
-    }
-
-    if ( !hAIModule )
-    {
-      //if hAIModule is nullptr, there there was a problem when trying to load the AI Module
-      this->client = new AIModule();
-
-      // enable flags to allow interaction
-      BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
-      BroodwarImpl.enableFlag(Flag::UserInput);
-
-      // print error string
-      BroodwarImpl.printf("%cERROR: Failed to load the AI Module \"%s\"", Text::Red, dll.c_str());
-      externalModuleConnected = false;
-    }
-    else
-    {
-      // Obtain the AI module function
-      PFNGameInit newGame     = (PFNGameInit)GetProcAddress(hAIModule, "gameInit");
-      PFNCreateA1 newAIModule = (PFNCreateA1)GetProcAddress(hAIModule, "newAIModule");
-      if ( newAIModule && newGame )
-      {
-        // Call the AI module function and assign the client variable
-        newGame(this);
-        this->client = newAIModule();
-
-        // Hide success strings in tournament mode
-        if ( !hTournamentModule )
-          BroodwarImpl.printf("%cLoaded the AI Module: %s", Text::Green, dll.c_str());
-        externalModuleConnected = true;
-
-        // Strip the path from the module name
-        moduleName = Util::Path(dll).filename().string();
-      }
-      else  // If the AIModule function is not found
-      {
-        // Create a dummy AI module
-        this->client = new AIModule();
-
-        // Enable flags to allow interaction
-        BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
-        BroodwarImpl.enableFlag(Flag::UserInput);
-
-        // Create error string
-        std::string missing;
-        if ( !newGame )
-          missing += "gameInit";
-
-        if ( !newAIModule )
-        {
-          if ( !missing.empty() )
-            missing += " and ";
-          missing += "newAIModule";
-        }
-        missing += " function";
-
-        // Print an error message
-        BroodwarImpl.printf("%cERROR: Failed to find the %s in %s", Text::Red, missing.c_str(), dll.c_str());
-        externalModuleConnected = false;
-      }
-    }
+    // print error string
+    BroodwarImpl.printf("%cERROR: No Client is connected.", Text::Red);
+    externalModuleConnected = false;
   }
-
-  if ( !hTournamentModule ) // If tournament mode wasn't initialized
-    sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str() );
+  sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str());
 }
 
