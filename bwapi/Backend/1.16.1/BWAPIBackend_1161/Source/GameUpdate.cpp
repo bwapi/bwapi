@@ -338,6 +338,14 @@ void GameImpl::initializeAIModule()
     // Set the module string
     moduleName = "<Client Connection>";
     externalModuleConnected = true;
+
+    // Load flags
+    std::string completemapinformation = LoadConfigString("flags", "completemapinformation", "OFF");
+    if (!completemapinformation.compare("ON"))
+      BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
+    std::string userinput = LoadConfigString("flags", "userinput", "OFF");
+    if (!userinput.compare("ON"))
+      BroodwarImpl.enableFlag(Flag::UserInput);
   }
   else // if not, load the AI module DLL
   {
