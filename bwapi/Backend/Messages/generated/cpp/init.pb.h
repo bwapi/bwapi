@@ -344,6 +344,12 @@ class ServerResponse : public ::google::protobuf::MessageLite /* @@protoc_insert
   ::google::protobuf::uint32 apiversion() const;
   void set_apiversion(::google::protobuf::uint32 value);
 
+  // uint32 port = 6;
+  void clear_port();
+  static const int kPortFieldNumber = 6;
+  ::google::protobuf::uint32 port() const;
+  void set_port(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:bwapi.init.ServerResponse)
  private:
 
@@ -354,6 +360,7 @@ class ServerResponse : public ::google::protobuf::MessageLite /* @@protoc_insert
   ::google::protobuf::internal::ArenaStringPtr engineversion_;
   ::bwapi::error::Error* error_;
   ::google::protobuf::uint32 apiversion_;
+  ::google::protobuf::uint32 port_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_init_2eproto::TableStruct;
 };
@@ -763,6 +770,20 @@ inline ::google::protobuf::RepeatedField<int>*
 ServerResponse::mutable_supportedprotocols() {
   // @@protoc_insertion_point(field_mutable_list:bwapi.init.ServerResponse.supportedProtocols)
   return &supportedprotocols_;
+}
+
+// uint32 port = 6;
+inline void ServerResponse::clear_port() {
+  port_ = 0u;
+}
+inline ::google::protobuf::uint32 ServerResponse::port() const {
+  // @@protoc_insertion_point(field_get:bwapi.init.ServerResponse.port)
+  return port_;
+}
+inline void ServerResponse::set_port(::google::protobuf::uint32 value) {
+  
+  port_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.init.ServerResponse.port)
 }
 
 // -------------------------------------------------------------------

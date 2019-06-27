@@ -2,50 +2,100 @@
 
 namespace BWAPI
 {
-    BWAPIProtoClient::BWAPIProtoClient()
+  BWAPIProtoClient::BWAPIProtoClient() :mt(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()))
     {
         connected = false;
-        //tcpListener.listen(8045, "127.0.0.1");
+        udpbound = false;
+        connectionPort = 1025;
     }
 
   void BWAPIProtoClient::checkForConnection(uint32_t apiVersion, std::string enginetype, std::string engineVersion)
   {
     if (isConnected())
       return;
-    std::ofstream output;
-    output.open("a.txt");
-    auto status = tcpListener.accept(tcpSocket);
-    switch (status)
-    {
-    case sf::Socket::Status::Disconnected:
-      output << "Disconnected\n";
-      break;
-    case sf::Socket::Status::Done:
-      output << "Done\n";
-      break;
-    case sf::Socket::Status::Error:
-      output << "Error\n";
-      break;
-    case sf::Socket::Status::NotReady:
-      output << "NotReady\n";
-      break;
-    case sf::Socket::Status::Partial:
-      output << "Partial\n";
-      break;
-    }
-    output.close();
-    if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
-      return;
-    tcpListener.close();
-    tcpSocket.setBlocking(true);
     sf::Packet packet;
+    udpSocket.setBlocking(false);
+    if (!udpbound)
+    {
+      if (udpSocket.bind(1024, sf::IpAddress::Any) != sf::Socket::Status::Done)
+        return;
+      udpbound = true;
+    }
+
+    auto sender = sf::IpAddress::Any;
+    auto port = udpSocket.getLocalPort();
+    if (udpSocket.receive(packet, sender, port) != sf::Socket::Done)
+      return;
+
+    auto size = packet.getDataSize();
+    std::unique_ptr<char[]> packetContents(new char[size]);
+    memcpy(packetContents.get(), packet.getData(), size);
+
+    auto currentMessage = std::make_unique<bwapi::message::Message>();
+    currentMessage->ParseFromArray(packetContents.get(), static_cast<int>(size));
+
+    if (!currentMessage->has_initbroadcast())
+      return;
+
+    auto reply = std::make_unique<bwapi::message::Message>();
+    auto initResponse = reply->mutable_initresponse();
+
+    initResponse->set_port(static_cast<int>(connectionPort));
+
+    
+    packet.clear();
+    size = reply->ByteSize();
+    std::unique_ptr<char[]> buffer(new char[size]);
+
+    reply->SerializeToArray(&buffer[0], size);
+    packet.append(buffer.get(), size);
+
+    udpSocket.send(packet, sender, port);
+    udpSocket.unbind();
+    udpbound = false;
+
+    tcpListener.accept(tcpSocket);
+    return;
   }
 
   void BWAPI::BWAPIProtoClient::lookForServer(int apiversion, std::string bwapiversion, bool tournament)
   {
     if (isConnected())
       return;
-    tcpSocket.connect("127.0.0.1", 8045);
+
+    sf::Packet packet;
+
+    auto broadcastMessage = std::make_unique<bwapi::message::Message>();
+    auto initResponse = broadcastMessage->mutable_initbroadcast();
+
+    auto size = broadcastMessage->ByteSize();
+    std::unique_ptr<char[]> buffer(new char[size]);
+
+    broadcastMessage->SerializeToArray(&buffer[0], size);
+    packet.append(buffer.get(), size);
+
+    sf::IpAddress server = sf::IpAddress::Broadcast;
+    unsigned short port = 1024;
+    
+    udpSocket.send(packet, server, port);
+    server = sf::IpAddress::Any;
+    udpSocket.receive(packet, server, port);
+
+    size = packet.getDataSize();
+    std::unique_ptr<char[]> replyBuffer(new char[size]);
+    memcpy(replyBuffer.get(), packet.getData(), size);
+
+    auto currentMessage = std::make_unique<bwapi::message::Message>();
+    currentMessage->ParseFromArray(replyBuffer.get(), size);
+
+    if (!currentMessage->has_initresponse())
+      return;
+
+    connectionPort = static_cast<unsigned short>(currentMessage->initresponse().port());
+
+
+
+    tcpSocket.connect(server, connectionPort);
     if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
       fprintf(stderr, "%s", "Connection failed.\n");
   }
@@ -149,8 +199,9 @@ namespace BWAPI
   }
   void BWAPIProtoClient::initListen()
   {
-    tcpListener.setBlocking(false);
-    auto status = tcpListener.listen(8045);
+    tcpListener.setBlocking(true);
+    while (tcpListener.listen(connectionPort) != sf::Socket::Done)
+      connectionPort = static_cast<unsigned short>(getRandomInteger(1025, 49151));
   }
   void BWAPIProtoClient::stopListen()
   {

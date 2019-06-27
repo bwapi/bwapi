@@ -44,6 +44,8 @@ message ServerResponse {
 	// List of protocols that the server supports. This must contain at least one item, which
 	// is expected to be PROTOBUF.
 	repeated Protocol supportedProtocols = 5;
+
+    uint32 port = 6;
 }
 
 // Client acceptance (always protobuf).

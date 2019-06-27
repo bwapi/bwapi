@@ -390,6 +390,7 @@ namespace BWAPI
         {
           e2.setType(EventType::ReceiveText);
           e2.setText(e.receivetext().text().c_str());
+          e2.setPlayer(game.getPlayer(PlayerID{ e.receivetext().player() }));
         }
         else if (e.has_savegame())
         {

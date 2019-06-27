@@ -383,6 +383,7 @@ const int ServerResponse::kEngineTypeFieldNumber;
 const int ServerResponse::kEngineVersionFieldNumber;
 const int ServerResponse::kErrorFieldNumber;
 const int ServerResponse::kSupportedProtocolsFieldNumber;
+const int ServerResponse::kPortFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ServerResponse::ServerResponse()
@@ -410,7 +411,9 @@ ServerResponse::ServerResponse(const ServerResponse& from)
   } else {
     error_ = NULL;
   }
-  apiversion_ = from.apiversion_;
+  ::memcpy(&apiversion_, &from.apiversion_,
+    static_cast<size_t>(reinterpret_cast<char*>(&port_) -
+    reinterpret_cast<char*>(&apiversion_)) + sizeof(port_));
   // @@protoc_insertion_point(copy_constructor:bwapi.init.ServerResponse)
 }
 
@@ -418,8 +421,8 @@ void ServerResponse::SharedCtor() {
   enginetype_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   engineversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&error_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&apiversion_) -
-      reinterpret_cast<char*>(&error_)) + sizeof(apiversion_));
+      reinterpret_cast<char*>(&port_) -
+      reinterpret_cast<char*>(&error_)) + sizeof(port_));
 }
 
 ServerResponse::~ServerResponse() {
@@ -455,7 +458,9 @@ void ServerResponse::Clear() {
     delete error_;
   }
   error_ = NULL;
-  apiversion_ = 0u;
+  ::memset(&apiversion_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&port_) -
+      reinterpret_cast<char*>(&apiversion_)) + sizeof(port_));
   _internal_metadata_.Clear();
 }
 
@@ -562,6 +567,20 @@ bool ServerResponse::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 port = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &port_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -633,6 +652,11 @@ void ServerResponse::SerializeWithCachedSizes(
       this->supportedprotocols(i), output);
   }
 
+  // uint32 port = 6;
+  if (this->port() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->port(), output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:bwapi.init.ServerResponse)
@@ -691,6 +715,13 @@ size_t ServerResponse::ByteSizeLong() const {
         this->apiversion());
   }
 
+  // uint32 port = 6;
+  if (this->port() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->port());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -723,6 +754,9 @@ void ServerResponse::MergeFrom(const ServerResponse& from) {
   if (from.apiversion() != 0) {
     set_apiversion(from.apiversion());
   }
+  if (from.port() != 0) {
+    set_port(from.port());
+  }
 }
 
 void ServerResponse::CopyFrom(const ServerResponse& from) {
@@ -749,6 +783,7 @@ void ServerResponse::InternalSwap(ServerResponse* other) {
     GetArenaNoVirtual());
   swap(error_, other->error_);
   swap(apiversion_, other->apiversion_);
+  swap(port_, other->port_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
