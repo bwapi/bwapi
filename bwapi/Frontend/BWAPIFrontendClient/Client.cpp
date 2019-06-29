@@ -158,7 +158,6 @@ namespace BWAPI
             };
             auto playerID = PlayerID{ p.id() };
             auto itr = players.find(playerID);
-            PlayerData * playerData;
             if (itr == players.end())
             {
               auto &playerData = *players.emplace(game, playerID, ForceID{ p.force() }).first;

@@ -1422,9 +1422,7 @@ namespace BWAPI
     /// @retval true if the function succeeded and has changed the map.
     /// @retval false if the function failed, does not have permission from the tournament module,
     ///               failed to find the map specified, or received an invalid parameter.
-    virtual bool setMap(const char *mapFileName) = 0;
-    /// @overload
-    bool setMap(const std::string &mapFileName);
+    virtual bool setMap(const std::string &mapFileName) = 0;
 
     /// <summary>Sets the number of graphical frames for every logical frame.</summary> This
     /// allows the game to run more logical frames per graphical frame, increasing the speed at

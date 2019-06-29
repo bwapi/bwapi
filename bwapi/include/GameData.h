@@ -22,9 +22,9 @@ namespace BWAPI {
 
     std::vector<PlayerID> replayVisionPlayers;
 
-    float remainingLatencyTime;
-    float elapsedTime;
-    float millisecondsPerFrame;
+    int remainingLatencyTime;
+    int elapsedTime;
+    int millisecondsPerFrame;
     float averageFPS;
 
     int countdownTimer;

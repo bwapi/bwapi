@@ -912,23 +912,23 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::google::protobuf::int32 lasteventtime() const;
   void set_lasteventtime(::google::protobuf::int32 value);
 
-  // float latencyTime = 14;
+  // int32 latencyTime = 14;
   void clear_latencytime();
   static const int kLatencyTimeFieldNumber = 14;
-  float latencytime() const;
-  void set_latencytime(float value);
+  ::google::protobuf::int32 latencytime() const;
+  void set_latencytime(::google::protobuf::int32 value);
 
-  // float remainingLatencyTime = 15;
+  // int32 remainingLatencyTime = 15;
   void clear_remaininglatencytime();
   static const int kRemainingLatencyTimeFieldNumber = 15;
-  float remaininglatencytime() const;
-  void set_remaininglatencytime(float value);
+  ::google::protobuf::int32 remaininglatencytime() const;
+  void set_remaininglatencytime(::google::protobuf::int32 value);
 
-  // float elapsedTime = 16;
+  // int32 elapsedTime = 16;
   void clear_elapsedtime();
   static const int kElapsedTimeFieldNumber = 16;
-  float elapsedtime() const;
-  void set_elapsedtime(float value);
+  ::google::protobuf::int32 elapsedtime() const;
+  void set_elapsedtime(::google::protobuf::int32 value);
 
   // bool tournament = 4;
   void clear_tournament();
@@ -954,11 +954,11 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   bool ismultiplayer() const;
   void set_ismultiplayer(bool value);
 
-  // float millisecondsPerFrame = 17;
+  // int32 millisecondsPerFrame = 17;
   void clear_millisecondsperframe();
   static const int kMillisecondsPerFrameFieldNumber = 17;
-  float millisecondsperframe() const;
-  void set_millisecondsperframe(float value);
+  ::google::protobuf::int32 millisecondsperframe() const;
+  void set_millisecondsperframe(::google::protobuf::int32 value);
 
   // float averageFPS = 18;
   void clear_averagefps();
@@ -1028,14 +1028,14 @@ class GameData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::google::protobuf::int32 frameskip_;
   ::google::protobuf::int32 remaininglatencyframes_;
   ::google::protobuf::int32 lasteventtime_;
-  float latencytime_;
-  float remaininglatencytime_;
-  float elapsedtime_;
+  ::google::protobuf::int32 latencytime_;
+  ::google::protobuf::int32 remaininglatencytime_;
+  ::google::protobuf::int32 elapsedtime_;
   bool tournament_;
   bool ispaused_;
   bool isingame_;
   bool ismultiplayer_;
-  float millisecondsperframe_;
+  ::google::protobuf::int32 millisecondsperframe_;
   float averagefps_;
   ::google::protobuf::int32 countdowntimer_;
   bool isbattlenet_;
@@ -4035,57 +4035,57 @@ GameData::mutable_replayvisionplayers() {
   return &replayvisionplayers_;
 }
 
-// float latencyTime = 14;
+// int32 latencyTime = 14;
 inline void GameData::clear_latencytime() {
   latencytime_ = 0;
 }
-inline float GameData::latencytime() const {
+inline ::google::protobuf::int32 GameData::latencytime() const {
   // @@protoc_insertion_point(field_get:bwapi.data.GameData.latencyTime)
   return latencytime_;
 }
-inline void GameData::set_latencytime(float value) {
+inline void GameData::set_latencytime(::google::protobuf::int32 value) {
   
   latencytime_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.GameData.latencyTime)
 }
 
-// float remainingLatencyTime = 15;
+// int32 remainingLatencyTime = 15;
 inline void GameData::clear_remaininglatencytime() {
   remaininglatencytime_ = 0;
 }
-inline float GameData::remaininglatencytime() const {
+inline ::google::protobuf::int32 GameData::remaininglatencytime() const {
   // @@protoc_insertion_point(field_get:bwapi.data.GameData.remainingLatencyTime)
   return remaininglatencytime_;
 }
-inline void GameData::set_remaininglatencytime(float value) {
+inline void GameData::set_remaininglatencytime(::google::protobuf::int32 value) {
   
   remaininglatencytime_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.GameData.remainingLatencyTime)
 }
 
-// float elapsedTime = 16;
+// int32 elapsedTime = 16;
 inline void GameData::clear_elapsedtime() {
   elapsedtime_ = 0;
 }
-inline float GameData::elapsedtime() const {
+inline ::google::protobuf::int32 GameData::elapsedtime() const {
   // @@protoc_insertion_point(field_get:bwapi.data.GameData.elapsedTime)
   return elapsedtime_;
 }
-inline void GameData::set_elapsedtime(float value) {
+inline void GameData::set_elapsedtime(::google::protobuf::int32 value) {
   
   elapsedtime_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.GameData.elapsedTime)
 }
 
-// float millisecondsPerFrame = 17;
+// int32 millisecondsPerFrame = 17;
 inline void GameData::clear_millisecondsperframe() {
   millisecondsperframe_ = 0;
 }
-inline float GameData::millisecondsperframe() const {
+inline ::google::protobuf::int32 GameData::millisecondsperframe() const {
   // @@protoc_insertion_point(field_get:bwapi.data.GameData.millisecondsPerFrame)
   return millisecondsperframe_;
 }
-inline void GameData::set_millisecondsperframe(float value) {
+inline void GameData::set_millisecondsperframe(::google::protobuf::int32 value) {
   
   millisecondsperframe_ = value;
   // @@protoc_insertion_point(field_set:bwapi.data.GameData.millisecondsPerFrame)

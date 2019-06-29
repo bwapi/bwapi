@@ -835,19 +835,23 @@ namespace BWAPI
     return apmCounter.apm(includeSelects);
   }
   //---------------------------------------------------- SET MAP ---------------------------------------------
-  bool GameImpl::setMap(const char *mapFileName)
+  bool GameImpl::setMap(const std::string &mapFileName)
   {
-    if ( !mapFileName || strlen(mapFileName) >= std::extent<decltype(BW::BWDATA::Game.mapFileName)>::value || !mapFileName[0] )
+    constexpr int MAX_LENGTH = std::extent<decltype(BW::BWDATA::Game.mapFileName)>::value;
+
+    if (mapFileName.length() >= MAX_LENGTH || mapFileName.empty())
       return setLastError(Errors::Invalid_Parameter);
 
     if ( !std::ifstream(mapFileName).is_open() )
       return setLastError(Errors::File_Not_Found);
 
-    if ( !this->tournamentCheck(Tournament::SetMap, (void*)mapFileName) )
+    char mapFileNameRaw[MAX_LENGTH] = {};
+    std::snprintf(mapFileNameRaw, MAX_LENGTH, "%s", mapFileName.c_str());
+
+    if ( !this->tournamentCheck(Tournament::SetMap, mapFileNameRaw) )
       return setLastError(Errors::None);
 
-
-    strcpy(BW::BWDATA::Game.mapFileName, mapFileName);
+    strcpy(BW::BWDATA::Game.mapFileName, mapFileNameRaw);
     return setLastError(Errors::None);
   }
   //------------------------------------------------- ELAPSED TIME -------------------------------------------

@@ -40,6 +40,7 @@ namespace BWAPI
             Position p{ tile };
             return getUnitsInRectangle(p.x, p.y, p.x + 32, p.y + 32, pred);
         }
+        return Unitset::none;
     }
     //------------------------------------ DAMAGE CALCULATION ------------------------------------------
     int damageRatio[DamageTypes::Enum::MAX][UnitSizeTypes::Enum::MAX] =
@@ -86,7 +87,7 @@ namespace BWAPI
         return getDamageFromImpl(fromType, toType, fromPlayer, toPlayer);
     }
     //-------------------------------------- BUILD LOCATION --------------------------------------------
-    const int MAX_RANGE = 64;
+    constexpr int MAX_RANGE = 64;
     class PlacementReserve
     {
     public:
@@ -587,10 +588,6 @@ namespace BWAPI
         return bestPosition;
     }
     //------------------------------------------ ACTIONS -----------------------------------------------
-    bool Game::setMap(const std::string &mapFileName)
-    {
-        return setMap(mapFileName.c_str());
-    }
     void Game::setScreenPosition(int x, int y)
     {
         auto newSetScreenPosition = std::make_unique<bwapi::command::SetScreenPosition>();
@@ -759,13 +756,13 @@ namespace BWAPI
             this->setLastError(BWAPI::Errors::Invalid_Parameter);
             return nullptr;
         }
-        unsigned short idx = gameData->map.mapTileRegionId[x / 32][y / 32];
-        if (idx & 0x2000)
+        unsigned short rawId = gameData->map.mapTileRegionId[x / 32][y / 32];
+        if (rawId & 0x2000)
         {
             const int minitilePosX = (x & 0x1F) / 8;
             const int minitilePosY = (y & 0x1F) / 8;
             const int minitileShift = minitilePosX + minitilePosY * 4;
-            const int index = idx & 0x1FFF;
+            const int index = rawId & 0x1FFF;
             if (index >= std::extent<decltype(gameData->map.mapSplitTilesMiniTileMask)>::value)
                 return nullptr;
 
@@ -785,7 +782,10 @@ namespace BWAPI
                 return this->getRegion(rgn1);
             }
         }
-        return this->getRegion(idx);
+        else
+        {
+          return this->getRegion(rawId);
+        }
     }
     BWAPI::Region Game::getRegionAt(BWAPI::Position position) const
     {
@@ -1288,9 +1288,10 @@ namespace BWAPI
     bool Game::isDebug() const
     {
         #ifdef _DEBUG
-            return true;
-        #endif
+        return true;
+        #else
         return false;
+        #endif
     }
     //----------------------------------------------- LATCOM ENABLED -------------------------------------------
     bool Game::isLatComEnabled() const
@@ -1315,13 +1316,16 @@ namespace BWAPI
         for (auto p : players)
             if (p.isEnemy(*getPlayerData(gameData->player)))
                 return p;
+        return nullptr;
     }
     //----------------------------------------------- NEUTRAL --------------------------------------------------
     Player Game::neutral() const
     {
+      // TODO This needs to return player 12, suggestion: add neutralPlayerId as one of the data members sent to the client
         for (auto p : players)
             if (p.isNeutral())
                 return p;
+        return nullptr;
     }
     //----------------------------------------------- ALLIES ---------------------------------------------------
     Playerset _allies;

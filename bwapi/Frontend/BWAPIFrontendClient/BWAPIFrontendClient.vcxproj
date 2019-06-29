@@ -44,6 +44,11 @@
     <ClInclude Include="UnitCommand.h" />
     <ClInclude Include="UnitData.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
+      <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{760E9359-EC46-48F7-AE1D-E238B17C4797}</ProjectGuid>

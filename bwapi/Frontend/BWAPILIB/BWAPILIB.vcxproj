@@ -254,6 +254,11 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\WeaponType.h" />
     <ClInclude Include="..\..\include\GameData.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
+      <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

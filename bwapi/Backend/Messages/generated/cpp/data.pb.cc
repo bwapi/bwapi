@@ -1992,13 +1992,13 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // float latencyTime = 14;
+      // int32 latencyTime = 14;
       case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(117u /* 117 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &latencytime_)));
         } else {
           goto handle_unusual;
@@ -2006,13 +2006,13 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // float remainingLatencyTime = 15;
+      // int32 remainingLatencyTime = 15;
       case 15: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(125u /* 125 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &remaininglatencytime_)));
         } else {
           goto handle_unusual;
@@ -2020,13 +2020,13 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // float elapsedTime = 16;
+      // int32 elapsedTime = 16;
       case 16: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(133u /* 133 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &elapsedtime_)));
         } else {
           goto handle_unusual;
@@ -2034,13 +2034,13 @@ bool GameData::MergePartialFromCodedStream(
         break;
       }
 
-      // float millisecondsPerFrame = 17;
+      // int32 millisecondsPerFrame = 17;
       case 17: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(141u /* 141 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(136u /* 136 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &millisecondsperframe_)));
         } else {
           goto handle_unusual;
@@ -2406,24 +2406,24 @@ void GameData::SerializeWithCachedSizes(
       this->replayvisionplayers(i), output);
   }
 
-  // float latencyTime = 14;
+  // int32 latencyTime = 14;
   if (this->latencytime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(14, this->latencytime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(14, this->latencytime(), output);
   }
 
-  // float remainingLatencyTime = 15;
+  // int32 remainingLatencyTime = 15;
   if (this->remaininglatencytime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(15, this->remaininglatencytime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(15, this->remaininglatencytime(), output);
   }
 
-  // float elapsedTime = 16;
+  // int32 elapsedTime = 16;
   if (this->elapsedtime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(16, this->elapsedtime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(16, this->elapsedtime(), output);
   }
 
-  // float millisecondsPerFrame = 17;
+  // int32 millisecondsPerFrame = 17;
   if (this->millisecondsperframe() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(17, this->millisecondsperframe(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(17, this->millisecondsperframe(), output);
   }
 
   // float averageFPS = 18;
@@ -2713,19 +2713,25 @@ size_t GameData::ByteSizeLong() const {
         this->lasteventtime());
   }
 
-  // float latencyTime = 14;
+  // int32 latencyTime = 14;
   if (this->latencytime() != 0) {
-    total_size += 1 + 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->latencytime());
   }
 
-  // float remainingLatencyTime = 15;
+  // int32 remainingLatencyTime = 15;
   if (this->remaininglatencytime() != 0) {
-    total_size += 1 + 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->remaininglatencytime());
   }
 
-  // float elapsedTime = 16;
+  // int32 elapsedTime = 16;
   if (this->elapsedtime() != 0) {
-    total_size += 2 + 4;
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->elapsedtime());
   }
 
   // bool tournament = 4;
@@ -2748,9 +2754,11 @@ size_t GameData::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // float millisecondsPerFrame = 17;
+  // int32 millisecondsPerFrame = 17;
   if (this->millisecondsperframe() != 0) {
-    total_size += 2 + 4;
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->millisecondsperframe());
   }
 
   // float averageFPS = 18;

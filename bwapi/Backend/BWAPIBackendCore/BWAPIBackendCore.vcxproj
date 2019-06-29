@@ -27,6 +27,11 @@
   <ItemGroup>
     <ClInclude Include="BWAPIProtoClient.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Messages\Messages.vcxproj">
+      <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FA39DBC2-7EA3-4A6B-B125-B1F50A5DA824}</ProjectGuid>

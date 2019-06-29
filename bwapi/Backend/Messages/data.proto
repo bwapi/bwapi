@@ -52,10 +52,10 @@ message GameData {
 
     repeated int32 replayVisionPlayers = 13;
 
-    float latencyTime = 14;
-    float remainingLatencyTime = 15;
-    float elapsedTime = 16;
-    float millisecondsPerFrame = 17;
+    int32 latencyTime = 14;
+    int32 remainingLatencyTime = 15;
+    int32 elapsedTime = 16;
+    int32 millisecondsPerFrame = 17;
     float averageFPS = 18;
 
     int32 countdownTimer = 19;

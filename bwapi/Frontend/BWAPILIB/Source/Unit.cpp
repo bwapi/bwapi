@@ -1496,7 +1496,7 @@ bool Unit::canAttackUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkCan
   if (targetUnit->isInvincible())
     return getGame().setLastError(Errors::Unable_To_Hit);
 
-  UnitType type = type;
+  UnitType type = this->getType();
   bool targetInAir = targetUnit->isFlying();
   WeaponType weapon = targetInAir ? type.airWeapon() : type.groundWeapon();
 

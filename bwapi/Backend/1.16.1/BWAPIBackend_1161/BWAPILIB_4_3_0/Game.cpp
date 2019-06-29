@@ -570,11 +570,6 @@ namespace BWAPI
 
     return bestPosition;
   }
-  //------------------------------------------ ACTIONS -----------------------------------------------
-  bool Game::setMap(const std::string &mapFileName)
-  {
-    return this->setMap(mapFileName.c_str());
-  }
   void Game::setScreenPosition(BWAPI::Position p)
   {
     this->setScreenPosition(p.x, p.y);

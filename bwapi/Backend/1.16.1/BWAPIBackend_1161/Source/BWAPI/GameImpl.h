@@ -169,7 +169,7 @@ namespace BWAPI
       virtual int getInstanceNumber() const override;
       virtual int getAPM(bool includeSelects = false) const override;
 
-      virtual bool setMap(const char *mapFileName) override;
+      virtual bool setMap(const std::string &mapFileName) override;
       virtual void setFrameSkip(int frameSkip) override;
 
       virtual bool setAlliance(Player player, bool allied = true, bool alliedVictory = true) override;

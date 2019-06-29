@@ -302,15 +302,15 @@ namespace BWAPI
             r->set_islandid(regionData.islandID);
             r->set_leftmost(regionData.leftMost);
             r->set_neighborcount(regionData.neighborCount);
-            *r->mutable_neighbors() = { regionData.neighbors, &regionData.neighbors[0] + 256 };            
+            *r->mutable_neighbors() = { std::begin(regionData.neighbors), std::end(regionData.neighbors) };            
             r->set_priority(regionData.priority);
             r->set_rightmost(regionData.rightMost);
             r->set_topmost(regionData.topMost);
           };
           data->regions[i] = *static_cast<RegionImpl*>(r)->getData();
-          auto &r = data->regions[i];
+          auto &regionData = data->regions[i];
           auto region = regionGame->add_regions();
-          fillRegionData(r, region);
+          fillRegionData(regionData, region);
         }
         else
         {

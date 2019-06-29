@@ -7,7 +7,10 @@
 #include<random>
 #include<chrono>
 
+// Protobuf headers have some warnings we don't care about
+#pragma warning(push, 0)
 #include "..\Messages\generated\cpp\message.pb.h"
+#pragma warning(pop)
 
 namespace BWAPI
 {

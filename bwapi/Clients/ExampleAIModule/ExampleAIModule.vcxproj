@@ -105,6 +105,9 @@
     <ProjectReference Include="..\..\Backend\BWAPIBackendCore\BWAPIBackendCore.vcxproj">
       <Project>{fa39dbc2-7ea3-4a6b-b125-b1f50a5da824}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Backend\libprotobuf-lite\libprotobuf-lite.vcxproj">
+      <Project>{fb5da788-0a09-3724-85d8-f80903ad1474}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">
       <Project>{d85bfae4-ce79-4f4d-a032-ffa45b559e29}</Project>
     </ProjectReference>

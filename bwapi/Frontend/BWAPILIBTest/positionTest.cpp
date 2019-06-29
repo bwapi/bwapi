@@ -81,41 +81,6 @@ namespace BWAPILIBTest
       Assert::IsTrue(p1 == TilePositions::Origin);
 
     }
-    TEST_METHOD(PositionValidity)
-    {
-      TilePosition p1(0, 0), p2(-1, 0), p3(0, -1), p4(-1, -1), p5(256, 0), p6(0, 256), p7(256, 256);
-
-      Assert::IsTrue(p1.isValid());
-      Assert::IsFalse(p2.isValid());
-      Assert::IsFalse(p3.isValid());
-      Assert::IsFalse(p4.isValid());
-      Assert::IsFalse(p5.isValid());
-      Assert::IsFalse(p6.isValid());
-      Assert::IsFalse(p7.isValid());
-
-      p1.makeValid();
-      p2.makeValid();
-      p3.makeValid();
-      p4.makeValid();
-      p5.makeValid();
-      p6.makeValid();
-      p7.makeValid();
-      Assert::IsTrue(p1.isValid());
-      Assert::IsTrue(p2.isValid());
-      Assert::IsTrue(p3.isValid());
-      Assert::IsTrue(p4.isValid());
-      Assert::IsTrue(p5.isValid());
-      Assert::IsTrue(p6.isValid());
-      Assert::IsTrue(p7.isValid());
-      
-      Assert::AreEqual(TilePositions::Origin, p1);
-      Assert::AreEqual(TilePositions::Origin, p2);
-      Assert::AreEqual(TilePositions::Origin, p3);
-      Assert::AreEqual(TilePositions::Origin, p4);
-      Assert::AreEqual(TilePosition(255, 0), p5);
-      Assert::AreEqual(TilePosition(0, 255), p6);
-      Assert::AreEqual(TilePosition(255, 255), p7);
-    }
     TEST_METHOD(PositionLessThan)
     {
       Position p1(0, 0), p2(1, 0), p3(0, 1), p4(1, 1);
