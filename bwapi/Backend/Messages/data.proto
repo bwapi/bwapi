@@ -8,25 +8,31 @@ message Point {
     int32 scale = 3;
 }
 
-message MapData
+message StaticMapData
 {
     Point size = 1;
     int32 tileset = 2;
     string mapHash = 3;
+    string mapFileName = 4;
+    string mapPath = 5;
+    string mapName = 6;
 
-    repeated int32 groundHeight = 4;
-    repeated bool isBuildable = 5;
-    repeated bool isVisible = 6;
-    repeated bool isExplored = 7;
-    repeated bool hasCreep = 8;
-    repeated bool isOccupied = 9;
+    repeated int32 groundHeight = 7;
+    repeated bool isBuildable = 8;
+    repeated bool isWalkable = 9;
 
-    repeated bool isWalkable = 10;
-    
-    repeated uint32 mapTileRegionId = 11;
-    repeated uint32 mapSplitTilesMiniTileMask = 12;
-    repeated uint32 mapSplitTilesRegion1 = 13;
-    repeated uint32 mapSplitTilesRegion2 = 14;
+    repeated uint32 mapTileRegionId = 10;
+    repeated uint32 mapSplitTilesMiniTileMask = 11;
+    repeated uint32 mapSplitTilesRegion1 = 12;
+    repeated uint32 mapSplitTilesRegion2 = 13;
+}
+
+message MapData
+{
+    repeated bool isVisible = 1;
+    repeated bool isExplored = 2;
+    repeated bool hasCreep = 3;
+    repeated bool isOccupied = 4;
 }
 
 message GameData {
@@ -61,22 +67,21 @@ message GameData {
     bool clientUnitSelection = 25;
     bool hasGUI = 26;
 
-    string mapPath = 27;
-    string mapName = 28;
-    string mapFileName = 29;
-    string gameName = 30;
-    string randomSeed = 31;
+    string gameName = 27;
+    string randomSeed = 28;
 
-    repeated Point startPositions = 32;
+    repeated Point startPositions = 29;
 
-    repeated int32 regions = 33;
+    repeated int32 regions = 30;
 
-    int32 player = 34;
+    int32 player = 31;
 
-    Point screenSize = 35;
-    Point screenPosition = 36;
+    Point screenSize = 32;
+    Point screenPosition = 33;
 
-    MapData map = 37;
+    StaticMapData staticMap = 34;
+
+    MapData map = 35;
 }
 
 message Player {

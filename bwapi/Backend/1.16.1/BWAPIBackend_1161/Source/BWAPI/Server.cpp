@@ -239,6 +239,9 @@ namespace BWAPI
     data->isBattleNet = BroodwarImpl.isBattleNet();
     data->isReplay = BroodwarImpl.isReplay();
 
+    auto staticMapMessage = std::make_unique<bwapi::message::Message>();
+    auto staticMap = staticMapMessage->mutable_frameupdate()->mutable_game()->mutable_gamedata()->mutable_staticmap();
+
     // Locally store the map size
     TilePosition mapSize(BroodwarImpl.mapWidth(), BroodwarImpl.mapHeight());
     WalkPosition mapWalkSize(mapSize);
@@ -249,6 +252,9 @@ namespace BWAPI
       {
         data->isWalkable[x][y] = BroodwarImpl.isWalkable(x, y);
       }
+
+    auto isWalkableArr = &data->isWalkable[0][0];
+    *staticMap->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };
 
     // Load buildability, ground height, tile region id
     for (int x = 0; x < mapSize.x; ++x)
@@ -261,6 +267,13 @@ namespace BWAPI
         else
           data->mapTileRegionId[x][y] = 0;
       }
+
+    auto isBuildableArr = &data->isBuildable[0][0];
+    *staticMap->mutable_isbuildable() = { isBuildableArr, isBuildableArr + 256 * 256 };
+    auto groundHeightArr = &data->getGroundHeight[0][0];
+    *staticMap->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
+    auto mapTileRegionIdArr = &data->mapTileRegionId[0][0];
+    *staticMap->mutable_maptileregionid() = { mapTileRegionIdArr, mapTileRegionIdArr + 256 * 256 };
 
     // Load pathing info
     if (BW::BWDATA::SAIPathing)
@@ -306,16 +319,27 @@ namespace BWAPI
       }
       protoClient.queueMessage(std::move(regionMessage));
     }
+    *staticMap->mutable_mapsplittilesregion1() = { data->mapSplitTilesRegion1, data->mapSplitTilesRegion1 + 5000 };
+    *staticMap->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + 5000 };
 
     // Store the map size
     data->mapWidth = mapSize.x;
     data->mapHeight = mapSize.y;
+    auto size = staticMap->mutable_size();
+    size->set_x(data->mapWidth);
+    size->set_y(data->mapHeight);
 
     // Retrieve map strings
     StrCopy(data->mapFileName, BroodwarImpl.mapFileName());
+    staticMap->set_mapfilename(data->mapFileName);
     StrCopy(data->mapPathName, BroodwarImpl.mapPathName());
+    staticMap->set_mappath(data->mapPathName);
     StrCopy(data->mapName, BroodwarImpl.mapName());
+    staticMap->set_mapname(data->mapName);
     StrCopy(data->mapHash, BroodwarImpl.mapHash());
+    staticMap->set_maphash(data->mapHash);
+
+    protoClient.queueMessage(std::move(staticMapMessage));
 
     data->startLocationCount = BroodwarImpl.getStartLocations().size();
     int idx = 0;
@@ -631,9 +655,6 @@ namespace BWAPI
     gameData->set_isreplay(data->isReplay);
     //clientunitselection
     gameData->set_hasgui(data->hasGUI);
-    gameData->set_mappath(data->mapPathName);
-    gameData->set_mapname(data->mapName);
-    gameData->set_mapfilename(data->mapFileName);
     //gamename
     std::stringstream randomSeed;
     randomSeed << data->randomSeed;
@@ -871,9 +892,7 @@ namespace BWAPI
       screenPosition->set_x(BroodwarImpl.getScreenPosition().x);
       screenPosition->set_y(BroodwarImpl.getScreenPosition().y);
       auto mapData = gameData->mutable_map();
-      auto size = mapData->mutable_size();
-      size->set_x(data->mapWidth);
-      size->set_y(data->mapHeight);
+
       
       auto bulletsMessage = std::make_unique<bwapi::message::Message>();
       auto fillBulletData = [](const BulletData &b, bwapi::data::Bullet *bulletData, int id)
@@ -908,11 +927,8 @@ namespace BWAPI
       protoClient.queueMessage(std::move(bulletsMessage));
 
       //tileset
-      mapData->set_maphash(data->mapHash);
-      auto groundHeightArr = &data->getGroundHeight[0][0];
-      *mapData->mutable_groundheight() = { groundHeightArr, groundHeightArr + 256 * 256 };
-      auto isBuildableArr = &data->isBuildable[0][0];
-      *mapData->mutable_isbuildable() = { isBuildableArr, isBuildableArr + 256 * 256 };
+
+
       auto isVisibleArr = &data->isVisible[0][0];
       *mapData->mutable_isvisible() = { isVisibleArr, isVisibleArr + 256 * 256 };
       auto isExploredArr = &data->isExplored[0][0];
@@ -921,12 +937,6 @@ namespace BWAPI
       *mapData->mutable_hascreep() = { hasCreepArr, hasCreepArr + 256 * 256 };
       auto isOccupiedArr = &data->isOccupied[0][0];
       *mapData->mutable_isoccupied() = { isOccupiedArr, isOccupiedArr + 256 * 256 };
-      auto isWalkableArr = &data->isWalkable[0][0];
-      *mapData->mutable_iswalkable() = { isWalkableArr, isWalkableArr + 1024 * 1024 };
-      auto mapTileRegionIdArr = &data->mapTileRegionId[0][0];
-      *mapData->mutable_maptileregionid() = { mapTileRegionIdArr, mapTileRegionIdArr + 256 * 256 };
-      *mapData->mutable_mapsplittilesregion1() = { data->mapSplitTilesRegion1, data->mapSplitTilesRegion1 + 5000 };
-      *mapData->mutable_mapsplittilesregion2() = { data->mapSplitTilesRegion2, data->mapSplitTilesRegion2 + 5000 };
     }
     protoClient.queueMessage(std::move(message));
     //*oldData = *data;

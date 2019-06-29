@@ -72,23 +72,27 @@ namespace BWAPI
             game.gameData->player = PlayerID{ gameUpdate.player() };
             game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
             game.gameData->hasGUI = gameUpdate.hasgui();
+            if (gameUpdate.has_staticmap())
+            {
+              auto staticMap = gameUpdate.staticmap();
+              std::copy(staticMap.groundheight().begin(), staticMap.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
+              std::copy(staticMap.isbuildable().begin(), staticMap.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
+              std::copy(staticMap.iswalkable().begin(), staticMap.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
+              game.gameData->map.mapHash = staticMap.maphash();
+              std::copy(staticMap.mapsplittilesminitilemask().begin(), staticMap.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
+              std::copy(staticMap.mapsplittilesregion1().begin(), staticMap.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
+              std::copy(staticMap.mapsplittilesregion2().begin(), staticMap.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
+              std::copy(staticMap.maptileregionid().begin(), staticMap.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
+              game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
+              game.gameData->map.tileset = staticMap.tileset();
+            }
             if (gameUpdate.has_map())
             {
               auto map = gameUpdate.map();
-              std::copy(map.groundheight().begin(), map.groundheight().end(), &game.gameData->map.groundHeight[0][0]);
               std::copy(map.hascreep().begin(), map.hascreep().end(), &game.gameData->map.hasCreep[0][0]);
-              std::copy(map.isbuildable().begin(), map.isbuildable().end(), &game.gameData->map.isBuildable[0][0]);
               std::copy(map.isexplored().begin(), map.isexplored().end(), &game.gameData->map.isExplored[0][0]);
               std::copy(map.isoccupied().begin(), map.isoccupied().end(), &game.gameData->map.isOccupied[0][0]);
               std::copy(map.isvisible().begin(), map.isvisible().end(), &game.gameData->map.isVisible[0][0]);
-              std::copy(map.iswalkable().begin(), map.iswalkable().end(), &game.gameData->map.isWalkable[0][0]);
-              game.gameData->map.mapHash = map.maphash();
-              std::copy(map.mapsplittilesminitilemask().begin(), map.mapsplittilesminitilemask().end(), &game.gameData->map.mapSplitTilesMiniTileMask[0]);
-              std::copy(map.mapsplittilesregion1().begin(), map.mapsplittilesregion1().end(), &game.gameData->map.mapSplitTilesRegion1[0]);
-              std::copy(map.mapsplittilesregion2().begin(), map.mapsplittilesregion2().end(), &game.gameData->map.mapSplitTilesRegion2[0]);
-              std::copy(map.maptileregionid().begin(), map.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
-              game.gameData->map.size = TilePosition{ map.size().x(), map.size().y() };
-              game.gameData->map.tileset = map.tileset();
             }
           }
           for (auto &p : gameMessage.players())
