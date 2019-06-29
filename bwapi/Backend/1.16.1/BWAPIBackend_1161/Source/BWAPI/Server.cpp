@@ -45,6 +45,8 @@ namespace BWAPI
     }
     else
     {
+      BroodwarImpl.processEvents();
+      BroodwarImpl.events.clear();
       checkForConnections();
     }
   }

@@ -79,7 +79,9 @@ namespace BWAPI
     
     udpSocket.send(packet, server, port);
     server = sf::IpAddress::Any;
-    udpSocket.receive(packet, server, port);
+    udpSocket.setBlocking(false);
+    if (udpSocket.receive(packet, server, port) != sf::Socket::Done)
+      return;
 
     size = packet.getDataSize();
     std::unique_ptr<char[]> replyBuffer(new char[size]);
@@ -92,8 +94,6 @@ namespace BWAPI
       return;
 
     connectionPort = static_cast<unsigned short>(currentMessage->initresponse().port());
-
-
 
     tcpSocket.connect(server, connectionPort);
     if (tcpSocket.getRemoteAddress() == sf::IpAddress::None)
@@ -123,6 +123,7 @@ namespace BWAPI
         fprintf(stderr, "Failed to send a Message.\n");
       }
     }
+
     //Finished with queue, send the EndOfQueue message
     auto endOfQueue = std::make_unique<bwapi::game::EndOfQueue>();
     currentMessage = std::make_unique<bwapi::message::Message>();
