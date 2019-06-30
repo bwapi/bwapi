@@ -1,5 +1,5 @@
 #include "GameImpl.h"
-#include <Util/Convenience.h>
+#include "../Convenience.h"
 
 #include <BW/CUnit.h>
 #include <BW/Dialog.h>

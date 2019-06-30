@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include <Util/Types.h>
+#include "../Types.h"
 #include "BW/Constants.h"
 #include "BW/Position.h"
 

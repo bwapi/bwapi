@@ -1,5 +1,5 @@
 #pragma once
-#include <Util/Types.h>
+#include "../Types.h"
 #include <string>
 
 #include <BWAPI/Player.h>

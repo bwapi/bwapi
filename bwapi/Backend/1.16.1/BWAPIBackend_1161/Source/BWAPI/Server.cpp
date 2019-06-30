@@ -1,6 +1,6 @@
 #include "Server.h"
 
-#include<Util/Convenience.h>
+#include "../Convenience.h"
 
 #include "GameImpl.h"
 #include "PlayerImpl.h"

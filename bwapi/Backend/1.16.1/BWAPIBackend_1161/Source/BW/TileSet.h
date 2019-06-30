@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Util/Types.h>
+#include "../Types.h"
 namespace BW
 {
   typedef u16 TileID;

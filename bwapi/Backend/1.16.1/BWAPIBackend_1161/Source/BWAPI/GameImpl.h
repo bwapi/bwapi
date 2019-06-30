@@ -3,7 +3,7 @@
 #include <list>
 #include <deque>
 
-#include <Util/Types.h>
+#include "../Types.h"
 #include <BW/Constants.h>
 
 #include <BWAPI/Game.h>

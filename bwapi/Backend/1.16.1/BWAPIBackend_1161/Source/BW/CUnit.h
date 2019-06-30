@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Util/Types.h>
+#include "../Types.h"
 #include <BW/Position.h>
 #include <BW/Target.h>
 #include <BW/Path.h>

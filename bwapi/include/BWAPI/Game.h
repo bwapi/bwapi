@@ -38,7 +38,6 @@
 
 #include "../Frontend/BWAPICore/FPSCounter.h"
 #include "../Frontend/BWAPICore/APMCounter.h"
-#include "../Frontend/BWAPIFrontendClient/Convenience.h"
 
 namespace BWAPI
 {

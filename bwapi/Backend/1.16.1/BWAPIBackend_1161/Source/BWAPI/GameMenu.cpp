@@ -10,7 +10,7 @@
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>
 #include <BW/OrderTypes.h>
-#include <Util/Clamp.h>
+#include "../Clamp.h"
 
 namespace BWAPI
 {

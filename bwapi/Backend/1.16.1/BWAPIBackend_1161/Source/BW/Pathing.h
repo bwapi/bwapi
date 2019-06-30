@@ -1,6 +1,6 @@
 #pragma once
 #include "Position.h"
-#include <Util/Types.h>
+#include "../Types.h"
 #include <vector>
 
 #pragma pack(1)

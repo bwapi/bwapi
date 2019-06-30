@@ -1,5 +1,5 @@
 #pragma once
-#include <Util/Types.h>
+#include "../Types.h"
 
 namespace BWAPI { class UnitInterface; typedef UnitInterface* Unit; }
 #pragma pack(1)

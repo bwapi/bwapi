@@ -3,7 +3,7 @@
 #include <BW/CSprite.h>
 #include <BW/Constants.h>
 #include <BWAPI/Client/BulletData.h>
-#include <Util/Convenience.h>
+#include "../Convenience.h"
 
 #include "GameImpl.h"
 #include "PlayerImpl.h"

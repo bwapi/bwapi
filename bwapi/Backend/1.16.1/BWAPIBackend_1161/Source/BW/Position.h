@@ -1,7 +1,7 @@
 #pragma once
 
 #include <BWAPI/Position.h>
-#include <Util/Types.h>
+#include "../Types.h"
 
 #pragma pack(1)
 namespace BW

@@ -2,9 +2,9 @@
 
 #include <fstream>
 #include <memory>
-#include <Util/Sha1.h>
+#include "../Sha1.h"
 
-#include <Util/Path.h>
+#include "../Path.h"
 
 #include "../DLLMain.h"
 #include "../Config.h"

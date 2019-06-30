@@ -4,8 +4,8 @@
 
 #include <algorithm>
 #include <sstream>
-#include <Util/Path.h>
-#include <Util/StringUtil.h>
+#include "../Path.h"
+#include "../StringUtil.h"
 
 #include <BW/MenuPosition.h>
 #include <BW/Dialog.h>

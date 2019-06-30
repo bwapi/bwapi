@@ -2,8 +2,8 @@
 
 #include "../Graphics.h"
 #include <cassert>
-#include <Util/Clamp.h>
-#include <Util/Convenience.h>
+#include "../Clamp.h"
+#include "../Convenience.h"
 
 #include <BW/Dialog.h>
 

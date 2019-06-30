@@ -15,6 +15,7 @@
 
 #include <BWAPI/Client/Client.h>
 
+#include "Convenience.h"
 
 #include <cstdarg>
 

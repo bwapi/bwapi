@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 #include <storm.h>
 
-#include <Util/StringUtil.h>
+#include "../StringUtil.h"
 
 #include "Config.h"
 

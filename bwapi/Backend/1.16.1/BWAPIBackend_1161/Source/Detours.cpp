@@ -5,14 +5,14 @@
 #include <cmath>
 #include <storm.h>
 
-#include <Util/Path.h>
+#include "../Path.h"
 
 #include "DLLMain.h"
 #include "Thread.h"
 #include "Config.h"
 #include "NewHackUtil.h"
 #include "Detours.h"
-#include "Util/Convenience.h"
+#include "../Convenience.h"
 #include "BWAPI/GameImpl.h"
 #include "BWAPI/PlayerImpl.h"
 

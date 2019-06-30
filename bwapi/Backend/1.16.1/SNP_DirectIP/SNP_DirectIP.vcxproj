@@ -51,7 +51,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Util/Source;../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>true</StringPooling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
@@ -78,7 +78,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Util/Source;../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Storm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>true</StringPooling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
@@ -105,6 +105,11 @@
     <ClCompile Include="SNP\UDPSocket.cpp" />
     <ClCompile Include="SNP\LocalPC.cpp" />
     <ClCompile Include="SNP\Output.cpp" />
+    <ClCompile Include="Util\Exceptions.cpp" />
+    <ClCompile Include="Util\MemoryFrame.cpp" />
+    <ClCompile Include="Util\Mutex.cpp" />
+    <ClCompile Include="Util\RemoteProcess.cpp" />
+    <ClCompile Include="Util\SharedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNP\CriticalSection.h" />
@@ -116,6 +121,14 @@
     <ClInclude Include="SNP\UDPSocket.h" />
     <ClInclude Include="SNP\LocalPC.h" />
     <ClInclude Include="SNP\Output.h" />
+    <ClInclude Include="Util\Exceptions.h" />
+    <ClInclude Include="Util\MemoryFrame.h" />
+    <ClInclude Include="Util\Mutex.h" />
+    <ClInclude Include="Util\RemoteProcess.h" />
+    <ClInclude Include="Util\RemoteProcessID.h" />
+    <ClInclude Include="Util\SharedMemory.h" />
+    <ClInclude Include="Util\SharedStructure.h" />
+    <ClInclude Include="Util\Types.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -125,9 +138,6 @@
     <ResourceCompile Include="SNP\UI.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Util\Util.vcxproj">
-      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Storm\Storm.vcxproj">
       <Project>{08c0c784-f586-4caa-8951-8adf1586c0e9}</Project>
       <Private>true</Private>

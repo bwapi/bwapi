@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <BW/Offsets.h>
-#include <Util/Types.h>
+#include "../Types.h"
 
 namespace BWAPI
 {

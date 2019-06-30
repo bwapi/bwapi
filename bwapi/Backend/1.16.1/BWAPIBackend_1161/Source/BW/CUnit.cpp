@@ -1,4 +1,4 @@
-#include <Util/Types.h>
+#include "../Types.h"
 #include <BWAPI/UnitType.h>
 #include <BW/CImage.h>
 #include <BW/CSprite.h>

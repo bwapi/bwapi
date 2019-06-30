@@ -43,7 +43,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>Source/BWAPI;$(SolutionDir)/Util/Source;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;_DEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -82,7 +82,7 @@ popd</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>Source/BWAPI;$(SolutionDir)/Util/Source;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Source/BWAPI;Source;bwapi4_include;../Storm;$(SolutionDir)/Frontend/BWAPICore;$(SolutionDir)contrib/SFML-2.5.1/include;$(SolutionDir)Backend/libprotobuf-lite/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;_WINDOWS;_USRDLL;CTRT_INJECT_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -128,9 +128,6 @@ popd</Command>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SVNRevGen\SVNRevGen.vcxproj">
       <Project>{3cc5ba45-00b1-4b7c-bf07-341c90343f39}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Util\Util.vcxproj">
-      <Project>{c252ca4e-ffa0-404c-b5b4-614cf330c084}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\BWAPIBackendCore\BWAPIBackendCore.vcxproj">
       <Project>{fa39dbc2-7ea3-4a6b-b125-b1f50a5da824}</Project>
@@ -201,14 +198,20 @@ popd</Command>
     <ClInclude Include="Source\BW\UnitStatusFlags.h" />
     <ClInclude Include="Source\BW\UnitTarget.h" />
     <ClInclude Include="Source\BW\WeaponTargetFlags.h" />
+    <ClInclude Include="Source\Clamp.h" />
     <ClInclude Include="Source\CodePatch.h" />
     <ClInclude Include="Source\Config.h" />
+    <ClInclude Include="Source\Convenience.h" />
     <ClInclude Include="Source\Detours.h" />
     <ClInclude Include="Source\DLLMain.h" />
     <ClInclude Include="Source\ExceptionFilter.h" />
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\NewHackUtil.h" />
+    <ClInclude Include="Source\Path.h" />
+    <ClInclude Include="Source\Sha1.h" />
+    <ClInclude Include="Source\StringUtil.h" />
     <ClInclude Include="Source\Thread.h" />
+    <ClInclude Include="Source\Types.h" />
     <ClInclude Include="starcraftver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +292,7 @@ popd</Command>
     <ClCompile Include="Source\GameUpdate.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\NewHackUtil.cpp" />
+    <ClCompile Include="Source\Sha1.cpp" />
     <ClCompile Include="Source\Thread.cpp" />
   </ItemGroup>
   <ItemGroup>

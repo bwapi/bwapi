@@ -2,7 +2,7 @@
 
 #include "BWAPI/Bullet.h"
 
-#include <Util/Types.h>
+#include "../Types.h"
 #include <BWAPI/Position.h>
 #include <BWAPI/Client/BulletData.h>
 namespace BW    { class CBullet; };

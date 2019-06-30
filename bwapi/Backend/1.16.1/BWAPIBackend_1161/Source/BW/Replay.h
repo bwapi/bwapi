@@ -1,5 +1,5 @@
 #pragma once
-#include <Util/Types.h>
+#include "../Types.h"
 
 #pragma pack(1)
 struct ReplayHeader

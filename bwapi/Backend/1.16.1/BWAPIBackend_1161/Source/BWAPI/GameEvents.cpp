@@ -1,8 +1,8 @@
 #include "GameImpl.h"
 #include <ctime>
 
-#include <Util/Path.h>
-#include <Util/StringUtil.h>
+#include "../Path.h"
+#include "../StringUtil.h"
 
 #include "Detours.h"
 

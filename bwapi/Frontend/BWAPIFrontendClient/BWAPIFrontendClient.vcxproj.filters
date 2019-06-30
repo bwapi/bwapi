@@ -18,21 +18,6 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Convenience.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandTemp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Templates.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ProtoClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>

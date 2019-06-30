@@ -8,8 +8,8 @@
 #include <cmath>
 #include <fstream>
 
-#include <Util/Clamp.h>
-#include <Util/Convenience.h>
+#include "../Clamp.h"
+#include "../Convenience.h"
 
 #include <BWAPI/ForceImpl.h>
 #include <BWAPI/PlayerImpl.h>

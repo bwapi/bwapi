@@ -1,8 +1,8 @@
 #include "Bitmap.h"
 #include <storm.h>
-#include <Util/Clamp.h>
 #include <algorithm>
 
+#include "../Clamp.h"
 #include "Font.h"
 #include "CImage.h"
 #include "Offsets.h"

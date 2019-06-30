@@ -4,7 +4,7 @@
 #include <limits>
 #include <sstream>
 
-#include <Util/Convenience.h>
+#include "../Convenience.h"
 
 #include <BWAPI/Player.h>
 #include <BWAPI/Order.h>

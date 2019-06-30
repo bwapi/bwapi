@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "Util\Util.vcxproj", "{C252CA4E-FFA0-404C-B5B4-614CF330C084}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{0716BAB7-D569-4083-B7C9-1BE060FCB3E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.16.1", "1.16.1", "{3B459416-71D3-43F0-88E1-46ABB6DB6704}"
@@ -42,9 +40,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocumentationGen", "Packagi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InstallerArchive", "Packaging\InstallerArchive\InstallerArchive.vcxproj", "{7C035A16-F016-4F21-88EB-8DD3B9539219}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIModule", "Clients\DevAIModule\DevAIModule.vcxproj", "{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevAIClient", "Clients\DevAIModule\DevAIModule.vcxproj", "{EB603D63-BA16-4BB4-AC5F-9901FF9B1761}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIModule", "Clients\ExampleAIModule\ExampleAIModule.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleAIClient", "Clients\ExampleAIModule\ExampleAIModule.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleTournamentModule", "Clients\ExampleTournamentModule\ExampleTournamentModule.vcxproj", "{8D2682F5-7022-40E6-95E3-7257D43639F1}"
 EndProject
@@ -70,15 +68,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|Win32.Build.0 = Debug|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Debug|x64.ActiveCfg = Debug|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Installer_Target|Win32.ActiveCfg = Release|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Installer_Target|x64.ActiveCfg = Release|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Installer_Target|x64.Build.0 = Release|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.ActiveCfg = Release|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|Win32.Build.0 = Release|Win32
-		{C252CA4E-FFA0-404C-B5B4-614CF330C084}.Release|x64.ActiveCfg = Release|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug|Win32.Build.0 = Debug|Win32
 		{E872FA31-C3AC-4331-AD60-315768E44ACA}.Debug|x64.ActiveCfg = Debug|Win32

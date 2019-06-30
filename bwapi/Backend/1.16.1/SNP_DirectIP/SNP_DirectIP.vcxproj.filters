@@ -10,6 +10,9 @@
     <Filter Include="LocalPC">
       <UniqueIdentifier>{eef107c6-54b1-438d-82b8-83d03c05cfd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{574e7861-8372-4e5d-920e-1b646acd2238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SNP\CriticalSection.cpp">
@@ -32,6 +35,21 @@
     </ClCompile>
     <ClCompile Include="SNP\Output.cpp" />
     <ClCompile Include="SNP\DLLMain.cpp" />
+    <ClCompile Include="Util\Exceptions.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\MemoryFrame.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Mutex.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\RemoteProcess.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\SharedMemory.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNP\CriticalSection.h">
@@ -59,6 +77,30 @@
       <Filter>LocalPC</Filter>
     </ClInclude>
     <ClInclude Include="SNP\Output.h" />
+    <ClInclude Include="Util\Exceptions.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryFrame.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Mutex.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\RemoteProcess.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\RemoteProcessID.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\SharedMemory.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\SharedStructure.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Types.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SNP\UI.rc">

@@ -3,7 +3,7 @@
 #include "UnitImpl.h"
 
 #include <string>
-#include <Util/Convenience.h>
+#include "../Convenience.h"
 
 #include <BW/Offsets.h>
 

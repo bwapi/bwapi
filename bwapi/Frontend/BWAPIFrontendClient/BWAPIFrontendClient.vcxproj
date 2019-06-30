@@ -26,11 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProtoClient.h" />
-    <ClInclude Include="CommandTemp.h" />
-    <ClInclude Include="Convenience.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="Templates.h" />
-    <ClInclude Include="UnitCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">

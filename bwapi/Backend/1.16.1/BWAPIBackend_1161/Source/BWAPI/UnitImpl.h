@@ -2,7 +2,7 @@
 
 #include <BWAPI/Unit.h>
 #include <BWAPI/Unitset.h>
-#include <Util/Types.h>
+#include "../Types.h"
 
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Client/UnitData.h>

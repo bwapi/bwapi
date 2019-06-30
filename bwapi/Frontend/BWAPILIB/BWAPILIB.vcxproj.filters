@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Source\Event.cpp" />
-    <ClCompile Include="UnitCommand.cpp" />
     <ClCompile Include="Source\BulletType.cpp">
       <Filter>Types\Source Files</Filter>
     </ClCompile>
@@ -87,6 +86,7 @@
     <ClCompile Include="Source\Bullet.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UnitCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\BWAPI\Event.h" />
@@ -247,6 +247,7 @@
     <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Convenience.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">

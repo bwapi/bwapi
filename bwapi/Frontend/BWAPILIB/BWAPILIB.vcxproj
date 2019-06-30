@@ -47,7 +47,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;$(SolutionDir)/Util/Source;$(SolutionDir)/BWAPI/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010300;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -116,7 +116,7 @@ COPY /y "$(OutDir)BWAPILib.pdb" "$(SolutionDir)\lib\BWAPILib.pdb"
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;$(SolutionDir)/Util/Source;$(SolutionDir)/BWAPI/Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)contrib\SFML-2.5.1\include;$(SolutionDir)Backend/libprotobuf-lite/src;$(SolutionDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -200,8 +200,8 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\Regionset.cpp" />
     <ClCompile Include="Source\TechType.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
+    <ClCompile Include="Source\UnitCommand.cpp" />
     <ClCompile Include="Source\Unitset.cpp" />
-    <ClCompile Include="UnitCommand.cpp" />
     <ClCompile Include="Source\UnitCommandType.cpp" />
     <ClCompile Include="Source\UnitSizeType.cpp" />
     <ClCompile Include="Source\UnitType.cpp" />
@@ -267,6 +267,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\UpgradeType.h" />
     <ClInclude Include="..\..\include\BWAPI\WeaponType.h" />
     <ClInclude Include="..\..\include\GameData.h" />
+    <ClInclude Include="Source\Convenience.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

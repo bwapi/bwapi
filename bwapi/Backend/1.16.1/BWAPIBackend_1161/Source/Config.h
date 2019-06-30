@@ -2,7 +2,7 @@
 #include <string>
 #include <storm.h>
 #include "DLLMain.h"
-#include <Util/Path.h>
+#include "../Path.h"
 
 // Functions
 std::string LoadConfigString(const char *pszKey, const char *pszItem, const char *pszDefault = NULL);

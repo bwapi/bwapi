@@ -37,6 +37,9 @@
     <Filter Include="Old_BWAPILIB">
       <UniqueIdentifier>{334a62f3-ed4a-470f-a4e6-37c699568ad3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{b645e9bf-9aea-4bcd-a02c-8dee41569429}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BW\CheatType.h">
@@ -221,6 +224,24 @@
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Clamp.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Path.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sha1.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StringUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Types.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Convenience.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp">
       <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sha1.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

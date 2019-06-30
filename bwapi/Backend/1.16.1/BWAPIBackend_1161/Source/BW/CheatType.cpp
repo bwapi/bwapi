@@ -1,6 +1,6 @@
 #include "CheatType.h"
 #include <string>
-#include <Util/StringUtil.h>
+#include "../StringUtil.h"
 
 namespace BW
 {
