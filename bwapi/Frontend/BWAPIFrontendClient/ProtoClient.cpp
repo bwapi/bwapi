@@ -44,10 +44,6 @@ namespace BWAPI
     protoClient.disconnect();
 
   }
-  void ProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> message)
-  {
-    protoClient.queueMessage(std::move(message));
-  }
   void ProtoClient::update(Game& game)
   {
     game.clearEvents();

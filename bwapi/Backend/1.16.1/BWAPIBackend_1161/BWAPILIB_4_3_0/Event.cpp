@@ -8,7 +8,7 @@ namespace BWAPI
 
   Event::Event(const Event& other)
     : position(other.position)
-    , text( other.text != nullptr ? new std::string(*other.text) : nullptr )
+    , text( other.text )
     , unit( other.unit )
     , player( other.player )
     , type(other.type)
@@ -17,50 +17,28 @@ namespace BWAPI
   }
   Event::Event(Event &&other)
     : position(other.position)
-    , text( other.text )
+    , text( std::move(other.text) )
     , unit( other.unit )
     , player( other.player )
     , type(other.type)
     , winner( other.winner )
   {
-    other.text = nullptr;
-  }
-  Event::~Event()
-  {
-    if ( text != nullptr )
-    {
-      delete text;
-      text = nullptr;
-    }
   }
   Event& Event::operator=(const Event& other)
   {
-    if (this == &other) return *this;
-
     type = other.type;
     position = other.position;
-    if ( text != nullptr )
-    {
-      delete text;
-      text = nullptr;
-    }
-    
-    if ( other.text != nullptr )
-      text = new std::string(*other.text);
-      
-    unit    = other.unit;
-    player  = other.player;
-    winner  = other.winner;
+    text = other.text;
+    unit = other.unit;
+    player = other.player;
+    winner = other.winner;
     return *this;
   }
   Event& Event::operator=(Event &&other)
   {
     type = other.type;
     position = other.position;
-
-    text = other.text;
-    other.text = nullptr;
-
+    text = std::move(other.text);
     unit = other.unit;
     player = other.player;
     winner = other.winner;
@@ -68,8 +46,7 @@ namespace BWAPI
   }
   bool Event::operator==(const Event& other) const
   {
-    return std::tie(type, position, unit, player, winner) == std::tie(other.type, other.position, other.unit, other.player, other.winner)
-           && ((text == nullptr && other.text == nullptr) || (text != nullptr && other.text != nullptr && *text == *other.text));
+    return std::tie(type, text, position, unit, player, winner) == std::tie(other.type, other.text, other.position, other.unit, other.player, other.winner);
   }
   Event Event::MatchStart()
   {
@@ -96,21 +73,19 @@ namespace BWAPI
     e.type = EventType::MenuFrame;
     return e;
   }
-  Event Event::SendText(const char* text)
+  Event Event::SendText(const std::string& text)
   {
     Event e;
     e.type = EventType::SendText;
-    if (text != nullptr)
-      e.text = new std::string(text);
+    e.text = text;
     return e;
   }
-  Event Event::ReceiveText(Player player, const char* text)
+  Event Event::ReceiveText(Player player, const std::string& text)
   {
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    if (text != nullptr)
-      e.text   = new std::string(text);
+    e.text = text;
     return e;
   }
   Event Event::PlayerLeft(Player player)
@@ -183,12 +158,11 @@ namespace BWAPI
     e.unit = unit;
     return e;
   }
-  Event Event::SaveGame(const char* gameName)
+  Event Event::SaveGame(const std::string& gameName)
   {
     Event e;
     e.type = EventType::SaveGame;
-    if (gameName != nullptr)
-      e.text = new std::string(gameName);
+    e.text = gameName;
     return e;
   }
   Event Event::UnitComplete(Unit unit)
@@ -208,9 +182,7 @@ namespace BWAPI
   }
   const std::string& Event::getText() const
   {
-    if (text == nullptr)
-      return emptyString;
-    return *text;
+    return text;
   }
   Unit Event::getUnit() const
   {
@@ -234,27 +206,9 @@ namespace BWAPI
     this->position = position_;
     return *this;
   }
-  Event& Event::setText(const char* text_)
+  Event& Event::setText(const std::string& text_)
   {
-    if (this->text != nullptr)
-    {
-      if (text_ != nullptr)
-      {
-        this->text->assign(text_);
-      }
-      else
-      {
-        delete this->text;
-        this->text = nullptr;
-      }
-    }
-    else
-    {
-      if (text_ != nullptr)
-      {
-        this->text = new std::string(text_);
-      }
-    }
+    this->text = text_;
     return *this;
   }
   Event& Event::setUnit(Unit unit_)

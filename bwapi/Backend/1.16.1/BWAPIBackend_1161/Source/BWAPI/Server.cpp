@@ -988,7 +988,7 @@ namespace BWAPI
         else if (command.has_sendtext())
         {
           if (BroodwarImpl.isInGame())
-            BroodwarImpl.sendTextEx(command.sendtext().toallies() != 0, "%s", command.sendtext().text().c_str());
+            BroodwarImpl.sendTextEx(command.sendtext().toallies(), "%s", command.sendtext().text().c_str());
         }
         else if (command.has_pausegame())
         {

@@ -37,7 +37,7 @@ int main()
     broodwar << "Random Seed: " << broodwar.getRandomSeed() << std::endl;
     while (broodwar.isInGame())
     {
-      std::cout << "frame " << broodwar.getFrameCount() << std::endl;
+      //std::cout << "frame " << broodwar.getFrameCount() << std::endl;
       for (auto& e : broodwar.getEvents())
       {
         switch (e.getType())

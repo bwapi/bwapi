@@ -297,11 +297,12 @@ namespace BWAPI
     {
       if ( externalModuleConnected )
       {
-        events.push_back(Event::SendText());
-        events.back().setText(text.c_str());
+        events.push_back(Event::SendText(text));
       }
       else
+      {
         sendText("%s", text.c_str());
+      }
     }
   }
   //---------------------------------------------- ON RECV TEXT ----------------------------------------------
@@ -317,8 +318,7 @@ namespace BWAPI
           realId != this->BWAPIPlayer->getIndex() ) &&
          this->isFlagEnabled(BWAPI::Flag::UserInput) )
     {
-      events.push_back(Event::ReceiveText(this->players[realId]));
-      events.back().setText(text.c_str());
+      events.push_back(Event::ReceiveText(this->players[realId], text));
     }
   }
   int fixPathString(const char *in, char *out_, size_t outLen)

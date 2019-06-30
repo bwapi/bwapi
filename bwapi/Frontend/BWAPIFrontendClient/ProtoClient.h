@@ -34,8 +34,6 @@ namespace BWAPI
     void setAlliance(int playerId, int alliance) override;
     void setVision(int playerId, bool enabled) override;
   private:
-    void queueMessage(std::unique_ptr<bwapi::message::Message> message);
-
     void onMatchFrame(Game& game);
     void onMatchStart(Game& game);
     void onMatchEnd(Game& game);

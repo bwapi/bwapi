@@ -341,10 +341,11 @@ void GameImpl::initializeAIModule()
 
     // Load flags
     std::string completemapinformation = LoadConfigString("flags", "completemapinformation", "OFF");
-    if (!completemapinformation.compare("ON"))
+    if (completemapinformation == "ON")
       BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
-    std::string userinput = LoadConfigString("flags", "userinput", "OFF");
-    if (!userinput.compare("ON"))
+    
+    std::string userinput = LoadConfigString("flags", "userinput", "ON");
+    if (userinput == "ON")
       BroodwarImpl.enableFlag(Flag::UserInput);
   }
   else // if not, allow interaction and print error message

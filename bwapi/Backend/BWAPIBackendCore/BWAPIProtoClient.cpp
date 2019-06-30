@@ -163,8 +163,8 @@ namespace BWAPI
       currentMessage->ParseFromArray(packetContents.get(), packet.getDataSize());
       if (currentMessage->has_endofqueue())
         return;
-      if (currentMessage->has_frameupdate())
-        std::cout << packet.getDataSize() << std::endl;
+      //if (currentMessage->has_frameupdate())
+      //  std::cout << packet.getDataSize() << std::endl;
       messageQueue.push_back(std::move(currentMessage));
     }
   }
