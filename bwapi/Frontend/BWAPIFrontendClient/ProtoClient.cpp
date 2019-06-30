@@ -1,5 +1,4 @@
-#include "Client.h"
-#include <windows.h>
+#include "ProtoClient.h"
 #include <sstream>
 #include <iostream>
 #include <cassert>
@@ -11,17 +10,17 @@
 namespace BWAPI
 {
   //Client BWAPIClient;
-  Client::Client()
+  ProtoClient::ProtoClient()
   {}
-  Client::~Client()
+  ProtoClient::~ProtoClient()
   {
     this->disconnect();
   }
-  bool Client::isConnected() const
+  bool ProtoClient::isConnected() const
   {
     return protoClient.isConnected();
   }
-  bool Client::connect()
+  bool ProtoClient::connect()
   {
     if ( protoClient.isConnected() )
     {
@@ -38,18 +37,18 @@ namespace BWAPI
     }
     return protoClient.isConnected();
   }
-  void Client::disconnect()
+  void ProtoClient::disconnect()
   {
     if (!connected)
       return;
     protoClient.disconnect();
 
   }
-  void Client::queueMessage(std::unique_ptr<bwapi::message::Message> message)
+  void ProtoClient::queueMessage(std::unique_ptr<bwapi::message::Message> message)
   {
     protoClient.queueMessage(std::move(message));
   }
-  void Client::update(Game& game)
+  void ProtoClient::update(Game& game)
   {
     game.clearEvents();
     game.flush();
@@ -467,35 +466,202 @@ namespace BWAPI
     }
     game.update();
   }
-  void Client::onMatchFrame(Game& game)
+  void ProtoClient::onMatchFrame(Game& game)
   {
   }
-  void Client::clearAll()
+  void ProtoClient::clearAll()
   {
   }
-  void Client::onMatchStart(Game& game)
+  void ProtoClient::onMatchStart(Game& game)
   {
   }
-  void Client::initForces(Game& game)
+  void ProtoClient::initForces(Game& game)
   {
   }
-  void Client::initPlayers(Game& game)
+  void ProtoClient::initPlayers(Game& game)
   {
   }
-  void Client::initInitialUnits(Game& game)
+  void ProtoClient::initInitialUnits(Game& game)
   {
   }
-  void Client::initRegions(Game& game)
+  void ProtoClient::initRegions(Game& game)
   {
   }
-  void Client::onMatchEnd(Game& game)
+  void ProtoClient::onMatchEnd(Game& game)
+  {
+  }
+  void ProtoClient::initGame(Game& game)
+  {
+  }
+  void ProtoClient::updateGame(Game& game)
   {
   }
 
-  void Client::initGame(Game& game)
+  void ProtoClient::setScreenPosition(int x, int y)
   {
+    auto newSetScreenPosition = std::make_unique<bwapi::command::SetScreenPosition>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    newSetScreenPosition->set_x(x);
+    newSetScreenPosition->set_y(y);
+    newCommand->set_allocated_setscreenposition(newSetScreenPosition.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
   }
-  void Client::updateGame(Game& game)
+  void ProtoClient::pingMinimap(int x, int y)
   {
+    auto newPingMiniMap = std::make_unique<bwapi::command::PingMiniMap>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    newPingMiniMap->set_x(x);
+    newPingMiniMap->set_y(y);
+    newCommand->set_allocated_pingminimap(newPingMiniMap.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::drawShape(ShapeType::Enum shapeType, CoordinateType::Enum coordinateType, int x1, int y1, int x2, int y2, int extra1, int extra2, Color color, bool isSolid)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newShape = std::make_unique<bwapi::command::Shape>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    newShape->set_type(static_cast<bwapi::command::ShapeType>(shapeType));
+    newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(coordinateType));
+    newShape->set_x1(x1);
+    newShape->set_y1(y1);
+    newShape->set_x2(x2);
+    newShape->set_y2(y2);
+    newShape->set_extra1(extra1);
+    newShape->set_extra2(extra2);
+    newShape->set_color(static_cast<int>(color));
+    newShape->set_issolid(isSolid);
+    newCommand->set_allocated_shape(newShape.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::drawText(CoordinateType::Enum coordinateType, const std::string &text, int x, int y, int textSize)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newShape = std::make_unique<bwapi::command::Shape>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    newShape->set_type(bwapi::command::ShapeType::Text);
+    newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(coordinateType));
+    newShape->set_x1(x);
+    newShape->set_y1(y);
+    newShape->set_x2(0);
+    newShape->set_y2(0);
+    newShape->set_extra1(0);
+    newShape->set_extra2(textSize);
+    newShape->set_color(0);
+    newShape->set_issolid(false);
+    newShape->set_text(text);
+    newCommand->set_allocated_shape(newShape.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::sendText(const std::string &text, bool toAllies)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newSendText = std::make_unique<bwapi::command::SendText>();
+    newSendText->set_text(text);
+    newSendText->set_toallies(toAllies);
+    newCommand->set_allocated_sendtext(newSendText.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::printText(const std::string &text)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newPrintf = std::make_unique<bwapi::command::Printf>();
+    newPrintf->set_text(text);
+    newCommand->set_allocated_printf(newPrintf.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::pauseGame()
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newPauseGame = std::make_unique<bwapi::command::PauseGame>();
+    newCommand->set_allocated_pausegame(newPauseGame.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::resumeGame()
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newResumeGame = std::make_unique<bwapi::command::ResumeGame>();
+    newCommand->set_allocated_resumegame(newResumeGame.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::leaveGame()
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newLeaveGame = std::make_unique<bwapi::command::LeaveGame>();
+    newCommand->set_allocated_leavegame(newLeaveGame.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::restartGame()
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newRestartGame = std::make_unique<bwapi::command::RestartGame>();
+    newCommand->set_allocated_restartgame(newRestartGame.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::setLocalSpeed(int msPerFrame)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newSetLocalSpeed = std::make_unique<bwapi::command::SetLocalSpeed>();
+    newSetLocalSpeed->set_speed(msPerFrame);
+    newCommand->set_allocated_setlocalspeed(newSetLocalSpeed.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::issueCommand(const Unitset& units, UnitCommand command)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newUnitCommand = std::make_unique<bwapi::command::UnitCommand>();
+    for (auto unit : units)
+    {
+      newUnitCommand->add_unitid(unit.getID().id);
+    }
+    newUnitCommand->set_unitcommandtype(command.getType());
+    newUnitCommand->set_targetid(command.getTarget().id);
+    newUnitCommand->set_x(command.x);
+    newUnitCommand->set_y(command.y);
+    newUnitCommand->set_extra(command.extra);
+    newCommand->set_allocated_unitcommand(newUnitCommand.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::setAlliance(int playerId, int alliance)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newSetAlliance = std::make_unique<bwapi::command::SetAlliance>();
+    newSetAlliance->set_playerid(playerId);
+    newSetAlliance->set_settings(alliance);
+    newCommand->set_allocated_setalliance(newSetAlliance.release());
+    newMessage->set_allocated_command(newCommand.release());
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::setVision(int playerId, bool enabled)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newSetVision = std::make_unique<bwapi::command::SetVision>();
+    newSetVision->set_playerid(playerId);
+    newSetVision->set_settings(enabled ? 1 : 0);
+    newCommand->set_allocated_setvision(newSetVision.release());
+    protoClient.queueMessage(std::move(newMessage));
   }
 }

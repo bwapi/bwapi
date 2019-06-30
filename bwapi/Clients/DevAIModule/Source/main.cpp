@@ -1,5 +1,5 @@
 #include <BWAPI.h>
-#include "..\Frontend\BWAPIFrontendClient\Client.h"
+#include "..\Frontend\BWAPIFrontendClient\ProtoClient.h"
 
 #include <iostream>
 
@@ -14,7 +14,7 @@ Player self = nullptr;
 
 int main()
 {
-  Client BWAPIClient;
+  ProtoClient BWAPIClient;
   Game broodwar(BWAPIClient);
   int i = 0;
   std::cout << "Connecting..." << std::endl;

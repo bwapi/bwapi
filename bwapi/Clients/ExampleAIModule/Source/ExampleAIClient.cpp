@@ -1,5 +1,5 @@
 #include <BWAPI.h>
-#include "..\Frontend\BWAPIFrontendClient\Client.h"
+#include "..\Frontend\BWAPIFrontendClient\ProtoClient.h"
 
 #include <iostream>
 #include <thread>
@@ -26,7 +26,7 @@ void reconnect(Client &BWAPIClient)
 
 int main(int argc, const char* argv[])
 {
-  Client BWAPIClient;
+  ProtoClient BWAPIClient;
   Game Broodwar(BWAPIClient);
   std::cout << "Connecting..." << std::endl;
   reconnect(BWAPIClient);

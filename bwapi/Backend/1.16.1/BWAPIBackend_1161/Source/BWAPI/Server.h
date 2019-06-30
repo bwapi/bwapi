@@ -9,7 +9,6 @@ namespace BWAPI
 {
   // Forwards
   struct GameData;
-  struct GameTable;
   class Event;
   class ForceInterface;
   typedef ForceInterface* Force;
@@ -57,7 +56,6 @@ namespace BWAPI
     void sendData();
     //std::unique_ptr<bwapi::data::GameData> makeGameDataMessage();
 
-    GameTable* gameTable = nullptr;
     int gameTableIndex = -1;
     bool connected = false;
     bool listening = false;

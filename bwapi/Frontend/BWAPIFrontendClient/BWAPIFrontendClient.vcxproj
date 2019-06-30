@@ -19,30 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ProtoClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BulletData.h" />
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="ProtoClient.h" />
     <ClInclude Include="CommandTemp.h" />
-    <ClInclude Include="CommandType.h" />
     <ClInclude Include="Convenience.h" />
     <ClInclude Include="Event.h" />
-    <ClInclude Include="ForceData.h" />
-    <ClInclude Include="GameData.h" />
-    <ClInclude Include="GameImpl.h" />
-    <ClInclude Include="GameTable.h" />
-    <ClInclude Include="PlayerData.h" />
-    <ClInclude Include="RegionData.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeType.h" />
     <ClInclude Include="Templates.h" />
     <ClInclude Include="UnitCommand.h" />
-    <ClInclude Include="UnitData.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Backend\Messages\Messages.vcxproj">

@@ -205,6 +205,48 @@
     <ClInclude Include="..\..\include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\BulletData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\Client.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\Command.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\CommandType.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\Event.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\ForceData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\GameData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\GameTable.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\PlayerData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\RegionData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\Shape.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\ShapeType.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\UnitCommand.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h">
+      <Filter>Client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Types">
@@ -233,6 +275,9 @@
     </Filter>
     <Filter Include="Filters">
       <UniqueIdentifier>{e2978001-1978-4c91-96da-927212cbf403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{16281b97-5a61-4310-88db-9d47ec79516f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

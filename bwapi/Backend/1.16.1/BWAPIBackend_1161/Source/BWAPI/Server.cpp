@@ -6,7 +6,6 @@
 #include "PlayerImpl.h"
 #include "BulletImpl.h"
 #include "RegionImpl.h"
-#include <BWAPI/Client/GameTable.h>
 #include <BWAPI/Client/GameData.h>
 
 #include <BW/Pathing.h>

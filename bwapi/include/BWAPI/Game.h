@@ -16,7 +16,7 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/IDs.h>
 
-#include <BWAPI/GameData.h>
+#include <BWAPI/Client/GameData.h>
 #include <BWAPI/Client/UnitData.h>
 #include <BWAPI/Client/PlayerData.h>
 #include <BWAPI/Client/RegionData.h>
