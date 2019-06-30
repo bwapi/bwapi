@@ -57,6 +57,7 @@ int main()
               }
             }
           }
+          std::cout << "SendText: " << e.getText().c_str() << std::endl;
           broodwar->sendText("%s", e.getText().c_str());
           break;
         case EventType::UnitDiscover:

@@ -19,8 +19,8 @@ namespace BWAPI
       static Event MatchEnd(bool isWinner);
       static Event MatchFrame();
       static Event MenuFrame();
-      static Event SendText(const char* text = nullptr);
-      static Event ReceiveText(Player player, const char* text = nullptr);
+      static Event SendText(const std::string& text);
+      static Event ReceiveText(Player player, const std::string& text);
       static Event PlayerLeft(Player player);
       static Event NukeDetect(Position target);
       static Event UnitDiscover(Unit unit);
@@ -31,7 +31,7 @@ namespace BWAPI
       static Event UnitDestroy(Unit unit);
       static Event UnitMorph(Unit unit);
       static Event UnitRenegade(Unit unit);
-      static Event SaveGame(const char* gameName = nullptr);
+      static Event SaveGame(const std::string& gameName);
       static Event UnitComplete(Unit unit);
       EventType::Enum getType() const;
       Position getPosition() const;
@@ -42,7 +42,7 @@ namespace BWAPI
 
       Event& setType(EventType::Enum type);
       Event& setPosition(Position position);
-      Event& setText(const char* text);
+      Event& setText(const std::string& text);
       Event& setUnit(Unit unit);
       Event& setPlayer(Player player);
       Event& setWinner(bool isWinner);

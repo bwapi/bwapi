@@ -67,6 +67,7 @@ namespace BWAPI
             game.gameData->player = PlayerID{ gameUpdate.player() };
             game.gameData->screenPosition = { gameUpdate.screenposition().x(), gameUpdate.screenposition().y() };
             game.gameData->hasGUI = gameUpdate.hasgui();
+            game.gameData->frameCount = gameUpdate.framecount();
             if (gameUpdate.has_staticmap())
             {
               auto staticMap = gameUpdate.staticmap();
@@ -403,6 +404,7 @@ namespace BWAPI
         else if (e.has_nukedetect())
         {
           auto target = e.nukedetect().target();
+          e2.setType(EventType::NukeDetect);
           e2.setPosition(Position{ target.x(),target.y() });
         }
         else if (e.has_unitdiscover())

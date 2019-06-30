@@ -35,21 +35,19 @@ namespace BWAPI
     e.type = EventType::MenuFrame;
     return e;
   }
-  Event Event::SendText(const char* text)
+  Event Event::SendText(const std::string& text)
   {
     Event e;
     e.type = EventType::SendText;
-    if (text != nullptr)
-      e.text->assign(text);
+    e.text->assign(text);
     return e;
   }
-  Event Event::ReceiveText(Player player, const char* text)
+  Event Event::ReceiveText(Player player, const std::string& text)
   {
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    if (text != nullptr)
-      e.text->assign(text);
+    e.text->assign(text);
     return e;
   }
   Event Event::PlayerLeft(Player player)
@@ -122,12 +120,11 @@ namespace BWAPI
     e.unit = unit;
     return e;
   }
-  Event Event::SaveGame(const char* gameName)
+  Event Event::SaveGame(const std::string& gameName)
   {
     Event e;
     e.type = EventType::SaveGame;
-    if (gameName != nullptr)
-      e.text->assign(gameName);
+    e.text->assign(gameName);
     return e;
   }
   Event Event::UnitComplete(Unit unit)
@@ -173,12 +170,9 @@ namespace BWAPI
     this->position = position_;
     return *this;
   }
-  Event& Event::setText(const char* text_)
+  Event& Event::setText(const std::string& text_)
   {
-    if (this->text && text_)
-    {
-      this->text->assign(text_);
-    }
+    this->text->assign(text_);
     return *this;
   }
   Event& Event::setUnit(Unit unit_)
