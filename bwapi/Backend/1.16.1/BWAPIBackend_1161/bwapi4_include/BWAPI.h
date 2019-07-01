@@ -30,7 +30,6 @@
 #include <BWAPI/Region.h>
 #include <BWAPI/Regionset.h>
 #include <BWAPI/SetContainer.h>
-#include <BWAPI/Streams.h>
 #include <BWAPI/TechType.h>
 #include <BWAPI/TournamentAction.h>
 #include <BWAPI/Type.h>

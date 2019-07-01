@@ -14,9 +14,6 @@ namespace BWAPI
   class Forceset : public SetContainer<BWAPI::Force, std::hash<void*>>
   {
   public:
-
-    /// @copydoc ForceInterface::getPlayers
-    Playerset getPlayers() const;
   };
 }
 

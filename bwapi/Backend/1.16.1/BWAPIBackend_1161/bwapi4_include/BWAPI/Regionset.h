@@ -1,7 +1,6 @@
 #pragma once
 #include "SetContainer.h"
 #include <BWAPI/Position.h>
-#include <BWAPI/Filters.h>
 
 namespace BWAPI
 {
@@ -16,11 +15,6 @@ namespace BWAPI
   {
   public:
 
-    /// @copydoc RegionInterface::getCenter
-    Position getCenter() const;
-
-    /// @copydoc RegionInterface::getUnits
-    Unitset getUnits(const UnitFilter &pred = nullptr) const;
   };
 }
 

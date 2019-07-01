@@ -1,8 +1,8 @@
 #pragma once
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitType.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
+#include <BWAPI/Filters.h>
 
 namespace BWAPI
 {

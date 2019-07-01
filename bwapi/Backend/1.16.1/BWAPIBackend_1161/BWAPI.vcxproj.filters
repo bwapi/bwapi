@@ -40,6 +40,12 @@
     <Filter Include="Util">
       <UniqueIdentifier>{b645e9bf-9aea-4bcd-a02c-8dee41569429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Old_BWAPILIB\BWAPI">
+      <UniqueIdentifier>{59629d4d-10f7-4f1b-9afa-e7c927e2262f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Old_BWAPILIB\BWAPI\Client">
+      <UniqueIdentifier>{0646938a-c403-4a5e-bb9f-5dcb945b2b8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BW\CheatType.h">
@@ -240,6 +246,189 @@
     <ClInclude Include="Source\Convenience.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI.h">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\AIModule.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\ArithmaticFilter.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\BestFilter.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Bulletset.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\BulletType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Color.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\ComparisonFilter.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Constants.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\CoordinateType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\DamageType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Error.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Event.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\EventType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\ExplosionType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Filters.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Flag.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Forceset.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\GameType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Input.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Latency.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Order.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Playerset.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\PlayerType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Position.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Race.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Regionset.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\SetContainer.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\TechType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\TournamentAction.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Type.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UnaryFilter.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UnitCommand.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UnitCommandType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Unitset.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UnitSizeType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UnitType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\UpgradeType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\WeaponType.h">
+      <Filter>Old_BWAPILIB\BWAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\BulletData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\BulletImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\Client.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\Command.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\CommandTemp.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\CommandType.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\Event.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\ForceData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\ForceImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\GameData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\GameImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\GameTable.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\PlayerData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\PlayerImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\RegionData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\RegionImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\Shape.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\ShapeType.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\UnitCommand.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\UnitData.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi4_include\BWAPI\Client\UnitImpl.h">
+      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BW\CheatType.cpp">
@@ -384,7 +573,16 @@
     <ClCompile Include="Source\BWAPI\UnitShared.cpp">
       <Filter>BWAPI\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Sha1.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\Game.cpp">
+      <Filter>BWAPI\Source</Filter>
+    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp">
@@ -393,61 +591,13 @@
     <ClCompile Include="BWAPILIB_4_3_0\Color.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Error.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Event.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Forceset.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Order.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Playerset.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Position.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Region.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Regionset.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Streams.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sha1.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BWAPI\Game.cpp">
-      <Filter>BWAPI\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp">
@@ -456,13 +606,34 @@
     <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Order.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Player.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Position.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Race.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\UnitSizeType.cpp">
@@ -475,6 +646,9 @@
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
   </ItemGroup>

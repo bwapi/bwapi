@@ -5,6 +5,7 @@
 #include <BW/Dialog.h>
 
 #include <BWAPI/UnitImpl.h>
+#include <BWAPI/Filters.h>
 #include <BWAPI/PlayerImpl.h>
 #include <BWAPI/Order.h>
 #include <cassert>

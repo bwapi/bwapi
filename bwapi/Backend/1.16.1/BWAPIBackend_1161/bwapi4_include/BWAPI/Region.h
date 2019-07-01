@@ -1,6 +1,5 @@
 #pragma once
 #include <BWAPI/Position.h>
-#include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
 
 namespace BWAPI
@@ -51,9 +50,5 @@ namespace BWAPI
     virtual BWAPI::Region getClosestAccessibleRegion() const = 0;
 
     virtual BWAPI::Region getClosestInaccessibleRegion() const = 0;
-
-    int getDistance(BWAPI::Region other) const;
-
-    Unitset getUnits(const UnitFilter &pred = nullptr) const;
   };
 };

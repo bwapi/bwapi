@@ -21,8 +21,6 @@
 
 namespace BWAPI
 {
-  using namespace Filter;
-
   //------------------------------------ DAMAGE CALCULATION ------------------------------------------
   namespace {
     int damageRatio[DamageTypes::Enum::MAX][UnitSizeTypes::Enum::MAX] =
