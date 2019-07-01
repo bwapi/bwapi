@@ -125,9 +125,8 @@ namespace BWAPI
     }
 
     //Finished with queue, send the EndOfQueue message
-    auto endOfQueue = std::make_unique<bwapi::game::EndOfQueue>();
     currentMessage = std::make_unique<bwapi::message::Message>();
-    currentMessage->set_allocated_endofqueue(endOfQueue.release());
+    currentMessage->mutable_endofqueue();
     packet.clear();
     auto size = currentMessage->ByteSize();
     std::unique_ptr<char[]> buffer(new char[size]);

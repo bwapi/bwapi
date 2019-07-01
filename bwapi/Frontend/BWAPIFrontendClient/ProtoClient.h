@@ -55,6 +55,5 @@ namespace BWAPI
     std::set<ForceData, IDCompare> forces;
 
     BWAPIProtoClient protoClient;
-
   };
 }

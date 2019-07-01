@@ -61,6 +61,8 @@ int main()
           std::cout << "SaveGame: " << e.getText() << std::endl;
           break;
         case EventType::SendText:
+          std::cout << "SendText: " << e.getText().c_str() << std::endl;
+
           if (e.getText() == "/morph")
           {
             Unitset larvae = self->getUnits();
@@ -73,8 +75,14 @@ int main()
               }
             }
           }
-          std::cout << "SendText: " << e.getText().c_str() << std::endl;
-          broodwar->sendText("%s", e.getText().c_str());
+          else if (e.getText() == "/pause")
+          {
+            broodwar->pauseGame();
+          }
+          else
+          {
+            broodwar->sendText("%s", e.getText().c_str());
+          }
           break;
         case EventType::UnitDiscover:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)

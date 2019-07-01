@@ -388,13 +388,13 @@ namespace BWAPI
         else if (e.has_receivetext())
         {
           e2.setType(EventType::ReceiveText);
-          e2.setText(e.receivetext().text().c_str());
+          e2.setText(e.receivetext().text());
           e2.setPlayer(game.getPlayer(PlayerID{ e.receivetext().player() }));
         }
         else if (e.has_savegame())
         {
           e2.setType(EventType::SaveGame);
-          e2.setText(e.savegame().text().c_str());
+          e2.setText(e.savegame().text());
         }
         else if (e.has_playerleft())
         {
@@ -450,7 +450,7 @@ namespace BWAPI
         else if (e.has_savegame())
         {
           e2.setType(EventType::SaveGame);
-          e2.setText(e.savegame().text().c_str());
+          e2.setText(e.savegame().text());
         }
         else if (e.has_unitcomplete())
         {
@@ -497,31 +497,24 @@ namespace BWAPI
 
   void ProtoClient::setScreenPosition(int x, int y)
   {
-    auto newSetScreenPosition = std::make_unique<bwapi::command::SetScreenPosition>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newSetScreenPosition = newMessage->mutable_command()->mutable_setscreenposition();
     newSetScreenPosition->set_x(x);
     newSetScreenPosition->set_y(y);
-    newCommand->set_allocated_setscreenposition(newSetScreenPosition.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::pingMinimap(int x, int y)
   {
-    auto newPingMiniMap = std::make_unique<bwapi::command::PingMiniMap>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newPingMiniMap = newMessage->mutable_command()->mutable_pingminimap();
     newPingMiniMap->set_x(x);
     newPingMiniMap->set_y(y);
-    newCommand->set_allocated_pingminimap(newPingMiniMap.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::drawShape(ShapeType::Enum shapeType, CoordinateType::Enum coordinateType, int x1, int y1, int x2, int y2, int extra1, int extra2, Color color, bool isSolid)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newShape = std::make_unique<bwapi::command::Shape>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newShape = newMessage->mutable_command()->mutable_shape();
     newShape->set_type(static_cast<bwapi::command::ShapeType>(shapeType));
     newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(coordinateType));
     newShape->set_x1(x1);
@@ -532,15 +525,12 @@ namespace BWAPI
     newShape->set_extra2(extra2);
     newShape->set_color(static_cast<int>(color));
     newShape->set_issolid(isSolid);
-    newCommand->set_allocated_shape(newShape.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::drawText(CoordinateType::Enum coordinateType, const std::string &text, int x, int y, int textSize)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newShape = std::make_unique<bwapi::command::Shape>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newShape = newMessage->mutable_command()->mutable_shape();
     newShape->set_type(bwapi::command::ShapeType::Text);
     newShape->set_ctype(static_cast<bwapi::command::CoordinateType>(coordinateType));
     newShape->set_x1(x);
@@ -552,8 +542,6 @@ namespace BWAPI
     newShape->set_color(0);
     newShape->set_issolid(false);
     newShape->set_text(text);
-    newCommand->set_allocated_shape(newShape.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::sendText(const std::string &text, bool toAllies)
@@ -562,80 +550,50 @@ namespace BWAPI
     auto newSendText = newMessage->mutable_command()->mutable_sendtext();
     newSendText->set_text(text);
     newSendText->set_toallies(toAllies);
-
-    /*
-
-    auto newMessage = std::make_unique<bwapi::message::Message>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newSendText = std::make_unique<bwapi::command::SendText>();
-    newSendText->set_text(text);
-    newSendText->set_toallies(toAllies);
-    newCommand->set_allocated_sendtext(newSendText.release());
-    newMessage->set_allocated_command(newCommand.release());
-    */
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::printText(const std::string &text)
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newPrintf = std::make_unique<bwapi::command::Printf>();
+    auto newPrintf = newMessage->mutable_command()->mutable_printf();
     newPrintf->set_text(text);
-    newCommand->set_allocated_printf(newPrintf.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::pauseGame()
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newPauseGame = std::make_unique<bwapi::command::PauseGame>();
-    newCommand->set_allocated_pausegame(newPauseGame.release());
-    newMessage->set_allocated_command(newCommand.release());
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    newMessage->mutable_command()->mutable_pausegame();
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::resumeGame()
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newResumeGame = std::make_unique<bwapi::command::ResumeGame>();
-    newCommand->set_allocated_resumegame(newResumeGame.release());
-    newMessage->set_allocated_command(newCommand.release());
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    newMessage->mutable_command()->mutable_resumegame();
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::leaveGame()
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newLeaveGame = std::make_unique<bwapi::command::LeaveGame>();
-    newCommand->set_allocated_leavegame(newLeaveGame.release());
-    newMessage->set_allocated_command(newCommand.release());
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    newMessage->mutable_command()->mutable_leavegame();
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::restartGame()
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newRestartGame = std::make_unique<bwapi::command::RestartGame>();
-    newCommand->set_allocated_restartgame(newRestartGame.release());
-    newMessage->set_allocated_command(newCommand.release());
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    newMessage->mutable_command()->mutable_restartgame();
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::setLocalSpeed(int msPerFrame)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newSetLocalSpeed = std::make_unique<bwapi::command::SetLocalSpeed>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newSetLocalSpeed = newMessage->mutable_command()->mutable_setlocalspeed();
     newSetLocalSpeed->set_speed(msPerFrame);
-    newCommand->set_allocated_setlocalspeed(newSetLocalSpeed.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::issueCommand(const Unitset& units, UnitCommand command)
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newUnitCommand = std::make_unique<bwapi::command::UnitCommand>();
+    auto newUnitCommand = newMessage->mutable_command()->mutable_unitcommand();
     for (auto unit : units)
     {
       newUnitCommand->add_unitid(unit.getID().id);
@@ -645,29 +603,22 @@ namespace BWAPI
     newUnitCommand->set_x(command.x);
     newUnitCommand->set_y(command.y);
     newUnitCommand->set_extra(command.extra);
-    newCommand->set_allocated_unitcommand(newUnitCommand.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::setAlliance(int playerId, int alliance)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newSetAlliance = std::make_unique<bwapi::command::SetAlliance>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newSetAlliance = newMessage->mutable_command()->mutable_setalliance();
     newSetAlliance->set_playerid(playerId);
     newSetAlliance->set_settings(alliance);
-    newCommand->set_allocated_setalliance(newSetAlliance.release());
-    newMessage->set_allocated_command(newCommand.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::setVision(int playerId, bool enabled)
   {
-    auto newMessage = std::make_unique<bwapi::message::Message>();;
-    auto newCommand = std::make_unique<bwapi::command::Command>();
-    auto newSetVision = std::make_unique<bwapi::command::SetVision>();
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newSetVision = newMessage->mutable_command()->mutable_setvision();
     newSetVision->set_playerid(playerId);
     newSetVision->set_settings(enabled ? 1 : 0);
-    newCommand->set_allocated_setvision(newSetVision.release());
     protoClient.queueMessage(std::move(newMessage));
   }
 }

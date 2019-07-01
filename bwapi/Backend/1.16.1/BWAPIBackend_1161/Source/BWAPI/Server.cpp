@@ -156,7 +156,6 @@ namespace BWAPI
     default:
       break;
     }
-    //newMessage->set_allocated_event(newEvent.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   int Server::addString(const char* text)
