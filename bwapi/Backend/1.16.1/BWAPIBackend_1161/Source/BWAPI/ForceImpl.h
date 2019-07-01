@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <BWAPI/Force.h>
 #include <BWAPI/Playerset.h>
 
 namespace BWAPI
@@ -9,13 +8,13 @@ namespace BWAPI
   class PlayerInterface;
   typedef PlayerInterface *Player;
 
-  class ForceImpl : public ForceInterface
+  class ForceImpl
   {
     public:
       ForceImpl(std::string const & name);
-      virtual int getID() const override;
-      virtual std::string getName() const override;
-      virtual Playerset getPlayers() const override;
+      int getID() const;
+      std::string getName() const;
+      Playerset getPlayers() const;
       Playerset players;
       std::string name;
       void setID(int newID);

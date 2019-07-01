@@ -234,8 +234,8 @@ namespace BWAPI
   void GameImpl::initializeData()
   {
     // Delete forces
-    for ( Forceset::iterator f = this->forces.begin(); f != this->forces.end(); ++f)
-      delete (static_cast<ForceImpl*>(*f));
+    for (auto f = this->forces.begin(); f != this->forces.end(); ++f)
+      delete *f;
     this->forces.clear();
 
     // Remove player references

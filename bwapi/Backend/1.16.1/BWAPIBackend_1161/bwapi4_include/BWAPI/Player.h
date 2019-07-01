@@ -9,13 +9,13 @@ namespace BWAPI
 {
   // Forwards
   class Color;
-  class ForceInterface;
-  typedef ForceInterface *Force;
   class PlayerType;
   class TechType;
   class Unitset;
   class UpgradeType;
   class WeaponType;
+  class ForceImpl;
+  typedef ForceImpl* Force;
 
   struct PlayerData;
 

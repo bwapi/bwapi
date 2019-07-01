@@ -180,7 +180,7 @@ namespace BWAPI
     unitVector.clear();
     unitLookup.clear();
   }
-  int Server::getForceID(Force force)
+  int Server::getForceID(ForceImpl* force)
   {
     if (!force)
       return -1;
@@ -353,7 +353,7 @@ namespace BWAPI
 
     //static force data
     data->forces[0].name[0] = '\0';
-    for (Force i : BroodwarImpl.getForces())
+    for (auto i : BroodwarImpl.getForces())
     {
       int id = getForceID(i);
       StrCopy(data->forces[id].name, i->getName());

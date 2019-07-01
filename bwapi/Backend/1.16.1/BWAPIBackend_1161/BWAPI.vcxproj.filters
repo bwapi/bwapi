@@ -216,9 +216,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Force.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Player.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -300,9 +297,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Flag.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Forceset.h">
-      <Filter>Old_BWAPILIB\BWAPI</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\GameType.h">
       <Filter>Old_BWAPILIB\BWAPI</Filter>
     </ClInclude>
@@ -369,12 +363,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Client\BulletData.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\BulletImpl.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\Client.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\Command.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
@@ -390,13 +378,7 @@
     <ClInclude Include="bwapi4_include\BWAPI\Client\ForceData.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\ForceImpl.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\GameData.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\GameImpl.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\GameTable.h">
@@ -405,13 +387,7 @@
     <ClInclude Include="bwapi4_include\BWAPI\Client\PlayerData.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\PlayerImpl.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\RegionData.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\RegionImpl.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\Shape.h">
@@ -424,9 +400,6 @@
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Client\UnitData.h">
-      <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Client\UnitImpl.h">
       <Filter>Old_BWAPILIB\BWAPI\Client</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,12 +10,12 @@ namespace BWAPI
   // Forwards
   struct GameData;
   class Event;
-  class ForceInterface;
-  typedef ForceInterface* Force;
   class PlayerInterface;
   typedef PlayerInterface* Player;
   class UnitInterface;
   typedef UnitInterface* Unit;
+  class ForceImpl;
+  typedef ForceImpl* Force;
 
   class Server
   {
@@ -32,7 +32,7 @@ namespace BWAPI
     int       addString(const char* text);
     void      clearAll();
 
-    int       getForceID(Force force);
+    int       getForceID(ForceImpl* force);
     Force     getForce(int id) const;
     
     int       getPlayerID(Player player);

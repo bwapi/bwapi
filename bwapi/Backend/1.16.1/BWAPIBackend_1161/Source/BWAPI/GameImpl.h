@@ -47,7 +47,7 @@ namespace BWAPI
   class GameImpl
   {
     public :
-      const Forceset&   getForces() const;
+      const std::set<ForceImpl*>&   getForces() const;
       const Playerset&  getPlayers() const;
       const Unitset&    getAllUnits() const;
       const Unitset&    getMinerals() const;
@@ -365,7 +365,7 @@ namespace BWAPI
 
       TilePosition::list startLocations;
 
-      Forceset  forces;
+      std::set<ForceImpl*> forces;
       Playerset playerSet;
 
       Unitset       minerals;

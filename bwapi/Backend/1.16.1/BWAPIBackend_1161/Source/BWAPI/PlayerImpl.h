@@ -12,13 +12,13 @@
 namespace BWAPI
 {
   // Forwards
-  class ForceInterface;
-  typedef ForceInterface* Force;
   class UnitType;
   class UpgradeType;
   class TechType;
   class PlayerType;
   class Race;
+  class ForceImpl;
+  typedef ForceImpl* Force;
 
   /** Represents one player in game. Note that there is always player 12 who owns resources. */
   class PlayerImpl : public PlayerInterface

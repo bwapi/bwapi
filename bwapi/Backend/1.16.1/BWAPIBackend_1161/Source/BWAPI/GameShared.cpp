@@ -5,7 +5,7 @@
 namespace BWAPI
 {
   //----------------------------------------------- GET FORCES -----------------------------------------------
-  const Forceset& GameImpl::getForces() const
+  const std::set<ForceImpl*>& GameImpl::getForces() const
   {
     return forces;
   }
