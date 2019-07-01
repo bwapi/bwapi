@@ -1,5 +1,4 @@
 #pragma once
-#include <BWAPI/Game.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/UpgradeType.h>

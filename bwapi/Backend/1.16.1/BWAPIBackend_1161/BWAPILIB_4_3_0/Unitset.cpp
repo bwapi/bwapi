@@ -2,7 +2,7 @@
 #include <BWAPI/UnitCommand.h>
 #include <BWAPI/Position.h>
 #include <BWAPI/Unit.h>
-#include <BWAPI/Game.h>
+#include "../BWAPI/GameImpl.h"
 #include <BWAPI/TechType.h>
 
 #include <utility>

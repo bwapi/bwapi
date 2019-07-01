@@ -213,9 +213,6 @@
     <ClInclude Include="bwapi4_include\BWAPI\Force.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="bwapi4_include\BWAPI\Game.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="bwapi4_include\BWAPI\Player.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -390,16 +387,10 @@
     <ClCompile Include="BWAPILIB_4_3_0\AIModule.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\BWAPI.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Color.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Error.cpp">
@@ -408,19 +399,10 @@
     <ClCompile Include="BWAPILIB_4_3_0\Event.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Forceset.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Game.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Order.cpp">
@@ -432,13 +414,7 @@
     <ClCompile Include="BWAPILIB_4_3_0\Playerset.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Position.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\Race.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Region.cpp">
@@ -450,19 +426,43 @@
     <ClCompile Include="BWAPILIB_4_3_0\Streams.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Unit.cpp">
-      <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\UnitCommandType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\Unitset.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sha1.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BWAPI\Game.cpp">
+      <Filter>BWAPI\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\UnitCommand.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\BulletType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\DamageType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\PlayerType.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\Race.cpp">
+      <Filter>Old_BWAPILIB</Filter>
+    </ClCompile>
+    <ClCompile Include="BWAPILIB_4_3_0\TechType.cpp">
       <Filter>Old_BWAPILIB</Filter>
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\UnitSizeType.cpp">
@@ -476,9 +476,6 @@
     </ClCompile>
     <ClCompile Include="BWAPILIB_4_3_0\WeaponType.cpp">
       <Filter>Old_BWAPILIB</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sha1.cpp">
-      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

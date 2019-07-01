@@ -2,6 +2,9 @@
 
 #include "../Convenience.h"
 
+#include <string>
+#include <sstream>
+
 #include "GameImpl.h"
 #include "PlayerImpl.h"
 #include "BulletImpl.h"

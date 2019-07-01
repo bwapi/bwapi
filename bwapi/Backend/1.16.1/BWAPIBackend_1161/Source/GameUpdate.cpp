@@ -1,5 +1,8 @@
 #include "GameImpl.h"
 
+#include <sstream>
+#include <string>
+
 #include "../Path.h"
 #include "../StringUtil.h"
 
@@ -259,6 +262,7 @@ void GameImpl::updateOverlays()
 //--------------------------------------------- TOURNAMENT MODULE ----------------------------------------------
 void GameImpl::initializeTournamentModule()
 {
+  /*
   // Declare typedefs for function pointers
   typedef void (*PFNGameInit)(Game *);
   typedef AIModule* (*PFNCreateA1)();
@@ -313,15 +317,17 @@ void GameImpl::initializeTournamentModule()
 #else
   this->bTournamentMessageAppeared = true;
 #endif
+*/
 }
 
 //--------------------------------------------- AI MODULE ----------------------------------------------
 void GameImpl::initializeAIModule()
 {
+  /*
   // Declare typedefs for function pointers
   typedef void (*PFNGameInit)(Game *);
   typedef AIModule* (*PFNCreateA1)();
-
+  */
   // Connect to external module if it exists
   externalModuleConnected = false;
   std::string moduleName("<Nothing>");
@@ -347,6 +353,7 @@ void GameImpl::initializeAIModule()
   }
   else // if not, allow interaction and print error message
   {
+    /*
     this->client = new AIModule();
 
     // enable flags to allow interaction
@@ -356,6 +363,7 @@ void GameImpl::initializeAIModule()
     // print error string
     BroodwarImpl.printf("%cERROR: No Client is connected.", Text::Red);
     externalModuleConnected = false;
+    */
   }
   sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str());
 }

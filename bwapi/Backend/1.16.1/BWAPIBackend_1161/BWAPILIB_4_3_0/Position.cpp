@@ -1,5 +1,5 @@
 #include <BWAPI/Position.h>
-#include <BWAPI/Game.h>
+#include "../BWAPI/GameImpl.h"
 
 #include "GameImpl.h"
 

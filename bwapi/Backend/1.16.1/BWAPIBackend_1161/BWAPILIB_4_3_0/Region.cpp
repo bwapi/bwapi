@@ -1,7 +1,5 @@
 #include <BWAPI/Region.h>
 #include <BWAPI/Unitset.h>
-#include <BWAPI/Game.h>
-#include <BWAPI/Unit.h>
 #include <BWAPI/Filters.h>
 
 #include "GameImpl.h"

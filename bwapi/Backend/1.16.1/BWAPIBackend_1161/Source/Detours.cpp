@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <fstream>
 #include <cmath>

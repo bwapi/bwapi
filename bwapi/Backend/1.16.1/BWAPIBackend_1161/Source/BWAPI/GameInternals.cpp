@@ -1,6 +1,7 @@
 #include "GameImpl.h"
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include "../Detours.h"
 #include "../DLLMain.h"

@@ -3,7 +3,7 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Player.h>
 #include <BWAPI/Unitset.h>
-#include <BWAPI/Game.h>
+#include "../BWAPI/GameImpl.h"
 #include <BWAPI/Order.h>
 #include <BWAPI/UnitSizeType.h>
 #include <BWAPI/UpgradeType.h>

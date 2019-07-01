@@ -4,7 +4,7 @@
 #include <BWAPI/Player.h>
 
 #include <BWAPI/Filters.h>
-#include <BWAPI/Game.h>
+#include "../BWAPI/GameImpl.h"
 
 #include <utility>
 

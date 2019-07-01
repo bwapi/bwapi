@@ -147,7 +147,6 @@ popd</Command>
     <ClInclude Include="..\..\..\include\BWAPI.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Bullet.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Force.h" />
-    <ClInclude Include="bwapi4_include\BWAPI\Game.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Player.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Region.h" />
     <ClInclude Include="bwapi4_include\BWAPI\Unit.h" />
@@ -225,7 +224,6 @@ popd</Command>
     <ClCompile Include="BWAPILIB_4_3_0\ExplosionType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Filters.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Forceset.cpp" />
-    <ClCompile Include="BWAPILIB_4_3_0\Game.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\GameType.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Order.cpp" />
     <ClCompile Include="BWAPILIB_4_3_0\Player.cpp" />
@@ -253,6 +251,7 @@ popd</Command>
     <ClCompile Include="Source\BWAPI\CommandOptimizer.cpp" />
     <ClCompile Include="Source\BWAPI\ForceImpl.cpp" />
     <ClCompile Include="Source\BWAPI\ForceShared.cpp" />
+    <ClCompile Include="Source\BWAPI\Game.cpp" />
     <ClCompile Include="Source\BWAPI\GameBullets.cpp" />
     <ClCompile Include="Source\BWAPI\GameCommands.cpp" />
     <ClCompile Include="Source\BWAPI\GameDrawing.cpp" />
