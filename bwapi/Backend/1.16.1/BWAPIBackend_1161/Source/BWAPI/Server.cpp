@@ -56,7 +56,7 @@ namespace BWAPI
   void Server::addEvent(const BWAPI::Event& e)
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
-    auto newEvent = std::make_unique<bwapi::event::Event>();// newMessage->mutable_event();
+    auto newEvent = newMessage->mutable_event();
     switch (e.getType())
     {
     case BWAPI::EventType::MatchEnd:
@@ -68,7 +68,7 @@ namespace BWAPI
     case BWAPI::EventType::SendText:
     {
       auto newSendText = newEvent->mutable_sendtext();
-      newSendText->set_text(e.getText().c_str());
+      newSendText->set_text(e.getText());
     }
     break;
     case BWAPI::EventType::SaveGame:
@@ -156,7 +156,7 @@ namespace BWAPI
     default:
       break;
     }
-    newMessage->set_allocated_event(newEvent.release());
+    //newMessage->set_allocated_event(newEvent.release());
     protoClient.queueMessage(std::move(newMessage));
   }
   int Server::addString(const char* text)

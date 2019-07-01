@@ -383,7 +383,7 @@ namespace BWAPI
         else if (e.has_sendtext())
         {
           e2.setType(EventType::SendText);
-          e2.setText(e.sendtext().text().c_str());
+          e2.setText(e.sendtext().text());
         }
         else if (e.has_receivetext())
         {
@@ -559,12 +559,20 @@ namespace BWAPI
   void ProtoClient::sendText(const std::string &text, bool toAllies)
   {
     auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newSendText = newMessage->mutable_command()->mutable_sendtext();
+    newSendText->set_text(text);
+    newSendText->set_toallies(toAllies);
+
+    /*
+
+    auto newMessage = std::make_unique<bwapi::message::Message>();
     auto newCommand = std::make_unique<bwapi::command::Command>();
     auto newSendText = std::make_unique<bwapi::command::SendText>();
     newSendText->set_text(text);
     newSendText->set_toallies(toAllies);
     newCommand->set_allocated_sendtext(newSendText.release());
     newMessage->set_allocated_command(newCommand.release());
+    */
     protoClient.queueMessage(std::move(newMessage));
   }
   void ProtoClient::printText(const std::string &text)

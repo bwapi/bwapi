@@ -39,7 +39,7 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SendText;
-    e.text->assign(text);
+    e.text = text;
     return e;
   }
   Event Event::ReceiveText(Player player, const std::string& text)
@@ -47,7 +47,7 @@ namespace BWAPI
     Event e;
     e.type   = EventType::ReceiveText;
     e.player = player;
-    e.text->assign(text);
+    e.text = text;
     return e;
   }
   Event Event::PlayerLeft(Player player)
@@ -124,7 +124,7 @@ namespace BWAPI
   {
     Event e;
     e.type = EventType::SaveGame;
-    e.text->assign(gameName);
+    e.text = gameName;
     return e;
   }
   Event Event::UnitComplete(Unit unit)
@@ -172,7 +172,7 @@ namespace BWAPI
   }
   Event& Event::setText(const std::string& text_)
   {
-    this->text->assign(text_);
+    this->text = text_;
     return *this;
   }
   Event& Event::setUnit(Unit unit_)

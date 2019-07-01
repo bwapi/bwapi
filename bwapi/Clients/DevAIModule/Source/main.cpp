@@ -43,6 +43,22 @@ int main()
         switch (e.getType())
         {
         case EventType::MatchEnd:
+          std::cout << "MatchEnd" << std::endl;
+          break;
+        case EventType::MatchStart:
+          std::cout << "MatchStart" << std::endl;
+          break;
+        case EventType::NukeDetect:
+          std::cout << "NukeDetect" << std::endl;
+          break;
+        case EventType::PlayerLeft:
+          std::cout << "PlayerLeft" << std::endl;
+          break;
+        case EventType::ReceiveText:
+          std::cout << "ReceiveText: " << e.getText() << std::endl;
+          break;
+        case EventType::SaveGame:
+          std::cout << "SaveGame: " << e.getText() << std::endl;
           break;
         case EventType::SendText:
           if (e.getText() == "/morph")
@@ -65,36 +81,42 @@ int main()
           {
             broodwar << "discover @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitDiscover: " << e.getUnit()->getType() << std::endl;
           break;
         case EventType::UnitEvade:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
             broodwar << "evade @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitEvade: " << e.getUnit()->getType() << std::endl;
           break;
         case EventType::UnitCreate:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
             broodwar << "create @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitCreate: " << e.getUnit()->getType() << std::endl;
           break;
         case EventType::UnitDestroy:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
             broodwar << "show @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitDestroy: " << e.getUnit()->getType() << std::endl;
           break;
         case EventType::UnitShow:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
             broodwar << "show @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitShow: " << e.getUnit()->getType() << std::endl;
           break;
         case EventType::UnitHide:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
             broodwar << "hide @ " << e.getUnit()->getPosition() << std::endl;
           }
+          std::cout << "UnitHide: " << e.getUnit()->getType() << std::endl;
           break;
         default:
           break;
