@@ -208,36 +208,6 @@ namespace BWAPI
     }
     return true;
   }
-  //------------------------------------------- INTERFACE EVENT UPDATE ---------------------------------------
-  void GameImpl::processInterfaceEvents()
-  {
-    // GameImpl events
-    this->updateEvents();
-
-    // UnitImpl events
-    for(Unit u : this->accessibleUnits)
-    {
-      u->exists() ? u->updateEvents() : u->interfaceEvents.clear();
-    }
-
-    // ForceImpl events
-    for (Force f : this->forces)
-      f->updateEvents();
-
-    // BulletImpl events
-    for (Bullet b : this->bullets)
-    {
-      b->exists() ? b->updateEvents() : b->interfaceEvents.clear();
-    }
-
-    // RegionImpl events
-    for (Region r : this->regionsList)
-      r->updateEvents();
-
-    // PlayerImpl events
-    for (Player p : this->playerSet)
-      p->updateEvents();
-  }
   //------------------------------------------- GET PLAYER INTERNAL ------------------------------------------
   PlayerImpl *GameImpl::_getPlayer(int id)
   {
@@ -347,9 +317,6 @@ namespace BWAPI
     this->cheatFlags  = 0;
     //this->frameCount  = -1;
     this->frameCount = 0;
-
-    this->clientInfo.clear();
-    this->interfaceEvents.clear();
 
     //reload auto menu data (in case the AI set the location of the next map/replay)
     this->loadAutoMenuData();

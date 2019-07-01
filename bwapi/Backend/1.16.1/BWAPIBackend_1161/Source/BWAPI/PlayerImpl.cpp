@@ -290,8 +290,6 @@ namespace BWAPI
   void PlayerImpl::onGameEnd()
   {
     this->units.clear();
-    this->clientInfo.clear();
-    this->interfaceEvents.clear();
 
     self->leftGame = false;
     this->wasSeenByBWAPIPlayer = false;

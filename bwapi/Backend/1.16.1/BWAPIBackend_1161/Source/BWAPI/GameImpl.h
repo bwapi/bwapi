@@ -233,8 +233,6 @@ namespace BWAPI
 
       void queueSentMessage(std::string const &message);
 
-      void processInterfaceEvents();
-
       UnitImpl   *getUnitFromIndex(int index);
       BulletImpl *getBulletFromIndex(int index);
 

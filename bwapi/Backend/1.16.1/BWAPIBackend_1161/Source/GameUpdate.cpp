@@ -162,9 +162,6 @@ void GameImpl::update()
   //if the AI is a DLL, this will translate the events into AIModule callbacks.
   server.update();
 
-  // Process events that were created for interface objects
-  this->processInterfaceEvents();
-
   //Before returning control to starcraft, we clear the unit data for units that are no longer accessible
   for(Unit u : evadeUnits)
     static_cast<UnitImpl*>(u)->updateData();

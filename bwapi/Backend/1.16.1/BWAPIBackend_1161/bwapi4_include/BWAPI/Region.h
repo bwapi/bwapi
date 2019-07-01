@@ -2,7 +2,6 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
-#include <BWAPI/Interface.h>
 
 namespace BWAPI
 {
@@ -22,7 +21,7 @@ namespace BWAPI
   ///
   /// @see Game::getAllRegions, Game::getRegionAt, UnitInterface::getRegion
   /// @ingroup Interface
-  class RegionInterface : public Interface<RegionInterface>
+  class RegionInterface
   {
   protected:
     virtual ~RegionInterface() {};

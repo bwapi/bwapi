@@ -31,7 +31,7 @@ namespace BWAPI
   /// in the game are accessible.
   /// @see Game::getBullets, BulletInterface::exists
   /// @ingroup Interface
-  class BulletInterface : public Interface<BulletInterface>
+  class BulletInterface
   {
   protected:
     virtual ~BulletInterface() {};

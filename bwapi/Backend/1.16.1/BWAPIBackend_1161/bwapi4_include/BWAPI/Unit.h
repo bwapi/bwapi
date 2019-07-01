@@ -3,7 +3,6 @@
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Filters.h>
 #include <BWAPI/UnaryFilter.h>
-#include <BWAPI/Interface.h>
 
 namespace BWAPI
 {
@@ -51,7 +50,7 @@ namespace BWAPI
   /// that have been destroyed.
   ///
   /// @ingroup Interface
-  class UnitInterface : public Interface<UnitInterface>
+  class UnitInterface
   {
   protected:
     virtual ~UnitInterface() {};

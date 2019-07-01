@@ -14,8 +14,6 @@ namespace BWAPI
     initialPosition  = Positions::None;
     lastCommandFrame = 0;
     lastCommand      = UnitCommand();
-    this->clientInfo.clear();
-    this->interfaceEvents.clear();
 
     connectedUnits.clear();
   }

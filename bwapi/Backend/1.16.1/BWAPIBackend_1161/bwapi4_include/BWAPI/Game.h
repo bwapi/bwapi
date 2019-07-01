@@ -3,7 +3,6 @@
 #include <string>
 #include <cstdarg>
 
-#include <BWAPI/Interface.h>
 #include <BWAPI/UnitType.h>
 #include <BWAPI/Error.h>
 #include <BWAPI/Color.h>
@@ -44,7 +43,7 @@ namespace BWAPI
   /// resources, players, forces, bullets, terrain, fog of war, regions, etc.
   ///
   /// @ingroup Interface
-  class Game : public Interface<Game>
+  class Game
   {
   protected:
     virtual ~Game() {};

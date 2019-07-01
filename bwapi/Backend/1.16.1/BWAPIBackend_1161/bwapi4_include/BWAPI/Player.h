@@ -4,7 +4,6 @@
 #include <BWAPI/Position.h>
 #include <BWAPI/Race.h>
 #include <BWAPI/Filters.h>
-#include <BWAPI/Interface.h>
 #include <BWAPI/UnitType.h>
 
 namespace BWAPI
@@ -30,7 +29,7 @@ namespace BWAPI
   ///
   /// @see Playerset, PlayerType, Race
   /// @ingroup Interface
-  class PlayerInterface : public Interface<PlayerInterface>
+  class PlayerInterface
   {
   protected:
     virtual ~PlayerInterface() {};

@@ -2,8 +2,6 @@
 #ifndef __BWAPI_H__
 #define __BWAPI_H__
 
-#include <BWAPI/InterfaceEvent.h>
-#include <BWAPI/Interface.h>
 #include <BWAPI/AIModule.h>
 #include <BWAPI/Bullet.h>
 #include <BWAPI/Bulletset.h>
