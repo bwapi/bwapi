@@ -44,11 +44,19 @@ namespace BWAPI
     protoClient.disconnect();
 
   }
+  void ProtoClient::transmitMessages(Game& game)
+  {
+    game.flushCommandOptimizer();
+    game.flush();
+
+    protoClient.transmitMessages();
+  }
   void ProtoClient::update(Game& game)
   {
     game.clearEvents();
-    game.flush();
-    protoClient.transmitMessages();
+
+    transmitMessages(game);
+
     protoClient.receiveMessages();
     while (protoClient.messageQueueSize())
     {

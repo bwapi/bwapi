@@ -17,7 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_command_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<14> scc_info_Command;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<13> scc_info_Command;
 }  // namespace protobuf_command_2eproto
 namespace protobuf_event_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_event_2eproto ::google::protobuf::internal::SCCInfo<18> scc_info_Event;

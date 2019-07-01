@@ -38,7 +38,5 @@ namespace BWAPI
     virtual void issueCommand(const Unitset& units, UnitCommand command) = 0;
     virtual void setAlliance(int playerId, int alliance) = 0;  // 0 = enemy, 1 = allied, 2 = allied victory; @TODO add enum for this
     virtual void setVision(int playerId, bool enabled) = 0;
-
-    friend class Game;
   };
 }

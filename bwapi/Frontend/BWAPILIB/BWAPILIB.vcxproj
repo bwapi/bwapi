@@ -182,6 +182,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClCompile Include="Source\BulletType.cpp" />
     <ClCompile Include="Source\BWAPI.cpp" />
     <ClCompile Include="Source\Color.cpp" />
+    <ClCompile Include="Source\CommandOptimizer.cpp" />
     <ClCompile Include="Source\DamageType.cpp" />
     <ClCompile Include="Source\Error.cpp" />
     <ClCompile Include="Source\Event.cpp" />
@@ -225,6 +226,7 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\Client\ShapeType.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\UnitCommand.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h" />
+    <ClInclude Include="..\..\include\BWAPI\CommandOptimizer.h" />
     <ClInclude Include="..\..\include\BWAPI\Force.h" />
     <ClInclude Include="..\..\include\BWAPI\Game.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />

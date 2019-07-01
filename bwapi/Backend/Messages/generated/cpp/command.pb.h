@@ -38,7 +38,7 @@ namespace protobuf_command_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[15];
+  static const ::google::protobuf::internal::ParseTable schema[14];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -73,9 +73,6 @@ extern SendTextDefaultTypeInternal _SendText_default_instance_;
 class SetAlliance;
 class SetAllianceDefaultTypeInternal;
 extern SetAllianceDefaultTypeInternal _SetAlliance_default_instance_;
-class SetCommandOptimizationLevel;
-class SetCommandOptimizationLevelDefaultTypeInternal;
-extern SetCommandOptimizationLevelDefaultTypeInternal _SetCommandOptimizationLevel_default_instance_;
 class SetLocalSpeed;
 class SetLocalSpeedDefaultTypeInternal;
 extern SetLocalSpeedDefaultTypeInternal _SetLocalSpeed_default_instance_;
@@ -104,7 +101,6 @@ template<> ::bwapi::command::RestartGame* Arena::CreateMaybeMessage<::bwapi::com
 template<> ::bwapi::command::ResumeGame* Arena::CreateMaybeMessage<::bwapi::command::ResumeGame>(Arena*);
 template<> ::bwapi::command::SendText* Arena::CreateMaybeMessage<::bwapi::command::SendText>(Arena*);
 template<> ::bwapi::command::SetAlliance* Arena::CreateMaybeMessage<::bwapi::command::SetAlliance>(Arena*);
-template<> ::bwapi::command::SetCommandOptimizationLevel* Arena::CreateMaybeMessage<::bwapi::command::SetCommandOptimizationLevel>(Arena*);
 template<> ::bwapi::command::SetLocalSpeed* Arena::CreateMaybeMessage<::bwapi::command::SetLocalSpeed>(Arena*);
 template<> ::bwapi::command::SetScreenPosition* Arena::CreateMaybeMessage<::bwapi::command::SetScreenPosition>(Arena*);
 template<> ::bwapi::command::SetVision* Arena::CreateMaybeMessage<::bwapi::command::SetVision>(Arena*);
@@ -1460,107 +1456,6 @@ class SetVision : public ::google::protobuf::MessageLite /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
-class SetCommandOptimizationLevel : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.command.SetCommandOptimizationLevel) */ {
- public:
-  SetCommandOptimizationLevel();
-  virtual ~SetCommandOptimizationLevel();
-
-  SetCommandOptimizationLevel(const SetCommandOptimizationLevel& from);
-
-  inline SetCommandOptimizationLevel& operator=(const SetCommandOptimizationLevel& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SetCommandOptimizationLevel(SetCommandOptimizationLevel&& from) noexcept
-    : SetCommandOptimizationLevel() {
-    *this = ::std::move(from);
-  }
-
-  inline SetCommandOptimizationLevel& operator=(SetCommandOptimizationLevel&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const SetCommandOptimizationLevel& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SetCommandOptimizationLevel* internal_default_instance() {
-    return reinterpret_cast<const SetCommandOptimizationLevel*>(
-               &_SetCommandOptimizationLevel_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    12;
-
-  void Swap(SetCommandOptimizationLevel* other);
-  friend void swap(SetCommandOptimizationLevel& a, SetCommandOptimizationLevel& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SetCommandOptimizationLevel* New() const final {
-    return CreateMaybeMessage<SetCommandOptimizationLevel>(NULL);
-  }
-
-  SetCommandOptimizationLevel* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SetCommandOptimizationLevel>(arena);
-  }
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
-    final;
-  void CopyFrom(const SetCommandOptimizationLevel& from);
-  void MergeFrom(const SetCommandOptimizationLevel& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  void DiscardUnknownFields();
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(SetCommandOptimizationLevel* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::std::string GetTypeName() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int32 commandOptimizationLevel = 1;
-  void clear_commandoptimizationlevel();
-  static const int kCommandOptimizationLevelFieldNumber = 1;
-  ::google::protobuf::int32 commandoptimizationlevel() const;
-  void set_commandoptimizationlevel(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:bwapi.command.SetCommandOptimizationLevel)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::google::protobuf::int32 commandoptimizationlevel_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_command_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class UnitCommand : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.command.UnitCommand) */ {
  public:
   UnitCommand();
@@ -1595,7 +1490,7 @@ class UnitCommand : public ::google::protobuf::MessageLite /* @@protoc_insertion
                &_UnitCommand_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    12;
 
   void Swap(UnitCommand* other);
   friend void swap(UnitCommand& a, UnitCommand& b) {
@@ -1745,7 +1640,6 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
     kSetLocalSpeed = 10,
     kSetAlliance = 11,
     kSetVision = 12,
-    kSetCommandOptimizationLevel = 13,
     kUnitCommand = 14,
     CMD_NOT_SET = 0,
   };
@@ -1756,7 +1650,7 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
                &_Command_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    13;
 
   void Swap(Command* other);
   friend void swap(Command& a, Command& b) {
@@ -1951,18 +1845,6 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
   ::bwapi::command::SetVision* mutable_setvision();
   void set_allocated_setvision(::bwapi::command::SetVision* setvision);
 
-  // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
-  bool has_setcommandoptimizationlevel() const;
-  void clear_setcommandoptimizationlevel();
-  static const int kSetCommandOptimizationLevelFieldNumber = 13;
-  private:
-  const ::bwapi::command::SetCommandOptimizationLevel& _internal_setcommandoptimizationlevel() const;
-  public:
-  const ::bwapi::command::SetCommandOptimizationLevel& setcommandoptimizationlevel() const;
-  ::bwapi::command::SetCommandOptimizationLevel* release_setcommandoptimizationlevel();
-  ::bwapi::command::SetCommandOptimizationLevel* mutable_setcommandoptimizationlevel();
-  void set_allocated_setcommandoptimizationlevel(::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel);
-
   // .bwapi.command.UnitCommand unitCommand = 14;
   bool has_unitcommand() const;
   void clear_unitcommand();
@@ -1991,7 +1873,6 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
   void set_has_setlocalspeed();
   void set_has_setalliance();
   void set_has_setvision();
-  void set_has_setcommandoptimizationlevel();
   void set_has_unitcommand();
 
   inline bool has_cmd() const;
@@ -2012,7 +1893,6 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
     ::bwapi::command::SetLocalSpeed* setlocalspeed_;
     ::bwapi::command::SetAlliance* setalliance_;
     ::bwapi::command::SetVision* setvision_;
-    ::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel_;
     ::bwapi::command::UnitCommand* unitcommand_;
   } cmd_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -2512,24 +2392,6 @@ inline void SetVision::set_settings(::google::protobuf::int32 value) {
   
   settings_ = value;
   // @@protoc_insertion_point(field_set:bwapi.command.SetVision.settings)
-}
-
-// -------------------------------------------------------------------
-
-// SetCommandOptimizationLevel
-
-// int32 commandOptimizationLevel = 1;
-inline void SetCommandOptimizationLevel::clear_commandoptimizationlevel() {
-  commandoptimizationlevel_ = 0;
-}
-inline ::google::protobuf::int32 SetCommandOptimizationLevel::commandoptimizationlevel() const {
-  // @@protoc_insertion_point(field_get:bwapi.command.SetCommandOptimizationLevel.commandOptimizationLevel)
-  return commandoptimizationlevel_;
-}
-inline void SetCommandOptimizationLevel::set_commandoptimizationlevel(::google::protobuf::int32 value) {
-  
-  commandoptimizationlevel_ = value;
-  // @@protoc_insertion_point(field_set:bwapi.command.SetCommandOptimizationLevel.commandOptimizationLevel)
 }
 
 // -------------------------------------------------------------------
@@ -3168,50 +3030,6 @@ inline ::bwapi::command::SetVision* Command::mutable_setvision() {
   return cmd_.setvision_;
 }
 
-// .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
-inline bool Command::has_setcommandoptimizationlevel() const {
-  return cmd_case() == kSetCommandOptimizationLevel;
-}
-inline void Command::set_has_setcommandoptimizationlevel() {
-  _oneof_case_[0] = kSetCommandOptimizationLevel;
-}
-inline void Command::clear_setcommandoptimizationlevel() {
-  if (has_setcommandoptimizationlevel()) {
-    delete cmd_.setcommandoptimizationlevel_;
-    clear_has_cmd();
-  }
-}
-inline const ::bwapi::command::SetCommandOptimizationLevel& Command::_internal_setcommandoptimizationlevel() const {
-  return *cmd_.setcommandoptimizationlevel_;
-}
-inline ::bwapi::command::SetCommandOptimizationLevel* Command::release_setcommandoptimizationlevel() {
-  // @@protoc_insertion_point(field_release:bwapi.command.Command.setCommandOptimizationLevel)
-  if (has_setcommandoptimizationlevel()) {
-    clear_has_cmd();
-      ::bwapi::command::SetCommandOptimizationLevel* temp = cmd_.setcommandoptimizationlevel_;
-    cmd_.setcommandoptimizationlevel_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::bwapi::command::SetCommandOptimizationLevel& Command::setcommandoptimizationlevel() const {
-  // @@protoc_insertion_point(field_get:bwapi.command.Command.setCommandOptimizationLevel)
-  return has_setcommandoptimizationlevel()
-      ? *cmd_.setcommandoptimizationlevel_
-      : *reinterpret_cast< ::bwapi::command::SetCommandOptimizationLevel*>(&::bwapi::command::_SetCommandOptimizationLevel_default_instance_);
-}
-inline ::bwapi::command::SetCommandOptimizationLevel* Command::mutable_setcommandoptimizationlevel() {
-  if (!has_setcommandoptimizationlevel()) {
-    clear_cmd();
-    set_has_setcommandoptimizationlevel();
-    cmd_.setcommandoptimizationlevel_ = CreateMaybeMessage< ::bwapi::command::SetCommandOptimizationLevel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.setCommandOptimizationLevel)
-  return cmd_.setcommandoptimizationlevel_;
-}
-
 // .bwapi.command.UnitCommand unitCommand = 14;
 inline bool Command::has_unitcommand() const {
   return cmd_case() == kUnitCommand;
@@ -3268,8 +3086,6 @@ inline Command::CmdCase Command::cmd_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

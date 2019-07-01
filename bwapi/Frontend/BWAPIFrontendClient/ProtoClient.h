@@ -46,6 +46,8 @@ namespace BWAPI
     void initInitialUnits(Game& game);
     void initRegions(Game& game);
 
+    void transmitMessages(Game& game);
+
     bool connected = false;
 
     std::set<PlayerData, IDCompare> players;

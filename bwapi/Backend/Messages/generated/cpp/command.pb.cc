@@ -25,7 +25,6 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::int
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ResumeGame;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SendText;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetAlliance;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetCommandOptimizationLevel;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetLocalSpeed;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetScreenPosition;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_command_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetVision;
@@ -94,11 +93,6 @@ class SetVisionDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<SetVision>
       _instance;
 } _SetVision_default_instance_;
-class SetCommandOptimizationLevelDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SetCommandOptimizationLevel>
-      _instance;
-} _SetCommandOptimizationLevel_default_instance_;
 class UnitCommandDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<UnitCommand>
@@ -120,7 +114,6 @@ class CommandDefaultTypeInternal {
   const ::bwapi::command::SetLocalSpeed* setlocalspeed_;
   const ::bwapi::command::SetAlliance* setalliance_;
   const ::bwapi::command::SetVision* setvision_;
-  const ::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel_;
   const ::bwapi::command::UnitCommand* unitcommand_;
 } _Command_default_instance_;
 }  // namespace command
@@ -294,20 +287,6 @@ static void InitDefaultsSetVision() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_SetVision =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetVision}, {}};
 
-static void InitDefaultsSetCommandOptimizationLevel() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::bwapi::command::_SetCommandOptimizationLevel_default_instance_;
-    new (ptr) ::bwapi::command::SetCommandOptimizationLevel();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::bwapi::command::SetCommandOptimizationLevel::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_SetCommandOptimizationLevel =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetCommandOptimizationLevel}, {}};
-
 static void InitDefaultsUnitCommand() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -333,8 +312,8 @@ static void InitDefaultsCommand() {
   ::bwapi::command::Command::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<14> scc_info_Command =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 14, InitDefaultsCommand}, {
+::google::protobuf::internal::SCCInfo<13> scc_info_Command =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 13, InitDefaultsCommand}, {
       &protobuf_command_2eproto::scc_info_SendText.base,
       &protobuf_command_2eproto::scc_info_SetScreenPosition.base,
       &protobuf_command_2eproto::scc_info_PingMiniMap.base,
@@ -347,7 +326,6 @@ static void InitDefaultsCommand() {
       &protobuf_command_2eproto::scc_info_SetLocalSpeed.base,
       &protobuf_command_2eproto::scc_info_SetAlliance.base,
       &protobuf_command_2eproto::scc_info_SetVision.base,
-      &protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base,
       &protobuf_command_2eproto::scc_info_UnitCommand.base,}};
 
 void InitDefaults() {
@@ -363,7 +341,6 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_SetLocalSpeed.base);
   ::google::protobuf::internal::InitSCC(&scc_info_SetAlliance.base);
   ::google::protobuf::internal::InitSCC(&scc_info_SetVision.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_SetCommandOptimizationLevel.base);
   ::google::protobuf::internal::InitSCC(&scc_info_UnitCommand.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Command.base);
 }
@@ -2956,187 +2933,6 @@ void SetVision::InternalSwap(SetVision* other) {
 
 // ===================================================================
 
-void SetCommandOptimizationLevel::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SetCommandOptimizationLevel::kCommandOptimizationLevelFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-SetCommandOptimizationLevel::SetCommandOptimizationLevel()
-  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base);
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:bwapi.command.SetCommandOptimizationLevel)
-}
-SetCommandOptimizationLevel::SetCommandOptimizationLevel(const SetCommandOptimizationLevel& from)
-  : ::google::protobuf::MessageLite(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  commandoptimizationlevel_ = from.commandoptimizationlevel_;
-  // @@protoc_insertion_point(copy_constructor:bwapi.command.SetCommandOptimizationLevel)
-}
-
-void SetCommandOptimizationLevel::SharedCtor() {
-  commandoptimizationlevel_ = 0;
-}
-
-SetCommandOptimizationLevel::~SetCommandOptimizationLevel() {
-  // @@protoc_insertion_point(destructor:bwapi.command.SetCommandOptimizationLevel)
-  SharedDtor();
-}
-
-void SetCommandOptimizationLevel::SharedDtor() {
-}
-
-void SetCommandOptimizationLevel::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const SetCommandOptimizationLevel& SetCommandOptimizationLevel::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_command_2eproto::scc_info_SetCommandOptimizationLevel.base);
-  return *internal_default_instance();
-}
-
-
-void SetCommandOptimizationLevel::Clear() {
-// @@protoc_insertion_point(message_clear_start:bwapi.command.SetCommandOptimizationLevel)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  commandoptimizationlevel_ = 0;
-  _internal_metadata_.Clear();
-}
-
-bool SetCommandOptimizationLevel::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
-      &_internal_metadata_);
-  ::google::protobuf::io::StringOutputStream unknown_fields_output(
-      unknown_fields_setter.buffer());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_output, false);
-  // @@protoc_insertion_point(parse_start:bwapi.command.SetCommandOptimizationLevel)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // int32 commandOptimizationLevel = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &commandoptimizationlevel_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:bwapi.command.SetCommandOptimizationLevel)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:bwapi.command.SetCommandOptimizationLevel)
-  return false;
-#undef DO_
-}
-
-void SetCommandOptimizationLevel::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:bwapi.command.SetCommandOptimizationLevel)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 commandOptimizationLevel = 1;
-  if (this->commandoptimizationlevel() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->commandoptimizationlevel(), output);
-  }
-
-  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
-                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
-  // @@protoc_insertion_point(serialize_end:bwapi.command.SetCommandOptimizationLevel)
-}
-
-size_t SetCommandOptimizationLevel::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:bwapi.command.SetCommandOptimizationLevel)
-  size_t total_size = 0;
-
-  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
-
-  // int32 commandOptimizationLevel = 1;
-  if (this->commandoptimizationlevel() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->commandoptimizationlevel());
-  }
-
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void SetCommandOptimizationLevel::CheckTypeAndMergeFrom(
-    const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const SetCommandOptimizationLevel*>(&from));
-}
-
-void SetCommandOptimizationLevel::MergeFrom(const SetCommandOptimizationLevel& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:bwapi.command.SetCommandOptimizationLevel)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.commandoptimizationlevel() != 0) {
-    set_commandoptimizationlevel(from.commandoptimizationlevel());
-  }
-}
-
-void SetCommandOptimizationLevel::CopyFrom(const SetCommandOptimizationLevel& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:bwapi.command.SetCommandOptimizationLevel)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool SetCommandOptimizationLevel::IsInitialized() const {
-  return true;
-}
-
-void SetCommandOptimizationLevel::Swap(SetCommandOptimizationLevel* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void SetCommandOptimizationLevel::InternalSwap(SetCommandOptimizationLevel* other) {
-  using std::swap;
-  swap(commandoptimizationlevel_, other->commandoptimizationlevel_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-}
-
-::std::string SetCommandOptimizationLevel::GetTypeName() const {
-  return "bwapi.command.SetCommandOptimizationLevel";
-}
-
-
-// ===================================================================
-
 void UnitCommand::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -3669,20 +3465,6 @@ void Command::set_allocated_setvision(::bwapi::command::SetVision* setvision) {
   }
   // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setVision)
 }
-void Command::set_allocated_setcommandoptimizationlevel(::bwapi::command::SetCommandOptimizationLevel* setcommandoptimizationlevel) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_cmd();
-  if (setcommandoptimizationlevel) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      setcommandoptimizationlevel = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, setcommandoptimizationlevel, submessage_arena);
-    }
-    set_has_setcommandoptimizationlevel();
-    cmd_.setcommandoptimizationlevel_ = setcommandoptimizationlevel;
-  }
-  // @@protoc_insertion_point(field_set_allocated:bwapi.command.Command.setCommandOptimizationLevel)
-}
 void Command::set_allocated_unitcommand(::bwapi::command::UnitCommand* unitcommand) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_cmd();
@@ -3710,7 +3492,6 @@ const int Command::kRestartGameFieldNumber;
 const int Command::kSetLocalSpeedFieldNumber;
 const int Command::kSetAllianceFieldNumber;
 const int Command::kSetVisionFieldNumber;
-const int Command::kSetCommandOptimizationLevelFieldNumber;
 const int Command::kUnitCommandFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -3773,10 +3554,6 @@ Command::Command(const Command& from)
     }
     case kSetVision: {
       mutable_setvision()->::bwapi::command::SetVision::MergeFrom(from.setvision());
-      break;
-    }
-    case kSetCommandOptimizationLevel: {
-      mutable_setcommandoptimizationlevel()->::bwapi::command::SetCommandOptimizationLevel::MergeFrom(from.setcommandoptimizationlevel());
       break;
     }
     case kUnitCommand: {
@@ -3863,10 +3640,6 @@ void Command::clear_cmd() {
     }
     case kSetVision: {
       delete cmd_.setvision_;
-      break;
-    }
-    case kSetCommandOptimizationLevel: {
-      delete cmd_.setcommandoptimizationlevel_;
       break;
     }
     case kUnitCommand: {
@@ -4051,18 +3824,6 @@ bool Command::MergePartialFromCodedStream(
         break;
       }
 
-      // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
-      case 13: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_setcommandoptimizationlevel()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // .bwapi.command.UnitCommand unitCommand = 14;
       case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -4173,12 +3934,6 @@ void Command::SerializeWithCachedSizes(
       12, this->_internal_setvision(), output);
   }
 
-  // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
-  if (has_setcommandoptimizationlevel()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      13, this->_internal_setcommandoptimizationlevel(), output);
-  }
-
   // .bwapi.command.UnitCommand unitCommand = 14;
   if (has_unitcommand()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
@@ -4281,13 +4036,6 @@ size_t Command::ByteSizeLong() const {
           *cmd_.setvision_);
       break;
     }
-    // .bwapi.command.SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
-    case kSetCommandOptimizationLevel: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *cmd_.setcommandoptimizationlevel_);
-      break;
-    }
     // .bwapi.command.UnitCommand unitCommand = 14;
     case kUnitCommand: {
       total_size += 1 +
@@ -4363,10 +4111,6 @@ void Command::MergeFrom(const Command& from) {
     }
     case kSetVision: {
       mutable_setvision()->::bwapi::command::SetVision::MergeFrom(from.setvision());
-      break;
-    }
-    case kSetCommandOptimizationLevel: {
-      mutable_setcommandoptimizationlevel()->::bwapi::command::SetCommandOptimizationLevel::MergeFrom(from.setcommandoptimizationlevel());
       break;
     }
     case kUnitCommand: {
@@ -4446,9 +4190,6 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetAlliance* Are
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetVision* Arena::CreateMaybeMessage< ::bwapi::command::SetVision >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::SetVision >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::SetCommandOptimizationLevel* Arena::CreateMaybeMessage< ::bwapi::command::SetCommandOptimizationLevel >(Arena* arena) {
-  return Arena::CreateInternal< ::bwapi::command::SetCommandOptimizationLevel >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::bwapi::command::UnitCommand* Arena::CreateMaybeMessage< ::bwapi::command::UnitCommand >(Arena* arena) {
   return Arena::CreateInternal< ::bwapi::command::UnitCommand >(arena);

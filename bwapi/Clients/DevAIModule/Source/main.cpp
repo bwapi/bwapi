@@ -139,6 +139,15 @@ int main()
             broodwar << "SCANNER @ " << u->getPosition() << std::endl;
           }
         }
+
+        Unitset workers = self.getUnits();
+        workers.erase_if(!Filter::IsWorker || !Filter::IsIdle);
+        for (Unit u : workers)
+        {
+          Unit closestUnit = u->getClosestUnit(Filter::IsMineralField);
+          u->gather(closestUnit);
+        }
+
       }
     }
   }

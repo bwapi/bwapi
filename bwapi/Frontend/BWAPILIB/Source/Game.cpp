@@ -28,7 +28,8 @@ namespace BWAPI
     using namespace Filter;
 
     Game::Game(Client& newClient)
-      :client(newClient)
+      : client(newClient)
+      , commandOptimizer(*this)
     {
       gameData = std::make_unique<GameData>();
     }
@@ -1706,8 +1707,15 @@ namespace BWAPI
     //------------------------------------------- ISSUE COMMAND ------------------------------------------------
     bool Game::issueCommand(const Unitset& units, UnitCommand command)
     {
-      // TODO: Redo this mechanism to queue commands and then run command optimization before frame update
       if (units.empty()) return false;
+
+      if (units.size() == 1) {
+        command.unit = units.begin()->getID();
+        if (commandOptimizer.add(command))
+        {
+          return true;
+        }
+      }
 
       client.issueCommand(units, command);
       return true;
@@ -1755,16 +1763,7 @@ namespace BWAPI
     //----------------------------------------------- SET COMMAND OPTIMIZATION LEVEL ---------------------------
     void Game::setCommandOptimizationLevel(int level)
     {
-      // @TODO: Move command optimization to local level
-        //queue up command for server so it also applies the change
-      /*
-        auto newMessage = std::make_unique<bwapi::message::Message>();;
-        auto newCommand = std::make_unique<bwapi::command::Command>();
-        auto newSetCommandOptimizationLevel = std::make_unique<bwapi::command::SetCommandOptimizationLevel>();
-        newSetCommandOptimizationLevel->set_commandoptimizationlevel(level);
-        newCommand->set_allocated_setcommandoptimizationlevel(newSetCommandOptimizationLevel.release());
-        newMessage->set_allocated_command(newCommand.release());
-        */
+      commandOptimizer.level = level;
     }
     namespace
     {
@@ -1860,6 +1859,10 @@ namespace BWAPI
     void Game::clearEvents()
     {
       events.clear();
+    }
+    void Game::flushCommandOptimizer()
+    {
+      commandOptimizer.flush();
     }
 }
 

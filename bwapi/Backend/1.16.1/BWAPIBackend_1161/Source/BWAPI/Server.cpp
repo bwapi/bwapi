@@ -1030,11 +1030,6 @@ namespace BWAPI
             BroodwarImpl.setVision(getPlayer(command.setvision().playerid()),
                                              command.setvision().settings() != 0);
         }
-        else if (command.has_setcommandoptimizationlevel())
-        {
-          if (BroodwarImpl.isInGame())
-            BroodwarImpl.setCommandOptimizationLevel(command.setcommandoptimizationlevel().commandoptimizationlevel());
-        }
         else if (command.has_unitcommand() && BroodwarImpl.isInGame())
         {
           Unit target = nullptr;

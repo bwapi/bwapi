@@ -80,10 +80,6 @@ message SetVision {
     int32 settings = 2;
 }
 
-message SetCommandOptimizationLevel {
-    int32 commandOptimizationLevel = 1;
-}
-
 message UnitCommand {
     repeated int32 unitID = 1;
     uint32 unitCommandType = 2;
@@ -108,7 +104,6 @@ message Command {
         SetLocalSpeed setLocalSpeed = 10;
         SetAlliance setAlliance = 11;
         SetVision setVision = 12;
-        SetCommandOptimizationLevel setCommandOptimizationLevel = 13;
         UnitCommand unitCommand = 14;
     }
 }

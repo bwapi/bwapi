@@ -439,7 +439,7 @@ bool Unit::follow(Unit target, bool shiftQueueCommand) const
 //--------------------------------------------- GATHER -----------------------------------------------------
 bool Unit::gather(Unit target, bool shiftQueueCommand) const
 {
-  return issueCommand(UnitCommand::gather(getID(),target.getID(), shiftQueueCommand));
+  return issueCommand(UnitCommand::gather(getID(), target.getID(), shiftQueueCommand));
 }
 //--------------------------------------------- RETURN CARGO -----------------------------------------------
 bool Unit::returnCargo(bool shiftQueueCommand) const

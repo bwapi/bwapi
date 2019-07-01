@@ -35,6 +35,7 @@
 #include <BWAPI/Bulletset.h>
 #include <BWAPI/Regionset.h>
 #include <BWAPI/Event.h>
+#include <BWAPI/CommandOptimizer.h>
 
 #include "../Frontend/BWAPICore/FPSCounter.h"
 #include "../Frontend/BWAPICore/APMCounter.h"
@@ -1859,6 +1860,7 @@ namespace BWAPI
     void addBullet(const BulletData& bulletData);
     void update();
     void clearEvents();
+    void flushCommandOptimizer();
 
     private:
       template <typename Fn>
@@ -1908,6 +1910,7 @@ namespace BWAPI
 
       FPSCounter fpsCounter;
       APMCounter apmCounter;
+      CommandOptimizer commandOptimizer;
 
       Unitset accessibleUnits;//all units that are accessible (and definitely alive)
       Unitset pylons;

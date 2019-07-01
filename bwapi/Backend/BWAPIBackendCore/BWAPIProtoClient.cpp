@@ -108,7 +108,7 @@ namespace BWAPI
     std::unique_ptr<bwapi::message::Message> currentMessage;
     sf::Packet packet;
     //loop until the message queue is empty.
-    while (messageQueue.size())
+    while (!messageQueue.empty())
     {
       packet.clear();
       currentMessage = std::move(messageQueue.front());
