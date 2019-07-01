@@ -36,7 +36,11 @@ namespace BWAPI
     ///
     /// @returns
     ///   An integer representing the ID of the player.
-    constexpr PlayerID getID() const { return getData().id; }
+    constexpr PlayerID getID() const
+    {
+      if (!*this) return PlayerID::None;
+      return getData().id;
+    }
 
     /// <summary>Retrieves the name of the player.</summary>
     ///

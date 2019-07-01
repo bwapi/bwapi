@@ -57,7 +57,11 @@ namespace BWAPI
     /// @returns An integer containing the unit's identifier.
     ///
     /// @see getReplayID
-    UnitID getID() const { return getData().id; }
+    UnitID getID() const
+    {
+      if (!*this) return UnitID::None;
+      return getData().id;
+    }
 
     /// <summary>Checks if the Unit exists in the view of the BWAPI player.</summary>
     ///

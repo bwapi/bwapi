@@ -61,7 +61,7 @@ namespace BWAPI {
     constexpr InterfaceDataWrapper(std::nullptr_t) : dataptr{ nullptr } { }
     constexpr auto const &getData() const { return *dataptr; }
     constexpr Game &getGame() const { return dataptr->game; }
-    constexpr explicit operator bool() const { return dataptr; }
+    constexpr explicit operator bool() const { return dataptr != nullptr; }
     constexpr explicit operator int() const { return static_cast<int>(dataptr->id); }
     constexpr bool operator==(InterfaceDataWrapper const &other) const { return dataptr->id == other.dataptr->id; }
     constexpr bool operator!=(InterfaceDataWrapper const &other) const { return dataptr->id != other.dataptr->id; }

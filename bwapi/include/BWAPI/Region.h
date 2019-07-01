@@ -30,7 +30,11 @@ namespace BWAPI
     ///
     /// @returns An integer that represents this region.
     /// @see Game::getRegion
-    RegionID getID() const { return getData().id; }
+    RegionID getID() const
+    {
+      if (!*this) return RegionID::None;
+      return getData().id;
+    }
 
     /// <summary>Retrieves a unique identifier for a group of regions that are all connected and
     /// accessible by each other.</summary> That is, all accessible regions will have the same

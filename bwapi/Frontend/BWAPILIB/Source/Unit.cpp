@@ -1299,16 +1299,19 @@ bool Unit::canTargetUnit(Unit targetUnit, bool checkCommandibility) const
   else if (!canCommand())
     return false;
 
-  if (!targetUnit->isVisible()/* && !getGame().isFlagEnabled(Flag::CompleteMapInformation)*/)
-    return false;
   if (!targetUnit || !targetUnit->exists())
     return getGame().setLastError(Errors::Unit_Does_Not_Exist);
+
+  if (!targetUnit->isVisible())
+    return getGame().setLastError(Errors::Unit_Not_Visible);
+
   if (!targetUnit->isCompleted() &&
     !targetUnit->getType().isBuilding() &&
     !targetUnit->isMorphing() &&
     targetUnit->getType() != UnitTypes::Protoss_Archon &&
     targetUnit->getType() != UnitTypes::Protoss_Dark_Archon)
     return getGame().setLastError(Errors::Incompatible_State);
+
   if (targetUnit->getType() == UnitTypes::Spell_Scanner_Sweep ||
     targetUnit->getType() == UnitTypes::Spell_Dark_Swarm ||
     targetUnit->getType() == UnitTypes::Spell_Disruption_Web ||
@@ -1353,6 +1356,7 @@ bool Unit::canAttack(Unit target, bool checkCanTargetUnit, bool checkCanIssueCom
 
   if (target == nullptr)
     return getGame().setLastError(Errors::Invalid_Parameter);
+
   if (!canAttackUnit(target, checkCanTargetUnit, checkCanIssueCommandType, false))
     return false;
 
@@ -1403,6 +1407,7 @@ bool Unit::canAttackGrouped(Unit target, bool checkCanTargetUnit, bool checkCanI
 
   if (target == nullptr)
     return getGame().setLastError(Errors::Invalid_Parameter);
+
   if (!canAttackUnitGrouped(target, checkCanTargetUnit, checkCommandibilityGrouped, false, false))
     return false;
 
@@ -1490,6 +1495,9 @@ bool Unit::canAttackUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkCan
   if (checkCanIssueCommandType && !canAttackUnit(false))
     return false;
 
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
+
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
 
@@ -1575,6 +1583,9 @@ bool Unit::canAttackUnitGrouped(Unit targetUnit, bool checkCanTargetUnit, bool c
 
   if (checkCanIssueCommandType && !canAttackUnitGrouped(false, false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
@@ -2000,6 +2011,7 @@ bool Unit::canSetRallyPoint(Unit target, bool checkCanTargetUnit, bool checkCanI
 
   if (target == nullptr)
     return getGame().setLastError(Errors::Invalid_Parameter);
+
   if (!canSetRallyUnit(target, checkCanTargetUnit, checkCanIssueCommandType, false))
     return false;
 
@@ -2015,6 +2027,7 @@ bool Unit::canSetRallyPosition(bool checkCommandibility) const
 
   if (!this->getType().canProduce() || !this->getType().isBuilding())
     return getGame().setLastError(Errors::Incompatible_UnitType);
+
   if (this->isLifted())
     return getGame().setLastError(Errors::Incompatible_State);
 
@@ -2030,6 +2043,7 @@ bool Unit::canSetRallyUnit(bool checkCommandibility) const
 
   if (!this->getType().canProduce() || !this->getType().isBuilding())
     return getGame().setLastError(Errors::Incompatible_UnitType);
+
   if (this->isLifted())
     return getGame().setLastError(Errors::Incompatible_State);
 
@@ -2045,6 +2059,9 @@ bool Unit::canSetRallyUnit(Unit targetUnit, bool checkCanTargetUnit, bool checkC
 
   if (checkCanIssueCommandType && !canSetRallyUnit(false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
@@ -2159,7 +2176,7 @@ bool Unit::canFollow(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssu
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
 
-  if (targetUnit == *this)
+  if (!targetUnit || targetUnit == *this)
     return getGame().setLastError(Errors::Invalid_Parameter);
 
   return true;
@@ -2199,6 +2216,9 @@ bool Unit::canGather(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssu
 
   if (checkCanIssueCommandType && !canGather(false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
@@ -2326,6 +2346,9 @@ bool Unit::canRepair(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssu
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   UnitType targType = targetUnit->getType();
   if (targType.getRace() != BWAPI::Races::Terran || !targType.isMechanical())
@@ -2511,6 +2534,9 @@ bool Unit::canLoad(Unit targetUnit, bool checkCanTargetUnit, bool checkCanIssueC
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   //target must also be owned by self
   if (targetUnit->getPlayer() != getGame().self())
@@ -2828,6 +2854,9 @@ bool Unit::canRightClickUnit(Unit targetUnit, bool checkCanTargetUnit, bool chec
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
 
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
+
   if (!targetUnit->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(targetUnit->getPlayer()) &&
     !canAttackUnit(targetUnit, false, true, false))
     return false;
@@ -2875,6 +2904,9 @@ bool Unit::canRightClickUnitGrouped(Unit targetUnit, bool checkCanTargetUnit, bo
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
+
+  if (!targetUnit)
+    getGame().setLastError(Errors::Invalid_Parameter);
 
   if (!targetUnit->getPlayer()->isNeutral() && this->getPlayer()->isEnemy(targetUnit->getPlayer()) &&
     !canAttackUnitGrouped(targetUnit, false, true, false, false))
@@ -3176,6 +3208,9 @@ bool Unit::canUseTechUnit(BWAPI::TechType tech, Unit targetUnit, bool checkCanTa
 
   if (checkCanTargetUnit && !canTargetUnit(targetUnit, false))
     return false;
+
+  if (!targetUnit)
+    return getGame().setLastError(Errors::Invalid_Parameter);
 
   UnitType targetType = targetUnit->getType();
 

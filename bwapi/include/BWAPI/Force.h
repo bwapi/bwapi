@@ -22,7 +22,11 @@ namespace BWAPI
     ///
     /// @returns
     ///   An integer containing the ID for the Force.
-    ForceID getID() const { return getData().id; }
+    ForceID getID() const
+    {
+      if (!*this) return ForceID::None;
+      return getData().id;
+    }
 
     /// <summary>Retrieves the name of the Force.</summary>
     ///
