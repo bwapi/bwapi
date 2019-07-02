@@ -6,8 +6,7 @@
 
 class MockClient : public BWAPI::Client
 {
-  virtual ~MockClient() {}
-
+public:
   MOCK_CONST_METHOD0(isConnected, bool());
   MOCK_METHOD0(connect, bool());
   MOCK_METHOD0(disconnect, void());

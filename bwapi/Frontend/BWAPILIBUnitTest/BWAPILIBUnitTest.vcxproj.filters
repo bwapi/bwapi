@@ -16,6 +16,9 @@
     <Filter Include="Mocks">
       <UniqueIdentifier>{c6af2fce-57d5-459b-865c-6b99ff4d4db4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fixtures">
+      <UniqueIdentifier>{9189ed70-4fe9-42e9-b1b8-3e635186b59e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTest.cpp">
@@ -31,6 +34,9 @@
   <ItemGroup>
     <ClInclude Include="MockClient.h">
       <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFixture.h">
+      <Filter>Fixtures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
