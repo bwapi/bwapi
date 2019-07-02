@@ -99,7 +99,6 @@
     <ClInclude Include="..\..\include\BWAPI\TournamentAction.h" />
     <ClInclude Include="..\..\include\BWAPI\UnitCommand.h" />
     <ClInclude Include="..\..\include\BWAPI\IDs.h" />
-    <ClInclude Include="..\..\include\GameData.h" />
     <ClInclude Include="..\..\include\BWAPI\Bulletset.h">
       <Filter>Containers\Header Files</Filter>
     </ClInclude>
@@ -214,22 +213,10 @@
     <ClInclude Include="..\..\include\BWAPI\Client\Client.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\Command.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\CommandType.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\Event.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Client\ForceData.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Client\GameData.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\GameTable.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Client\PlayerData.h">
@@ -238,13 +225,7 @@
     <ClInclude Include="..\..\include\BWAPI\Client\RegionData.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\Shape.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Client\ShapeType.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\BWAPI\Client\UnitCommand.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h">

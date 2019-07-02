@@ -214,17 +214,11 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\Bullet.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\BulletData.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\Client.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\Command.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\CommandType.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\Event.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\ForceData.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\GameData.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\GameTable.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\PlayerData.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\RegionData.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\Shape.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\ShapeType.h" />
-    <ClInclude Include="..\..\include\BWAPI\Client\UnitCommand.h" />
     <ClInclude Include="..\..\include\BWAPI\Client\UnitData.h" />
     <ClInclude Include="..\..\include\BWAPI\CommandOptimizer.h" />
     <ClInclude Include="..\..\include\BWAPI\Force.h" />
@@ -268,7 +262,6 @@ COPY /y "$(OutDir)BWAPILibd.pdb" "$(SolutionDir)\lib\BWAPILibd.pdb"</Command>
     <ClInclude Include="..\..\include\BWAPI\UnitType.h" />
     <ClInclude Include="..\..\include\BWAPI\UpgradeType.h" />
     <ClInclude Include="..\..\include\BWAPI\WeaponType.h" />
-    <ClInclude Include="..\..\include\GameData.h" />
     <ClInclude Include="Source\Convenience.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
