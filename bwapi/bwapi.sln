@@ -58,6 +58,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPIFrontendClient", "Fron
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libprotobuf-lite", "Backend\libprotobuf-lite\libprotobuf-lite.vcxproj", "{FB5DA788-0A09-3724-85D8-F80903AD1474}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BWAPILIBUnitTest", "Frontend\BWAPILIBUnitTest\BWAPILIBUnitTest.vcxproj", "{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -272,6 +274,18 @@ Global
 		{FB5DA788-0A09-3724-85D8-F80903AD1474}.Release|Win32.ActiveCfg = Release|Win32
 		{FB5DA788-0A09-3724-85D8-F80903AD1474}.Release|Win32.Build.0 = Release|Win32
 		{FB5DA788-0A09-3724-85D8-F80903AD1474}.Release|x64.ActiveCfg = Release|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Debug|Win32.Build.0 = Debug|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Debug|x64.ActiveCfg = Debug|x64
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Debug|x64.Build.0 = Debug|x64
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Installer_Target|Win32.ActiveCfg = Release|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Installer_Target|Win32.Build.0 = Release|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Installer_Target|x64.ActiveCfg = Release|x64
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Installer_Target|x64.Build.0 = Release|x64
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Release|Win32.ActiveCfg = Release|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Release|Win32.Build.0 = Release|Win32
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Release|x64.ActiveCfg = Release|x64
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -297,6 +311,7 @@ Global
 		{D85BFAE4-CE79-4F4D-A032-FFA45B559E29} = {0716BAB7-D569-4083-B7C9-1BE060FCB3E1}
 		{760E9359-EC46-48F7-AE1D-E238B17C4797} = {0510989A-57DD-4502-AC6E-25C3253FA5B4}
 		{FB5DA788-0A09-3724-85D8-F80903AD1474} = {0716BAB7-D569-4083-B7C9-1BE060FCB3E1}
+		{8A15E6B3-E2D0-4CEC-9BA9-B6C6FFC1CA91} = {0510989A-57DD-4502-AC6E-25C3253FA5B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {400E9D19-C5F4-491D-A809-3FB26965CD49}

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Types">
+      <UniqueIdentifier>{bab645d1-159d-4a25-b5d3-6937b6c401a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{663cc5ae-42d7-4959-b9cd-0d062c6c35ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filters">
+      <UniqueIdentifier>{b41fcea8-d447-4a82-b479-da16810213a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{e2ff78af-41f1-4fa4-a2b1-9cf24233d7c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
