@@ -13,5 +13,27 @@
     <Filter Include="Containers">
       <UniqueIdentifier>{e2ff78af-41f1-4fa4-a2b1-9cf24233d7c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mocks">
+      <UniqueIdentifier>{c6af2fce-57d5-459b-865c-6b99ff4d4db4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameTest.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest.cpp" />
+    <ClCompile Include="PositionTest.cpp" />
+    <ClCompile Include="UnitCommandTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MockClient.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
