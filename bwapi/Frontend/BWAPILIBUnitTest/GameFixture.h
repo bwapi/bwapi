@@ -4,6 +4,7 @@
 #include "MockClient.h"
 
 #include <BWAPI/Game.h>
+#include <BWAPI/Position.h>
 
 class GameFixture : public ::testing::Test {
 public:
@@ -13,4 +14,13 @@ protected:
 
   MockClient client;
   BWAPI::Game game;
+};
+
+class GameFixture_SmallMap : public GameFixture {
+public:
+  GameFixture_SmallMap() : GameFixture()
+  {
+    game.gameData->map.size = BWAPI::TilePosition(64, 96);
+    // TODO: Create a map w/ state
+  }
 };

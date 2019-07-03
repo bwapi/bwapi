@@ -1805,10 +1805,14 @@ namespace BWAPI
     /// @retval false If this is not a valid position.
     ///
     /// @see makeValid
-    template<typename PositionT>
-    bool isValid(PositionT pos) const {
+    template<typename T, int Scale>
+    bool isValid(BWAPI::Point<T, Scale> pos) const {
       BWAPI::Position temp{ pos };
-      return temp.x < mapWidth() * 32 && temp.y < mapHeight() * 32;
+
+      return temp.x >= 0 &&
+        temp.y >= 0 &&
+        temp.x < mapWidth() * 32 &&
+        temp.y < mapHeight() * 32;
     }
 
     /// <summary>Checks if this point is within the game's map bounds, if not, then it will set
@@ -1817,10 +1821,11 @@ namespace BWAPI
     ///
     /// @returns A reference to itself.
     /// @see isValid
-    template<typename PositionT>
-    void makeValid(PositionT &pos) const {
+    template<typename T, int Scale>
+    auto makeValid(BWAPI::Point<T, Scale> &pos) const -> BWAPI::Point<T, Scale>& {
       pos.setMin(0, 0);
-      pos.setMax(mapWidth(), mapHeight());
+      pos.setMax(mapWidth() * 32 / Scale - 1, mapHeight() * 32 / Scale - 1);
+      return pos;
     }
 
     constexpr operator bool() const { return true; }

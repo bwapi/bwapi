@@ -92,7 +92,7 @@ namespace BWAPI
 
     /// <summary>A less than operator that enables positions to be used by additional STL containers.</summary>
     /// Compares lexicographically the x position, followed by the y position.
-    bool operator  < (const Point<T,Scale> &position) const
+    bool operator < (const Point<T,Scale> &position) const
     {
       if(this->x == position.x)
         return this->y < position.y;
