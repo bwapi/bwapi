@@ -1864,5 +1864,18 @@ namespace BWAPI
     {
       commandOptimizer.flush();
     }
+
+    Game& Game::operator <<(ostream_manipulator fn)
+    {
+      // Pass manipulator into the stream
+      ss << fn;
+
+      // Flush to Broodwar's printf if we see endl or ends
+      if (fn == &std::endl<char, std::char_traits<char>> || fn == &std::ends<char, std::char_traits<char>>)
+      {
+        this->flush();
+      }
+      return *this;
+    }
 }
 

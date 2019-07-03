@@ -68,8 +68,8 @@ namespace BWAPI
   /// @ingroup Interface
   class Game {
   public:
-    Game &operator=(Game const &other) = delete;
-    Game &operator=(Game &&other) = delete;
+    Game &operator =(Game const &other) = delete;
+    Game &operator =(Game &&other) = delete;
 
     Game(Client& newClient);
 
@@ -1829,23 +1829,31 @@ namespace BWAPI
     }
 
     constexpr operator bool() const { return true; }
-    constexpr Game *operator->() { return this; }
-    constexpr Game const *operator->() const { return this; }
+
+    /// <summary>Member access operator to retain the original Broodwar-> behaviour.</summary>
+    constexpr Game *operator ->() { return this; }
+
+    /// <summary>Member access operator to retain the original Broodwar-> behaviour.</summary>
+    constexpr Game const *operator ->() const { return this; }
 
   private:
     mutable std::stringstream ss;
   public:
+    /// <summary>Definition of ostream_manipulator type for convenience.</summary>
+    typedef std::ostream& (*ostream_manipulator)(std::ostream&);
+
+    /// <summary>Output stream operator for printing text to Broodwar.</summary> Using this
+    /// operator invokes Game::printf when a newline character is encountered.
     template<typename T>
-    Game &operator<<(T const &in) {
+    Game& operator <<(T const &in) {
       ss << in;
       return *this;
     }
 
-    Game &operator<<(std::ostream &(*fn)(std::ostream &)) {
-      fn(ss);
-      return *this;
-    }
+    /// @overload
+    Game& operator <<(ostream_manipulator fn);
 
+    /// <summary>Flushes the Broodwar stream, printing all text in the stream to the screen.</summary>
     void flush() {
       if (ss.str().empty()) return;
       this->printf("%s", ss.str().c_str());

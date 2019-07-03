@@ -4,6 +4,8 @@
 
 using namespace BWAPI;
 
+using ::testing::_;
+
 TEST_F(GameFixture, isDebug)
 {
 #ifdef _DEBUG
@@ -11,6 +13,12 @@ TEST_F(GameFixture, isDebug)
 #else
   EXPECT_EQ(game.isDebug(), false);
 #endif
+}
+
+TEST_F(GameFixture_SmallMap, mapSize)
+{
+  EXPECT_EQ(game.mapWidth(), 64);
+  EXPECT_EQ(game.mapHeight(), 96);
 }
 
 TEST_F(GameFixture_SmallMap, isValid)
@@ -87,3 +95,66 @@ TEST_F(GameFixture, restartGame_callsClient)
   EXPECT_CALL(client, restartGame());
   game.restartGame();
 }
+
+TEST_F(GameFixture, setScreenPosition_callsClient)
+{
+  EXPECT_CALL(client, setScreenPosition(5, 9));
+  game.setScreenPosition(5, 9);
+
+  EXPECT_CALL(client, setScreenPosition(10, 20));
+  game.setScreenPosition(Position(10, 20));
+}
+
+TEST_F(GameFixture, pingMinimap_callsClient)
+{
+  EXPECT_CALL(client, pingMinimap(5, 9));
+  game.pingMinimap(5, 9);
+
+  EXPECT_CALL(client, pingMinimap(10, 20));
+  game.pingMinimap(Position(10, 20));
+}
+
+TEST_F(GameFixture, printf_callsClient)
+{
+  std::string expected{ "\x15 chocolate\ncake" };
+
+  EXPECT_CALL(client, printText(expected));
+  game.printf("%c chocolate\ncake", Text::Brown);
+}
+
+TEST_F(GameFixture, flush_callsPrintf)
+{
+  EXPECT_CALL(client, printText("\x15 chocolate\ncake"));
+  game << static_cast<char>(Text::Brown) << " chocolate";
+  game << "\n";
+  game << "cake";
+  game.flush();
+}
+
+TEST_F(GameFixture, ostream_operator_endl_flushes)
+{
+  EXPECT_CALL(client, printText("test\n"));
+  game << "test" << std::endl;
+}
+
+TEST_F(GameFixture, ostream_operator_ends_flushes)
+{
+  EXPECT_CALL(client, printText("who"));
+  game << "who" << std::ends;
+}
+
+TEST_F(GameFixture, ostream_operator_clearsBufferAfterFlush)
+{
+  EXPECT_CALL(client, printText("test\n"));
+  game << "test" << std::endl;
+
+  EXPECT_CALL(client, printText("what"));
+  game << "what" << std::ends;
+}
+
+TEST_F(GameFixture, ostream_operator_doesntFlushIfNotExplicit)
+{
+  EXPECT_CALL(client, printText(_)).Times(0);
+  game << "ice cream" << '\n';
+}
+
