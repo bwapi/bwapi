@@ -1739,10 +1739,7 @@ namespace BWAPI
     {
         /* Set the current player's alliance status */
         if (!self() || isReplay() || !player || player == self())
-        {
-            lastError = Errors::Invalid_Parameter;
-            return false;
-        }
+          return setLastError(Errors::Invalid_Parameter);
         
         client.setAlliance(player.getID().id, allied ? (alliedVictory ? 2 : 1) : 0);
         return setLastError();

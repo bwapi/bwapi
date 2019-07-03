@@ -158,3 +158,21 @@ TEST_F(GameFixture, ostream_operator_doesntFlushIfNotExplicit)
   game << "ice cream" << '\n';
 }
 
+TEST_F(GameFixture, drawLine_callsClient)
+{
+  EXPECT_CALL(client, drawShape(ShapeType::Line, CoordinateType::Mouse, 2, 5, 15, 18, 0, 0, Colors::Cyan, false));
+  game.drawLine(CoordinateType::Mouse, 2, 5, 15, 18, Colors::Cyan);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Line, CoordinateType::Map, 1, 0, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawLineMap(1, 0, 1, 25, Colors::Red);
+  game.drawLineMap(Position(1, 0), Position(1, 25), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Line, CoordinateType::Mouse, 1, 0, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawLineMouse(1, 0, 1, 25, Colors::Red);
+  game.drawLineMouse(Position(1, 0), Position(1, 25), Colors::Red);
+
+  EXPECT_CALL(client, drawShape(ShapeType::Line, CoordinateType::Screen, 1, 0, 1, 25, 0, 0, Colors::Red, false)).Times(2);
+  game.drawLineScreen(1, 0, 1, 25, Colors::Red);
+  game.drawLineScreen(Position(1, 0), Position(1, 25), Colors::Red);
+}
+

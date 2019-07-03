@@ -8,7 +8,10 @@
 
 class GameFixture : public ::testing::Test {
 public:
-  GameFixture() : game(client) {}
+  GameFixture() : game(client)
+  {
+    game.gameData->hasGUI = true;
+  }
 
 protected:
 

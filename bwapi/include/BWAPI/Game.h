@@ -1496,7 +1496,7 @@ namespace BWAPI
     ///               failed to find the map specified, or received an invalid parameter.
     //virtual bool setMap(const char *mapFileName) = 0;
     /// @overload
-    bool setMap(const std::string &mapFileName);
+    //bool setMap(const std::string &mapFileName);
 
     /// <summary>Sets the number of graphical frames for every logical frame.</summary> This
     /// allows the game to run more logical frames per graphical frame, increasing the speed at
