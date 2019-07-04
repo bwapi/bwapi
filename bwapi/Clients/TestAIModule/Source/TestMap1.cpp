@@ -47,10 +47,8 @@ void TestMap1::onStart()
   {
     BWAssert(Broodwar->isWalkable(x,0)==true);
   }
-  BWAssert(Broodwar->isFlagEnabled(Flag::CompleteMapInformation)==false);
-  BWAssert(Broodwar->isFlagEnabled(Flag::UserInput)==false);
   BWAssert(Broodwar->getScreenPosition()==Positions::Unknown);
-  BWAssert(Broodwar->getMousePosition()==Positions::Unknown);
+  //BWAssert(Broodwar->getMousePosition()==Positions::Unknown); <--Not implemented currently
   BWAssert(Broodwar->isInGame()==true);
   BWAssert(Broodwar->isMultiplayer()==false);
   BWAssert(Broodwar->isPaused()==false);    // Why would this fail?
@@ -258,7 +256,7 @@ void TestMap1::onStart()
   Broodwar->sendText("show me the money");
   Broodwar->sendText("operation cwal");
   Broodwar->setLocalSpeed(0);
-  Broodwar->setFrameSkip(512);
+  //Broodwar->setFrameSkip(512); <-- not implemented yet
 }
 void TestMap1::onEnd(bool isWinner)
 {

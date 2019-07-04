@@ -1,19 +1,19 @@
 #pragma once
 #include <BWAPI.h>
-class TestMap1 : public BWAPI::AIModule
+class TestMap1
 {
 public:
-  virtual void onStart();
-  virtual void onEnd(bool isWinner);
-  virtual void onFrame();
-  virtual void onSendText(std::string text);
-  virtual void onPlayerLeft(BWAPI::Player player);
-  virtual void onNukeDetect(BWAPI::Position target);
-  virtual void onUnitCreate(BWAPI::Unit unit);
-  virtual void onUnitDestroy(BWAPI::Unit unit);
-  virtual void onUnitMorph(BWAPI::Unit unit);
-  virtual void onUnitShow(BWAPI::Unit unit);
-  virtual void onUnitHide(BWAPI::Unit unit);
-  virtual void onUnitRenegade(BWAPI::Unit unit);
-  virtual void onSaveGame(std::string gameName);
+  void onStart();
+  void onEnd(bool isWinner);
+  void onFrame();
+  void onSendText(std::string text);
+  void onPlayerLeft(BWAPI::Player player);
+  void onNukeDetect(BWAPI::Position target);
+  void onUnitCreate(BWAPI::Unit unit);
+  void onUnitDestroy(BWAPI::Unit unit);
+  void onUnitMorph(BWAPI::Unit unit);
+  void onUnitShow(BWAPI::Unit unit);
+  void onUnitHide(BWAPI::Unit unit);
+  void onUnitRenegade(BWAPI::Unit unit);
+  void onSaveGame(std::string gameName);
 };

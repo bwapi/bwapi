@@ -16,6 +16,7 @@ void showForces(Game &Broodwar);
 bool show_bullets;
 bool show_visibility_data;
 
+
 void reconnect(Client &BWAPIClient)
 {
   while (!BWAPIClient.connect())

@@ -16,7 +16,7 @@ void log(const char* format, ...)
   va_end(ap);
 
   FILE *outfile;
-  BWAPI::Broodwar->printf(buffer);
+  Broodwar->printf(buffer);
   if (fopen_s(&outfile, "bwapi-data/logs/TestModule - Failed Asserts.log", "a+")==0)
   {
     if (outfile)
