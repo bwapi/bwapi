@@ -37,7 +37,7 @@ int main(int argc, const char* argv[])
     }
     while (Broodwar->isInGame())
     {
-      auto map = Broodwar.mapName();
+      auto map = Broodwar.mapFileName();
       if (map == "testmap1.scm")
       {
         testMap1.onFrame();

@@ -89,6 +89,9 @@ namespace BWAPI
               std::copy(staticMap.maptileregionid().begin(), staticMap.maptileregionid().end(), &game.gameData->map.mapTileRegionId[0][0]);
               game.gameData->map.size = TilePosition{ staticMap.size().x(), staticMap.size().y() };
               game.gameData->map.tileset = staticMap.tileset();
+              game.gameData->mapName = staticMap.mapname();
+              game.gameData->mapFileName = staticMap.mapfilename();
+              game.gameData->mapPath = staticMap.mappath();
             }
             if (gameUpdate.has_map())
             {

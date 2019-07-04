@@ -1152,7 +1152,7 @@ namespace BWAPI
     //----------------------------------------------- MAP FILE NAME --------------------------------------------
     std::string Game::mapFileName() const
     {
-        return gameData->mapName; //needs a different var?
+        return gameData->mapFileName;
     }
     //----------------------------------------------- MAP PATH NAME --------------------------------------------
     std::string Game::mapPathName() const
