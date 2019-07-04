@@ -259,7 +259,6 @@ namespace BWAPI
        */
       u16 getIndex() const;
       void setSelected(bool selectedState);
-      void setLoaded(bool loadedState);
       UnitImpl* getNext() const;
 
       void saveInitialState();
@@ -301,7 +300,7 @@ namespace BWAPI
       bool wasCompleted = false;
       bool wasAccessible = false;
       bool wasVisible = false;
-      
+
       Unitset connectedUnits;
       Unitset loadedUnits;
 

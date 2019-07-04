@@ -5,7 +5,8 @@
 
 namespace BW
 {
-  class  Bitmap;
+  class Bitmap;
+  class CUnit;
 
   struct PlayerInfo
   {
@@ -101,5 +102,49 @@ namespace BW
     u16 wType;
   };
   static_assert(sizeof(swishTimer) == 4, "Expected swishTimer structure to be 4 bytes.");
+
+  struct TrigKillRemoveProperties
+  {
+    bool(__fastcall *condition)(int player, u16 type, BW::CUnit *unit);
+    u32 playerGroup;
+    u16 unitType;
+    u16 heightFlags;
+    u32 useHeightCheck;
+    rect bounds;
+  };
+  static_assert(sizeof(TrigKillRemoveProperties) == 24, "Expected TrigKillRemoveProperties structure to be 24 bytes.");
+
+  struct TrigLocation
+  {
+    s32 left;
+    s32 top;
+    s32 right;
+    s32 bottom;
+    u16 stringId;
+    u16 heightFlags;
+  };
+  static_assert(sizeof(TrigLocation) == 20, "Expected TrigLocation structure to be 20 bytes.");
+
+  struct TrigCreateUnitProperties
+  {
+    u32 propertySlot; // 1-based
+    u32 locationSlot;
+  };
+  static_assert(sizeof(TrigCreateUnitProperties) == 8, "Expected TrigCreateUnitProperties structure to be 24 bytes.");
+
+  struct TrigUnitPropertySlot
+  {
+    u16 validFlags;
+    u16 validProperties;
+    u8 player;
+    u8 hpPercent;
+    u8 shieldPercent;
+    u8 energyPercent;
+    u32 resourceAmount;
+    u16 unitsInHangar;
+    u16 flags; // 1 = cloak, 2 = burrow, 4 = lifted, 8 = hallucinated, 0x10 = invincible
+    u32 unused;
+  };
+  static_assert(sizeof(TrigUnitPropertySlot) == 20, "Expected TrigUnitPropertySlot structure to be 20 bytes.");
 
 }

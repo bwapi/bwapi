@@ -149,6 +149,8 @@ namespace BW
     }
   }
 
+
+
   //----------------------------------------- VIDEO & DRAWING ------------------------------------------------
   extern void (__stdcall *pOldDrawGameProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
   extern void (__stdcall *pOldDrawDialogProc)(BW::Bitmap *pSurface, BW::bounds *pBounds);
@@ -197,19 +199,28 @@ namespace BW
   //------------------------------------ POSITIONS (MOUSE/SCREEN) --------------------------------------------
   static void (__cdecl * const BWFXN_UpdateScreenPosition)()    = (void(__cdecl*)()) 0x0049BFD0;
 
+  //-------------------------------------------- TRIGGERS -----------------------------------------------------
 
   namespace BWDATA
   {
     namespace
     {
       std::array<VCList<Triggers::Trigger>, PLAYABLE_PLAYER_COUNT> IS_REF(TriggerVectors, 0x0051A280);
+
+      // Create/Kill/Remove Unit
+      bool IS_REF(TrigRemoveInsteadOfKill, 0x005971DC); // false = kill, true = remove
+      std::array<TrigLocation, 255> IS_REF(TrigLocations, 0x0058DC60);
+      std::array<TrigUnitPropertySlot, 64> IS_REF(TrigUnitProperties, 0x00596CD8);
     }
   }
 
   static void (__stdcall * const BWFXN_ExecuteGameTriggers)(DWORD dwMillisecondsPerFrame) = (void(__stdcall*)(DWORD))0x0048A460;
   static const u32 BWFXN_ExecuteGameTrigsCallPatch = 0x004D9798;
 
-  //------------------------------------------------ SUPPLIES ------------------------------------------------
+  // Create/Kill/Remove Unit
+  static bool(__fastcall * const BWFXN_KillRemoveUnit)(CUnit *pUnit, TrigKillRemoveProperties *properties) = (bool(__fastcall*)(CUnit*,TrigKillRemoveProperties*))0x004C7E20;
+  static void(__fastcall * const BWFXN_CreateUnitWithProperties)(int playerGroup, u16 unitType, TrigCreateUnitProperties *properties) = (void(__fastcall*)(int group,u16 unitType,TrigCreateUnitProperties*))0x004C8C20;
+
   namespace BWDATA
   {
     namespace

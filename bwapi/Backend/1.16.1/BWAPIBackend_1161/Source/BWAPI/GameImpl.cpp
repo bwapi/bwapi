@@ -905,5 +905,52 @@ namespace BWAPI
   {
     return BW::BWDATA::ReplayHead.gameSeed.randSeed;
   }
+  //------------------------------------------------- CREATE, REMOVE, KILL ------------------------------------
+  void GameImpl::killUnit(Unit unit)
+  {
+    this->unitsToKill.insert(unit);
+  }
+  void GameImpl::removeUnit(Unit unit)
+  {
+    this->unitsToRemove.insert(unit);
+  }
+  void GameImpl::createUnit(UnitType unitType, Player player, int x, int y, int hpPercent, int shieldsPercent, int energyPercent, int resources, int hangarCount, bool cloaked, bool burrowed, bool lifted, bool hallucinated, bool invincible)
+  {
+    if (!unitType.isValid() || !player) return;
+
+    BW::TrigCreateUnitProperties properties;
+    properties.locationSlot = 0;
+    properties.propertySlot = 1; // properties are 1-based
+
+    BW::TrigLocation oldLocation = BW::BWDATA::TrigLocations[0];
+    BW::TrigUnitPropertySlot oldUnitProperties = BW::BWDATA::TrigUnitProperties[0];
+
+    BW::TrigLocation newLocation = {};
+    newLocation.left = newLocation.right = x;
+    newLocation.top = newLocation.bottom = y;
+
+    BW::TrigUnitPropertySlot newUnitProperties = {};
+    newUnitProperties.validFlags = newUnitProperties.validProperties = 0xFFFF;
+    newUnitProperties.hpPercent = hpPercent;
+    newUnitProperties.shieldPercent = shieldsPercent;
+    newUnitProperties.energyPercent = energyPercent;
+    newUnitProperties.resourceAmount = resources;
+    newUnitProperties.unitsInHangar = hangarCount;
+    if (cloaked) newUnitProperties.flags |= 0x01;
+    if (burrowed) newUnitProperties.flags |= 0x02;
+    if (lifted) newUnitProperties.flags |= 0x04;
+    if (hallucinated) newUnitProperties.flags |= 0x08;
+    if (invincible) newUnitProperties.flags |= 0x10;
+
+    // Overwrite data needed by this function
+    BW::BWDATA::TrigLocations[0] = newLocation;
+    BW::BWDATA::TrigUnitProperties[0] = newUnitProperties;
+
+    BW::BWFXN_CreateUnitWithProperties(player->getID(), unitType.getID(), &properties);
+    
+    // Restore original data
+    BW::BWDATA::TrigLocations[0] = oldLocation;
+    BW::BWDATA::TrigUnitProperties[0] = oldUnitProperties;
+  }
 };
 

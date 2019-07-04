@@ -254,6 +254,28 @@ namespace BWAPI
       BWAPI::Region getRegionAt(BWAPI::Position position) const;
       int getDamageFrom(UnitType fromType, UnitType toType, Player fromPlayer = nullptr, Player toPlayer = nullptr) const;
       int getDamageTo(UnitType toType, UnitType fromType, Player toPlayer = nullptr, Player fromPlayer = nullptr) const;
+      void updateKillAndRemoveUnits();
+      Unitset unitsToKill;
+      Unitset unitsToRemove;
+
+      void killUnit(Unit unit);
+      void removeUnit(Unit unit);
+      void createUnit(
+        UnitType unitType,
+        Player player,
+        int x,
+        int y,
+        int hpPercent = 100,
+        int shieldsPercent = 100,
+        int energyPercent = 100,
+        int resources = 5000,
+        int hangarCount = 0,
+        bool cloaked = false,
+        bool burrowed = false,
+        bool lifted = false,
+        bool hallucinated = false,
+        bool invincible = false);
+
       //Internal BWAPI commands:
       GameImpl();
       ~GameImpl();

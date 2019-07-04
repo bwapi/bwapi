@@ -181,6 +181,9 @@ void GameImpl::update()
     u->die();
   }
 
+  //Kill or remove units starcraft-side, not sure if this should go here or elsewhere but here it is
+  updateKillAndRemoveUnits();
+
   /* In case we ever want to add a Flag::UnitPermanence cheat flag...
   bool UnitPermanence = false;
   if ( !UnitPermanence )
@@ -213,7 +216,32 @@ void GameImpl::update()
 
   //finally return control to starcraft
 }
+namespace
+{
+  bool __fastcall alwaysKillCondition(int player, u16 type, BW::CUnit *unit)
+  {
+    return true;
+  }
+}
+void GameImpl::updateKillAndRemoveUnits()
+{
+  BW::TrigKillRemoveProperties properties = {};
+  properties.condition = &alwaysKillCondition;
 
+  BW::BWDATA::TrigRemoveInsteadOfKill = false;
+  for (Unit u : unitsToKill)
+  {
+    BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
+  }
+  unitsToKill.clear();
+
+  BW::BWDATA::TrigRemoveInsteadOfKill = true;
+  for (Unit u : unitsToRemove)
+  {
+    BW::BWFXN_KillRemoveUnit(static_cast<UnitImpl*>(u)->getOriginalRawData, &properties);
+  }
+  unitsToRemove.clear();
+}
 //------------------------------------------------- STATS -------------------------------------------------
 void GameImpl::updateStatistics()
 {
@@ -341,15 +369,6 @@ void GameImpl::initializeAIModule()
     // Set the module string
     moduleName = "<Client Connection>";
     externalModuleConnected = true;
-
-    // Load flags
-    std::string completemapinformation = LoadConfigString("flags", "completemapinformation", "OFF");
-    if (completemapinformation == "ON")
-      BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
-    
-    std::string userinput = LoadConfigString("flags", "userinput", "ON");
-    if (userinput == "ON")
-      BroodwarImpl.enableFlag(Flag::UserInput);
   }
   else // if not, allow interaction and print error message
   {
@@ -365,6 +384,16 @@ void GameImpl::initializeAIModule()
     externalModuleConnected = false;
     */
   }
+
+  // Load flags
+  std::string completemapinformation = LoadConfigString("flags", "completemapinformation", "OFF");
+  if (completemapinformation == "ON")
+    BroodwarImpl.enableFlag(Flag::CompleteMapInformation);
+
+  std::string userinput = LoadConfigString("flags", "userinput", "ON");
+  if (userinput == "ON")
+    BroodwarImpl.enableFlag(Flag::UserInput);
+
   sendText("BWAPI %s.%d %s is now live using \"%s\".", BWAPI_VER, SVN_REV, BUILD_STR, moduleName.c_str());
 }
 
