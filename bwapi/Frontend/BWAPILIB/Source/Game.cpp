@@ -1846,6 +1846,7 @@ namespace BWAPI
       for (auto itr = playerUnits.begin(); itr != playerUnits.end(); itr++)
         itr->second.clear();
       bulletsset.clear();
+      selectedUnits.clear();
       //computes sets
       for (Unit u : units)
       {
