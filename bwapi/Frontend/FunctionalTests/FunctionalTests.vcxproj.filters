@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="game.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fixtures">
+      <UniqueIdentifier>{b3ca9b56-2c61-4c67-8f8d-8e28dacb7d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{9f0bf195-d798-4a37-b96b-8fdf01b6047f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{e2e91492-3a6f-4d72-bfce-1191aa19965a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossBaseFixture.h">
+      <Filter>Fixtures</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -29,12 +29,24 @@ namespace BWAPI
     /// </param>
     /// @see std::erase_if
     template<class Pred>
-    void erase_if(Pred &&pred) {
+    SetContainer<T, Compare>& erase_if(Pred &&pred) {
       auto it = this->begin();
       while (it != this->end()) {
         if (pred(*it)) it = this->erase(it);
         else ++it;
       }
+      return *this;
+    }
+
+    /// <summary>Iterates the set and finds the first element where pred(x) returns true.</summary>
+    ///
+    /// <param name="pred">
+    ///     Predicate for searching.
+    /// </param>
+    /// @see std::find_if
+    template<class Pred>
+    typename SetContainer<T, Compare>::iterator find_if(Pred &&pred) const {
+      return std::find_if(this->begin(), this->end(), pred);
     }
 
     /// <summary>Checks if this set contains a specific value.</summary>
