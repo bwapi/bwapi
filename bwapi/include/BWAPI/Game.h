@@ -1964,6 +1964,7 @@ namespace BWAPI
       Unitset minerals;
       Regionset regionsList;
       Bulletset bulletsset;
+      Unitset selectedUnits;
       std::list< Event > events;
       Text::Size::Enum textSize = Text::Size::Default;
 

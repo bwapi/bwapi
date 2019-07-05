@@ -1748,7 +1748,6 @@ namespace BWAPI
       return true;
     }
     //------------------------------------------ GET SELECTED UNITS --------------------------------------------
-    Unitset selectedUnits;
     const Unitset& Game::getSelectedUnits() const
     {
         lastError = Errors::None;
@@ -1859,6 +1858,8 @@ namespace BWAPI
           playerUnits[player].emplace(u);
           if (u->getType().isMineralField())
             minerals.emplace(u);
+          if (u->isSelected())
+            selectedUnits.insert(u);
         }
       }
       for (auto b : bullets)
