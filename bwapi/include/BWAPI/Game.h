@@ -1351,6 +1351,56 @@ namespace BWAPI
     /// @overload
     void drawLineScreen(Position a, Position b, Color color);
 
+    /// <summary>(Single player only) Creates a unit instantly for the given
+    /// player at any location on the map.</summary>
+    ///
+    /// <param name="player">
+    ///   The player that will own the new unit.
+    /// </param>
+    /// <param name="unitType">
+    ///   The type of unit to create.
+    /// </param>
+    /// <param name="x">
+    ///   The x position to spawn the unit at.
+    /// </param>
+    /// <param name="y">
+    ///   The y position to spawn the unit at.
+    /// </param>
+    /// <param name="count">
+    ///   (Optional) The number of units to spawn. Default: 1
+    /// </param>
+    void createUnit(Player player, UnitType unitType, int x, int y, int count = 1);
+    /// @overload
+    void createUnit(Player player, UnitType unitType, Position position, int count = 1);
+    
+    /// <summary>(Single player only) Kills the given units immediately.</summary>
+    ///
+    /// <param name="units">
+    ///   The set of units that will instantly die. Can be owned by any player.
+    /// </param>
+    void killUnits(const Unitset& units);
+
+    /// <summary>(Single player only) Kills the given unit immediately.</summary>
+    ///
+    /// <param name="unit">
+    ///   The unit that will instantly die. Can be owned by any player.
+    /// </param>
+    void killUnit(Unit unit);
+
+    /// <summary>(Single player only) Removes the given units from the game.</summary>
+    ///
+    /// <param name="units">
+    ///   The set of units that will instantly be erased from the game. Can be owned by any player.
+    /// </param>
+    void removeUnits(const Unitset& units);
+    
+    /// <summary>(Single player only) Removes the given unit from the game.</summary>
+    ///
+    /// <param name="unit">
+    ///   The unit that will instantly be erased from the game. Can be owned by any player.
+    /// </param>
+    void removeUnit(Unit unit);
+
     /// @}
 
     /// <summary>Retrieves the maximum delay, in number of frames, between a command being issued

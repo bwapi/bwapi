@@ -38,7 +38,7 @@ namespace protobuf_command_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[14];
+  static const ::google::protobuf::internal::ParseTable schema[16];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -49,6 +49,12 @@ namespace command {
 class Command;
 class CommandDefaultTypeInternal;
 extern CommandDefaultTypeInternal _Command_default_instance_;
+class CreateUnit;
+class CreateUnitDefaultTypeInternal;
+extern CreateUnitDefaultTypeInternal _CreateUnit_default_instance_;
+class KillUnits;
+class KillUnitsDefaultTypeInternal;
+extern KillUnitsDefaultTypeInternal _KillUnits_default_instance_;
 class LeaveGame;
 class LeaveGameDefaultTypeInternal;
 extern LeaveGameDefaultTypeInternal _LeaveGame_default_instance_;
@@ -93,6 +99,8 @@ extern UnitCommandDefaultTypeInternal _UnitCommand_default_instance_;
 namespace google {
 namespace protobuf {
 template<> ::bwapi::command::Command* Arena::CreateMaybeMessage<::bwapi::command::Command>(Arena*);
+template<> ::bwapi::command::CreateUnit* Arena::CreateMaybeMessage<::bwapi::command::CreateUnit>(Arena*);
+template<> ::bwapi::command::KillUnits* Arena::CreateMaybeMessage<::bwapi::command::KillUnits>(Arena*);
 template<> ::bwapi::command::LeaveGame* Arena::CreateMaybeMessage<::bwapi::command::LeaveGame>(Arena*);
 template<> ::bwapi::command::PauseGame* Arena::CreateMaybeMessage<::bwapi::command::PauseGame>(Arena*);
 template<> ::bwapi::command::PingMiniMap* Arena::CreateMaybeMessage<::bwapi::command::PingMiniMap>(Arena*);
@@ -1599,6 +1607,250 @@ class UnitCommand : public ::google::protobuf::MessageLite /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class CreateUnit : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.command.CreateUnit) */ {
+ public:
+  CreateUnit();
+  virtual ~CreateUnit();
+
+  CreateUnit(const CreateUnit& from);
+
+  inline CreateUnit& operator=(const CreateUnit& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CreateUnit(CreateUnit&& from) noexcept
+    : CreateUnit() {
+    *this = ::std::move(from);
+  }
+
+  inline CreateUnit& operator=(CreateUnit&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const CreateUnit& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CreateUnit* internal_default_instance() {
+    return reinterpret_cast<const CreateUnit*>(
+               &_CreateUnit_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  void Swap(CreateUnit* other);
+  friend void swap(CreateUnit& a, CreateUnit& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CreateUnit* New() const final {
+    return CreateMaybeMessage<CreateUnit>(NULL);
+  }
+
+  CreateUnit* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CreateUnit>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const CreateUnit& from);
+  void MergeFrom(const CreateUnit& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(CreateUnit* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 playerID = 1;
+  void clear_playerid();
+  static const int kPlayerIDFieldNumber = 1;
+  ::google::protobuf::int32 playerid() const;
+  void set_playerid(::google::protobuf::int32 value);
+
+  // int32 unitType = 2;
+  void clear_unittype();
+  static const int kUnitTypeFieldNumber = 2;
+  ::google::protobuf::int32 unittype() const;
+  void set_unittype(::google::protobuf::int32 value);
+
+  // int32 x = 3;
+  void clear_x();
+  static const int kXFieldNumber = 3;
+  ::google::protobuf::int32 x() const;
+  void set_x(::google::protobuf::int32 value);
+
+  // int32 y = 4;
+  void clear_y();
+  static const int kYFieldNumber = 4;
+  ::google::protobuf::int32 y() const;
+  void set_y(::google::protobuf::int32 value);
+
+  // int32 count = 5;
+  void clear_count();
+  static const int kCountFieldNumber = 5;
+  ::google::protobuf::int32 count() const;
+  void set_count(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.CreateUnit)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::int32 playerid_;
+  ::google::protobuf::int32 unittype_;
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+  ::google::protobuf::int32 count_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class KillUnits : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.command.KillUnits) */ {
+ public:
+  KillUnits();
+  virtual ~KillUnits();
+
+  KillUnits(const KillUnits& from);
+
+  inline KillUnits& operator=(const KillUnits& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  KillUnits(KillUnits&& from) noexcept
+    : KillUnits() {
+    *this = ::std::move(from);
+  }
+
+  inline KillUnits& operator=(KillUnits&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const KillUnits& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const KillUnits* internal_default_instance() {
+    return reinterpret_cast<const KillUnits*>(
+               &_KillUnits_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  void Swap(KillUnits* other);
+  friend void swap(KillUnits& a, KillUnits& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline KillUnits* New() const final {
+    return CreateMaybeMessage<KillUnits>(NULL);
+  }
+
+  KillUnits* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<KillUnits>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const KillUnits& from);
+  void MergeFrom(const KillUnits& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(KillUnits* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated int32 unitID = 1;
+  int unitid_size() const;
+  void clear_unitid();
+  static const int kUnitIDFieldNumber = 1;
+  ::google::protobuf::int32 unitid(int index) const;
+  void set_unitid(int index, ::google::protobuf::int32 value);
+  void add_unitid(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      unitid() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_unitid();
+
+  // bool removeInstantly = 2;
+  void clear_removeinstantly();
+  static const int kRemoveInstantlyFieldNumber = 2;
+  bool removeinstantly() const;
+  void set_removeinstantly(bool value);
+
+  // @@protoc_insertion_point(class_scope:bwapi.command.KillUnits)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > unitid_;
+  mutable int _unitid_cached_byte_size_;
+  bool removeinstantly_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_command_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:bwapi.command.Command) */ {
  public:
   Command();
@@ -1641,6 +1893,8 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
     kSetAlliance = 11,
     kSetVision = 12,
     kUnitCommand = 14,
+    kCreateUnit = 15,
+    kKillUnits = 16,
     CMD_NOT_SET = 0,
   };
 
@@ -1650,7 +1904,7 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
                &_Command_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    15;
 
   void Swap(Command* other);
   friend void swap(Command& a, Command& b) {
@@ -1857,6 +2111,30 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
   ::bwapi::command::UnitCommand* mutable_unitcommand();
   void set_allocated_unitcommand(::bwapi::command::UnitCommand* unitcommand);
 
+  // .bwapi.command.CreateUnit createUnit = 15;
+  bool has_createunit() const;
+  void clear_createunit();
+  static const int kCreateUnitFieldNumber = 15;
+  private:
+  const ::bwapi::command::CreateUnit& _internal_createunit() const;
+  public:
+  const ::bwapi::command::CreateUnit& createunit() const;
+  ::bwapi::command::CreateUnit* release_createunit();
+  ::bwapi::command::CreateUnit* mutable_createunit();
+  void set_allocated_createunit(::bwapi::command::CreateUnit* createunit);
+
+  // .bwapi.command.KillUnits killUnits = 16;
+  bool has_killunits() const;
+  void clear_killunits();
+  static const int kKillUnitsFieldNumber = 16;
+  private:
+  const ::bwapi::command::KillUnits& _internal_killunits() const;
+  public:
+  const ::bwapi::command::KillUnits& killunits() const;
+  ::bwapi::command::KillUnits* release_killunits();
+  ::bwapi::command::KillUnits* mutable_killunits();
+  void set_allocated_killunits(::bwapi::command::KillUnits* killunits);
+
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:bwapi.command.Command)
@@ -1874,6 +2152,8 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
   void set_has_setalliance();
   void set_has_setvision();
   void set_has_unitcommand();
+  void set_has_createunit();
+  void set_has_killunits();
 
   inline bool has_cmd() const;
   inline void clear_has_cmd();
@@ -1894,6 +2174,8 @@ class Command : public ::google::protobuf::MessageLite /* @@protoc_insertion_poi
     ::bwapi::command::SetAlliance* setalliance_;
     ::bwapi::command::SetVision* setvision_;
     ::bwapi::command::UnitCommand* unitcommand_;
+    ::bwapi::command::CreateUnit* createunit_;
+    ::bwapi::command::KillUnits* killunits_;
   } cmd_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -2500,6 +2782,128 @@ inline void UnitCommand::set_extra(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// CreateUnit
+
+// int32 playerID = 1;
+inline void CreateUnit::clear_playerid() {
+  playerid_ = 0;
+}
+inline ::google::protobuf::int32 CreateUnit::playerid() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.CreateUnit.playerID)
+  return playerid_;
+}
+inline void CreateUnit::set_playerid(::google::protobuf::int32 value) {
+  
+  playerid_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.CreateUnit.playerID)
+}
+
+// int32 unitType = 2;
+inline void CreateUnit::clear_unittype() {
+  unittype_ = 0;
+}
+inline ::google::protobuf::int32 CreateUnit::unittype() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.CreateUnit.unitType)
+  return unittype_;
+}
+inline void CreateUnit::set_unittype(::google::protobuf::int32 value) {
+  
+  unittype_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.CreateUnit.unitType)
+}
+
+// int32 x = 3;
+inline void CreateUnit::clear_x() {
+  x_ = 0;
+}
+inline ::google::protobuf::int32 CreateUnit::x() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.CreateUnit.x)
+  return x_;
+}
+inline void CreateUnit::set_x(::google::protobuf::int32 value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.CreateUnit.x)
+}
+
+// int32 y = 4;
+inline void CreateUnit::clear_y() {
+  y_ = 0;
+}
+inline ::google::protobuf::int32 CreateUnit::y() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.CreateUnit.y)
+  return y_;
+}
+inline void CreateUnit::set_y(::google::protobuf::int32 value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.CreateUnit.y)
+}
+
+// int32 count = 5;
+inline void CreateUnit::clear_count() {
+  count_ = 0;
+}
+inline ::google::protobuf::int32 CreateUnit::count() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.CreateUnit.count)
+  return count_;
+}
+inline void CreateUnit::set_count(::google::protobuf::int32 value) {
+  
+  count_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.CreateUnit.count)
+}
+
+// -------------------------------------------------------------------
+
+// KillUnits
+
+// repeated int32 unitID = 1;
+inline int KillUnits::unitid_size() const {
+  return unitid_.size();
+}
+inline void KillUnits::clear_unitid() {
+  unitid_.Clear();
+}
+inline ::google::protobuf::int32 KillUnits::unitid(int index) const {
+  // @@protoc_insertion_point(field_get:bwapi.command.KillUnits.unitID)
+  return unitid_.Get(index);
+}
+inline void KillUnits::set_unitid(int index, ::google::protobuf::int32 value) {
+  unitid_.Set(index, value);
+  // @@protoc_insertion_point(field_set:bwapi.command.KillUnits.unitID)
+}
+inline void KillUnits::add_unitid(::google::protobuf::int32 value) {
+  unitid_.Add(value);
+  // @@protoc_insertion_point(field_add:bwapi.command.KillUnits.unitID)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+KillUnits::unitid() const {
+  // @@protoc_insertion_point(field_list:bwapi.command.KillUnits.unitID)
+  return unitid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+KillUnits::mutable_unitid() {
+  // @@protoc_insertion_point(field_mutable_list:bwapi.command.KillUnits.unitID)
+  return &unitid_;
+}
+
+// bool removeInstantly = 2;
+inline void KillUnits::clear_removeinstantly() {
+  removeinstantly_ = false;
+}
+inline bool KillUnits::removeinstantly() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.KillUnits.removeInstantly)
+  return removeinstantly_;
+}
+inline void KillUnits::set_removeinstantly(bool value) {
+  
+  removeinstantly_ = value;
+  // @@protoc_insertion_point(field_set:bwapi.command.KillUnits.removeInstantly)
+}
+
+// -------------------------------------------------------------------
+
 // Command
 
 // .bwapi.command.SendText sendText = 1;
@@ -3074,6 +3478,94 @@ inline ::bwapi::command::UnitCommand* Command::mutable_unitcommand() {
   return cmd_.unitcommand_;
 }
 
+// .bwapi.command.CreateUnit createUnit = 15;
+inline bool Command::has_createunit() const {
+  return cmd_case() == kCreateUnit;
+}
+inline void Command::set_has_createunit() {
+  _oneof_case_[0] = kCreateUnit;
+}
+inline void Command::clear_createunit() {
+  if (has_createunit()) {
+    delete cmd_.createunit_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::CreateUnit& Command::_internal_createunit() const {
+  return *cmd_.createunit_;
+}
+inline ::bwapi::command::CreateUnit* Command::release_createunit() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.createUnit)
+  if (has_createunit()) {
+    clear_has_cmd();
+      ::bwapi::command::CreateUnit* temp = cmd_.createunit_;
+    cmd_.createunit_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::CreateUnit& Command::createunit() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.createUnit)
+  return has_createunit()
+      ? *cmd_.createunit_
+      : *reinterpret_cast< ::bwapi::command::CreateUnit*>(&::bwapi::command::_CreateUnit_default_instance_);
+}
+inline ::bwapi::command::CreateUnit* Command::mutable_createunit() {
+  if (!has_createunit()) {
+    clear_cmd();
+    set_has_createunit();
+    cmd_.createunit_ = CreateMaybeMessage< ::bwapi::command::CreateUnit >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.createUnit)
+  return cmd_.createunit_;
+}
+
+// .bwapi.command.KillUnits killUnits = 16;
+inline bool Command::has_killunits() const {
+  return cmd_case() == kKillUnits;
+}
+inline void Command::set_has_killunits() {
+  _oneof_case_[0] = kKillUnits;
+}
+inline void Command::clear_killunits() {
+  if (has_killunits()) {
+    delete cmd_.killunits_;
+    clear_has_cmd();
+  }
+}
+inline const ::bwapi::command::KillUnits& Command::_internal_killunits() const {
+  return *cmd_.killunits_;
+}
+inline ::bwapi::command::KillUnits* Command::release_killunits() {
+  // @@protoc_insertion_point(field_release:bwapi.command.Command.killUnits)
+  if (has_killunits()) {
+    clear_has_cmd();
+      ::bwapi::command::KillUnits* temp = cmd_.killunits_;
+    cmd_.killunits_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::bwapi::command::KillUnits& Command::killunits() const {
+  // @@protoc_insertion_point(field_get:bwapi.command.Command.killUnits)
+  return has_killunits()
+      ? *cmd_.killunits_
+      : *reinterpret_cast< ::bwapi::command::KillUnits*>(&::bwapi::command::_KillUnits_default_instance_);
+}
+inline ::bwapi::command::KillUnits* Command::mutable_killunits() {
+  if (!has_killunits()) {
+    clear_cmd();
+    set_has_killunits();
+    cmd_.killunits_ = CreateMaybeMessage< ::bwapi::command::KillUnits >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:bwapi.command.Command.killUnits)
+  return cmd_.killunits_;
+}
+
 inline bool Command::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -3086,6 +3578,10 @@ inline Command::CmdCase Command::cmd_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

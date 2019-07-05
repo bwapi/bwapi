@@ -89,6 +89,19 @@ message UnitCommand {
     int32 extra = 6;
 }
 
+message CreateUnit {
+    int32 playerID = 1;
+    int32 unitType = 2;
+    int32 x = 3;
+    int32 y = 4;
+    int32 count = 5;
+}
+
+message KillUnits {
+    repeated int32 unitID = 1;
+    bool removeInstantly = 2;
+}
+
 //Command wrapper, will contain one of the types of commands
 message Command {
     oneof cmd {
@@ -105,5 +118,7 @@ message Command {
         SetAlliance setAlliance = 11;
         SetVision setVision = 12;
         UnitCommand unitCommand = 14;
+        CreateUnit createUnit = 15;
+        KillUnits killUnits = 16;
     }
 }

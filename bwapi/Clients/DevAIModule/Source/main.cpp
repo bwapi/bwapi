@@ -61,9 +61,12 @@ int main()
           std::cout << "SaveGame: " << e.getText() << std::endl;
           break;
         case EventType::SendText:
+        {
           std::cout << "SendText: " << e.getText().c_str() << std::endl;
-
-          if (e.getText() == "/morph")
+          std::istringstream ss(e.getText());
+          std::string cmd;
+          ss >> cmd;
+          if (cmd == "/morph")
           {
             Unitset larvae = self->getUnits();
             larvae.erase_if(Filter::GetType != UnitTypes::Zerg_Larva);
@@ -75,15 +78,49 @@ int main()
               }
             }
           }
+          else if (cmd == "/kill")
+          {
+            for (Unit u : self.getUnits())
+            {
+              broodwar.printf("Killing %s", u->getType().c_str());
+              broodwar.killUnit(u);
+            }
+          }
+          else if (cmd == "/remove")
+          {
+            for (Unit u : self.getUnits())
+            {
+              broodwar.printf("Removing %s", u->getType().c_str());
+              broodwar.removeUnit(u);
+            }
+          }
+          else if (cmd == "/create")
+          {
+            int count = 1;
+            std::string unitTypeName;
+            ss >> count >> unitTypeName;
+
+            Position pos = broodwar.getScreenPosition();// +broodwar.getMousePosition();
+            UnitType unitType = UnitType::getType(unitTypeName);
+
+            broodwar.printf("Attempted to create %s at (%d, %d)", unitType.c_str(), pos.x, pos.y);
+
+            broodwar.createUnit(broodwar.self(), unitType, pos.x, pos.y, count);
+          }
           else if (e.getText() == "/pause")
           {
             broodwar->pauseGame();
+          }
+          else if (e.getText() == "/unpause")
+          {
+            broodwar->resumeGame();
           }
           else
           {
             broodwar->sendText("%s", e.getText().c_str());
           }
           break;
+        }
         case EventType::UnitDiscover:
           if (e.getUnit()->getType() == UnitTypes::Spell_Scanner_Sweep)
           {
@@ -146,7 +183,7 @@ int main()
         {
           if (!u->gather(u->getClosestUnit(Filter::IsMineralField)))
           {
-            std::cout << broodwar.getLastError() << std::endl;
+            //std::cout << broodwar.getLastError() << std::endl;
           }
         }
 

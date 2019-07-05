@@ -1052,6 +1052,29 @@ namespace BWAPI
           data->shapes[data->shapeCount] = BWAPIC::Shape{ static_cast<BWAPIC::ShapeType::Enum>(shape.type()), static_cast<BWAPI::CoordinateType::Enum>(shape.ctype()), shape.x1(), shape.y1(), shape.x2(), shape.y2(), shape.extra1(), shape.extra2(), shape.color(), shape.issolid() };
           data->shapeCount++;
         }
+        else if (command.has_createunit() && BroodwarImpl.isInGame())
+        {
+          auto cmd = command.createunit();
+          for (int i = 0; i < cmd.count(); ++i)
+          {
+            BroodwarImpl.createUnit(UnitType(cmd.unittype()), getPlayer(cmd.playerid()), cmd.x(), cmd.y());
+          }
+        }
+        else if (command.has_killunits() && BroodwarImpl.isInGame())
+        {
+          auto cmd = command.killunits();
+          for (int i = 0; i < cmd.unitid_size(); ++i)
+          {
+            if (cmd.removeinstantly())
+            {
+              BroodwarImpl.removeUnit(getUnit(cmd.unitid(i)));
+            }
+            else
+            {
+              BroodwarImpl.killUnit(getUnit(cmd.unitid(i)));
+            }
+          }
+        }
       }
     }
   }

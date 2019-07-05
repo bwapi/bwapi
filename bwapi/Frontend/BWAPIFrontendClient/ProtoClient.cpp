@@ -632,4 +632,24 @@ namespace BWAPI
     newSetVision->set_settings(enabled ? 1 : 0);
     protoClient.queueMessage(std::move(newMessage));
   }
+  void ProtoClient::createUnit(int playerId, UnitType unitType, int x, int y, int count)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newCreateUnit = newMessage->mutable_command()->mutable_createunit();
+    newCreateUnit->set_playerid(playerId);
+    newCreateUnit->set_unittype(unitType.getID());
+    newCreateUnit->set_x(x);
+    newCreateUnit->set_y(y);
+    newCreateUnit->set_count(count);
+    protoClient.queueMessage(std::move(newMessage));
+  }
+  void ProtoClient::killUnits(const Unitset& units, bool removeInstantly)
+  {
+    auto newMessage = std::make_unique<bwapi::message::Message>();
+    auto newKillUnits = newMessage->mutable_command()->mutable_killunits();
+    for (Unit u : units)
+      newKillUnits->add_unitid(u.getID().id);
+    newKillUnits->set_removeinstantly(removeInstantly);
+    protoClient.queueMessage(std::move(newMessage));
+  }
 }

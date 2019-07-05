@@ -33,6 +33,8 @@ namespace BWAPI
     void issueCommand(const Unitset& units, UnitCommand command) override;
     void setAlliance(int playerId, int alliance) override;
     void setVision(int playerId, bool enabled) override;
+    void createUnit(int playerId, UnitType unitType, int x, int y, int count) override;
+    void killUnits(const Unitset& units, bool removeInstantly) override;
   private:
     void onMatchFrame(Game& game);
     void onMatchStart(Game& game);

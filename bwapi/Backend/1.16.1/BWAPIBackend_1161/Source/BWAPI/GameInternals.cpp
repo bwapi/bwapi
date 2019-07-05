@@ -203,35 +203,6 @@ namespace BWAPI
       this->showfps = !this->showfps;
       BroodwarImpl.printf("FPS display %s", showfps ? "enabled" : "disabled");
     }
-    else if (cmd == "/kill")
-    {
-      for (Unit u : this->getSelectedUnits())
-      {
-        this->printf("Killing %s", u->getType().c_str());
-        this->killUnit(u);
-      }
-    }
-    else if (cmd == "/remove")
-    {
-      for (Unit u : this->getSelectedUnits())
-      {
-        this->printf("Removing %s", u->getType().c_str());
-        this->removeUnit(u);
-      }
-    }
-    else if (cmd == "/create")
-    {
-      int count = 1;
-      std::string unitTypeName;
-      ss >> count >> unitTypeName;
-
-      Position pos = this->getScreenPosition() + this->getMousePosition();
-      UnitType unitType = UnitType::getType(unitTypeName);
-
-      this->printf("Attempted to create %s at (%d, %d)", unitType.c_str(), pos.x, pos.y);
-
-      for (int i = 0; i < count; ++i) this->createUnit(unitType, self(), pos.x, pos.y);
-    }
     else
     {
       return false;

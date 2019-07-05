@@ -3,6 +3,7 @@
 #include "gmock/gmock.h"
 
 #include <BWAPI/Client/Client.h>
+#include <BWAPI/UnitType.h>
 
 class MockClient : public BWAPI::Client
 {
@@ -27,4 +28,7 @@ public:
   MOCK_METHOD2(issueCommand, void(const BWAPI::Unitset&, BWAPI::UnitCommand));
   MOCK_METHOD2(setAlliance, void(int, int));
   MOCK_METHOD2(setVision, void(int, bool));
+
+  MOCK_METHOD5(createUnit, void(int, BWAPI::UnitType, int, int, int));
+  MOCK_METHOD2(killUnits, void(const BWAPI::Unitset&, bool));
 };

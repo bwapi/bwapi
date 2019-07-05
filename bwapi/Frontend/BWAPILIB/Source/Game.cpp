@@ -1027,6 +1027,33 @@ namespace BWAPI
     {
         drawLineScreen(a.x, a.y, b.x, b.y, color);
     }
+    //----------------------------------------------- CREATE UNIT -----------------------------------------------
+    void Game::createUnit(Player player, UnitType unitType, int x, int y, int count)
+    {
+      client.createUnit(player.getID().id, unitType, x, y, count);
+    }
+    void Game::createUnit(Player player, UnitType unitType, Position position, int count)
+    {
+      createUnit(player, unitType, position.x, position.y, count);
+    }
+    //----------------------------------------------- KILL UNITS -----------------------------------------------
+    void Game::killUnits(const Unitset& units)
+    {
+      client.killUnits(units, false);
+    }
+    void Game::killUnit(Unit unit)
+    {
+      killUnits(Unitset{ unit });
+    }
+    //---------------------------------------------- REMOVE UNITS ----------------------------------------------
+    void Game::removeUnits(const Unitset& units)
+    {
+      client.killUnits(units, true);
+    }
+    void Game::removeUnit(Unit unit)
+    {
+      removeUnits(Unitset{ unit });
+    }
     //----------------------------------------------- GET FORCES -----------------------------------------------
     Forceset forcesset;
     const Forceset& Game::getForces() const
