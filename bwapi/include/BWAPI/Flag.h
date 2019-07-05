@@ -2,11 +2,11 @@
 namespace BWAPI
 {
   /// <summary>Contains flag enumerations for BWAPI.</summary>
-  /// @see Game::enableFlag, Game::isFlagEnabled
+  /// @see Game::isFlagEnabled
   namespace Flag
   {
     /// <summary>Contains flag enumerations for BWAPI.</summary>
-    /// @see Game::enableFlag, Game::isFlagEnabled
+    /// @see Game::isFlagEnabled
     enum Enum
     {
       /// <summary>Enable to get information about all units on the map, not just the visible units.</summary>

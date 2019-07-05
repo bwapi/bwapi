@@ -368,20 +368,6 @@ namespace BWAPI
     /// @todo Take Flag::Enum as parameter instead of int
     //virtual bool isFlagEnabled(int flag) const = 0;
 
-    /// <summary>Enables the state of a given flag.</summary>
-    ///
-    /// @note Flags may only be enabled at the start of the match during the AIModule::onStart
-    /// callback.
-    ///
-    /// <param name="flag">
-    ///   The Flag::Enum entry describing the flag's effects on BWAPI.
-    /// </param>
-    ///
-    /// @see Flag::Enum
-    ///
-    /// @todo Take Flag::Enum as parameter instead of int
-    //virtual void enableFlag(int flag) = 0;
-
     /// <summary>Retrieves the set of accessible units that are on a given build tile.</summary>
     ///
     /// <param name="tileX">
@@ -1036,8 +1022,6 @@ namespace BWAPI
     ///
     /// @returns A Unitset containing the user's selected units. If Flag::UserInput is disabled, 
     /// then this set is always empty.
-    ///
-    /// @see enableFlag
     const Unitset& getSelectedUnits() const;
 
     /// <summary>Retrieves the player object that BWAPI is controlling.</summary> 
