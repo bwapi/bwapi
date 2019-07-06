@@ -1962,6 +1962,7 @@ namespace BWAPI
       Unitset accessibleUnits;//all units that are accessible (and definitely alive)
       Unitset pylons;
       Unitset minerals;
+      Unitset geysers;
       Regionset regionsList;
       Bulletset bulletsset;
       Unitset selectedUnits;

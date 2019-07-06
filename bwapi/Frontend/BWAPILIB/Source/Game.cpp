@@ -1077,7 +1077,6 @@ namespace BWAPI
         return minerals;
     }
     //------------------------------------------------- GET GEYSERS --------------------------------------------
-    Unitset geysers;
     const Unitset& Game::getGeysers() const
     {
         return geysers;
@@ -1840,6 +1839,7 @@ namespace BWAPI
       accessibleUnits.clear();
       pylons.clear();
       minerals.clear();
+      geysers.clear();
       for (auto itr = playerUnits.begin(); itr != playerUnits.end(); itr++)
         itr->second.clear();
       bulletsset.clear();
@@ -1856,6 +1856,8 @@ namespace BWAPI
           playerUnits[player].emplace(u);
           if (u->getType().isMineralField())
             minerals.emplace(u);
+          else if (u->getType() == UnitTypes::Resource_Vespene_Geyser)
+            geysers.emplace(u);
           if (u->isSelected())
             selectedUnits.insert(u);
         }
